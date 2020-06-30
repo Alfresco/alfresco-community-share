@@ -1,5 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import static org.alfresco.common.Utils.clearAndType;
+
 import java.util.List;
 
 import org.alfresco.po.share.ShareDialog;
@@ -49,8 +51,6 @@ public class CreateCustomTypeDialog extends ShareDialog
     public ModelDetailsPage clickCreateButton()
     {
         getBrowser().waitUntilElementClickable(createButton).click();
-
-
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 
@@ -74,20 +74,17 @@ public class CreateCustomTypeDialog extends ShareDialog
 
     public void sendNameInput(String name)
     {
-        nameField.clear();
-        nameField.sendKeys(name);
+        clearAndType(nameField, name);
     }
 
     public void sendDisplayLabelInput(String displayLabel)
     {
-        displayLabelField.clear();
-        displayLabelField.sendKeys(displayLabel);
+        clearAndType(displayLabelField, displayLabel);
     }
 
     public void sendDescriptionFieldInput(String description)
     {
-        descriptionField.clear();
-        descriptionField.sendKeys(description);
+        clearAndType(descriptionField, description);
     }
 
     public boolean isCreateCustomTypeWindowDisplayed()

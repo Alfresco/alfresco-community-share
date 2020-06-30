@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 
 
 /**
- * Created by Mirela Tifui on 11/28/2016.
+ * UI tests for Admin Tools > Module browser page
  */
 public class ModuleBrowserTests extends ContextAwareWebTest
 {
@@ -35,7 +35,6 @@ public class ModuleBrowserTests extends ContextAwareWebTest
     private String userName = "C9498User" + RandomData.getRandomAlphanumeric();
 
     @BeforeClass (alwaysRun = true)
-
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -46,12 +45,10 @@ public class ModuleBrowserTests extends ContextAwareWebTest
     {
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
     }
 
     @TestRail (id = "C9498")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void accessModuleBrowserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -77,7 +74,6 @@ public class ModuleBrowserTests extends ContextAwareWebTest
 
     @TestRail (id = "C9499")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void verifyTheAccessModuleBrowserPageInfo()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

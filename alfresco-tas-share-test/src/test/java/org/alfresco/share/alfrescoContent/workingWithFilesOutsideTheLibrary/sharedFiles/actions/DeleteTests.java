@@ -61,7 +61,7 @@ public class DeleteTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
 
         LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(sharedFilesPage);
         assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " is displayed.");
 
         cleanupAuthenticatedSession();
@@ -85,7 +85,7 @@ public class DeleteTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
 
         LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(sharedFilesPage);
         assertFalse(sharedFilesPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
 
         cleanupAuthenticatedSession();

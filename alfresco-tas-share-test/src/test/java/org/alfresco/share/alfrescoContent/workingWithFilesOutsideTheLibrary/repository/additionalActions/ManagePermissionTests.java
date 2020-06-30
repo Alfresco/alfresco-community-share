@@ -3,9 +3,9 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import java.io.File;
 
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -35,7 +35,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
     DocumentDetailsPage documentDetailsPage;
 
     @Autowired
-    DeleteDocumentOrFolderDialog deleteDocumentOrFolderDialog;
+    DeleteDialog deleteDialog;
 
     private String userName = "0_0C202757User" + RandomData.getRandomAlphanumeric();
     private String userC202758_1 = "C202758_1" + RandomData.getRandomAlphanumeric();
@@ -383,9 +383,8 @@ public class ManagePermissionTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, "Edit in Google Docs™"), "Edit in Google Docs™ is not available for " + fileNameC202762);
 
         repositoryPage.clickDocumentLibraryItemAction(fileNameC202762, "Delete Document", repositoryPage);
-        deleteDocumentOrFolderDialog.clickDelete();
-        getBrowser().refresh();
-        repositoryPage.renderedPage();
+        deleteDialog.clickDelete(repositoryPage);
+
         Assert.assertFalse(repositoryPage.isContentNameDisplayed(fileNameC202762), fileNameC202762 + " is still displayed in " + folderName);
         cleanupAuthenticatedSession();
     }

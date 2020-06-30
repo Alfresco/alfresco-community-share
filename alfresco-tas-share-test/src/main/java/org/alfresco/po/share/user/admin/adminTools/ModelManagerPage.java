@@ -2,6 +2,7 @@ package org.alfresco.po.share.user.admin.adminTools;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.utility.web.HtmlPage;
@@ -10,8 +11,8 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,32 +22,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class ModelManagerPage extends AdminToolsPage
 {
-    public By actionsButton = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup']");
-    public By status = By.xpath(".//td[contains(@class, 'statusColumn ')]//span[@class='value']");
+    private By actionsButton = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup']");
+    private By nameValue = By.cssSelector("td[class*='nameColumn'] span[class='value']");
+    private By statusValue = By.cssSelector("td[class*='statusColumn'] span[class='value']");
+    private By nameSpaceValue = By.cssSelector("td[class*='namespaceColumn'] span[class='value']");
+    private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
+    private By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
+    private By statusColumn = By.cssSelector("th[class*=' statusColumn '] span");
+    private By actionsColumn = By.cssSelector("th[class*=' actionsColumn '] span");
+    private By actions = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']");
+    private String modelRow = "//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='%s']/../../../..";
+
     @Autowired
     CreateModelDialogPage createModelDialogPage;
     @Autowired
     ImportModelDialogPage importModelDialogPage;
     @Autowired
     ModelDetailsPage modelDetailsPage;
+
     @RenderWebElement
     @FindBy (css = "span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement createModelButton;
-    @RenderWebElement
+
     @FindBy (css = "span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement importModelButton;
-    private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
-    private By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
-    private By statusColumn = By.cssSelector("th[class*=' statusColumn '] span");
-    private By actionsColumn = By.cssSelector("th[class*=' actionsColumn '] span");
-    private By modelsList = By.cssSelector("tr[id^='alfresco_lists_views_layouts_Row']");
-    private String modelRow = "//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='%s']/../../../..";
+
+    @RenderWebElement
+    @FindBy (className = "alfresco-lists-views-AlfListView")
+    private WebElement modelsList;
 
     @FindBy (css = "div.alfresco-lists-views-AlfListView__no-data")
     private WebElement noModelsText;
-
-    @FindAll (@FindBy (css = "tr[id^='alfresco_lists_views_layouts_Row']"))
-    private List<WebElement> modelItemsList;
 
     @Override
     public String getRelativePath()
@@ -96,34 +102,27 @@ public class ModelManagerPage extends AdminToolsPage
         return (CreateModelDialogPage) createModelDialogPage.renderedPage();
     }
 
-    public WebElement selectRow(String modelName)
-    {
-        browser.waitUntilElementVisible(modelsList);
-        browser.waitUntilElementIsDisplayedWithRetry(modelsList, 6);
-        List<WebElement> itemsList = browser.findElements(modelsList);
-        return browser.findFirstElementWithValue(itemsList, modelName);
-    }
-
     public WebElement selectModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator);
-        return browser.findElement(modelRowLocator);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, WAIT_5_SEC);
+        return getBrowser().findElement(modelRowLocator);
     }
 
     public boolean isModelDisplayed(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator, 2);
-        return browser.isElementDisplayed(modelRowLocator);
+        try
+        {
+            return browser.isElementDisplayed(getBrowser().waitUntilElementVisible(modelRowLocator));
+        }
+        catch (TimeoutException e)
+        {
+            return false;
+        }
     }
 
-    public void waitForModel(String modelName)
-    {
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(modelRow, modelName)));
-    }
-
-    public void createModel(String name, String nameSpace, String prefix)
+    public ModelManagerPage createModel(String name, String nameSpace, String prefix)
     {
         navigate();
         clickCreateModelButton();
@@ -131,14 +130,21 @@ public class ModelManagerPage extends AdminToolsPage
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        waitForModel(name);
+        this.refresh();
+        return (ModelManagerPage) this.renderedPage();
     }
 
-    public String getModelDetails(String modelName)
+    public ModelManagerPage createModel(String name, String nameSpace, String prefix, String creator, String description)
     {
-        browser.waitUntilElementVisible(selectRow(modelName));
-        //browser.waitUntilWebElementIsDisplayedWithRetry(selectAspectRow(modelName), 6);
-        return selectRow(modelName).getText();
+        clickCreateModelButton();
+        createModelDialogPage.sendNamespaceText(nameSpace);
+        createModelDialogPage.sendPrefixText(prefix);
+        createModelDialogPage.sendNameText(name);
+        createModelDialogPage.sendCreatorText(creator);
+        createModelDialogPage.sendDescription(description);
+        createModelDialogPage.clickCreateButton();
+        this.refresh();
+        return (ModelManagerPage) this.renderedPage();
     }
 
     public ImportModelDialogPage clickImportModel()
@@ -149,51 +155,38 @@ public class ModelManagerPage extends AdminToolsPage
 
     public ModelDetailsPage clickModelName(String modelName)
     {
-        browser.waitUntilElementClickable(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']"), 15);
-        browser.findElement(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']")).click();
+        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(nameValue)).click();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
-    }
-
-    public void clickModelNameWithoutRender(String modelName)
-    {
-        browser.waitUntilElementClickable(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']"), 15);
-        browser.findElement(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']")).click();
-    }
-
-
-    public Boolean isActionsButtonDisplayed()
-    {
-        return browser.isElementDisplayed(actionsButton);
     }
 
     public void clickActionsButtonForModel(String modelName)
     {
         Parameter.checkIsMandotary("Model", selectModelByName(modelName));
-        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton), 5).click();
+
+        Utils.retry(() ->
+                {
+                    browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton)).click();
+                    return browser.waitUntilElementVisible(actions, WAIT_5_SEC);
+                },
+                DEFAULT_RETRY);
     }
 
-    public void mouseOverModelItem(String modelName)
+    public boolean isActionAvailable(String actionName)
     {
-        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
-        browser.mouseOver(selectModelByName(modelName));
-    }
-
-    public boolean isActionAvailable(String action)
-    {
-        browser.waitUntilElementsVisible(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
-        List<WebElement> actionsOptions = browser.findElements(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
+        List<WebElement> actionsOptions = browser.waitUntilElementsVisible(actions);
         for (WebElement actionOption : actionsOptions)
         {
-            if (actionOption.getText().equals(action))
+            if (actionOption.getText().equals(actionName))
+            {
                 return true;
+            }
         }
         return false;
     }
 
     public HtmlPage clickOnAction(String actionName, HtmlPage page)
     {
-        List<WebElement> actionsOptions = browser.findElements(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
-        browser.waitUntilElementsVisible(actionsOptions);
+        List<WebElement> actionsOptions = browser.waitUntilElementsVisible(actions);
         for (WebElement action : actionsOptions)
         {
             if (action.getText().equals(actionName))
@@ -204,13 +197,23 @@ public class ModelManagerPage extends AdminToolsPage
                 break;
             }
         }
+        if(page instanceof ModelManagerPage)
+        {
+            page.refresh();
+        }
         return page.renderedPage();
+    }
+
+    public String getModelNamespace(String modelName)
+    {
+        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
+        return selectModelByName(modelName).findElement(nameSpaceValue).getText();
     }
 
     public String getModelStatus(String modelName)
     {
         Parameter.checkIsMandotary("Model", selectModelByName(modelName));
-        return selectModelByName(modelName).findElement(status).getText();
+        return selectModelByName(modelName).findElement(statusValue).getText();
     }
 
     public boolean isAlertPresent()
@@ -219,7 +222,8 @@ public class ModelManagerPage extends AdminToolsPage
         {
             browser.switchTo().alert();
             return true;
-        } catch (NoAlertPresentException noAlertPresentException)
+        }
+        catch (NoAlertPresentException noAlertPresentException)
         {
             return false;
         }

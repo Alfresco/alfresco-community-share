@@ -26,7 +26,6 @@ import org.testng.annotations.Test;
  * Created by Mirela Tifui on 12/8/2016.
  */
 public class UserProfileTests extends ContextAwareWebTest
-
 {
     @Autowired
     UsersPage usersPage;
@@ -68,7 +67,6 @@ public class UserProfileTests extends ContextAwareWebTest
     {
         authenticationError = language.translate("login.authError");
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, c9416User, password, c9416User + domain, "c9416firstName", "c9416lastName");
         userService.create(adminUser, adminPassword, c9417User, password, c9417User + domain, "c9417firstName", "c9417lastName");
         userService.create(adminUser, adminPassword, c9431User, password, c9431User + domain, "c9431firstName", "c9431lastName");
         userService.create(adminUser, adminPassword, c9427User, password, c9427User + domain, "c9427firstName", "c9427lastName");
@@ -84,8 +82,6 @@ public class UserProfileTests extends ContextAwareWebTest
     {
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser, adminPassword, c9416User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9416User);
         userService.delete(adminUser, adminPassword, c9417User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9417User);
         userService.delete(adminUser, adminPassword, c9431User);
@@ -106,7 +102,6 @@ public class UserProfileTests extends ContextAwareWebTest
     public void browsingNewUserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        String fullName = "firstName" + " " + "lastName";
         adminTools.navigate();
         LOG.info("Step 1: On the Admin Console page click Users;");
         adminTools.navigateToNodeFromToolsPanel("Users", usersPage);
@@ -114,9 +109,10 @@ public class UserProfileTests extends ContextAwareWebTest
 
         LOG.info("Step 2: On the Users page search for test user");
         usersPage.searchUser(userName);
-        assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
+        assertTrue(usersPage.isUserFound(userName), "User " + userName + " displayed");
 
         LOG.info("Step 3: Click on the test user name displayed in search results");
+        String fullName = "firstName" + " " + "lastName";
         usersPage.clickUserLink(fullName);
         Assert.assertEquals(userProfileAdminToolsPage.getUserNameInPageTitle(), fullName, "User is not opened in User Profile");
 
@@ -162,9 +158,9 @@ public class UserProfileTests extends ContextAwareWebTest
     public void browsingEditUserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        String fullName = "c9416firstName" + " " + "c9416lastName";
+        String fullName = "firstName" + " " + "lastName";
         usersPage.navigate();
-        usersPage.searchUser(c9416User);
+        usersPage.searchUser(userName);
         usersPage.clickUserLink(fullName);
 
         LOG.info("Step 1: Click \"Edit User\" button");
@@ -292,7 +288,7 @@ public class UserProfileTests extends ContextAwareWebTest
 
         LOG.info("Step 3: On the Users Search page search for user1");
         usersPage.searchUser(c9431User);
-        Assert.assertFalse(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
+        Assert.assertFalse(usersPage.isUserFound(userName), "User " + userName + " displayed");
 
         LOG.info("Step 4: Logout and Login using c9431User");
         cleanupAuthenticatedSession();

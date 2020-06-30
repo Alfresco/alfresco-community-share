@@ -87,17 +87,12 @@ public class UsersPage extends AdminToolsPage
     public String getRelativePath()
     {
         return "share/page/console/admin-console/users";
-
     }
 
     public CreateUsers clickNewUser()
     {
-
-        browser.waitUntilElementClickable(newUserButton, 20);
-        newUserButton.click();
-        browser.refresh();
+        browser.waitUntilElementClickable(newUserButton).click();
         return (CreateUsers) createUsers.renderedPage();
-
     }
 
     public void searchUser(String user)
@@ -112,7 +107,7 @@ public class UsersPage extends AdminToolsPage
             this.renderedPage();
             counter++;
         }
-        while (!verifyUserIsFound(user) && counter <= 5);
+        while (!isUserFound(user) && counter <= 5);
     }
 
     /**
@@ -121,7 +116,7 @@ public class UsersPage extends AdminToolsPage
      * @param user String
      * @return true if the user is found, else false
      */
-    public boolean verifyUserIsFound(String user)
+    public boolean isUserFound(String user)
     {
         return selectUser(user) != null;
     }
@@ -166,11 +161,8 @@ public class UsersPage extends AdminToolsPage
     }
 
     public boolean isUserDisabled(int userNumber)
-
     {
-
         return accountsDisabled.get(userNumber).isDisplayed();
-
     }
 
     /**

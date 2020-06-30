@@ -7,7 +7,6 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -28,8 +27,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     private final String fileNameC13749 = "0-Repo_file" + RandomData.getRandomAlphanumeric();
     private final String folderNameC13751 = "0-Repo_Folder" + RandomData.getRandomAlphanumeric();
     private final String path1 = "/";
-    @Autowired
-    DeleteDocumentOrFolderDialog deleteDocumentOrFolderDialog;
+
     @Autowired
     private RepositoryPage repositoryPage;
     @Autowired
@@ -74,7 +72,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");
 
         LOG.info("Step 2: Press \"Delete\"");
-        deleteDocumentOrFolderDialog.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(repositoryPage);
         repositoryPage.navigate();
         assertFalse(repositoryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
         cleanupAuthenticatedSession();
@@ -100,7 +98,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");
 
         LOG.info("Step 2: Press \"Delete\"");
-        deleteDocumentOrFolderDialog.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(repositoryPage);
         repositoryPage.navigate();
         assertFalse(repositoryPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
         cleanupAuthenticatedSession();

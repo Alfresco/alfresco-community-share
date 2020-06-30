@@ -19,7 +19,7 @@ public class Export extends ShareDialog
     @Autowired
     ModelManagerPage modelManagerPage;
     private File downloadDirectory;
-    private String downloadPath = srcRoot + "testdata";
+    private String downloadPath = srcRoot + "testdata" + File.separator;
     private Alert alert;
 
     public boolean isFileInDirectory(String fileName, String extension)
@@ -27,16 +27,12 @@ public class Export extends ShareDialog
         downloadDirectory = new File(downloadPath);
         File[] directoryContent = downloadDirectory.listFiles();
 
+        String downloadedFile = (extension == null) ? fileName: fileName + extension;
         for (File aDirectoryContent : directoryContent)
         {
-            if (extension == null)
+            if (aDirectoryContent.getName().equals(downloadedFile))
             {
-                if (aDirectoryContent.getName().equals(fileName))
-                    return true;
-            } else
-            {
-                if (aDirectoryContent.getName().equals(fileName + extension))
-                    return true;
+                return true;
             }
         }
 

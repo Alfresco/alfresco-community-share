@@ -1,5 +1,6 @@
 package org.alfresco.po.share.toolbar;
 
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -124,10 +125,17 @@ public class ToolbarUserMenu extends Toolbar
         return browser.isElementDisplayed(logout);
     }
 
-    public void clickLogout()
+    public HtmlPage clickLogout()
     {
         getBrowser().waitUntilElementClickable(userMenuLink).click();
         getBrowser().waitUntilElementVisible(dropdownMenu);
         getBrowser().waitUntilElementClickable(logout).click();
+        if (envProperties.isAimsEnabled())
+        {
+            return aimsPage.renderedPage();
+        }
+
+        return loginPage.renderedPage();
+
     }
 }

@@ -32,7 +32,7 @@ public class ModelDetailsPage extends SharePage<ModelDetailsPage>
     @RenderWebElement
     @FindBy (css = "span[class*='backButton '] span[id*='alfresco_buttons_AlfButton']")
     private WebElement showModelsButton;
-    @RenderWebElement
+
     @FindBy (css = "div[class$='dijitVisible'] tbody[id$='ITEMS']>tr")
     private List<WebElement> rows;
 

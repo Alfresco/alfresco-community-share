@@ -1,9 +1,9 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -20,23 +20,26 @@ public class ImportModelDialogPage extends ShareDialog
     @Autowired
     private Environment env;
 
+    @Autowired
+    private ModelManagerPage modelManagerPage;
+
+    @RenderWebElement
+    @FindBy (id = "CMM_IMPORT_DIALOG")
+    private WebElement importModelWindow;
+
     @RenderWebElement
     @FindBy (id = "CMM_IMPORT_DIALOG_OK")
     private WebElement importButton;
 
-    @RenderWebElement
-    private By cancelButton = By.id("CMM_IMPORT_DIALOG_CANCEL_label");
-
-    @RenderWebElement
-    private By browserButton = By.cssSelector(".alfresco-html-FileInput");
-
-    @RenderWebElement
-    private By importModelWindow = By.id("CMM_IMPORT_DIALOG");
-
     @FindBy (css = "div[class='dijitDialogTitleBar'] span[id ='CMM_IMPORT_DIALOG_title']")
     private WebElement importModelTitle;
 
-    private By closeButton = By.cssSelector("span[class='dijitDialogCloseIcon']");
+    @FindBy (id = "CMM_IMPORT_DIALOG_CANCEL_label")
+    private WebElement cancelButton;
+
+    @RenderWebElement
+    @FindBy (css = ".alfresco-html-FileInput")
+    private WebElement fileInput;
 
     public boolean isImportModelWindowDisplayed()
     {
@@ -48,14 +51,9 @@ public class ImportModelDialogPage extends ShareDialog
         return importModelTitle.getText();
     }
 
-    public boolean isCloseButtonDisplayed()
-    {
-        return browser.isElementDisplayed(closeButton);
-    }
-
     public boolean isBrowserButtonDisplayed()
     {
-        return browser.isElementDisplayed(browserButton);
+        return browser.isElementDisplayed(fileInput);
     }
 
     public boolean isImportButtonDisplayed()
@@ -68,23 +66,19 @@ public class ImportModelDialogPage extends ShareDialog
         return browser.isElementDisplayed(cancelButton);
     }
 
-    public void clickChooseFilesButton()
-    {
-        browser.findElement(browserButton).click();
-    }
-
     public void importFile(String filePath)
     {
         if (env.getProperty("grid.enabled").equals("true"))
         {
             ((RemoteWebDriver)browser.getWrappedDriver()).setFileDetector(new LocalFileDetector());
         }
-        browser.findElement(browserButton).sendKeys(filePath);
+        fileInput.sendKeys(filePath);
     }
 
-    public void clickImportButton()
+    public ModelManagerPage clickImportButton()
     {
         browser.waitUntilElementClickable(importButton).click();
+        modelManagerPage.refresh();
+        return (ModelManagerPage) modelManagerPage.renderedPage();
     }
-
 }

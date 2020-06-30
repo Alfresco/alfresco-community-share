@@ -1,69 +1,52 @@
 package org.alfresco.share.adminTools.categoryManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import static java.util.Arrays.asList;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.ContentAspects;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.site.DocumentLibraryPage;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
- * @author Razvan.Dorobantu
+ * UI tests for Admin Tools > Category Manager page
  */
 public class CategoryManagerTests extends ContextAwareWebTest
 {
-    private final String categoryDoc = String.format("removeCategoryDoc%s", RandomData.getRandomAlphanumeric());
+    private final String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
+    private final String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());
+    private final String category9298 = String.format("categoryC9298%s", RandomData.getRandomAlphanumeric());
+    private final String categoryEdited = String.format("categoryEdited%s", RandomData.getRandomAlphanumeric());
+    private final String subCategoryName = String.format("testSubCategory%s", RandomData.getRandomAlphanumeric());
+
     @Autowired
     CategoryManagerPage categoryManagerPage;
-    @Autowired
-    ContentAspects contentAspects;
-    @Autowired
-    UserService userService;
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-    String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
-    String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());
-    String category9298 = String.format("categoryC9298%s", RandomData.getRandomAlphanumeric());
-    String categoryEdited = String.format("categoryEdited%s", RandomData.getRandomAlphanumeric());
-    List<String> categories = new ArrayList<>();
-    private String userName = "testUser" + RandomData.getRandomAlphanumeric();
-    private String siteName = "testSite" + RandomData.getRandomAlphanumeric();
 
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + "@test.com", "test", "user");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         userService.createRootCategory(adminUser, adminPassword, category9301);
         userService.createRootCategory(adminUser, adminPassword, category9298);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, categoryDoc, "Document content");
-        contentAspects.addClasifiable(userName, password, siteName, categoryDoc, categories);
         setupAuthenticatedSession(adminUser, adminPassword);
         categoryManagerPage.navigate();
     }
 
-    @AfterClass
+    @AfterClass (alwaysRun = true)
     public void afterClassDeleteAddedCategories()
     {
-        userService.deleteCategory(adminUser, adminPassword, category9295);
-        userService.deleteCategory(adminUser, adminPassword, categoryEdited);
-
-        for (String categoryName : Arrays.asList(category9295, categoryEdited))
+        for (String categoryName : asList(category9295, categoryEdited, subCategoryName))
+        {
             if (userService.categoryExists(adminUser, adminPassword, categoryName))
+            {
                 userService.deleteCategory(adminUser, adminPassword, categoryName);
+            }
+        }
         cleanupAuthenticatedSession();
     }
 
@@ -72,12 +55,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void verifyCategoryManagerPage()
     {
         LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
-
-        Assert.assertTrue(categoryManagerPage.isCategoryRootLinkDisplayed(), "Category Root link is displayed.");
-        Assert.assertTrue(categoryManagerPage.isLanguagesLinkDisplayed(), "Languages link is displayed.");
-        Assert.assertTrue(categoryManagerPage.isRegionsLinkDisplayed(), "Regions link is displayed.");
-        Assert.assertTrue(categoryManagerPage.isSoftwareDocumentClassificationLinkDisplayed(), "Software Document Classification link is displayed.");
-        Assert.assertTrue(categoryManagerPage.isTagsLinkDisplayed(), "Tags link is displayed.");
+        asList("Category Root", "Languages", "Regions", "Software Document Classification", "Tags")
+                .forEach(defaultCategory ->
+                        assertTrue(categoryManagerPage.isCategoryDisplayed(defaultCategory), defaultCategory + " is displayed."));
     }
 
     @TestRail (id = "C9295")
@@ -88,8 +68,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
         categoryManagerPage.addCategory(category9295);
 
         LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
-        categoryManagerPage.navigate();
-        Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
+        assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 
     @TestRail (id = "C9301")
@@ -100,7 +79,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
         categoryManagerPage.deleteCategory(category9301);
 
         LOG.info("Step 2: Verify the delete category is no longer present in the 'Category Manager' page.");
-        Assert.assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9301));
+        assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9301));
     }
 
     @TestRail (id = "C9298")
@@ -112,17 +91,15 @@ public class CategoryManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Verify the edited category is displayed in the 'Category Manager' page.");
 
-        Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));
-        Assert.assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9298));
+        assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));
+        assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9298));
     }
 
-    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void addAndOpenSubCategory()
     {
         LOG.info("Step 1: Add subcategory");
-        String subCategoryName = "testSubCategory" + RandomData.getRandomAlphanumeric();
-        categoryManagerPage.navigate();
         categoryManagerPage.addSubCategory("Languages", subCategoryName);
-        Assert.assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName), subCategoryName + " is not displayed in the list");
+        assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName), subCategoryName + " is not displayed in the list");
     }
 }

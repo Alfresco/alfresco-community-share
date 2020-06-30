@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -37,7 +38,6 @@ public class EditTagDialog extends ShareDialog
     public String getDialogTitle()
     {
         return dialogTitle.getText();
-        // return browser.isElementDisplayed(browser.waitUntilElementVisible(editTagInputField));
     }
 
     public String getRenameLabel()
@@ -65,11 +65,10 @@ public class EditTagDialog extends ShareDialog
      *
      * @param updatedTag new tag
      */
-    public void renameTag(String updatedTag)
+    public TagManagerPage renameTag(String updatedTag)
     {
-        editTagInputField.clear();
-        editTagInputField.sendKeys(updatedTag);
+        Utils.clearAndType(editTagInputField, updatedTag);
         okButton.click();
-        browser.waitInSeconds(5); //due to "Tag updated - edited tags may disappear temporarily from search results while re-indexing occurs."
+        return (TagManagerPage) tagManagerPage.renderedPage();
     }
 }

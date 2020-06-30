@@ -138,8 +138,7 @@ public class LoginPage extends HtmlPage
      */
     public String getAuthenticationError()
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(errorLogin);
-        return errorLogin.getText();
+        return browser.waitUntilElementVisible(errorLogin).getText();
     }
 
     /**

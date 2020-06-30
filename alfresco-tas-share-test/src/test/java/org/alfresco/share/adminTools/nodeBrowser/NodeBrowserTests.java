@@ -16,7 +16,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
- * @author Razvan.Dorobantu
+ * UI tests for Admin Tools > Node browser page
  */
 public class NodeBrowserTests extends ContextAwareWebTest
 {
@@ -47,12 +47,11 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void luceneSearch()
     {
         LOG.info("Step 1: Do a 'lucene' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(content);
         nodeBrowserPage.clickSearchButton();
 
@@ -67,7 +66,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
         LOG.info("Step 1: Do a 'nodeRef' search.");
         String nodeRef = contentService.getNodeRef(adminUser, adminPassword, siteName, fileName);
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.NODEREF);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("workspace://SpacesStore/" + nodeRef);
         nodeBrowserPage.clickSearchButton();
 
@@ -81,7 +79,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'xpath' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.XPATH);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(xpathSearchTerm);
         nodeBrowserPage.clickSearchButton();
 
@@ -95,7 +92,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'fts-alfresco' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("cm:name:" + fileName);
         nodeBrowserPage.clickSearchButton();
 
@@ -104,12 +100,11 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9311")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisStrictSearch()
     {
         LOG.info("Step 1: Do a 'cmis-strict' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_STRICT);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
 
@@ -123,7 +118,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'cmis-alfresco' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_ALFRESCO);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
 
@@ -132,7 +126,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9305")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS }, enabled = false)
     public void localeSupport()
     {
 //TODO this test C9305
@@ -158,18 +152,17 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.isSearchButtonPresent());
     }
 
-    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void executeCustomNodeSearch()
     {
         LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.STORE_ROOT);
         nodeBrowserPage.clickSearchButton();
         Assert.assertTrue(nodeBrowserPage.getRowText().toString().contains("workspace://SpacesStore/"));
     }
 
-    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void getSearchResultsNoResults()
     {
         LOG.info("Step 1: Navigate to Node Browser page and perform a search that will not return results");

@@ -1,10 +1,13 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import org.alfresco.po.share.DeleteDialog;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class CategoryManagerPage extends AdminToolsPage
@@ -12,36 +15,6 @@ public class CategoryManagerPage extends AdminToolsPage
     @RenderWebElement
     @FindBy (css = "div[id$=default-category-manager]")
     private WebElement categoryManagerDiv;
-
-    @FindBy (xpath = "//span[contains(@id, 'labelel') and text()='Category Root']")
-    private WebElement categoryRoot;
-
-    @FindBy (xpath = "//span[contains(@id, 'labelel') and text()='Languages']")
-    private WebElement languages;
-
-    @FindBy (xpath = "//span[contains(@id, 'labelel') and text()='Regions']")
-    private WebElement regions;
-
-    @FindBy (xpath = "//span[contains(@id, 'labelel') and text()='Software Document Classification']")
-    private WebElement softwareDocumentClassification;
-
-    @FindBy (xpath = "//span[contains(@id, 'labelel') and text()='Tags']")
-    private WebElement tags;
-
-    @FindBy (css = "div#userInput input[id*=alf-id]")
-    private WebElement addCategoryNameInput;
-
-    @FindBy (xpath = "//div[@id='userInput']//button[text()='OK']")
-    private WebElement addCategoryNameOKButton;
-
-    @FindBy (xpath = "//div[@id='userInput']//button[text()='Cancel']")
-    private WebElement addCategoryNameCancelButton;
-
-    @FindBy (xpath = "//div[text() = 'Delete Category']/../div/span[@class = 'button-group']//button[text() = 'Delete']")
-    private WebElement deleteCategoryOKButton;
-
-    @FindBy (xpath = "//div[text() = 'Delete Category']/../div/span[@class = 'button-group']//button[text() = 'Cancel']")
-    private WebElement deleteCategoryCancelButton;
 
     @FindBy (xpath = "//form[@class = 'insitu-edit' and @style = 'display: inline;']/input")
     private WebElement editCategoryNameInput;
@@ -52,19 +25,24 @@ public class CategoryManagerPage extends AdminToolsPage
     @FindBy (xpath = "//form[@class = 'insitu-edit' and @style = 'display: inline;']/a[text() = 'Cancel']")
     private WebElement editCategoryCancelButton;
 
-    private By addSubcategoryButton = By.cssSelector("span.insitu-add-category");
+    @Autowired
+    AddCategoryDialog addCategoryDialog;
 
-    private By addCategoryButton = By.cssSelector("span[class*=insitu-add]");
+    @Autowired
+    DeleteDialog deleteDialog;
 
-    private By editCategoryButton = By.cssSelector("span.insitu-edit-category");
+    private By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible']");
 
-    private By deleteCategoryButton = By.cssSelector("span.insitu-delete-category");
+    private By editCategoryButton = By.cssSelector("span.insitu-edit-category[style*='visibility: visible']");
+
+    private By deleteCategoryButton = By.cssSelector("span.insitu-delete-category[style*='visibility: visible']");
 
     private String categoryLocator = "//span[contains(@id, 'labelel') and text()='%s']";
 
-    public WebElement category(String categoryLabel)
+    private WebElement category(String categoryLabel)
     {
-        return browser.findElement(By.xpath("//div[@id='ygtvc1']//span[text()= '" + categoryLabel + "']"));
+        By categoryBy = By.xpath(String.format(categoryLocator, categoryLabel));
+        return browser.waitUntilElementVisible(categoryBy);
     }
 
     @Override
@@ -73,68 +51,60 @@ public class CategoryManagerPage extends AdminToolsPage
         return "share/page/console/admin-console/category-manager";
     }
 
-    public void addCategory(String categoryName)
+    public AddCategoryDialog clickAddButton()
     {
-        browser.waitUntilElementVisible(categoryRoot);
-
-        browser.mouseOver(categoryRoot);
-        getBrowser().waitUntilElementVisible(addCategoryButton);
-        browser.findFirstDisplayedElement(addCategoryButton).click();
-
-        browser.waitUntilElementVisible(addCategoryNameInput);
-        addCategoryNameInput.sendKeys(categoryName);
-        getBrowser().waitUntilElementClickable(addCategoryNameOKButton);
-        addCategoryNameOKButton.click();
-        getBrowser().waitUntilElementDisappears(By.cssSelector("div.bd span.message"));
-        renderedPage();
+        getBrowser().waitUntilElementVisible(addCategoryButton).click();
+        return (AddCategoryDialog) addCategoryDialog.renderedPage();
     }
 
-    public void addSubCategory(String parentCategory, String childCategoryName)
+    public CategoryManagerPage addCategory(String categoryName)
     {
-        browser.waitUntilElementVisible(category(parentCategory));
+        return addSubCategory("Category Root", categoryName);
+    }
+
+    public CategoryManagerPage addSubCategory(String parentCategory, String childCategoryName)
+    {
         browser.mouseOver(category(parentCategory));
-        browser.waitUntilElementIsVisibleWithRetry(addSubcategoryButton, 5);
-        browser.findFirstDisplayedElement(addSubcategoryButton).click();
-        getBrowser().waitUntilElementVisible(By.cssSelector("div[id='userInput_c']"));
-        addCategoryNameInput.sendKeys(childCategoryName);
-        getBrowser().waitUntilElementClickable(addCategoryNameOKButton).click();
+        return clickAddButton().addCategory(childCategoryName);
     }
 
-    public void deleteCategory(String categoryName)
+    public DeleteDialog clickDeleteButton(String categoryName)
     {
         mouseOverOnCategory(categoryName);
 
-        browser.findFirstDisplayedElement(deleteCategoryButton).click();
-        browser.waitUntilElementVisible(deleteCategoryOKButton);
-        deleteCategoryOKButton.click();
-        renderedPage();
+        browser.waitUntilElementVisible(deleteCategoryButton).click();
+        return (DeleteDialog) deleteDialog.renderedPage();
     }
 
-    public void editCategory(String categoryName, String newCategoryName)
+    public CategoryManagerPage deleteCategory(String categoryName)
+    {
+        return (CategoryManagerPage) clickDeleteButton(categoryName).clickDelete(this);
+    }
+
+    public CategoryManagerPage editCategory(String categoryName, String newCategoryName)
     {
         mouseOverOnCategory(categoryName);
-        browser.findFirstDisplayedElement(editCategoryButton).click();
+        browser.waitUntilElementVisible(editCategoryButton).click();
 
         browser.waitUntilElementVisible(editCategoryNameInput);
         editCategoryNameInput.sendKeys(newCategoryName);
         editCategorySaveButton.click();
-        renderedPage();
+        return (CategoryManagerPage) this.renderedPage();
     }
 
     private void mouseOverOnCategory(String categoryName)
     {
         By categoryBy = By.xpath(String.format(categoryLocator, categoryName));
 
-        browser.waitUntilElementIsDisplayedWithRetry(categoryBy, ((int) properties.getImplicitWait()));
+        browser.waitUntilElementIsDisplayedWithRetry(categoryBy, WAIT_15_SEC);
         WebElement elem = categoryManagerDiv.findElement(categoryBy);
         browser.mouseOver(elem);
-        browser.waitInSeconds(2);
     }
 
     public boolean isCategoryDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        browser.waitUntilElementIsDisplayedWithRetry(category, ((int) properties.getImplicitWait()));
+        browser.waitUntilElementIsDisplayedWithRetry(category, WAIT_15_SEC);
         return browser.isElementDisplayed(category);
     }
 
@@ -143,16 +113,14 @@ public class CategoryManagerPage extends AdminToolsPage
         By category = By.xpath(String.format(categoryLocator, expectedSubCategory));
         boolean isSubCatDisplayed = getBrowser().isElementDisplayed(category);
         int retryCount = 0;
-        while (retryCount < 5 && isSubCatDisplayed == false)
+        while (retryCount < WAIT_15_SEC && isSubCatDisplayed == false)
         {
             boolean isExpanded = getBrowser().isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
             if (!isExpanded)
             {
-                browser.findElement(By.xpath("//div[@id='ygtvc1']//span[text()= '" + parentCategory + "']/../..//a[@class='ygtvspacer']")).click();
-                category(parentCategory).findElement(By.xpath("//a[@class='ygtvspacer']")).click();
+                category(parentCategory).findElement(By.xpath("../..//a[@class='ygtvspacer']")).click();
             }
             isSubCatDisplayed = getBrowser().isElementDisplayed(category);
-            //getBrowser().waitInSeconds(1);
             getBrowser().refresh();
             retryCount++;
         }
@@ -161,33 +129,8 @@ public class CategoryManagerPage extends AdminToolsPage
 
     public boolean isCategoryNotDisplayed(String categoryName)
     {
-        By category = By.xpath(String.format("//span[contains(@id, 'labelel') and text()='%s']", categoryName));
-        browser.waitUntilElementDisappearsWithRetry(category, 1);
+        By category = By.xpath(String.format(categoryLocator, categoryName));
+        browser.waitUntilElementDisappearsWithRetry(category, (int) properties.getImplicitWait());
         return !browser.isElementDisplayed(category);
-    }
-
-    public boolean isCategoryRootLinkDisplayed()
-    {
-        return categoryRoot.isDisplayed();
-    }
-
-    public boolean isRegionsLinkDisplayed()
-    {
-        return regions.isDisplayed();
-    }
-
-    public boolean isLanguagesLinkDisplayed()
-    {
-        return languages.isDisplayed();
-    }
-
-    public boolean isSoftwareDocumentClassificationLinkDisplayed()
-    {
-        return softwareDocumentClassification.isDisplayed();
-    }
-
-    public boolean isTagsLinkDisplayed()
-    {
-        return tags.isDisplayed();
     }
 }

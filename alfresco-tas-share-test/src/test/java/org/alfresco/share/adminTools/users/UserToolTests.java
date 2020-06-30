@@ -79,13 +79,13 @@ public class UserToolTests extends ContextAwareWebTest
 
         LOG.info("Step2: Type a string contained by both usernames on the search box; click 'Search' button.");
         usersPage.searchUser("C9392User" + uniqueIdentifier);
-        assertEquals(usersPage.verifyUserIsFound(userName1), true, "User " + userName1 + " found");
-        assertEquals(usersPage.verifyUserIsFound(userName2), true, "User " + userName2 + " found");
+        assertEquals(usersPage.isUserFound(userName1), true, "User " + userName1 + " found");
+        assertEquals(usersPage.isUserFound(userName2), true, "User " + userName2 + " found");
 
         LOG.info("Step3: Type a string contained only by one of the created users into the search box and click 'Search' button.");
         usersPage.searchUser(userName1);
-        assertEquals(usersPage.verifyUserIsFound(userName1), true, "User " + userName1 + " found");
-        assertEquals(usersPage.verifyUserIsFound(userName2), false, "User " + userName2 + " found");
+        assertEquals(usersPage.isUserFound(userName1), true, "User " + userName1 + " found");
+        assertEquals(usersPage.isUserFound(userName2), false, "User " + userName2 + " found");
         userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
         userService.delete(adminUser, adminPassword, userName2);

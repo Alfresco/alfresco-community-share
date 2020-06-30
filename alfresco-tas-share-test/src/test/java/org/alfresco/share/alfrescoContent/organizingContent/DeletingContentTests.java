@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.Notification;
-import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -38,7 +38,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
-    private DeleteDocumentOrFolderDialog deleteDialog;
+    private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -70,7 +70,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), docName));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
 //        assertEquals(notification.getDisplayedNotification(), String.format(language.translate("documentLibrary.deletedNotification"), docName), "'testDoc' was deleted pop-up is displayed.");
 
         LOG.info("STEP4: Verify that the file was deleted");
@@ -91,7 +91,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderNameD));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
 //        assertEquals(notification.getDisplayedNotification(), String.format(language.translate("documentLibrary.deletedNotification"), folderNameD), "'delFolder' was deleted pop-up is displayed.");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderNameD), "Documents item list is refreshed and is empty");
         assertFalse(documentLibraryPage.getExplorerPanelDocuments().contains(folderNameD), "'DelFolder' is not visible in 'Library' section of the browsing pane.");

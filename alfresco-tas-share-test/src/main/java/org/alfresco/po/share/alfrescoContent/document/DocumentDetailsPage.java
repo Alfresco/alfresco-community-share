@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -447,6 +448,19 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         List<WebElement> optionsList = browser.waitUntilElementsVisible(documentActionsOptionsSelector);
         browser.selectOptionFromFilterOptionsList(optionName, optionsList);
     }
+
+    /**
+     * Click an option from 'Document Actions' section and render page
+     *
+     * @param optionName the option to be clicked
+     * @param page the page to be rendered after click
+     */
+    public <T> HtmlPage clickDocumentActionsOption(String optionName, HtmlPage page)
+    {
+        clickDocumentActionsOption(optionName);
+        return page.renderedPage();
+    }
+
 
     /**
      * Verify displayed elements from 'Properties' section

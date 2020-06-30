@@ -1,10 +1,10 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,20 @@ public class CreateAspectDialogPage extends ShareDialog
     @FindBy (id = "CMM_CREATE_PROPERTYGROUP_DIALOG")
     private WebElement createAspectWidow;
 
-    private By createButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
+    @FindBy(id = "CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label")
+    private WebElement createButton;
 
     @RenderWebElement
     @FindBy (id = "CMM_CREATE_PROPERTYGROUP_DIALOG_CANCEL_label")
     private WebElement cancelButton;
 
-    @FindBy (xpath = "//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//input[@name='name']")
+    @FindBy (css = "#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='name']")
     private WebElement nameField;
 
-    @FindBy (xpath = "//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//input[@name='title']")
+    @FindBy (css = "#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='title']")
     private WebElement displayLabelField;
 
-    @FindBy (xpath = "//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//div[@class='control']//textarea")
+    @FindBy (css = "#CMM_CREATE_PROPERTYGROUP_DIALOG div.control textarea")
     private WebElement descriptionField;
 
     public boolean isCreateAspectWindowDisplayed()
@@ -44,26 +45,22 @@ public class CreateAspectDialogPage extends ShareDialog
 
     public void sendNameInput(String name)
     {
-        nameField.clear();
-        nameField.sendKeys(name);
+        Utils.clearAndType(nameField, name);
     }
 
     public void sendDisplayLabelInput(String displayLabel)
     {
-        displayLabelField.clear();
-        displayLabelField.sendKeys(displayLabel);
+        Utils.clearAndType(displayLabelField, displayLabel);
     }
 
     public void sendDescriptionFieldInput(String description)
     {
-        descriptionField.clear();
-        descriptionField.sendKeys(description);
+        Utils.clearAndType(descriptionField, description);
     }
 
     public ModelDetailsPage clickCreateButton()
     {
-        browser.findElement(createButton).click();
-        browser.waitInSeconds(2);
+        browser.waitUntilElementClickable(createButton).click();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 }
