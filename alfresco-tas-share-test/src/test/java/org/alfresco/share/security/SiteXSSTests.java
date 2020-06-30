@@ -1,5 +1,8 @@
 package org.alfresco.share.security;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.common.DataProviderClass;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -12,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class SiteXSSTests extends ContextAwareWebTest
 {

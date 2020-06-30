@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCatego
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -153,12 +154,6 @@ public class SelectDialog extends ShareDialog
         return (EditPropertiesDialog) editPropertiesDialog.renderedPage();
     }
 
-    public EditPropertiesPage clickOkAndRenderPropertiesPage()
-    {
-        okButton.click();
-        return (EditPropertiesPage) editPropertiesPage.renderedPage();
-    }
-
     public void clickCancel()
     {
         cancelButton.click();
@@ -169,9 +164,7 @@ public class SelectDialog extends ShareDialog
      */
     public void typeTag(String tagName)
     {
-        browser.waitUntilElementVisible(tagInputField);
-        tagInputField.clear();
-        tagInputField.sendKeys(tagName);
+        Utils.clearAndType(browser.waitUntilElementVisible(tagInputField), tagName);
     }
 
     public void clickCreateNewIcon()

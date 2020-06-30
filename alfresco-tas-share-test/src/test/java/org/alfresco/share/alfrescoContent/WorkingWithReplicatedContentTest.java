@@ -15,6 +15,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.admin.CreateEditReplicationJobPage;
 import org.alfresco.po.share.user.admin.ReplicationJobsPage;
@@ -93,7 +94,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         assertEquals(repositoryPage.getBreadcrumbList(), explorerPanelPath.toString(), "Breadcrumb=");
 
         LOG.info("Edit properties for " + transferTargetFolder);
-        repositoryPage.clickDocumentLibraryItemAction(transferTargetFolder, "Edit Properties", editPropertiesDialog);
+        repositoryPage.clickDocumentLibraryItemAction(transferTargetFolder, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         editPropertiesDialog.updateFolderDetailsForReplication(properties.getServer2Url(), properties.getServer2Port(), adminUser, adminPassword);
     }
 

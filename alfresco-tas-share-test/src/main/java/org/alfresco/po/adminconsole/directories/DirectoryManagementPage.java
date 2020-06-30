@@ -5,6 +5,7 @@ import static org.alfresco.utility.report.log.Step.STEP;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationChain;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationTestDialog;
@@ -126,8 +127,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public void setName(String name)
     {
-        nameField.clear();
-        nameField.sendKeys(name);
+        Utils.clearAndType(nameField, name);
     }
 
     public void clickAdd()

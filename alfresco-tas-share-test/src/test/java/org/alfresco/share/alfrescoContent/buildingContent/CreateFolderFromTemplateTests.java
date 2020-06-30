@@ -5,15 +5,15 @@ import static org.alfresco.utility.report.log.Step.STEP;
 import java.util.Arrays;
 
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -30,11 +30,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
-    private Notification notification;
-    @Autowired
     private CreateFolderFromTemplate createFolderFromTemplate;
-    @Autowired
-    private CreateContent createContent;
     @Autowired
     private EditRulesPage editRulesPage;
     @Autowired
@@ -47,7 +43,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     private AspectsForm aspectsForm;
 
     @TestRail (id = "C6292")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFolderFromTemplate()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
@@ -62,17 +58,16 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
         documentLibraryPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create folder from template");
-        Assert.assertTrue(createContent.isFolderTemplateDisplayed(folderTemplateName));
+        documentLibraryPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
+        Assert.assertTrue(documentLibraryPage.isTemplateDisplayed(folderTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
+        documentLibraryPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Click 'Save' button.");
         createFolderFromTemplate.clickSaveButton();
-        notification.waitUntilNotificationDisappears();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderTemplateName), "Subfolder not found");
         Assert.assertTrue(documentLibraryPage.getExplorerPanelDocuments().contains(folderTemplateName), "Subfolder not found in Documents explorer panel");
 
@@ -103,7 +98,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6293")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelCreatingFolderFromTemplate()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
@@ -116,13 +111,11 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
         documentLibraryPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create folder from template");
-        Assert.assertTrue(createContent.isFolderTemplateDisplayed(folderTemplateName));
+        documentLibraryPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
+        Assert.assertTrue(documentLibraryPage.isTemplateDisplayed(folderTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
-        Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
-        Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
+        documentLibraryPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
 
         LOG.info("STEP 3: Click 'Cancel' button.");
         createFolderFromTemplate.clickCancelButton();
@@ -134,7 +127,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8139")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFolderFromTemplateUsingWildcards()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
@@ -157,7 +150,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
         repositoryPage.clickOnFolderName("Space Templates");
-        documentLibraryPage.clickDocumentLibraryItemAction(templateFolderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        repositoryPage.clickDocumentLibraryItemAction(templateFolderName, ItemActions.MANAGE_RULES, manageRulesPage);
         manageRulesPage.clickCreateRules();
 
         editRulesPage.typeRuleDetails(ruleName, ruleDescription, Arrays.asList(0, 0, 7));
@@ -168,16 +161,16 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
         repositoryPage.clickOnFolderName("Space Templates");
-        documentLibraryPage.clickDocumentLibraryItemAction(templateFolderName, "Manage Permissions", managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(templateFolderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
         managePermissionsPage.searchAndAddUserOrGroup(userName, 0);
         managePermissionsPage.setRole(userFirstName + " " + userLastName, userRole);
-        managePermissionsPage.clickButton("Save");
+        managePermissionsPage.clickSave();
 
         STEP("Precondition: Add any aspect for template1 (e.g. classifiable)");
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
         repositoryPage.clickOnFolderName("Space Templates");
-        repositoryPage.clickDocumentLibraryItemAction(templateFolderName, "Manage Aspects", aspectsForm);
+        repositoryPage.clickDocumentLibraryItemAction(templateFolderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
         aspectsForm.addAspect("Classifiable");
         aspectsForm.clickApplyChangesButton(repositoryPage);
 
@@ -188,11 +181,11 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
         documentLibraryPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create folder from template");
-        Assert.assertTrue(createContent.isFolderTemplateDisplayed(templateFolderName));
+        documentLibraryPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
+        Assert.assertTrue(documentLibraryPage.isTemplateDisplayed(templateFolderName));
 
         LOG.info("STEP 2: Select the template: 'template1'");
-        createContent.clickOnFolderTemplate(templateFolderName, createFolderFromTemplate);
+        documentLibraryPage.clickOnTemplate(templateFolderName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(), "Create folder from template popup is displayed ");
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), templateFolderName);
 
@@ -200,26 +193,24 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         createFolderFromTemplate.fillInNameField(illegalCharacters);
         createFolderFromTemplate.clickSaveButton();
         createFolderFromTemplate.clickSaveButton();
-        Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(), "Tooltip error message not displayed");
+        Assert.assertTrue(createFolderFromTemplate.isNameMarkedAsInvalid(), "Tooltip error message not displayed");
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
 
         LOG.info("STEP 4: Clear Name field and type 'AName.'. Click 'Save' button.");
         createFolderFromTemplate.fillInNameField("AName.");
         createFolderFromTemplate.clickSaveButton();
         createFolderFromTemplate.clickSaveButton();
-        Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(), "Tooltip error message not displayed");
+        Assert.assertTrue(createFolderFromTemplate.isNameMarkedAsInvalid(), "Tooltip error message not displayed");
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(), "Create folder from template popup not displayed");
 
         LOG.info("STEP 5: Clear Name field and type 'AFolder.Name'. Click 'Save' button.");
         createFolderFromTemplate.fillInNameField(folderName);
         createFolderFromTemplate.clickSaveButton();
-        //    Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName));
-        notification.waitUntilNotificationDisappears();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Subfolder not found");
         Assert.assertTrue(documentLibraryPage.getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
 
         LOG.info("STEP 6: Hover over the created folder (AFolder.Name). Click 'Manage Rules' option from more menu.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
         Assert.assertTrue(manageRulesPage.isContentRuleDisplayed(), "Content rule not displayed");
 
         LOG.info("STEP 7: Click on 'Documents' link from breadcrumb.");
@@ -227,7 +218,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(), "Documents page not opened");
 
         LOG.info("STEP 8: Hover over the created folder (AFolder.Name). Click 'Manage Permissions' option from more menu.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         Assert.assertEquals(managePermissionsPage.getRole(userFirstName + " " + userLastName), userRole, "User role not set to Coordinator");
 
         LOG.info("STEP 9: Click on 'Documents' link from breadcrumb.");
@@ -235,11 +226,10 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(), "Documents page not opened");
 
         LOG.info("STEP 10: Hover over the created folder (AFolder.Name). Click 'Manage Aspects' option from more menu.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList(aspectType), "Aspect is not added to 'Currently Selected' list");
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

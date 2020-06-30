@@ -65,7 +65,7 @@ public class LiveSearchTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Search for info that does not exist and check that results are not displayed in search results");
         setupAuthenticatedSession(userName, password);
-        toolbar.searchWithoutEnter("t@#$%^!@ds");
+        toolbar.searchInToolbar("t@#$%^!@ds");
         Assert.assertFalse(liveSearchPage.isDocumentsTitleDisplayed(), "Documents title is displayed");
         Assert.assertFalse(liveSearchPage.isPeopleTitleDisplayed(), "People title is displayed");
         Assert.assertFalse(liveSearchPage.isSitesTitleDisplayed(), "Sites title is displayed");
@@ -82,7 +82,7 @@ public class LiveSearchTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Check that when not in site context, the Live Search dropdown does not contain the scope options");
         setupAuthenticatedSession(userName, password);
-        toolbar.searchWithoutEnter(docName);
+        toolbar.searchInToolbar(docName);
         Assert.assertFalse(liveSearchPage.isScopeRepositoryDisplayed(), "Scope Repository is displayed");
         Assert.assertFalse(liveSearchPage.isScopeSitesDisplayed(), "Scope Sites is displayed");
         cleanupAuthenticatedSession();
@@ -94,7 +94,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Check that when in site, the Live Search dropdown contains the scope options");
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
-        toolbar.searchWithoutEnter(docName);
+        toolbar.searchInToolbar(docName);
         Assert.assertTrue(liveSearchPage.isScopeRepositoryDisplayed(), "Scope Repository is not displayed");
         Assert.assertTrue(liveSearchPage.isScopeSitesDisplayed(), "Scope Sites is not displayed");
         setupAuthenticatedSession(userName, password);
@@ -107,7 +107,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         String expectedInfo = "Search in site '" + siteName + "'";
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(docName);
+        toolbar.searchInToolbar(docName);
         Assert.assertEquals(liveSearchPage.getScopeSiteText(siteName), expectedInfo, siteName + " is not available in scope site");
         cleanupAuthenticatedSession();
     }
@@ -118,7 +118,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Check that the document search result contains document name, site name and user name");
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(docName);
+        toolbar.searchInToolbar(docName);
         Assert.assertTrue(liveSearchPage.getDocumentDetails(docName).contains(docName), "Document details does not contain document name");
         Assert.assertTrue(liveSearchPage.getDocumentDetails(docName).contains(siteName), "Document details does not contain site name");
         Assert.assertTrue(liveSearchPage.getDocumentDetails(docName).contains(userName), "Document details does not contain user name");
@@ -131,7 +131,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Expand document search results");
         setupAuthenticatedSession(userName, password);
         userDashboardPage.navigate(userName);
-        toolbar.searchWithoutEnter("jpg");
+        toolbar.searchInToolbar("jpg");
         liveSearchPage.clickMore();
         Assert.assertTrue(liveSearchPage.getResultsListSize() > 0, "List has no results");
         liveSearchPage.closeLiveSearchResults();
@@ -147,7 +147,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Clicks on the document name in the document search result and checks that the document's details page is displayed");
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(docName);
+        toolbar.searchInToolbar(docName);
         liveSearchPage.clickDocumentName(docName, documentDetailsPage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Document Details", "User is not redirected to the document details page");
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, docName + " is not displayed on the Document Details page");
@@ -160,7 +160,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Clicks on document site name in the document search result and checks that document site library page is displayed");
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(docName);
+        toolbar.searchInToolbar(docName);
         liveSearchPage.clickSiteName(siteName, documentLibraryPage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Document Library", "User is not redirected to Document Library");
         Assert.assertEquals(documentLibraryPage.getSiteName(), siteName, "User is not redirected to " + siteName + " document library");
@@ -173,7 +173,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Click on document user name in document search result and checks that user profile page is displayed");
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(docName);
+        toolbar.searchInToolbar(docName);
         liveSearchPage.clickUserName(userName, userProfilePage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User is not redirected to User Profile page");
         cleanupAuthenticatedSession();
@@ -186,7 +186,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Search for username and checks that it is displayed in people search results");
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(userName);
+        toolbar.searchInToolbar(userName);
         Assert.assertEquals(liveSearchPage.getPeopleResults(), expected, userName + " is not available in the list of results");
         LOG.info("Step 2: Click user name and check that user profile is displayed");
         liveSearchPage.clickPeopleUserName(userName, userProfilePage);
@@ -201,7 +201,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: Search for site and checks that site name is displayed in site results");
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(siteName);
+        toolbar.searchInToolbar(siteName);
         Assert.assertEquals(liveSearchPage.getSiteResults(), expected, siteName + " is not displayed");
         LOG.info("Step 2: Click the site name and check that site dashboard is displayed");
         liveSearchPage.clickSiteNameLiveSearch(siteName, siteDashboardPage);
@@ -217,7 +217,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         LOG.info("Step 1: When clicking on Search Site scope, Document results are from the current site");
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(searchTerm);
+        toolbar.searchInToolbar(searchTerm);
         liveSearchPage.selectSiteContext();
         Assert.assertFalse(liveSearchPage.areResultsFromOtherSitesReturned(siteName), "Other sites content is displayed: " + liveSearchPage.getSites());
         cleanupAuthenticatedSession();
@@ -230,7 +230,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         LOG.info("Step 1: When clicking on Search Repository scope, Document results are from the all sites");
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(searchTerm);
+        toolbar.searchInToolbar(searchTerm);
         liveSearchPage.selectRepoContext();
         Assert.assertTrue(liveSearchPage.areResultsFromOtherSitesReturned(siteName), "Other sites content is displayed: " + liveSearchPage.getSites());
         cleanupAuthenticatedSession();
@@ -243,7 +243,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         LOG.info("Step 1: When clicking on Search Site scope and then Enter scope is set to site");
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(searchTerm);
+        toolbar.searchInToolbar(searchTerm);
         liveSearchPage.selectSiteContext();
         toolbar.search(searchTerm);
         Assert.assertEquals(searchPage.getSearchInDropdownSelectedValue(), siteName, siteName + " is not the context displayed on the search results page");
@@ -257,7 +257,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         LOG.info("Step 1: When clicking on Search Repository scope and then Enter scope is set to repository");
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(searchTerm);
+        toolbar.searchInToolbar(searchTerm);
         liveSearchPage.selectRepoContext();
         toolbar.search(searchTerm);
         Assert.assertEquals(searchPage.getSearchInDropdownSelectedValue(), "Repository", "Repository is not the context displayed on the search results page");
@@ -271,7 +271,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         LOG.info("Check that when in a site context, if there are no results in the site but there are results in the Repository,the scope options are visible");
         documentLibraryPage.navigate(siteName);
-        toolbar.searchWithoutEnter(searchTerm);
+        toolbar.searchInToolbar(searchTerm);
         liveSearchPage.selectSiteContext();
         Assert.assertFalse(liveSearchPage.isDocumentsTitleDisplayed(), "Documents title is displayed");
         Assert.assertFalse(liveSearchPage.isPeopleTitleDisplayed(), "People title is displayed");

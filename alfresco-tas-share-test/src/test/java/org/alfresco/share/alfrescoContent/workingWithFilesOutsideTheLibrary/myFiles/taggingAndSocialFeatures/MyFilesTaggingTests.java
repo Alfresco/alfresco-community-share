@@ -12,6 +12,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -122,7 +123,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.navigate();
 
         LOG.info("STEP1: Click \"Edit Properties\" option");
-        myFilesPage.clickDocumentLibraryItemAction(testFileC7873, "Edit Properties", editPropertiesDialog);
+        myFilesPage.clickDocumentLibraryItemAction(testFileC7873, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), testFileC7873),
             "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");

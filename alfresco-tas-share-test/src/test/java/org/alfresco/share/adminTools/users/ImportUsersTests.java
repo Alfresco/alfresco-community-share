@@ -27,16 +27,13 @@ public class ImportUsersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void importUsers()
     {
-
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
-        String groupName = "ALFRESCO_ADMINISTRATORS";
-        String file = "C9438.csv";
-        String filePath = testDataFolder + file;
+        String filePath = testDataFolder + "C9438.csv";
         String importedUser = "C9438user";
 
         LOG.info("Preconditions: User with administrator rights is created and logged into Share.");
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        groupService.addUserToGroup(adminUser, adminPassword, groupName, userName);
+        groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userName);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step1: Navigate to 'Admin Tools' and click 'Users' link on 'Tools' pane.");
@@ -45,11 +42,9 @@ public class ImportUsersTests extends ContextAwareWebTest
 
         LOG.info("Step2: Click 'Upload User CSV File' button. Select users CSV file and click 'Upload File'.");
         usersPage.uploadUsers(filePath, "bla");
-        uploadResults.renderedPage();
 
         LOG.info("Step3: Click 'Go Back' button from 'Upload Users' page.");
         uploadResults.clickGoBack();
-        usersPage.renderedPage();
 
         LOG.info("Step4: Search for the imported user.");
         usersPage.searchUser(importedUser);
@@ -60,8 +55,6 @@ public class ImportUsersTests extends ContextAwareWebTest
 
         userService.delete(adminUser, adminPassword, importedUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + importedUser);
-
-
     }
 
 }

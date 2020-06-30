@@ -12,7 +12,9 @@ import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.renderer.ElementState;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -108,7 +110,6 @@ public abstract class SharePage<T> extends HtmlPage
         browser.navigate().to(relativePathToURL());
     }
 
-
     public String getPageHeader()
     {
         return pageHeader.getText();
@@ -163,44 +164,6 @@ public abstract class SharePage<T> extends HtmlPage
     }
 
     /**
-     * Get background color of element or color of element (font color)
-     *
-     * @param element    WebElement
-     * @param background if needed to find color of element's background - param must be true
-     *                   if needed to find color of element itself - param must be false
-     * @return hex
-     * return color in Hex color model
-     */
-    public String getColor(WebElement element, boolean background)
-    {
-        String hex = "";
-        String color;
-        try
-        {
-            if (background)
-            {
-                color = element.getCssValue("background-color");
-            } else
-            {
-                color = element.getCssValue("color");
-            }
-
-            String[] numbers = color.replace("rgba(", "").replace(")", "").split(",");
-            int number1 = Integer.parseInt(numbers[0]);
-            numbers[1] = numbers[1].trim();
-            int number2 = Integer.parseInt(numbers[1]);
-            numbers[2] = numbers[2].trim();
-            int number3 = Integer.parseInt(numbers[2]);
-            hex = String.format("#%02x%02x%02x", number1, number2, number3);
-        } catch (TimeoutException e)
-        {
-            LOG.error("Exceeded time to find " + element);
-
-        }
-        return hex;
-    }
-
-    /**
      * Method for wait while balloon message about some changes hide.
      */
     @Override
@@ -214,6 +177,24 @@ public abstract class SharePage<T> extends HtmlPage
         catch (TimeoutException exception)
         {
             // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
+        }
+    }
+
+    /**
+     * If alert is displayed, accept it
+     */
+    public void acceptAlertIfDisplayed()
+    {
+        try
+        {
+            Alert alert = browser.switchTo().alert();
+            LOG.info(alert.getText());
+            alert.accept();
+            browser.waitInSeconds(WAIT_5_SEC);
+        }
+        catch (NoAlertPresentException noAlertPresentException)
+        {
+            // do nothing as alert is not present
         }
     }
 }

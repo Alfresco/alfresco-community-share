@@ -1,8 +1,10 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
@@ -36,9 +38,6 @@ public class NewContentDialog extends ShareDialog
 
     @FindBy (css = "label .mandatory-indicator")
     private WebElement mandatoryIndicator;
-
-    @FindBy (css = ".text div")
-    private WebElement tooltipErrorMessage;
 
     public boolean isSaveButtonDisplayed()
     {
@@ -85,16 +84,14 @@ public class NewContentDialog extends ShareDialog
 
     public void fillInNameField(String name)
     {
-        renderedPage();
-        nameField.clear();
-        nameField.sendKeys(name);
+        Utils.clearAndType(nameField, name);
     }
 
     public void fillInDetails(String name, String title, String description)
     {
         fillInNameField(name);
-        titleField.sendKeys(title);
-        descriptionField.sendKeys(description);
+        Utils.clearAndType(titleField, title);
+        Utils.clearAndType(descriptionField, description);
     }
 
     public String getNameFieldValue()
@@ -107,8 +104,16 @@ public class NewContentDialog extends ShareDialog
         return browser.isElementDisplayed(dialogTitle) && dialogTitle.getText().equals("New Folder");
     }
 
-    public boolean isTooltipErrorMessageDisplayed()
+    public boolean isNameMarkedAsInvalid()
     {
-        return browser.isElementDisplayed(tooltipErrorMessage);
+        try
+        {
+            browser.waitUntilElementHasAttribute(nameField, "class", "invalid");
+            return true;
+        }
+        catch (TimeoutException e)
+        {
+            return false;
+        }
     }
 }

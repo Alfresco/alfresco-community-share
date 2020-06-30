@@ -10,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -91,7 +92,7 @@ public class UploadTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), "contents", String.format("Contents of %s are wrong.", doc2));
         LOG.info("STEP2: Navigate to Shared Files page and click on upload new version");
         sharedFilesPage.navigate();
-        sharedFilesPage.clickDocumentLibraryItemAction(doc2, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
+        sharedFilesPage.clickDocumentLibraryItemAction(doc2, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         getBrowser().waitInSeconds(2);
@@ -122,7 +123,7 @@ public class UploadTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         LOG.info("STEP1: Hover over the file");
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(doc3, language.translate("documentLibrary.contentAction.uploadNewVersion")),
+        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(doc3, ItemActions.UPLOAD_NEW_VERSION),
             language.translate("documentLibrary.contentAction.uploadNewVersion") + " option is displayed for " + doc3);
         cleanupAuthenticatedSession();
     }

@@ -10,6 +10,7 @@ import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -126,7 +127,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8278), fileNameC8278 + " is not available in Repository");
         LOG.info("STEP1: Hover over the content created in the preconditions");
         LOG.info("STEP2: Click \"Edit Properties\" option");
-        repositoryPage.clickDocumentLibraryItemAction(fileNameC8278, "Edit Properties", repositoryPage);
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC8278, ItemActions.EDIT_PROPERTIES, repositoryPage);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileNameC8278),
             "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
@@ -145,7 +146,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
         LOG.info("STEP5: Click \"Save\" button");
         editPropertiesDialog.clickSave();
         ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagC8278.toLowerCase()));
-        assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
         assertEquals(repositoryPage.getTags(fileNameC8278), tagsList.toString(), fileNameC8278 + " -> tags=");
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }

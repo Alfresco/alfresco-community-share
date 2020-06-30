@@ -2,6 +2,7 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
@@ -63,8 +64,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
 
     public void searchSite(String site)
     {
-        searchField.clear();
-        searchField.sendKeys(site);
+        Utils.clearAndType(searchField, site);
         getBrowser().waitUntilElementClickable(searchButton).sendKeys(Keys.ENTER);
         this.renderedPage();
     }

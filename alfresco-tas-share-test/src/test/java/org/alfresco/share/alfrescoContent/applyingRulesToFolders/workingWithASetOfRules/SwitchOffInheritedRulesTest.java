@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesP
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -62,7 +63,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for " + folder1);
-        documentLibraryPage.clickDocumentLibraryItemAction(folder1, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folder1, ItemActions.MANAGE_RULES, manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder1 + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
@@ -100,7 +101,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     public void switchOffInheritRules()
     {
         LOG.info("STEP1: Navigate to 'Manage Rules' page for " + folder2);
-        documentLibraryPage.clickDocumentLibraryItemAction(folder2, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folder2, ItemActions.MANAGE_RULES, manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder2 + ": Rules", "Rule title=");
         LOG.info("STEP2: Click on 'Inherit Rules' button");

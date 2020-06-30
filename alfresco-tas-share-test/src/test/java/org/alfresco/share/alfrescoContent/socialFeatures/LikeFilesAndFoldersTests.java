@@ -71,7 +71,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on the Like button");
         social.clickLikeButton(fileNameC7906);
-        getBrowser().waitUntilElementVisible(social.enabledLikeButton);
+
         Assert.assertEquals(social.getNumberOfLikes(fileNameC7906), 1, "The number of likes is not correct");
         Assert.assertTrue(social.isLikeButtonEnabled(fileNameC7906), "Like button is not enabled");
 

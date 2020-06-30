@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -86,7 +87,6 @@ public class ManagePermissionTests extends ContextAwareWebTest
     }
 
     @AfterClass (alwaysRun = true)
-
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);
@@ -113,22 +113,17 @@ public class ManagePermissionTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(userName, password);
         String identifier = fname1 + " " + lname1;
-        System.out.println("Identifier: " + identifier);
+
         LOG.info("Step 1: Click on Repository link in the toolbar");
         repositoryPage.navigateByMenuBar();
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
 
         LOG.info("Step 2: Navigate to " + userName + " folder;");
         repositoryPage.clickOnFolderName("User Homes");
-        //  getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree("User Homes"), 10L);
-        // repositoryPage.waitUntilFolderIsDisplayed(userName);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(userName), userName + " is not displayed in Repository Page");
 
         LOG.info("Step 3: Click Manage Permissions link in More menu for user's home folder;");
-        repositoryPage.mouseOverContentItem(userName);
-        repositoryPage.clickDocumentLibraryItemAction(userName, "Manage Permissions", managePermissionsPage);
-        managePermissionsPage.renderedPage();
-        Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
+        repositoryPage.clickDocumentLibraryItemAction(userName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
 
         LOG.info("Step 4: Verify Manage Permissions page");
         Assert.assertTrue(managePermissionsPage.isAddUserGroupButtonDisplayed(), "Add User/Group button is not displayed");
@@ -153,9 +148,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         LOG.info("Preconditions: ");
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
-        managePermissionsPage.renderedPage();
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202758_1);
         managePermissionsPage.clickSearchButton();
@@ -169,7 +162,6 @@ public class ManagePermissionTests extends ContextAwareWebTest
         managePermissionsPage.clickRoleButton(identifierUser2);
         managePermissionsPage.selectRole("Coordinator");
         managePermissionsPage.clickSave();
-        repositoryPage.renderedPage();
         cleanupAuthenticatedSession();
 
         LOG.info("Step 1: Click on Repository link in the toolbar");
@@ -178,10 +170,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
 
         LOG.info("Step 2: Click Manage Permissions link in More menu for " + folderName + " folder");
-        repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickAction(folderName, "Manage Permissions");
-        managePermissionsPage.renderedPage();
-        Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser1).contains("Coordinator"));
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser2).contains("Coordinator"));
 
@@ -192,14 +181,11 @@ public class ManagePermissionTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Save");
         managePermissionsPage.clickSave();
-        repositoryPage.renderedPage();
 
         LOG.info("Step 5: Upload file into " + folderName);
         contentService.uploadFileInRepository(userC202758_1, password, pathC202758, testDataFolder + file + ".docx");
-        repositoryPage.renderedPage();
 
         LOG.info("Step 6: Log in User2");
-
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userC202758_2, password);
         repositoryPage.navigateByMenuBar();
@@ -207,16 +193,15 @@ public class ManagePermissionTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Open " + folderName + " folder and try to edit/delete uploaded file");
         repositoryPage.clickOnFolderName(folderName);
-        //repositoryPage.selectDocumentLibraryItemRow(file);
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(file), file + " is not displayed in repository");
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Delete Document"), "Delete Document is available for " + file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit in Google Docs™"), "Edit in Google Docs™ is available for " + file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit in Microsoft Office™"), "Edit in Microsoft Office™ is available for " + file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit Properties"), "Edit Properties is available for " + file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit Offline"), "Edit Offline is available for " + file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Upload New Version"), "Upload New Version is available for " + file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Manage Permissions"), "Manage Permissions is available for " + file);
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, ItemActions.DELETE_DOCUMENT), "Delete Document is available for " + file);
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, ItemActions.EDIT_IN_GOOGLE_DOCS), "Edit in Google Docs™ is available for " + file);
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, ItemActions.EDIT_IN_MICROSOFT_OFFICE), "Edit in Microsoft Office™ is available for " + file);
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, ItemActions.EDIT_PROPERTIES), "Edit Properties is available for " + file);
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, ItemActions.EDIT_OFFLINE), "Edit Offline is available for " + file);
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, ItemActions.UPLOAD_NEW_VERSION), "Upload New Version is available for " + file);
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, ItemActions.MANAGE_REPO_PERMISSIONS),
+                "Manage Permissions is available for " + file);
         cleanupAuthenticatedSession();
     }
 
@@ -230,9 +215,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        repositoryPage.mouseOverContentItem(folderC202776);
-        repositoryPage.clickDocumentLibraryItemAction(folderC202776, "Manage Permissions", managePermissionsPage);
-        managePermissionsPage.renderedPage();
+        repositoryPage.clickDocumentLibraryItemAction(folderC202776, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202776);
         managePermissionsPage.clickSearchButton();
@@ -240,7 +223,6 @@ public class ManagePermissionTests extends ContextAwareWebTest
         managePermissionsPage.clickRoleButton(identifierUser1);
         managePermissionsPage.selectRole("Coordinator");
         managePermissionsPage.clickSave();
-        repositoryPage.renderedPage();
         cleanupAuthenticatedSession();
 
         LOG.info("Step 1: Navigate to Repository");
@@ -250,13 +232,9 @@ public class ManagePermissionTests extends ContextAwareWebTest
 
         LOG.info("Step 2: On the Repository page click on TestFolder");
         repositoryPage.clickOnFolderName(folderC202776);
-        repositoryPage.renderedPage();
 
         LOG.info("Step 3: Mouseover TestSubfolder and click on Manage Permissions action");
-        getBrowser().waitInSeconds(3);
-        repositoryPage.mouseOverContentItem(subFolderC202776);
-        repositoryPage.clickDocumentLibraryItemAction(subFolderC202776, "Manage Permissions", managePermissionsPage);
-        Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
+        repositoryPage.clickDocumentLibraryItemAction(subFolderC202776, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
 
         LOG.info("Step 4: Check inherited permissions");
         Assert.assertTrue(managePermissionsPage.getInheritedPermissions(identifierUser1).contains("Coordinator"));
@@ -264,52 +242,40 @@ public class ManagePermissionTests extends ContextAwareWebTest
         LOG.info("Step 5: Return to Repository, TestSubfolder and check available actions for TestFile");
         repositoryPage.navigate();
         repositoryPage.clickOnFolderName(folderC202776);
-        repositoryPage.renderedPage();
-        // repositoryPage.waitUntilFolderIsDisplayed(subFolderC202776);
         repositoryPage.clickOnFolderName(subFolderC202776);
-        getBrowser().waitInSeconds(2);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit in Google Docs™"), "Edit in Google Docs™ is not available for " + fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit Properties"), "Edit Properties is not available for " + fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit in Alfresco"), "Edit in Alfresco is not available for " + fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit Offline"), "Edit Offline is not available for " + fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Delete Document"), "Delete Document is not available for " + fileNameC202776);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, ItemActions.EDIT_IN_GOOGLE_DOCS), "Edit in Google Docs™ is not available for " + fileNameC202776);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, ItemActions.EDIT_PROPERTIES), "Edit Properties is not available for " + fileNameC202776);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, ItemActions.EDIT_IN_ALFRESCO), "Edit in Alfresco is not available for " + fileNameC202776);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, ItemActions.EDIT_OFFLINE), "Edit Offline is not available for " + fileNameC202776);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, ItemActions.DELETE_DOCUMENT), "Delete Document is not available for " + fileNameC202776);
 
         LOG.info("Step 6: Edit TestFile and save changes");
-        repositoryPage.clickAction(fileNameC202776, "Edit in Alfresco");
-        editInAlfrescoPage.renderedPage();
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "User is not on Edit In Alfresco page");
         editInAlfrescoPage.typeContent(updateContent);
         editInAlfrescoPage.clickSaveButton();
-        repositoryPage.renderedPage();
         repositoryPage.clickOnFile(fileNameC202776);
-        documentDetailsPage.renderedPage();
         Assert.assertEquals(documentDetailsPage.getContentText(), updateContent, fileNameC202776 + " was not updated");
         cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C202764")
     @Test
-
     public void deleteUserWithARoleAssigned()
     {
         LOG.info("Preconditions: ");
         String identifierUser1 = fname1 + " " + lname1;
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigateByMenuBar();
-        repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
-        managePermissionsPage.renderedPage();
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(C202764user);
         managePermissionsPage.clickSearchButton();
         managePermissionsPage.clickAddButtonForUser(C202764user);
         managePermissionsPage.clickSave();
-        repositoryPage.renderedPage();
 
         LOG.info("Step 1: Click on 'Delete' icon in from of the user group");
-        // repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser1).contains(identifierUser1));
         managePermissionsPage.deleteUserFromPermissionsList(identifierUser1);
         getBrowser().refresh();
@@ -317,15 +283,14 @@ public class ManagePermissionTests extends ContextAwareWebTest
 
         Assert.assertEquals(managePermissionsPage.getLocallySetPermissionsTextWhenNoUsersAreAdded(), "No permissions set.", "Permissions are displayed");
         managePermissionsPage.clickSave();
-        repositoryPage.renderedPage();
         cleanupAuthenticatedSession();
 
         LOG.info("Step 2: Check that " + C202764user + " is not able to edit or manage permissions for " + folderName);
         setupAuthenticatedSession(C202764user, password);
         repositoryPage.navigateByMenuBar();
         repositoryPage.mouseOverContentItem(folderName);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(folderName, "Manage Permissions"));
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(folderName, "Delete Folder"));
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(folderName, ItemActions.MANAGE_REPO_PERMISSIONS));
+        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(folderName, ItemActions.DELETE_FOLDER));
         cleanupAuthenticatedSession();
     }
 
@@ -341,10 +306,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
 
         LOG.info("Step 2: Click Manage Permissions link in More menu for \"Test\" folder");
-        // repositoryPage.waitUntilFolderIsDisplayed(folderName);
-        repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
-        Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
 
         LOG.info("Step 3: Click Add User/Group button");
         managePermissionsPage.clickAddUserGroupButton();
@@ -360,10 +322,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         managePermissionsPage.clickRoleButton(groupName);
         managePermissionsPage.selectRole("Coordinator");
         managePermissionsPage.clickSave();
-        repositoryPage.renderedPage();
-        repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
-        managePermissionsPage.renderedPage();
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
         Assert.assertTrue(managePermissionsPage.getRowDetails(groupName).contains(groupName), groupName + " is not available in Locally Set Permissions list ");
         Assert.assertTrue(managePermissionsPage.getRowDetails(groupName).contains("Coordinator"), "Coordinator is not available in Locally Set Permissions list for " + groupName);
 
@@ -372,17 +331,16 @@ public class ManagePermissionTests extends ContextAwareWebTest
         setupAuthenticatedSession(userC202762_1, password);
         repositoryPage.navigateByMenuBar();
         repositoryPage.mouseOverContentItem(folderName);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(folderName, "Manage Permissions"), "Manage Permissions is not available for " + folderName + " for " + userC202762_1);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(folderName, "Delete Folder"), "Delete Folder is not available for " + folderName + " for " + userC202762_1);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(folderName, ItemActions.MANAGE_REPO_PERMISSIONS), "Manage Permissions is not available for " + folderName + " for " + userC202762_1);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(folderName, ItemActions.DELETE_FOLDER), "Delete Folder is not available for " + folderName + " for " + userC202762_1);
         repositoryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         repositoryPage.mouseOverContentItem(fileNameC202762);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, "Delete Document"), "Delete Document is not available for " + fileNameC202762);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, "Edit in Alfresco"), "Edit in Alfresco is not available for " + fileNameC202762);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, "Edit Offline"), "Edit Offline is not available for " + fileNameC202762);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, "Edit in Google Docs™"), "Edit in Google Docs™ is not available for " + fileNameC202762);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, ItemActions.DELETE_DOCUMENT), "Delete Document is not available for " + fileNameC202762);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, ItemActions.EDIT_IN_ALFRESCO), "Edit in Alfresco is not available for " + fileNameC202762);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, ItemActions.EDIT_OFFLINE), "Edit Offline is not available for " + fileNameC202762);
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, ItemActions.EDIT_IN_GOOGLE_DOCS), "Edit in Google Docs™ is not available for " + fileNameC202762);
 
-        repositoryPage.clickDocumentLibraryItemAction(fileNameC202762, "Delete Document", repositoryPage);
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC202762, ItemActions.DELETE_DOCUMENT, repositoryPage);
         deleteDialog.clickDelete(repositoryPage);
 
         Assert.assertFalse(repositoryPage.isContentNameDisplayed(fileNameC202762), fileNameC202762 + " is still displayed in " + folderName);

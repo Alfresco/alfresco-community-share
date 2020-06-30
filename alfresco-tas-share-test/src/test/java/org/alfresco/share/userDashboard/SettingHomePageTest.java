@@ -10,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
@@ -88,7 +89,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isDocumentListDisplayed(), "Document List is displayed");
 
         LOG.info("STEP 2 - Go to the folder details page, click on the user drop down in the header bar and select Use Current Page link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
         toolbarUserMenu.clickSetCurrentPageAsHome();
         documentDetailsPage.renderedPage();
@@ -265,7 +266,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " is displayed");
 
         LOG.info("STEP 2 - Go to the folder details page, click on the user drop down in the header bar and select Use Current Page link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
         toolbarUserMenu.clickSetCurrentPageAsHome();
         documentDetailsPage.renderedPage();

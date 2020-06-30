@@ -14,6 +14,7 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPag
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -56,7 +57,7 @@ public class EditRulesTests extends ContextAwareWebTest
 
         documentLibraryPage.navigate(siteName);
         LOG.info("Navigate to Manage Rule page for folder");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
         LOG.info("Navigate to Create rule page");
         manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
@@ -87,7 +88,7 @@ public class EditRulesTests extends ContextAwareWebTest
     public void editRuleDetails()
     {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
 
         String updatedRuleName = "updateRule-C7254-" + RandomData.getRandomAlphanumeric();
         String updatedDescription = "Updated Rule description";

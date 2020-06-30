@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -76,27 +77,11 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         sharedFilesPage.clickCreateButton();
-        Assert.assertTrue(createContent.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        Assert.assertTrue(createContent.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        Assert.assertTrue(createContent.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(createContent.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(createContent.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(createContent.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create document from template"),
-            "Create... Create document from template is not displayed");
-        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
+        Assert.assertTrue(sharedFilesPage.areCreateOptionsAvailable(), "Create menu options are not available");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
-        createContent.clickPlainTextButton();
+        sharedFilesPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(createContent.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
-        Assert.assertTrue(createContent.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(createContent.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(createContent.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(createContent.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(createContent.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(createContent.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         createContent.sendInputForName(testName);
@@ -106,7 +91,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         createContent.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -141,16 +125,8 @@ public class CreateTests extends ContextAwareWebTest
         sharedFilesPage.clickCreateButton();
 
         LOG.info("Step 2: Click \"HTML...\" option.");
-        createContent.clickHTML();
+        sharedFilesPage.clickCreateContentOption(CreateMenuOption.HTML);
         Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(createContent.isCreateFormDisplayed(), "Create form is not displayed");
-        Assert.assertTrue(createContent.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(createContent.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(createContent.isHTMLContentFieldDisplayed(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(createContent.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(createContent.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(createContent.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         createContent.sendInputForName(testName);
@@ -160,8 +136,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         createContent.clickCreateButton();
-        getBrowser().waitInSeconds(1);
-        documentDetailsPage.renderedPage();
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -185,7 +159,6 @@ public class CreateTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreateXMLFile()
     {
-
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
@@ -195,16 +168,8 @@ public class CreateTests extends ContextAwareWebTest
         sharedFilesPage.clickCreateButton();
 
         LOG.info("Step 2: Click \"XML...\" option.");
-        createContent.clickXMLButton();
+        sharedFilesPage.clickCreateContentOption(CreateMenuOption.XML);
         Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(createContent.isCreateFormDisplayed(), "Create form is not displayed");
-        Assert.assertTrue(createContent.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(createContent.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(createContent.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(createContent.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(createContent.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(createContent.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         createContent.sendInputForName("C7938TestName");
@@ -214,7 +179,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         createContent.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -247,10 +211,10 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
         sharedFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create folder from template");
+        sharedFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
+        sharedFilesPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
@@ -283,17 +247,14 @@ public class CreateTests extends ContextAwareWebTest
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
-        Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
         LOG.info("STEP 1: Click 'Create' then 'Create document from template'.");
         sharedFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create document from template");
-        Assert.assertTrue(createContent.isTemplateDisplayed(fileTemplateName));
+        sharedFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_DOC_FROM_TEMPLATE);
+        Assert.assertTrue(sharedFilesPage.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(fileTemplateName, sharedFilesPage);
-        sharedFilesPage.refresh();
-        sharedFilesPage.renderedPage();
+        sharedFilesPage.clickOnTemplate(fileTemplateName, sharedFilesPage);
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
 
         LOG.info("Step 3: Login with testUser2 and navigate to Shared Files page.");
@@ -321,7 +282,7 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Document'.");
         sharedFilesPage.clickCreateButton();
-        createContent.clickGoogleDocsDoc();
+        sharedFilesPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_DOCUMENT);
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
@@ -363,7 +324,7 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Spreadsheet'");
         sharedFilesPage.clickCreateButton();
-        createContent.clickGoogleDocsSpreadsheet();
+        sharedFilesPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_SPREADSHEET);
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
         googleDocs.clickOkButtonOnTheAuthPopup();
@@ -405,7 +366,7 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
         sharedFilesPage.clickCreateButton();
-        createContent.clickGoogleDocsPresentation();
+        sharedFilesPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_PRESENTATION);
 
         googleDocs.clickOkButtonOnTheAuthPopup();
 

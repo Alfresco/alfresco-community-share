@@ -9,6 +9,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -113,8 +114,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Hover over 'Folder1' folder from 'Documents' list, then select 'View Details' option");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
         assertEquals(documentDetailsPage.getPropertyValue("Modifier:"), userContributor, "'Modifier' property value=");
 
@@ -136,8 +136,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP5: Mouse over folder name");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Edit properties"), "'Edit properties' option is displayed for " + folderName);
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, ItemActions.EDIT_PROPERTIES), "'Edit properties' option is displayed for " + folderName);
         assertFalse(documentLibraryPage.isMoreMenuDisplayed(folderName), folderName + " - 'More' menu is displayed.");
 
         cleanupAuthenticatedSession();

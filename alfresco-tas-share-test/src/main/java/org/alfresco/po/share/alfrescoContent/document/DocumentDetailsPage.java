@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -143,7 +144,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private WebElement downloadPreviousVersion;
     @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']")
     private WebElement revertButton;
-    @FindBy (xpath = "//iframe[contains(@title,'Rich Text Area')]")
+    @FindBy (css = "iframe[id*='comments']")
     private WebElement CommentTextArea;
     @FindBy (xpath = ".//span[contains(@class,'locked')]")
     private WebElement lockedMessage;
@@ -717,17 +718,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     }
 
     /**
-     * Verify if Document Library is opened
-     *
-     * @param siteName String - the name of the site
-     * @return true if opened
-     */
-    public boolean isDocumentLibraryOpened(String siteName)
-    {
-        return siteDashboardPage.getCurrentUrl().contains(siteName + "/documentlibrary");
-    }
-
-    /**
      * This method is used to get the list of files name
      *
      * @return foldersName
@@ -748,25 +738,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public String getContentText()
     {
-        String content;
-
-        try
-        {
-            browser.waitUntilElementVisible(contentText);
-            content = contentText.getText();
-        } catch (TimeoutException e1)
-        {
-            LOG.info(e1.toString());
-            try
-            {
-                content = contentError.getText();
-            } catch (NoSuchElementException e2)
-            {
-                LOG.info(e2.toString());
-                content = "Content not loaded";
-            }
-        }
-        return content;
+        return Utils.retry(() -> browser.waitUntilElementVisible(contentText).getText().trim(), DEFAULT_RETRY);
     }
 
     /**
@@ -814,8 +786,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public void clickDownloadPreviousVersion()
     {
-        browser.waitUntilElementClickable(downloadPreviousVersion, 6);
-        downloadPreviousVersion.click();
+        browser.waitUntilElementClickable(downloadPreviousVersion).click();
+        acceptAlertIfDisplayed();
     }
 
     public boolean isRevertButtonAvailable()
@@ -828,19 +800,21 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public void clickRevertButton()
     {
-        revertButton.click();
+        browser.waitUntilElementClickable(revertButton).click();
         browser.waitUntilElementVisible(okOnRevertPopup);
     }
 
     /**
-     * Method used to enter and add comment to an item - with retry
+     * Method used to enter and add comment to an item
      */
     public void addCommentToItem(String comment)
     {
-        if (browser.isElementDisplayed(CommentTextArea))
-            CommentTextArea.sendKeys(comment);
+        browser.switchTo().frame(browser.waitUntilElementVisible(CommentTextArea));
+        WebElement commentBody = browser.findElement(By.id("tinymce"));
+        Utils.clearAndType(commentBody, comment);
+        browser.switchTo().defaultContent();
 
-        addCommentButtonSave.click();
+        browser.waitUntilElementClickable(addCommentButtonSave).click();
     }
 
     public void clickAddCommentButton()

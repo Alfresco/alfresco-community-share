@@ -1,5 +1,8 @@
 package org.alfresco.share.security;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.common.DataProviderClass;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -7,9 +10,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Iulia.Burca

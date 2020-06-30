@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
+import org.alfresco.common.Timeout;
 import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.ContentAspects;
 import org.alfresco.dataprep.ContentService;
@@ -140,6 +141,29 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     {
         getBrowser().closeWindowAndSwitchBack();
     }
+
+    protected boolean isFileInDirectory(String fileName, String extension)
+    {
+        String downloadedFile = fileName;
+        if (extension != null)
+        {
+            // it takes a while to download folders
+            getBrowser().waitInSeconds((int) Timeout.SHORT.getTimeoutSeconds());
+            downloadedFile = fileName + extension;
+        }
+
+        File downloadDirectory = new File(testDataFolder);
+        File[] directoryContent = downloadDirectory.listFiles();
+
+        for (File aDirectoryContent : directoryContent)
+        {
+            if (aDirectoryContent.getName().equals(downloadedFile))
+            {
+                return true;
+            }
+        }
+
+        return false;    }
 
     @Override
     public String getPageObjectRootPackage()

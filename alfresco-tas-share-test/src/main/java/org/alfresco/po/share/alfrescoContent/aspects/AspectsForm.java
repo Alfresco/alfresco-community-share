@@ -155,6 +155,7 @@ public class AspectsForm extends ShareDialog
     public HtmlPage clickApplyChangesButton(HtmlPage pageToBeRendered)
     {
         saveButton.click();
+        waitUntilMessageDisappears();
         return pageToBeRendered.renderedPage();
     }
 

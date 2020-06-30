@@ -7,6 +7,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -58,7 +59,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Delete Document' link");
-        myFilesPage.clickDocumentLibraryItemAction(testFile, "Delete Document", deleteDialog);
+        myFilesPage.clickDocumentLibraryItemAction(testFile, ItemActions.DELETE_DOCUMENT, deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), testFile));
 
@@ -80,7 +81,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over the folder. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        myFilesPage.clickDocumentLibraryItemAction(folderName, "Delete Folder", deleteDialog);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER, deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));
 

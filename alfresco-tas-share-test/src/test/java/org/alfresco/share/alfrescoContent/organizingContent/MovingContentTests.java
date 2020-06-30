@@ -12,6 +12,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -63,7 +64,7 @@ public class MovingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("STEP1: Hover over the file.Click 'More...' menu. Click 'Move to...'");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Move to...", copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + docName + " to...", "Displayed pop-up=");
         LOG.info("STEP2: Set the destination to 'All Sites'. Select 'site1'");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
@@ -99,7 +100,7 @@ public class MovingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("STEP1: Hover over folder. From 'More...' menu, click 'Move to...' option");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName1, "Move to...", copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName1, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + folderName1 + " to...", "Displayed pop-up=");
         LOG.info("STEP2: Set the destination to 'All Sites'");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");

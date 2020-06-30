@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -55,7 +56,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(nonAdminUser);
 
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
-        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
+        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS, aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel is not diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedPanel(), "Currently Selected panel is not diaplyed");
@@ -78,7 +79,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(nonAdminUser);
 
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
-        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
+        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS, aspectsForm);
 
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addAspect("Classifiable");
@@ -87,7 +88,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
 
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton(repositoryPage);
-        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
+        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS, aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
@@ -103,7 +104,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
         repositoryPage.mouseOverContentItem(folderInRepoMainPath);
         Assert.assertEquals(repositoryPage.isMoreMenuDisplayed(folderInRepoMainPath), false);
-        Assert.assertEquals(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), false);
+        Assert.assertEquals(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, ItemActions.MANAGE_ASPECTS), false);
 
         cleanupAuthenticatedSession();
     }
@@ -120,7 +121,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
 
         repositoryPage.mouseOverContentItem(folderInRepoMainPath);
         Assert.assertTrue(repositoryPage.isMoreMenuDisplayed(folderInRepoMainPath), "More menu is not displayed");
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), "'Manage Aspects' action is not available.");
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, ItemActions.MANAGE_ASPECTS), "'Manage Aspects' action is not available.");
 
         cleanupAuthenticatedSession();
     }

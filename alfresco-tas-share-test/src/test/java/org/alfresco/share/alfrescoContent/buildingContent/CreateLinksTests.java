@@ -14,6 +14,7 @@ import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -99,8 +100,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
-        documentLibraryPage.mouseOverContentItem(fileName1);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
@@ -207,8 +207,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click \"Move to\" option");
-        documentLibraryPage.mouseOverContentItem(fileName1);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, language.translate("documentLibrary.contentActions.moveTo"), copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Move to\" dialog");
         assertFalse(copyMoveUnzipToDialog.isCreateLinkButtonDisplayed(), "'Move to...' dialog: 'Create Link' button is not displayed.");
@@ -220,8 +219,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
-        documentLibraryPage.mouseOverContentItem(fileName1);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Select a destination folder and click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
@@ -238,8 +236,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName2);
         LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.mouseOverContentItem(fileName2);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
         copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
@@ -248,8 +245,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(linkFile2), linkFile2 + " is displayed in destination of copy file, Shared Files.");
         LOG.info("STEP2: For the same content, click again 'Copy to' option, select a destination folder and click 'Create Link' button");
         documentLibraryPage.navigate(siteName2);
-        documentLibraryPage.mouseOverContentItem(fileName2);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
         copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
@@ -264,8 +260,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         String activity = name + " created link to " + fileName3 + " in " + siteName2;
         documentLibraryPage.navigate(siteName2);
         LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.mouseOverContentItem(fileName3);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName3, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName3, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
         copyMoveUnzipToDialog.clickSite(siteName2);
@@ -287,8 +282,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         String activity = name + " created link to " + fileName3;
         documentLibraryPage.navigate(siteName2);
         LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.mouseOverContentItem(fileName3);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName3, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName3, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
         copyMoveUnzipToDialog.clickSite(siteName2);

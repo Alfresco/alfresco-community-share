@@ -3,6 +3,7 @@ package org.alfresco.po.share.dashlet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -35,8 +36,7 @@ public class ConfigureSavedSearchDashletPopUp extends DashletPopUp
 
     public void setTitleField(String title)
     {
-        titleField.clear();
-        titleField.sendKeys(title);
+        Utils.clearAndType(titleField, title);
     }
 
     public void setSearchLimitField(String searchLimit)

@@ -1,5 +1,6 @@
 package org.alfresco.po.adminconsole.consoles;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -29,8 +30,7 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
 
     public String executeCommand(String command)
     {
-        cmd.clear();
-        cmd.sendKeys(command);
+        Utils.clearAndType(cmd, command);
         execute.click();
         return getResults();
     }

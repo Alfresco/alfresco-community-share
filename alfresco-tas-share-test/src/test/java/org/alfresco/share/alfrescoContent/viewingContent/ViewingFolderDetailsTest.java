@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -59,7 +60,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isHideFoldersMenuOptionDisplayed(), "Hide Folders menu option is not displayed");
 
         LOG.info("Step 3 - Hover over a folder (e.g. testFolder) in the file list in the document 'Library' and click on 'View Details' icon.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         assertTrue(documentDetailsPage.isFilePropertiesDetailsDisplayed(), "File Properties details are not displayed");
         assertTrue(documentDetailsPage.isFolderActionsPanelDisplayed(), "Folder actions panel is not displayed");
         assertTrue(documentDetailsPage.isSocialFeaturesActionsPanelDisplayed(), "Social features actions panel is not displayed");

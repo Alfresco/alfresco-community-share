@@ -12,6 +12,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
@@ -106,7 +107,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 
         LOG.info("STEP1: Verify folder's Properties list from 'Folder Actions' section");

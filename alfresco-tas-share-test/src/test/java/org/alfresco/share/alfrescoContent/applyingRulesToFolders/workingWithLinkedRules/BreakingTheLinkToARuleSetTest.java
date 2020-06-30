@@ -12,6 +12,7 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.LinkedToRule
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -57,7 +58,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
@@ -76,7 +77,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         editRulesPage.cleanupSelectedValues();
         LOG.info("Navigate to Manage Rule page for folder2");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES, manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
         LOG.info("Link rule of folder2 with rule of folder1");
@@ -91,7 +92,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder2");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES, manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
     }

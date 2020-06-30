@@ -14,6 +14,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -34,7 +35,6 @@ public class CategorizingContent extends ContextAwareWebTest
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
     private final String docWithCategory = String.format("docWithCategory%s", RandomData.getRandomAlphanumeric());
     private final String removeCategoryDoc = String.format("removeCategoryDoc%s", RandomData.getRandomAlphanumeric());
-    private final String editPropAction = "Edit Properties";
     private final String category = "Languages";
     private final String category2 = "Regions";
     @Autowired
@@ -79,7 +79,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, editPropAction, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName), "'Edit Properties' pop-up is displayed");
 
         LOG.info("STEP3: Click 'Select' button from 'Categories'");
@@ -105,7 +105,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Mouse hover the folder's name link. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, editPropAction, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), folderName), "'Edit Properties' pop-up is displayed");
 
         LOG.info("STEP3: Click 'Select' button from 'Categories'");
@@ -131,7 +131,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docWithCategory, editPropAction, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docWithCategory, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docWithCategory), "'Edit Properties' pop-up is displayed");
         assertTrue(editPropertiesDialog.isCategorySelected(category), "Precondition category is displayed in selected categories list.");
 
@@ -159,7 +159,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(removeCategoryDoc, editPropAction, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(removeCategoryDoc, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), removeCategoryDoc), "'Edit Properties' pop-up is displayed");
         assertTrue(editPropertiesDialog.isCategorySelected(category), "Precondition category is displayed in selected categories list.");
 

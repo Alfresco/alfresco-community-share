@@ -2,11 +2,9 @@ package org.alfresco.share.alfrescoConsoleTest;
 
 import org.alfresco.po.alfrescoconsoles.BulkImportConsolePage;
 import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**

@@ -28,9 +28,6 @@ public class DeleteDialog extends ShareDialog
     @FindBy (css = "#prompt_h + div.bd")
     private WebElement message;
 
-    /** "<object> has been deleted.." popup */
-    private static final By MESSAGE_DELETED = By.className("div.bd span.message");
-
     public String getHeader()
     {
         return dialogHeader.getText();
@@ -47,15 +44,7 @@ public class DeleteDialog extends ShareDialog
     public <T> SharePage clickDelete(SharePage page)
     {
         getBrowser().waitUntilElementClickable(deleteButton).click();
-        try
-        {
-            getBrowser().waitUntilElementVisible(MESSAGE_DELETED, Timeout.SHORT.getTimeoutSeconds());
-            getBrowser().waitUntilElementDisappears(MESSAGE_DELETED);
-        }
-        catch (TimeoutException exception)
-        {
-            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
-        }
+        waitUntilMessageDisappears();
 
         return (SharePage) page.renderedPage();
     }

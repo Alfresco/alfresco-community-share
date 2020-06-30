@@ -1,5 +1,6 @@
 package org.alfresco.po.adminconsole.emailservices;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
@@ -142,8 +143,7 @@ public class InboundEmailPage extends AdminConsolePage<InboundEmailPage>
 
     public void setAllowedSenders(String value)
     {
-        allowedSenders.clear();
-        allowedSenders.sendKeys(value);
+        Utils.clearAndType(allowedSenders, value);
     }
 
     public void clickEnabled()
@@ -154,14 +154,12 @@ public class InboundEmailPage extends AdminConsolePage<InboundEmailPage>
 
     public void setEmailServerDomain(String value)
     {
-        emailServerDomain.clear();
-        emailServerDomain.sendKeys(value);
+        Utils.clearAndType(emailServerDomain, value);
     }
 
     public void setUnknownUser(String value)
     {
-        unknownUser.clear();
-        unknownUser.sendKeys(value);
+        Utils.clearAndType(unknownUser, value);
     }
 
 

@@ -12,6 +12,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -65,7 +66,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP1: Hover over the file STEP2: Click 'More...' link. Click 'Delete Document' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Delete Document", deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.DELETE_DOCUMENT, deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), docName));
 
@@ -86,7 +87,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP1: Hover over the file. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderNameD, "Delete Folder", deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderNameD, ItemActions.DELETE_FOLDER, deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderNameD));
 
@@ -108,7 +109,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickFolderFromExplorerPanel(folderNameC);
 
         LOG.info("STEP1: Hover 'DelSubfolder' name from the content item list. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        documentLibraryPage.clickDocumentLibraryItemAction(subFolder, "Delete Folder", deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(subFolder, ItemActions.DELETE_FOLDER, deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), subFolder));
 

@@ -1,17 +1,16 @@
 package org.alfresco.ftp;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
+
+import java.io.IOException;
+import java.net.SocketException;
 
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-
-import java.io.IOException;
-import java.net.SocketException;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

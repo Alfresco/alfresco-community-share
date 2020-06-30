@@ -281,7 +281,7 @@
                     <include name="accessTheCalendarPage"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesOnlyTests">
+            <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesCreatedByOthersTests">
                 <methods>
                     <include name="cancelEditingContentLockedByOthers"/>
                     <include name="cancelEditingContentLockedBySelf"/>

@@ -9,9 +9,10 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
@@ -87,8 +88,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private WorkflowDetailsPage workflowDetailsPage;
     @Autowired
     private MyTasksPage myTasksPage;
-    @Autowired
-    private Download download;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -122,7 +121,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8938")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorCreateContent()
     {
         setupAuthenticatedSession(user, password);
@@ -130,16 +129,9 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: On the Document Library Page click on Create button.");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(documentLibraryPage.isCreateContentMenuDisplayed(), "Create content menu is not displayed");
         LOG.info("Step 2: From the Create Options menu select Create Plain Text.");
-        create.clickPlainTextButton();
+        documentLibraryPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
         LOG.info("Step 3: Provide input for: Name= 'C8938test', Title= 'C8938test', Description= 'C8938test' and click the 'Create' button.");
         create.sendInputForName("C8938test");
         create.sendInputForTitle("C8938test");
@@ -156,7 +148,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8939")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorUploadContent()
     {
         setupAuthenticatedSession(user, password);
@@ -171,24 +163,22 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8940")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorDownloadContent()
     {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testDocument from Document Library");
         documentLibraryPage.navigate(siteName);
-        getBrowser().waitInSeconds(5);
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFilePlainCreatedBySelf, "Download"), "\"Download\" is not available ");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFilePlainCreatedBySelf, ItemActions.DOWNLOAD), "\"Download\" is not available ");
         LOG.info("Step 2: Click the Download Button. Check the file was saved locally");
-        getBrowser().refresh();
-        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, "Download", documentLibraryPage);
-        download.acceptAlertIfDisplayed();
-        Assert.assertTrue(download.isFileInDirectory(textFilePlainCreatedBySelf, null), "The file was not found in the specified location");
+        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, ItemActions.DOWNLOAD, documentLibraryPage);
+        documentLibraryPage.acceptAlertIfDisplayed();
+        Assert.assertTrue(isFileInDirectory(textFilePlainCreatedBySelf, null), "The file was not found in the specified location");
     }
 
     @Bug (id = "SHA-2055", status = Status.FIXED)
     @TestRail (id = "C8941")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorViewInBrowser()
     {
         String fileName = "C8941" + RandomData.getRandomAlphanumeric();
@@ -196,22 +186,22 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View In Browser"), "\"View In Browser\" is not available ");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.VIEW_IN_BROWSER), "\"View In Browser\" is not available ");
         LOG.info("Step 2: Click 'View in browser.'");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "View In Browser", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.VIEW_IN_BROWSER, documentLibraryPage);
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent,
             "File content is not correct or file has not be opened in new window");
     }
 
     @TestRail (id = "C8947")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorEditInlineBySelf()
     {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 2: Click Edit in Alfresco.");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, language.translate("documentLibrary.contentActions.editInAlfresco"),
+        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, ItemActions.EDIT_IN_ALFRESCO,
             editInAlfrescoPage);
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName, updatedContent, updatedTitle, updatedDescription);
@@ -227,20 +217,19 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8948")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorEditInlineByOthers()
     {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 2: Click Edit in Alfresco.");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedByOtherUser, language.translate("documentLibrary.contentActions.editInAlfresco"),
+        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedByOtherUser, ItemActions.EDIT_IN_ALFRESCO,
             editInAlfrescoPage);
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName1, updatedContent1, updatedTitle1, updatedDescription1);
-        editInAlfrescoPage.renderedPage();
         editInAlfrescoPage.clickButton("Save");
-        documentLibraryPage.navigate(siteName);
+
         LOG.info("Step4: Click on testFile to open file and check content.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(updatedDocName1));
         documentLibraryPage.clickOnFile(updatedDocName1);
@@ -251,28 +240,28 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8957")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorCancelEditingBySelf()
     {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedBySelf), String.format("Document %s is not present", msWordFileCreatedBySelf));
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit Offline"), "Edit Offline is not available for " + msWordFileCreatedBySelf);
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, ItemActions.EDIT_OFFLINE), "Edit Offline is not available for " + msWordFileCreatedBySelf);
         LOG.info("Step 2& Step 3: Click edit offline and Check the testFile status in Document Library.");
-        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit Offline", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, ItemActions.EDIT_OFFLINE, documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.getInfoBannerText(msWordFileCreatedBySelf).contains("This document is locked"), documentLibraryPage.getInfoBannerText(msWordFileCreatedBySelf));
         LOG.info("Step 4: Mouse over testFile name and check available actions.");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Cancel Editing"), "Cancel Editing is not available for " + msWordFileCreatedBySelf);
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, ItemActions.CANCEL_EDITING), "Cancel Editing is not available for " + msWordFileCreatedBySelf);
         LOG.info("Step 5: Click Cancel editing action..");
-        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Cancel Editing", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, ItemActions.CANCEL_EDITING, documentLibraryPage);
         documentLibraryPage.navigate(siteName);
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(msWordFileCreatedBySelf), "Locked message is still displayed");
     }
 
 //    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8962")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorStartWorkflow()
     {
         setupAuthenticatedSession(user, password);
@@ -280,7 +269,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(startWorkflowFile), String.format("Document %s is not present", startWorkflowFile));
         LOG.info("Step 2: Click Start Workflow.");
-        documentLibraryPage.clickDocumentLibraryItemAction(startWorkflowFile, "Start Workflow", startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(startWorkflowFile, ItemActions.START_WORKFLOW, startWorkflowPage);
         LOG.info("Step 3: From the Select Workflow drop-down select New Task Workflow.");
         startWorkflowPage.selectAWorkflow("New Task");
         LOG.info("Step 4: On the new task workflow form provide the inputs and click on Start Workflow button.");
@@ -309,7 +298,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8942")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorUploadNewVersionSelfCreated()
     {
         String fileName = "C8942" + RandomData.getRandomAlphanumeric();
@@ -318,10 +307,10 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(
-            documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
+            documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.UPLOAD_NEW_VERSION),
             "Upload new version action is not available for " + fileName);
         LOG.info("Step 2: Click Upload New Version");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
         Assert.assertTrue(uploadContent.isUploadFilesToDialogDisplayed(), "Upload Files To Dialog is not displayed");
         LOG.info("Step 3: Select the updated version of testFile and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
@@ -339,7 +328,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8943")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorUploadNewVersionOtherUserCreated()
     {
         String fileName = "C8943" + RandomData.getRandomAlphanumeric();
@@ -348,10 +337,10 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(
-            documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
+            documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.UPLOAD_NEW_VERSION),
             "Upload new version action is not available for " + fileName);
         LOG.info("Step 2: Click Upload New Version");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
         Assert.assertTrue(uploadContent.isUploadFilesToDialogDisplayed(), "Upload Files To Dialog is not displayed");
         LOG.info("Step 3: Select the updated version of testFile and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath2, "comments", UploadContent.Version.Major);
@@ -377,7 +366,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedBySelf), String.format("Document %s is not present", msWordFileCreatedBySelf));
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         //    googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit in Google Docs™", googleDocsCommon);
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, ItemActions.EDIT_IN_GOOGLE_DOCS, googleDocsCommon);
         googleDocsCommon.clickOkButton();
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(googleDocsCommon.lockedIcon);
@@ -415,7 +404,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedByOther), String.format("Document %s is not present", msWordFileCreatedByOther));
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedByOther, "Edit in Google Docs™", googleDocsCommon);
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedByOther, ItemActions.EDIT_IN_GOOGLE_DOCS, googleDocsCommon);
         googleDocsCommon.clickOkButton();
         googleDocsCommon.confirmDocumentFormatUpgradeYes();
 
@@ -446,31 +435,31 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8945")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office", "tobefixed"})
+    @Test (groups = { TestGroup.SANITY, "user-roles", "office", "tobefixed"})
     public void editOnlineCreatedBySelf()
     {
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check available actions.");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit in Microsoft Office™"),
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, ItemActions.EDIT_IN_MICROSOFT_OFFICE),
             "Edit in Microsoft Office™ is not available");
         // TODO edit in MSOffice has not yet been automated
     }
 
     @TestRail (id = "C8946")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "office" })
     public void editOnlineCreatedByOtherUser()
     {
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit in Microsoft Office™ is one of the available actions");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedByOther, "Edit in Microsoft Office™"),
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedByOther, ItemActions.EDIT_IN_MICROSOFT_OFFICE),
             "Edit in Microsoft Office™ is not available");
         // TODO edit in MSOffice has not yet been automated
     }
 
     @TestRail (id = "C8949")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void editOfflineCreatedBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -478,13 +467,12 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit Offline"), "Edit Offline is not available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.EDIT_OFFLINE), "Edit Offline is not available");
         // TODO edit Offline has not yet been automated
     }
 
     @TestRail (id = "C8950")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
-
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void editOfflineCreatedByOtherUser()
     {
         String fileName = "C8950" + RandomData.getRandomAlphanumeric();
@@ -492,7 +480,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit Offline"), "Edit Offline is not available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.EDIT_OFFLINE), "Edit Offline is not available");
         // TODO edit Offline has not yet been automated
     }
 }

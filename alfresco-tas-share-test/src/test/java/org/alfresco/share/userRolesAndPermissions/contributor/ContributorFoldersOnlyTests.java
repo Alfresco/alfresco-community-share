@@ -7,18 +7,16 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -45,13 +43,9 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
-    private CreateContent createContent;
-    @Autowired
     private ManageRulesPage manageRulesPage;
     @Autowired
     private NewContentDialog newContentDialog;
-    @Autowired
-    private Notification notification;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -79,15 +73,12 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8874")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorCreateFolder()
     {
-        documentLibraryPage.navigate(site);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
-
         LOG.info("STEP1: Click on 'Create' button");
+        documentLibraryPage.navigate(site);
         documentLibraryPage.clickCreateButton();
-        assertTrue(documentLibraryPage.isCreateContentMenuDisplayed(), "'Create content' menu is displayed.");
 
         LOG.info("STEP2: Select 'Folder' option");
         documentLibraryPage.clickFolderLink();
@@ -96,57 +87,50 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         LOG.info("STEP3: Set input for name, title, description and click on Save button");
         newContentDialog.fillInDetails(folderName2, title, description);
         newContentDialog.clickSaveButton();
-        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
-        notification.waitUntilNotificationDisappears();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName2), String.format("Folder [%s] is displayed in Document Library.", folderName2));
     }
 
     @TestRail (id = "C8875")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page= ");
-
         LOG.info("STEP1: From \"Document View\" left side panel, click 'My Favorites'");
         documentsFilters.clickSidebarTag(tag);
         assertTrue(documentLibraryPage.isContentNameDisplayed(subFolderName), subFolderName + " is displayed in 'My Favorites'.");
 
         LOG.info("STEP2: Click 'More' menu for " + subFolderName + ", and verify presence of \"Locate Folder\" option");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.locateFolder")),
+        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, ItemActions.LOCATE_FOLDER),
             "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"), documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, ItemActions.LOCATE_FOLDER, documentLibraryPage);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 
     @TestRail (id = "C8876")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void manageRulesFolderSelfCreated()
     {
         documentLibraryPage.navigate(site);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName3, language.translate("documentLibrary.contentActions.manageRules")),
+        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName3, ItemActions.MANAGE_RULES),
             "'Manage Rules' option is displayed for " + folderName3);
 
         LOG.info("STEP2: Click 'Manage Rules' option for " + folderName3);
-        documentLibraryPage.mouseOverContentItem(folderName3);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName3, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName3, ItemActions.MANAGE_RULES, manageRulesPage);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
     }
 
     @TestRail (id = "C8877")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void manageRulesFolderCreatedByOther()
     {
         documentLibraryPage.navigate(site);
         documentLibraryPage.clickFolderFromExplorerPanel(folderName);
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
-        documentLibraryPage.clickMoreMenu(subFolderName);
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.manageRules")),
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, ItemActions.MANAGE_RULES),
             "'Manage Rules' option is displayed for " + subFolderName);
     }
 }

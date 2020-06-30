@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import org.alfresco.common.DataProviderClass;
 import org.alfresco.dataprep.SiteService;

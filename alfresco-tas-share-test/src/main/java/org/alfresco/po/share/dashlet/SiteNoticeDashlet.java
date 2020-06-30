@@ -2,6 +2,7 @@ package org.alfresco.po.share.dashlet;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.TinyMce.TinyMceColourCode;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -79,13 +80,11 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
      */
     public void setSiteNoticeDashletTitle(String title)
     {
-        titleInput.clear();
-        titleInput.sendKeys(title);
+        Utils.clearAndType(titleInput, title);
     }
 
     public String getSiteNoticeText()
     {
-
         String text = "";
         String text2;
         for (WebElement aNoticeText : noticeText)

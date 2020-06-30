@@ -1,5 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
+import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -35,8 +36,7 @@ public class EnterFeedURLPopUp extends DashletPopUp
 
     public void fillUrlField(String URL)
     {
-        urlField.clear();
-        urlField.sendKeys(URL);
+        Utils.clearAndType(urlField, URL);
     }
 
     public void selectNumberOfItemsToDisplay(String value)

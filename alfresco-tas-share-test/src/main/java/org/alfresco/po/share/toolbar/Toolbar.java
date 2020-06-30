@@ -5,6 +5,7 @@ import java.util.List;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.LoginPage;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -70,7 +71,7 @@ public class Toolbar extends HtmlPage
     @FindBy (css = "span.alfresco-buttons-AlfButton.confirmationButton.call-to-action.dijitButton")
     private WebElement searchButton;
 
-    @FindBy(id = "HEADER_MY_FILES")
+    @FindBy (id = "HEADER_MY_FILES")
     private WebElement myFilesButton;
 
     @Autowired
@@ -206,26 +207,17 @@ public class Toolbar extends HtmlPage
     /**
      * Type in toolbar
      */
-    public void searchInToolbar(String item)
+    public void searchInToolbar(String searchTerm)
     {
-        searchBoxInput.clear();
-        searchBoxInput.sendKeys(item);
+        Utils.clearAndType(searchBoxInput, searchTerm);
     }
 
     /**
      * Type in toolbar and press 'Enter'
      */
-    public SearchPage search(String keys)
+    public SearchPage search(String searchTerm)
     {
-        searchBoxInput.clear();
-        searchBoxInput.sendKeys(keys);
-        searchBoxInput.sendKeys(Keys.RETURN);
-
-        return (SearchPage) searchPage.renderedPage();
-    }
-
-    public SearchPage sendEnterAction()
-    {
+        searchInToolbar(searchTerm);
         searchBoxInput.sendKeys(Keys.RETURN);
 
         return (SearchPage) searchPage.renderedPage();
@@ -306,11 +298,5 @@ public class Toolbar extends HtmlPage
     public void clickMyFilesInToolbar()
     {
         myFilesButton.click();
-    }
-
-    public void searchWithoutEnter(String searchTerm)
-    {
-        searchBoxInput.clear();
-        searchBoxInput.sendKeys(searchTerm);
     }
 }

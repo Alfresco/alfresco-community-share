@@ -3,6 +3,7 @@ package org.alfresco.po.share;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
+import org.alfresco.common.Utils;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -85,8 +86,7 @@ public class LoginPage extends HtmlPage
      */
     public void typeUserName(String userName)
     {
-        usernameInput.clear();
-        usernameInput.sendKeys(userName);
+        Utils.clearAndType(usernameInput, userName);
     }
 
     public void autoCompleteUsername(String startCharsUser)
@@ -104,8 +104,7 @@ public class LoginPage extends HtmlPage
      */
     public void typePassword(String password)
     {
-        passwordInput.clear();
-        passwordInput.sendKeys(password);
+        Utils.clearAndType(passwordInput, password);
     }
 
     /**

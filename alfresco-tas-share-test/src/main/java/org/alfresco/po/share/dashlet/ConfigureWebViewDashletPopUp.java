@@ -1,5 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
+import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -25,14 +26,12 @@ public class ConfigureWebViewDashletPopUp extends DashletPopUp
 
     public void setLinkTitleField(String linkTitle)
     {
-        linkTitleField.clear();
-        linkTitleField.sendKeys(linkTitle);
+        Utils.clearAndType(linkTitleField, linkTitle);
     }
 
     public void setUrlField(String url)
     {
-        urlField.clear();
-        urlField.sendKeys(url);
+        Utils.clearAndType(urlField, url);
     }
 
     /**

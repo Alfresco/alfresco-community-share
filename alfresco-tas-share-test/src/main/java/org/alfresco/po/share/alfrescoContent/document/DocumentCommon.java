@@ -61,18 +61,6 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
         return browser.isElementDisplayed(activeWorkflowIcon);
     }
 
-    public boolean isAlertPresent()
-    {
-        try
-        {
-            browser.switchTo().alert();
-            return true;
-        } catch (NoAlertPresentException noAlertPresentException)
-        {
-            return false;
-        }
-    }
-
     /**
      * @return Details for Folders
      */

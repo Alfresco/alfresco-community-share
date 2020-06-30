@@ -5,6 +5,7 @@ import java.util.List;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -28,6 +29,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     @FindBy (css = "button[id$='_default-copyMoveTo-link-button']")
     private WebElement createLinkButton;
 
+    @RenderWebElement
     @FindBy (css = "button[id$='_default-copyMoveTo-ok-button']")
     private WebElement unzipCopyMoveButton;
 
@@ -89,7 +91,8 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 
     public SharePage clickCopyButton(SharePage page)
     {
-        getBrowser().waitUntilElementClickable(unzipCopyMoveButton, 3).click();
+        getBrowser().waitUntilElementClickable(unzipCopyMoveButton).click();
+        waitUntilMessageDisappears();
         return (SharePage) page.renderedPage();
     }
 
@@ -101,7 +104,8 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 
     public SharePage clickMoveButton(SharePage page)
     {
-        getBrowser().waitUntilElementClickable(unzipCopyMoveButton, 3).click();
+        getBrowser().waitUntilElementClickable(unzipCopyMoveButton).click();
+        waitUntilMessageDisappears();
         return (SharePage) page.renderedPage();
     }
 }

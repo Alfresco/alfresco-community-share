@@ -3,6 +3,7 @@ package org.alfresco.po.share.dashlet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -123,9 +124,7 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
 
     public void sendInputToSearchField(String inputText)
     {
-        getBrowser().waitUntilElementVisible(searchField);
-        searchField.clear();
-        searchField.sendKeys(inputText);
+        Utils.clearAndType(getBrowser().waitUntilElementVisible(searchField), inputText);
     }
 
     public boolean isResultDisplayed(String resultName)

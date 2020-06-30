@@ -9,6 +9,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -63,7 +64,6 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     @Bug (id = "ACE-5219", description = "view in Google Maps is not working")
     @TestRail (id = "C5921")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
-
     public void viewAFileOnGoogleMaps()
     {
         LOG.info("Step 1: Navigate to Document Library page");
@@ -79,7 +79,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
 
         LOG.info("Step 3: Click on View on Google Maps");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "View on Google Maps", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_ON_GOOGLE_MAPS, documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isFileOpenedInGoogleMaps(), "File is not opened in Google Maps");
         Assert.assertTrue(documentLibraryPage.isDocumentThumbnailDisplayedOnGoogleMaps(), "Document thumbnail is not displayed in Google Maps");
 

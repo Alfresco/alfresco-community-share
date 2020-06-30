@@ -1,7 +1,9 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import org.alfresco.common.Language;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -101,14 +103,12 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void typeName(String name)
     {
-        nameInputField.clear();
-        nameInputField.sendKeys(name);
+        Utils.clearAndType(nameInputField, name);
     }
 
     public void typeDescription(String description)
     {
-        descriptionInputField.clear();
-        descriptionInputField.sendKeys(description);
+        Utils.clearAndType(descriptionInputField, description);
     }
 
     public void clickIfCheckbox()
@@ -268,9 +268,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public void typeInputConfigText(String textBoxId, String condition)
     {
         WebElement element = browser.findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
-        element.clear();
-        element.sendKeys(condition);
-
+        Utils.clearAndType(element, condition);
     }
 
     public String getInputConfigText(String textBoxId)
@@ -321,7 +319,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
      */
     public void defineRule(String ruleName, String siteName, String sourceFolder, WhenRule whenRuleName, IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName, PerformActionList performActionName) {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(sourceFolder, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(sourceFolder, ItemActions.MANAGE_RULES, manageRulesPage);
         manageRulesPage.clickCreateRules();
         typeName(ruleName);
         selectWhenDropDownCondition(whenRuleName);

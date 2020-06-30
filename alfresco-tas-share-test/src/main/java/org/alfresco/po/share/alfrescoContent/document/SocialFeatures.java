@@ -91,6 +91,7 @@ public class SocialFeatures extends DocumentLibraryPage
     public void clickLikeButton(String fileName)
     {
         selectDocumentLibraryItemRow(fileName).findElement(likeButton).click();
+        getBrowser().waitUntilElementVisible(enabledLikeButton);
     }
 
     /**

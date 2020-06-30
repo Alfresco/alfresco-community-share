@@ -107,12 +107,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     {
         String folderName = "folder-C6935-" + random;
 
-        LOG.info("Step 1: Navigate to testSite's document library page.");
-        documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
-        assertEquals(documentLibraryPage.getCurrentSiteName(), siteName);
-
-        LOG.info("Step 2: Create any folder in the site's document library (e.g. testFolder).");
+        LOG.info("Step 1: Create any folder in the site's document library (e.g. testFolder).");
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "test folder is not displayed");
@@ -127,19 +122,17 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     public void checkAvailableOptionsForFile()
     {
         String docName = "docName-C6936-" + random;
-
         contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         LOG.info("Step 1: Navigate to testSite's document library page.");
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
-        assertEquals(documentLibraryPage.getCurrentSiteName(), siteName);
 
         LOG.info("Step 2: Create any file in the site's document library (e.g. testFile).");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " document is displayed");
 
         LOG.info("Step 3: Hover over the created file.");
-        List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "Edit Properties", "Upload New Version", "Edit in Alfresco",
+        List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "Edit " +
+                        "Properties", "Upload New Version", "Edit in Alfresco Share",
             "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
         assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
     }
@@ -161,8 +154,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Navigate to testSite's document library page.");
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
-        assertEquals(documentLibraryPage.getCurrentSiteName(), siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderNameC6938), folderNameC6938 + " is displayed");
 
         LOG.info("Step 2: Click on testFolder.");
@@ -172,7 +163,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile2C6938), testFile2C6938 + " is displayed in " + folderNameC6938);
 
         LOG.info("Step 3: Verify the breadcrumb path.");
-
         assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents, " + folderNameC6938 + "]", "Breadcrumb path is not correct");
     }
 }

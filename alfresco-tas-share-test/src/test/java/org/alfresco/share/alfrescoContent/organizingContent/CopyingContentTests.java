@@ -14,6 +14,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -34,7 +35,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     private final String lastName = "LastName";
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
-    private final String copyAction = "Copy to...";
+
     @Autowired
     private Toolbar toolbar;
     @Autowired
@@ -70,7 +71,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, copyAction, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
         LOG.info("STEP3: Set the destination to 'Shared Files'");
         copyMoveToDialog.clickDestinationButton("Shared Files");
@@ -101,7 +102,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, copyAction, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
         LOG.info("STEP3: Set the destination to 'Shared Files'");
         copyMoveToDialog.clickDestinationButton("Shared Files");
@@ -134,7 +135,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName1);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, copyAction, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
         LOG.info("STEP4: Set the destination to 'All Sites'");
         copyMoveToDialog.clickDestinationButton("All Sites");

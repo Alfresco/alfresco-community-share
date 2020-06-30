@@ -71,8 +71,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click 'Download' icon to download testFile");
         documentDetailsPage.clickOnDownloadButton();
-        String filePath = testDataFolder + docName;
-        Assert.assertTrue(new File(filePath).exists(), "File does not exist!");
+        Assert.assertTrue(isFileInDirectory(docName, null), "File does not exist!");
 
 
         LOG.info("STEP 4: Click 'Like' icon to like testFile then click on unlike");
