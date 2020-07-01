@@ -4,8 +4,10 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
+import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
+import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.Timeout;
 import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.ContentAspects;
@@ -16,8 +18,15 @@ import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.LoginPage;
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.exception.DataPreparationException;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.commons.httpclient.HttpState;
+import org.openqa.selenium.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,7 +35,7 @@ import org.testng.annotations.BeforeClass;
 /**
  * @author bogdan.bocancea
  */
-@ContextConfiguration ("classpath:alfresco-share-po-context.xml")
+@ContextConfiguration (classes = ShareTestContext.class)
 @Scope (value = "prototype")
 public abstract class ContextAwareWebTest extends AbstractWebTest
 {
@@ -60,6 +69,11 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     @Autowired
     protected Language language;
 
+    @Autowired
+    public DataUser dataUser;
+
+    @Autowired
+    public CmisWrapper cmisApi;
 
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
@@ -68,10 +82,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String adminPassword;
     protected String adminName;
     protected String domain;
-    protected String password;
+    protected String password = "password";
     protected String mainWindow;
-    @Autowired
-    LoginPage loginPage;
+
     @BeforeClass (alwaysRun = true)
     public void setup() throws DataPreparationException
     {
@@ -79,7 +92,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         adminPassword = properties.getAdminPassword();
         adminName = properties.getAdminName();
         domain = "@test.com";
-        password = "password";
         cleanupAuthenticatedSession();
     }
 
@@ -93,12 +105,22 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
      */
     protected void setupAuthenticatedSession(String userName, String password)
     {
+        loginViaCookies(userName, password);
+    }
+
+    public void setupAuthenticatedSession(UserModel userModel)
+    {
+        loginViaCookies(userModel.getUsername(), userModel.getPassword());
+    }
+
+    private void loginViaCookies(String userName, String password)
+    {
         cleanupAuthenticatedSession();
-        loginPage.navigate();
-        loginPage.login(userName,password);
-
-
-     //   getBrowser().authenticatedSession(userService.login(userName, password));
+        HttpState httpState = userService.login(userName, password);
+        getBrowser().navigate().to(properties.getShareUrl());
+        getBrowser().manage().deleteAllCookies();
+        getBrowser().manage().addCookie(new Cookie(httpState.getCookies()[0].getName(), httpState.getCookies()[0].getValue()));
+        getBrowser().refresh();
     }
 
     /**
@@ -117,10 +139,12 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
      */
     protected void navigate(String pageUrl)
     {
+        LOG.info(String.format("Navigate to: '%s'", pageUrl));
         try
         {
             getBrowser().navigate().to(properties.getShareUrl().toURI().resolve(pageUrl).toURL());
-        } catch (URISyntaxException | MalformedURLException me)
+        }
+        catch (URISyntaxException | MalformedURLException me)
         {
             throw new RuntimeException("Page url: " + pageUrl + " is invalid");
         }
@@ -162,8 +186,15 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
                 return true;
             }
         }
+        return false;
+    }
 
-        return false;    }
+    public FolderModel getUserHomeFolder(UserModel userModel)
+    {
+        FolderModel userFolder = new FolderModel(userModel.getUsername());
+        userFolder.setCmisLocation(Utility.buildPath(cmisApi.getUserHomesPath(), userModel.getUsername()));
+        return userFolder;
+    }
 
     @Override
     public String getPageObjectRootPackage()

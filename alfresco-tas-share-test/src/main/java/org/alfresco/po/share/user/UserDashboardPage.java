@@ -1,14 +1,17 @@
 package org.alfresco.po.share.user;
 
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
@@ -19,8 +22,10 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
 {
     @FindBy (id = "HEADER_CUSTOMIZE_USER_DASHBOARD")
     public WebElement customizeUserDashboard;
+
     @Autowired
     CustomizeUserDashboardPage customizeUserDashboardPage;
+
     @FindBy (css = "div[id$='get-started-panel-container']")
     private WebElement getStartedPanel;
 
@@ -56,7 +61,7 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     }
 
     /**
-     * Navigate to user dashbord for a specific user
+     * Navigate to user dashboard for a specific user
      *
      * @param userName String user name
      * @return {@link UserDashboardPage}
@@ -64,6 +69,18 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     public UserDashboardPage navigate(String userName)
     {
         setUserName(userName);
+        return navigate();
+    }
+
+    /**
+     * Navigate to user dashboard for a specific user
+     *
+     * @param userModel String user name
+     * @return {@link UserDashboardPage}
+     */
+    public UserDashboardPage navigate(UserModel userModel)
+    {
+        setUserName(userModel.getUsername());
         return navigate();
     }
 
@@ -164,5 +181,27 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     public boolean isCreateSiteDialogDisplayed()
     {
         return getBrowser().isElementDisplayed(By.id("CREATE_SITE_DIALOG"));
+    }
+
+    public UserDashboardPage assertPageIsOpened()
+    {
+        LOG.info("Assert User Dashboard page is opened");
+        Assert.assertTrue(browser.isElementDisplayed(customizeUserDashboard), "User home page is not opened");
+        return this;
+    }
+
+    public UserDashboardPage assertUserDashboardPageTitleIsCorrect()
+    {
+        LOG.info("Assert User Dashboard page title is correct");
+        Assert.assertEquals(getPageTitle(), language.translate("userDashboard.PageTitle"), "User dashboard page title is correct");
+        return this;
+    }
+
+    public UserDashboardPage assertPageHeaderIsCorrect(UserModel userModel)
+    {
+        LOG.info("Assert User Dashboard header title is correct");
+        Assert.assertEquals(getPageHeader(), String.format(language.translate("userDashboard.headerTitle"),
+            userModel.getFirstName(), userModel.getLastName()));
+        return this;
     }
 }

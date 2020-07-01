@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.alfresco.common.Language;
 import org.alfresco.common.Timeout;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -36,20 +37,30 @@ public abstract class SharePage<T> extends HtmlPage
     public static final By MESSAGE_LOCATOR = By.className("div.bd span.message");
 
     public String userName;
+
     @Autowired
     AboutPopUpPage pop;
+
+    @Autowired
+    public Language language;
+
     @RenderWebElement (state = ElementState.PAGE_LOADED)
     @FindBy (id = "Share")
     private WebElement body;
+
     @RenderWebElement (state = ElementState.PRESENT)
     @FindBy (id = "HEADER_TITLE")
     private TextBlock pageHeader;
+
     @FindBy (id = "HEADER_LOGO")
     private Image headerLogo;
+
     @FindBy (css = ".copyright>a>img")
     private WebElement alfrescoOneFooterLogo;
+
     @FindBy (id = "HEADER_USER_MENU_POPUP")
     private WebElement userMenu;
+
     @FindBy (id = "HEADER_USER_MENU_LOGOUT")
     private WebElement logoutLink;
 
@@ -86,7 +97,8 @@ public abstract class SharePage<T> extends HtmlPage
         {
             relativeURI = properties.getShareUrl().toURI().resolve(getRelativePath());
             return relativeURI.toURL();
-        } catch (URISyntaxException | MalformedURLException me)
+        }
+        catch (URISyntaxException | MalformedURLException me)
         {
             throw new RuntimeException("URI: " + relativeURI + " invalid url");
         }
@@ -98,7 +110,7 @@ public abstract class SharePage<T> extends HtmlPage
     @SuppressWarnings ("unchecked")
     public T navigate()
     {
-        getBrowser().waitInSeconds(WAIT_15_SEC);
+        //getBrowser().waitInSeconds(WAIT_15_SEC);
         STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
         browser.navigate().to(relativePathToURL());
         return (T) renderedPage();
@@ -190,7 +202,7 @@ public abstract class SharePage<T> extends HtmlPage
             Alert alert = browser.switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
-            browser.waitInSeconds(WAIT_5_SEC);
+            //browser.waitInSeconds(WAIT_5_SEC);
         }
         catch (NoAlertPresentException noAlertPresentException)
         {
