@@ -201,9 +201,7 @@ public class GroupsPage extends AdminToolsPage
 
     public WebElement getItemGroup(String name)
     {
-       /* List<WebElement> groups = browser.waitUntilElementsVisible(groupBy);
-        return browser.findFirstElementWithValue(groups, name);*/
-        return browser.findElement(By.xpath(String.format(groupRow, name)));
+        return browser.waitUntilElementVisible(By.xpath(String.format(groupRow, name)));
     }
 
     /**
@@ -308,8 +306,8 @@ public class GroupsPage extends AdminToolsPage
     public DeleteGroupDialog clickDeleteGroupButtonFromSecondColumn(String groupName)
     {
         WebElement element = getItemGroup(groupName);
-        browser.waitUntilElementVisible(element).click();
-        element.findElement(By.cssSelector(".groups-delete-button")).click();
+        element.click();
+        browser.waitUntilChildElementIsPresent(element, By.cssSelector(".groups-delete-button")).click();
         return (DeleteGroupDialog) deleteGroupDialog.renderedPage();
     }
 
