@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
+import org.alfresco.common.ShareTestContext;
 import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.ContentAspects;
 import org.alfresco.dataprep.ContentService;
@@ -24,7 +25,7 @@ import org.testng.annotations.BeforeClass;
 /**
  * @author iulia.burca
  */
-@ContextConfiguration ("classpath:alfresco-share-po-context.xml")
+@ContextConfiguration (classes = ShareTestContext.class)
 @Scope (value = "prototype")
 public abstract class ContextAwareWebAdminConsoleTest extends AbstractWebTest
 {

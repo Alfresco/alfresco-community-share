@@ -1,15 +1,15 @@
 package org.alfresco.po.share;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
+import org.alfresco.common.Language;
 import org.alfresco.common.Utils;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
@@ -21,6 +21,8 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 @PageObject
 public class LoginPage extends HtmlPage
 {
+    private final Language language;
+
     @FindBy (css = "[id$='default-username']")
     private WebElement usernameInput;
 
@@ -68,15 +70,35 @@ public class LoginPage extends HtmlPage
     @FindBy (css = "theme-company-logo.logo-ent")
     private WebElement oldLogo;
 
+    public LoginPage(Language language)
+    {
+        this.language = language;
+    }
+
     public String getRelativePath()
     {
         return "/page";
     }
 
-    public void navigate()
+    public LoginPage navigate()
     {
+        LOG.info("Navigate to Login Page");
         browser.navigate().to(properties.getShareUrl().toString());
-        renderedPage();
+        return (LoginPage) renderedPage();
+    }
+
+    public LoginPage assertPageIsOpened()
+    {
+        LOG.info("Assert Login Page is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(usernameInput), "Username input is displayed");
+        return this;
+    }
+
+    public LoginPage assertLoginPageTitleIsCorrect()
+    {
+        LOG.info("Assert Login Page Title is correct");
+        Assert.assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
+        return this;
     }
 
     /**
@@ -91,6 +113,7 @@ public class LoginPage extends HtmlPage
 
     public void autoCompleteUsername(String startCharsUser)
     {
+        LOG.info(String.format("Autocomplete user %s", startCharsUser));
         typeUserName(startCharsUser);
         browser.waitInSeconds(1);
         usernameInput.sendKeys(Keys.ARROW_DOWN);
@@ -120,14 +143,23 @@ public class LoginPage extends HtmlPage
      *
      * @param username to be filled in
      * @param password to be filled in
-     * @throws URISyntaxException
-     * @throws MalformedURLException
      */
     public void login(String username, String password)
     {
+        LOG.info(String.format("Login with user: %s and password: %s", username, password));
         typeUserName(username);
         typePassword(password);
         clickLogin();
+    }
+
+    /**
+     * Login on Share using login form
+     *
+     * @param userModel to be filled in
+     */
+    public void login(UserModel userModel)
+    {
+        login(userModel.getUsername(), userModel.getPassword());
     }
 
     /**
@@ -138,6 +170,22 @@ public class LoginPage extends HtmlPage
     public String getAuthenticationError()
     {
         return browser.waitUntilElementVisible(errorLogin).getText();
+    }
+
+    public LoginPage assertAuthenticationErrorIsDisplayed()
+    {
+        LOG.info("Assert authentication error is displayed");
+        browser.waitUntilElementVisible(errorLogin);
+        Assert.assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
+        return this;
+    }
+
+    public LoginPage assertAuthenticationErrorMessageIsCorrect()
+    {
+        LOG.info("Assert authentication error message is correct");
+        Assert.assertEquals(getAuthenticationError(), language.translate("login.authError"),
+            "Authentication error is correct");
+        return this;
     }
 
     /**

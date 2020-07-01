@@ -109,6 +109,7 @@ public class GroupsPage extends AdminToolsPage
     private By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
     private By deleteMessage = By.cssSelector("div[id='message_c'");
     private By browseNextPage = By.cssSelector("a[class='yui-pg-next']");
+    private String groupRow = "//div[@class='yui-columnbrowser-column-body']//span[text()='%s']/..";
 
     @Override
     public String getRelativePath()
@@ -200,8 +201,7 @@ public class GroupsPage extends AdminToolsPage
 
     public WebElement getItemGroup(String name)
     {
-        List<WebElement> groups = browser.waitUntilElementsVisible(groupBy);
-        return browser.findFirstElementWithValue(groups, name);
+        return browser.waitUntilElementVisible(By.xpath(String.format(groupRow, name)));
     }
 
     /**
@@ -305,12 +305,9 @@ public class GroupsPage extends AdminToolsPage
      */
     public DeleteGroupDialog clickDeleteGroupButtonFromSecondColumn(String groupName)
     {
-        List<String> items = getSecondColumnItemsList();
-        int index = items.indexOf(groupName);
-
-        browser.mouseOver(secondColumnItemsList.get(index));
-        deleteGroupButtonList.get(index).click();
-
+        WebElement element = getItemGroup(groupName);
+        element.click();
+        browser.waitUntilChildElementIsPresent(element, By.cssSelector(".groups-delete-button")).click();
         return (DeleteGroupDialog) deleteGroupDialog.renderedPage();
     }
 

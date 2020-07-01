@@ -12,10 +12,11 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
       <suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
-      <tas.utility.version>2.0.37</tas.utility.version>
       <maven-remote-resources.version>1.6.0</maven-remote-resources.version>
       <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
-      <tas.cmis.version>6.0.0.1</tas.cmis.version>
+      <tas.utility.version>3.0.22</tas.utility.version>
+      <tas.cmis.version>1.13</tas.cmis.version>
+      <tas.restapi.version>1.43</tas.restapi.version>
       <java.version>11</java.version>
    </properties>
 
@@ -55,12 +56,10 @@
                <groupId>org.testng</groupId>
                <artifactId>testng</artifactId>
             </exclusion>
-
             <exclusion>
                <groupId>seleniumhq.selenium</groupId>
                <artifactId>selenium-java</artifactId>
             </exclusion>
-
          </exclusions>
       </dependency>
 
@@ -70,20 +69,17 @@
          <version>3.2.2</version>
       </dependency>
 
-      <!--<dependency>
-         <groupId>org.alfresco.tas</groupId>
-         <artifactId>cmis-test</artifactId>
-         <version>${tas.cmis.version}</version>
-         <type>test-jar</type>
-         <scope>test</scope>
-      </dependency>-->
-
       <dependency>
          <groupId>org.alfresco.tas</groupId>
-         <artifactId>cmis-test</artifactId>
+         <artifactId>cmis</artifactId>
          <version>${tas.cmis.version}</version>
       </dependency>
 
+      <dependency>
+         <groupId>org.alfresco.tas</groupId>
+         <artifactId>restapi</artifactId>
+         <version>${tas.restapi.version}</version>
+      </dependency>
    </dependencies>
    <build>
       <pluginManagement>
@@ -164,7 +160,6 @@
                </execution>
             </executions>
          </plugin>
-
       </plugins>
    </build>
 </project>
