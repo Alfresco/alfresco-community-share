@@ -7,12 +7,16 @@ import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
+import static org.testng.Assert.*;
+
 /**
  * @author Bogdan.Bocancea
  */
 @PageObject
 public class AboutPopUpPage extends ShareDialog
 {
+    private final String alfrescoUrl = "https://www.alfresco.com/";
+
     @RenderWebElement
     @FindBy (css = ".about>.header:nth-child(1)")
     protected WebElement shareVersion;
@@ -35,7 +39,7 @@ public class AboutPopUpPage extends ShareDialog
     @FindBy (css = ".contributions-bg")
     protected WebElement contributions;
 
-    @FindBy (css = ".copy")
+    @FindBy (css = ".copy > span")
     protected TextBlock copyRight;
 
     @FindBy (css = ".copy>a:nth-child(2)")
@@ -130,5 +134,55 @@ public class AboutPopUpPage extends ShareDialog
     public void clickLegalAndLicenceLink()
     {
         legalAndLicenceLink.click();
+    }
+
+    public AboutPopUpPage assertClickAlfrescoLink()
+    {
+        clickAlfrescoLink();
+        getBrowser().switchWindow(1);
+        getBrowser().waitUrlContains(alfrescoUrl, 10);
+        assertEquals(getBrowser().getCurrentUrl(), alfrescoUrl, "Displayed URL=");
+        getBrowser().closeWindowAndSwitchBack();
+        return this;
+    }
+
+    public AboutPopUpPage assertClickLegalAndLicenseLink()
+    {
+        clickLegalAndLicenceLink();
+        getBrowser().switchWindow(1);
+        getBrowser().waitUrlContains("https://www.alfresco.com/", 10);
+        assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
+        getBrowser().closeWindowAndSwitchBack();
+        return this;
+    }
+
+    public AboutPopUpPage assertAlfrescoVersionIsDisplayed()
+    {
+        assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
+        return this;
+    }
+
+    public AboutPopUpPage assertShareVersionIsDisplayed()
+    {
+        assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
+        return this;
+    }
+
+    public AboutPopUpPage assertLicenseHolderIsNotEmpty()
+    {
+        assertFalse(getLicenseHolder().isEmpty(), "License holder is empty.");
+        return this;
+    }
+
+    public AboutPopUpPage assertCopyrightIsCorrect()
+    {
+        assertEquals(getCopyRight(), language.translate("about.copyRight"), "Copy right=");
+        return this;
+    }
+
+    public AboutPopUpPage assertContributionSectionIsDisplayed()
+    {
+        assertTrue(isContributionsDisplayed(), "Contributions is displayed.");
+        return this;
     }
 }

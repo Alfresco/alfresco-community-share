@@ -108,6 +108,7 @@ public class LoginPage extends HtmlPage
      */
     public void typeUserName(String userName)
     {
+        browser.waitUntilElementVisible(usernameInput);
         Utils.clearAndType(usernameInput, userName);
     }
 

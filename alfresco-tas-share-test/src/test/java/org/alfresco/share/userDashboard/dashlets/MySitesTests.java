@@ -109,7 +109,6 @@ public class MySitesTests extends ContextAwareWebTest
         mySitesDashlet.confirmDeleteSite("No");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName1), "Site is not available");
         siteService.delete(adminUser, adminPassword, siteName1);
-
     }
 
     @TestRail (id = "C2100")

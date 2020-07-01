@@ -124,6 +124,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     {
         Parameter.checkIsMandotary("Site name", siteName);
         WebElement siteRow = selectSiteDetailsRow(siteName);
+        browser.mouseOver(createSiteLink);
         browser.mouseOver(siteRow);
         siteRow.findElement(deleteButton).click();
     }

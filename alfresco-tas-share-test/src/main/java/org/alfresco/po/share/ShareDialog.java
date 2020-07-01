@@ -1,17 +1,22 @@
 package org.alfresco.po.share;
 
+import org.alfresco.common.Language;
 import org.alfresco.common.Timeout;
 import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Bogdan.Bocancea
  */
 public abstract class ShareDialog extends HtmlPage
 {
+    @Autowired
+    public Language language;
+
     @FindBy (css = "div.dijitDialog:not([style*='display: none']) .dijitDialogCloseIcon," +
             "div.yui-dialog:not([style*='visibility: hidden']) [class*='close']")
     protected WebElement closeButton;
