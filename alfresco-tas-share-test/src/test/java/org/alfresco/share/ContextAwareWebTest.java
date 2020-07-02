@@ -129,6 +129,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         getBrowser().manage().deleteAllCookies();
         getBrowser().manage().addCookie(new Cookie(httpState.getCookies()[0].getName(), httpState.getCookies()[0].getValue()));
         getBrowser().refresh();
+        getBrowser().waitInSeconds(1);
     }
 
     /**
