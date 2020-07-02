@@ -253,7 +253,7 @@ public class ToolbarTests extends ContextAwareWebTest
 
         getBrowser().switchWindow(1);
         getBrowser().waitUrlContains("https://docs.alfresco.com/", 5);
-        Assert.assertEquals(getBrowser().getTitle(), language.translate("alfrescoDocumentation.pageTitle"), "Page title");
+        Assert.assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         getBrowser().closeWindowAndSwitchBack();
 
         LOG.info("STEP 4 - Go to any other page from Share. Click on the \"User menu\" -> \"Use Current Page\" option");
