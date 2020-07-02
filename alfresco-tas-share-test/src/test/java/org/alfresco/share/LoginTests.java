@@ -101,6 +101,7 @@ public class LoginTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: In any browser, enter the URL for any page from Share in the address bar");
         navigate(String.format(dashBoardUrl, validUser.getUsername()));
+        loginPage.renderedPage();
         loginPage.assertPageIsOpened().login("user123", "wrongpass");
         loginPage.assertAuthenticationErrorIsDisplayed();
     }

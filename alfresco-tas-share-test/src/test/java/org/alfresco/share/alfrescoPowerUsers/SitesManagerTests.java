@@ -1,14 +1,6 @@
 package org.alfresco.share.alfrescoPowerUsers;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.alfresco.common.EnvProperties;
-import org.alfresco.dataprep.SiteService;
+import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -23,6 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
@@ -56,8 +53,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     private SiteDashboardPage siteDashboardPage;
     @Autowired
     private DeleteSiteDialog deleteSiteDialog;
-    @Autowired
-    private EnvProperties envProperties;
+
     @Autowired
     private SystemErrorPage systemErrorPage;
 
@@ -73,12 +69,12 @@ public class SitesManagerTests extends ContextAwareWebTest
         groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, siteAdmin);
         groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, user4);
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoAdminGroup, alfrescoAdmin);
-        siteService.create(siteAdmin, password, domain, site1, siteDescription, SiteService.Visibility.MODERATED);
-        siteService.create(siteAdmin, password, domain, site2, siteDescription, SiteService.Visibility.MODERATED);
-        siteService.create(siteAdmin, password, domain, site3, siteDescription, SiteService.Visibility.PRIVATE);
-        siteService.create(siteAdmin, password, domain, site4, siteDescription, SiteService.Visibility.PUBLIC);
-        siteService.create(siteAdmin, password, domain, site5, siteDescription, SiteService.Visibility.PUBLIC);
-        siteService.create(adminUser, adminPassword, domain, site6, siteDescription, SiteService.Visibility.PUBLIC);
+        siteService.create(siteAdmin, password, domain, site1, siteDescription, Visibility.MODERATED);
+        siteService.create(siteAdmin, password, domain, site2, siteDescription, Visibility.MODERATED);
+        siteService.create(siteAdmin, password, domain, site3, siteDescription, Visibility.PRIVATE);
+        siteService.create(siteAdmin, password, domain, site4, siteDescription, Visibility.PUBLIC);
+        siteService.create(siteAdmin, password, domain, site5, siteDescription, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, site6, siteDescription, Visibility.PUBLIC);
     }
 
     @AfterClass (alwaysRun = true)
@@ -116,8 +112,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void verifyPresenceInToolbarBasicUser()
     {
         setupAuthenticatedSession(user1, password);
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
-
         LOG.info("STEP1: Verify presence of 'Sites Manager' tab");
         assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
     }
@@ -135,9 +129,10 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.getTableHeader(), expectedTableHeader, "Site Manager table header=");
 
         LOG.info("STEP2: Verify " + site1 + " 's details");
-        assertEquals(sitesManagerPage.getSiteDescription(site1), siteDescription, site1 + " 's description=");
-        assertEquals(sitesManagerPage.getSiteVisibility(site1), "Moderated", site1 + " 's visibility=");
-        assertTrue(sitesManagerPage.isUserSiteManager(site1), site1 + " 's value of 'I'm a Site Manager'= Yes.");
+        sitesManagerPage.usingSite(site1)
+            .assertSiteDescriptionIs(siteDescription)
+            .assertSiteVisibilityIs(Visibility.MODERATED)
+            .assertSiteManagerIsYes();
     }
 
     @TestRail (id = "C8675")
@@ -148,16 +143,15 @@ public class SitesManagerTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(siteAdmin, password);
         sitesManagerPage.navigate();
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP1: Select " + visibility + " from \"Visibility\" dropdown for " + site2);
-        sitesManagerPage.updateSiteVisibility(site2, visibility);
-        assertTrue(sitesManagerPage.isSuccesIndicatorDisplayed(site2), "Update " + site2 + " visibility: Succes indicator is displayed.");
-        assertEquals(sitesManagerPage.getSiteVisibility(site2), visibility, site2 + " 's visibility on Sites Manager page=");
+        sitesManagerPage.usingSite(site2)
+            .changeSiteVisibility(Visibility.PUBLIC)
+            .assertSuccessIndicatorIsDisplayed()
+            .assertSiteVisibilityIs(Visibility.PUBLIC);
 
         LOG.info("STEP2: Navigate to " + site2 + " 's Dashboard");
         siteDashboardPage.navigate(site2);
-        assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         assertEquals(siteDashboardPage.getSiteVisibility(), visibility, site2 + " 's visibility on Site Dashboard page=");
     }
 
@@ -169,16 +163,15 @@ public class SitesManagerTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(siteAdmin, password);
         sitesManagerPage.navigate();
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP1: Select " + visibility + " from \"Visibility\" dropdown for " + site3);
-        sitesManagerPage.updateSiteVisibility(site3, visibility);
-        assertTrue(sitesManagerPage.isSuccesIndicatorDisplayed(site3), "Update " + site3 + " visibility: Succes indicator is displayed.");
-        assertEquals(sitesManagerPage.getSiteVisibility(site3), visibility, site3 + " 's visibility on Sites Manager page=");
+        sitesManagerPage.usingSite(site3)
+            .changeSiteVisibility(Visibility.MODERATED)
+            .assertSuccessIndicatorIsDisplayed()
+            .assertSiteVisibilityIs(Visibility.MODERATED);
 
         LOG.info("STEP2: Navigate to " + site3 + " 's Dashboard");
         siteDashboardPage.navigate(site3);
-        assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         assertEquals(siteDashboardPage.getSiteVisibility(), visibility, site3 + " 's visibility on Site Dashboard page=");
     }
 
@@ -187,19 +180,18 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void updateSiteVisibilityToPrivate()
     {
         String visibility = "Private";
-
+        dataSite.createPublicRandomSite();
         setupAuthenticatedSession(siteAdmin, password);
         sitesManagerPage.navigate();
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP1: Select " + visibility + " from \"Visibility\" dropdown for " + site4);
-        sitesManagerPage.updateSiteVisibility(site4, visibility);
-        assertTrue(sitesManagerPage.isSuccesIndicatorDisplayed(site4), "Update " + site4 + " visibility: Succes indicator is displayed.");
-        assertEquals(sitesManagerPage.getSiteVisibility(site4), visibility, site4 + " 's visibility on Sites Manager page=");
+        sitesManagerPage.usingSite(site4)
+            .changeSiteVisibility(Visibility.PRIVATE)
+            .assertSuccessIndicatorIsDisplayed()
+            .assertSiteVisibilityIs(Visibility.PRIVATE);
 
         LOG.info("STEP2: Navigate to " + site4 + " 's Dashboard");
         siteDashboardPage.navigate(site4);
-        assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         assertEquals(siteDashboardPage.getSiteVisibility(), visibility, site4 + " 's visibility on Site Dashboard page=");
     }
 
@@ -208,7 +200,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void verifyUserIsAddedToAlfrescoAdminGroup()
     {
         setupAuthenticatedSession(user2, password);
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Verify presence of 'Admin Tools' in toolbar");
         assertFalse(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
@@ -220,8 +211,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertTrue(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
 
         LOG.info("STEP3: Navigate to 'Admin Tools' from toolbar");
-        toolbar.clickAdminTools();
-        assertEquals(adminToolsPage.getPageTitle(), "Alfresco » Admin Tools", "Displayed page=");
+        toolbar.clickAdminTools();;
 
         LOG.info("STEP4: Click 'Sites Manager' option from left side panel");
         adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
@@ -233,7 +223,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void verifyUserIsAddedToSiteAdminGroup()
     {
         setupAuthenticatedSession(user3, password);
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Verify presence of 'Sites Manager' in toolbar");
         assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
@@ -254,7 +243,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void removeUserFromSiteAdmin()
     {
         setupAuthenticatedSession(user4, password);
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Verify presence of 'Sites Manager' in toolbar");
         assertTrue(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
@@ -275,14 +263,12 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void removeUserFromAlfrescoAdmin()
     {
         setupAuthenticatedSession(alfrescoAdmin, password);
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Verify presence of 'Admin Tools' in toolbar");
         assertTrue(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
 
         LOG.info("STEP2: Navigate to 'Admin Tools' from toolbar");
         toolbar.clickAdminTools();
-        assertEquals(adminToolsPage.getPageTitle(), "Alfresco » Admin Tools", "Displayed page=");
 
         LOG.info("STEP3: Click 'Sites Manager' option from left side panel");
         adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
@@ -301,31 +287,27 @@ public class SitesManagerTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(siteAdmin, password);
         sitesManagerPage.navigate();
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
-
-        LOG.info("STEP1: For " + site6 + ", click 'Actions' menu and select 'Become Site Manager' link");
-        sitesManagerPage.clickActionForManagedSiteRow(site6, language.translate("sitesManager.becomeSiteManager"), sitesManagerPage);
-        assertTrue(sitesManagerPage.isUserSiteManager(site6), "'I'm a Site Manager' value=Yes.");
+        sitesManagerPage.usingSite(site6).becomeSiteManager().assertSiteManagerIsYes();
     }
 
     @TestRail (id = "C8696")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void deleteSiteAsSiteAdmin()
     {
         setupAuthenticatedSession(siteAdmin, password);
         sitesManagerPage.navigate();
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP1: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.clickActionForManagedSiteRow(site5, "Delete Site", deleteSiteDialog);
+        sitesManagerPage.usingSite(site5).clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), site5));
 
         LOG.info("STEP3: Confirm site deletion by clicking 'Ok' button");
         deleteSiteDialog.clickDeleteFromSitesManager();
-        assertFalse(sitesManagerPage.isSiteDisplayed(site5), site5 + " is displayed in Sites Manager table.");
+        sitesManagerPage.waitForLoadingSitesMessageToDisappear();
+        sitesManagerPage.usingSite(site5).assertSiteIsNotDisplayed();
 
         LOG.info("STEP4: Navigate by link to " + site5 + " 's dashboard");
-        String url = envProperties.getShareUrl() + "/page/site/" + site5 + "/dashboard";
+        String url = properties.getShareUrl() + "/page/site/" + site5 + "/dashboard";
         getBrowser().navigate().to(url);
         assertEquals(systemErrorPage.getPageTitle(), "Alfresco Share » System Error", "Displayed page=");
     }

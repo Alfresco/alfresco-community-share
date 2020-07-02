@@ -41,9 +41,8 @@ public class DeleteSiteDialog extends ShareDialog
     private WebElement cancelFromSitesManager;
 
     @RenderWebElement
-    @FindBy (xpath = "//span[@id='ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label']//ancestor::span[contains(@class, 'dijitButtonNode')]")
+    @FindBy (css = "span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION']>span")
     private WebElement confirmFromSitesManager;
-
 
     private By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
 
@@ -100,10 +99,7 @@ public class DeleteSiteDialog extends ShareDialog
      */
     public SitesManagerPage clickDeleteFromSitesManager()
     {
-        browser.waitUntilElementClickable(confirmFromSitesManager);
-        deleteSiteConfirmFromSitesManager.click();
-        confirmFromSitesManager.click();
-
+        browser.waitUntilElementClickable(confirmFromSitesManager).click();
         browser.waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);
         return (SitesManagerPage) sitesManagerPage.renderedPage();
     }

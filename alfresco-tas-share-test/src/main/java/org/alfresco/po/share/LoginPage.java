@@ -26,6 +26,7 @@ public class LoginPage extends HtmlPage
     @FindBy (css = "[id$='default-username']")
     private WebElement usernameInput;
 
+    @RenderWebElement
     @FindBy (css = "[id$='default-password']")
     private WebElement passwordInput;
 
@@ -33,7 +34,6 @@ public class LoginPage extends HtmlPage
     @FindBy (css = "button[id$='_default-submit-button']")
     private WebElement submit;
 
-    @RenderWebElement
     @FindBy (css = ".theme-company-logo")
     private Image alfrescoLogo;
 
@@ -73,11 +73,6 @@ public class LoginPage extends HtmlPage
     public LoginPage(Language language)
     {
         this.language = language;
-    }
-
-    public String getRelativePath()
-    {
-        return "/page";
     }
 
     public LoginPage navigate()

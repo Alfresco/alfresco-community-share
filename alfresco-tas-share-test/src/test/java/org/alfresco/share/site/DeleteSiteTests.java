@@ -147,7 +147,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(userC2280, password);
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
-        siteFinderPage.navigateByMenuBar();
+        siteFinderPage.navigate();
         assertEquals(getBrowser().getTitle(), "Alfresco » Site Finder", "Site Finder page is displayed.");
 
         LOG.info("STEP2: Search for the created site");
@@ -169,7 +169,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP6: Click \"Yes\" button");
         deleteSiteDialog.clickYes();
-        siteFinderPage.searchSiteWithRetry(siteNameC2280_1);
+        siteFinderPage.searchSite(siteNameC2280_1);
         assertFalse(siteFinderPage.isSiteFound(siteNameC2280_1), "The site isn't displayed on \"Site Finder\" page.");
 
         LOG.info("STEP7: Search for the file created within the site");
@@ -190,7 +190,6 @@ public class DeleteSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(userC2280, password);
 
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
-        getBrowser().refresh();
         mySitesDashlet.clickDeleteSiteIconForSite(siteNameC2280_2);
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_2 + "''?"), true, "Confirm delete message is correct.");
@@ -330,33 +329,6 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-
-    @TestRail (id = "C2291")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void deleteSiteAsAdminFromSiteManager()
-    {
-        setupAuthenticatedSession(adminUser, adminPassword);
-
-        LOG.info("STEP1: Open \"Site Manager\" page");
-        sitesManagerPage.navigate();
-        assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
-
-        LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.clickActionForManagedSiteRow(siteNameC2291, "Delete Site", deleteSiteDialog);
-        assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteNameC2291));
-
-        LOG.info("STEP3: Confirm site deletion");
-        deleteSiteDialog.clickDeleteFromSitesManager();
-        assertFalse(sitesManagerPage.isSiteDisplayed(siteNameC2291), "The site " + siteNameC2291 + " should be deleted but it's still displayed in table.");
-
-        LOG.info("STEP4: Open the created site by link");
-        String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2291 + "/dashboard";
-        getBrowser().navigate().to(url);
-        assertEquals(systemErrorPage.getErrorHeader(), language.translate("systemError.header"), "Error message is displayed.");
-        cleanupAuthenticatedSession();
-    }
-
-
     @TestRail (id = "C2292")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeleteSiteFromSitesManager()
@@ -368,12 +340,12 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
 
         LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.clickActionForManagedSiteRow(siteNameC2292, "Delete Site", deleteSiteDialog);
+        sitesManagerPage.usingSite(siteNameC2292).clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteNameC2292));
 
         LOG.info("STEP3: Click \"Cancel\" button");
         deleteSiteDialog.clickCancelFromSitesManager();
-        assertEquals(sitesManagerPage.findManagedSiteRowByNameFromPaginatedResults(siteNameC2292).getSiteName().getText(), siteNameC2292, "Site is displayed.");
+        sitesManagerPage.usingSite(siteNameC2292).assertSiteIsDisplayed();
 
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2292 + "/dashboard";

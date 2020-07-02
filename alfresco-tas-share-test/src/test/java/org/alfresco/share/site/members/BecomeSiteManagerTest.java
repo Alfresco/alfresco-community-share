@@ -1,8 +1,5 @@
 package org.alfresco.share.site.members;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
@@ -13,6 +10,9 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/1/2016.
@@ -64,8 +64,6 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
         siteService.delete(adminUser, adminPassword, siteName);
-
-
     }
 
 
@@ -103,10 +101,8 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         sitesManager.navigate();
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is not available. Only 'Delete Site' action is available.");
-        assertFalse(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-            "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
-        assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Delete Site"),
-            "'Delete Site' action should be displayed when clicking on 'Actions' button.");
+        sitesManager.usingSite(siteName).assertBecomeManagerOptionIsNotAvailable()
+            .assertDeleteSiteOptionIsAvailable();
 
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
@@ -146,7 +142,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on 'Become Site Manager' action. Click again 'Site configuration options' icon.");
         siteDashboard.clickOptionInSiteConfigurationDropDown("Become Site Manager", siteDashboard);
-        siteDashboard.renderedPage();
+        siteDashboard.waitUntilMessageDisappears();
         siteDashboard.clickSiteConfiguration();
 
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
@@ -197,8 +193,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         sitesManager.navigate();
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
-        assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
+        sitesManager.usingSite(siteName).assertBecomeManagerOptionIsAvailable();
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
@@ -225,22 +220,13 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         sitesManager.navigate();
 
         LOG.info("STEP 2: Verify \"I'm a Site Manager\" column.");
-        assertFalse(sitesManager.isUserSiteManager(siteName), "'No' value is present in \"I'm a Site Manager\" column for '" + siteName + "'.");
-
-        LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'.");
-        assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
-
-        LOG.info("STEP 4: Click 'Become Site Manager' option then verify again \"I'm a Site Manager\" column.");
-        sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager", sitesManager);
-        assertTrue(sitesManager.isUserSiteManager(siteName), "'Yes' value is present in \"I'm a Site Manager\" column for '" + siteName + "'.");
-
-        LOG.info("STEP 5: Click again 'Actions' for '" + siteName + "'.");
-        assertFalse(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-            "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
+        sitesManager.usingSite(siteName).assertSiteManagerIsNo()
+            .becomeSiteManager()
+            .assertSiteManagerIsYes()
+            .assertBecomeManagerOptionIsNotAvailable();
 
         LOG.info("STEP 6: Click on the site's name.");
-        sitesManager.clickSiteNameLink(siteName);
+        sitesManager.usingSite(siteName).clickSiteName();
 
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
@@ -278,8 +264,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         sitesManager.navigate();
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
-        assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
+        sitesManager.usingSite(siteName).assertBecomeManagerOptionIsAvailable();
 
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
@@ -305,22 +290,12 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         sitesManager.navigate();
 
         LOG.info("STEP 2: Verify \"I'm a Site Manager\" column.");
-        assertFalse(sitesManager.isUserSiteManager(siteName), "'No' value is present in \"I'm a Site Manager\" column for '" + siteName + "'.");
-
-        LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'.");
-        assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
-
-        LOG.info("STEP 4: Click 'Become Site Manager' option then verify again \"I'm a Site Manager\" column.");
-        sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager", sitesManager);
-        assertTrue(sitesManager.isUserSiteManager(siteName), "'Yes' value is present in \"I'm a Site Manager\" column for '" + siteName + "'.");
-
-        LOG.info("STEP 5: Click again 'Actions' for '" + siteName + "'.");
-        assertFalse(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-            "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
-
-        LOG.info("STEP 6: Click on the site's name.");
-        sitesManager.clickSiteNameLink(siteName);
+        sitesManager.usingSite(siteName)
+            .assertSiteManagerIsNo()
+            .becomeSiteManager()
+            .assertBecomeManagerOptionIsNotAvailable()
+            .assertSiteManagerIsYes()
+            .clickSiteName();
 
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");

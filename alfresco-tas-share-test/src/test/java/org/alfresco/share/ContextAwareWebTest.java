@@ -20,6 +20,7 @@ import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.Utility;
+import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.FolderModel;
@@ -41,7 +42,7 @@ import org.testng.annotations.BeforeClass;
 public abstract class ContextAwareWebTest extends AbstractWebTest
 {
     @Autowired
-    protected EnvProperties properties;
+    public EnvProperties properties;
 
     @Autowired
     protected UserService userService;
@@ -72,6 +73,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     public DataUser dataUser;
+
+    @Autowired
+    public DataSite dataSite;
 
     @Autowired
     public CmisWrapper cmisApi;

@@ -176,7 +176,7 @@ public class AboutPopUpPage extends ShareDialog
 
     public AboutPopUpPage assertCopyrightIsCorrect()
     {
-        assertEquals(getCopyRight(), language.translate("about.copyRight"), "Copy right=");
+        assertTrue(getCopyRight().contains(language.translate("about.copyRight")) , "Copy right is correct");
         return this;
     }
 

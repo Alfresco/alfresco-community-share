@@ -153,7 +153,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2152")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewPhoto()
     {
         editUserPage.navigate(user);

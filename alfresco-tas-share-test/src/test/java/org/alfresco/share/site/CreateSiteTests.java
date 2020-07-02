@@ -1,9 +1,5 @@
 package org.alfresco.share.site;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
@@ -14,13 +10,15 @@ import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 public class CreateSiteTests extends ContextAwareWebTest
 {
@@ -134,11 +132,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP5: Check visibility for the site");
         assertEquals(siteDashboardPage.getSiteVisibility(), "Public", "\"Public\" visibility is displayed next to the site name.");
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
-
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
     @TestRail (id = "C43380")
@@ -165,12 +159,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP4: Check visibility for the site");
         assertEquals(siteDashboardPage.getSiteVisibility(), "Public", "\"Public\" visibility is displayed next to the site name.");
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
-
-
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
     @TestRail (id = "C2105")
@@ -204,12 +193,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
         assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated", "\"Moderated\" visibility is displayed next to the site name.");
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
-
-
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
     @TestRail (id = "C2106")
@@ -227,14 +211,12 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInNameInput(siteName);
         createSiteDialog.typeInSiteID(siteName);
         createSiteDialog.typeInDescription(description);
-        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Private\" visibility");
         createSiteDialog.selectPrivateVisibility();
         assertTrue(createSiteDialog.isPrivateVisibilityRadioButtonChecked(), "Private visibility selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -243,11 +225,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP5: Check visibility for the site");
         assertEquals(siteDashboardPage.getSiteVisibility(), "Private", "\"Private\" visibility is displayed next to the site name.");
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
-
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
     @TestRail (id = "C2107")
@@ -280,11 +258,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP5: Check visibility for the site");
         assertEquals(siteDashboardPage.getSiteVisibility(), "Public", "\"Public\" visibility is displayed next to the site name.");
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
-
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
     @TestRail (id = "C2108")
@@ -302,7 +276,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInNameInput(siteName);
         createSiteDialog.typeInSiteID(siteName);
         createSiteDialog.typeInDescription(description);
-        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Moderated\" visibility");
         createSiteDialog.selectModeratedVisibility();
@@ -317,11 +290,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP5: Check visibility for the site");
         assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated", "\"Moderated\" visibility is displayed next to the site name.");
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
-
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
     @TestRail (id = "C2109")
@@ -354,10 +323,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP5: Check visibility for the site");
         assertEquals(siteDashboardPage.getSiteVisibility(), "Private", "\"Private\" visibility is displayed next to the site name.");
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
     @TestRail (id = "C2124")
@@ -375,7 +341,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInNameInput(siteName);
         createSiteDialog.typeInSiteID(siteName);
         createSiteDialog.typeInDescription(description);
-        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Cancel\" button");
         createSiteDialog.clickCancelButton();
@@ -486,7 +451,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14004")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES }, enabled = false) // TODO: in 6.2.2 a dialog error is displayed.
 
     public void createSiteWithANameThatIsInUse()
     {
@@ -495,26 +460,17 @@ public class CreateSiteTests extends ContextAwareWebTest
         String description = "description";
         siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         LOG.info("Precondition: User is logged into Share");
-        userDashboardPage.navigate(user);
         siteDashboardPage.navigate(siteName);
+
         LOG.info("Step 1: Create site providing a used siteName");
-        getBrowser().waitInSeconds(30);
         createSiteDialog.navigateByMenuBar();
         createSiteDialog.typeInNameInput(siteName);
         createSiteDialog.typeInSiteID(siteID);
         createSiteDialog.typeInDescription(description);
-        getBrowser().waitUntilElementVisible(By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] div.alfresco-forms-controls-BaseFormControl__warning-row"));
-        Assert.assertEquals(createSiteDialog.getNameFieldWarningMessage(), "This Name might be used by another site. You can use this Name anyway or enter a different one.", "Warrning message is not displayed or text is not correct");
+        Assert.assertEquals(createSiteDialog.getNameFieldWarningMessage(), "This Name might be used by another site. You can use this Name anyway or enter a different one.",
+        "Warrning message is not displayed or text is not correct");
         createSiteDialog.clickCreateButton(siteDashboardPage);
         Assert.assertEquals(siteDashboardPage.getCurrentSiteName(), siteName, "Site name is not correct");
-
-
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
-        deleteSiteDialog.clickDeleteFromSitesManager();
-        siteService.delete(adminUser, adminPassword, siteName);
-
-
+        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 }

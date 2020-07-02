@@ -231,7 +231,7 @@ public class ToolbarTests extends ContextAwareWebTest
 
     //this test will fail if we are testing a non released version
     @TestRail (id = "C2864")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromTheUserMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -252,7 +252,7 @@ public class ToolbarTests extends ContextAwareWebTest
         toolbarUserMenu.clickHelp();
 
         getBrowser().switchWindow(1);
-
+        getBrowser().waitUrlContains("https://docs.alfresco.com/", 5);
         Assert.assertEquals(getBrowser().getTitle(), language.translate("alfrescoDocumentation.pageTitle"), "Page title");
         getBrowser().closeWindowAndSwitchBack();
 
@@ -465,6 +465,5 @@ public class ToolbarTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
         userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-
     }
 }

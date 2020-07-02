@@ -37,7 +37,7 @@ public class CreateSiteDialog extends ShareDialog
     private WebElement createSiteDialog;
 
     //@RenderWebElement
-    @FindBy (css = "span[id='CREATE_SITE_DIALOG_OK_label']")
+    @FindBy (id = "CREATE_SITE_DIALOG_OK")
     private WebElement createButton;
 
     @RenderWebElement
@@ -328,13 +328,15 @@ public class CreateSiteDialog extends ShareDialog
 
     public HtmlPage clickCreateButton(HtmlPage page)
     {
-        createButton.click();
+        browser.waitUntilElementHasAttribute(createButton,"aria-disabled", "false");
+        browser.waitUntilElementClickable(createButton).click();
         return page.renderedPage();
     }
 
     public void clickCreateButtonWithoutRenderer()
     {
-        createButton.click();
+        browser.waitUntilElementHasAttribute(createButton,"aria-disabled", "false");
+        browser.waitUntilElementClickable(createButton).click();
     }
 
     public void clickCancelButton()

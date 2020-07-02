@@ -30,6 +30,7 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
  */
 public abstract class SharePage<T> extends HtmlPage
 {
+    public static final int WAIT_1_SEC = 1;
     public static final int WAIT_5_SEC = 5;
     public static final int WAIT_15_SEC = 15;
     public static final int DEFAULT_RETRY = 3;
@@ -110,7 +111,7 @@ public abstract class SharePage<T> extends HtmlPage
     @SuppressWarnings ("unchecked")
     public T navigate()
     {
-        //getBrowser().waitInSeconds(WAIT_15_SEC);
+        getBrowser().waitInSeconds(WAIT_1_SEC);
         STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
         browser.navigate().to(relativePathToURL());
         return (T) renderedPage();
