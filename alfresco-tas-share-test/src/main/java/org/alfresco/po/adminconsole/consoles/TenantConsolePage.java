@@ -1,14 +1,16 @@
 package org.alfresco.po.adminconsole.consoles;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.po.adminconsole.Notifications;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.JmxBuilder;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+
+import java.util.Arrays;
+import java.util.List;
 
 @PageObject
 public class TenantConsolePage extends ConsolePage<TenantConsolePage>
@@ -44,9 +46,10 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result after creation
      * @throws Exception
      */
-    public String createTenant(String tenant, String password) throws Exception
+    public String createTenant(String tenant, String password)
     {
-        return executeCommand(String.format("create %s %s", tenant, password));
+        executeCommand(String.format("create %s %s", tenant, password));
+        return waitForResult(String.format("created tenant: %s", tenant.toLowerCase())).getText();
     }
 
     /**
@@ -58,9 +61,10 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result after creation
      * @throws Exception
      */
-    public String createTenant(String tenant, String password, String tenantRoot) throws Exception
+    public String createTenant(String tenant, String password, String tenantRoot)
     {
-        return executeCommand(String.format("create %s %s %s", tenant, password, tenantRoot));
+        executeCommand(String.format("create %s %s %s", tenant, password, tenantRoot));
+        return waitForResult(String.format("created tenant: %s", tenant)).getText();
     }
 
     /**
@@ -70,9 +74,10 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result after Delete tenant
      * @throws Exception
      */
-    public String deleteTenant(String tenant) throws Exception
+    public String deleteTenant(String tenant)
     {
-        return executeCommand(String.format("delete %s", tenant));
+        executeCommand(String.format("delete %s", tenant));
+        return waitForResult(String.format("Deleted tenant: %s", tenant.toLowerCase())).getText();
     }
 
     /**
@@ -82,9 +87,10 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result after Disabled tenant
      * @throws Exception
      */
-    public String disableTenant(String tenant) throws Exception
+    public String disableTenant(String tenant)
     {
-        return executeCommand(String.format("disable %s", tenant));
+        executeCommand(String.format("disable %s", tenant));
+        return waitForResult(String.format("Disabled tenant: %s", tenant.toLowerCase())).getText();
     }
 
     /**
@@ -94,9 +100,10 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result after Enable tenant
      * @throws Exception
      */
-    public String enableTenant(String tenant) throws Exception
+    public String enableTenant(String tenant)
     {
-        return executeCommand(String.format("enable %s", tenant));
+        executeCommand(String.format("enable %s", tenant));
+        return waitForResult(String.format("Enabled tenant: %s", tenant.toLowerCase())).getText();
     }
 
     /**
@@ -107,9 +114,10 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result after password of tenant was changed
      * @throws Exception
      */
-    public String changeAdminPasswordTenant(String tenant, String newPassword) throws Exception
+    public String changeAdminPasswordTenant(String tenant, String newPassword)
     {
-        return executeCommand(String.format("changeAdminPassword %s %s", tenant, newPassword));
+        executeCommand(String.format("changeAdminPassword %s %s", tenant, newPassword));
+        return getResults();
     }
 
     /**
@@ -118,9 +126,11 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result with all enabled/disabled tenants
      * @throws Exception
      */
-    public String showTenants() throws Exception
+    public String showTenants()
     {
-        return executeCommand("show tenants");
+        executeCommand("show tenants");
+        Utility.waitToLoopTime(1, "Wait for show tenants command");
+        return browser.waitUntilElementVisible(results).getText();
     }
 
     /**
@@ -130,9 +140,10 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
      * @return - result with only specified tenant
      * @throws Exception
      */
-    public String showTenant(String tenant) throws Exception
+    public String showTenant(String tenant)
     {
-        return executeCommand(String.format("enable %s", tenant));
+        executeCommand(String.format("enable %s", tenant));
+        return results.getText();
     }
 
     /**

@@ -186,7 +186,7 @@ public class GroupsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9471")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void searchForAGroup()
     {
         groupsPage.navigate();

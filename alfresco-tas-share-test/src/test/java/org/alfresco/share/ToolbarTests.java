@@ -228,7 +228,7 @@ public class ToolbarTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
     }
-    
+
     @TestRail (id = "C2864")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromTheUserMenu()

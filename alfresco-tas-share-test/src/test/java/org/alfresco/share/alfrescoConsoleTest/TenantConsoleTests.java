@@ -16,40 +16,25 @@ import org.testng.annotations.Test;
 public class TenantConsoleTests extends ContextAwareWebAdminConsoleTest
 {
     @Autowired
-    TenantConsolePage tenantConsolePage;
-
-    private String userName = "tenantUser" + RandomData.getRandomAlphanumeric();
-
-    @BeforeClass (alwaysRun = true)
-    public void testSetup()
-    {
-        userService.create(adminUser, adminPassword, userName, password, userName + "@test.com", "tenant", "user");
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void testCleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-    }
+    private TenantConsolePage tenantConsolePage;
 
     @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
-    public void tenantConsoleTest() throws Exception
+    public void tenantConsoleTest()
     {
         String tenantName = "tenant" + RandomData.getRandomAlphanumeric();
         LOG.info("Step 1: Navigate to Tenant Console");
 
         tenantConsolePage.navigate();
         Assert.assertTrue(tenantConsolePage.getPageTitle().startsWith(language.translate("tenantConsole.PageTitle")), "Page title is not empty");
-        LOG.info("Step 2: Create tenant");
-        tenantConsolePage.createTenant(tenantName, adminPassword);
-        Assert.assertEquals(tenantConsolePage.getResults().trim(), "created tenant: " + tenantName.toLowerCase(), tenantName + " has not been created");
-        tenantConsolePage.disableTenant(tenantName);
-        Assert.assertEquals(tenantConsolePage.getResults().trim(), "Disabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been disabled");
-        tenantConsolePage.enableTenant(tenantName);
-        Assert.assertEquals(tenantConsolePage.getResults().trim(), "Enabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been enabled");
-        tenantConsolePage.showTenants();
-        Assert.assertTrue(tenantConsolePage.getResults().contains("Enabled  - Tenant: " + tenantName.toLowerCase()), tenantName + " is not listed");
-        tenantConsolePage.deleteTenant(tenantName);
-        Assert.assertEquals(tenantConsolePage.getResults().trim(), "Deleted tenant: " + tenantName.toLowerCase(), tenantName + " has not been deleted");
+
+        Assert.assertEquals(tenantConsolePage.createTenant(tenantName, adminPassword).trim(),
+    "created tenant: " + tenantName.toLowerCase(), tenantName + " has not been created");
+        Assert.assertEquals(tenantConsolePage.disableTenant(tenantName).trim(),
+    "Disabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been disabled");
+        Assert.assertEquals(tenantConsolePage.enableTenant(tenantName).trim(),
+    "Enabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been enabled");
+        Assert.assertTrue(tenantConsolePage.showTenants().contains("Enabled  - Tenant: " + tenantName.toLowerCase()), tenantName + " is not listed");
+        Assert.assertEquals(tenantConsolePage.deleteTenant(tenantName).trim(),
+    "Deleted tenant: " + tenantName.toLowerCase(), tenantName + " has not been deleted");
     }
 }
