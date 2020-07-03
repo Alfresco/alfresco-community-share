@@ -228,8 +228,7 @@ public class ToolbarTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
     }
-
-    //this test will fail if we are testing a non released version
+    
     @TestRail (id = "C2864")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromTheUserMenu()
@@ -260,6 +259,7 @@ public class ToolbarTests extends ContextAwareWebTest
         userProfilePage.navigate(userName);
         toolbarUserMenu.clickSetCurrentPageAsHome();
         toolbarUserMenu.clickHome();
+        userProfilePage.renderedPage();
         Assert.assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
 
         LOG.info("STEP 5 - Click on the \"User menu\" -> \"Use My Dashboard\" option");

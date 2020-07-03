@@ -27,7 +27,7 @@ public class Toolbar extends HtmlPage
     @RenderWebElement
     @FindBy (id = "SHARE_HEADER")
     protected WebElement toolbar;
-    @FindBy (css = "[widgetid=\"HEADER_HOME\"]")
+    @FindBy (css = "div[widgetid='HEADER_HOME']")
     protected WebElement homeLink;
     @FindBy (id = "HEADER_MY_FILES_text")
     protected WebElement myFilesLink;

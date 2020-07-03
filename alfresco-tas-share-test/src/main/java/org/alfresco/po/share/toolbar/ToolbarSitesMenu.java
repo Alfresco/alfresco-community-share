@@ -41,99 +41,104 @@ public class ToolbarSitesMenu extends Toolbar
     @FindBy (id = "HEADER_SITES_MENU_FAVOURITES_dropdown")
     private WebElement favoriteDropDown;
 
-
     private By favoritesDropDown = By.id("HEADER_SITES_MENU_FAVOURITES_dropdown");
     private By addCurrentSiteToFavorites = By.id("HEADER_SITES_MENU_ADD_FAVOURITE_text");
     private By removeCurrentSiteFromFavorites = By.id("HEADER_SITES_MENU_REMOVE_FAVOURITE_text");
 
-    public boolean isRecentSitesSectionDisplayed()
+    public void clickSitesLinkAndWait()
     {
         sitesLink.click();
+        browser.waitUntilElementVisible(mySites);
+    }
+
+    public boolean isRecentSitesSectionDisplayed()
+    {
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(recentSitesSection);
     }
 
     public void clickRecentSite(String siteName)
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         browser.findFirstElementWithValue(recentSitesRowList, siteName).click();
     }
 
     public boolean isSiteInRecentSites(String siteName)
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return recentSitesRowList.size() > 0 && browser.findFirstElementWithValue(recentSitesRowList, siteName) != null;
     }
 
     public boolean isUsefulSectionDisplayed()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(usefulSection);
     }
 
     public boolean isMySitesDisplayed()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(mySites);
     }
 
     public void clickMySites()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         mySites.click();
     }
 
     public boolean isSiteFinderDisplayed()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(siteFinder);
     }
 
     public void clickSiteFinder()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         siteFinder.click();
     }
 
     public boolean isCreateSiteDisplayed()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(createSite);
     }
 
     public void clickCreateSite()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         createSite.click();
     }
 
     public boolean isFavoritesDisplayed()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(favorites);
     }
 
     public boolean isAddCurrentSiteToFavoritesDisplayed()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(addCurrentSiteToFavorites);
     }
 
     public boolean isRemoveCurrentSiteFromFavoritesDisplayed()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         return browser.isElementDisplayed(removeCurrentSiteFromFavorites);
     }
 
     public void clickAddCurrentSiteToFavorites()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         browser.findElement(addCurrentSiteToFavorites).click();
         browser.refresh();
     }
 
     public void clickRemoveCurrentSiteFromFavorites()
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         browser.findElement(removeCurrentSiteFromFavorites).click();
         browser.refresh();
     }
@@ -149,7 +154,7 @@ public class ToolbarSitesMenu extends Toolbar
      */
     public boolean isSiteFavorite(String siteName)
     {
-        if (!isSitesDopdownDisplayed())
+        if (!isSitesDropdownDisplayed())
         {
             sitesLink.click();
             browser.waitUntilElementVisible(sitesDopdown);
@@ -167,14 +172,14 @@ public class ToolbarSitesMenu extends Toolbar
      * @return true if Sites dropdown is displayed
      * false if Sites dropdown is displayed
      */
-    public boolean isSitesDopdownDisplayed()
+    public boolean isSitesDropdownDisplayed()
     {
         return browser.isElementDisplayed(sitesDopdown);
     }
 
     public void clickFavoriteSite(String siteName)
     {
-        sitesLink.click();
+        clickSitesLinkAndWait();
         favorites.click();
         browser.findFirstElementWithValue(favoriteSitesRowList, siteName).click();
     }
