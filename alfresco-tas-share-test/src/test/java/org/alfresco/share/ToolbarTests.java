@@ -352,6 +352,7 @@ public class ToolbarTests extends ContextAwareWebTest
 
         LOG.info("STEP 7 - Click on \"site1\" link");
         toolbarSitesMenu.clickFavoriteSite(siteName1);
+        siteDashboardPage.renderedPage();
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName1);
 
         LOG.info("STEP 8 - Verify again the \"Sites\" menu");
