@@ -51,10 +51,11 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     private String sameRoleUserA = String.format("sameRoleUserA%s", RandomData.getRandomAlphanumeric());
     private String sameRoleUserB = String.format("sameRoleUserB%s", RandomData.getRandomAlphanumeric());
     private String sameRoleUserC = String.format("sameRoleUserC%s", RandomData.getRandomAlphanumeric());
-    private String differentRoleUserA = String.format("differentRoleUserA%s", RandomData.getRandomAlphanumeric());
-    private String differentRoleUserB = String.format("differentRoleUserB%s", RandomData.getRandomAlphanumeric());
-    private String differentRoleUserC = String.format("differentRoleUserC%s", RandomData.getRandomAlphanumeric());
-    private String differentRoleUserD = String.format("differentRoleUserD%s", RandomData.getRandomAlphanumeric());
+    private String differentRoles = RandomStringUtils.randomAlphanumeric(7);
+    private String differentRoleUserA = String.format("%sA%s", differentRoles, RandomData.getRandomAlphanumeric());
+    private String differentRoleUserB = String.format("%sB%s", differentRoles, RandomData.getRandomAlphanumeric());
+    private String differentRoleUserC = String.format("%sC%s", differentRoles, RandomData.getRandomAlphanumeric());
+    private String differentRoleUserD = String.format("%sD%s", differentRoles, RandomData.getRandomAlphanumeric());
     private String removeUser = String.format("removeUser%s", RandomData.getRandomAlphanumeric());
 
 
@@ -369,7 +370,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.navigate(siteName);
 
         LOG.info("STEP 2: In the 'Search for users...' search box, enter 'differentRoleUser'. Click 'Search' button/ press 'Enter' key.");
-        addSiteUsersPage.searchForUser("differentRoleUser");
+        addSiteUsersPage.searchForUser(differentRoles);
         assertTrue(addSiteUsersPage.isUserDisplayedInSearchResults(differentRoleUserA), differentRoleUserA + " user is displayed in the search results.");
         assertTrue(addSiteUsersPage.isUserDisplayedInSearchResults(differentRoleUserB), differentRoleUserB + " user is displayed in the search results.");
         assertTrue(addSiteUsersPage.isUserDisplayedInSearchResults(differentRoleUserC), differentRoleUserC + " user is displayed in the search results.");

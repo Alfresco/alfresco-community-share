@@ -227,6 +227,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     public boolean isUserAddedToSite(String userName)
     {
+        browser.waitUntilElementsVisible(addedUsersRows);
         return browser.findFirstElementWithValue(addedUsersRows, userName) != null;
     }
 
