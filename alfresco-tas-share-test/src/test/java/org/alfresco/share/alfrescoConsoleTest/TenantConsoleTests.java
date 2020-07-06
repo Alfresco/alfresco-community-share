@@ -28,13 +28,13 @@ public class TenantConsoleTests extends ContextAwareWebAdminConsoleTest
         Assert.assertTrue(tenantConsolePage.getPageTitle().startsWith(language.translate("tenantConsole.PageTitle")), "Page title is not empty");
 
         Assert.assertEquals(tenantConsolePage.createTenant(tenantName, adminPassword).trim(),
-    "created tenant: " + tenantName.toLowerCase(), tenantName + " has not been created");
+            "created tenant: " + tenantName.toLowerCase(), tenantName + " has not been created");
         Assert.assertEquals(tenantConsolePage.disableTenant(tenantName).trim(),
-    "Disabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been disabled");
+            "Disabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been disabled");
         Assert.assertEquals(tenantConsolePage.enableTenant(tenantName).trim(),
-    "Enabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been enabled");
+            "Enabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been enabled");
         Assert.assertTrue(tenantConsolePage.showTenants().contains("Enabled  - Tenant: " + tenantName.toLowerCase()), tenantName + " is not listed");
         Assert.assertEquals(tenantConsolePage.deleteTenant(tenantName).trim(),
-    "Deleted tenant: " + tenantName.toLowerCase(), tenantName + " has not been deleted");
+            "Deleted tenant: " + tenantName.toLowerCase(), tenantName + " has not been deleted");
     }
 }

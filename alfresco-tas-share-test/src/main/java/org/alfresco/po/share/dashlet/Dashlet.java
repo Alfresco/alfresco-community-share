@@ -138,11 +138,12 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
      */
     public void resizeDashlet(int height, int scrolldown)
     {
-        WebElement resizeDash = null;
+        WebElement resizeDash;
         try
         {
             resizeDash = browser.findElement(By.xpath(String.format(resizeDashlet, this.getDashletTitle())));
-        } catch (NoSuchElementException ns)
+        }
+        catch (NoSuchElementException ns)
         {
             throw new PageOperationException(this.getDashletTitle() + " is not expandable");
         }
@@ -150,8 +151,6 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         {
             ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
         }
-
-
         browser.dragAndDrop(resizeDash, 0, height);
     }
 
@@ -167,7 +166,8 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         try
         {
             return Integer.valueOf(val);
-        } catch (NumberFormatException nf)
+        }
+        catch (NumberFormatException nf)
         {
             double dblVal = Double.parseDouble(val);
             return (int) dblVal;

@@ -1,17 +1,21 @@
 package org.alfresco.share.site;
 
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.rest.requests.Site;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -36,8 +40,13 @@ public class CreateSiteTests extends ContextAwareWebTest
 
     @Autowired
     SitesManagerPage sitesManagerPage;
+
+    @Autowired
+    private SiteFinderPage siteFinderPage;
+
     String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     String testSiteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+
     @Autowired
     private DeleteSiteDialog deleteSiteDialog;
 
@@ -52,8 +61,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     @AfterClass
     public void removeAddedFiles()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        removeUserFromAlfresco(new UserModel(user, password));
         siteService.delete(adminUser, adminPassword, testSiteName);
     }
 
@@ -116,7 +124,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInNameInput(siteName);
         createSiteDialog.typeInSiteID(siteName);
         createSiteDialog.typeInDescription(description);
-        // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Public\" visibility");
         createSiteDialog.selectPublicVisibility();
@@ -393,7 +400,6 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Fill in \"URL Name\" field with an existing site name and click \"Save\" button");
         createSiteDialog.typeSiteID(testSiteName);
-        createSiteDialog.clickCreateButtonWithoutRenderer();
         assertEquals(createSiteDialog.getUrlErrorMessage(), language.translate("siteDetails.urlError"), "Create site: Existent url error message displayed-");
 
         LOG.info("STEP5: Click \"OK\" button.");
@@ -451,26 +457,26 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14004")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES }, enabled = false) // TODO: in 6.2.2 a dialog error is displayed.
-
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createSiteWithANameThatIsInUse()
     {
-        String siteName = "C14004SiteName" + RandomData.getRandomAlphanumeric();
         String siteID = RandomData.getRandomAlphanumeric();
-        String description = "description";
-        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        LOG.info("Precondition: User is logged into Share");
-        siteDashboardPage.navigate(siteName);
+        SiteModel site = dataSite.usingUser(new UserModel(user, password)).createPublicRandomSite();
 
-        LOG.info("Step 1: Create site providing a used siteName");
+        // wait for solr index
+        siteFinderPage.navigate();
+        siteFinderPage.searchSiteWithRetry(site.getId());
+        assertTrue(siteFinderPage.checkSiteWasFound(site.getId()), "Site " + site.getId() + " is displayed in search result section");
+
+        userDashboardPage.navigate(user);
         createSiteDialog.navigateByMenuBar();
-        createSiteDialog.typeInNameInput(siteName);
-        createSiteDialog.typeInSiteID(siteID);
-        createSiteDialog.typeInDescription(description);
+        createSiteDialog.typeInNameInput(site.getTitle());
         Assert.assertEquals(createSiteDialog.getNameFieldWarningMessage(), "This Name might be used by another site. You can use this Name anyway or enter a different one.",
-        "Warrning message is not displayed or text is not correct");
+            "Warrning message is not displayed or text is not correct");
+        createSiteDialog.typeInSiteID(siteID);
+
         createSiteDialog.clickCreateButton(siteDashboardPage);
-        Assert.assertEquals(siteDashboardPage.getCurrentSiteName(), siteName, "Site name is not correct");
-        dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
+        Assert.assertEquals(siteDashboardPage.getSiteName(), site.getTitle(), "Site name is not correct");
+        dataSite.usingAdmin().deleteSite(site);
     }
 }

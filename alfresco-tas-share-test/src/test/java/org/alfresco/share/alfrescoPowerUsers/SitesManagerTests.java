@@ -11,6 +11,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -28,11 +29,7 @@ public class SitesManagerTests extends ContextAwareWebTest
 {
     private final String random = RandomData.getRandomAlphanumeric();
     private final String name = "name";
-    private final String user1 = "user1-" + random;
-    private final String user2 = "user2-" + random;
-    private final String user3 = "user3-" + random;
-    private final String user4 = "user4-" + random;
-    private final String siteAdmin = "siteAdmin-" + random;
+    private UserModel user1, user2, user3, user4, siteAdmin;
     private final String alfrescoAdmin = "alfrescoAdmin-" + random;
     private final String siteAdminGroup = "SITE_ADMINISTRATORS";
     private final String alfrescoAdminGroup = "ALFRESCO_ADMINISTRATORS";
@@ -43,14 +40,19 @@ public class SitesManagerTests extends ContextAwareWebTest
     private final String site5 = "site-C8696-" + random;
     private final String site6 = "site-C8689-" + random;
     private final String siteDescription = "Site Description";
+
     @Autowired
     private Toolbar toolbar;
+
     @Autowired
     private AdminToolsPage adminToolsPage;
+
     @Autowired
     private SitesManagerPage sitesManagerPage;
+
     @Autowired
     private SiteDashboardPage siteDashboardPage;
+
     @Autowired
     private DeleteSiteDialog deleteSiteDialog;
 
@@ -60,40 +62,31 @@ public class SitesManagerTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user1, password, domain, name, user1);
-        userService.create(adminUser, adminPassword, user2, password, domain, name, user2);
-        userService.create(adminUser, adminPassword, user3, password, domain, name, user3);
-        userService.create(adminUser, adminPassword, user4, password, domain, name, user4);
-        userService.create(adminUser, adminPassword, siteAdmin, password, domain, name, siteAdmin);
+        user1 = dataUser.usingAdmin().createRandomTestUser();
+        user2 = dataUser.createRandomTestUser();
+        user3 = dataUser.createRandomTestUser();
+        user4 = dataUser.createRandomTestUser();
+        siteAdmin = dataUser.createRandomTestUser();
         userService.create(adminUser, adminPassword, alfrescoAdmin, password, domain, name, alfrescoAdmin);
-        groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, siteAdmin);
-        groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, user4);
+        groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, siteAdmin.getUsername());
+        groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, user4.getUsername());
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoAdminGroup, alfrescoAdmin);
-        siteService.create(siteAdmin, password, domain, site1, siteDescription, Visibility.MODERATED);
-        siteService.create(siteAdmin, password, domain, site2, siteDescription, Visibility.MODERATED);
-        siteService.create(siteAdmin, password, domain, site3, siteDescription, Visibility.PRIVATE);
-        siteService.create(siteAdmin, password, domain, site4, siteDescription, Visibility.PUBLIC);
-        siteService.create(siteAdmin, password, domain, site5, siteDescription, Visibility.PUBLIC);
+        siteService.create(siteAdmin.getUsername(), password, domain, site1, siteDescription, Visibility.MODERATED);
+        siteService.create(siteAdmin.getUsername(), password, domain, site2, siteDescription, Visibility.MODERATED);
+        siteService.create(siteAdmin.getUsername(), password, domain, site3, siteDescription, Visibility.PRIVATE);
+        siteService.create(siteAdmin.getUsername(), password, domain, site4, siteDescription, Visibility.PUBLIC);
+        siteService.create(siteAdmin.getUsername(), password, domain, site5, siteDescription, Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, site6, siteDescription, Visibility.PUBLIC);
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        userService.delete(adminUser, adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-
-        userService.delete(adminUser, adminPassword, user3);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
-
-        userService.delete(adminUser, adminPassword, user4);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user4);
-
-        userService.delete(adminUser, adminPassword, siteAdmin);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteAdmin);
+        removeUserFromAlfresco(user1);
+        removeUserFromAlfresco(user2);
+        removeUserFromAlfresco(user3);
+        removeUserFromAlfresco(user4);
+        removeUserFromAlfresco(siteAdmin);
 
         userService.delete(adminUser, adminPassword, alfrescoAdmin);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + alfrescoAdmin);
@@ -111,7 +104,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyPresenceInToolbarBasicUser()
     {
-        setupAuthenticatedSession(user1, password);
+        setupAuthenticatedSession(user1);
         LOG.info("STEP1: Verify presence of 'Sites Manager' tab");
         assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
     }
@@ -120,7 +113,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifySiteManagerPage()
     {
-        setupAuthenticatedSession(siteAdmin, password);
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate();
         assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
@@ -141,7 +134,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     {
         String visibility = "Public";
 
-        setupAuthenticatedSession(siteAdmin, password);
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate();
 
         LOG.info("STEP1: Select " + visibility + " from \"Visibility\" dropdown for " + site2);
@@ -161,7 +154,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     {
         String visibility = "Moderated";
 
-        setupAuthenticatedSession(siteAdmin, password);
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate();
 
         LOG.info("STEP1: Select " + visibility + " from \"Visibility\" dropdown for " + site3);
@@ -181,7 +174,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     {
         String visibility = "Private";
         dataSite.createPublicRandomSite();
-        setupAuthenticatedSession(siteAdmin, password);
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate();
 
         LOG.info("STEP1: Select " + visibility + " from \"Visibility\" dropdown for " + site4);
@@ -199,19 +192,19 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyUserIsAddedToAlfrescoAdminGroup()
     {
-        setupAuthenticatedSession(user2, password);
+        setupAuthenticatedSession(user2);
 
         LOG.info("STEP1: Verify presence of 'Admin Tools' in toolbar");
         assertFalse(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
 
         LOG.info("STEP2: User1 is added to ALFRESCO_ADMINISTRATORS group. User logs out and logins to share.");
-        groupService.addUserToGroup(adminUser, adminPassword, alfrescoAdminGroup, user2);
+        groupService.addUserToGroup(adminUser, adminPassword, alfrescoAdminGroup, user2.getUsername());
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(user2, password);
+        setupAuthenticatedSession(user2);
         assertTrue(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
 
         LOG.info("STEP3: Navigate to 'Admin Tools' from toolbar");
-        toolbar.clickAdminTools();;
+        toolbar.clickAdminTools();
 
         LOG.info("STEP4: Click 'Sites Manager' option from left side panel");
         adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
@@ -222,15 +215,15 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyUserIsAddedToSiteAdminGroup()
     {
-        setupAuthenticatedSession(user3, password);
+        setupAuthenticatedSession(user3);
 
         LOG.info("STEP1: Verify presence of 'Sites Manager' in toolbar");
         assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
 
         LOG.info("STEP2: User is added to SITE_ADMINISTRATORS group. User logs out and logins to share.");
-        groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, user3);
+        groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, user3.getUsername());
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(user3, password);
+        setupAuthenticatedSession(user3);
         assertTrue(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
 
         LOG.info("STEP3: Click 'Sites Manager' from toolbar");
@@ -242,7 +235,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void removeUserFromSiteAdmin()
     {
-        setupAuthenticatedSession(user4, password);
+        setupAuthenticatedSession(user4);
 
         LOG.info("STEP1: Verify presence of 'Sites Manager' in toolbar");
         assertTrue(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
@@ -252,9 +245,9 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP3: User1 is removed from SITE_ADMINISTRATORS group. User1 logs out and logins to share.");
-        groupService.removeUserFromGroup(adminUser, adminPassword, siteAdminGroup, user4);
+        groupService.removeUserFromGroup(adminUser, adminPassword, siteAdminGroup, user4.getUsername());
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(user4, password);
+        setupAuthenticatedSession(user4);
         assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
     }
 
@@ -285,7 +278,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void siteAdminBecomeSitesManager()
     {
-        setupAuthenticatedSession(siteAdmin, password);
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate();
         sitesManagerPage.usingSite(site6).becomeSiteManager().assertSiteManagerIsYes();
     }
@@ -294,7 +287,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void deleteSiteAsSiteAdmin()
     {
-        setupAuthenticatedSession(siteAdmin, password);
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate();
 
         LOG.info("STEP1: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");

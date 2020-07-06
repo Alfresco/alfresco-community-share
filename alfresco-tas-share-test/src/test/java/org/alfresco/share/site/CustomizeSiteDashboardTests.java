@@ -9,7 +9,9 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -266,24 +268,23 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void resizeDashlet()
     {
-        String userName = "user2208-" + RandomData.getRandomAlphanumeric() + domain;
-        String siteName = String.format("C2208%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2208", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        UserModel user = dataUser.createRandomTestUser();
+        SiteModel site = dataSite.usingUser(user).createPublicRandomSite();
+
+        setupAuthenticatedSession(user.getUsername(), password);
 
         LOG.info("Step 1 - Open 'Site Dashboard' page for the created site.");
-        siteDashboard.navigate(siteName);
+        siteDashboard.navigate(site.getId());
 
         LOG.info("Step 2 - Resize any dashlet from the 'Site Dashboard',by dragging the bottom edge of the dashlet.");
         int sizeBefore = siteContentDashlet.getDashletHeight();
-        siteContentDashlet.resizeDashlet(300, 0);
+        siteContentDashlet.resizeDashlet(200, 0);
         int sizeAfter = siteContentDashlet.getDashletHeight();
         Assert.assertTrue(sizeBefore < sizeAfter, "Height is not changed");
 
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        dataUser.usingAdmin().deleteUser(user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user.getUsername());
 
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataSite.usingAdmin().deleteSite(site);
     }
 }

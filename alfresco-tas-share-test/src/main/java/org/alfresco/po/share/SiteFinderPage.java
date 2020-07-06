@@ -77,9 +77,12 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public void searchSiteWithRetry(String siteName)
     {
         int retry = 0;
-        while (retry < 10 && !isSiteFound(siteName))
+        searchSite(siteName);
+        boolean found = isSiteFound(siteName);
+        while (retry < 10 && !found)
         {
             searchSite(siteName);
+            found = isSiteFound(siteName);
             retry++;
             Utility.waitToLoopTime(1, String.format("Waiting for site %s to be found.", siteName));
         }

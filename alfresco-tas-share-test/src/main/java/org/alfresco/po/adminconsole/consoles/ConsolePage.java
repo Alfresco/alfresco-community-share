@@ -34,8 +34,10 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
 
     public void executeCommand(String command)
     {
-        Utils.clearAndType(cmd, command);
-        execute.click();
+        LOG.info(String.format("Execute command: %s", command));
+        cmd.clear();
+        cmd.sendKeys(command);
+        browser.waitUntilElementClickable(execute).click();
     }
 
     public String getResults()

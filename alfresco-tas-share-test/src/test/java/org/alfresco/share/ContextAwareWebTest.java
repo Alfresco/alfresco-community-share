@@ -20,6 +20,7 @@ import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.Utility;
+import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.exception.DataPreparationException;
@@ -76,6 +77,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     public DataSite dataSite;
+
+    @Autowired
+    public DataGroup dataGroup;
 
     @Autowired
     public CmisWrapper cmisApi;
@@ -203,6 +207,14 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         FolderModel userFolder = new FolderModel(userModel.getUsername());
         userFolder.setCmisLocation(Utility.buildPath(cmisApi.getUserHomesPath(), userModel.getUsername()));
         return userFolder;
+    }
+
+    public void removeUserFromAlfresco(UserModel user)
+    {
+        dataUser.usingAdmin().deleteUser(user);
+        FolderModel userFolder = new FolderModel(user.getUsername());
+        userFolder.setCmisLocation(Utility.buildPath(cmisApi.getUserHomesPath(), user.getUsername()));
+        cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(userFolder).deleteFolderTree();
     }
 
     @Override
