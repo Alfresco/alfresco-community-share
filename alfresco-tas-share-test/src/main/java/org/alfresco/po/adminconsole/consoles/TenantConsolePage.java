@@ -49,7 +49,8 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
     public String createTenant(String tenant, String password)
     {
         executeCommand(String.format("create %s %s", tenant, password));
-        return waitForResult(String.format("created tenant: %s", tenant.toLowerCase())).getText();
+        waitForResult(String.format("created tenant: %s", tenant.toLowerCase()));
+        return results.getText();
     }
 
     /**
@@ -64,7 +65,8 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
     public String createTenant(String tenant, String password, String tenantRoot)
     {
         executeCommand(String.format("create %s %s %s", tenant, password, tenantRoot));
-        return waitForResult(String.format("created tenant: %s", tenant)).getText();
+        waitForResult(String.format("created tenant: %s", tenant));
+        return results.getText();
     }
 
     /**
@@ -77,7 +79,8 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
     public String deleteTenant(String tenant)
     {
         executeCommand(String.format("delete %s", tenant));
-        return waitForResult(String.format("Deleted tenant: %s", tenant.toLowerCase())).getText();
+        waitForResult(String.format("Deleted tenant: %s", tenant.toLowerCase()));
+        return results.getText();
     }
 
     /**
@@ -90,7 +93,8 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
     public String disableTenant(String tenant)
     {
         executeCommand(String.format("disable %s", tenant));
-        return waitForResult(String.format("Disabled tenant: %s", tenant.toLowerCase())).getText();
+        waitForResult(String.format("Disabled tenant: %s", tenant.toLowerCase()));
+        return results.getText();
     }
 
     /**
@@ -103,7 +107,8 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
     public String enableTenant(String tenant)
     {
         executeCommand(String.format("enable %s", tenant));
-        return waitForResult(String.format("Enabled tenant: %s", tenant.toLowerCase())).getText();
+        waitForResult(String.format("Enabled tenant: %s", tenant.toLowerCase()));
+        return results.getText();
     }
 
     /**

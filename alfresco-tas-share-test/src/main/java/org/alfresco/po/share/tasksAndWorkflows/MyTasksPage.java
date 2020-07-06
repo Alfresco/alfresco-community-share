@@ -36,7 +36,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     StartWorkflowPage startWorkflowPage;
     @RenderWebElement
     @FindBy (css = "h2[id$='default-filterTitle']")
-    private WebElement activeTasksBar;
+    public WebElement activeTasksBar;
     @RenderWebElement
     @FindBy (css = ".alfresco-datatable.tasks")
     private WebElement tasksBody;

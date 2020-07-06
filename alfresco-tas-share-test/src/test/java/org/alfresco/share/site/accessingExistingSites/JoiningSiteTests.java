@@ -161,7 +161,8 @@ public class JoiningSiteTests extends ContextAwareWebTest
             siteFinderPage.clickSiteButton(siteNameC2831, "Request to Join");
             assertEquals(notification.getDisplayedNotification(), "Successfully requested to join site " + siteNameC2831);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2831);
-        } catch (TimeoutException e)
+        }
+        catch (TimeoutException e)
         {
             getBrowser().refresh();
             siteFinderPage.searchSiteWithRetry(siteNameC2831);

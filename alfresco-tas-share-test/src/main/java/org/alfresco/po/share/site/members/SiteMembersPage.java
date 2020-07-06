@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
+
+import static org.testng.Assert.assertTrue;
 
 @Primary
 @PageObject
@@ -36,6 +39,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     private By currentRoleButton = By.cssSelector("td[class*='role'] button");
     private By removeButton = By.cssSelector(".uninvite button");
     private By currentRole = By.cssSelector("td[class*='role'] div :first-child");
+    private String memberName = "td>a[href$='%s/profile']";
 
     @Override
     public String getRelativePath()
@@ -123,12 +127,17 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
      */
     public boolean isASiteMember(String name)
     {
-        for (String member : getSiteMembersList())
-        {
-            if (member.equals(name))
-                return true;
-        }
-        return false;
+        return getSiteMembersList().stream().anyMatch(member -> member.equals(name));
+    }
+
+    public boolean isSiteMember(UserModel userModel)
+    {
+        return isASiteMember(userModel.getFirstName() + " " + userModel.getLastName());
+    }
+
+    public void waitSiteMemberToDisappear(String siteMember)
+    {
+        browser.waitUntilElementDisappears(browser.findElement(By.cssSelector(String.format(memberName, siteMember))));
     }
 
     /**

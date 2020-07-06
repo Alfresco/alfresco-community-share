@@ -97,7 +97,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         groupService.inviteGroupToSite(adminUser, adminPassword, testSite.getTitle(), testGroup.getDisplayName(), "SiteManager");
         LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(testSite.getTitle());
-        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername() + " is not a member of " + testSite.getTitle());
+        assertTrue(siteUsersPage.isSiteMember(testUser));
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager ▾", testUser.getUsername() + " has role=");
         LOG.info("Step 2: Click on 'Groups' link");
         siteUsersPage.openSiteGroupsPage();
@@ -108,15 +108,14 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         siteGroupsPage.changeRoleForMember("Consumer", testGroup.getDisplayName());
         LOG.info("Step 4: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
         siteGroupsPage.openSiteUsersPage();
-        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()));
+        assertTrue(siteUsersPage.isASiteMember(testUser.getFirstName() + " " + testUser.getLastName()));
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Consumer ▾", testUser.getUsername() + " has role in " + testGroup.getDisplayName());
 
         siteService.delete(adminUser, adminPassword, testSite.getTitle());
-
     }
 
     @TestRail (id = "C2837")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeRoleForAnUser() throws DataPreparationException
     {
         LOG.info("Preconditions: Add the userTest to the created site with 'Manager' role");
@@ -124,7 +123,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         dataUser.addUserToSite(testUser, testSite, UserRole.SiteManager);
         LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(testSite.getTitle());
-        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername() + " is not a site member of " + testSite.getTitle());
+        assertTrue(siteUsersPage.isSiteMember(testUser), testUser.getUsername() + " is not a site member of " + testSite.getTitle());
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager ▾", testUser.getUsername() + " has role=");
         LOG.info("Step 2: Change the current role to 'Consumer'");
         siteUsersPage.changeRoleForMember("Consumer", testUser.getUsername());

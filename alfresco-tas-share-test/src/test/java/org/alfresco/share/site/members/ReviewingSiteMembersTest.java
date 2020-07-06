@@ -126,6 +126,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         siteUsersPage.clickSearch();
 
         LOG.info("Only: '" + user2 + "' is displayed");
+        siteUsersPage.waitSiteMemberToDisappear(user1);
         assertFalse(siteUsersPage.isASiteMember(user1 + " " + user1), "Member '" + user1 + "' is not expected to be present on the page.");
         assertTrue(siteUsersPage.isASiteMember(user2 + " " + user2), "Expected member '" + user2 + "' is present on the page.");
         assertFalse(siteUsersPage.isASiteMember(user3 + " " + user3), "Member '" + user3 + "' is not expected to be present on the page.");

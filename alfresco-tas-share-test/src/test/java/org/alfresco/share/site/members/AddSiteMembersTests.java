@@ -16,6 +16,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -56,6 +57,8 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     private String differentRoleUserD = String.format("differentRoleUserD%s", RandomData.getRandomAlphanumeric());
     private String removeUser = String.format("removeUser%s", RandomData.getRandomAlphanumeric());
 
+
+
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
@@ -86,7 +89,6 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     @AfterClass (alwaysRun = true)
     public void testCleanup()
     {
-
         userService.delete(adminUser, adminPassword, userManager1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager1);
 
@@ -130,7 +132,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2824")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "ExternalUsers" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultItemsFromAddUsersPage()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -145,13 +147,12 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         assertTrue(addSiteUsersPage.isSetUserRolePanelDisplayed(), "'Set User Role' panel is displayed.");
         assertTrue(addSiteUsersPage.isSetAllRolesToButtonDisplayed(), "'Set All Roles To' button is displayed.");
         assertTrue(addSiteUsersPage.isInfoIconDisplayed(), "'Info' icon is displayed.");
-        assertEquals(addSiteUsersPage.getSetUserRolePanelMessage(), language.translate("addUsersPage.setUserRolePanel.defaultMessage"), "Message is displayed in 'Set User Role' panel.");
-
+        assertEquals(addSiteUsersPage.getSetUserRolePanelMessage(), language.translate("addUsersPage.setUserRolePanel.defaultMessage"),
+            "Message is displayed in 'Set User Role' panel.");
         assertTrue(addSiteUsersPage.isAddUsersToSitePanelDisplayed(), "'Add Users to Site' panel is displayed.");
         assertFalse(addSiteUsersPage.isAddUsersButtonEnabled(), "'Add Users' button is disabled.");
-        assertEquals(addSiteUsersPage.getAddUsersToSitePanelMessage(), language.translate("addUsersPage.addUsersToSitePanel.defaultMessage"), "Message is displayed in 'Add Users to Site' panel.");
-
-        assertTrue(addSiteUsersPage.isAddExternalUsersPanelDisplayed(), "'...Add External Users' panel is displayed, with:\n a)'First Name:'\n b)'Last Name:'\n c) 'Email:'\n d) 'Add' button");
+        assertEquals(addSiteUsersPage.getAddUsersToSitePanelMessage(), language.translate("addUsersPage.addUsersToSitePanel.defaultMessage"),
+            "Message is displayed in 'Add Users to Site' panel.");
     }
 
     @Bug (id = "TBD0", description = "Alfresco Documentation is not yet available for 6.0")
@@ -169,7 +170,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click on 'See more' link.");
         addSiteUsersPage.clickSeeMoreLink();
-        assertEquals(getBrowser().getTitle(), "User roles and permissions | Alfresco Documentation", "Alfresco documentation page for 'User roles and permissions' is opened.");
+        Assert.assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
 
         LOG.info("STEP 4: Go back to 'Add Users' page and click 'x' button for 'Info' pop-up.");
         addSiteUsersPage.navigate(siteName);
@@ -198,7 +199,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.clickAddUsers();
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
+        addSiteUsersPage.assertTotalUserAddedIs(1);
         assertTrue(addSiteUsersPage.isUserAddedToSite(manager2Name), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(manager2Name), "Manager");
 
@@ -229,7 +230,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.clickAddUsers();
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
+        addSiteUsersPage.assertTotalUserAddedIs(1);
         assertTrue(addSiteUsersPage.isUserAddedToSite(collaboratorName), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(collaboratorName), "Collaborator");
 
@@ -261,7 +262,6 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.clickAddUsers();
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
         assertTrue(addSiteUsersPage.isUserAddedToSite(contributorName), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(contributorName), "Contributor");
 
@@ -293,7 +293,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.clickAddUsers();
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
+        addSiteUsersPage.assertTotalUserAddedIs(1);
         assertTrue(addSiteUsersPage.isUserAddedToSite(consumerName), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(consumerName), "Consumer");
 
@@ -305,7 +305,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "2413")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addMultipleUsersWithSameRole()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -340,7 +340,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 9: Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.clickAddUsers();
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 3");
+        addSiteUsersPage.assertTotalUserAddedIs(3);
         assertTrue(addSiteUsersPage.isUserAddedToSite(sameRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(sameRoleUserA), "Collaborator");
         assertTrue(addSiteUsersPage.isUserAddedToSite(sameRoleUserB), "User is added to site.");
@@ -382,7 +382,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserA, "Manager");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserA).contains("Manager"), differentRoleUserA + " has Manager role selected.");
         addSiteUsersPage.clickAddUsers();
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
+        addSiteUsersPage.assertTotalUserAddedIs(1);
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");
 
@@ -393,8 +393,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserB, "Collaborator");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserB).contains("Collaborator"), differentRoleUserB + " has Collaborator role selected.");
         addSiteUsersPage.clickAddUsers();
-        getBrowser().waitInSeconds(2);
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 2");
+        addSiteUsersPage.assertTotalUserAddedIs(2);
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserB), "User is added to site.");
@@ -407,8 +406,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserC, "Contributor");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserC).contains("Contributor"), differentRoleUserC + " has Contributor role selected.");
         addSiteUsersPage.clickAddUsers();
-        getBrowser().waitInSeconds(2);
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 3");
+        addSiteUsersPage.assertTotalUserAddedIs(3);
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserB), "User is added to site.");
@@ -423,8 +421,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserD, "Consumer");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserD).contains("Consumer"), differentRoleUserD + " has Consumer role selected.");
         addSiteUsersPage.clickAddUsers();
-        getBrowser().waitInSeconds(5);
-        assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 4");
+        addSiteUsersPage.assertTotalUserAddedIs(4);
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserB), "User is added to site.");
@@ -471,7 +468,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "2822")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchUsersFromAddUsersPage()
     {
         LOG.info("STEP 1: Navigate to the created site. Click on 'Add Users' icon.");
@@ -502,8 +499,6 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Enter more than 255 random characters in the 'search box' and click 'Search button'.");
         addSiteUsersPage.searchForUser(RandomStringUtils.randomAlphanumeric(256));
-        getBrowser().waitInSeconds(5);
         assertEquals(addSiteUsersPage.getSearchForUsersPanelMessage(), language.translate("addUsersPage.noUsersFound"), "'No users found' message is displayed in 'Search for users' panel.");
-
     }
 }

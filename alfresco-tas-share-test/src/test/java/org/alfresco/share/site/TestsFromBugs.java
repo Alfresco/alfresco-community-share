@@ -21,6 +21,7 @@ public class TestsFromBugs extends ContextAwareWebTest
 
     @Autowired
     SiteMembersDashlet siteMembersDashlet;
+
     @Autowired
     SiteDashboardPage siteDashboardPage;
 

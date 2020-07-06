@@ -285,7 +285,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9521")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed"  })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deactivateModel()
     {
         // Preconditions
@@ -425,6 +425,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String filePath = testDataFolder + "Marketing_content.zip";
         name = "Marketing_content";
         modelsList.add(name);
+
         // Precondition
         modelManagerPage.navigate();
         modelManagerPage.clickImportModel();

@@ -79,7 +79,7 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         this.outcomeApprove = "Approved";
         commentTextArea.sendKeys(comment);
         approveButton.click();
-        return page;
+        return (SharePage) page.renderedPage();
     }
 
     public <T> SharePage reject(String comment, SharePage<T> page)

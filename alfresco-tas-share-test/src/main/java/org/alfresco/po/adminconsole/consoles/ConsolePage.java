@@ -57,10 +57,10 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
         return "";
     }
 
-    public WebElement waitForResult(String result)
+    public void waitForResult(String result)
     {
         int retry = 0;
-        int retryCount = 40;
+        int retryCount = 60;
         WebElement resultElement = browser.findFirstElementWithValue(resultBy, result);
         while (retry < retryCount && resultElement == null)
         {
@@ -69,6 +69,5 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
             resultElement = browser.findFirstElementWithValue(resultBy, result);
         }
         LOG.info(String.format("Result is: '%s'", browser.findElement(resultBy).getText()));
-        return resultElement;
     }
 }

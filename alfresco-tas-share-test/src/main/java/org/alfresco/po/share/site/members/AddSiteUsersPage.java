@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 @PageObject
 public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
@@ -206,12 +207,22 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
             browser.waitUntilElementDisappears(waitPopup);
         }
         addUsersButton.click();
+        waitUntilMessageDisappears();
     }
 
     public String getAddedUsersTally()
     {
-        browser.waitUntilElementIsVisibleWithRetry(addedUsersTally, 3);
+        waitUntilMessageDisappears();
+        browser.waitUntilElementIsVisibleWithRetry(addedUsersTally, 10);
         return addedUsersBox.findElement(addedUsersTally).getText();
+    }
+
+    public AddSiteUsersPage assertTotalUserAddedIs(int nrOfUsers)
+    {
+        String value = language.translate("addUsersPage.addedUsersTally") + nrOfUsers;
+        browser.waitUntilElementContainsText(browser.findElement(addedUsersTally), value);
+        Assert.assertEquals(browser.findElement(addedUsersTally).getText(), value, "Total added user is correct");
+        return this;
     }
 
     public boolean isUserAddedToSite(String userName)
