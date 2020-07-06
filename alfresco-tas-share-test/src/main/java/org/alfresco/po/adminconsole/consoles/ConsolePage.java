@@ -68,6 +68,7 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
             Utility.waitToLoopTime(1, "Wait until tenant command is executed");
             resultElement = browser.findFirstElementWithValue(resultBy, result);
         }
+        LOG.info(String.format("Result is: '%s'", browser.findElement(resultBy).getText()));
         return resultElement;
     }
 }
