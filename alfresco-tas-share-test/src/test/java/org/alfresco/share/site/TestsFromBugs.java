@@ -25,7 +25,7 @@ public class TestsFromBugs extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true, enabled = false)
     public void setupTest()
     {
         siteService.create(adminUser, adminPassword, domain, siteName, "description", SiteService.Visibility.PUBLIC);
@@ -39,7 +39,7 @@ public class TestsFromBugs extends ContextAwareWebTest
     }
 
     @TestRail (id = "C277721")
-    @Test (groups = { TestGroup.SHARE, TestGroup.SITES })
+    @Test (groups = { TestGroup.SHARE, TestGroup.SITES }, enabled = false)
     public void moreThan100MembersAddedToSiteTest()
     {
         siteDashboardPage.navigate(siteName);

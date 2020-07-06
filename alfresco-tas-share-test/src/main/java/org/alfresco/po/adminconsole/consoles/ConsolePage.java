@@ -61,6 +61,7 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
     {
         int retry = 0;
         int retryCount = 60;
+        browser.waitUntilElementVisible(results, 60);
         WebElement resultElement = browser.findFirstElementWithValue(resultBy, result);
         while (retry < retryCount && resultElement == null)
         {
