@@ -23,6 +23,9 @@ public class LeaveSiteDialog extends ConfirmationDialog
     @FindBy (css = "div[id='ALF_SITE_SERVICE_DIALOG'] span[class$='alfresco-buttons-AlfButton'] span[id^='alfresco_buttons_AlfButton']")
     private Button dialogCancelButton;
 
+    @FindBy(css = ".footer span[class*='call-to-action'] span[role='button']")
+    private WebElement okButton;
+
     /**
      * Obtain the title of Leave Site dialog
      *
@@ -52,5 +55,12 @@ public class LeaveSiteDialog extends ConfirmationDialog
     public boolean isLeaveSiteDialogDisplayed()
     {
         return getBrowser().isElementDisplayed(dialogContainer);
+    }
+
+
+    public void clickOKButton()
+    {
+        okButton.click();
+        waitUntilMessageDisappears();
     }
 }

@@ -138,14 +138,13 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2461")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void approvingUsersUsingMyTasksPage()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         taskName = String.format("Request to join %s site", siteNameC2461);
         siteFinderPage.navigate();
         siteFinderPage.searchSiteWithRetry(siteNameC2461);
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2461));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2461, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
@@ -188,7 +187,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2462")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void approvingUsersUsingMyTasksDashlet()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
@@ -234,7 +233,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2463")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void rejectingUsersUsingMyTasksPage()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
@@ -342,7 +341,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2549")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagersApproveRejectRequestToJoinSite()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");

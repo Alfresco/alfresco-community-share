@@ -90,6 +90,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         {
             try
             {
+                leaveSiteDialog.renderedPage();
                 assertEquals(leaveSiteDialog.getDialogTitle(), dialogTitle, "Dialog title is not as expected.");
                 assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
                 assertTrue(leaveSiteDialog.isOkButtonDisplayed(), "Ok button should be displayed.");
@@ -129,6 +130,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         {
             try
             {
+                leaveSiteDialog.renderedPage();
                 assertEquals(leaveSiteDialog.getDialogTitle(), dialogTitle, "Dialog title is not as expected.");
                 assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
                 LOG.info("STEP 2: Click 'Cancel' button.");
@@ -152,7 +154,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2928")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void leaveSiteUsingSiteFinder()
     {
         siteName = String.format("SiteName-C2928-%s", RandomData.getRandomAlphanumeric());
@@ -175,7 +177,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2930")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void leaveSiteUsingSiteConfigurationOptions()
     {
         siteName = String.format("SiteName-C2930-%s", RandomData.getRandomAlphanumeric());
@@ -194,6 +196,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         {
             try
             {
+                leaveSiteDialog.renderedPage();
                 assertEquals(leaveSiteDialog.getDialogTitle(), dialogTitle, "Dialog title is not as expected.");
                 assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
                 LOG.info("STEP 2: Click 'OK' button.");
@@ -211,7 +214,6 @@ public class LeavingSiteTests extends ContextAwareWebTest
             }
         }
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C2931")
@@ -233,6 +235,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         {
             try
             {
+                leaveSiteDialog.renderedPage();
                 assertEquals(leaveSiteDialog.getDialogTitle(), dialogTitle, "Dialog title is not as expected.");
                 assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
                 LOG.info("STEP 2: Click Close (x) button.");

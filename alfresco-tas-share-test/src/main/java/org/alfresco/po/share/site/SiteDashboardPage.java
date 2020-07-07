@@ -156,7 +156,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
                 break;
             }
         }
-        waitUntilMessageDisappears();
+        //waitUntilMessageDisappears();
     }
 
     /**

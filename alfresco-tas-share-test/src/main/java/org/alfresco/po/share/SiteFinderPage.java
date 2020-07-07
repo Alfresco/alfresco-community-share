@@ -186,6 +186,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
                     browser.waitUntilElementDoesNotContainText(button, buttonName);
                 break;
             }
+        waitUntilMessageDisappears();
     }
 
     /**

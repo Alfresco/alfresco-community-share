@@ -16,7 +16,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 public class MovingAroundASiteTests extends ContextAwareWebTest
 {
     @Autowired
@@ -73,9 +72,8 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
 
     }
 
-    //this tests usually fails because of the draganddrop method
     @TestRail (id = "C3035")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAdditionalFeatures()
     {
         siteName = String.format("Site-C3035-%s", RandomData.getRandomAlphanumeric());
@@ -161,6 +159,5 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

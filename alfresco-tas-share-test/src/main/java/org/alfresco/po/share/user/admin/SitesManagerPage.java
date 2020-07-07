@@ -106,6 +106,10 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
                 listPagination.clickNextButton();
                 waitForLoadingSitesMessageToDisappear();
             }
+            else
+            {
+                break;
+            }
         }
         while (browser.findElements(siteRowsElements).size() > 0);
         return null;
@@ -169,7 +173,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
 
         public ManagerSiteAction assertSiteIsNotDisplayed()
         {
-            Assert.assertFalse(browser.isElementDisplayed(getSiteRow()), String.format("Site %s is displayed", siteName));
+            Assert.assertNull(getSiteRow(), String.format("Site %s is displayed", siteName));
             return this;
         }
 
