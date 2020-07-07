@@ -161,7 +161,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     {
         selectMember(userName).findElement(currentRoleButton).click();
         browser.selectOptionFromFilterOptionsList(newRole, dropDownOptionsList);
-        browser.waitInSeconds(3);
+        waitUntilMessageDisappears();
     }
 
     public boolean isPendingInvitesDisplayed()

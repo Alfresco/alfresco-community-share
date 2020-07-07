@@ -156,7 +156,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
                 break;
             }
         }
-        getBrowser().waitUntilElementDisappears(By.cssSelector("span.message"));
+        waitUntilMessageDisappears();
     }
 
     /**

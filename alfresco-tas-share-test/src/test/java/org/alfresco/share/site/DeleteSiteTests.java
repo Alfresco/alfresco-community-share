@@ -141,7 +141,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2280")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsManagerFromSiteFinder()
     {
         setupAuthenticatedSession(userC2280, password);
@@ -184,7 +184,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2286")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsManagerFromDashlet()
     {
         setupAuthenticatedSession(userC2280, password);

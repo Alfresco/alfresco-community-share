@@ -94,7 +94,9 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     {
         WebElement selectedTask = selectTask(taskName);
         browser.mouseOver(selectedTask);
-        selectedTask.findElement(editTaskLink).click();
+        WebElement editAction = selectedTask.findElement(editTaskLink);
+        browser.mouseOver(editAction);
+        browser.waitUntilElementClickable(editAction).click();
         return (EditTaskPage) editTaskPage.renderedPage();
     }
 

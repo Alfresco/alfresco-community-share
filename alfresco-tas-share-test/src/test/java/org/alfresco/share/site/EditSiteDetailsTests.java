@@ -55,7 +55,6 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C2210")
@@ -93,7 +92,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2211")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditSiteDetails()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");

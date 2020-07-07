@@ -159,6 +159,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         getBrowser().waitUntilElementVisible(pageElem);
         browser.scrollToElement(currentSitePagesArea);
         browser.dragAndDrop(pageElem, currentSitePagesArea);
+        browser.waitUntilElementVisible(By.cssSelector("ul[id$='default-currentPages-ul'] " + page.getCustomizeCssLocator()));
     }
 
     /**

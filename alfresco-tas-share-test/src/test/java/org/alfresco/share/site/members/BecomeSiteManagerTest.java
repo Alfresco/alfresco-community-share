@@ -198,7 +198,6 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C2854")

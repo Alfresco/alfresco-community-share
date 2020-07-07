@@ -19,6 +19,7 @@ import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Claudia Agache on 7/1/2016.
@@ -53,6 +54,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     private List<WebElement> dropdownOptionsList;
 
     private By sitesLoadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
+    private By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
 
     @Override
     public String getRelativePath()
@@ -89,9 +91,9 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
      */
     public WebElement findManagedSiteRowByNameFromPaginatedResults(String siteName)
     {
-        List<WebElement> siteList = browser.findElements(By.cssSelector("tr.alfresco-lists-views-layouts-Row"));
         do
         {
+            List<WebElement> siteList = browser.findElements(siteRowsElements);
             for(WebElement siteRow : siteList)
             {
                 if(siteRow.getText().contains(siteName))
@@ -99,9 +101,13 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
                     return siteRow;
                 }
             }
-            listPagination.clickNextButton();
+            if(listPagination.hasNextPage())
+            {
+                listPagination.clickNextButton();
+                waitForLoadingSitesMessageToDisappear();
+            }
         }
-        while (listPagination.hasNextPage());
+        while (browser.findElements(siteRowsElements).size() > 0);
         return null;
     }
 
@@ -140,6 +146,8 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         private By successIndicator = By.cssSelector(".indicator.success");
         private By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
         private String siteAction = "div.dijitPopup[style*=visible] tr[title='%s']";
+
+        private WebElement siteRowElement;
 
         public ManagerSiteAction(SitesManagerPage sitesManagerPage, String siteName, DeleteSiteDialog deleteSiteDialog)
         {

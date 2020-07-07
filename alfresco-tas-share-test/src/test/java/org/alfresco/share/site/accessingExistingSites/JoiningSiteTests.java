@@ -1,9 +1,5 @@
 package org.alfresco.share.site.accessingExistingSites;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.SiteFinderPage;
@@ -18,12 +14,13 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/7/2016.
@@ -95,7 +92,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2823")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void joinPublicSiteFromSiteFinderPage()
     {
         setupAuthenticatedSession(user2, password);
@@ -191,7 +188,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C3059")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, })
     public void requestToJoinModeratedSiteFromSiteDashboardPage()
     {
         String dialogMessage = String.format(language.translate("requestToJoin.dialogMessage"), siteNameC3059);
@@ -202,20 +199,14 @@ public class JoiningSiteTests extends ContextAwareWebTest
         siteDashboardPage.clickSiteConfiguration();
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
         LOG.info("STEP 3: Click 'Request to Join' button.");
-        try
-        {
-            siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join", requestSentDialog);
-            assertEquals(requestSentDialog.getDialogTitle(), "Request Sent", "'Request Sent' pop-up is displayed.");
-            assertEquals(requestSentDialog.getDialogMessage(), dialogMessage, "'Request Sent' pop-up has the expected message.");
-            LOG.info("STEP 4: Click 'OK' button.");
-            requestSentDialog.clickOKButton();
-        } catch (TimeoutException | NoSuchElementException e)
-        {
-            getBrowser().refresh();
-            siteDashboardPage.clickSiteConfiguration();
-            assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
-            assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Cancel Request"), "'Cancel Request' action should be available in the 'Site Configuration Options' drop-down menu.");
-        }
+
+        siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join", requestSentDialog);
+        requestSentDialog.renderedPage();
+        assertEquals(requestSentDialog.getDialogTitle(), "Request Sent", "'Request Sent' pop-up is displayed.");
+        assertEquals(requestSentDialog.getDialogMessage(), dialogMessage, "'Request Sent' pop-up has the expected message.");
+        LOG.info("STEP 4: Click 'OK' button.");
+        requestSentDialog.clickOKButton();
+
         LOG.info("STEP 5: Verify 'My Sites' dashlet from 'User Dashboard' page.");
         assertFalse(mySitesDashlet.isSitePresent(siteNameC3059), siteNameC3059 + " is not displayed on 'My Sites' dashlet.");
         LOG.info("STEP 6: Logout and login to Share as " + user1 + ". Open 'My Tasks' page.");

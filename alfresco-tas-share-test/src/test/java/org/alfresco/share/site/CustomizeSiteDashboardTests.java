@@ -34,7 +34,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteDashboardLayout()
     {
-        String userName = "user2198-" + RandomData.getRandomAlphanumeric() + domain;
+        String userName = "user2198-" + RandomData.getRandomAlphanumeric() ;
         String siteName = String.format("C2198%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2198", "lname");
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
@@ -121,10 +121,10 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2200")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addNewDashlet()
     {
-        String userName = "user2200-" + RandomData.getRandomAlphanumeric() + domain;
+        String userName = "user2200-" + RandomData.getRandomAlphanumeric();
         String siteName = String.format("C2200%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2200", "lname");
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
@@ -143,19 +143,15 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WIKI, 1, 2), "Dashlet " + Dashlets.WIKI.getDashletName() + " is missing");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_PROFILE, 2, 3), "Dashlet " + Dashlets.SITE_PROFILE.getDashletName() + " is missing");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_LINKS, 2, 4), "Dashlet " + Dashlets.SITE_LINKS.getDashletName() + " is missing");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
+        removeUserFromAlfresco(new UserModel(userName, password));
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C2202")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCustomizeSiteDashboardPage()
     {
-        String userName = "user2202-" + RandomData.getRandomAlphanumeric() + domain;
+        String userName = "user2202-" + RandomData.getRandomAlphanumeric();
         String siteName = String.format("C2202%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2202", "lname");
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
@@ -205,10 +201,10 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2203")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void moveOrReorderDashlets()
     {
-        String userName = "user2203-" + RandomData.getRandomAlphanumeric() + domain;
+        String userName = "user2203-" + RandomData.getRandomAlphanumeric();
         String siteName = String.format("C2203%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2203", "lname");
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
@@ -233,7 +229,6 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
 
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
@@ -241,7 +236,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultLayoutAndDashlets()
     {
-        String userName = "user2207-" + RandomData.getRandomAlphanumeric() + domain;
+        String userName = "user2207-" + RandomData.getRandomAlphanumeric();
         String siteName = String.format("C2207%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2207", "lname");
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);

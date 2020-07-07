@@ -1,6 +1,7 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class RequestSentDialog extends ConfirmationDialog
 {
+    @RenderWebElement
     @FindBy (css = "div.dijitDialogTitleBar")
     private WebElement dialogTitle;
 
