@@ -31,12 +31,11 @@ public class AdminToolsUserProfile extends SharePage<AdminToolsUserProfile>
     public AdminToolsUserProfile navigate(String userName)
     {
         setUserName(userName);
-        return (AdminToolsUserProfile) navigate();
+        return navigate();
     }
 
     public String getUserGroup()
     {
-        return addedGroups.getText();
+        return browser.waitUntilElementVisible(addedGroups).getText();
     }
-
 }

@@ -51,7 +51,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     private EditTaskPage editTaskPage;
     private String userName2, userName3, user2, group, task;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         final String uniqueIdentifier = RandomData.getRandomAlphanumeric();

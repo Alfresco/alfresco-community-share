@@ -14,7 +14,7 @@
       <suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
       <maven-remote-resources.version>1.6.0</maven-remote-resources.version>
       <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
-      <tas.utility.version>3.0.23</tas.utility.version>
+      <tas.utility.version>3.0.24</tas.utility.version>
       <tas.cmis.version>1.13</tas.cmis.version>
       <tas.restapi.version>1.43</tas.restapi.version>
       <java.version>11</java.version>

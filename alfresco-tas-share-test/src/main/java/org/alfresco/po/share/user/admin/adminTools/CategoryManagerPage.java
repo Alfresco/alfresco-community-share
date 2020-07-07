@@ -71,7 +71,6 @@ public class CategoryManagerPage extends AdminToolsPage
     public DeleteDialog clickDeleteButton(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-
         browser.waitUntilElementVisible(deleteCategoryButton).click();
         return (DeleteDialog) deleteDialog.renderedPage();
     }
@@ -94,11 +93,10 @@ public class CategoryManagerPage extends AdminToolsPage
 
     private void mouseOverOnCategory(String categoryName)
     {
-        By categoryBy = By.xpath(String.format(categoryLocator, categoryName));
-
-        browser.waitUntilElementIsDisplayedWithRetry(categoryBy, WAIT_15_SEC);
-        WebElement elem = categoryManagerDiv.findElement(categoryBy);
-        browser.mouseOver(elem);
+        WebElement category = browser.waitWithRetryAndReturnWebElement(
+            By.xpath(String.format(categoryLocator, categoryName)), 1, 10);
+        browser.mouseOver(category);
+        browser.waitUntilElementVisible(addCategoryButton);
     }
 
     public boolean isCategoryDisplayed(String categoryName)

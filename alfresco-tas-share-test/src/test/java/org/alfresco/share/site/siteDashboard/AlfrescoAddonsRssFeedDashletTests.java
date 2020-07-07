@@ -36,7 +36,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
     private String siteNameShare = "RssFeed" + RandomData.getRandomAlphanumeric();
     private String userNameShare = "RssFeedUser" + RandomData.getRandomAlphanumeric();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass (alwaysRun = true, enabled = false)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -47,7 +47,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         siteService.addDashlet(userName, password, siteNameShare, SiteDashlet.ADDONS_RSS_FEED, DashletLayout.THREE_COLUMNS, 3, 2);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = true, enabled = false)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);
@@ -55,11 +55,11 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, userNameShare);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameShare);
         siteService.delete(adminUser, adminPassword, siteName);
-        siteService.delete(adminUser, adminPassword, domain, siteNameShare);
+        siteService.delete(adminUser, adminPassword, siteNameShare);
     }
 
     @TestRail (id = "C2793")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES }, enabled = false)
     public void configureAlfrescoAddonsRssFeedDashlet()
     {
         setupAuthenticatedSession(userName, password);
@@ -112,7 +112,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" }, enabled = false)
     public void verifyDashletTest()
     {
         setupAuthenticatedSession(userNameShare, password);
