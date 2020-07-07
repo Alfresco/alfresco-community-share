@@ -95,7 +95,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14280")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelSitePendingRequest()
     {
         LOG.info("Precondition: Cancel request");
@@ -113,7 +113,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14283")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManager()
     {
         setupAuthenticatedSession(userName1.getUsername(), password);
@@ -141,7 +141,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14284")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void releaseToPoolRequestPendingTaskAsGroupManager()
     {
         setupAuthenticatedSession(userName1.getUsername(), password);
@@ -173,7 +173,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14285")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManagerAndRemoveUserFromGroup()
     {
         setupAuthenticatedSession(userName3, password);
@@ -199,7 +199,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14286")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsSiteManager()
     {
         String userName4 = "user4" + RandomData.getRandomAlphanumeric();

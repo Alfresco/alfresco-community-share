@@ -351,11 +351,10 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, siteContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteContributor);
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C2890")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteMemberFromPrivateSiteTest() throws DataPreparationException
     {
         LOG.info("Starting test C2890");
@@ -398,7 +397,6 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C2892")
@@ -449,6 +447,5 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

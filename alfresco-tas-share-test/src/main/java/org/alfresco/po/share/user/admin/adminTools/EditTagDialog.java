@@ -69,6 +69,7 @@ public class EditTagDialog extends ShareDialog
     {
         Utils.clearAndType(editTagInputField, updatedTag);
         okButton.click();
+        tagManagerPage.waitUntilMessageDisappears();
         return (TagManagerPage) tagManagerPage.renderedPage();
     }
 }

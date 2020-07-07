@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -11,13 +12,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
+import static org.alfresco.common.Utils.retryUntil;
+
 /**
  * @author Laura.Capsa
  */
 @PageObject
 public class AddUserDialog extends ShareDialog
 {
-    protected String searchedUsername = "//h3[@class='itemname']//span[text()='%s']";
+    protected String searchedUsername = "a[href$='%s/profile']";
+
     @RenderWebElement
     @FindBy (css = "span[id*='peoplepicker']")
     private WebElement dialogTitle;
@@ -75,9 +79,23 @@ public class AddUserDialog extends ShareDialog
      */
     public void searchUser(String userToSearch)
     {
+        int retry = 0;
+        typeAndSearch(userToSearch);
+        boolean found = isUserDisplayed(userToSearch);
+        while (retry < 10 && !found)
+        {
+            typeAndSearch(userToSearch);
+            found = isUserDisplayed(userToSearch);
+            retry++;
+            Utility.waitToLoopTime(1, String.format("Waiting for user %s to be found.", userToSearch));
+        }
+    }
+
+    private AddUserDialog typeAndSearch(String userToSearch)
+    {
         fillInSearchInput(userToSearch);
         clickSearchButton();
-        renderedPage();
+        return (AddUserDialog) this.renderedPage();
     }
 
     /**
@@ -122,7 +140,7 @@ public class AddUserDialog extends ShareDialog
      */
     public boolean isUserDisplayed(String username)
     {
-        return browser.isElementDisplayed(By.xpath(String.format(searchedUsername, username)));
+        return browser.isElementDisplayed(By.cssSelector(String.format(searchedUsername, username)));
     }
 
     public boolean isAddButtonDisplayed(String searchResult)
