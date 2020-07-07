@@ -94,7 +94,7 @@ public class CategoryManagerPage extends AdminToolsPage
     private void mouseOverOnCategory(String categoryName)
     {
         WebElement category = browser.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(categoryLocator, categoryName)), 1, 10);
+            By.xpath(String.format(categoryLocator, categoryName)), 1, 15);
         browser.mouseOver(category);
         browser.waitUntilElementVisible(addCategoryButton);
     }
