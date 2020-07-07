@@ -21,27 +21,35 @@ public class NodeBrowserPage extends AdminToolsPage
 {
     @FindBy (xpath = "//div[@class='title']/label[text() = 'Node Browser']")
     private WebElement nodeBrowserDiv;
+
     @FindBy (css = "div.search-text textarea")
     private WebElement searchInput;
+
     @RenderWebElement
     @FindBy (css = "button[id$='_default-lang-menu-button-button']")
     private WebElement searchTypeDropdownButton;
+
     @RenderWebElement
     @FindBy (css = "button[id$='_default-store-menu-button-button']")
     private WebElement storeTypeDropdownButton;
+
     @FindBy (css = "button[id$='_default-search-button-button']")
     private WebElement searchButton;
+
     @RenderWebElement
     @FindBy (css = ".search-main")
     private WebElement searchResults;
+
     @RenderWebElement
     @FindBy (css = "div[id$='_default-datatable']")
+
     private Table resultsTable;
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
     private By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
     private By options = By.cssSelector(".yuimenu.visible li>a");
     private By visibleDropdown = By.cssSelector(".yui-button-menu.yui-menu-button-menu.visible");
+    private String loadingMessage = "//div[text()='%s']";
 
     @Override
     public String getRelativePath()
@@ -78,6 +86,7 @@ public class NodeBrowserPage extends AdminToolsPage
     public NodeBrowserPage clickSearchButton()
     {
         browser.waitUntilElementClickable(searchButton).click();
+        browser.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))));
         return (NodeBrowserPage) this.renderedPage();
     }
 
@@ -110,7 +119,7 @@ public class NodeBrowserPage extends AdminToolsPage
     {
         By fileName = By.cssSelector("div[id$='-datatable'] td[class*='col-name'] div a");
         Map<String, List<String>> results = new HashMap<>();
-        browser.waitUntilElementIsDisplayedWithRetry(fileName, WAIT_15_SEC);
+        browser.waitUntilElementIsDisplayedWithRetry(fileName, 1, WAIT_15_SEC);
         List<WebElement> nameRows = browser.waitUntilElementsVisible(fileName);
         List<WebElement> parentRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div"));
         List<WebElement> referenceRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a"));
