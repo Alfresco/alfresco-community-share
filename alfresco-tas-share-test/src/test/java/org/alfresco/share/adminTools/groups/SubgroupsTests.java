@@ -46,12 +46,16 @@ public class SubgroupsTests extends ContextAwareWebTest
     private final String displayName = "C9476name" + uniqueIdentifier;
     @Autowired
     private GroupsPage groupsPage;
+
     @Autowired
     private AddGroupDialog addGroupDialog;
+
     @Autowired
     private RemoveUserFromGroupDialog removeUserFromGroupDialog;
+
     @Autowired
     private DeleteGroupDialog deleteGroupDialog;
+
     @Autowired
     private AddUserDialog addUserDialog;
 

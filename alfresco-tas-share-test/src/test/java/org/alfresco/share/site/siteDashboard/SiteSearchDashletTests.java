@@ -46,7 +46,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        siteService.delete(adminUser, adminPassword, domain, siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
         siteService.delete(adminUser, adminPassword, siteName);

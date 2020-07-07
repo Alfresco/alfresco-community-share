@@ -3,6 +3,8 @@ package org.alfresco.share;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
@@ -181,25 +183,19 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     protected boolean isFileInDirectory(String fileName, String extension)
     {
-        String downloadedFile = fileName;
-        if (extension != null)
+        int retry = 0;
+        int seconds = 10;
+        if(extension != null)
         {
-            // it takes a while to download folders
-            getBrowser().waitInSeconds((int) Timeout.SHORT.getTimeoutSeconds());
-            downloadedFile = fileName + extension;
+            fileName = fileName + extension;
         }
-
-        File downloadDirectory = new File(testDataFolder);
-        File[] directoryContent = downloadDirectory.listFiles();
-
-        for (File aDirectoryContent : directoryContent)
+        String filePath = testDataFolder + File.separator + fileName;
+        while (retry <= seconds && !Files.exists(Paths.get(filePath)))
         {
-            if (aDirectoryContent.getName().equals(downloadedFile))
-            {
-                return true;
-            }
+            retry++;
+            Utility.waitToLoopTime(1, String.format("Wait for '%s' to get downloaded"));
         }
-        return false;
+        return Files.exists(Paths.get(filePath));
     }
 
     public FolderModel getUserHomeFolder(UserModel userModel)

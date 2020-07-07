@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class RemoveUserFromGroupDialog extends ShareDialog
 {
-    @Autowired
-    private GroupsPage groupsPage;
-
     @RenderWebElement
     @FindBy (css = "#prompt_h")
     private WebElement dialogHeader;
@@ -50,9 +47,9 @@ public class RemoveUserFromGroupDialog extends ShareDialog
         return browser.isElementDisplayed(buttonsList.get(1));
     }
 
-    public GroupsPage clickYesButton()
+    public void clickYesButton()
     {
         buttonsList.get(0).click();
-        return (GroupsPage) groupsPage.renderedPage();
+        waitUntilMessageDisappears();
     }
 }

@@ -125,20 +125,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @TestRail (id = "C9305")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS }, enabled = false)
-    public void localeSupport()
-    {
-//TODO this test C9305
-//            Preconditions
-//            Any user added a doc using browser other locale (e.g. German)
-
-        LOG.info("STEP1: Copy Node reference of added doc");
-        LOG.info("STEP2: Go to Admin Console -> Node Browser");
-        LOG.info("STEP3: Enter copied nodref to search box and click Search button");
-        LOG.info("STEP4: Click on the doc and verify sys:locale");
-    }
-
     @TestRail (id = "C9306")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkNodeBrowserPage()

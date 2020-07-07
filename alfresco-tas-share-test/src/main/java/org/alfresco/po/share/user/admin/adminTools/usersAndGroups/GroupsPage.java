@@ -19,11 +19,9 @@ import org.testng.Assert;
 @PageObject
 public class GroupsPage extends AdminToolsPage
 {
-    @Autowired
-    private RemoveUserFromGroupDialog removeUserFromGroupDialog;
-
-    @Autowired
-    private DeleteGroupDialog deleteGroupDialog;
+    private final RemoveUserFromGroupDialog removeUserFromGroupDialog;
+    private final DeleteGroupDialog deleteGroupDialog;
+    private final AddUserDialog addUserDialog;
 
     @RenderWebElement
     @FindBy (css = "label[for*='default-search-text']")
@@ -110,6 +108,15 @@ public class GroupsPage extends AdminToolsPage
     private By deleteMessage = By.cssSelector("div[id='message_c'");
     private By browseNextPage = By.cssSelector("a[class='yui-pg-next']");
     private String groupRow = "//div[@class='yui-columnbrowser-column-body']//span[text()='%s']/..";
+
+    public GroupsPage(AddUserDialog addUserDialog,
+                      DeleteGroupDialog deleteGroupDialog,
+                      RemoveUserFromGroupDialog removeUserFromGroupDialog)
+    {
+        this.addUserDialog = addUserDialog;
+        this.deleteGroupDialog = deleteGroupDialog;
+        this.removeUserFromGroupDialog = removeUserFromGroupDialog;
+    }
 
     @Override
     public String getRelativePath()
@@ -276,9 +283,10 @@ public class GroupsPage extends AdminToolsPage
     /**
      * Click "Add User" button from second column header
      */
-    public void clickAddUserButton()
+    public AddUserDialog clickAddUserButton()
     {
         browser.waitUntilElementVisible(addUserButton).click();
+        return (AddUserDialog) addUserDialog.renderedPage();
     }
 
     /**

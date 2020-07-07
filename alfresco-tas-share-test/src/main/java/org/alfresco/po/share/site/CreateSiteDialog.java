@@ -154,12 +154,6 @@ public class CreateSiteDialog extends ShareDialog
         return siteIDInput.getText().isEmpty();
     }
 
-    public void typeSiteID(String siteID)
-    {
-        siteIDInput.sendKeys(siteID);
-    }
-
-
     public String getUrlErrorMessage()
     {
         browser.waitUntilElementVisible(urlErrorMessage);
@@ -269,7 +263,6 @@ public class CreateSiteDialog extends ShareDialog
     public void typeInSiteID(String siteID)
     {
         browser.waitUntilElementVisible(siteIDInput);
-        siteIDInput.click();
         siteIDInput.clear();
         siteIDInput.click();
         siteIDInput.sendKeys(siteID);
