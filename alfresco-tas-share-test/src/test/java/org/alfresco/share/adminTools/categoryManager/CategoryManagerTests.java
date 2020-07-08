@@ -26,12 +26,11 @@ public class CategoryManagerTests extends ContextAwareWebTest
     private final String subCategoryName = String.format("testSubCategory%s", RandomData.getRandomAlphanumeric());
 
     @Autowired
-    CategoryManagerPage categoryManagerPage;
+    private CategoryManagerPage categoryManagerPage;
 
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
-        userService.createRootCategory(adminUser, adminPassword, category9301);
         userService.createRootCategory(adminUser, adminPassword, category9298);
         setupAuthenticatedSession(adminUser, adminPassword);
         categoryManagerPage.navigate();
@@ -76,6 +75,8 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void deleteCategory()
     {
         LOG.info("Step 1: Delete the category.");
+        userService.createRootCategory(adminUser, adminPassword, category9301);
+        categoryManagerPage.navigate();
         categoryManagerPage.deleteCategory(category9301);
 
         LOG.info("Step 2: Verify the delete category is no longer present in the 'Category Manager' page.");

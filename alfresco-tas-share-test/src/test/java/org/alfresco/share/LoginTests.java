@@ -46,18 +46,9 @@ public class LoginTests extends ContextAwareWebTest
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        dataUser.usingAdmin().deleteUser(validUser);
-        dataUser.usingAdmin().deleteUser(testUserC2084);
-        dataUser.usingAdmin().deleteUser(specialPassUser);
-
-        cmisApi.authenticateUser(dataUser.getAdminUser())
-            .usingResource(getUserHomeFolder(validUser)).deleteFolderTree()
-            .usingResource(getUserHomeFolder(testUserC2084)).deleteFolderTree()
-            .usingResource(getUserHomeFolder(specialPassUser)).deleteFolderTree();
-
+        removeUserFromAlfresco(validUser, testUserC2084, specialPassUser);
         specialUserList.forEach(specialUser -> {
-            dataUser.deleteUser(specialUser);
-            cmisApi.usingResource(getUserHomeFolder(specialUser)).deleteFolderTree();
+            removeUserFromAlfresco(specialUser);
         });
     }
 
