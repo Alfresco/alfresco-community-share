@@ -1,8 +1,5 @@
 package org.alfresco.share.site;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-
 import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
@@ -26,10 +23,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import static org.testng.Assert.*;
+
 /**
  * @author Laura.Capsa
  */
-
 public class DeleteSiteTests extends ContextAwareWebTest
 {
     @Autowired
@@ -136,8 +134,6 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteNameC2284);
         siteService.delete(adminUser, adminPassword, siteNameC2291);
         siteService.delete(adminUser, adminPassword, siteNameC2292);
-
-
     }
 
     @TestRail (id = "C2280")
@@ -160,7 +156,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2280_1, "Delete");
-        assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
+        assertTrue(deleteSiteDialog.isPopupDisplayed(), "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_1 + "''?"), true, "Confirm delete message is correct.");
 
         LOG.info("STEP5: Click on \"Delete\" button from popup");
@@ -173,6 +169,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertFalse(siteFinderPage.isSiteFound(siteNameC2280_1), "The site isn't displayed on \"Site Finder\" page.");
 
         LOG.info("STEP7: Search for the file created within the site");
+        userDashboardPage.navigateByMenuBar();
         toolbar.search(fileNameC2280);
         assertEquals(searchFromToolbarPage.getNumberOfResultsText(), "0 - results found", "Search page: number of results");
 
@@ -188,10 +185,11 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsManagerFromDashlet()
     {
         setupAuthenticatedSession(userC2280, password);
+        userDashboardPage.navigate(userC2280);
 
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
         mySitesDashlet.clickDeleteSiteIconForSite(siteNameC2280_2);
-        assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
+        assertTrue(deleteSiteDialog.isPopupDisplayed(), "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_2 + "''?"), true, "Confirm delete message is correct.");
 
         LOG.info("STEP3: Click again on \"Delete\" button.");
@@ -200,7 +198,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click \"Yes\" button");
         deleteSiteDialog.clickYes();
-        assertEquals(mySitesDashlet.isSitePresent(siteNameC2280_2), false, "Site isn't displayed in 'MySites' dashlet.");
+        assertFalse(mySitesDashlet.isSitePresent(siteNameC2280_2), "Site isn't displayed in 'MySites' dashlet.");
 
         LOG.info("STEP5: Search for the file created within the site");
         toolbar.search(siteNameC2280_2);
@@ -353,5 +351,4 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getCurrentUrl(), url.replace(":80/", "/"), "User is successfully redirected to the site dashboard.");
         cleanupAuthenticatedSession();
     }
-
 }

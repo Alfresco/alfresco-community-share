@@ -158,8 +158,9 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         getBrowser().waitUntilElementClickable(pageElem).click();
         getBrowser().waitUntilElementVisible(pageElem);
         browser.scrollToElement(currentSitePagesArea);
+        pageElem.click();
+        browser.waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
         browser.dragAndDrop(pageElem, currentSitePagesArea);
-        browser.waitUntilElementVisible(By.cssSelector("ul[id$='default-currentPages-ul'] " + page.getCustomizeCssLocator()));
     }
 
     /**

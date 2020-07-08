@@ -84,9 +84,7 @@ public class DeleteSiteDialog extends ShareDialog
     {
         getBrowser().waitUntilElementVisible(yes);
         getBrowser().waitUntilElementClickable(yes).click();
-
-        browser.waitUntilElementDisappears(By.cssSelector(".bd"), 30);
-        browser.waitInSeconds(5);
+        waitUntilMessageDisappears();
     }
 
     public void clickNo()

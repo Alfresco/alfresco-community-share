@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 @PageObject
 public class Notification extends HtmlPage
 {
-    private By notification = By.cssSelector("span[class='message']");
+    private By notification = By.cssSelector("div.bd span.message");
 
     public String getDisplayedNotification()
     {

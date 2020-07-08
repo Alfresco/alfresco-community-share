@@ -13,6 +13,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -79,7 +81,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     private String availableDashlet = "//li[@class='availableDashlet dnd-draggable']/span[text()='%s']/..";
     private String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private String targetColumn = "ul[id$='default-column-ul-%d']";
-    private String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/following-sibling::div";
+    private String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
     @FindBy (css = "div[id$='default-wrapper-div']")
     private WebElement availableColumns;
     @RenderWebElement
@@ -421,9 +423,9 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     {
         WebElement dashToMove = getDashletToMove(addedDashlet, fromColumn);
         dashToMove.click();
-        isNumberOfDashletsExcedeedInColumn(toColumn);
+        browser.waitUntilElementHasAttribute(dashToMove, "class", "dnd-focused");
         WebElement target = dragAndDropDashlet(dashToMove, toColumn);
-        ifDashletIsNotMoved(addedDashlet, dashToMove, target, toColumn);
+//        /ifDashletIsNotMoved(addedDashlet, dashToMove, target, toColumn);
     }
 
     /**
@@ -437,6 +439,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     {
         List<WebElement> dashlets = getDashlets(dashletToMove, dashletToReplace, column);
         dashlets.get(0).click();
+        browser.waitUntilElementHasAttribute(dashlets.get(0), "class", "dnd-focused");
         return dashlets;
     }
 
@@ -489,6 +492,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     private WebElement dragAndDropDashlet(WebElement dashletToMove, int toColumn)
     {
         WebElement target = browser.findElement(By.cssSelector(String.format(targetColumn, toColumn)));
+        browser.dragAndDrop(dashletToMove, target);
         browser.dragAndDrop(dashletToMove, target);
         return target;
     }

@@ -1,10 +1,5 @@
 package org.alfresco.share.site;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.site.CustomizeSitePage;
@@ -12,11 +7,18 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author bogdan.bocancea
@@ -24,26 +26,37 @@ import org.testng.annotations.Test;
 public class CustomizeSiteTests extends ContextAwareWebTest
 {
     @Autowired
-    CustomizeSitePage customizeSite;
-    @Autowired
-    SiteDashboardPage siteDashboard;
+    private CustomizeSitePage customizeSite;
 
     @Autowired
-    SiteContentDashlet siteContentDashlet;
+    private SiteDashboardPage siteDashboard;
+
+    @Autowired
+    private SiteContentDashlet siteContentDashlet;
+
+    private UserModel user;
+
+    @BeforeClass(alwaysRun = true)
+    public void setup()
+    {
+        user = dataUser.usingAdmin().createRandomTestUser();
+        setupAuthenticatedSession(user);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void removeUser()
+    {
+        removeUserFromAlfresco(user);
+    }
 
     @TestRail (id = "C2135")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteTheme()
     {
-        String userName = "user2135-" + RandomData.getRandomAlphanumeric();
-        String siteName = String.format("C2135%s", RandomData.getRandomAlphanumeric());
-        LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2135", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        SiteModel site2135 = dataSite.usingUser(user).createPublicRandomSite();
 
         LOG.info("Step 4 - Click 'Customize site'.");
-        customizeSite.navigate(siteName);
+        customizeSite.navigate(site2135);
 
         LOG.info("Step 5 - Click 'Set Application Theme' drop-down and verify available options.");
         Assert.assertFalse(customizeSite.getThemeOptions().isEmpty());
@@ -51,37 +64,30 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         LOG.info("Step 6, 7 - Select 'Green Theme' and click 'OK' button. / Repeat steps 4-6 for all the other themes.");
         for (Theme theme : Theme.values())
         {
-            customizeSite.navigate(siteName);
+            customizeSite.navigate(site2135);
             customizeSite.selectTheme(theme);
             customizeSite.clickOk();
             siteDashboard.renderedPage();
             if (theme.equals(Theme.APPLICATION_SET))
             {
                 continue;
-            } else
+            }
+            else
             {
                 Assert.assertTrue(siteContentDashlet.getDashletColor().equals(theme.dashletHexColor), theme.name + " is not set");
             }
         }
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataSite.usingAdmin().deleteSite(site2135);
     }
 
     @TestRail (id = "C2148")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelChangeSiteTheme()
     {
-        String userName = "userC2148-" + RandomData.getRandomAlphanumeric();
-        String siteName = String.format("C2148%s", RandomData.getRandomAlphanumeric());
-        LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2148", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        SiteModel site2148 = dataSite.usingUser(user).createPublicRandomSite();
 
         LOG.info("Step 3 - Navigate to the newly created site and click on the 'Settings' icon -> 'Customize site'.");
-        customizeSite.navigate(siteName);
+        customizeSite.navigate(site2148);
 
         LOG.info("Step 4 - Select any theme except the default one");
         customizeSite.selectTheme(Theme.GREEN);
@@ -91,24 +97,17 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         siteDashboard.renderedPage();
         Assert.assertFalse(siteContentDashlet.getDashletColor().equals(Theme.GREEN.dashletHexColor));
 
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataSite.usingAdmin().deleteSite(site2148);
     }
 
     @TestRail (id = "C2156")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultCurrentAndAvailablePages()
     {
-        String userName = "user2156-" + RandomData.getRandomAlphanumeric();
-        String siteName = String.format("C2156%s", RandomData.getRandomAlphanumeric());
-        LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2156", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        SiteModel site2156 = dataSite.usingUser(user).createPublicRandomSite();
 
         LOG.info("Step 3 - Navigate to the newly created site and click on the 'Settings' icon -> 'Customize site'.");
-        customizeSite.navigate(siteName);
+        customizeSite.navigate(site2156);
 
         LOG.info("Step 4 - Verify 'Current Site Pages' section.");
         Assert.assertTrue(customizeSite.getCurrentPages().get(0).equals(SitePageType.DOCUMENT_LIBRARY), "Document Library is missing from Current Site Pages");
@@ -123,7 +122,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
             if (page.equals(SitePageType.DOCUMENT_LIBRARY))
             {
                 continue;
-            } else
+            }
+            else
             {
                 pages.add(page);
             }
@@ -132,24 +132,17 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Collections.sort(pages);
         Assert.assertTrue(availablePages.equals(pages));
 
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataSite.usingAdmin().deleteSite(site2156);
     }
 
     @TestRail (id = "C2164")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAvailablePagesToSite()
     {
-        String userName = "userC2164-" + RandomData.getRandomAlphanumeric();
-        String siteName = String.format("C2164%s", RandomData.getRandomAlphanumeric());
-        LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2164", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        SiteModel site2164 = dataSite.usingUser(user).createPublicRandomSite();
 
         LOG.info("Step 3 - Navigate to the newly created site and click on the 'Settings' icon -> 'Customize site'.");
-        customizeSite.navigate(siteName);
+        customizeSite.navigate(site2164);
 
         LOG.info("Step 4 - Drag any page from the 'Available Site Pages' section and drop it to the 'Current Site Pages' section.");
         customizeSite.addPageToSite(SitePageType.WIKI);
@@ -179,24 +172,17 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.LINKS), SitePageType.LINKS.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.BLOG), SitePageType.BLOG.getDisplayText() + " is not added to site dashboard");
 
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataSite.usingAdmin().deleteSite(site2164);
     }
 
     @TestRail (id = "C2171")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removePageFromSite()
     {
-        String userName = "userC2171-" + RandomData.getRandomAlphanumeric();
-        String siteName = String.format("C2171%s", RandomData.getRandomAlphanumeric());
-        LOG.info("Step 1: Login to Share as any user.");
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2171", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        SiteModel site2171 = dataSite.usingUser(user).createPublicRandomSite();
 
         LOG.info("Step 2 - Create any site and add several site pages to it.");
-        customizeSite.navigate(siteName);
+        customizeSite.navigate(site2171);
         customizeSite.addPageToSite(SitePageType.WIKI);
         customizeSite.addPageToSite(SitePageType.CALENDER);
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added");
@@ -208,7 +194,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
             + " is not added to site dashboard");
 
         LOG.info("Step 3 - Navigate to 'Customize site' page");
-        customizeSite.navigate(siteName);
+        customizeSite.navigate(site2171);
 
         LOG.info("Step 4 - Click 'Remove' button under any page available.");
         customizeSite.removePage(SitePageType.WIKI);
@@ -223,24 +209,17 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
             + " is not removed from site dashboard");
 
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataSite.usingAdmin().deleteSite(site2171);
     }
 
     @TestRail (id = "C2173")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void renamePage()
     {
-        String userName = "userC2173-" + RandomData.getRandomAlphanumeric() ;
-        String siteName = String.format("C2173%s", RandomData.getRandomAlphanumeric());
-        LOG.info("Step 1: Login to Share as any user.");
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2173", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        SiteModel site2173 = dataSite.usingUser(user).createPublicRandomSite();
 
         LOG.info("Step 2 - Create any site and add several site pages to it.");
-        customizeSite.navigate(siteName);
+        customizeSite.navigate(site2173);
         customizeSite.addPageToSite(SitePageType.WIKI);
 
         LOG.info("Step 4 / 5 / 6 - Click 'Rename' button under any page / Type any name in the 'Display Name' text field / Click OK");
@@ -251,9 +230,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.clickOk();
         siteDashboard.renderedPage();
         Assert.assertTrue(siteDashboard.getPageDisplayName(SitePageType.WIKI).equals("Wiki-Edit"), "Wiki display page name is not modified");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
 
+        dataSite.usingAdmin().deleteSite(site2173);
     }
 }

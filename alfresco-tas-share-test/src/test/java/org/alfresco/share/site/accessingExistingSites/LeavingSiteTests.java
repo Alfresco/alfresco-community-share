@@ -190,29 +190,17 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-        int counter = 1;
-        int retryRefreshCount = 5;
-        while (counter <= retryRefreshCount)
-        {
-            try
-            {
-                leaveSiteDialog.renderedPage();
-                assertEquals(leaveSiteDialog.getDialogTitle(), dialogTitle, "Dialog title is not as expected.");
-                assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
-                LOG.info("STEP 2: Click 'OK' button.");
-                leaveSiteDialog.clickOKButton();
-                assertTrue(siteDashboard.getCurrentUrl().endsWith(user1 + "/dashboard"), "User should be redirected to " + user1 + "'s dashboard page.");
-                LOG.info("STEP 3: Verify sites listed on 'My Sites' dashlet.");
-                assertFalse(mySitesDashlet.isSitePresent(siteName), siteName + " should no longer be listed in the list of sites.");
-                break;
-            } catch (TimeoutException | NoSuchElementException e)
-            {
-                counter++;
-                getBrowser().refresh();
-                siteDashboard.clickSiteConfiguration();
-                siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-            }
-        }
+
+        leaveSiteDialog.renderedPage();
+        assertEquals(leaveSiteDialog.getDialogTitle(), dialogTitle, "Dialog title is not as expected.");
+        assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
+        LOG.info("STEP 2: Click 'OK' button.");
+        leaveSiteDialog.clickOKButton();
+        userDashboardPage.renderedPage();
+        userDashboardPage.assertPageIsOpened();
+        LOG.info("STEP 3: Verify sites listed on 'My Sites' dashlet.");
+        assertFalse(mySitesDashlet.isSitePresent(siteName), siteName + " should no longer be listed in the list of sites.");
+
         siteService.delete(adminUser, adminPassword, siteName);
     }
 

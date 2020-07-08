@@ -5,6 +5,7 @@ import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
+import org.alfresco.utility.model.SiteModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -128,10 +129,15 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
         return new AddSiteUsersPage();
     }
 
-    @SuppressWarnings ("unchecked")
     public T navigate(String siteId)
     {
         setCurrentSiteName(siteId);
+        return (T) navigate().renderedPage();
+    }
+
+    public T navigate(SiteModel site)
+    {
+        setCurrentSiteName(site.getId());
         return (T) navigate().renderedPage();
     }
 
