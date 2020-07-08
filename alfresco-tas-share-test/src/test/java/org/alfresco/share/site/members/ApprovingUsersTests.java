@@ -202,7 +202,6 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2462, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
 
         LOG.info("Step 3: Login second user");
-        cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
 
         LOG.info("Step 4: Verify 'My Tasks' dashlet");
@@ -223,7 +222,6 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName));
 
         LOG.info("Step 8: Login first user");
-        cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
 
         LOG.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");

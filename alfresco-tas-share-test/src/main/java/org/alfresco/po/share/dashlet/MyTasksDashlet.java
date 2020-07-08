@@ -256,9 +256,9 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         Parameter.checkIsMandotary("Task name", taskName);
         WebElement taskRow = selectTaskDetailsRow(taskName);
         browser.mouseOver(taskRow);
-        WebElement editBtn =  taskRow.findElement(editIcon);
-        browser.mouseOver(editBtn);
-        editBtn.click();
+        browser.waitUntilElementHasAttribute(taskRow, "class", "highlighted");
+        WebElement editBtn = taskRow.findElement(editIcon);
+        browser.waitUntilElementVisible(editBtn).click();
         return (EditTaskPage) editTaskPage.renderedPage();
     }
 

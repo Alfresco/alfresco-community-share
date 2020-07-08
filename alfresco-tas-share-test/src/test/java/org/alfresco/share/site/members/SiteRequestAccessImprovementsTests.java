@@ -194,7 +194,6 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Navigate to Pending Invites page");
         pendingInvitesPage.navigate(moderated.getTitle());
-        assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequests.toString(), "Pending Requests=");
     }
 

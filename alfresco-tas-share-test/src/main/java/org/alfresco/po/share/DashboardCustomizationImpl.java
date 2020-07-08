@@ -225,12 +225,14 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         try
         {
             webDashlet = browser.waitUntilElementClickable(By.xpath(dashletXpath), 10);
-        } catch (TimeoutException te)
+        }
+        catch (TimeoutException te)
         {
             throw new PageOperationException(strDashlet + " not found in Add Dashlets list");
         }
         browser.scrollToElement(webDashlet);
         webDashlet.click();
+        browser.waitUntilElementHasAttribute(webDashlet, "class", "dnd-focused");
         String columns = availableColumns.getAttribute("class");
         int noOfColumns = Integer.valueOf(columns.substring(columns.length() - 1));
         List<WebElement> existingDashletsInColumn = new ArrayList<>();
@@ -238,9 +240,9 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         {
             try
             {
-                existingDashletsInColumn = browser
-                    .findElements(By.cssSelector(String.format(dashletsInColumn, columnNumber)));
-            } catch (TimeoutException te)
+                existingDashletsInColumn = browser.findElements(By.cssSelector(String.format(dashletsInColumn, columnNumber)));
+            }
+            catch (TimeoutException te)
             {
 
             }
@@ -251,17 +253,30 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
                 ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
 
                 browser.dragAndDrop(webDashlet, target);
-                if (!isDashletAddedInColumn(dashlet, columnNumber))
-                {
-                    browser.dragAndDrop(webDashlet, target);
-                }
-            } else
+                retryAddDashlet(dashlet, webDashlet, target, columnNumber);
+            }
+            else
             {
                 throw new PageOperationException("Exceeded the number of dashlets in given column.");
             }
-        } else
+        }
+        else
         {
             throw new PageOperationException("Expected column does not exist in available columns list.");
+        }
+    }
+
+    public void retryAddDashlet(Dashlets dashlet, WebElement webDashlet, WebElement target, int columnNr)
+    {
+        int i = 0;
+        int retry = 5;
+        boolean added = isDashletAddedInColumn(dashlet, columnNr);
+        while (i < retry && !added)
+        {
+            LOG.info(String.format("Retry add dashlet - %s", i));
+            browser.dragAndDrop(webDashlet, target);
+            added = isDashletAddedInColumn(dashlet, columnNr);
+            i++;
         }
     }
 
@@ -425,7 +440,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         dashToMove.click();
         browser.waitUntilElementHasAttribute(dashToMove, "class", "dnd-focused");
         WebElement target = dragAndDropDashlet(dashToMove, toColumn);
-//        /ifDashletIsNotMoved(addedDashlet, dashToMove, target, toColumn);
+        retryAddDashlet(addedDashlet, dashToMove, target, toColumn);
     }
 
     /**
@@ -493,16 +508,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     {
         WebElement target = browser.findElement(By.cssSelector(String.format(targetColumn, toColumn)));
         browser.dragAndDrop(dashletToMove, target);
-        browser.dragAndDrop(dashletToMove, target);
         return target;
-    }
-
-    private void ifDashletIsNotMoved(Dashlets dashlet, WebElement dashletToMove, WebElement target, int toColumn)
-    {
-        if (!isDashletAddedInColumn(dashlet, toColumn))
-        {
-            browser.dragAndDrop(dashletToMove, target);
-        }
     }
 
     public enum Layout

@@ -41,6 +41,8 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     @FindBy (css = "h1[id='HEADER_TITLE'] a.alfresco-navigation-_HtmlAnchorMixin")
     private WebElement siteName;
 
+    protected By configurationOptions = By.cssSelector("div[style*='visible'] tr[id^='HEADER']>td[id$='text']");
+
     public String getCurrentSiteName()
     {
         return currentSiteName;
@@ -54,6 +56,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public void clickSiteConfiguration()
     {
         siteConfiguration.click();
+        browser.waitUntilElementsVisible(configurationOptions);
     }
 
     public boolean isWaitPopupDisplayed()

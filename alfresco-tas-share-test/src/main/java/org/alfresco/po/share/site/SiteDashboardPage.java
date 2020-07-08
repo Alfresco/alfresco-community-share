@@ -46,6 +46,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     private WebElement editRssDialog;
 
     private By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
+    private String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
     @Override
     public String getRelativePath()
@@ -84,12 +85,11 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            return browser
-                .isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
+            return browser.isElementDisplayed(By.xpath(String.format(
+                "//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
         }
-        String dashletLocation = String.format("//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]", dashlet.getDashletName(), column,
-            locationInColumn);
-        return browser.isElementDisplayed(By.xpath(dashletLocation));
+        return browser.isElementDisplayed(By.xpath(String.format(
+            dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
     }
 
     /**
@@ -127,14 +127,17 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public boolean isOptionListedInSiteConfigurationDropDown(String option)
     {
         List<String> availableOptions = new ArrayList<>();
-        List<WebElement> siteConfigurationOptions = browser.findElements(By.cssSelector("div[style*='visible'] tr[id^='HEADER']>td[id$='text']"));
+
+        List<WebElement> siteConfigurationOptions = browser.findElements(configurationOptions);
         getBrowser().waitUntilElementsVisible(siteConfigurationOptions);
 
         for (WebElement siteConfigurationOption : siteConfigurationOptions)
         {
             availableOptions.add(siteConfigurationOption.getText());
             if (siteConfigurationOption.getText().equals(option))
+            {
                 return true;
+            }
         }
         LOG.info("Available options are: " + availableOptions.toString());
         return false;

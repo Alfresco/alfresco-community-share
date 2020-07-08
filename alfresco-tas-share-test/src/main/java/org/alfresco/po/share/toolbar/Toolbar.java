@@ -219,7 +219,7 @@ public class Toolbar extends HtmlPage
     {
         searchInToolbar(searchTerm);
         searchBoxInput.sendKeys(Keys.RETURN);
-
+        waitUntilMessageDisappears();
         return (SearchPage) searchPage.renderedPage();
     }
 
