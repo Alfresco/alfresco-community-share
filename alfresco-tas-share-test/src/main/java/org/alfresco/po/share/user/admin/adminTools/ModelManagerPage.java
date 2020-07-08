@@ -10,7 +10,6 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -193,13 +192,12 @@ public class ModelManagerPage extends AdminToolsPage
             {
                 browser.mouseOver(action);
                 action.click();
-                browser.waitInSeconds(2);
                 break;
             }
         }
         if(page instanceof ModelManagerPage)
         {
-            page.refresh();
+            waitForLoadingMessageToDisappear();
         }
         return page.renderedPage();
     }

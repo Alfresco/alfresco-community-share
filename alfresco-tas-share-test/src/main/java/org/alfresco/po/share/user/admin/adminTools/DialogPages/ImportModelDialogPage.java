@@ -78,7 +78,7 @@ public class ImportModelDialogPage extends ShareDialog
     public ModelManagerPage clickImportButton()
     {
         browser.waitUntilElementClickable(importButton).click();
-        modelManagerPage.refresh();
+        modelManagerPage.waitForLoadingMessageToDisappear();
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 }

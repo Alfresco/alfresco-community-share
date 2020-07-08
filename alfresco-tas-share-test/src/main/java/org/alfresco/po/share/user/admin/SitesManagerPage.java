@@ -10,7 +10,6 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -19,7 +18,6 @@ import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Created by Claudia Agache on 7/1/2016.
@@ -53,7 +51,6 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     @FindAll (@FindBy (css = "div.dijitPopup[style*=visible] td.dijitMenuItemLabel"))
     private List<WebElement> dropdownOptionsList;
 
-    private By sitesLoadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     private By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
 
     @Override
@@ -104,7 +101,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             if(listPagination.hasNextPage())
             {
                 listPagination.clickNextButton();
-                waitForLoadingSitesMessageToDisappear();
+                waitForLoadingMessageToDisappear();
             }
             else
             {
@@ -118,19 +115,6 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     public boolean isSitesTableDisplayed()
     {
         return browser.isElementDisplayed(sitesTable);
-    }
-
-    public void waitForLoadingSitesMessageToDisappear()
-    {
-        try
-        {
-            browser.waitUntilElementVisible(sitesLoadingMessage,3);
-        }
-        catch (TimeoutException e)
-        {
-            //continue
-        }
-        browser.waitUntilElementDisappears(sitesLoadingMessage);
     }
 
     public ManagerSiteAction usingSite(String site)
@@ -183,7 +167,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             WebElement becomeBtn = browser.findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
             browser.waitUntilElementVisible(becomeBtn).click();
-            sitesManagerPage.waitForLoadingSitesMessageToDisappear();
+            sitesManagerPage.waitForLoadingMessageToDisappear();
             browser.waitUntilElementContainsText(getSiteRow().findElement(siteRowSiteManager), "Yes");
             return this;
         }
@@ -213,7 +197,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             clickDelete();
             deleteSiteDialog.clickDeleteFromSitesManager();
-            sitesManagerPage.waitForLoadingSitesMessageToDisappear();
+            sitesManagerPage.waitForLoadingMessageToDisappear();
             browser.waitUntilElementDisappears(getSiteRow());
             return this;
         }

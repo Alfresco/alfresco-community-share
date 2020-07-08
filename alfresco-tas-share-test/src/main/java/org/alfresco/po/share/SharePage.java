@@ -65,6 +65,8 @@ public abstract class SharePage<T> extends HtmlPage
     @FindBy (id = "HEADER_USER_MENU_LOGOUT")
     private WebElement logoutLink;
 
+    private By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
+
     public String getUserName()
     {
         return userName;
@@ -208,5 +210,18 @@ public abstract class SharePage<T> extends HtmlPage
         {
             // do nothing as alert is not present
         }
+    }
+
+    public void waitForLoadingMessageToDisappear()
+    {
+        try
+        {
+            browser.waitUntilElementVisible(loadingMessage,3);
+        }
+        catch (TimeoutException e)
+        {
+            //continue
+        }
+        browser.waitUntilElementDisappears(loadingMessage);
     }
 }

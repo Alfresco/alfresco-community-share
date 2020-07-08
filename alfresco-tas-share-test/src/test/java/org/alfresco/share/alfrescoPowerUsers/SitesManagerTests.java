@@ -296,7 +296,7 @@ public class SitesManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Confirm site deletion by clicking 'Ok' button");
         deleteSiteDialog.clickDeleteFromSitesManager();
-        sitesManagerPage.waitForLoadingSitesMessageToDisappear();
+        sitesManagerPage.waitForLoadingMessageToDisappear();
         sitesManagerPage.usingSite(site5).assertSiteIsNotDisplayed();
 
         LOG.info("STEP4: Navigate by link to " + site5 + " 's dashboard");

@@ -19,10 +19,12 @@ import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialogPa
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
+import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -70,26 +72,33 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Autowired
     ChangeContentTypeDialog changeContentTypeDialog;
 
-    private String userName = String.format("ModelManagerUser%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("C42568SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("C42568SiteName%s", RandomData.getRandomAlphanumeric());
-    private String fileName = String.format("C42568TestFile%s", RandomData.getRandomAlphanumeric());
-    private String fileContent = "C42568 content";
+    private UserModel user;
+    private SiteModel site;
+    private FileModel file;
+
     private String name, nameSpace, prefix;
     private List<String> modelsList = new ArrayList<>();
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        user = dataUser.usingAdmin().createRandomTestUser();
+        site = dataSite.usingUser(user).createPublicRandomSite();
+        file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "content");
+        cmisApi.authenticateUser(user).usingSite(site).createFile(file).assertThat().existsInRepo();
+
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 
     @AfterClass (alwaysRun = true)
     public void afterClass()
     {
+        cmisApi.authenticateUser(user).usingResource(file).delete();
+        userService.emptyTrashcan(user.getUsername(), user.getPassword());
+
+        removeUserFromAlfresco(user);
+        dataSite.usingAdmin().deleteSite(site);
+
         setupAuthenticatedSession(adminUser, adminPassword);
         modelManagerPage.navigate();
         modelsList.stream().filter(modelName -> modelManagerPage.isModelDisplayed(modelName) && modelManagerPage.getModelStatus(modelName).equals("Active"))
@@ -107,9 +116,6 @@ public class ModelManagerTests extends ContextAwareWebTest
                       modelManagerPage.clickOnAction("Delete", deleteModelDialogPage);
                       deleteModelDialogPage.clickDelete();
                   });
-        siteService.delete(adminUser, adminPassword, siteName);
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
     @TestRail (id = "C9500")
@@ -419,7 +425,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void useCreatedModel()
     {
         String filePath = testDataFolder + "Marketing_content.zip";
@@ -434,25 +440,18 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Model should be displayed");
         modelManagerPage.clickActionsButtonForModel(name);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
-        modelManagerPage.clickModelName(name);
-        //It seems that when importing with selenium the custom type layout isn't Yes
-        //An workaround to fix this: choose Layout designer from custom type actions, drag one layout, drag "Title",
-        // "Modifier", "Creator" properties and save
 
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName);
+        setupAuthenticatedSession(user);
+        documentLibraryPage.navigate(site);
 
         LOG.info("Step 1: On the Document Library page click the name of the testDocument to open the file in Preview and check default properties");
-        documentLibraryPage.clickOnFile(fileName);
+        documentLibraryPage.clickOnFile(file.getName());
         Assert.assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
         LOG.info("Step 2: On the Document Details page click Change Type action;");
         documentDetailsPage.clickDocumentActionsOption("Change Type", changeContentTypeDialog);
-        assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
 
         LOG.info("Step 3: Select the Marketing content (MKT:Marketing) type and apply it to the testDocument");
-
         changeContentTypeDialog.selectOption("Marketing content (MKT:Marketing)");
         changeContentTypeDialog.clickButton("OK");
         Assert.assertTrue(documentDetailsPage.arePropertiesDisplayed("Title", "Modifier", "Creator"), "Displayed properties:");

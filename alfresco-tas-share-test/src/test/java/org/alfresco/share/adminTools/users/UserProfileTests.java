@@ -1,8 +1,5 @@
 package org.alfresco.share.adminTools.users;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -15,12 +12,14 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.By;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Mirela Tifui on 12/8/2016.
@@ -51,49 +50,28 @@ public class UserProfileTests extends ContextAwareWebTest
     @Autowired
     EditUserPage editUserPage;
 
-    private String userName = String.format("UserProfileUser%s", RandomData.getRandomAlphanumeric());
-    private String c9416User = String.format("C9416user%s", RandomData.getRandomAlphanumeric());
-    private String c9417User = String.format("C9417user%s", RandomData.getRandomAlphanumeric());
-    private String c9431User = String.format("c9431user%s", RandomData.getRandomAlphanumeric());
-    private String c9427User = String.format("c9427user%s", RandomData.getRandomAlphanumeric());
-    private String c9426User = String.format("c9426user%s", RandomData.getRandomAlphanumeric());
-    private String c9434User = String.format("c9434user%s", RandomData.getRandomAlphanumeric());
-    private String c9423User = String.format("c9423user%s", RandomData.getRandomAlphanumeric());
+    private UserModel browseUser, editUser, deleteUser, addUserQuota, enableUser, removeGroupUser, addUserToGroup;
     private String c9423Group = String.format("c9423Group%s", RandomData.getRandomAlphanumeric());
-    private String authenticationError;
 
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
-        authenticationError = language.translate("login.authError");
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, c9417User, password, c9417User + domain, "c9417firstName", "c9417lastName");
-        userService.create(adminUser, adminPassword, c9431User, password, c9431User + domain, "c9431firstName", "c9431lastName");
-        userService.create(adminUser, adminPassword, c9427User, password, c9427User + domain, "c9427firstName", "c9427lastName");
-        userService.create(adminUser, adminPassword, c9426User, password, c9426User + domain, "c9426firstName", "c9426lastName");
-        userService.create(adminUser, adminPassword, c9434User, password, c9434User + domain, "c9434firstName", "c9434lastName");
-        userService.create(adminUser, adminPassword, c9423User, password, c9426User + domain, "c9423firstname", "c9423lastname");
+        browseUser = dataUser.usingAdmin().createRandomTestUser();
+        editUser = dataUser.createRandomTestUser();
+        deleteUser = dataUser.createRandomTestUser();
+        addUserQuota = dataUser.createRandomTestUser();
+        enableUser = dataUser.createRandomTestUser();
+        removeGroupUser = dataUser.createRandomTestUser();
+        addUserToGroup = dataUser.createRandomTestUser();
+
         groupService.createGroup(adminUser, adminPassword, c9423Group);
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 
-    @AfterClass (alwaysRun = false)
+    @AfterClass (alwaysRun = true)
     public void cleanUp()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser, adminPassword, c9417User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9417User);
-        userService.delete(adminUser, adminPassword, c9431User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9431User);
-        userService.delete(adminUser, adminPassword, c9427User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9427User);
-        userService.delete(adminUser, adminPassword, c9426User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9426User);
-        userService.delete(adminUser, adminPassword, c9434User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9434User);
-        userService.delete(adminUser, adminPassword, c9423User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9423User);
+        removeUserFromAlfresco(browseUser, editUser, addUserQuota, enableUser, removeGroupUser, addUserToGroup);
         groupService.removeGroup(adminUser, adminPassword, c9423Group);
     }
 
@@ -108,11 +86,11 @@ public class UserProfileTests extends ContextAwareWebTest
         Assert.assertEquals(usersPage.getRelativePath(), "share/page/console/admin-console/users", "User is not on Users page");
 
         LOG.info("Step 2: On the Users page search for test user");
-        usersPage.searchUser(userName);
-        assertTrue(usersPage.isUserFound(userName), "User " + userName + " displayed");
+        usersPage.searchUser(browseUser.getUsername());
+        assertTrue(usersPage.isUserFound(browseUser.getUsername()), "User " + browseUser.getUsername() + " displayed");
 
         LOG.info("Step 3: Click on the test user name displayed in search results");
-        String fullName = "firstName" + " " + "lastName";
+        String fullName = getUserFullName(browseUser);
         usersPage.clickUserLink(fullName);
         Assert.assertEquals(userProfileAdminToolsPage.getUserNameInPageTitle(), fullName, "User is not opened in User Profile");
 
@@ -158,9 +136,9 @@ public class UserProfileTests extends ContextAwareWebTest
     public void browsingEditUserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        String fullName = "firstName" + " " + "lastName";
+        String fullName = getUserFullName(browseUser);
         usersPage.navigate();
-        usersPage.searchUser(userName);
+        usersPage.searchUser(browseUser.getUsername());
         usersPage.clickUserLink(fullName);
 
         LOG.info("Step 1: Click \"Edit User\" button");
@@ -194,7 +172,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9417")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editingUser()
     {
         String firstName = "c9417editedFN";
@@ -203,10 +181,10 @@ public class UserProfileTests extends ContextAwareWebTest
         String expectedUserName = firstName + " " + lastName;
 
         setupAuthenticatedSession(adminUser, adminPassword);
-        String fullName = "c9417firstName" + " " + "c9417lastName";
+        String fullName = getUserFullName(editUser);
 
         usersPage.navigate();
-        usersPage.searchUser(c9417User);
+        usersPage.searchUser(editUser.getUsername());
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
 
@@ -222,15 +200,15 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9423")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUserToGroup()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
 
-        String fullName = "c9423firstname" + " " + "c9423lastname";
+        String fullName = addUserToGroup.getFirstName() + " " + addUserToGroup.getLastName();
 
         usersPage.navigate();
-        usersPage.searchUser(c9423User);
+        usersPage.searchUser(addUserToGroup.getUsername());
         usersPage.clickUserLink(fullName);
         LOG.info("Open \"Edit user\" page");
         userProfileAdminToolsPage.clickEditUserButton();
@@ -259,53 +237,46 @@ public class UserProfileTests extends ContextAwareWebTest
         editUserPage.clickSaveChangesButton();
         Assert.assertEquals(userProfileAdminToolsPage.getUserNameInPageTitle(), fullName);
 
-        LOG.info("Step 6. Verify that user \"" + c9423User + "\" has been added to group \"" + c9423Group + "\".");
+        LOG.info("Step 6. Verify that user \"" + addUserToGroup.getUsername() + "\" has been added to group \"" + c9423Group + "\".");
         Assert.assertEquals(userProfileAdminToolsPage.getGroupName(), c9423Group);
         cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C9431")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deletingAUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        String fullName = "c9431firstName" + " " + "c9431lastName";
+        String fullName = getUserFullName(deleteUser);
         usersPage.navigate();
-        usersPage.searchUser(c9431User);
+        usersPage.searchUser(deleteUser.getUsername());
         usersPage.clickUserLink(fullName);
 
         LOG.info("Step 1:On the User Profile page for user1 click the Delete User button");
         userProfileAdminToolsPage.clickDelete();
         Assert.assertTrue(deleteUserDialogPage.isDeleteUserWindowDisplayed(), "Delete User window is not displayed");
-        Assert.assertEquals(
-            deleteUserDialogPage.getDeleteUserWindowText(),
-            "Click Delete User to remove this user.\n" +
-                "\n" +
-                "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
+        Assert.assertEquals(deleteUserDialogPage.getDeleteUserWindowText(), language.translate("deleteUser.dialog"));
 
         LOG.info("Step 2: Click the Delete button on the Delete User pop-up window");
         deleteUserDialogPage.clickButton("Delete", usersPage);
-
-        LOG.info("Step 3: On the Users Search page search for user1");
-        usersPage.searchUser(c9431User);
-        Assert.assertFalse(usersPage.isUserFound(userName), "User " + userName + " displayed");
+        deleteUserDialogPage.waitUntilMessageDisappears();
 
         LOG.info("Step 4: Logout and Login using c9431User");
         cleanupAuthenticatedSession();
         loginPage.navigate();
-        loginPage.login(c9431User, password);
-        assertEquals(loginPage.getAuthenticationError(), authenticationError, "Authentication error message=");
+        loginPage.login(deleteUser);
+        loginPage.assertAuthenticationErrorIsDisplayed().assertAuthenticationErrorMessageIsCorrect();
         cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C9427")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addingQuotaToUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        String fullName = "c9427firstName" + " " + "c9427lastName";
+        String fullName = getUserFullName(addUserQuota);
         usersPage.navigate();
-        usersPage.searchUser(c9427User);
+        usersPage.searchUser(addUserQuota.getUsername());
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
 
@@ -322,9 +293,9 @@ public class UserProfileTests extends ContextAwareWebTest
     public void enablingAccount()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        String fullName = "c9426firstName" + " " + "c9426lastName";
+        String fullName = getUserFullName(enableUser);
         usersPage.navigate();
-        usersPage.searchUser(c9426User);
+        usersPage.searchUser(enableUser.getUsername());
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount();
@@ -341,9 +312,9 @@ public class UserProfileTests extends ContextAwareWebTest
         LOG.info("Step 3: Try to log in as a user");
         cleanupAuthenticatedSession();
         loginPage.navigate();
-        loginPage.login(c9426User, password);
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id$='get-started-panel-container']"));
-        assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
+        loginPage.login(enableUser);
+        userDashboardPage.renderedPage();
+        userDashboardPage.assertPageIsOpened();
         cleanupAuthenticatedSession();
     }
 
@@ -351,13 +322,13 @@ public class UserProfileTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeGroupFromUserProfile()
     {
-        String fullName = "c9434firstName" + " " + "c9434lastName";
+        String fullName = getUserFullName(removeGroupUser);
         String groupName = "EMAIL_CONTRIBUTORS";
 
         LOG.info("Step1: Login as admin and add a user to a group.");
         setupAuthenticatedSession(adminUser, adminPassword);
         usersPage.navigate();
-        usersPage.searchUser(c9434User);
+        usersPage.searchUser(removeGroupUser.getUsername());
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.editGroupsField(groupName);
@@ -374,5 +345,10 @@ public class UserProfileTests extends ContextAwareWebTest
         Assert.assertFalse(userProfileAdminToolsPage.getGroupName().contains(groupName), "Group was not removed.");
 
         cleanupAuthenticatedSession();
+    }
+
+    private String getUserFullName(UserModel user)
+    {
+        return String.format("%s %s", user.getFirstName(), user.getLastName());
     }
 }

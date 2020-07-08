@@ -205,12 +205,15 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         return userFolder;
     }
 
-    public void removeUserFromAlfresco(UserModel user)
+    public void removeUserFromAlfresco(UserModel... users)
     {
-        dataUser.usingAdmin().deleteUser(user);
-        FolderModel userFolder = new FolderModel(user.getUsername());
-        userFolder.setCmisLocation(Utility.buildPath(cmisApi.getUserHomesPath(), user.getUsername()));
-        cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(userFolder).deleteFolderTree();
+        for(UserModel user : users)
+        {
+            dataUser.usingAdmin().deleteUser(user);
+            FolderModel userFolder = new FolderModel(user.getUsername());
+            userFolder.setCmisLocation(Utility.buildPath(cmisApi.getUserHomesPath(), user.getUsername()));
+            cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(userFolder).deleteFolderTree();
+        }
     }
 
     @Override
