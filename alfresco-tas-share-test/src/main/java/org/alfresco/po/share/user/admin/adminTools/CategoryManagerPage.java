@@ -16,13 +16,13 @@ public class CategoryManagerPage extends AdminToolsPage
     @FindBy (css = "div[id$=default-category-manager]")
     private WebElement categoryManagerDiv;
 
-    @FindBy (xpath = "//form[@class = 'insitu-edit' and @style = 'display: inline;']/input")
+    @FindBy (css = ".insitu-edit input[type='text']")
     private WebElement editCategoryNameInput;
 
-    @FindBy (xpath = "//form[@class = 'insitu-edit' and @style = 'display: inline;']/a[text() = 'Save']")
+    @FindBy (css = ".insitu-edit a:nth-of-type(1)")
     private WebElement editCategorySaveButton;
 
-    @FindBy (xpath = "//form[@class = 'insitu-edit' and @style = 'display: inline;']/a[text() = 'Cancel']")
+    @FindBy (css = ".insitu-edit a:nth-of-type(2)")
     private WebElement editCategoryCancelButton;
 
     @Autowired
@@ -94,7 +94,7 @@ public class CategoryManagerPage extends AdminToolsPage
     private void mouseOverOnCategory(String categoryName)
     {
         WebElement category = browser.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(categoryLocator, categoryName)), 1, 15);
+            By.xpath(String.format(categoryLocator, categoryName)), 1, 20);
         browser.mouseOver(category);
         browser.waitUntilElementVisible(addCategoryButton);
     }
