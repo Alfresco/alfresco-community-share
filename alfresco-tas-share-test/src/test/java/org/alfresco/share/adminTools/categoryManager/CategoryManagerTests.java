@@ -31,7 +31,6 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
-        userService.createRootCategory(adminUser, adminPassword, category9298);
         setupAuthenticatedSession(adminUser, adminPassword);
         categoryManagerPage.navigate();
     }
@@ -88,6 +87,8 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void editCategory()
     {
         LOG.info("Step 1: Edit the category.");
+        userService.createRootCategory(adminUser, adminPassword, category9298);
+        categoryManagerPage.navigate();
         categoryManagerPage.editCategory(category9298, categoryEdited);
 
         LOG.info("Step 2: Verify the edited category is displayed in the 'Category Manager' page.");

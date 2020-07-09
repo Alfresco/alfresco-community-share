@@ -15,6 +15,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -82,26 +83,37 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     private String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private String targetColumn = "ul[id$='default-column-ul-%d']";
     private String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
+
     @FindBy (css = "div[id$='default-wrapper-div']")
     private WebElement availableColumns;
+
     @RenderWebElement
     @FindBy (css = ".trashcan")
     private WebElement trashcan;
+
     @FindBy (css = "li[id$='layout-li-dashboard-1-column']")
     private WebElement oneColumnLayout;
+
     @FindBy (css = "li[id$='layout-li-dashboard-3-columns']")
     private WebElement threeColumnsLayout;
+
     @FindBy (css = "li[id$='layout-li-dashboard-4-columns']")
     private WebElement fourColumnsLayout;
+
     @FindBy (css = "li[id$='layout-li-dashboard-2-columns-wide-right']")
     private WebElement twoColumnsWideRightLayout;
+
     @FindBy (css = "li[id$='layout-li-dashboard-2-columns-wide-left']")
     private WebElement twoColumnsWideLeftLayout;
+
     @FindBy (css = ".closeLink")
     private WebElement closeAddDashlets;
+
     @FindBy (css = ".availableList")
+
     private WebElement availableDashletList;
     private By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
+    private String dashletInAddedColumn = "ul[id$='default-column-ul-%s'] > li:nth-child(%s)";
 
     public String getSubTitle()
     {
@@ -274,7 +286,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         while (i < retry && !added)
         {
             LOG.info(String.format("Retry add dashlet - %s", i));
-            browser.dragAndDrop(webDashlet, target);
+            dragAndDropDashlet(webDashlet, target);
             added = isDashletAddedInColumn(dashlet, columnNr);
             i++;
         }
@@ -325,6 +337,17 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     public boolean isDashletAddedInColumn(Dashlets dashlet, int columnNumber)
     {
         return getDashletAddedInColumn(dashlet, columnNumber) != null;
+    }
+
+    public boolean isDashletInPositionInColumn(Dashlets dashlet, int columnNumber, int columnPosition)
+    {
+        WebElement dashletElement = browser.findElement(By.cssSelector
+            (String.format(dashletInAddedColumn, columnNumber, columnPosition)));
+        if(dashletElement.getText().equals(dashlet.getDashletName()))
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -439,7 +462,9 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         WebElement dashToMove = getDashletToMove(addedDashlet, fromColumn);
         dashToMove.click();
         browser.waitUntilElementHasAttribute(dashToMove, "class", "dnd-focused");
-        WebElement target = dragAndDropDashlet(dashToMove, toColumn);
+        WebElement target = browser.findElement(By.cssSelector(String.format(targetColumn, toColumn)));
+        target.click();
+        dragAndDropDashlet(dashToMove, target);
         retryAddDashlet(addedDashlet, dashToMove, target, toColumn);
     }
 
@@ -504,11 +529,17 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         }
     }
 
-    private WebElement dragAndDropDashlet(WebElement dashletToMove, int toColumn)
+    private void dragAndDropDashlet(WebElement dashletToMove, WebElement target)
     {
-        WebElement target = browser.findElement(By.cssSelector(String.format(targetColumn, toColumn)));
-        browser.dragAndDrop(dashletToMove, target);
-        return target;
+        try
+        {
+            browser.dragAndDrop(dashletToMove, target);
+        }
+        catch (MoveTargetOutOfBoundsException e)
+        {
+            LOG.info("Retry drag&drop dashlet");
+            browser.dragAndDrop(dashletToMove, target);
+        }
     }
 
     public enum Layout

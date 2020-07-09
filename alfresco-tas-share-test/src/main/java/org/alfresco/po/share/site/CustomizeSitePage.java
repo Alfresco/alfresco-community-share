@@ -161,6 +161,11 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         pageElem.click();
         browser.waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
         browser.dragAndDrop(pageElem, currentSitePagesArea);
+        if(!isPageAddedToCurrentPages(page))
+        {
+            LOG.info(String.format("Retry add page %s", page.getDisplayText()));
+            browser.dragAndDrop(pageElem, currentSitePagesArea);
+        }
     }
 
     /**

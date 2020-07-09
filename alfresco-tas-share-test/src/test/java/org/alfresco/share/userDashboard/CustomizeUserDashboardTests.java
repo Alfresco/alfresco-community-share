@@ -66,7 +66,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         LOG.info("Step 7 - Click and drag the dashlets within and across columns to configure the display order");
         customizeUserDashboard.moveAddedDashletInColumn(Dashlets.MY_SITES, 1, 2);
         Assert.assertTrue(customizeUserDashboard.isDashletAddedInColumn(Dashlets.MY_SITES, 2), "My Sites dashlet is not added in column 2");
-        customizeUserDashboard.reorderDashletsInColumn(Dashlets.MY_ACTIVITIES, Dashlets.MY_DOCUMENTS, 2);
+        customizeUserDashboard.reorderDashletsInColumn(Dashlets.MY_ACTIVITIES, Dashlets.MY_DOCUMENTS, 2, 2);
 
         LOG.info("Step 8 - Click OK to save changes");
         customizeUserDashboard.clickOk();

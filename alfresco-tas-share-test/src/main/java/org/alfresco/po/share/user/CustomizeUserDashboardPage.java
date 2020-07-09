@@ -226,12 +226,15 @@ public class CustomizeUserDashboardPage extends SharePage<CustomizeUserDashboard
         dashboardCustomization.moveAddedDashletInColumn(dashlet, fromColumn, toColumn);
     }
 
-    @Override
-    public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column)
+    public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column, int columnPositionToCheck)
     {
         List<WebElement> dashlets = dashboardCustomization.reorderDashletsInColumn(dashletToMove, dashletToReplace,
             column);
         browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
+        if(!dashboardCustomization.isDashletInPositionInColumn(dashletToMove, column, columnPositionToCheck))
+        {
+            browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
+        }
         return dashlets;
     }
 }

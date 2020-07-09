@@ -160,6 +160,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     public void changeRoleForMember(String newRole, String userName)
     {
         selectMember(userName).findElement(currentRoleButton).click();
+        browser.waitUntilElementsVisible(dropDownOptionsList);
         browser.selectOptionFromFilterOptionsList(newRole, dropDownOptionsList);
         waitUntilMessageDisappears();
     }

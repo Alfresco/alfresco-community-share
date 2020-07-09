@@ -95,19 +95,25 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         GroupModel testGroup = dataGroup.usingAdmin().createRandomGroup();
         dataGroup.addListOfUsersToGroup(testGroup, testUser);
         groupService.inviteGroupToSite(adminUser, adminPassword, testSite.getTitle(), testGroup.getDisplayName(), "SiteManager");
+
         LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(testSite.getTitle());
         assertTrue(siteUsersPage.isSiteMember(testUser));
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager ▾", testUser.getUsername() + " has role=");
+
         LOG.info("Step 2: Click on 'Groups' link");
         siteUsersPage.openSiteGroupsPage();
+        siteGroupsPage.renderedPage();
         siteGroupsPage.typeSearchGroup(testGroup.getDisplayName());
         siteGroupsPage.clickSearch();
         assertTrue(siteGroupsPage.isASiteMember(testGroup.getDisplayName()), "Expected group '" + testGroup.getDisplayName() + "' is not present on the page.");
+
         LOG.info("Step 3: Change the current role to 'Consumer'");
         siteGroupsPage.changeRoleForMember("Consumer", testGroup.getDisplayName());
+
         LOG.info("Step 4: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
         siteGroupsPage.openSiteUsersPage();
+        siteUsersPage.renderedPage();
         assertTrue(siteUsersPage.isASiteMember(testUser.getFirstName() + " " + testUser.getLastName()));
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Consumer ▾", testUser.getUsername() + " has role in " + testGroup.getDisplayName());
 

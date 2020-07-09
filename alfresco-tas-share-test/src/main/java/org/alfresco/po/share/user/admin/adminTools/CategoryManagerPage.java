@@ -102,7 +102,7 @@ public class CategoryManagerPage extends AdminToolsPage
     public boolean isCategoryDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        browser.waitUntilElementIsDisplayedWithRetry(category, WAIT_15_SEC);
+        browser.waitUntilElementIsDisplayedWithRetry(category, 1, 10);
         return browser.isElementDisplayed(category);
     }
 

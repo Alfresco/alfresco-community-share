@@ -184,7 +184,4 @@ public interface DashboardCustomization
      * @param toColumn   int to column number
      */
     void moveAddedDashletInColumn(Dashlets dashlet, int fromColumn, int toColumn);
-
-    List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column);
-
 }

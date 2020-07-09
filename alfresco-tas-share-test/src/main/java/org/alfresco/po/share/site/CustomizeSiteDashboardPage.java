@@ -9,6 +9,8 @@ import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
@@ -195,12 +197,16 @@ public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboar
         dashboardCustomization.moveAddedDashletInColumn(dashlet, fromColumn, toColumn);
     }
 
-    @Override
-    public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column)
+    public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column, int columnPositionToCheck)
     {
-        List<WebElement> dashlets = dashboardCustomization.reorderDashletsInColumn(dashletToMove, dashletToReplace,
-            column);
+        List<WebElement> dashlets = dashboardCustomization.reorderDashletsInColumn(dashletToMove, dashletToReplace, column);
+        dashlets.get(1).click();
         browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
+        if(!dashboardCustomization.isDashletInPositionInColumn(dashletToMove, column, columnPositionToCheck))
+        {
+            LOG.info("Retry reorder dashlet");
+            browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
+        }
         return dashlets;
     }
 }

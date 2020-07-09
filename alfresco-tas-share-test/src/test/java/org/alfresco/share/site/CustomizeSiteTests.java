@@ -161,6 +161,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 5 - Click 'Ok' button.");
         customizeSite.clickOk();
+        siteDashboard.waitUntilMessageDisappears();
         siteDashboard.renderedPage();
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()

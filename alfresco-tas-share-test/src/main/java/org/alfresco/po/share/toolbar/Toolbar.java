@@ -169,7 +169,7 @@ public class Toolbar extends HtmlPage
 
     public AdminToolsPage clickAdminTools()
     {
-        adminToolsLink.click();
+        browser.waitUntilElementClickable(adminToolsLink).click();
         return (AdminToolsPage) adminToolsPage.renderedPage();
     }
 
