@@ -64,7 +64,7 @@ public class CategoryManagerPage extends AdminToolsPage
 
     public CategoryManagerPage addSubCategory(String parentCategory, String childCategoryName)
     {
-        browser.mouseOver(category(parentCategory));
+        mouseOverOnCategory(parentCategory);
         return clickAddButton().addCategory(childCategoryName);
     }
 
