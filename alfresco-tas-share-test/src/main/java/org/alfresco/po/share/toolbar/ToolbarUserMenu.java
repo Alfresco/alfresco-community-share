@@ -87,6 +87,7 @@ public class ToolbarUserMenu extends Toolbar
         userMenuLink.click();
         getBrowser().waitUntilElementVisible(dropdownMenu);
         setCurrentPageAsHome.click();
+        waitUntilMessageDisappears();
     }
 
     public boolean isDashBoardAsHomeDisplayed()
