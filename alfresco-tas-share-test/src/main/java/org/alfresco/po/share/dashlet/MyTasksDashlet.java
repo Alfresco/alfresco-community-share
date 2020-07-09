@@ -13,6 +13,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -43,7 +44,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     private Link startWorkFlowLink;
 
     @FindBy (css = "a[href*='active']")
-    private Link activeTasksLink;
+    private WebElement activeTasksLink;
 
     @FindBy (css = "a[href*='completed']")
     private Link completedTasksLink;
@@ -255,10 +256,17 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     {
         Parameter.checkIsMandotary("Task name", taskName);
         WebElement taskRow = selectTaskDetailsRow(taskName);
-        browser.mouseOver(taskRow);
-        browser.waitUntilElementHasAttribute(taskRow, "class", "highlighted");
-        WebElement editBtn = taskRow.findElement(editIcon);
-        browser.waitUntilElementVisible(editBtn).click();
+        browser.mouseOver(taskRow.findElement(taskNames));
+        try
+        {
+            taskRow.findElement(editIcon).click();
+        }
+        catch (ElementNotInteractableException e)
+        {
+            LOG.info("Retry click Edit task button");
+            browser.mouseOver(taskRow.findElement(By.cssSelector(".yui-dt-last")));
+            taskRow.findElement(editIcon).click();
+        }
         return (EditTaskPage) editTaskPage.renderedPage();
     }
 

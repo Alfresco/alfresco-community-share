@@ -265,6 +265,7 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 5 - Click on the \"User menu\" -> \"Use My Dashboard\" option");
         toolbarUserMenu.clickSetDashBoardAsHome();
         toolbarUserMenu.clickHome();
+        userDashboardPage.renderedPage();
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
 
         LOG.info("STEP 6 - Click on the \"User menu\" -> \"Change Password\" option");
@@ -385,6 +386,7 @@ public class ToolbarTests extends ContextAwareWebTest
 
         LOG.info("STEP 1 - Click on \"Home\" link from Alfresco Toolbar");
         toolbar.clickHome();
+        userDashboardPage.renderedPage();
         Assert.assertTrue(userDashboardPage.getPageHeader().contains(userName), "Page header");
 
         LOG.info("STEP 2 - Click on \"My Files\" link from Alfresco Toolbar");

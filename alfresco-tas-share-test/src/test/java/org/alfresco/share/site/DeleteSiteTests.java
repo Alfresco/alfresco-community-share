@@ -171,7 +171,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP7: Search for the file created within the site");
         userDashboardPage.navigateByMenuBar();
         toolbar.search(fileNameC2280);
-        assertEquals(searchFromToolbarPage.getNumberOfResultsText(), "0 - results found", "Search page: number of results");
+        assertFalse(searchFromToolbarPage.isResultFound(fileNameC2280), String.format("File is found %s", fileNameC2280));
 
         LOG.info("STEP8: Open created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2280_1 + "/dashboard";
