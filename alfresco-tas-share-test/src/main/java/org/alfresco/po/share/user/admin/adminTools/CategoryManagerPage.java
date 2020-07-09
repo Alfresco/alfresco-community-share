@@ -85,7 +85,7 @@ public class CategoryManagerPage extends AdminToolsPage
         mouseOverOnCategory(categoryName);
         browser.waitUntilElementVisible(editCategoryButton).click();
 
-        browser.waitUntilElementVisible(editCategoryNameInput);
+        browser.waitUntilElementVisible(editCategorySaveButton);
         editCategoryNameInput.sendKeys(newCategoryName);
         editCategorySaveButton.click();
         return (CategoryManagerPage) this.renderedPage();
@@ -102,7 +102,7 @@ public class CategoryManagerPage extends AdminToolsPage
     public boolean isCategoryDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        browser.waitUntilElementIsDisplayedWithRetry(category, 1, 10);
+        browser.waitUntilElementIsDisplayedWithRetry(category, 1, 20);
         return browser.isElementDisplayed(category);
     }
 
