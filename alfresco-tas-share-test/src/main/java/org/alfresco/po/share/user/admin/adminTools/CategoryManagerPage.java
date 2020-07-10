@@ -80,14 +80,22 @@ public class CategoryManagerPage extends AdminToolsPage
         return (CategoryManagerPage) clickDeleteButton(categoryName).clickDelete(this);
     }
 
-    public CategoryManagerPage editCategory(String categoryName, String newCategoryName)
+    public void clickEditCategory(String categoryName)
     {
         mouseOverOnCategory(categoryName);
         WebElement ediCat = browser.waitUntilElementVisible(editCategoryButton);
         browser.mouseOver(ediCat);
-        ediCat.click();
+        browser.clickJS(ediCat);
+    }
 
-        browser.waitUntilElementVisible(editCategorySaveButton);
+    public CategoryManagerPage editCategory(String categoryName, String newCategoryName)
+    {
+        clickEditCategory(categoryName);
+        if(!browser.isElementDisplayed(editCategoryNameInput))
+        {
+            LOG.info("Click Edit category again");
+            clickEditCategory(categoryName);
+        }
         editCategoryNameInput.sendKeys(newCategoryName);
         editCategorySaveButton.click();
         return (CategoryManagerPage) this.renderedPage();

@@ -158,7 +158,6 @@ public class Toolbar extends HtmlPage
     public SitesManagerPage clickSitesManager()
     {
         sitesManagerLink.click();
-
         return (SitesManagerPage) sitesManagerPage.renderedPage();
     }
 
@@ -169,7 +168,7 @@ public class Toolbar extends HtmlPage
 
     public AdminToolsPage clickAdminTools()
     {
-        browser.waitUntilElementClickable(adminToolsLink).click();
+        browser.waitUntilElementVisible(adminToolsLink).click();
         return (AdminToolsPage) adminToolsPage.renderedPage();
     }
 

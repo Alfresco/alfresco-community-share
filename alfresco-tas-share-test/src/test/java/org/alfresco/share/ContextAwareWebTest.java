@@ -20,6 +20,7 @@ import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.LoginPage;
+import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.DataGroup;
@@ -88,6 +89,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     public RestWrapper restApi;
+
+    @Autowired
+    public UserDashboardPage userDashboardPage;
 
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;

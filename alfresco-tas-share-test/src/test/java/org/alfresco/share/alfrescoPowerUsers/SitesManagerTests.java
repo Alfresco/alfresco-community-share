@@ -256,21 +256,11 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void removeUserFromAlfrescoAdmin()
     {
         setupAuthenticatedSession(alfrescoAdmin, password);
-
-        LOG.info("STEP1: Verify presence of 'Admin Tools' in toolbar");
+        userDashboardPage.renderedPage();
         assertTrue(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
-
-        LOG.info("STEP2: Navigate to 'Admin Tools' from toolbar");
-        toolbar.clickAdminTools();
-
-        LOG.info("STEP3: Click 'Sites Manager' option from left side panel");
-        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
-
-        LOG.info("STEP4: User1 is removed from ALFRESCO_ADMINISTRATORS group. User logs out and logins to share.");
         groupService.removeUserFromGroup(adminUser, adminPassword, alfrescoAdminGroup, alfrescoAdmin);
-        cleanupAuthenticatedSession();
         setupAuthenticatedSession(alfrescoAdmin, password);
+        userDashboardPage.renderedPage();
         assertFalse(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
     }
 
