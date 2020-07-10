@@ -83,7 +83,9 @@ public class CategoryManagerPage extends AdminToolsPage
     public CategoryManagerPage editCategory(String categoryName, String newCategoryName)
     {
         mouseOverOnCategory(categoryName);
-        browser.waitUntilElementVisible(editCategoryButton).click();
+        WebElement ediCat = browser.waitUntilElementVisible(editCategoryButton);
+        browser.mouseOver(ediCat);
+        ediCat.click();
 
         browser.waitUntilElementVisible(editCategorySaveButton);
         editCategoryNameInput.sendKeys(newCategoryName);
@@ -94,7 +96,7 @@ public class CategoryManagerPage extends AdminToolsPage
     private void mouseOverOnCategory(String categoryName)
     {
         WebElement category = browser.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(categoryLocator, categoryName)), 1, 20);
+            By.xpath(String.format(categoryLocator, categoryName)), 2, 20);
         browser.mouseOver(category);
         browser.waitUntilElementVisible(addCategoryButton);
     }
