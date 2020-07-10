@@ -156,7 +156,6 @@ public class AddSiteMembersTests extends ContextAwareWebTest
             "Message is displayed in 'Add Users to Site' panel.");
     }
 
-    @Bug (id = "TBD0", description = "Alfresco Documentation is not yet available for 6.0")
     @TestRail (id = "3114")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyInfoIconFromAddUsersPage()
