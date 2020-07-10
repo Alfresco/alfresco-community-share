@@ -134,6 +134,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteNameC3053);
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site", siteDashboardPage);
+        siteDashboardPage.waitUntilMessageDisappears();
 
         LOG.info("STEP 2: Click on 'Site Members' link.");
         siteUsersPage.navigate(siteNameC3053);
@@ -143,6 +144,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
             user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
+        siteDashboardPage.navigate(siteNameC3053);
         siteDashboardPage.clickSiteConfiguration();
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"),
             "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");

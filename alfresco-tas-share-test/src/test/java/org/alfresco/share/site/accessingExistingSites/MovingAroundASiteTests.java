@@ -87,7 +87,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         customizeSite.addPageToSite(SitePageType.LINKS);
         customizeSite.addPageToSite(SitePageType.DATA_LISTS);
         customizeSite.clickOk();
-        siteDashboard.renderedPage();
+        siteDashboard.waitUntilMessageDisappears();
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), "Calendar is available on the the site's header");

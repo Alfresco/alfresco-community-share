@@ -68,7 +68,6 @@ public class ApplicationTests extends ContextAwareWebTest
     {
         Assert.assertEquals(applicationPage.checkText(),
             "You can find further administration tools in the Repository Admin Console, find out more information in the Alfresco Documentation.");
-
     }
 
 }

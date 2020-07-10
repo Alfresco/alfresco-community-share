@@ -161,10 +161,20 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         pageElem.click();
         browser.waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
         browser.dragAndDrop(pageElem, currentSitePagesArea);
-        if(!isPageAddedToCurrentPages(page))
+        retryAddPageToSite(page, pageElem);
+    }
+
+    private void retryAddPageToSite(SitePageType page, WebElement pageElem )
+    {
+        int i = 0;
+        int retry = 5;
+        boolean added = isPageAddedToCurrentPages(page);
+        while (i < retry && !added)
         {
-            LOG.info(String.format("Retry add page %s", page.getDisplayText()));
+            LOG.info(String.format("Retry add page - %s", i));
             browser.dragAndDrop(pageElem, currentSitePagesArea);
+            added = isPageAddedToCurrentPages(page);
+            i++;
         }
     }
 
