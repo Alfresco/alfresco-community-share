@@ -112,7 +112,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" }, enabled = false)
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD }, enabled = false)
     public void verifyDashletTest()
     {
         setupAuthenticatedSession(userNameShare, password);

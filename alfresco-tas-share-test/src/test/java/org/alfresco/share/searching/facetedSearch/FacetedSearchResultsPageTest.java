@@ -75,7 +75,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, domain, siteName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testSearchEmptyResult()
     {
         String missingDoc = "t38ta@";
@@ -88,7 +88,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testSelectSearchResultByName()
     {
         LOG.info("Step 1: Search for document");
@@ -100,7 +100,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Document title is not correct");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testSelectSearchResultOfTypeFolder()
     {
         LOG.info("Step 1: Search for folder");
@@ -112,7 +112,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString());
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testPagination()
     {
         LOG.info("Step 1: Search for all results containing letter a");
@@ -127,7 +127,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertTrue(currentResultNo >= searchResultsNo, "Result number is lower thant the one before scrolling");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testSearchSortDescTest()
     {
         setupAuthenticatedSession(userName, password);
@@ -147,7 +147,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertFalse(searchPage.getResultsListSize() == 0, "No results are displayed");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testSearchSortTest()
     {
         LOG.info("Step 1: Search for files, sort by name and check that the list of results is arranged by name");
@@ -162,7 +162,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertTrue(searchPage.areResultsSortedByName(), "Results are not sorted by name");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testCheckAvailableSortFilters()
     {
         LOG.info("Step 1: Check that all expected filters are available on the search results page.");
@@ -184,7 +184,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testGetResultCount()
     {
         LOG.info("Step 1: Search for existing files and confirm that the number of displayed results is correct.");
@@ -195,7 +195,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertEquals(searchPage.getResultsListSize(), 4, "Results number is not correct");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testSelectFacet()
     {
         LOG.info("Step 1: Search for files then filter by mimeType, check that results are filtered correctly");
@@ -204,7 +204,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertEquals(searchPage.getNumberOfResultsText().substring(0, 1), "2", "Results are not filtered correctly");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testSearchSelectViewTest()
     {
         setupAuthenticatedSession(userName, password);
@@ -227,7 +227,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), "Project Overview.ppt");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testClickImagePreviewTest()
     {
         LOG.info("Step 1: Search for .jpg extension and check that the image is previewed from the search results");
@@ -238,7 +238,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         searchPage.closePicturePreview();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testFilePreview()
     {
         LOG.info("Step 1: Search for .jpg extension and check that the document is previewed from the search results");
@@ -249,7 +249,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         searchPage.closeFilePreview();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testClickConfigureSearchTest()
     {
         setupAuthenticatedSession(userName, password);
@@ -260,7 +260,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getTitle().equals("Alfresco » Search Manager"));
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testClickLinksOnSearchItemTest()
     {
         LOG.info("Step 1: From the search page click on the modified by link");

@@ -99,7 +99,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14502")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerCreateContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -114,7 +114,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14500")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerUploadContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -125,7 +125,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8884")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerDownloadContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -143,7 +143,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8885")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerViewInBrowser()
     {
         documentLibraryPage.navigate(siteName);
@@ -157,7 +157,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8887")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerUploadNewVersion()
     {
         documentLibraryPage.navigate(siteName);
@@ -167,7 +167,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8888")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerUploadNewVersionForLockedFile()
     {
         LOG.info("Step 1: Mouse over lockedFile and check that Upload New Version option is not available");
@@ -177,7 +177,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8892")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerEditInAlfresco()
     {
         documentLibraryPage.navigate(siteName);
@@ -188,7 +188,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8905,C8894,C8890")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerHasNoEditActionsForWordDoc()
     {
         documentLibraryPage.navigate(siteName);
@@ -202,7 +202,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8902")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerCancelEditingLockedByOtherUser()
     {
         LOG.info("Step 1: Mouse over fileC8902 and Check that user with Consumer role does not have access to Cancel editing locked by other user. ");
@@ -214,7 +214,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8903,C8904")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerViewOriginalDocumentAndWorkingCopy()
     {
         LOG.info("Step 1: Login with consumer user, navigate to document library.");
@@ -232,7 +232,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8906")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerStartWorkflow()
     {
         LOG.info("Step 1: Mouse over textFileForWorkflow and confirm that Start Workflow option is available");
@@ -245,7 +245,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8907")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerLocateFile()
     {
         documentLibraryPage.navigate(siteName);
@@ -262,7 +262,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8908")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerDownloadPreviousVersion()
     {
         LOG.info("Step 1: Navigate to DocumentLibrary and click on fileWithVersions");
@@ -280,7 +280,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8909")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerRevertToPreviousVersion()
     {
         LOG.info("Step 1: Navigate to DocumentLibrary and click on fileWithVersions");

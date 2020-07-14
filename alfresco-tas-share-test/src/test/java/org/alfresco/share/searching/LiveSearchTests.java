@@ -48,7 +48,7 @@ public class LiveSearchTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void testSetup()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "faceted", "search");
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "faceted", TestGroup.SEARCH);
         siteService.create(userName, password, domain, siteName, "FacetedSearchSite", SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "test content");
     }
@@ -60,7 +60,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, domain, siteName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testCheckNoLiveSearchResults()
     {
         LOG.info("Step 1: Search for info that does not exist and check that results are not displayed in search results");
@@ -77,7 +77,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testCheckLiveSearchScopeOptionsSiteContext()
     {
         LOG.info("Step 1: Check that when not in site context, the Live Search dropdown does not contain the scope options");
@@ -88,7 +88,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testCheckLiveSearchScopeOptionsRepoContext()
     {
         LOG.info("Step 1: Check that when in site, the Live Search dropdown contains the scope options");
@@ -100,7 +100,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testCheckSiteScopeSiteName()
     {
         LOG.info("Step 1: Check the site name in Search Site scope option");
@@ -112,7 +112,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchDocumentResult()
     {
         LOG.info("Step 1: Check that the document search result contains document name, site name and user name");
@@ -125,7 +125,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testExpandLiveSearchDocumentResult()
     {
         LOG.info("Step 1: Expand document search results");
@@ -141,7 +141,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testClickOnDocumentTitle()
     {
         LOG.info("Step 1: Clicks on the document name in the document search result and checks that the document's details page is displayed");
@@ -154,7 +154,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testClickOnDocumentSiteName()
     {
         LOG.info("Step 1: Clicks on document site name in the document search result and checks that document site library page is displayed");
@@ -167,7 +167,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testClickOnDocumentUserName()
     {
         LOG.info("Step 1: Click on document user name in document search result and checks that user profile page is displayed");
@@ -179,7 +179,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchPeopleResult()
     {
         String expected = "[faceted search (" + userName + ")]";
@@ -194,7 +194,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchSitesResult()
     {
         String expected = "[" + siteName + "]";
@@ -210,7 +210,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchInSiteResults()
     {
         String searchTerm = "docName";
@@ -223,7 +223,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchInRepositoryResults()
     {
         String searchTerm = "docName";
@@ -236,7 +236,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchToFacetedInSiteScope()
     {
         String searchTerm = "docName";
@@ -250,7 +250,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchToFacetedInRepositoryScope()
     {
         String searchTerm = "docName";
@@ -264,7 +264,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testLiveSearchNoResultsInSite()
     {
         String searchTerm = "jpg";

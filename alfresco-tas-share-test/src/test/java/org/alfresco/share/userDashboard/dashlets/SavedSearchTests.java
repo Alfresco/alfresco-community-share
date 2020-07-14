@@ -90,7 +90,7 @@ public class SavedSearchTests extends ContextAwareWebTest
         configureSavedSearchPopUp.clickCloseButton();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "UserDashboard" }, priority = 1)
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.USER_DASHBOARD }, priority = 1)
     public void getSearchItemsWithEmptyResult()
     {
         String title = "RandomGeneratedString";
@@ -105,7 +105,7 @@ public class SavedSearchTests extends ContextAwareWebTest
         Assert.assertEquals(savedSearchDashlet.getResultsText(), "No results found.", "Results are found");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "UserDashboard" }, priority = 3)
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.USER_DASHBOARD }, priority = 3)
     public void verifySavedSearchResult()
     {
         String title = "valid search";
@@ -124,7 +124,7 @@ public class SavedSearchTests extends ContextAwareWebTest
         Assert.assertTrue(savedSearchDashlet.isSearchResultItemDisplayed("In folder: /"));
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "UserDashboard" }, priority = 2)
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.USER_DASHBOARD }, priority = 2)
     public void verifySavedSearchLimit()
     {
         userDashboardPage.navigate(userName);

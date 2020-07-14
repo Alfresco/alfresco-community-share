@@ -61,7 +61,7 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8867")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -81,7 +81,7 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8869")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void manageRulesFolderCreatedByOther()
     {
         documentLibraryPage.navigate(site);

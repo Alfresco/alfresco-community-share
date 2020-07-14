@@ -72,7 +72,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8874")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorCreateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -91,7 +91,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8875")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -111,7 +111,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8876")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void manageRulesFolderSelfCreated()
     {
         documentLibraryPage.navigate(site);
@@ -127,7 +127,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8877")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void manageRulesFolderCreatedByOther()
     {
         documentLibraryPage.navigate(site);

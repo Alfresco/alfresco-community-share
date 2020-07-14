@@ -23,21 +23,29 @@ public class ApplicationPage extends AdminToolsPage
     @RenderWebElement
     @FindBy (css = "select#console-options-theme-menu")
     private Select themeDropdown;
+
     @FindBy (css = "div.apply button[id$='_default-apply-button-button']")
     private Button applyButton;
+
     @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]")
     private WebElement defaultAlfrescoImage;
+
     @FindBy (css = ".info")
     private WebElement mainText;
+
     @RenderWebElement
     @FindBy (css = "button[id$='reset-button-button']")
     private Button resetButton;
+
     @RenderWebElement
     @FindBy (css = "form[id*=admin-console] button[id*=upload-button-button]")
     private Button uploadButton;
 
-    @Autowired
-    private UploadFileDialog uploadDialog;
+    private final UploadFileDialog uploadDialog;
+
+    public ApplicationPage(UploadFileDialog uploadDialog) {
+        this.uploadDialog = uploadDialog;
+    }
 
     @Override
     public String getRelativePath()
@@ -87,14 +95,8 @@ public class ApplicationPage extends AdminToolsPage
     public boolean isThemeOptionSelected(Theme theme)
     {
         List<WebElement> options = themeDropdown.getOptions();
-        for (WebElement value : options)
-        {
-            if (value.getAttribute("value").contains(theme.getSelectValue()) && value.isSelected())
-            {
-                return true;
-            }
-        }
-        return false;
+        return options.stream().anyMatch(value ->
+            value.getAttribute("value").contains(theme.getSelectValue()) && value.isSelected());
     }
 
     public boolean doesBodyContainTheme(Theme theme)

@@ -14,6 +14,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.stream.Stream;
+
 /**
  * UI tests for Admin Tools > Category Manager page
  */
@@ -38,13 +40,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @AfterClass (alwaysRun = true)
     public void afterClassDeleteAddedCategories()
     {
-        for (String categoryName : asList(category9295, categoryEdited, subCategoryName))
-        {
-            if (userService.categoryExists(adminUser, adminPassword, categoryName))
-            {
-                userService.deleteCategory(adminUser, adminPassword, categoryName);
-            }
-        }
+        Stream.of(category9295, categoryEdited, subCategoryName).filter(categoryName
+            -> userService.categoryExists(adminUser, adminPassword, categoryName)).forEach(categoryName
+            -> userService.deleteCategory(adminUser, adminPassword, categoryName));
         cleanupAuthenticatedSession();
     }
 

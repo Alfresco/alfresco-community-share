@@ -197,14 +197,9 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     {
         clickMoreLink();
         List<WebElement> moreOptionsList = browser.waitUntilElementsVisible(moreOptions);
-        for (WebElement option : moreOptionsList)
-        {
-            if (option.getText().equals(link))
-            {
-                option.click();
-                break;
-            }
-        }
+        moreOptionsList.stream()
+            .filter(option -> option.getText().equals(link))
+            .findFirst().ifPresent(WebElement::click);
     }
 
     /**
@@ -234,7 +229,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
      */
     public void clickMoreLink()
     {
-        morePagesDropDown.click();
+        browser.waitUntilElementVisible(morePagesDropDown).click();
     }
 
     /**

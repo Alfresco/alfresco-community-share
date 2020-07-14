@@ -95,7 +95,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8814")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorLikeUnlike()
     {
         String testContentC8814 = String.format("FileC8814%s", RandomData.getRandomAlphanumeric());
@@ -121,7 +121,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8815")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorFavoriteUnfavorite()
     {
         String testContentC8815 = String.format("FileC8815%s", RandomData.getRandomAlphanumeric());
@@ -148,7 +148,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8818")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorEditBasicDetailsBySelf()
     {
         folderName = String.format("FolderC8818%s", RandomData.getRandomAlphanumeric());
@@ -183,7 +183,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8819")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorEditBasicDetailsByOthers()
     {
         folderName = String.format("FolderC8819%s", RandomData.getRandomAlphanumeric());
@@ -218,7 +218,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8816")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorRenameBySelf()
     {
         folderName = String.format("FolderC8816%s", RandomData.getRandomAlphanumeric());
@@ -241,7 +241,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8817")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorRenameByOthers()
     {
         folderName = String.format("FolderC8817%s", RandomData.getRandomAlphanumeric());
@@ -264,7 +264,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8823")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed"})
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed"})
     public void collaboratorMoveBySelf()
     {
         folderName = String.format("Folder1C8823%s", RandomData.getRandomAlphanumeric());
@@ -294,7 +294,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8824")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorMoveByOthers()
     {
         folderName = String.format("FolderC8824%s", RandomData.getRandomAlphanumeric());
@@ -307,7 +307,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8822")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorCopyTo()
     {
         folderName = String.format("FolderC8822%s", RandomData.getRandomAlphanumeric());
@@ -334,7 +334,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8822")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorDeleteBySelf()
     {
         folderName = String.format("FolderC8822%s", RandomData.getRandomAlphanumeric());
@@ -356,7 +356,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8822")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorDeleteByOthers()
     {
         folderName = String.format("FolderC8822%s", RandomData.getRandomAlphanumeric());
@@ -372,7 +372,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8827")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorManagePermissionsBySelf()
     {
         folderName = String.format("FolderC8827%s", RandomData.getRandomAlphanumeric());
@@ -397,7 +397,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8828")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorManagePermissionsByOthers()
     {
         folderName = String.format("FolderC8828%s", RandomData.getRandomAlphanumeric());
@@ -413,7 +413,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8829")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorManageAspectsBySelf()
     {
         folderName = String.format("FolderC8829%s", RandomData.getRandomAlphanumeric());
@@ -437,7 +437,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8830")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorManageAspectsByOthers()
     {
         folderName = String.format("FolderC8830%s", RandomData.getRandomAlphanumeric());
@@ -461,7 +461,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8834")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorAddComment()
     {
         folderName = String.format("FolderC8834%s", RandomData.getRandomAlphanumeric());
@@ -486,7 +486,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8835")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorEditCommentBySelf()
     {
         folderName = String.format("FolderC8835%s", RandomData.getRandomAlphanumeric());
@@ -519,7 +519,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8836")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorEditCommentByOthers()
     {
         folderName = String.format("FolderC8836%s", RandomData.getRandomAlphanumeric());
@@ -552,7 +552,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8837")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorDeleteCommentBySelf()
     {
         folderName = String.format("FolderC8837%s", RandomData.getRandomAlphanumeric());
@@ -580,7 +580,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8838")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorDeleteCommentByOthers()
     {
         folderName = String.format("FolderC8838%s", RandomData.getRandomAlphanumeric());

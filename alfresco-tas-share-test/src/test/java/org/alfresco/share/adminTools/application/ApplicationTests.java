@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 public class ApplicationTests extends ContextAwareWebTest
 {
     @Autowired
-    ApplicationPage applicationPage;
+    private ApplicationPage applicationPage;
 
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
@@ -29,7 +29,7 @@ public class ApplicationTests extends ContextAwareWebTest
     @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        applicationPage.selectTheme(Theme.BLUE);
+        applicationPage.selectTheme(Theme.LIGHT);
         if (!applicationPage.isAlfrescoDefaultImageDisplayed())
         {
             applicationPage.resetImageToDefault();
@@ -66,8 +66,6 @@ public class ApplicationTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkText()
     {
-        Assert.assertEquals(applicationPage.checkText(),
-            "You can find further administration tools in the Repository Admin Console, find out more information in the Alfresco Documentation.");
+        Assert.assertEquals(applicationPage.checkText(), language.translate("aplicationPage.info"));
     }
-
 }

@@ -180,8 +180,8 @@ public class MyTasksTest extends ContextAwareWebTest
         //Go to Admin Tools >> Group page and search for the group.
         groupsPage.navigate();
         groupsPage.writeInSearchInput(C8548group);
-        groupsPage.clickBrowseButton();
-        groupsPage.clickItemFromList(C8548group);
+        groupsPage.clickBrowse();
+        groupsPage.selectGroup(C8548group);
         groupsPage.clickAddUserButton();
 
         LOG.info("STEP 1: Find the third user");

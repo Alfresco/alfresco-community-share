@@ -90,7 +90,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8910")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void createContent()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -109,7 +109,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8911")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void uploadContent()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -126,7 +126,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8914")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void uploadNewVersionForItemCreatedBySelf()
     {
         String newVersionFileName = "EditedTestFileC8914.txt";
@@ -147,7 +147,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8917")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "office" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "office" })
     public void editOnlineForContentCreatedBySelf()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -158,7 +158,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8919")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editInlineForContentCreatedBySelf()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -177,7 +177,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8921")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editOfflineForContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -255,7 +255,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8929")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void cancelEditingContentLockedBySelf()
     {
         LOG.info(
@@ -298,7 +298,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8934")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void startWorkflow()
     {
         LOG.info("Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -313,7 +313,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8935")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void locateFile()
     {
         documentLibraryPage.navigate(siteName);
@@ -329,7 +329,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8936")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void downloadPreviousVersion()
     {
         LOG.info("Step1: Navigate to the created file with versions");
@@ -346,7 +346,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8937")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void revertToPreviousVersion()
     {
         LOG.info("Step1: Navigate to the created file with versions");

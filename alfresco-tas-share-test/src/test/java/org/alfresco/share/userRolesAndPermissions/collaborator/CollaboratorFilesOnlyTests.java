@@ -121,7 +121,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8938")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorCreateContent()
     {
         setupAuthenticatedSession(user, password);
@@ -148,7 +148,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8939")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorUploadContent()
     {
         setupAuthenticatedSession(user, password);
@@ -163,7 +163,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8940")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorDownloadContent()
     {
         setupAuthenticatedSession(user, password);
@@ -178,7 +178,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "SHA-2055", status = Status.FIXED)
     @TestRail (id = "C8941")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorViewInBrowser()
     {
         String fileName = "C8941" + RandomData.getRandomAlphanumeric();
@@ -194,7 +194,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8947")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorEditInlineBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -217,7 +217,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8948")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorEditInlineByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -240,7 +240,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8957")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorCancelEditingBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -261,7 +261,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
 //    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8962")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorStartWorkflow()
     {
         setupAuthenticatedSession(user, password);
@@ -298,7 +298,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8942")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorUploadNewVersionSelfCreated()
     {
         String fileName = "C8942" + RandomData.getRandomAlphanumeric();
@@ -328,7 +328,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8943")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorUploadNewVersionOtherUserCreated()
     {
         String fileName = "C8943" + RandomData.getRandomAlphanumeric();
@@ -435,7 +435,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8945")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "office", "tobefixed"})
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "office", "tobefixed"})
     public void editOnlineCreatedBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -447,7 +447,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8946")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "office" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "office" })
     public void editOnlineCreatedByOtherUser()
     {
         setupAuthenticatedSession(user, password);
@@ -459,7 +459,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8949")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void editOfflineCreatedBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -472,7 +472,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8950")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void editOfflineCreatedByOtherUser()
     {
         String fileName = "C8950" + RandomData.getRandomAlphanumeric();

@@ -72,7 +72,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8912")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void downloadContent()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -84,7 +84,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8913")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void viewInBrowser()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -97,7 +97,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8915")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void uploadNewVersionForItemCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -108,7 +108,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8916")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void uploadNewVersionForItemLockedByUser()
     {
         LOG.info("Steps1:  Navigate to test site's doc lib and verify the lockedFileByAdmin is locked by admin");
@@ -121,7 +121,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8918")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "office" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "office" })
     public void editOnlineForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -132,7 +132,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8920")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editInlineForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -143,7 +143,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8922")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editOfflineForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -200,7 +200,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8930")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void cancelEditingContentLockedByOthers()
     {
         LOG.info("Step2: Login as Contributor user and check whether the file appears as locked by Admin");
@@ -212,7 +212,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8931, C8932")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void viewOriginalDocumentAndWorkingCopy()
     {
         LOG.info("Steps2: Logout and login as Contributor user; hover over testFile and check whether 'View Original Document' action is available");

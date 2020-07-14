@@ -82,7 +82,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
         assertTrue(siteSearchDashlet.isMessageDisplayedInDashlet("No results found."), "'No results found.' message is expected to be displayed.");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void searchAvailableItemsTest()
     {
         LOG.info("Step 1: Navigate to site dashboard and perform search in site search dashlet");
@@ -92,7 +92,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
         Assert.assertTrue(siteSearchDashlet.isResultDisplayed(docName), docName + " is not displayed in search results");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void searchNoResultsAreReturnedTest()
     {
         String nonExitingDocName = "NonExisting";
@@ -104,7 +104,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
         Assert.assertTrue(siteSearchDashlet.isMessageDisplayedInDashlet("No results found."), "'No results found.' message is expected to be displayed.");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void searchWithSearchLimit()
     {
         //setup done inside the test as it would increase time for all tests as it is run in a @BeforeClass

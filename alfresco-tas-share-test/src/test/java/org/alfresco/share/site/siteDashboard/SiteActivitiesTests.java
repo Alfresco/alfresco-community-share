@@ -410,7 +410,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void selectActivityAndAccessData()
     {
         LOG.info("Step 1: Log in and check that activiti is displayed in site activities dashlet");
@@ -425,7 +425,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" }, enabled = false)
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD }, enabled = false)
     public void verifyRSSFeedFunctionalityForActivitiesDashlet()
     {
         String partialUnchangedUrl = "/share/feedservice/components/dashlets/activities/list?format=atomfeed&mode=site&site=";
@@ -435,7 +435,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getCurrentUrl().contains(partialUnchangedUrl), "User is not redirected to RSS Feed page " + userName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void checkFilterOptionsAvailability()
     {
         setupAuthenticatedSession(userName, password);
@@ -462,7 +462,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void checkFilteringOptionsFunctional()
     {
         setupAuthenticatedSession(userName, password);

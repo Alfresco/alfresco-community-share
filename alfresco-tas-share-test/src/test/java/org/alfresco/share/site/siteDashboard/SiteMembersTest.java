@@ -90,7 +90,7 @@ public class SiteMembersTest extends ContextAwareWebTest
         assertEquals(siteMembersDashlet.isBalloonDisplayed(), false, "Help balloon is closed.");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void selectSiteMember()
     {
         String user1 = "First " + "User";
@@ -115,7 +115,7 @@ public class SiteMembersTest extends ContextAwareWebTest
         Assert.assertEquals(siteMembersDashlet.getMemberRole(user3), "Contributor", "User roles is not contributor");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void selectAllMembers()
     {
         LOG.info("Step 1: Navigate to site dashboard and click All Members");

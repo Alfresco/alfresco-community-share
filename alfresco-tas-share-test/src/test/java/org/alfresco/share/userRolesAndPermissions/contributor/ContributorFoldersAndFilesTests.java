@@ -87,7 +87,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8787")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void likeAndUnlike()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -111,7 +111,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8788")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void favoriteAndUnfavorite()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -133,7 +133,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8789")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void renameItemAddedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -156,7 +156,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8790")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void renameItemAddedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -166,7 +166,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8791")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void editBasicDetailsCreatedBySelf()
     {
         String folderName = String.format("folderName%s", RandomData.getRandomAlphanumeric());
@@ -199,7 +199,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8792")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editBasicDetailsCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
@@ -209,7 +209,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8795")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void contributorCopy()
     {
         String siteName1 = String.format("SiteName1%s", RandomData.getRandomAlphanumeric());
@@ -244,7 +244,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8796")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void moveContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -273,7 +273,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8797")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void moveContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
@@ -283,7 +283,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8798")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void deleteContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -301,7 +301,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8799")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void deleteContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library for the test site, as Contributor user.");
@@ -311,7 +311,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8800")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void managePermissionsContentCreatedBySelf()
     {
         String folderName = "FolderName";
@@ -335,7 +335,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8801")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void managePermissionsForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
@@ -345,7 +345,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8802")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void manageAspectsForContentCreatedBySelf()
     {
         String folderName = String.format("folderName%s", RandomData.getRandomAlphanumeric());
@@ -366,7 +366,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8803")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void manageAspectsForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
@@ -376,7 +376,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8804")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void changeTypeForContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -406,7 +406,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8805")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void changeTypeForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library for the test site, as Contributor user.");
@@ -417,7 +417,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8807")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void addComment()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -434,7 +434,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8808")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void editCommentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -454,7 +454,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8809")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editCommentCreatedByOthers()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -469,7 +469,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8810")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void deleteCommentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -489,7 +489,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8811")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void deleteCommentCreatedByOthers()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -504,7 +504,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8812")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void viewItemDetailsPage()
     {
         LOG.info("Step1: Navigate to document library page and click on the created file. Verify the preview for the file is successfully displayed on the Document details page.");

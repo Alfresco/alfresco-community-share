@@ -56,7 +56,7 @@ public class MyCalendarDashletTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, domain, siteName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void checkEmptyMyCalendarDashlet()
     {
         LOG.info("Step 1: Navigate to user dahsboard page and check that the dashlet is displayed and is empty.");
@@ -67,7 +67,7 @@ public class MyCalendarDashletTests extends ContextAwareWebTest
             "Dashlet is not empty or text is not correct");
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void checkHelpBalloon()
     {
         LOG.info("Step 1: Navigate to user dashboard and check that the help icon is displayed.");
@@ -83,7 +83,7 @@ public class MyCalendarDashletTests extends ContextAwareWebTest
         Assert.assertFalse(myCalendarDashlet.isBalloonDisplayed(), "Help balloon has not been closed.");
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void checkEventsAreDisplayed()
     {
         //Precondition add event

@@ -26,10 +26,10 @@ public class CategoryManagerPage extends AdminToolsPage
     private WebElement editCategoryCancelButton;
 
     @Autowired
-    AddCategoryDialog addCategoryDialog;
+    private AddCategoryDialog addCategoryDialog;
 
     @Autowired
-    DeleteDialog deleteDialog;
+    private DeleteDialog deleteDialog;
 
     private By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible']");
 

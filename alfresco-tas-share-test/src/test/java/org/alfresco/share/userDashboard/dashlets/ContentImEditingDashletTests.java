@@ -56,7 +56,7 @@ public class ContentImEditingDashletTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, domain, siteName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void accessContentImEditingTests()
     {
         LOG.info("Step 1: Navigate to user dashboard and check that Content I'm editing dashlet is displayed");
@@ -65,7 +65,7 @@ public class ContentImEditingDashletTests extends ContextAwareWebTest
         Assert.assertTrue(userDashboardPage.isDashletAddedInPosition(Dashlets.CONTENT_I_AM_EDITING, 1, 3));
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void verifyHelpIcon()
     {
         LOG.info("Step 1: Navigate to User dashboard and check the help option availability");
@@ -77,7 +77,7 @@ public class ContentImEditingDashletTests extends ContextAwareWebTest
         Assert.assertFalse(contentImEditingDashlet.isBalloonDisplayed(), "Help balloon is still displayed.");
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void checkDashletContent()
     {
         LOG.info("Step 1: Navigate to User Dashboard page and check the Content I'm Editing dashlet content");
@@ -88,7 +88,7 @@ public class ContentImEditingDashletTests extends ContextAwareWebTest
         Assert.assertTrue(contentImEditingDashlet.isHeaderDisplayed("Forum posts"), "Forum posts is not available");
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void checkContentImEditingDashletMajorFunctionality()
     {
         LOG.info("Step 1: Start editing document and check that document is displayed on dashlet");

@@ -49,7 +49,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void testSetup()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "faceted", "search");
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "faceted", TestGroup.SEARCH);
         siteService.create(userName, password, domain, siteName, "FacetedSearchSite", SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName, siteName);
@@ -72,7 +72,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, domain, siteName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH })
     public void testSelectActionDeleteConfirmCancel()
     {
         toolbar.search(docName);
@@ -95,7 +95,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isResultFoundWithRetry(docName));
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFileByName()
     {
         LOG.info("Step 1: Search by name and check that document name is highlighted in search results");
@@ -104,7 +104,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(docName), docName + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFileByNameAdvancedSearch()
     {
         LOG.info("Step 1: Navigate to advanced search page and search for document by document name, check that name is highlighted in search results");
@@ -115,7 +115,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(docName), docName + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFolderByNameSearch()
     {
         LOG.info("Step 1: On the search page search for folder by name and check that folder name is highlighted");
@@ -124,7 +124,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(folderName), folderName + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFolderByNameAdvancedSearch()
     {
         LOG.info("Step 1: On the advanced search search by folder name and check that folder is returned in search results and that the folder name is highlighted");
@@ -137,7 +137,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(folderName), folderName + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFolderByTitleSearch()
     {
         LOG.info("Step 1: Navigate to search page and search for folder name, check that folder name is highlighted in search results");
@@ -146,7 +146,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isTitleHighlighted(folderTitle), folderTitle + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFolderByTitleAdvancedSearch()
     {
         LOG.info("Step 1: On the advanced search, search by folder title and check that folder is returned in search results and that the folder title is highlighted");
@@ -159,7 +159,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isTitleHighlighted(folderTitle), folderTitle + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFileByTitleAdvancedSearch()
     {
         LOG.info("Step 1: On the advanced search, search by file title and check that file is returned in search results and that the file title is highlighted");
@@ -170,7 +170,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isTitleHighlighted(fileTitle), fileTitle + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFileByTitleSearch()
     {
         LOG.info("Step 1: Search for file name, check that file name is highlighted in search results");
@@ -179,7 +179,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isTitleHighlighted(fileTitle), fileTitle + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFileByDescription()
     {
         LOG.info("Step 1: Search for file description, check that file description is highlighted in search results");
@@ -188,7 +188,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isDescriptionHighlighted(fileDescription), fileDescription + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFileByDescriptionAdvancedSearch()
     {
         LOG.info("Step 1: Navigate to advanced search page, search for file description, check that file description is highlighted in search results");
@@ -199,7 +199,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isDescriptionHighlighted(fileDescription), fileDescription + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFolderByDescription()
     {
         LOG.info("Step 1: Search for folder description, check that folder description is highlighted in search results");
@@ -208,7 +208,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isDescriptionHighlighted(description), description + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchFolderByDescriptionAdvancedSearch()
     {
         LOG.info("Step 1: Navigate to advanced search page, search for file description, check that file description is highlighted in search results");
@@ -221,7 +221,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isDescriptionHighlighted(description), description + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByPropertyName()
     {
         LOG.info("Step 1: Search by name: property and check that name is highlighted on search results");
@@ -231,7 +231,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(docName), docName + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByPropertyTitle()
     {
         LOG.info("Step 1: Search by title: property and check that title is highlighted on search results");
@@ -241,7 +241,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isTitleHighlighted(fileTitle), fileTitle + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByPropertyDescription()
     {
         LOG.info("Step 1: Search by description: property and check that description is highlighted on search results");
@@ -251,7 +251,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isDescriptionHighlighted(fileDescription), fileDescription + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByPropertyContent()
     {
         LOG.info("Step 1: Search by content: property and check that content is highlighted on search results");
@@ -261,7 +261,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isContentHighlighted(docContent), docContent + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByPropertyCm_Name()
     {
         LOG.info("Step 1: Search by cm_name: property and check that the name is highlighted on search results");
@@ -271,7 +271,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(docName), docName + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByPropertyTEXT()
     {
         LOG.info("Step 1: Search by TEXT: property and check that the name is highlighted on search results");
@@ -281,7 +281,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isContentHighlighted(docContent), docContent + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByWildcardAsterisk()
     {
         LOG.info("Step 1: Search using * and check that the properties are highlighted on search results");
@@ -294,7 +294,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isContentHighlighted(docContent), docContent + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByWildcardsEqual()
     {
         LOG.info("Step 1: Search using = and check that only the name is highlighted on search results");
@@ -304,7 +304,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(docName), docName + " is not highlighted");
     }
 
-    //@Test(groups = { TestGroup.SHARE, "Regression", "Search" })
+    //@Test(groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedSearchByWildcardQuestionMark()
     {
         LOG.info("Step 1: Search using ? and check that the name is highlighted on search results");
@@ -317,7 +317,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isContentHighlighted(docContent), docContent + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testItemsNotHighlighted()
     {
         LOG.info("Step 1: Search using doc name and confirm that site name, location and username properties are not highlighted");
@@ -331,7 +331,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isModifiedOnHighlighted(), "Modified on details are highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testNoItemIsHighlightedSearchByCreatedProperty()
     {
         LOG.info("Step 1: Search by created property and check that no item is highlighted");
@@ -350,7 +350,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isDescriptionHighlighted(description), description + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testNoItemIsHighlightedSearchByAsterisk()
     {
         LOG.info("Step 1: Search by * property and check that no item is highlighted");
@@ -370,7 +370,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isDescriptionHighlighted(description), description + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testGalleryViewIsNotHighlighted()
     {
         LOG.info("Step 1: Search in Gallery view and check that no item is highlighted");

@@ -94,7 +94,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, domain, siteName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedDisjunction()
     {
         LOG.info("Step 1: Searching using disjunction (\"OR\"), check the result is properly highlighted");
@@ -109,7 +109,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
     }
 
     @Bug (id = "To be raised")
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedConjunction()
     {
         LOG.info("Step 1: Searching using conjunction (\"AND\"), the result is properly highlighted");
@@ -123,7 +123,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(docName3), docName3 + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedNegationNOT()
     {
         LOG.info("Step 1: Searching using negation (\"NOT\"), the result is properly highlighted");
@@ -135,7 +135,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isNameHighlighted(docName2), docName2 + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedNegation()
     {
         LOG.info("Step 1: Searching using negation (\"!\"), the result is properly highlighted");
@@ -147,7 +147,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isNameHighlighted(docName2), docName2 + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedCalendarName()
     {
         LOG.info("Step 1: Searching file by Calendar Event name, the result is highlighted");
@@ -157,7 +157,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isDescriptionHighlighted(eventDescription), eventDescription + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedWikiNameAndSelection()
     {
         String expectedWikiPageTitle = "Alfresco » Wiki » " + wikiName;
@@ -172,7 +172,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedLinkName()
     {
         LOG.info("Step 1: Searching by Link page name, the result is highlighted");
@@ -182,7 +182,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isDescriptionHighlighted(linkDescription), linkDescription + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedBlogName()
     {
         LOG.info("Step 1: Searching by Blog page name, the result is highlighted");
@@ -192,7 +192,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isContentHighlighted(blogContent), blogContent + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedDiscussionName()
     {
         LOG.info("Step 1: Searching by Discussion name, the result is highlighted");
@@ -202,7 +202,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertFalse(searchPage.isContentHighlighted(discussionContent), discussionContent + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
     public void testHighlightedDataListName()
     {
         LOG.info("Step 1: Searching by Blog page name, the result is highlighted");

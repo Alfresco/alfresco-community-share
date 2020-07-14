@@ -217,7 +217,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getCommentContent(), "testComment", "testComment comment content is not visible");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void checkAllAvailableFilters()
     {
         SoftAssert softAssert = new SoftAssert();

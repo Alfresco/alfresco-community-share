@@ -99,7 +99,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8761")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerViewFolderItemDetailsPage()
     {
         documentLibraryPage.navigate(siteName);
@@ -114,7 +114,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8762")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerLikeUnlikeFile()
     {
         documentLibraryPage.navigate(siteName);
@@ -137,7 +137,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8763")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerFavoriteUnfavoriteFile()
     {
         documentLibraryPage.navigate(siteName);
@@ -159,7 +159,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8765")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerEditPropertiesForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -173,7 +173,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8770")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void consumerCopyContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -194,7 +194,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8772")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerMoveContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -205,7 +205,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8774")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerDeleteContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -216,7 +216,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8776")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerManagePermissionsForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -227,7 +227,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8778")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerManageAspectsForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -238,7 +238,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8780")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerChangeTypeForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -251,7 +251,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8782")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerAddCommentForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -262,7 +262,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8784")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void consumerEditAndDeleteCommentForContent()
     {
         contentAction.addComment(adminUser, adminPassword, siteName, fileC8784, comment);
@@ -279,7 +279,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8865")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void consumerPermissionRetention()
     {
         cleanupAuthenticatedSession();

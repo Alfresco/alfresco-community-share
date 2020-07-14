@@ -41,7 +41,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     private void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "Advanced", "Search");
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "Advanced", TestGroup.SEARCH);
         siteService.create(userName, password, domain, siteName, "site description", SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlDoc, "contentXml");
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.MSEXCEL, excelDoc, "contentExcel");
@@ -51,7 +51,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH })
     public void searchByMimeTypeTest()
     {
         LOG.info("Step 1: Navigate to advanced search and select XML mimetype");
@@ -72,7 +72,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         softAssert.assertAll();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "Search" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH })
     public void validateInvalidDateTest()
     {
         LOG.info("Step 1: Navigate to Advanced Search page and input invalid from date");
@@ -89,7 +89,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         softAssert.assertAll();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "Search", "BugValidation" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation" })
     public void checkThatWhenFileIsSearchedNoFolderIsReturned()
     {
         LOG.info("Step 1: Navigate to advanced search and search for .txt file, verify that no folders are returned");
@@ -102,7 +102,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         softAssert.assertAll();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "Search", "BugValidation" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation" })
     public void checkFolderSearchWithAllDetailsProvided()
     {
         //precondition - add description and folder title - this is done from the UI as there is no method in te framework to perform this actions
@@ -125,7 +125,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isResultFound(folderName), folderName + " is not displayed in search results");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", "Search", "BugValidation" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation" })
     public void folderKeywordSearchTest()
     {
         LOG.info("Step 1: Go to Advanced Search page, select Folder type, type in keyword and check that only folder results are returned");

@@ -158,7 +158,7 @@ public class MySitesTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName3);
     }
 
-    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD, "Acceptance" })
     public void createSiteFromSiteDashlet()
     {
         userService.addDashlet(userName, password, DashboardCustomization.UserDashlet.MY_SITES, DashboardCustomization.DashletLayout.THREE_COLUMNS, 1, 3);

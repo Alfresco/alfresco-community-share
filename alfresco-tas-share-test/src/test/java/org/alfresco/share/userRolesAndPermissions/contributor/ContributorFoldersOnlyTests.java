@@ -73,7 +73,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8874")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void collaboratorCreateFolder()
     {
         LOG.info("STEP1: Click on 'Create' button");
@@ -91,7 +91,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8875")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -109,12 +109,12 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8876")
-    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
     public void manageRulesFolderSelfCreated()
     {
         documentLibraryPage.navigate(site);
 
-        LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
+        LOG.info("STEP1: Mousfe over folder and verify presence of \"Manage Rules\" option");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName3, ItemActions.MANAGE_RULES),
             "'Manage Rules' option is displayed for " + folderName3);
 
@@ -124,7 +124,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8877")
-    @Test (groups = { TestGroup.SANITY, "user-roles" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void manageRulesFolderCreatedByOther()
     {
         documentLibraryPage.navigate(site);
