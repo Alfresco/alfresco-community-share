@@ -43,7 +43,7 @@ public class ModuleBrowserPage extends AdminToolsPage
 
     public WebElement selectModuleName(String moduleName)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10);
+        browser.waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10_SEC);
         return browser.findFirstElementWithValue(modulesList, moduleName);
     }
 
