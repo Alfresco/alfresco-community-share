@@ -32,6 +32,7 @@ public abstract class SharePage<T> extends HtmlPage
 {
     public static final int WAIT_1_SEC = 1;
     public static final int WAIT_5_SEC = 5;
+    public static final int WAIT_10_SEC = 10;
     public static final int WAIT_15_SEC = 15;
     public static final int DEFAULT_RETRY = 3;
     /** For example "<object> has been deleted.." popup */
@@ -204,7 +205,6 @@ public abstract class SharePage<T> extends HtmlPage
             Alert alert = browser.switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
-            //browser.waitInSeconds(WAIT_5_SEC);
         }
         catch (NoAlertPresentException noAlertPresentException)
         {
@@ -217,11 +217,11 @@ public abstract class SharePage<T> extends HtmlPage
         try
         {
             browser.waitUntilElementVisible(loadingMessage,5);
+            browser.waitUntilElementDisappears(loadingMessage);
         }
         catch (TimeoutException e)
         {
             //continue
         }
-        browser.waitUntilElementDisappears(loadingMessage);
     }
 }
