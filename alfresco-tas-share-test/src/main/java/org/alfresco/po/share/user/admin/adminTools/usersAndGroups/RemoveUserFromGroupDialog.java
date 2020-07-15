@@ -3,12 +3,14 @@ package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 import java.util.List;
 
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * @author Laura.Capsa
@@ -27,27 +29,40 @@ public class RemoveUserFromGroupDialog extends ShareDialog
     @FindAll (@FindBy (css = ".button-group button"))
     private List<WebElement> buttonsList;
 
-    public String getDialogHeader()
+    public RemoveUserFromGroupDialog assertDialogTitleIsCorrect()
     {
-        return dialogHeader.getText();
+        LOG.info("Assert 'Remove User from Group' dialog title is displayed");
+        Assert.assertEquals(dialogHeader.getText(), language.translate("adminTools.groups.removeUser.title"),
+            "Remove user from group title is correct");
+        return this;
     }
 
-    public String getDialogMessage()
+    public RemoveUserFromGroupDialog assertDialogMessageIsCorrect(UserModel user)
     {
-        return dialogMessage.getText();
+        String userFormat = String.format("%s %s (%s)",
+            user.getFirstName(), user.getLastName(), user.getUsername());
+        String expectedDialogMessage = String.format(language.translate("adminTools.groups.removeUser.message"), userFormat);
+        LOG.info(String.format("Assert dialog message is %s", dialogMessage));
+        Assert.assertEquals(dialogMessage.getText(), expectedDialogMessage,
+            "Remove user from group dialog message is correct");
+        return this;
     }
 
-    public boolean isYesButtonDisplayed()
+    public RemoveUserFromGroupDialog assertYesButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(buttonsList.get(0));
+        LOG.info("Assert Yes button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(buttonsList.get(0)), "Yes button is displayed");
+        return this;
     }
 
-    public boolean isNoButtonDisplayed()
+    public RemoveUserFromGroupDialog assertNoButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(buttonsList.get(1));
+        LOG.info("Assert Yes button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(buttonsList.get(1)), "No button is displayed");
+        return this;
     }
 
-    public void clickYesButton()
+    public void clickYes()
     {
         buttonsList.get(0).click();
         waitUntilMessageDisappears();

@@ -1,11 +1,15 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
+
+import java.util.Arrays;
 
 /**
  * @author Laura.Capsa
@@ -54,49 +58,88 @@ public class DeleteGroupDialog extends ShareDialog
         return dialogHeader.getText();
     }
 
-    public String getMultiparentMessage()
+    public DeleteGroupDialog assertDialogHeaderIsCorrect()
     {
-        return multiparentMessage.getText();
+        LOG.info("Assert Delete Group dialog has the correct header");
+        Assert.assertEquals(dialogHeader.getText(), language.translate("adminTools.groups.deleteGroup.header"));
+        return this;
     }
 
-    public String getParent()
+    public DeleteGroupDialog assertDialogMessageIsCorrect(String groupName)
     {
-        return parent.getText();
+        LOG.info("Assert Delete group dialog message is correct");
+        Assert.assertEquals(multiparentMessage.getText(),
+            String.format(language.translate("adminTools.groups.deleteGroup.multiparentMessage"), groupName));
+        return this;
     }
 
-    public String getRemoveRow()
+    public DeleteGroupDialog assertParentsAre(String... parentGroups)
     {
-        if (browser.isElementDisplayed(removeRow))
-            return removeRow.getText();
-        return "Remove row isn't displayed!";
+        LOG.info(String.format("Assert parents are: %s", Arrays.asList(parentGroups)));
+        String[] values = Arrays.asList(parent.getText().split(", ")).toArray(new String[0]);
+        Arrays.sort(values);
+        Arrays.sort(parentGroups);
+        Assert.assertTrue(Arrays.equals(values, parentGroups), "All available group parents are found");
+        return this;
     }
 
-    public String getDeleteRow()
+    public DeleteGroupDialog assertRemoveRadioButtonIsDisplayed()
     {
-        if (browser.isElementDisplayed(deleteRow))
-            return deleteRow.getText();
-        return "Delete row isn't displayed!";
+        LOG.info("Assert remove radio button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(removeRadioButton), "Remove radio button is displayed");
+        return this;
     }
 
-    public boolean isDeleteButtonDisplayed()
+    public DeleteGroupDialog assertDeleteRadioButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(deleteButton);
+        LOG.info("Assert delete radio button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(deleteRadioButton), "Delete radio button is displayed");
+        return this;
     }
 
-    public GroupsPage clickDeleteButton()
+    public DeleteGroupDialog assertDeleteButtonIsDisplayed()
+    {
+        LOG.info("Assert Delete button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(deleteButton), "Delete button is displayed");
+        return this;
+    }
+
+    public DeleteGroupDialog assertCancelButtonIsDisplayed()
+    {
+        LOG.info("Assert Cancel button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        return this;
+    }
+
+    public DeleteGroupDialog assertJustDeleteGroupLabelIsCorrect(GroupModel groupToDelete, GroupModel parentGroup)
+    {
+        return assertJustDeleteGroupLabelIsCorrect(groupToDelete.getDisplayName(), parentGroup.getDisplayName());
+    }
+
+    public DeleteGroupDialog assertJustDeleteGroupLabelIsCorrect(String groupToDelete, String parentGroup)
+    {
+        LOG.info("Assert just delete sub group from parent label is correct");
+        Assert.assertEquals(removeRow.getText(),
+            String.format(language.translate("adminTools.groups.deleteGroup.removeRow"), groupToDelete, parentGroup));
+        return this;
+    }
+
+    public DeleteGroupDialog assertRemoveGroupFromAllLabelIsCorrect(String group)
+    {
+        LOG.info("Assert remove group from all label is correct");
+        Assert.assertEquals(deleteRow.getText(), String.format(language.translate("adminTools.groups.deleteGroup.deleteRow"), group));
+        return this;
+    }
+
+    public DeleteGroupDialog assertRemoveGroupFromAllLabelIsCorrect(GroupModel group)
+    {
+        return assertRemoveGroupFromAllLabelIsCorrect(group.getDisplayName());
+    }
+
+    public GroupsPage clickDelete()
     {
         deleteButton.click();
         return (GroupsPage) groupsPage.renderedPage();
-    }
-
-    public boolean isCancelButtonDisplayed()
-    {
-        return browser.isElementDisplayed(cancelButton);
-    }
-
-    public boolean isRemoveRadioButtonDisplayed()
-    {
-        return removeRadioButton.isDisplayed();
     }
 
     public boolean isRemoveRadioButtonSelected()
@@ -104,9 +147,18 @@ public class DeleteGroupDialog extends ShareDialog
         return removeRadioButton.isSelected();
     }
 
-    public boolean isDeleteRadioButtonDisplayed()
+    public DeleteGroupDialog assertRemoveRadioButtonIsSelected()
     {
-        return deleteRadioButton.isDisplayed();
+        LOG.info("Assert Remove radio button is selected");
+        Assert.assertTrue(removeRadioButton.isSelected(), "Remove radio button is selected");
+        return this;
+    }
+
+    public DeleteGroupDialog assertDeleteRadioButtonIsNotSelected()
+    {
+        LOG.info("Assert delete radio button is not selected");
+        Assert.assertFalse(deleteRadioButton.isSelected(), "Delete radio button is selected");
+        return this;
     }
 
     public boolean isDeleteRadioButtonSelected()
@@ -114,19 +166,21 @@ public class DeleteGroupDialog extends ShareDialog
         return deleteRadioButton.isSelected();
     }
 
-    public void selectRemoveFromGroupRadio()
+    public DeleteGroupDialog selectRemoveFromGroupRadio()
     {
         if (!isRemoveRadioButtonSelected())
         {
             removeRadioButton.click();
         }
+        return this;
     }
 
-    public void selectDeleteGroupRadio()
+    public DeleteGroupDialog selectDeleteGroupRadio()
     {
         if (!isDeleteRadioButtonSelected())
         {
             deleteRadioButton.click();
         }
+        return this;
     }
 }

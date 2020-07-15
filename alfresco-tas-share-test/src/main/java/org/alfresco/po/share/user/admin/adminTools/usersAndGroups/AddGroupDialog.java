@@ -2,13 +2,16 @@ package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 /**
  * @author Laura.Capsa
@@ -49,14 +52,22 @@ public class AddGroupDialog extends ShareDialog
         return dialogTitle.getText();
     }
 
-    public boolean isSearchInputFieldDisplayed()
+    public AddGroupDialog assertAddGroupDialogTitleIsCorrect()
     {
-        return browser.isElementDisplayed(searchInputField);
+        Assert.assertEquals(dialogTitle.getText(), language.translate("adminTools.groups.addGroupDialog.title"));
+        return this;
     }
 
-    public boolean isSearchButtonDisplayed()
+    public AddGroupDialog assertSearchInputIsDisplayed()
     {
-        return browser.isElementDisplayed(searchButton);
+        Assert.assertTrue(browser.isElementDisplayed(searchInputField), "Search input is displayed");
+        return this;
+    }
+
+    public AddGroupDialog assertSearchButtonIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        return this;
     }
 
     private void fillInSearchInput(String textToSearch)
@@ -75,23 +86,34 @@ public class AddGroupDialog extends ShareDialog
      *
      * @param groupToSearch typed in search input field
      */
-    public void searchGroup(String groupToSearch)
+    public AddGroupDialog searchGroup(String groupToSearch)
     {
         fillInSearchInput(groupToSearch);
         clickSearchButton();
+        return this;
     }
 
     /**
      * @return list of search results
      */
-    public ArrayList<String> getSearchResultsName()
+    private ArrayList<String> getSearchResultsName()
     {
-        ArrayList<String> searchResults = new ArrayList<>();
+        browser.waitUntilElementsVisible(searchResultsList);
+        return searchResultsList.stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
+    }
 
-        for (WebElement result : searchResultsList)
-            searchResults.add(result.getText());
-
-        return searchResults;
+    public AddGroupDialog assertGroupDisplayNameIsFound(GroupModel groupModel)
+    {
+        Assert.assertTrue(getSearchResultsName().contains(groupModel.getDisplayName()),
+            String.format("Group %s was found", groupModel.getDisplayName()));
+        return this;
+    }
+    
+    public AddGroupDialog assertGroupIdIsFound(GroupModel groupModel)
+    {
+        Assert.assertTrue(getSearchResultsId().contains(String.format("ID: GROUP_%s", groupModel.getGroupIdentifier())),
+            String.format("Group %s was found", groupModel.getDisplayName()));
+        return this;
     }
 
     /**
@@ -99,12 +121,8 @@ public class AddGroupDialog extends ShareDialog
      */
     public ArrayList<String> getSearchResultsId()
     {
-        ArrayList<String> searchResults = new ArrayList<>();
-
-        for (WebElement result : searchResultsIdList)
-            searchResults.add(result.getText());
-
-        return searchResults;
+        browser.waitUntilElementsVisible(searchResultsIdList);
+        return searchResultsIdList.stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -113,19 +131,18 @@ public class AddGroupDialog extends ShareDialog
      */
     public int getItemIndexFromSearchResults(String searchResult)
     {
-        ArrayList<String> searchResultsList = getSearchResultsName();
-        return searchResultsList.indexOf(searchResult);
+        return  getSearchResultsName().indexOf(searchResult);
     }
 
     /**
      * Click 'Add' button for a search result item
      *
-     * @param searchResult to be added
+     * @param groupModel to be added
      */
-    public void clickAddButtonForGroup(String searchResult)
+    public void addGroup(GroupModel groupModel)
     {
         getBrowser().waitUntilElementsVisible(addButtonsList);
-        int index = getItemIndexFromSearchResults(searchResult);
+        int index = getItemIndexFromSearchResults(groupModel.getDisplayName());
         addButtonsList.get(index).click();
     }
 

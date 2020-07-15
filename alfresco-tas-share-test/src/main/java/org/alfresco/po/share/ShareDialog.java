@@ -37,7 +37,6 @@ public abstract class ShareDialog extends HtmlPage
         return browser.isElementDisplayed(closeButton);
     }
 
-    //TODO Check if this can be moved to HtmlPage
     /**
      * Method for wait while balloon message about some changes hide.
      */

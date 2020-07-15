@@ -1,18 +1,19 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.Utility;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
-import static org.alfresco.common.Utils.retryUntil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Laura.Capsa
@@ -39,26 +40,27 @@ public class AddUserDialog extends ShareDialog
 
     @FindAll (@FindBy (css = "td[class*='actions'] button"))
     private List<WebElement> addButtonsList;
+
     @RenderWebElement
     @FindBy (css = "div[id*='default-peoplepicker'] a[class='container-close']")
     private WebElement closeButton;
 
-    /**
-     * @return 'Add User' dialog's title
-     */
-    public String getDialogTitle()
+    public AddUserDialog assertAddUserDialogTitleIsCorrect()
     {
-        return dialogTitle.getText();
+        Assert.assertEquals(dialogTitle.getText(), language.translate("adminTools.groups.addUserDialog.title"));
+        return this;
     }
 
-    public boolean isSearchInputFieldDisplayed()
+    public AddUserDialog assertSearchButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(searchInputField);
+        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        return this;
     }
 
-    public boolean isSearchButtonDisplayed()
+    public AddUserDialog assertSearchInputIsDisplayed()
     {
-        return browser.isElementDisplayed(searchButton);
+        Assert.assertTrue(browser.isElementDisplayed(searchInputField), "Search input is displayed");
+        return this;
     }
 
     private void fillInSearchInput(String textToSearch)
@@ -77,18 +79,24 @@ public class AddUserDialog extends ShareDialog
      *
      * @param userToSearch typed in search input field
      */
-    public void searchUser(String userToSearch)
+    public AddUserDialog searchUser(String userToSearch)
     {
         int retry = 0;
         typeAndSearch(userToSearch);
         boolean found = isUserDisplayed(userToSearch);
-        while (retry < 10 && !found)
+        while (retry < 15 && !found)
         {
             typeAndSearch(userToSearch);
             found = isUserDisplayed(userToSearch);
             retry++;
             Utility.waitToLoopTime(1, String.format("Waiting for user %s to be found.", userToSearch));
         }
+        return this;
+    }
+
+    public AddUserDialog searchUser(UserModel userModel)
+    {
+        return searchUser(userModel.getUsername());
     }
 
     private AddUserDialog typeAndSearch(String userToSearch)
@@ -103,12 +111,15 @@ public class AddUserDialog extends ShareDialog
      */
     public ArrayList<String> getSearchResultsName()
     {
-        ArrayList<String> searchResults = new ArrayList<>();
+        return searchResultsList.stream()
+            .map(WebElement::getText)
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
 
-        for (WebElement result : searchResultsList)
-            searchResults.add(result.getText());
-
-        return searchResults;
+    public AddUserDialog assertUserIsFound(UserModel userModel)
+    {
+        Assert.assertTrue(getSearchResultsName().contains(getUserFormat(userModel)));
+        return this;
     }
 
     /**
@@ -132,6 +143,13 @@ public class AddUserDialog extends ShareDialog
         addButtonsList.get(index).click();
     }
 
+    public void addUser(UserModel userModel)
+    {
+        clickAddButtonForUser(String.format("%s %s (%s)",
+            userModel.getFirstName(), userModel.getLastName(), userModel.getUsername()));
+        waitUntilMessageDisappears();
+    }
+
     /**
      * Checking if user is displayed in 'Add User' popup list
      *
@@ -149,8 +167,20 @@ public class AddUserDialog extends ShareDialog
         return browser.isElementDisplayed(addButtonsList.get(index));
     }
 
+    public AddUserDialog assertAddButtonIsDisplayedForUser(UserModel user)
+    {
+        int index = getItemIndexFromSearchResults(getUserFormat(user));
+        Assert.assertTrue(browser.isElementDisplayed(addButtonsList.get(index)));
+        return this;
+    }
+
     public boolean isCloseButtonDisplayed()
     {
         return browser.isElementDisplayed(closeButton);
+    }
+
+    private String getUserFormat(UserModel userModel)
+    {
+        return String.format("%s %s (%s)", userModel.getFirstName(), userModel.getLastName(), userModel.getUsername());
     }
 }
