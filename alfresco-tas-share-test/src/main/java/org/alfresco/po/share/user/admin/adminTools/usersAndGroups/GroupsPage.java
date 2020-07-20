@@ -246,6 +246,11 @@ public class GroupsPage extends AdminToolsPage
         return browser.waitUntilElementVisible(By.xpath(String.format(groupRow, name)));
     }
 
+    private void waitForColumnGroups(int column)
+    {
+        browser.waitUntilElementsVisible(By.cssSelector(String.format(columnGroupValues, column)));
+    }
+
     public List<String> getColumnGroups(int column)
     {
         List<WebElement> values = new ArrayList<>();
@@ -269,6 +274,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertColumnContainsUser(int columnNr, UserModel userModel)
     {
+        waitForColumnGroups(columnNr);
         Assert.assertTrue(getColumnGroups(columnNr).contains(getUserFormat(userModel)),
             String.format("Group %s was found in column %s", userModel.getUsername(), columnNr));
         return this;
