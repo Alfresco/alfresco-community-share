@@ -114,6 +114,11 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         cleanupAuthenticatedSession();
     }
 
+    public UserModel getAdminUser()
+    {
+        return dataUser.getAdminUser();
+    }
+
     /**
      * Just authenticate using <username> and <password> provided as parameters
      * And inject the cookies in current browser
