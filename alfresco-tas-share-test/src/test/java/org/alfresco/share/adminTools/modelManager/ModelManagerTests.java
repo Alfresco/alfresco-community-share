@@ -5,8 +5,8 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.*;
-import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
-import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
+import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
+import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -66,7 +66,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     private FileModel file;
 
     private String name, nameSpace, prefix;
-    private List<CustomContentModel> modelsList = new ArrayList<>();
+    private List<CustomContentModel> modelsToRemove = new ArrayList<>();
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -87,10 +87,10 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         removeUserFromAlfresco(user);
         dataSite.usingAdmin().deleteSite(site);
-        modelsList.forEach(this::deleteCustomModel);
+        modelsToRemove.forEach(this::deleteCustomModel);
     }
 
-    public void deleteCustomModel(CustomContentModel customContentModel)
+    private void deleteCustomModel(CustomContentModel customContentModel)
     {
         restApi.authenticateUser(dataUser.getAdminUser());
         if(restApi.withPrivateAPI().usingCustomModel(customContentModel).getModel().getStatus().equals("ACTIVE"))
@@ -104,22 +104,10 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkModelManagerPage()
     {
-        LOG.info("Step 1: Navigate to Admin Tools page, check and confirm that Model Manager is available under Admin tools");
-        adminToolsPage.navigate();
-        Assert.assertEquals(adminToolsPage.getPageTitle(), "Alfresco » Admin Tools", "Admin Tools page is not displayed");
-        Assert.assertTrue(adminToolsPage.isToolAvailable("Model Manager"), "Model Manager is not displayed");
-
-        LOG.info("Step 2: Click Model Manager on the Admin Tools page;");
-        adminToolsPage.navigateToNodeFromToolsPanel("Model Manager", modelManagerPage);
-        Assert.assertEquals(modelManagerPage.getPageTitle(), "Alfresco » Model Manager", "Alfresco » Model Manager page is not displayed");
-
-        LOG.info("Step 3: Check available items on the Model Manager Page");
-        Assert.assertTrue(modelManagerPage.isCreateModelButtonDisplayed(), "Create Model button is not displayed");
-        Assert.assertTrue(modelManagerPage.isImportModelButtonDisplayed(), "Import model button is not displayed");
-        Assert.assertTrue(modelManagerPage.isNameColumnDisplayed(), "Name column is not displayed");
-        Assert.assertTrue(modelManagerPage.isNamespaceColumnDisplayed(), "Namespace column is not displayed");
-        Assert.assertTrue(modelManagerPage.isStatusColumnDisplayed(), "Status column is not displayed");
-        Assert.assertTrue(modelManagerPage.isActionsColumnDisplayed(), "Actions column is not displayed");
+        modelManagerPage.navigate();
+        modelManagerPage.assertCreateModelButtonIsDisplayed()
+            .assertImportModelButtonIsDisplayed()
+            .assertAllColumnsAreDisplayed();
     }
 
     @TestRail (id = "C42565")
@@ -129,35 +117,20 @@ public class ModelManagerTests extends ContextAwareWebTest
         name = String.format("C42565Name%s", RandomData.getRandomAlphanumeric());
         nameSpace = String.format("C42565Namespace%s", RandomData.getRandomAlphanumeric());
         prefix = String.format("C42565%s", RandomData.getRandomAlphanumeric());
-        String creator = String.format("C42565Creator%s", RandomData.getRandomAlphanumeric());
-        modelsList.add(new CustomContentModel(name));
+        CustomContentModel newModel = new CustomContentModel(name, nameSpace, prefix);
+        modelsToRemove.add(newModel);
 
-        LOG.info("Step 1: Navigate to Model Manager page");
         modelManagerPage.navigate();
-
-        LOG.info("Step 2: On the Model Manager Page click on the Create Model button and create a new model");
-        modelManagerPage.createModel(name, nameSpace, prefix, creator, "");
-
-        Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "C42565Name model is not displayed");
-        Assert.assertEquals(modelManagerPage.getModelNamespace(name), nameSpace, "Model namespace is not correct");
-        Assert.assertEquals(modelManagerPage.getModelStatus(name), "Inactive", "Model status is not correct");
-    }
-
-    @TestRail (id = "C9511")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void checkImportModelForm()
-    {
-        LOG.info("Step 1: On the Model Manager page click on Import Model button");
-        modelManagerPage.navigate();
-        modelManagerPage.clickImportModel();
-        Assert.assertTrue(importModelDialogPage.isImportModelWindowDisplayed(), "Import model window is not displayed");
-
-        LOG.info("Step 2: Check the Import Model Window");
-        Assert.assertEquals(importModelDialogPage.getImportModelWindowTitle(), "Import Model", "Import Model window title is not correct");
-        Assert.assertTrue(importModelDialogPage.isCloseButtonDisplayed(), "Close 'x' button is not displayed");
-        Assert.assertTrue(importModelDialogPage.isBrowserButtonDisplayed(), "Browser button is not displayed");
-        Assert.assertTrue(importModelDialogPage.isImportButtonDisplayed(), "Import button is not displayed");
-        Assert.assertTrue(importModelDialogPage.isCancelButtonDisplayed(), "Cancel button is not displayed");
+        modelManagerPage.createModel(newModel)
+            .usingModel(newModel)
+                .assertModelIsDisplayed()
+                .assertModelNameSpaceIs(nameSpace)
+                .assertStatusIsInactive()
+                    .clickActions()
+                        .assertActionsAreAvailable(language.translate("modelManager.action.activate"),
+                                                   language.translate("modelManager.action.edit"),
+                                                   language.translate("modelManager.action.delete"),
+                                                   language.translate("modelManager.action.export"));
     }
 
     @TestRail (id = "C9516")
@@ -168,7 +141,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         name = String.format("C9516testModel%s", RandomData.getRandomAlphanumeric());
         nameSpace = String.format("C9516nameSpace%s", RandomData.getRandomAlphanumeric());
         prefix = String.format("C9516%s", RandomData.getRandomAlphanumeric());
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
         modelManagerPage.createModel(name, nameSpace, prefix);
 
         LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
@@ -192,7 +165,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String editedNamespace = String.format("C9517editedNamespace%s", RandomData.getRandomAlphanumeric());
         String editedPrefix = String.format("C9517editedPrefix%s", RandomData.getRandomAlphanumeric());
         String editedCreator = String.format("EditedCreator%s", RandomData.getRandomAlphanumeric());
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
         modelManagerPage.createModel(name, nameSpace, prefix);
 
         LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
@@ -254,7 +227,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         name = String.format("C9520testModel%s", RandomData.getRandomAlphanumeric());
         nameSpace = String.format("C9520nameSpace%s", RandomData.getRandomAlphanumeric());
         prefix = String.format("C9520%s", RandomData.getRandomAlphanumeric());
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
         modelManagerPage.createModel(name, nameSpace, prefix);
         modelManagerPage.clickActionsButtonForModel(name);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
@@ -276,7 +249,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
         nameSpace = String.format("C9521nameSpace%s", RandomData.getRandomAlphanumeric());
         prefix = String.format("C9521%s", RandomData.getRandomAlphanumeric());
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
         modelManagerPage.createModel(name, nameSpace, prefix);
         modelManagerPage.clickActionsButtonForModel(name);
         LOG.info("activate model");
@@ -299,7 +272,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
         nameSpace = String.format("C9517nameSpace%s", RandomData.getRandomAlphanumeric());
         prefix = String.format("C9517%s", RandomData.getRandomAlphanumeric());
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
 
         modelManagerPage.createModel(name, nameSpace, prefix);
 
@@ -312,17 +285,25 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
     }
 
-    @TestRail (id = "C9509")
+    @TestRail (id = "C9509, C9511")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void importModel()
     {
         String filePath = testDataFolder + "C9509TestModelName.zip";
         name = "C9509TestModelName";
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
 
         LOG.info("Step 1: Click import model button");
         modelManagerPage.navigate();
         modelManagerPage.clickImportModel();
+
+        LOG.info("Step 2: Check the Import Model Window");
+        Assert.assertTrue(importModelDialogPage.isImportModelWindowDisplayed(), "Import model window is not displayed");
+        Assert.assertEquals(importModelDialogPage.getImportModelWindowTitle(), "Import Model", "Import Model window title is not correct");
+        Assert.assertTrue(importModelDialogPage.isCloseButtonDisplayed(), "Close 'x' button is not displayed");
+        Assert.assertTrue(importModelDialogPage.isBrowserButtonDisplayed(), "Browser button is not displayed");
+        Assert.assertTrue(importModelDialogPage.isImportButtonDisplayed(), "Import button is not displayed");
+        Assert.assertTrue(importModelDialogPage.isCancelButtonDisplayed(), "Cancel button is not displayed");
 
         LOG.info(
             "Step 2&3: Click the Choose Files button, navigate to the location where the testModel file is available locally and select file to import then click open;");
@@ -346,7 +327,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String customTypeName = "TestCustomTypeName";
         String displayLabel = "CustomTypeLabel";
         String displayedTypeName = prefix + ":" + customTypeName;
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
 
         modelManagerPage.createModel(name, nameSpace, prefix);
 
@@ -380,7 +361,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String displayLabel = "aspectNameLabel";
         String description = "Aspect description";
         String displayedAspectName = prefix + ":" + aspectName;
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
         modelManagerPage.createModel(name, nameSpace, prefix);
 
         LOG.info("Step 1: On the Model Manager page click C42567testModel name link.");
@@ -406,7 +387,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     {
         String filePath = testDataFolder + "Marketing_content.zip";
         name = "Marketing_content";
-        modelsList.add(new CustomContentModel(name));
+        modelsToRemove.add(new CustomContentModel(name));
 
         // Precondition
         modelManagerPage.navigate();

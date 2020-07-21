@@ -14,6 +14,7 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.testng.Assert;
 
 @Primary
 @PageObject
@@ -61,27 +62,20 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
      */
     public HtmlPage navigateToNodeFromToolsPanel(String toolName, HtmlPage page)
     {
-
         browser.findFirstElementWithValue(toolsLinksList, toolName).click();
-
         return page.renderedPage();
     }
-
-//    public WebElement selectTool(String toolName)
-//    {
-//        browser.waitUntilElementIsDisplayedWithRetry(toolsList, 6);
-//        List<WebElement> itemsList = browser.findElements(toolsList);
-//        return browser.findFirstElementWithValue(itemsList, toolName);
-//    }
 
     public boolean isToolAvailable(String toolName)
     {
         return browser.isElementDisplayed(browser.findFirstElementWithValue(toolsLinksList, toolName));
     }
 
-//    public void clickOnAvailableTool(String toolName)
-//    {
-//
-//        browser.findFirstElementWithValue(toolsList, toolName).click();
-//    }
+    public AdminToolsPage assertToolIsAvailable(String toolName)
+    {
+        LOG.info(String.format("Assert '%s' is displayed in Admin Tools Page", toolName));
+        Assert.assertTrue( browser.isElementDisplayed(browser.findFirstElementWithValue(toolsLinksList, toolName)),
+            String.format("%s is displayed in Admin Tools page", toolName));
+        return this;
+    }
 }

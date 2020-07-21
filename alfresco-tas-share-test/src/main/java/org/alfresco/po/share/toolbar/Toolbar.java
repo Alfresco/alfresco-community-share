@@ -19,6 +19,7 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.testng.Assert;
 
 @Primary
 @PageObject
@@ -164,6 +165,20 @@ public class Toolbar extends HtmlPage
     public boolean isAdminToolsDisplayed()
     {
         return browser.isElementDisplayed(adminToolsLink);
+    }
+
+    public Toolbar assertAdminToolsIsDisplayed()
+    {
+        LOG.info("Assert Admin Tools link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(adminToolsLink), "Admin tools link is displayed");
+        return this;
+    }
+
+    public Toolbar assertAdminToolsIsNotDisplayed()
+    {
+        LOG.info("Assert Admin Tools link is not displayed");
+        Assert.assertTrue(browser.isElementDisplayed(adminToolsLink), "Admin tools link is displayed");
+        return this;
     }
 
     public AdminToolsPage clickAdminTools()
