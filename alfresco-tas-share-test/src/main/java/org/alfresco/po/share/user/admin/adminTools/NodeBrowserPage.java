@@ -1,17 +1,20 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.alfresco.common.Utils;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Table;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Razvan.Dorobantu
@@ -19,9 +22,6 @@ import ru.yandex.qatools.htmlelements.element.Table;
 @PageObject
 public class NodeBrowserPage extends AdminToolsPage
 {
-    @FindBy (xpath = "//div[@class='title']/label[text() = 'Node Browser']")
-    private WebElement nodeBrowserDiv;
-
     @FindBy (css = "div.search-text textarea")
     private WebElement searchInput;
 
@@ -42,14 +42,17 @@ public class NodeBrowserPage extends AdminToolsPage
 
     @RenderWebElement
     @FindBy (css = "div[id$='_default-datatable']")
-
     private Table resultsTable;
+
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
     private By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
     private By options = By.cssSelector(".yuimenu.visible li>a");
     private By visibleDropdown = By.cssSelector(".yui-button-menu.yui-menu-button-menu.visible");
-    private String loadingMessage = "//div[text()='%s']";
+    private String fileNameRow = "//a[text()='cm:%s']/../../..";
+    private By parentRows = By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div");
+    private By referenceRows = By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a");
+    private String loadingMessage = "//div[contains(text(), '%s')]";
 
     @Override
     public String getRelativePath()
@@ -73,73 +76,94 @@ public class NodeBrowserPage extends AdminToolsPage
         return (NodeBrowserPage) this.renderedPage();
     }
 
-    public boolean isSearchTypeSelected(SEARCH_TYPE searchType)
+    public NodeBrowserPage assertSearchTypeIsSelected(SEARCH_TYPE searchType)
     {
-        return searchTypeDropdownButton.getText().equals(searchType.getSearchType());
+        Assert.assertTrue(searchTypeDropdownButton.getText().equals(searchType.getSearchType()));
+        return this;
     }
 
-    public boolean isStoreTypeSelected(SELECT_STORE storeType)
+    public NodeBrowserPage assertStoreTypeIsSelected(SELECT_STORE storeType)
     {
-        return storeTypeDropdownButton.getText().equals(storeType.getStoreType());
+        Assert.assertTrue(storeTypeDropdownButton.getText().equals(storeType.getStoreType()));
+        return this;
     }
 
-    public NodeBrowserPage clickSearchButton()
+    public NodeBrowserPage clickSearch()
     {
         browser.waitUntilElementClickable(searchButton).click();
-        browser.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))));
+        waitForResult();
         return (NodeBrowserPage) this.renderedPage();
     }
 
-    public boolean isSearchButtonPresent()
+    private void waitForResult()
     {
-        return browser.isElementDisplayed(searchButton);
+        browser.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))));
+        browser.waitUntilElementIsPresent(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searchTook"))));
+        browser.waitUntilElementVisible(By.xpath(String.format(loadingMessage,  language.translate("nodeBrowser.searchTook"))));
     }
 
-    public boolean isNameColumnPresent()
+    public NodeBrowserPage assertSearchButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(nameColumn);
+        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        return this;
     }
 
-    public boolean isParentColumnPresent()
+    public NodeBrowserPage assertAllColumnsAreDisplayed()
     {
-        return browser.isElementDisplayed(parentColumn);
+        Assert.assertTrue(browser.isElementDisplayed(nameColumn), "Name column is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(parentColumn), "Parent column is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(referenceColumn), "Reference column is displayed");
+        return this;
     }
 
-    public boolean isReferenceColumnPresent()
-    {
-        return browser.isElementDisplayed(referenceColumn);
-    }
-
-    public void writeInSearchInput(String searchItem)
+    public NodeBrowserPage searchFor(String searchItem)
     {
         Utils.clearAndType(searchInput, searchItem);
+        return this;
     }
 
-    private Map<String, List<String>> getResults()
+    private WebElement getResultRow(String name)
     {
-        By fileName = By.cssSelector("div[id$='-datatable'] td[class*='col-name'] div a");
-        Map<String, List<String>> results = new HashMap<>();
-        browser.waitUntilElementIsDisplayedWithRetry(fileName, 1, WAIT_15_SEC);
-        List<WebElement> nameRows = browser.waitUntilElementsVisible(fileName);
-        List<WebElement> parentRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div"));
-        List<WebElement> referenceRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a"));
-
-        for (int i = 0; i < nameRows.size(); i++)
-        {
-            String trc = nameRows.get(i).getText();
-            results.put(trc.substring(trc.lastIndexOf(":") + 1), Arrays.asList(parentRows.get(i).getText(), referenceRows.get(i).getText()));
-        }
-        return results;
+        By searchRow = By.xpath(String.format(fileNameRow, name));
+        browser.waitUntilElementIsDisplayedWithRetry(searchRow, 1, WAIT_15_SEC);
+        return browser.findElement(searchRow);
     }
 
     public String getParentFor(String fileName)
     {
-        return getResults().get(fileName).get(0);
+        return getResultRow(fileName).findElement(parentRows).getText();
     }
 
-    public List<List<String>> getRowText()
+    public NodeBrowserPage assertParentIs(String file, String parent)
     {
-        return resultsTable.getRowsAsString();
+        LOG.info(String.format("Assert parent for %s is %s", file, parent));
+        Assert.assertTrue(getParentFor(file).contains(parent), String.format("Parent result for %s is wrong.", file));
+        return this;
+    }
+
+    public NodeBrowserPage assertParentForFileIsSite(FileModel file, SiteModel site)
+    {
+        return assertParentIs(file.getName(), site.getId());
+    }
+
+    public String getReferenceFor(String fileName)
+    {
+        return getResultRow(fileName).findElement(referenceRows).getText();
+    }
+
+    public NodeBrowserPage assertReferenceForFileIsCorrect(FileModel file)
+    {
+        LOG.info(String.format("Assert reference for file %s is correct", file.getName()));
+        Assert.assertTrue(getReferenceFor(file.getName()).contains(file.getNodeRefWithoutVersion()),
+            "Reference is correct");
+        return this;
+    }
+
+    public NodeBrowserPage assertRowContains(String value)
+    {
+        Assert.assertTrue(resultsTable.getRowsAsString().toString().contains(value),
+            String.format("Row contains value %s", value));
+        return this;
     }
 
     public enum SEARCH_TYPE

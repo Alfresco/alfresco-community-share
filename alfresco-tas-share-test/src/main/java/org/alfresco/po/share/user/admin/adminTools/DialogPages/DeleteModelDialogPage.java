@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
+import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;

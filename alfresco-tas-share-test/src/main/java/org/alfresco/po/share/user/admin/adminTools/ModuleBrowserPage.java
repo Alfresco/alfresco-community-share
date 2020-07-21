@@ -7,6 +7,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
@@ -38,7 +39,7 @@ public class ModuleBrowserPage extends AdminToolsPage
     @Override
     public String getRelativePath()
     {
-        return null;
+        return "share/page/console/admin-console/module-package";
     }
 
     public WebElement selectModuleName(String moduleName)
@@ -52,19 +53,19 @@ public class ModuleBrowserPage extends AdminToolsPage
         return browser.isElementDisplayed(selectModuleName(moduleName));
     }
 
-    public boolean isTitleHeaderDisplayed()
+    public ModuleBrowserPage assertGoogleDocsModuleIsPresent()
     {
-        return browser.isElementDisplayed(titleTableHeader);
+        Assert.assertTrue(isModuleAvailable(language.translate("moduleBrowser.googleDocs.title")),
+            "Google Docs Share Module is not available");
+        return this;
     }
 
-    public boolean isDescriptionHeaderDisplayed()
+    public ModuleBrowserPage assertModuleTableHeadersAreDisplayed()
     {
-        return browser.isElementDisplayed(descriptionTableHeader);
-    }
-
-    public boolean isVersionHeaderDisplayed()
-    {
-        return browser.isElementDisplayed(versionTableHeader);
+        Assert.assertTrue(browser.isElementDisplayed(titleTableHeader), "Title header is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(descriptionTableHeader), "Description header is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(versionTableHeader), "Version header is displayed");
+        return this;
     }
 
     public String getModelManagerPageTitle()

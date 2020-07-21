@@ -16,8 +16,9 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
-import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
-import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
+
+import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
+import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;

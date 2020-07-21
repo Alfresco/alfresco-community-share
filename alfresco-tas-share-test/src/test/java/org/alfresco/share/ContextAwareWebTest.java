@@ -1,25 +1,10 @@
 package org.alfresco.share;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
-import org.alfresco.common.Timeout;
-import org.alfresco.dataprep.ContentActions;
-import org.alfresco.dataprep.ContentAspects;
-import org.alfresco.dataprep.ContentService;
-import org.alfresco.dataprep.DataListsService;
-import org.alfresco.dataprep.GroupService;
-import org.alfresco.dataprep.SitePagesService;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.LoginPage;
+import org.alfresco.dataprep.*;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.Utility;
@@ -30,13 +15,19 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
-import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.commons.httpclient.HttpState;
 import org.openqa.selenium.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author bogdan.bocancea
@@ -112,6 +103,11 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         adminName = properties.getAdminName();
         domain = "@test.com";
         cleanupAuthenticatedSession();
+    }
+
+    public UserModel getAdminUser()
+    {
+        return dataUser.getAdminUser();
     }
 
     /**
@@ -220,6 +216,12 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
             cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(userFolder).deleteFolderTree();
         }
     }
+
+    public void assertCurrentUrlContains(String value)
+    {
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains(value), String.format("%s is displayed in current url", value));
+    }
+
 
     @Override
     public String getPageObjectRootPackage()
