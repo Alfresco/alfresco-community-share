@@ -148,6 +148,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
             .searchFor(String.valueOf(System.currentTimeMillis()))
             .clickSearch()
-            .assertRowContains("No items found");
+            .assertRowContains(language.translate("nodeBrowser.noItemsFound"));
     }
 }

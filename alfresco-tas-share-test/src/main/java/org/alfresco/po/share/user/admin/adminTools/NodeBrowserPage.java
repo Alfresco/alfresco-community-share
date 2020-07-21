@@ -91,8 +91,15 @@ public class NodeBrowserPage extends AdminToolsPage
     public NodeBrowserPage clickSearch()
     {
         browser.waitUntilElementClickable(searchButton).click();
-        browser.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))));
+        waitForResult();
         return (NodeBrowserPage) this.renderedPage();
+    }
+
+    private void waitForResult()
+    {
+        browser.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))));
+        browser.waitUntilElementIsPresent(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searchTook"))));
+        browser.waitUntilElementVisible(By.xpath(String.format(loadingMessage,  language.translate("nodeBrowser.searchTook"))));
     }
 
     public NodeBrowserPage assertSearchButtonIsDisplayed()
