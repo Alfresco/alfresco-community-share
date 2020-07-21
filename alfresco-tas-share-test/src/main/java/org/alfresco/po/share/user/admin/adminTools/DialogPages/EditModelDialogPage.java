@@ -3,10 +3,9 @@ package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 import static org.alfresco.common.Utils.clearAndType;
 
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
+import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.alfresco.po.share.user.admin.adminTools;
+package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
 import java.util.List;
 

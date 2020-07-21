@@ -177,7 +177,7 @@ public class Toolbar extends HtmlPage
     public Toolbar assertAdminToolsIsNotDisplayed()
     {
         LOG.info("Assert Admin Tools link is not displayed");
-        Assert.assertTrue(browser.isElementDisplayed(adminToolsLink), "Admin tools link is displayed");
+        Assert.assertFalse(browser.isElementDisplayed(adminToolsLink), "Admin tools link is displayed");
         return this;
     }
 
