@@ -138,7 +138,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.STORE_ROOT)
             .clickSearch()
-            .assertRowContains("workspace://SpacesStore/");
+            .assertReferenceContainsValue("workspace://SpacesStore/");
     }
 
     @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
@@ -148,6 +148,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
             .searchFor(String.valueOf(System.currentTimeMillis()))
             .clickSearch()
-            .assertRowContains(language.translate("nodeBrowser.noItemsFound"));
+            .assertNoItemsFoundIsDisplayed()
+            .assertNoItemsFoundLabelIsCorrect();
     }
 }

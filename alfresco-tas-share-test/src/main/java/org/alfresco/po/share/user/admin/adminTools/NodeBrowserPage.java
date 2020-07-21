@@ -7,14 +7,12 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Table;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Razvan.Dorobantu
@@ -40,9 +38,11 @@ public class NodeBrowserPage extends AdminToolsPage
     @FindBy (css = ".search-main")
     private WebElement searchResults;
 
-    @RenderWebElement
-    @FindBy (css = "div[id$='_default-datatable']")
-    private Table resultsTable;
+    @FindAll(@FindBy (css = ".yui-dt-data > tr"))
+    protected List<WebElement> results;
+
+    @FindBy (css = ".yui-dt-empty > div")
+    private WebElement resultNoItemsFound;
 
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
@@ -159,10 +159,26 @@ public class NodeBrowserPage extends AdminToolsPage
         return this;
     }
 
-    public NodeBrowserPage assertRowContains(String value)
+    public NodeBrowserPage assertReferenceContainsValue(String reference)
     {
-        Assert.assertTrue(resultsTable.getRowsAsString().toString().contains(value),
-            String.format("Row contains value %s", value));
+        LOG.info("Assert reference %s is displayed in results");
+        WebElement referenceRow = browser.waitUntilElementVisible(referenceRows);
+        browser.waitUntilElementContainsText(referenceRow, reference);
+        Assert.assertTrue(referenceRow.getText().contains(reference));
+        return this;
+    }
+
+    public NodeBrowserPage assertNoItemsFoundIsDisplayed()
+    {
+        browser.waitUntilElementVisible(resultNoItemsFound);
+        Assert.assertTrue(browser.isElementDisplayed(resultNoItemsFound), "No items found is displayed");
+        return this;
+    }
+
+    public NodeBrowserPage assertNoItemsFoundLabelIsCorrect()
+    {
+        browser.waitUntilElementVisible(resultNoItemsFound);
+        Assert.assertEquals(resultNoItemsFound.getText(), language.translate("nodeBrowser.noItemsFound"));
         return this;
     }
 
