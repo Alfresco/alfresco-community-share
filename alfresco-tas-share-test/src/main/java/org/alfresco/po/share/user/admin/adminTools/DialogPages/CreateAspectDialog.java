@@ -8,12 +8,13 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * Created by Mirela Tifui on 12/6/2016.
  */
 @PageObject
-public class CreateAspectDialogPage extends ShareDialog
+public class CreateAspectDialog extends ShareDialog
 {
     @Autowired
     ModelDetailsPage modelDetailsPage;
@@ -38,27 +39,31 @@ public class CreateAspectDialogPage extends ShareDialog
     @FindBy (css = "#CMM_CREATE_PROPERTYGROUP_DIALOG div.control textarea")
     private WebElement descriptionField;
 
-    public boolean isCreateAspectWindowDisplayed()
+    public CreateAspectDialog assertCreateAspectDialogIsOpened()
     {
-        return browser.isElementDisplayed(createAspectWidow);
+        Assert.assertTrue(browser.isElementDisplayed(createAspectWidow), "Create aspect dialog is opened");
+        return this;
     }
 
-    public void sendNameInput(String name)
+    public CreateAspectDialog typeName(String name)
     {
         Utils.clearAndType(nameField, name);
+        return this;
     }
 
-    public void sendDisplayLabelInput(String displayLabel)
+    public CreateAspectDialog typeDisplayLabel(String displayLabel)
     {
         Utils.clearAndType(displayLabelField, displayLabel);
+        return this;
     }
 
-    public void sendDescriptionFieldInput(String description)
+    public CreateAspectDialog typeDescription(String description)
     {
         Utils.clearAndType(descriptionField, description);
+        return this;
     }
 
-    public ModelDetailsPage clickCreateButton()
+    public ModelDetailsPage clickCreate()
     {
         browser.waitUntilElementClickable(createButton).click();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();

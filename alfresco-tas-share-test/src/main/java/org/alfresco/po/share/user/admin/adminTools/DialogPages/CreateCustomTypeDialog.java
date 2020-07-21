@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * Created by Mirela Tifui on 12/6/2016.
@@ -21,6 +22,7 @@ public class CreateCustomTypeDialog extends ShareDialog
 {
     @Autowired
     ModelDetailsPage modelDetailsPage;
+
     @RenderWebElement
     @FindBy (id = "CMM_CREATE_TYPE_DIALOG")
     private WebElement createCustomTypeWindow;
@@ -48,7 +50,7 @@ public class CreateCustomTypeDialog extends ShareDialog
     @FindAll (@FindBy (css = "table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']"))
     private List<WebElement> parentTypeElements;
 
-    public ModelDetailsPage clickCreateButton()
+    public ModelDetailsPage clickCreate()
     {
         getBrowser().waitUntilElementClickable(createButton).click();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
@@ -72,14 +74,16 @@ public class CreateCustomTypeDialog extends ShareDialog
         cancelButton.click();
     }
 
-    public void sendNameInput(String name)
+    public CreateCustomTypeDialog typeName(String name)
     {
         clearAndType(nameField, name);
+        return this;
     }
 
-    public void sendDisplayLabelInput(String displayLabel)
+    public CreateCustomTypeDialog typeDisplayLabel(String displayLabel)
     {
         clearAndType(displayLabelField, displayLabel);
+        return this;
     }
 
     public void sendDescriptionFieldInput(String description)
@@ -87,9 +91,9 @@ public class CreateCustomTypeDialog extends ShareDialog
         clearAndType(descriptionField, description);
     }
 
-    public boolean isCreateCustomTypeWindowDisplayed()
+    public CreateCustomTypeDialog assertCreateCustomTypeWindowDisplayed()
     {
-        return browser.isElementDisplayed(createCustomTypeWindow);
+        Assert.assertTrue(browser.isElementDisplayed(createCustomTypeWindow), "Create custom type button is displayed");
+        return this;
     }
-
 }
