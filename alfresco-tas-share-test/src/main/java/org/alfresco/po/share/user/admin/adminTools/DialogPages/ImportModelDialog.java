@@ -10,12 +10,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.testng.Assert;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
  */
 @PageObject
-public class ImportModelDialogPage extends ShareDialog
+public class ImportModelDialog extends ShareDialog
 {
     @Autowired
     private Environment env;
@@ -41,38 +42,44 @@ public class ImportModelDialogPage extends ShareDialog
     @FindBy (css = ".alfresco-html-FileInput")
     private WebElement fileInput;
 
-    public boolean isImportModelWindowDisplayed()
+    public ImportModelDialog assertImportModelDialogOpened()
     {
-        return browser.isElementDisplayed(importModelWindow);
+        Assert.assertTrue(browser.isElementDisplayed(importModelWindow), "Import model dialog is opened");
+        return this;
     }
 
-    public String getImportModelWindowTitle()
+    public ImportModelDialog assertImportModelTitleIsCorrect()
     {
-        return importModelTitle.getText();
+        Assert.assertEquals(importModelTitle.getText(), language.translate("importModelDialog.title"));
+        return this;
     }
 
-    public boolean isBrowserButtonDisplayed()
+    public ImportModelDialog assertBrowserButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(fileInput);
+        Assert.assertTrue(browser.isElementDisplayed(fileInput) , "Browse button is displayed");
+        return this;
     }
 
-    public boolean isImportButtonDisplayed()
+    public ImportModelDialog assertImportButtonDisplayed()
     {
-        return browser.isElementDisplayed(importButton);
+        Assert.assertTrue(browser.isElementDisplayed(importButton), "Import button is displayed");
+        return this;
     }
 
-    public boolean isCancelButtonDisplayed()
+    public ImportModelDialog assertCancelButtonDisplayed()
     {
-        return browser.isElementDisplayed(cancelButton);
+        Assert.assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        return this;
     }
 
-    public void importFile(String filePath)
+    public ImportModelDialog importFile(String filePath)
     {
         if (env.getProperty("grid.enabled").equals("true"))
         {
             ((RemoteWebDriver)browser.getWrappedDriver()).setFileDetector(new LocalFileDetector());
         }
         fileInput.sendKeys(filePath);
+        return this;
     }
 
     public ModelManagerPage clickImportButton()

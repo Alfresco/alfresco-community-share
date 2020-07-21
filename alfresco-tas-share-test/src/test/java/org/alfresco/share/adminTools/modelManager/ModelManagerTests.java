@@ -3,10 +3,8 @@ package org.alfresco.share.adminTools.modelManager;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.*;
-import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
+import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -26,40 +24,16 @@ import java.util.List;
 public class ModelManagerTests extends ContextAwareWebTest
 {
     @Autowired
-    ModelManagerPage modelManagerPage;
+    private ModelManagerPage modelManagerPage;
 
     @Autowired
-    AdminToolsPage adminToolsPage;
+    private DocumentLibraryPage documentLibraryPage;
 
     @Autowired
-    CreateModelDialogPage createModelDialogPage;
+    private DocumentDetailsPage documentDetailsPage;
 
     @Autowired
-    ImportModelDialogPage importModelDialogPage;
-
-    @Autowired
-    EditModelDialogPage editModelDialogPage;
-
-    @Autowired
-    DeleteModelDialogPage deleteModelDialogPage;
-
-    @Autowired
-    ModelDetailsPage modelDetailsPage;
-
-    @Autowired
-    CreateCustomTypeDialog createCustomTypeDialog;
-
-    @Autowired
-    CreateAspectDialogPage createAspectDialogPage;
-
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    ChangeContentTypeDialog changeContentTypeDialog;
+    private ChangeContentTypeDialog changeContentTypeDialog;
 
     private UserModel user;
     private SiteModel site;
@@ -76,6 +50,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "content");
         cmisApi.authenticateUser(user).usingSite(site).createFile(file).assertThat().existsInRepo();
 
+        restApi.authenticateUser(getAdminUser());
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 
@@ -114,9 +89,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createModel()
     {
-        name = String.format("C42565Name%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C42565Namespace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C42565%s", RandomData.getRandomAlphanumeric());
+        name = String.format("C42565Name-%s", RandomData.getRandomAlphanumeric());
+        nameSpace = String.format("C42565Namespace-%s", RandomData.getRandomAlphanumeric());
+        prefix = String.format("C42565-%s", RandomData.getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, nameSpace, prefix);
         modelsToRemove.add(newModel);
 
@@ -133,155 +108,104 @@ public class ModelManagerTests extends ContextAwareWebTest
                                                    language.translate("modelManager.action.export"));
     }
 
-    @TestRail (id = "C9516")
+    @TestRail (id = "C9516, C9520")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void activateModel()
     {
-        // Preconditions
-        name = String.format("C9516testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C9516nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C9516%s", RandomData.getRandomAlphanumeric());
-        modelsToRemove.add(new CustomContentModel(name));
-        modelManagerPage.createModel(name, nameSpace, prefix);
-
-        LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
-        Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Model should be displayed");
-        modelManagerPage.clickActionsButtonForModel(name);
-        Assert.assertTrue(modelManagerPage.isActionAvailable("Activate"), "Activate is not available for C9516testModel");
-
-        LOG.info("Step 2: Click on Activate button");
-        modelManagerPage.clickOnAction("Activate", modelManagerPage);
-        Assert.assertEquals(modelManagerPage.getModelStatus(name), "Active", "C9516testModel status is not Active");
+        name = String.format("C9516Model-%s", RandomData.getRandomAlphanumeric());
+        CustomContentModel newModel = new CustomContentModel(name, name, name);
+        modelManagerPage.navigate();
+        modelsToRemove.add(newModel);
+        modelManagerPage.createModel(newModel)
+            .usingModel(newModel).assertModelIsDisplayed()
+                .clickActions().activateModel()
+                    .assertStatusIsActive()
+                .clickActions()
+                    .assertActionsAreAvailable(language.translate("modelManager.action.deactivate"),
+                                               language.translate("modelManager.action.export"));
     }
 
     @TestRail (id = "C9517")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editModel()
     {
-        // Preconditions
-        name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C9517nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C9517%s", RandomData.getRandomAlphanumeric());
+        name = String.format("C9517-%s", RandomData.getRandomAlphanumeric());
+        CustomContentModel newModel = new CustomContentModel(name, name, name);
+        restApi.withPrivateAPI().usingCustomModel().createCustomModel(newModel);
+
         String editedNamespace = String.format("C9517editedNamespace%s", RandomData.getRandomAlphanumeric());
         String editedPrefix = String.format("C9517editedPrefix%s", RandomData.getRandomAlphanumeric());
         String editedCreator = String.format("EditedCreator%s", RandomData.getRandomAlphanumeric());
         modelsToRemove.add(new CustomContentModel(name));
-        modelManagerPage.createModel(name, nameSpace, prefix);
 
-        LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
-        modelManagerPage.clickActionsButtonForModel(name);
-        Assert.assertTrue(modelManagerPage.isActionAvailable("Edit"), "Edit is not available for C9516testModel");
+        modelManagerPage.navigate();
+        modelManagerPage.usingModel(newModel)
+            .clickActions().clickEdit()
+                .assertNameFieldIsDisabled()
+                .editNamespace(editedNamespace)
+                .editPrefix(editedPrefix)
+                .editCreator(editedCreator)
+                .clickSave();
 
-        LOG.info("Step 2: Click on Edit action");
-        modelManagerPage.clickOnAction("Edit", editModelDialogPage);
-
-        LOG.info("Step 3: On the Edit Model form provide edited input");
-        Assert.assertEquals(editModelDialogPage.getNameFieldStatus(), "true", "Name field is not disable on the Edit form");
-
-        editModelDialogPage.editNamespace(editedNamespace);
-        editModelDialogPage.editPrefix(editedPrefix);
-        editModelDialogPage.editCreator(editedCreator);
-        editModelDialogPage.clickSaveButton();
-
-        Assert.assertEquals(modelManagerPage.getModelNamespace(name), editedNamespace, "Model namespace is not correct");
-        Assert.assertEquals(modelManagerPage.getModelStatus(name), "Inactive", "Model status is not correct");
+        newModel.setNamespacePrefix(editedNamespace);
+        newModel.setNamespacePrefix(editedPrefix);
+        newModel.setAuthor(editedCreator);
+        modelManagerPage.usingModel(newModel)
+            .assertModelNameSpaceIs(editedNamespace)
+            .clickActions().clickEdit()
+                .assertNamespaceIs(editedNamespace)
+                .assertPrefixIs(editedPrefix)
+                .assertCreatorIs(editedCreator)
+                .clickCancel();
     }
 
     @TestRail (id = "C9518")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteModel()
     {
-        // Preconditions
         name = String.format("C9518testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C9518nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C9518%s", RandomData.getRandomAlphanumeric());
-        String expectedDialogText = "Are you sure you want to delete model ''" + name
-            + "''? All custom types, aspects and properties in the model will also be deleted.";
+        CustomContentModel modelToDelete = new CustomContentModel(name, name, name);
+        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToDelete);
 
-        modelManagerPage.createModel(name, nameSpace, prefix);
-
-        LOG.info("Step 1: On the Model Manager click on Actions for C9518testModel");
-        modelManagerPage.clickActionsButtonForModel(name);
-        Assert.assertTrue(modelManagerPage.isActionAvailable("Delete"), "Delete is not available for C9518testModel");
-
-        LOG.info("Step 2: Click Delete button");
-        modelManagerPage.clickOnAction("Delete", deleteModelDialogPage);
-        Assert.assertTrue(deleteModelDialogPage.isDeleteModelDialogDisplayed(), "Delete Model dialog is not displayed");
-
-        LOG.info("Step 3: Check the Delete Model window");
-        Assert.assertEquals(deleteModelDialogPage.getDeleteModelDialogText(), expectedDialogText, "The dialog text is not correct");
-        Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Delete"), "Delete button is not displayed");
-        Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Cancel"), "Cancel button is not displayed");
-        Assert.assertTrue(deleteModelDialogPage.isCloseButtonDisplayed(), "The Close X button is not displayed on the Delete Model dialog page");
-
-        LOG.info("Step 4: Click the Delete button");
-        deleteModelDialogPage.clickDelete();
-        Assert.assertFalse(modelManagerPage.isModelDisplayed(name));
-    }
-
-    @TestRail (id = "C9520")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void checkAvailableActionsForActiveModel()
-    {
-        // Preconditions
-        name = String.format("C9520testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C9520nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C9520%s", RandomData.getRandomAlphanumeric());
-        modelsToRemove.add(new CustomContentModel(name));
-        modelManagerPage.createModel(name, nameSpace, prefix);
-        modelManagerPage.clickActionsButtonForModel(name);
-        modelManagerPage.clickOnAction("Activate", modelManagerPage);
-
-        LOG.info("Step 1: On the Model Manager click on Actions for C9520testModel");
-        modelManagerPage.clickActionsButtonForModel(name);
-        Assert.assertTrue(modelManagerPage.isActionAvailable("Deactivate"), "Deactivate is not available for active model");
-        Assert.assertTrue(modelManagerPage.isActionAvailable("Export"), "Export is not available for an active model");
-        Assert.assertFalse(modelManagerPage.isActionAvailable("Activate"), "Activate is still available for an active model");
-        Assert.assertFalse(modelManagerPage.isActionAvailable("Edit"), "Edit is still available for an active model");
-        Assert.assertFalse(modelManagerPage.isActionAvailable("Delete"), "Delete is still available for an active model");
+        modelManagerPage.navigate();
+        modelManagerPage.usingModel(modelToDelete)
+            .clickActions().clickDelete()
+                .assertDeleteModelDialogIsDisplayed()
+                .assertDeleteModelDialogTextIsCorrect(modelToDelete.getName())
+                .assertCancelButtonIsDisplayed()
+                .assertDeleteButtonIsDisplayed()
+                .clickDelete();
+        modelManagerPage.usingModel(modelToDelete).assertModelIsNotDisplayed();
     }
 
     @TestRail (id = "C9521")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deactivateModel()
     {
-        // Preconditions
         name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C9521nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C9521%s", RandomData.getRandomAlphanumeric());
-        modelsToRemove.add(new CustomContentModel(name));
-        modelManagerPage.createModel(name, nameSpace, prefix);
-        modelManagerPage.clickActionsButtonForModel(name);
-        LOG.info("activate model");
-        modelManagerPage.clickOnAction("Activate", modelManagerPage);
-
-        LOG.info("Step 1: On the Model Manager click on Actions for C9521testModel");
-        modelManagerPage.clickActionsButtonForModel(name);
-        Assert.assertTrue(modelManagerPage.isActionAvailable("Deactivate"), "Deactivate is not available for active model");
-
-        LOG.info("Step 2: Click on Deactivate action");
-        modelManagerPage.clickOnAction("Deactivate", modelManagerPage);
-        Assert.assertEquals(modelManagerPage.getModelStatus(name), "Inactive", "C9521testModel status is not Active");
+        CustomContentModel modelToDeactivate = new CustomContentModel(name, name, name);
+        modelsToRemove.add(modelToDeactivate);
+        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToDeactivate);
+        restApi.withPrivateAPI().usingCustomModel(modelToDeactivate).activateModel();
+        modelManagerPage.navigate();
+        modelManagerPage.usingModel(modelToDeactivate)
+            .clickActions().assertStatusIsActive()
+                .deactivateModel()
+                .assertStatusIsInactive();
     }
 
     @TestRail (id = "C9519")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void exportModel()
     {
-        // Preconditions
         name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C9517nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C9517%s", RandomData.getRandomAlphanumeric());
-        modelsToRemove.add(new CustomContentModel(name));
+        CustomContentModel modelToExport = new CustomContentModel(name, name, name);
+        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToExport);
+        modelsToRemove.add(modelToExport);
 
-        modelManagerPage.createModel(name, nameSpace, prefix);
-
-        LOG.info("Step 1: On the Model Manager click on Actions for C9519testModel");
-        modelManagerPage.clickActionsButtonForModel(name);
-        Assert.assertTrue(modelManagerPage.isActionAvailable("Export"), "Export is not available for active model");
-
-        LOG.info("Step 2: Click on Export action");
-        modelManagerPage.clickOnAction("Export", modelManagerPage);
+        modelManagerPage.navigate();
+        modelManagerPage.usingModel(modelToExport)
+            .clickActions().exportModel();
         Assert.assertTrue(isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
     }
 
@@ -291,94 +215,75 @@ public class ModelManagerTests extends ContextAwareWebTest
     {
         String filePath = testDataFolder + "C9509TestModelName.zip";
         name = "C9509TestModelName";
-        modelsToRemove.add(new CustomContentModel(name));
+        CustomContentModel importedModel = new CustomContentModel(name, name, name);
+        modelsToRemove.add(importedModel);
 
-        LOG.info("Step 1: Click import model button");
         modelManagerPage.navigate();
-        modelManagerPage.clickImportModel();
-
-        LOG.info("Step 2: Check the Import Model Window");
-        Assert.assertTrue(importModelDialogPage.isImportModelWindowDisplayed(), "Import model window is not displayed");
-        Assert.assertEquals(importModelDialogPage.getImportModelWindowTitle(), "Import Model", "Import Model window title is not correct");
-        Assert.assertTrue(importModelDialogPage.isCloseButtonDisplayed(), "Close 'x' button is not displayed");
-        Assert.assertTrue(importModelDialogPage.isBrowserButtonDisplayed(), "Browser button is not displayed");
-        Assert.assertTrue(importModelDialogPage.isImportButtonDisplayed(), "Import button is not displayed");
-        Assert.assertTrue(importModelDialogPage.isCancelButtonDisplayed(), "Cancel button is not displayed");
-
-        LOG.info(
-            "Step 2&3: Click the Choose Files button, navigate to the location where the testModel file is available locally and select file to import then click open;");
-        importModelDialogPage.importFile(filePath);
-        importModelDialogPage.clickImportButton();
-
-        LOG.info("Step 4: Check the Model details displayed on the Model Manager page");
-        Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Imported model is not present on the Model Manager Page");
-        Assert.assertEquals(modelManagerPage.getModelNamespace(name), name, "Imported Model namespace is not correct");
-        Assert.assertEquals(modelManagerPage.getModelStatus(name), "Inactive", "Imported Model status is not correct");
+        modelManagerPage.clickImportModel()
+            .assertImportModelDialogOpened()
+            .assertImportModelTitleIsCorrect()
+            .assertBrowserButtonIsDisplayed()
+            .assertImportButtonDisplayed()
+            .assertCancelButtonDisplayed()
+            .importFile(filePath)
+            .clickImportButton();
+        modelManagerPage.usingModel(importedModel)
+            .assertModelIsDisplayed()
+            .assertModelNameSpaceIs(name)
+            .assertStatusIsInactive();
     }
 
     @TestRail (id = "C42566")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createCustomType()
     {
-        // Preconditions
         name = String.format("C42566testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C42566nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C42566%s", RandomData.getRandomAlphanumeric());
-        String customTypeName = "TestCustomTypeName";
-        String displayLabel = "CustomTypeLabel";
-        String displayedTypeName = prefix + ":" + customTypeName;
-        modelsToRemove.add(new CustomContentModel(name));
+        CustomContentModel modelForCustomType = new CustomContentModel(name, name, name);
+        RestCustomTypeModel newCustomType = new RestCustomTypeModel("TestCustomTypeName", "cm:content", "CustomTypeLabel");
+        modelsToRemove.add(modelForCustomType);
 
-        modelManagerPage.createModel(name, nameSpace, prefix);
+        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelForCustomType);
 
-        LOG.info("Step 1: On the Model Manager page click C42566testModel name link.");
-        modelManagerPage.clickModelName(name);
-        Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
-        Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");
-        Assert.assertTrue(modelDetailsPage.isShowModelsButtonDisplayed(), "Show models button is not displayed");
-
-        LOG.info("Step 2: On the Model Details Page click on create custom type button");
-        modelDetailsPage.clickCreateCustomTypeButton();
-        Assert.assertTrue(createCustomTypeDialog.isCreateCustomTypeWindowDisplayed(), "Create Custom Type window is not displayed");
-
-        LOG.info("Step 3: On the Create Custom Type form provide input for name, display label and description");
-        createCustomTypeDialog.sendNameInput(customTypeName);
-        createCustomTypeDialog.sendDisplayLabelInput(displayLabel);
-        createCustomTypeDialog.clickCreateButton();
-        Assert.assertEquals(modelDetailsPage.getTypeDetails(displayedTypeName), prefix + ":TestCustomTypeName CustomTypeLabel cm:content No\n" + "Actions▾",
-            "Details for the created type are not correct");
+        modelManagerPage.navigate();
+        modelManagerPage.usingModel(modelForCustomType)
+            .openCustomModel()
+                .assertCreateAspectButtonIsDisplayed()
+                .assertCreateCustomTypeButtonDisplayed()
+                .assertShowModelsButtonDisplayed()
+                .clickCreateCustomType()
+                    .assertCreateCustomTypeWindowDisplayed()
+                    .typeName(newCustomType.getName())
+                    .typeDisplayLabel(newCustomType.getTitle())
+                    .clickCreate();
+        modelManagerPage.usingCustomType(modelForCustomType, newCustomType)
+            .assertCustomTypeIsDisplayed()
+            .assertDisplayLabelIs(newCustomType.getTitle())
+            .assertParentIs(newCustomType.getParentName())
+            .assertLayoutIsNo();
     }
 
     @TestRail (id = "C42567")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createAspect()
     {
-        // Preconditions
         name = String.format("C42567testModel%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C42567nameSpace%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C42567%s", RandomData.getRandomAlphanumeric());
-        String aspectName = "TestAspectName";
-        String displayLabel = "aspectNameLabel";
-        String description = "Aspect description";
-        String displayedAspectName = prefix + ":" + aspectName;
-        modelsToRemove.add(new CustomContentModel(name));
-        modelManagerPage.createModel(name, nameSpace, prefix);
+        CustomContentModel modelForAspect = new CustomContentModel(name, name, name);
+        CustomAspectModel newAspect = new CustomAspectModel("TestAspectName", "aspectNameLabel");
+        modelsToRemove.add(modelForAspect);
+        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelForAspect);
 
-        LOG.info("Step 1: On the Model Manager page click C42567testModel name link.");
-        modelManagerPage.clickModelName(name);
-
-        LOG.info("Step 2: Click on Create Aspect button");
-        modelDetailsPage.clickOnCreateAspectButton();
-        Assert.assertTrue(createAspectDialogPage.isCreateAspectWindowDisplayed(), "Create Aspect window is not displayed");
-
-        LOG.info("Step 3: On the Create Aspect form provide input for name, display label and description");
-        createAspectDialogPage.sendNameInput(aspectName);
-        createAspectDialogPage.sendDisplayLabelInput(displayLabel);
-        createAspectDialogPage.sendDescriptionFieldInput(description);
-        createAspectDialogPage.clickCreateButton();
-
-        Assert.assertEquals(modelDetailsPage.getAspectDetails(displayedAspectName), prefix + ":TestAspectName aspectNameLabel No\n" + "Actions▾",
-            "Details for the created aspect are not correct");
+        modelManagerPage.navigate();
+        modelManagerPage.usingModel(modelForAspect)
+            .openCustomModel()
+                .clickCreateAspect()
+                    .assertCreateAspectDialogIsOpened()
+                    .typeName(newAspect.getName())
+                    .typeDisplayLabel(newAspect.getTitle())
+                    .clickCreate();
+        modelManagerPage.usingAspect(modelForAspect, newAspect)
+            .assertAspectIsDisplayed()
+            .assertDisplayLabelIs(newAspect.getTitle())
+            .assertLayoutIsNo();
     }
 
     @TestRail (id = "C42568")
@@ -387,16 +292,15 @@ public class ModelManagerTests extends ContextAwareWebTest
     {
         String filePath = testDataFolder + "Marketing_content.zip";
         name = "Marketing_content";
-        modelsToRemove.add(new CustomContentModel(name));
+        CustomContentModel importedModel = new CustomContentModel(name, name, name);
+        modelsToRemove.add(importedModel);
 
-        // Precondition
         modelManagerPage.navigate();
-        modelManagerPage.clickImportModel();
-        importModelDialogPage.importFile(filePath);
-        importModelDialogPage.clickImportButton();
-        Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Model should be displayed");
-        modelManagerPage.clickActionsButtonForModel(name);
-        modelManagerPage.clickOnAction("Activate", modelManagerPage);
+        modelManagerPage.clickImportModel()
+            .importFile(filePath)
+            .clickImportButton();
+        modelManagerPage.usingModel(importedModel).assertModelIsDisplayed()
+            .clickActions().activateModel();
 
         setupAuthenticatedSession(user);
         documentLibraryPage.navigate(site);
