@@ -1,11 +1,16 @@
 package org.alfresco.po.share.toolbar;
 
+import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.LoginPage;
+import org.alfresco.utility.TasAisProperties;
+import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class ToolbarUserMenu extends Toolbar
@@ -32,6 +37,15 @@ public class ToolbarUserMenu extends Toolbar
     private WebElement logout;
 
     private By dropdownMenu = By.id("HEADER_USER_MENU_POPUP_dropdown");
+    
+    @Autowired
+    private LoginPage loginPage;
+    
+    @Autowired
+    private AIMSPage aimsPage;
+    
+    @Autowired
+    DataAIS dataAIS;
 
     public boolean isUserDashboardDisplayed()
     {
@@ -131,7 +145,7 @@ public class ToolbarUserMenu extends Toolbar
         getBrowser().waitUntilElementClickable(userMenuLink).click();
         getBrowser().waitUntilElementVisible(dropdownMenu);
         getBrowser().waitUntilElementClickable(logout).click();
-        if (envProperties.isAimsEnabled())
+        if (dataAIS.isEnabled())
         {
             return aimsPage.renderedPage();
         }

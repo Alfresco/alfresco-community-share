@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.share.LoginPage;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;

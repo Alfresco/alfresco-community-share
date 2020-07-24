@@ -1,30 +1,33 @@
 package org.alfresco.share;
 
-import org.alfresco.po.share.LoginPage;
+import static org.testng.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.alfresco.po.share.toolbar.ToolbarUserMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author bogdan.bocancea
  */
 public class LoginTests extends ContextAwareWebTest
 {
-    @Autowired
-    private LoginPage loginPage;
 
     @Autowired
     private UserDashboardPage userDashboard;
+    @Autowired
+    private ToolbarUserMenu toolbarUserMenu;
 
     private String dashBoardUrl = "share/page/user/%s/dashboard";
     private UserModel validUser;
@@ -33,17 +36,17 @@ public class LoginTests extends ContextAwareWebTest
     private final UserModel specialPassUser = new UserModel("specialPassUser", "abc@123");
     private UserModel testUserC2084 = new UserModel("testUserC2084", password);
 
-    @BeforeClass (alwaysRun = true)
+
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         validUser = dataUser.usingAdmin().createRandomTestUser();
         dataUser.createUser(testUserC2084);
         dataUser.createUser(specialPassUser);
-        Arrays.stream(specialUsers).map(specialUser
-            -> dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));
+        Arrays.stream(specialUsers).map(specialUser -> dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void cleanup()
     {
         removeUserFromAlfresco(validUser, testUserC2084, specialPassUser);
@@ -58,81 +61,85 @@ public class LoginTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail (id = "C2080")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @TestRail(id = "C2080")
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginValidCredentials()
     {
         LOG.info("STEP1: Navigate to Login page");
-        loginPage.navigate().assertPageIsOpened().assertLoginPageTitleIsCorrect()
-            .login(validUser);
+        getLoginPage().navigate().assertPageIsOpened().assertLoginPageTitleIsCorrect().login(validUser);
         userDashboard.renderedPage();
-        userDashboard.assertPageIsOpened().assertUserDashboardPageTitleIsCorrect()
-            .assertPageHeaderIsCorrect(validUser);
+        userDashboard.assertPageIsOpened().assertUserDashboardPageTitleIsCorrect().assertPageHeaderIsCorrect(validUser);
+
+        LOG.info("STEP 2 - Click on the \"User menu\" -> \"Logout\" option");
+        toolbarUserMenu.clickLogout();
     }
 
-    @TestRail (id = "C2081")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @TestRail(id = "C2081")
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidCredentials()
     {
-        loginPage.navigate().login("fakeUser", "fakePassword");
-        loginPage.assertAuthenticationErrorIsDisplayed().assertAuthenticationErrorMessageIsCorrect();
+        getLoginPage().navigate().login("fakeUser", "fakePassword");
+        getLoginPage().assertAuthenticationErrorIsDisplayed().assertAuthenticationErrorMessageIsCorrect();
     }
 
-    @TestRail (id = "C2082")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @TestRail(id = "C2082")
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidPassword()
     {
-        loginPage.navigate().login(validUser.getUsername(), "fakePassword");
-        loginPage.assertAuthenticationErrorIsDisplayed().assertAuthenticationErrorMessageIsCorrect();
+        getLoginPage().navigate().login(validUser.getUsername(), "fakePassword");
+        getLoginPage().assertAuthenticationErrorIsDisplayed().assertAuthenticationErrorMessageIsCorrect();
     }
 
-    @TestRail (id = "C2083")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
-    public void invalidUserRedirectedToLoginPage()
+    @TestRail(id = "C2083")
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    public void invalidUserRedirectedTologinPage()
     {
         LOG.info("STEP1: In any browser, enter the URL for any page from Share in the address bar");
         navigate(String.format(dashBoardUrl, validUser.getUsername()));
-        loginPage.renderedPage();
-        loginPage.assertPageIsOpened().login("user123", "wrongpass");
-        loginPage.assertAuthenticationErrorIsDisplayed();
+        getLoginPage().renderedPage();
+        getLoginPage().assertPageIsOpened().login("user123", "wrongpass");
+        getLoginPage().assertAuthenticationErrorIsDisplayed();
     }
 
-    @TestRail (id = "C2084")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @TestRail(id = "C2084")
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginAutoComplete()
     {
-        loginPage.navigate().autoCompleteUsername(testUserC2084.getUsername());
-        loginPage.typePassword(password);
-        loginPage.clickLogin();
-        if (loginPage.isAuthenticationErrorDisplayed())
+        getLoginPage().navigate().autoCompleteUsername(testUserC2084.getUsername());
+        getLoginPage().typePassword(password);
+        getLoginPage().clickLogin();
+        if (getLoginPage().isAuthenticationErrorDisplayed())
         {
-            loginPage.autoCompleteUsername(testUserC2084.getUsername());
-            loginPage.typePassword(password);
-            loginPage.clickLogin();
+            getLoginPage().autoCompleteUsername(testUserC2084.getUsername());
+            getLoginPage().typePassword(password);
+            getLoginPage().clickLogin();
         }
         userDashboard.renderedPage();
         userDashboard.assertPageIsOpened();
+        toolbarUserMenu.clickLogout();
     }
 
-    @TestRail (id = "C2085")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @TestRail(id = "C2085")
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginUserWithSpecialChar()
     {
         specialUserList.forEach(specialUser -> {
-            loginPage.navigate().login(specialUser);
-            userDashboard.renderedPage();
-            userDashboard.assertPageHeaderIsCorrect(specialUser);
+            getLoginPage().navigate().login(specialUser);
+            getLoginPage().renderedPage();
+            getLoginPage().assertPageHeaderIsCorrect(specialUser);
             cleanupSession();
+            toolbarUserMenu.clickLogout();
         });
     }
 
-    @TestRail (id = "C2086")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @TestRail(id = "C2086")
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginUserWithSpecialPassword()
     {
-        loginPage.navigate();
-        loginPage.login(specialPassUser);
+        getLoginPage().navigate();
+        getLoginPage().login(specialPassUser);
         userDashboard.renderedPage();
         userDashboard.assertPageIsOpened();
+        toolbarUserMenu.clickLogout();
     }
 }

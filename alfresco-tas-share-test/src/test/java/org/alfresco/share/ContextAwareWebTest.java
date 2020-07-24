@@ -1,39 +1,58 @@
 package org.alfresco.share;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpCookie;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
+
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
-import org.alfresco.dataprep.*;
+import org.alfresco.dataprep.AlfrescoHttpClientFactory;
+import org.alfresco.dataprep.ContentActions;
+import org.alfresco.dataprep.ContentAspects;
+import org.alfresco.dataprep.ContentService;
+import org.alfresco.dataprep.DataListsService;
+import org.alfresco.dataprep.GroupService;
+import org.alfresco.dataprep.SitePagesService;
+import org.alfresco.dataprep.SiteService;
+import org.alfresco.dataprep.UserService;
+import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.CommonLoginPage;
+import org.alfresco.po.share.LoginPage;
+import org.alfresco.po.share.toolbar.ToolbarUserMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
-import org.alfresco.utility.data.DataUser;
+import org.alfresco.utility.data.DataUserAIS;
+import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
-import org.apache.commons.httpclient.HttpState;
-import org.openqa.selenium.Cookie;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 /**
  * @author bogdan.bocancea
  */
-@ContextConfiguration (classes = ShareTestContext.class)
-@Scope (value = "prototype")
+@ContextConfiguration(classes = ShareTestContext.class)
+@Scope(value = "prototype")
 public abstract class ContextAwareWebTest extends AbstractWebTest
 {
     @Autowired
@@ -67,7 +86,10 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected Language language;
 
     @Autowired
-    public DataUser dataUser;
+    protected DataUserAIS dataUser;
+
+    @Autowired
+    protected DataAIS dataAIS;
 
     @Autowired
     public DataSite dataSite;
@@ -84,6 +106,15 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     @Autowired
     public UserDashboardPage userDashboardPage;
 
+    @Autowired
+    private LoginPage loginPage;
+
+    @Autowired
+    private AIMSPage aimsPage;
+
+    @Autowired
+    protected AlfrescoHttpClientFactory alfrescoHttpClientFactory;
+
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
     public static final String ALFRESCO_ADMIN_GROUP = "ALFRESCO_ADMINISTRATORS";
@@ -95,7 +126,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String password = "password";
     protected String mainWindow;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setup() throws DataPreparationException
     {
         adminUser = properties.getAdminUser();
@@ -112,8 +143,8 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     /**
      * Just authenticate using <username> and <password> provided as parameters
-     * And inject the cookies in current browser
-     * use this method in a @BeforeClass to pass the login screen
+     * And inject the cookies in current browser use this method in
+     * a @BeforeClass to pass the login screen
      *
      * @param userName
      * @param password
@@ -131,12 +162,10 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     private void loginViaCookies(String userName, String password)
     {
         cleanupAuthenticatedSession();
-        HttpState httpState = userService.login(userName, password);
+        getLoginPage().navigate();
+        getLoginPage().loginSucced(adminUser, adminPassword);
         getBrowser().navigate().to(properties.getShareUrl());
-        getBrowser().manage().deleteAllCookies();
-        getBrowser().manage().addCookie(new Cookie(httpState.getCookies()[0].getName(), httpState.getCookies()[0].getValue()));
-        getBrowser().refresh();
-        getBrowser().waitInSeconds(2);
+
     }
 
     /**
@@ -144,14 +173,15 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
      */
     protected void cleanupAuthenticatedSession()
     {
-        userService.logout();
+        dataUser.logout();
         getBrowser().cleanUpAuthenticatedSession();
     }
 
     /**
      * Navigate to specific page
      *
-     * @param pageUrl e.g. 'share/page/user/admin/profile'
+     * @param pageUrl
+     *            e.g. 'share/page/user/admin/profile'
      */
     protected void navigate(String pageUrl)
     {
@@ -164,6 +194,76 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         {
             throw new RuntimeException("Page url: " + pageUrl + " is invalid");
         }
+    }
+
+    protected HttpCookie doLogin(UserModel userModel)
+    {
+        if (StringUtils.isEmpty(userModel.getUsername()) || StringUtils.isEmpty(userModel.getPassword()))
+        {
+            throw new IllegalArgumentException("Parameter missing");
+        }
+
+        HttpCookie httpCookie = null;
+
+        try
+        {
+            URL obj = new URL("http://localhost:8080/share/page/");
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setConnectTimeout(1000 * 2);
+            con.setReadTimeout(1000 * 5);
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            con.setRequestMethod("GET");
+            int responseCode = con.getResponseCode();
+            String redirectLocation = con.getHeaderField("Location");
+
+            if (redirectLocation != null && responseCode == 302)
+            {
+
+                URL target = new URL(con.getURL(), redirectLocation);
+                con.disconnect();
+
+                HttpURLConnection connection = (HttpURLConnection) target.openConnection();
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+
+                connection.setRequestMethod("POST");
+                String POST_PARAMS = "username=admin&password=admin";
+
+                OutputStream os = connection.getOutputStream();
+                os.write(POST_PARAMS.getBytes());
+                os.flush();
+                os.close();
+                connection.connect();
+
+                responseCode = con.getResponseCode();
+
+                Map<String, List<String>> headerFields = con.getHeaderFields();
+                List<String> cookiesHeader = headerFields.get("Set-Cookie");
+                if (cookiesHeader != null)
+                {
+                    String cookie = cookiesHeader.get(0);
+                    httpCookie = HttpCookie.parse(cookie).get(0);
+                }
+
+                con.disconnect();
+            }
+
+            URL target1 = new URL("http://localhost:8080/share/page/user/admin/dashboard");
+
+            HttpURLConnection connection = (HttpURLConnection) target1.openConnection();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+
+            connection.setRequestMethod("GET");
+            responseCode = con.getResponseCode();
+
+        }
+        catch (IOException e)
+        {
+
+        }
+        return httpCookie;
+
     }
 
     /**
@@ -182,11 +282,22 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         getBrowser().closeWindowAndSwitchBack();
     }
 
+    public CommonLoginPage getLoginPage()
+    {
+
+        if (dataAIS.isEnabled())
+        {
+            return aimsPage;
+        }
+
+        return loginPage;
+    }
+
     protected boolean isFileInDirectory(String fileName, String extension)
     {
         int retry = 0;
         int seconds = 10;
-        if(extension != null)
+        if (extension != null)
         {
             fileName = fileName + extension;
         }
@@ -208,7 +319,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     public void removeUserFromAlfresco(UserModel... users)
     {
-        for(UserModel user : users)
+        for (UserModel user : users)
         {
             dataUser.usingAdmin().deleteUser(user);
             FolderModel userFolder = new FolderModel(user.getUsername());
@@ -221,7 +332,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     {
         Assert.assertTrue(getBrowser().getCurrentUrl().contains(value), String.format("%s is displayed in current url", value));
     }
-
 
     @Override
     public String getPageObjectRootPackage()

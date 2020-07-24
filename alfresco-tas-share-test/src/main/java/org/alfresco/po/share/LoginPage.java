@@ -2,14 +2,16 @@ package org.alfresco.po.share;
 
 import org.alfresco.common.Language;
 import org.alfresco.common.Utils;
+import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
@@ -19,80 +21,73 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
  * @author Paul.Brodner
  */
 @PageObject
-public class LoginPage extends HtmlPage
+public class LoginPage extends CommonLoginPage
 {
-    private final Language language;
 
-    @FindBy (css = "[id$='default-username']")
+    @FindBy(css = "[id$='default-username']")
     private WebElement usernameInput;
 
     @RenderWebElement
-    @FindBy (css = "[id$='default-password']")
+    @FindBy(css = "[id$='default-password']")
     private WebElement passwordInput;
 
     @RenderWebElement
-    @FindBy (css = "button[id$='_default-submit-button']")
+    @FindBy(css = "button[id$='_default-submit-button']")
     private WebElement submit;
 
-    @FindBy (css = ".theme-company-logo")
+    @FindBy(css = ".theme-company-logo")
     private Image alfrescoLogo;
 
-    @FindBy (css = ".login-copy")
+    @FindBy(css = ".login-copy")
     private TextBlock copyright;
 
-    @FindBy (css = ".error")
+    @FindBy(css = ".error")
     private WebElement errorLogin;
 
-    @FindBy (css = ".login-tagline")
+    @FindBy(css = ".login-tagline")
     private WebElement newTrademark;
 
-    @FindBy (css = ".sticky-wrapper")
+    @FindBy(css = ".sticky-wrapper")
     private WebElement stickyWrapper;
 
-    @FindBy (css = ".sticky-footer")
+    @FindBy(css = ".sticky-footer")
     private WebElement stickyFooter;
 
-    @FindBy (css = "#Share")
+    @FindBy(css = "#Share")
     private WebElement bodyShare;
 
-    @FindBy (css = " .product-tagline")
+    @FindBy(css = " .product-tagline")
     private WebElement productTagline;
 
-    @FindBy (css = ".sticky-push")
+    @FindBy(css = ".sticky-push")
     private WebElement stickyPush;
 
-    @FindBy (css = ".product-name")
+    @FindBy(css = ".product-name")
     private WebElement alfrescoShare;
 
-    @FindBy (css = ".theme-trademark")
+    @FindBy(css = ".theme-trademark")
     private WebElement trademark;
 
-    @FindBy (css = "theme-company-logo.logo-ent")
+    @FindBy(css = "theme-company-logo.logo-ent")
     private WebElement oldLogo;
 
-    public LoginPage(Language language)
-    {
-        this.language = language;
-    }
+    @Autowired
+    private UserDashboardPage userDashboard;
 
-    public LoginPage navigate()
+    @Autowired
+    protected Language language;
+
+    public CommonLoginPage navigate()
     {
         LOG.info("Navigate to Login Page");
         browser.navigate().to(properties.getShareUrl().toString());
         return (LoginPage) renderedPage();
     }
 
-    public LoginPage assertPageIsOpened()
+    public  CommonLoginPage assertPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
         Assert.assertTrue(browser.isElementDisplayed(usernameInput), "Username input is displayed");
-        return this;
-    }
-
-    public LoginPage assertLoginPageTitleIsCorrect()
-    {
-        LOG.info("Assert Login Page Title is correct");
-        Assert.assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
         return this;
     }
 
@@ -120,7 +115,8 @@ public class LoginPage extends HtmlPage
     /**
      * Type password
      *
-     * @param password to be filled in
+     * @param password
+     *            to be filled in
      */
     public void typePassword(String password)
     {
@@ -138,8 +134,10 @@ public class LoginPage extends HtmlPage
     /**
      * Login on Share using login form
      *
-     * @param username to be filled in
-     * @param password to be filled in
+     * @param username
+     *            to be filled in
+     * @param password
+     *            to be filled in
      */
     public void login(String username, String password)
     {
@@ -149,10 +147,19 @@ public class LoginPage extends HtmlPage
         clickLogin();
     }
 
+    public UserDashboardPage loginSucced(String username, String password)
+    {
+        typeUserName(username);
+        typePassword(password);
+        clickLogin();
+        return (UserDashboardPage) userDashboard.renderedPage();
+    }
+
     /**
      * Login on Share using login form
      *
-     * @param userModel to be filled in
+     * @param userModel
+     *            to be filled in
      */
     public void login(UserModel userModel)
     {
@@ -169,7 +176,7 @@ public class LoginPage extends HtmlPage
         return browser.waitUntilElementVisible(errorLogin).getText();
     }
 
-    public LoginPage assertAuthenticationErrorIsDisplayed()
+    public CommonLoginPage assertAuthenticationErrorIsDisplayed()
     {
         LOG.info("Assert authentication error is displayed");
         browser.waitUntilElementVisible(errorLogin);
@@ -177,11 +184,10 @@ public class LoginPage extends HtmlPage
         return this;
     }
 
-    public LoginPage assertAuthenticationErrorMessageIsCorrect()
+    public CommonLoginPage assertAuthenticationErrorMessageIsCorrect()
     {
         LOG.info("Assert authentication error message is correct");
-        Assert.assertEquals(getAuthenticationError(), language.translate("login.authError"),
-            "Authentication error is correct");
+        Assert.assertEquals(getAuthenticationError(), language.translate("login.authError"), "Authentication error is correct");
         return this;
     }
 
@@ -275,4 +281,21 @@ public class LoginPage extends HtmlPage
     {
         return submit.getCssValue("color").toString();
     }
+    
+    @Override
+    public CommonLoginPage assertLoginPageTitleIsCorrect()
+    {
+        LOG.info("Assert Login Page Title is correct");
+        Assert.assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
+        return this;
+    }
+    
+
+    @Override
+    public void assertPageHeaderIsCorrect(UserModel specialUser)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
