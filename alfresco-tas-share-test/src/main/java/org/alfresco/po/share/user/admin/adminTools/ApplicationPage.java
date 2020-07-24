@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Select;
 
@@ -103,6 +104,18 @@ public class ApplicationPage extends AdminToolsPage
     {
         By themeToBeFound = By.xpath("//body[@id = 'Share' and contains(@class, 'skin-" + theme.getSelectValue() + "')]");
         return browser.isElementDisplayed(themeToBeFound);
+    }
+
+    public ApplicationPage assertThemeOptionIsSelected(Theme theme)
+    {
+        Assert.assertTrue(isThemeOptionSelected(theme), "Theme is selected");
+        return this;
+    }
+
+    public ApplicationPage assertBodyContainsTheme(Theme theme)
+    {
+        Assert.assertTrue(doesBodyContainTheme(theme), "New theme is applied");
+        return this;
     }
 
     public String checkText()

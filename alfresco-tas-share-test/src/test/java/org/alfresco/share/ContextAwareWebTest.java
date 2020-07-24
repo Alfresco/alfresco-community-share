@@ -118,6 +118,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
     public static final String ALFRESCO_ADMIN_GROUP = "ALFRESCO_ADMINISTRATORS";
+    public static String FILE_CONTENT = "Share file content";
 
     protected String adminUser;
     protected String adminPassword;

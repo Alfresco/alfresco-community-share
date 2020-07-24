@@ -22,7 +22,7 @@ public class ApplicationTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
-        setupAuthenticatedSession(adminUser, adminPassword);
+        setupAuthenticatedSession(getAdminUser());
         applicationPage.navigate();
     }
 
@@ -55,11 +55,9 @@ public class ApplicationTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void changeTheme()
     {
-        LOG.info("Step 1: Select a new theme in the 'Application' page.");
-        applicationPage.selectTheme(Theme.YELLOW);
-        LOG.info("Step 2: Verify the new theme was successfully saved.");
-        Assert.assertTrue(applicationPage.isThemeOptionSelected(Theme.YELLOW), "New theme is not selected");
-        Assert.assertTrue(applicationPage.doesBodyContainTheme(Theme.YELLOW), "New theme is not in body");
+        applicationPage.selectTheme(Theme.YELLOW)
+            .assertThemeOptionIsSelected(Theme.YELLOW)
+            .assertBodyContainsTheme(Theme.YELLOW);
     }
 
     @TestRail (id = "C299219")

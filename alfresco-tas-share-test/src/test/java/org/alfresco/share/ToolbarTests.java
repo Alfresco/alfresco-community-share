@@ -407,7 +407,7 @@ public class ToolbarTests extends ContextAwareWebTest
 
         LOG.info("STEP 6 - Click on \"Admin Tools\" link from Alfresco Toolbar");
         adminToolsPage.navigateByMenuBar();
-        Assert.assertTrue(adminToolsPage.isAdminToolsDivDisplayed(), "Admin Tools is displayed");
+        adminToolsPage.assertAdminToolsPageIsOpened();
 
         LOG.info("STEP 7 - Click on \"Search\" icon -> \"Advanced Search...\" link");
         advancedSearchPage.navigateByMenuBar();

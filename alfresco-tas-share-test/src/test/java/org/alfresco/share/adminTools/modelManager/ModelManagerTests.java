@@ -288,7 +288,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail (id = "C42568")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void useCreatedModel()
+    public void useImportedModel()
     {
         String filePath = testDataFolder + "Marketing_content.zip";
         name = "Marketing_content";

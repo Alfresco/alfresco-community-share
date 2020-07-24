@@ -30,10 +30,11 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
  */
 public abstract class SharePage<T> extends HtmlPage
 {
-    public static final int WAIT_1_SEC = 1;
-    public static final int WAIT_5_SEC = 5;
-    public static final int WAIT_10_SEC = 10;
-    public static final int WAIT_15_SEC = 15;
+    public static final int WAIT_1 = 1;
+    public static final int WAIT_5 = 5;
+    public static final int WAIT_10 = 10;
+    public static final int WAIT_15 = 15;
+    public static final int WAIT_30 = 30;
     public static final int DEFAULT_RETRY = 3;
     /** For example "<object> has been deleted.." popup */
     public static final By MESSAGE_LOCATOR = By.className("div.bd span.message");

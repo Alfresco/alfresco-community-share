@@ -199,7 +199,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public CreateContent clickCreateContentOption(CreateMenuOption option)
     {
-        browser.waitUntilElementClickable(option.getLocator(), WAIT_15_SEC).click();
+        browser.waitUntilElementClickable(option.getLocator(), WAIT_15).click();
         return (CreateContent) createContent.renderedPage();
     }
 
@@ -208,13 +208,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public GoogleDocsCommon clickGoogleDocsOption(CreateMenuOption option)
     {
-        browser.waitUntilElementClickable(option.getLocator(), WAIT_15_SEC).click();
+        browser.waitUntilElementClickable(option.getLocator(), WAIT_15).click();
         return (GoogleDocsCommon) googleDocs.renderedPage();
     }
 
     public NewContentDialog clickFolderLink()
     {
-        browser.waitUntilElementClickable(CreateMenuOption.FOLDER.getLocator(), WAIT_15_SEC).click();
+        browser.waitUntilElementClickable(CreateMenuOption.FOLDER.getLocator(), WAIT_15).click();
         return (NewContentDialog) newContentDialog.renderedPage();
     }
 
@@ -448,7 +448,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public List<String> getFoldersList()
     {
-        browser.waitUntilElementIsDisplayedWithRetry(foldersList, WAIT_5_SEC);
+        browser.waitUntilElementIsDisplayedWithRetry(foldersList, WAIT_5);
         waitForRows();
         List<String> foldersName = new ArrayList<>();
         for (WebElement folder : browser.findElements(foldersList))
@@ -742,7 +742,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         }
         try
         {
-            actionElement = browser.waitUntilElementVisible(actionSelector, WAIT_15_SEC);
+            actionElement = browser.waitUntilElementVisible(actionSelector, WAIT_15);
         }
         catch (TimeoutException timeoutException)
         {

@@ -1,7 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import java.util.List;
-
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -44,7 +42,7 @@ public class ModuleBrowserPage extends AdminToolsPage
 
     public WebElement selectModuleName(String moduleName)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10_SEC);
+        browser.waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10);
         return browser.findFirstElementWithValue(modulesList, moduleName);
     }
 

@@ -121,7 +121,7 @@ public class CategoryManagerPage extends AdminToolsPage
         By category = By.xpath(String.format(categoryLocator, expectedSubCategory));
         boolean isSubCatDisplayed = getBrowser().isElementDisplayed(category);
         int retryCount = 0;
-        while (retryCount < WAIT_15_SEC && isSubCatDisplayed == false)
+        while (retryCount < WAIT_15 && isSubCatDisplayed == false)
         {
             boolean isExpanded = getBrowser().isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
             if (!isExpanded)

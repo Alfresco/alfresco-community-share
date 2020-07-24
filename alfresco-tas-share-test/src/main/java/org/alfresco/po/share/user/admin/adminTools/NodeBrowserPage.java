@@ -10,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Table;
 
 import java.util.List;
 
@@ -125,7 +124,7 @@ public class NodeBrowserPage extends AdminToolsPage
     private WebElement getResultRow(String name)
     {
         By searchRow = By.xpath(String.format(fileNameRow, name));
-        browser.waitUntilElementIsDisplayedWithRetry(searchRow, 1, WAIT_15_SEC);
+        browser.waitUntilElementIsDisplayedWithRetry(searchRow, 1, WAIT_15);
         return browser.findElement(searchRow);
     }
 

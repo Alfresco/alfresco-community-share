@@ -9,6 +9,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 /**
  * Created by Claudia Agache on 8/9/2016.
  */
@@ -41,11 +44,18 @@ public class DeleteDialog extends ShareDialog
         return message.getText();
     }
 
+    public DeleteDialog assertConfirmDeleteMessageIsCorrect(String deletedObject)
+    {
+        LOG.info("Assert confirm delete message is correct");
+        assertEquals(message.getText(), String.format(language.translate("confirmDeletion.message"), deletedObject),
+            "Delete confirm message is correct");
+        return this;
+    }
+
     public <T> SharePage clickDelete(SharePage page)
     {
         getBrowser().waitUntilElementClickable(deleteButton).click();
         waitUntilMessageDisappears();
-
         return (SharePage) page.renderedPage();
     }
 
@@ -62,5 +72,19 @@ public class DeleteDialog extends ShareDialog
     public boolean isDeleteButtonDisplayed()
     {
         return browser.isElementDisplayed(deleteButton);
+    }
+
+    public DeleteDialog assertDeleteButtonIsDisplayed()
+    {
+        LOG.info("Assert Delete button is displayed");
+        assertTrue(browser.isElementDisplayed(deleteButton), "Delete button is displayed.");
+        return this;
+    }
+
+    public DeleteDialog assertCancelButtonIsDisplayed()
+    {
+        LOG.info("Assert Cancel button is displayed");
+        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed.");
+        return this;
     }
 }

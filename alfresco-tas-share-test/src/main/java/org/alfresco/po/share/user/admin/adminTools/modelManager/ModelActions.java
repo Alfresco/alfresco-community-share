@@ -72,7 +72,7 @@ public class ModelActions
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, 1, modelManagerPage.WAIT_5_SEC);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, 1, modelManagerPage.WAIT_5);
         return getBrowser().findElement(modelRowLocator);
     }
 

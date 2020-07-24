@@ -28,8 +28,8 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
     private List<WebElement> toolsLinksList;
 
     @RenderWebElement
-    @FindBy (css = "#alf-filters>div[id$='admin-console']")
-    private WebElement adminToolsDiv;
+    @FindBy (id = "alfresco-console")
+    private WebElement adminToolsBody;
 
     @FindBy (css = "[href='module-package']")
     private WebElement modulePackage;
@@ -50,9 +50,10 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
         return (AdminToolsPage) renderedPage();
     }
 
-    public boolean isAdminToolsDivDisplayed()
+    public AdminToolsPage assertAdminToolsPageIsOpened()
     {
-        return browser.isElementDisplayed(adminToolsDiv);
+        Assert.assertTrue(browser.isElementDisplayed(adminToolsBody), "Admin tools page is opened");
+        return this;
     }
 
     /**

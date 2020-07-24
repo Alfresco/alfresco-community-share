@@ -8,6 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 @PageObject
 public class EditTagDialog extends ShareDialog
 {
@@ -40,24 +43,32 @@ public class EditTagDialog extends ShareDialog
         return dialogTitle.getText();
     }
 
-    public String getRenameLabel()
+    public EditTagDialog assertRenameTagLabelIsCorrect()
     {
-        return renameLabel.getText();
+        LOG.info("Assert Rename Tag label is correct");
+        assertEquals(renameLabel.getText(), language.translate("editTag.renameLabel"), "Rename label is");
+        return this;
     }
 
-    public String getRequiredSymbol()
+    public EditTagDialog assertRequiredSymbolIsDisplayed()
     {
-        return requiredSymbol.getText();
+        LOG.info("Assert required symbol is displayed");
+        assertEquals(requiredSymbol.getText(), " *", "Required symbol is displayed");
+        return this;
     }
 
-    public boolean isOkButtonDisplayed()
+    public EditTagDialog assertOkButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(okButton);
+        LOG.info("Assert Ok button is displayed");
+        assertTrue(browser.isElementDisplayed(okButton), "Ok button is displayed");
+        return this;
     }
 
-    public boolean isCancelButtonDisplayed()
+    public EditTagDialog assertCancelButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(cancelButton);
+        LOG.info("Assert Cancel button is displayed");
+        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        return this;
     }
 
     /**
@@ -67,6 +78,7 @@ public class EditTagDialog extends ShareDialog
      */
     public TagManagerPage renameTag(String updatedTag)
     {
+        LOG.info(String.format("Rename tag to: %s", updatedTag));
         Utils.clearAndType(editTagInputField, updatedTag);
         okButton.click();
         tagManagerPage.waitUntilMessageDisappears();
