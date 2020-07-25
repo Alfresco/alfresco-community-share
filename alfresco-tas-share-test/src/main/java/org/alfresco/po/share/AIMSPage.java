@@ -224,11 +224,4 @@ public class AIMSPage extends CommonLoginPage
         return this;
     }
 
-    @Override
-    public void assertPageHeaderIsCorrect(UserModel specialUser)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
 }

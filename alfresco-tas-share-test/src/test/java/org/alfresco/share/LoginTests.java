@@ -1,18 +1,14 @@
 package org.alfresco.share;
 
-import static org.testng.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.alfresco.po.share.toolbar.ToolbarUserMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -26,8 +22,6 @@ public class LoginTests extends ContextAwareWebTest
 
     @Autowired
     private UserDashboardPage userDashboard;
-    @Autowired
-    private ToolbarUserMenu toolbarUserMenu;
 
     private String dashBoardUrl = "share/page/user/%s/dashboard";
     private UserModel validUser;
@@ -70,8 +64,7 @@ public class LoginTests extends ContextAwareWebTest
         userDashboard.renderedPage();
         userDashboard.assertPageIsOpened().assertUserDashboardPageTitleIsCorrect().assertPageHeaderIsCorrect(validUser);
 
-        LOG.info("STEP 2 - Click on the \"User menu\" -> \"Logout\" option");
-        toolbarUserMenu.clickLogout();
+  
     }
 
     @TestRail(id = "C2081")
@@ -116,20 +109,18 @@ public class LoginTests extends ContextAwareWebTest
         }
         userDashboard.renderedPage();
         userDashboard.assertPageIsOpened();
-        toolbarUserMenu.clickLogout();
     }
 
     @TestRail(id = "C2085")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginUserWithSpecialChar()
     {
-        specialUserList.forEach(specialUser -> {
-            getLoginPage().navigate().login(specialUser);
-            getLoginPage().renderedPage();
-            getLoginPage().assertPageHeaderIsCorrect(specialUser);
-            cleanupSession();
-            toolbarUserMenu.clickLogout();
-        });
+    	 specialUserList.forEach(specialUser -> {
+    		 getLoginPage().navigate().login(specialUser);
+             userDashboard.renderedPage();
+             userDashboard.assertPageHeaderIsCorrect(specialUser);
+             cleanupSession();
+         });
     }
 
     @TestRail(id = "C2086")
@@ -140,6 +131,6 @@ public class LoginTests extends ContextAwareWebTest
         getLoginPage().login(specialPassUser);
         userDashboard.renderedPage();
         userDashboard.assertPageIsOpened();
-        toolbarUserMenu.clickLogout();
+
     }
 }

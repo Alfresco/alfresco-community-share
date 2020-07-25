@@ -289,13 +289,5 @@ public class LoginPage extends CommonLoginPage
         Assert.assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
         return this;
     }
-    
-
-    @Override
-    public void assertPageHeaderIsCorrect(UserModel specialUser)
-    {
-        // TODO Auto-generated method stub
-        
-    }
 
 }

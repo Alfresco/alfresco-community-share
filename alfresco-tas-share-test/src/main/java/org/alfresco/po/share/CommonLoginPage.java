@@ -30,6 +30,4 @@ public abstract class CommonLoginPage extends HtmlPage
     
     public abstract CommonLoginPage assertLoginPageTitleIsCorrect();
 
-    public abstract void assertPageHeaderIsCorrect(UserModel specialUser);
-
 }
