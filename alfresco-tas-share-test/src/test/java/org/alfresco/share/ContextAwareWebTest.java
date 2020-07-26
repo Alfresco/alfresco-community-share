@@ -168,12 +168,11 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     private void loginViaBrowser(String userName, String password)
     {
-        cleanupAuthenticatedSession();
-        UserModel validUser = new UserModel(userName,password);
-        LOG.info("STEP1: Navigate to Login page");
-        getLoginPage().navigate().login(validUser);
-        getBrowser().waitInSeconds(1);
-        userDashboard.renderedPage();
+    	 cleanupAuthenticatedSession();
+    	 UserModel validUser = new UserModel(userName,password);
+    	 getLoginPage().navigate().login(validUser);
+         getBrowser().refresh();
+         getBrowser().waitInSeconds(2);
     }
 
     /**
