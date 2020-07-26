@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -19,9 +17,6 @@ import org.testng.annotations.Test;
  */
 public class LoginTests extends ContextAwareWebTest
 {
-
-    @Autowired
-    private UserDashboardPage userDashboard;
 
     private String dashBoardUrl = "share/page/user/%s/dashboard";
     private UserModel validUser;

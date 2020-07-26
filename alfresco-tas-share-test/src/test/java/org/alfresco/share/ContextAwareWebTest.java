@@ -111,6 +111,12 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     private AIMSPage aimsPage;
+    
+    @Autowired
+    protected UserDashboardPage userDashboard; 
+
+    @Autowired
+    protected ToolbarUserMenu toolbarUserMenu;
 
     @Autowired
     protected AlfrescoHttpClientFactory alfrescoHttpClientFactory;
@@ -152,21 +158,22 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
      */
     protected void setupAuthenticatedSession(String userName, String password)
     {
-        loginViaCookies(userName, password);
+        loginViaBrowser(userName, password);
     }
 
     public void setupAuthenticatedSession(UserModel userModel)
     {
-        loginViaCookies(userModel.getUsername(), userModel.getPassword());
+        loginViaBrowser(userModel.getUsername(), userModel.getPassword());
     }
 
-    private void loginViaCookies(String userName, String password)
+    private void loginViaBrowser(String userName, String password)
     {
         cleanupAuthenticatedSession();
-        getLoginPage().navigate();
-        getLoginPage().loginSucced(adminUser, adminPassword);
-        getBrowser().navigate().to(properties.getShareUrl());
-
+        UserModel validUser = new UserModel(userName,password);
+        LOG.info("STEP1: Navigate to Login page");
+        getLoginPage().navigate().login(validUser);
+        userDashboard.renderedPage();
+    
     }
 
     /**
@@ -174,8 +181,14 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
      */
     protected void cleanupAuthenticatedSession()
     {
-        dataUser.logout();
+    	dataUser.logout();
         getBrowser().cleanUpAuthenticatedSession();
+    }
+    
+    protected void logoutViaBrouser() 
+    {
+    	toolbarUserMenu.clickLogout();
+    	getBrowser().cleanUpAuthenticatedSession();
     }
 
     /**
