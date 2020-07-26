@@ -172,8 +172,8 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         UserModel validUser = new UserModel(userName,password);
         LOG.info("STEP1: Navigate to Login page");
         getLoginPage().navigate().login(validUser);
+        getBrowser().waitInSeconds(3);
         userDashboard.renderedPage();
-    
     }
 
     /**
