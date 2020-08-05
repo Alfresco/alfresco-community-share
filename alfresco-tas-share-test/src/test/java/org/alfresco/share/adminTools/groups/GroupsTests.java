@@ -53,7 +53,7 @@ public class GroupsTests extends ContextAwareWebTest
         dataGroup.addGroupToParentGroup(parent2, subGroup);
         dataGroup.addGroupToParentGroup(parent3, subGroup);
 
-        setupAuthenticatedSession(adminUser, adminPassword);
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @AfterClass

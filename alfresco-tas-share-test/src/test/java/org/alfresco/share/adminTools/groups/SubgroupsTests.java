@@ -34,7 +34,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         subGroupToRemove = dataGroup.createRandomGroup();
         dataGroup.usingUser(userToRemove).addUserToGroup(parentGroup);
         dataGroup.addGroupToParentGroup(parentGroup, subGroupToRemove);
-        setupAuthenticatedSession(adminUser, adminPassword);
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @TestRail (id = "C9476")

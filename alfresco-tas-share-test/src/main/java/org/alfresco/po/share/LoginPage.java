@@ -23,6 +23,7 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 @PageObject
 public class LoginPage extends CommonLoginPage
 {
+    @RenderWebElement
     @FindBy(css = "[id$='default-username']")
     private WebElement usernameInput;
 

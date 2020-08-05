@@ -267,6 +267,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertColumnContainsGroup(int columnNr, String groupName)
     {
+        browser.waitUntilElementVisible(By.cssSelector(String.format(columnGroupValues, columnNr)));
         Assert.assertTrue(getColumnGroups(columnNr).contains(groupName),
             String.format("Group %s was found in column %s", groupName, columnNr));
         return this;
