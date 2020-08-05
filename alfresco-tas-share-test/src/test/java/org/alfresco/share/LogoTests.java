@@ -15,14 +15,15 @@ public class LogoTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        setupAuthenticatedSession(dataUser.getAdminUser());
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @TestRail (id = "C2088")
     @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void checkAboutBox()
     {
-        userDashboard.assertAlfrescoLogoIsDisplayedInPageFooter()
+        userDashboard.navigate(getAdminUser())
+            .assertAlfrescoLogoIsDisplayedInPageFooter()
             .openAboutPage()
                 .assertAlfrescoVersionIsDisplayed()
                 .assertShareVersionIsDisplayed()

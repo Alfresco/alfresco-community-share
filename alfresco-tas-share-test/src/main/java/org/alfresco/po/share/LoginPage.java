@@ -23,7 +23,6 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 @PageObject
 public class LoginPage extends CommonLoginPage
 {
-
     @FindBy(css = "[id$='default-username']")
     private WebElement usernameInput;
 
@@ -72,9 +71,6 @@ public class LoginPage extends CommonLoginPage
     private WebElement oldLogo;
 
     @Autowired
-    private UserDashboardPage userDashboard;
-
-    @Autowired
     protected Language language;
 
     public CommonLoginPage navigate()
@@ -120,7 +116,8 @@ public class LoginPage extends CommonLoginPage
      */
     public void typePassword(String password)
     {
-        Utils.clearAndType(passwordInput, password);
+        passwordInput.clear();
+        passwordInput.sendKeys(password);
     }
 
     /**
@@ -145,14 +142,6 @@ public class LoginPage extends CommonLoginPage
         typeUserName(username);
         typePassword(password);
         clickLogin();
-    }
-
-    public UserDashboardPage loginSucced(String username, String password)
-    {
-        typeUserName(username);
-        typePassword(password);
-        clickLogin();
-        return (UserDashboardPage) userDashboard.renderedPage();
     }
 
     /**

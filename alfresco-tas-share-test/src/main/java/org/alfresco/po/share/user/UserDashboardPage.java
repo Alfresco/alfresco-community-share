@@ -31,7 +31,7 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
 
     @RenderWebElement
     @FindBy (id = "HEADER_HOME")
-    private Link homeMenuLink;
+    private WebElement homeMenuLink;
 
     @FindBy (css = "div[class*='grid columnSize']")
     private WebElement dashboardLayout;

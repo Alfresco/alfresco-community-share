@@ -42,9 +42,6 @@ public class AIMSPage extends CommonLoginPage
     private TextBlock copyright;
 
     @Autowired
-    private UserDashboardPage userDashboard;
-
-    @Autowired
     protected Language language;
 
     public CommonLoginPage navigate()
@@ -90,24 +87,6 @@ public class AIMSPage extends CommonLoginPage
     public void clickLogin()
     {
         submit.click();
-    }
-
-    /**
-     * Login on Share using login form
-     *
-     * @param username
-     *            to be filled in
-     * @param password
-     *            to be filled in
-     * @throws URISyntaxException
-     * @throws MalformedURLException
-     */
-    public UserDashboardPage loginSucced(String username, String password)
-    {
-        typeUserName(username);
-        typePassword(password);
-        clickLogin();
-        return (UserDashboardPage) userDashboard.renderedPage();
     }
 
     public AIMSPage loginFailed(String username, String password)
