@@ -7,6 +7,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public abstract class ConsolePage<T> extends AdminConsolePage<T>
 {
@@ -32,17 +33,24 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
         return description.getText();
     }
 
-    public void executeCommand(String command)
+    public T executeCommand(String command)
     {
         LOG.info(String.format("Execute command: %s", command));
         cmd.clear();
         cmd.sendKeys(command);
         browser.waitUntilElementClickable(execute).click();
+        return (T) renderedPage();
     }
 
     public String getResults()
     {
         return results.getText();
+    }
+
+    public T assertResultIs(String expectedResult)
+    {
+        Assert.assertEquals(getResults(), expectedResult, "Result is correct");
+        return (T) renderedPage();
     }
 
     @Override
@@ -61,12 +69,14 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
     {
         int retry = 0;
         int retryCount = 60;
+        browser.waitUntilElementIsPresent(resultBy);
         browser.waitUntilElementVisible(results, 60);
         WebElement resultElement = browser.findFirstElementWithValue(resultBy, result);
         while (retry < retryCount && resultElement == null)
         {
             retry++;
             Utility.waitToLoopTime(1, "Wait until tenant command is executed");
+            browser.waitUntilElementIsPresent(resultBy);
             resultElement = browser.findFirstElementWithValue(resultBy, result);
         }
         LOG.info(String.format("Result is: '%s'", browser.findElement(resultBy).getText()));

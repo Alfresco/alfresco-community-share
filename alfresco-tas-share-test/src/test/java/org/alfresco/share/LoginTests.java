@@ -17,7 +17,6 @@ import org.testng.annotations.Test;
  */
 public class LoginTests extends ContextAwareWebTest
 {
-
     private String dashBoardUrl = "share/page/user/%s/dashboard";
     private UserModel validUser;
     private final String[] specialUsers = { "isaías", "user.name", "test3&test3", "test5=test5" };
@@ -25,14 +24,14 @@ public class LoginTests extends ContextAwareWebTest
     private final UserModel specialPassUser = new UserModel("specialPassUser", "abc@123");
     private UserModel testUserC2084 = new UserModel("testUserC2084", password);
 
-
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         validUser = dataUser.usingAdmin().createRandomTestUser();
         dataUser.createUser(testUserC2084);
         dataUser.createUser(specialPassUser);
-        Arrays.stream(specialUsers).map(specialUser -> dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));
+        Arrays.stream(specialUsers).map(specialUser ->
+            dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));
     }
 
     @AfterClass(alwaysRun = true)
@@ -57,9 +56,9 @@ public class LoginTests extends ContextAwareWebTest
         LOG.info("STEP1: Navigate to Login page");
         getLoginPage().navigate().assertPageIsOpened().assertLoginPageTitleIsCorrect().login(validUser);
         userDashboard.renderedPage();
-        userDashboard.assertPageIsOpened().assertUserDashboardPageTitleIsCorrect().assertPageHeaderIsCorrect(validUser);
-
-  
+        userDashboard.assertPageIsOpened()
+            .assertUserDashboardPageTitleIsCorrect()
+            .assertPageHeaderIsCorrect(validUser);
     }
 
     @TestRail(id = "C2081")
@@ -67,7 +66,9 @@ public class LoginTests extends ContextAwareWebTest
     public void loginInvalidCredentials()
     {
         getLoginPage().navigate().login("fakeUser", "fakePassword");
-        getLoginPage().assertAuthenticationErrorIsDisplayed().assertAuthenticationErrorMessageIsCorrect();
+        getLoginPage()
+            .assertAuthenticationErrorIsDisplayed()
+            .assertAuthenticationErrorMessageIsCorrect();
     }
 
     @TestRail(id = "C2082")
@@ -75,7 +76,9 @@ public class LoginTests extends ContextAwareWebTest
     public void loginInvalidPassword()
     {
         getLoginPage().navigate().login(validUser.getUsername(), "fakePassword");
-        getLoginPage().assertAuthenticationErrorIsDisplayed().assertAuthenticationErrorMessageIsCorrect();
+        getLoginPage()
+            .assertAuthenticationErrorIsDisplayed()
+            .assertAuthenticationErrorMessageIsCorrect();
     }
 
     @TestRail(id = "C2083")
@@ -126,6 +129,5 @@ public class LoginTests extends ContextAwareWebTest
         getLoginPage().login(specialPassUser);
         userDashboard.renderedPage();
         userDashboard.assertPageIsOpened();
-
     }
 }

@@ -12,11 +12,11 @@
    <test name="Share">
       <classes>
          <class name="org.alfresco.share.adminTools.AdminToolsPageTests"></class>
-         <class name="org.alfresco.share.alfrescoConsoleTest.BulkImportConsolePageTests"></class>
-         <class name="org.alfresco.share.alfrescoConsoleTest.ModelAndMessagesConsoleTests"></class>
-         <class name="org.alfresco.share.alfrescoConsoleTest.TenantConsoleTests"></class>
-         <class name="org.alfresco.share.alfrescoConsoleTest.WebDavPageTests"></class>
-         <class name="org.alfresco.share.alfrescoConsoleTest.WebScriptsPageTests"></class>
+         <class name="org.alfresco.po.adminconsole.alfrescoConsoleTest.BulkImportConsolePageTests"></class>
+         <class name="org.alfresco.po.adminconsole.alfrescoConsoleTest.ModelAndMessagesConsoleTests"></class>
+         <class name="org.alfresco.po.adminconsole.alfrescoConsoleTest.TenantConsoleTests"></class>
+         <class name="org.alfresco.po.adminconsole.alfrescoConsoleTest.WebDavPageTests"></class>
+         <class name="org.alfresco.po.adminconsole.alfrescoConsoleTest.WebScriptsPageTests"></class>
          <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
          <class name="org.alfresco.share.searching.LiveSearchTests"></class>
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchResultsPageTest"></class>

@@ -51,7 +51,7 @@ public class AdminNavigator extends HtmlPage implements Navigator
         }
     }
 
-    enum NavigationLink
+    public enum NavigationLink
     {
         /**
          * Add here the exact name of your admin-console page starting with a lower case string
@@ -67,7 +67,7 @@ public class AdminNavigator extends HtmlPage implements Navigator
 
         private String title, beanName;
 
-        private NavigationLink(String title, String beanName)
+        NavigationLink(String title, String beanName)
         {
             this.title = title;
             this.beanName = beanName;

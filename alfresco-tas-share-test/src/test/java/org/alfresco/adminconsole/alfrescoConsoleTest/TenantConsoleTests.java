@@ -1,13 +1,11 @@
-package org.alfresco.share.alfrescoConsoleTest;
+package org.alfresco.adminconsole.alfrescoConsoleTest;
 
 import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
-import org.alfresco.share.ContextAwareWebAdminConsoleTest;
+import org.alfresco.adminconsole.ContextAwareWebAdminConsoleTest;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -27,7 +25,7 @@ public class TenantConsoleTests extends ContextAwareWebAdminConsoleTest
         tenantConsolePage.navigate();
         Assert.assertTrue(tenantConsolePage.getPageTitle().startsWith(language.translate("tenantConsole.PageTitle")), "Page title is not empty");
 
-        Assert.assertEquals(tenantConsolePage.createTenant(tenantName, adminPassword).trim(),
+        Assert.assertEquals(tenantConsolePage.createTenant(tenantName, "admin").trim(),
             "created tenant: " + tenantName.toLowerCase(), tenantName + " has not been created");
         Assert.assertEquals(tenantConsolePage.disableTenant(tenantName).trim(),
             "Disabled tenant: " + tenantName.toLowerCase(), tenantName + " has not been disabled");

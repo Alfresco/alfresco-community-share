@@ -1,4 +1,4 @@
-package org.alfresco.po.adminconsole;
+package org.alfresco.adminconsole;
 
 import org.alfresco.common.TelnetClientUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentAspect;

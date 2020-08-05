@@ -1,10 +1,11 @@
-package org.alfresco.po.alfrescoconsoles;
+package org.alfresco.po.adminconsole.consoles;
 
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Table;
 
 /**
@@ -17,6 +18,7 @@ public class WebDavConsolePage extends Console<WebDavConsolePage>
     @FindBy (css = "td.textLocation")
     private WebElement pageHeader;
 
+    @RenderWebElement
     @FindBy (css = "table.listingTable")
     private Table listingTable;
 
@@ -38,32 +40,53 @@ public class WebDavConsolePage extends Console<WebDavConsolePage>
         return pageHeader.getText();
     }
 
-    public boolean isDirectoryPresent(String directoryName)
+    public WebDavConsolePage assertPageHeaderRootIsCorrect()
+    {
+        Assert.assertEquals(pageHeader.getText(), "Directory listing for /", "WebDav page header is correct");
+        return this;
+    }
+
+    public WebDavConsolePage assertPageHeaderForDirectoryIsCorrect(String directorPath)
+    {
+        Assert.assertEquals(pageHeader.getText(), String.format("Directory listing for /%s", directorPath), "WebDav page header is correct");
+        return this;
+    }
+
+    private boolean isDirectoryPresent(String directoryName)
     {
         getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("table.listingTable"));
         String getNameColumn = listingTable.getColumnsAsString().subList(0, 1).toString();
         return getNameColumn.contains(directoryName);
     }
 
-    public void clickOnDirectory(int directoryIndex)
+    public WebDavConsolePage assertDirectoryIsDisplayed(String directoryName)
     {
-        System.out.println("cell text " + listingTable.getCellAt(1, directoryIndex).getText());
-        listingTable.getCellAt(1, directoryIndex).click();
+        Assert.assertTrue(isDirectoryPresent(directoryName), String.format("Directory %s is displayed", directoryName));
+        return this;
     }
 
-    public void clickSharedLink()
+    public WebDavConsolePage clickSharedLink()
     {
         sharedLink.click();
         getBrowser().waitUntilElementVisible(upALevelLink);
+        return this;
     }
 
-    public boolean isUpALevelLinkDisplayed()
+    public WebDavConsolePage assertUpALevelLinkIsDisplayed()
     {
-        return browser.isElementDisplayed(upALevelLink);
+        Assert.assertTrue(browser.isElementDisplayed(upALevelLink), "Up a level link is displayed");
+        return this;
     }
 
-    public void clickUpToLevel()
+    public WebDavConsolePage assertUpALevelLinkIsNotDisplayed()
+    {
+        Assert.assertFalse(browser.isElementDisplayed(upALevelLink), "Up a level link is displayed");
+        return this;
+    }
+
+    public WebDavConsolePage clickUpToLevel()
     {
         getBrowser().waitUntilElementClickable(upALevelLink, 5).click();
+        return this;
     }
 }
