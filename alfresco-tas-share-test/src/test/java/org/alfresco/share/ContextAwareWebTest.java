@@ -169,9 +169,11 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     	 cleanupAuthenticatedSession();
     	 UserModel validUser = new UserModel(userName, password);
     	 getLoginPage().navigate().login(validUser);
-    	 Utility.waitToLoopTime(7);
-    	 logger.error(getBrowser().getCurrentUrl());
-    	 logger.error(userDashboard.getPageHeader());
+    	 Utility.waitToLoopTime(10);
+    	 if(getLoginPage().isAuthenticationErrorDisplayed())
+         {
+             LOG.error("Error login is displayed");
+         }
     	 userDashboard.renderedPage();
     }
 

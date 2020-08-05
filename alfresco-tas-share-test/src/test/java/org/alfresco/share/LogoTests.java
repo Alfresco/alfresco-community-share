@@ -22,8 +22,7 @@ public class LogoTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void checkAboutBox()
     {
-        userDashboard.navigate(getAdminUser())
-            .assertAlfrescoLogoIsDisplayedInPageFooter()
+        userDashboard.assertAlfrescoLogoIsDisplayedInPageFooter()
             .openAboutPage()
                 .assertAlfrescoVersionIsDisplayed()
                 .assertShareVersionIsDisplayed()
