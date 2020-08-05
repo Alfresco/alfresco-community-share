@@ -1,9 +1,6 @@
-package org.alfresco.po.adminconsole;
+package org.alfresco.adminconsole;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-
+import org.alfresco.po.adminconsole.ControlObject;
 import org.alfresco.po.adminconsole.general.LicensePage;
 import org.alfresco.po.adminconsole.general.UploadNewLicenseDialog;
 import org.alfresco.share.ContextAwareWebTest;
@@ -14,6 +11,10 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
 
 public class LicenseTests extends ContextAwareWebTest
 {

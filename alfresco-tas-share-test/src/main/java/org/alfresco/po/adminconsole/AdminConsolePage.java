@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * As for SharePage, we have one for AdminConsole page
@@ -19,18 +20,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConsole
 {
     @Autowired
-    protected AdminNavigator navigator;
+    private AdminNavigator navigator;
+
     @FindBy (tagName = "h1")
-    WebElement header;
+    private WebElement header;
+
     @FindBy (className = "message")
     WebElement message;
-    /*
-     * save all web elements that contains "control" keyword - these are custom web elements for admin Pages
-     */
+
     @FindAll (@FindBy (css = "div[class~=control]"))
     List<WebElement> pageControls;
+
     @FindBy (css = ".submission.buttons>input[type='submit']")
     WebElement saveButton;
+
     @FindBy (css = ".submission.buttons>input.cancel")
     WebElement cancelButton;
 
@@ -39,7 +42,10 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
     @SuppressWarnings ("unchecked")
     public T navigate()
     {
-        String baseUrl = String.format("%s://%s:%s@%s:%s", properties.getScheme(), properties.getAdminUser(), properties.getAdminPassword(), properties.getServer(), properties.getPort());
+        String baseUrl = String.format("%s://%s:%s@%s:%s", properties.getScheme(),
+            properties.getAdminUser(),
+            properties.getAdminPassword(),
+            properties.getServer(), properties.getPort());
 
         STEP(String.format("Navigate to %s", baseUrl + "/" + relativePathToURL()));
 
@@ -180,6 +186,12 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
     public T clickCancelButton()
     {
         browser.waitUntilElementClickable(cancelButton).click();
+        return (T) renderedPage();
+    }
+
+    public T assertPageTitleIs(String expectedPageTitle)
+    {
+        Assert.assertTrue(getPageTitle().contains(expectedPageTitle), "Page title is correct");
         return (T) renderedPage();
     }
 }

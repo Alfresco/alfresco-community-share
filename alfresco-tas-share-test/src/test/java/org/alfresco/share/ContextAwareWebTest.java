@@ -149,9 +149,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     }
 
     /**
-     * Just authenticate using <username> and <password> provided as parameters
-     * And inject the cookies in current browser use this method in
-     * a @BeforeClass to pass the login screen
+     * Authenticate user in Share
      *
      * @param userName
      * @param password
@@ -171,7 +169,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     	 cleanupAuthenticatedSession();
     	 UserModel validUser = new UserModel(userName, password);
     	 getLoginPage().navigate().login(validUser);
-    	 userDashboard.waitForSharePageBodyToLoad();
+    	 userDashboard.renderedPage();
     }
 
     /**

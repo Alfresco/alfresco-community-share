@@ -1,8 +1,8 @@
-package org.alfresco.po.adminconsole;
+package org.alfresco.adminconsole;
 
 import java.util.ArrayList;
 
-import org.alfresco.po.adminconsole.AdminNavigator.NavigationLink;
+import org.alfresco.po.adminconsole.AdminNavigator;
 import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
 import org.alfresco.po.adminconsole.consoles.WorkflowConsolePage;
 import org.alfresco.po.adminconsole.directories.DirectoryManagementPage;
@@ -36,7 +36,7 @@ public class ConsoleExampleTest extends ContextAwareWebTest
         nodeBrowser.setBrowser(getBrowser());
         nodeBrowser.navigate();
 
-        for (NavigationLink link : NavigationLink.values())
+        for (AdminNavigator.NavigationLink link : AdminNavigator.NavigationLink.values())
         {
             nodeBrowser.getNavigator().goTo(link, applicationContext);
         }

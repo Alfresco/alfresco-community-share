@@ -46,7 +46,7 @@
          </method-selector>
       </method-selectors>
       <packages>
-         <package name="org.alfresco.share.*" />
+         <package name="org.alfresco.*" />
       </packages>
 
    </test> <!-- Test -->

@@ -1,4 +1,4 @@
-package org.alfresco.po.adminconsole;
+package org.alfresco.adminconsole;
 
 import org.alfresco.po.adminconsole.repositoryservices.SearchServicePage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -12,11 +12,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 /**
  * @author Iulia.Burca
  */
-
 public class SearchServicePageTests extends ContextAwareWebTest
 {
 

@@ -209,7 +209,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
 
     public UserProfileAdminToolsPage assertGroupsAreDisplayed(String... groupNames)
     {
-        String [] items = addedGroups.getText().split("\\s*,\\s*");
+        String [] items = browser.waitUntilElementVisible(addedGroups).getText().split("\\s*,\\s*");
         Arrays.sort(items);
         Arrays.sort(groupNames);
         Assert.assertEquals(items, groupNames);
