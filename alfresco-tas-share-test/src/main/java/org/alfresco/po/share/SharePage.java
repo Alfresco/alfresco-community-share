@@ -56,10 +56,10 @@ public abstract class SharePage<T> extends HtmlPage
 
     @RenderWebElement (state = ElementState.PRESENT)
     @FindBy (id = "HEADER_TITLE")
-    private TextBlock pageHeader;
+    private WebElement pageHeader;
 
     @FindBy (id = "HEADER_LOGO")
-    private Image headerLogo;
+    private WebElement headerLogo;
 
     @FindBy (css = ".copyright>a>img")
     private WebElement alfrescoOneFooterLogo;
@@ -242,5 +242,6 @@ public abstract class SharePage<T> extends HtmlPage
     public void waitForSharePageBodyToLoad()
     {
         browser.waitUntilElementVisible(body);
+        browser.waitUntilElementVisible(alfrescoOneFooterLogo);
     }
 }
