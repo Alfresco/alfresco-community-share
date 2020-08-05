@@ -242,6 +242,5 @@ public abstract class SharePage<T> extends HtmlPage
     public void waitForSharePageBodyToLoad()
     {
         browser.waitUntilElementVisible(body);
-        browser.waitUntilElementVisible(alfrescoOneFooterLogo, WAIT_30);
     }
 }
