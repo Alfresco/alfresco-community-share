@@ -296,6 +296,8 @@ public class GroupsPage extends AdminToolsPage
     {
         LOG.info(String.format("Select group %s", itemName));
         getItemGroup(itemName).click();
+        browser.waitUntilElementHasAttribute(browser.findElement
+            (By.xpath(String.format(groupRow, itemName))), "class", "item-selected");
         return this;
     }
 

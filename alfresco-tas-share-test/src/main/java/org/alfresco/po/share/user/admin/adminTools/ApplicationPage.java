@@ -82,7 +82,8 @@ public class ApplicationPage extends AdminToolsPage
     {
         //click Reset button
         browser.waitUntilElementClickable(resetButton).click();
-        return (ApplicationPage) this.renderedPage();
+        browser.waitUntilElementVisible(defaultAlfrescoImage);
+        return this;
     }
 
     public ApplicationPage selectTheme(Theme theme)
