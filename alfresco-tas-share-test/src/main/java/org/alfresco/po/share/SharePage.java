@@ -20,6 +20,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
@@ -163,6 +164,12 @@ public abstract class SharePage<T> extends HtmlPage
         return browser.isElementDisplayed(alfrescoOneFooterLogo);
     }
 
+    public T assertAlfrescoLogoIsDisplayedInPageFooter()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
+        return (T) renderedPage();
+    }
+
     /**
      * Set the relative path for a page that contains the user name in the url
      *
@@ -235,6 +242,6 @@ public abstract class SharePage<T> extends HtmlPage
     public void waitForSharePageBodyToLoad()
     {
         browser.waitUntilElementVisible(body);
-        browser.waitUntilElementVisible(pageHeader);
+        browser.waitUntilElementVisible(alfrescoOneFooterLogo, WAIT_30);
     }
 }
