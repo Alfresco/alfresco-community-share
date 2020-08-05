@@ -7,6 +7,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 /**
  * Created by Mirela Tifui on 12/9/2016.
@@ -15,29 +16,30 @@ import org.openqa.selenium.support.FindBy;
 public class DeleteUserDialogPage extends ShareDialog
 {
     @RenderWebElement
-    private By deleteUserWindow = By.id("deleteDialog_c");
+    @FindBy (id = "deleteDialog_c")
+    private WebElement deleteUserWindow;
 
-    private By deleteUserText = By.cssSelector("div[id='deleteDialog_c'] div.yui-u");
+    @FindBy (css = "div[id='deleteDialog_c'] div.yui-u")
+    private WebElement deleteUserText;
 
     @RenderWebElement
-    @FindBy (css = "#yui-gen0")
+    @FindBy (css = "#yui-gen0 button")
     private WebElement deleteUserButton;
 
-    public boolean isDeleteUserWindowDisplayed()
+    public DeleteUserDialogPage assertDeleteUserDialogIsOpened()
     {
-        browser.waitUntilElementsVisible(deleteUserWindow);
-        return browser.isElementDisplayed(deleteUserWindow);
+        Assert.assertTrue(browser.isElementDisplayed(deleteUserWindow), "Delete user dialog is displayed");
+        return this;
     }
 
-    public HtmlPage clickButton(String buttonName, HtmlPage page)
+    public void clickDelete()
     {
-        getBrowser().waitUntilElementVisible(deleteUserButton);
         getBrowser().waitUntilElementClickable(deleteUserButton).click();
-        return page.renderedPage();
     }
 
-    public String getDeleteUserWindowText()
+    public DeleteUserDialogPage assertDeleteUserDialogTextIsCorrect()
     {
-        return browser.findElement(deleteUserText).getText();
+        Assert.assertEquals(deleteUserText.getText(), language.translate("deleteUser.dialog"));
+        return this;
     }
 }

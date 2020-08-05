@@ -39,6 +39,7 @@ import org.alfresco.utility.data.DataUserAIS;
 import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
 import org.apache.commons.lang3.StringUtils;
@@ -123,7 +124,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
-    public static final String ALFRESCO_ADMIN_GROUP = "ALFRESCO_ADMINISTRATORS";
+    public static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
     public static String FILE_CONTENT = "Share file content";
 
     protected String adminUser;
@@ -131,7 +132,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String adminName;
     protected String domain;
     protected String password = "password";
-    protected String mainWindow;
 
     @BeforeClass(alwaysRun = true)
     public void setup() throws DataPreparationException
@@ -169,10 +169,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     private void loginViaBrowser(String userName, String password)
     {
     	 cleanupAuthenticatedSession();
-    	 UserModel validUser = new UserModel(userName,password);
+    	 UserModel validUser = new UserModel(userName, password);
     	 getLoginPage().navigate().login(validUser);
-         getBrowser().refresh();
-         getBrowser().waitInSeconds(2);
+    	 userDashboard.waitForSharePageBodyToLoad();
     }
 
     /**
@@ -184,7 +183,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         getBrowser().cleanUpAuthenticatedSession();
     }
     
-    protected void logoutViaBrouser() 
+    protected void logoutViaBrowser()
     {
     	toolbarUserMenu.clickLogout();
     	getBrowser().cleanUpAuthenticatedSession();
@@ -297,7 +296,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     public CommonLoginPage getLoginPage()
     {
-
         if (dataAIS.isEnabled())
         {
             return aimsPage;
@@ -335,8 +333,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         for (UserModel user : users)
         {
             dataUser.usingAdmin().deleteUser(user);
-            FolderModel userFolder = new FolderModel(user.getUsername());
-            userFolder.setCmisLocation(Utility.buildPath(cmisApi.getUserHomesPath(), user.getUsername()));
+            FolderModel userFolder = getUserHomeFolder(user);
             cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(userFolder).deleteFolderTree();
         }
     }

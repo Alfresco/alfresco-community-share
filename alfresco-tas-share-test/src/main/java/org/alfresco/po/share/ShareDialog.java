@@ -22,7 +22,9 @@ public abstract class ShareDialog extends HtmlPage
     protected WebElement closeButton;
 
     /** "<object> has been deleted.." popup */
-    private static final By MESSAGE_LOCATOR = By.className("div.bd span.message");
+    private static final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
+
+    public static String LAST_MODIFICATION_MESSAGE = "";
 
     /**
      * Close dialog
@@ -52,5 +54,12 @@ public abstract class ShareDialog extends HtmlPage
         {
             // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
         }
+    }
+
+    public String getLastNotificationMessage()
+    {
+        LAST_MODIFICATION_MESSAGE = browser.waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText();
+        getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
+        return LAST_MODIFICATION_MESSAGE;
     }
 }

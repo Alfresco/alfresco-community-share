@@ -3,6 +3,7 @@ package org.alfresco.po.share.toolbar;
 import java.util.List;
 
 import org.alfresco.common.EnvProperties;
+import org.alfresco.common.Timeout;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.common.Utils;
@@ -14,6 +15,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -74,6 +76,8 @@ public class Toolbar extends HtmlPage
 
     @FindBy (id = "HEADER_MY_FILES")
     private WebElement myFilesButton;
+
+    public By MESSAGE_LOCATOR = By.className("div.bd span.message");
 
     @Autowired
     protected AIMSPage aimsPage;
@@ -312,5 +316,18 @@ public class Toolbar extends HtmlPage
     public void clickMyFilesInToolbar()
     {
         myFilesButton.click();
+    }
+    
+    public void waitUntilMessageDisappears()
+    {
+        try
+        {
+            getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, Timeout.SHORT.getTimeoutSeconds());
+            getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
+        }
+        catch (TimeoutException exception)
+        {
+            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
+        }
     }
 }
