@@ -169,7 +169,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     	 cleanupAuthenticatedSession();
     	 UserModel validUser = new UserModel(userName, password);
     	 getLoginPage().navigate().login(validUser);
-    	 userDashboard.renderedPage();
+    	 userDashboard.waitForSharePageToLoad();
     }
 
     /**
