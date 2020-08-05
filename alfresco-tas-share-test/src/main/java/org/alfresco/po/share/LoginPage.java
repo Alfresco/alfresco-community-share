@@ -126,8 +126,6 @@ public class LoginPage extends CommonLoginPage
      */
     public void clickLogin()
     {
-        LOG.error("Username value: " + usernameInput.getAttribute("value"));
-        LOG.error("Password value: " + passwordInput.getAttribute("value"));
         browser.waitUntilElementVisible(submit);
         browser.waitUntilElementClickable(submit).click();
     }
