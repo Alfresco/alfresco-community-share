@@ -126,7 +126,6 @@ public class LoginPage extends CommonLoginPage
      */
     public void clickLogin()
     {
-        browser.waitUntilElementVisible(submit);
         browser.waitUntilElementClickable(submit).click();
     }
 
