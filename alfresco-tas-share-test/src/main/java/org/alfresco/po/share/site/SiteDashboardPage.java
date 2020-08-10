@@ -3,6 +3,7 @@ package org.alfresco.po.share.site;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -114,6 +115,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     {
         browser.waitUntilElementVisible(siteVisibility);
         return siteVisibility.getText();
+    }
+
+    public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
+    {
+        LOG.info(String.format("Assert site visibility is: %s", visibility.toString()));
+        Assert.assertEquals(browser.waitUntilElementVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
+        return this;
     }
 
     /**

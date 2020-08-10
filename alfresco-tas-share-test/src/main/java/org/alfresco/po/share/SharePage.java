@@ -175,6 +175,12 @@ public abstract class SharePage<T> extends HtmlPage
         return (T) renderedPage();
     }
 
+    public T assertPageTitleIs(String expectedTitle)
+    {
+        Assert.assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
+        return (T) renderedPage();
+    }
+
     /**
      * Set the relative path for a page that contains the user name in the url
      *
@@ -231,7 +237,7 @@ public abstract class SharePage<T> extends HtmlPage
         }
     }
 
-    public void waitForLoadingMessageToDisappear()
+    public T waitForLoadingMessageToDisappear()
     {
         try
         {
@@ -242,6 +248,7 @@ public abstract class SharePage<T> extends HtmlPage
         {
             //continue
         }
+        return (T) renderedPage();
     }
 
     public void waitForSharePageToLoad()

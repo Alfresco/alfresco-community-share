@@ -23,12 +23,14 @@ public class ToolbarTests extends ContextAwareWebTest
     @Autowired
     private UserProfilePage userProfilePage;
 
-    private UserModel normalUser;
+    private UserModel normalUser, adminUser;
 
     @BeforeClass(alwaysRun = true)
     public void authenticateAdminUser()
     {
         normalUser = dataUser.usingAdmin().createRandomTestUser();
+        adminUser = dataUser.createRandomTestUser();
+        dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
         setupAuthenticatedSession(normalUser);
     }
 
@@ -38,7 +40,7 @@ public class ToolbarTests extends ContextAwareWebTest
         removeUserFromAlfresco(normalUser);
     }
 
-    @TestRail (id = "C2091")
+    @TestRail (id = "C2091, C8701")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyAlfrescoToolbarItemsWithNormalUser()
     {
@@ -53,6 +55,7 @@ public class ToolbarTests extends ContextAwareWebTest
             .assertUserMenuIsDisplayed()
             .assertSearchInputIsDisplayed()
             .assertAdminToolsIsNotDisplayed()
+            .assertSitesManagerIsNotDisplayed()
                 .clickSites()
                     .assertRecentSitesSectionIsNotDisplayed()
                     .assertUsefulSectionIsDisplayed()
@@ -81,15 +84,18 @@ public class ToolbarTests extends ContextAwareWebTest
         toolbar.assertToolbarIsDisplayed();
     }
 
-    @TestRail (id = "C2863")
+    @TestRail (id = "C2863, C8684")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
         try
         {
-            setupAuthenticatedSession(getAdminUser());
+            setupAuthenticatedSession(adminUser);
             toolbar.assertAdminToolsIsDisplayed()
                 .clickAdminTools().assertAdminToolsPageIsOpened();
+            dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
+            setupAuthenticatedSession(adminUser);
+            toolbar.assertAdminToolsIsNotDisplayed();
         }
         finally
         {
