@@ -37,7 +37,7 @@ public class ToolbarTests extends ContextAwareWebTest
     @AfterClass(alwaysRun = true)
     public void cleanUp()
     {
-        removeUserFromAlfresco(normalUser);
+        removeUserFromAlfresco(normalUser, adminUser);
     }
 
     @TestRail (id = "C2091, C8701")
@@ -84,7 +84,7 @@ public class ToolbarTests extends ContextAwareWebTest
         toolbar.assertToolbarIsDisplayed();
     }
 
-    @TestRail (id = "C2863, C8684")
+    @TestRail (id = "C2863, C8684, C8681")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {

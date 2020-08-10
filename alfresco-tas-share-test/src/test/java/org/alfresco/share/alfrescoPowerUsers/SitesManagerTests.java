@@ -4,7 +4,6 @@ import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -18,17 +17,11 @@ import org.testng.annotations.Test;
 
 import static java.util.Arrays.asList;
 
-/**
- * @author Laura.Capsa
- */
 public class SitesManagerTests extends ContextAwareWebTest
 {
-    private UserModel user2, user3, user4, siteAdmin;
+    private UserModel user, siteAdmin;
     private SiteModel site1, site2, site3, site4, site5, site6;
     private final String siteDescription = "Site Description";
-
-    @Autowired
-    private AdminToolsPage adminToolsPage;
 
     @Autowired
     private SitesManagerPage sitesManagerPage;
@@ -42,13 +35,11 @@ public class SitesManagerTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        user2 = dataUser.createRandomTestUser();
-        user3 = dataUser.createRandomTestUser();
-        user4 = dataUser.createRandomTestUser();
+        user = dataUser.createRandomTestUser();
         siteAdmin = dataUser.createRandomTestUser();
 
         dataGroup.usingUser(siteAdmin).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
-        dataGroup.usingUser(user4).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
+        dataGroup.usingUser(user).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
         site1 = new SiteModel(RandomData.getRandomName("siteModerated"));
         site1.setDescription(siteDescription);
         site1.setVisibility(Visibility.MODERATED);
@@ -58,12 +49,14 @@ public class SitesManagerTests extends ContextAwareWebTest
         site4 = dataSite.usingUser(siteAdmin).createPublicRandomSite();
         site5 = dataSite.usingUser(siteAdmin).createPublicRandomSite();
         site6 = dataSite.usingAdmin().createPublicRandomSite();
+
+        setupAuthenticatedSession(siteAdmin);
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(user2, user3, user4, siteAdmin);
+        removeUserFromAlfresco(user, siteAdmin);
         asList(site1, site2, site3, site4, site5, site6)
             .forEach(site -> dataSite.usingAdmin().deleteSite(site));
     }
@@ -72,7 +65,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifySiteManagerPage()
     {
-        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate()
             .assertSiteManagerPageIsOpened()
             .assertPageTitleIs(language.translate("adminTools.sitesManager.pageTitle"))
@@ -87,7 +79,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void updateSiteVisibilityToPublic()
     {
-        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site2)
             .changeSiteVisibility(Visibility.PUBLIC)
             .assertSuccessIndicatorIsDisplayed()
@@ -99,7 +90,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void updateSiteVisibilityToModerated()
     {
-        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site3)
             .changeSiteVisibility(Visibility.MODERATED)
             .assertSuccessIndicatorIsDisplayed()
@@ -111,7 +101,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void updateSiteVisibilityToPrivate()
     {
-        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site4)
             .changeSiteVisibility(Visibility.PRIVATE)
             .assertSuccessIndicatorIsDisplayed()
@@ -119,49 +108,28 @@ public class SitesManagerTests extends ContextAwareWebTest
         siteDashboardPage.navigate(site4).assertSiteVisibilityIs(Visibility.PRIVATE);
     }
 
-    @TestRail (id = "C8681")
+    @TestRail (id = "C8683, C8682, C2868")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
-    public void verifyUserIsAddedToAlfrescoAdminGroup()
+    public void verifyUserAddedAndRemovedFromSiteAdminGroup()
     {
-        setupAuthenticatedSession(user2);
-        toolbar.assertAdminToolsIsNotDisplayed();
-
-        dataGroup.usingUser(user2).addUserToGroup(ALFRESCO_ADMIN_GROUP);
-        setupAuthenticatedSession(user2);
-        toolbar.assertAdminToolsIsDisplayed().clickAdminTools();
-        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
-        sitesManagerPage.assertSiteManagerPageIsOpened();
-    }
-
-    @TestRail (id = "C8682, C2868" )
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
-    public void verifyUserIsAddedToSiteAdminGroup()
-    {
-        setupAuthenticatedSession(user3);
-        toolbar.assertSitesManagerIsNotDisplayed();
-
-        dataGroup.usingUser(user3).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
-        setupAuthenticatedSession(user3);
-        toolbar.assertSitesManagerIsDisplayed()
-            .clickSitesManager().assertSiteManagerPageIsOpened();
-    }
-
-    @TestRail (id = "C8683")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
-    public void removeUserFromSiteAdmin()
-    {
-        setupAuthenticatedSession(user4);
-        toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
-        dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user4);
-        setupAuthenticatedSession(user4);
-        toolbar.assertSitesManagerIsNotDisplayed();
+        try
+        {
+            setupAuthenticatedSession(user);
+            toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
+            dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
+            setupAuthenticatedSession(user);
+            toolbar.assertSitesManagerIsNotDisplayed();
+        }
+        finally
+        {
+            setupAuthenticatedSession(siteAdmin);
+        }
     }
 
     @TestRail (id = "C8689")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void siteAdminBecomeSitesManager()
     {
-        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate()
             .usingSite(site6).becomeSiteManager().assertSiteManagerIsYes();
     }
@@ -170,7 +138,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void deleteSiteAsSiteAdmin()
     {
-        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate();
 
         sitesManagerPage.usingSite(site5).clickDelete()
