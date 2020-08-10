@@ -3,7 +3,6 @@ package org.alfresco.share.site;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -31,9 +30,6 @@ public class FavoriteSiteTests extends ContextAwareWebTest
 
     @Autowired
     MySitesDashlet mySitesDashlet;
-
-    @Autowired
-    ToolbarSitesMenu toolbarSitesMenu;
 
     @Autowired
     DataUser dataUser;
@@ -68,18 +64,20 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1 - Navigate to the created site");
         siteDashboardPage.navigate(testSite.getTitle());
         Assert.assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
+
         LOG.info("STEP 2 - Click \"Sites\" menu from Alfresco Toolbar");
-        Assert.assertTrue(toolbarSitesMenu.isAddCurrentSiteToFavoritesDisplayed(), "\"Add current site to Favorites\" is displayed");
+        toolbar.clickSites().assertAddCurrentSiteToFavoritesDisplayed();
+
         LOG.info("STEP 3 - Click \"Add current site to Favorites\".");
-        toolbarSitesMenu.clickAddCurrentSiteToFavorites();
-        siteDashboardPage.renderedPage();
-        Assert.assertTrue(toolbarSitesMenu.isRemoveCurrentSiteFromFavoritesDisplayed(), "\"Remove current site from Favorites\" is displayed");
+        toolbar.clickSites().clickAddCurrentSiteToFavorites();
+        toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsDisplayed();
+
         LOG.info("STEP 4 - Click again \"Sites\" menu. Click on \"Favorites\" icon.");
-        Assert.assertTrue(toolbarSitesMenu.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " is favorite");
+        toolbar.clickSites().assertSiteIsFavorite(testSite.getTitle());
+
         LOG.info("STEP 5 - Click on the site.");
-        toolbarSitesMenu.clickFavoriteSite(testSite.getTitle());
-        siteDashboardPage.renderedPage();
-        Assert.assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
+        toolbar.clickSites().clickFavoriteSite(testSite).assertSiteDashboardPageIsOpened();
+
         LOG.info("STEP 6 - Go to User Dashboard page. Verify \"My Sites\" dashlet.");
         userDashboardPage.navigate(testUser.getUsername());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
@@ -100,13 +98,14 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1 - Navigate to the created site. Click \"Sites\" menu from Alfresco Toolbar");
         siteDashboardPage.navigate(siteName);
         Assert.assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
-        Assert.assertTrue(toolbarSitesMenu.isRemoveCurrentSiteFromFavoritesDisplayed(), "\"Remove current site from Favorites\" is displayed");
+        toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsDisplayed();
+
         LOG.info("STEP 2 - Click \"Remove current site from Favorites\". Click again \"Sites\" menu");
-        toolbarSitesMenu.clickRemoveCurrentSiteFromFavorites();
-        siteDashboardPage.renderedPage();
-        Assert.assertTrue(toolbarSitesMenu.isAddCurrentSiteToFavoritesDisplayed(), "\"Add current site to Favorites\" is displayed");
+        toolbar.clickSites().clickRemoveCurrentSiteFromFavorites();
+        toolbar.clickSites().assertAddCurrentSiteToFavoritesDisplayed();
+
         LOG.info("STEP 3 - Click on \"Favorites\" icon");
-        Assert.assertFalse(toolbarSitesMenu.isSiteFavorite(siteName), siteName + " isn't favorite");
+        toolbar.clickSites().assertSiteIsNotFavorite(siteName);
         LOG.info("STEP 4 - Go to User Dashboard page. Verify \"My Sites\" dashlet");
         userDashboardPage.navigate(userName);
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
@@ -132,7 +131,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         mySitesDashlet.clickOnFavoriteLink(testSite.getTitle());
         Assert.assertTrue(mySitesDashlet.isSiteFavorited(testSite.getTitle()), testSite.getTitle() + " is favorite");
         LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
-        Assert.assertTrue(toolbarSitesMenu.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " is favorite");
+        toolbar.clickSites().assertSiteIsFavorite(testSite);
         userService.delete(adminUser, adminPassword, testUser.getUsername());
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
         siteService.delete(adminUser, adminPassword, testSite.getTitle());
@@ -155,8 +154,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         mySitesDashlet.clickOnFavoriteLink(siteName);
         Assert.assertFalse(mySitesDashlet.isSiteFavorited(siteName), siteName + " isn't favorite");
         LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
-        Assert.assertFalse(toolbarSitesMenu.isSiteFavorite(siteName), siteName + " isn't favorite");
+        toolbar.clickSites().assertSiteIsNotFavorite(siteName);
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

@@ -36,8 +36,6 @@ public class RepositoryTests extends ContextAwareWebTest
     @Autowired
     GoogleDocsCommon googleDocs;
     @Autowired
-    private Toolbar toolbar;
-    @Autowired
     private UserDashboardPage userDashboardPage;
     @Autowired
     private RepositoryPage repositoryPage;
@@ -72,9 +70,6 @@ public class RepositoryTests extends ContextAwareWebTest
     public void checkTheRepositoryIsAvailableInTheToolBar()
     {
         userDashboardPage.navigate(siteName);
-
-        LOG.info("Step 1: Check that the Repository link is available in the toolbar");
-        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "The repository link is not available in Toolbar");
 
         LOG.info("Step 2: Access the Repository via link in toolbar");
         toolbar.clickRepository();

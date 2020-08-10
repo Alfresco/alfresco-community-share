@@ -42,9 +42,6 @@ public class SitesManagerTests extends ContextAwareWebTest
     private final String siteDescription = "Site Description";
 
     @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
     private AdminToolsPage adminToolsPage;
 
     @Autowired
@@ -105,8 +102,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void verifyPresenceInToolbarBasicUser()
     {
         setupAuthenticatedSession(user1);
-        LOG.info("STEP1: Verify presence of 'Sites Manager' tab");
-        assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
+        toolbar.assertSitesManagerIsNotDisplayed();
     }
 
     @TestRail (id = "C8674")
@@ -193,38 +189,29 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void verifyUserIsAddedToAlfrescoAdminGroup()
     {
         setupAuthenticatedSession(user2);
-
-        LOG.info("STEP1: Verify presence of 'Admin Tools' in toolbar");
-        assertFalse(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
+        toolbar.assertAdminToolsIsNotDisplayed();
 
         LOG.info("STEP2: User1 is added to ALFRESCO_ADMINISTRATORS group. User logs out and logins to share.");
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoAdminGroup, user2.getUsername());
-        cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2);
-        assertTrue(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
+        toolbar.assertAdminToolsIsDisplayed().clickAdminTools();
 
-        LOG.info("STEP3: Navigate to 'Admin Tools' from toolbar");
-        toolbar.clickAdminTools();
-
-        LOG.info("STEP4: Click 'Sites Manager' option from left side panel");
         adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
+        sitesManagerPage.assertSiteManagerPageIsOpened();
     }
 
-    @TestRail (id = "C8682")
+    @TestRail (id = "C8682, C2868" )
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyUserIsAddedToSiteAdminGroup()
     {
         setupAuthenticatedSession(user3);
 
-        LOG.info("STEP1: Verify presence of 'Sites Manager' in toolbar");
-        assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
+        toolbar.assertSitesManagerIsNotDisplayed();
 
         LOG.info("STEP2: User is added to SITE_ADMINISTRATORS group. User logs out and logins to share.");
         groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, user3.getUsername());
-        cleanupAuthenticatedSession();
         setupAuthenticatedSession(user3);
-        assertTrue(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
+        toolbar.assertSitesManagerIsDisplayed();
 
         LOG.info("STEP3: Click 'Sites Manager' from toolbar");
         toolbar.clickSitesManager();
@@ -237,18 +224,11 @@ public class SitesManagerTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(user4);
 
-        LOG.info("STEP1: Verify presence of 'Sites Manager' in toolbar");
-        assertTrue(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
+        toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
 
-        LOG.info("STEP2: Click 'Sites Manager' from toolbar");
-        toolbar.clickSitesManager();
-        assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
-
-        LOG.info("STEP3: User1 is removed from SITE_ADMINISTRATORS group. User1 logs out and logins to share.");
         groupService.removeUserFromGroup(adminUser, adminPassword, siteAdminGroup, user4.getUsername());
-        cleanupAuthenticatedSession();
         setupAuthenticatedSession(user4);
-        assertFalse(toolbar.isSitesManagerDisplayed(), "'Sites Manager' option is displayed in toolbar.");
+        toolbar.assertSitesManagerIsNotDisplayed();
     }
 
     @TestRail (id = "C8684")
@@ -256,12 +236,10 @@ public class SitesManagerTests extends ContextAwareWebTest
     public void removeUserFromAlfrescoAdmin()
     {
         setupAuthenticatedSession(alfrescoAdmin, password);
-        userDashboardPage.renderedPage();
-        assertTrue(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
+        toolbar.assertAdminToolsIsDisplayed();
         groupService.removeUserFromGroup(adminUser, adminPassword, alfrescoAdminGroup, alfrescoAdmin);
         setupAuthenticatedSession(alfrescoAdmin, password);
-        userDashboardPage.renderedPage();
-        assertFalse(toolbar.isAdminToolsDisplayed(), "'Admin Tools' option is displayed in toolbar.");
+        toolbar.assertAdminToolsIsNotDisplayed();
     }
 
     @TestRail (id = "C8689")

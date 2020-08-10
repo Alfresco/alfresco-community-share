@@ -3,10 +3,16 @@ package org.alfresco.po.share.toolbar;
 import java.util.List;
 
 import org.alfresco.common.EnvProperties;
+import org.alfresco.common.Language;
 import org.alfresco.common.Timeout;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.common.Utils;
+import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.PeopleFinderPage;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
+import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -27,55 +33,74 @@ import org.testng.Assert;
 @PageObject
 public class Toolbar extends HtmlPage
 {
+    @Autowired
+    protected Language language;
+
     @RenderWebElement
     @FindBy (id = "SHARE_HEADER")
     protected WebElement toolbar;
+
     @FindBy (css = "div[widgetid='HEADER_HOME']")
     protected WebElement homeLink;
+
     @FindBy (id = "HEADER_MY_FILES_text")
     protected WebElement myFilesLink;
+
     @FindBy (id = "HEADER_SHARED_FILES_text")
     protected WebElement sharedFilesLink;
+
     @FindBy (id = "HEADER_SITES_MENU_text")
     protected WebElement sitesLink;
+
     @FindBy (id = "HEADER_TASKS_text")
     protected WebElement tasksLink;
+
     @FindBy (id = "HEADER_PEOPLE_text")
     protected WebElement peopleLink;
+
     @FindBy (id = "HEADER_REPOSITORY_text")
     protected WebElement repositoryLink;
+
     @FindBy (id = "HEADER_SITES_CONSOLE_text")
     protected WebElement sitesManagerLink;
+
     @FindBy (id = "HEADER_ADMIN_CONSOLE_text")
     protected WebElement adminToolsLink;
-    @FindBy (css = "div[id='HEADER_USER_MENU_POPUP']")
+
+    @FindBy (id = "HEADER_USER_MENU_POPUP")
     protected WebElement userMenuLink;
+
     @RenderWebElement
     @FindBy (css = ".alf-search-icon")
     protected WebElement searchIcon;
+
     @FindBy (id = "HEADER_SEARCH_BOX_ADVANCED_SEARCH_text")
     protected WebElement advancedSearchLink;
+
     @RenderWebElement
     @FindBy (id = "HEADER_SEARCHBOX_FORM_FIELD")
     protected WebElement searchBoxInput;
+
     @FindAll (@FindBy (css = "div.alf-live-search-sites-list div.alf-livesearch-item>a"))
     protected List<WebElement> searchSitesList;
+
     @FindBy (css = ".alfresco-header-SearchBox-clear")
     protected WebElement clearSearchBox;
+
     @Autowired
-    SearchPage searchPage;
+    private SearchPage searchPage;
+
     @Autowired
     private AdminToolsPage adminToolsPage;
+
     @Autowired
     private SitesManagerPage sitesManagerPage;
+
     @FindBy (css = "div.alf-livesearch-item>a")
     private List<WebElement> searchResultsInToolbar;
 
     @FindBy (css = "span.alfresco-buttons-AlfButton.confirmationButton.call-to-action.dijitButton")
     private WebElement searchButton;
-
-    @FindBy (id = "HEADER_MY_FILES")
-    private WebElement myFilesButton;
 
     public By MESSAGE_LOCATOR = By.className("div.bd span.message");
 
@@ -88,14 +113,49 @@ public class Toolbar extends HtmlPage
     @Autowired
     protected EnvProperties envProperties;
 
-    public boolean isToolbarDisplayed()
+    @Autowired
+    private ToolbarSitesMenu toolbarSitesMenu;
+
+    @Autowired
+    private ToolbarTasksMenu toolbarTasksMenu;
+
+    @Autowired
+    private ToolbarUserMenu toolbarUserMenu;
+
+    @Autowired
+    private MyFilesPage myFilesPage;
+
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+
+    @Autowired
+    private PeopleFinderPage peopleFinderPage;
+
+    @Autowired
+    private RepositoryPage repositoryPage;
+
+    @Autowired
+    private AdvancedSearchPage advancedSearchPage;
+
+    public Toolbar assertToolbarIsDisplayed()
     {
-        return browser.isElementDisplayed(toolbar);
+        LOG.info("Assert toolbar is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(toolbar), "Toolbar is displayed");
+        return this;
     }
 
-    public boolean isHomeDisplayed()
+    public ToolbarSitesMenu clickSites()
     {
-        return browser.isElementDisplayed(homeLink);
+        LOG.info("Click Sites");
+        sitesLink.click();
+        return (ToolbarSitesMenu) toolbarSitesMenu.renderedPage();
+    }
+
+    public Toolbar assertHomeIsDisplayed()
+    {
+        LOG.info("Assert Home is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(homeLink), "Home is displayed");
+        return this;
     }
 
     public void clickHome()
@@ -104,55 +164,81 @@ public class Toolbar extends HtmlPage
         getBrowser().waitUntilElementClickable(homeLink).click();
     }
 
-    public boolean isMyFilesDisplayed()
+    public Toolbar assertMyFilesIsDisplayed()
     {
-        return browser.isElementDisplayed(myFilesLink);
+        LOG.info("Assert My Files is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(myFilesLink), "My Files is displayed");
+        return this;
     }
 
-    public void clickMyFiles()
+    public MyFilesPage clickMyFiles()
     {
+        LOG.info("Click My Files");
         myFilesLink.click();
+        return (MyFilesPage) myFilesPage.renderedPage();
     }
 
-    public boolean isSharedFilesDisplayed()
+    public Toolbar assertSharedFilesIsDisplayed()
     {
-        return browser.isElementDisplayed(sharedFilesLink);
+        LOG.info("Assert Shared Files is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(sharedFilesLink), "Shared Files is displayed");
+        return this;
     }
 
-    public void clickSharedFiles()
+    public SharedFilesPage clickSharedFiles()
     {
+        LOG.info("Click Shared Files");
         sharedFilesLink.click();
-        browser.waitInSeconds(1);
+        return (SharedFilesPage) sharedFilesPage.renderedPage();
     }
 
-    public boolean isSitesDisplayed()
+    public Toolbar assertSitesIsDisplayed()
     {
-        return browser.isElementDisplayed(sitesLink);
+        LOG.info("Assert Shared Files is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(sitesLink), "Sites is displayed");
+        return this;
     }
 
-    public boolean isTasksDisplayed()
+    public Toolbar assertTasksIsDisplayed()
     {
-        return browser.isElementDisplayed(tasksLink);
+        LOG.info("Assert Shared Files is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(tasksLink), "Tasks is displayed");
+        return this;
     }
 
-    public boolean isPeopleDisplayed()
+    public ToolbarTasksMenu clickTasks()
     {
-        return browser.isElementDisplayed(peopleLink);
+        LOG.info("Click Tasks");
+        tasksLink.click();
+        return (ToolbarTasksMenu) toolbarTasksMenu.renderedPage();
     }
 
-    public void clickPeople()
+    public Toolbar assertPeopleIsDisplayed()
     {
+        LOG.info("Assert People is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(peopleLink), "People is displayed");
+        return this;
+    }
+
+    public PeopleFinderPage clickPeople()
+    {
+        LOG.info("Click People");
         peopleLink.click();
+        return (PeopleFinderPage) peopleFinderPage.renderedPage();
     }
 
-    public boolean isRepositoryDisplayed()
+    public Toolbar assertRepositoryIsDisplayed()
     {
-        return browser.isElementDisplayed(repositoryLink);
+        LOG.info("Assert Repository is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(repositoryLink), "Repository is displayed");
+        return this;
     }
 
-    public void clickRepository()
+    public RepositoryPage clickRepository()
     {
+        LOG.info("Click Repository");
         repositoryLink.click();
+        return (RepositoryPage) repositoryPage.renderedPage();
     }
 
     public boolean isSitesManagerDisplayed()
@@ -160,15 +246,25 @@ public class Toolbar extends HtmlPage
         return browser.isElementDisplayed(sitesManagerLink);
     }
 
-    public SitesManagerPage clickSitesManager()
+    public Toolbar assertSitesManagerIsDisplayed()
     {
-        sitesManagerLink.click();
-        return (SitesManagerPage) sitesManagerPage.renderedPage();
+        LOG.info("Assert Sites Manager is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(sitesManagerLink), "Sites Manager link is displayed");
+        return this;
     }
 
-    public boolean isAdminToolsDisplayed()
+    public Toolbar assertSitesManagerIsNotDisplayed()
     {
-        return browser.isElementDisplayed(adminToolsLink);
+        LOG.info("Assert Sites Manager is NOT displayed");
+        Assert.assertFalse(browser.isElementDisplayed(sitesManagerLink), "Sites Manager link is displayed");
+        return this;
+    }
+
+    public SitesManagerPage clickSitesManager()
+    {
+        LOG.info("Click Sites Manager");
+        sitesManagerLink.click();
+        return (SitesManagerPage) sitesManagerPage.renderedPage();
     }
 
     public Toolbar assertAdminToolsIsDisplayed()
@@ -187,13 +283,23 @@ public class Toolbar extends HtmlPage
 
     public AdminToolsPage clickAdminTools()
     {
+        LOG.info("Click Admin Tools");
         browser.waitUntilElementVisible(adminToolsLink).click();
         return (AdminToolsPage) adminToolsPage.renderedPage();
     }
 
-    public boolean isUserMenuDisplayed()
+    public Toolbar assertUserMenuIsDisplayed()
     {
-        return browser.isElementDisplayed(userMenuLink);
+        LOG.info("Assert User Menu link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(userMenuLink), "User Menu link is displayed");
+        return this;
+    }
+
+    public ToolbarUserMenu clickUserMenu()
+    {
+        LOG.info("Click User menu");
+        userMenuLink.click();
+        return (ToolbarUserMenu) toolbarUserMenu.renderedPage();
     }
 
     public String getSearchBoxPlaceholder()
@@ -201,14 +307,17 @@ public class Toolbar extends HtmlPage
         return searchBoxInput.getAttribute("placeholder");
     }
 
-    public boolean isSearchBoxDisplayed()
+    public Toolbar assertSearchInputIsDisplayed()
     {
-        return browser.isElementDisplayed(searchBoxInput);
+        LOG.info("Assert User Menu link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(searchBoxInput), "Search input is displayed");
+        return this;
     }
 
-    public boolean isSearchIconDisplayed()
+    public Toolbar assertSearchIconIsDisplayed()
     {
-        return browser.isElementDisplayed(searchIcon);
+        Assert.assertTrue(browser.isElementDisplayed(searchIcon), "Search icon is displayed");
+        return this;
     }
 
     public boolean isClearSearchBoxDisplayed()
@@ -216,10 +325,12 @@ public class Toolbar extends HtmlPage
         return browser.isElementDisplayed(clearSearchBox);
     }
 
-    public void clickAdvancedSearch()
+    public AdvancedSearchPage clickAdvancedSearch()
     {
+        LOG.info("Click Advanced Search page");
         searchIcon.click();
-        advancedSearchLink.click();
+        browser.waitUntilElementVisible(advancedSearchLink).click();
+        return (AdvancedSearchPage) advancedSearchPage.renderedPage();
     }
 
     /**
@@ -308,16 +419,6 @@ public class Toolbar extends HtmlPage
         searchButton.click();
     }
 
-    public boolean isMyFilesLinkDisplayed()
-    {
-        return myFilesButton.isDisplayed();
-    }
-
-    public void clickMyFilesInToolbar()
-    {
-        myFilesButton.click();
-    }
-    
     public void waitUntilMessageDisappears()
     {
         try

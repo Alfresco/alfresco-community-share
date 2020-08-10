@@ -1,12 +1,7 @@
 package org.alfresco.share.searching;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SiteFinderPage;
-import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -17,6 +12,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.*;
+
 /**
  * @author Laura.Capsa
  */
@@ -24,9 +21,6 @@ public class SiteFinderTests extends ContextAwareWebTest
 {
     @Autowired
     SiteFinderPage siteFinderPage;
-
-    @Autowired
-    ToolbarSitesMenu toolbarSitesMenu;
 
     @Autowired
     UserDashboardPage userDashboardPage;
@@ -95,7 +89,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     public void usernameWithSpaceCanAccessSiteFinder()
     {
         LOG.info("STEP1: Click \"Sites\" -> \"Site Finder\" link from the toolbar");
-        toolbarSitesMenu.clickSiteFinder();
+        toolbar.clickSites().clickSiteFinder();
         assertEquals(siteFinderPage.getPageTitle(), "Alfresco » Site Finder", "Site Finder page is displayed");
     }
 

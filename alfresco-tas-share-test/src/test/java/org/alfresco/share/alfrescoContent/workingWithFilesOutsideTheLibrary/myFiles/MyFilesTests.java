@@ -89,10 +89,10 @@ public class MyFilesTests extends ContextAwareWebTest
         userDashboard.navigate(siteName);
 
         LOG.info("Step 1: Check that the My Files link is available in the toolbar");
-        Assert.assertTrue(toolbar.isMyFilesLinkDisplayed(), "The My Files link is not available in Toolbar");
+        toolbar.assertMyFilesIsDisplayed();
 
         LOG.info("Step 2: Access the My Files via link in toolbar");
-        toolbar.clickMyFilesInToolbar();
+        toolbar.clickMyFiles();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files", "User is not redirected to the repository page");
     }
 }

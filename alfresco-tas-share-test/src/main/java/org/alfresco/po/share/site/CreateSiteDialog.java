@@ -2,7 +2,6 @@ package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
-import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -10,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * @author Laura.Capsa
@@ -107,14 +107,10 @@ public class CreateSiteDialog extends ShareDialog
     @Autowired
     private MySitesDashlet mySitesDashlet;
 
-    @Autowired
-    private ToolbarSitesMenu toolbarSitesMenu;
-
     @SuppressWarnings ("unchecked")
-
     public CreateSiteDialog navigateByMenuBar()
     {
-        toolbarSitesMenu.clickCreateSite();
+        toolbar.clickSites().clickCreateSite();
         return (CreateSiteDialog) renderedPage();
     }
 
@@ -340,6 +336,7 @@ public class CreateSiteDialog extends ShareDialog
     public void clickCloseXButton()
     {
         closeXButton.click();
+        browser.waitUntilElementDisappears(createSiteDialog);
     }
 
     public boolean isCloseXButtonDisplayed()
@@ -347,9 +344,10 @@ public class CreateSiteDialog extends ShareDialog
         return getBrowser().isElementDisplayed(closeXButton);
     }
 
-    public boolean isCreateSiteDialogDisplayed()
+    public CreateSiteDialog assertCreateSiteDialogIsDisplayed()
     {
-        return getBrowser().isElementDisplayed(createSiteDialog);
+        Assert.assertTrue(getBrowser().isElementDisplayed(createSiteDialog), "Create site dialog is displayed");
+        return this;
     }
 
     public boolean isTypeLabelDisplayed()

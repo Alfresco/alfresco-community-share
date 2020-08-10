@@ -162,7 +162,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(workflowsIveStartedPage.isActiveWorkflowsBarDisplayed());
 
         LOG.info("STEP 3: Verify 'Start Workflow' button is displayed.");
-        Assert.assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed());
+        workflowsIveStartedPage.assertStartWorkflowIsDisplayed();
         userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
@@ -189,7 +189,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksPage.isActiveTasksBarDisplayed());
 
         LOG.info("STEP 3: Verify 'Start Workflow' button is displayed.");
-        Assert.assertTrue(myTasksPage.isStartWorkflowDisplayed());
+        myTasksPage.assertStartWorkflowIsDisplayed();
         userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }

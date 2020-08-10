@@ -105,8 +105,7 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
         LOG.info("STEP 4 - Click  \"User\" link and verify \"User Profile Page\" opens");
 
         siteProfileDashlet.clickSiteManager("fName1 lName1");
-
-        Assert.assertTrue(userProfilePage.isUserProfilePageHeaderDisplayed());
+        userProfilePage.assertUserProfilePageIsOpened();
 
     }
 }

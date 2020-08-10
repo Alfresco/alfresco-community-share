@@ -63,8 +63,14 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     @Override
     public SitesManagerPage navigateByMenuBar()
     {
-        toolbar.clickSitesManager();
-        return (SitesManagerPage) renderedPage();
+        return toolbar.clickSitesManager();
+    }
+
+    public SitesManagerPage assertSiteManagerPageIsOpened()
+    {
+        LOG.info("Assert Site Manager page is opened");
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Site Manager page is opened");
+        return this;
     }
 
     /**

@@ -81,7 +81,7 @@ public class LoginPage extends CommonLoginPage
         return (LoginPage) renderedPage();
     }
 
-    public CommonLoginPage assertPageIsOpened()
+    public CommonLoginPage assertLoginPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
         Assert.assertTrue(browser.isElementDisplayed(usernameInput), "Username input is displayed");

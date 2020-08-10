@@ -1,11 +1,8 @@
 package org.alfresco.po.share;
 
-import java.util.List;
-
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -17,14 +14,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
+
+import java.util.List;
 
 @PageObject
 public class SiteFinderPage extends SharePage<SiteFinderPage> implements AccessibleByMenuBar
 {
     @FindAll (@FindBy (css = "div[id$='default-sites'] tr[class*='yui-dt-rec']"))
     protected List<WebElement> siteRowList;
-    @Autowired
-    ToolbarSitesMenu toolbarSitesMenu;
     @Autowired
     SiteDashboardPage siteDashboardPage;
     @RenderWebElement
@@ -54,12 +52,17 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         return "share/page/site-finder";
     }
 
+    public SiteFinderPage assertSiteFinderPageIsOpened()
+    {
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Site Finder page is opened");
+        return this;
+    }
+
     @SuppressWarnings ("unchecked")
     @Override
     public SiteFinderPage navigateByMenuBar()
     {
-        toolbarSitesMenu.clickSiteFinder();
-        return (SiteFinderPage) renderedPage();
+        return toolbar.clickSites().clickSiteFinder();
     }
 
     public void searchSite(String site)
@@ -203,6 +206,12 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public boolean isSearchFieldDisplayed()
     {
         return browser.isElementDisplayed(searchField);
+    }
+
+    public SiteFinderPage assertSearchFieldIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(searchField), "Search field is displayed");
+        return this;
     }
 
     public boolean isSearchButtonDisplayed()

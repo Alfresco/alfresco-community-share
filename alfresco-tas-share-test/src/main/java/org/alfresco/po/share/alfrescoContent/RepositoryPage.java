@@ -8,13 +8,11 @@ import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class RepositoryPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
-    @Autowired
-    Toolbar toolbar;
-
     @Override
     public String getRelativePath()
     {
@@ -25,7 +23,12 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     @Override
     public RepositoryPage navigateByMenuBar()
     {
-        toolbar.clickRepository();
-        return (RepositoryPage) renderedPage();
+        return toolbar.clickRepository();
+    }
+
+    public RepositoryPage assertRepositoryPageIsOpened()
+    {
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Repository page is opened");
+        return this;
     }
 }

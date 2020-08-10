@@ -7,7 +7,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import com.google.j2objc.annotations.AutoreleasePool;
 import org.alfresco.common.Language;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.renderer.ElementState;
@@ -49,6 +51,9 @@ public abstract class SharePage<T> extends HtmlPage
 
     @Autowired
     public Environment env;
+
+    @Autowired
+    public Toolbar toolbar;
 
     @RenderWebElement (state = ElementState.PAGE_LOADED)
     @FindBy (id = "Share")

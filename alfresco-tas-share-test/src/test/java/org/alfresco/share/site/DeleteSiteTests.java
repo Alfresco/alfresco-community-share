@@ -10,7 +10,6 @@ import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -32,9 +31,6 @@ public class DeleteSiteTests extends ContextAwareWebTest
 {
     @Autowired
     EnvProperties envProperties;
-
-    @Autowired
-    ToolbarSitesMenu toolbarSitesMenu;
 
     @Autowired
     Toolbar toolbar;
@@ -218,7 +214,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(userC2281, password);
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
-        toolbarSitesMenu.clickSiteFinder();
+        toolbar.clickSites().clickSiteFinder();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
 
         LOG.info("STEP2: Search for the created site");
@@ -244,7 +240,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(userc2282, password);
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
-        toolbarSitesMenu.clickSiteFinder();
+        toolbar.clickSites().clickSiteFinder();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
 
         LOG.info("STEP2: Search for the created site");

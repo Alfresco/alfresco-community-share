@@ -1,23 +1,31 @@
 package org.alfresco.po.share.toolbar;
 
 import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
+import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.po.share.user.profile.ChangePasswordPage;
+import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.TasAisProperties;
 import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class ToolbarUserMenu extends Toolbar
 {
+    @RenderWebElement
     @FindBy (id = "HEADER_USER_MENU_DASHBOARD_text")
     private WebElement userDashboard;
 
+    @RenderWebElement
     @FindBy (id = "HEADER_USER_MENU_PROFILE_text")
     private WebElement myProfileMenu;
 
@@ -45,112 +53,126 @@ public class ToolbarUserMenu extends Toolbar
     private AIMSPage aimsPage;
     
     @Autowired
-    DataAIS dataAIS;
+    private DataAIS dataAIS;
 
-    public boolean isUserDashboardDisplayed()
+    @Autowired
+    private UserDashboardPage userDashboardPage;
+
+    @Autowired
+    private UserProfilePage userProfilePage;
+
+    @Autowired
+    private ChangePasswordPage changePasswordPage;
+
+    public ToolbarUserMenu assertUserDashboardIsDisplayed()
     {
-        getBrowser().findElement(By.cssSelector("div[id='HEADER_USER_MENU_POPUP'] span.alfresco-menus-AlfMenuBarPopup__arrow")).click();
-        getBrowser().waitUntilElementVisible(By.cssSelector("div[id='HEADER_USER_MENU']"));
-        return browser.isElementDisplayed(userDashboard);
+        LOG.info("User Dashboard link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(userDashboard), "User Dashboard is displayed");
+        return this;
     }
 
-    public void clickUserDashboard()
+    public UserDashboardPage clickUserDashboard()
     {
-        userMenuLink.click();
+        LOG.info("Click User Dashboard");
         userDashboard.click();
+        return (UserDashboardPage) userDashboardPage.renderedPage();
     }
 
-    public boolean isMyProfileDisplayed()
+    public ToolbarUserMenu assertMyProfileIsDisplayed()
     {
-        browser.mouseOver(userMenuLink);
-        userMenuLink.sendKeys(Keys.ENTER);
-        getBrowser().waitUntilElementVisible(dropdownMenu);
-        return browser.isElementDisplayed(myProfileMenu);
+        LOG.info("My Profile link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(myProfileMenu), "My Profile link is displayed");
+        return this;
     }
 
-    public void clickMyProfile()
+    public UserProfilePage clickMyProfile()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
+        LOG.info("Click My Profile");
         myProfileMenu.click();
+        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
-    public boolean isHelpDisplayed()
+    public ToolbarUserMenu assertHelpIsDisplayed()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
-        return browser.isElementDisplayed(help);
+        LOG.info("Help link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(help), "Help link is displayed");
+        return this;
     }
 
-    public void clickHelp()
+    public ToolbarUserMenu clickHelp()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
+        LOG.info("Click Help");
         help.click();
+        return this;
     }
 
-    public boolean isSetCurrentPageAsHomeDisplayed()
+    public ToolbarUserMenu assertHelpWillOpenDocumentationPage()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
-        return browser.isElementDisplayed(setCurrentPageAsHome);
+        LOG.info("Assert Alfresco Documentation window is opened");
+        getBrowser().switchWindow(1);
+        getBrowser().waitUrlContains("https://docs.alfresco.com/", 5);
+        Assert.assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
+        getBrowser().closeWindowAndSwitchBack();
+        return this;
+    }
+
+    public ToolbarUserMenu assertSetCurrentPageAsHomeIsDisplayed()
+    {
+        LOG.info("Set Current Page As Home link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(setCurrentPageAsHome), "Set Current Page As Home is displayed");
+        return this;
     }
 
     public void clickSetCurrentPageAsHome()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
+        LOG.info("Click Set current page as home");
         setCurrentPageAsHome.click();
         waitUntilMessageDisappears();
     }
 
-    public boolean isDashBoardAsHomeDisplayed()
+    public ToolbarUserMenu assertUseDashboardAsHomeIsDisplayed()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
-        return browser.isElementDisplayed(setDashBoardAsHome);
+        LOG.info("Set Current Page As Home link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(setCurrentPageAsHome), "Use Dashboard As Home is displayed");
+        return this;
     }
 
     public void clickSetDashBoardAsHome()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
+        LOG.info("Click Set Dashboard as Home");
         setDashBoardAsHome.click();
     }
 
-    public boolean isChangePasswordDisplayed()
+    public ToolbarUserMenu assertChangePasswordIsDisplayed()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
-        return browser.isElementDisplayed(changePassword);
+        LOG.info("Change Password link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(changePassword), "Change Password is displayed");
+        return this;
     }
 
-    public void clickChangePassword()
+    public ChangePasswordPage clickChangePassword()
     {
-        browser.waitUntilElementClickable(userMenuLink, 5);
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
+        LOG.info("Click change password");
         changePassword.click();
+        return (ChangePasswordPage) changePasswordPage.renderedPage();
     }
 
-    public boolean isLogoutDisplayed()
+    public ToolbarUserMenu assertLogoutIsDisplayed()
     {
-        userMenuLink.click();
-        getBrowser().waitUntilElementVisible(dropdownMenu);
-        return browser.isElementDisplayed(logout);
+        LOG.info("Change Password link is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(logout), "Logout is displayed");
+        return this;
     }
 
-    public HtmlPage clickLogout()
+    public CommonLoginPage clickLogout()
     {
-        getBrowser().waitUntilElementClickable(userMenuLink).click();
+        LOG.info("Click Logout");
         getBrowser().waitUntilElementVisible(dropdownMenu);
         getBrowser().waitUntilElementClickable(logout).click();
         if (dataAIS.isEnabled())
         {
-            return aimsPage.renderedPage();
+            return (CommonLoginPage) aimsPage.renderedPage();
         }
-
-        return loginPage.renderedPage();
-
+        return (CommonLoginPage) loginPage.renderedPage();
     }
 }

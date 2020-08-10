@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * @author bogdan.bocancea
@@ -52,6 +53,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/dashboard", getCurrentSiteName());
+    }
+
+    public SiteDashboardPage assertSiteDashboardPageIsOpened()
+    {
+        LOG.info("Assert site dashboard page is opened");
+        Assert.assertTrue(browser.isElementDisplayed(siteVisibility), "Site dashboard page is opened");
+        return this;
     }
 
     /**

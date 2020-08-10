@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 import ru.yandex.qatools.htmlelements.element.TextInput;
@@ -22,21 +23,26 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
 {
     @FindAll (@FindBy (css = "tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> searchResultsList;
-    @Autowired
-    Toolbar toolbar;
+
     @Autowired
     UserProfilePage userProfilePage;
+
     @RenderWebElement
     @FindBy (css = "input[id$='default-search-text']")
     private TextInput searchInputField;
+
     @FindBy (css = "button[id$='default-search-button-button']")
     private Button searchButton;
+
     @FindBy (css = "[id*='default-help']")
     private TextBlock searchHelpMessage;
+
     @FindBy (css = "[id*='default-results-info']")
     private TextBlock searchResultsInfo;
+
     @FindBy (css = ".yui-dt-empty")
     private TextBlock noResults;
+
     private By avatar = By.cssSelector(".avatar");
 
     @Override
@@ -49,8 +55,13 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
     @Override
     public PeopleFinderPage navigateByMenuBar()
     {
-        toolbar.clickPeople();
-        return (PeopleFinderPage) renderedPage();
+        return toolbar.clickPeople();
+    }
+
+    public PeopleFinderPage assertPeopleFinderPageIsOpened()
+    {
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "People finder page is opened");
+        return this;
     }
 
     /**

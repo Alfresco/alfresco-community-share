@@ -5,7 +5,7 @@ import org.alfresco.utility.web.HtmlPage;
 
 public abstract class CommonLoginPage extends HtmlPage
 {
-    public abstract CommonLoginPage assertPageIsOpened();
+    public abstract CommonLoginPage assertLoginPageIsOpened();
 
     public abstract void login(String username, String password);
 

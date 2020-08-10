@@ -197,7 +197,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 2: Click 'OK' button.");
         leaveSiteDialog.clickOKButton();
         userDashboardPage.renderedPage();
-        userDashboardPage.assertPageIsOpened();
+        userDashboardPage.assertUserDashboardPageIsOpened();
         LOG.info("STEP 3: Verify sites listed on 'My Sites' dashlet.");
         assertFalse(mySitesDashlet.isSitePresent(siteName), siteName + " should no longer be listed in the list of sites.");
 

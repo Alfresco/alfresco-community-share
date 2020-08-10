@@ -1,22 +1,23 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import java.util.List;
-
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
+
+import java.util.List;
 
 @PageObject
 public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByMenuBar
 {
     @FindBy (css = "div[id$='default-tasks'] tr[class*='yui-dt-rec']")
     protected List<WebElement> taskRowList;
+
     protected By editTaskLink = By.cssSelector("div[class*='task-edit'] a");
     protected By viewTaskLink = By.cssSelector("div[class*='task-view'] a");
     protected By viewWorkflowLink = By.cssSelector("div[class*='workflow-view'] a");
@@ -24,32 +25,42 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     protected String completeTaskName = "Request to join %s site";
     protected String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
     protected String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
-    @Autowired
-    ToolbarTasksMenu toolbarTasksMenu;
+
     @Autowired
     EditTaskPage editTaskPage;
+
     @Autowired
     ViewTaskPage viewTaskPage;
+
     @Autowired
     WorkflowDetailsPage workflowDetailsPage;
+
     @Autowired
     StartWorkflowPage startWorkflowPage;
+
     @RenderWebElement
     @FindBy (css = "h2[id$='default-filterTitle']")
     public WebElement activeTasksBar;
+
     @RenderWebElement
     @FindBy (css = ".alfresco-datatable.tasks")
     private WebElement tasksBody;
+
     @FindBy (css = "a[rel='completed']")
     private WebElement completedTasksButton;
+
     @FindBy (css = "[id$='default-startWorkflow-button-button']")
     private WebElement startWorkflow;
+
     @FindBy (css = "div[id*='_all-filter'] div h2")
     private WebElement tasksFilter;
+
     @FindBy (css = "div[id*='_due-filter'] div h2")
     private WebElement dueFilter;
+
     @FindBy (css = "div[id*='_priority-filter'] div h2")
     private WebElement priorityFilter;
+
     @RenderWebElement
     @FindBy (css = "div[id*='_assignee-filter'] div h2")
     private WebElement assigneeFilter;
@@ -58,14 +69,19 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     @Override
     public MyTasksPage navigateByMenuBar()
     {
-        toolbarTasksMenu.clickMyTasks();
-        return (MyTasksPage) renderedPage();
+        return toolbar.clickTasks().clickMyTasks();
     }
 
     @Override
     public String getRelativePath()
     {
         return "share/page/my-tasks";
+    }
+
+    public MyTasksPage assertMyTasksPageIsOpened()
+    {
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "My Tasks page is opened");
+        return this;
     }
 
     /**
@@ -117,6 +133,12 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     public boolean isStartWorkflowDisplayed()
     {
         return browser.isElementDisplayed(startWorkflow);
+    }
+
+    public MyTasksPage assertStartWorkflowIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(startWorkflow), "Start workflow is displayed");
+        return this;
     }
 
     public StartWorkflowPage clickStartWorkflowButton()
