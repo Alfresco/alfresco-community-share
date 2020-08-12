@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 
 /**
@@ -78,6 +79,13 @@ public class DeleteSiteDialog extends ShareDialog
     {
         browser.waitUntilElementVisible(deleteSiteConfirmFromSitesManager);
         return deleteSiteConfirmFromSitesManager.getText();
+    }
+
+    public DeleteSiteDialog assertConfirmMessageFromSiteManagerIsCorrect(String siteName)
+    {
+        Assert.assertEquals(deleteSiteConfirmFromSitesManager.getText(),
+            String.format(language.translate("deleteSite.confirmFromSitesManager"), siteName));
+        return this;
     }
 
     public void clickYes()

@@ -183,7 +183,7 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         return getBrowser().isElementDisplayed(By.id("CREATE_SITE_DIALOG"));
     }
 
-    public UserDashboardPage assertPageIsOpened()
+    public UserDashboardPage assertUserDashboardPageIsOpened()
     {
         LOG.info("Assert User Dashboard page is opened");
         Assert.assertTrue(browser.isElementDisplayed(customizeUserDashboard), "User home page is not opened");

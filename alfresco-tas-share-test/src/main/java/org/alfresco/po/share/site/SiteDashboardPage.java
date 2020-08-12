@@ -3,6 +3,7 @@ package org.alfresco.po.share.site;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -12,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * @author bogdan.bocancea
@@ -52,6 +54,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/dashboard", getCurrentSiteName());
+    }
+
+    public SiteDashboardPage assertSiteDashboardPageIsOpened()
+    {
+        LOG.info("Assert site dashboard page is opened");
+        Assert.assertTrue(browser.isElementDisplayed(siteVisibility), "Site dashboard page is opened");
+        return this;
     }
 
     /**
@@ -106,6 +115,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     {
         browser.waitUntilElementVisible(siteVisibility);
         return siteVisibility.getText();
+    }
+
+    public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
+    {
+        LOG.info(String.format("Assert site visibility is: %s", visibility.toString()));
+        Assert.assertEquals(browser.waitUntilElementVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
+        return this;
     }
 
     /**

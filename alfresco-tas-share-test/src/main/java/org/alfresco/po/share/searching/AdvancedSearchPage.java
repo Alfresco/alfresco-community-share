@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Image;
@@ -23,9 +24,6 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 @PageObject
 public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    Toolbar toolbar;
-
     @Autowired
     SearchPage searchPage;
 
@@ -97,8 +95,13 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     @Override
     public AdvancedSearchPage navigateByMenuBar()
     {
-        toolbar.clickAdvancedSearch();
-        return (AdvancedSearchPage) renderedPage();
+        return toolbar.clickAdvancedSearch();
+    }
+
+    public AdvancedSearchPage assertAdvancedSearchPageIsOpened()
+    {
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Advanced Search page is opened");
+        return this;
     }
 
     public boolean isKeywordsSearchFieldDisplayed()

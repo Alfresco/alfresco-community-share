@@ -7,7 +7,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import com.google.j2objc.annotations.AutoreleasePool;
 import org.alfresco.common.Language;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.renderer.ElementState;
@@ -49,6 +51,9 @@ public abstract class SharePage<T> extends HtmlPage
 
     @Autowired
     public Environment env;
+
+    @Autowired
+    public Toolbar toolbar;
 
     @RenderWebElement (state = ElementState.PAGE_LOADED)
     @FindBy (id = "Share")
@@ -170,6 +175,12 @@ public abstract class SharePage<T> extends HtmlPage
         return (T) renderedPage();
     }
 
+    public T assertPageTitleIs(String expectedTitle)
+    {
+        Assert.assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
+        return (T) renderedPage();
+    }
+
     /**
      * Set the relative path for a page that contains the user name in the url
      *
@@ -226,7 +237,7 @@ public abstract class SharePage<T> extends HtmlPage
         }
     }
 
-    public void waitForLoadingMessageToDisappear()
+    public T waitForLoadingMessageToDisappear()
     {
         try
         {
@@ -237,6 +248,7 @@ public abstract class SharePage<T> extends HtmlPage
         {
             //continue
         }
+        return (T) renderedPage();
     }
 
     public void waitForSharePageToLoad()

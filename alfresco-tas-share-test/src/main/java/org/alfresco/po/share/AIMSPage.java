@@ -149,7 +149,7 @@ public class AIMSPage extends CommonLoginPage
     }
 
     @Override
-    public CommonLoginPage assertPageIsOpened()
+    public CommonLoginPage assertLoginPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
         Assert.assertTrue(browser.isElementDisplayed(usernameInput), "Username input is displayed");

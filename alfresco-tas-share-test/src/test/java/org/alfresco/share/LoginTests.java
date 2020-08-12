@@ -54,9 +54,9 @@ public class LoginTests extends ContextAwareWebTest
     public void loginValidCredentials()
     {
         LOG.info("STEP1: Navigate to Login page");
-        getLoginPage().navigate().assertPageIsOpened().assertLoginPageTitleIsCorrect().login(validUser);
+        getLoginPage().navigate().assertLoginPageIsOpened().assertLoginPageTitleIsCorrect().login(validUser);
         userDashboard.renderedPage();
-        userDashboard.assertPageIsOpened()
+        userDashboard.assertUserDashboardPageIsOpened()
             .assertUserDashboardPageTitleIsCorrect()
             .assertPageHeaderIsCorrect(validUser);
     }
@@ -88,7 +88,7 @@ public class LoginTests extends ContextAwareWebTest
         LOG.info("STEP1: In any browser, enter the URL for any page from Share in the address bar");
         navigate(String.format(dashBoardUrl, validUser.getUsername()));
         getLoginPage().renderedPage();
-        getLoginPage().assertPageIsOpened().login("user123", "wrongpass");
+        getLoginPage().assertLoginPageIsOpened().login("user123", "wrongpass");
         getLoginPage().assertAuthenticationErrorIsDisplayed();
     }
 
@@ -106,7 +106,7 @@ public class LoginTests extends ContextAwareWebTest
             getLoginPage().clickLogin();
         }
         userDashboard.renderedPage();
-        userDashboard.assertPageIsOpened();
+        userDashboard.assertUserDashboardPageIsOpened();
     }
 
     @TestRail(id = "C2085")
@@ -128,6 +128,6 @@ public class LoginTests extends ContextAwareWebTest
         getLoginPage().navigate();
         getLoginPage().login(specialPassUser);
         userDashboard.renderedPage();
-        userDashboard.assertPageIsOpened();
+        userDashboard.assertUserDashboardPageIsOpened();
     }
 }

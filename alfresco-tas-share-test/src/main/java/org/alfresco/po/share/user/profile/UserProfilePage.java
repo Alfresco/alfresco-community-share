@@ -1,22 +1,22 @@
 package org.alfresco.po.share.user.profile;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.ToolbarUserMenu;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author bogdan.bocancea
@@ -24,9 +24,6 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class UserProfilePage extends SharePage<UserProfilePage> implements AccessibleByMenuBar
 {
-    @Autowired
-    ToolbarUserMenu toolbarUserMenu;
-
     @FindBy (css = "button[id$='button-edit-button']")
     private Button editProfile;
 
@@ -35,15 +32,8 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     private WebElement infoLink;
 
     @RenderWebElement
-    @FindBy (css = "[id*=default-user-sites-link]")
-    private WebElement sitesLink;
-
     @FindBy (css = ".header-bar:nth-child(1)")
     private HtmlElement aboutHeader;
-
-    @RenderWebElement
-    @FindBy (css = ".alfresco-layout-LeftAndRight__left")
-    private HtmlElement userProfilePageHeader;
 
     @FindBy (xpath = "//div[contains(text(), 'Contact Information')]")
     private HtmlElement contactInfoHeader;
@@ -74,14 +64,19 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     public UserProfilePage navigate(String userName)
     {
         setUserName(userName);
-        return (UserProfilePage) navigate();
+        return navigate();
+    }
+
+    public UserProfilePage navigate(UserModel user)
+    {
+        return navigate(user.getUsername());
     }
 
     @SuppressWarnings ("unchecked")
     @Override
     public UserProfilePage navigateByMenuBar()
     {
-        toolbarUserMenu.clickMyProfile();
+        toolbar.clickUserMenu().clickMyProfile();
         return (UserProfilePage) renderedPage();
     }
 
@@ -95,6 +90,13 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     {
         myProfileNavigation.clickInfo();
         return (UserProfilePage) this.renderedPage();
+    }
+
+    public UserProfilePage assertUserProfilePageIsOpened()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(infoLink), "User profile page is opened");
+        Assert.assertTrue(browser.isElementDisplayed(aboutHeader), "User profile page is opened");
+        return this;
     }
 
     /**
@@ -125,16 +127,6 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     public boolean isCompanyDetailsHeaderDisplayed()
     {
         return browser.isElementDisplayed(companyDetails);
-    }
-
-    /**
-     * Verify if "User Profile Page" header is displayed
-     *
-     * @return true if displayed
-     */
-    public boolean isUserProfilePageHeaderDisplayed()
-    {
-        return browser.isElementDisplayed(userProfilePageHeader);
     }
 
     /**

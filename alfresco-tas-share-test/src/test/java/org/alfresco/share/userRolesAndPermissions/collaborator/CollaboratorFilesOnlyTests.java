@@ -1,8 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
@@ -17,7 +14,6 @@ import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
-import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -30,6 +26,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Rusu Andrei
@@ -82,8 +81,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private StartWorkflowPage startWorkflowPage;
     @Autowired
     private SelectPopUpPage selectPopUpPage;
-    @Autowired
-    private ToolbarTasksMenu toolbarTasksMenu;
     @Autowired
     private WorkflowDetailsPage workflowDetailsPage;
     @Autowired
@@ -282,7 +279,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         LOG.info("Step 5: Go to Toolbar and click Tasks/ My Tasks.");
-        toolbarTasksMenu.clickMyTasks();
+        toolbar.clickTasks().clickMyTasks();
         myTasksPage.renderedPage();
         Assert.assertEquals(create.getPageTitle(), "Alfresco » My Tasks", "My Tasks page is not opened");
         LOG.info("Step 6: Check and confirm that the Task created at step 4 with details. ");

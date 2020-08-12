@@ -2,12 +2,12 @@ package org.alfresco.po.share.user.profile;
 
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.ToolbarUserMenu;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
 /**
@@ -16,9 +16,6 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 @PageObject
 public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    ToolbarUserMenu toolbarUserMenu;
-
     @Autowired
     private UserProfilePage userProfilePage;
 
@@ -47,7 +44,7 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
     public ChangePasswordPage navigate(String userName)
     {
         setUserName(userName);
-        return (ChangePasswordPage) navigate();
+        return navigate();
     }
 
     /**
@@ -66,7 +63,7 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
     @Override
     public ChangePasswordPage navigateByMenuBar()
     {
-        toolbarUserMenu.clickChangePassword();
+        toolbar.clickUserMenu().clickChangePassword();
         return (ChangePasswordPage) renderedPage();
     }
 
@@ -96,5 +93,11 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
     public boolean isOldPasswordInputDisplayed()
     {
         return browser.isElementDisplayed(oldPasswordInput);
+    }
+
+    public ChangePasswordPage assertChangePasswordPageIsOpened()
+    {
+        Assert.assertTrue(browser.getCurrentUrl().contains("change-password"), "Change password page is opened");
+        return this;
     }
 }

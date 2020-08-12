@@ -392,8 +392,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         userDashboardPage.navigate(user);
 
         LOG.info("Step 1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
-        createSiteDialog.navigateByMenuBar();
-        Assert.assertTrue(createSiteDialog.isCreateSiteDialogDisplayed(), "The create site dialog is not displayed");
+        createSiteDialog.navigateByMenuBar().assertCreateSiteDialogIsDisplayed();
 
         LOG.info("Step 2&3: Verify the available fields from \"Create Site\" form and Verify the available \"Visibility\" options");
         Assert.assertTrue(createSiteDialog.isTypeLabelDisplayed(), "Type label is not displayed");
@@ -415,8 +414,7 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 5: Open the User DashBoard > Sites Dashlet > and click on \"Create Site\" and check that the same form is displayed");
         userDashboardPage.navigate(user);
-        createSiteDialog.navigateFromDashlet();
-        Assert.assertTrue(createSiteDialog.isCreateSiteDialogDisplayed(), "The create site dialog is not displayed");
+        createSiteDialog.navigateFromDashlet().assertCreateSiteDialogIsDisplayed();
         Assert.assertTrue(createSiteDialog.isTypeLabelDisplayed(), "Type label is not displayed");
         Assert.assertEquals(createSiteDialog.getTypeLabelValue(), "Collaboration Site", "Collaboration Site is not the label displayed on Create Site Dialog");
         Assert.assertEquals(createSiteDialog.getNameFieldLabel(), "Name", "The Name label is not displayed");

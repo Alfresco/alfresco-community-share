@@ -52,6 +52,7 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
 
     public AdminToolsPage assertAdminToolsPageIsOpened()
     {
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Admin tools page is opened");
         Assert.assertTrue(browser.isElementDisplayed(adminToolsBody), "Admin tools page is opened");
         return this;
     }

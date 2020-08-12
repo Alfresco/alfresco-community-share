@@ -1,7 +1,5 @@
 package org.alfresco.share.userDashboard;
 
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.PeopleFinderPage;
@@ -14,7 +12,6 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
-import org.alfresco.po.share.toolbar.ToolbarUserMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
@@ -25,6 +22,8 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertTrue;
+
 public class SettingHomePageTest extends ContextAwareWebTest
 {
     @Autowired
@@ -32,9 +31,6 @@ public class SettingHomePageTest extends ContextAwareWebTest
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    ToolbarUserMenu toolbarUserMenu;
 
     @Autowired
     DocumentLibraryPage documentLibraryPage;
@@ -91,12 +87,12 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Go to the folder details page, click on the user drop down in the header bar and select Use Current Page link");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 3 - Click on the Home link in the header bar");
-        toolbarUserMenu.clickHome();
+        toolbar.clickHome();
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 4 - Click on the user drop down in the header bar, log out and go to the alfresco log in page");
@@ -112,7 +108,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.1 - User Dashboard Page");
         userDashboardPage.navigate(userName1);
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         userDashboardPage.renderedPage();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
         cleanupAuthenticatedSession();
@@ -124,7 +120,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.2 - My Files Page");
         myFilesPage.navigate();
         assertTrue(myFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         myFilesPage.renderedPage();
         assertTrue(myFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
         cleanupAuthenticatedSession();
@@ -136,7 +132,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.3 - Shared Files Page");
         sharedFilesPage.navigate();
         assertTrue(sharedFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
         cleanupAuthenticatedSession();
@@ -148,7 +144,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.4 - Site Finder Page");
         siteFinderPage.navigate();
         assertTrue(siteFinderPage.isSearchFieldDisplayed(), "Search field is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         siteFinderPage.renderedPage();
         assertTrue(siteFinderPage.isSearchFieldDisplayed(), "Search field is displayed");
         cleanupAuthenticatedSession();
@@ -159,32 +155,32 @@ public class SettingHomePageTest extends ContextAwareWebTest
 
         LOG.info("STEP 6.5 - My Tasks Page");
         myTasksPage.navigateByMenuBar();
-        assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        myTasksPage.assertStartWorkflowIsDisplayed();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         myTasksPage.renderedPage();
-        assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
+        myTasksPage.assertStartWorkflowIsDisplayed();
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         myTasksPage.renderedPage();
-        assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
+        myTasksPage.assertStartWorkflowIsDisplayed();
 
         LOG.info("STEP 6.6 - Workflows I've Started Page");
         workflowsIveStartedPage.navigateByMenuBar();
-        assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        workflowsIveStartedPage.assertStartWorkflowIsDisplayed();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         workflowsIveStartedPage.renderedPage();
-        assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
+        workflowsIveStartedPage.assertStartWorkflowIsDisplayed();
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         workflowsIveStartedPage.renderedPage();
-        assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
+        workflowsIveStartedPage.assertStartWorkflowIsDisplayed();
 
         LOG.info("STEP 6.7 - People Finder Page");
         peopleFinderPage.navigate();
         assertTrue(peopleFinderPage.isSearchButtonDisplayed(), "\"Search\" button is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         peopleFinderPage.renderedPage();
         assertTrue(peopleFinderPage.isSearchButtonDisplayed(), "\"Search\" button is displayed");
         cleanupAuthenticatedSession();
@@ -196,7 +192,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.8 - Repository Page");
         repositoryPage.navigate();
         assertTrue(repositoryPage.isUploadButtonDisplayed(), "\"Upload\" button is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         repositoryPage.renderedPage();
         assertTrue(repositoryPage.isUploadButtonDisplayed(), "\"Upload\" button is displayed");
         cleanupAuthenticatedSession();
@@ -208,7 +204,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.9 - User Profile Page");
         userProfilePage.navigateByMenuBar();
         assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         userProfilePage.renderedPage();
         assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
         cleanupAuthenticatedSession();
@@ -220,7 +216,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.10 - Change Password Page");
         changePasswordPage.navigateByMenuBar();
         assertTrue(changePasswordPage.isOldPasswordInputDisplayed(), "Old password input is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         changePasswordPage.renderedPage();
         assertTrue(changePasswordPage.isOldPasswordInputDisplayed(), "Old password input is displayed");
         cleanupAuthenticatedSession();
@@ -232,7 +228,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6.11 - Site Dashboard Page");
         siteDashboardPage.navigate(siteName);
         assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         siteDashboardPage.renderedPage();
         assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
         cleanupAuthenticatedSession();
@@ -268,17 +264,17 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Go to the folder details page, click on the user drop down in the header bar and select Use Current Page link");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
-        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 3 - Click on the Home link in the header bar");
-        toolbarUserMenu.clickHome();
+        toolbar.clickUserMenu().clickHome();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 4 - Click on the user drop down in the header bar, log out and go to the alfresco log in page");
-        toolbarUserMenu.clickLogout();
+        toolbar.clickUserMenu().clickLogout();
 
         LOG.info("STEP 5 - Log into Alfresco Share");
         setupAuthenticatedSession(userName, password);
@@ -287,17 +283,17 @@ public class SettingHomePageTest extends ContextAwareWebTest
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 6 - Click on the user drop down in the header bar and select Use My Dashboard link");
-        toolbarUserMenu.clickSetDashBoardAsHome();
+        toolbar.clickUserMenu().clickSetDashBoardAsHome();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 7 - Click on the Home link in the header bar");
-        toolbarUserMenu.clickHome();
+        toolbar.clickUserMenu().clickHome();
         userDashboardPage.renderedPage();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
 
         LOG.info("STEP 8 - Click on the user drop down in the header bar, log out and log in again");
-        toolbarUserMenu.clickLogout();
+        toolbar.clickUserMenu().clickLogout();
         setupAuthenticatedSession(userName, password);
         getBrowser().refresh();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");

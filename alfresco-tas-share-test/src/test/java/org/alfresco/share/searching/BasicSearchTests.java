@@ -102,8 +102,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(userName1, password);
         LOG.info("STEP1: Verify Search toolbar");
-        assertTrue(toolbar.isSearchIconDisplayed(), "Search icon is displayed.");
-        assertTrue(toolbar.isSearchBoxDisplayed(), "Search input field is displayed.");
+        toolbar.assertSearchInputIsDisplayed().assertSearchIconIsDisplayed();
         assertEquals(toolbar.getSearchBoxPlaceholder(), language.translate("toolbar.searchInputPlaceholder"), "Search box placeholder:");
         assertTrue(toolbar.isClearSearchBoxDisplayed(), "Clear search box is displayed.");
 

@@ -5,11 +5,13 @@ import java.util.List;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Table;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
@@ -94,6 +96,17 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
     public boolean isSitePresent(String siteName)
     {
         return browser.isElementDisplayed(getSite(siteName));
+    }
+
+    public UserSitesListPage assertSiteIsDisplayed(String siteName)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getSite(siteName)),String.format("Site %s is displayed", siteName));
+        return this;
+    }
+
+    public UserSitesListPage assertSiteIsDisplayed(SiteModel site)
+    {
+        return assertSiteIsDisplayed(site.getTitle());
     }
 
     /**

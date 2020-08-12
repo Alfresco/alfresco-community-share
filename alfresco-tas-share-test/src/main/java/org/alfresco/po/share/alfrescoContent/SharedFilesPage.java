@@ -5,13 +5,11 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class SharedFilesPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
-    @Autowired
-    Toolbar toolbar;
-
     @Override
     public String getRelativePath()
     {
@@ -22,7 +20,12 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
     @Override
     public SharedFilesPage navigateByMenuBar()
     {
-        toolbar.clickSharedFiles();
-        return (SharedFilesPage) renderedPage();
+        return toolbar.clickSharedFiles();
+    }
+
+    public SharedFilesPage assertSharedFilesPageIsOpened()
+    {
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
+        return this;
     }
 }

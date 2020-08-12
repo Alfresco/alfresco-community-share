@@ -61,9 +61,7 @@ public class GroupsTests extends ContextAwareWebTest
     {
         cleanupAuthenticatedSession();
         asList(createGroup, deleteGroup, editGroup, searchGroup, searchGroup1, parent1)
-            .forEach(group -> {
-                dataGroup.usingAdmin().deleteGroup(group);
-        });
+            .forEach(group -> dataGroup.usingAdmin().deleteGroup(group));
     }
 
     @TestRail (id = "C9462")

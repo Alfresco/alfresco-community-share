@@ -1,13 +1,10 @@
 package org.alfresco.share.site.accessingExistingSites;
 
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -18,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/6/2016.
@@ -32,9 +31,6 @@ public class EnteringSiteTests extends ContextAwareWebTest
 
     @Autowired
     UserSitesListPage userSitesListPage;
-
-    @Autowired
-    ToolbarSitesMenu toolbarSitesMenu;
 
     @Autowired
     Toolbar toolbar;
@@ -102,11 +98,10 @@ public class EnteringSiteTests extends ContextAwareWebTest
     {
         userDashboardPage.navigate(user1);
         LOG.info("Click on 'Sites' menu -> 'Favorites' link.");
-        assertTrue(toolbarSitesMenu.isSiteFavorite(siteName), siteName + " is expected to be displayed in the list of sites from 'Favorites'.");
+        toolbar.clickSites().assertSiteIsFavorite(siteName);
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        toolbarSitesMenu.clickFavoriteSite(siteName);
-        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        toolbar.clickSites().clickFavoriteSite(siteName).assertSiteDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2980")
@@ -115,13 +110,13 @@ public class EnteringSiteTests extends ContextAwareWebTest
     {
         //precondition: site is recently accessed by current user
         siteDashboardPage.navigate(siteName);
-        toolbarSitesMenu.clickHome();
+        toolbar.clickHome();
 
         LOG.info("Click on 'Sites' and verify 'Recent Sites' section.");
-        assertTrue(toolbarSitesMenu.isSiteInRecentSites(siteName), siteName + " is expected to be displayed in the list of sites from 'Recent Sites'.");
+        toolbar.clickSites().assertSiteIsInRecentSites(siteName);
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        toolbarSitesMenu.clickRecentSite(siteName);
+        toolbar.clickSites().clickRecentSite(siteName);
         assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 
@@ -144,7 +139,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     public void accessSiteUsingSitesMenuMySites()
     {
         userDashboardPage.navigate(user1);
-        toolbarSitesMenu.clickMySites();
+        toolbar.clickSites().clickMySites();
         LOG.info("STEP 1: Verify the sites from 'User Sites List' list.");
         assertTrue(userSitesListPage.isSitePresent(siteName), siteName + " should be found.");
 
