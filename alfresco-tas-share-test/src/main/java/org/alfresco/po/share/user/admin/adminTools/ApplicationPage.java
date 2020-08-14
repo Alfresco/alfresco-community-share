@@ -42,6 +42,8 @@ public class ApplicationPage extends AdminToolsPage
     @FindBy (css = "form[id*=admin-console] button[id*=upload-button-button]")
     private Button uploadButton;
 
+    private String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
+
     private final UploadFileDialog uploadDialog;
 
     public ApplicationPage(UploadFileDialog uploadDialog) {
@@ -90,6 +92,7 @@ public class ApplicationPage extends AdminToolsPage
     {
         themeDropdown.selectByValue(theme.getSelectValue());
         clickApply();
+        browser.waitUntilElementVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
         this.refresh();
         return (ApplicationPage) this.renderedPage();
     }
@@ -103,7 +106,7 @@ public class ApplicationPage extends AdminToolsPage
 
     public boolean doesBodyContainTheme(Theme theme)
     {
-        By themeToBeFound = By.xpath("//body[@id = 'Share' and contains(@class, 'skin-" + theme.getSelectValue() + "')]");
+        By themeToBeFound = By.xpath(String.format(bodyTheme, theme.getSelectValue()));
         return browser.isElementDisplayed(themeToBeFound);
     }
 
