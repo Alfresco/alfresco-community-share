@@ -184,17 +184,19 @@ public class TagManagerPage extends AdminToolsPage
         int retryCount = 0;
         while(!found && retryCount < WAIT_30)
         {
-            retryCount++;
-            Utility.waitToLoopTime(1, String.format("Wait for tag %s to be displayed", tagName));
+            Utility.waitToLoopTime(1);
+            LOG.error(String.format("Wait for tag %s to be displayed - retry: %s", tagName, retryCount));
             search(tagName);
             found = isTagDisplayed(tagName);
+            retryCount++;
         }
         return this;
     }
 
     private TagManagerPage search(String tagName)
     {
-        Utils.clearAndType(searchInput, tagName);
+        searchInput.clear();
+        searchInput.sendKeys(tagName);
         searchButton.click();
         return (TagManagerPage) this.renderedPage();
     }

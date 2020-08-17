@@ -230,6 +230,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
             getSiteRow().findElement(siteRowVisibility).click();
+            browser.waitUntilElementsVisible(dropdownOptionsList);
             browser.findFirstElementWithValue(dropdownOptionsList, visibilityValue).click();
             browser.waitUntilElementVisible(getSiteRow().findElement(successIndicator));
             return this;
