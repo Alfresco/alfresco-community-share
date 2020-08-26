@@ -15,6 +15,7 @@ import ru.yandex.qatools.htmlelements.element.Link;
 public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 {
     public By waitPopup = By.cssSelector(".wait");
+
     @FindBy (css = "img.alf-user-icon")
     protected Button addUser;
 
@@ -176,6 +177,4 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
         if (getBrowser().isElementDisplayed(errorButton))
             errorButton.click();
     }
-
-
 }

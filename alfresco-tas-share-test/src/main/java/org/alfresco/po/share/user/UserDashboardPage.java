@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user;
 
-
+import org.alfresco.po.share.HideWelcomePanelDialog;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -12,7 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * @author bogdan.bocancea
@@ -21,13 +20,13 @@ import ru.yandex.qatools.htmlelements.element.Link;
 public class UserDashboardPage extends SharePage<UserDashboardPage> implements AccessibleByMenuBar
 {
     @FindBy (id = "HEADER_CUSTOMIZE_USER_DASHBOARD")
-    public WebElement customizeUserDashboard;
+    private WebElement customizeUserDashboard;
 
     @Autowired
-    CustomizeUserDashboardPage customizeUserDashboardPage;
+    private CustomizeUserDashboardPage customizeUserDashboardPage;
 
-    @FindBy (css = "div[id$='get-started-panel-container']")
-    private WebElement getStartedPanel;
+    @Autowired
+    private HideWelcomePanelDialog hideWelcomePanelDialogue;
 
     @RenderWebElement
     @FindBy (id = "HEADER_HOME")
@@ -45,6 +44,15 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     @RenderWebElement
     @FindBy (css = "div[id='HEADER_LOGO']")
     private WebElement alfrescoLogoContainer;
+
+    @FindBy (css = "[id$=get-started-panel-container]")
+    private WebElement welcomePanel;
+
+    @FindBy (css = ".welcome-info")
+    private WebElement welcomePanelInfo;
+
+    @FindBy (css = "button[id$='_default-hide-button-button']")
+    private WebElement welcomePanelHideButton;
 
     @Override
     public String getRelativePath()
@@ -87,19 +95,11 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     /**
      * Click customize user dashboard
      */
-    public void clickCustomizeUserDashboard()
+    public CustomizeUserDashboardPage clickCustomizeUserDashboard()
     {
+        LOG.info("Click Customize user dashboard button");
         customizeUserDashboard.click();
-    }
-
-    /**
-     * Verify if get started panel is displayed on user dashsboard page
-     *
-     * @return true if displayed
-     */
-    public boolean isGetStartedPanelDisplayed()
-    {
-        return browser.isElementDisplayed(getStartedPanel);
+        return (CustomizeUserDashboardPage) customizeUserDashboardPage.renderedPage();
     }
 
     /**
@@ -162,7 +162,6 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
      * @return true if displayed, otherwise return false
      */
     public boolean isNewAlfrescoLogoDisplayed()
-
     {
         return browser.isElementDisplayed(alfrescoLogo);
     }
@@ -173,7 +172,6 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
      * @return true if displayed, otherwise return false
      */
     public boolean isOldAlfrescoLogoDisplayed()
-
     {
         return browser.isElementDisplayed(oldAlfrescoLogo);
     }
@@ -203,5 +201,52 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         Assert.assertEquals(getPageHeader(), String.format(language.translate("userDashboard.headerTitle"),
             userModel.getFirstName(), userModel.getLastName()));
         return this;
+    }
+
+    public UserDashboardPage assertWelcomePanelIsDisplayed()
+    {
+        LOG.info("Assert Welcome panel is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(welcomePanel), "Welcome panel is displayed");
+        return this;
+    }
+
+    public UserDashboardPage assertWelcomePanelIsNotDisplayed()
+    {
+        LOG.info("Assert Welcome panel is NOT displayed");
+        Assert.assertFalse(browser.isElementDisplayed(welcomePanel), "Welcome panel is displayed");
+        return this;
+    }
+
+    public UserDashboardPage assertWelcomePanelMessageIsCorrect()
+    {
+        LOG.info("Assert Welcome panel message is correct");
+        Assert.assertEquals(welcomePanelInfo.getText(), language.translate("userDashboard.welcomeMessage"),
+            "Welcome panel message is correct");
+        return this;
+    }
+
+    public UserDashboardPage assertHideWelcomePanelButtonIsDisplayed()
+    {
+        LOG.info("Assert Hide welcome panel button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(welcomePanelHideButton), "Hide button is displayed");
+        return this;
+    }
+
+    public UserDashboardPage assertAlfrescoDocumentationPageIsOpenedFromWelcomePanel()
+    {
+        LOG.info("Assert Alfresco Documentation page is opened from welcome panel");
+        welcomePanelInfo.click();
+        getBrowser().waitUrlContains("https://docs.alfresco.com/", 5);
+        Assert.assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
+        getBrowser().navigate().back();
+        renderedPage();
+        return this;
+    }
+
+    public HideWelcomePanelDialog clickHideWelcomePanel()
+    {
+        LOG.info("Click Hide Welcome Panel");
+        browser.waitUntilElementClickable(welcomePanelHideButton).click();
+        return (HideWelcomePanelDialog) hideWelcomePanelDialogue.renderedPage();
     }
 }
