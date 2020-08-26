@@ -1,20 +1,20 @@
 package org.alfresco.po.share.user.profile;
 
-import java.util.List;
-
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Link;
-import ru.yandex.qatools.htmlelements.element.Table;
-import ru.yandex.qatools.htmlelements.element.TextBlock;
+
+import java.util.List;
 
 /**
  * @author bogdan.bocancea
@@ -22,18 +22,26 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 @PageObject
 public class UserSitesListPage extends SharePage<UserSitesListPage> implements AccessibleByMenuBar
 {
-    @FindAll (@FindBy (css = "p a"))
-    protected List<WebElement> sitesLinksList;
+    @RenderWebElement
+    @FindBy (css = ".header-bar")
+    private WebElement headerBar;
+
     @Autowired
-    SiteDashboardPage siteDashboardPage;
+    private SiteDashboardPage siteDashboardPage;
+
     @FindBy (id = "HEADER_SITES_MENU")
-    private Link sitesMenuLink;
+    private WebElement sitesMenuLink;
+
     @FindBy (id = "HEADER_SITES_MENU_MY_SITES")
-    private Link mySitesLink;
+    private WebElement mySitesLink;
+
     @FindBy (css = "div.viewcolumn p")
-    private TextBlock noSitesMessage;
-    @FindBy (css = "ul[id$='default-sites'] li")
-    private Table sitesList;
+    private WebElement noSitesMessage;
+
+    @FindAll (@FindBy (css = ".sites > li"))
+    private List<WebElement> siteRows;
+
+    private By siteNameLocator = By.cssSelector("p a");
 
     @Override
     public String getRelativePath()
@@ -44,7 +52,12 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
     public UserSitesListPage navigate(String userName)
     {
         setUserName(userName);
-        return (UserSitesListPage) navigate();
+        return navigate();
+    }
+
+    public UserSitesListPage navigate(UserModel user)
+    {
+        return navigate(user.getUsername());
     }
 
     @SuppressWarnings ("unchecked")
@@ -56,68 +69,45 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
         return (UserSitesListPage) renderedPage();
     }
 
-    /**
-     * Open User Sites list page from the my profile navigation links
-     *
-     * @param myProfileNavigation
-     * @return {@link UserSitesListPage}
-     */
-    public UserSitesListPage openFromNavigationLink(MyProfileNavigation myProfileNavigation)
+    private WebElement getSiteRow(SiteModel site)
     {
-        myProfileNavigation.clickInfo();
-        return (UserSitesListPage) this.renderedPage();
-    }
-
-    /**
-     * Get list of sites links displayed in User Profile --> Sites
-     */
-    public List<WebElement> getSitesLinks()
-    {
-        return sitesLinksList;
-    }
-
-    /**
-     * Retrieves the link that match the site name.
-     *
-     * @param siteName name identifier
-     * @return {@link Link} that matches siteName
-     */
-    public WebElement getSite(final String siteName)
-    {
-        return browser.findFirstElementWithValue(sitesLinksList, siteName);
-    }
-
-    /**
-     * Verify if a site name is displayed in User Profile --> Sites
-     *
-     * @param siteName
-     * @return True if Site exists
-     */
-    public boolean isSitePresent(String siteName)
-    {
-        return browser.isElementDisplayed(getSite(siteName));
-    }
-
-    public UserSitesListPage assertSiteIsDisplayed(String siteName)
-    {
-        Assert.assertTrue(browser.isElementDisplayed(getSite(siteName)),String.format("Site %s is displayed", siteName));
-        return this;
+        browser.waitUntilElementsVisible(siteRows);
+        return siteRows.stream().filter(siteRow -> siteRow.findElement(siteNameLocator)
+            .getAttribute("href").contains(site.getId())).findFirst().orElse(null);
     }
 
     public UserSitesListPage assertSiteIsDisplayed(SiteModel site)
     {
-        return assertSiteIsDisplayed(site.getTitle());
+        LOG.info(String.format("Assert site %s is displayed", site.getId()));
+        Assert.assertTrue(browser.isElementDisplayed(getSiteRow(site)), String.format("Site %s is displayed", site.getId()));
+        return this;
+    }
+
+    public UserSitesListPage assertSiteIsNotDisplayed(SiteModel site)
+    {
+        LOG.info(String.format("Assert site %s is NOT displayed", site.getId()));
+        Assert.assertNull(getSiteRow(site), String.format("Site %s is displayed", site.getId()));
+        return this;
     }
 
     /**
      * Open site dashboard
      *
-     * @param siteName
+     * @param {@link SiteModel} site
      * @return
      */
-    public SiteDashboardPage clickSite(final String siteName)
+    public SiteDashboardPage clickSite(SiteModel site)
     {
-        getSite(siteName).click();
+        LOG.info(String.format("Click site %s", site.getId()));
+        getSiteRow(site).findElement(siteNameLocator).click();
         return (SiteDashboardPage) siteDashboardPage.renderedPage();
+    }
+
+    public UserSitesListPage assertUserHasNoSitesMessageIsDisplayed()
+    {
+        LOG.info("Assert User is not a member of any sites");
+        Assert.assertEquals(browser.waitUntilElementVisible(noSitesMessage).getText(), language.translate("user.sitesList.noSitesMessage"),
+            "User is not a member of any sites is displayed");
+        return this;
     }
 }

@@ -44,7 +44,7 @@ public class UploadFileDialog extends ShareDialog
     {
         uploadFile(location);
         browser.waitUntilElementDisappears(dialog);
-        return page;
+        return (SharePage) page.renderedPage();
     }
 
     public boolean isUploadFailedMessageDisplayed()

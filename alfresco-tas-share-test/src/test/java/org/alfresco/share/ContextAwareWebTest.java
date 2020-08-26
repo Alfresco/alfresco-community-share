@@ -19,6 +19,7 @@ import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.GroupModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * @author bogdan.bocancea
@@ -89,9 +91,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     public RestWrapper restApi;
 
     @Autowired
-    public UserDashboardPage userDashboardPage;
-
-    @Autowired
     private LoginPage loginPage;
 
     @Autowired
@@ -110,6 +109,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
     public static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
     public static final GroupModel ALFRESCO_SITE_ADMINISTRATORS = new GroupModel("SITE_ADMINISTRATORS");
+    public static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");
     public static String FILE_CONTENT = "Share file content";
 
     protected String adminUser;
@@ -243,12 +243,16 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     public void removeUserFromAlfresco(UserModel... users)
     {
-        for (UserModel user : users)
-        {
+        Arrays.stream(users).forEach(user -> {
             dataUser.usingAdmin().deleteUser(user);
             FolderModel userFolder = getUserHomeFolder(user);
             cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(userFolder).deleteFolderTree();
-        }
+        });
+    }
+
+    public void deleteSites(SiteModel... sites)
+    {
+        Arrays.stream(sites).forEach(site -> dataSite.usingAdmin().deleteSite(site));
     }
 
     public void assertCurrentUrlContains(String value)

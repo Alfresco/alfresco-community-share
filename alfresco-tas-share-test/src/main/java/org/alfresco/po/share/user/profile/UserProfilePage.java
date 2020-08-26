@@ -9,14 +9,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author bogdan.bocancea
@@ -24,24 +21,20 @@ import java.util.Map;
 @PageObject
 public class UserProfilePage extends SharePage<UserProfilePage> implements AccessibleByMenuBar
 {
+    @Autowired
+    private EditUserProfilePage editUserProfilePage;
+
     @FindBy (css = "button[id$='button-edit-button']")
-    private Button editProfile;
+    private WebElement editProfile;
 
     @RenderWebElement
-    @FindBy (css = "[id*=default-profile-link]")
+    @FindBy (css = "a[id$='default-profile-link']")
     private WebElement infoLink;
 
     @RenderWebElement
-    @FindBy (css = ".header-bar:nth-child(1)")
-    private HtmlElement aboutHeader;
+    @FindAll (@FindBy (css = "div[id$='readview'] .viewcolumn .header-bar"))
+    private List<WebElement> headers;
 
-    @FindBy (xpath = "//div[contains(text(), 'Contact Information')]")
-    private HtmlElement contactInfoHeader;
-
-    @FindBy (xpath = "//div[contains(text(), 'Company Details')]")
-    private HtmlElement companyDetails;
-
-    @RenderWebElement
     @FindBy (css = ".namelabel")
     private WebElement nameLabel;
 
@@ -51,9 +44,39 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     @FindAll (@FindBy (css = ".fieldlabel"))
     private List<WebElement> aboutUserDetails;
 
-    // Contact and Company Information
     @FindAll (@FindBy (css = ".viewcolumn .row"))
-    private List<WebElement> userInformations;
+    private List<WebElement> userInformation;
+
+    @RenderWebElement
+    @FindBy (css = "a[id$='default-user-sites-link']")
+    private WebElement sitesLink;
+
+    @RenderWebElement
+    @FindBy (css = "a[id$='user-content-link']")
+    private WebElement contentLink;
+
+    @FindBy (css = "a[id$='following-link']")
+    private WebElement followingLink;
+
+    @FindBy (css = "a[id$='followers-link']")
+    private WebElement followersLink;
+
+    @FindBy (css = "a[id$='change-password-link']")
+    private WebElement changePasswordLink;
+
+    @FindBy (css = "a[id$='user-notifications-link']")
+    private WebElement notificationLink;
+
+    @FindBy (css = "a[id$='user-trashcan-link']")
+    private WebElement trashcanLink;
+
+    @FindBy (css = "div[id$='readview'] .photoimg")
+    private WebElement photo;
+
+    private By fieldValue = By.cssSelector(".fieldvalue");
+    private String contactInfoDuplicateRow = "(//span[text()= '%s'])[1]/..";
+    private String companyInfoDuplicateRow = "(//span[text()= '%s'])[2]/..";
+    private String valueRow = "//span[@class='fieldlabelright' and text()='%s']/..";
 
     @Override
     public String getRelativePath()
@@ -80,22 +103,57 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
         return (UserProfilePage) renderedPage();
     }
 
-    /**
-     * Open User Info page from the my profile navigation links
-     *
-     * @param myProfileNavigation
-     * @return {@link UserProfilePage}
-     */
-    public UserProfilePage openFromNavigationLink(MyProfileNavigation myProfileNavigation)
-    {
-        myProfileNavigation.clickInfo();
-        return (UserProfilePage) this.renderedPage();
-    }
-
     public UserProfilePage assertUserProfilePageIsOpened()
     {
         Assert.assertTrue(browser.isElementDisplayed(infoLink), "User profile page is opened");
-        Assert.assertTrue(browser.isElementDisplayed(aboutHeader), "User profile page is opened");
+        return this;
+    }
+
+    public UserProfilePage assertInfoLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(infoLink), "Info link is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertSitesLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(sitesLink), "Sites link is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertContentLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(contentLink), "Content link is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertImFollowingLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(followingLink), "Following link is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertFollowingMeLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(followersLink), "Following Me link is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertChangePasswordLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(changePasswordLink), "Change password link is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertNotificationsLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(notificationLink), "Notifications link is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertTrashcanLinkIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(trashcanLink), "Trashcan link is displayed");
         return this;
     }
 
@@ -106,35 +164,38 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
      */
     public boolean isAboutHeaderDisplayed()
     {
-        return browser.isElementDisplayed(aboutHeader);
+        return browser.isElementDisplayed(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
     }
 
-    /**
-     * Verify if Contact Information header is displayed
-     *
-     * @return true if displayed
-     */
-    public boolean isContactInfoHeaderDisplayed()
+    public UserProfilePage assertAboutHeaderIsDisplayed()
     {
-        return browser.isElementDisplayed(contactInfoHeader);
+        Assert.assertNotNull(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.about")),
+            "About is displayed");
+        return this;
     }
 
-    /**
-     * Verify if Company Details header is displayed
-     *
-     * @return true if displayed
-     */
-    public boolean isCompanyDetailsHeaderDisplayed()
+    public UserProfilePage assertContactInfoHeaderIsDisplayed()
     {
-        return browser.isElementDisplayed(companyDetails);
+        Assert.assertNotNull(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.contactInfo")),
+            "About is displayed");
+        return this;
+    }
+
+    public UserProfilePage assertCompanyDetailsHeaderIsDisplayed()
+    {
+        Assert.assertNotNull(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.companyDetails")),
+            "About is displayed");
+        return this;
     }
 
     /**
      * Click Edit Profile button
      */
-    public void clickEditProfile()
+    public EditUserProfilePage clickEditProfile()
     {
+        LOG.info("Click Edit Profile");
         editProfile.click();
+        return (EditUserProfilePage) editUserProfilePage.renderedPage();
     }
 
     public String getNameLabel()
@@ -142,60 +203,104 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
         return nameLabel.getText();
     }
 
-    public String getUserSummary()
+    public UserProfilePage assertSummaryIs(String summaryValue)
     {
-        return summary.getText();
+        LOG.info(String.format("Assert summary value is: %s", summaryValue));
+        Assert.assertEquals(summary.getText(), summaryValue, "Summary is correct");
+        return this;
     }
 
-    public List<String> getAboutUserInfo()
+    private List<String> getAboutUserInfo()
     {
-        List<String> userInfo = new ArrayList<>();
-        for (WebElement aboutUserDetail : aboutUserDetails)
-        {
-            userInfo.add(aboutUserDetail.getText());
-        }
-        return userInfo;
+        return aboutUserDetails.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    /**
-     * Get the Contact Informations and Company Details
-     *
-     * @return Map<String, String> field label and value
-     */
-    public Map<String, String> getUserInformation()
+    public UserProfilePage assertAboutUserHasValues(String... values)
     {
-        Map<String, String> userInfo = new LinkedHashMap<>();
-        for (WebElement info : userInformations)
-        {
-            String key = info.findElement(By.cssSelector(".fieldlabelright")).getText().replace(":", "");
-            String value = info.findElement(By.cssSelector(".fieldvalue")).getText();
-            // manage duplicate keys (for Telephone and Email)
-            switch (key)
-            {
-                case "Telephone":
-                    if (userInfo.get("Telephone") != null)
-                    {
-                        userInfo.put("CompanyTelephone", value);
-                    } else
-                    {
-                        userInfo.put(key, value);
-                    }
-                    break;
-                case "Email":
-                    if (userInfo.get("Email") != null)
-                    {
-                        userInfo.put("CompanyEmail", value);
-                    } else
-                    {
-                        userInfo.put(key, value);
-                    }
-                    break;
-                default:
-                    userInfo.put(key, value);
-                    break;
-            }
+        LOG.info(String.format("Assert values '%s' are displayed in About User section", Arrays.asList(values)));
+        Assert.assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
+        return this;
+    }
 
-        }
-        return userInfo;
+    public UserProfilePage assertUserInfoIsEmpty()
+    {
+        LOG.info("Assert About user has no values");
+        Assert.assertTrue(getAboutUserInfo().isEmpty(), "User info has no values");
+        return this;
+    }
+
+    private UserProfilePage checkValue(String element, String label, String value)
+    {
+        Assert.assertEquals(browser.findElement(By.xpath(String.format(element,
+            language.translate(label))))
+            .findElement(fieldValue).getText(), value);
+        return this;
+    }
+
+    public UserProfilePage assertContactInformationEmailIs(String expectedEmail)
+    {
+        return checkValue(contactInfoDuplicateRow, "adminTools.user.email", expectedEmail);
+    }
+
+    public UserProfilePage assertContactInformationTelephoneIs(String expectedTelephone)
+    {
+        return checkValue(contactInfoDuplicateRow, "adminTools.user.telephone", expectedTelephone);
+    }
+
+    public UserProfilePage assertContactInformationMobileIs(String expectedMobile)
+    {
+        return checkValue(valueRow, "adminTools.user.mobile", expectedMobile);
+    }
+
+    public UserProfilePage assertContactInformationSkypeIs(String expectedSkype)
+    {
+        return checkValue(valueRow, "adminTools.user.skype", expectedSkype);
+    }
+
+    public UserProfilePage assertContactInformationIMIs(String expectedIM)
+    {
+        return checkValue(valueRow, "adminTools.user.IM", expectedIM);
+    }
+
+    public UserProfilePage assertContactInformationGoogleUserNameIs(String expectedGoogleUserName)
+    {
+        return checkValue(valueRow, "adminTools.user.googleUsername", expectedGoogleUserName);
+    }
+
+    public UserProfilePage assertCompanyNameIs(String expectedCompanyName)
+    {
+        return checkValue(valueRow, "adminTools.user.name", expectedCompanyName);
+    }
+
+    public UserProfilePage assertCompanyAddressIs(String expectedCompanyAddress)
+    {
+        return checkValue(valueRow, "adminTools.user.address", expectedCompanyAddress);
+    }
+
+    public UserProfilePage assertCompanyTelephoneIs(String expectedCompanyTelephone)
+    {
+        return checkValue(companyInfoDuplicateRow, "adminTools.user.telephone", expectedCompanyTelephone);
+    }
+
+    public UserProfilePage assertCompanyFaxIs(String expectedCompanyFax)
+    {
+        return checkValue(valueRow, "adminTools.user.fax", expectedCompanyFax);
+    }
+
+    public UserProfilePage assertCompanyEmailIs(String expectedCompanyEmail)
+    {
+        return checkValue(companyInfoDuplicateRow, "adminTools.user.email", expectedCompanyEmail);
+    }
+
+    public UserProfilePage assertDefaultAvatarIsDisplayed()
+    {
+        Assert.assertTrue(photo.getAttribute("src").contains("no-user-photo-64.png"));
+        return this;
+    }
+
+    public UserProfilePage assertNewAvatarIsDisplayed()
+    {
+        Assert.assertTrue(photo.getAttribute("src").contains("/content/thumbnails/avatar"));
+        return this;
     }
 }

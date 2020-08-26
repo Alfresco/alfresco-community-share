@@ -15,6 +15,7 @@ public class ConfirmDeletionDialog extends ConfirmationDialog
 {
     @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CANCEL_label")
     protected Button dialogNoButton;
+
     @RenderWebElement
     @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title")
     private WebElement dialogTitle;

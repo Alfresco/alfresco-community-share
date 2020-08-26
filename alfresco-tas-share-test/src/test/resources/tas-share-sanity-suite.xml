@@ -10,7 +10,7 @@
    </listeners>
    <test name="Search">
       <classes>
-         <class name="org.alfresco.share.WelcomePanelTests">
+         <class name="org.alfresco.share.userDashboard.WelcomePanelTests">
             <methods>
                <include name="verifyWelcomePanel" />
             </methods>

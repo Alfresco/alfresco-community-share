@@ -10,6 +10,7 @@ import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -124,14 +125,11 @@ public class EnteringSiteTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingMyProfileSites()
     {
-        userSitesListPage.navigate(user1);
-
-        LOG.info("STEP 1: Verify 'User Sites List' from 'My Profile' - 'Sites' page.");
-        assertTrue(userSitesListPage.isSitePresent(siteName), siteName + " should be found.");
+        userSitesListPage.navigate(user1)
+            .assertSiteIsDisplayed(new SiteModel(siteName));
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        userSitesListPage.clickSite(siteName);
-        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        userSitesListPage.clickSite(new SiteModel(siteName)).assertSiteDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2982")
@@ -139,12 +137,12 @@ public class EnteringSiteTests extends ContextAwareWebTest
     public void accessSiteUsingSitesMenuMySites()
     {
         userDashboardPage.navigate(user1);
-        toolbar.clickSites().clickMySites();
+        toolbar.clickSites().clickMySites()
+            .assertSiteIsDisplayed(new SiteModel(siteName));
         LOG.info("STEP 1: Verify the sites from 'User Sites List' list.");
-        assertTrue(userSitesListPage.isSitePresent(siteName), siteName + " should be found.");
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        userSitesListPage.clickSite(siteName);
+        userSitesListPage.clickSite(new SiteModel(siteName));
         assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 

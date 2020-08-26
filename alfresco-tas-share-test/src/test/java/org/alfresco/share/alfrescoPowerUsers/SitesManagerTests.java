@@ -67,7 +67,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     {
         sitesManagerPage.navigate()
             .assertSiteManagerPageIsOpened()
-            .assertPageTitleIs(language.translate("adminTools.sitesManager.pageTitle"))
+            .assertBrowserPageTitleIs(language.translate("adminTools.sitesManager.browser.pageTitle"))
             .assertTableHasAllColumns()
             .usingSite(site1)
                 .assertSiteDescriptionIs(siteDescription)

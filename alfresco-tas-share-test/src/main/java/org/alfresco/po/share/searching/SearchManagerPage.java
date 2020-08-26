@@ -7,10 +7,12 @@ import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 /**
  * Created by Claudia Agache on 8/16/2016.
@@ -18,17 +20,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SearchManagerPage extends SharePage<SearchManagerPage>
 {
+    @Autowired
+    private CreateNewFilterDialog createNewFilterDialog;
+
     private static final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
     private static final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");
     private static final By FILTER_REORDER_DOWN = By.cssSelector("td:nth-of-type(1) span.down>img");
     private static final By FILTER_ID = By.cssSelector("td:nth-of-type(2) span.inner");
     private static final By FILTER_NAME = By.cssSelector("td:nth-of-type(3) span.inlineEditValue");
-    private static final By FILTER_PROPERTY = By.cssSelector("td:nth-of-type(4) span.inlineEditValue");
+    private static final By FILTER_PROPERTY = By.cssSelector("td[id^='SEARCH_CONFIG_FACET_QNAME_CELL_ITEM']");
     private static final By FILTER_TYPE = By.cssSelector("td:nth-of-type(5) span.inlineEditValue");
     private static final By FILTER_SHOW = By.cssSelector("td:nth-of-type(6) span.inlineEditValue");
     private static final By FILTER_DEFAULT = By.cssSelector("td:nth-of-type(7)");
     private static final By FILTER_AVAILABILITY = By.cssSelector("td:nth-of-type(8)");
-    private static final By FILTER_DELETE_IMAGE = By.cssSelector("td:nth-of-type(9)>span");
+    private static final By FILTER_DELETE_IMAGE = By.cssSelector("td[id^='SEARCH_CONFIG_ACTIONS_CELL_ITEM'] > span");
     private static final By EDIT_ICON = By.cssSelector("img.editIcon");
     private static final By EDIT_INPUT = By.cssSelector("input.dijitInputInner");
     private static final By EDIT_DROPDOWN = By.cssSelector("div.control-row table.dijitSelect");
@@ -38,25 +43,28 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     private static final By EDIT_SAVE = By.cssSelector("span[class*='alfresco-buttons-AlfButton confirmationButton'] span");
     private static final By EDIT_CANCEL = By.cssSelector("span[class*='alfresco-buttons-AlfButton cancelButton']");
     private static final By PARENT = By.xpath("..");
+
     @Autowired
-    ConfirmDeletionDialog confirmDeletionDialog;
+    private ConfirmDeletionDialog confirmDeletionDialog;
+
     @RenderWebElement
     @FindBy (id = "CREATE_FACET_BUTTON_label")
     private WebElement createNewFilter;
-    @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ROW"))
+
+    @FindAll (@FindBy (id = "SEARCH_CONFIG_FACET_LIST_VIEW_ROW"))
     private List<WebElement> filters;
+
     @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label"))
     private List<WebElement> filterTableColumns;
+
     @FindBy (css = "input.dijitReset.dijitInputField.dijitArrowButtonInner")
     private WebElement filterPropertyDropDownArrow;
+
     @FindAll (@FindBy (css = "div[id ='SEARCH_CONFIG_FACET_QNAME_ITEM_0_SELECT_CONTROL_dropdown'] tbody.dijitReset"))
     private List<WebElement> filterPropertyOptions;
 
-    private WebElement selectFilterProperty(String filterPropertyText)
-    {
-        browser.waitUntilElementVisible(By.xpath("//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='" + filterPropertyText + "']"));
-        return browser.findElement(By.xpath("//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='" + filterPropertyText + "']"));
-    }
+    private String filterProperty = "//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='%s']";
+    private By notificationMessage = By.cssSelector("div[class^='alfresco-notifications-AlfNotification']");
 
     @Override
     public String getRelativePath()
@@ -64,9 +72,49 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
         return "share/page/dp/ws/faceted-search-config";
     }
 
-    private WebElement getFilterById(String filterId)
+    @Override
+    public void waitUntilMessageDisappears()
+    {
+        try
+        {
+            getBrowser().waitUntilElementVisible(notificationMessage, 5);
+            getBrowser().waitUntilElementDisappears(notificationMessage);
+        }
+        catch (TimeoutException exception)
+        {
+            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
+        }
+    }
+
+    public SearchManagerPage assertSearchManagerPageIsOpened()
+    {
+        LOG.info("Assert Search Manager page is opened");
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
+        return this;
+    }
+
+    private WebElement selectFilterProperty(String filterPropertyText)
+    {
+        return browser.waitUntilElementVisible(By.xpath(String.format(filterProperty, filterPropertyText)));
+    }
+
+    private WebElement getFilterRowById(String filterId)
     {
         return browser.findFirstElementWithValue(filters, filterId);
+    }
+
+    public SearchManagerPage assertFilterIsDisplayed(String filterId)
+    {
+        LOG.info(String.format("Assert filter %s is displayed", filterId));
+        Assert.assertNotNull(getFilterRowById(filterId), String.format("Filter %s is displayed", filterId));
+        return this;
+    }
+
+    public SearchManagerPage assertFilterIsNotDisplayed(String filterId)
+    {
+        LOG.info(String.format("Assert filter %s is NOT displayed", filterId));
+        Assert.assertNull(getFilterRowById(filterId), String.format("Filter %s is displayed", filterId));
+        return this;
     }
 
     /**
@@ -114,10 +162,10 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      *
      * @return
      */
-    public CreateNewFilterPopup createNewFilter()
+    public CreateNewFilterDialog createNewFilter()
     {
         createNewFilter.click();
-        return new CreateNewFilterPopup();
+        return (CreateNewFilterDialog) createNewFilterDialog.renderedPage();
     }
 
     /**
@@ -139,7 +187,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public String getFilterName(String filterId)
     {
-        return getFilterById(filterId).findElement(FILTER_NAME).getText();
+        return getFilterRowById(filterId).findElement(FILTER_NAME).getText();
     }
 
     /**
@@ -148,10 +196,15 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      * @param filterId
      * @return
      */
-    public String getFilterProperty(String filterId, String text)
+    public String getFilterProperty(String filterId)
     {
-        browser.waitUntilElementContainsText(getFilterById(filterId).findElement(FILTER_PROPERTY), text);
-        return getFilterById(filterId).findElement(FILTER_PROPERTY).getText();
+        return getFilterRowById(filterId).findElement(FILTER_PROPERTY).getText();
+    }
+
+    public SearchManagerPage assertFilterPropertyIs(String filterId, String expectedProperty)
+    {
+        Assert.assertEquals(getFilterProperty(filterId), expectedProperty, String.format("Filter property '%s' is set", expectedProperty));
+        return this;
     }
 
     /**
@@ -162,7 +215,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public String getFilterType(String filterId)
     {
-        return getFilterById(filterId).findElement(FILTER_TYPE).getText();
+        return getFilterRowById(filterId).findElement(FILTER_TYPE).getText();
     }
 
     /**
@@ -173,7 +226,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public String getShowWithSearchResults(String filterId)
     {
-        return getFilterById(filterId).findElement(FILTER_SHOW).getText();
+        return getFilterRowById(filterId).findElement(FILTER_SHOW).getText();
     }
 
     /**
@@ -184,7 +237,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public String getFilterAvailability(String filterId)
     {
-        return getFilterById(filterId).findElement(FILTER_AVAILABILITY).getText();
+        return getFilterRowById(filterId).findElement(FILTER_AVAILABILITY).getText();
     }
 
     /**
@@ -195,13 +248,20 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public boolean isFilterDeletable(String filterId)
     {
-        return getFilterById(filterId).findElements(FILTER_DELETE_IMAGE).size() != 0;
+        return getFilterRowById(filterId).findElements(FILTER_DELETE_IMAGE).size() != 0;
     }
 
-    public ConfirmDeletionDialog deleteFilter(String filterId)
+    public ConfirmDeletionDialog clickDeleteFilter(String filterId)
     {
-        getFilterById(filterId).findElement(FILTER_DELETE_IMAGE).click();
+        getFilterRowById(filterId).findElement(FILTER_DELETE_IMAGE).click();
         return (ConfirmDeletionDialog) confirmDeletionDialog.renderedPage();
+    }
+
+    public SearchManagerPage deleteFilter(String filterId)
+    {
+        clickDeleteFilter(filterId).clickOKButton();
+        waitUntilMessageDisappears();
+        return this;
     }
 
     /**
@@ -227,17 +287,18 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      * Change the given filterProperty and click on Save button
      */
 
-    public SearchManagerPage editFilterProperty(String filterProperty, String newFilterProperty)
+    public SearchManagerPage editFilterProperty(String filterId, String newFilterProperty)
     {
-        WebElement filter = browser.findFirstElementWithValue(FILTER_PROPERTY, filterProperty);
-        WebElement filterParent = filter.findElement(PARENT);
-        browser.mouseOver(filter);
-        browser.waitUntilElementClickable(filterParent.findElement(EDIT_ICON), 6L);
-        filterParent.findElement(EDIT_ICON).click();
-        filterPropertyDropDownArrow.click();
+        WebElement filterRow = getFilterRowById(filterId);
+        WebElement filterProp = filterRow.findElement(FILTER_PROPERTY);
+        WebElement editIcon = filterProp.findElement(EDIT_ICON);
+        browser.mouseOver(editIcon);
+        browser.waitUntilElementClickable(editIcon).click();
+        browser.waitUntilElementVisible(filterPropertyDropDownArrow).click();
         selectFilterProperty(newFilterProperty).click();
-        filterParent.findElement(EDIT_SAVE).click();
-        return (SearchManagerPage) this.renderedPage();
+        browser.waitUntilElementClickable(filterRow.findElement(EDIT_SAVE)).click();
+        waitUntilMessageDisappears();
+        return this;
     }
 
     /**
@@ -267,7 +328,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public String getUpTooltipForFilter(String filterId)
     {
-        return getFilterById(filterId).findElement(FILTER_REORDER_UP).getAttribute("title");
+        return getFilterRowById(filterId).findElement(FILTER_REORDER_UP).getAttribute("title");
     }
 
     /**
@@ -278,7 +339,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public String getDownTooltipForFilter(String filterId)
     {
-        return getFilterById(filterId).findElement(FILTER_REORDER_DOWN).getAttribute("title");
+        return getFilterRowById(filterId).findElement(FILTER_REORDER_DOWN).getAttribute("title");
     }
 
     /**
@@ -289,7 +350,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public SearchManagerPage moveFilterUp(String filterId)
     {
-        getFilterById(filterId).findElement(FILTER_REORDER_UP).click();
+        getFilterRowById(filterId).findElement(FILTER_REORDER_UP).click();
         return (SearchManagerPage) this.renderedPage();
     }
 
@@ -301,7 +362,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public SearchManagerPage moveFilterDown(String filterId)
     {
-        getFilterById(filterId).findElement(FILTER_REORDER_DOWN).click();
+        getFilterRowById(filterId).findElement(FILTER_REORDER_DOWN).click();
         return (SearchManagerPage) this.renderedPage();
     }
 
@@ -317,7 +378,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
         {
             if (filters.get(i).findElement(FILTER_DEFAULT).getText().equals("No"))
             {
-                this.deleteFilter(filters.get(i).findElement(FILTER_ID).getText());
+                this.clickDeleteFilter(filters.get(i).findElement(FILTER_ID).getText());
                 confirmDeletionDialog.clickOKButton();
                 browser.refresh();
                 browser.waitUntilElementIsDisplayedWithRetry(FILTER_ROWS);

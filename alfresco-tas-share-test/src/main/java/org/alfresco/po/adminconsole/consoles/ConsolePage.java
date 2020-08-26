@@ -5,6 +5,7 @@ import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
@@ -76,7 +77,14 @@ public abstract class ConsolePage<T> extends AdminConsolePage<T>
             retry++;
             Utility.waitToLoopTime(1, "Wait until tenant command is executed");
             browser.waitUntilElementIsPresent(resultBy);
-            resultElement = browser.findFirstElementWithValue(resultBy, result);
+            try
+            {
+                resultElement = browser.findFirstElementWithValue(resultBy, result);
+            }
+            catch (StaleElementReferenceException e)
+            {
+                continue;
+            }
         }
         LOG.info(String.format("Result is: '%s'", browser.findElement(resultBy).getText()));
     }
