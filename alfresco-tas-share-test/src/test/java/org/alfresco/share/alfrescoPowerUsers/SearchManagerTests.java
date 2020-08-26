@@ -47,7 +47,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         String filterId = RandomData.getRandomAlphanumeric();
         setupAuthenticatedSession(searchAdmin);
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
-        dataGroup.usingUser(userAdmin).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
+        dataGroup.usingUser(searchAdmin).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
         setupAuthenticatedSession(searchAdmin);
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
             .clickSearchManagerLink()
