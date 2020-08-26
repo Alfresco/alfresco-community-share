@@ -481,7 +481,6 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
     {
         LOG.info("Close available dashlets");
         closeAddDashlets.click();
-        browser.waitUntilElementHasAttribute(availableDashletList, "style", "display: none");
         return (T) this;
     }
 
@@ -511,8 +510,9 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
      * @param fromColumn
      * @param toColumn
      */
-    public void moveAddedDashletInColumn(Dashlets addedDashlet, int fromColumn, int toColumn)
+    public T moveAddedDashletInColumn(Dashlets addedDashlet, int fromColumn, int toColumn)
     {
+        LOG.info(String.format("Move dashlet %s from column %s to %s", addedDashlet.getDashletName(), fromColumn, toColumn));
         WebElement dashToMove = getDashletToMove(addedDashlet, fromColumn);
         dashToMove.click();
         browser.waitUntilElementHasAttribute(dashToMove, "class", "dnd-focused");
@@ -520,6 +520,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
         target.click();
         dragAndDropDashlet(dashToMove, target);
         retryAddDashlet(addedDashlet, dashToMove, target, toColumn);
+        return (T) this;
     }
 
     /**
@@ -596,7 +597,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
         }
     }
 
-    public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column, int columnPositionToCheck)
+    public T reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column, int columnPositionToCheck)
     {
         List<WebElement> dashlets = reorderDashletsInColumn(dashletToMove, dashletToReplace, column);
         dashlets.get(1).click();
@@ -606,6 +607,6 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
             LOG.info("Retry reorder dashlet");
             browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
         }
-        return dashlets;
+        return (T) this;
     }
 }

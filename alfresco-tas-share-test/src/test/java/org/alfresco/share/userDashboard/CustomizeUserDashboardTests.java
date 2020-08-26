@@ -1,17 +1,19 @@
 package org.alfresco.share.userDashboard;
 
-import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
+import org.alfresco.po.share.DashboardCustomization.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.SavedSearchDashlet;
 import org.alfresco.po.share.user.CustomizeUserDashboardPage;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -20,10 +22,7 @@ import org.testng.annotations.Test;
 public class CustomizeUserDashboardTests extends ContextAwareWebTest
 {
     @Autowired
-    CustomizeUserDashboardPage customizeUserDashboard;
-
-    @Autowired
-    UserDashboardPage userDashboard;
+    private CustomizeUserDashboardPage customizeUserDashboard;
 
     @Autowired
     MySitesDashlet mySitesDashlet;
@@ -31,51 +30,43 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Autowired
     SavedSearchDashlet savedSearchDashlet;
 
+    private UserModel user;
+
+    @BeforeClass(alwaysRun = true)
+    public void setup()
+    {
+        user = dataUser.usingAdmin().createRandomTestUser();
+        setupAuthenticatedSession(user);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp()
+    {
+        removeUserFromAlfresco(user);
+    }
+
     @TestRail (id = "C2853")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void changeDefaultDashlets()
     {
-        String userName = String.format("user2853-%s%s", RandomData.getRandomAlphanumeric(), domain);
-        userService.create(adminUser, adminPassword, userName, password, userName, "C2853", "lname");
+        customizeUserDashboard.navigate()
+            .clickAddDashlet()
+            .assertAvailableDashletsSectionIsDisplayed()
+            .clickCloseAvailabeDashlets()
+            .assertAvailableDashletsSectionIsNotDisplayed()
+            .clickAddDashlet()
+            .addDashlet(Dashlets.SAVED_SEARCH, 1)
+                .assertDashletIsAddedInColumn(Dashlets.SAVED_SEARCH, 1)
+            .removeDashlet(Dashlets.SAVED_SEARCH, 1)
+                .assertDashletIsNotAddedInColumn(Dashlets.SAVED_SEARCH, 1)
+            .moveAddedDashletInColumn(Dashlets.MY_SITES, 1, 2)
+                .assertDashletIsAddedInColumn(Dashlets.MY_SITES, 2)
+            .reorderDashletsInColumn(Dashlets.MY_ACTIVITIES, Dashlets.MY_DOCUMENTS, 2, 2)
+            .clickOk();
 
-        LOG.info("Step 1 - Click 'Customize Dashboard' on the dashboard banner");
-        setupAuthenticatedSession(userName, password);
-        customizeUserDashboard.navigate();
-        Assert.assertTrue(customizeUserDashboard.getCurrentLayout().equals(Layout.TWO_COLUMNS_WIDE_RIGHT.description),
-            "Two columns wide right layout is not displayed");
-
-        LOG.info("Step 2 - Click 'Add Dashlets' to display the available dashlets");
-        customizeUserDashboard.clickAddDashlet();
-        Assert.assertTrue(customizeUserDashboard.isAvailableDashletListDisplayed(), "Available dashlets section is not opened");
-
-        LOG.info("Step 3 - Click 'Close' link to the top right of the section");
-        customizeUserDashboard.clickCloseAvailabeDashlets();
-        Assert.assertFalse(customizeUserDashboard.isAvailableDashletListDisplayed(), "Available dashlets section is still opened");
-
-        LOG.info("Step 4 - Open 'Add Dashlets' section again. Move the scrollbar up and down");
-        customizeUserDashboard.clickAddDashlet();
-
-        LOG.info("Step 5 - Click the any dashlet and drag it to the selected column");
-        customizeUserDashboard.addDashlet(Dashlets.SAVED_SEARCH, 1);
-        Assert.assertTrue(customizeUserDashboard.isDashletAddedInColumn(Dashlets.SAVED_SEARCH, 1), "Saved Search dashlet is not added in column 1");
-
-        LOG.info("Step 6 - Click the unwanted dashlet and drag it to the garbage can");
-        customizeUserDashboard.removeDashlet(Dashlets.SAVED_SEARCH, 1);
-        Assert.assertFalse(customizeUserDashboard.isDashletAddedInColumn(Dashlets.SAVED_SEARCH, 1), "Saved Search dashlet is still in column 1");
-
-        LOG.info("Step 7 - Click and drag the dashlets within and across columns to configure the display order");
-        customizeUserDashboard.moveAddedDashletInColumn(Dashlets.MY_SITES, 1, 2);
-        Assert.assertTrue(customizeUserDashboard.isDashletAddedInColumn(Dashlets.MY_SITES, 2), "My Sites dashlet is not added in column 2");
-        customizeUserDashboard.reorderDashletsInColumn(Dashlets.MY_ACTIVITIES, Dashlets.MY_DOCUMENTS, 2, 2);
-
-        LOG.info("Step 8 - Click OK to save changes");
-        customizeUserDashboard.clickOk();
         Assert.assertTrue(userDashboard.isCustomizeUserDashboardDisplayed(), "User Dashboard page is not opened");
         Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_DOCUMENTS, 2, 1), "My Documents dashlet is not in column 2 position 1");
         Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_ACTIVITIES, 2, 2), "My Activities dashlet is not in column 2 position 2");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
     @TestRail (id = "C2855")
