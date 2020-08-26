@@ -18,18 +18,6 @@ public class FollowingPage extends SharePage<FollowingPage>
     public FollowingPage navigate(String userName)
     {
         setUserName(userName);
-        return (FollowingPage) navigate();
-    }
-
-    /**
-     * Open I'm Following page from the my profile navigation links
-     *
-     * @param myProfileNavigation
-     * @return {@link FollowingPage}
-     */
-    public FollowingPage openFromNavigationLink(MyProfileNavigation myProfileNavigation)
-    {
-        myProfileNavigation.clickFollowing();
-        return (FollowingPage) this.renderedPage();
+        return navigate();
     }
 }

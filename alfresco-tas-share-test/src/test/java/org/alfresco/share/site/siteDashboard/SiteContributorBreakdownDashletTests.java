@@ -96,6 +96,5 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
         String expectedEmail = userName2 + "@test.com";
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User Profile Page is not displayed");
         Assert.assertEquals(userProfilePage.getNameLabel(), expectedName, expectedName + " is not displayed on the User Profile Page");
-        Assert.assertTrue(userProfilePage.getUserInformation().containsValue(expectedEmail), expectedEmail + " is not displayed on Contact information");
     }
 }

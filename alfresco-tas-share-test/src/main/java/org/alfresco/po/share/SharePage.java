@@ -175,7 +175,7 @@ public abstract class SharePage<T> extends HtmlPage
         return (T) renderedPage();
     }
 
-    public T assertPageTitleIs(String expectedTitle)
+    public T assertBrowserPageTitleIs(String expectedTitle)
     {
         Assert.assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
         return (T) renderedPage();
@@ -235,6 +235,12 @@ public abstract class SharePage<T> extends HtmlPage
         {
             // do nothing as alert is not present
         }
+    }
+
+    public void clearAndType(WebElement webElement, String value)
+    {
+        webElement.clear();
+        webElement.sendKeys(value);
     }
 
     public T waitForLoadingMessageToDisappear()

@@ -6,7 +6,7 @@ import org.alfresco.utility.web.annotation.PageObject;
  * Created by Claudia Agache on 8/23/2016.
  */
 @PageObject
-public class EditFilterPopup extends CreateNewFilterPopup
+public class EditFilterPopup extends CreateNewFilterDialog
 {
     public Boolean isDialogDisplayed(String filterId)
     {

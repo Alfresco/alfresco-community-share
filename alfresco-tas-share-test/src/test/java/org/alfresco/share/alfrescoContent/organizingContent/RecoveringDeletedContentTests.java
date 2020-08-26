@@ -13,7 +13,6 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.user.profile.MyProfileNavigation;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -40,8 +39,6 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     private DeleteDialog deleteDialog;
     @Autowired
     private UserProfilePage userProfilePage;
-    @Autowired
-    private MyProfileNavigation myProfileNavigation;
     @Autowired
     private UserTrashcanPage userTrashcanPage;
 
@@ -81,10 +78,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedDisplayedContent1.toString(), "Displayed files in 'Documents' list=");
 
         LOG.info("STEP2: Open the user menu on the toolbar and click 'My Profile' then the 'Trashcan' tab.");
-        userProfilePage.navigate(userName);
-        assertEquals(userProfilePage.getPageTitle(), "Alfresco » User Profile Page", "Displayed page=");
-        myProfileNavigation.clickTrashcan();
-        assertEquals(userTrashcanPage.getPageTitle(), "Alfresco » User Trashcan", "Displayed page=");
+        userTrashcanPage.navigate(userName);
         ArrayList<String> trashcanItems = new ArrayList<>(Arrays.asList(fileName2, fileName1));
         assertEquals(userTrashcanPage.getItemsNamesList(), trashcanItems.toString(), "Trashcan items=");
         assertEquals(userTrashcanPage.verifyItemButtons(), "ok", "Trashcan item's displayed buttons 'Recover' and 'Delete'.");
@@ -143,9 +137,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         ArrayList<String> expectedDisplayedContent1 = new ArrayList<>(Collections.singletonList(folderName3));
         assertTrue(documentLibraryPage.getFoldersList().toString().contains(expectedDisplayedContent1.toString()), "Displayed files in 'Documents' list=");
         LOG.info("STEP2: Open the user menu on the toolbar and click 'My Profile' then the 'Trashcan' tab");
-        userProfilePage.navigate(userName);
-        assertEquals(userProfilePage.getPageTitle(), "Alfresco » User Profile Page", "Displayed page=");
-        myProfileNavigation.clickTrashcan();
+        userTrashcanPage.navigate(userName);
         assertEquals(userTrashcanPage.getPageTitle(), "Alfresco » User Trashcan", "Displayed page=");
         ArrayList<String> trashcanItems = new ArrayList<>(Arrays.asList(folderName2, folderName1));
         assertEquals(userTrashcanPage.getItemsNamesList(), trashcanItems.toString(), "Trashcan items=");

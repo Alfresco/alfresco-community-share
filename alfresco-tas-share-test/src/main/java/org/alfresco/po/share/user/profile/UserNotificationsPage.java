@@ -20,16 +20,4 @@ public class UserNotificationsPage extends SharePage<UserNotificationsPage>
         setUserName(userName);
         return (UserNotificationsPage) navigate();
     }
-
-    /**
-     * Open Notifications page from the my profile navigation links
-     *
-     * @param myProfileNavigation
-     * @return {@link UserNotificationsPage}
-     */
-    public UserNotificationsPage openFromNavigationLink(MyProfileNavigation myProfileNavigation)
-    {
-        myProfileNavigation.clickContent();
-        return (UserNotificationsPage) this.renderedPage();
-    }
 }

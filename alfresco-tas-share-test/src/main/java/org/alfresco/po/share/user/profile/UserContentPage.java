@@ -1,10 +1,12 @@
 package org.alfresco.po.share.user.profile;
 
 import org.alfresco.po.share.SharePage;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 /**
  * @author bogdan.bocancea
@@ -16,56 +18,54 @@ public class UserContentPage extends SharePage<UserContentPage>
     @FindBy (css = ".viewcolumn>div:nth-child(1)")
     private WebElement recentlyAddedLabel;
 
-    @RenderWebElement
-    @FindBy (xpath = ".//*[@id='template_x002e_user-content_x002e_user-content_x0023_default-body']/div/p[1]")
+    @FindBy (css = ".profile > div > p:nth-of-type(1)")
     private WebElement noAddedContentMessage;
 
     @RenderWebElement
     @FindBy (css = ".viewcolumn>div:nth-child(3)")
     private WebElement recentlyModfiedLabel;
 
-    @RenderWebElement
-    @FindBy (xpath = ".//*[@id='template_x002e_user-content_x002e_user-content_x0023_default-body']/div/p[2]")
+    @FindBy (css = ".profile > div > p:nth-of-type(2)")
     private WebElement noModifiedContentMessage;
 
-    public boolean isRecentlyAddedLabelDisplayed()
+    public UserContentPage assertRecentlyAddedLabelIsDisplayed()
     {
-        return browser.isElementDisplayed(recentlyAddedLabel);
+        LOG.info("Assert Recently Added Label is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(recentlyAddedLabel), "Recently Added Label is displayed");
+        return this;
     }
 
-    public boolean isNoAddedContentMessageDisplayed()
+    public UserContentPage assertNoAddedContentMessageIsDisplayed()
     {
-        return browser.isElementDisplayed(noAddedContentMessage);
+        LOG.info("No content added message is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(noAddedContentMessage), "No content added message is displayed");
+        return this;
     }
 
-    public boolean isRecentlyModfiedLabelDisplayed()
+    public UserContentPage assertRecentlyModifiedLabelIsDisplayed()
     {
-        return browser.isElementDisplayed(recentlyModfiedLabel);
+        LOG.info("Assert Recently Modified Label is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(recentlyModfiedLabel), "Recently Modified Label is displayed");
+        return this;
     }
 
-    public boolean isNoModifiedContentMessageDisplayed()
+    public UserContentPage assertNoModifiedContentMessageIsDisplayed()
     {
-        return browser.isElementDisplayed(noModifiedContentMessage);
+        LOG.info("No modified content message is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(noAddedContentMessage), "No modified content message is displayed");
+        return this;
     }
 
-    public String getRecentlyAddedLabelText()
+    public UserContentPage assertNoAddedContentMessageIsCorrect()
     {
-        return recentlyAddedLabel.getText();
+        Assert.assertEquals(noAddedContentMessage.getText(), language.translate("userProfileContent.noAddedContentMessage"));
+        return this;
     }
 
-    public String getNoAddedContentMessageText()
+    public UserContentPage assertNoModifiedContentMessageIsCorrect()
     {
-        return noAddedContentMessage.getText();
-    }
-
-    public String getRecentlyModfiedLabelText()
-    {
-        return recentlyModfiedLabel.getText();
-    }
-
-    public String getNoModifiedContentMessage()
-    {
-        return noModifiedContentMessage.getText();
+        Assert.assertEquals(noModifiedContentMessage.getText(), language.translate("userProfileContent.noModifiedContentMessage"));
+        return this;
     }
 
     @Override
@@ -74,21 +74,9 @@ public class UserContentPage extends SharePage<UserContentPage>
         return setRelativePathForUserPage("share/page/user/%s/user-content", getUserName());
     }
 
-    public UserContentPage navigate(String userName)
+    public UserContentPage navigate(UserModel user)
     {
-        setUserName(userName);
-        return (UserContentPage) navigate();
-    }
-
-    /**
-     * Open User Content page from the my profile navigation links
-     *
-     * @param myProfileNavigation
-     * @return {@link UserContentPage}
-     */
-    public UserContentPage openFromNavigationLink(MyProfileNavigation myProfileNavigation)
-    {
-        myProfileNavigation.clickContent();
-        return (UserContentPage) this.renderedPage();
+        setUserName(user.getUsername());
+        return navigate();
     }
 }

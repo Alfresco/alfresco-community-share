@@ -2,6 +2,7 @@ package org.alfresco.po.share.user.profile;
 
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -32,8 +33,17 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
     private TextInput confirmNewPassword;
 
     @RenderWebElement
-    @FindBy (css = "button[id*='default-button-ok']")
+    @FindBy (css = "button[id$='default-button-ok-button']")
     private WebElement okButton;
+
+    @FindBy (id = "prompt")
+    private WebElement errorPrompt;
+
+    @FindBy (css = "#prompt .bd")
+    private WebElement errorPromptMessage;
+
+    @FindBy (css = "#prompt button")
+    private WebElement errorPromptOKButton;
 
     @Override
     public String getRelativePath()
@@ -41,22 +51,10 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
         return setRelativePathForUserPage("share/page/user/%s/change-password", getUserName());
     }
 
-    public ChangePasswordPage navigate(String userName)
+    public ChangePasswordPage navigate(UserModel user)
     {
-        setUserName(userName);
+        setUserName(user.getUsername());
         return navigate();
-    }
-
-    /**
-     * Open Change Password page from the my profile navigation links
-     *
-     * @param myProfileNavigation
-     * @return {@link ChangePasswordPage}
-     */
-    public ChangePasswordPage openFromNavigationLink(MyProfileNavigation myProfileNavigation)
-    {
-        myProfileNavigation.clickChangePassword();
-        return (ChangePasswordPage) this.renderedPage();
     }
 
     @SuppressWarnings ("unchecked")
@@ -75,19 +73,19 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
 
     public void typeNewPassword(String newPasswordText)
     {
+        newPassword.clear();
         newPassword.sendKeys(newPasswordText);
     }
 
     public void typeConfirmNewPassword(String confirmNewPasswordText)
     {
+        confirmNewPassword.clear();
         confirmNewPassword.sendKeys(confirmNewPasswordText);
     }
 
-    public UserProfilePage clickOkButton()
+    public void clickOkButton()
     {
-        getBrowser().waitUntilElementVisible(okButton);
         getBrowser().waitUntilElementClickable(okButton).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
     public boolean isOldPasswordInputDisplayed()
@@ -98,6 +96,28 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
     public ChangePasswordPage assertChangePasswordPageIsOpened()
     {
         Assert.assertTrue(browser.getCurrentUrl().contains("change-password"), "Change password page is opened");
+        return this;
+    }
+
+    public UserProfilePage changePassword(String oldPassword, String newPassword)
+    {
+        typeOldPassword(oldPassword);
+        typeNewPassword(newPassword);
+        typeConfirmNewPassword(newPassword);
+        clickOkButton();
+        return (UserProfilePage) userProfilePage.renderedPage();
+    }
+
+    public ChangePasswordPage changePasswordAndExpectError(String oldPassword, String newPassword, String confirmPassword)
+    {
+        typeOldPassword(oldPassword);
+        typeNewPassword(newPassword);
+        typeConfirmNewPassword(confirmPassword);
+        clickOkButton();
+        browser.waitUntilElementVisible(errorPrompt);
+        Assert.assertEquals(errorPromptMessage.getText(), language.translate("changeUserPassword.errorPrompt.message"),
+            "Error prompt message is correct");
+        errorPromptOKButton.click();
         return this;
     }
 }

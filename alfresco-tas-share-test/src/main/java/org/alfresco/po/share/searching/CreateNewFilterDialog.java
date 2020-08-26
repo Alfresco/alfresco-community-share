@@ -20,61 +20,98 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
  */
 @Primary
 @PageObject
-public class CreateNewFilterPopup extends ShareDialog
+public class CreateNewFilterDialog extends ShareDialog
 {
     @RenderWebElement
     @FindBy (className = "dijitDialogTitle")
     protected WebElement dialogTitle;
-    @FindBy (id = "FORM_FILTER_ID")
-    protected WebElement filterId;
-    @FindBy (id = "FORM_DISPLAY_NAME")
-    protected WebElement filterName;
+
     @FindBy (css = "input[name='isEnabled']")
     protected CheckBox showWithSearch;
+
     @FindBy (id = "FORM_FACET_QNAME_CONTROL")
     protected WebElement filterPropertyInput;
+
     protected By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
+
     @FindBy (css = "div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem")
     protected List<WebElement> filterPropertyOptions;
+
     @FindBy (css = "table#FORM_SORTBY_CONTROL  div.dijitButtonText")
     protected WebElement sortByInput;
+
     @FindBy (css = "table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner")
     protected WebElement sortByArrow;
+
     protected By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
+
     @FindBy (css = "div#FORM_MAX_FILTERS input[role='spinbutton']")
     protected TextInput noFilters;
+
     @FindBy (css = "div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']")
     protected TextInput minFilterLength;
+
     @FindBy (css = "div#FORM_HIT_THRESHOLD input[role='spinbutton']")
     protected TextInput minRequiredResults;
+
     @FindBy (css = "div#FORM_SCOPE div.dijitButtonText")
     protected WebElement filterAvailabilityInput;
+
     @FindBy (css = "div#FORM_SCOPE input.dijitArrowButtonInner")
     protected WebElement filterAvailabilityArrow;
+
     protected By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
+
     @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img")
     protected WebElement sitesDoneEditingButton;
+
     @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img")
     protected WebElement sitesCancelEditingButton;
+
     @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]")
     protected WebElement sitesSiteNameArrow;
+
     protected By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
+
     @FindAll (@FindBy (css = "div.entries div.read-display"))
     protected List<WebElement> currentSitesEntries;
+
     @RenderWebElement
-    @FindBy (css = "span[id$='_OK_label']")
+    @FindBy (css = "span[id$='_OK']")
     protected WebElement saveButton;
+
     @FindBy (css = "span[id$='_CANCEL_label']")
     protected WebElement cancelButton;
+
     @FindBy (xpath = "//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']")
     protected WebElement closeButton;
-    protected By fieldValue = By.cssSelector("input.dijitInputInner+span");
-    protected By fieldInput = By.cssSelector("input.dijitInputInner");
-    protected By fieldDescription = By.cssSelector("div.description");
+
+    @RenderWebElement
+    @FindBy (css = "input[name='filterID']")
+    private WebElement filterIdInput;
+
+    @RenderWebElement
+    @FindBy (css = "input[name='displayName']")
+    protected WebElement filterNameInput;
+
+    @FindBy (css = "#FORM_FILTER_ID div.description")
+    private WebElement fieldIdDescription;
+
+    @FindBy (css = "#FORM_DISPLAY_NAME div.description")
+    private WebElement fieldNameDescription;
+
+    @FindBy (css = "#FORM_FILTER_ID .required")
+    private WebElement fieldIdMandatory;
+
+    @FindBy (css = "#FORM_DISPLAY_NAME .required")
+    private WebElement fieldNameMandatory;
+
     protected By requiredMark = By.className("required");
     protected By dropdownOptions = By.className("dijitMenuItemLabel");
+
     @Autowired
-    SearchManagerPage searchManagerPage;
+    private SearchManagerPage searchManagerPage;
+
     @FindBy (css = "#FORM_SCOPED_SITES div.button.add>img")
     private WebElement sitesAddButton;
 
@@ -83,34 +120,29 @@ public class CreateNewFilterPopup extends ShareDialog
         return browser.isElementDisplayed(dialogTitle) && dialogTitle.getText().equals("Create New Filter");
     }
 
-    public String getFilterIdValue()
-    {
-        return filterId.findElement(fieldValue).getText();
-    }
-
     public String getFilterNameValue()
     {
-        return filterName.findElement(fieldInput).getAttribute("value");
+        return filterNameInput.getAttribute("value");
     }
 
     public String getFilterIdDescription()
     {
-        return filterId.findElement(fieldDescription).getText();
+        return fieldIdDescription.getText();
     }
 
     public String getFilterNameDescription()
     {
-        return filterName.findElement(fieldDescription).getText();
+        return fieldNameDescription.getText();
     }
 
     public boolean isFilterIdMandatory()
     {
-        return browser.isElementDisplayed(filterId, requiredMark);
+        return browser.isElementDisplayed(fieldIdMandatory);
     }
 
     public boolean isFilterNameMandatory()
     {
-        return browser.isElementDisplayed(filterId, requiredMark);
+        return browser.isElementDisplayed(fieldNameMandatory);
     }
 
     public String getFilterProperty()
@@ -197,10 +229,11 @@ public class CreateNewFilterPopup extends ShareDialog
      *
      * @param value
      */
-    public void typeFilterId(String value)
+    public CreateNewFilterDialog typeFilterId(String value)
     {
-        filterId.findElement(fieldInput).clear();
-        filterId.findElement(fieldInput).sendKeys(value);
+        filterIdInput.clear();
+        filterIdInput.sendKeys(value);
+        return this;
     }
 
     /**
@@ -208,10 +241,11 @@ public class CreateNewFilterPopup extends ShareDialog
      *
      * @param value
      */
-    public void typeFilterName(String value)
+    public CreateNewFilterDialog typeFilterName(String value)
     {
-        filterName.findElement(fieldInput).clear();
-        filterName.findElement(fieldInput).sendKeys(value);
+        filterNameInput.clear();
+        filterNameInput.sendKeys(value);
+        return this;
     }
 
     /**
@@ -270,9 +304,9 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public SearchManagerPage clickSave()
     {
-        browser.waitUntilElementClickable(saveButton);
-        saveButton.click();
-        browser.waitInSeconds(5);
+        browser.waitUntilElementHasAttribute(saveButton, "aria-disabled", "false");
+        browser.waitUntilElementClickable(saveButton).click();
+        searchManagerPage.waitUntilMessageDisappears();
         return (SearchManagerPage) searchManagerPage.renderedPage();
     }
 

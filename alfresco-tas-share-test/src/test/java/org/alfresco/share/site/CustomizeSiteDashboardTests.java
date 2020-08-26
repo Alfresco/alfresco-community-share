@@ -1,7 +1,7 @@
 package org.alfresco.share.site;
 
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
+import org.alfresco.po.share.DashboardCustomization.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.site.CustomizeSiteDashboardPage;
@@ -104,7 +104,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(customizeSite.isFourColumnsLayoutDisplayed());
 
         LOG.info("Step 11 - Select 'Four columns' layout.");
-        customizeSite.selectLayout(Layout.FOUR_COLUMS);
+        customizeSite.selectLayout(Layout.FOUR_COLUMNS);
 
         LOG.info("Step 12 - Add any dashlets on the fourth column.");
         customizeSite.addDashlet(Dashlets.SITE_SEARCH, 4);
@@ -192,7 +192,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
 
         LOG.info("Step 8 - Click 'Close' button above the available dashlets.");
         customizeSite.clickCloseAvailabeDashlets();
-        Assert.assertFalse(customizeSite.isAvailableDashletListDisplayed(), "Available dashlets list is not closed");
+        customizeSite.assertAvailableDashletsSectionIsNotDisplayed();
 
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);

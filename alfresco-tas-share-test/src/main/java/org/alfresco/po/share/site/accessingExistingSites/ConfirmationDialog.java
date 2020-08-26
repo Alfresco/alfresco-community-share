@@ -1,6 +1,7 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
 import org.alfresco.utility.web.HtmlPage;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,20 +12,15 @@ import ru.yandex.qatools.htmlelements.element.Button;
  */
 public abstract class ConfirmationDialog extends HtmlPage
 {
-    //@RenderWebElement
+    @RenderWebElement
     @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM_label")
-    protected Button dialogOkButton;
+    protected Button confirmDeletionButton;
 
     @FindBy (css = "div.dialog-body")
     protected WebElement dialogMessage;
 
     @FindBy (css = "span.dijitDialogCloseIcon")
     protected WebElement dialogCloseButton;
-
-
-    @FindBy (css = "span[widgetid='ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM'] >span")
-    protected WebElement confirmDeletionButton;
-
 
     /**
      * Obtain the message of the dialog
@@ -42,7 +38,6 @@ public abstract class ConfirmationDialog extends HtmlPage
     public void clickOKButton()
     {
         getBrowser().waitUntilElementClickable(confirmDeletionButton).click();
-        getBrowser().clickJS(confirmDeletionButton);
     }
 
     /**
