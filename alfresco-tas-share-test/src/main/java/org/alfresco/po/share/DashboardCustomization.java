@@ -5,28 +5,23 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.alfresco.po.share.dashlet.Dashlets;
-import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
 /**
  * @author bogdan.bocancea
  */
-public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardCustomizationImpl<T>>
+public abstract class DashboardCustomization<T> extends SharePage<DashboardCustomization<T>>
 {
     private final int columns = 4;
     private final int maxDashletsInColumn = 5;
@@ -114,8 +109,8 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
     private WebElement closeAddDashlets;
 
     @FindBy (css = ".availableList")
-
     private WebElement availableDashletList;
+
     private By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
     private String dashletInAddedColumn = "ul[id$='default-column-ul-%s'] > li:nth-child(%s)";
 
@@ -125,7 +120,7 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
         TWO_COLUMNS_WIDE_LEFT("Two columns: wide left, narrow right"),
         TWO_COLUMNS_WIDE_RIGHT("Two columns: narrow left, wide right"),
         THREE_COLUMNS("Three columns: wide centre"),
-        FOUR_COLUMS("Four columns");
+        FOUR_COLUMNS("Four columns");
         public final String description;
 
         Layout(String description)
@@ -152,10 +147,11 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
     /**
      * Click Change Layout button
      */
-    public void clickChangeLayout()
+    public T clickChangeLayout()
     {
         changeLayout.click();
         browser.waitUntilElementVisible(selectNewLayout);
+        return (T) this;
     }
 
     /**
@@ -199,7 +195,7 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
             case THREE_COLUMNS:
                 threeColumn.click();
                 break;
-            case FOUR_COLUMS:
+            case FOUR_COLUMNS:
                 fourColumn.click();
                 break;
             default:
@@ -219,19 +215,21 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
     /**
      * Click add dashlet button
      */
-    public void clickAddDashlet()
+    public T clickAddDashlet()
     {
+        LOG.info("Click Add Dashlet");
         addDashlets.click();
+        browser.waitUntilElementVisible(availableDashletList);
+        return (T) this;
     }
 
     /**
      * Click OK button
      */
-    public T clickOk()
+    public void clickOk()
     {
         getBrowser().waitUntilElementClickable(okButton).click();
         waitUntilMessageDisappears();
-        return (T) renderedPage();
     }
 
     /**
@@ -240,7 +238,7 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
      * @param dashlet      to be added
      * @param columnNumber int column number
      */
-    public void addDashlet(Dashlets dashlet, int columnNumber)
+    public T addDashlet(Dashlets dashlet, int columnNumber)
     {
         if (columnNumber < 1 || columnNumber > columns)
         {
@@ -250,7 +248,6 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
         {
             clickAddDashlet();
         }
-        browser.waitUntilElementVisible(By.cssSelector(".availableList"));
         String strDashlet = dashlet.getDashletName();
         String dashletXpath = String.format(availableDashlet, strDashlet);
         WebElement webDashlet;
@@ -295,6 +292,7 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
         {
             throw new PageOperationException("Expected column does not exist in available columns list.");
         }
+        return (T) this;
     }
 
     public void retryAddDashlet(Dashlets dashlet, WebElement webDashlet, WebElement target, int columnNr)
@@ -340,7 +338,8 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
         {
             dash = browser.findFirstElementWithValue(By.cssSelector(String.format(dashletsInColumn, columnNumber)),
                 dashlet.getDashletName());
-        } catch (TimeoutException te)
+        }
+        catch (TimeoutException te)
         {
         }
         return dash;
@@ -356,6 +355,22 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
     public boolean isDashletAddedInColumn(Dashlets dashlet, int columnNumber)
     {
         return getDashletAddedInColumn(dashlet, columnNumber) != null;
+    }
+
+    public T assertDashletIsAddedInColumn(Dashlets dashlet, int columnNumber)
+    {
+        LOG.info(String.format("Assert dashlet %s is added in column", dashlet.getDashletName(), columnNumber));
+        Assert.assertTrue(isDashletAddedInColumn(dashlet, columnNumber), String.format(
+            "Dashlet %s is added in column %s", dashlet.getDashletName(), columnNumber));
+        return (T) this;
+    }
+
+    public T assertDashletIsNotAddedInColumn(Dashlets dashlet, int columnNumber)
+    {
+        LOG.info(String.format("Assert dashlet %s is NOT added in column", dashlet.getDashletName(), columnNumber));
+        Assert.assertFalse(isDashletAddedInColumn(dashlet, columnNumber), String.format(
+            "Dashlet %s is added in column %s", dashlet.getDashletName(), columnNumber));
+        return (T) this;
     }
 
     public boolean isDashletInPositionInColumn(Dashlets dashlet, int columnNumber, int columnPosition)
@@ -375,18 +390,21 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
      * @param dashlet      to be removed
      * @param columnNumber
      */
-    public void removeDashlet(Dashlets dashlet, int columnNumber)
+    public T removeDashlet(Dashlets dashlet, int columnNumber)
     {
-        WebElement dash = browser
-            .waitUntilElementVisible(By.xpath(String.format(addedDashlet, columnNumber, dashlet.getDashletName())));
+        LOG.info(String.format("Remove dashlet %s from column %s", dashlet.getDashletName(), columnNumber));
+        WebElement dash = browser.waitUntilElementVisible(
+            By.xpath(String.format(addedDashlet, columnNumber, dashlet.getDashletName())));
         if (dash != null)
         {
             dash.click();
             browser.dragAndDrop(dash, trashcan);
-        } else
+        }
+        else
         {
             throw new PageOperationException(dashlet.getDashletName() + " not found in column " + columnNumber);
         }
+        return (T) this;
     }
 
     /**
@@ -459,14 +477,31 @@ public abstract class DashboardCustomizationImpl<T> extends SharePage<DashboardC
         return browser.isElementDisplayed(addDashlets);
     }
 
-    public void clickCloseAvailabeDashlets()
+    public T clickCloseAvailabeDashlets()
     {
+        LOG.info("Close available dashlets");
         closeAddDashlets.click();
+        browser.waitUntilElementHasAttribute(availableDashletList, "style", "display: none");
+        return (T) this;
     }
 
     public boolean isAvailableDashletListDisplayed()
     {
         return browser.isElementDisplayed(availableDashletList);
+    }
+
+    public T assertAvailableDashletsSectionIsDisplayed()
+    {
+        LOG.info("Assert available dashlet section is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(availableDashletList), "Available dashlets section is displayed");
+        return (T) this;
+    }
+
+    public T assertAvailableDashletsSectionIsNotDisplayed()
+    {
+        LOG.info("Assert available dashlet section is NOT displayed");
+        Assert.assertFalse(browser.isElementDisplayed(availableDashletList), "Available dashlets section is displayed");
+        return (T) this;
     }
 
     /**
