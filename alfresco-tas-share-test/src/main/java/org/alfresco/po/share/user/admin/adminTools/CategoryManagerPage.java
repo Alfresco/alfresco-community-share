@@ -5,6 +5,7 @@ import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +106,15 @@ public class CategoryManagerPage extends AdminToolsPage
     {
         WebElement category = browser.waitWithRetryAndReturnWebElement(
             By.xpath(String.format(categoryLocator, categoryName)), 2, 20);
-        browser.mouseOver(category);
+        try
+        {
+            browser.mouseOver(category);
+        }
+        catch (StaleElementReferenceException e)
+        {
+           WebElement cat = browser.waitUntilElementIsPresent(By.xpath(String.format(categoryLocator, categoryName)));
+           browser.mouseOver(cat);
+        }
         browser.waitUntilElementVisible(addCategoryButton);
     }
 
