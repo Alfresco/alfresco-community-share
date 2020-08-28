@@ -33,7 +33,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
-        setupAuthenticatedSession(adminUser, adminPassword);
+        setupAuthenticatedSession(dataUser.getAdminUser());
         categoryManagerPage.navigate();
     }
 
@@ -43,7 +43,6 @@ public class CategoryManagerTests extends ContextAwareWebTest
         Stream.of(category9295, categoryEdited, subCategoryName).filter(categoryName
             -> userService.categoryExists(adminUser, adminPassword, categoryName)).forEach(categoryName
             -> userService.deleteCategory(adminUser, adminPassword, categoryName));
-        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C9294")

@@ -141,6 +141,7 @@ public class ToolbarUserMenu extends Toolbar
     {
         LOG.info("Click Set Dashboard as Home");
         setDashBoardAsHome.click();
+        waitUntilMessageDisappears();
     }
 
     public ToolbarUserMenu assertChangePasswordIsDisplayed()
