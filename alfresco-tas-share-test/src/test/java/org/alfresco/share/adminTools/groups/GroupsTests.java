@@ -3,6 +3,7 @@ package org.alfresco.share.adminTools.groups;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
@@ -48,7 +49,7 @@ public class GroupsTests extends ContextAwareWebTest
         asList(searchGroup, searchGroup1, parent1, parent2, parent3, subGroup).forEach(group -> {
             dataGroup.createGroup(group);
         });
-
+        Utility.waitToLoopTime(1);
         dataGroup.addGroupToParentGroup(parent1, subGroup);
         dataGroup.addGroupToParentGroup(parent2, subGroup);
         dataGroup.addGroupToParentGroup(parent3, subGroup);
