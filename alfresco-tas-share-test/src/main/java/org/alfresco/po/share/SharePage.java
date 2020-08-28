@@ -254,7 +254,7 @@ public abstract class SharePage<T> extends HtmlPage
         {
             //continue
         }
-        return (T) renderedPage();
+        return (T) this;
     }
 
     public void waitForSharePageToLoad()
