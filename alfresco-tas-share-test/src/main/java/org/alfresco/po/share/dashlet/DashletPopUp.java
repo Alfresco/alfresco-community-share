@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
@@ -14,7 +15,7 @@ public abstract class DashletPopUp extends HtmlPage
 {
     @RenderWebElement
     @FindBy (css = "a.container-close")
-    protected Button closeButton;
+    protected WebElement closeButton;
 
     @RenderWebElement
     @FindBy (css = "button[id$='configDialog-ok-button']")
@@ -22,14 +23,14 @@ public abstract class DashletPopUp extends HtmlPage
 
     @RenderWebElement
     @FindBy (css = "button[id$='configDialog-cancel-button']")
-    protected Button cancelButton;
+    protected WebElement cancelButton;
 
     @FindBy (css = "a.container-close")
-    protected TextBlock title;
+    protected WebElement title;
 
     @RenderWebElement
     @FindBy (css = "div[id$='configDialog_h']")
-    protected HtmlElement popUpTitleField;
+    protected WebElement popUpTitleField;
 
     protected By dialogContainer = By.cssSelector("div[id$='configDialog_c']");
 
@@ -42,20 +43,7 @@ public abstract class DashletPopUp extends HtmlPage
     {
         browser.waitUntilElementVisible(okButton);
         browser.waitUntilElementClickable(okButton).click();
-        try
-        {
-            int counter = 0;
-            while (browser.isElementDisplayed(dialogContainer) && counter < 10)
-            {
-                System.out.println("Dialog is visible. Counter: " + counter);
-                okButton.click();
-                browser.waitInSeconds(5);
-                counter++;
-            }
-        } catch (NoSuchElementException nse)
-        {
-            nse.printStackTrace(); // print but simulate .ignoring() by catching exception
-        }
+        browser.waitUntilElementDisappears(dialogContainer);
     }
 
     /**
@@ -96,5 +84,10 @@ public abstract class DashletPopUp extends HtmlPage
     public String getPopUpTitle()
     {
         return popUpTitleField.getText();
+    }
+
+    public void assertPopUpTitleIs(String expectedTitle)
+    {
+        Assert.assertEquals(popUpTitleField.getText(), expectedTitle, "Popup title is correct");
     }
 }

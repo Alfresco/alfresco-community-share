@@ -56,10 +56,10 @@ public class RssFeedTest extends ContextAwareWebTest
         LOG.info("Step 1: Verify \"RSS Feed\" dashlet");
         userDashboardPage.navigate(userName);
 
-        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
-        enterFeedURLPopUp.fillUrlField("http://feeds.reuters.com/reuters/businessNews");
+        rssFeedDashlet.configureDashlet();
+        enterFeedURLPopUp.setUrlField("http://feeds.reuters.com/reuters/businessNews");
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("10");
-        enterFeedURLPopUp.checkNewWindowCheckbox();
+        enterFeedURLPopUp.checkNewWindow();
         enterFeedURLPopUp.clickOkButton();
 
         assertEquals(rssFeedDashlet.getFeedsListSize(), noOfFeeds, "Number of feeds");

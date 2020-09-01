@@ -9,9 +9,11 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
@@ -29,7 +31,6 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     protected static TextBlock title;
 
     @FindBy (css = "div[style*='visible']>div>div.balloon")
-    // @CacheLookup
     protected static WebElement helpBallon;
 
     @FindBy (css = "div[style*='visible']>div>div.balloon>div.text")
@@ -42,7 +43,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     protected String helpIcon = "div[class*='%s'] div[class='titleBarActionIcon help']";
     private HtmlElement currentHandleElement;
-    private String resizeDashlet = "//div[text()='%s']/../div[@class='yui-resize-handle yui-resize-handle-b']";
+    private String resizeDashlet = "//div[text()='%s']/../div[@class='yui-resize-handle yui-resize-handle-b']/div";
 
     @Override
     public String getRelativePath()
@@ -96,6 +97,18 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return browser.isElementDisplayed(helpBallon);
     }
 
+    public T assertBalloonMessageIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(helpBallon), "Balloon message is displayed");
+        return (T) this;
+    }
+
+    public T assertBalloonMessageIsNotDisplayed()
+    {
+        Assert.assertFalse(browser.isElementDisplayed(helpBallon), "Balloon message is displayed");
+        return (T) this;
+    }
+
     /**
      * Returns if help icon is displayed on this dashlet.
      *
@@ -117,18 +130,34 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return helpBallonText.getText();
     }
 
+    public T assertHelpBalloonMessageIs(String expectedMessage)
+    {
+        Assert.assertEquals(browser.waitUntilElementVisible(helpBallonText).getText(), expectedMessage,
+            "Balloon has expected message");
+        return (T) this;
+    }
+
     /**
      * This method closes the Help balloon message.
      */
-    public void closeHelpBalloon()
+    public T closeHelpBalloon()
     {
         browser.findElement(helpBalloonCloseButton).click();
         browser.waitUntilElementDisappears(helpBalloonCloseButton, TimeUnit.SECONDS.toMillis(properties.getImplicitWait()));
+        return (T) this;
     }
 
-    public boolean isDashletExpandable()
+    public T assertDashletIsExpandable()
     {
-        return browser.isElementDisplayed(By.xpath(String.format(resizeDashlet, this.getDashletTitle())));
+        Assert.assertTrue(browser.isElementDisplayed(By.xpath(String.format(resizeDashlet, this.getDashletTitle()))),
+            String.format("Dashlet %s is expandable", this.getDashletTitle()));
+        return (T) this;
+    }
+
+    public T assertDashletTitleIs(String title)
+    {
+        Assert.assertEquals(getDashletTitle(), title, "Dashlet title is correct");
+        return (T) this;
     }
 
     /**

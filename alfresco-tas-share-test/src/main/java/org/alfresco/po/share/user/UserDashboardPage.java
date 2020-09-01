@@ -54,6 +54,9 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     @FindBy (css = "button[id$='_default-hide-button-button']")
     private WebElement welcomePanelHideButton;
 
+    private String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
+    private String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
+
     @Override
     public String getRelativePath()
     {
@@ -112,15 +115,21 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         return browser.isElementDisplayed(customizeUserDashboard);
     }
 
-    /**
-     * Get the number of columns from User Dashboard page
-     *
-     * @return number of columns
-     */
-    public int getNumerOfColumns()
+    public UserDashboardPage assertCustomizeUserDashboardIsDisplayed()
     {
+        LOG.info("Assert Customize User Dashboard button is displayed");
+        browser.waitUntilElementVisible(customizeUserDashboard);
+        Assert.assertTrue(browser.isElementDisplayed(customizeUserDashboard),
+            "Customize User Dashboard button is displayed");
+        return this;
+    }
+
+    public UserDashboardPage assertNumberOfDashletColumnsIs(int columnsNumber)
+    {
+        LOG.info(String.format("Assert dashboard has %s columns", columnsNumber));
         String strCol = dashboardLayout.getAttribute("class");
-        return Character.getNumericValue(strCol.charAt(strCol.length() - 1));
+        Assert.assertEquals(Character.getNumericValue(strCol.charAt(strCol.length() - 1)), columnsNumber);
+        return this;
     }
 
     /**
@@ -143,12 +152,15 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            return browser.isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column,
-                locationInColumn)));
+            return browser.isElementDisplayed(By.xpath(String.format(webViewDashletLocation, column, locationInColumn)));
         }
-        String dashletLocation = String.format("//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]", dashlet.getDashletName(), column,
-            locationInColumn);
-        return browser.isElementDisplayed(By.xpath(dashletLocation));
+        return browser.isElementDisplayed(By.xpath(String.format(dashletOnDashboard, dashlet.getDashletName(), column, locationInColumn)));
+    }
+
+    public UserDashboardPage assertDashletIsAddedInPosition(Dashlets dashlet, int column, int locationInColumn)
+    {
+        Assert.assertTrue(isDashletAddedInPosition(dashlet, column, locationInColumn));
+        return this;
     }
 
     public WebElement getCustomizeUserDashboard()

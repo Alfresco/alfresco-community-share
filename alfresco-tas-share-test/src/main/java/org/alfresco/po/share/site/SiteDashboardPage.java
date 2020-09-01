@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -23,6 +24,9 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
     @Autowired
     EditSiteDetailsDialog editSiteDetailsDialog;
+
+    @FindBy (css = "#HEADER_TITLE a")
+    private WebElement siteHeaderTitle;
 
     @RenderWebElement
     @FindBy (css = "div[class*='grid columnSize']")
@@ -63,6 +67,12 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return this;
     }
 
+    public SiteDashboardPage assertSiteHeaderTitleIs(SiteModel expectedSite)
+    {
+        Assert.assertEquals(siteHeaderTitle.getText(), expectedSite.getTitle(), "Site header title is correct");
+        return this;
+    }
+
     /**
      * Get the number of columns from Site Dashboard
      *
@@ -99,16 +109,6 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         }
         return browser.isElementDisplayed(By.xpath(String.format(
             dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
-    }
-
-    /**
-     * Get the "Welcome" message from "Site Profile" dashlet
-     *
-     * @return String message
-     */
-    public String getWelcomeMessageText()
-    {
-        return welcomeMessage.getText();
     }
 
     public String getSiteVisibility()
