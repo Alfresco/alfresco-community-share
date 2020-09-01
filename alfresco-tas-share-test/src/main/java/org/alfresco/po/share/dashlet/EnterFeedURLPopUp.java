@@ -5,6 +5,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.TextInput;
@@ -16,7 +17,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 public class EnterFeedURLPopUp extends DashletPopUp
 {
     @RenderWebElement
-    @FindBy (css = "input[id$='url']")
+    @FindBy (css = "input[name='url']")
     private TextInput urlField;
 
     @FindBy (css = "input[id$='default-configDialog-new_window']")
@@ -34,24 +35,28 @@ public class EnterFeedURLPopUp extends DashletPopUp
     @FindBy (css = "button[id$='configDialog-ok-button']")
     private WebElement okButton;
 
-    public void fillUrlField(String URL)
+    public EnterFeedURLPopUp setUrlField(String URL)
     {
         Utils.clearAndType(urlField, URL);
+        return this;
     }
 
-    public void selectNumberOfItemsToDisplay(String value)
+    public EnterFeedURLPopUp selectNumberOfItemsToDisplay(String value)
     {
         noItemsToDisplay.selectByValue(value);
+        return this;
     }
 
-    public void checkNewWindowCheckbox()
+    public EnterFeedURLPopUp selectNumberOfItemsToDisplay(int value)
+    {
+        noItemsToDisplay.selectByValue(String.valueOf(value));
+        return this;
+    }
+
+    public EnterFeedURLPopUp checkNewWindow()
     {
         newWindowCheckbox.select();
-    }
-
-    public String getUrlFieldText()
-    {
-        return urlField.getText();
+        return this;
     }
 
     public boolean isValueSelectedFromNoItemsToDisplayDropDown(String value)
@@ -59,9 +64,22 @@ public class EnterFeedURLPopUp extends DashletPopUp
         return noItemsToDisplay.getFirstSelectedOption().getText().equals(value);
     }
 
+    public EnterFeedURLPopUp assertValueSelectInNrOfItemsToDisplayIs(int value)
+    {
+        Assert.assertEquals(noItemsToDisplay.getFirstSelectedOption().getText(), String.valueOf(value),
+            "Selected nr of items to display is correct");
+        return this;
+    }
+
     public boolean isNewWindowCheckBoxChecked()
     {
         return newWindowCheckbox.isSelected();
+    }
+
+    public EnterFeedURLPopUp assertNewWindowIsChecked()
+    {
+        Assert.assertTrue(newWindowCheckbox.isSelected(), "New window checkbox is selected");
+        return this;
     }
 
     /**

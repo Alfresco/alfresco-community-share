@@ -76,10 +76,10 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         LOG.info("Step 1: Verify \"RSS Feed\" dashlet");
         siteDashboardPage.navigate(siteName);
 
-        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
-        enterFeedURLPopUp.fillUrlField("http://feeds.reuters.com/reuters/businessNews");
+        rssFeedDashlet.configureDashlet();
+        enterFeedURLPopUp.setUrlField("http://feeds.reuters.com/reuters/businessNews");
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("10");
-        enterFeedURLPopUp.checkNewWindowCheckbox();
+        enterFeedURLPopUp.checkNewWindow();
         getBrowser().waitInSeconds(5);
         enterFeedURLPopUp.clickOkButton();
 
@@ -113,7 +113,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         Assert.assertTrue(rssFeedDashlet.isConfigureDashletIconDisplayed(), "Configure RSS Feed dashlet is not displayed");
         Assert.assertEquals(rssFeedDashlet.getDashletTitle(), language.translate("rssFeedDashlet.DefaultTitleText"), "Default dashlet title is not correct.");
         LOG.info("Step 2: Click edit dashlet icon and edit external RSS");
-        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        rssFeedDashlet.configureDashlet();
         Assert.assertTrue(siteDashboardPage.isRSSFeedConfigurationDialogDisplayed(), "Configuration dialog is not opened");
         configureRSSFeedDialog.typeInURL(url);
         configureRSSFeedDialog.clickOkButton();
@@ -129,7 +129,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
         rssFeedDashlet.renderedPage();
         LOG.info("Step 2: Open configure RSS Feed and edit the number of headlines to display");
-        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        rssFeedDashlet.configureDashlet();
         configureRSSFeedDialog.selectNumberOfItemsToDisplay("5");
         configureRSSFeedDialog.clickOkButton();
         Assert.assertEquals(rssFeedDashlet.getFeedsListSize(), 5, "Number of headlines is not 5 as configured.");

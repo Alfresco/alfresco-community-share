@@ -9,22 +9,26 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 {
     @Autowired
-    EnterFeedURLPopUp enterFeedURLPopUp;
+    private EnterFeedURLPopUp enterFeedURLPopUp;
 
     @RenderWebElement
     @FindBy (css = "div.dashlet.rssfeed")
     private WebElement dashletContainer;
 
-    @RenderWebElement
     @FindAll (@FindBy (css = "div.headline h4 a"))
     private List<WebElement> feedsList;
 
-    private By configureDashlet = By.cssSelector("div.dashlet.rssfeed [class$='edit']");
+    @FindBy (css = "div[class^='dashlet rssfeed'] .titleBarActions")
+    private WebElement titleBarActions;
+
+    @FindBy (css = "div[class^='dashlet rssfeed'] div[class='titleBarActionIcon edit']")
+    private WebElement configureDashletButton;
 
     @Override
     public String getDashletTitle()
@@ -32,43 +36,45 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Method to verify that configure this dashlet icon is displayed
-     */
-    public boolean isConfigureDashletIconDisplayed()
+    public RssFeedDashlet asserDashletTitleContains(String expectedTitle)
     {
-        browser.mouseOver(browser.findElement(configureDashlet));
-        return browser.waitUntilElementVisible(configureDashlet).isDisplayed();
+        Assert.assertTrue(getDashletTitle().contains(expectedTitle), "Rss feed dashlet title is correct");
+        return this;
     }
 
-    /**
-     * Method to get feeds list size
-     *
-     * @return
-     */
+    public boolean isConfigureDashletIconDisplayed()
+    {
+        browser.mouseOver(titleBarActions);
+        browser.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
+        return browser.isElementDisplayed(configureDashletButton);
+    }
+
     public int getFeedsListSize()
     {
         return feedsList.size();
     }
 
-    /**
-     * This method is used to click on configure this dashlet icon
-     */
-    public EnterFeedURLPopUp clickOnConfigureRssFeedDashlet()
+    public EnterFeedURLPopUp configureDashlet()
     {
-        browser.mouseOver(browser.findElement(By.cssSelector("div.dashlet.rssfeed div[id$='_default-title']")));
-        browser.findElement(configureDashlet).click();
+        browser.mouseOver(titleBarActions);
+        browser.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
+        configureDashletButton.click();
         return (EnterFeedURLPopUp) enterFeedURLPopUp.renderedPage();
     }
 
-    /**
-     * Method to click on the link from position in the feeds list
-     *
-     * @param position : position of the link to be clicked
-     */
-    public void clickOnRssLink(int position)
+    public RssFeedDashlet clickOnRssLink(int position)
     {
         feedsList.get(position).click();
-        browser.switchWindow();
+        return this;
+    }
+
+    public RssFeedDashlet assertRssFeedLinkIsOpened(String expectedUrlTitle)
+    {
+        LOG.info("Assert RSS Feed window is opened");
+        getBrowser().switchWindow(1);
+        getBrowser().waitUrlContains(expectedUrlTitle, 20);
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
+        getBrowser().closeWindowAndSwitchBack();
+        return this;
     }
 }

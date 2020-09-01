@@ -61,11 +61,11 @@ public class DashletXSSTests extends ContextAwareWebTest
         addRssFeedDashletToDashboard();
 
         LOG.info("STEP 3: Press Configure icon on 'RSS Feed' daslet.");
-        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        rssFeedDashlet.configureDashlet();
         assertTrue(enterFeedURLPopUp.isEnterFeedURLPopUpDisplayed(), "'Enter Feed URL PopUp' couldn't be opened.");
 
         LOG.info("STEP 4: Enter into URL field the next XSS text: '" + XSSUrl + "'.");
-        enterFeedURLPopUp.fillUrlField(XSSUrl);
+        enterFeedURLPopUp.setUrlField(XSSUrl);
 
         LOG.info("STEP 5: Press 'OK' button;");
         enterFeedURLPopUp.clickOkButtonSimple();

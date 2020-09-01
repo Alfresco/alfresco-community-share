@@ -65,19 +65,18 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         LOG.info("Step 1: Click 'Configure this dashlet' icon");
         siteDashboardPage.navigate(siteName);
-        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        rssFeedDashlet.configureDashlet();
         assertEquals(enterFeedURLPopUp.getPopUpTitle(), "Enter Feed URL:", "'Enter Feed URL' form is displayed");
 
         LOG.info("Step 2: Fill in 'URL' field with valid data");
-        enterFeedURLPopUp.fillUrlField("http://feeds.reuters.com/reuters/businessNews");
-        assertEquals(enterFeedURLPopUp.getUrlFieldText(), "http://feeds.reuters.com/reuters/businessNews", "'URL' is filled in");
+        enterFeedURLPopUp.setUrlField("http://feeds.reuters.com/reuters/businessNews");
 
         LOG.info("Step 3: From 'Number of items to display' drop-down list choose any value (e.g: 5)");
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("5");
         assertTrue(enterFeedURLPopUp.isValueSelectedFromNoItemsToDisplayDropDown("5"), "The value is displayed");
 
         LOG.info("Step 4: Click 'Open links in new window' check-box");
-        enterFeedURLPopUp.checkNewWindowCheckbox();
+        enterFeedURLPopUp.checkNewWindow();
         assertTrue(enterFeedURLPopUp.isNewWindowCheckBoxChecked(), "Check-box is selected");
 
         LOG.info("Step 5: Press OK button.");
@@ -126,7 +125,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         rssFeedDashlet.closeHelpBalloon();
         softAssert.assertFalse(rssFeedDashlet.isBalloonDisplayed(), "Help balloon is still displayed");
         LOG.info("Step 3: Verify headlines");
-        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        rssFeedDashlet.configureDashlet();
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("5");
         enterFeedURLPopUp.clickOkButton();
         softAssert.assertEquals(rssFeedDashlet.getFeedsListSize(), 5, "Feed size is not as expected");

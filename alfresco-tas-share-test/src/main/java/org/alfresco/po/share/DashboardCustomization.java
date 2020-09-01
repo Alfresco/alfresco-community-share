@@ -78,7 +78,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
     @FindBy (css = "button[id$='addDashlets-button-button']")
     private WebElement addDashlets;
 
-    private String availableDashlet = "//li[@class='availableDashlet dnd-draggable']/span[text()='%s']/..";
+    private String availableDashlet = "li[class='availableDashlet dnd-draggable'] div[title^='%s']";
     private String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private String targetColumn = "ul[id$='default-column-ul-%d']";
     private String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
@@ -144,11 +144,40 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
         return currentLayout.getText();
     }
 
+    public T assertCurrentLayoutIs(Layout layout)
+    {
+        String layoutLabel = "";
+        switch (layout)
+        {
+            case ONE_COLUMN:
+                layoutLabel = language.translate("dashboardCustomization.layout.oneColumn");
+                break;
+            case TWO_COLUMNS_WIDE_LEFT:
+                layoutLabel = language.translate("dashboardCustomization.layout.twoColumnsWideLeft");
+                break;
+            case TWO_COLUMNS_WIDE_RIGHT:
+                layoutLabel = language.translate("dashboardCustomization.layout.twoColumnsWideRight");
+                break;
+            case THREE_COLUMNS:
+                layoutLabel = language.translate("dashboardCustomization.layout.threeColumns");
+                break;
+            case FOUR_COLUMNS:
+                layoutLabel = language.translate("dashboardCustomization.layout.fourColumns");
+                break;
+            default:
+                break;
+        }
+        LOG.info(String.format("Assert current layout is: %s", layoutLabel));
+        Assert.assertEquals(currentLayout.getText(), layoutLabel, "Layout label is correct");
+        return (T) this;
+    }
+
     /**
      * Click Change Layout button
      */
     public T clickChangeLayout()
     {
+        LOG.info("Click Change Layout");
         changeLayout.click();
         browser.waitUntilElementVisible(selectNewLayout);
         return (T) this;
@@ -179,8 +208,9 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
      *
      * @param layout
      */
-    public void selectLayout(Layout layout)
+    public T selectLayout(Layout layout)
     {
+        LOG.info(String.format("Select layout %s", layout.description));
         switch (layout)
         {
             case ONE_COLUMN:
@@ -201,15 +231,17 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
             default:
                 break;
         }
+        return (T) this;
     }
 
     /**
      * Cancel New Layout selection
      */
-    public void clickCancelNewLayout()
+    public T clickCancelNewLayout()
     {
         cancelNewLayout.click();
         browser.waitUntilElementDisappears(selectNewLayout, 30);
+        return (T) this;
     }
 
     /**
@@ -228,6 +260,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
      */
     public void clickOk()
     {
+        LOG.info("Click OK");
         getBrowser().waitUntilElementClickable(okButton).click();
         waitUntilMessageDisappears();
     }
@@ -253,7 +286,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
         WebElement webDashlet;
         try
         {
-            webDashlet = browser.waitUntilElementClickable(By.xpath(dashletXpath), 10);
+            webDashlet = browser.waitUntilElementClickable(By.cssSelector(dashletXpath), 10);
         }
         catch (TimeoutException te)
         {
@@ -261,7 +294,6 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
         }
         browser.scrollToElement(webDashlet);
         webDashlet.click();
-        browser.waitUntilElementHasAttribute(webDashlet, "class", "dnd-focused");
         String columns = availableColumns.getAttribute("class");
         int noOfColumns = Integer.valueOf(columns.substring(columns.length() - 1));
         List<WebElement> existingDashletsInColumn = new ArrayList<>();
@@ -417,49 +449,71 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
         return browser.isElementDisplayed(oneColumnLayout);
     }
 
-    /**
-     * Verify if three columns layout is displayed
-     *
-     * @return true if displayed
-     */
+    public T assertOneColumnLayoutIsDisplayed()
+    {
+        LOG.info("Assert One column layout is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(oneColumnLayout), "One column layout is displayed");
+        return (T) this;
+    }
+
     public boolean isThreeColumnsLayoutDisplayed()
     {
         return browser.isElementDisplayed(threeColumnsLayout);
     }
 
-    /**
-     * Verify if four columns layout is displayed
-     *
-     * @return true if displayed
-     */
+    public T assertThreeColumnsLayoutIsDisplayed()
+    {
+        LOG.info("Assert Three Columns Layout is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(threeColumnsLayout), "Three Columns Layout is displayed");
+        return (T) this;
+    }
+
     public boolean isFourColumnsLayoutDisplayed()
     {
         return browser.isElementDisplayed(fourColumnsLayout);
     }
 
-    /**
-     * Verify if two columns wide right layout is displayed
-     *
-     * @return true if displayed
-     */
+    public T assertFourColumnsLayoutIsDisplayed()
+    {
+        LOG.info("Assert Four Columns Layout is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(fourColumnsLayout), "Four Columns Layout is displayed");
+        return (T) this;
+    }
+
     public boolean isTwoColumnsLayoutWideRightDisplayed()
     {
         return browser.isElementDisplayed(twoColumnsWideRightLayout);
     }
 
-    /**
-     * Verify if two columns wide left layout is displayed
-     *
-     * @return true if displayed
-     */
+    public T assertTwoColumnsLayoutWideRightIsDisplayed()
+    {
+        LOG.info("Assert Two Columns Layout Wide Right is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(twoColumnsWideRightLayout), "Two Columns Layout Wide right is displayed");
+        return (T) this;
+    }
+
     public boolean isTwoColumnsLayoutWideLeftDisplayed()
     {
         return browser.isElementDisplayed(twoColumnsWideLeftLayout);
     }
 
+    public T assertTwoColumnsLayoutWideLeftIsDisplayed()
+    {
+        LOG.info("Assert Two Columns Layout Wide Left is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(twoColumnsWideLeftLayout), "Two Columns Layout Wide Left is displayed");
+        return (T) this;
+    }
+
     public boolean isChangeLayoutButtonDisplayed()
     {
         return browser.isElementDisplayed(changeLayout);
+    }
+
+    public T assertChangeLayoutButtonIsDisplayed()
+    {
+        LOG.info("Assert change layout button is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(changeLayout), "Change layout button is displayed");
+        return (T) this;
     }
 
     public boolean isChangeLayoutSectionDisplayed()
