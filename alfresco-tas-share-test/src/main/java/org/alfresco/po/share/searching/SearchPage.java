@@ -164,6 +164,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     @FindBy (css = "span[id='FCTSRCH_SEARCH_RESULT_SELECTOR']")
     private WebElement selector;
+
     @RenderWebElement
     @FindBy (css = "input[id$='_CONTROL']")
     private WebElement inputField;
@@ -244,6 +245,11 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     public SearchPage navigateByMenuBar()
     {
         return (SearchPage) renderedPage();
+    }
+
+    public void waitForPageToLoad()
+    {
+        browser.waitUntilElementVisible(searchButton, 60);
     }
 
     public String getNumberOfResultsText()
