@@ -20,11 +20,13 @@ import static org.testng.Assert.assertTrue;
 public class DeleteDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy (xpath = "//div[@id='prompt_c' and contains(@style, 'visibility: visible')]//button[text()='Delete']")
+    @FindBy (css = "#prompt .ft .button-group>span:nth-of-type(1) button")
     public WebElement deleteButton;
+
     @RenderWebElement
     @FindBy (id = "prompt_h")
     private WebElement dialogHeader;
+
     @FindBy (css = "span[class*='default'] button")
     private WebElement cancelButton;
 

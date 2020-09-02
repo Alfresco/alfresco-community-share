@@ -72,7 +72,9 @@ public class CategoryManagerPage extends AdminToolsPage
     public DeleteDialog clickDeleteButton(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-        browser.waitUntilElementVisible(deleteCategoryButton).click();
+        WebElement deleteCat = browser.waitUntilElementVisible(deleteCategoryButton);
+        browser.mouseOver(deleteCat);
+        browser.clickJS(deleteCat);
         return (DeleteDialog) deleteDialog.renderedPage();
     }
 

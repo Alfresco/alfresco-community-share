@@ -294,6 +294,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     public UserProfilePage assertDefaultAvatarIsDisplayed()
     {
+        browser.waitUntilElementHasAttribute(photo, "src", "no-user-photo-64.png");
         Assert.assertTrue(photo.getAttribute("src").contains("no-user-photo-64.png"));
         return this;
     }
