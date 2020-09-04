@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class EditTaskPage extends SharePage<EditTaskPage>
@@ -72,6 +73,14 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     public String getRelativePath()
     {
         return "share/page/task-edit";
+    }
+
+    public EditTaskPage assertEditTaskPageIsOpened()
+    {
+        LOG.info("Assert Edit Task page is opened");
+        Assert.assertTrue(browser.isElementDisplayed(taskEditHeader), "Edit task header is displayed");
+        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Edit Task page is opened");
+        return this;
     }
 
     public <T> SharePage approve(String comment, SharePage<T> page)

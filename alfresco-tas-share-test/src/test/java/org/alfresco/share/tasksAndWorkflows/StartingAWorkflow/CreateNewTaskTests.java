@@ -341,7 +341,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("STEP 9: Click the task's name.");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(workflowMessage),
             "'" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
-        myTasksDashlet.clickOnTaskNameLink(workflowMessage);
+        myTasksDashlet.clickTaskName(workflowMessage);
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 10: Verify items list.");
@@ -566,7 +566,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         addMyTaskDashletToDashboard();
 
         LOG.info("STEP 5: Verify there are no items in Items part;");
-        myTasksDashlet.clickOnTaskNameLink("C286469_" + workflowMessage);
+        myTasksDashlet.clickTaskName("C286469_" + workflowMessage);
         Assert.assertEquals(editTaskPage.getItemsList(), noItems.toString(), "Attached 'Items' list is not empty.");
     }
 

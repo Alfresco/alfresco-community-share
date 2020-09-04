@@ -109,7 +109,7 @@
                      </methods>
          </class>
 
-         <class name="org.alfresco.share.userDashboard.dashlets.MySitesTests">
+         <class name="org.alfresco.share.userDashboard.dashlets.MySitesDashletTests">
             <methods>
                <include name="createSiteFromSiteDashlet" />
             </methods>

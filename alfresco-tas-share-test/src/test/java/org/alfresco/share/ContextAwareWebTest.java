@@ -15,6 +15,7 @@ import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
+import org.alfresco.utility.data.DataWorkflow;
 import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.FolderModel;
@@ -83,6 +84,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     public DataGroup dataGroup;
+
+    @Autowired
+    public DataWorkflow dataWorkflow;
 
     @Autowired
     public CmisWrapper cmisApi;

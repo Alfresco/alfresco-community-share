@@ -72,7 +72,7 @@ public class WebViewDashlet extends Dashlet<WebViewDashlet>
     {
         configureWebViewPopUp.setLinkTitleField(linkTitle);
         configureWebViewPopUp.setUrlField(url);
-        configureWebViewPopUp.clickOkButton();
+        configureWebViewPopUp.clickOk();
         return (WebViewDashlet) this.renderedPage();
     }
 

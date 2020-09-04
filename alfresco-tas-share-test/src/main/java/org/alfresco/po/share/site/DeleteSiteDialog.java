@@ -1,51 +1,30 @@
 package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
 
-/**
- * @author Laura.Capsa
- */
 @PageObject
 public class DeleteSiteDialog extends ShareDialog
 {
-    @Autowired
-    private SitesManagerPage sitesManagerPage;
+    @RenderWebElement
+    @FindBy (css = "span[class*='primary-button'] button")
+    private WebElement delete;
 
-    private By delete = By.cssSelector("span[class*='primary-button'] button");
-
+    @RenderWebElement
     @FindBy (css = "span[class*='default'] button")
-    private Button cancel;
+    private WebElement cancel;
 
     @FindBy (css = "div[class='bd']")
-    private WebElement deleteSiteConfirm;
+    private WebElement deleteSiteConfirmMessage;
 
-    @FindBy (css = "div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body")
-    private WebElement deleteSiteConfirmFromSitesManager;
+    @FindBy (css = ".button-group > span:nth-of-type(1) button")
+    private WebElement yes;
 
-    @FindBy (xpath = "(//button)[1]")
-    private Button yes;
-
-    @FindBy (xpath = "(//button)[2]")
-    private Button no;
-
-    @RenderWebElement
-    @FindBy (css = "div#ALF_SITE_SERVICE_DIALOG:not([style*='display: none']) #ALF_SITE_SERVICE_DIALOG_CANCELLATION_label")
-    private WebElement cancelFromSitesManager;
-
-    @RenderWebElement
-    @FindBy (css = "span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION']>span")
-    private WebElement confirmFromSitesManager;
-
-    private By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
+    @FindBy (css = ".button-group > span:nth-of-type(2) button")
+    private WebElement no;
 
     public boolean isPopupDisplayed()
     {
@@ -53,11 +32,10 @@ public class DeleteSiteDialog extends ShareDialog
         return browser.isElementDisplayed(delete);
     }
 
-    public void clickDelete()
+    public DeleteSiteDialog clickDelete()
     {
-        browser.waitUntilElementVisible(delete);
-
-        browser.findElement(delete).click();
+        browser.waitUntilElementVisible(delete).click();
+        return this;
     }
 
     public void clickCancel()
@@ -65,48 +43,19 @@ public class DeleteSiteDialog extends ShareDialog
         cancel.click();
     }
 
-    public void clickCancelFromSitesManager()
-    {
-        cancelFromSitesManager.click();
-    }
-
     public String getConfirmMessage()
     {
-        return deleteSiteConfirm.getText();
-    }
-
-    public String getConfirmMessageFromSitesManager()
-    {
-        browser.waitUntilElementVisible(deleteSiteConfirmFromSitesManager);
-        return deleteSiteConfirmFromSitesManager.getText();
-    }
-
-    public DeleteSiteDialog assertConfirmMessageFromSiteManagerIsCorrect(String siteName)
-    {
-        Assert.assertEquals(deleteSiteConfirmFromSitesManager.getText(),
-            String.format(language.translate("deleteSite.confirmFromSitesManager"), siteName));
-        return this;
+        return deleteSiteConfirmMessage.getText();
     }
 
     public void clickYes()
     {
-        getBrowser().waitUntilElementVisible(yes);
-        getBrowser().waitUntilElementClickable(yes).click();
+        getBrowser().waitUntilElementVisible(yes).click();
         waitUntilMessageDisappears();
     }
 
     public void clickNo()
     {
         no.click();
-    }
-
-    /**
-     * Click 'Ok' button from Delete site dialog, from Sites Manager page
-     */
-    public SitesManagerPage clickDeleteFromSitesManager()
-    {
-        browser.waitUntilElementClickable(confirmFromSitesManager).click();
-        browser.waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);
-        return (SitesManagerPage) sitesManagerPage.renderedPage();
     }
 }

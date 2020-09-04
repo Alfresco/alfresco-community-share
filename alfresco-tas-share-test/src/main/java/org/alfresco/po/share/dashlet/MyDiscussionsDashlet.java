@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
@@ -16,15 +18,17 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 {
     @FindBy (css = "div.dashlet.forumsummary td div[class$='yui-dt-liner']")
-    protected static HtmlElement defaultDashletMessage;
+    private WebElement defaultDashletMessage;
+
     @RenderWebElement
     @FindBy (css = "div.dashlet.forumsummary")
-    protected HtmlElement dashletContainer;
+    protected WebElement dashletContainer;
+
     @FindBy (css = "button[id$='default-topics-button']")
-    private Button topicsButton;
+    private WebElement topicsButton;
 
     @FindBy (css = "button[id$='default-history-button']")
-    private Button historyButton;
+    private WebElement historyButton;
 
     @FindAll (@FindBy (css = "div.forumsummary div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
@@ -36,20 +40,16 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Retrieves the default dashlet message.
-     *
-     * @return String
-     */
-    public String getDefaultMessage()
+    public MyDiscussionsDashlet assertNoTopicsMessageIsDisplayed()
     {
-        return defaultDashletMessage.getText();
+        LOG.info("Assert No topics message is displayed");
+        Assert.assertEquals(defaultDashletMessage.getText(), language.translate("myDiscussionDashlet.noTopics"));
+        return this;
     }
 
     public void clickOnTopicButton()
     {
-        getBrowser().waitUntilElementClickable(topicsButton);
-        topicsButton.click();
+        getBrowser().waitUntilElementClickable(topicsButton).click();
     }
 
     public void clickHistoryButton()
@@ -64,45 +64,31 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
         {
             options.add(option.getText());
         }
-
         return options;
     }
 
-    public Boolean checkTopicDropdownOptions()
+    public MyDiscussionsDashlet assertTopicDropdownHasAllOptions()
     {
+        LOG.info("Assert all options from topics filter are displayed");
         clickOnTopicButton();
-        List<String> currentOptions = getCurrentOptions();
-        List<String> expectedValues = Arrays.asList("My Topics", "All Topics");
-        if (currentOptions.size() != expectedValues.size())
-        {
-            return false;
-        }
-        for (String option : currentOptions)
-        {
-            if (!expectedValues.contains(option))
-            {
-                return false;
-            }
-        }
-        return true;
+        List<String> currentOptions = browser.getTextFromElementList(dropDownOptionsList);
+        List<String> expectedValues = Arrays.asList(language.translate("myDiscussionDashlet.myTopics"),
+            language.translate("myDiscussionDashlet.allTopics"));
+        Assert.assertTrue(currentOptions.equals(expectedValues), "All options are found");
+        return this;
     }
 
-    public Boolean checkHistoryDropdownOptions()
+    public MyDiscussionsDashlet assertHistoryDropdownHasAllOptions()
     {
+        LOG.info("Assert all options from history filter are displayed");
         clickHistoryButton();
-        List<String> expectedValues = Arrays.asList("Topics updated in the last day", "Topics updated in the last 7 days", "Topics updated in the last 14 days", "Topics updated in the last 28 days");
+        List<String> expectedValues = Arrays.asList(
+            language.translate("myDiscussionDashlet.lastDay"),
+            language.translate("myDiscussionDashlet.last7Days"),
+            language.translate("myDiscussionDashlet.last14Days"),
+            language.translate("myDiscussionDashlet.last28Days"));
         List<String> currentOptions = getCurrentOptions();
-        if (currentOptions.size() != expectedValues.size())
-        {
-            return false;
-        }
-        for (String option : currentOptions)
-        {
-            if (!expectedValues.contains(option))
-            {
-                return false;
-            }
-        }
-        return true;
+        Assert.assertTrue(currentOptions.equals(expectedValues), "All options are found");
+        return this;
     }
 }

@@ -11,7 +11,7 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-public abstract class DashletPopUp extends HtmlPage
+public abstract class DashletPopUp<T> extends HtmlPage
 {
     @RenderWebElement
     @FindBy (css = "a.container-close")
@@ -39,10 +39,9 @@ public abstract class DashletPopUp extends HtmlPage
         return title.getText();
     }
 
-    public void clickOkButton()
+    public void clickOk()
     {
-        browser.waitUntilElementVisible(okButton);
-        browser.waitUntilElementClickable(okButton).click();
+        browser.waitUntilElementVisible(okButton).click();
         browser.waitUntilElementDisappears(dialogContainer);
     }
 
@@ -60,9 +59,21 @@ public abstract class DashletPopUp extends HtmlPage
         return okButton.isDisplayed();
     }
 
+    public T assertOKButtonIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(okButton), "Ok button is displayed");
+        return (T) this;
+    }
+
     public void clickCancelButton()
     {
         cancelButton.click();
+    }
+
+    public T assertCancelButtonIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        return (T) this;
     }
 
     public boolean isCancelButtonDisplayed()
@@ -70,9 +81,8 @@ public abstract class DashletPopUp extends HtmlPage
         return cancelButton.isDisplayed();
     }
 
-    public void clickCloseButton()
+    public void clickClose()
     {
-        closeButton.isDisplayed();
         closeButton.click();
     }
 
@@ -81,13 +91,20 @@ public abstract class DashletPopUp extends HtmlPage
         return closeButton.isDisplayed();
     }
 
+    public T assertCloseButtonIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(closeButton), "Close button is displayed");
+        return (T) this;
+    }
+
     public String getPopUpTitle()
     {
         return popUpTitleField.getText();
     }
 
-    public void assertPopUpTitleIs(String expectedTitle)
+    public T assertPopUpTitleIs(String expectedTitle)
     {
         Assert.assertEquals(popUpTitleField.getText(), expectedTitle, "Popup title is correct");
+        return (T) this;
     }
 }

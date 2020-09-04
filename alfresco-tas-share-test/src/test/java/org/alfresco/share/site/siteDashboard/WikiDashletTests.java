@@ -85,7 +85,7 @@ public class WikiDashletTests extends ContextAwareWebTest
         Assert.assertEquals(selectWikiPage.getEditPopupText(), "There are no pages available to select");
 
         LOG.info("Step 7: Close the Edit Pop-up by clicking the X button");
-        selectWikiPage.clickCloseButton();
+        selectWikiPage.clickClose();
 
         siteService.delete(adminUser, adminPassword, siteName);
 
@@ -133,7 +133,7 @@ public class WikiDashletTests extends ContextAwareWebTest
         Assert.assertEquals(selectWikiPage.getEditWikiPageFormTitle(), "Select Wiki Page");
 
         LOG.info("Step 6: Choose any wiki page from the list.");
-        selectWikiPage.clickOkButton();
+        selectWikiPage.clickOk();
 
         LOG.info(
             "Step 7: Site Dashboard page is displayed, Site Wiki dashlet has the name of chosen wiki page, wiki page content is displayed on the dashlet.");
@@ -178,7 +178,7 @@ public class WikiDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Select first wiki page from the Select a Page drop down and click OK");
         selectWikiPage.selectWikiPageFromList(1);
-        selectWikiPage.clickOkButton();
+        selectWikiPage.clickOk();
         String expectedWikiDashletName = "Wiki - " + wikiPageTitle1;
         Assert.assertEquals(wikiDashlet.getWikiDashletTitle(), expectedWikiDashletName);
 

@@ -119,7 +119,6 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(user1, password);
         userDashboardPage.navigate(user1);
-        myDocumentsDashlet.waitForDocument();
     }
 
 

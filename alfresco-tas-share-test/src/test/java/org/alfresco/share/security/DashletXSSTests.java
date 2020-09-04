@@ -73,7 +73,7 @@ public class DashletXSSTests extends ContextAwareWebTest
         assertTrue(enterFeedURLPopUp.isUrlErrorMessageDispalyed(), "Error message is not displayed");
 
         LOG.info("Close the PopUp.");
-        enterFeedURLPopUp.clickCloseButton();
+        enterFeedURLPopUp.clickClose();
     }
 
 

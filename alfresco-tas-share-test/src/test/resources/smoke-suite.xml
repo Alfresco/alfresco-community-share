@@ -1331,32 +1331,25 @@
 
    <test name="MyDiscussionsTests">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.MyDiscussionsTests" />
+         <class name="org.alfresco.share.userDashboard.dashlets.MyDiscussionsDashletTests" />
       </classes>
    </test>
 
    <test name="MyDocuments">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsTests" />
-      </classes>
-   </test>
-
-   <test name="MyDocumentsWorkspaces">
-      <classes>
-         <class
-            name="org.alfresco.share.userDashboard.dashlets.MyDocumentsWorkspacesTests" />
+         <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsDashletTests" />
       </classes>
    </test>
 
    <test name="MySitesTests">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.MySitesTests" />
+         <class name="org.alfresco.share.userDashboard.dashlets.MySitesDashletTests" />
       </classes>
    </test>
 
    <test name="MyActivitiesTests">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.MyActivitiesTests" />
+         <class name="org.alfresco.share.userDashboard.dashlets.MyActivitiesDashletTests" />
       </classes>
    </test>
 
@@ -1369,37 +1362,37 @@
 
    <test name="MyProfileTests">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.MyProfileTests" />
+         <class name="org.alfresco.share.userDashboard.dashlets.MyProfileDashletTests" />
       </classes>
    </test>
 
    <test name="MyTasksTest">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.MyTasksTest" />
+         <class name="org.alfresco.share.userDashboard.dashlets.MyTasksDashletTest" />
       </classes>
    </test>
 
    <test name="SavedSearchTests">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.SavedSearchTests" />
+         <class name="org.alfresco.share.userDashboard.dashlets.SavedSearchDashletTests" />
       </classes>
    </test>
 
    <test name="WebViewTests">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.WebViewTests" />
+         <class name="org.alfresco.share.userDashboard.dashlets.WebViewDashletTests" />
       </classes>
    </test>
 
    <test name="RssFeedTest">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.RssFeedTest" />
+         <class name="org.alfresco.share.userDashboard.dashlets.RssFeedDashletTest" />
       </classes>
    </test>
 
    <test name="SiteSearchTest">
       <classes>
-         <class name="org.alfresco.share.userDashboard.dashlets.SiteSearchTest" />
+         <class name="org.alfresco.share.userDashboard.dashlets.SiteSearchDashletTest" />
       </classes>
    </test>
 

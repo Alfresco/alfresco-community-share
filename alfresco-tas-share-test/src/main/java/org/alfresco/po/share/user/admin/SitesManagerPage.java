@@ -4,6 +4,7 @@ import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DeleteSiteDialog;
+import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.SiteModel;
@@ -35,10 +36,10 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     private ListPagination listPagination;
 
     @Autowired
-    DeleteSiteDialog deleteSiteDialog;
+    protected SiteManagerDeleteSiteDialog deleteSiteDialog;
 
     @Autowired
-    SiteUsersPage siteUsers;
+    protected SiteUsersPage siteUsers;
 
     @RenderWebElement
     @FindBy (css = "thead .label")
@@ -141,7 +142,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     {
         private SitesManagerPage sitesManagerPage;
         private String siteName;
-        private DeleteSiteDialog deleteSiteDialog;
+        private SiteManagerDeleteSiteDialog deleteSiteDialog;
         private By siteRowName = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteName span.inner");
         private By siteRowActionsButton = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions div.dijitPopupMenuItem");
         private By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager");
@@ -150,7 +151,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         private By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
         private String siteAction = "div.dijitPopup[style*=visible] tr[title='%s']";
 
-        public ManagerSiteAction(SitesManagerPage sitesManagerPage, String siteName, DeleteSiteDialog deleteSiteDialog)
+        public ManagerSiteAction(SitesManagerPage sitesManagerPage, String siteName, SiteManagerDeleteSiteDialog deleteSiteDialog)
         {
             this.sitesManagerPage = sitesManagerPage;
             this.siteName = siteName;
@@ -204,7 +205,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             return this;
         }
 
-        public DeleteSiteDialog clickDelete()
+        public SiteManagerDeleteSiteDialog clickDelete()
         {
             LOG.info("Click Delete");
             getSiteRow().findElement(siteRowActionsButton).click();

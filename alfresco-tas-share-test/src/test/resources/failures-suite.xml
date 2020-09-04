@@ -21,7 +21,7 @@
          <class name="org.alfresco.share.site.siteDashboard.ImagePreviewDashletTests" />
          <class name="org.alfresco.share.searching.SearchManagerTests" />
          <class name="org.alfresco.share.alfrescoContent.viewingContent.PreviewFileTest" />
-         <class name="org.alfresco.share.userDashboard.dashlets.MyTasksTest" />
+         <class name="org.alfresco.share.userDashboard.dashlets.MyTasksDashletTest" />
          <class
             name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDeleteTests" />
          <class name="org.alfresco.share.LoginTests" />

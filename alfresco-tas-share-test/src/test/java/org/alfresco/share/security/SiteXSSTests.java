@@ -99,7 +99,7 @@ public class SiteXSSTests extends ContextAwareWebTest
         createSiteDialog.selectPublicVisibility();
 
         LOG.info("STEP 4: Press 'Create' button;");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(XSSName);
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is not redirected to the created site.");
         assertEquals(siteDashboardPage.getSiteName(), XSSName, "'Site Title' is not '" + XSSName + "' as expected.");
@@ -133,7 +133,7 @@ public class SiteXSSTests extends ContextAwareWebTest
         assertEquals(createSiteDialog.getDescriptionInputText(), XSSDescription, "Text '" + XSSDescription + "' could not be entered in 'Description' field.");
 
         LOG.info("STEP 4: Press 'Create' button;");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
     }
 }

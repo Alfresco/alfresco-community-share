@@ -34,7 +34,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     protected static WebElement helpBallon;
 
     @FindBy (css = "div[style*='visible']>div>div.balloon>div.text")
-    protected static TextBlock helpBallonText;
+    protected static WebElement helpBallonText;
 
     protected static By dashletTitle = By.cssSelector("div.title");
     protected static By helpBalloonCloseButton = By.cssSelector("div[style*='visible']>div>div>.closeButton");
@@ -42,6 +42,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     protected String dashletBar = "div[class*='%s'] div[class='title']";
 
     protected String helpIcon = "div[class*='%s'] div[class='titleBarActionIcon help']";
+    protected String helpIconMyProfile = "div[class='dashlet'] div[class='titleBarActionIcon help']";
     private HtmlElement currentHandleElement;
     private String resizeDashlet = "//div[text()='%s']/../div[@class='yui-resize-handle yui-resize-handle-b']/div";
 
@@ -82,9 +83,16 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     /**
      * This method is used to Finds Help icon and clicks on it.
      */
-    public void clickOnHelpIcon(DashletHelpIcon dashlet)
+    public T clickOnHelpIcon(DashletHelpIcon dashlet)
     {
+        LOG.info("Click Help Icon");
+        if(dashlet.name == DashletHelpIcon.MY_PROFILE.name)
+        {
+            browser.findElement(By.cssSelector(helpIconMyProfile)).click();
+            return (T) this;
+        }
         browser.findElement(By.cssSelector(String.format(helpIcon, dashlet.name))).click();
+        return (T) this;
     }
 
     /**
@@ -99,12 +107,15 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     public T assertBalloonMessageIsDisplayed()
     {
+        LOG.info("Assert balloon message is displayed");
+        browser.waitUntilElementVisible(helpBallon);
         Assert.assertTrue(browser.isElementDisplayed(helpBallon), "Balloon message is displayed");
         return (T) this;
     }
 
     public T assertBalloonMessageIsNotDisplayed()
     {
+        LOG.info("Assert balloon message is NOT displayed");
         Assert.assertFalse(browser.isElementDisplayed(helpBallon), "Balloon message is displayed");
         return (T) this;
     }
@@ -132,6 +143,8 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     public T assertHelpBalloonMessageIs(String expectedMessage)
     {
+        LOG.info("Assert help balloon message is correct");
+        LOG.info(String.format("Assert balloon message is: %s", expectedMessage));
         Assert.assertEquals(browser.waitUntilElementVisible(helpBallonText).getText(), expectedMessage,
             "Balloon has expected message");
         return (T) this;
@@ -142,6 +155,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
      */
     public T closeHelpBalloon()
     {
+        LOG.info("Close help balloon");
         browser.findElement(helpBalloonCloseButton).click();
         browser.waitUntilElementDisappears(helpBalloonCloseButton, TimeUnit.SECONDS.toMillis(properties.getImplicitWait()));
         return (T) this;
@@ -149,6 +163,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     public T assertDashletIsExpandable()
     {
+        LOG.info("Assert dashlet is expandable");
         Assert.assertTrue(browser.isElementDisplayed(By.xpath(String.format(resizeDashlet, this.getDashletTitle()))),
             String.format("Dashlet %s is expandable", this.getDashletTitle()));
         return (T) this;
@@ -156,6 +171,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     public T assertDashletTitleIs(String title)
     {
+        LOG.info(String.format("Assert dashlet title is: %s", title));
         Assert.assertEquals(getDashletTitle(), title, "Dashlet title is correct");
         return (T) this;
     }

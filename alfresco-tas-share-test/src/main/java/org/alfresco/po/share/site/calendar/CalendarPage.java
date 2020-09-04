@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Table;
@@ -109,6 +110,12 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/calendar", getCurrentSiteName());
+    }
+
+    public CalendarPage assertCalendarPageIsOpened()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(miniCalendar), "Calendar page is opened");
+        return this;
     }
 
     /**

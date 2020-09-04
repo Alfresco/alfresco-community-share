@@ -7,7 +7,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.dashlet.ConfigureSavedSearchDashletPopUp;
+import org.alfresco.po.share.dashlet.ConfigureSavedSearchDashletDialog;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SavedSearchDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -29,7 +29,7 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
     SavedSearchDashlet savedSearchDashlet;
 
     @Autowired
-    ConfigureSavedSearchDashletPopUp configureSavedSearchPopUp;
+    ConfigureSavedSearchDashletDialog configureSavedSearchPopUp;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
@@ -57,10 +57,9 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
     {
         siteDashboardPage.navigate(siteName);
 
-        LOG.info("Step 1: Verify 'Saved Search' dahslet");
-        assertEquals(savedSearchDashlet.getDashletTitle(), "Saved Search");
-        assertEquals(savedSearchDashlet.getDefaultMessage(), "No results found.");
-        assertTrue(savedSearchDashlet.isConfigureDashletIconDisplayed());
+        savedSearchDashlet.assertDashletTitleIs(language.translate("savedSearchDashlet.title"))
+            .assertNoResultsMessageIsDisplayed()
+            .assertConfigureDashletButtonIsDisplayed();
         assertTrue(savedSearchDashlet.isHelpIconDisplayed(DashletHelpIcon.SAVED_SEARCH));
 
         LOG.info("Step 2: Click Help icon");
@@ -75,18 +74,14 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
         assertFalse(savedSearchDashlet.isBalloonDisplayed());
 
         LOG.info("Step 4: Click 'Configure this dashlet' icon");
-        savedSearchDashlet.clickOnConfigureDashletIcon();
-
-        LOG.info("Step 5: Verify 'Enter Search Term' window");
-        assertEquals(configureSavedSearchPopUp.getPopUpTitle(), "Enter Search Term");
-        assertTrue(configureSavedSearchPopUp.isSearchTermFieldDisplayed());
-        assertTrue(configureSavedSearchPopUp.isTitleFieldDisplayed());
-        assertTrue(configureSavedSearchPopUp.isSearchLimitDisplayed());
-        assertTrue(configureSavedSearchPopUp.isOkButtonDisplayed());
-        assertTrue(configureSavedSearchPopUp.isCloseButtonDisplayed());
-        assertTrue(configureSavedSearchPopUp.isCancelButtonDisplayed());
-
-        LOG.info("Step 6: Close 'Enter Search Term' window");
-        configureSavedSearchPopUp.clickCloseButton();
+        savedSearchDashlet.clickConfigureDashlet()
+            .assertPopUpTitleIs(language.translate("savedSearchDashlet.config.title"))
+            .assertSearchTermFieldIsDisplayed()
+                .assertTitleFieldIsDisplayed()
+                .assertSearchTermFieldIsDisplayed()
+                .assertSearchLimitIsDisplayed()
+                .assertOKButtonIsDisplayed()
+                .assertCancelButtonIsDisplayed()
+                .clickClose();
     }
 }

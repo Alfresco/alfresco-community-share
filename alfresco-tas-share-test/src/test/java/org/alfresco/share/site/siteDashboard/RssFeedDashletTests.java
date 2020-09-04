@@ -81,7 +81,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("10");
         enterFeedURLPopUp.checkNewWindow();
         getBrowser().waitInSeconds(5);
-        enterFeedURLPopUp.clickOkButton();
+        enterFeedURLPopUp.clickOk();
 
         rssFeedDashlet.renderedPage();
         Assert.assertEquals(rssFeedDashlet.getFeedsListSize(), noOfFeeds);

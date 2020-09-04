@@ -138,7 +138,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
 
         LOG.info("STEP 1: From 'My Tasks' dashlet click 'Edit Task' icon.");
-        myTasksDashlet.clickEditTask(taskName);
+        myTasksDashlet.editTask(taskName);
 
         LOG.info("STEP 2: Change the status of the workflow (eg. 'In Progress') then click 'Save and Close' button.");
         startWorkflowPage.selectTaskStatus("In Progress");
@@ -155,7 +155,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
 
         LOG.info("STEP 1: From 'My Tasks' dashlet click 'Edit Task' icon.");
-        myTasksDashlet.clickEditTask(taskName);
+        myTasksDashlet.editTask(taskName);
 
         LOG.info("STEP 2: Click 'Reassign' button, reassign the task to '" + C8521username + "' then click 'ok' button.");
         startWorkflowPage.clickOnReassignButton();
@@ -243,7 +243,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         userDashboardPage.navigate(C8596usernameA);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "'My Tasks' dashlet is not displayed in user's dashboard.");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
-        myTasksDashlet.clickOnTaskNameLink(taskName);
+        myTasksDashlet.clickTaskName(taskName);
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 2: Press Approve/reject Button;");
@@ -261,7 +261,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
 
         //Click on 'View task' icon and check if the user can access 'Workflow Details' page.
-        myTasksDashlet.clickViewTask(taskName);
+        myTasksDashlet.viewTask(taskName);
         Assert.assertTrue(viewTaskPage.getPageTitle().contains("Task Details"), "View task page should be displayed!!");
         viewTaskPage.clickWorkflowDetailsLink();
         Assert.assertTrue(viewTaskPage.getPageTitle().contains("Workflow Details"), "View Workflow Details page should be displayed!!");
@@ -275,7 +275,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         userDashboardPage.navigate(C8596usernameB);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "'My Tasks' dashlet is not displayed in user's dashboard.");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
-        myTasksDashlet.clickOnTaskNameLink(taskName);
+        myTasksDashlet.clickTaskName(taskName);
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 5: Press Approve/reject Button;");
@@ -293,7 +293,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
 
         LOG.info("=> Click on 'View task' icon and check if the user can access 'Workflow Details' page.");
-        myTasksDashlet.clickViewTask(taskName);
+        myTasksDashlet.viewTask(taskName);
         Assert.assertTrue(viewTaskPage.getPageTitle().contains("Task Details"), "View task page should be displayed!!");
         viewTaskPage.clickWorkflowDetailsLink();
         Assert.assertTrue(viewTaskPage.getPageTitle().contains("Workflow Details"), "View Workflow Details page should be displayed!!");
@@ -309,7 +309,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         userDashboardPage.navigate(C8596usernameC);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "'My Tasks' dashlet is not displayed in user's dashboard.");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
-        myTasksDashlet.clickOnTaskNameLink(taskName);
+        myTasksDashlet.clickTaskName(taskName);
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 8: Press Approve/reject Button;");

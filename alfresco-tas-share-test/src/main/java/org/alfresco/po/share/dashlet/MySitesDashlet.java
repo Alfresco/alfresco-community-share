@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.share.site.CreateSiteDialog;
+import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
@@ -24,32 +26,49 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    private CreateSiteDialog createSiteDialog;
+
+    @Autowired
+    private DeleteSiteDialog deleteSiteDialog;
+
     @RenderWebElement
     @FindBy (css = "div.dashlet.my-sites")
     protected HtmlElement dashletContainer;
+
     @RenderWebElement
     @FindBy (css = "div[id$='default-sites']")
     protected HtmlElement sitesListContainer;
+
     @FindAll (@FindBy (css = "h3.site-title > a"))
     protected List<WebElement> sitesLinksList;
+
     @FindAll (@FindBy (css = "div[id$='default-sites'] tr[class*='yui-dt-rec']"))
     protected List<HtmlElement> siteRowList;
+
     @FindAll (@FindBy (css = "div#prompt div.ft span span button"))
     protected List<WebElement> confirmationDeleteButtons;
+
     @FindBy (css = "div[class*='my-sites'] div span span button")
-    protected WebElement myFavoritesButton;
+    protected WebElement sitesFilterButton;
+
     @FindAll (@FindBy (css = "div[class*='my-sites'] div.bd ul li"))
     protected List<WebElement> myfavoritesOptions;
-    @FindBy (css = "div[class*='my-sites'] div span span a")
+
+    @FindBy (css = "a[id$='createSite-button']")
     protected WebElement createSiteLink;
-    @FindBy (css = "div[class*='my-sites'] div[class*='empty']")
-    protected HtmlElement defaultSiteText;
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-    @Autowired
-    private CreateSiteDialog createSiteDialog;
+
+    @FindBy (css = "div[class^='dashlet my-sites'] div[class*='empty']")
+    protected WebElement defaultSiteEmptyText;
+
+    private String siteRow = "//a[text()='%s']/../../../..";
+    private By siteTitleElement = By.cssSelector(".site-title a");
     private By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
     private By deleteButton = By.cssSelector("a[class^='delete-site']");
+    private By favoriteAction = By.cssSelector("a[class^='favourite-action']");
 
     @Override
     public String getDashletTitle()
@@ -63,12 +82,24 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         return super.getRelativePath();
     }
 
-    /**
-     * Get list of sites link displayed in my sites dashlet.
-     */
-    public List<WebElement> getSitesLinks()
+    private WebElement getSiteRow(String siteName)
     {
-        return sitesLinksList;
+        return browser.waitWithRetryAndReturnWebElement(
+            By.xpath(String.format(siteRow, siteName)), 1, 10);
+    }
+
+    public MySitesDashlet assertSiteIsDisplayed(SiteModel siteModel)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getSiteRow(siteModel.getTitle())),
+            String.format("Site %s is displayed", siteModel.getTitle()));
+        return this;
+    }
+
+    public MySitesDashlet assertSiteIsNotDisplayed(SiteModel site)
+    {
+        Assert.assertFalse(browser.isElementDisplayed(By.xpath(String.format(siteRow, site.getTitle()))),
+            String.format("Site %s is displayed", site.getTitle()));
+        return this;
     }
 
     /**
@@ -83,14 +114,6 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     }
 
     /**
-     * Get list of entire site sections (that contains site details) displayed in my sites dashlet.
-     */
-    public List<HtmlElement> getSitesSections()
-    {
-        return siteRowList;
-    }
-
-    /**
      * Retrieves the link that match the site name.
      *
      * @param siteName identifier
@@ -101,102 +124,51 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         return browser.findFirstElementWithValue(By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']"), siteName);
     }
 
-    /**
-     * Returns if the site is favorite.
-     *
-     * @param siteName Site Name checked for is Favorite.
-     * @return boolean
-     */
-    public boolean isSiteFavorited(String siteName)
+    public boolean isSiteFavorite(String siteName)
     {
         Parameter.checkIsMandotary("Site name", siteName);
         selectSiteDetailsRow(siteName);
         return getBrowser().isElementDisplayed(favoriteEnabled);
     }
-
-    /**
-     * Delete site from the delete icon of My Sites Dashlet.
-     *
-     * @param siteName String
-     * @return HtmlPage
-     */
-    public void clickDeleteSiteIconForSite(String siteName)
+    
+    public DeleteSiteDialog clickDelete(String siteName)
     {
-        Parameter.checkIsMandotary("Site name", siteName);
-        WebElement siteRow = selectSiteDetailsRow(siteName);
+        WebElement siteRow = getSiteRow(siteName);
         browser.mouseOver(createSiteLink);
-        browser.mouseOver(siteRow);
+        browser.mouseOver(siteRow.findElement(siteTitleElement));
         siteRow.findElement(deleteButton).click();
+        return (DeleteSiteDialog) deleteSiteDialog.renderedPage();
     }
 
-    /**
-     * Click on button on Delete Site dialog.
-     *
-     * @param deleteOption String Delete/Cancel/Yes/No options
-     */
-    public void confirmDeleteSite(String deleteOption)
+    public DeleteSiteDialog clickDelete(SiteModel site)
     {
-        Parameter.checkIsMandotary("Delete Option for Delete Site dialog", deleteOption);
-        WebElement buttonToBeClicked = browser.findFirstElementWithExactValue(confirmationDeleteButtons, deleteOption);
-        Parameter.checkIsMandotary("Button for Delete Site dialog", buttonToBeClicked);
-        buttonToBeClicked.click();
+        return clickDelete(site.getTitle());
     }
 
-    /**
-     * Select an option from "All" dropdown from My Sites Dashlets.
-     *
-     * @param siteOption FavouriteType
-     * @return HtmlPage
-     */
-    public MySitesDashlet selectOptionFromSiteFilters(String siteOption)
+    public MySitesDashlet selectOptionFromSiteFilters(SitesFilter sitesFilter)
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(myFavoritesButton);
-        try
-        {
-            myFavoritesButton.click();
-            browser.selectOptionFromFilterOptionsList(siteOption, myfavoritesOptions);
-            Assert.assertTrue(browser.isOptionSelectedForFilter(siteOption, myFavoritesButton));
-            return (MySitesDashlet) this.renderedPage();
-        } catch (NoSuchElementException nse)
-        {
-            LOG.error("My Sites option not present" + nse.getMessage());
-            throw new PageOperationException(siteOption + " option not present.");
-        }
+        browser.waitUntilElementVisible(sitesFilterButton);
+        sitesFilterButton.click();
+        browser.selectOptionFromFilterOptionsList(getFilterValue(sitesFilter), myfavoritesOptions);
+        return (MySitesDashlet) this.renderedPage();
 
     }
 
-    /**
-     * Click on "Favorite" link for a site in My Sites Dashlet.
-     *
-     * @param siteName String
-     */
-    public void clickOnFavoriteLink(String siteName)
+    public MySitesDashlet clickFavorite(String siteName)
     {
-        Parameter.checkIsMandotary("Site name", siteName);
-        try
-        {
-            WebElement siteRow = selectSiteDetailsRow(siteName);
-            browser.mouseOver(siteRow);
-            siteRow.findElement(By.cssSelector("a[class*='favourite-action']")).click();
-        } catch (NoSuchElementException nse)
-        {
-            LOG.error("My Site  Dashlet is not present", nse);
-        }
+        getSiteRow(siteName).findElement(favoriteAction).click();
+        return this;
     }
 
-    /**
-     * Method to verify Create Site button is displayed
-     */
-    public boolean isCreateSiteButtonDisplayed()
+    public MySitesDashlet clickFavorite(SiteModel site)
     {
-        try
-        {
-            return createSiteLink.isDisplayed();
-        } catch (TimeoutException createSiteLink)
-        {
+        return clickFavorite(site.getTitle());
+    }
 
-        }
-        return false;
+    public MySitesDashlet assertCreateSiteButtonIsDisplayed()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(createSiteLink), "Create site button is displayed");
+        return this;
     }
 
     /**
@@ -216,7 +188,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      */
     public boolean isSitePresent(String siteName)
     {
-        browser.waitUntilElementVisible(myFavoritesButton);
+        browser.waitUntilElementVisible(sitesFilterButton);
         try
         {
             WebElement siteLink = selectSite(siteName);
@@ -232,68 +204,60 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         return false;
     }
 
-    /**
-     * Check that all site filters are available in My Sites dashlet
-     *
-     * @return true if filter has proper values
-     */
-    public boolean isMySitesFilterDisplayed()
+    public MySitesDashlet assertSitesFilterButtonIsDisplayed()
     {
-        boolean isFilterValid = false;
-
-        myFavoritesButton.click();
-
-        for (WebElement typeFav : myfavoritesOptions)
-        {
-            String value = typeFav.getText();
-            if (value.equals(SitesFilter.MyFavorites.toString()))
-            {
-                value = SitesFilter.MyFavorites.name();
-            }
-
-            if (EnumUtils.isValidEnum(SitesFilter.class, value))
-            {
-                isFilterValid = true;
-            } else
-            {
-                isFilterValid = false;
-                break;
-            }
-        }
-
-        return isFilterValid;
+        Assert.assertTrue(browser.isElementDisplayed(sitesFilterButton), "Sites filter button is displayed");
+        return this;
     }
 
-    /**
-     * Get displayed text when there is no site listed
-     *
-     * @return
-     */
-    public String getDefaultSiteText()
+    private String getFilterValue(SitesFilter filter)
     {
-        return defaultSiteText.getText();
+        String filterValue = "";
+        switch (filter)
+        {
+            case ALL:
+                filterValue = language.translate("mySitesDashlet.filter.all");
+                break;
+            case RECENT:
+                filterValue = language.translate("mySitesDashlet.filter.recent");
+                break;
+            case MY_FAVORITES:
+                filterValue = language.translate("mySitesDashlet.filter.favorites");
+                break;
+            default:
+                break;
+        }
+        return filterValue;
+    }
+
+    public MySitesDashlet assertSelectedFilterIs(SitesFilter filter)
+    {
+        Assert.assertEquals(sitesFilterButton.getText().substring(0, sitesFilterButton.getText().length() - 2),
+            getFilterValue(filter), "Selected filter is correct");
+        return this;
+    }
+
+    public MySitesDashlet assertEmptySitesMessageIsDisplayed()
+    {
+        Assert.assertEquals(defaultSiteEmptyText.getText(), language.translate("mySitesDashlet.noSites"));
+        return this;
     }
 
     /**
      * Open site page
      *
      * @param siteName
-     * @return
+     * @return SiteDashboardPage
      */
-    public SiteDashboardPage accessSite(final String siteName)
+    public SiteDashboardPage accessSite(String siteName)
     {
-        browser.findFirstElementWithValue(sitesLinksList, siteName).click();
+        getSiteRow(siteName).findElement(siteTitleElement).click();
         return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
-    /**
-     * Get number of sites in My Sites dashlet
-     *
-     * @return
-     */
-    public int getNumberOfSites()
+    public SiteDashboardPage accessSite(SiteModel site)
     {
-        return getSitesLinks().size();
+        return accessSite(site.getTitle());
     }
 
     public void hoverSite(String siteName)
@@ -308,28 +272,10 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         return browser.isElementDisplayed(deleteButton);
     }
 
-    public List<String> getSiteLinksText()
-    {
-        getBrowser().waitUntilElementsVisible(sitesLinksList);
-        List<String> linksText = new ArrayList<>();
-        for (WebElement link : sitesLinksList)
-        {
-            String linkText = link.getText();
-            linksText.add(linkText);
-        }
-        return linksText;
-    }
-
     public enum SitesFilter
     {
-        All,
-        MyFavorites
-            {
-                public String toString()
-                {
-                    return "My Favorites";
-                }
-            },
-        Recent
+        ALL,
+        MY_FAVORITES,
+        RECENT
     }
 }

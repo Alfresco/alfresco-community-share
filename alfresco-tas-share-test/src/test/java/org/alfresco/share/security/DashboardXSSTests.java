@@ -83,7 +83,7 @@ public class DashboardXSSTests extends ContextAwareWebTest
         assertTrue(configureWebViewDashletPopUp.isUrlErrorMessageDisplayed(), "Error message is not displayed");
 
         LOG.info("Close the PopUp.");
-        configureWebViewDashletPopUp.clickCloseButton();
+        configureWebViewDashletPopUp.clickClose();
     }
 
 

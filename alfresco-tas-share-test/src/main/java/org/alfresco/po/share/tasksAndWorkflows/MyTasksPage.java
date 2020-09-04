@@ -40,7 +40,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
 
     @RenderWebElement
     @FindBy (css = "h2[id$='default-filterTitle']")
-    public WebElement activeTasksBar;
+    public WebElement taskbarTitle;
 
     @RenderWebElement
     @FindBy (css = ".alfresco-datatable.tasks")
@@ -49,6 +49,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     @FindBy (css = "a[rel='completed']")
     private WebElement completedTasksButton;
 
+    @RenderWebElement
     @FindBy (css = "[id$='default-startWorkflow-button-button']")
     private WebElement startWorkflow;
 
@@ -81,6 +82,20 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     public MyTasksPage assertMyTasksPageIsOpened()
     {
         Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "My Tasks page is opened");
+        return this;
+    }
+
+    public MyTasksPage assertActiveTasksTitleIsDisplayed()
+    {
+        LOG.info("Assert Active tasks title is displayed");
+        Assert.assertEquals(taskbarTitle.getText(), language.translate("myTasksPage.active.title"));
+        return this;
+    }
+
+    public MyTasksPage assertCompletedTasksTitleIsDisplayed()
+    {
+        LOG.info("Assert Completed tasks title is displayed");
+        Assert.assertEquals(taskbarTitle.getText(), language.translate("myTasksPage.completed.title"));
         return this;
     }
 
@@ -120,7 +135,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     {
         completedTasksButton.click();
         this.renderedPage();
-        browser.waitUntilElementContainsText(activeTasksBar, "Completed Tasks");
+        browser.waitUntilElementContainsText(taskbarTitle, "Completed Tasks");
     }
 
     public ViewTaskPage clickViewTask(String taskName)
@@ -203,7 +218,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
 
     public boolean isActiveTasksBarDisplayed()
     {
-        return browser.isElementDisplayed(activeTasksBar);
+        return browser.isElementDisplayed(taskbarTitle);
     }
 
     public EditTaskPage clickOnTaskTitle(String taskName)

@@ -14,7 +14,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
  * Created by Claudia Agache on 7/7/2016.
  */
 @PageObject
-public class EnterFeedURLPopUp extends DashletPopUp
+public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 {
     @RenderWebElement
     @FindBy (css = "input[name='url']")

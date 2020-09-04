@@ -21,6 +21,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
@@ -154,6 +155,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private WebElement contentError;
     @FindBy (css = "span[class$='onAddCommentClick'] button")
     private WebElement addCommentButton;
+
+    @FindBy (css = "iframe[id$='default-add-content_ifr']")
+    private WebElement commentsIframe;
+
     private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
     private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
     private By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
@@ -169,6 +174,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/document-details", getCurrentSiteName());
+    }
+
+    public DocumentDetailsPage assertDocumentDetailsPageIsOpened()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
+        return this;
     }
 
     public boolean isDocumentFavourite()
@@ -211,6 +222,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
             LOG.info("The comment box is not displayed " + ex.getStackTrace());
             return false;
         }
+    }
+
+    public DocumentDetailsPage assertCommentsAreaIsOpened()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(commentsIframe), "Comments area is opened");
+        return this;
     }
 
     public String getFileName()

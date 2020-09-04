@@ -41,7 +41,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
-public class MyActivitiesTests extends ContextAwareWebTest
+public class MyActivitiesDashletTests extends ContextAwareWebTest
 {
     @Autowired
     MyActivitiesDashlet myActivitiesDashlet;
@@ -455,7 +455,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, documentName + " content");
         contentService.createDocument(userNameB, password, siteName, DocumentType.TEXT_PLAIN, documentNameB, documentNameB + " content");
         setupAuthenticatedSession(userName, password);
-        myDocumentsDashlet.waitForDocument();
 
         LOG.info("STEP 1 - Select My Activities value from drop-down menu");
         myActivitiesDashlet.selectOptionFromUserActivities("My activities");

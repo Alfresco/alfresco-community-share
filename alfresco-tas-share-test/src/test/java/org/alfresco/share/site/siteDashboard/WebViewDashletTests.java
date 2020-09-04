@@ -83,7 +83,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
         Assert.assertTrue(configureWebViewPopUp.isCloseButtonDisplayed());
 
         LOG.info("Step 6: Click 'X' button.");
-        configureWebViewPopUp.clickCloseButton();
+        configureWebViewPopUp.clickClose();
         Assert.assertFalse(webViewDashlet.isConfigureWebViewWindowDisplayed());
 
         userService.delete(adminUser, adminPassword, user);

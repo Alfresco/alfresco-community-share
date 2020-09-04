@@ -184,7 +184,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         userDashboardPage.navigate(userC2280);
 
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
-        mySitesDashlet.clickDeleteSiteIconForSite(siteNameC2280_2);
+        mySitesDashlet.clickDelete(siteNameC2280_2);
         assertTrue(deleteSiteDialog.isPopupDisplayed(), "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_2 + "''?"), true, "Confirm delete message is correct.");
 
@@ -334,11 +334,8 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
 
         LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.usingSite(siteNameC2292).clickDelete();
-        assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteNameC2292));
-
-        LOG.info("STEP3: Click \"Cancel\" button");
-        deleteSiteDialog.clickCancelFromSitesManager();
+        sitesManagerPage.usingSite(siteNameC2292).clickDelete().assertConfirmMessageFromSiteManagerIsCorrect(siteNameC2292)
+            .clickCancelFromSitesManager();
         sitesManagerPage.usingSite(siteNameC2292).assertSiteIsDisplayed();
 
         LOG.info("STEP4: Open the created site by link");
