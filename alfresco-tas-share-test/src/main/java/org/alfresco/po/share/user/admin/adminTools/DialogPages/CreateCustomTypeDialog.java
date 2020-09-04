@@ -53,6 +53,7 @@ public class CreateCustomTypeDialog extends ShareDialog
     public ModelDetailsPage clickCreate()
     {
         getBrowser().waitUntilElementClickable(createButton).click();
+        modelDetailsPage.waitForLoadingMessageToDisappear();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 

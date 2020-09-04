@@ -66,6 +66,7 @@ public class CreateAspectDialog extends ShareDialog
     public ModelDetailsPage clickCreate()
     {
         browser.waitUntilElementClickable(createButton).click();
+        modelDetailsPage.waitForLoadingMessageToDisappear();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 }
