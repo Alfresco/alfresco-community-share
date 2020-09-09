@@ -81,14 +81,11 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         assertEquals(siteActivitiesDashlet.getEmptyDashletMessage(), language.translate("activities.empty"), "Empty dashlet message-");
 
         LOG.info("STEP2: Verify available actions");
-        assertEquals(siteActivitiesDashlet.isRssFeedButtonDisplayed(), true, "'Subscribe to RSS feed' icon is displayed.");
+        siteActivitiesDashlet.assertRssFeedButtonIsDisplayed();
 
         assertEquals(siteActivitiesDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_ACTIVITIES), true, "'Help' icon is displayed.");
 
-        String[] expectedUserActivities = { language.translate("siteActivities.filter.mine"), language.translate("siteActivities.filter.everyoneElse"),
-            language.translate("siteActivities.filter.everyone"), language.translate("siteActivities.filter.meFollowing") };
-        assertEquals(DataUtil.areListsEquals(siteActivitiesDashlet.getMyActivitiesFilterOptions(), expectedUserActivities), true,
-            "Site Activities dropdown options-");
+        siteActivitiesDashlet.assertActivitiesFilterHasAllOptions();
 
         LOG.info("STEP3: Click '?' icon");
         siteActivitiesDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_ACTIVITIES);
@@ -123,24 +120,22 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Select 'today' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter.TODAY);
-        assertEquals(siteActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.TODAY), true, "Option 'today' is selected.");
+        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.today"));
         assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(0, "now"), true, "Only activities from today are displayed.");
 
         LOG.info("STEP2: Select 'in the last 7 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter.SEVEN_DAYS);
-        assertEquals(siteActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.SEVEN_DAYS), true, "Option 'in the last 7 days' is selected.");
+        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last7days"));
         assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(7, "now"), true, "Only activities in the last 7 days are displayed.");
 
         LOG.info("STEP3: Select 'in the last 14 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter.FOURTEEN_DAYS);
-        assertEquals(siteActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.FOURTEEN_DAYS), true,
-            "Option 'in the last 14 days' is selected.");
+        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last14days"));
         assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(14, "now"), true, "Only activities in the last 14 days are displayed.");
 
         LOG.info("STEP4: Select 'in the last 28 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter.TWENTY_EIGHT_DAYS);
-        assertEquals(siteActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.TWENTY_EIGHT_DAYS), true,
-            "Option 'in the last 28 days' is selected.");
+        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last28days"));
         assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(28, "now"), true, "Only activities in the last 28 days are displayed.");
 
         userService.delete(adminUser, adminPassword, user);
@@ -440,25 +435,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
-        LOG.info("Step 1: Check options available for activities type filter");
-        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("My activities"), "My Activities is not available");
-        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("Everyone else's activities"), "Everyone else's activities is not available");
-        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("Everyone's activities"), "Everyone's activities is not available");
-        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("I'm following"), "I'm following is not available");
-
-        LOG.info("Step 2: Check options available for item type filter");
-        List<String> actualOptionsItemType = siteActivitiesDashlet.getItemTypeFilterOptionAvailable();
-        Assert.assertTrue(actualOptionsItemType.contains("all items"), "all items is not available");
-        Assert.assertTrue(actualOptionsItemType.contains("comments"), "comments is not available");
-        Assert.assertTrue(actualOptionsItemType.contains("content"), "content is not available");
-        Assert.assertTrue(actualOptionsItemType.contains("memberships"), "memberships is not available");
-
-        LOG.info("Step 3: Check range filter options");
-        List<String> actualOptionsRange = siteActivitiesDashlet.getRangeFilterOptions();
-        Assert.assertTrue(actualOptionsRange.contains("today"), "today option is not available");
-        Assert.assertTrue(actualOptionsRange.contains("in the last 7 days"), "in the last 7 days option is not available");
-        Assert.assertTrue(actualOptionsRange.contains("in the last 14 days"), "in the last 14 days option is not available");
-        Assert.assertTrue(actualOptionsRange.contains("in the last 28 days"), "in the last 28 days option is not available");
+        siteActivitiesDashlet.assertActivitiesFilterHasAllOptions()
+            .assertItemsFilterHasAllOptions()
+            .assertHistoryFilterHasAllOptions();
         cleanupAuthenticatedSession();
     }
 

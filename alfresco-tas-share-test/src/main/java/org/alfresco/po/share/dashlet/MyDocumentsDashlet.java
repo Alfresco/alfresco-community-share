@@ -63,11 +63,6 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             (By.xpath(String.format(documentRow, documentName)), 1, 20);
     }
 
-    public WebElement getDocumentWithoutWait(String docName)
-    {
-        return browser.findElement(By.xpath(String.format(documentRow, docName)));
-    }
-
     private String getFilterValue(DocumentsFilter filter)
     {
         String filterValue = "";

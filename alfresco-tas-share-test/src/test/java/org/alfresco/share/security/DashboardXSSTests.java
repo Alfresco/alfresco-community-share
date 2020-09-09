@@ -68,7 +68,7 @@ public class DashboardXSSTests extends ContextAwareWebTest
         LOG.info("Precondition 2: Add 'Web View' to user dashboard.");
 
         LOG.info("STEP 1: Click Configure icon on Web View dashlet.");
-        webViewDashlet.clickOnConfigureDashletIcon();
+        webViewDashlet.clickConfigureDashlet();
         assertTrue(configureWebViewDashletPopUp.isConfigureWebViewDashletPopUpDisplayed(), "'Configure Web View Dashlet' PopUp could not be opened.");
 
         LOG.info("STEP 2: Enter into Link Title field XSS string, try the next cases: '" + XSSString + "'.");

@@ -1,17 +1,15 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.blog.BlogPostListPage;
-import org.alfresco.po.share.site.calendar.CalendarPage;
-import org.alfresco.po.share.site.dataLists.DataListsPage;
-import org.alfresco.po.share.site.discussion.TopicViewPage;
-import org.alfresco.po.share.site.link.LinkPage;
-import org.alfresco.po.share.site.wiki.WikiMainPage;
+import org.alfresco.po.share.user.profile.UserProfilePage;
+import org.alfresco.rest.requests.Site;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -23,9 +21,13 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * My activities dashlet page object, holds all elements of the HTML page relating to
@@ -35,55 +37,65 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @Primary
 public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
 {
-    private static By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
+    @Autowired
+    private UserProfilePage userProfilePage;
+
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+
     @RenderWebElement
     @FindBy (css = "div.dashlet.activities")
-    protected HtmlElement dashletContainer;
+    protected WebElement dashletContainer;
+
     @FindBy (css = "div.dashlet.activities div.title")
     protected WebElement activitiesDashletTitle;
-    @Autowired
-    WikiMainPage wikiPage;
-    @Autowired
-    LinkPage linkPage;
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    TopicViewPage discussionsPage;
-    @Autowired
-    CalendarPage calendarPage;
-    @Autowired
-    BlogPostListPage blogPostListPage;
-    @Autowired
-    DataListsPage dataListsPage;
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+
     @FindAll (@FindBy (xpath = "//div[@class='activity']//div[@class='hidden']/preceding-sibling::div[@class='more']/a"))
     private List<Link> linksMore;
+
     @FindAll (@FindBy (css = "div[id$='default-activityList'] > div.activity div:last-child[class$='content']"))
     private List<WebElement> activityLinks;
+
     @FindBy (css = "div[id$='default-activityList']")
     private WebElement activitiesEmptyList;
+
     @FindBy (css = "button[id$='default-user-button']")
-    private Button myActivitiesButton;
+    private WebElement myActivitiesButton;
+
     @FindAll (@FindBy (css = "div.activities div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
+
     @FindBy (css = "button[id$='default-range-button']")
     private Button daysRangeButton;
+
     @FindBy (css = "div[class$='yui-menu-button-menu visible'] a")
     private List<WebElement> filterOptions;
+
     @FindAll (@FindBy (css = "div[id$='default-activityList']>div.activity"))
     private List<WebElement> activitiesList;
-    @FindBy (css = "button[id$='_default-activities-button']")
+
+    @FindBy (css = "button[id$='default-activities-button']")
     private WebElement defaultActivitiesButton;
+
     @FindBy (css = "button[id$='_default-user-button']")
     private WebElement userFilterButton;
-    private By rssFeedButton = By.cssSelector("div[class='titleBarActionIcon rss']");
-    private By userLinkLocator = By.cssSelector("span.detail>a[class^='theme-color']");
-    private By siteLinkLocator = By.cssSelector("span.detail>a[class^='site-link']");
-    private By documentLinkLocator = By.cssSelector("span.detail>a[class*='item-link']");
-    private By detailLocator = By.cssSelector("span.detail");
 
+    @FindAll (@FindBy (css = "div[class^='dashlet activities'] div[class$='visible'] a"))
+    private List<WebElement> filters;
+
+    @FindAll (@FindBy (css = ".activity .detail"))
+    private List<WebElement> activityRows;
+
+    private By rssFeedButton = By.cssSelector("div[class='titleBarActionIcon rss']");
+    private By userLinkLocator = By.cssSelector("a:nth-of-type(1)");
+    private By siteLinkLocator = By.cssSelector("span.detail>a[class^='site-link']");
+    private By documentLinkLocator = By.cssSelector("a[class*='item-link']");
+    private By detailLocator = By.cssSelector("span.detail");
     private By activityListCheckedForDisplay = By.cssSelector("div[id$='default-activityList']>div.activity");
+    private By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
     private List<ActivityLink> activities;
 
     private WebElement documentInActivities(String documentName)
@@ -95,6 +107,91 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     public String getDashletTitle()
     {
         return dashletContainer.findElement(dashletTitle).getText();
+    }
+
+    private WebElement getActivityRow(String expectedActivity)
+    {
+        List<String> activities = browser.getTextFromElementList(activityRows);
+        int retry = 0;
+        while(!activities.contains(expectedActivity) && retry < 60)
+        {
+            Utility.waitToLoopTime(1, String.format("Wait for activity '%s' to be displayed", expectedActivity));
+            browser.refresh();
+            browser.waitUntilElementVisible(dashletContainer);
+            retry++;
+            activities = browser.getTextFromElementList(activityRows);
+        }
+        return browser.findFirstElementWithExactValue(activityRows, expectedActivity);
+    }
+
+    public MyActivitiesDashlet assertAddDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getActivityRow(
+            String.format(language.translate("activitiesDashlet.document.createActivity"),
+            user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))));
+        return this;
+    }
+
+    public MyActivitiesDashlet assertAddDocumentActivityIsNotDisplayedFor(UserModel user, FileModel file, SiteModel site)
+    {
+        Assert.assertFalse(browser.getTextFromElementList(activityRows).contains(
+            String.format(language.translate("activitiesDashlet.document.createActivity"),
+                user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())));
+        return this;
+    }
+
+    public MyActivitiesDashlet assertUpdateDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getActivityRow(
+            String.format(language.translate("activitiesDashlet.document.updateActivity"),
+                user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))));
+        return this;
+    }
+
+    public MyActivitiesDashlet assertPreviewedDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getActivityRow(
+            String.format(language.translate("activitiesDashlet.document.previewedActivity"),
+                user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))));
+        return this;
+    }
+
+    public MyActivitiesDashlet assertDeleteDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getActivityRow(
+            String.format(language.translate("activitiesDashlet.document.deleteActivity"),
+                user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))));
+        return this;
+    }
+
+    public MyActivitiesDashlet assertAddedFolderActivityIsDisplayed(UserModel user, FolderModel folder, SiteModel site)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getActivityRow(
+            String.format(language.translate("activitiesDashlet.folder.createActivity"),
+            user.getFirstName(), user.getLastName(), folder.getName(), site.getTitle()))));
+        return this;
+    }
+
+    public MyActivitiesDashlet assertDeletedFolderActivityIsDisplayed(UserModel user, FolderModel folder, SiteModel site)
+    {
+        Assert.assertTrue(browser.isElementDisplayed(getActivityRow(
+            String.format(language.translate("activitiesDashlet.folder.deleteActivity"),
+                user.getFirstName(), user.getLastName(), folder.getName(), site.getTitle()))));
+        return this;
+    }
+
+    public UserProfilePage clickUserFromAddedDocumentActivity(UserModel user, FileModel file, SiteModel site)
+    {
+        getActivityRow(String.format(language.translate("activitiesDashlet.document.createActivity"),
+            user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(userLinkLocator).click();
+        return (UserProfilePage) userProfilePage.renderedPage();
+    }
+
+    public DocumentDetailsPage clickDocumentLinkForAddActivity(UserModel user, FileModel file, SiteModel site)
+    {
+        getActivityRow(String.format(language.translate("activitiesDashlet.document.createActivity"),
+            user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(documentLinkLocator).click();
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     /**
@@ -228,131 +325,77 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
         }
     }
 
-    /**
-     * Gets the list of options from Site User Activities filter dropdown
-     *
-     * @return
-     */
-    public List<String> getMyActivitiesFilterOptions()
+    public MyActivitiesDashlet assertActivitiesFilterHasAllOptions()
     {
+        List<String> expectedUserActivities = Arrays.asList(language.translate("activitiesDashlet.filter.mine"),
+            language.translate("activitiesDashlet.filter.everyoneElse"),
+            language.translate("activitiesDashlet.filter.everyone"),
+            language.translate("activitiesDashlet.filter.meFollowing"));
         myActivitiesButton.click();
-
-        List<String> userActivitiesFilterOptions = new ArrayList<>();
-
-        try
-        {
-            for (WebElement element : browser.findDisplayedElementsFromLocator(userActivitesList))
-            {
-                String text = element.getText();
-                if (text != null)
-                {
-                    userActivitiesFilterOptions.add(text.trim());
-                }
-            }
-        } catch (NoSuchElementException nse)
-        {
-            LOG.error("Unable to access My Discussions dashlet user filters data", nse);
-        }
-        myActivitiesButton.click();
-        return userActivitiesFilterOptions;
-
+        browser.waitUntilElementsVisible(filters);
+        Assert.assertTrue(expectedUserActivities.equals(browser.getTextFromElementList(filters)));
+        return this;
     }
 
-    /**
-     * Select option from "My Activities" drop down
-     *
-     * @param myActivitiesOption String
-     * @return {@link ActivityLink} collection
-     * author Cristina.Axinte
-     */
-    public MyActivitiesDashlet selectOptionFromUserActivities(String myActivitiesOption)
+    public MyActivitiesDashlet assertItemsFilterHasAllOptions()
     {
-        Parameter.checkIsMandotary("User activities option", myActivitiesOption);
-        try
-        {
-            myActivitiesButton.click();
-            browser.selectOptionFromFilterOptionsList(myActivitiesOption, dropDownOptionsList);
-            return (MyActivitiesDashlet) this.renderedPage();
-        } catch (NoSuchElementException nse)
-        {
-            LOG.error("My Activities option not present" + nse.getMessage());
-            throw new PageOperationException(myActivitiesOption + " option not present.");
-        }
+        List<String> expectedUserActivities = Arrays.asList(language.translate("activitiesDashlet.filter.allItems"),
+            language.translate("activitiesDashlet.filter.comments"),
+            language.translate("activitiesDashlet.filter.content"),
+            language.translate("activitiesDashlet.filter.memberships"));
+        defaultActivitiesButton.click();
+        browser.waitUntilElementsVisible(filters);
+        Assert.assertTrue(expectedUserActivities.equals(browser.getTextFromElementList(filters)));
+        return this;
     }
 
-    /**
-     * Select option from history filter drop down
-     *
-     * @param noDaysOption SiteActivitiesHistoryFilter
-     * @return {@link ActivityLink} collection
-     * author Cristina.Axinte
-     */
+    public MyActivitiesDashlet assertHistoryFilterHasAllOptions()
+    {
+        List<String> expectedUserActivities = Arrays.asList(language.translate("activitiesDashlet.filter.today"),
+            language.translate("activitiesDashlet.filter.last7days"),
+            language.translate("activitiesDashlet.filter.last14days"),
+            language.translate("activitiesDashlet.filter.last28days"));
+        daysRangeButton.click();
+        browser.waitUntilElementsVisible(filters);
+        Assert.assertTrue(expectedUserActivities.equals(browser.getTextFromElementList(filters)));
+        return this;
+    }
+
+    public MyActivitiesDashlet selectActivityFilter(ActivitiesFilter activitiesFilter)
+    {
+        myActivitiesButton.click();
+        browser.waitUntilElementsVisible(dropDownOptionsList);
+        browser.selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), dropDownOptionsList);
+        return this;
+    }
+
     public MyActivitiesDashlet selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter noDaysOption)
     {
-        Parameter.checkIsMandotary("User activities option", noDaysOption);
-        try
-        {
-            daysRangeButton.click();
-            browser.selectOptionFromFilterOptionsList(noDaysOption.getDescription(), dropDownOptionsList);
-            return this;
-        } catch (NoSuchElementException nse)
-        {
-            LOG.error("My days range option not present" + nse.getMessage());
-            throw new PageOperationException(noDaysOption + " option not present.");
-        }
+        daysRangeButton.click();
+        browser.waitUntilElementsVisible(dropDownOptionsList);
+        browser.selectOptionFromFilterOptionsList(noDaysOption.getDescription(), dropDownOptionsList);
+        return this;
     }
 
-    /**
-     * Method returns if the specified option is selected in My Activities button
-     *
-     * @param myActivitiesOption String
-     * @return boolean
-     */
-    public boolean isMyActivitiesOptionSelected(String myActivitiesOption)
+    public MyActivitiesDashlet assertSelectedActivityFilterIs(String expectedFilter)
     {
-        return browser.isOptionSelectedForFilter(myActivitiesOption, myActivitiesButton.getWrappedElement());
+        LOG.info(String.format("Assert filter '%s' is selected", expectedFilter));
+        Assert.assertTrue(myActivitiesButton.getText().contains(expectedFilter), String.format("Expected filter is %s", expectedFilter));
+        return this;
     }
 
-    // /**
-    // * Method for navigate to RSS Feed Page from site activity dashlet.
-    // *
-    // * @param username String
-    // * @param password String
-    // * @return RssFeedPage
-    // * author Cristina.Axinte
-    // */
-    // public HtmlPage selectRssFeedPage(String username, String password)
-    // {
-    // try
-    // {
-    // String currentUrl = driver.getCurrentUrl();
-    // String rssUrlPart = (String) executeJavaScript("return activities.link");
-    // String protocolVar = PageUtils.getProtocol(currentUrl);
-    // String address = PageUtils.getAddress(currentUrl);
-    // String rssUrl = String.format("%s%s:%s@%s%s", protocolVar, username, password, address, rssUrlPart);
-    // driver.navigate().to(rssUrl);
-    // return factoryPage.instantiatePage(driver, RssFeedPage.class);
-    // }
-    // catch (NoSuchElementException nse)
-    // {
-    // logger.error("Exceeded the time to find css.", nse);
-    // }
-    // catch (TimeoutException e)
-    // {
-    // logger.error("Exceeded the time to find css.", e);
-    // }
-    // throw new PageOperationException("Not able to select RSS Feed option");
-    // }
-
-    /**
-     * Method returns if the specified option is selected in history button
-     *
-     * @param noDaysOption SiteActivitiesHistoryFilter
-     * @return boolean
-     */
-    public boolean isHistoryOptionSelected(SiteActivitiesDaysRangeFilter noDaysOption)
+    public MyActivitiesDashlet assertSelectedHistoryOptionIs(String expectedValue)
     {
-        return browser.isOptionSelectedForFilter(noDaysOption.getDescription(), daysRangeButton.getWrappedElement());
+        LOG.info(String.format("Assert history filter '%s' is selected", expectedValue));
+        Assert.assertTrue(daysRangeButton.getText().contains(expectedValue), String.format("Expected history filter is %s", expectedValue));
+        return this;
+    }
+
+    public MyActivitiesDashlet assertSelectedItemFilterIs(String expectedFilter)
+    {
+        LOG.info(String.format("Assert item filter '%s' is selected", expectedFilter));
+        Assert.assertTrue(defaultActivitiesButton.getText().contains(expectedFilter), String.format("Expected item filter is %s", expectedFilter));
+        return this;
     }
 
     public String getEmptyDashletMessage()
@@ -360,16 +403,17 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
         return activitiesEmptyList.getText();
     }
 
-    public boolean isRssFeedButtonDisplayed()
+    public MyActivitiesDashlet assertEmptyDashletMessageIsCorrect()
     {
-        browser.mouseOver(activitiesDashletTitle);
-        return browser.waitUntilElementVisible(rssFeedButton).isDisplayed();
+        Assert.assertEquals(activitiesEmptyList.getText(), language.translate("myactivitiesDashlet.empty"));
+        return this;
     }
 
-    public void clickRssFeedButton()
+    public MyActivitiesDashlet assertRssFeedButtonIsDisplayed()
     {
         browser.mouseOver(activitiesDashletTitle);
-        browser.waitUntilElementVisible(rssFeedButton).click();
+        Assert.assertTrue(browser.isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
+        return this;
     }
 
     /**
@@ -474,9 +518,40 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
         return getBrowser().findElement(By.cssSelector("div[id$='_default-activityList'] div.empty")).getText();
     }
 
+    private String getActivitiesFilterValue(ActivitiesFilter filter)
+    {
+        String filterValue = "";
+        switch (filter)
+        {
+            case MY_ACTIVITIES:
+                filterValue = language.translate("activitiesDashlet.filter.mine");
+                break;
+            case EVERYONE_ELSE_ACTIVITIES:
+                filterValue = language.translate("activitiesDashlet.filter.everyoneElse");
+                break;
+            case EVERYONE_ACTIVITIES:
+                filterValue = language.translate("activitiesDashlet.filter.everyone");
+                break;
+            case IM_FOLLOWING:
+                filterValue = language.translate("activitiesDashlet.filter.meFollowing");
+                break;
+            default:
+                break;
+        }
+        return filterValue;
+    }
+
     public enum LinkType
     {
         User, Document, Site
+    }
+
+    public enum ActivitiesFilter
+    {
+        MY_ACTIVITIES,
+        EVERYONE_ELSE_ACTIVITIES,
+        EVERYONE_ACTIVITIES,
+        IM_FOLLOWING
     }
 }
 

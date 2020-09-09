@@ -10,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -37,6 +38,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @RenderWebElement
     @FindBy (css = ".node-header")
     protected WebElement docDetailsPageHeader;
+
+    @FindBy (css = ".node-header h1")
+    protected WebElement headerFileName;
+
     @FindBy (linkText = "Download")
     protected WebElement downloadDocument;
     @FindBy (css = "div[class='node-social']")
@@ -179,6 +184,13 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public DocumentDetailsPage assertDocumentDetailsPageIsOpened()
     {
         Assert.assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
+        return this;
+    }
+
+    public DocumentDetailsPage assertDocumentDetailsPageIsOpenedForFile(FileModel expectedFile)
+    {
+        Assert.assertTrue(headerFileName.getText().contains(expectedFile.getName()),
+            String.format("Document details page is opened for file %s", expectedFile.getName()));
         return this;
     }
 

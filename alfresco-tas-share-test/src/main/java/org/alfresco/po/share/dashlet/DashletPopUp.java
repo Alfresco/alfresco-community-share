@@ -1,11 +1,13 @@
 package org.alfresco.po.share.dashlet;
 
+import org.alfresco.common.Language;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
@@ -13,6 +15,9 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 
 public abstract class DashletPopUp<T> extends HtmlPage
 {
+    @Autowired
+    protected Language language;
+
     @RenderWebElement
     @FindBy (css = "a.container-close")
     protected WebElement closeButton;
