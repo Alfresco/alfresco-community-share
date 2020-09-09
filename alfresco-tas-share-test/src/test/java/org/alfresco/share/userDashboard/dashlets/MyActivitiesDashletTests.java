@@ -107,9 +107,8 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 5)
     public void checkUsersFilter()
     {
-        invitedUser.setUserRole(UserRole.SiteCollaborator);
-        restApi.authenticateUser(user).withCoreAPI()
-            .usingSite(testSite).addPerson(invitedUser);
+        dataUser.usingUser(user).addUserToSite(invitedUser, testSite, UserRole.SiteCollaborator);
+
         FileModel managerFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel collaboratorFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
         cmisApi.authenticateUser(user).usingSite(testSite)
