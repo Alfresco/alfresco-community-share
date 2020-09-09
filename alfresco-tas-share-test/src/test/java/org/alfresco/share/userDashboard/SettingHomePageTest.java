@@ -39,7 +39,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2858")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void useCurrentPage()
     {
         userProfilePage.navigate(user);
