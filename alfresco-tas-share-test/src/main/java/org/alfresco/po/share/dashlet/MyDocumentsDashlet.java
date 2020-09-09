@@ -6,6 +6,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -230,7 +231,16 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument like()
         {
-            getFileRow().findElement(likeAction).click();
+            WebElement likeBtn;
+            try
+            {
+                likeBtn = getFileRow().findElement(likeAction);
+            }
+            catch (NoSuchElementException e)
+            {
+                likeBtn = getFileRow().findElement(likeAction);
+            }
+            likeBtn.click();
             getBrowser().waitUntilElementVisible(getFileRow().findElement(unlikeAction));
             return this;
         }

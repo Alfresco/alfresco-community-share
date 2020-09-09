@@ -311,7 +311,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
             {
                 WebElement target = browser
                     .waitUntilElementVisible(By.cssSelector(String.format(targetColumn, columnNumber)));
-                ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
+                //((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
                 try
                 {
                     browser.dragAndDrop(webDashlet, target);
@@ -341,7 +341,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
         boolean added = isDashletAddedInColumn(dashlet, columnNr);
         while (i < retry && !added)
         {
-            LOG.info(String.format("Retry add dashlet - %s", i));
+            LOG.error(String.format("Retry add dashlet - %s", i));
             dragAndDropDashlet(webDashlet, target);
             added = isDashletAddedInColumn(dashlet, columnNr);
             i++;

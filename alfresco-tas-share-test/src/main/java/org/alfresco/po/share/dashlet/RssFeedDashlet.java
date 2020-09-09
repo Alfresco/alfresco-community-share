@@ -2,6 +2,7 @@ package org.alfresco.po.share.dashlet;
 
 import java.util.List;
 
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -66,12 +67,21 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     {
         browser.waitUntilElementsVisible(feedsList);
         feedsList.get(position).click();
+        Utility.waitToLoopTime(1);
         return this;
     }
 
     public RssFeedDashlet assertRssFeedLinkIsOpened(String expectedUrlTitle)
     {
         LOG.info("Assert RSS Feed window is opened");
+        int tabs = browser.getWindowHandles().size();
+        int retry = 0;
+        while(tabs != 2 && retry < 5)
+        {
+            LOG.error("Wait for RSS tab to open");
+            tabs = browser.getWindowHandles().size();
+            retry++;
+        }
         getBrowser().switchWindow(1);
         getBrowser().waitUrlContains(expectedUrlTitle, 20);
         Assert.assertTrue(getBrowser().getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");

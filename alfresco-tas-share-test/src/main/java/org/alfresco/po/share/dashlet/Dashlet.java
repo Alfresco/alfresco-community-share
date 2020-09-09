@@ -12,6 +12,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
@@ -183,18 +184,18 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
      */
     public void resizeDashlet(int height, int scrolldown)
     {
-        WebElement resizeDash;
-        try
-        {
-            resizeDash = browser.findElement(By.xpath(String.format(resizeDashlet, this.getDashletTitle())));
-        }
-        catch (NoSuchElementException ns)
-        {
-            throw new PageOperationException(this.getDashletTitle() + " is not expandable");
-        }
+        WebElement resizeDash = browser.findElement(By.xpath(String.format(resizeDashlet, this.getDashletTitle())));
         if (scrolldown == 1)
         {
             ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
+        }
+        try
+        {
+            browser.dragAndDrop(resizeDash, 0, height);
+        }
+        catch (MoveTargetOutOfBoundsException e)
+        {
+            LOG.error("Retry resize dashlet");
         }
         browser.dragAndDrop(resizeDash, 0, height);
     }
