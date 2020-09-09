@@ -89,7 +89,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
     @FindBy (css = "input[id$='input-companyfax']")
     private WebElement companyFaxInput;
 
-    @FindBy (css = ".photoimg")
+    @FindBy (css = "div[id$='editview'] .photoimg")
     private WebElement avatar;
 
     @FindBy (css = "button[id$='button-clearphoto-button']")
@@ -172,7 +172,8 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
 
     public EditUserProfilePage clickUseDefaultPhoto()
     {
-        useDefaultPhoto.click();
+        browser.waitUntilElementClickable(useDefaultPhoto).click();
+        browser.waitUntilElementHasAttribute(avatar, "src", "no-user-photo-64.png");
         return this;
     }
 
