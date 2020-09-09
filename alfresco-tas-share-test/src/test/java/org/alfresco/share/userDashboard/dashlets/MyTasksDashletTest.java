@@ -56,12 +56,12 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
             .assertCompletedTasksButtonIsDisplayed()
             .assertActiveTasksButtonIsDisplayed()
             .assertFilterTasksIsDisplayed()
-            .assertTasksNavigationIs(1, 1)
                 .assertTaskIsDisplayed(taskModel.getMessage())
                 .assertViewIsDisplayedForTask(taskModel.getMessage())
                 .assertEditIsDisplayedForTask(taskModel.getMessage())
                 .assertTaskIsNotStartedYet(taskModel.getMessage())
                 .assertDueDateIsCorrect(taskModel.getMessage(), taskModel.getDueDate())
+                .assertTasksNavigationIs(1, 1)
                 .clickStartWorkFlow()
                     .assertStartWorkflowPageIsOpened();
 

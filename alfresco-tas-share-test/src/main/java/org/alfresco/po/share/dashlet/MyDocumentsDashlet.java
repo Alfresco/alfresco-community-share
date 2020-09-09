@@ -156,8 +156,8 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         private By documentNameLink = By.cssSelector("h3.filename > a");
         private By smallIconThumbnail = By.cssSelector("td[headers$='thumbnail '] .icon32");
         private By commentLink = By.cssSelector(".comment");
-        private By likeAction = By.cssSelector("a[class^='like-action like4']");
-        private By unlikeAction = By.cssSelector("a[class^='like-action like4 enabled']");
+        private By likeAction = By.cssSelector("a[class='like-action like4']");
+        private By unlikeAction = By.cssSelector("a[class='like-action like4 enabled']");
         private By likesCount = By.cssSelector(".likes-count");
         private By favoriteAction = By.cssSelector("a[class^='favourite-action']");
         private By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite3 enabled']");

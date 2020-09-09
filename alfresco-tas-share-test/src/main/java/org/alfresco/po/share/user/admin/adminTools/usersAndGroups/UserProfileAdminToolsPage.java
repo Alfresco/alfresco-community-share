@@ -89,7 +89,8 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public UserProfileAdminToolsPage assertUserIsDisplayedInTitle(UserModel user)
     {
         LOG.info("Assert user first and last name are displayed in page title");
-        Assert.assertEquals(userProfileUserName.getText(), String.format("%s %s", user.getFirstName(), user.getLastName()));
+        Assert.assertEquals(browser.waitUntilElementVisible(userProfileUserName).getText(),
+            String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
 

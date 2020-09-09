@@ -102,10 +102,10 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         myActivitiesDashlet.assertDashletIsExpandable();
 
         int sizeBefore = myTasksDashlet.getDashletHeight();
-        myTasksDashlet.resizeDashlet(300, 1);
+        myTasksDashlet.resizeDashlet(50, 1);
         int sizeAfter = myTasksDashlet.getDashletHeight();
         Assert.assertTrue(sizeAfter > sizeBefore, "Dashlet size is increased");
-        myTasksDashlet.resizeDashlet(-500, 0);
+        myTasksDashlet.resizeDashlet(-300, 0);
         Assert.assertTrue(myTasksDashlet.getDashletHeight() < sizeAfter);
 
         sizeBefore = myActivitiesDashlet.getDashletHeight();

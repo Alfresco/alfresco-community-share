@@ -64,6 +64,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 
     public RssFeedDashlet clickOnRssLink(int position)
     {
+        browser.waitUntilElementsVisible(feedsList);
         feedsList.get(position).click();
         return this;
     }

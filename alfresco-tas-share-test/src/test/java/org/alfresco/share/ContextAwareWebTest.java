@@ -249,8 +249,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     {
         Arrays.stream(users).forEach(user -> {
             dataUser.usingAdmin().deleteUser(user);
-            FolderModel userFolder = getUserHomeFolder(user);
-            cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(userFolder).deleteFolderTree();
         });
     }
 

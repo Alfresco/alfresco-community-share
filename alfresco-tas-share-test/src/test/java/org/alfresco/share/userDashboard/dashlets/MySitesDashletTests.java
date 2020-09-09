@@ -91,10 +91,6 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
         mySitesDashlet.accessSite(site2).assertSiteDashboardPageIsOpened();
         userDashboard.navigate(user);
 
-        mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.ALL);
-        mySitesDashlet.assertSiteIsDisplayed(site1);
-        mySitesDashlet.assertSiteIsDisplayed(site2);
-
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.RECENT);
         mySitesDashlet.assertSiteIsNotDisplayed(site1);
         mySitesDashlet.assertSiteIsDisplayed(site2);
@@ -102,6 +98,11 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.MY_FAVORITES);
         mySitesDashlet.assertSiteIsDisplayed(site2);
         mySitesDashlet.assertSiteIsNotDisplayed(site1);
+
+        mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.ALL);
+        mySitesDashlet.assertSiteIsDisplayed(site1);
+        mySitesDashlet.assertSiteIsDisplayed(site2);
+
         deleteSites(site1, site2);
     }
 

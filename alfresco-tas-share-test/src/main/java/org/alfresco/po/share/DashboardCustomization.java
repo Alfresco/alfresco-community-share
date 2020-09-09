@@ -312,7 +312,14 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
                 WebElement target = browser
                     .waitUntilElementVisible(By.cssSelector(String.format(targetColumn, columnNumber)));
                 ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
-                browser.dragAndDrop(webDashlet, target);
+                try
+                {
+                    browser.dragAndDrop(webDashlet, target);
+                }
+                catch (MoveTargetOutOfBoundsException e)
+                {
+                    LOG.error(String.format("Failed to add dashlet %s. Will retry...", dashlet.getDashletName()));
+                }
                 retryAddDashlet(dashlet, webDashlet, target, columnNumber);
             }
             else
