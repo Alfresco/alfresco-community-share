@@ -89,7 +89,9 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     @FindAll (@FindBy (css = ".activity .detail"))
     private List<WebElement> activityRows;
 
-    private By rssFeedButton = By.cssSelector("div[class='titleBarActionIcon rss']");
+    @FindBy (css = "div[class='titleBarActionIcon rss']")
+    private WebElement rssFeedButton;
+
     private By userLinkLocator = By.cssSelector("a:nth-of-type(1)");
     private By siteLinkLocator = By.cssSelector("span.detail>a[class^='site-link']");
     private By documentLinkLocator = By.cssSelector("a[class*='item-link']");

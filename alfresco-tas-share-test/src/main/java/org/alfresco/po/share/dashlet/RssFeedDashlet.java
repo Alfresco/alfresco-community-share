@@ -75,7 +75,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         LOG.info("Assert RSS Feed window is opened");
         int tabs = browser.getWindowHandles().size();
         int retry = 0;
-        while(tabs != 2 && retry < 5)
+        while(tabs != 2 && retry < 15)
         {
             LOG.error("Wait for RSS tab to open");
             tabs = browser.getWindowHandles().size();
