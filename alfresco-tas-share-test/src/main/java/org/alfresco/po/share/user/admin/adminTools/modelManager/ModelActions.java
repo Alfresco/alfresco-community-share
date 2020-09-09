@@ -157,6 +157,8 @@ public class ModelActions
     {
         LOG.info("Activate model");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.activate"), modelManagerPage);
+        getBrowser().refresh();
+        modelManagerPage.renderedPage();
         return this;
     }
 
