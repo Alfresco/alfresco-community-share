@@ -81,7 +81,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         LOG.info("STEP 6 - Go to User Dashboard page. Verify \"My Sites\" dashlet.");
         userDashboardPage.navigate(testUser.getUsername());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        Assert.assertTrue(mySitesDashlet.isSiteFavorited(testSite.getTitle()), testSite.getTitle() + " is favorite");
+        Assert.assertTrue(mySitesDashlet.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " is favorite");
         userService.delete(adminUser, adminPassword, testUser.getUsername());
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
         siteService.delete(adminUser, adminPassword, testSite.getTitle());
@@ -109,7 +109,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         LOG.info("STEP 4 - Go to User Dashboard page. Verify \"My Sites\" dashlet");
         userDashboardPage.navigate(userName);
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        Assert.assertFalse(mySitesDashlet.isSiteFavorited(siteName), siteName + " isn't favorite");
+        Assert.assertFalse(mySitesDashlet.isSiteFavorite(siteName), siteName + " isn't favorite");
         siteService.delete(adminUser, adminPassword, siteName);
 
     }
@@ -126,10 +126,10 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         userDashboardPage.navigate(testUser.getUsername());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
         LOG.info("STEP 2 - Verify \"My Sites\" dashlet");
-        Assert.assertFalse(mySitesDashlet.isSiteFavorited(testSite.getTitle()), testSite.getTitle() + " isn't favorite");
+        Assert.assertFalse(mySitesDashlet.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " isn't favorite");
         LOG.info("STEP 3 - Click on \"Favorite\" link");
-        mySitesDashlet.clickOnFavoriteLink(testSite.getTitle());
-        Assert.assertTrue(mySitesDashlet.isSiteFavorited(testSite.getTitle()), testSite.getTitle() + " is favorite");
+        mySitesDashlet.clickFavorite(testSite.getTitle());
+        Assert.assertTrue(mySitesDashlet.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " is favorite");
         LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
         toolbar.clickSites().assertSiteIsFavorite(testSite);
         userService.delete(adminUser, adminPassword, testUser.getUsername());
@@ -149,10 +149,10 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         userDashboardPage.navigate(userName);
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
         LOG.info("STEP 2 - Verify \"My Sites\" dashlet");
-        Assert.assertTrue(mySitesDashlet.isSiteFavorited(siteName), siteName + " is favorite");
+        Assert.assertTrue(mySitesDashlet.isSiteFavorite(siteName), siteName + " is favorite");
         LOG.info("STEP 3 - Click on yellow star (\"Remove site from favorites\" option)");
-        mySitesDashlet.clickOnFavoriteLink(siteName);
-        Assert.assertFalse(mySitesDashlet.isSiteFavorited(siteName), siteName + " isn't favorite");
+        mySitesDashlet.clickFavorite(siteName);
+        Assert.assertFalse(mySitesDashlet.isSiteFavorite(siteName), siteName + " isn't favorite");
         LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
         toolbar.clickSites().assertSiteIsNotFavorite(siteName);
         siteService.delete(adminUser, adminPassword, siteName);

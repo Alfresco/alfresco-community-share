@@ -188,11 +188,6 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         return browser.isElementDisplayed(oldAlfrescoLogo);
     }
 
-    public boolean isCreateSiteDialogDisplayed()
-    {
-        return getBrowser().isElementDisplayed(By.id("CREATE_SITE_DIALOG"));
-    }
-
     public UserDashboardPage assertUserDashboardPageIsOpened()
     {
         LOG.info("Assert User Dashboard page is opened");

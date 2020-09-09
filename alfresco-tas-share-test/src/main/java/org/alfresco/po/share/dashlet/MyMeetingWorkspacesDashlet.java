@@ -2,17 +2,19 @@ package org.alfresco.po.share.dashlet;
 
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import org.testng.Assert;
 
 @PageObject
 public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashlet>
 {
     @FindBy (css = "div.dashlet-padding h3")
-    protected static HtmlElement defaultDashletMessage;
+    private WebElement defaultDashletMessage;
+
     @RenderWebElement
     @FindBy (css = "div.dashlet.my-meeting-workspaces")
-    protected HtmlElement dashletContainer;
+    protected WebElement dashletContainer;
 
     @Override
     public String getDashletTitle()
@@ -20,14 +22,9 @@ public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashl
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Retrieves the default dashlet message.
-     *
-     * @return String
-     */
-    public String getDefaultMessage()
+    public MyMeetingWorkspacesDashlet assertNoMeetingWorkspacesMessageIsDisplayed()
     {
-        return defaultDashletMessage.getText();
+        Assert.assertEquals(defaultDashletMessage.getText(), language.translate("myMeetingWorkspacesDashlet.noMeeting"));
+        return this;
     }
-
 }

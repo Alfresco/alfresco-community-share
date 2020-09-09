@@ -119,7 +119,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPublicVisibilityRadioButtonChecked(), "Public visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -145,7 +145,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(createSiteDialog.getNameInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Create\" button");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -177,7 +177,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -208,7 +208,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPrivateVisibilityRadioButtonChecked(), "Private visibility selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -239,7 +239,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPublicVisibilityRadioButtonChecked(), "Public visibility selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -271,7 +271,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -303,7 +303,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPrivateVisibilityRadioButtonChecked(), "Private visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -450,7 +450,7 @@ public class CreateSiteTests extends ContextAwareWebTest
             "Warrning message is not displayed or text is not correct");
         createSiteDialog.typeInSiteID(siteID);
 
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButton();
         Assert.assertEquals(siteDashboardPage.getSiteName(), site.getTitle(), "Site name is not correct");
         dataSite.usingAdmin().deleteSite(site);
     }

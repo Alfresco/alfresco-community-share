@@ -77,7 +77,7 @@
          </methods>
       </class>
       
-      <class name="org.alfresco.share.userDashboard.dashlets.MyProfileTests">
+      <class name="org.alfresco.share.userDashboard.dashlets.MyProfileDashletTests">
          <methods>
             <include name="myLimitedProfileDashlet"/>
          </methods>

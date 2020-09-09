@@ -80,7 +80,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         assertTrue(enterFeedURLPopUp.isNewWindowCheckBoxChecked(), "Check-box is selected");
 
         LOG.info("Step 5: Press OK button.");
-        enterFeedURLPopUp.clickOkButton();
+        enterFeedURLPopUp.clickOk();
         rssFeedDashlet.renderedPage();
         assertTrue(rssFeedDashlet.getDashletTitle().contains("Reuters: Business News"), "Site Dashboard page is displayed, feed information is updated: "
             + rssFeedDashlet.getDashletTitle());
@@ -127,7 +127,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         LOG.info("Step 3: Verify headlines");
         rssFeedDashlet.configureDashlet();
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("5");
-        enterFeedURLPopUp.clickOkButton();
+        enterFeedURLPopUp.clickOk();
         softAssert.assertEquals(rssFeedDashlet.getFeedsListSize(), 5, "Feed size is not as expected");
         softAssert.assertAll();
     }

@@ -5,7 +5,6 @@ import ru.yandex.qatools.htmlelements.element.Link;
 
 public class ActivityLink
 {
-
     private final String description;
     private final WebElement user;
     private final WebElement document;

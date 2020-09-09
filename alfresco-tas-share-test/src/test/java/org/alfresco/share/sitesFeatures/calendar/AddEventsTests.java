@@ -293,10 +293,11 @@ public class AddEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Go to user's dashboard and verify 'My Calendar' dashlet.");
         userDashboardPage.navigate(user1);
-        assertTrue(myCalendarDashlet.isEventPresentInList(currentEventName), "The event is displayed on 'My Calendar' dashlet.");
-        assertEquals(myCalendarDashlet.getEventDetails(currentEventName),
-            startDate.toString("dd MMMM, yyyy") + " 12:00 PM - " + endDate.toString("dd MMMM, yyyy") + " 1:00 PM",
-            "The event has expected details displayed on 'My Calendar' dashlet.");
+
+        myCalendarDashlet.assertEventIsDisplayed(currentEventName)
+            .assertEventTimeIs(currentEventName,
+                startDate.toString("dd MMMM, yyyy") + " 12:00 PM - "
+                    + endDate.toString("dd MMMM, yyyy") + " 1:00 PM");
     }
 
     @TestRail (id = "C5462")

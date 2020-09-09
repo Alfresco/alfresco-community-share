@@ -10,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -21,6 +22,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
@@ -36,6 +38,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @RenderWebElement
     @FindBy (css = ".node-header")
     protected WebElement docDetailsPageHeader;
+
+    @FindBy (css = ".node-header h1")
+    protected WebElement headerFileName;
+
     @FindBy (linkText = "Download")
     protected WebElement downloadDocument;
     @FindBy (css = "div[class='node-social']")
@@ -154,6 +160,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private WebElement contentError;
     @FindBy (css = "span[class$='onAddCommentClick'] button")
     private WebElement addCommentButton;
+
+    @FindBy (css = "iframe[id$='default-add-content_ifr']")
+    private WebElement commentsIframe;
+
     private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
     private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
     private By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
@@ -169,6 +179,19 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/document-details", getCurrentSiteName());
+    }
+
+    public DocumentDetailsPage assertDocumentDetailsPageIsOpened()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
+        return this;
+    }
+
+    public DocumentDetailsPage assertDocumentDetailsPageIsOpenedForFile(FileModel expectedFile)
+    {
+        Assert.assertTrue(headerFileName.getText().contains(expectedFile.getName()),
+            String.format("Document details page is opened for file %s", expectedFile.getName()));
+        return this;
     }
 
     public boolean isDocumentFavourite()
@@ -211,6 +234,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
             LOG.info("The comment box is not displayed " + ex.getStackTrace());
             return false;
         }
+    }
+
+    public DocumentDetailsPage assertCommentsAreaIsOpened()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(commentsIframe), "Comments area is opened");
+        return this;
     }
 
     public String getFileName()

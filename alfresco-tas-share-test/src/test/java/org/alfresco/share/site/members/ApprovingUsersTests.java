@@ -210,7 +210,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName));
 
         LOG.info("Step 5: Click 'Edit Task'");
-        myTasksDashlet.clickEditTask(taskName);
+        myTasksDashlet.editTask(taskName);
 
         LOG.info("Step 6: Approve the task");
         editTaskPage.approve("Approve", myTasksDashlet);
@@ -309,7 +309,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
 
         LOG.info("Step 5: Click 'Edit Task'");
-        myTasksDashlet.clickEditTask(taskName);
+        myTasksDashlet.editTask(taskName);
 
         LOG.info("Step 6: Reject the task");
         editTaskPage.reject("Reject", myTasksDashlet);

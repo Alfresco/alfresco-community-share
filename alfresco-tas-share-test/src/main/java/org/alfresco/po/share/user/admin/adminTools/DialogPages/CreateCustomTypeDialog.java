@@ -69,7 +69,6 @@ public class CreateCustomTypeDialog extends ShareDialog
         }
     }
 
-
     public void clickCancelButton()
     {
         cancelButton.click();

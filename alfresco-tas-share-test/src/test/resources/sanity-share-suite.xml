@@ -230,7 +230,7 @@
                     <include name="verifyPossibilityToEditItem"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsTests">
+            <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsDashletTests">
                 <methods>
                     <include name="detailedView"/>
                     <include name="filterDocuments"/>
@@ -264,11 +264,6 @@
             <class name="org.alfresco.share.site.siteDashboard.SavedSearchDashletTests">
                 <methods>
                     <include name="savedSearchDashlet"/>
-                </methods>
-            </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsWorkspacesTests">
-                <methods>
-                    <include name="noDocumentsAdded"/>
                 </methods>
             </class>
             <class name="org.alfresco.share.alfrescoContent.viewingContent.ViewingFolderDetailsTest">
@@ -692,7 +687,7 @@
                     <include name="nonAdminUserCanNotDeleteFileOrFolderFromTheMainRepository"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.MyTasksTest">
+            <class name="org.alfresco.share.userDashboard.dashlets.MyTasksDashletTest">
                 <methods>
                     <include name="someTasksAssigned"/>
                     <include name="userAddedAfterWorkflowStarts"/>
@@ -912,7 +907,7 @@
                     <include name="viewWorkflowIveStartedOptions"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.SiteSearchTest">
+            <class name="org.alfresco.share.userDashboard.dashlets.SiteSearchDashletTest">
                 <methods>
                     <include name="siteSearchDashletTest"/>
                 </methods>
@@ -1305,7 +1300,7 @@
                     <include name="renameWikiPage"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.MySitesTests">
+            <class name="org.alfresco.share.userDashboard.dashlets.MySitesDashletTests">
                 <methods>
                     <include name="deleteSiteThenCancel"/>
                     <include name="filterSites"/>
@@ -1443,7 +1438,7 @@
                     <include name="verifyAdvancedSearchPage"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.RssFeedTest">
+            <class name="org.alfresco.share.userDashboard.dashlets.RssFeedDashletTest">
                 <methods>
                     <include name="rssFeedDashlet"/>
                 </methods>
@@ -1641,7 +1636,7 @@
                     <include name="unshareDocument"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.MyActivitiesTests">
+            <class name="org.alfresco.share.userDashboard.dashlets.MyActivitiesDashletTests">
                 <methods>
                     <include name="checkUsersFilter"/>
                     <include name="noActivitiesCreated"/>
@@ -1693,7 +1688,7 @@
                     <include name="verifyAddGroupsPage"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.MyDiscussionsTests">
+            <class name="org.alfresco.share.userDashboard.dashlets.MyDiscussionsDashletTests">
                 <methods>
                     <include name="myDiscussionsDashlet"/>
                 </methods>
@@ -2056,7 +2051,7 @@
                     <include name="unlikeFolder"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.SavedSearchTests">
+            <class name="org.alfresco.share.userDashboard.dashlets.SavedSearchDashletTests">
                 <methods>
                     <include name="savedSearchDashlet"/>
                 </methods>
@@ -2083,7 +2078,7 @@
                     <include name="editDraftBlogPostComment"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.MyProfileTests">
+            <class name="org.alfresco.share.userDashboard.dashlets.MyProfileDashletTests">
                 <methods>
                     <include name="myLimitedProfileDashlet"/>
                 </methods>
@@ -2156,7 +2151,7 @@
                     <include name="verifyDefaultCurrentAndAvailablePages"/>
                 </methods>
             </class>
-            <class name="org.alfresco.share.userDashboard.dashlets.WebViewTests">
+            <class name="org.alfresco.share.userDashboard.dashlets.WebViewDashletTests">
                 <methods>
                     <include name="webViewDashlet"/>
                 </methods>

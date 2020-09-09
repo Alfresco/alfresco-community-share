@@ -56,14 +56,12 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
         siteDashboardPage.navigateErrorClick();
         LOG.info("Step 1: Verify 'My Discussions' dahslet");
 
-        assertEquals(myDiscussionsDashlet.getDashletTitle(), "My Discussions");
-        assertEquals(myDiscussionsDashlet.getDefaultMessage(), "There are no topics matching your filters.");
+        myDiscussionsDashlet.assertDashletTitleIs(language.translate("myDiscussionDashlet.title"))
+            .assertNoTopicsMessageIsDisplayed();
 
         LOG.info("Step 2: Verify 'My Topics' filter");
-        assertTrue(myDiscussionsDashlet.checkTopicDropdownOptions());
-
-        LOG.info("Step 3: Verify 'Topics updated in the last day' filter");
-        assertTrue(myDiscussionsDashlet.checkHistoryDropdownOptions());
+        myDiscussionsDashlet.assertTopicDropdownHasAllOptions()
+            .assertHistoryDropdownHasAllOptions();
 
         LOG.info("Step 4: Click Help icon");
         myDiscussionsDashlet.clickOnHelpIcon(DashletHelpIcon.MY_DISCUSSIONS);

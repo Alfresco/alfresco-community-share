@@ -1,46 +1,43 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
-
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import org.testng.Assert;
 
 @PageObject
 public class WebViewDashlet extends Dashlet<WebViewDashlet>
 {
     @FindBy (css = "div.dashlet.webview div[class$='titleBarActionIcon edit']")
-    protected static List<WebElement> configureDashletIcon;
+    protected WebElement configureDashletIcon;
+
     @FindBy (css = "h3[class$='default-body']")
-    protected static HtmlElement defaultDashletMessage;
+    protected WebElement defaultDashletMessage;
+
     @FindBy (css = "div.dashlet.webview div[class$='titleBarActions']")
-    protected static WebElement titleBar;
+    protected WebElement titleBar;
+
     @FindBy (css = "div[style*='cursor: move']")
-    protected static WebElement configureWebViewDashletTitle;
+    protected WebElement configureWebViewDashletTitle;
+
     @RenderWebElement
     @FindBy (css = "div.dashlet.webview")
-    protected HtmlElement dashletContainer;
+    protected WebElement dashletContainer;
+
     @Autowired
-    ConfigureWebViewDashletPopUp configureWebViewPopUp;
+    private ConfigureWebViewDashletPopUp configureWebViewPopUp;
+
     private By configureWebViewDashletWindow = By.cssSelector("div[class$='yui-panel-container yui-dialog shadow']");
-
     private By linkTitleField = By.cssSelector("*[name='webviewTitle']");
-
     private By URLField = By.cssSelector("*[name='url']");
 
     @Override
     public String getDashletTitle()
     {
-        if (dashletContainer.findElement(dashletTitle).findElement(By.cssSelector("a")).getText().equals(""))
-        {
-            return dashletContainer.findElement(dashletTitle).getText();
-        }
-
-        return dashletContainer.findElement(dashletTitle).findElement(By.cssSelector("a")).getText();
+        return dashletContainer.findElement(dashletTitle).getText();
     }
 
     /**
@@ -53,26 +50,27 @@ public class WebViewDashlet extends Dashlet<WebViewDashlet>
         return defaultDashletMessage.getText();
     }
 
-    /**
-     * Click on configure dashlet icon.
-     */
-    public ConfigureWebViewDashletPopUp clickOnConfigureDashletIcon()
+    public WebViewDashlet assertNoWebPageMessageIsDisplayed()
     {
-        configureDashletIcon.get(0).click();
-        return (ConfigureWebViewDashletPopUp) configureWebViewPopUp.renderedPage();
+        Assert.assertEquals(defaultDashletMessage.getText(), language.translate("webViewDashlet.defaultMessage"));
+        return this;
     }
 
     /**
-     * Configure the web view dashlet.
-     *
-     * @param linkTitle
-     * @param url
+     * Click on configure dashlet icon.
      */
+    public ConfigureWebViewDashletPopUp clickConfigureDashlet()
+    {
+        browser.mouseOver(titleBar);
+        configureDashletIcon.click();
+        return (ConfigureWebViewDashletPopUp) configureWebViewPopUp.renderedPage();
+    }
+
     public WebViewDashlet configureWebViewDashlet(String linkTitle, String url)
     {
         configureWebViewPopUp.setLinkTitleField(linkTitle);
         configureWebViewPopUp.setUrlField(url);
-        configureWebViewPopUp.clickOkButton();
+        configureWebViewPopUp.clickOk();
         return (WebViewDashlet) this.renderedPage();
     }
 
@@ -81,10 +79,11 @@ public class WebViewDashlet extends Dashlet<WebViewDashlet>
      *
      * @return True if the configure dashlet icon displayed else false.
      */
-    public boolean isConfigureDashletIconDisplayed()
+    public WebViewDashlet assertConfigureDashletIconDisplayed()
     {
         browser.mouseOver(titleBar);
-        return configureDashletIcon.size() > 0;
+        Assert.assertTrue(browser.isElementDisplayed(configureDashletIcon), "Configure icon is displayed");
+        return this;
     }
 
     /**

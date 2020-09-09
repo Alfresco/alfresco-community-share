@@ -1,16 +1,17 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Table;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @PageObject
 public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
@@ -19,13 +20,14 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     @FindBy (css = "div.dashlet.sitesearch")
     private WebElement dashletContainer;
 
-    @FindBy (css = "[id$=default-search-text]")
+    @RenderWebElement
+    @FindBy (css = "input[id$=default-search-text]")
     private WebElement searchField;
 
-    @FindBy (css = "span.first-child  [id*=default-search-button]")
+    @FindBy (css = "button[id$=default-search-button]")
     private WebElement searchButton;
 
-    @FindBy (css = "[id$='default-resultSize-button']")
+    @FindBy (css = "button[id$='default-resultSize-button']")
     private WebElement filterButton;
 
     @FindAll (@FindBy (css = "div.sitesearch div.bd ul.first-of-type li a"))
@@ -37,7 +39,10 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     @FindBy (css = "span[id$='_default-resultSize'] button")
     private WebElement setSizeButton;
 
-    private By noResults = By.cssSelector("div[id$=search-results] tbody.yui-dt-message div");
+    @FindBy (css = "div.sitesearch .yui-dt-empty>div")
+    private WebElement noResults;
+
+    private By filterOption = By.cssSelector("div.sitesearch div.bd ul.first-of-type li a");
 
     private WebElement selectSize(String size)
     {
@@ -50,89 +55,62 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Method to verify that search filed is displayed
-     */
-    public boolean isSearchFieldDisplayed()
+    public SiteSearchDashlet assertSearchFieldIsDisplayed()
     {
-        return browser.isElementDisplayed(searchField);
+        Assert.assertTrue(browser.isElementDisplayed(searchField), "Search field is displayed");
+        return this;
     }
 
-    /**
-     * Method to verify that search button is displayed
-     */
-    public boolean isSearchButtonDisplayed()
+    public SiteSearchDashlet assertSearchButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(searchButton);
+        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        return this;
     }
 
-    /**
-     * Method to verify that drop down menu with the number of items is displayed
-     */
-    public boolean isDropDownMenuDisplayed()
+    public SiteSearchDashlet assertSearchResultDropdownIsDisplayed()
     {
-        return browser.isElementDisplayed(filterButton);
+        Assert.assertTrue(browser.isElementDisplayed(filterButton), "Search filter is displayed");
+        return this;
     }
 
-    /**
-     * Method to get the list of drop down values
-     */
-    public List<String> getDropDownValues()
+    private List<String> getDropDownValues()
     {
-        List<WebElement> options = browser.findElements(By.cssSelector("div.sitesearch div.bd ul.first-of-type li a"));
-        List<String> dropDownList = new ArrayList<>();
         filterButton.click();
-        for (WebElement option : options)
-        {
-            dropDownList.add(option.getText());
-        }
-        return dropDownList;
+        List<WebElement> options = browser.waitUntilElementsVisible(filterOption);
+        return options.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public boolean checkValuesFromDropDownList()
+    public SiteSearchDashlet assertAllLimitValuesAreDisplayed()
     {
-        String[] expectedValues = { "10", "25", "50", "100" };
-        List<String> list = getDropDownValues();
-        boolean match = true;
-        for (int i = 0; i < expectedValues.length; i++)
-        {
-            if (!list.get(i).equals(expectedValues[i]))
-            {
-                match = false;
-                break;
-            }
-        }
-        return match;
+        Assert.assertTrue(getDropDownValues().equals(Arrays.asList(new String[]{"10", "25", "50", "100"})), "All limits are found");
+        return this;
     }
 
-    public void clickSearchButton()
+    public SiteSearchDashlet clickSearchButton()
     {
         searchButton.click();
-        this.renderedPage();
+        return this;
     }
 
-    public boolean isMessageDisplayedInDashlet(String message)
+    public SiteSearchDashlet typeInSearch(String inputText)
     {
-        int counter = 0;
-        while (!browser.findElement(noResults).getText().equals(message) && counter < 5)
-        {
-            browser.waitInSeconds(1);
-            counter++;
-        }
-        return browser.findElement(noResults).getText().equals(message);
-    }
-
-    public void sendInputToSearchField(String inputText)
-    {
-        Utils.clearAndType(getBrowser().waitUntilElementVisible(searchField), inputText);
+        searchField.clear();
+        searchField.sendKeys(inputText);
+        return this;
     }
 
     public boolean isResultDisplayed(String resultName)
     {
-        getBrowser().waitInSeconds(1);
         String results = resultsTable.getRowsAsString().toString();
-        LOG.info("results: " + results);
         return results.contains(resultName);
+    }
+
+    public SiteSearchDashlet assertNoResultsIsDisplayed()
+    {
+        browser.waitUntilElementVisible(noResults);
+        Assert.assertTrue(browser.isElementDisplayed(noResults), "No results is displayed");
+        Assert.assertEquals(noResults.getText(), language.translate("siteSearchDashlet.noResults"));
+        return this;
     }
 
     public void setSize(String sizeToSet)
@@ -151,7 +129,6 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
 
     public int getResultsNumber()
     {
-        browser.waitInSeconds(5);
         int allResults = resultsTable.getRowsAsString().size();
         int actualResultsNumber = allResults - 1;
         return actualResultsNumber;

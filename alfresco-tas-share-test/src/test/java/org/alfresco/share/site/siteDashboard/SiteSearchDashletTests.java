@@ -1,9 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
@@ -54,32 +50,23 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2775")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES  })
     public void siteSearchDashletTest()
     {
         LOG.info("Step 1: Verify Site Search dashlet");
         siteDashboardPage.navigate(siteName);
-        assertEquals(siteSearchDashlet.getDashletTitle(), "Site Search", "Name of the dashlet is expected to be 'Site Search'.");
-        assertTrue(siteSearchDashlet.isSearchFieldDisplayed(), "Dashlet is expected to have a search field.");
-        assertTrue(siteSearchDashlet.isDropDownMenuDisplayed(), "Dashlet is expected to have a drop down menu with the number of items to be displayed.");
-        assertTrue(siteSearchDashlet.isHelpIconDisplayed(DashletHelpIcon.SITE_SEARCH), "Dashlet is expected to have a help icon.");
-
-        LOG.info("Step 2: Click on \"?\" icon");
-        siteSearchDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH);
-        assertTrue(siteSearchDashlet.isBalloonDisplayed(), "Help balloon is expected to be displayed.");
-        assertEquals(siteSearchDashlet.getHelpBalloonMessage(),
-            "Use this dashlet to perform a site search and view the results.\nClicking the item name takes you to the details page so you can preview or work with the item.");
-
-        LOG.info("Step 3: Click on \"X\" icon");
-        siteSearchDashlet.closeHelpBalloon();
-        assertFalse(siteSearchDashlet.isBalloonDisplayed(), "Help balloon is expected to be hidden.");
-
-        LOG.info("Step 4: Click on drop down menu");
-        assertTrue(siteSearchDashlet.checkValuesFromDropDownList());
-
-        LOG.info("Step 5: Click on \"Search\" button");
-        siteSearchDashlet.clickSearchButton();
-        assertTrue(siteSearchDashlet.isMessageDisplayedInDashlet("No results found."), "'No results found.' message is expected to be displayed.");
+        siteSearchDashlet.assertDashletTitleIs(language.translate("siteSearchDashlet.title"))
+            .assertSearchFieldIsDisplayed()
+            .assertSearchResultDropdownIsDisplayed()
+            .assertSearchButtonIsDisplayed()
+            .clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH)
+            .assertBalloonMessageIsDisplayed()
+            .assertHelpBalloonMessageIs(language.translate("siteSearchDashlet.balloonMessage"))
+            .closeHelpBalloon()
+            .assertAllLimitValuesAreDisplayed()
+                .typeInSearch(RandomData.getRandomAlphanumeric())
+                .clickSearchButton()
+                .assertNoResultsIsDisplayed();
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
@@ -87,7 +74,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Navigate to site dashboard and perform search in site search dashlet");
         siteDashboardPage.navigate(siteName);
-        siteSearchDashlet.sendInputToSearchField(docName);
+        siteSearchDashlet.typeInSearch(docName);
         siteSearchDashlet.clickSearchButton();
         Assert.assertTrue(siteSearchDashlet.isResultDisplayed(docName), docName + " is not displayed in search results");
     }
@@ -95,13 +82,10 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
     public void searchNoResultsAreReturnedTest()
     {
-        String nonExitingDocName = "NonExisting";
-        LOG.info("Step 1: Navigate to site dashboard and perform search in site search dashlet");
         siteDashboardPage.navigate(siteName);
-        siteSearchDashlet.sendInputToSearchField(nonExitingDocName);
-        siteSearchDashlet.clickSearchButton();
-        Assert.assertFalse(siteSearchDashlet.isResultDisplayed(nonExitingDocName), nonExitingDocName + " is displayed and it shhould not be");
-        Assert.assertTrue(siteSearchDashlet.isMessageDisplayedInDashlet("No results found."), "'No results found.' message is expected to be displayed.");
+        siteSearchDashlet.typeInSearch("NonExisting")
+            .clickSearchButton()
+            .assertNoResultsIsDisplayed();
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
@@ -120,7 +104,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
         //testSteps
         siteDashboardPage.navigate(siteName);
         siteSearchDashlet.setSize("25");
-        siteSearchDashlet.sendInputToSearchField("docNameTest");
+        siteSearchDashlet.typeInSearch("docNameTest");
         siteSearchDashlet.clickSearchButton();
         Assert.assertTrue(siteSearchDashlet.isSearchLimitSetTo("25"), "Size limit is not set to 25");
         Assert.assertEquals(siteSearchDashlet.getResultsNumber(), 25, "Results number is not as expected");

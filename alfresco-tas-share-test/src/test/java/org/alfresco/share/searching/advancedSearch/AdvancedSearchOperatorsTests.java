@@ -77,7 +77,6 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
         contentAction.addProperties(session, contentNodeRef, propertiesMap);
 
         setupAuthenticatedSession(user1, password);
-        myDocumentsDashlet.waitForDocument();
     }
 
     @AfterClass

@@ -1,31 +1,41 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
-
+import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.Table;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 {
+    @Autowired
+    private ConfigureSavedSearchDashletDialog configureSavedSearchPopUp;
+
     @FindBy (css = "div.dashlet.savedsearch td div[class$='yui-dt-liner']")
-    protected static HtmlElement defaultDashletMessage;
+    private WebElement defaultDashletMessage;
+
     @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActionIcon edit']")
-    protected static List<WebElement> configureDashletIcon;
+    private WebElement configureDashletIcon;
+
     @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActions']")
-    protected static WebElement titleBar;
+    private WebElement titleBar;
+
     @RenderWebElement
     @FindBy (css = "div.dashlet.savedsearch")
-    protected HtmlElement dashletContainer;
+    private WebElement dashletContainer;
+
     @FindBy (css = "div[id$='_default-search-results'] tbody div")
     private WebElement resultsText;
 
     @FindBy (css = "div[id$='_default-search-results'] table")
-    private Table searchResults;
+    private WebElement searchResults;
+
+    private String searchRow = "//div[starts-with(@class,'dashlet savedsearch')]//a[text()='%s']/../../../..";
+    private By inFolderLocation = By.cssSelector(".details");
 
     @Override
     public String getDashletTitle()
@@ -33,57 +43,53 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Retrieves the default dashlet message.
-     *
-     * @return String
-     */
-    public String getDefaultMessage()
+    public SavedSearchDashlet assertNoResultsMessageIsDisplayed()
     {
-        return defaultDashletMessage.getText();
+        LOG.info("Assert No results found message is displayed");
+        browser.waitUntilElementContainsText(defaultDashletMessage, language.translate("savedSearchDashlet.noResults"));
+        Assert.assertEquals(defaultDashletMessage.getText(), language.translate("savedSearchDashlet.noResults"));
+        return this;
     }
 
-    /**
-     * Returns if configure dashlet icon is displayed on this dashlet.
-     *
-     * @return True if the configure dashlet icon displayed else false.
-     */
-    public boolean isConfigureDashletIconDisplayed()
+    public SavedSearchDashlet assertConfigureDashletButtonIsDisplayed()
     {
         browser.mouseOver(titleBar);
-        return configureDashletIcon.size() > 0;
+        Assert.assertTrue(browser.isElementDisplayed(configureDashletIcon), "Configure dashlet button is displayed");
+        return this;
     }
 
     /**
      * Click on configure dashlet icon.
      */
-    public void clickOnConfigureDashletIcon()
+    public ConfigureSavedSearchDashletDialog clickConfigureDashlet()
     {
-        configureDashletIcon.get(0).click();
+        browser.mouseOver(titleBar);
+        configureDashletIcon.click();
+        return (ConfigureSavedSearchDashletDialog) configureSavedSearchPopUp.renderedPage();
     }
 
-    public String getResultsText()
+    private WebElement getSearchRow(String fileName)
     {
-        return resultsText.getText();
+        return browser.waitWithRetryAndReturnWebElement
+            (By.xpath(String.format(searchRow, fileName)), 1, 30);
     }
 
-    public boolean isSearchResultItemDisplayed(String expectedItem)
+    public SavedSearchDashlet assertFileIsDisplayed(String fileName)
     {
-        String actualItems = searchResults.getRowsAsString().toString();
-        try
-        {
-            int retryCount = 0;
-            if (!actualItems.contains(expectedItem) && retryCount < 3)
-            {
-                browser.refresh();
-                retryCount++;
-                return actualItems.contains(expectedItem);
-                //String actualItems = searchResults.getRowsAsString().toString();
-            }
-        } catch (Exception ex)
-        {
-            LOG.info(ex.getStackTrace().toString());
-        }
-        return actualItems.contains(expectedItem);
+        LOG.info(String.format("Assert file %s is found in saved search dashlet", fileName));
+        Assert.assertTrue(browser.isElementDisplayed(getSearchRow(fileName)), String.format("File %s was found", fileName));
+        return this;
+    }
+
+    public SavedSearchDashlet assertFileIsDisplayed(FileModel file)
+    {
+        return assertFileIsDisplayed(file.getName());
+    }
+
+    public SavedSearchDashlet assertInFolderPathIs(String fileName, String folderPath)
+    {
+        Assert.assertEquals(getSearchRow(fileName).findElement(inFolderLocation).getText(),
+            String.format(language.translate("savedSearchDashlet.item.inFolderPath"), folderPath));
+        return this;
     }
 }

@@ -36,7 +36,6 @@ public class CreateSiteDialog extends ShareDialog
     @FindBy (id = "CREATE_SITE_DIALOG")
     private WebElement createSiteDialog;
 
-    //@RenderWebElement
     @FindBy (id = "CREATE_SITE_DIALOG_OK")
     private WebElement createButton;
 
@@ -44,6 +43,7 @@ public class CreateSiteDialog extends ShareDialog
     @FindBy (id = "CREATE_SITE_DIALOG_CANCEL_label")
     private WebElement cancelButton;
 
+    @RenderWebElement
     @FindBy (css = "div[id='CREATE_SITE_FIELD_TITLE'] div[class*='dijitInputField'] input")
     private WebElement nameInputField;
 
@@ -106,6 +106,9 @@ public class CreateSiteDialog extends ShareDialog
 
     @Autowired
     private MySitesDashlet mySitesDashlet;
+
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
 
     @SuppressWarnings ("unchecked")
     public CreateSiteDialog navigateByMenuBar()
@@ -242,26 +245,29 @@ public class CreateSiteDialog extends ShareDialog
         return getBrowser().isElementDisplayed(cancelButton);
     }
 
-    public void typeInNameInput(String siteName)
+    public CreateSiteDialog typeInNameInput(String siteName)
     {
         getBrowser().waitUntilElementClickable(nameInputField);
         nameInputField.click();
         nameInputField.sendKeys(siteName);
+        return this;
     }
 
-    public void typeInDescription(String siteDescription)
+    public CreateSiteDialog typeInDescription(String siteDescription)
     {
         getBrowser().waitUntilElementVisible(descriptionInputField);
         descriptionInputField.click();
         descriptionInputField.sendKeys(siteDescription);
+        return this;
     }
 
-    public void typeInSiteID(String siteID)
+    public CreateSiteDialog typeInSiteID(String siteID)
     {
         browser.waitUntilElementVisible(siteIDInput);
         siteIDInput.clear();
         siteIDInput.click();
         siteIDInput.sendKeys(siteID);
+        return this;
     }
 
     public String getTitleInputText(String text)
@@ -315,11 +321,11 @@ public class CreateSiteDialog extends ShareDialog
         return getBrowser().isElementDisplayed(privateVisibilityRadioButtonChecked);
     }
 
-    public HtmlPage clickCreateButton(HtmlPage page)
+    public SiteDashboardPage clickCreateButton()
     {
         browser.waitUntilElementHasAttribute(createButton,"aria-disabled", "false");
         browser.waitUntilElementClickable(createButton).click();
-        return page.renderedPage();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     public void clickCreateButtonWithoutRenderer()

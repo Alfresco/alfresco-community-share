@@ -99,14 +99,14 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
         for (String xssString : xssStrings)
         {
             LOG.info("STEP1: Click \"Edit Task\" icon for created task on the \"My Tasks\" dashlet;");
-            myTasksDashlet.clickEditTask(taskMessage);
+            myTasksDashlet.editTask(taskMessage);
             Assert.assertEquals(editTaskPage.getMessage(), taskMessage, "Edit Task page is not opened");
             LOG.info("STEP2: Into Your \"Response\" - \"Comment\" enter each XSS attack from the list. XSS attack: " + xssString);
             editTaskPage.writeComment(xssString);
             LOG.info("STEP3: Click \"Save and Close\" button");
             editTaskPage.clickOnSaveButton(userDashboardPage);
             Assert.assertTrue(myTasksDashlet.isTaskPresent(taskMessage), "Task is not present in \"My task\" dashlet");
-            myTasksDashlet.clickViewTask(taskMessage);
+            myTasksDashlet.viewTask(taskMessage);
             Assert.assertEquals(taskDetailsPage.getComment(), xssString, "Comment was not saved.");
             userDashboardPage.navigate(testUser);
         }
@@ -161,7 +161,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
         {
 
             LOG.info("STEP 1: Click \"Edit Task\" icon for the created task on the \"My Tasks\" dashlet;");
-            myTasksDashlet.clickEditTask(taskMessage + i);
+            myTasksDashlet.editTask(taskMessage + i);
             Assert.assertEquals(editTaskPage.getMessage(), taskMessage + i, "Task message is not equal with the actual message or \"Edit Task\" page in not opened");
 
             LOG.info("STEP 2: Into Your \"Response\" - \"Comment\" enter each XSS attack from the list");

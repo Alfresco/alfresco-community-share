@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
@@ -73,7 +74,6 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     @FindAll (@FindBy (css = "[id*=workflowPriority] option"))
     private List<WebElement> workflowPrioritiesList;
 
-
     @FindBy (css = "td.today>a")
     private WebElement calendarToday;
 
@@ -117,6 +117,12 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/start-workflow", getCurrentSiteName());
+    }
+
+    public StartWorkflowPage assertStartWorkflowPageIsOpened()
+    {
+        Assert.assertTrue(browser.isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
+        return this;
     }
 
     public String getSelectedReviewerName()
