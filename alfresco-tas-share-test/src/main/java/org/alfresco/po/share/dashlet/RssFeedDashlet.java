@@ -67,7 +67,6 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     {
         browser.waitUntilElementsVisible(feedsList);
         feedsList.get(position).click();
-        Utility.waitToLoopTime(1);
         return this;
     }
 

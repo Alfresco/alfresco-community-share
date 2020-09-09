@@ -10,8 +10,8 @@ public abstract class AbstractUserDashboardDashletsTests extends ContextAwareWeb
     @Autowired
     private CustomizeUserDashboardPage customizeUserDashboardPage;
 
-    protected final String cnnRSSFeed = "http://rss.cnn.com/rss/edition_europe.rss";
-    protected final String cnnFeedTabTitle = "edition.cnn.com";
+    protected final String sampleRssFeed = "https://www.feedforall.com/sample.xml";
+    protected final String sampleRssFeedTitle = "feedforall.com";
 
     protected void addDashlet(Dashlets dashlets, int columnNumber)
     {

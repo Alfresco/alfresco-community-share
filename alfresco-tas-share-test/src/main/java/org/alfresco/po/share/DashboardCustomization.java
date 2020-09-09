@@ -309,9 +309,12 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
             }
             if (existingDashletsInColumn.size() < maxDashletsInColumn)
             {
-                WebElement target = browser
-                    .waitUntilElementVisible(By.cssSelector(String.format(targetColumn, columnNumber)));
-                //((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
+                WebElement target = browser.waitUntilElementVisible(
+                    By.cssSelector(String.format(targetColumn, columnNumber)));
+                if(!dashlet.getDashletName().equals(Dashlets.CONTENT_I_AM_EDITING.getDashletName()))
+                {
+                    ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
+                }
                 try
                 {
                     browser.dragAndDrop(webDashlet, target);

@@ -1,7 +1,6 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.po.share.dashlet.Dashlets;
-import org.alfresco.po.share.dashlet.EnterFeedURLPopUp;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -38,16 +37,16 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
     {
         rssFeedDashlet.configureDashlet()
             .assertPopUpTitleIs(language.translate("rssFeedDashlet.configureDialogTitle"))
-                .setUrlField(cnnRSSFeed)
+                .setUrlField(sampleRssFeed)
                 .selectNumberOfItemsToDisplay(5)
                 .assertValueSelectInNrOfItemsToDisplayIs(5)
                 .checkNewWindow()
                 .assertNewWindowIsChecked()
                 .clickOk();
-        rssFeedDashlet.asserDashletTitleContains("CNN.com")
+        rssFeedDashlet.asserDashletTitleContains("FeedForAll Sample Feed")
             .clickOnRssLink(1)
-                .assertRssFeedLinkIsOpened(cnnFeedTabTitle)
+                .assertRssFeedLinkIsOpened(sampleRssFeedTitle)
             .clickOnRssLink(3)
-                .assertRssFeedLinkIsOpened(cnnFeedTabTitle);
+                .assertRssFeedLinkIsOpened(sampleRssFeedTitle);
     }
 }

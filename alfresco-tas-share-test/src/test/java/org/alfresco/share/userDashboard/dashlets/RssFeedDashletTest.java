@@ -37,16 +37,16 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
     {
         rssFeedDashlet.configureDashlet()
             .assertPopUpTitleIs(language.translate("rssFeedDashlet.configureDialogTitle"))
-                .setUrlField(cnnRSSFeed)
+                .setUrlField(sampleRssFeed)
                 .selectNumberOfItemsToDisplay(5)
                 .assertValueSelectInNrOfItemsToDisplayIs(5)
                 .checkNewWindow()
                 .assertNewWindowIsChecked()
                 .clickOk();
-        rssFeedDashlet.asserDashletTitleContains("CNN.com")
+        rssFeedDashlet.asserDashletTitleContains("FeedForAll Sample Feed")
             .clickOnRssLink(1)
-            .assertRssFeedLinkIsOpened(cnnFeedTabTitle)
+            .assertRssFeedLinkIsOpened(sampleRssFeedTitle)
             .clickOnRssLink(3)
-            .assertRssFeedLinkIsOpened(cnnFeedTabTitle);
+            .assertRssFeedLinkIsOpened(sampleRssFeedTitle);
     }
 }
