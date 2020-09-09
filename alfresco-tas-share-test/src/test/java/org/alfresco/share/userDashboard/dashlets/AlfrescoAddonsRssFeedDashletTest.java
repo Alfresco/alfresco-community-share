@@ -45,8 +45,6 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
                 .clickOk();
         rssFeedDashlet.asserDashletTitleContains("FeedForAll Sample Feed")
             .clickOnRssLink(1)
-                .assertRssFeedLinkIsOpened(sampleRssFeedTitle)
-            .clickOnRssLink(3)
                 .assertRssFeedLinkIsOpened(sampleRssFeedTitle);
     }
 }

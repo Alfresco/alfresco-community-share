@@ -16,6 +16,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -113,7 +114,16 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
 
     private WebElement getActivityRow(String expectedActivity)
     {
-        List<String> activities = browser.getTextFromElementList(activityRows);
+        List<String> activities;
+        try
+        {
+            activities = browser.getTextFromElementList(activityRows);
+        }
+        catch (StaleElementReferenceException e)
+        {
+            Utility.waitToLoopTime(1);
+            activities = browser.getTextFromElementList(activityRows);
+        }
         int retry = 0;
         while(!activities.contains(expectedActivity) && retry < 60)
         {
