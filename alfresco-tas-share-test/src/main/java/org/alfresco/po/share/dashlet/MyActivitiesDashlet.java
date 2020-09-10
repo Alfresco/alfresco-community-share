@@ -424,6 +424,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     public MyActivitiesDashlet assertRssFeedButtonIsDisplayed()
     {
         browser.mouseOver(activitiesDashletTitle);
+        browser.mouseOver(myActivitiesButton);
         Assert.assertTrue(browser.isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
         return this;
     }

@@ -185,7 +185,8 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             browser.waitUntilElementsVisible(dropdownOptionsList);
             WebElement becomeBtn = browser.findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
-            browser.waitUntilElementVisible(becomeBtn).click();
+            browser.waitUntilElementVisible(becomeBtn);
+            browser.waitUntilElementClickable(becomeBtn).click();
             sitesManagerPage.waitForLoadingMessageToDisappear();
             browser.waitUntilElementContainsText(getSiteRow().findElement(siteRowSiteManager), "Yes");
             return this;

@@ -106,9 +106,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     @Autowired
     public Toolbar toolbar;
 
-    @Autowired
-    protected AlfrescoHttpClientFactory alfrescoHttpClientFactory;
-
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
     public static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
