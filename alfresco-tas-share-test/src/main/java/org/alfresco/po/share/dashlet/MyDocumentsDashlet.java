@@ -240,7 +240,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             {
                 likeBtn = getFileRow().findElement(likeAction);
             }
-            likeBtn.click();
+            browser.clickJS(likeBtn);
             browser.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
             return this;
         }
