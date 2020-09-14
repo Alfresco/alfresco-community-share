@@ -40,7 +40,6 @@ import java.util.Arrays;
  * @author bogdan.bocancea
  */
 @ContextConfiguration(classes = ShareTestContext.class)
-@Scope(value = "prototype")
 public abstract class ContextAwareWebTest extends AbstractWebTest
 {
     @Autowired
