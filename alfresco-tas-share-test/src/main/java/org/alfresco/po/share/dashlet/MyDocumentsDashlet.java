@@ -261,15 +261,15 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument addToFavorite()
         {
-            getFileRow().findElement(favoriteAction).click();
-            getBrowser().waitUntilElementVisible(getFileRow().findElement(removeFromFavorite));
+            browser.clickJS(getFileRow().findElement(favoriteAction));
+            browser.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
             return this;
         }
 
         public ManagerMyDocument removeFromFavorite()
         {
-            getFileRow().findElement(removeFromFavorite).click();
-            getBrowser().waitUntilElementVisible(getFileRow().findElement(favoriteAction));
+            browser.clickJS(getFileRow().findElement(removeFromFavorite));
+            browser.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
             return this;
         }
 
