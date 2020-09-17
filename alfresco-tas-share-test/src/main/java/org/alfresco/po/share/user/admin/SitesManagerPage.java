@@ -147,7 +147,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         private By siteRowActionsButton = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions div.dijitPopupMenuItem");
         private By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager");
         private By siteRowVisibility = By.cssSelector("td.alfresco-lists-views-layouts-Cell.visibility table");
-        private By successIndicator = By.cssSelector(".indicator.success");
+        private By successIndicator = By.cssSelector("div[class='indicator success']");
         private By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
         private String siteAction = "div.dijitPopup[style*=visible] tr[title='%s']";
 
