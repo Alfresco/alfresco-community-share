@@ -97,6 +97,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertSiteIsNotDisplayed(SiteModel site)
     {
+        browser.waitUntilElementDisappears(By.xpath(String.format(siteRow, site.getTitle())));
         Assert.assertFalse(browser.isElementDisplayed(By.xpath(String.format(siteRow, site.getTitle()))),
             String.format("Site %s is displayed", site.getTitle()));
         return this;

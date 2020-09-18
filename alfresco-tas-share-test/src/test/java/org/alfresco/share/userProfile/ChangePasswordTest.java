@@ -1,6 +1,5 @@
 package org.alfresco.share.userProfile;
 
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -17,9 +16,6 @@ public class ChangePasswordTest extends ContextAwareWebTest
 
     @Autowired
     private ChangePasswordPage changePasswordPage;
-
-    @Autowired
-    private UserDashboardPage userDashboardPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -47,7 +43,7 @@ public class ChangePasswordTest extends ContextAwareWebTest
                 .assertUserProfilePageIsOpened();
         user.setPassword(newPassword);
         setupAuthenticatedSession(user);
-        userDashboardPage.assertUserDashboardPageIsOpened();
+        userDashboard.assertUserDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2227, 2229")
