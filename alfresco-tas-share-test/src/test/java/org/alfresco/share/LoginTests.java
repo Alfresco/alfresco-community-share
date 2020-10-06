@@ -54,7 +54,9 @@ public class LoginTests extends ContextAwareWebTest
     public void loginValidCredentials()
     {
         LOG.info("STEP1: Navigate to Login page");
-        getLoginPage().navigate().assertLoginPageIsOpened().assertLoginPageTitleIsCorrect().login(validUser);
+        getLoginPage().navigate()
+            .assertLoginPageIsOpened()
+            .assertLoginPageTitleIsCorrect().login(validUser);
         userDashboard.renderedPage();
         userDashboard.assertUserDashboardPageIsOpened()
             .assertUserDashboardPageTitleIsCorrect()

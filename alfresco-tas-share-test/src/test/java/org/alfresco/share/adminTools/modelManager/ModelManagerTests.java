@@ -109,7 +109,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9516, C9520")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS }, enabled = false)
     public void activateModel()
     {
         name = String.format("C9516Model-%s", RandomData.getRandomAlphanumeric());
@@ -287,7 +287,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS }, enabled = false)
     public void useImportedModel()
     {
         String filePath = testDataFolder + "Marketing_content.zip";

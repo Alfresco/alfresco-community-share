@@ -197,7 +197,7 @@ public class TagManagerPage extends AdminToolsPage
     {
         searchInput.clear();
         searchInput.sendKeys(tagName);
-        searchButton.click();
+        browser.waitUntilElementClickable(searchButton).click();
         return (TagManagerPage) this.renderedPage();
     }
 

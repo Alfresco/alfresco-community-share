@@ -101,6 +101,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     {
         do
         {
+            browser.waitUntilElementsVisible(siteRowsElements);
             List<WebElement> siteList = browser.findElements(siteRowsElements);
             for(WebElement siteRow : siteList)
             {
