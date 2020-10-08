@@ -46,13 +46,12 @@ public class GroupsTests extends ContextAwareWebTest
 
         deleteGroup = dataGroup.usingAdmin().createRandomGroup();
         editGroup = dataGroup.createRandomGroup();
-        asList(parent1, parent2, parent3, subGroup, searchGroup, searchGroup1).forEach
+        asList(subGroup, parent1, parent2, parent3, searchGroup, searchGroup1).forEach
             (group -> dataGroup.createGroup(group));
-        setupAuthenticatedSession(getAdminUser());
-        Utility.waitToLoopTime(2);
         dataGroup.addGroupToParentGroup(parent1, subGroup);
         dataGroup.addGroupToParentGroup(parent2, subGroup);
         dataGroup.addGroupToParentGroup(parent3, subGroup);
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @AfterClass

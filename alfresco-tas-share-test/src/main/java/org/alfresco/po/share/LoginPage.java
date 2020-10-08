@@ -36,7 +36,7 @@ public class LoginPage extends CommonLoginPage
     private WebElement submit;
 
     @FindBy(css = ".theme-company-logo")
-    private Image alfrescoLogo;
+    private WebElement alfrescoLogo;
 
     @FindBy(css = ".login-copy")
     private TextBlock copyright;

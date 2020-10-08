@@ -179,7 +179,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9521")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS }, enabled = false)
     public void deactivateModel()
     {
         name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
