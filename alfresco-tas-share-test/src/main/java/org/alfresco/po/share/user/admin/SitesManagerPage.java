@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin;
 
+import org.alfresco.common.Timeout;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -12,6 +13,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -68,6 +70,21 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     public SitesManagerPage navigateByMenuBar()
     {
         return toolbar.clickSitesManager();
+    }
+
+    @Override
+    public SitesManagerPage navigate()
+    {
+        try
+        {
+            return super.navigate();
+        }
+        catch(TimeoutException e)
+        {
+            LOG.error("Reload Site Manager page");
+            browser.refresh();
+            return super.navigate();
+        }
     }
 
     public SitesManagerPage assertSiteManagerPageIsOpened()
@@ -234,7 +251,8 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             visibilityValue = StringUtils.capitalize(visibilityValue);
             getSiteRow().findElement(siteRowVisibility).click();
             browser.waitUntilElementsVisible(dropdownOptionsList);
-            browser.findFirstElementWithValue(dropdownOptionsList, visibilityValue).click();
+            WebElement option = browser.findFirstElementWithValue(dropdownOptionsList, visibilityValue);
+            browser.clickJS(option);
             browser.waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
             return this;
         }
