@@ -2,8 +2,6 @@ package org.alfresco.share.adminTools;
 
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
-import org.alfresco.rest.model.RestTagModel;
-import org.alfresco.rest.model.RestTagModelsCollection;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -44,7 +42,7 @@ public class TagManagerTests extends ContextAwareWebTest
         file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         cmisApi.authenticateUser(getAdminUser()).usingSite(site).createFile(file);
 
-        RestTagModelsCollection addedTags = restApi.authenticateUser(getAdminUser())
+        restApi.authenticateUser(getAdminUser())
             .withCoreAPI().usingResource(file).addTags(tag1, tag2, tag3);
 
         setupAuthenticatedSession(getAdminUser());

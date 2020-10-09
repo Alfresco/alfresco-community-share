@@ -221,7 +221,6 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
 
     public UserProfileAdminToolsPage assertGroupIsNotDisplayed(String groupName)
     {
-        browser.waitUntilElementVisible(addedGroups);
         Assert.assertFalse(addedGroups.getText().contains(groupName),
             String.format("Group %s is displayed", groupName));
         return this;
