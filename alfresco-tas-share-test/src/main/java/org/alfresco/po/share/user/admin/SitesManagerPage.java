@@ -163,7 +163,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         private SiteManagerDeleteSiteDialog deleteSiteDialog;
         private By siteRowName = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteName span.inner");
         private By siteRowActionsButton = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions div.dijitPopupMenuItem");
-        private By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager");
+        private By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager .value");
         private By siteRowVisibility = By.cssSelector("td.alfresco-lists-views-layouts-Cell.visibility table");
         private By successIndicator = By.cssSelector("div[class='indicator success']");
         private By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
@@ -204,7 +204,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             WebElement becomeBtn = browser.findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
             browser.mouseOver(becomeBtn);
-            becomeBtn.click();
+            browser.waitUntilElementClickable(becomeBtn).click();
             sitesManagerPage.waitForLoadingMessageToDisappear();
             browser.waitUntilElementContainsText(getSiteRow().findElement(siteRowSiteManager), "Yes");
             return this;
