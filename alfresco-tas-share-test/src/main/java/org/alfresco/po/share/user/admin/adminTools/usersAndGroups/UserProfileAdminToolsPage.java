@@ -169,7 +169,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public EditUserPage clickEditUser()
     {
         LOG.info("Click Edit");
-        editUserButton.click();
+        browser.waitUntilElementClickable(editUserButton).click();
         return (EditUserPage) editUserPage.renderedPage();
     }
 
