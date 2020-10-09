@@ -197,6 +197,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public UserProfileAdminToolsPage assertAccountStatusIsDisabled()
     {
         LOG.info("Assert account is disabled");
+        browser.waitUntilElementVisible(accountStatus);
         Assert.assertEquals(accountStatus.getText(), language.translate("adminTools.user.status.disabled"));
         return this;
     }
@@ -204,6 +205,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public UserProfileAdminToolsPage assertAccountStatusIsEnabled()
     {
         LOG.info("Assert account is enabled");
+        browser.waitUntilElementVisible(accountStatus);
         Assert.assertEquals(accountStatus.getText(), language.translate("adminTools.user.status.enabled"));
         return this;
     }
@@ -219,6 +221,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
 
     public UserProfileAdminToolsPage assertGroupIsNotDisplayed(String groupName)
     {
+        browser.waitUntilElementVisible(addedGroups);
         Assert.assertFalse(addedGroups.getText().contains(groupName),
             String.format("Group %s is displayed", groupName));
         return this;
