@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools;
 
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
+import org.alfresco.rest.model.RestTagModelsCollection;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * UI tests for Admin Tools > Tag Manager page
@@ -31,9 +29,6 @@ public class TagManagerTests extends ContextAwareWebTest
 
     @Autowired
     private TagManagerPage tagManagerPage;
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupClass() throws Exception
@@ -57,16 +52,16 @@ public class TagManagerTests extends ContextAwareWebTest
 
     @TestRail (id = "C9383")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void renamingTag()
+    public void renamingTag() throws Exception
     {
         tagManagerPage.searchTag(tag1)
             .clickEdit(tag1)
             .renameTag(updatedTag)
             .searchTag(updatedTag)
             .assertTagIsDisplayed(updatedTag);
-        documentLibraryPage.navigate(site);
-        assertTrue(documentLibraryPage.getTags(file.getName()).contains(updatedTag),
-            String.format("File %s has tag %s", file.getName(), updatedTag));
+        RestTagModelsCollection tags = restApi.withCoreAPI().usingResource(file).getNodeTags();
+        tags.assertThat()
+            .entriesListContains("tag", updatedTag);
     }
 
     @TestRail (id = "C9385")
