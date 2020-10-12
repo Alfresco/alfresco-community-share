@@ -250,7 +250,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage clickDisabledAccount()
     {
-        disableAccount.click();
+        browser.waitUntilElementVisible(disableAccount).click();
         return this;
     }
 

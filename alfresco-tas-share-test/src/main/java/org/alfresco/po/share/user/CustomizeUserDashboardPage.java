@@ -14,9 +14,6 @@ import org.testng.Assert;
 @PageObject
 public class CustomizeUserDashboardPage extends DashboardCustomization<CustomizeUserDashboardPage>
 {
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-
     @RenderWebElement
     @FindBy (css = "div[id$='default-welcome-preference']")
     private WebElement getStartedPanel;

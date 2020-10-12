@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class CustomizeSiteDashboardPage extends DashboardCustomization<CustomizeSiteDashboardPage>
 {
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
     private String currentSiteName;
 
     public String getCurrentSiteName()
