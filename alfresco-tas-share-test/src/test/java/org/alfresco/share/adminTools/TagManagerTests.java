@@ -85,7 +85,6 @@ public class TagManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteTag()
     {
-        LOG.info("STEP1: Hover any tag and click \"Delete\" button");
         tagManagerPage.searchTag(tag3)
             .clickDelete(tag3)
                 .assertConfirmDeleteMessageIsCorrect(tag3)
