@@ -24,8 +24,8 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     {
         userModel = dataUser.usingAdmin().createRandomTestUser();
         setupAuthenticatedSession(userModel);
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
 
+        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
         addDashlet(siteModel, Dashlets.ALFRESCO_ADDONS_RSS_FEED, 1);
     }
 
