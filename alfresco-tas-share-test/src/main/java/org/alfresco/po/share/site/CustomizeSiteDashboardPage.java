@@ -1,16 +1,14 @@
 package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.DashboardCustomization;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author bogdan.bocancea
  */
 @PageObject
-public class CustomizeSiteDashboardPage extends DashboardCustomization<CustomizeSiteDashboardPage>
+public class CustomizeSiteDashboardPage<T> extends DashboardCustomization<CustomizeSiteDashboardPage<T>>
 {
     private String currentSiteName;
 
@@ -36,8 +34,9 @@ public class CustomizeSiteDashboardPage extends DashboardCustomization<Customize
         return (CustomizeSiteDashboardPage) renderedPage();
     }
 
-    public CustomizeSiteDashboardPage navigate(SiteModel site)
+    public T navigate(SiteModel site)
     {
-        return navigate(site.getId());
+        setCurrentSiteName(site.getId());
+        return (T) navigate().renderedPage();
     }
 }

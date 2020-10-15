@@ -65,12 +65,12 @@ public class DashletXSSTests extends ContextAwareWebTest
         assertTrue(enterFeedURLPopUp.isEnterFeedURLPopUpDisplayed(), "'Enter Feed URL PopUp' couldn't be opened.");
 
         LOG.info("STEP 4: Enter into URL field the next XSS text: '" + XSSUrl + "'.");
-        enterFeedURLPopUp.setUrlField(XSSUrl);
+        enterFeedURLPopUp.setUrlValue(XSSUrl);
 
         LOG.info("STEP 5: Press 'OK' button;");
         enterFeedURLPopUp.clickOkButtonSimple();
         assertTrue(enterFeedURLPopUp.isEnterFeedURLPopUpDisplayed(), "'Enter Feed URL PopUp' is not opened anymore.");
-        assertTrue(enterFeedURLPopUp.isUrlErrorMessageDispalyed(), "Error message is not displayed");
+        assertTrue(enterFeedURLPopUp.isUrlErrorMessageDisplayed(), "Error message is not displayed");
 
         LOG.info("Close the PopUp.");
         enterFeedURLPopUp.clickClose();

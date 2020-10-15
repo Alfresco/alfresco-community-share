@@ -10,7 +10,6 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -51,7 +50,7 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
             .assertHelpBalloonMessageIs(language.translate("webViewDashlet.balloonMessage"))
             .closeHelpBalloon()
                 .clickConfigureDashlet()
-                    .assertPopUpTitleIs(language.translate("webViewDashlet.configure.title"))
+                    .assertDialogTitleEqualsWithExpected(language.translate("webViewDashlet.configure.title"))
                     .assertLinkTitleFieldIsDisplayed()
                     .assertUrlFieldIsDisplayed()
                     .assertOKButtonIsDisplayed()

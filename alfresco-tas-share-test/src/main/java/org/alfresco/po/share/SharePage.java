@@ -247,7 +247,7 @@ public abstract class SharePage<T> extends HtmlPage
     {
         try
         {
-            browser.waitUntilElementVisible(loadingMessage,5);
+            browser.waitUntilElementVisible(loadingMessage,3);
             browser.waitUntilElementDisappears(loadingMessage);
         }
         catch (TimeoutException e)

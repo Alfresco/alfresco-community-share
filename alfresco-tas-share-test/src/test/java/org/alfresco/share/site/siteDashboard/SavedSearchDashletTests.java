@@ -75,7 +75,7 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click 'Configure this dashlet' icon");
         savedSearchDashlet.clickConfigureDashlet()
-            .assertPopUpTitleIs(language.translate("savedSearchDashlet.config.title"))
+            .assertDialogTitleEqualsWithExpected(language.translate("savedSearchDashlet.config.title"))
             .assertSearchTermFieldIsDisplayed()
                 .assertTitleFieldIsDisplayed()
                 .assertSearchTermFieldIsDisplayed()

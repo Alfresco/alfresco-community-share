@@ -1,11 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
+import static org.testng.Assert.assertTrue;
 
-import org.alfresco.utility.Utility;
+import java.util.List;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -37,9 +36,11 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    public RssFeedDashlet asserDashletTitleContains(String expectedTitle)
+    public RssFeedDashlet assertDashletTitleContains(String expectedTitle)
     {
-        Assert.assertTrue(getDashletTitle().contains(expectedTitle), "Rss feed dashlet title is correct");
+        LOG.info("Assert dashlet title contains: {}", expectedTitle);
+        assertTrue(getDashletTitle().contains(expectedTitle), "Rss feed dashlet title is not correct");
+
         return this;
     }
 
@@ -57,15 +58,19 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 
     public EnterFeedURLPopUp configureDashlet()
     {
+        LOG.info("Configure dashlet");
         browser.mouseOver(titleBarActions);
         browser.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
         configureDashletButton.click();
+
         return (EnterFeedURLPopUp) enterFeedURLPopUp.renderedPage();
     }
 
     public RssFeedDashlet clickOnRssLink(int position)
     {
+        LOG.info("Click on rss link found at position: {}", position);
         browser.waitUntilElementsVisible(feedsList).get(position).click();
+
         return this;
     }
 
@@ -82,7 +87,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         }
         getBrowser().switchWindow(1);
         getBrowser().waitUrlContains(expectedUrlTitle, 20);
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
+        assertTrue(getBrowser().getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
         getBrowser().closeWindowAndSwitchBack();
         return this;
     }

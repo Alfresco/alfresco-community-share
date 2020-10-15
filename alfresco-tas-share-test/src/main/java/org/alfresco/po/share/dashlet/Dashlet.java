@@ -1,15 +1,11 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
-
 import org.alfresco.po.share.SharePage;
-import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
@@ -110,7 +106,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     {
         LOG.info("Assert balloon message is displayed");
         browser.waitUntilElementVisible(helpBallon);
-        Assert.assertTrue(browser.isElementDisplayed(helpBallon), "Balloon message is displayed");
+        Assert.assertTrue(browser.isElementDisplayed(helpBallon), "Balloon message is not displayed");
         return (T) this;
     }
 
@@ -121,11 +117,6 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return (T) this;
     }
 
-    /**
-     * Returns if help icon is displayed on this dashlet.
-     *
-     * @return True if the help icon is displayed else false.
-     */
     public boolean isHelpIconDisplayed(DashletHelpIcon dashlet)
     {
         browser.mouseOver(browser.findElement(By.cssSelector(String.format(dashletBar, dashlet.name))));

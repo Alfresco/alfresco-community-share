@@ -77,9 +77,9 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
 
         rssFeedDashlet.configureDashlet();
-        enterFeedURLPopUp.setUrlField("http://feeds.reuters.com/reuters/businessNews");
+        enterFeedURLPopUp.setUrlValue("http://feeds.reuters.com/reuters/businessNews");
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("10");
-        enterFeedURLPopUp.checkNewWindow();
+        enterFeedURLPopUp.selectOpenLinksInNewWindowCheckboxFromDialog();
         getBrowser().waitInSeconds(5);
         enterFeedURLPopUp.clickOk();
 
