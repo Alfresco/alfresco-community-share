@@ -5,28 +5,47 @@ import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
  * @author bogdan.simion
  */
-public class DataListsDashletTests extends ContextAwareWebTest
+public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 {
+    private UserModel userModel;
+    private SiteModel siteModel;
+
     @Autowired
-    SiteDataListsDashlet siteDataListsDashlet;
+    public SiteDataListsDashlet siteDataListsDashlet;
+
     @Autowired
     SiteDashboardPage siteDashboardPage;
+
     @Autowired
     DataListsPage dataListsPage;
+
+    @BeforeClass(alwaysRun = true)
+    public void setupTest()
+    {
+        userModel = dataUser.usingAdmin().createRandomTestUser();
+        setupAuthenticatedSession(userModel);
+
+        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
+    }
 
     @TestRail (id = "C5568")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
@@ -203,5 +222,12 @@ public class DataListsDashletTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameSiteConsumer);
         siteService.delete(adminUser, adminPassword, siteName);
 
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanupTest()
+    {
+        removeUserFromAlfresco(userModel);
+        deleteSites(siteModel);
     }
 }
