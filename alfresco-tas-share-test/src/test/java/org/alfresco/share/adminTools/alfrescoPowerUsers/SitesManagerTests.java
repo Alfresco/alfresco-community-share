@@ -1,4 +1,4 @@
-package org.alfresco.share.alfrescoPowerUsers;
+package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;

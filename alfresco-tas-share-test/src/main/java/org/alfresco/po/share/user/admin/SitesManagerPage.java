@@ -77,7 +77,8 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     {
         try
         {
-            return super.navigate();
+            super.navigate();
+            return this;
         }
         catch(TimeoutException e)
         {
@@ -118,7 +119,8 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     {
         do
         {
-            browser.waitUntilElementsVisible(siteRowsElements);
+            browser.waitUntilElementIsPresent(siteRowsElements);
+            browser.waitUntilElementVisible(siteRowsElements);
             List<WebElement> siteList = browser.findElements(siteRowsElements);
             for(WebElement siteRow : siteList)
             {
@@ -206,6 +208,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             browser.mouseOver(becomeBtn);
             browser.waitUntilElementClickable(becomeBtn).click();
             sitesManagerPage.waitForLoadingMessageToDisappear();
+            browser.waitUntilChildElementIsPresent(getSiteRow(), siteRowSiteManager);
             browser.waitUntilElementContainsText(getSiteRow().findElement(siteRowSiteManager), "Yes");
             return this;
         }

@@ -183,7 +183,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public DeleteUserDialogPage clickDelete()
     {
         LOG.info("Click Delete");
-        deleteUserButton.click();
+        browser.waitUntilElementClickable(deleteUserButton).click();
         return (DeleteUserDialogPage) deleteUserDialogPage.renderedPage();
     }
 

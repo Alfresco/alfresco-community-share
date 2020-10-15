@@ -1,11 +1,13 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.TextInput;
@@ -24,7 +26,7 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
     private CheckBox newWindowCheckbox;
 
     @FindBy (css = "select[id$='default-configDialog-limit']")
-    private Select noItemsToDisplay;
+    private Select numberOfItems;
 
     @FindBy (css = "div[class^='config-feed']")
     private WebElement enterFeedURLPopUp;
@@ -35,50 +37,51 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
     @FindBy (css = "button[id$='configDialog-ok-button']")
     private WebElement okButton;
 
-    public EnterFeedURLPopUp setUrlField(String URL)
+    public EnterFeedURLPopUp setUrlValue(String url)
     {
-        Utils.clearAndType(urlField, URL);
+        LOG.info("Set url value: {}", url);
+        Utils.clearAndType(urlField, url);
+
         return this;
     }
 
-    public EnterFeedURLPopUp selectNumberOfItemsToDisplay(String value)
+    public EnterFeedURLPopUp selectNumberOfItemsToDisplay(String dropDownValue)
     {
-        noItemsToDisplay.selectByValue(value);
+        LOG.info("Select number of item to display from drop-down: {}", dropDownValue);
+        numberOfItems.selectByValue(dropDownValue);
+
         return this;
     }
 
-    public EnterFeedURLPopUp selectNumberOfItemsToDisplay(int value)
+    public EnterFeedURLPopUp selectNumberOfItemsToDisplay(int dropDownValue)
     {
-        noItemsToDisplay.selectByValue(String.valueOf(value));
+        LOG.info("Select number of items to display: {}", dropDownValue);
+        numberOfItems.selectByValue(String.valueOf(dropDownValue));
+
         return this;
     }
 
-    public EnterFeedURLPopUp checkNewWindow()
+    public EnterFeedURLPopUp selectOpenLinksInNewWindowCheckboxFromDialog()
     {
+        LOG.info("Select open links in new window checkbox from dialog");
         newWindowCheckbox.select();
+
         return this;
     }
 
-    public boolean isValueSelectedFromNoItemsToDisplayDropDown(String value)
+    public EnterFeedURLPopUp assertNumberOfItemsToDisplayFromDropDownIs(String expectedNumberOfItems)
     {
-        return noItemsToDisplay.getFirstSelectedOption().getText().equals(value);
-    }
+        assertEquals(numberOfItems.getFirstSelectedOption().getText(), expectedNumberOfItems,
+            "Number of items to be displayed from drop down not equals with expected");
 
-    public EnterFeedURLPopUp assertValueSelectInNrOfItemsToDisplayIs(int value)
-    {
-        Assert.assertEquals(noItemsToDisplay.getFirstSelectedOption().getText(), String.valueOf(value),
-            "Selected nr of items to display is correct");
         return this;
-    }
-
-    public boolean isNewWindowCheckBoxChecked()
-    {
-        return newWindowCheckbox.isSelected();
     }
 
     public EnterFeedURLPopUp assertNewWindowIsChecked()
     {
-        Assert.assertTrue(newWindowCheckbox.isSelected(), "New window checkbox is selected");
+        LOG.info("Assert new window is checked");
+        assertTrue(newWindowCheckbox.isSelected(), "New window checkbox is not checked");
+
         return this;
     }
 
@@ -97,7 +100,7 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
      *
      * @return true if displayed
      */
-    public boolean isUrlErrorMessageDispalyed()
+    public boolean isUrlErrorMessageDisplayed()
     {
         return urlErrorMessage.isDisplayed();
     }

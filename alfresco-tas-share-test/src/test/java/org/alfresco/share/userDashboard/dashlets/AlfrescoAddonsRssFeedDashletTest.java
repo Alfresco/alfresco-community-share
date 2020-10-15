@@ -36,14 +36,14 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
         rssFeedDashlet.configureDashlet()
-            .assertPopUpTitleIs(language.translate("rssFeedDashlet.configureDialogTitle"))
-                .setUrlField(sampleRssFeed)
+            .assertDialogTitleEqualsWithExpected(language.translate("rssFeedDashlet.configureDialogTitle"))
+                .setUrlValue(sampleRssFeed)
                 .selectNumberOfItemsToDisplay(5)
-                .assertValueSelectInNrOfItemsToDisplayIs(5)
-                .checkNewWindow()
+                .assertNumberOfItemsToDisplayFromDropDownIs(String.valueOf(5))
+                .selectOpenLinksInNewWindowCheckboxFromDialog()
                 .assertNewWindowIsChecked()
                 .clickOk();
-        rssFeedDashlet.asserDashletTitleContains("FeedForAll Sample Feed")
+        rssFeedDashlet.assertDashletTitleContains("FeedForAll Sample Feed")
             .clickOnRssLink(1)
                 .assertRssFeedLinkIsOpened(sampleRssFeedTitle);
     }

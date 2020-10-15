@@ -1,4 +1,4 @@
-package org.alfresco.share.alfrescoPowerUsers;
+package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
