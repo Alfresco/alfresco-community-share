@@ -25,17 +25,21 @@ import org.testng.annotations.Test;
  */
 public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 {
+    private static final String EXPECTED_TITLE = "Site Data Lists";
+    private static final String EXPECTED_EMPTY_MESSAGE = "No lists to display";
+    private static final String EXPECTED_BALLOON_MESSAGE = "This dashlet shows lists relevant to the site. Clicking a list opens it.";
+
     private UserModel userModel;
     private SiteModel siteModel;
 
     @Autowired
-    public SiteDataListsDashlet siteDataListsDashlet;
+    private SiteDataListsDashlet siteDataListsDashlet;
 
     @Autowired
-    SiteDashboardPage siteDashboardPage;
+    private SiteDashboardPage siteDashboardPage;
 
     @Autowired
-    DataListsPage dataListsPage;
+    private DataListsPage dataListsPage;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -48,36 +52,19 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
-    public void verifySiteDataListsDashletNoListCreated()
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplaySpecificMessageWhenSiteDataListsIsEmpty()
     {
-        String userName = String.format("user5568-%s", RandomData.getRandomAlphanumeric());
-        String siteName = String.format("C5568%s", RandomData.getRandomAlphanumeric());
+        siteDataListsDashlet
+            .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
+            .assertDashletTitleIs(EXPECTED_TITLE)
+            .assertCreateDataListLinkDisplayed()
+            .assertDisplayedMessageIs(EXPECTED_EMPTY_MESSAGE);
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5568", "C5568");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        setupAuthenticatedSession(userName, password);
-
-        LOG.info("Step 1 - Verify Site Data Lists dahslet.");
-        siteDashboardPage.navigate(siteName);
-        Assert.assertTrue(siteDataListsDashlet.isHelpIconDisplayed(DashletHelpIcon.DATA_LISTS), "Data list helpIcon is not displayed");
-        Assert.assertEquals(siteDataListsDashlet.getDashletTitle(), "Site Data Lists", "Dashlet title unavailable");
-        Assert.assertTrue(siteDataListsDashlet.isCreateDataListLinkDisplayed(), "Create data list link is not displayed");
-        Assert.assertEquals(siteDataListsDashlet.getMessageDisplayed(), "No lists to display", "Message not found");
-
-        LOG.info("Step 2 - Click ? icon.");
-        siteDataListsDashlet.clickOnHelpIcon(DashletHelpIcon.DATA_LISTS);
-
-        Assert.assertEquals(siteDataListsDashlet.getHelpBalloonMessage(), "This dashlet shows lists relevant to the site. Clicking a list opens it.",
-            "No text found");
-
-        LOG.info("Step 3 - Click X icon.");
-        siteDataListsDashlet.closeHelpBalloon();
-        Assert.assertFalse(siteDataListsDashlet.isBalloonDisplayed(), "Balloon is not displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteDataListsDashlet.clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
+            .assertHelpBalloonMessageIs(EXPECTED_BALLOON_MESSAGE)
+            .closeHelpBalloon()
+            .assertBalloonIsNotDisplayed();
     }
 
     @TestRail (id = "C5569")
