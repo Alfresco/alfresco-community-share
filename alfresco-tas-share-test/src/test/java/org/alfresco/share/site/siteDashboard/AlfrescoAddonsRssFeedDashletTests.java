@@ -13,6 +13,13 @@ import org.testng.annotations.Test;
 
 public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDashletsTests
 {
+    private static final String EXPECTED_DIALOG_TITLE = "Enter Feed URL:";
+    private static final String RSS_FEED_URL = "https://www.feedforall.com/sample.xml";
+    private static final String DASHLET_TITLE = "FeedForAll Sample Feed";
+    private static final String NUMBER_OF_ITEMS_DISPLAYED = "5";
+    private static final String EXPECTED_URL = "feedforall.com";
+    private static final int SECOND_LINK = 1;
+
     private UserModel userModel;
     private SiteModel siteModel;
 
