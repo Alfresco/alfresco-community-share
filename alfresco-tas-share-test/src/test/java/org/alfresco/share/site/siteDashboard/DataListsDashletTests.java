@@ -17,7 +17,9 @@ import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -28,12 +30,19 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String EXPECTED_TITLE = "Site Data Lists";
     private static final String EXPECTED_EMPTY_MESSAGE = "No lists to display";
     private static final String EXPECTED_BALLOON_MESSAGE = "This dashlet shows lists relevant to the site. Clicking a list opens it.";
+    private static final String DIALOG_TITLE = "New List";
+    private static final int EXPECTED_NUMBER_OF_LISTS_ITEMS = 2;
+    private static final String LIST_ITEM_TITLE = String.format("C5569%s", RandomData.getRandomAlphanumeric());;
+    private static final String todoListName = String.format("C5569%s", RandomData.getRandomAlphanumeric());
+    private static final String description = "C5569Test";
+    private static final String DIALOG_INPUT_TITLE = "Contact List";
+    private static final String DIALOG_INPUT_DESCRIPTION = "Contacts";
 
     private UserModel userModel;
     private SiteModel siteModel;
 
     @Autowired
-    private SiteDataListsDashlet siteDataListsDashlet;
+    public SiteDataListsDashlet siteDataListsDashlet;
 
     @Autowired
     private SiteDashboardPage siteDashboardPage;
@@ -45,16 +54,22 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     public void setupTest()
     {
         userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
+    }
 
+    @BeforeMethod
+    public void beforeTest()
+    {
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
     }
 
     @TestRail (id = "C5568")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplaySpecificMessageWhenSiteDataListsIsEmpty()
     {
+        //Set up an authentication session and add a dashlet
+        setupAuthenticatedSession(userModel);
+        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
+
         siteDataListsDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
             .assertDashletTitleIs(EXPECTED_TITLE)
@@ -68,105 +83,60 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5569")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
-    public void verifySiteDataListsDashletTwoListsCreated()
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplaySiteDataListsDashletWhenTwoListsItemsAreCreated()
     {
-        String userName = String.format("userC5569-%s", RandomData.getRandomAlphanumeric());
-        String siteName = String.format("C5569%s", RandomData.getRandomAlphanumeric());
-        String eventListName = String.format("C5569%s", RandomData.getRandomAlphanumeric());
-        String todoListName = String.format("C5569%s", RandomData.getRandomAlphanumeric());
-        String description = "C5569Test";
-        int numberOfLists = 2;
+        //Create two data lists with different data list types
+        dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
+            siteModel.getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, description);
+        dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
+            siteModel.getId(), DataList.TODO_LIST, todoListName, description);
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5568", "C5568");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        dataListsService.createDataList(userName, password, siteName, DataList.EVENT_LIST, eventListName, description);
-        dataListsService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, description);
-        setupAuthenticatedSession(userName, password);
+        //Set up an authentication session in order above items to be visible when browser is opened
+        setupAuthenticatedSession(userModel);
+        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
 
-        LOG.info("Step 1 - Verify Site Data Lists dahslet.");
-        siteDashboardPage.navigate(siteName);
-        Assert.assertTrue(siteDataListsDashlet.isHelpIconDisplayed(DashletHelpIcon.DATA_LISTS), "Data list helpIcon is not displayed");
-        Assert.assertTrue(siteDataListsDashlet.isCreateDataListLinkDisplayed(), "Create data list link is not displayed");
-        Assert.assertTrue(siteDataListsDashlet.areSiteDataListsItemsDisplayed(), "Data list items not displayed");
-        Assert.assertEquals(siteDataListsDashlet.getDashletTitle(), "Site Data Lists", "Dashlet title unavailable");
-        Assert.assertEquals(siteDataListsDashlet.numberOfListItems(), numberOfLists, "Number of lists different than 2");
-
-        LOG.info("Step 2 - Click on one of the Data Lists title link.");
-        siteDataListsDashlet.clickOnFirstListItem();
-        dataListsPage.setListItemSelectedContent();
-        Assert.assertTrue(dataListsPage.isDataListTitleDisplayed(eventListName), "Data list title is not displayed");
-        Assert.assertTrue(dataListsPage.currentContent.isDataListContentDisplayed(), "Data list content is not displayed");
-        Assert.assertTrue(dataListsPage.isNewListButtonDisplayed(), "New List action button is not displayed");
-        Assert.assertTrue(dataListsPage.currentContent.isSelectItemsButtonDisplayed(), "Selected Items action button is not enabled");
-        Assert.assertTrue(dataListsPage.currentContent.isSelectButtonDisplayed(), "Select button is not displayed");
-        Assert.assertTrue(dataListsPage.currentContent.isSelectAllButtonOptionDisplayed(), "Select All button is not displayed");
-        Assert.assertTrue(dataListsPage.currentContent.isSelectNoneButtonOptionDisplayed(), "Select None button is not displayed");
-        Assert.assertTrue(dataListsPage.currentContent.isInvertSelectionButtonOptionEnabled(), "Invert Selection button is not displayed");
-        Assert.assertTrue(dataListsPage.currentContent.areNavigationLinksDisplayed(), "The navigation links are not displayed.");
-        Assert.assertTrue(dataListsPage.isListWithCreatedListsDisplayed(), "List with created lists is not displayed");
-        Assert.assertTrue(dataListsPage.currentContent.allFilterOptionsAreDisplayed(), "Not all filters are displayed.");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteDataListsDashlet.assertSiteDataListsItemsAreEqual(EXPECTED_NUMBER_OF_LISTS_ITEMS);
+        siteDataListsDashlet.clickListItemByTitle(LIST_ITEM_TITLE);
+        dataListsPage.assertDataListItemTitleEquals(LIST_ITEM_TITLE);
     }
 
     @TestRail (id = "C5570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void verifySiteDataListsDashletCreateDataList()
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayInListsCreatedDataList()
     {
-        String userName = String.format("userC5570-%s", RandomData.getRandomAlphanumeric());
-        String siteName = String.format("C5570%s", RandomData.getRandomAlphanumeric());
-        String listTitle = "Contact List";
-        String listDescription = "Contacts";
+        setupAuthenticatedSession(userModel);
+        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5570", "C5570");
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        setupAuthenticatedSession(userName, password);
-        siteDashboardPage.navigate(siteName);
+        dataListsPage
+            .clickOnCreateDataListLink()
+            .assertNewListDialogTitleEquals(DIALOG_TITLE)
+            .selectContactListFromTypesOfListsAvailable()
+            .setTitle(DIALOG_INPUT_TITLE)
+            .assertDialogInputTitleEquals(DIALOG_INPUT_TITLE)
+            .setDescription(DIALOG_INPUT_DESCRIPTION)
+            .assertDialogInputDescriptionEquals(DIALOG_INPUT_DESCRIPTION)
+            .clickDialogSaveButton()
+            .assertDataListLinkDescriptionEquals(DIALOG_INPUT_TITLE);
+    }
 
-        LOG.info("Step 1 - Click Create Data List icon on the Site Content Dashlet.");
-        siteDataListsDashlet.clickOnCreateDataListLink();
-        Assert.assertEquals(siteDataListsDashlet.getNewListWindowText(), "New List", "New List window is not opened");
+    @TestRail (id = "C5570")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayEmptyListsWhenCancelDataListCreation()
+    {
+        setupAuthenticatedSession(userModel);
+        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
 
-        LOG.info("Step 2 - Select one of the types of lists available And fill in the Info for Title and Description fields.");
-        siteDataListsDashlet.selectContactListFromTypesOfListsAvailable();
-        siteDataListsDashlet.insertTitleAndDescriptionForDataList(listTitle, listDescription);
-        Assert.assertEquals(siteDataListsDashlet.getListTitleTextInput(), listTitle, "List title provided was not accepted");
-        Assert.assertEquals(siteDataListsDashlet.getListDescriptionTextInput(), listDescription, "List description provided was not accepted");
-        Assert.assertTrue(siteDataListsDashlet.areSaveAndCancelButtonDisplayed(), "Save button or Cancel button are not displayed");
-
-        LOG.info("Step 3 - Click on Cancel button.");
-        siteDataListsDashlet.clickOnNewListCancelButton();
-        Assert.assertFalse(siteDataListsDashlet.isNewListWindowDisplayed(), "New list window is displayed");
-        Assert.assertTrue(siteDataListsDashlet.isDataListPageTheCurrentPage(), "The current page is not Data List details page");
-
-        LOG.info("Step 4 - Return to Site Dashboard.");
-        siteDashboardPage.navigate(siteName);
-        Assert.assertTrue(siteDataListsDashlet.isSiteDashboardPageTheCurrentPage(siteName), "The current page is not Site Dashboard page");
-
-        LOG.info("Step 5 - Click Create Data List icon on the Site Content Dashlet.");
-        siteDataListsDashlet.clickOnCreateDataListLink();
-        getBrowser().waitInSeconds(3);
-        Assert.assertEquals(siteDataListsDashlet.getNewListWindowText(), "New List", "New List window is not opened");
-
-        LOG.info("Step 6 - Select one of the types of lists available And fill in the Info for Title and Description fields.");
-        siteDataListsDashlet.selectContactListFromTypesOfListsAvailable();
-        siteDataListsDashlet.insertTitleAndDescriptionForDataList(listTitle, listDescription);
-        Assert.assertEquals(siteDataListsDashlet.getListTitleTextInput(), listTitle, "List title provided was not accepted");
-        Assert.assertEquals(siteDataListsDashlet.getListDescriptionTextInput(), listDescription, "List description provided was not accepted");
-        Assert.assertTrue(siteDataListsDashlet.areSaveAndCancelButtonDisplayed(), "Save button or Cancel button are not displayed");
-
-        LOG.info("Step 7 - Click on Save button.");
-        siteDataListsDashlet.clickOnNewListSaveButton();
-        getBrowser().waitInSeconds(4);
-        Assert.assertTrue(siteDataListsDashlet.isDataListLinkDisplayed(listDescription), "Data list link is not displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataListsPage
+            .clickOnCreateDataListLink()
+            .assertNewListDialogTitleEquals(DIALOG_TITLE)
+            .selectContactListFromTypesOfListsAvailable()
+            .setTitle(DIALOG_INPUT_TITLE)
+            .assertDialogInputTitleEquals(DIALOG_INPUT_TITLE)
+            .setDescription(DIALOG_INPUT_DESCRIPTION)
+            .assertDialogInputDescriptionEquals(DIALOG_INPUT_DESCRIPTION)
+            .clickDialogCancelButton()
+            .assertDataListUrlContains("data-lists");
     }
 
     @TestRail (id = "C5571")
@@ -211,10 +181,17 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 
     }
 
+
+
+    @AfterMethod
+    public void afterTest()
+    {
+        deleteSites(siteModel);
+    }
+
     @AfterClass(alwaysRun = true)
     public void cleanupTest()
     {
         removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
     }
 }
