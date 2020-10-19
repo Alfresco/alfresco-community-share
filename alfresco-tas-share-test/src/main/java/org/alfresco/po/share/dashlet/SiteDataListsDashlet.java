@@ -54,7 +54,8 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    private final String listItemTitleLocator = "//a[@title='%s']";
+    private final String listItemTitleLocator = "//a[text()='%s']";
+    private final String listItemDescriptionLocator = "//div[text()='%s']";
 
     /**
      * Method to get the title of the current dashlet
@@ -65,6 +66,24 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     public String getDashletTitle()
     {
         return dashletContainer.findElement(dashletTitle).getText();
+    }
+
+    public SiteDataListsDashlet assertDashletTitleEquals(String expectedDashletTitle)
+    {
+        LOG.info("Assert site data dashlet title equals: {}", expectedDashletTitle);
+        assertEquals(getDashletTitle(), expectedDashletTitle,
+            String.format("Site data dashlet title not equals %s", expectedDashletTitle));
+
+        return this;
+    }
+
+    public SiteDataListsDashlet assertHelpBalloonMessageEquals(String expectedHelpBalloonMessage)
+    {
+        LOG.info("Assert site data dashlet title equals: {}", expectedHelpBalloonMessage);
+        assertEquals(getHelpBalloonMessage(), expectedHelpBalloonMessage,
+            String.format("Site data help balloon message dashlet not equals %s", expectedHelpBalloonMessage));
+
+        return this;
     }
 
     public SiteDataListsDashlet assertCreateDataListLinkDisplayed()
@@ -173,9 +192,24 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return this;
     }
 
-    public boolean isDataListItemDisplayed()
+    public SiteDataListsDashlet assertDataListItemTitleEquals(String expectedItemTitle)
     {
-        return browser.isElementDisplayed(detailListItem);
+        LOG.info("Assert dashlet data list item title equals: {}", expectedItemTitle);
+        WebElement siteDataListItemTitle =  browser.findElement(By.xpath(String.format(listItemTitleLocator, expectedItemTitle)));
+        assertEquals(siteDataListItemTitle.getText(), expectedItemTitle, String
+            .format("Site data list item title %s not equals expected", listItemTitleLocator));
+
+        return this;
+    }
+
+    public SiteDataListsDashlet assertDataListItemDescriptionEquals(String expectedItemDescription)
+    {
+        LOG.info("Assert dashlet data list item description equals: {}", expectedItemDescription);
+        WebElement siteDataListItemDescription =  browser.findElement(By.xpath(String.format(listItemDescriptionLocator, expectedItemDescription)));
+        assertEquals(siteDataListItemDescription.getText(), expectedItemDescription, String
+            .format("Site data list item description %s not equals expected", listItemDescriptionLocator));
+
+        return this;
     }
 
     public void clickOnTheFirstDataListTitleLink()
