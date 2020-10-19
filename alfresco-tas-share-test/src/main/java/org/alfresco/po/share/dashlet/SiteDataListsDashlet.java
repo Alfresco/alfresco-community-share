@@ -131,6 +131,14 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return this;
     }
 
+    public SiteDataListsDashlet assertDataListItemTitleIsDisplayed(String expectedDataListItemTitle)
+    {
+        LOG.info("Wait until data list item title is displayed: {}", expectedDataListItemTitle);
+        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(String.format(listItemTitleLocator, expectedDataListItemTitle)));
+
+        return this;
+    }
+
     /**
      * Method to test if New List window is opened
      *

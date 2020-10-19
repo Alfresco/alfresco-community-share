@@ -15,9 +15,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -55,22 +53,16 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     public void setupTest()
     {
         userModel = dataUser.usingAdmin().createRandomTestUser();
-    }
+        setupAuthenticatedSession(userModel);
 
-    @BeforeMethod(alwaysRun = true)
-    public void beforeTest()
-    {
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES}, priority = 1)
     public void shouldDisplaySpecificMessageWhenSiteDataListsIsEmpty()
     {
-        //Set up an authentication session and add a dashlet
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
-
         siteDataListsDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
             .assertDashletTitleIs(language.translate(EXPECTED_DASHLET_TITLE))
@@ -93,12 +85,11 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
             siteModel.getId(), DataList.TODO_LIST, TO_DO_LIST_NAME, LIST_ITEM_DESCRIPTION);
 
-        //Set up an authentication session in order above items to be visible when browser is opened
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
+        siteDataListsDashlet
+            .assertDataListItemTitleIsDisplayed(LIST_ITEM_TITLE)
+            .assertSiteDataListsItemsAreEqual(EXPECTED_NUMBER_OF_LISTS_ITEMS)
+            .clickListItemByTitle(LIST_ITEM_TITLE);
 
-        siteDataListsDashlet.assertSiteDataListsItemsAreEqual(EXPECTED_NUMBER_OF_LISTS_ITEMS);
-        siteDataListsDashlet.clickListItemByTitle(LIST_ITEM_TITLE);
         dataListsPage.assertDataListItemTitleEquals(LIST_ITEM_TITLE);
     }
 
@@ -106,9 +97,6 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplayInListsCreatedDataList()
     {
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
-
         dataListsPage
             .clickOnCreateDataListLink()
             .assertNewListDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
@@ -125,9 +113,6 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplayEmptyListsWhenCancelDataListCreation()
     {
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
-
         dataListsPage
             .clickOnCreateDataListLink()
             .assertNewListDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
@@ -151,12 +136,6 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
             siteModel.getId(), DataList.TODO_LIST, TO_DO_LIST_NAME, LIST_ITEM_DESCRIPTION);
 
-        //authenticate with site manager, user model and add dashlet
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
-
-        //logout and login with site consumer
-        logoutViaBrowser();
         UserModel siteConsumer = dataUser.usingAdmin().createRandomTestUser();
         dataUser.usingUser(userModel).addUserToSite(siteConsumer, siteModel, UserRole.SiteConsumer);
         setupAuthenticatedSession(siteConsumer);
@@ -166,6 +145,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 
         siteDataListsDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
+            .assertDataListItemTitleIsDisplayed(LIST_ITEM_TITLE)
             .assertDataListItemTitleEquals(LIST_ITEM_TITLE)
             .assertDataListItemDescriptionEquals(LIST_ITEM_DESCRIPTION)
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
@@ -176,15 +156,10 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         dataListsPage.assertDataListUrlContains(language.translate(EXPECTED_DATA_LISTS_URL));
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void afterTest()
-    {
-        deleteSites(siteModel);
-    }
-
     @AfterClass(alwaysRun = true)
     public void cleanupTest()
     {
+        deleteSites(siteModel);
         removeUserFromAlfresco(userModel);
     }
 }
