@@ -83,7 +83,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "Successfully deleted list");
 
         LOG.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
-        Assert.assertEquals("The list is displayed.", dataListsPage.getListsDisplayName().contains("first list"), false);
+        Assert.assertEquals("The list is displayed.", dataListsPage.getListsItemsTitle().contains("first list"), false);
         Assert.assertEquals("At least one list is displayed.", dataListsPage.noListDisplayed(), true);
     }
 
@@ -99,7 +99,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "Successfully deleted list");
 
         LOG.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
-        Assert.assertEquals("The list is displayed.", dataListsPage.getListsDisplayName().contains("first list"), false);
+        Assert.assertEquals("The list is displayed.", dataListsPage.getListsItemsTitle().contains("first list"), false);
         Assert.assertEquals("At least one list is displayed.", dataListsPage.noListDisplayed(), true);
     }
 
@@ -117,6 +117,6 @@ public class DeletingADataListTests extends ContextAwareWebTest
         deleteListPopUp.clickCancelButton();
 
         LOG.info("Step 4: Check that list has not been deleted and is still displayed in the Lists section.");
-        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsDisplayName().contains("first list"), true);
+        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsItemsTitle().contains("first list"), true);
     }
 }

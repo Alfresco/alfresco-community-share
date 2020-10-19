@@ -121,7 +121,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         LOG.info("STEP 3 - Verify the presence of Detailed View button.");
         Assert.assertTrue(siteContentDashlet.isDetailedViewButtonPresent(), "Detailed View button displayed");
         LOG.info("STEP 4 - Verify the presence of Help button.");
-        assertEquals(siteContentDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_CONTENT), true, "'Help' icon is displayed.");
+        assertEquals(siteContentDashlet.assertDashletHelpIconIsDisplayed(Dashlet.DashletHelpIcon.SITE_CONTENT), true, "'Help' icon is displayed.");
         LOG.info("STEPS 5,6 - Click on ? icon. Verify the message displayed for Site Content dashlet");
         siteContentDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_CONTENT);
         assertEquals(siteContentDashlet.getHelpBalloonMessage(), language.translate("siteContentDashlet.helpBalloonMessage"), "'Help' balloon message=");

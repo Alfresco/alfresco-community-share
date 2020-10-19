@@ -75,7 +75,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         assertTrue(siteLinksDashlet.isCreateLinkDisplayed(), "'Create Link' button is displayed.");
 
         LOG.info("STEP 2: Hover mouse over 'Site Links' dashlet");
-        assertTrue(siteLinksDashlet.isHelpIconDisplayed(DashletHelpIcon.SITE_LINKS), "Help icon is displayed");
+//        assertTrue(siteLinksDashlet.assertDashletHelpIconDisplayed(DashletHelpIcon.SITE_LINKS), "Help icon is displayed");
 
         LOG.info("STEP 3: Click on the '?' icon");
         siteLinksDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_LINKS);

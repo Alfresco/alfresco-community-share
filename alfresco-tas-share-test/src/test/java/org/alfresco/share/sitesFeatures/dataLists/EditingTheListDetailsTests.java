@@ -88,7 +88,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
 
         LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
-        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
+        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsItemsTitle().contains("new Title"), true);
     }
 
     @TestRail (id = "C5895")
@@ -106,8 +106,8 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         editListDetailsPopUp.clickCancelButton();
 
         LOG.info("Step 4: Check and confirm that the list not has been updated.");
-        Assert.assertEquals("The updated list is displayed.", dataListsPage.getListsDisplayName().contains("new Title"), false);
-        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsDisplayName().contains(listName), true);
+        Assert.assertEquals("The updated list is displayed.", dataListsPage.getListsItemsTitle().contains("new Title"), false);
+        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsItemsTitle().contains(listName), true);
     }
 
     @TestRail (id = "C5896")
@@ -125,8 +125,8 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         editListDetailsPopUp.clickCloseButton();
 
         LOG.info("Step 4: Check and confirm that the list not has been updated.");
-        Assert.assertEquals("The updated list is displayed.", dataListsPage.getListsDisplayName().contains("new Title"), false);
-        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsDisplayName().contains(listName), true);
+        Assert.assertEquals("The updated list is displayed.", dataListsPage.getListsItemsTitle().contains("new Title"), false);
+        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsItemsTitle().contains(listName), true);
     }
 
     @TestRail (id = "C5898")
@@ -158,7 +158,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
 
         LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
-        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
+        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsItemsTitle().contains("new Title"), true);
 
         userService.delete(adminUser, adminPassword, collaborator);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + collaborator);
@@ -244,7 +244,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
 
         LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
-        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
+        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsItemsTitle().contains("new Title"), true);
 
         userService.delete(adminUser, adminPassword, contributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + contributor);
@@ -280,7 +280,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
 
         LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
-        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
+        Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsItemsTitle().contains("new Title"), true);
 
         userService.delete(adminUser, adminPassword, manager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + manager);

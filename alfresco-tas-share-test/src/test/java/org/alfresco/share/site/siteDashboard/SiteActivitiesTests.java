@@ -3,9 +3,7 @@ package org.alfresco.share.site.siteDashboard;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -83,7 +81,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("STEP2: Verify available actions");
         siteActivitiesDashlet.assertRssFeedButtonIsDisplayed();
 
-        assertEquals(siteActivitiesDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_ACTIVITIES), true, "'Help' icon is displayed.");
+        assertEquals(siteActivitiesDashlet.assertDashletHelpIconIsDisplayed(Dashlet.DashletHelpIcon.SITE_ACTIVITIES), true, "'Help' icon is displayed.");
 
         siteActivitiesDashlet.assertActivitiesFilterHasAllOptions();
 

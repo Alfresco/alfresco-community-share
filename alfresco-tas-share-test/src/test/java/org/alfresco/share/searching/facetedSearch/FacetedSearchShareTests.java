@@ -213,6 +213,6 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         LOG.info("Step 2: Select data list title and check user is redirected to the correct page");
         searchPage.clickContentName(listName, dataListsPage);
         Assert.assertEquals(dataListsPage.getPageTitle(), "Alfresco » Data Lists");
-        Assert.assertTrue(dataListsPage.isDataListTitleDisplayed(listName));
+//        Assert.assertTrue(dataListsPage.assertDataListTitleContains(listName));
     }
 }

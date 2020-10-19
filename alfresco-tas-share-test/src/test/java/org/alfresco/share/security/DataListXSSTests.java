@@ -104,7 +104,7 @@ public class DataListXSSTests extends ContextAwareWebTest
         addSiteDataListDashletToSiteDashboard();
 
         LOG.info("STEP 1: Click 'New List' button from 'Site Data List' dashlet.");
-        siteDataListsDashlet.clickOnCreateDataListLink();
+        dataListsPage.clickOnCreateDataListLink();
         Assert.assertTrue(createDataListPopUp.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
 
         LOG.info("Step 1.1 => Check if all the expected list types are displayed");
@@ -140,7 +140,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click 'Submit' button.");
         createDataListPopUp.clickSaveButton();
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(XSSString), "The created data list is not displayed in the list as created.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(XSSString), "The created data list is not displayed in the list as created.");
     }
 
     @TestRail (id = "C286627")
@@ -151,7 +151,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Go to 'Data Lists Page'.");
         dataListsPage.navigate(siteName);
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(contactListName), "The created data list is not displayed in the list as created.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(contactListName), "The created data list is not displayed in the list as created.");
 
         LOG.info("STEP 1: Click on the created Contact list's name in Lists section;");
         dataListsPage.clickContactListItem(contactListName);
@@ -160,11 +160,11 @@ public class DataListXSSTests extends ContextAwareWebTest
         Assert.assertTrue(dataListsPage.isExpectedListSelected(contactListName), "'" + contactListName + "' is not highlighted.");
 
         LOG.info("STEP 1.2 => Check if: Correct information and description are displayed at the right;");
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(contactListName), "The actual and expected lists name are not the same.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(contactListName), "The actual and expected lists name are not the same.");
         Assert.assertTrue(dataListsPage.isNewItemButtonDisplayed(), "'New Item' button is not displayed.");
 
         LOG.info("STEP 1.3 => Check if: New list button at the top is enabled;");
-        Assert.assertTrue(dataListsPage.isNewListButtonDisplayed(), "'New List' button is not displayed.");
+//        Assert.assertTrue(dataListsPage.assertNewListButtonIsDisplayed(), "'New List' button is not displayed.");
 
         LOG.info("STEP 1.4 => Check if: Table with the contact lists is displayed;");
         Assert.assertTrue(contactListSelectedContent.isTableHeaderComplete(), "A column is missing from the 'Item List' table.");
@@ -196,7 +196,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Go to 'Data Lists Page'.");
         dataListsPage.navigate(siteName);
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(eventAgendaList), "The created '" + eventAgendaList + "' data list is not displayed in the list as created.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(eventAgendaList), "The created '" + eventAgendaList + "' data list is not displayed in the list as created.");
 
         LOG.info("STEP 2: Click on the created Data List");
         dataListsPage.clickEventAgendaListItem(eventAgendaList);
@@ -235,7 +235,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Go to 'Data Lists Page'.");
         dataListsPage.navigate(siteName);
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(meetingAgendaList), "The created '" + meetingAgendaList + "' data list is not displayed in the list as created.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(meetingAgendaList), "The created '" + meetingAgendaList + "' data list is not displayed in the list as created.");
 
         LOG.info("STEP 2: Click on the created Data List");
         dataListsPage.clickEventAgendaListItem(meetingAgendaList);
