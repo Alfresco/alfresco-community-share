@@ -73,12 +73,12 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 
         siteDataListsDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
-            .assertDashletTitleIs(EXPECTED_TITLE)
+            .assertDashletTitleIs(language.translate(EXPECTED_DASHLET_TITLE))
             .assertCreateDataListLinkDisplayed()
-            .assertDisplayedMessageIs(EXPECTED_EMPTY_MESSAGE);
+            .assertDisplayedMessageIs(language.translate(EXPECTED_EMPTY_LIST_MESSAGE));
 
         siteDataListsDashlet.clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
-            .assertHelpBalloonMessageIs(EXPECTED_BALLOON_MESSAGE)
+            .assertHelpBalloonMessageIs(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
             .assertBalloonIsNotDisplayed();
     }
@@ -89,9 +89,9 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     {
         //Create two data lists with different data list types
         dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
-            siteModel.getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, description);
+            siteModel.getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, LIST_ITEM_DESCRIPTION);
         dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
-            siteModel.getId(), DataList.TODO_LIST, todoListName, description);
+            siteModel.getId(), DataList.TODO_LIST, TO_DO_LIST_NAME, LIST_ITEM_DESCRIPTION);
 
         //Set up an authentication session in order above items to be visible when browser is opened
         setupAuthenticatedSession(userModel);
@@ -111,14 +111,14 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 
         dataListsPage
             .clickOnCreateDataListLink()
-            .assertNewListDialogTitleEquals(DIALOG_TITLE)
+            .assertNewListDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
             .selectContactListFromTypesOfListsAvailable()
-            .setTitle(DIALOG_INPUT_TITLE)
-            .assertDialogInputTitleEquals(DIALOG_INPUT_TITLE)
-            .setDescription(DIALOG_INPUT_DESCRIPTION)
-            .assertDialogInputDescriptionEquals(DIALOG_INPUT_DESCRIPTION)
+            .setTitle(language.translate(DIALOG_INPUT_TITLE))
+            .assertDialogInputTitleEquals(language.translate(DIALOG_INPUT_TITLE))
+            .setDescription(language.translate(DIALOG_INPUT_DESCRIPTION))
+            .assertDialogInputDescriptionEquals(language.translate(DIALOG_INPUT_DESCRIPTION))
             .clickDialogSaveButton()
-            .assertDataListLinkDescriptionEquals(DIALOG_INPUT_TITLE);
+            .assertDataListLinkDescriptionEquals(language.translate(DIALOG_INPUT_TITLE));
     }
 
     @TestRail (id = "C5570")
@@ -130,14 +130,14 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 
         dataListsPage
             .clickOnCreateDataListLink()
-            .assertNewListDialogTitleEquals(DIALOG_TITLE)
+            .assertNewListDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
             .selectContactListFromTypesOfListsAvailable()
-            .setTitle(DIALOG_INPUT_TITLE)
-            .assertDialogInputTitleEquals(DIALOG_INPUT_TITLE)
-            .setDescription(DIALOG_INPUT_DESCRIPTION)
-            .assertDialogInputDescriptionEquals(DIALOG_INPUT_DESCRIPTION)
+            .setTitle(language.translate(DIALOG_INPUT_TITLE))
+            .assertDialogInputTitleEquals(language.translate(DIALOG_INPUT_TITLE))
+            .setDescription(language.translate(DIALOG_INPUT_DESCRIPTION))
+            .assertDialogInputDescriptionEquals(language.translate(DIALOG_INPUT_DESCRIPTION))
             .clickDialogCancelButton()
-            .assertDataListUrlContains("data-lists");
+            .assertDataListUrlContains(language.translate(EXPECTED_DATA_LISTS_URL));
     }
 
     // TODO: To be moved in permission package
