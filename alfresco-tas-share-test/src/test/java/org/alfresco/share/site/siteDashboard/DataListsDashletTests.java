@@ -67,9 +67,8 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
             .assertDashletTitleIs(language.translate(EXPECTED_DASHLET_TITLE))
             .assertCreateDataListLinkDisplayed()
-            .assertDisplayedMessageIs(language.translate(EXPECTED_EMPTY_LIST_MESSAGE));
-
-        siteDataListsDashlet.clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
+            .assertDisplayedMessageIs(language.translate(EXPECTED_EMPTY_LIST_MESSAGE))
+            .clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
             .assertHelpBalloonMessageIs(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
             .assertBalloonIsNotDisplayed();
@@ -85,6 +84,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
             siteModel.getId(), DataList.TODO_LIST, TO_DO_LIST_NAME, LIST_ITEM_DESCRIPTION);
 
+        siteDashboardPage.navigate(siteModel.getId());
         siteDataListsDashlet
             .assertDataListItemTitleIsDisplayed(LIST_ITEM_TITLE)
             .assertSiteDataListsItemsAreEqual(EXPECTED_NUMBER_OF_LISTS_ITEMS)
@@ -97,6 +97,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplayInListsCreatedDataList()
     {
+        siteDashboardPage.navigate(siteModel.getId());
         dataListsPage
             .clickOnCreateDataListLink()
             .assertNewListDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
@@ -113,6 +114,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplayEmptyListsWhenCancelDataListCreation()
     {
+        siteDashboardPage.navigate(siteModel.getId());
         dataListsPage
             .clickOnCreateDataListLink()
             .assertNewListDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
