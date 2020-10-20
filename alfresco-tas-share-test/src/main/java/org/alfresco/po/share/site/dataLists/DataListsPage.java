@@ -14,69 +14,95 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 @PageObject
 public class DataListsPage extends SiteCommon<DataListsPage>
 {
-
     public Content currentContent = (Content) new NoListItemSelectedContent();
+
     @RenderWebElement
     @FindBy (css = "div.datalists div.filter")
     protected WebElement dataListsSection;
+
     @RenderWebElement
     @FindBy (className = "datagrid")
     protected WebElement dataListsBody;
+
     @RenderWebElement
     @FindBy (css = "button[id*='newListButton']")
     protected WebElement newListButton;
+
     @FindBy (css = ".filter-link>.edit")
     protected WebElement editListButton;
+
     @FindBy (css = "span[class='edit-disabled']")
     protected WebElement editButtonDisabled;
+
     @FindBy (css = ".filter-link>.delete")
     protected WebElement deleteListButton;
+
     @FindBy (css = "div[class='no-lists']")
     protected WebElement noListDisplayed;
+
     @FindBy (css = "div[id='message_c'] span[class='message']")
     protected WebElement successfullyCreatedMessage;
+
     @FindBy (css = ".datalists ul")
     protected WebElement listWithCreatedLists;
+
     protected By editListItemButton = By.cssSelector(".yui-dt-col-actions .onActionEdit>a");
+
     @FindBy (css = "td[headers*='actions']")
     protected WebElement listItemActionsField;
+
     protected By listSelected = By.cssSelector("[class='selected'] a[class='filter-link']");
     protected String createNewItemForm = "//form[contains(@action, '%s')]";
+
     @FindAll (@FindBy (css = "div[id$='default-grid'] th span"))
     protected List<WebElement> tableColumnHeader;
+
     @FindBy (css = ".hd")
     protected WebElement newListDialogTitle;
+
     @FindBy (css = "input[name$='prop_cm_title']")
     protected WebElement listTitleTextInput;
+
     @FindBy (css = "textarea[title$='Content Description']")
     protected WebElement listDescriptionTextAreaInput;
 
     @FindBy (css = "div[class$='new-row'] span span button[id$='_default-newRowButton-button']")
     private WebElement newItemButton;
+
     @FindBy (css = ".bdft button[id*='submit-button']")
     protected WebElement newListSaveButton;
+
     @FindBy (css = ".bdft button[id*='cancel-button']")
     protected WebElement newListCancelButton;
+
     @FindBy (css = ".item-types div")
     protected WebElement listType;
 
+    @FindBy (css = ".select-list-message")
+    protected WebElement listMessage;
+
     @Autowired
-    private CreateDataListPopUp createDataListPopUp;
+    private CreateDataListDialog createDataListDialog;
+
     @Autowired
     private EditListDetailsPopUp editListDetailsPopUp;
+
     @Autowired
     private DeleteListPopUp deleteListPopUp;
+
     @Autowired
     private EditItemPopUp editItemPopUp;
+
     @Autowired
     private CreateNewItemPopUp createNewItemPopUp;
 
     private final String listLinkLocator = "//a[@class='filter-link']";
-    private final String listItemTitleLocator = "//a[@title='%s'] | //h2[text()='%s']";
+    private final String listItemTitleLocator = "//div[@class='datagrid']//h2[text()='%s']";
     private final By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
     private final By newListWindowLocator = By.cssSelector(".hd");
 
@@ -84,6 +110,20 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/data-lists", getCurrentSiteName());
+    }
+
+    public DataListsPage assertDataListPageIsOpened()
+    {
+        LOG.info("Assert data list page is opened");
+        Assert.assertTrue(browser.getCurrentUrl().contains("data-lists"), "Data List page is not opened");
+        return this;
+    }
+
+    public DataListsPage assertNoDataListSelectedMessageIsDisplayed()
+    {
+        assertEquals(listMessage.getText(), language.translate("dataListPage.noListSelected.message"),
+            "No list message is not displayed");
+        return this;
     }
 
     /**
@@ -125,30 +165,28 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Click \"New List\" button");
         browser.findElement(createDataListLinkLocator).click();
-
         return this;
     }
 
-    public DataListsPage assertNewListDialogTitleEquals(String expectedDialogTitle) {
+    public DataListsPage assertNewListDialogTitleEquals(String expectedDialogTitle)
+    {
         LOG.info("Assert \"New List\" dialog title is: {}", expectedDialogTitle);
         assertEquals(newListDialogTitle.getText(), expectedDialogTitle,
             String.format("Dialog title not equals %s", expectedDialogTitle));
-
         return this;
     }
 
-    public DataListsPage setTitle(String title) {
+    public DataListsPage setTitle(String title)
+    {
         LOG.info("Set title value: {}", title);
-        listTitleTextInput.sendKeys(title);
-
+        clearAndType(listTitleTextInput, title);
         return this;
     }
 
     public DataListsPage setDescription(String description)
     {
         LOG.info("Set description value: {}", description);
-        listDescriptionTextAreaInput.sendKeys(description);
-
+        clearAndType(listDescriptionTextAreaInput, description);
         return this;
     }
 
@@ -165,7 +203,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Click save button from new list dialog");
         newListSaveButton.click();
-
         return this;
     }
 
@@ -173,7 +210,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Click cancel button from new list dialog");
         newListCancelButton.click();
-
         return this;
     }
 
@@ -182,15 +218,13 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         LOG.info("Assert list dialog input title equals with: {}", expectedDialogInputTitle);
         assertEquals(listTitleTextInput.getAttribute("value"), expectedDialogInputTitle,
             String.format("List dialog input title not equals with %s ", expectedDialogInputTitle));
-
         return this;
     }
 
-    public DataListsPage selectContactListFromTypesOfListsAvailable()
+    public DataListsPage selectContactListFromTypesOfListsAvailable() // TODO: gresit
     {
         LOG.info("Select contact list from types of lists available");
         listType.click();
-
         return this;
     }
 
@@ -200,15 +234,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         WebElement linkLocator = browser.findElement(By.xpath(listLinkLocator));
         assertEquals(linkLocator.getText(), expectedListDescription,
             String.format("List link description not equals %s", linkLocator.getText()));
-
-        return this;
-    }
-
-    public DataListsPage assertDataListUrlContains(String expectedUrl)
-    {
-        LOG.info("Assert data list url contains: {}", expectedUrl);
-        assertTrue(browser.getCurrentUrl().contains(expectedUrl),
-            String.format("Data list url not contains %s",expectedUrl));
         return this;
     }
 
@@ -240,7 +265,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Assert new list button is displayed");
         assertTrue(browser.isElementDisplayed(newListButton), "New list button is not displayed");
-
         return this;
     }
 
@@ -248,7 +272,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Assert select items button is displayed");
         assertTrue(currentContent.isSelectItemsButtonDisplayed(), "Select items button is not displayed");
-
         return this;
     }
 
@@ -256,7 +279,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Assert select button is displayed");
         assertTrue(currentContent.isSelectButtonDisplayed(), "Select button is not displayed");
-
         return this;
     }
 
@@ -264,7 +286,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Assert select all button option is displayed");
         assertTrue(currentContent.isSelectAllButtonOptionDisplayed(), "Select all button option is not displayed");
-
         return this;
     }
 
@@ -272,7 +293,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Assert select none button option is displayed");
         assertTrue(currentContent.isSelectNoneButtonOptionDisplayed(), "Select none button option is not displayed");
-
         return this;
     }
 
@@ -281,7 +301,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         LOG.info("Assert invert selection button option is enabled");
         assertTrue(currentContent.isInvertSelectionButtonOptionEnabled(),
             "Invert selection button option is disabled");
-
         return this;
     }
 
@@ -387,10 +406,10 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return (DeleteListPopUp) deleteListPopUp.renderedPage();
     }
 
-    public CreateDataListPopUp clickOnNewListButton()
+    public CreateDataListDialog clickOnNewListButton()
     {
         newListButton.click();
-        return (CreateDataListPopUp) createDataListPopUp.renderedPage();
+        return (CreateDataListDialog) createDataListDialog.renderedPage();
     }
 
     public String successfullyCreatedDataListMessage()
@@ -413,8 +432,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public DataListsPage assertDataListItemTitleEquals(String itemTitle)
     {
         LOG.info("Assert data list item title equals: {}", itemTitle);
-        browser.waitInSeconds(8);
-        WebElement actualTitle = browser.findElement(By.xpath(String.format(listItemTitleLocator, itemTitle, itemTitle)));
+        WebElement actualTitle = browser.findElement(By.xpath(String.format(listItemTitleLocator, itemTitle)));
         assertEquals( actualTitle.getText(), itemTitle, String.format("Data list item title not equals %s: ", itemTitle));
 
         return this;

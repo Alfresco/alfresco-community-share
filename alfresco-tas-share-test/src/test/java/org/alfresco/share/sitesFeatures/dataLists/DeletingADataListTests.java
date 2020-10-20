@@ -5,7 +5,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
+import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.DeleteListPopUp;
 import org.alfresco.share.ContextAwareWebTest;
@@ -28,7 +28,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     DataListsService dataLists;
 
     @Autowired
-    CreateDataListPopUp createDataListPopUp;
+    CreateDataListDialog createDataListDialog;
 
     @Autowired
     DeleteListPopUp deleteListPopUp;
@@ -52,7 +52,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsPage.navigate(siteName);
-        createDataListPopUp.clickCancelFormButton();
+        createDataListDialog.clickCancel();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
     }

@@ -4,7 +4,7 @@ import junit.framework.Assert;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
+import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditListDetailsPopUp;
 import org.alfresco.share.ContextAwareWebTest;
@@ -24,7 +24,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     DataListsPage dataListsPage;
 
     @Autowired
-    CreateDataListPopUp createDataListPopUp;
+    CreateDataListDialog createDataListDialog;
 
     @Autowired
     EditListDetailsPopUp editListDetailsPopUp;
@@ -48,7 +48,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
-        createDataListPopUp.clickCancelFormButton();
+        createDataListDialog.clickCancel();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
     }

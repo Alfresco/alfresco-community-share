@@ -106,7 +106,8 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return browser.isElementDisplayed(helpBallon);
     }
 
-    public T assertBalloonIsNotDisplayed() {
+    public T assertBalloonIsNotDisplayed()
+    {
         LOG.info("Assert balloon is not displayed");
         assertFalse(browser.isElementDisplayed(helpBallon), "Balloon is displayed");
 
@@ -181,7 +182,6 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     {
         LOG.info("Assert dashlet title is: {}", title);
         assertEquals(getDashletTitle(), title, "Dashlet title is not correct");
-
         return (T) this;
     }
 

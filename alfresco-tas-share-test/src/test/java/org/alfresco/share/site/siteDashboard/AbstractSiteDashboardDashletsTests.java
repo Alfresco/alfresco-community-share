@@ -13,7 +13,7 @@ public abstract class AbstractSiteDashboardDashletsTests extends ContextAwareWeb
     protected CustomizeSiteDashboardPage customizeSiteDashboardPage;
 
     @Autowired
-    private SiteDashboardPage siteDashboardPage;
+    protected SiteDashboardPage siteDashboardPage;
 
     protected void addDashlet(SiteModel siteModel, Dashlets dashlets, int columnNumber)
     {
