@@ -61,7 +61,8 @@ public class NodeBrowserPage extends AdminToolsPage
 
     public NodeBrowserPage selectSearchType(SEARCH_TYPE searchType)
     {
-        searchTypeDropdownButton.click();
+        browser.waitUntilElementVisible(searchTypeDropdownButton);
+        browser.waitUntilElementClickable(searchTypeDropdownButton).click();
         browser.waitUntilElementVisible(visibleDropdown);
         browser.findFirstElementWithValue(options, searchType.getSearchType()).click();
         return (NodeBrowserPage) this.renderedPage();
