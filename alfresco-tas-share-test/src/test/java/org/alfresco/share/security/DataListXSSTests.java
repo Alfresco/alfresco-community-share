@@ -129,7 +129,7 @@ public class DataListXSSTests extends ContextAwareWebTest
         Assert.assertTrue(createDataListDialog.isExpectedTypeSelected(DataListTypes.ContactList.title), "'" + DataListTypes.ContactList.title + "' is not highlighted.");
 
         LOG.info("STEP 3: Enter XSS string '" + XSSString + "' into 'Title' (mandatory) field.");
-        createDataListDialog.typeTitleName(XSSString);
+        createDataListDialog.typeTitle(XSSString);
         Assert.assertEquals(createDataListDialog.getTitleValue(), XSSString, "XSS string '" + XSSString + "' was not entered in 'Title' field.");
         Assert.assertTrue(createDataListDialog.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
 

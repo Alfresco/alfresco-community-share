@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 @PageObject
 public class DataListsPage extends SiteCommon<DataListsPage>
@@ -115,12 +114,13 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public DataListsPage assertDataListPageIsOpened()
     {
         LOG.info("Assert data list page is opened");
-        Assert.assertTrue(browser.getCurrentUrl().contains("data-lists"), "Data List page is not opened");
+        assertTrue(browser.getCurrentUrl().contains("data-lists"), "Data List page is not opened");
         return this;
     }
 
     public DataListsPage assertNoDataListSelectedMessageIsDisplayed()
     {
+        LOG.info("Assert no data list selected message is displayed");
         assertEquals(listMessage.getText(), language.translate("dataListPage.noListSelected.message"),
             "No list message is not displayed");
         return this;

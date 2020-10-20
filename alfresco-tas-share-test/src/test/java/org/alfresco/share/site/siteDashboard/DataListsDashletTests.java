@@ -7,10 +7,8 @@ import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
-import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -21,12 +19,12 @@ import org.testng.annotations.Test;
 
 public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 {
-    private static final String EXPECTED_DASHLET_TITLE = "siteDataList.dashletTitle";
-    private static final String LIST_ITEM_TITLE = String.format("C5569%s", getRandomAlphanumeric());
-    private static final String LIST_ITEM_DESCRIPTION = String.format("C5569%s", getRandomAlphanumeric());
-    private static final String EXPECTED_EMPTY_LIST_MESSAGE = "siteDataList.emptyListMessage";
-    private static final String EXPECTED_HELP_BALLOON_MESSAGE = "siteDataList.helpBalloonMessage";;
-    private static final String TO_DO_LIST_NAME = String.format("C5569%s", getRandomAlphanumeric());
+    private final String EXPECTED_DASHLET_TITLE = "siteDataList.dashletTitle";
+    private final String LIST_ITEM_TITLE = String.format("C5569%s", getRandomAlphanumeric());
+    private final String LIST_ITEM_DESCRIPTION = String.format("C5569%s", getRandomAlphanumeric());
+    private final String EXPECTED_EMPTY_LIST_MESSAGE = "siteDataList.emptyListMessage";
+    private final String EXPECTED_HELP_BALLOON_MESSAGE = "siteDataList.helpBalloonMessage";;
+    private final String TO_DO_LIST_NAME = String.format("C5569%s", getRandomAlphanumeric());
 
     private UserModel userModel;
     private SiteModel siteModel;
@@ -80,17 +78,19 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplayInListsCreatedDataList()
     {
-        String dataListTitle = RandomData.getRandomAlphanumeric();
-        String description = RandomData.getRandomAlphanumeric();
+        String dataListTitle = getRandomAlphanumeric();
+        String dataListDescription = getRandomAlphanumeric();
         siteDashboardPage.navigate(siteModel);
         siteDataListsDashlet.clickOnCreateDataListLink()
             .selectType(CreateDataListDialog.DataListTypes.ContactList.title)
-            .typeTitleName(dataListTitle)
-            .typeDescription(description)
+            .typeTitle(dataListTitle)
+            .typeDescription(dataListDescription)
             .clickSaveButton();
         siteDashboardPage.navigate(siteModel);
-        siteDataListsDashlet.assertDataListItemTitleIsDisplayed(dataListTitle)
-            .assertDataListItemDescriptionEquals(dataListTitle, description);
+
+        siteDataListsDashlet
+            .assertDataListItemTitleIsDisplayed(dataListTitle)
+            .assertDataListItemDescriptionEquals(dataListTitle, dataListDescription);
     }
 
     @TestRail (id = "C5570")
@@ -99,7 +99,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     {
         siteDashboardPage.navigate(siteModel);
         siteDataListsDashlet.clickOnCreateDataListLink()
-            .clickCancel()
+            .clickCancelButton()
             .assertNoDataListSelectedMessageIsDisplayed();
     }
 

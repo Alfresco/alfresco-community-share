@@ -48,7 +48,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
-        createDataListDialog.clickCancel();
+        createDataListDialog.clickCancelButton();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
     }

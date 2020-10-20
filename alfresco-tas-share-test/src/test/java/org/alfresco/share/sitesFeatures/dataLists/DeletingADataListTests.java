@@ -52,7 +52,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsPage.navigate(siteName);
-        createDataListDialog.clickCancel();
+        createDataListDialog.clickCancelButton();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
     }

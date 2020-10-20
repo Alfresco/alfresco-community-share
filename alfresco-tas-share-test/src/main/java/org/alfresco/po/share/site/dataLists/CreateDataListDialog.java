@@ -164,10 +164,11 @@ public class CreateDataListDialog extends ShareDialog
         return browser.findElement(typeSelected).getText().equals(expectedType);
     }
 
-    public CreateDataListDialog typeTitleName(String titleName)
+    public CreateDataListDialog typeTitle(String title)
     {
+        LOG.info("Clear and type title: {}", title);
         titleField.clear();
-        titleField.sendKeys(titleName);
+        titleField.sendKeys(title);
         return this;
     }
 
@@ -183,6 +184,8 @@ public class CreateDataListDialog extends ShareDialog
 
     public CreateDataListDialog typeDescription(String description)
     {
+        LOG.info("Clear and type description: {}", description);
+        descriptionField.clear();
         descriptionField.sendKeys(description);
         return this;
     }
@@ -229,13 +232,15 @@ public class CreateDataListDialog extends ShareDialog
 
     public DataListsPage clickSaveButton()
     {
+        LOG.info("Click \"Save\" button");
         saveButton.click();
         waitUntilMessageDisappears();
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
-    public DataListsPage clickCancel()
+    public DataListsPage clickCancelButton()
     {
+        LOG.info("Click \"Cancel\" button");
         cancelButton.click();
         return (DataListsPage) dataListsPage.renderedPage();
     }

@@ -4,7 +4,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -13,10 +12,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-/**
- * @author bogdan.simion
- */
 
 @PageObject
 public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
@@ -85,20 +80,26 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 
     private WebElement getDataListRow(String dataListTitle)
     {
-        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow, dataListTitle)), 1, WAIT_30);
+        LOG.info("Get data list row: {}", dataListTitle);
+
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
+            dataListTitle)), 1, WAIT_30);
     }
 
     public CreateDataListDialog clickOnCreateDataListLink()
     {
         LOG.info("Click \"New List\" button");
         browser.findElement(createDataListLinkLocator).click();
+
         return (CreateDataListDialog) createDataListDialog.renderedPage();
     }
 
     public SiteDataListsDashlet assertCreateDataListLinkDisplayed()
     {
         LOG.info("Assert create data list link displayed");
-        assertTrue(browser.isElementDisplayed(createDataListLinkLocator), "Create data list link is not displayed");
+        assertTrue(browser.isElementDisplayed(createDataListLinkLocator),
+            "Create data list link is not displayed");
+
         return this;
     }
 
@@ -129,20 +130,12 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return numberOfListItemsDisplayed;
     }
 
-    public SiteDataListsDashlet assertSiteDataListsItemsAreEqual(int expectedNumberOfListItems)
-    {
-        LOG.info("Assert site data list items equal: {}", expectedNumberOfListItems);
-        assertEquals(getNumberOfSiteDataListsItemsDisplayed(), expectedNumberOfListItems,
-            String.format("Data list items number not equal %d ", expectedNumberOfListItems));
-
-        return this;
-    }
-
     public SiteDataListsDashlet assertDataListItemTitleIsDisplayed(String expectedDataListItemTitle)
     {
         LOG.info("Assert data list item title is displayed: {}", expectedDataListItemTitle);
         assertTrue(browser.isElementDisplayed(getDataListRow(expectedDataListItemTitle)),
             String.format("Data list %s is not displayed", expectedDataListItemTitle));
+
         return this;
     }
 
@@ -160,6 +153,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     {
         LOG.info("Click list item with title: {}", itemTitle);
         getDataListRow(itemTitle).findElement(By.cssSelector("a")).click();
+
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
@@ -178,37 +172,13 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return this;
     }
 
-    public boolean isDataListPageTheCurrentPage()
-    {
-        return browser.getCurrentUrl().contains("data-lists");
-    }
-
-    public boolean isSiteDashboardPageTheCurrentPage(String siteName)
-    {
-        return browser.getCurrentUrl().contains(siteName + "/dashboard");
-    }
-
-    public void returnToSiteDashboardPage()
-    {
-        browser.getPreviousUrl();
-        browser.navigate();
-    }
-
     public SiteDataListsDashlet assertDataListItemDescriptionEquals(String dataListTitle, String expectedItemDescription)
     {
         LOG.info("Assert dashlet data list item description equals: {}", expectedItemDescription);
-        assertEquals(getDataListRow(dataListTitle).findElement(descriptionElement).getText(), expectedItemDescription, String
-            .format("Site data list item description %s not equals expected", listItemDescriptionLocator));
+        assertEquals(getDataListRow(dataListTitle).findElement(descriptionElement).getText(),
+            expectedItemDescription, String.format("Site data list item description %s not equals expected",
+                listItemDescriptionLocator));
+
         return this;
-    }
-
-    public void clickOnTheFirstDataListTitleLink()
-    {
-        dataListsLinks.get(0).click();
-    }
-
-    public boolean isDataListTitleDisplayed()
-    {
-        return browser.isElementDisplayed(dataListTitle);
     }
 }
