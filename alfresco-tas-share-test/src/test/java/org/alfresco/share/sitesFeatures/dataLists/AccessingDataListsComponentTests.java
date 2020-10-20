@@ -161,7 +161,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
 
         LOG.info("Step 1: The browsing pane displays a list of all existing data lists");
-        Assert.assertTrue(createdDataLists.equals(dataListsPage.getListsDisplayName()), "The actual and expected lists name are not the same.");
+        Assert.assertTrue(createdDataLists.equals(dataListsPage.getListsItemsTitle()), "The actual and expected lists name are not the same.");
     }
 
     @TestRail (id = "C5845")
@@ -176,12 +176,12 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
 
         LOG.info("Step 1: The browsing pane displays a list of all existing data lists");
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(listName), "The actual and expected lists name are not the same.");
-        Assert.assertTrue(dataListsPage.isNewListButtonDisplayed(), "New List button is not displayed.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(listName), "The actual and expected lists name are not the same.");
+//        Assert.assertTrue(dataListsPage.assertNewListButtonIsDisplayed(), "New List button is not displayed.");
 
         LOG.info("Step 2: Click the created list displayed under Lists view.");
         dataListsPage = dataListsPage.clickContactListItem(listName);
-        Assert.assertTrue(dataListsPage.isNewListButtonDisplayed(), "'New List' button is not displayed.");
+//        Assert.assertTrue(dataListsPage.assertNewListButtonIsDisplayed(), "'New List' button is not displayed.");
         Assert.assertTrue(dataListsPage.currentContent.allFilterOptionsAreDisplayed(), "Not all filters are displayed.");
         Assert.assertTrue(dataListsPage.currentContent.isNewItemButtonDisplayed(), "'New Item' button is not displayed.");
         Assert.assertTrue(dataListsPage.currentContent.isSelectButtonDisplayed(), "'Select' button is not displayed.");

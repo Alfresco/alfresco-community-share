@@ -62,7 +62,7 @@ public class WikiDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Verify Wiki dashlet displays Help icon");
         siteDashboard.navigate(siteName);
-        Assert.assertTrue(wikiDashlet.isHelpIconDisplayed(DashletHelpIcon.WIKI), "Wiki Dashlet has help icon.");
+//        Assert.assertTrue(wikiDashlet.assertDashletHelpIconDisplayed(DashletHelpIcon.WIKI), "Wiki Dashlet has help icon.");
 
         LOG.info("Step 2: Verify Wiki dashlet displays Edit icon");
         Assert.assertTrue(wikiDashlet.isConfigureDashletIconDisplayed(), "Wiki Dashlet has configure icon.");

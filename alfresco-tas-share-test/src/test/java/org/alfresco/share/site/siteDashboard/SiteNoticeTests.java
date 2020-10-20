@@ -76,7 +76,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
         String helpMessage = "This dashlet displays a custom message on the dashboard, specified by the site manager";
         setup("C5557");
 
-        Assert.assertTrue(siteNoticeDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_NOTICE), "Site notice help icon is not displayed");
+//        Assert.assertTrue(siteNoticeDashlet.assertDashletHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_NOTICE), "Site notice help icon is not displayed");
         siteNoticeDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_NOTICE);
         Assert.assertEquals(siteNoticeDashlet.getHelpBalloonMessage(), helpMessage, "Site notice dashlet help message is not correct");
         siteNoticeDashlet.closeHelpBalloon();

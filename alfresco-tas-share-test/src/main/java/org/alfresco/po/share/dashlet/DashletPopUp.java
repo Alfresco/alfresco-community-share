@@ -1,17 +1,15 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.common.Language;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.TextBlock;
 
 public abstract class DashletPopUp<T> extends HtmlPage
 {
@@ -35,7 +33,7 @@ public abstract class DashletPopUp<T> extends HtmlPage
 
     @RenderWebElement
     @FindBy (css = "div[id$='configDialog_h']")
-    protected WebElement popUpTitleField;
+    protected WebElement dialogTitle;
 
     protected By dialogContainer = By.cssSelector("div[id$='configDialog_c']");
 
@@ -46,6 +44,7 @@ public abstract class DashletPopUp<T> extends HtmlPage
 
     public void clickOk()
     {
+        LOG.info("Click OK from dialog");
         browser.waitUntilElementVisible(okButton).click();
         browser.waitUntilElementDisappears(dialogContainer);
     }
@@ -66,7 +65,7 @@ public abstract class DashletPopUp<T> extends HtmlPage
 
     public T assertOKButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(okButton), "Ok button is displayed");
+        assertTrue(browser.isElementDisplayed(okButton), "Ok button is displayed");
         return (T) this;
     }
 
@@ -77,7 +76,7 @@ public abstract class DashletPopUp<T> extends HtmlPage
 
     public T assertCancelButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
         return (T) this;
     }
 
@@ -98,18 +97,15 @@ public abstract class DashletPopUp<T> extends HtmlPage
 
     public T assertCloseButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(closeButton), "Close button is displayed");
+        assertTrue(browser.isElementDisplayed(closeButton), "Close button is not displayed");
         return (T) this;
     }
 
-    public String getPopUpTitle()
+    public T assertDialogTitleEqualsWithExpected(String expectedDialogTitle)
     {
-        return popUpTitleField.getText();
-    }
+        LOG.info("Assert dialog title equals with: {}", expectedDialogTitle);
+        assertEquals(dialogTitle.getText(), expectedDialogTitle, "Dialog title is incorrect");
 
-    public T assertPopUpTitleIs(String expectedTitle)
-    {
-        Assert.assertEquals(popUpTitleField.getText(), expectedTitle, "Popup title is correct");
         return (T) this;
     }
 }

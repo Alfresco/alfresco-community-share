@@ -77,9 +77,9 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
 
         rssFeedDashlet.configureDashlet();
-        enterFeedURLPopUp.setUrlField("http://feeds.reuters.com/reuters/businessNews");
+        enterFeedURLPopUp.setUrlValue("http://feeds.reuters.com/reuters/businessNews");
         enterFeedURLPopUp.selectNumberOfItemsToDisplay("10");
-        enterFeedURLPopUp.checkNewWindow();
+        enterFeedURLPopUp.selectOpenLinksInNewWindowCheckboxFromDialog();
         getBrowser().waitInSeconds(5);
         enterFeedURLPopUp.clickOk();
 
@@ -89,7 +89,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         LOG.info("Step 2: Verify title bar actions from \"RSS Feed\" dashlet");
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(rssFeedDashlet.isConfigureDashletIconDisplayed(), "Configure Dashlet Icon is displayed");
-        Assert.assertTrue(rssFeedDashlet.isHelpIconDisplayed(DashletHelpIcon.RSS_FEED), "Help balloon is displayed");
+//        Assert.assertTrue(rssFeedDashlet.assertDashletHelpIconDisplayed(DashletHelpIcon.RSS_FEED), "Help balloon is displayed");
 
         LOG.info("Step 3: Click \"?\" icon");
         rssFeedDashlet.clickOnHelpIcon(DashletHelpIcon.RSS_FEED);
