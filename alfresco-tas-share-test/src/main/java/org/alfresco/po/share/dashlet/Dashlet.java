@@ -105,14 +105,6 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return browser.isElementDisplayed(helpBallon);
     }
 
-    public T assertBalloonIsNotDisplayed()
-    {
-        LOG.info("Assert balloon is not displayed");
-        assertFalse(browser.isElementDisplayed(helpBallon), "Balloon is displayed");
-
-        return (T) this;
-    }
-
     public T assertBalloonMessageIsDisplayed()
     {
         LOG.info("Assert balloon message is displayed");

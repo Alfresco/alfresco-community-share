@@ -53,7 +53,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
             .clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
             .assertHelpBalloonMessageIs(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
-            .assertBalloonIsNotDisplayed();
+            .assertBalloonMessageIsNotDisplayed();
     }
 
     @TestRail (id = "C5569")
