@@ -20,9 +20,6 @@ import org.testng.Assert;
 @PageObject
 public class SearchManagerPage extends SharePage<SearchManagerPage>
 {
-    @Autowired
-    private CreateNewFilterDialog createNewFilterDialog;
-
     private static final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
     private static final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");
     private static final By FILTER_REORDER_DOWN = By.cssSelector("td:nth-of-type(1) span.down>img");
@@ -46,6 +43,9 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
 
     @Autowired
     private ConfirmDeletionDialog confirmDeletionDialog;
+
+    @Autowired
+    private CreateNewFilterDialog createNewFilterDialog;
 
     @RenderWebElement
     @FindBy (id = "CREATE_FACET_BUTTON_label")
@@ -73,17 +73,19 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     }
 
     @Override
-    public void waitUntilMessageDisappears()
+    public String waitUntilNotificationMessageDisappears()
     {
+        String message = "";
         try
         {
-            getBrowser().waitUntilElementVisible(notificationMessage, 5);
+            message = getBrowser().waitUntilElementVisible(notificationMessage, 5).getText();
             getBrowser().waitUntilElementDisappears(notificationMessage);
         }
         catch (TimeoutException exception)
         {
             // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
         }
+        return message;
     }
 
     public SearchManagerPage assertSearchManagerPageIsOpened()
@@ -260,7 +262,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     public SearchManagerPage deleteFilter(String filterId)
     {
         clickDeleteFilter(filterId).clickOKButton();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         return this;
     }
 
@@ -297,7 +299,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
         browser.waitUntilElementVisible(filterPropertyDropDownArrow).click();
         selectFilterProperty(newFilterProperty).click();
         browser.waitUntilElementClickable(filterRow.findElement(EDIT_SAVE)).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         return this;
     }
 

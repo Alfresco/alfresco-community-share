@@ -1,5 +1,7 @@
 package org.alfresco.po.share;
 
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -10,13 +12,15 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import java.io.File;
+
 /**
  * @author bogdan.bocancea
  */
 @PageObject
 public class UploadFileDialog extends ShareDialog
 {
-    private By dialog = By.cssSelector("div[id*='dnd-upload']");
+    private By dialogBody = By.cssSelector("div[id*='default-dialog_c'][style*='visibility: visible']");
 
     @FindBy (css = "input.dnd-file-selection-button")
     private WebElement uploadInput;
@@ -28,8 +32,10 @@ public class UploadFileDialog extends ShareDialog
     @FindBy (css = "div[id*='dnd-upload'] a[class*='close']")
     private WebElement closeUploadDialogButton;
 
-    @Autowired
-    private Environment env;
+    public void uploadFile(FileModel file)
+    {
+        uploadFile(Utility.setNewFile(file).getAbsolutePath());
+    }
 
     public void uploadFile(String location)
     {
@@ -43,7 +49,7 @@ public class UploadFileDialog extends ShareDialog
     public <T> SharePage uploadFileAndRenderPage(String location, SharePage<T> page)
     {
         uploadFile(location);
-        browser.waitUntilElementDisappears(dialog);
+        browser.waitUntilElementDisappears(dialogBody);
         return (SharePage) page.renderedPage();
     }
 
@@ -59,5 +65,10 @@ public class UploadFileDialog extends ShareDialog
     public void clickClose()
     {
         browser.waitUntilElementClickable(closeUploadDialogButton).click();
+    }
+
+    public void waitForUploadDialogToDisappear()
+    {
+        browser.waitUntilElementDisappears(dialogBody);
     }
 }

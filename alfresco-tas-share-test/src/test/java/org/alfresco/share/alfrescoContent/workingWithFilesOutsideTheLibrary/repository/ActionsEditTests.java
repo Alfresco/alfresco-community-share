@@ -7,7 +7,7 @@ import java.util.Collections;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
 public class ActionsEditTests extends ContextAwareWebTest
 {
     @Autowired
-    NewContentDialog newContentDialog;
+    NewFolderDialog newContentDialog;
     @Autowired
     private RepositoryPage repositoryPage;
     @Autowired

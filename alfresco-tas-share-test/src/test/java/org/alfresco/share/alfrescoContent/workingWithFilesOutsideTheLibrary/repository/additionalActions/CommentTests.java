@@ -2,7 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
@@ -23,7 +23,7 @@ public class CommentTests extends ContextAwareWebTest
     private final String fileContent = "test file content";
     private final String folderNameC8306 = "C8306 Folder";
     @Autowired
-    CreateContent createContent;
+    CreateContentPage createContent;
     @Autowired
     private RepositoryPage repositoryPage;
     @Autowired

@@ -2,7 +2,7 @@ package org.alfresco.share.userRolesAndPermissions.collaborator;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -70,7 +70,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
-    private CreateContent create;
+    private CreateContentPage create;
     @Autowired
     private UploadContent uploadContent;
     @Autowired
@@ -130,10 +130,10 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
         LOG.info("Step 3: Provide input for: Name= 'C8938test', Title= 'C8938test', Description= 'C8938test' and click the 'Create' button.");
-        create.sendInputForName("C8938test");
-        create.sendInputForTitle("C8938test");
-        create.sendInputForDescription("C8938test");
-        create.clickCreateButton();
+        create.typeName("C8938test");
+        create.typeTitle("C8938test");
+        create.typeDescription("C8938test");
+        create.clickCreate();
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "Plain Text", "Mimetype property is not Plain Text");
         Assert.assertEquals(documentDetailsPage.getFileName(), "C8938test", "\"C8938test\" is not the file name for the file in preview");

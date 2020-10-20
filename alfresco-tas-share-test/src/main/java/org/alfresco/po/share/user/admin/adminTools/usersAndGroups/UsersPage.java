@@ -190,7 +190,7 @@ public class UsersPage extends AdminToolsPage
 
     public UsersPage assertDeleteUserNotificationIsDisplayed()
     {
-        Assert.assertEquals(getLastNotificationMessage(), language.translate("adminTools.user.deleteUser.notification"));
+        Assert.assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.user.deleteUser.notification"));
         return this;
     }
 

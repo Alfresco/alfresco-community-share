@@ -142,7 +142,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on 'Become Site Manager' action. Click again 'Site configuration options' icon.");
         siteDashboard.clickOptionInSiteConfigurationDropDown("Become Site Manager", siteDashboard);
-        siteDashboard.waitUntilMessageDisappears();
+        siteDashboard.waitUntilNotificationMessageDisappears();
         siteDashboard.clickSiteConfiguration();
 
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),

@@ -3,10 +3,9 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -30,7 +29,7 @@ public class RepositoryTests extends ContextAwareWebTest
     private final String fileContent = "test content";
     private final String siteName2 = "2SecondTestSite" + RandomData.getRandomAlphanumeric();
     @Autowired
-    CreateContent create;
+    CreateContentPage create;
     @Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired

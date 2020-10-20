@@ -8,8 +8,7 @@ import java.util.Arrays;
 
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
@@ -44,7 +43,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
-    private NewContentDialog newFolderDialog;
+    private NewFolderDialog newFolderDialog;
     @Autowired
     private ManageRulesPage manageRulesPage;
 
@@ -86,7 +85,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Set input for name, title, description and click on Save button");
         newFolderDialog.fillInDetails(folderName2, title, description);
-        newFolderDialog.clickSaveButton();
+        newFolderDialog.clickSave();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName2), String.format("Folder [%s] is displayed in Document Library.", folderName2));
     }
 

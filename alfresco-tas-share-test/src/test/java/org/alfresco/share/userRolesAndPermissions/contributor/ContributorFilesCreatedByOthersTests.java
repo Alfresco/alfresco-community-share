@@ -4,7 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -39,7 +39,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
-    CreateContent create;
+    CreateContentPage create;
     @Autowired
     EditInAlfrescoPage editInAlfresco;
     @Autowired

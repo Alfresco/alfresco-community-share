@@ -64,7 +64,7 @@ public class DuplicateAListItemTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click the 'Duplicate' button for the contact list item to be edited.");
         dataListsPage.currentContent.duplicateItem(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes"));
-        dataListsPage.waitUntilMessageDisappears();
+        dataListsPage.waitUntilNotificationMessageDisappears();
         Assert.assertEquals("The data list item was not duplicated.", dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes")), true);
 
 

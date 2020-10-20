@@ -11,7 +11,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -48,7 +48,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
     @Autowired
     private SiteDashboardPage siteDashboardPage;
     @Autowired
-    private NewContentDialog newContentDialog;
+    private NewFolderDialog newContentDialog;
     @Autowired
     private AdminToolsPage adminToolsPage;
     @Autowired
@@ -80,8 +80,8 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         getBrowser().navigate().to(properties.getShare2Url().toString().replace("share", "") + documentLibraryPage.getRelativePath());
         documentLibraryPage.clickCreateButton();
         documentLibraryPage.clickFolderLink();
-        newContentDialog.fillInNameField(folder);
-        newContentDialog.clickSaveButton();
+        newContentDialog.typeName(folder);
+        newContentDialog.clickSave();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folder), folder + " is displayed in Document Library.");
 
         LOG.info("ServerA: Navigate to " + explorerPanelPath);

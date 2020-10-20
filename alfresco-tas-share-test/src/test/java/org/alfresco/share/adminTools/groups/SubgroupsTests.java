@@ -1,6 +1,5 @@
 package org.alfresco.share.adminTools.groups;
 
-import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.AddGroupDialog;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -79,7 +78,7 @@ public class SubgroupsTests extends ContextAwareWebTest
                 .assertGroupDisplayNameIsFound(addedSubGroup)
                 .assertGroupIdIsFound(addedSubGroup)
                 .addGroup(addedSubGroup);
-        groupsPage.waitUntilMessageDisappears();
+        groupsPage.waitUntilNotificationMessageDisappears();
         groupsPage.assertColumnContainsGroup(2, addedSubGroup.getDisplayName());
     }
 

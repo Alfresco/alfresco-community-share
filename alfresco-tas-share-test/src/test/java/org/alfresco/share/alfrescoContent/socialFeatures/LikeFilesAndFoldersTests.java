@@ -2,7 +2,7 @@ package org.alfresco.share.alfrescoContent.socialFeatures;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -27,7 +27,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     private final String fileName7908 = "7908 fileName";
     private final String folderName7909 = "7909 folderName";
     @Autowired
-    CreateContent create;
+    CreateContentPage create;
     @Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired

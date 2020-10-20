@@ -226,14 +226,14 @@ public class CreateUserPage extends SharePage<CreateUserPage>
     {
         LOG.info("Click Create");
         browser.waitUntilElementClickable(createUserButton).click();
-        getLastNotificationMessage();
+        waitUntilNotificationMessageDisappears();
         return (UsersPage) usersPage.renderedPage();
     }
 
     public CreateUserPage clickCreateButtonAndExpectFailure()
     {
         browser.waitUntilElementClickable(createUserButton).click();
-        getLastNotificationMessage();
+        waitUntilNotificationMessageDisappears();
         return (CreateUserPage) this.renderedPage();
     }
 
@@ -241,7 +241,7 @@ public class CreateUserPage extends SharePage<CreateUserPage>
     {
         LOG.info("Click Create User And Start Another");
         browser.waitUntilElementClickable(createUserAndStartAnotherButton).click();
-        getLastNotificationMessage();
+        waitUntilNotificationMessageDisappears();
         return (CreateUserPage) this.renderedPage();
     }
 

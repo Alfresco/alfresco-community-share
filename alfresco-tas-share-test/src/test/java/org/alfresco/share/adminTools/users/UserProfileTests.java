@@ -134,7 +134,7 @@ public class UserProfileTests extends ContextAwareWebTest
                 .assertDeleteUserDialogIsOpened()
                 .assertDeleteUserDialogTextIsCorrect()
                 .clickDelete();
-        usersPage.waitUntilMessageDisappears();
+        usersPage.waitUntilNotificationMessageDisappears();
         usersPage.searchUser(newUser.getUsername())
             .usingUser(newUser).assertUserIsNotFound();
     }
