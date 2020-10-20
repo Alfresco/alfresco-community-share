@@ -1,5 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import java.util.concurrent.TimeUnit;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -10,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
@@ -106,21 +109,26 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     {
         LOG.info("Assert balloon message is displayed");
         browser.waitUntilElementVisible(helpBallon);
-        Assert.assertTrue(browser.isElementDisplayed(helpBallon), "Balloon message is not displayed");
+        assertTrue(browser.isElementDisplayed(helpBallon), "Balloon message is not displayed");
         return (T) this;
     }
 
     public T assertBalloonMessageIsNotDisplayed()
     {
         LOG.info("Assert balloon message is NOT displayed");
-        Assert.assertFalse(browser.isElementDisplayed(helpBallon), "Balloon message is displayed");
+        assertFalse(browser.isElementDisplayed(helpBallon), "Balloon message is displayed");
         return (T) this;
     }
 
-    public boolean isHelpIconDisplayed(DashletHelpIcon dashlet)
+    public T assertDashletHelpIconIsDisplayed(DashletHelpIcon dashletHelpIcon)
     {
-        browser.mouseOver(browser.findElement(By.cssSelector(String.format(dashletBar, dashlet.name))));
-        return browser.waitUntilElementVisible(By.cssSelector(String.format(helpIcon, dashlet.name))).isDisplayed();
+        LOG.info("Assert dashlet help icon is displayed");
+        browser.mouseOver(browser.findElement(By.cssSelector(String.format(dashletBar, dashletHelpIcon.name))));
+        assertTrue(browser.waitUntilElementVisible
+            (By.cssSelector(String.format(helpIcon, dashletHelpIcon.name))).isDisplayed(),
+            "Dashlet help icon is not displayed");
+
+        return (T) this;
     }
 
     /**
@@ -135,10 +143,10 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     public T assertHelpBalloonMessageIs(String expectedMessage)
     {
-        LOG.info("Assert help balloon message is correct");
-        LOG.info(String.format("Assert balloon message is: %s", expectedMessage));
-        Assert.assertEquals(browser.waitUntilElementVisible(helpBallonText).getText(), expectedMessage,
-            "Balloon has expected message");
+        LOG.info("Assert balloon message is: {}", expectedMessage);
+        assertEquals(browser.waitUntilElementVisible(helpBallonText).getText(), expectedMessage,
+            "Balloon has not the expected message");
+
         return (T) this;
     }
 
@@ -156,15 +164,15 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     public T assertDashletIsExpandable()
     {
         LOG.info("Assert dashlet is expandable");
-        Assert.assertTrue(browser.isElementDisplayed(By.xpath(String.format(resizeDashlet, this.getDashletTitle()))),
+        assertTrue(browser.isElementDisplayed(By.xpath(String.format(resizeDashlet, this.getDashletTitle()))),
             String.format("Dashlet %s is expandable", this.getDashletTitle()));
         return (T) this;
     }
 
     public T assertDashletTitleIs(String title)
     {
-        LOG.info(String.format("Assert dashlet title is: %s", title));
-        Assert.assertEquals(getDashletTitle(), title, "Dashlet title is correct");
+        LOG.info("Assert dashlet title is: {}", title);
+        assertEquals(getDashletTitle(), title, "Dashlet title is not correct");
         return (T) this;
     }
 

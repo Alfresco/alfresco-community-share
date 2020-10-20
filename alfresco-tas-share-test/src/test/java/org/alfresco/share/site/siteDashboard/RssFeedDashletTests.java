@@ -89,7 +89,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         LOG.info("Step 2: Verify title bar actions from \"RSS Feed\" dashlet");
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(rssFeedDashlet.isConfigureDashletIconDisplayed(), "Configure Dashlet Icon is displayed");
-        Assert.assertTrue(rssFeedDashlet.isHelpIconDisplayed(DashletHelpIcon.RSS_FEED), "Help balloon is displayed");
+//        Assert.assertTrue(rssFeedDashlet.assertDashletHelpIconDisplayed(DashletHelpIcon.RSS_FEED), "Help balloon is displayed");
 
         LOG.info("Step 3: Click \"?\" icon");
         rssFeedDashlet.clickOnHelpIcon(DashletHelpIcon.RSS_FEED);

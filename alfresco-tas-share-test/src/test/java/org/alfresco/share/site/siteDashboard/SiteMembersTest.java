@@ -66,7 +66,7 @@ public class SiteMembersTest extends ContextAwareWebTest
     public void oneUserAdded()
     {
         LOG.info("STEP1: Verify \"Site Members\" dashlet");
-        assertEquals(siteMembersDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_MEMBERS), true, "'Help' icon is displayed.");
+        assertEquals(siteMembersDashlet.assertDashletHelpIconIsDisplayed(Dashlet.DashletHelpIcon.SITE_MEMBERS), true, "'Help' icon is displayed.");
 
         assertEquals(siteMembersDashlet.isAddUsersLinkDisplayed(), true, "'Add users' link is displayed.");
         assertEquals(siteMembersDashlet.getAddUsersLinkText(), language.translate("siteMembers.addUsers"), "'Add Users' link text-");

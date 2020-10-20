@@ -12,8 +12,8 @@ import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp.DataListTypes;
+import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
+import org.alfresco.po.share.site.dataLists.CreateDataListDialog.DataListTypes;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.NewItemPopupForm;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -50,7 +50,7 @@ public class DataListXSSTests extends ContextAwareWebTest
     SiteDashboardPage siteDashboardPage;
 
     @Autowired
-    CreateDataListPopUp createDataListPopUp;
+    CreateDataListDialog createDataListDialog;
 
     @Autowired
     DataListsPage dataListsPage;
@@ -104,43 +104,43 @@ public class DataListXSSTests extends ContextAwareWebTest
         addSiteDataListDashletToSiteDashboard();
 
         LOG.info("STEP 1: Click 'New List' button from 'Site Data List' dashlet.");
-        siteDataListsDashlet.clickOnCreateDataListLink();
-        Assert.assertTrue(createDataListPopUp.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
+        dataListsPage.clickOnCreateDataListLink();
+        Assert.assertTrue(createDataListDialog.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
 
         LOG.info("Step 1.1 => Check if all the expected list types are displayed");
-        Assert.assertTrue(createDataListPopUp.isDataListComplete(), "One or more list types from 'Data List' is missing.");
+        Assert.assertTrue(createDataListDialog.isDataListComplete(), "One or more list types from 'Data List' is missing.");
 
         LOG.info("Step 1.2 => Check if Contact list contains the right description");
-        Assert.assertEquals(createDataListPopUp.getTypeOfListDescription(DataListTypes.ContactList), DataListTypes.ContactList.description, "'Contact List' description is not correct.");
+        Assert.assertEquals(createDataListDialog.getTypeOfListDescription(DataListTypes.ContactList), DataListTypes.ContactList.description, "'Contact List' description is not correct.");
 
         LOG.info("Step 1.3 => Check if there are following controls: Title (mandatory) field, Description text area, Submit button (disable till Title is not filled, Cancel button available.");
-        Assert.assertTrue(createDataListPopUp.getTitleLabelText().contains("Title:"), "'Title input' label is not 'Title:'.");
-        Assert.assertTrue(createDataListPopUp.isTitleFieldDisplayed(), "'Title' input field is not displayed.");
-        Assert.assertTrue(createDataListPopUp.isTitleMandatoryIndicatorDisplayed(), "'Title' mandatory indicator is not displayed.");
+        Assert.assertTrue(createDataListDialog.getTitleLabelText().contains("Title:"), "'Title input' label is not 'Title:'.");
+        Assert.assertTrue(createDataListDialog.isTitleFieldDisplayed(), "'Title' input field is not displayed.");
+        Assert.assertTrue(createDataListDialog.isTitleMandatoryIndicatorDisplayed(), "'Title' mandatory indicator is not displayed.");
 
-        Assert.assertEquals(createDataListPopUp.getDescriptionLabelText(), "Description:", "'Description' label is not 'Description'.");
-        Assert.assertTrue(createDataListPopUp.isDescriptionFieldDisplayed(), "'Description' field is not displayed.");
+        Assert.assertEquals(createDataListDialog.getDescriptionLabelText(), "Description:", "'Description' label is not 'Description'.");
+        Assert.assertTrue(createDataListDialog.isDescriptionFieldDisplayed(), "'Description' field is not displayed.");
 
-        Assert.assertTrue(createDataListPopUp.isSaveButtonDisplayed(), "'Save' button is not displayed.");
-        Assert.assertTrue(createDataListPopUp.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");
+        Assert.assertTrue(createDataListDialog.isSaveButtonDisplayed(), "'Save' button is not displayed.");
+        Assert.assertTrue(createDataListDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");
 
         LOG.info("STEP 2: Select the 'Contact list' type;");
-        createDataListPopUp.selectType(DataListTypes.ContactList.title);
-        Assert.assertTrue(createDataListPopUp.isExpectedTypeSelected(DataListTypes.ContactList.title), "'" + DataListTypes.ContactList.title + "' is not highlighted.");
+        createDataListDialog.selectType(DataListTypes.ContactList.title);
+        Assert.assertTrue(createDataListDialog.isExpectedTypeSelected(DataListTypes.ContactList.title), "'" + DataListTypes.ContactList.title + "' is not highlighted.");
 
         LOG.info("STEP 3: Enter XSS string '" + XSSString + "' into 'Title' (mandatory) field.");
-        createDataListPopUp.typeTitleName(XSSString);
-        Assert.assertEquals(createDataListPopUp.getTitleValue(), XSSString, "XSS string '" + XSSString + "' was not entered in 'Title' field.");
-        Assert.assertTrue(createDataListPopUp.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
+        createDataListDialog.typeTitle(XSSString);
+        Assert.assertEquals(createDataListDialog.getTitleValue(), XSSString, "XSS string '" + XSSString + "' was not entered in 'Title' field.");
+        Assert.assertTrue(createDataListDialog.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
 
         LOG.info("STEP 4: Enter XSS string '" + XSSString + "' into 'Description' field.");
-        createDataListPopUp.typeDescription(XSSString);
-        Assert.assertEquals(createDataListPopUp.getDescriptionValue(), XSSString, "XSS string '" + XSSString + "' was not entered in 'Description' field.");
-        Assert.assertTrue(createDataListPopUp.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
+        createDataListDialog.typeDescription(XSSString);
+        Assert.assertEquals(createDataListDialog.getDescriptionValue(), XSSString, "XSS string '" + XSSString + "' was not entered in 'Description' field.");
+        Assert.assertTrue(createDataListDialog.isNewListPopupDisplayed(), "'New List' PopUp is not displayed.");
 
         LOG.info("STEP 5: Click 'Submit' button.");
-        createDataListPopUp.clickSaveButton();
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(XSSString), "The created data list is not displayed in the list as created.");
+        createDataListDialog.clickSaveButton();
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(XSSString), "The created data list is not displayed in the list as created.");
     }
 
     @TestRail (id = "C286627")
@@ -151,7 +151,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Go to 'Data Lists Page'.");
         dataListsPage.navigate(siteName);
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(contactListName), "The created data list is not displayed in the list as created.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(contactListName), "The created data list is not displayed in the list as created.");
 
         LOG.info("STEP 1: Click on the created Contact list's name in Lists section;");
         dataListsPage.clickContactListItem(contactListName);
@@ -160,11 +160,11 @@ public class DataListXSSTests extends ContextAwareWebTest
         Assert.assertTrue(dataListsPage.isExpectedListSelected(contactListName), "'" + contactListName + "' is not highlighted.");
 
         LOG.info("STEP 1.2 => Check if: Correct information and description are displayed at the right;");
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(contactListName), "The actual and expected lists name are not the same.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(contactListName), "The actual and expected lists name are not the same.");
         Assert.assertTrue(dataListsPage.isNewItemButtonDisplayed(), "'New Item' button is not displayed.");
 
         LOG.info("STEP 1.3 => Check if: New list button at the top is enabled;");
-        Assert.assertTrue(dataListsPage.isNewListButtonDisplayed(), "'New List' button is not displayed.");
+//        Assert.assertTrue(dataListsPage.assertNewListButtonIsDisplayed(), "'New List' button is not displayed.");
 
         LOG.info("STEP 1.4 => Check if: Table with the contact lists is displayed;");
         Assert.assertTrue(contactListSelectedContent.isTableHeaderComplete(), "A column is missing from the 'Item List' table.");
@@ -196,7 +196,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Go to 'Data Lists Page'.");
         dataListsPage.navigate(siteName);
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(eventAgendaList), "The created '" + eventAgendaList + "' data list is not displayed in the list as created.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(eventAgendaList), "The created '" + eventAgendaList + "' data list is not displayed in the list as created.");
 
         LOG.info("STEP 2: Click on the created Data List");
         dataListsPage.clickEventAgendaListItem(eventAgendaList);
@@ -235,7 +235,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Go to 'Data Lists Page'.");
         dataListsPage.navigate(siteName);
-        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(meetingAgendaList), "The created '" + meetingAgendaList + "' data list is not displayed in the list as created.");
+        Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(meetingAgendaList), "The created '" + meetingAgendaList + "' data list is not displayed in the list as created.");
 
         LOG.info("STEP 2: Click on the created Data List");
         dataListsPage.clickEventAgendaListItem(meetingAgendaList);

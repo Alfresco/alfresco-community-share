@@ -5,7 +5,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
+import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.DeleteListPopUp;
 import org.alfresco.share.ContextAwareWebTest;
@@ -28,7 +28,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     DataListsService dataLists;
 
     @Autowired
-    CreateDataListPopUp createDataListPopUp;
+    CreateDataListDialog createDataListDialog;
 
     @Autowired
     DeleteListPopUp deleteListPopUp;
@@ -52,7 +52,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsPage.navigate(siteName);
-        createDataListPopUp.clickCancelFormButton();
+        createDataListDialog.clickCancelButton();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
     }
@@ -83,7 +83,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "Successfully deleted list");
 
         LOG.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
-        Assert.assertEquals("The list is displayed.", dataListsPage.getListsDisplayName().contains("first list"), false);
+        Assert.assertEquals("The list is displayed.", dataListsPage.getListsItemsTitle().contains("first list"), false);
         Assert.assertEquals("At least one list is displayed.", dataListsPage.noListDisplayed(), true);
     }
 
@@ -99,7 +99,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "Successfully deleted list");
 
         LOG.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
-        Assert.assertEquals("The list is displayed.", dataListsPage.getListsDisplayName().contains("first list"), false);
+        Assert.assertEquals("The list is displayed.", dataListsPage.getListsItemsTitle().contains("first list"), false);
         Assert.assertEquals("At least one list is displayed.", dataListsPage.noListDisplayed(), true);
     }
 
@@ -117,6 +117,6 @@ public class DeletingADataListTests extends ContextAwareWebTest
         deleteListPopUp.clickCancelButton();
 
         LOG.info("Step 4: Check that list has not been deleted and is still displayed in the Lists section.");
-        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsDisplayName().contains("first list"), true);
+        Assert.assertEquals("The list is not displayed.", dataListsPage.getListsItemsTitle().contains("first list"), true);
     }
 }

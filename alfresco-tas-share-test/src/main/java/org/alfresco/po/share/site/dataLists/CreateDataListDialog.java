@@ -14,35 +14,45 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
-public class CreateDataListPopUp extends ShareDialog
+public class CreateDataListDialog extends ShareDialog
 {
     protected static By balloon = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='text']");
     protected static By balloonCloseButton = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='closeButton']");
+
     @FindBy (css = "div[id$='itemTypesContainer'] a")
     protected List<WebElement> typesOfList;
+
     @FindBy (css = "input[id$='newList_prop_cm_title']")
     protected WebElement titleField;
+
     @FindBy (css = "textarea[id$='newList_prop_cm_description']")
     protected WebElement descriptionField;
+
     @RenderWebElement
     @FindBy (css = "button[id$='form-submit-button']")
     protected WebElement saveButton;
+
     @RenderWebElement
     @FindBy (css = "button[id$='form-cancel-button']")
     protected WebElement cancelButton;
-    protected By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
-    @Autowired
-    private DataListsPage dataListsPage;
+
     @FindBy (css = "div[id$='newList-dialog']")
     private WebElement newListPopup;
+
     @FindBy (css = "label[for*='default-newList'][for$='title']")
     private WebElement titleLabel;
+
     @FindBy (css = "label[for*='default-newList'][for$='title'] span[class='mandatory-indicator']")
     private WebElement titleMandatoryIndicator;
+
     @FindBy (css = "label[for*='default-newList'][for$='description']")
     private WebElement descriptionLabel;
+
+    protected By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
     private String typeOfListDescription = "//div[contains(@id, 'itemTypesContainer')]//a[text()='Contact List']//ancestor::*//div[contains(@id, 'itemTypesContainer')]//span";
 
+    @Autowired
+    private DataListsPage dataListsPage;
     /**
      * This method is checking if all the elements that should be in 'New List' popup are actually displayed.
      * Checking if all the elements from the enum list exists in getValuesFromElements() list method.
@@ -143,9 +153,10 @@ public class CreateDataListPopUp extends ShareDialog
         return browser.isElementDisplayed(descriptionField);
     }
 
-    public void selectType(String type)
+    public CreateDataListDialog selectType(String type)
     {
         browser.findFirstElementWithValue(typesOfList, type).click();
+        return this;
     }
 
     public boolean isExpectedTypeSelected(String expectedType)
@@ -153,9 +164,12 @@ public class CreateDataListPopUp extends ShareDialog
         return browser.findElement(typeSelected).getText().equals(expectedType);
     }
 
-    public void typeTitleName(String titleName)
+    public CreateDataListDialog typeTitle(String title)
     {
-        titleField.sendKeys(titleName);
+        LOG.info("Clear and type title: {}", title);
+        titleField.clear();
+        titleField.sendKeys(title);
+        return this;
     }
 
     /**
@@ -168,9 +182,12 @@ public class CreateDataListPopUp extends ShareDialog
         return titleField.getAttribute("value");
     }
 
-    public void typeDescription(String description)
+    public CreateDataListDialog typeDescription(String description)
     {
+        LOG.info("Clear and type description: {}", description);
+        descriptionField.clear();
         descriptionField.sendKeys(description);
+        return this;
     }
 
     /**
@@ -215,12 +232,15 @@ public class CreateDataListPopUp extends ShareDialog
 
     public DataListsPage clickSaveButton()
     {
+        LOG.info("Click \"Save\" button");
         saveButton.click();
+        waitUntilMessageDisappears();
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
-    public DataListsPage clickCancelFormButton()
+    public DataListsPage clickCancelButton()
     {
+        LOG.info("Click \"Cancel\" button");
         cancelButton.click();
         return (DataListsPage) dataListsPage.renderedPage();
     }

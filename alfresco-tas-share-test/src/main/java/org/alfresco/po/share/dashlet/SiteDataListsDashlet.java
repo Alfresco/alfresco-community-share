@@ -1,7 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -10,43 +13,59 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * @author bogdan.simion
- */
-
 @PageObject
 public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 {
     @RenderWebElement
     @FindBy (css = "div.dashlet.site-data-lists")
     protected WebElement dashletContainer;
+
     @FindBy (css = ".site-data-lists .detail-list-item")
     protected List<WebElement> siteDataListsItems;
+
     @FindBy (css = ".site-data-lists .body a")
     protected List<WebElement> dataListsLinks;
+
     @FindBy (css = ".dashlet-padding>h3")
     protected WebElement message;
+
     @FindBy (css = ".datagrid-meta h2")
     protected WebElement dataListTitle;
+
     @FindBy (css = ".hd")
-    protected WebElement newListWindow;
+    protected WebElement newListDialogTitle;
+
     @FindBy (css = ".item-types div")
     protected WebElement listType;
+
     @FindBy (css = "input[name$='prop_cm_title']")
     protected WebElement listTitleTextInput;
+
     @FindBy (css = "textarea[title$='Content Description']")
     protected WebElement listDescriptionTextAreaInput;
+
     @FindBy (css = ".bdft button[id*='submit-button']")
     protected WebElement newListSaveButton;
+
     @FindBy (css = ".bdft button[id*='cancel-button']")
     protected WebElement newListCancelButton;
-    protected By newListWindowLocator = By.cssSelector(".hd");
-    protected By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
-    protected String listlinkLocator = "a[title='%s']";
+
     @FindBy (css = ".detail-list-item.first-item")
     protected WebElement detailListItem;
+
+    protected By newListWindowLocator = By.cssSelector(".hd");
+    protected By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
+    protected String listLinkLocator = "//a[@title='%s']";
+    private By descriptionElement = By.cssSelector(".description");
+
+    private final String dataListRow = "//a[text()='%s']/..";
+    private final String listItemDescriptionLocator = "//div[text()='%s']";
+
     @Autowired
-    DataListsPage dataListsPage;
+    private DataListsPage dataListsPage;
+
+    @Autowired
+    private CreateDataListDialog createDataListDialog;
 
     /**
      * Method to get the title of the current dashlet
@@ -59,25 +78,38 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-
-    /**
-     * Method to test if the Create Data List link is displayed
-     *
-     * @return boolean
-     */
-    public boolean isCreateDataListLinkDisplayed()
+    private WebElement getDataListRow(String dataListTitle)
     {
-        return browser.isElementDisplayed(createDataListLinkLocator);
+        LOG.info("Get data list row: {}", dataListTitle);
+
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
+            dataListTitle)), 1, WAIT_30);
     }
 
-    /**
-     * Method to get the text that appears when there are no Data Lists created
-     *
-     * @return String
-     */
-    public String getMessageDisplayed()
+    public CreateDataListDialog clickOnCreateDataListLink()
     {
-        return message.getText();
+        LOG.info("Click \"New List\" button");
+        browser.findElement(createDataListLinkLocator).click();
+
+        return (CreateDataListDialog) createDataListDialog.renderedPage();
+    }
+
+    public SiteDataListsDashlet assertCreateDataListLinkDisplayed()
+    {
+        LOG.info("Assert create data list link displayed");
+        assertTrue(browser.isElementDisplayed(createDataListLinkLocator),
+            "Create data list link is not displayed");
+
+        return this;
+    }
+
+    public SiteDataListsDashlet assertDisplayedMessageIs(String dataListExpectedMessage)
+    {
+        LOG.info("Assert displayed message is: {}", dataListExpectedMessage);
+        assertEquals(message.getText(), dataListExpectedMessage,
+            "Data list message is not displayed");
+
+        return this;
     }
 
     /**
@@ -98,19 +130,13 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return numberOfListItemsDisplayed;
     }
 
-    public boolean areSiteDataListsItemsDisplayed()
+    public SiteDataListsDashlet assertDataListItemTitleIsDisplayed(String expectedDataListItemTitle)
     {
-        return siteDataListsItems.size() == getNumberOfSiteDataListsItemsDisplayed();
-    }
+        LOG.info("Assert data list item title is displayed: {}", expectedDataListItemTitle);
+        assertTrue(browser.isElementDisplayed(getDataListRow(expectedDataListItemTitle)),
+            String.format("Data list %s is not displayed", expectedDataListItemTitle));
 
-    /**
-     * Method to get the text that is displayed when the New List window is opened
-     *
-     * @return String
-     */
-    public String getNewListWindowText()
-    {
-        return newListWindow.getText();
+        return this;
     }
 
     /**
@@ -120,118 +146,39 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
      */
     public boolean isNewListWindowOpened()
     {
-        return (newListWindow.getText().equals("New List"));
+        return (newListDialogTitle.getText().equals("New List"));
     }
 
-    /**
-     * Method to get the number of Site Data Lists
-     *
-     * @return boolean
-     */
-    public int numberOfListItems()
+    public DataListsPage clickListItemByTitle(String itemTitle)
     {
-        return siteDataListsItems.size();
-    }
+        LOG.info("Click list item with title: {}", itemTitle);
+        getDataListRow(itemTitle).findElement(By.cssSelector("a")).click();
 
-    /**
-     * Click on the first item in the site data lists
-     */
-    public DataListsPage clickOnFirstListItem()
-    {
-        dataListsLinks.get(0).click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
-    public void clickOnCreateDataListLink()
+    public void clickOnListLink(String listDescription)
     {
-        WebElement createDataListLink = browser.findElement(createDataListLinkLocator);
-        createDataListLink.click();
-    }
-
-
-    public void selectContactListFromTypesOfListsAvailable()
-    {
-        listType.click();
-    }
-
-    public void insertTitleAndDescriptionForDataList(String title, String description)
-    {
-        listTitleTextInput.sendKeys(title);
-        listDescriptionTextAreaInput.sendKeys(description);
-    }
-
-    public String getListTitleTextInput()
-    {
-        return listTitleTextInput.getAttribute("value");
-    }
-
-    public String getListDescriptionTextInput()
-    {
-        return listDescriptionTextAreaInput.getAttribute("value");
-    }
-
-    public void clickOnNewListSaveButton()
-    {
-        newListSaveButton.click();
-    }
-
-    public void clickOnNewListCancelButton()
-    {
-        newListCancelButton.click();
-    }
-
-    public void clickOnListLink(String listDesctiption)
-    {
-        By linkLocator = By.cssSelector(String.format(listlinkLocator, listDesctiption));
+        By linkLocator = By.cssSelector(String.format(listLinkLocator, listDescription));
         WebElement listLinkTitle = browser.findElement(linkLocator);
         listLinkTitle.click();
     }
 
-    public boolean isNewListWindowDisplayed()
+    public SiteDataListsDashlet assertNewListDialogSaveButtonIsDisplayed()
     {
-        return browser.isElementDisplayed(newListWindowLocator);
+        LOG.info("Assert new list dialog \"Save\" button is displayed");
+        assertTrue(newListSaveButton.isDisplayed(), "New list dialog \"Save\" button is not displayed");
+
+        return this;
     }
 
-    public boolean areSaveAndCancelButtonDisplayed()
+    public SiteDataListsDashlet assertDataListItemDescriptionEquals(String dataListTitle, String expectedItemDescription)
     {
-        return newListSaveButton.isDisplayed() && newListCancelButton.isDisplayed();
-    }
+        LOG.info("Assert dashlet data list item description equals: {}", expectedItemDescription);
+        assertEquals(getDataListRow(dataListTitle).findElement(descriptionElement).getText(),
+            expectedItemDescription, String.format("Site data list item description %s not equals expected",
+                listItemDescriptionLocator));
 
-    public boolean isDataListPageTheCurrentPage()
-    {
-        return browser.getCurrentUrl().contains("data-lists");
+        return this;
     }
-
-    public boolean isSiteDashboardPageTheCurrentPage(String siteName)
-    {
-        return browser.getCurrentUrl().contains(siteName + "/dashboard");
-    }
-
-    public void returnToSiteDashboardPage()
-    {
-        browser.getPreviousUrl();
-        browser.navigate();
-    }
-
-    public boolean isDataListLinkDisplayed(String listDescription)
-    {
-        By linkLocator = By.cssSelector(String.format(listlinkLocator, listDescription));
-        return browser.isElementDisplayed(linkLocator);
-    }
-
-    public boolean isDataListItemDisplayed()
-    {
-        return browser.isElementDisplayed(detailListItem);
-    }
-
-    public void clickOnTheFirstDataListTitleLink()
-    {
-        dataListsLinks.get(0).click();
-    }
-
-    public boolean isDataListTitleDisplayed()
-    {
-        return browser.isElementDisplayed(dataListTitle);
-    }
-
 }

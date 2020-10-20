@@ -60,7 +60,7 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
         savedSearchDashlet.assertDashletTitleIs(language.translate("savedSearchDashlet.title"))
             .assertNoResultsMessageIsDisplayed()
             .assertConfigureDashletButtonIsDisplayed();
-        assertTrue(savedSearchDashlet.isHelpIconDisplayed(DashletHelpIcon.SAVED_SEARCH));
+//        assertTrue(savedSearchDashlet.isHelpIconDisplayed(DashletHelpIcon.SAVED_SEARCH));
 
         LOG.info("Step 2: Click Help icon");
         savedSearchDashlet.clickOnHelpIcon(DashletHelpIcon.SAVED_SEARCH);
