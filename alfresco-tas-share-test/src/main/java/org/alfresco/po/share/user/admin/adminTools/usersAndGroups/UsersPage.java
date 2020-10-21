@@ -130,9 +130,8 @@ public class UsersPage extends AdminToolsPage
     public UsersPage searchUser(String user)
     {
         LOG.info(String.format("Search for user: %s", user));
-        userSearchInputField.clear();
-        userSearchInputField.sendKeys(user);
-        searchButton.click();
+        clearAndType(userSearchInputField, user);
+        browser.waitUntilElementClickable(searchButton).click();
         return this;
     }
 
@@ -149,7 +148,7 @@ public class UsersPage extends AdminToolsPage
 
     public WebElement getUserRow(String userName)
     {
-        return browser.waitUntilElementVisible(By.xpath(String.format(userRow, userName)));
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15);
     }
 
     public UsersPage assertSearchInputIsDisplayed()
