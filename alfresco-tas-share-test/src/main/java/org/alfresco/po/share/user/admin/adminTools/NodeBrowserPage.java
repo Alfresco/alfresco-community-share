@@ -124,9 +124,7 @@ public class NodeBrowserPage extends AdminToolsPage
 
     private WebElement getResultRow(String name)
     {
-        By searchRow = By.xpath(String.format(fileNameRow, name));
-        browser.waitUntilElementIsDisplayedWithRetry(searchRow, 1, WAIT_15);
-        return browser.findElement(searchRow);
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(fileNameRow, name)), 1, WAIT_15);
     }
 
     public String getParentFor(String fileName)
