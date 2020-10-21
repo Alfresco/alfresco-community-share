@@ -54,7 +54,9 @@ public class CategoryManagerPage extends AdminToolsPage
 
     public AddCategoryDialog clickAddButton()
     {
-        getBrowser().waitUntilElementVisible(addCategoryButton).click();
+        WebElement addButton = browser.waitUntilElementVisible(addCategoryButton);
+        browser.mouseOver(addButton);
+        addButton.click();
         return (AddCategoryDialog) addCategoryDialog.renderedPage();
     }
 
