@@ -110,23 +110,7 @@ public class TagManagerPage extends AdminToolsPage
 
     private WebElement getTagRow(String tagName)
     {
-        boolean found = isTagDisplayed(tagName);
-        int pageCount = 1;
-        while(!found)
-        {
-            if(browser.isElementDisplayed(nextLink))
-            {
-                clickNextPage();
-                pageCount++;
-                browser.waitUntilElementContainsText(currentPage, String.valueOf(pageCount));
-                found = isTagDisplayed(tagName);
-            }
-            else
-            {
-                break;
-            }
-        }
-        return browser.waitUntilElementVisible(By.xpath(String.format(tagRow, tagName)));
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(tagRow, tagName)), 1, WAIT_30);
     }
 
     public boolean isTagDisplayed(String tagName)
@@ -195,9 +179,9 @@ public class TagManagerPage extends AdminToolsPage
 
     private TagManagerPage search(String tagName)
     {
-        searchInput.clear();
-        searchInput.sendKeys(tagName);
-        browser.clickJS(searchButton);
+        clearAndType(searchInput, tagName);
+        browser.mouseOver(searchButton);
+        browser.waitUntilElementClickable(searchButton).click();
         return (TagManagerPage) this.renderedPage();
     }
 
