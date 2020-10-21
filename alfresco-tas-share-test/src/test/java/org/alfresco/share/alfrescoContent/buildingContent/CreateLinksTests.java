@@ -7,6 +7,7 @@ import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
@@ -39,6 +40,9 @@ public class CreateLinksTests extends ContextAwareWebTest
 
     @Autowired
     private SearchPage searchPage;
+
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -174,26 +178,16 @@ public class CreateLinksTests extends ContextAwareWebTest
         myActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile, testSite);
     }
 
-    /*@TestRail (id = "C42622")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @TestRail (id = "C42622")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createdLinkDisplayedInSiteActivitiesDashlet()
     {
-        String name = firstName + " " + lastName;
-        String activity = name + " created link to " + fileName3;
-        documentLibraryPage.navigate(siteName2);
-        LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName3, ItemActions.COPY_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
-        copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
-        copyMoveUnzipToDialog.clickSite(siteName2);
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
-        documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
-        assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
-            linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
-        LOG.info("STEP2: Navigate to Site Dashboard page and verify Site Activities dashlet");
-        siteDashboardPage.navigate(siteName2);
-        assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
-        assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity),
-            "Activity: '" + activity + "' is displayed in 'Site Activities' dashlet.");
-    }*/
+        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+        cmisApi.usingSite(testSite).createFile(userFile);
+        documentLibraryPage.navigate(testSite)
+            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
+                .clickCreateLink();
+        siteDashboardPage.navigate(testSite);
+        siteActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile);
+    }
 }

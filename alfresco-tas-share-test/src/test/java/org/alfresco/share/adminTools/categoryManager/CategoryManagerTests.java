@@ -51,8 +51,8 @@ public class CategoryManagerTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
         asList("Category Root", "Languages", "Regions", "Software Document Classification", "Tags")
-                .forEach(defaultCategory ->
-                        assertTrue(categoryManagerPage.isCategoryDisplayed(defaultCategory), defaultCategory + " is displayed."));
+            .forEach(defaultCategory ->
+                assertTrue(categoryManagerPage.isCategoryDisplayed(defaultCategory), defaultCategory + " is displayed."));
     }
 
     @TestRail (id = "C9295")
@@ -83,13 +83,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
-        LOG.info("Step 1: Edit the category.");
         userService.createRootCategory(adminUser, adminPassword, category9298);
         categoryManagerPage.navigate();
         categoryManagerPage.editCategory(category9298, categoryEdited);
-
-        LOG.info("Step 2: Verify the edited category is displayed in the 'Category Manager' page.");
-
         assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));
         assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9298));
     }
@@ -97,7 +93,6 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void addAndOpenSubCategory()
     {
-        LOG.info("Step 1: Add subcategory");
         categoryManagerPage.addSubCategory("Languages", subCategoryName);
         assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName), subCategoryName + " is not displayed in the list");
     }
