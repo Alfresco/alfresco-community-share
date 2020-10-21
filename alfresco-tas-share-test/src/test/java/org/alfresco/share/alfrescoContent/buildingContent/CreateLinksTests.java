@@ -19,15 +19,15 @@ import org.testng.annotations.Test;
 
 public class CreateLinksTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage2 documentLibraryPage;
-
     private String randomName = RandomStringUtils.randomAlphanumeric(5);
     private UserModel linksUser;
     private SiteModel testSite;
     private FileModel file1;
     private FileModel file2;
     private FolderModel testFolder;
+
+    @Autowired
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
