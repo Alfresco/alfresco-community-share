@@ -126,7 +126,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
 
     public T assertFolderIsDisplayedInFilter(FolderModel folder)
     {
-        LOG.info(String.format("Assert folder %s is displayed in documents filter from left side", folder.getName()));
+        LOG.info("Assert folder {} is displayed in documents filter from left side", folder.getName());
         WebElement folderLink = browser.waitUntilElementVisible(By.xpath(String.format(folderInFilterElement, folder.getName())));
         assertTrue(browser.isElementDisplayed(folderLink),
             String.format("Folder %s is displayed in filter", folder.getName()));

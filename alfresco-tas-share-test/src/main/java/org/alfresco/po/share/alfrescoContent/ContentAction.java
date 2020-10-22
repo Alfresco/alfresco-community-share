@@ -56,7 +56,7 @@ public class ContentAction
     {
         LOG.info("Assert is displayed");
         assertTrue(getBrowser().isElementDisplayed(getContentRow()),
-            String.format("Content '%s' is displayed", contentModel.getName()));
+            String.format("Content '%s' is not displayed", contentModel.getName()));
         return this;
     }
 
@@ -88,8 +88,9 @@ public class ContentAction
     private ContentAction mouseOverContent()
     {
         LOG.info("Mouse over content");
-        getBrowser().mouseOver(getContentRow());
-        getBrowser().waitUntilElementHasAttribute(getContentRow(), "class", highlightContent);
+        WebElement contentRow = getContentRow();
+        getBrowser().mouseOver(contentRow);
+        getBrowser().waitUntilElementHasAttribute(contentRow, "class", highlightContent);
         return this;
     }
 
