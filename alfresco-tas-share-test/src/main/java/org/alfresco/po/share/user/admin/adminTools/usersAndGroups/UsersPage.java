@@ -75,10 +75,12 @@ public class UsersPage extends AdminToolsPage
         return "share/page/console/admin-console/users";
     }
 
-    public CreateUserPage clickNewUser()
+    public CreateUserPage clickNewUserButton()
     {
         LOG.info("Click New User");
-        browser.waitUntilElementClickable(newUserButton).click();
+        browser.waitUntilElementVisible(newUserButton);
+        browser.mouseOver(newUserButton);
+        newUserButton.click();
         return (CreateUserPage) createUsers.renderedPage();
     }
 
