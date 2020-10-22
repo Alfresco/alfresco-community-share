@@ -1,13 +1,16 @@
 package org.alfresco.po.share.searching;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
+import org.alfresco.po.share.site.dataLists.Content;
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -26,17 +29,23 @@ import ru.yandex.qatools.htmlelements.element.Table;
 @PageObject
 public class SearchPage extends SharePage<SearchPage> implements AccessibleByMenuBar
 {
-    @FindBy (id = "FCTSRCH_SEARCH_RESULT")
+    @Autowired
+    private SearchManagerPage searchManagerPage;
+
+    @Autowired
+    private SearchCopyMoveDialog copyMoveDialog;
+
+    @FindBy(id = "FCTSRCH_SEARCH_RESULT")
     public WebElement searchResult;
+
+    @FindAll (@FindBy (id = "FCTSRCH_SEARCH_RESULT"))
+    public List<WebElement> searchResultRows;
 
     @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
     public WebElement deleteDialogConfirm;
 
     @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION")
     public WebElement deleteDialogCancel;
-
-    @Autowired
-    SearchManagerPage searchManagerPage;
 
     @FindBy (id = "FCTSRCH_RESULTS_COUNT_LABEL")
     private WebElement numberOfResultsLabel;
@@ -214,6 +223,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     private By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
     private By highlight = By.cssSelector("span.inner span mark");
 
+    private By contentName = By.cssSelector(".nameAndTitleCell .value");
+    private By contentCheckBox = By.cssSelector("span[class^='alfresco-renderers-Selector']");
+    private By noResults =  By.cssSelector(".alfresco-search-NoSearchResults");
+
     private WebElement docName(String docName)
     {
         return browser.findElement(By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DISPLAY_NAME']//mark[text()='" + docName + "']"));
@@ -249,7 +262,74 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public void waitForPageToLoad()
     {
-        browser.waitUntilElementVisible(searchButton, 60);
+        browser.waitUntilElementVisible(searchButton, WAIT_60);
+    }
+
+    private boolean isContentDisplayed(ContentModel contentModel)
+    {
+        if(browser.isElementDisplayed(noResults))
+        {
+            return false;
+        }
+        else
+        {
+            return searchResultRows.stream().anyMatch(row ->
+                row.findElement(contentName).getText().equals(contentModel.getName()));
+        }
+    }
+
+    protected WebElement getContentRowResult(ContentModel content)
+    {
+        for(WebElement row : searchResultRows)
+        {
+            if(row.findElement(contentName).getText().equals(content.getName()))
+            {
+                return row;
+            }
+        }
+        throw new NoSuchElementException(String.format("Content %s was not found", content.getName()));
+    }
+
+    public SearchPage searchForContentWithRetry(ContentModel contentToFind)
+    {
+        LOG.info("Search for content {} with retry");
+        boolean found = isContentDisplayed(contentToFind);
+        int counter = 0;
+        while (!found && counter <= WAIT_60)
+        {
+            Utility.waitToLoopTime(1, String.format("Wait for content to be displayed in search: %s", contentToFind.getName()));
+            setSearchExpression(contentToFind.getName());
+            clickSearchButton();
+            found = isContentDisplayed(contentToFind);
+            counter++;
+        }
+        return this;
+    }
+
+    public SearchPage searchWithKeywordAndWaitForContents(String searchExpression, ContentModel... contentModels)
+    {
+        int counter = 0;
+        boolean allFound = false;
+        while(!allFound && counter <= WAIT_60)
+        {
+            Utility.waitToLoopTime(1, String.format("Wait for content to be displayed in search for: %s", searchExpression));
+            setSearchExpression(searchExpression);
+            clickSearchButton();
+            if(browser.isElementDisplayed(noResults))
+            {
+                counter++;
+                continue;
+            }
+            if(searchResultRows.size() < contentModels.length)
+            {
+                counter++;
+            }
+            else
+            {
+                allFound = true;
+            }
+        }
+        return this;
     }
 
     public String getNumberOfResultsText()
@@ -277,18 +357,6 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         executeJavaScript("window.scrollTo(0," + distance + ");", "");
     }
 
-    private void clickSelectedItemsMenu()
-    {
-        browser.waitUntilElementClickable(selectedItemsMenu, 3L).click();
-        browser.waitUntilElementVisible(copyToSelectedItemsOption);
-    }
-
-    public void clickCopyToSelectedItemsOption()
-    {
-        clickSelectedItemsMenu();
-        copyToSelectedItemsOption.click();
-    }
-
     public boolean isResultFound(String query)
     {
         browser.waitInSeconds(5);
@@ -311,7 +379,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
                 break;
             } else
             {
-                getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchResult, 6);
+                //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchResult, 6);
                 webElement = browser.findFirstElementWithExactValue(resultsDetailedViewList, query);
             }
         }
@@ -324,16 +392,6 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         {
             if (result.getText().contains(query))
                 browser.mouseOver(result);
-        }
-    }
-
-
-    public void mouseOverContentGalleryView(String contentName)
-    {
-        for (WebElement item : galleryViewResultsList)
-        {
-            if (item.getText().contains(contentName))
-                browser.mouseOver(item);
         }
     }
 
@@ -692,19 +750,6 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         return getBrowser().isElementDisplayed(copyToAction);
     }
 
-    public HtmlPage clickCopyTo(HtmlPage page)
-    {
-        int retryCount = 0;
-        if (!isCopyToActionPresent() && retryCount <= 3)
-        {
-            clickSearchInDropdown();
-            copyToAction.click();
-            retryCount++;
-        }
-
-        return page.renderedPage();
-    }
-
     public void clickOptionFromSelectedItemsDropdown(String optionName)
     {
         if (isSelectedItemsOptionDisplayed(optionName))
@@ -858,7 +903,8 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public void setSearchExpression(String searchExpression)
     {
-        Utils.clearAndType(inputField, searchExpression);
+        inputField.clear();
+        inputField.sendKeys(searchExpression);
     }
 
     public void clickSearchButton()
@@ -974,18 +1020,6 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         return page.renderedPage();
     }
 
-    public void clickInfo()
-    {
-        browser.findElement(By.cssSelector("span[id='FCTSRCH_GALLERY_VIEW_MORE_INFO_OR_FOLDER']")).click();
-        //browser.waitUntilElementVisible(By.cssSelector("div[class='alfresco-dialog-AlfDialog dialogDisplayed dijitDialog']"));
-    }
-
-    public void clickCloseInfo()
-    {
-        browser.mouseOver(closeInfo);
-        closeInfo.click();
-    }
-
     public void clickContentThumbnailByName(String contentName)
     {
         image(contentName).click();
@@ -1028,5 +1062,34 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     {
         closeFilePreviewButton.click();
         getBrowser().waitUntilElementDisappears(By.cssSelector("div[class$='dialogDisplayed dijitDialog']"));
+    }
+
+    public SearchPage checkContent(ContentModel... contentModels)
+    {
+        for(ContentModel content : contentModels)
+        {
+            LOG.info(String.format("Check content: %s", content.getName()));
+            getContentRowResult(content).findElement(contentCheckBox).click();
+        }
+        return this;
+    }
+
+    public SearchPage clickSelectedItems()
+    {
+        LOG.info("Click Selected Items...");
+        browser.waitUntilElementClickable(selectedItemsMenu).click();
+        return this;
+    }
+
+    public SearchCopyMoveDialog clickCopyToForSelectedItems()
+    {
+        LOG.info("Click Copy to... from Selected Items");
+        browser.waitUntilElementVisible(copyToSelectedItemsOption).click();
+        return (SearchCopyMoveDialog) copyMoveDialog.renderedPage();
+    }
+
+    public SearchResultContentAction usingContent(ContentModel contentModel)
+    {
+        return new SearchResultContentAction(contentModel, this, copyMoveDialog);
     }
 }

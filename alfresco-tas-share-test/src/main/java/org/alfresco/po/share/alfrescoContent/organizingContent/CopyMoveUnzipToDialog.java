@@ -1,15 +1,20 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent;
 
-import java.util.List;
-
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
@@ -23,9 +28,6 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     @FindBy (css = ".message")
     private WebElement message;
 
-    @FindBy (css = "#ALF_COPY_MOVE_DIALOG span[class*='call-to-action']:first-child span[id*='alfresco_buttons_AlfButton']:first-child span[id$='label']")
-    private WebElement createLinkButtonFromSearchPage;
-
     @FindBy (css = "button[id$='_default-copyMoveTo-link-button']")
     private WebElement createLinkButton;
 
@@ -36,7 +38,39 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     @FindBy (css = "button[id$='_default-copyMoveTo-cancel-button']")
     private WebElement cancelButton;
 
+    @FindBy (css = "button[id$='copyMoveTo-recentsites-button']")
+    private WebElement recentSitesDestination;
+
+    @FindBy (css = "div[id$='default-copyMoveTo-treeview']")
+    private WebElement folderPathsArea;
+
     private By createLinkMessage = By.cssSelector("div[id*='message_c'] .bd .message");
+    private String siteToSelect = "//h4[text()='%s']";
+    private String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
+
+    public CopyMoveUnzipToDialog selectRecentSitesDestination()
+    {
+        LOG.info("Select Recent Sites");
+        recentSitesDestination.click();
+        return this;
+    }
+
+    public CopyMoveUnzipToDialog selectSite(SiteModel site)
+    {
+        LOG.info("Select site {}", site.getTitle());
+        browser.waitUntilElementVisible(By.xpath(String.format(siteToSelect, site.getTitle()))).click();
+        return this;
+    }
+
+    public CopyMoveUnzipToDialog selectFolder(FolderModel folderToSelect)
+    {
+        LOG.info("Select folder {}", folderToSelect.getName());
+        browser.waitUntilElementVisible(folderPathsArea);
+        WebElement folder = browser.waitUntilChildElementIsPresent(folderPathsArea,
+            By.xpath(String.format(folderElementToSelect, folderToSelect.getName())));
+        browser.waitUntilElementClickable(folder).click();
+        return this;
+    }
 
     /**
      * Click on a button from the bottom of Copy/MoveTo dialog
@@ -52,10 +86,17 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         }
     }
 
-    public SharePage clickCreateLink(SharePage page)
+    public void clickCreateLinkButton()
     {
-        browser.waitUntilElementClickable(createLinkButton, 5).click();
-        getBrowser().waitUntilElementDisappears(createLinkMessage, 15);
+        LOG.info("Click Create Link button");
+        browser.waitUntilElementClickable(createLinkButton).click();
+        waitUntilNotificationMessageDisappears();
+    }
+
+    public SharePage clickCreateLinkButton(SharePage page)
+    {
+        browser.waitUntilElementClickable(createLinkButton).click();
+        waitUntilMessageDisappears();
         return (SharePage) page.renderedPage();
     }
 
@@ -64,23 +105,18 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         return getBrowser().isElementDisplayed(createLinkButton);
     }
 
-    /**
-     * @return true if 'Create Link' button is displayed in 'Copy to' dialog from Search Page -> Actions
-     */
-    public boolean isCreateLinkDisplayedInCopyToDialogFromSearchPage()
+    public CopyMoveUnzipToDialog assertCreateLinkButtonIsDisplayed()
     {
-        browser.waitUntilElementVisible(createLinkButtonFromSearchPage);
-        return browser.isElementDisplayed(createLinkButtonFromSearchPage);
+        LOG.info("Assert Create Link button is displayed");
+        assertTrue(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        return this;
     }
 
-    public String getMessage()
+    public CopyMoveUnzipToDialog assertCreateLinkButtonIsNotDisplayed()
     {
-        return message.getText();
-    }
-
-    public boolean isCreateLinkButtonDisplayedCopyToDialog()
-    {
-        return getBrowser().isElementDisplayed(createLinkButton);
+        LOG.info("Assert Create Link button is displayed");
+        assertFalse(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        return this;
     }
 
     public SharePage clickUnzipButton(SharePage page)

@@ -175,18 +175,6 @@ public class TinyMceEditor extends HtmlPage
         }
     }
 
-//    /**
-//     * Constructor
-//     */
-//    public TinyMceEditor() {
-//
-//        try {
-//            this.FRAME_ID = iFrame.getAttribute("id");
-//            setFrameId(FRAME_ID);
-//        } catch (NoSuchElementException nse) {
-//        }
-//    }
-
     /**
      * Click on TinyMCE editor's format option.
      */
@@ -266,7 +254,8 @@ public class TinyMceEditor extends HtmlPage
         try
         {
             CSS_REMOVE_FORMAT.click();
-        } catch (NoSuchElementException noSuchElementExp)
+        }
+        catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error("Element :" + CSS_REMOVE_FORMAT + " does not exist", noSuchElementExp);
         }
@@ -332,7 +321,6 @@ public class TinyMceEditor extends HtmlPage
         browser.executeJavaScript(setCommentJs);
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
         browser.executeJavaScript(setCommentJs);
-
     }
 
     /**

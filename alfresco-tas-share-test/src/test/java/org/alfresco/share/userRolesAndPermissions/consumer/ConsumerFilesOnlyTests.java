@@ -6,7 +6,7 @@ import static org.testng.Assert.assertTrue;
 
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -44,7 +44,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     GoogleDocsCommon googleDocsCommon;
 
     @Autowired
-    CreateContent createContent;
+    CreateContentPage createContent;
 
     @Autowired
     StartWorkflowPage startWorkflowPage;

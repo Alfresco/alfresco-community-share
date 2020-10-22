@@ -1,6 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.share.SharePage;
@@ -264,7 +263,7 @@ public class EditUserPage extends SharePage<EditUserPage>
     {
         getBrowser().waitUntilElementVisible(saveChangesButton);
         getBrowser().waitUntilElementClickable(saveChangesButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         return (UserProfileAdminToolsPage) userProfileAdminToolsPage.renderedPage();
     }
 

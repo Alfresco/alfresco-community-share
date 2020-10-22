@@ -36,7 +36,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void verifyCreateUsersPage()
     {
         LOG.info("Step1: Click 'New User' button.");
-        usersPage.clickNewUser()
+        usersPage.clickNewUserButton()
             .assertAllInputsFromInfoSectionAreDisplayed()
             .assertAllElementsFromAboutUserAreDisplayed()
             .assertSelectedQuotaTypeIs("GB")
@@ -47,7 +47,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browseCreateUserPage()
     {
-        usersPage.clickNewUser().assertCreateUserPageIsOpened();
+        usersPage.clickNewUserButton().assertCreateUserPageIsOpened();
     }
 
     @TestRail (id = "C9397")
@@ -57,7 +57,7 @@ public class CreateUsersTests extends ContextAwareWebTest
         UserModel user = UserModel.getRandomUserModel();
 
         LOG.info("Step1: Click 'New User' button.");
-        usersPage.clickNewUser()
+        usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .clickCreate()
                 .assertSuccessfullyCreatedNewUserNotificationIsDisplayed()
@@ -72,7 +72,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     {
         UserModel user = UserModel.getRandomUserModel();
 
-        usersPage.clickNewUser()
+        usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .clickCreateUserAndStartAnother();
         createUsers.assertAllFieldsAreEmpty()
@@ -88,7 +88,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     {
         UserModel user = UserModel.getRandomUserModel();
 
-        usersPage.clickNewUser()
+        usersPage.clickNewUserButton()
             .setFirstName(user.getFirstName())
             .setLastName(user.getLastName())
             .setEmail(user.getEmailAddress())
@@ -107,7 +107,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     {
         UserModel user = UserModel.getRandomUserModel();
 
-        usersPage.clickNewUser()
+        usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .addUserToGroup(ALFRESCO_ADMIN_GROUP)
                 .assertGroupIsAdded(ALFRESCO_ADMIN_GROUP)
@@ -129,7 +129,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     {
         UserModel userToDisable = UserModel.getRandomUserModel();
 
-        usersPage.clickNewUser()
+        usersPage.clickNewUserButton()
             .typeMandatoryFields(userToDisable)
             .checkDisableAccount()
             .clickCreate()
@@ -145,7 +145,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void addQuotaToUser()
     {
         UserModel user = UserModel.getRandomUserModel();
-        usersPage.clickNewUser()
+        usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .setQuota("17")
             .clickCreate()

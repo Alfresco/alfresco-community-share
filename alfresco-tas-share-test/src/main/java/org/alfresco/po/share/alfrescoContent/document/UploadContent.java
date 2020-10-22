@@ -85,7 +85,7 @@ public class UploadContent extends SiteCommon<UploadContent>
         // click Upload button
         browser.waitUntilElementClickable(uploadButton);
         uploadButton.click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
 
         // set the file to upload
         File fileToUpload = newFile(filePath, contentsOfFile);

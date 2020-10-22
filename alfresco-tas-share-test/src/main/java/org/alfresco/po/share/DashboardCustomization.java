@@ -262,7 +262,7 @@ public abstract class DashboardCustomization<T> extends SharePage<DashboardCusto
     {
         LOG.info("Click OK");
         getBrowser().waitUntilElementClickable(okButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
     }
 
     /**

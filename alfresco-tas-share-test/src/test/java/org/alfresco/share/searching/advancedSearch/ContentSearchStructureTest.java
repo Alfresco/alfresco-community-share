@@ -11,7 +11,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -41,7 +41,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     DocumentDetailsPage documentDetailsPage;
 
     @Autowired
-    NewContentDialog newContentDialog;
+    NewFolderDialog newContentDialog;
 
     @Autowired
     SiteDashboardPage siteDashboardPage;
@@ -404,7 +404,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         documentLibraryPage.clickCreateButton();
         documentLibraryPage.clickFolderLink();
         newContentDialog.fillInDetails("file2" + identifier, "", "file1" + identifier);
-        newContentDialog.clickSaveButton();
+        newContentDialog.clickSave();
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1 - Fill in search field with \"description:X\" (e.g: \"description:file1\") and click \"Search\" button");

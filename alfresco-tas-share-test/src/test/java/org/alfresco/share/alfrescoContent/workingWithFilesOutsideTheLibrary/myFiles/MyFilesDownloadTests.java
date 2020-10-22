@@ -3,7 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -29,7 +29,7 @@ public class MyFilesDownloadTests extends ContextAwareWebTest
     @Autowired
     private SiteDashboardPage sitePage;
     @Autowired
-    private NewContentDialog newContentDialog;
+    private NewFolderDialog newContentDialog;
     @Autowired
     private UploadContent uploadContent;
 
@@ -66,8 +66,8 @@ public class MyFilesDownloadTests extends ContextAwareWebTest
         sitePage.clickMyFilesLink();
         myFilesPage.clickCreateButton();
         myFilesPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderNameC7802);
-        newContentDialog.clickSaveButton();
+        newContentDialog.typeName(folderNameC7802);
+        newContentDialog.clickSave();
         assertTrue(myFilesPage.isContentNameDisplayed(folderNameC7802), folderNameC7802 + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Mouse over folder, click Download");

@@ -19,12 +19,16 @@ public class SelectDestinationDialog extends ShareDialog
 {
     @FindBy (css = "button[role='radio']")
     protected List<WebElement> destinationList;
+
     @FindBy (css = ".site-picker h4")
     protected List<WebElement> siteList;
+
     @FindBy (css = "div[id*='title']")
     private WebElement dialogTitle;
+
     @FindBy (css = "div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']")
     private List<WebElement> sitesListCopyFilesTo;
+
     @FindBy (css = ".path .ygtvlabel")
     private List<WebElement> pathList;
 
@@ -61,11 +65,6 @@ public class SelectDestinationDialog extends ShareDialog
         cancelButton.click();
     }
 
-    /**
-     * Choose any button from "Destination" section
-     *
-     * @param buttonText to be set
-     */
     public void clickDestinationButton(String buttonText)
     {
         for (WebElement aDestinationList : destinationList)
@@ -163,12 +162,6 @@ public class SelectDestinationDialog extends ShareDialog
     {
         getBrowser().waitUntilElementVisible(documentLibraryPath).click();
         getBrowser().waitInSeconds(1);
-    }
-
-    public String getCopyToDialogTitle()
-    {
-        browser.waitUntilElementVisible(copyToDialogTitle);
-        return copyToDialogTitle.getText();
     }
 
     public void selectSite(String siteName)

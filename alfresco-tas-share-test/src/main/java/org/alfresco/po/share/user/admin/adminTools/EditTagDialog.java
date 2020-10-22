@@ -81,7 +81,7 @@ public class EditTagDialog extends ShareDialog
         LOG.info(String.format("Rename tag to: %s", updatedTag));
         Utils.clearAndType(editTagInputField, updatedTag);
         okButton.click();
-        tagManagerPage.waitUntilMessageDisappears();
+        tagManagerPage.waitUntilNotificationMessageDisappears();
         return (TagManagerPage) tagManagerPage.renderedPage();
     }
 }

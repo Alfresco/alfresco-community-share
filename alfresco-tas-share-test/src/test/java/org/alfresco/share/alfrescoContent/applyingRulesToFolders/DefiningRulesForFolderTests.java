@@ -16,7 +16,7 @@ import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -43,7 +43,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     private final String description = "description-" + random;
     private final String path = "Documents";
     @Autowired
-    NewContentDialog newContentDialog;
+    NewFolderDialog newContentDialog;
     @Autowired
     AddSiteUsersPage addSiteUsersPage;
     @Autowired
@@ -887,8 +887,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         documentLibraryPage.clickCreateButton();
         documentLibraryPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName1);
-        newContentDialog.clickSaveButton();
+        newContentDialog.typeName(folderName1);
+        newContentDialog.clickSave();
         Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName1), "Folder is not displayed!");
 
 
@@ -898,8 +898,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         documentLibraryPage.clickCreateButton();
         documentLibraryPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName2);
-        newContentDialog.clickSaveButton();
+        newContentDialog.typeName(folderName2);
+        newContentDialog.clickSave();
         Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName2), "Folder is not displayed!");
 
         LOG.info("STEP 12: Check contents of Folder1;");

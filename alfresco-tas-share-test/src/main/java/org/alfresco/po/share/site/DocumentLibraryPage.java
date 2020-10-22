@@ -15,8 +15,8 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.common.Timeout;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.UploadFileDialog;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.utility.Utility;
@@ -71,13 +71,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @Autowired
     GoogleDocsCommon googleDocs;
     @Autowired
-    CreateContent createContent;
+    CreateContentPage createContent;
     @Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
     private UploadFileDialog uploadDialog;
     @Autowired
-    private NewContentDialog newContentDialog;
+    private NewFolderDialog newContentDialog;
 
     private static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";
     private static final String ACTION_SELECTOR_MORE = "div[id*='default-actions']:not([class*='hidden']) div.more-actions>.{0}>a";
@@ -197,10 +197,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     /**
      * Method to click Plain Text, HTML or XML option from create menu
      */
-    public CreateContent clickCreateContentOption(CreateMenuOption option)
+    public CreateContentPage clickCreateContentOption(CreateMenuOption option)
     {
         browser.waitUntilElementClickable(option.getLocator(), WAIT_15).click();
-        return (CreateContent) createContent.renderedPage();
+        return (CreateContentPage) createContent.renderedPage();
     }
 
     /**
@@ -212,10 +212,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return (GoogleDocsCommon) googleDocs.renderedPage();
     }
 
-    public NewContentDialog clickFolderLink()
+    public NewFolderDialog clickFolderLink()
     {
         browser.waitUntilElementClickable(CreateMenuOption.FOLDER.getLocator(), WAIT_15).click();
-        return (NewContentDialog) newContentDialog.renderedPage();
+        return (NewFolderDialog) newContentDialog.renderedPage();
     }
 
     /**
@@ -256,7 +256,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         browser.waitUntilElementClickable(selectTemplate(templateName)).click();
         if (page instanceof DocumentLibraryPage)
         {
-            waitUntilMessageDisappears();
+            waitUntilNotificationMessageDisappears();
         }
         return page.renderedPage();
     }
@@ -753,7 +753,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         browser.waitUntilElementClickable(actionElement).click();
         if(page instanceof DocumentLibraryPage)
         {
-            waitUntilMessageDisappears();
+            waitUntilNotificationMessageDisappears();
         }
         return page.renderedPage();
     }

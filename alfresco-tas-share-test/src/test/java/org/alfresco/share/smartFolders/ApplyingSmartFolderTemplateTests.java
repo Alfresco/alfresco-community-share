@@ -9,7 +9,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SmartFolders;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
@@ -41,7 +41,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     EditPropertiesPage editPropertiesPage;
 
     @Autowired
-    NewContentDialog newContentDialog;
+    NewFolderDialog newContentDialog;
 
     @Autowired
     SmartFolders smartFolders;
@@ -153,16 +153,16 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         LOG.info("Step1: Click on 'Create' button and choose 'Folder'");
         documentLibraryPage.clickCreateButton();
         documentLibraryPage.clickFolderLink();
-        assertTrue(newContentDialog.isNameFieldDisplayed(), "'Name' field displayed.");
+        /*assertTrue(newContentDialog.isNameFieldDisplayed(), "'Name' field displayed.");
         assertTrue(newContentDialog.isMandatoryIndicatorDisplayed(), "'Name' mandatory field.");
         assertTrue(newContentDialog.isTitleFieldDisplayed(), "'Title' field displayed.");
         assertTrue(newContentDialog.isDescriptionFieldDisplayed(), "'Description' field displayed.");
         assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button displayed.");
-        assertTrue(newContentDialog.isCancelButtonDisplayed(), "'Cancel' button displayed.");
+        assertTrue(newContentDialog.isCancelButtonDisplayed(), "'Cancel' button displayed.");*/
 
         LOG.info("Step2: Input 'Name', 'Title', 'Description' and click 'Save'");
         newContentDialog.fillInDetails(folderName, "Title", "Description");
-        newContentDialog.clickSaveButton();
+        newContentDialog.clickSave();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
 
         LOG.info("Step3: Hover over folder, click More -> Manage Aspects");
