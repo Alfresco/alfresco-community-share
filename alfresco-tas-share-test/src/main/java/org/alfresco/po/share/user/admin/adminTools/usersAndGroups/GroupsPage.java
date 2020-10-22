@@ -248,7 +248,9 @@ public class GroupsPage extends AdminToolsPage
 
     private void waitForColumnGroups(int column)
     {
-        browser.waitUntilElementsVisible(By.cssSelector(String.format(columnGroupValues, column)));
+        By columnElement = By.cssSelector(String.format(columnGroupValues, column));
+        browser.waitUntilElementIsPresent(columnElement);
+        browser.waitUntilElementsVisible(columnElement);
     }
 
     public List<String> getColumnGroups(int column)
