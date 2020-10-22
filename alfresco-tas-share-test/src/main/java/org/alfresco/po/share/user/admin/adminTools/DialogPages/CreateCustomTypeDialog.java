@@ -1,7 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import static org.alfresco.common.Utils.clearAndType;
-
 import java.util.List;
 
 import org.alfresco.po.share.ShareDialog;
@@ -53,7 +51,7 @@ public class CreateCustomTypeDialog extends ShareDialog
     public ModelDetailsPage clickCreate()
     {
         getBrowser().waitUntilElementClickable(createButton).click();
-        modelDetailsPage.waitForLoadingMessageToDisappear();
+        modelDetailsPage.waiUntilLoadingMessageDisappears();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 

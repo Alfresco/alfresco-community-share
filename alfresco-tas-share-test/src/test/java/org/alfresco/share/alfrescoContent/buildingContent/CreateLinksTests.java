@@ -1,299 +1,193 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.po.share.searching.SearchPage;
-import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.ItemActions;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * @author Laura.Capsa
- */
 public class CreateLinksTests extends ContextAwareWebTest
 {
-    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
-    private final String userName = "user" + uniqueIdentifier;
-    private final String firstName = "user";
-    private final String lastName = uniqueIdentifier;
-    private final String description = "description" + uniqueIdentifier;
-    private final String content = "content" + uniqueIdentifier;
-    private final String siteName1 = "1site" + uniqueIdentifier;
-    private final String siteName2 = "2site" + uniqueIdentifier;
-    private final String fileName1 = "file1-" + uniqueIdentifier;
-    private final String fileName2 = "file2-" + uniqueIdentifier;
-    private final String fileName3 = "file3-" + uniqueIdentifier;
-    private final String linkFile1 = "Link to " + fileName1;
-    private final String linkFile2 = "Link to " + fileName2;
-    private final String linkFile3 = "Link to " + fileName3;
+    private String randomName = RandomStringUtils.randomAlphanumeric(5);
+    private UserModel linksUser;
+    private SiteModel testSite;
+    private FileModel file1;
+    private FileModel file2;
+    private FolderModel testFolder;
+
     @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-    @Autowired
-    private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
+    private DocumentLibraryPage2 documentLibraryPage;
+
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
+
     @Autowired
     private MyActivitiesDashlet myActivitiesDashlet;
+
     @Autowired
     private SiteActivitiesDashlet siteActivitiesDashlet;
-    @Autowired
-    private Toolbar toolbar;
+
     @Autowired
     private SearchPage searchPage;
+
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName1, content);
-        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, content);
-        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName3, content);
-        contentService.createDocument(userName, password, siteName2, CMISUtil.DocumentType.TEXT_PLAIN, fileName1, content);
-        contentService.createDocument(userName, password, siteName2, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, content);
-        contentService.createDocument(userName, password, siteName2, CMISUtil.DocumentType.TEXT_PLAIN, fileName3, content);
-        setupAuthenticatedSession(userName, password);
+        linksUser = dataUser.usingAdmin().createRandomTestUser();
+        testSite = dataSite.usingUser(linksUser).createPublicRandomSite();
+
+        file1 = new FileModel(randomName + "-file1.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
+        file2 = new FileModel(randomName + "-file2.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
+        testFolder = FolderModel.getRandomFolderModel();
+        cmisApi.authenticateUser(linksUser).usingSite(testSite)
+            .createFile(file1).createFile(file2).createFolder(testFolder);
+        setupAuthenticatedSession(linksUser);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName1);
-        siteService.delete(adminUser, adminPassword, siteName2);
-
+        removeUserFromAlfresco(linksUser);
+        deleteSites(testSite);
     }
 
     @TestRail (id = "C42605")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibraryActions()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, ItemActions.COPY_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
-        LOG.info("STEP2: Verify \"Copy to\" dialog");
-        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+        documentLibraryPage.navigate(testSite)
+            .usingContent(file1)
+                .clickCopyTo().assertCreateLinkButtonIsDisplayed();
     }
 
     @TestRail (id = "C42606")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibrarySelectedItemsSingleItem()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: Select a file/folder and from 'Selected Items' menu, click on \"Copy to\" option");
-        documentLibraryPage.clickCheckBox(fileName1);
-        headerMenuBar.clickSelectedItemsMenu();
-        headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.contentActions.copyTo"));
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 1 items to...", "Displayed dialog=");
-        LOG.info("STEP2: Verify \"Copy to\" dialog");
-        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+        documentLibraryPage.navigate(testSite)
+            .checkContent(file1)
+                .clickSelectedItems().clickCopyToFromSelectedItems()
+                    .assertCreateLinkButtonIsDisplayed();
     }
 
     @TestRail (id = "C42607")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibrarySelectedItemsMultipleItems()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: Select multiple content and from 'Selected Items' menu, click on \"Copy to\" option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.all"));
-        headerMenuBar.clickSelectedItemsMenu();
-        headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.contentActions.copyTo"));
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 3 items to...", "Displayed dialog=");
-        LOG.info("STEP2: Verify \"Copy to\" dialog");
-        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+        documentLibraryPage.navigate(testSite)
+            .checkContent(file1, file2, testFolder)
+                .clickSelectedItems().clickCopyToFromSelectedItems()
+                    .assertCreateLinkButtonIsDisplayed();
     }
 
     @TestRail (id = "C42608")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocumentDetailsActions()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: Open Document Details for a file");
-        documentLibraryPage.clickOnFile(fileName1);
-        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
-        LOG.info("STEP2: From Document actions, click \"Copy to\" option");
-        documentDetailsPage.clickDocumentActionsOption(language.translate("documentLibrary.contentActions.copyTo"));
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
-        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+        documentDetailsPage.navigate(file1)
+            .clickCopyTo().assertCreateLinkButtonIsDisplayed();
     }
 
     @TestRail (id = "C42609")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromSearchResultsActions()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: Search for a document");
-        toolbar.search(fileName2);
-        assertEquals(searchPage.getPageTitle(), "Alfresco » Search", "Displayed page=");
-        LOG.info("STEP2: Verify 'Copy to...' dialog from Search Results -> Actions");
-        searchPage.clickOptionFromActionsMenu(fileName2, language.translate("documentLibrary.contentActions.copyTo"));
-        assertEquals(copyMoveUnzipToDialog.getCopyToDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
-        assertTrue(copyMoveUnzipToDialog.isCreateLinkDisplayedInCopyToDialogFromSearchPage(), "Create link button displayed in 'Copy to' dialog.");
+        searchPage.navigate().searchForContentWithRetry(file1)
+            .usingContent(file1).assertIsDisplayed()
+                .clickActions().clickCopyTo()
+                    .assertCreateLinkButtonIsDisplayed().assertCreateLinkButtonIsDisabled();
     }
 
-    @TestRail (id = "C42610")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromSearchResultsSingleItemSelected()
-    {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: Search for a document");
-        toolbar.search(fileName2);
-        assertEquals(searchPage.getPageTitle(), "Alfresco » Search", "Displayed page=");
-        LOG.info("STEP2: In the Search Results page, select a few documents");
-        searchPage.clickCheckbox(fileName2);
-        LOG.info("STEP3: Click on Select Items and then click on \"Copy to\" option");
-        searchPage.clickCopyToSelectedItemsOption();
-        assertEquals(copyMoveUnzipToDialog.getCopyToDialogTitle(), "Copy files to...", "Displayed dialog=");
-        assertTrue(copyMoveUnzipToDialog.isCreateLinkDisplayedInCopyToDialogFromSearchPage(), "Create link button displayed in 'Copy to' dialog.");
-    }
-
-    @TestRail (id = "C42611")
+    @TestRail (id = "C42611, C42610")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromSearchResultsMultipleItemsSelected()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: Search for a document");
-        toolbar.search(uniqueIdentifier);
-        assertEquals(searchPage.getPageTitle(), "Alfresco » Search", "Displayed page=");
-        LOG.info("STEP2: In the Search Results page, select a few documents");
-        searchPage.clickCheckbox(fileName1);
-        searchPage.clickCheckbox(fileName2);
-        searchPage.clickCheckbox(fileName3);
-        LOG.info("STEP3: Click on Select Items and then click on \"Copy to\" option");
-        searchPage.clickCopyToSelectedItemsOption();
-        assertEquals(copyMoveUnzipToDialog.getCopyToDialogTitle(), "Copy files to...", "Displayed dialog=");
-        assertTrue(copyMoveUnzipToDialog.isCreateLinkDisplayedInCopyToDialogFromSearchPage(), "Create link button displayed in 'Copy to' dialog.");
+        searchPage.navigate()
+            .searchWithKeywordAndWaitForContents(randomName, file1, file2);
+        searchPage.usingContent(file1).assertIsDisplayed();
+        searchPage.usingContent(file2).assertIsDisplayed();
+        searchPage.checkContent(file1, file2)
+            .clickSelectedItems().clickCopyToForSelectedItems()
+                .assertCreateLinkButtonIsDisplayed().assertCreateLinkButtonIsDisabled();
     }
 
     @TestRail (id = "C42613")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonInMoveToDialog()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: From Document actions, click \"Move to\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + fileName1 + " to...", "Displayed dialog=");
-        LOG.info("STEP2: Verify \"Move to\" dialog");
-        assertFalse(copyMoveUnzipToDialog.isCreateLinkButtonDisplayed(), "'Move to...' dialog: 'Create Link' button is not displayed.");
+        documentLibraryPage.navigate(testSite)
+            .usingContent(file1)
+                .clickMoveTo().assertCreateLinkButtonIsNotDisplayed();
     }
 
     @TestRail (id = "C42614")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLinkIsCreatedAtDestination()
     {
-        documentLibraryPage.navigate(siteName1);
-        LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName1, ItemActions.COPY_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
-        LOG.info("STEP2: Select a destination folder and click \"Create Link\" button");
-        copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
-        LOG.info("STEP3: Go to the destination location and verify the content");
-        sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed(linkFile1), linkFile1 + " is displayed in destination of copy file, Shared Files.");
+        FileModel linkedFile = new FileModel(String.format("Link to %s", file1.getName()));
+        documentLibraryPage.navigate(testSite)
+            .usingContent(file1).clickCopyTo()
+                .selectRecentSitesDestination()
+                .selectSite(testSite).selectFolder(testFolder)
+                    .clickCreateLinkButton();
+        documentLibraryPage.assertLastNotificationMessageEquals(String.format(language.translate("links.create.notificationMessage"), "1"))
+            .usingContent(testFolder).selectFolder()
+                .usingContent(linkedFile)
+                    .assertContentIsDisplayed()
+                    .assertThumbnailLinkTypeIsDisplayed();
     }
 
     @TestRail (id = "C42620")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void duplicateLinksAreNotAllowed()
     {
-        documentLibraryPage.navigate(siteName2);
-        LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, ItemActions.COPY_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
-        copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
-        sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed(linkFile2), linkFile2 + " is displayed in destination of copy file, Shared Files.");
-        LOG.info("STEP2: For the same content, click again 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.navigate(siteName2);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, ItemActions.COPY_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
-        copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
-        assertEquals(copyMoveUnzipToDialog.getMessage(), language.translate("documentLibrary.contentActions.createLink.errorMessage"), "Displayed message= ");
+        documentLibraryPage.navigate(testSite)
+            .usingContent(file2).clickCopyTo()
+            .selectRecentSitesDestination()
+            .selectSite(testSite).selectFolder(testFolder)
+                .clickCreateLinkButton();
+        documentLibraryPage.usingContent(file2)
+                .clickCopyTo()
+            .selectRecentSitesDestination().selectSite(testSite).selectFolder(testFolder)
+                .clickCreateLinkButton();
+        documentLibraryPage.assertLastNotificationMessageEquals(language.translate("links.duplicate.notificationMessage"));
     }
 
     @TestRail (id = "C42621")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createdLinkDisplayedInMyActivitiesDashlet()
     {
-        String name = firstName + " " + lastName;
-        String activity = name + " created link to " + fileName3 + " in " + siteName2;
-        documentLibraryPage.navigate(siteName2);
-        LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName3, ItemActions.COPY_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
-        copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
-        copyMoveUnzipToDialog.clickSite(siteName2);
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
-        documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
-        assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
-            linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
-        LOG.info("STEP2: Navigate to User Dashboard page");
-        userDashboardPage.navigate(userName);
-        assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
-        assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), activity + " is displayed in 'My Activities' dashlet.");
+        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+        cmisApi.usingSite(testSite).createFile(userFile);
+        documentLibraryPage.navigate(testSite)
+            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
+                .clickCreateLinkButton();
+        userDashboard.navigate(linksUser);
+        myActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile, testSite);
     }
 
     @TestRail (id = "C42622")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createdLinkDisplayedInSiteActivitiesDashlet()
     {
-        String name = firstName + " " + lastName;
-        String activity = name + " created link to " + fileName3;
-        documentLibraryPage.navigate(siteName2);
-        LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName3, ItemActions.COPY_TO, copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
-        copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
-        copyMoveUnzipToDialog.clickSite(siteName2);
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
-        documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
-        assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
-            linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
-        LOG.info("STEP2: Navigate to Site Dashboard page and verify Site Activities dashlet");
-        siteDashboardPage.navigate(siteName2);
-        assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
-        assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity),
-            "Activity: '" + activity + "' is displayed in 'Site Activities' dashlet.");
+        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+        cmisApi.usingSite(testSite).createFile(userFile);
+        documentLibraryPage.navigate(testSite)
+            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
+                .clickCreateLinkButton();
+        siteDashboardPage.navigate(testSite);
+        siteActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile);
     }
 }

@@ -2,7 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -29,7 +29,7 @@ public class MyFilesTests extends ContextAwareWebTest
     @Autowired
     private MyFilesPage myFilesPage;
     @Autowired
-    private CreateContent create;
+    private CreateContentPage create;
     @Autowired
     private UserDashboardPage userDashboard;
     @Autowired
@@ -66,11 +66,11 @@ public class MyFilesTests extends ContextAwareWebTest
 
         myFilesPage.clickCreateButton();
         myFilesPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
-        create.sendInputForName(C7648name);
-        create.sendInputForContent(C7648content);
-        create.sendInputForTitle(C7648title);
-        create.sendInputForDescription(C7648description);
-        create.clickCreateButton();
+        create.typeName(C7648name);
+        create.typeContent(C7648content);
+        create.typeTitle(C7648title);
+        create.typeDescription(C7648description);
+        create.clickCreate();
         myFilesPage.navigate();
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(C7648name), "C7648 name is not displayed in My Files");
         userService.logout();

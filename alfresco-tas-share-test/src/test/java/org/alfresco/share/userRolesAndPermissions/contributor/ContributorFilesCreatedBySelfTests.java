@@ -8,7 +8,7 @@ import java.util.Collections;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -49,7 +49,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
     @Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
-    CreateContent create;
+    CreateContentPage create;
     @Autowired
     EditInAlfrescoPage editInAlfresco;
     @Autowired
@@ -100,11 +100,11 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Step2: From the Create Options menu select Create Plain Text and verify the new file is opened in Document Details page.");
         documentLibraryPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         LOG.info("Step3: Provide input for name, title, description and click 'Create' button");
-        create.sendInputForName("test");
-        create.sendInputForContent("test");
-        create.sendInputForTitle("test");
-        create.sendInputForDescription("test");
-        create.clickCreateButton();
+        create.typeName("test");
+        create.typeContent("test");
+        create.typeTitle("test");
+        create.typeDescription("test");
+        create.clickCreate();
         assertEquals(documentDetailsPage.getContentText(), "test", "File preview displayed");
     }
 

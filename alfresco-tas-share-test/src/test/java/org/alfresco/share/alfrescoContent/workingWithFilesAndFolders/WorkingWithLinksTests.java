@@ -112,7 +112,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileC42624, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileC42624 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP3: Go to the link's destination " + linkC42624);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -132,7 +132,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileC42625 + " to...", "Displayed dialog=");
         LOG.info("Select a destination folder and click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Go to the link's location");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -153,7 +153,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderC42626 + " to...", "Displayed dialog=");
         LOG.info("Select a destination folder and click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Go to the link's location");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -177,7 +177,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC42627, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileNameC42627 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Lock the document, e.g: edit it Google Docs");
         documentLibraryPage.navigate(siteName1);
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC42627, ItemActions.EDIT_OFFLINE, documentLibraryPage);
@@ -205,7 +205,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(newFileC42628, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + newFileC42628 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Go to the location where the link was created");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -225,7 +225,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileC42629 + " to...", "Displayed dialog=");
         LOG.info("Precondition: Click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Go to the location where the link was created");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -252,7 +252,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileC42630 + " to...", "Displayed dialog=");
         LOG.info("Precondition: Click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Go to the location where the link was created");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -274,7 +274,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderC42631 + " to...", "Displayed dialog=");
         LOG.info("Precondition: Click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Go to the location where the link was created");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -296,7 +296,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderC42631 + " to...", "Displayed dialog=");
         LOG.info("Precondition: Click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLinkButton(documentLibraryPage);
         LOG.info("STEP1: Go to the location where the link was created");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");

@@ -134,7 +134,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteNameC3053);
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site", siteDashboardPage);
-        siteDashboardPage.waitUntilMessageDisappears();
+        siteDashboardPage.waitUntilNotificationMessageDisappears();
 
         LOG.info("STEP 2: Click on 'Site Members' link.");
         siteUsersPage.navigate(siteNameC3053);

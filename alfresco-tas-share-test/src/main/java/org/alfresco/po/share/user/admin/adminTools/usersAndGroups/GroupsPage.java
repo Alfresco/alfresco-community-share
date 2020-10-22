@@ -421,7 +421,7 @@ public class GroupsPage extends AdminToolsPage
     {
         browser.waitUntilElementVisible(createGroupOKButton);
         browser.waitUntilElementClickable(createGroupOKButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
     }
 
     public GroupsPage assertCreateAndCreateAnotherGroupButtonDisplayed()
@@ -468,7 +468,7 @@ public class GroupsPage extends AdminToolsPage
         browser.mouseOver(delete);
         browser.waitUntilElementClickable(delete).click();
         browser.waitUntilElementVisible(deleteGroupOKButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         return this;
     }
 
@@ -490,7 +490,7 @@ public class GroupsPage extends AdminToolsPage
         groupEditDisplayNameInputElement.clear();
         groupEditDisplayNameInputElement.sendKeys(newName);
         browser.findElement(updateGroupOKButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         if(browser.isElementDisplayed(firstPageButton))
         {
             firstPageButton.click();

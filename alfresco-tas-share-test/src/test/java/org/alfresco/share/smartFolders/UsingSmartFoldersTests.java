@@ -8,7 +8,7 @@ import java.util.List;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SmartFolders;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -51,7 +51,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Autowired
     GoogleDocsCommon googleDocs;
     @Autowired
-    CreateContent createContent;
+    CreateContentPage createContent;
     private String folderName;
     private String testFilePath;
     private String newVersionFilePath;

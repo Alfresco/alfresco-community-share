@@ -4,9 +4,9 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
@@ -41,9 +41,9 @@ public class CreateTests extends ContextAwareWebTest
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
-    private CreateContent createContent;
+    private CreateContentPage createContent;
     @Autowired
-    private CreateFolderFromTemplate createFolderFromTemplate;
+    private NewFolderDialog createFolderFromTemplate;
     @Autowired
     private GoogleDocsCommon googleDocs;
 
@@ -84,13 +84,13 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName(testName);
-        createContent.sendInputForContent("C7929 test content");
-        createContent.sendInputForTitle("C7929 test title");
-        createContent.sendInputForDescription("C7929 test description");
+        createContent.typeName(testName);
+        createContent.typeContent("C7929 test content");
+        createContent.typeTitle("C7929 test title");
+        createContent.typeDescription("C7929 test description");
 
         LOG.info("Step 4: Click the Create button");
-        createContent.clickCreateButton();
+        createContent.clickCreate();
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -129,13 +129,13 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName(testName);
+        createContent.typeName(testName);
         createContent.sendInputForHTMLContent("C7937 test content");
-        createContent.sendInputForTitle("C7937 test title");
-        createContent.sendInputForDescription("C7937 test description");
+        createContent.typeTitle("C7937 test title");
+        createContent.typeDescription("C7937 test description");
 
         LOG.info("Step 4: Click the Create button");
-        createContent.clickCreateButton();
+        createContent.clickCreate();
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -172,13 +172,13 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName("C7938TestName");
-        createContent.sendInputForContent("C7938 test content");
-        createContent.sendInputForTitle("C7938 test title");
-        createContent.sendInputForDescription("C7938 test description");
+        createContent.typeName("C7938TestName");
+        createContent.typeContent("C7938 test content");
+        createContent.typeTitle("C7938 test title");
+        createContent.typeDescription("C7938 test description");
 
         LOG.info("Step 4: Click the Create button");
-        createContent.clickCreateButton();
+        createContent.clickCreate();
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -215,12 +215,11 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         sharedFilesPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
-        Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Insert data into input fields and save.");
         createFolderFromTemplate.fillInDetails("TestFolderC7931", "Test Title C7931", "Test Description C7931");
-        createFolderFromTemplate.clickSaveButton();
+        createFolderFromTemplate.clickSave();
         sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed("TestFolderC7931"), "Subfolder not found");

@@ -4,7 +4,6 @@ import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +67,7 @@ public class DeleteModelDialog extends ShareDialog
     {
         getBrowser().waitUntilElementClickable(deleteButton).click();
         getBrowser().waitUntilElementDisappears(deleteModelDialog);
-        modelManagerPage.waitForLoadingMessageToDisappear();
+        modelManagerPage.waiUntilLoadingMessageDisappears();
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 

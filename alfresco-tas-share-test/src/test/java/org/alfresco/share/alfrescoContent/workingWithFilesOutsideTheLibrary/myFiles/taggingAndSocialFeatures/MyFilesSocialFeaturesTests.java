@@ -4,7 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -32,7 +32,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
-    private NewContentDialog newContentDialog;
+    private NewFolderDialog newContentDialog;
     @Autowired
     private UploadContent uploadContent;
     @Autowired
@@ -79,8 +79,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         myFilesPage.clickCreateButton();
         myFilesPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName);
-        newContentDialog.clickSaveButton();
+        newContentDialog.typeName(folderName);
+        newContentDialog.clickSave();
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Hover over the file Like link.");
@@ -138,8 +138,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         myFilesPage.clickCreateButton();
         myFilesPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName);
-        newContentDialog.clickSaveButton();
+        newContentDialog.typeName(folderName);
+        newContentDialog.clickSave();
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Precondition: Like the folder.");
@@ -201,8 +201,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         myFilesPage.clickCreateButton();
         myFilesPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName);
-        newContentDialog.clickSaveButton();
+        newContentDialog.typeName(folderName);
+        newContentDialog.clickSave();
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over a document and press \"Comment\"");

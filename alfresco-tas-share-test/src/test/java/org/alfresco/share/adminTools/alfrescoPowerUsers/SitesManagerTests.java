@@ -138,11 +138,10 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void deleteSiteAsSiteAdmin()
     {
-        sitesManagerPage.navigate();
-
-        sitesManagerPage.usingSite(site5).clickDelete()
+        sitesManagerPage.navigate().usingSite(site5)
+            .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(site5.getTitle())
-            .clickDeleteFromSitesManager().waitForLoadingMessageToDisappear()
+            .clickDeleteFromSitesManager().waiUntilLoadingMessageDisappears()
                 .usingSite(site5).assertSiteIsNotDisplayed();
         navigate(String.format(properties.getShareUrl() + "/page/site/%s/dashboard", site5.getId()));
         systemErrorPage.renderedPage();

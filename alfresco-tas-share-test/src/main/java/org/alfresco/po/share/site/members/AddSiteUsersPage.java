@@ -207,12 +207,12 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
             browser.waitUntilElementDisappears(waitPopup);
         }
         addUsersButton.click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
     }
 
     public String getAddedUsersTally()
     {
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         browser.waitUntilElementIsVisibleWithRetry(addedUsersTally, 10);
         return addedUsersBox.findElement(addedUsersTally).getText();
     }

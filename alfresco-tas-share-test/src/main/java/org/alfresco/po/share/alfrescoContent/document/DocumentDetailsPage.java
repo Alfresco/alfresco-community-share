@@ -1,40 +1,50 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
+import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 @PageObject
 public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 {
+    @Autowired
+    private CopyMoveUnzipToDialog copyMoveDialog;
+
     @FindBy (css = "div[id*='_default-comments-list'] td[class ='yui-dt-empty']")
     public WebElement noComments;
+
     @FindBy (css = ".filename")
     protected WebElement fileListLocator;
+
     @FindBy (css = ".folder-actions.folder-details-panel a[title='Manage Permissions']")
     protected WebElement managePermissionsLink;
+
     @FindBy (css = "div[class='node-info'] h1")
     protected WebElement documentTitle;
+
     @RenderWebElement
     @FindBy (css = ".node-header")
     protected WebElement docDetailsPageHeader;
@@ -44,125 +54,185 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     @FindBy (linkText = "Download")
     protected WebElement downloadDocument;
+
     @FindBy (css = "div[class='node-social']")
     protected WebElement socialBar;
+
     @FindBy (css = "[class*=like-action]")
     protected WebElement likeUnlikeAction;
+
     @FindBy (css = "[class=likes-count]")
     protected WebElement likesCount;
+
     @FindBy (css = ".item-modifier a")
     protected WebElement itemModifier;
+
     @FindBy (css = ".item-modifier span")
     protected WebElement modifyDate;
+
     @FindBy (css = "div[class='node-info'] h1 span")
     protected WebElement documentVersion;
+
     @FindBy (css = "[class*=favourite-action]")
     protected WebElement favoriteUnfavoriteAction;
+
     @FindBy (css = "[name*='commentNode']")
     protected WebElement commentDocument;
+
     @FindBy (css = "[class=comment-form]")
     protected WebElement commentForm;
+
     @FindBy (css = "[id*='default-add-submit-button']")
     protected WebElement addCommentButtonSave;
+
     @FindBy (css = "[class=comment-content]")
     protected WebElement commentContent;
+
     @FindBy (css = "[class*=quickshare-action] [class=bd]")
     protected WebElement sharePopUp;
+
     @FindBy (css = "[title*='Share document']")
     protected WebElement shareDocument;
+
     @FindBy (css = "[id*=default-fullpage-button]")
     protected WebElement maximizeButton;
+
     @FindBy (css = "[id*=zoomIn-button]")
     protected WebElement zoomInButton;
+
     @FindBy (css = "[id*=zoomOut-button]")
     protected WebElement zoomOutButton;
+
     @FindBy (css = "[id*=default-scaleSelectBtn-button]")
     protected WebElement scaleButton;
+
     @FindBy (css = "[id*=default-next-button]")
     protected WebElement nextButton;
+
     @FindBy (css = "[id*=default-previous-button]")
     protected WebElement previousButton;
+
     @FindBy (css = "[id*=default-pageNumber]")
     protected WebElement pageNumber;
+
     @FindBy (css = "[id*=searchBarToggle-button]")
     protected WebElement searchButton;
+
     @FindBy (css = "[class*=searchDialog]")
     protected WebElement searchDialog;
+
     @FindBy (css = "[id*=default-paginator-top] [id*=page-report]")
     protected WebElement pageReport;
+
     @FindBy (css = "[id*=default-paginator-top] [class*=next]")
     protected WebElement nextPage;
+
     @FindBy (css = "[id*=default-paginator-top] [class*=previous]")
     protected WebElement previousPage;
+
     @RenderWebElement
     @FindBy (css = ".viewmode-label")
     protected List<WebElement> propertiesList;
+
     @FindBy (css = ".viewmode-value")
     protected List<WebElement> propertiesValuesList;
+
     @FindBy (css = ".folder-tags.folder-details-panel")
     protected WebElement tagsFeaturePanel;
+
     @FindBy (css = ".folder-actions.folder-details-panel")
     protected WebElement folderActionsPanel;
+
     @FindBy (css = ".folder-metadata-header.folder-details-panel")
     protected WebElement filePropertiesdetailsPanel;
+
     @FindBy (css = ".folder-links.folder-details-panel")
     protected WebElement socialFeaturesPanel;
+
     @FindBy (css = ".folder-link.folder-closed a")
     protected WebElement folderLinkFromBreadcrumbTrail;
+
     @FindBy (xpath = ".//*[@id='onActionManageAspects']/a/span")
     protected WebElement manageAspectsButton;
+
     @FindBy (xpath = "//a[contains(@title,'Edit Properties')]")
     protected WebElement editPropertiesLink;
+
     protected By favouriteIcon = By.cssSelector("a[class$='favourite-action-favourite']");
     protected By addToFavouriteIcon = By.cssSelector("a[class$='favourite-document']");
     protected By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
+
     @Autowired
     SiteDashboardPage siteDashboardPage;
+
     @Autowired
     EditPropertiesPage editPropertiesPage;
+
     @Autowired
     AspectsForm aspectsForm;
+
     @Autowired
     DocumentLibraryPage documentLibraryPage;
+
     @Autowired
     TinyMceEditor tinyMceEditor;
+
     @FindAll (@FindBy (css = ".filename [href*=document-details]"))
     private List<WebElement> filesList;
+
     @FindAll (@FindBy (css = "[id*=comment-container]"))
     private List<WebElement> commentsList;
+
     @FindBy (css = "span[class='yui-button yui-link-button onDownloadDocumentClick']")
     private WebElement downloadButton;
+
     @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Delete Comment']")
     private WebElement deleteCommentButton;
+
     @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Edit Comment']")
     private WebElement editCommentButton;
+
     @FindBy (xpath = "//span[@class='button-group']//span[@class = 'yui-button yui-push-button']//button")
     private WebElement deleteButtonOnPrompt;
+
     @FindBy (id = "prompt_h")
     private WebElement deleteCommentPrompt;
+
     @FindBy (xpath = "//h2[text()= 'Edit Comment...']")
     private WebElement editCommentBoxTitle;
+
     @FindBy (xpath = "//button[text()='Save']")
     private WebElement saveButtonEditComment;
+
     @FindBy (css = "div[class ='textLayer']>div")
     private WebElement contentText;
+
     @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a.download")
     private WebElement downloadPreviousVersion;
+
     @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']")
     private WebElement revertButton;
+
     @FindBy (css = "iframe[id*='comments']")
     private WebElement CommentTextArea;
+
     @FindBy (xpath = ".//span[contains(@class,'locked')]")
     private WebElement lockedMessage;
+
     @FindBy (css = "#alfresco-revertVersion-instance-ok-button-button")
     private WebElement okOnRevertPopup;
+
     @FindBy (css = ".message")
     private WebElement contentError;
+
     @FindBy (css = "span[class$='onAddCommentClick'] button")
     private WebElement addCommentButton;
 
     @FindBy (css = "iframe[id$='default-add-content_ifr']")
     private WebElement commentsIframe;
+
+    @FindBy (id = "onActionCopyTo")
+    private WebElement copyToAction;
 
     private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
     private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
@@ -178,20 +248,26 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @Override
     public String getRelativePath()
     {
-        return String.format("share/page/site/%s/document-details", getCurrentSiteName());
+        return String.format("share/page/document-details?nodeRef=workspace://SpacesStore/%s", getCurrentFile().getNodeRefWithoutVersion());
     }
 
     public DocumentDetailsPage assertDocumentDetailsPageIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
+        assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
         return this;
     }
 
-    public DocumentDetailsPage assertDocumentDetailsPageIsOpenedForFile(FileModel expectedFile)
+    public DocumentDetailsPage assertDocumentDetailsHasFileNameHeaderEqualsTo(String fileName)
     {
-        Assert.assertTrue(headerFileName.getText().contains(expectedFile.getName()),
-            String.format("Document details page is opened for file %s", expectedFile.getName()));
+        LOG.info("Assert Document Details page is opened for file {}", fileName);
+        assertTrue(headerFileName.getText().contains(fileName),
+            String.format("Document details page is opened for file %s", fileName));
         return this;
+    }
+
+    public DocumentDetailsPage assertDocumentDetailsHasFileNameHeaderEqualsTo(FileModel expectedFile)
+    {
+        return assertDocumentDetailsHasFileNameHeaderEqualsTo(expectedFile.getName());
     }
 
     public boolean isDocumentFavourite()
@@ -204,7 +280,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(socialBar, 5);
         return browser.waitUntilElementsVisible(By.cssSelector("a[class$='favourite-document']")).get(0).getAttribute("title")
-                      .equals("Add document to favorites");
+                  .equals("Add document to favorites");
     }
 
     public boolean isAddCommentBlockDisplayed()
@@ -238,7 +314,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public DocumentDetailsPage assertCommentsAreaIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(commentsIframe), "Comments area is opened");
+        assertTrue(browser.isElementDisplayed(commentsIframe), "Comments area is opened");
         return this;
     }
 
@@ -551,10 +627,20 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         for (int i = 0; i < propertiesList.size(); i++)
         {
-            if (propertiesList.get(i).getText().equals(propertyName))
+            if (propertiesList.get(i).getText().replace(":", "").equals(propertyName))
+            {
                 return propertiesValuesList.get(i).getText();
+            }
         }
-        return propertyName + " isn't displayed in Properties section!";
+        throw new PageOperationException(String.format("%s isn't displayed in Properties section!", propertyName));
+    }
+
+    public DocumentDetailsPage assertPropertyValueEquals(String propertyName, String expectedValue)
+    {
+        LOG.info("Assert property {} has value {}", propertyName, expectedValue);
+        assertEquals(getPropertyValue(propertyName), expectedValue,
+            String.format("Property %s has the expected value", propertyName));
+        return this;
     }
 
     /**
@@ -761,13 +847,16 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return filesName;
     }
 
-    /**
-     * Method to get the content text of the file previewed
-     */
-
     public String getContentText()
     {
-        return Utils.retry(() -> browser.waitUntilElementVisible(contentText).getText().trim(), DEFAULT_RETRY);
+        return Utils.retry(() -> browser.waitUntilElementVisible(contentText).getText().trim(), WAIT_5);
+    }
+
+    public DocumentDetailsPage assertFileContentEquals(String expectedContent)
+    {
+        LOG.info("Assert file has content {}", expectedContent);
+        assertEquals(getContentText(), expectedContent, "File content is correct");
+        return this;
     }
 
     /**
@@ -842,7 +931,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         WebElement commentBody = browser.findElement(By.id("tinymce"));
         Utils.clearAndType(commentBody, comment);
         browser.switchTo().defaultContent();
-
         browser.waitUntilElementClickable(addCommentButtonSave).click();
     }
 
@@ -850,5 +938,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         getBrowser().waitUntilElementClickable(addCommentButton).click();
         getBrowser().waitUntilElementVisible(By.cssSelector("form[id$='_default-add-form']"), 5L);
+    }
+
+    public CopyMoveUnzipToDialog clickCopyTo()
+    {
+        LOG.info("Click Copy To...");
+        browser.waitUntilElementClickable(copyToAction).click();
+        return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 }

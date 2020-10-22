@@ -35,6 +35,7 @@ public class DeleteUserDialogPage extends ShareDialog
     public void clickDelete()
     {
         getBrowser().waitUntilElementClickable(deleteUserButton).click();
+        waitUntilNotificationMessageDisappears();
     }
 
     public DeleteUserDialogPage assertDeleteUserDialogTextIsCorrect()

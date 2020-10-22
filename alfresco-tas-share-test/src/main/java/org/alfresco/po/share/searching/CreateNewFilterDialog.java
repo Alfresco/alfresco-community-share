@@ -306,7 +306,7 @@ public class CreateNewFilterDialog extends ShareDialog
     {
         browser.waitUntilElementHasAttribute(saveButton, "aria-disabled", "false");
         browser.waitUntilElementClickable(saveButton).click();
-        searchManagerPage.waitUntilMessageDisappears();
+        searchManagerPage.waitUntilNotificationMessageDisappears();
         return (SearchManagerPage) searchManagerPage.renderedPage();
     }
 

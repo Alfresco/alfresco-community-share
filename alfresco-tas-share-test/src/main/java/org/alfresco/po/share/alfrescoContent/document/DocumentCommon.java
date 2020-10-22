@@ -1,21 +1,21 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.SharePage;
+import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PageObject
 @Primary
-public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
+public abstract class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
 {
-    private String currentDocumentName;
+    private FileModel currentFile;
 
     @FindBy (css = "img[alt='active-workflows']")
     private WebElement activeWorkflowIcon;
@@ -23,29 +23,22 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
     @FindBy (css = "span.faded")
     private List<WebElement> fadedDetails;
 
-    private String currentSiteName;
-
-    public void setCurrentDocumentName(String currentDocumentName)
+    public void setCurrentFileModel(FileModel currentFileModel)
     {
-        this.currentDocumentName = currentDocumentName;
+        this.currentFile = currentFileModel;
+    }
+
+    public FileModel getCurrentFile()
+    {
+        return currentFile;
     }
 
     @SuppressWarnings ("unchecked")
-    public T navigate(String documentName)
+    public T navigate(FileModel file)
     {
-        setCurrentDocumentName(documentName);
+        LOG.info(String.format("Navigate to document details of file: %s", file.getCmisLocation()));
+        setCurrentFileModel(file);
         return (T) navigate();
-    }
-
-    @Override
-    public String getRelativePath()
-    {
-        return null;
-    }
-
-    public String getCurrentSiteName()
-    {
-        return currentSiteName;
     }
 
     public boolean isPropertyValueDisplayed(String propertyValue)
@@ -65,7 +58,6 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
      * @return Details for Folders
      */
     public String getFadedDetailsList()
-
     {
         browser.waitUntilElementVisible(By.xpath("//span[text() = 'No Categories']"));
         List<WebElement> fadedDetails = browser.findElements(By.cssSelector("span.faded"));

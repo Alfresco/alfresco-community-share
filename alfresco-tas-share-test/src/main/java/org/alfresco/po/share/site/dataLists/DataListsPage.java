@@ -142,7 +142,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         LOG.info("Set list item selected content");
         currentContent = new ListItemSelectedContent();
         currentContent.setBrowser(browser);
-
         return this;
     }
 
@@ -150,7 +149,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         LOG.info("Assert data list content is displayed");
         assertTrue(currentContent.isDataListContentDisplayed(), "Data list content is not displayed");
-
         return this;
     }
 
@@ -195,7 +193,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         LOG.info("Assert list dialog input description equals with: {}", expectedDialogInputDescription);
         assertEquals(listDescriptionTextAreaInput.getAttribute("value"), expectedDialogInputDescription,
             String.format("List dialog input description not equals with %s ", expectedDialogInputDescription));
-
         return this;
     }
 

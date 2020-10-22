@@ -1,56 +1,41 @@
 package org.alfresco.po.share;
 
-import static org.alfresco.utility.report.log.Step.STEP;
+import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.renderer.ElementState;
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import com.google.j2objc.annotations.AutoreleasePool;
-import org.alfresco.common.Language;
-import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.renderer.ElementState;
-import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Image;
-import ru.yandex.qatools.htmlelements.element.TextBlock;
+import static org.alfresco.utility.report.log.Step.STEP;
+import static org.testng.Assert.assertEquals;
 
 /**
  * handle common cases related to a share page
  *
  * @author Paul.Brodner
  */
-public abstract class SharePage<T> extends HtmlPage
+public abstract class SharePage<T> extends SharePageObject
 {
     public static final int WAIT_1 = 1;
     public static final int WAIT_5 = 5;
     public static final int WAIT_10 = 10;
     public static final int WAIT_15 = 15;
     public static final int WAIT_30 = 30;
+    public static final int WAIT_60 = 60;
     public static final int DEFAULT_RETRY = 3;
-    public static final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
-
+    private static final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     public String userName;
 
     @Autowired
     AboutPopUpPage pop;
-
-    @Autowired
-    public Language language;
-
-    @Autowired
-    public Environment env;
 
     @Autowired
     public Toolbar toolbar;
@@ -74,9 +59,6 @@ public abstract class SharePage<T> extends HtmlPage
 
     @FindBy (id = "HEADER_USER_MENU_LOGOUT")
     private WebElement logoutLink;
-
-    private By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
-    public static String LAST_MODIFICATION_MESSAGE = "";
 
     public String getUserName()
     {
@@ -159,6 +141,28 @@ public abstract class SharePage<T> extends HtmlPage
         return browser.getCurrentUrl();
     }
 
+    public T assertLastNotificationMessageEquals(String expectedMessage)
+    {
+        LOG.info("Assert last notification message is: {}", expectedMessage);
+        assertEquals(LAST_MODIFICATION_MESSAGE, expectedMessage, "Last notification message is not correct");
+        return (T) renderedPage();
+    }
+
+    public T waiUntilLoadingMessageDisappears()
+    {
+        LOG.info("Wait for loading message to disappear");
+        try
+        {
+            browser.waitUntilElementVisible(loadingMessage,2);
+            browser.waitUntilElementDisappears(loadingMessage);
+        }
+        catch (TimeoutException e)
+        {
+            LOG.info("Timeout exception for loading message {}", e.getMessage());
+        }
+        return (T) this;
+    }
+
     /**
      * Verify if alfresco logo is displayed on the page footer
      *
@@ -177,7 +181,7 @@ public abstract class SharePage<T> extends HtmlPage
 
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
-        Assert.assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
+        assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
         return (T) renderedPage();
     }
 
@@ -194,30 +198,11 @@ public abstract class SharePage<T> extends HtmlPage
         if (!StringUtils.isEmpty(username))
         {
             return String.format(pageUrl, username);
-        } else
+        }
+        else
         {
             throw new RuntimeException(String.format("Set the user name to navigate to %s page", this.getClass().getSimpleName()));
         }
-    }
-
-    public void waitUntilMessageDisappears()
-    {
-        try
-        {
-            getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, 5);
-            getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
-        }
-        catch (TimeoutException exception)
-        {
-            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
-        }
-    }
-
-    public String getLastNotificationMessage()
-    {
-        LAST_MODIFICATION_MESSAGE = browser.waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText();
-        getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
-        return LAST_MODIFICATION_MESSAGE;
     }
 
     /**
@@ -235,26 +220,6 @@ public abstract class SharePage<T> extends HtmlPage
         {
             // do nothing as alert is not present
         }
-    }
-
-    public void clearAndType(WebElement webElement, String value)
-    {
-        webElement.clear();
-        webElement.sendKeys(value);
-    }
-
-    public T waitForLoadingMessageToDisappear()
-    {
-        try
-        {
-            browser.waitUntilElementVisible(loadingMessage,3);
-            browser.waitUntilElementDisappears(loadingMessage);
-        }
-        catch (TimeoutException e)
-        {
-            //continue
-        }
-        return (T) this;
     }
 
     public void waitForSharePageToLoad()
