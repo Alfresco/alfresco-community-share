@@ -14,7 +14,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+
+import static org.testng.Assert.assertTrue;
 
 public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPage<T>>
 {
@@ -90,28 +91,28 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         return (T) this;
     }
 
-    public CreateContentPage clickCreateTextPlain()
+    public CreateContentPage clickTextPlain()
     {
         LOG.info("Click Plain Text...");
         browser.waitUntilElementVisible(createTextFileOption).click();
         return (CreateContentPage) createContentPage.renderedPage();
     }
 
-    public CreateContentPage clickCreateXml()
+    public CreateContentPage clickXml()
     {
         LOG.info("Click XML...");
         browser.waitUntilElementVisible(createXmlFileOption).click();
         return (CreateContentPage) createContentPage.renderedPage();
     }
 
-    public CreateContentPage clickCreateHtml()
+    public CreateContentPage clickHtml()
     {
         LOG.info("Click HTML...");
         browser.waitUntilElementVisible(createHtmlFileOption).click();
         return (CreateContentPage) createContentPage.renderedPage();
     }
 
-    public NewFolderDialog clickCreateFolder()
+    public NewFolderDialog clickFolder()
     {
         LOG.info("Click Create Folder");
         browser.waitUntilElementVisible(createFolderOption).click();
@@ -127,43 +128,45 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     {
         LOG.info(String.format("Assert folder %s is displayed in documents filter from left side", folder.getName()));
         WebElement folderLink = browser.waitUntilElementVisible(By.xpath(String.format(folderInFilterElement, folder.getName())));
-        Assert.assertTrue(browser.isElementDisplayed(folderLink),
+        assertTrue(browser.isElementDisplayed(folderLink),
             String.format("Folder %s is displayed in filter", folder.getName()));
         return (T) this;
     }
 
-    public T waitForCurrentBreadcrumb(String folderName)
+    public T waitForCurrentFolderBreadcrumb(String folderName)
     {
+        LOG.info("Wait for folder breadcrumb {}", folderName);
         browser.waitUntilElementContainsText(currentBreadcrumb, folderName);
         return (T) this;
     }
 
-    public T waitForCurrentBreadcrumb(FolderModel folder)
+    public T waitForCurrentFolderBreadcrumb(FolderModel folder)
     {
-        return waitForCurrentBreadcrumb(folder.getName());
+        return waitForCurrentFolderBreadcrumb(folder.getName());
     }
 
     public T assertFolderIsDisplayedInBreadcrumb(FolderModel folder)
     {
         LOG.info(String.format("Assert folder %s is displayed in breadcrumb", folder.getName()));
-        Assert.assertTrue(browser.isElementDisplayed(By.xpath(String.format(breadcrumb, folder.getName()))),
+        assertTrue(browser.isElementDisplayed(By.xpath(String.format(breadcrumb, folder.getName()))),
             String.format("Folder %s is displayed in breadcrumb", folder.getName()));
         return (T) this;
     }
 
     public T clickFolderFromFilter(FolderModel folder)
     {
-        LOG.info(String.format("Click folder '%s' from filter", folder.getName()));
+        LOG.info("Click folder '%s' from filter {}", folder.getName());
         browser.waitUntilElementVisible(By.xpath(String.format(folderInFilterElement, folder.getName()))).click();
-        waitForCurrentBreadcrumb(folder);
+        waitForCurrentFolderBreadcrumb(folder);
         return (T) this;
     }
 
     public T clickFolderFromBreadcrumb(String folderName)
     {
-        LOG.info(String.format("Click folder '%s' from breadcrumb", folderName));
+        LOG.info("Click folder {} from breadcrumb", folderName);
         browser.findElement(By.xpath(String.format(breadcrumb, folderName))).click();
-        waitForCurrentBreadcrumb(folderName);
+        waitForCurrentFolderBreadcrumb(folderName);
+
         return (T) this;
     }
 
@@ -172,7 +175,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         return clickFolderFromBreadcrumb(folder.getName());
     }
 
-    public T clickFolderUp()
+    public T clickFolderUpButton()
     {
         LOG.info("Click folder up button");
         folderUp.click();
@@ -181,22 +184,24 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
 
     public T uploadContent(FileModel file)
     {
-        LOG.info(String.format("Upload file %s", file.getName()));
+        LOG.info("Upload file {}", file.getName());
         uploadButton.click();
         uploadFileDialog.renderedPage();
         uploadFileDialog.uploadFile(file);
         uploadFileDialog.waitForUploadDialogToDisappear();
+
         return (T) this;
     }
 
     public T createFileFromTemplate(FileModel templateFile)
     {
-        LOG.info(String.format("Create new file from template %s", templateFile));
+        LOG.info("Create new file from template {}", templateFile);
         browser.mouseOver(createButton);
         browser.mouseOver(createFileFromTemplate);
         createFileFromTemplate.click();
         browser.waitUntilElementVisible(By.xpath(String.format(templateName, templateFile.getName()))).click();
         waitUntilNotificationMessageDisappears();
+
         return (T) this;
     }
 
@@ -207,6 +212,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         browser.mouseOver(createFolderFromTemplate);
         createFolderFromTemplate.click();
         browser.waitUntilElementVisible(By.xpath(String.format(templateName, folderTemplateName))).click();
+
         return newFolderDialog;
     }
 
@@ -219,17 +225,18 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     {
         for(ContentModel content : contentsToSelect)
         {
-            LOG.info(String.format("Check content: %s", content.getName()));
+            LOG.info("Check content: {}", content.getName());
             getContentRow(content.getName()).findElement(selectCheckBox).click();
         }
         return (T) this;
     }
 
-    public T clickSelectItems()
+    public T clickSelectedItems()
     {
         LOG.info("Click Selected Items");
         browser.waitUntilElementClickable(selectedItemsLink).click();
         browser.waitUntilElementHasAttribute(selectedItemsActions, "class", "visible");
+
         return (T) this;
     }
 
@@ -237,6 +244,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     {
         LOG.info("Click Copy To...");
         browser.waitUntilElementVisible(copyToFromSelectedItems).click();
+
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 

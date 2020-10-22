@@ -220,7 +220,7 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     {
         browser.waitUntilElementVisible(claimButton).click();
         this.renderedPage();
-        waitForLoadingMessageToDisappear();
+        waiUntilLoadingMessageDisappears();
         browser.waitUntilWebElementIsDisplayedWithRetry(releaseToPoolButton);
         return (EditTaskPage) this.renderedPage();
     }

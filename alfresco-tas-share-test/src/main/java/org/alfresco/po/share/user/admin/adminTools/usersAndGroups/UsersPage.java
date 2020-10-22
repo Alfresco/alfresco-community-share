@@ -26,6 +26,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 @PageObject
 public class UsersPage extends AdminToolsPage
 {
@@ -90,17 +93,22 @@ public class UsersPage extends AdminToolsPage
         return searchUser(searchKeyword, userToWaitFor);
     }
 
+    private void typeUserAndClickSearch(String searchKeyword)
+    {
+        clearAndType(userSearchInputField, searchKeyword);
+        browser.mouseOver(searchButton);
+        searchButton.click();
+    }
+
     private UsersPage searchUser(String searchKeyword, String userToWaitFor)
     {
-        userSearchInputField.clear();
-        userSearchInputField.sendKeys(searchKeyword);
-        searchButton.click();
+        typeUserAndClickSearch(searchKeyword);
         int counter = 0;
         boolean found = isUserFound(userToWaitFor);
-        while (!found && counter <= 5)
+        while (!found && counter <= 10)
         {
             Utility.waitToLoopTime(1, String.format("Wait for user to be displayed: %s", userToWaitFor));
-            searchButton.click();
+            typeUserAndClickSearch(searchKeyword);
             found = isUserFound(userToWaitFor);
             counter++;
         }
@@ -111,7 +119,7 @@ public class UsersPage extends AdminToolsPage
     {
         String expectedValue = String.format(language.translate("adminTools.user.search.text"), searchText, results);
         browser.waitUntilElementContainsText(searchTextResult, expectedValue);
-        Assert.assertEquals(searchTextResult.getText(), expectedValue);
+        assertEquals(searchTextResult.getText(), expectedValue);
         return this;
     }
 
@@ -122,7 +130,7 @@ public class UsersPage extends AdminToolsPage
 
     public UsersPage assertSuccessfullyCreatedNewUserNotificationIsDisplayed()
     {
-        Assert.assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.users.createUserNotification"),
+        assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.users.createUserNotification"),
             "Create user notification is displayed");
         return this;
     }
@@ -154,25 +162,25 @@ public class UsersPage extends AdminToolsPage
 
     public UsersPage assertSearchInputIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(userSearchInputField), "Search input is displayed");
+        assertTrue(browser.isElementDisplayed(userSearchInputField), "Search input is displayed");
         return this;
     }
 
     public UsersPage assertSearchButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public UsersPage assertNewUserButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(newUserButton), "New User button is displayed");
+        assertTrue(browser.isElementDisplayed(newUserButton), "New User button is displayed");
         return this;
     }
 
     public UsersPage assertImportUsersButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
+        assertTrue(browser.isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
         return this;
     }
 
@@ -190,12 +198,14 @@ public class UsersPage extends AdminToolsPage
 
     public UsersPage assertDeleteUserNotificationIsDisplayed()
     {
-        Assert.assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.user.deleteUser.notification"));
+        LOG.info("Assert delete user notification is displayed");
+        assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.user.deleteUser.notification"));
         return this;
     }
 
     public UsersPage assertAllTableHeadersAreDisplayed()
     {
+        LOG.info("Assert all table headers are displayed");
         List<String> tableHeaders = browser.getTextFromElementList(tableHeaderElements);
         List<String> expectedTableHeaders = new ArrayList<>();
         expectedTableHeaders.add(language.translate("adminTools.user.table.name"));
@@ -207,7 +217,7 @@ public class UsersPage extends AdminToolsPage
         expectedTableHeaders.add(language.translate("adminTools.user.table.authorizationState"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.deleted"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.action"));
-        Assert.assertTrue(tableHeaders.containsAll(expectedTableHeaders), "All table headers are displayed");
+        assertTrue(tableHeaders.containsAll(expectedTableHeaders), "All table headers are displayed");
         return this;
     }
 
@@ -248,7 +258,7 @@ public class UsersPage extends AdminToolsPage
         public UserRowAction assertUserIsDisabled()
         {
             LOG.info(String.format("Assert user %s is disabled", user.getUsername()));
-            Assert.assertTrue(getBrowser().isElementDisplayed(getUserRow().findElement(userDisableIcon)),
+            assertTrue(getBrowser().isElementDisplayed(getUserRow().findElement(userDisableIcon)),
                 "User disabled icon is displayed");
             return this;
         }
@@ -256,7 +266,7 @@ public class UsersPage extends AdminToolsPage
         public UserRowAction assertUserIsFound()
         {
             LOG.info(String.format("Assert user %s is found", userName));
-            Assert.assertTrue(usersPage.isUserFound(userName), String.format("User %s was found", userName));
+            assertTrue(usersPage.isUserFound(userName), String.format("User %s was found", userName));
             return this;
         }
 
@@ -270,7 +280,7 @@ public class UsersPage extends AdminToolsPage
         public UserRowAction assertQuotaIs(String expectedValue)
         {
             LOG.info(String.format("Assert quota value is: %s", expectedValue));
-            Assert.assertEquals(getUserRow().findElement(quotaElement).getText(), expectedValue,
+            assertEquals(getUserRow().findElement(quotaElement).getText(), expectedValue,
                 "Quota value is displayed");
             return this;
         }
@@ -283,14 +293,14 @@ public class UsersPage extends AdminToolsPage
 
         public UserRowAction assertUserDeleteIconIsDisplayed()
         {
-            Assert.assertTrue(getBrowser().isElementDisplayed(getUserRow().findElement(userDeletedIcon)),
+            assertTrue(getBrowser().isElementDisplayed(getUserRow().findElement(userDeletedIcon)),
                 "User delete icon is displayed");
             return this;
         }
 
         public UserRowAction assertDeletedIsDisplayed()
         {
-            Assert.assertEquals(getUserRow().findElement(deleted).getText(), language.translate("adminTools.user.deleted"));
+            assertEquals(getUserRow().findElement(deleted).getText(), language.translate("adminTools.user.deleted"));
             return this;
         }
     }

@@ -18,6 +18,9 @@ import ru.yandex.qatools.htmlelements.element.Link;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActivitiesDashlet<T>>
 {
     @Autowired
@@ -80,13 +83,6 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     protected By documentLinkLocator = By.cssSelector("a[class*='item-link']");
     protected By detailLocator = By.cssSelector("span.detail");
     protected By activityListCheckedForDisplay = By.cssSelector("div[id$='default-activityList']>div.activity");
-    protected By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
-    protected List<ActivityLink> activities;
-
-    protected WebElement documentInActivities(String documentName)
-    {
-        return browser.findElement(By.xpath("//div[@class='content']//a[text()='" + documentName + "']"));
-    }
 
     @Override
     public String getDashletTitle()
@@ -120,18 +116,21 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertActivitiesFilterHasAllOptions()
     {
+        LOG.info("Assert all options are displayed in Activities filter");
         List<String> expectedUserActivities = Arrays.asList(language.translate("activitiesDashlet.filter.mine"),
             language.translate("activitiesDashlet.filter.everyoneElse"),
             language.translate("activitiesDashlet.filter.everyone"),
             language.translate("activitiesDashlet.filter.meFollowing"));
         myActivitiesButton.click();
         browser.waitUntilElementsVisible(filters);
-        Assert.assertTrue(expectedUserActivities.equals(browser.getTextFromElementList(filters)));
+        assertEquals(expectedUserActivities, browser.getTextFromElementList(filters), "Not all options are found in activities filter");
+
         return (T) this;
     }
 
     public T assertItemsFilterHasAllOptions()
     {
+        LOG.info("Assert all options are displayed in Items filter");
         List<String> expectedUserActivities = Arrays.asList(
             language.translate("activitiesDashlet.filter.allItems"),
             language.translate("activitiesDashlet.filter.comments"),
@@ -139,12 +138,13 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
             language.translate("activitiesDashlet.filter.memberships"));
         defaultActivitiesButton.click();
         browser.waitUntilElementsVisible(filters);
-        Assert.assertTrue(expectedUserActivities.equals(browser.getTextFromElementList(filters)));
+        assertEquals(expectedUserActivities, browser.getTextFromElementList(filters), "Not all options are found in items filter");
         return (T) this;
     }
 
     public T assertHistoryFilterHasAllOptions()
     {
+        LOG.info("Assert all options are displayed in History filter");
         List<String> expectedUserActivities = Arrays.asList(
             language.translate("activitiesDashlet.filter.today"),
             language.translate("activitiesDashlet.filter.last7days"),
@@ -152,36 +152,37 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
             language.translate("activitiesDashlet.filter.last28days"));
         daysRangeButton.click();
         browser.waitUntilElementsVisible(filters);
-        Assert.assertTrue(expectedUserActivities.equals(browser.getTextFromElementList(filters)));
+        assertEquals(expectedUserActivities, browser.getTextFromElementList(filters), "Not all options are found in history filter");
         return (T) this;
     }
 
-    public T assertSelectedActivityFilterIs(String expectedFilter)
+    public T assertSelectedActivityFilterContains(String expectedFilter)
     {
         LOG.info(String.format("Assert filter '%s' is selected", expectedFilter));
-        Assert.assertTrue(myActivitiesButton.getText().contains(expectedFilter), String.format("Expected filter is %s", expectedFilter));
+        assertTrue(myActivitiesButton.getText().contains(expectedFilter), String.format("Expected filter is %s", expectedFilter));
         return (T) this;
     }
 
-    public T assertSelectedHistoryOptionIs(String expectedValue)
+    public T assertSelectedHistoryOptionContains(String expectedValue)
     {
         LOG.info(String.format("Assert history filter '%s' is selected", expectedValue));
-        Assert.assertTrue(daysRangeButton.getText().contains(expectedValue), String.format("Expected history filter is %s", expectedValue));
+        assertTrue(daysRangeButton.getText().contains(expectedValue), String.format("Expected history filter is %s", expectedValue));
         return (T) this;
     }
 
-    public T assertSelectedItemFilterIs(String expectedFilter)
+    public T assertSelectedItemFilterContains(String expectedFilter)
     {
         LOG.info(String.format("Assert item filter '%s' is selected", expectedFilter));
-        Assert.assertTrue(defaultActivitiesButton.getText().contains(expectedFilter), String.format("Expected item filter is %s", expectedFilter));
+        assertTrue(defaultActivitiesButton.getText().contains(expectedFilter), String.format("Expected item filter is %s", expectedFilter));
         return (T) this;
     }
 
     public T assertRssFeedButtonIsDisplayed()
     {
+        LOG.info("Assert Rss Feed button is displayed");
         browser.mouseOver(activitiesDashletTitle);
         browser.mouseOver(myActivitiesButton);
-        Assert.assertTrue(browser.isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
+        assertTrue(browser.isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
         return (T) this;
     }
 
@@ -233,6 +234,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T selectActivityFilter(ActivitiesFilter activitiesFilter)
     {
+        LOG.info("Select activity filter {}", activitiesFilter.toString());
         myActivitiesButton.click();
         browser.waitUntilElementsVisible(dropDownOptionsList);
         browser.selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), dropDownOptionsList);
@@ -241,6 +243,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter noDaysOption)
     {
+        LOG.info("Select history filter {}", noDaysOption.toString());
         daysRangeButton.click();
         browser.waitUntilElementsVisible(dropDownOptionsList);
         browser.selectOptionFromFilterOptionsList(getActivitiesDaysRangeFilter(noDaysOption), dropDownOptionsList);

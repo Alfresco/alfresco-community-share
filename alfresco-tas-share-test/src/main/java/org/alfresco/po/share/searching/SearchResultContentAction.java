@@ -1,6 +1,5 @@
 package org.alfresco.po.share.searching;
 
-import freemarker.core._ArrayEnumeration;
 import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -10,9 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
+import static org.testng.Assert.assertTrue;
+
 public class SearchResultContentAction
 {
     private final Logger LOG = LoggerFactory.getLogger(SearchResultContentAction.class);
+
     private SearchPage searchPage;
     private ContentModel content;
     private SearchCopyMoveDialog copyMoveDialog;
@@ -27,6 +29,8 @@ public class SearchResultContentAction
         this.content = content;
         this.searchPage = searchPage;
         this.copyMoveDialog = copyMoveDialog;
+
+        LOG.info("Using content {}", content.getName());
     }
 
     public WebBrowser getBrowser()
@@ -41,13 +45,14 @@ public class SearchResultContentAction
 
     public SearchResultContentAction assertIsDisplayed()
     {
-        LOG.info(String.format("Assert content %s is found", content.getName()));
-        Assert.assertTrue(getBrowser().isElementDisplayed(getContentRow()), String.format("Content %s was found", content.getName()));
+        LOG.info("Assert content {} is found", content.getName());
+        assertTrue(getBrowser().isElementDisplayed(getContentRow()), String.format("Content %s was found", content.getName()));
         return this;
     }
 
     public SearchResultContentAction clickActions()
     {
+        LOG.info("Click Actions");
         WebElement content = getContentRow();
         getBrowser().mouseOver(content);
         getBrowser().mouseOver(content.findElement(actionsButton));
@@ -57,6 +62,7 @@ public class SearchResultContentAction
 
     public SearchCopyMoveDialog clickCopyTo()
     {
+        LOG.info("Click Copy To...");
         getBrowser().findFirstElementWithValue(actions, searchPage.language.translate("documentLibrary.contentActions.copyTo")).click();
         return (SearchCopyMoveDialog) copyMoveDialog.renderedPage();
     }

@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.alfresco.utility.report.log.Step.STEP;
+import static org.testng.Assert.assertEquals;
 
 /**
  * handle common cases related to a share page
@@ -140,23 +141,24 @@ public abstract class SharePage<T> extends SharePageObject
         return browser.getCurrentUrl();
     }
 
-    public T assertLastNotificationMessageIs(String expectedMessage)
+    public T assertLastNotificationMessageEquals(String expectedMessage)
     {
-        LOG.info(String.format("Assert last notification message is: '%s'", expectedMessage));
-        Assert.assertEquals(LAST_MODIFICATION_MESSAGE, expectedMessage, String.format("Last notification message is not correct"));
+        LOG.info("Assert last notification message is: {}", expectedMessage);
+        assertEquals(LAST_MODIFICATION_MESSAGE, expectedMessage, "Last notification message is not correct");
         return (T) renderedPage();
     }
 
-    public T waitForLoadingMessageToDisappear()
+    public T waiUntilLoadingMessageDisappears()
     {
+        LOG.info("Wait for loading message to disappear");
         try
         {
-            browser.waitUntilElementVisible(loadingMessage,3);
+            browser.waitUntilElementVisible(loadingMessage,2);
             browser.waitUntilElementDisappears(loadingMessage);
         }
         catch (TimeoutException e)
         {
-            //continue
+            LOG.info("Timeout exception for loading message {}", e.getMessage());
         }
         return (T) this;
     }
@@ -179,7 +181,7 @@ public abstract class SharePage<T> extends SharePageObject
 
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
-        Assert.assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
+        assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
         return (T) renderedPage();
     }
 
@@ -196,7 +198,8 @@ public abstract class SharePage<T> extends SharePageObject
         if (!StringUtils.isEmpty(username))
         {
             return String.format(pageUrl, username);
-        } else
+        }
+        else
         {
             throw new RuntimeException(String.format("Set the user name to navigate to %s page", this.getClass().getSimpleName()));
         }

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import static org.testng.Assert.assertTrue;
+
 @PageObject
 public class SearchCopyMoveDialog extends ShareDialog
 {
@@ -21,14 +23,14 @@ public class SearchCopyMoveDialog extends ShareDialog
     {
         LOG.info("Assert Create Link button is displayed");
         browser.waitUntilElementVisible(createLinkButton);
-        Assert.assertTrue(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        assertTrue(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 
     public SearchCopyMoveDialog assertCreateLinkButtonIsDisabled()
     {
         LOG.info("Assert Create Link button is disabled");
-        Assert.assertTrue(createLinkButton.getAttribute("aria-disabled").equals("true"), "Create link button is disabled");
+        assertTrue(createLinkButton.getAttribute("aria-disabled").equals("true"), "Create link button is disabled");
         return this;
     }
 }

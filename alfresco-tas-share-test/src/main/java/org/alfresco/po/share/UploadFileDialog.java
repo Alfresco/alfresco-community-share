@@ -9,10 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-
-import java.io.File;
 
 /**
  * @author bogdan.bocancea
@@ -48,8 +44,10 @@ public class UploadFileDialog extends ShareDialog
 
     public <T> SharePage uploadFileAndRenderPage(String location, SharePage<T> page)
     {
+        LOG.info("Upload file from {} and render page", location);
         uploadFile(location);
         browser.waitUntilElementDisappears(dialogBody);
+        
         return (SharePage) page.renderedPage();
     }
 

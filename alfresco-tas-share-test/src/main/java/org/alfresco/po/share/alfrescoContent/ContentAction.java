@@ -9,11 +9,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
-public class ContentAction<T>
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+public class ContentAction
 {
     private final Logger LOG = LoggerFactory.getLogger(ContentAction.class);
+
     private AlfrescoContentPage alfrescoContentPage;
     private DocumentDetailsPage documentDetailsPage;
     private CopyMoveUnzipToDialog copyMoveDialog;
@@ -25,6 +28,7 @@ public class ContentAction<T>
     private By copyToAction = By.id("onActionCopyTo");
     private By moveToAction = By.id("onActionMoveTo");
     private By linkThumbnail = By.cssSelector(".thumbnail .link");
+    private String highlightContent = "yui-dt-highlighted";
 
     public ContentAction(ContentModel contentModel, AlfrescoContentPage contentPage,
                          DocumentDetailsPage documentDetailsPage,
@@ -34,6 +38,7 @@ public class ContentAction<T>
         this.alfrescoContentPage = contentPage;
         this.documentDetailsPage = documentDetailsPage;
         this.copyMoveDialog = copyMoveDialog;
+
         LOG.info(String.format("Using content: '%s'", contentModel.getName()));
     }
 
@@ -50,7 +55,7 @@ public class ContentAction<T>
     public ContentAction assertContentIsDisplayed()
     {
         LOG.info("Assert is displayed");
-        Assert.assertTrue(getBrowser().isElementDisplayed(getContentRow()),
+        assertTrue(getBrowser().isElementDisplayed(getContentRow()),
             String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
@@ -58,9 +63,9 @@ public class ContentAction<T>
     public ContentAction assertContentIsNotDisplayed()
     {
         LOG.info("Assert is NOT displayed");
-        Assert.assertFalse(getBrowser().isElementDisplayed(
+        assertFalse(getBrowser().isElementDisplayed(
             By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()))),
-            String.format("Content '%s' is displayed", contentModel.getName()));
+                String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
 
@@ -68,7 +73,7 @@ public class ContentAction<T>
     {
         LOG.info("Select Folder");
         getContentRow().findElement(contentNameSelector).click();
-        alfrescoContentPage.waitForCurrentBreadcrumb((FolderModel) contentModel);
+        alfrescoContentPage.waitForCurrentFolderBreadcrumb((FolderModel) contentModel);
         return alfrescoContentPage;
     }
 
@@ -82,13 +87,15 @@ public class ContentAction<T>
 
     private ContentAction mouseOverContent()
     {
+        LOG.info("Mouse over content");
         getBrowser().mouseOver(getContentRow());
-        getBrowser().waitUntilElementHasAttribute(getContentRow(), "class", "yui-dt-highlighted");
+        getBrowser().waitUntilElementHasAttribute(getContentRow(), "class", highlightContent);
         return this;
     }
 
     private ContentAction clickMore()
     {
+        LOG.info("Click More");
         WebElement moreAction = getBrowser().waitUntilChildElementIsPresent(getContentRow(), moreActionLink);
         getBrowser().mouseOver(moreAction);
         moreAction.click();
@@ -114,10 +121,11 @@ public class ContentAction<T>
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 
-    public ContentAction assertThumbnailIsLinkType()
+    public ContentAction assertThumbnailLinkTypeIsDisplayed()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(getContentRow().findElement(linkThumbnail)),
-            String.format("Content %s has link thumbnail type", contentModel.getName()));
+        LOG.info("Assert thumbnail link type is displayed");
+        assertTrue(getBrowser().isElementDisplayed(getContentRow().findElement(linkThumbnail)),
+            String.format("Content %s doesn't have thumbnail link type", contentModel.getName()));
         return this;
     }
 }

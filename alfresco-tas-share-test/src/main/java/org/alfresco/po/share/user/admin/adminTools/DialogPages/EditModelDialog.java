@@ -1,7 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import static org.alfresco.common.Utils.clearAndType;
-
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -99,7 +97,7 @@ public class EditModelDialog extends ShareDialog
     public ModelManagerPage clickSave()
     {
         browser.waitUntilElementClickable(saveButton).click();
-        modelManagerPage.waitForLoadingMessageToDisappear();
+        modelManagerPage.waiUntilLoadingMessageDisappears();
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 

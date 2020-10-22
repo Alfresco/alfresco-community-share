@@ -1,10 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent;
 
-import java.util.List;
-
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
-import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -13,7 +10,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
+
+import java.util.List;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
@@ -49,18 +50,21 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 
     public CopyMoveUnzipToDialog selectRecentSitesDestination()
     {
+        LOG.info("Select Recent Sites");
         recentSitesDestination.click();
         return this;
     }
 
     public CopyMoveUnzipToDialog selectSite(SiteModel site)
     {
+        LOG.info("Select site {}", site.getTitle());
         browser.waitUntilElementVisible(By.xpath(String.format(siteToSelect, site.getTitle()))).click();
         return this;
     }
 
     public CopyMoveUnzipToDialog selectFolder(FolderModel folderToSelect)
     {
+        LOG.info("Select folder {}", folderToSelect.getName());
         browser.waitUntilElementVisible(folderPathsArea);
         WebElement folder = browser.waitUntilChildElementIsPresent(folderPathsArea,
             By.xpath(String.format(folderElementToSelect, folderToSelect.getName())));
@@ -82,13 +86,14 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         }
     }
 
-    public void clickCreateLink()
+    public void clickCreateLinkButton()
     {
+        LOG.info("Click Create Link button");
         browser.waitUntilElementClickable(createLinkButton).click();
         waitUntilNotificationMessageDisappears();
     }
 
-    public SharePage clickCreateLink(SharePage page)
+    public SharePage clickCreateLinkButton(SharePage page)
     {
         browser.waitUntilElementClickable(createLinkButton).click();
         waitUntilMessageDisappears();
@@ -100,22 +105,17 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         return getBrowser().isElementDisplayed(createLinkButton);
     }
 
-    public String getMessage()
-    {
-        return message.getText();
-    }
-
     public CopyMoveUnzipToDialog assertCreateLinkButtonIsDisplayed()
     {
         LOG.info("Assert Create Link button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        assertTrue(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 
     public CopyMoveUnzipToDialog assertCreateLinkButtonIsNotDisplayed()
     {
         LOG.info("Assert Create Link button is displayed");
-        Assert.assertFalse(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        assertFalse(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 

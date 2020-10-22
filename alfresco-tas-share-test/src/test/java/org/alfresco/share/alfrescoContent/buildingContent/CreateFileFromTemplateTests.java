@@ -48,6 +48,6 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
         documentLibraryPage.navigate(testSite)
             .clickCreate().createFileFromTemplate(templateFile)
                 .usingContent(templateFile).assertContentIsDisplayed()
-                    .selectFile().assertFileContentIs(templateContent);
+                    .selectFile().assertFileContentEquals(templateContent);
     }
 }

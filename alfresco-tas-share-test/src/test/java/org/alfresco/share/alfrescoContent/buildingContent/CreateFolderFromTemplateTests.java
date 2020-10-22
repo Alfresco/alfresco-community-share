@@ -97,9 +97,9 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         String validWildcards = "!@$%^&().-=+;',";
         documentLibraryPage.navigate(testSite)
             .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder)
-                .typeName(illegalCharacters).assertNameIsInvalid()
-                    .assertNameContainsIllegalCharactersMessageIsDisplayed()
-                .typeName("AName.").assertNameIsInvalid()
+                .typeName(illegalCharacters).assertNameInputIsInvalid()
+                    .assertNameInputContainsIllegalCharactersMessageIsDisplayed()
+                .typeName("AName.").assertNameInputIsInvalid()
                 .typeName(validWildcards).clickSave();
         documentLibraryPage.usingContent(parentTemplateFolder).assertContentIsDisplayed();
     }

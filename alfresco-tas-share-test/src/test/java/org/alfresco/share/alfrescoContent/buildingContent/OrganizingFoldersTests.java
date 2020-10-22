@@ -43,8 +43,8 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     {
         String randomFolder = RandomData.getRandomFolder();
         FolderModel testFolder = new FolderModel(randomFolder, randomFolder, randomFolder);
-        documentLibraryPage.clickCreate().clickCreateFolder()
-            .assertDialogTitleIs(language.translate("newFolderDialog.title"))
+        documentLibraryPage.clickCreate().clickFolder()
+            .assertDialogTitleEquals(language.translate("newFolderDialog.title"))
             .assertNameInputIsDisplayed()
             .assertMandatoryIndicatorForNameIsDisplayed()
             .assertTitleInputIsDisplayed()
@@ -64,7 +64,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     public void cancelCreatingFolder()
     {
         FolderModel cancelFolder = FolderModel.getRandomFolderModel();
-        documentLibraryPage.clickCreate().clickCreateFolder()
+        documentLibraryPage.clickCreate().clickFolder()
             .typeName(cancelFolder.getName())
             .clickCancel();
         documentLibraryPage.usingContent(cancelFolder).assertContentIsNotDisplayed();
@@ -90,7 +90,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickFolderFromFilter(subFolder)
             .assertFolderIsDisplayedInBreadcrumb(parentFolder)
             .assertFolderIsDisplayedInBreadcrumb(subFolder)
-                .clickFolderUp().waitForCurrentBreadcrumb(parentFolder)
+                .clickFolderUpButton().waitForCurrentFolderBreadcrumb(parentFolder)
                     .assertFolderIsDisplayedInBreadcrumb(parentFolder)
                 .clickFolderFromBreadcrumb(language.translate("documentLibrary.breadcrumb.select.documents"))
                     .usingContent(parentFolder).assertContentIsDisplayed();

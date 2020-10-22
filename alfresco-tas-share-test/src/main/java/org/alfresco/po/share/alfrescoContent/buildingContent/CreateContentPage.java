@@ -6,11 +6,11 @@ import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+
+import static org.testng.Assert.assertTrue;
 
 @PageObject
 public class CreateContentPage extends SharePage<CreateContentPage>
@@ -39,7 +39,7 @@ public class CreateContentPage extends SharePage<CreateContentPage>
     private WebElement descriptionField;
 
     @FindBy (css = "label[for$='default_prop_cm_name'] .mandatory-indicator")
-    private WebElement nameFieldIsMandatoryMarker;
+    private WebElement nameInputIsMandatoryMarker;
 
     @RenderWebElement
     @FindBy (css = "button[id$='submit-button']")
@@ -59,91 +59,70 @@ public class CreateContentPage extends SharePage<CreateContentPage>
 
     public CreateContentPage assertCreateContentPageIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(nameField), "Name field is displayed");
+        LOG.info("Assert Content page is opened");
+        assertTrue(browser.getCurrentUrl().contains("create-content"), "Create content page is not opened");
         return this;
     }
 
-    public CreateContentPage assertNameInputIsMandatory()
+    public CreateContentPage assertNameInputHasMandatoryMarker()
     {
-        LOG.info("Assert Name input is mandatory");
-        Assert.assertTrue(browser.isElementDisplayed(nameFieldIsMandatoryMarker), "Name input is mandatory");
+        LOG.info("Assert Name input has mandatory marker");
+        assertTrue(browser.isElementDisplayed(nameInputIsMandatoryMarker), "Name input is not mandatory");
         return this;
     }
 
     public CreateContentPage assertCreateButtonIsDisplayed()
     {
         LOG.info("Assert Create button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(submitButton), "Create button is displayed");
+        assertTrue(browser.isElementDisplayed(submitButton), "Create button is not displayed");
         return this;
     }
 
     public CreateContentPage assertCancelButtonIsDisplayed()
     {
         LOG.info("Assert Cancel button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
 
-    /**
-     * Method to send input to the Name field
-     */
     public CreateContentPage typeName(String name)
     {
         Utils.clearAndType(nameField, name);
         return this;
     }
 
-    /**
-     * Method to send input to the Title field
-     */
     public CreateContentPage typeTitle(String title)
     {
         Utils.clearAndType(titleField, title);
         return this;
     }
 
-    /**
-     * Method to send input to the Content field
-     */
     public CreateContentPage typeContent(String content)
     {
         Utils.clearAndType(contentField, content);
         return this;
     }
 
-    /**
-     * Method to send input to the Description field
-     */
     public CreateContentPage typeDescription(String description)
     {
         Utils.clearAndType(descriptionField, description);
         return this;
     }
 
-    /**
-     * Method to click the Create button
-     */
     public DocumentDetailsPage clickCreate()
     {
         submitButton.click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
-    /**
-     * Method to click the Cancel button
-     */
     public void clickCancel()
     {
         cancelButton.click();
     }
 
-    /**
-     * Method to send input to the HTML content field
-     *
-     * @param inputHTMLContent
-     */
     public CreateContentPage sendInputForHTMLContent(String inputHTMLContent)
     {
+        LOG.info("Send input for HTML file types");
         tinyMceEditor.setText(inputHTMLContent);
         browser.focusOnWebElement(nameField);
         return this;

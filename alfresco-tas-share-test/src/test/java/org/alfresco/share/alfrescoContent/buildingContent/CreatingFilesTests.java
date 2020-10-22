@@ -38,10 +38,10 @@ public class CreatingFilesTests extends ContextAwareWebTest
     {
         FileModel txtFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         documentLibraryPage.navigate(testSite)
-            .clickCreate().clickCreateTextPlain()
+            .clickCreate().clickTextPlain()
                 .assertCreateContentPageIsOpened()
                 .assertBrowserPageTitleIs(language.translate("createContentPage.browserTitle"))
-                .assertNameInputIsMandatory()
+                .assertNameInputHasMandatoryMarker()
                 .assertCreateContentPageIsOpened()
                 .assertCancelButtonIsDisplayed()
                     .typeName(txtFile.getName())
@@ -49,9 +49,9 @@ public class CreatingFilesTests extends ContextAwareWebTest
                     .typeDescription("test description")
                     .typeContent(txtFile.getContent())
                     .clickCreate()
-                        .assertDocumentDetailsPageIsOpenedForFile(txtFile)
-                        .assertFileContentIs(FILE_CONTENT)
-                        .assertPropertyHasValue(language.translate("property.mimetype"), "Plain Text");
+                        .assertDocumentDetailsHasFileNameHeaderEqualsTo(txtFile)
+                        .assertFileContentEquals(FILE_CONTENT)
+                        .assertPropertyValueEquals(language.translate("property.mimetype"), "Plain Text");
     }
 
     @TestRail (id = "C6977")
@@ -60,18 +60,18 @@ public class CreatingFilesTests extends ContextAwareWebTest
     {
         FileModel htmlFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
         documentLibraryPage.navigate(testSite)
-            .clickCreate().clickCreateHtml()
+            .clickCreate().clickHtml()
                 .assertCreateContentPageIsOpened()
                 .assertBrowserPageTitleIs(language.translate("createContentPage.browserTitle"))
-                .assertNameInputIsMandatory()
+                .assertNameInputHasMandatoryMarker()
                     .typeName(htmlFile.getName())
                     .sendInputForHTMLContent(FILE_CONTENT)
                     .typeTitle("test title")
                     .typeDescription("test description")
                     .clickCreate()
-                        .assertDocumentDetailsPageIsOpenedForFile(htmlFile)
-                        .assertFileContentIs(FILE_CONTENT)
-                        .assertPropertyHasValue(language.translate("property.mimetype"), "HTML");
+                        .assertDocumentDetailsHasFileNameHeaderEqualsTo(htmlFile)
+                        .assertFileContentEquals(FILE_CONTENT)
+                        .assertPropertyValueEquals(language.translate("property.mimetype"), "HTML");
     }
 
     @TestRail (id = "C6978")
@@ -80,17 +80,17 @@ public class CreatingFilesTests extends ContextAwareWebTest
     {
         FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
         documentLibraryPage.navigate(testSite)
-            .clickCreate().clickCreateXml()
+            .clickCreate().clickXml()
                 .assertCreateContentPageIsOpened()
                 .assertBrowserPageTitleIs(language.translate("createContentPage.browserTitle"))
-                .assertNameInputIsMandatory()
+                .assertNameInputHasMandatoryMarker()
                     .typeName(xmlFile.getName())
                     .typeTitle("test title")
                     .typeDescription("test description")
                     .typeContent(FILE_CONTENT)
                     .clickCreate()
-                        .assertDocumentDetailsPageIsOpenedForFile(xmlFile)
-                        .assertFileContentIs(FILE_CONTENT)
-                        .assertPropertyHasValue(language.translate("property.mimetype"), "XML");
+                        .assertDocumentDetailsHasFileNameHeaderEqualsTo(xmlFile)
+                        .assertFileContentEquals(FILE_CONTENT)
+                        .assertPropertyValueEquals(language.translate("property.mimetype"), "XML");
     }
 }

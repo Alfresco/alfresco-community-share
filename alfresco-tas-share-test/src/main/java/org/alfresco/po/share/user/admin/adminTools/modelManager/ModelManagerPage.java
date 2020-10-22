@@ -116,7 +116,7 @@ public class ModelManagerPage extends AdminToolsPage
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        waitForLoadingMessageToDisappear();
+        waiUntilLoadingMessageDisappears();
         return (ModelManagerPage) this.renderedPage();
     }
 
@@ -140,7 +140,7 @@ public class ModelManagerPage extends AdminToolsPage
         }
         if(page instanceof ModelManagerPage)
         {
-            waitForLoadingMessageToDisappear();
+            waiUntilLoadingMessageDisappears();
         }
         return page.renderedPage();
     }

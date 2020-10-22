@@ -1,8 +1,5 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
@@ -17,14 +14,18 @@ import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 @PageObject
 public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
@@ -252,21 +253,21 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public DocumentDetailsPage assertDocumentDetailsPageIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
+        assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
         return this;
     }
 
-    public DocumentDetailsPage assertDocumentDetailsPageIsOpenedForFile(String fileName)
+    public DocumentDetailsPage assertDocumentDetailsHasFileNameHeaderEqualsTo(String fileName)
     {
-        LOG.info(String.format("Assert Document Details page is opened for file '%s'", fileName));
-        Assert.assertTrue(headerFileName.getText().contains(fileName),
+        LOG.info("Assert Document Details page is opened for file {}", fileName);
+        assertTrue(headerFileName.getText().contains(fileName),
             String.format("Document details page is opened for file %s", fileName));
         return this;
     }
 
-    public DocumentDetailsPage assertDocumentDetailsPageIsOpenedForFile(FileModel expectedFile)
+    public DocumentDetailsPage assertDocumentDetailsHasFileNameHeaderEqualsTo(FileModel expectedFile)
     {
-        return assertDocumentDetailsPageIsOpenedForFile(expectedFile.getName());
+        return assertDocumentDetailsHasFileNameHeaderEqualsTo(expectedFile.getName());
     }
 
     public boolean isDocumentFavourite()
@@ -279,7 +280,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(socialBar, 5);
         return browser.waitUntilElementsVisible(By.cssSelector("a[class$='favourite-document']")).get(0).getAttribute("title")
-                      .equals("Add document to favorites");
+                  .equals("Add document to favorites");
     }
 
     public boolean isAddCommentBlockDisplayed()
@@ -313,7 +314,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public DocumentDetailsPage assertCommentsAreaIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(commentsIframe), "Comments area is opened");
+        assertTrue(browser.isElementDisplayed(commentsIframe), "Comments area is opened");
         return this;
     }
 
@@ -634,10 +635,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         throw new PageOperationException(String.format("%s isn't displayed in Properties section!", propertyName));
     }
 
-    public DocumentDetailsPage assertPropertyHasValue(String propertyName, String expectedValue)
+    public DocumentDetailsPage assertPropertyValueEquals(String propertyName, String expectedValue)
     {
-        LOG.info(String.format("Assert property '%s' has value '%s'", propertyName, expectedValue));
-        Assert.assertEquals(getPropertyValue(propertyName), expectedValue,
+        LOG.info("Assert property {} has value {}", propertyName, expectedValue);
+        assertEquals(getPropertyValue(propertyName), expectedValue,
             String.format("Property %s has the expected value", propertyName));
         return this;
     }
@@ -851,10 +852,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return Utils.retry(() -> browser.waitUntilElementVisible(contentText).getText().trim(), WAIT_5);
     }
 
-    public DocumentDetailsPage assertFileContentIs(String expectedContent)
+    public DocumentDetailsPage assertFileContentEquals(String expectedContent)
     {
-        LOG.info(String.format("Assert file has content '%s'", expectedContent));
-        Assert.assertEquals(getContentText(), expectedContent, "File content is correct");
+        LOG.info("Assert file has content {}", expectedContent);
+        assertEquals(getContentText(), expectedContent, "File content is correct");
         return this;
     }
 
@@ -930,7 +931,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         WebElement commentBody = browser.findElement(By.id("tinymce"));
         Utils.clearAndType(commentBody, comment);
         browser.switchTo().defaultContent();
-
         browser.waitUntilElementClickable(addCommentButtonSave).click();
     }
 
@@ -942,6 +942,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public CopyMoveUnzipToDialog clickCopyTo()
     {
+        LOG.info("Click Copy To...");
         browser.waitUntilElementClickable(copyToAction).click();
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }

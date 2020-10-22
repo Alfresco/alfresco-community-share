@@ -10,11 +10,8 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.AbstractActivitiesDashlet.ActivitiesDaysRangeFilter;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
-import org.alfresco.po.share.dashlet.SiteActivitiesDaysRangeFilter;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -67,18 +64,18 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
     {
         siteDashboardPage.navigate(testSite);
         siteActivitiesDashlet
-            .assertEmptyDashletMessageIsCorrect()
+            .assertEmptyDashletMessageEquals()
             .assertRssFeedButtonIsDisplayed().assertDashletTitleIs(language.translate("siteActivities.title"))
             .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_ACTIVITIES)
                 .assertBalloonMessageIsDisplayed()
                 .assertHelpBalloonMessageIs(language.translate("siteActivities.help"))
                 .closeHelpBalloon()
             .assertActivitiesFilterHasAllOptions()
-            .assertSelectedActivityFilterIs(language.translate("activitiesDashlet.filter.everyone"))
+            .assertSelectedActivityFilterContains(language.translate("activitiesDashlet.filter.everyone"))
             .assertItemsFilterHasAllOptions()
-            .assertSelectedItemFilterIs(language.translate("activitiesDashlet.filter.allItems"))
+            .assertSelectedItemFilterContains(language.translate("activitiesDashlet.filter.allItems"))
             .assertHistoryFilterHasAllOptions()
-            .assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last7days"));
+            .assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last7days"));
     }
 
     @TestRail (id = "C2809")
@@ -102,22 +99,22 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
 
         LOG.info("STEP1: Select 'today' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter.TODAY);
-        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.today"));
+        siteActivitiesDashlet.assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.today"));
         //assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(0, "now"), true, "Only activities from today are displayed.");
 
         LOG.info("STEP2: Select 'in the last 7 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter.SEVEN_DAYS);
-        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last7days"));
+        siteActivitiesDashlet.assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last7days"));
         //assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(7, "now"), true, "Only activities in the last 7 days are displayed.");
 
         LOG.info("STEP3: Select 'in the last 14 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter.FOURTEEN_DAYS);
-        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last14days"));
+        siteActivitiesDashlet.assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last14days"));
         //assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(14, "now"), true, "Only activities in the last 14 days are displayed.");
 
         LOG.info("STEP4: Select 'in the last 28 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter.TWENTY_EIGHT_DAYS);
-        siteActivitiesDashlet.assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last28days"));
+        siteActivitiesDashlet.assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last28days"));
         //assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(28, "now"), true, "Only activities in the last 28 days are displayed.");
 
         userService.delete(adminUser, adminPassword, user);

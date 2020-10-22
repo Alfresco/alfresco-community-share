@@ -28,7 +28,7 @@ public abstract class SharePageObject extends HtmlPage
         }
         catch (TimeoutException exception)
         {
-            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
+            LOG.info("Failed to get notification message {}", exception.getMessage());
         }
         return LAST_MODIFICATION_MESSAGE;
     }

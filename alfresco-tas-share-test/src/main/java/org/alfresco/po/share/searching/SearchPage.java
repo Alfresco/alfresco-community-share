@@ -274,7 +274,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         else
         {
             return searchResultRows.stream().anyMatch(row ->
-                    row.findElement(contentName).getText().equals(contentModel.getName()));
+                row.findElement(contentName).getText().equals(contentModel.getName()));
         }
     }
 
@@ -292,6 +292,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public SearchPage searchForContentWithRetry(ContentModel contentToFind)
     {
+        LOG.info("Search for content {} with retry");
         boolean found = isContentDisplayed(contentToFind);
         int counter = 0;
         while (!found && counter <= WAIT_60)

@@ -1,9 +1,5 @@
 package org.alfresco.share.adminTools.categoryManager;
 
-import static java.util.Arrays.asList;
-
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -15,6 +11,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.stream.Stream;
+
+import static java.util.Arrays.asList;
+import static org.testng.Assert.assertTrue;
 
 /**
  * UI tests for Admin Tools > Category Manager page
@@ -94,6 +93,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void addAndOpenSubCategory()
     {
         categoryManagerPage.addSubCategory("Languages", subCategoryName);
-        assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName), subCategoryName + " is not displayed in the list");
+        assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName),
+            String.format("Subcategory %s is not displayed in the list", subCategoryName));
     }
 }

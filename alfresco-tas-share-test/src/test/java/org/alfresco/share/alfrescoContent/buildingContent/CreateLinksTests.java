@@ -1,8 +1,6 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.po.share.searching.SearchPage;
@@ -80,7 +78,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(testSite)
             .checkContent(file1)
-                .clickSelectItems().clickCopyToFromSelectedItems()
+                .clickSelectedItems().clickCopyToFromSelectedItems()
                     .assertCreateLinkButtonIsDisplayed();
     }
 
@@ -90,7 +88,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(testSite)
             .checkContent(file1, file2, testFolder)
-                .clickSelectItems().clickCopyToFromSelectedItems()
+                .clickSelectedItems().clickCopyToFromSelectedItems()
                     .assertCreateLinkButtonIsDisplayed();
     }
 
@@ -143,10 +141,12 @@ public class CreateLinksTests extends ContextAwareWebTest
             .usingContent(file1).clickCopyTo()
                 .selectRecentSitesDestination()
                 .selectSite(testSite).selectFolder(testFolder)
-                    .clickCreateLink();
-        documentLibraryPage.assertLastNotificationMessageIs(String.format(language.translate("links.create.notificationMessage"), "1"))
+                    .clickCreateLinkButton();
+        documentLibraryPage.assertLastNotificationMessageEquals(String.format(language.translate("links.create.notificationMessage"), "1"))
             .usingContent(testFolder).selectFolder()
-                .usingContent(linkedFile).assertContentIsDisplayed().assertThumbnailIsLinkType();
+                .usingContent(linkedFile)
+                    .assertContentIsDisplayed()
+                    .assertThumbnailLinkTypeIsDisplayed();
     }
 
     @TestRail (id = "C42620")
@@ -157,12 +157,12 @@ public class CreateLinksTests extends ContextAwareWebTest
             .usingContent(file2).clickCopyTo()
             .selectRecentSitesDestination()
             .selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLink();
+                .clickCreateLinkButton();
         documentLibraryPage.usingContent(file2)
                 .clickCopyTo()
             .selectRecentSitesDestination().selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLink();
-        documentLibraryPage.assertLastNotificationMessageIs(language.translate("links.duplicate.notificationMessage"));
+                .clickCreateLinkButton();
+        documentLibraryPage.assertLastNotificationMessageEquals(language.translate("links.duplicate.notificationMessage"));
     }
 
     @TestRail (id = "C42621")
@@ -173,7 +173,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         cmisApi.usingSite(testSite).createFile(userFile);
         documentLibraryPage.navigate(testSite)
             .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLink();
+                .clickCreateLinkButton();
         userDashboard.navigate(linksUser);
         myActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile, testSite);
     }
@@ -186,7 +186,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         cmisApi.usingSite(testSite).createFile(userFile);
         documentLibraryPage.navigate(testSite)
             .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLink();
+                .clickCreateLinkButton();
         siteDashboardPage.navigate(testSite);
         siteActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile);
     }

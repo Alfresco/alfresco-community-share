@@ -39,18 +39,18 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     public void checkActivitiesDashletWithNoActivities()
     {
         myActivitiesDashlet
-            .assertEmptyDashletMessageIsCorrect()
+            .assertEmptyDashletMessageEquals()
             .assertRssFeedButtonIsDisplayed().assertDashletTitleIs(language.translate("myActivitiesDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_ACTIVITIES)
             .assertBalloonMessageIsDisplayed()
             .assertHelpBalloonMessageIs(language.translate("myActivitiesDashlet.helpMessage"))
             .closeHelpBalloon()
                 .assertActivitiesFilterHasAllOptions()
-                .assertSelectedActivityFilterIs(language.translate("activitiesDashlet.filter.everyone"))
+                .assertSelectedActivityFilterContains(language.translate("activitiesDashlet.filter.everyone"))
                 .assertItemsFilterHasAllOptions()
-                .assertSelectedItemFilterIs(language.translate("activitiesDashlet.filter.allItems"))
+                .assertSelectedItemFilterContains(language.translate("activitiesDashlet.filter.allItems"))
                 .assertHistoryFilterHasAllOptions()
-                .assertSelectedHistoryOptionIs(language.translate("activitiesDashlet.filter.last7days"));
+                .assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last7days"));
     }
 
     @TestRail (id = "C2112")
@@ -70,7 +70,7 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
         userDashboard.navigate(user);
         myActivitiesDashlet.clickDocumentLinkForAddActivity(user, testFile, testSite)
             .assertDocumentDetailsPageIsOpened()
-            .assertDocumentDetailsPageIsOpenedForFile(testFile);
+            .assertDocumentDetailsHasFileNameHeaderEqualsTo(testFile);
         userDashboard.navigate(user);
         myActivitiesDashlet.assertPreviewedDocumentActivityIsDisplayed(user, testFile, testSite);
     }
@@ -118,10 +118,10 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
 
         myActivitiesDashlet.selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.MY_ACTIVITIES)
             .assertAddDocumentActivityIsDisplayed(user, managerFile, testSite)
-            .assertAddDocumentActivityIsNotDisplayedFor(invitedUser, collaboratorFile, testSite)
+            .assertAddDocumentActivityIsNotDisplayedForUser(invitedUser, collaboratorFile, testSite)
                 .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
                     .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite)
-                    .assertAddDocumentActivityIsNotDisplayedFor(user, managerFile, testSite)
+                    .assertAddDocumentActivityIsNotDisplayedForUser(user, managerFile, testSite)
                 .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ACTIVITIES)
                     .assertAddDocumentActivityIsDisplayed(user, managerFile, testSite)
                     .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite);
