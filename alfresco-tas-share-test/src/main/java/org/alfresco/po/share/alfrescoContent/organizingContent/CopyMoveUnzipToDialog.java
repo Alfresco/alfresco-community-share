@@ -47,6 +47,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     private By createLinkMessage = By.cssSelector("div[id*='message_c'] .bd .message");
     private String siteToSelect = "//h4[text()='%s']";
     private String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
+    private String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";
 
     public CopyMoveUnzipToDialog selectRecentSitesDestination()
     {
@@ -65,11 +66,15 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     public CopyMoveUnzipToDialog selectFolder(FolderModel folderToSelect)
     {
         LOG.info("Select folder {}", folderToSelect.getName());
+        By folderRow = By.xpath(String.format(folderElementToSelectRow, folderToSelect.getName()));
+        By folder = By.xpath(String.format(folderElementToSelect, folderToSelect.getName()));
         browser.waitUntilElementVisible(folderPathsArea);
-        WebElement folderElement = browser.waitUntilChildElementIsPresent(folderPathsArea,
-            By.xpath(String.format(folderElementToSelect, folderToSelect.getName())));
+        WebElement selectRow = browser.waitUntilChildElementIsPresent(folderPathsArea, folderRow);
+        WebElement folderElement = selectRow.findElement(folder);
         browser.waitUntilElementVisible(folderElement);
+        browser.mouseOver(folderElement);
         browser.clickJS(folderElement);
+        browser.waitUntilElementHasAttribute(selectRow, "class", "selected");
         return this;
     }
 
