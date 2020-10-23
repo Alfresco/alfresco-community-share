@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Admin and Authentication Tests" preserve-order="true">
+   <listeners>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+   </listeners>
+
+   <test name="Admin Tools Tests">
+      <groups>
+         <run>
+           <include name="admin-tools"></include>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.adminTools.*"></package>
+      </packages>
+   </test>
+
+   <test name="Admin Console Tests">
+      <groups>
+         <run>
+            <include name="AlfrescoConsoles"></include>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.adminconsole.*"></package>
+      </packages>
+   </test>
+
+</suite>

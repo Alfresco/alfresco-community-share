@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="User and Authentication Tests" preserve-order="true">
+   <listeners>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+   </listeners>
+
+   <test name="User Tests">
+      <groups>
+         <run>
+           <include name="user"></include>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.*"></package>
+      </packages>
+   </test>
+
+   <test name="Authentication Tests">
+      <groups>
+         <run>
+            <include name="auth"></include>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.*"></package>
+      </packages>
+   </test>
+
+</suite>
