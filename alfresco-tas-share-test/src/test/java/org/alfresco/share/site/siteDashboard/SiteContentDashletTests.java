@@ -128,7 +128,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         LOG.info("STEPS 7 - Click X icon on pop-up balloon and verify it is closed.");
         siteContentDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_CONTENT);
         siteContentDashlet.closeHelpBalloon();
-        assertEquals(siteContentDashlet.isBalloonDisplayed(), false, "'Help' balloon closed.");
+        assertEquals(siteContentDashlet.isHelpBalloonDisplayed(), false, "'Help' balloon closed.");
         siteService.delete(adminUser, adminPassword, siteName1);
 
     }

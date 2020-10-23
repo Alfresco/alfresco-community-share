@@ -90,11 +90,11 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click on the '?' icon");
         siteCalendarDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_CALENDAR);
-        assertTrue(siteCalendarDashlet.isBalloonDisplayed(), "Help balloon is displayed");
+        assertTrue(siteCalendarDashlet.isHelpBalloonDisplayed(), "Help balloon is displayed");
         assertEquals(siteCalendarDashlet.getHelpBalloonMessage(), language.translate("siteCalendarDashlet.helpBalloonMessage"), "Help balloon text");
         LOG.info("Step 3: Click 'X' icon on balloon popup");
         siteCalendarDashlet.closeHelpBalloon();
-        assertFalse(siteCalendarDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
+        assertFalse(siteCalendarDashlet.isHelpBalloonDisplayed(), "Help balloon isn't displayed");
     }
 
     @TestRail (id = "C5499")

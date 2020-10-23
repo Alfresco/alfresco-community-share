@@ -39,7 +39,7 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 1)
     public void checkSavedSearchDashlet()
     {
-        savedSearchDashlet.assertDashletTitleIs(language.translate("savedSearchDashlet.title"))
+        savedSearchDashlet.assertDashletTitleEquals(language.translate("savedSearchDashlet.title"))
             .assertNoResultsMessageIsDisplayed()
             .assertConfigureDashletButtonIsDisplayed()
             .clickOnHelpIcon(DashletHelpIcon.SAVED_SEARCH)

@@ -1,157 +1,84 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import static org.testng.Assert.assertTrue;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.alfresco.common.Utils;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 @PageObject
 public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 {
-    private static By helpBalloonCloseButton = By.cssSelector("div[style*='visible']>div.bd>div.balloon>div.closeButton");
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+
     @RenderWebElement
     @FindBy (xpath = "//div[normalize-space(.) = 'Image Preview']")
     protected HtmlElement dashletContainer;
-    @FindAll (@FindBy (xpath = ".//div[@class='thumbnail']/a"))
-    protected List<WebElement> ImagePreviewLinks;
-    @FindBy (css = "div[id*='default-images'] img[src*='document-view-details']")
-    private WebElement viewDetailsIcon;
-    @FindBy (css = "div[id*='default-images'] img[src*='download']")
-    private WebElement downloadIcon;
+
     @RenderWebElement
     @FindBy (xpath = "//div[starts-with(@class,'dashlet resizable')] // div[@class='title']")
     private WebElement dashletTitle;
-    @FindBy (xpath = "//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActionIcon help']")
-    private WebElement helpIcon;
-    private String dashletHelpIcon = "//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActionIcon help']";
-    private String helpBallon = "div[style*='visible']>div.bd>div.balloon";
-    // @RenderWebElement
-    @FindBy (css = "div[style*='visible']>div.bd>div.balloon")
-    private WebElement helpBalloon;
-    @FindBy (css = "div[style*='visible']>div.bd>div.balloon>div.text")
-    private WebElement helpBalloonText;
-    private String imageLink = "//img[contains(@title,'";
+
+    private By viewDetailsIcon = By.cssSelector("img[src*='document-view-details']");
+    private By downloadIcon = By.cssSelector("img[src*='download']");
+    private static final String imageLink = "//div[@class='thumbnail']/a[contains(@title, '%s')]/..";
 
     @Override
-    protected String getDashletTitle()
-    {
-        return null;
-    }
-
-    /**
-     * Get the text from the title
-     *
-     * @return String dashlet title text
-     */
-    public String getDashletTitleText()
+    public String getDashletTitle()
     {
         return dashletTitle.getText();
     }
 
-    /**
-     * Verify if Help Icon is displayed
-     *
-     * @return true if displayed
-     */
-
-    public boolean isHelpIconDisplayed()
+    private WebElement getImageThumbnail(String imageName)
     {
-        browser.mouseOver(browser.findElement(By.xpath(dashletHelpIcon)));
-        return browser.waitUntilElementVisible(By.xpath(dashletHelpIcon)).isDisplayed();
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(imageLink, imageName)), 1, WAIT_60);
     }
 
-    /**
-     * This method is used to click on "Help" icon
-     */
-    public void clickHelpIcon()
+    public ImagePreviewDashlet assertImagePreviewIsDisplayed(String imageName)
     {
-        helpIcon.click();
+        LOG.info("Assert image name is: {}", imageName);
+        assertTrue(browser.isElementDisplayed(getImageThumbnail(imageName)));
+
+        return this;
     }
 
-    /**
-     * Verify if help balloon is displayed on this dashlet.
-     *
-     * @return True if the balloon is displayed, else false.
-     */
-    public boolean isBalloonDisplayed()
+    public DocumentDetailsPage clickViewDetailsIcon(String imageName)
     {
-        return browser.waitUntilElementVisible(By.cssSelector(helpBallon)).isDisplayed();
+        LOG.info("Click \"View details icon\"");
+        WebElement viewDetailsAction = getImageThumbnail(imageName).findElement(viewDetailsIcon);
+        browser.mouseOver(viewDetailsAction);
+        browser.waitUntilElementVisible(viewDetailsAction).click();
+
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
-    /**
-     * Verify if help balloon is displayed on this dashlet (without "waiting")
-     *
-     * @return True if the balloon is displayed, else false.
-     */
-    public boolean isBallonDisplayedNoWait()
+    public ImagePreviewDashlet clickDownloadIcon(String imageName)
     {
-        return browser.isElementDisplayed(helpBalloon);
+        LOG.info("Click download icon from image preview dashlet: {}", imageName);
+        WebElement downloadAction = getImageThumbnail(imageName).findElement(downloadIcon);
+        browser.mouseOver(downloadAction);
+        browser.waitUntilElementVisible(downloadAction).click();
+
+        return this;
     }
 
-    /**
-     * Get the text from the Help Balloon
-     *
-     * @return String help balloon text
-     */
-    public String getHelpBalloonText()
+    public ImagePreviewDashlet assertDownloadedDocumentExists(String fileName, String extension)
     {
-        return helpBalloonText.getText();
-    }
+        LOG.info("Assert document exists in directory");
+        assertTrue(Utils.isFileInDirectory(fileName, extension), "Document not exists in directory");
 
-    /**
-     * This method is used to click "Close" button for help balloon
-     */
-    public void CloseHelpBalloon()
-    {
-        browser.findElement(helpBalloonCloseButton).click();
-        browser.waitUntilElementDisappears(helpBalloonCloseButton, TimeUnit.SECONDS.toMillis(properties.getImplicitWait()));
-    }
-
-    /**
-     * This method is used to verify if an image is displayed on "Image Preview" dashlet
-     */
-    public boolean isImageDisplayed(String imageName)
-    {
-        String image1 = imageLink + imageName + "')]";
-        String image = StringUtils.deleteWhitespace(image1);
-
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(image), 5);
-        return browser.findElement(By.xpath(image)) != null;
-    }
-
-    public void clickViewDetailsIcon(String imageName)
-    {
-        String image = "//a[contains(@title,'" + imageName + "')]";
-
-        this.renderedPage();
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//a[contains(@title,'newavatar.jpg')]"));
-        WebElement imageThumbnail = browser.findElement(By.xpath(image));
-
-        browser.mouseOver(imageThumbnail);
-        browser.waitInSeconds(2);
-        browser.waitUntilElementVisible(viewDetailsIcon);
-        viewDetailsIcon.click();
-    }
-
-    public void clickDownloadIcon(String imageName)
-    {
-        String image = "//a[contains(@title,'" + imageName + "')]";
-
-        this.renderedPage();
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//a[contains(@title,'newavatar.jpg')]"));
-        WebElement imageThumbnail = browser.findElement(By.xpath(image));
-
-        browser.mouseOver(imageThumbnail);
-        browser.waitInSeconds(2);
-        browser.waitUntilElementVisible(downloadIcon);
-        downloadIcon.click();
-        acceptAlertIfDisplayed();
+        return this;
     }
 }

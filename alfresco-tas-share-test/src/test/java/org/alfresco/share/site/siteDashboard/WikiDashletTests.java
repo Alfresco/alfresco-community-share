@@ -72,13 +72,13 @@ public class WikiDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Help icon and veify the text displayed in the Balloon pop-up");
         wikiDashlet.clickOnHelpIcon(DashletHelpIcon.WIKI);
-        Assert.assertTrue(wikiDashlet.isBalloonDisplayed(), "Wiki Help balloon is displayed.");
+        Assert.assertTrue(wikiDashlet.isHelpBalloonDisplayed(), "Wiki Help balloon is displayed.");
         assertEquals(wikiDashlet.getHelpBalloonMessage(),
             "This dashlet shows a page selected from the site's wiki." + "\nNavigate to the wiki to see all related content.");
 
         LOG.info("Step 5: Close balloon popup");
         wikiDashlet.closeHelpBalloon();
-        Assert.assertFalse(wikiDashlet.isBalloonDisplayed(), "Wiki Help balloon is not displayed.");
+        Assert.assertFalse(wikiDashlet.isHelpBalloonDisplayed(), "Wiki Help balloon is not displayed.");
 
         LOG.info("Step 6: Click the Edit icon");
         wikiDashlet.clickOnConfigureDashletIcon();

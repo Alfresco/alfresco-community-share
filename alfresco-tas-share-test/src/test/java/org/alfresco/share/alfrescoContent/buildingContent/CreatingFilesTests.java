@@ -49,7 +49,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
                     .typeDescription("test description")
                     .typeContent(txtFile.getContent())
                     .clickCreate()
-                        .assertDocumentDetailsHasFileNameHeaderEqualsTo(txtFile)
+                        .assertDocumentTitleEquals(txtFile)
                         .assertFileContentEquals(FILE_CONTENT)
                         .assertPropertyValueEquals(language.translate("property.mimetype"), "Plain Text");
     }
@@ -69,7 +69,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
                     .typeTitle("test title")
                     .typeDescription("test description")
                     .clickCreate()
-                        .assertDocumentDetailsHasFileNameHeaderEqualsTo(htmlFile)
+                        .assertDocumentTitleEquals(htmlFile)
                         .assertFileContentEquals(FILE_CONTENT)
                         .assertPropertyValueEquals(language.translate("property.mimetype"), "HTML");
     }
@@ -89,7 +89,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
                     .typeDescription("test description")
                     .typeContent(FILE_CONTENT)
                     .clickCreate()
-                        .assertDocumentDetailsHasFileNameHeaderEqualsTo(xmlFile)
+                        .assertDocumentTitleEquals(xmlFile)
                         .assertFileContentEquals(FILE_CONTENT)
                         .assertPropertyValueEquals(language.translate("property.mimetype"), "XML");
     }

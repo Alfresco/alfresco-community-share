@@ -2,8 +2,12 @@ package org.alfresco.common;
 
 import static java.util.Arrays.asList;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.function.Supplier;
 
+import org.alfresco.utility.Utility;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -15,6 +19,9 @@ import org.slf4j.LoggerFactory;
 public final class Utils
 {
     protected static final Logger LOG = LoggerFactory.getLogger(Utils.class);
+
+    private static String srcRoot = System.getProperty("user.dir") + File.separator;
+    private static String testDataFolder = srcRoot + "testdata" + File.separator;
 
     /**
      * Clear control
@@ -140,5 +147,29 @@ public final class Utils
             LOG.info("Retry number {} failed", attempt);
         }
         throw new RuntimeException("Tried " + count + " times without successful completion.");
+    }
+
+    /**
+     * Method to check if file exists in specified directory
+     *
+     * @param fileName  file name
+     * @param extension file extension
+     * @return true if file exists, otherwise false
+     */
+    public static boolean isFileInDirectory(String fileName, String extension)
+    {
+        int retry = 0;
+        int seconds = 10;
+        if (extension != null)
+        {
+            fileName = fileName + extension;
+        }
+        String filePath = testDataFolder + File.separator + fileName;
+        while (retry <= seconds && !Files.exists(Paths.get(filePath)))
+        {
+            retry++;
+            Utility.waitToLoopTime(1, String.format("Wait for '%s' to get downloaded", fileName));
+        }
+        return Files.exists(Paths.get(filePath));
     }
 }

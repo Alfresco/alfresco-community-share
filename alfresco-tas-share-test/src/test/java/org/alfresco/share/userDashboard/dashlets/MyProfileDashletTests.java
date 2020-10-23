@@ -1,20 +1,15 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
-import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyProfileDashlet;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -60,7 +55,7 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
             .uploadNewPhoto(testDataFolder + "newavatar.jpg")
             .clickSave();
         userDashboard.navigate(user);
-        myProfileDashlet.assertDashletTitleIs(language.translate("myProfileDashlet.title"))
+        myProfileDashlet.assertDashletTitleEquals(language.translate("myProfileDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_PROFILE)
             .assertBalloonMessageIsDisplayed()
             .assertHelpBalloonMessageIs(language.translate("myProfileDashlet.helpBalloonMessage"))

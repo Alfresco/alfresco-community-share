@@ -55,7 +55,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Verify Site Search dashlet");
         siteDashboardPage.navigate(siteName);
-        siteSearchDashlet.assertDashletTitleIs(language.translate("siteSearchDashlet.title"))
+        siteSearchDashlet.assertDashletTitleEquals(language.translate("siteSearchDashlet.title"))
             .assertSearchFieldIsDisplayed()
             .assertSearchResultDropdownIsDisplayed()
             .assertSearchButtonIsDisplayed()

@@ -100,7 +100,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
      *
      * @return True if the balloon is displayed else false.
      */
-    public boolean isBalloonDisplayed()
+    public boolean isHelpBalloonDisplayed()
     {
         return browser.isElementDisplayed(helpBallon);
     }
@@ -169,10 +169,11 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return (T) this;
     }
 
-    public T assertDashletTitleIs(String title)
+    public T assertDashletTitleEquals(String title)
     {
         LOG.info("Assert dashlet title is: {}", title);
-        assertEquals(getDashletTitle(), title, "Dashlet title is not correct");
+        assertEquals(getDashletTitle(), title, String.format("Dashlet title not equals %s", title));
+
         return (T) this;
     }
 
@@ -258,7 +259,8 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         SITE_MEMBERS("colleagues"),
         DATA_LISTS("site-data-lists"),
         SITE_NOTICE("notice-dashlet"),
-        CONTENT_IM_EDITING("content-im-editing");
+        CONTENT_IM_EDITING("content-im-editing"),
+        IMAGE_PREVIEW("dashlet resizable yui-resize");
         public final String name;
 
         DashletHelpIcon(String name)

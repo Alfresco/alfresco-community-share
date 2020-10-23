@@ -93,12 +93,12 @@ public class RssFeedDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click \"?\" icon");
         rssFeedDashlet.clickOnHelpIcon(DashletHelpIcon.RSS_FEED);
-        Assert.assertTrue(rssFeedDashlet.isBalloonDisplayed(), "Help balloon is displayed");
+        Assert.assertTrue(rssFeedDashlet.isHelpBalloonDisplayed(), "Help balloon is displayed");
         Assert.assertEquals(rssFeedDashlet.getHelpBalloonMessage(), language.translate("rssFeedDashlet.helpBalloonMessage"), "Help balloon text");
 
         LOG.info("Step 3: Click \"X\" icon on balloon popup");
         rssFeedDashlet.closeHelpBalloon();
-        Assert.assertFalse(rssFeedDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
+        Assert.assertFalse(rssFeedDashlet.isHelpBalloonDisplayed(), "Help balloon isn't displayed");
     }
 
 

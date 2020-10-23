@@ -3,7 +3,6 @@ package org.alfresco.share.userDashboard.dashlets;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MySitesDashlet.SitesFilter;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -38,7 +37,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkNoSitesCreated()
     {
-        mySitesDashlet.assertDashletTitleIs(language.translate("mySitesDashlet.title"))
+        mySitesDashlet.assertDashletTitleEquals(language.translate("mySitesDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_SITES)
                 .assertBalloonMessageIsDisplayed()
                 .assertHelpBalloonMessageIs(language.translate("mySitesDashlet.balloonMessage"))

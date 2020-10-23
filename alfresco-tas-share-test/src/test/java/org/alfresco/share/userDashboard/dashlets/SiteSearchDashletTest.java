@@ -1,18 +1,13 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
-import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
-import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -42,7 +37,7 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void siteSearchDashletTest()
     {
-        siteSearchDashlet.assertDashletTitleIs(language.translate("siteSearchDashlet.title"))
+        siteSearchDashlet.assertDashletTitleEquals(language.translate("siteSearchDashlet.title"))
             .assertSearchFieldIsDisplayed()
             .assertSearchResultDropdownIsDisplayed()
             .assertSearchButtonIsDisplayed()

@@ -37,7 +37,7 @@ public class MyDiscussionsDashletTests extends AbstractUserDashboardDashletsTest
     public void checkMyDiscussionsDashlet()
     {
         userDashboard.navigate(user);
-        myDiscussionsDashlet.assertDashletTitleIs(language.translate("myDiscussionDashlet.title"))
+        myDiscussionsDashlet.assertDashletTitleEquals(language.translate("myDiscussionDashlet.title"))
             .assertNoTopicsMessageIsDisplayed()
             .assertTopicDropdownHasAllOptions()
             .assertHistoryDropdownHasAllOptions()

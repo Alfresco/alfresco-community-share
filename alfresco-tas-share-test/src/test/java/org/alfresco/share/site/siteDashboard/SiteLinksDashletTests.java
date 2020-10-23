@@ -79,12 +79,12 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click on the '?' icon");
         siteLinksDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_LINKS);
-        assertTrue(siteLinksDashlet.isBalloonDisplayed(), "Help balloon is displayed");
+        assertTrue(siteLinksDashlet.isHelpBalloonDisplayed(), "Help balloon is displayed");
         assertEquals(siteLinksDashlet.getHelpBalloonMessage(), language.translate("siteLinksDashlet.helpBalloonMessage"), "Help balloon text is correct.");
 
         LOG.info("Step 3: Click 'X' icon on balloon popup");
         siteLinksDashlet.closeHelpBalloon();
-        assertFalse(siteLinksDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
+        assertFalse(siteLinksDashlet.isHelpBalloonDisplayed(), "Help balloon isn't displayed");
         siteService.delete(adminUser, adminPassword, siteName);
 
     }

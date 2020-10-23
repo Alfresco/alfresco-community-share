@@ -87,7 +87,7 @@ public class SiteMembersTest extends ContextAwareWebTest
 
         LOG.info("STEP3: Click \"X\" icon");
         siteMembersDashlet.closeHelpBalloon();
-        assertEquals(siteMembersDashlet.isBalloonDisplayed(), false, "Help balloon is closed.");
+        assertEquals(siteMembersDashlet.isHelpBalloonDisplayed(), false, "Help balloon is closed.");
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })

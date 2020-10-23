@@ -49,7 +49,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
     public void checkMyTasksDashlet()
     {
         setupAuthenticatedSession(taskUser);
-        myTasksDashlet.assertDashletTitleIs(language.translate("myTasksDashlet.title"))
+        myTasksDashlet.assertDashletTitleEquals(language.translate("myTasksDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_TASKS)
             .assertBalloonMessageIsDisplayed()
             .assertHelpBalloonMessageIs(language.translate("myTasksDashlet.balloonMessage"))

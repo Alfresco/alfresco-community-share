@@ -1,129 +1,148 @@
 package org.alfresco.share.site.siteDashboard;
 
-import static org.alfresco.dataprep.DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT;
-import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet.IMAGE_PREVIEW;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.alfresco.dataprep.SiteService;
+import java.io.File;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.ImagePreviewDashlet;
-import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.data.DataContent;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class ImagePreviewDashletTests extends ContextAwareWebTest
+public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
 {
-    private final String fileName = "newavatar.jpg";
-    protected String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    @Autowired
-    SiteDashboardPage siteDashboard;
-    @Autowired
-    ImagePreviewDashlet imagePreviewDashlet;
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    private static final String JPG = "jpg";
+    private static final String BMP = "bmp";
+    private static final String GIF = "gif";
+    private static final String PNG = "png";
+    private static final String NEW_AVATAR_IMAGE = "newavatar.";
+    private static final String LIGHTHOUSE_IMAGE = "Lighthouse.";
+    private static final String ANIMATED_IMAGE = "gif_animated.";
 
-    private String siteName1 = String.format("Site1-%s", RandomData.getRandomAlphanumeric());
-    private String siteName2 = String.format("Site2-%s", RandomData.getRandomAlphanumeric());
-    private String siteName3 = String.format("Site3-%s", RandomData.getRandomAlphanumeric());
+    private static final String EXPECTED_IMAGE_PREVIEW_DASHLET_TITLE = "imagePreviewDashlet.title";
+    private static final String EXPECTED_IMAGE_PREVIEW_HELP_BALLOON_MESSAGE = "imagePreviewDashlet.helpBalloonMessage";
+
+    private File imageToUploadWithJpgExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(JPG)));
+    private File imageToUploadWithBmpExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(BMP)));
+    private File imageToUploadWithGifExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(GIF)));
+    private File imageToUploadWithPngExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(PNG)));
+
+    private UserModel userModel;
+    private SiteModel siteModel;
+    private FileModel fileModel;
+
+    @Autowired
+    private ImagePreviewDashlet imagePreviewDashlet;
+
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+
+    @Autowired
+    private DataContent dataContent;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName3, siteName3, SiteService.Visibility.PUBLIC);
-        contentService.uploadFileInSite(userName, password, siteName3, testDataFolder + fileName);
-        siteService.create(userName, password, domain, siteName1, siteName1, SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, siteName2, SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(userName, password, siteName1, IMAGE_PREVIEW, TWO_COLUMNS_WIDE_RIGHT, 1, 1);
-        siteService.addDashlet(userName, password, siteName2, IMAGE_PREVIEW, TWO_COLUMNS_WIDE_RIGHT, 1, 1);
-        siteService.addDashlet(userName, password, siteName3, IMAGE_PREVIEW, TWO_COLUMNS_WIDE_RIGHT, 1, 1);
+        userModel = dataUser.usingAdmin().createRandomTestUser();
+        setupAuthenticatedSession(userModel);
 
-        setupAuthenticatedSession(userName, password);
-    }
-
-    @AfterClass (alwaysRun = false)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName3);
+        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        addDashlet(siteModel, Dashlets.IMAGE_PREVIEW, 1);
     }
 
     @TestRail (id = "C5414")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void imagePreviewDashletWithNoImage()
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void checkDisplayImagePreviewDashletWithNoImage()
     {
-        LOG.info("STEP 1 - View \"Image Preview\" dashlet");
-        siteDashboard.navigate(siteName1);
-        assertEquals(siteDashboard.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
-        assertEquals(imagePreviewDashlet.getDashletTitleText(), "Image Preview");
-        assertTrue(imagePreviewDashlet.isHelpIconDisplayed(), "Help icon is displayed.");
-
-        LOG.info("STEP 2 - Click  \"Help\" icon and verify it's contents");
-        imagePreviewDashlet.clickHelpIcon();
-        assertTrue(imagePreviewDashlet.isBalloonDisplayed(), "Help Balloon is displayed.");
-        assertEquals(imagePreviewDashlet.getHelpBalloonText(), language.translate("imagePreviewDashlet.helpBalloonMessage"), "Help balloon message=");
-
-        LOG.info("STEP 3 - Close  \"Help\" icon");
-        imagePreviewDashlet.CloseHelpBalloon();
-        assertFalse(imagePreviewDashlet.isBallonDisplayedNoWait(), "Help Balloon is displayed.");
-    }
-
-    @TestRail (id = "C5421")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES , "tobefixed"})
-    public void imagePreviewDashletWithSomeImages()
-    {
-        LOG.info("STEP 1 - Create images in the \"Document Library\" of the site");
-        documentLibraryPage.navigate(siteName2);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
-
-        LOG.info("STEP 2 - Upload some images in \"Document Library\" of the site");
-        documentLibraryPage.uploadNewImage(testDataFolder + fileName);
-        documentLibraryPage.uploadNewImage(testDataFolder + "newavatar.bmp");
-        documentLibraryPage.uploadNewImage(testDataFolder + "newavatar.gif");
-        documentLibraryPage.uploadNewImage(testDataFolder + "newavatar.png");
-
-        LOG.info("STEP 3 - Navigate to site's dashboard");
-        siteDashboard.navigate(siteName2);
-        getBrowser().refresh();
-        assertEquals(siteDashboard.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
-        assertTrue(imagePreviewDashlet.isImageDisplayed(fileName), ".jpg image displayed");
-        assertTrue(imagePreviewDashlet.isImageDisplayed("newavatar.bmp"), ".bmp image displayed");
-        assertTrue(imagePreviewDashlet.isImageDisplayed("newavatar.gif"), ".gif image displayed");
-        assertTrue(imagePreviewDashlet.isImageDisplayed("newavatar.png"), ".png image displayed");
+        siteDashboardPage.navigate(siteModel);
+        imagePreviewDashlet
+             .assertDashletTitleEquals(language.translate(EXPECTED_IMAGE_PREVIEW_DASHLET_TITLE))
+             .clickOnHelpIcon(DashletHelpIcon.IMAGE_PREVIEW)
+             .assertHelpBalloonMessageIs(language.translate(EXPECTED_IMAGE_PREVIEW_HELP_BALLOON_MESSAGE))
+             .closeHelpBalloon()
+             .assertBalloonMessageIsNotDisplayed();
     }
 
     @TestRail (id = "C5422")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void imagePreviewAvailableActions()
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayUploadedImagesInImagePreviewDashlet()
     {
-        LOG.info("Precondition: Navigate to site's dashboard");
-        siteDashboard.navigate(siteName3);
-        assertEquals(siteDashboard.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
-        assertTrue(imagePreviewDashlet.isImageDisplayed(fileName), ".jpg image displayed");
+        siteDashboardPage.navigate(siteModel);
+        imageToUploadWithJpgExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(JPG)));
+        fileModel = dataContent
+            .usingUser(userModel)
+            .usingSite(siteModel)
+            .uploadDocument(imageToUploadWithJpgExtension);
 
-        LOG.info("Step1: Click 'View Details' icon");
-        imagePreviewDashlet.clickViewDetailsIcon(fileName);
-        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
+        fileModel = dataContent
+            .usingUser(userModel)
+            .usingSite(siteModel)
+            .uploadDocument(imageToUploadWithBmpExtension);
 
-        LOG.info("Step2: Navigate to Site Dashboard");
-        siteDashboard.navigate(siteName3);
-        assertEquals(siteDashboard.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
+        fileModel = dataContent
+            .usingUser(userModel)
+            .usingSite(siteModel)
+            .uploadDocument(imageToUploadWithGifExtension);
 
-        LOG.info("Step3: Click 'Download' icon");
-        imagePreviewDashlet.clickDownloadIcon(fileName);
-        assertTrue(isFileInDirectory(fileName, null), fileName + " is downloaded to computer.");
+        fileModel = dataContent
+            .usingUser(userModel)
+            .usingSite(siteModel)
+            .uploadDocument(imageToUploadWithPngExtension);
+
+        imagePreviewDashlet
+            .assertImagePreviewIsDisplayed(NEW_AVATAR_IMAGE.concat(JPG))
+            .assertImagePreviewIsDisplayed(NEW_AVATAR_IMAGE.concat(BMP))
+            .assertImagePreviewIsDisplayed(NEW_AVATAR_IMAGE.concat(GIF))
+            .assertImagePreviewIsDisplayed(NEW_AVATAR_IMAGE.concat(PNG));
+    }
+
+    @TestRail (id = "C5421")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayUploadedImageInDocumentDetailsPage()
+    {
+        siteDashboardPage.navigate(siteModel);
+        imageToUploadWithJpgExtension = new File(testDataFolder.concat(LIGHTHOUSE_IMAGE.concat(JPG)));
+        fileModel = dataContent
+            .usingUser(userModel)
+            .usingSite(siteModel)
+            .uploadDocument(imageToUploadWithJpgExtension);
+
+        imagePreviewDashlet.assertImagePreviewIsDisplayed(LIGHTHOUSE_IMAGE.concat(JPG));
+        imagePreviewDashlet.clickViewDetailsIcon(LIGHTHOUSE_IMAGE.concat(JPG));
+
+        documentDetailsPage
+            .assertDocumentTitleEquals(fileModel)
+            .assertUploadedDocumentImageIsDisplayed();
+    }
+
+    @TestRail (id = "C588494")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDownloadImageFilePreview()
+    {
+        siteDashboardPage.navigate(siteModel);
+        imageToUploadWithJpgExtension = new File(testDataFolder.concat(ANIMATED_IMAGE.concat(GIF)));
+        fileModel = dataContent
+            .usingUser(userModel)
+            .usingSite(siteModel)
+            .uploadDocument(imageToUploadWithJpgExtension);
+
+        imagePreviewDashlet
+            .assertImagePreviewIsDisplayed(ANIMATED_IMAGE.concat(GIF))
+            .clickDownloadIcon(ANIMATED_IMAGE.concat(GIF))
+            .assertDownloadedDocumentExists(ANIMATED_IMAGE, GIF);
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanupTest()
+    {
+        removeUserFromAlfresco(userModel);
+        deleteSites(siteModel);
     }
 }

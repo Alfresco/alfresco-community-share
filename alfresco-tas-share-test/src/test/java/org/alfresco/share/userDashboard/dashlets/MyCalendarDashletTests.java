@@ -3,22 +3,14 @@ package org.alfresco.share.userDashboard.dashlets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyCalendarDashlet;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
-import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -54,7 +46,7 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
     public void checkMyCalendarDashletWithNoEvents()
     {
         userDashboard.navigate(user);
-        myCalendarDashlet.assertDashletTitleIs(language.translate("myCalendarDashlet.title"))
+        myCalendarDashlet.assertDashletTitleEquals(language.translate("myCalendarDashlet.title"))
             .assertNoUpcomingEventsIsDisplayed()
             .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_CALENDAR)
             .assertBalloonMessageIsDisplayed()

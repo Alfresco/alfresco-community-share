@@ -36,7 +36,7 @@ public class MyMeetingWorkspacesTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void meetingWorkspacesDashlet()
     {
-        myMeetingWorkspacesDashlet.assertDashletTitleIs(language.translate("myMeetingWorkspacesDashlet.title"))
+        myMeetingWorkspacesDashlet.assertDashletTitleEquals(language.translate("myMeetingWorkspacesDashlet.title"))
             .assertNoMeetingWorkspacesMessageIsDisplayed()
             .clickOnHelpIcon(DashletHelpIcon.MY_MEETING_WORKSPACES)
             .assertBalloonMessageIsDisplayed()

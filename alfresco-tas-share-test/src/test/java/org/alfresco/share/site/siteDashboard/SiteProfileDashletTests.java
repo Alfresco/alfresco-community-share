@@ -93,14 +93,14 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
         LOG.info("STEP 2 - Click  \"Help\" icon and verify it's contents");
         siteProfileDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_PROFILE);
 
-        Assert.assertTrue(siteProfileDashlet.isBalloonDisplayed());
+        Assert.assertTrue(siteProfileDashlet.isHelpBalloonDisplayed());
 
         Assert.assertEquals(siteProfileDashlet.getHelpBalloonMessage(),
             "This dashlet displays the site details. Only the site manager can change this information.");
 
         LOG.info("STEP 3 - Close  \"Help\" icon");
         siteProfileDashlet.closeHelpBalloon();
-        Assert.assertFalse(siteProfileDashlet.isBalloonDisplayed());
+        Assert.assertFalse(siteProfileDashlet.isHelpBalloonDisplayed());
 
         LOG.info("STEP 4 - Click  \"User\" link and verify \"User Profile Page\" opens");
 

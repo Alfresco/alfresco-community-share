@@ -56,7 +56,7 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
         siteDashboardPage.navigateErrorClick();
         LOG.info("Step 1: Verify 'My Discussions' dahslet");
 
-        myDiscussionsDashlet.assertDashletTitleIs(language.translate("myDiscussionDashlet.title"))
+        myDiscussionsDashlet.assertDashletTitleEquals(language.translate("myDiscussionDashlet.title"))
             .assertNoTopicsMessageIsDisplayed();
 
         LOG.info("Step 2: Verify 'My Topics' filter");
@@ -65,11 +65,11 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Help icon");
         myDiscussionsDashlet.clickOnHelpIcon(DashletHelpIcon.MY_DISCUSSIONS);
-        assertTrue(myDiscussionsDashlet.isBalloonDisplayed());
+        assertTrue(myDiscussionsDashlet.isHelpBalloonDisplayed());
         assertEquals(myDiscussionsDashlet.getHelpBalloonMessage(), "Discussion Forum dashlet.\nView your latest posts on the Discussion Forum.");
 
         LOG.info("Step 5: Close ballon popup");
         myDiscussionsDashlet.closeHelpBalloon();
-        assertFalse(myDiscussionsDashlet.isBalloonDisplayed());
+        assertFalse(myDiscussionsDashlet.isHelpBalloonDisplayed());
     }
 }

@@ -42,7 +42,7 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void webViewDashlet()
     {
-        webViewDashlet.assertDashletTitleIs(language.translate("webViewDashlet.title"))
+        webViewDashlet.assertDashletTitleEquals(language.translate("webViewDashlet.title"))
             .assertNoWebPageMessageIsDisplayed()
             .assertConfigureDashletIconDisplayed()
             .clickOnHelpIcon(DashletHelpIcon.WEB_VIEW)

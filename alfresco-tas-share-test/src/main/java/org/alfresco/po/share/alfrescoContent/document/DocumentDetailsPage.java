@@ -1,5 +1,10 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
@@ -21,15 +26,30 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 @PageObject
 public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 {
+    private static final int BEGIN_INDEX = 0;
+    private static final String VERSION_NUMBER = "1";
+
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    EditPropertiesPage editPropertiesPage;
+
+    @Autowired
+    AspectsForm aspectsForm;
+
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    TinyMceEditor tinyMceEditor;
+
+    @FindAll (@FindBy (css = ".filename [href*=document-details]"))
+    private List<WebElement> filesList;
+
     @Autowired
     private CopyMoveUnzipToDialog copyMoveDialog;
 
@@ -158,27 +178,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy (xpath = "//a[contains(@title,'Edit Properties')]")
     protected WebElement editPropertiesLink;
 
-    protected By favouriteIcon = By.cssSelector("a[class$='favourite-action-favourite']");
-    protected By addToFavouriteIcon = By.cssSelector("a[class$='favourite-document']");
-    protected By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
-
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    EditPropertiesPage editPropertiesPage;
-
-    @Autowired
-    AspectsForm aspectsForm;
-
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    TinyMceEditor tinyMceEditor;
-
-    @FindAll (@FindBy (css = ".filename [href*=document-details]"))
-    private List<WebElement> filesList;
+    @FindBy (xpath = "//div[@class='previewer Image']/img")
+    protected WebElement documentImage;
 
     @FindAll (@FindBy (css = "[id*=comment-container]"))
     private List<WebElement> commentsList;
@@ -214,7 +215,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private WebElement revertButton;
 
     @FindBy (css = "iframe[id*='comments']")
-    private WebElement CommentTextArea;
+    private WebElement commentTextArea;
 
     @FindBy (xpath = ".//span[contains(@class,'locked')]")
     private WebElement lockedMessage;
@@ -234,16 +235,18 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy (id = "onActionCopyTo")
     private WebElement copyToAction;
 
-    private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
-    private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
-    private By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
-    private By commentButton = By.xpath("//span[@class ='item item-separator item-social']//a[@title = 'Comment on this document']");
-    private By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
-    private By editComment = By.cssSelector("[class*=edit-comment]");
-    private By commContent = By.cssSelector("[class=comment-content]");
-    private By documentActionsOptionsSelector = By.cssSelector(".action-set div a span");
-    private By olderVersion = By.cssSelector("div[id$='_default-olderVersions'] span.document-version");
-    private By latestVersion = By.cssSelector("div[id$='_default-latestVersion'] span.document-version");
+    private final By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
+    private final By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
+    private final By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
+    private final By commentButton = By.xpath("//span[@class ='item item-separator item-social']//a[@title = 'Comment on this document']");
+    private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By editComment = By.cssSelector("[class*=edit-comment]");
+    private final By commContent = By.cssSelector("[class=comment-content]");
+    private final By documentActionsOptionsSelector = By.cssSelector(".action-set div a span");
+    private final By olderVersion = By.cssSelector("div[id$='_default-olderVersions'] span.document-version");
+    private final By latestVersion = By.cssSelector("div[id$='_default-latestVersion'] span.document-version");
+    protected final By addToFavouriteIcon = By.cssSelector("a[class$='favourite-document']");
+    protected final By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
 
     @Override
     public String getRelativePath()
@@ -257,17 +260,17 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return this;
     }
 
-    public DocumentDetailsPage assertDocumentDetailsHasFileNameHeaderEqualsTo(String fileName)
+    public DocumentDetailsPage assertDocumentTitleEquals(FileModel expectedFileTitle)
     {
-        LOG.info("Assert Document Details page is opened for file {}", fileName);
-        assertTrue(headerFileName.getText().contains(fileName),
-            String.format("Document details page is opened for file %s", fileName));
-        return this;
-    }
+        LOG.info("Assert file title equals: {}", expectedFileTitle.getName());
+        String fileTitle = headerFileName.getText()
+            .substring(BEGIN_INDEX, headerFileName.getText()
+                .indexOf(VERSION_NUMBER));
 
-    public DocumentDetailsPage assertDocumentDetailsHasFileNameHeaderEqualsTo(FileModel expectedFile)
-    {
-        return assertDocumentDetailsHasFileNameHeaderEqualsTo(expectedFile.getName());
+        assertEquals(fileTitle, expectedFileTitle.getName(),
+            String.format("Document title not equals %s", expectedFileTitle.getName()));
+
+        return this;
     }
 
     public boolean isDocumentFavourite()
@@ -280,7 +283,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(socialBar, 5);
         return browser.waitUntilElementsVisible(By.cssSelector("a[class$='favourite-document']")).get(0).getAttribute("title")
-                  .equals("Add document to favorites");
+                      .equals("Add document to favorites");
     }
 
     public boolean isAddCommentBlockDisplayed()
@@ -832,11 +835,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return (EditPropertiesPage) editPropertiesPage.renderedPage();
     }
 
-    /**
-     * This method is used to get the list of files name
-     *
-     * @return foldersName
-     */
     public List<String> getDocumentLibraryFilesList()
     {
         List<String> filesName = new ArrayList<>();
@@ -927,7 +925,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public void addCommentToItem(String comment)
     {
-        browser.switchTo().frame(browser.waitUntilElementVisible(CommentTextArea));
+        browser.switchTo().frame(browser.waitUntilElementVisible(commentTextArea));
         WebElement commentBody = browser.findElement(By.id("tinymce"));
         Utils.clearAndType(commentBody, comment);
         browser.switchTo().defaultContent();
@@ -938,6 +936,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         getBrowser().waitUntilElementClickable(addCommentButton).click();
         getBrowser().waitUntilElementVisible(By.cssSelector("form[id$='_default-add-form']"), 5L);
+    }
+
+    public void assertUploadedDocumentImageIsDisplayed()
+    {
+        LOG.info("Assert document image is displayed");
+        assertTrue(browser.isElementDisplayed(documentImage), "Document image is not displayed");
     }
 
     public CopyMoveUnzipToDialog clickCopyTo()

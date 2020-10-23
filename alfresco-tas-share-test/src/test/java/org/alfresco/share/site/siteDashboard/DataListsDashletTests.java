@@ -47,7 +47,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     {
         siteDataListsDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
-            .assertDashletTitleIs(language.translate(EXPECTED_DASHLET_TITLE))
+            .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .assertCreateDataListLinkDisplayed()
             .assertDisplayedMessageIs(language.translate(EXPECTED_EMPTY_LIST_MESSAGE))
             .clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
@@ -120,7 +120,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
             .assertDataListItemTitleIsDisplayed(LIST_ITEM_TITLE)
             .assertDataListItemDescriptionEquals(LIST_ITEM_TITLE, LIST_ITEM_DESCRIPTION)
-            .assertDashletTitleIs(language.translate(EXPECTED_DASHLET_TITLE))
+            .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
             .assertHelpBalloonMessageIs(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .clickListItemByTitle(LIST_ITEM_TITLE)

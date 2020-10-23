@@ -38,9 +38,14 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 1)
     public void checkActivitiesDashletWithNoActivities()
     {
+
+        myActivitiesDashlet.assertDashletTitleEquals(language.translate("myActivitiesDashlet.title"))
+//            .assertEmptyDashletMessageIsCorrect()
+            .assertRssFeedButtonIsDisplayed();
         myActivitiesDashlet
             .assertEmptyDashletMessageEquals()
-            .assertRssFeedButtonIsDisplayed().assertDashletTitleIs(language.translate("myActivitiesDashlet.title"))
+            .assertRssFeedButtonIsDisplayed().assertDashletTitleEquals(language.translate("myActivitiesDashlet.title"))
+
             .clickOnHelpIcon(DashletHelpIcon.MY_ACTIVITIES)
             .assertBalloonMessageIsDisplayed()
             .assertHelpBalloonMessageIs(language.translate("myActivitiesDashlet.helpMessage"))
@@ -70,7 +75,7 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
         userDashboard.navigate(user);
         myActivitiesDashlet.clickDocumentLinkForAddActivity(user, testFile, testSite)
             .assertDocumentDetailsPageIsOpened()
-            .assertDocumentDetailsHasFileNameHeaderEqualsTo(testFile);
+            .assertDocumentTitleEquals(testFile);
         userDashboard.navigate(user);
         myActivitiesDashlet.assertPreviewedDocumentActivityIsDisplayed(user, testFile, testSite);
     }

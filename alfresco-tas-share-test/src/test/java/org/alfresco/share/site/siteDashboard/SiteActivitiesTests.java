@@ -62,10 +62,43 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void checkSiteActivitiesDashletWithNoActivities()
     {
+        String uniqueIdentifier = String.format("-C2803-%s", RandomData.getRandomAlphanumeric());
+        String user = "profileUser" + uniqueIdentifier;
+        String siteName = "Site" + uniqueIdentifier;
+        String description = "Description" + uniqueIdentifier;
+
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+
+        setupAuthenticatedSession(user, password);
+        siteDashboardPage.navigate(siteName);
+        assertEquals(siteActivitiesDashlet.getDashletTitle(), "Site Activities", "Dashlet title-");
+
+        LOG.info("STEP1: Verify 'Site Activities' dashlet");
+//        assertEquals(siteActivitiesDashlet.getEmptyDashletMessage(), language.translate("activities.empty"), "Empty dashlet message-");
+
+        LOG.info("STEP2: Verify available actions");
+        siteActivitiesDashlet.assertRssFeedButtonIsDisplayed();
+
+        assertEquals(siteActivitiesDashlet.assertDashletHelpIconIsDisplayed(Dashlet.DashletHelpIcon.SITE_ACTIVITIES), true, "'Help' icon is displayed.");
+
+        siteActivitiesDashlet.assertActivitiesFilterHasAllOptions();
+
+        LOG.info("STEP3: Click '?' icon");
+        siteActivitiesDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_ACTIVITIES);
+        assertEquals(siteActivitiesDashlet.getHelpBalloonMessage(), language.translate("siteActivities.help"), "'Help' balloon message-");
+
+        LOG.info("STEP4: Click 'X' icon");
+        siteActivitiesDashlet.closeHelpBalloon();
+        assertEquals(siteActivitiesDashlet.isHelpBalloonDisplayed(), false, "'Help' balloon is closed.");
+        userService.delete(adminUser, adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser, adminPassword, siteName);
+
         siteDashboardPage.navigate(testSite);
         siteActivitiesDashlet
             .assertEmptyDashletMessageEquals()
-            .assertRssFeedButtonIsDisplayed().assertDashletTitleIs(language.translate("siteActivities.title"))
+            .assertRssFeedButtonIsDisplayed().assertDashletTitleEquals(language.translate("siteActivities.title"))
             .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_ACTIVITIES)
                 .assertBalloonMessageIsDisplayed()
                 .assertHelpBalloonMessageIs(language.translate("siteActivities.help"))

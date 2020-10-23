@@ -394,9 +394,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return (UploadFileDialog) uploadDialog.renderedPage();
     }
 
-    public DocumentLibraryPage uploadNewImage(String pathToPhoto)
+    public DocumentLibraryPage uploadNewImage(String imagePath)
     {
-        return (DocumentLibraryPage) clickUpload().uploadFileAndRenderPage(pathToPhoto, this);
+        LOG.info("Upload image to path: {}", imagePath);
+        return (DocumentLibraryPage) clickUpload().uploadFileAndRenderPage(imagePath, this);
     }
 
     public boolean isDocumentListDisplayed()

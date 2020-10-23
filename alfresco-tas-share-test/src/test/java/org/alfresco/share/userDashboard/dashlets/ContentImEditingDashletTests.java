@@ -3,8 +3,6 @@ package org.alfresco.share.userDashboard.dashlets;
 import org.alfresco.po.share.dashlet.ContentImEditingDashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -46,7 +44,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
     public void checkContentImEditingTests()
     {
         userDashboard.assertDashletIsAddedInPosition(Dashlets.CONTENT_I_AM_EDITING,1, 3);
-        contentImEditingDashlet.assertDashletTitleIs(language.translate("contentImEditingDashlet.title"))
+        contentImEditingDashlet.assertDashletTitleEquals(language.translate("contentImEditingDashlet.title"))
             .clickHelpIcon()
             .assertBalloonMessageIsDisplayed()
             .assertHelpBalloonMessageIs(language.translate("contentImEditingDashlet.HelpBalloonText"))

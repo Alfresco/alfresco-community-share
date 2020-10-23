@@ -57,21 +57,21 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
     {
         siteDashboardPage.navigate(siteName);
 
-        savedSearchDashlet.assertDashletTitleIs(language.translate("savedSearchDashlet.title"))
+        savedSearchDashlet.assertDashletTitleEquals(language.translate("savedSearchDashlet.title"))
             .assertNoResultsMessageIsDisplayed()
             .assertConfigureDashletButtonIsDisplayed();
 //        assertTrue(savedSearchDashlet.isHelpIconDisplayed(DashletHelpIcon.SAVED_SEARCH));
 
         LOG.info("Step 2: Click Help icon");
         savedSearchDashlet.clickOnHelpIcon(DashletHelpIcon.SAVED_SEARCH);
-        assertTrue(savedSearchDashlet.isBalloonDisplayed());
+        assertTrue(savedSearchDashlet.isHelpBalloonDisplayed());
         assertEquals(savedSearchDashlet.getHelpBalloonMessage(), "Use this dashlet to set up a search and view the results."
             + "\nConfigure the dashlet to save the search and set the title text of the dashlet."
             + "\nOnly a Site Manager can configure the search and title - this dashlet is ideal for generating report views in a site.");
 
         LOG.info("Step 3: Close balloon popup");
         savedSearchDashlet.closeHelpBalloon();
-        assertFalse(savedSearchDashlet.isBalloonDisplayed());
+        assertFalse(savedSearchDashlet.isHelpBalloonDisplayed());
 
         LOG.info("Step 4: Click 'Configure this dashlet' icon");
         savedSearchDashlet.clickConfigureDashlet()
