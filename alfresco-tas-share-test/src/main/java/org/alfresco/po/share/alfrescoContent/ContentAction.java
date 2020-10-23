@@ -72,6 +72,8 @@ public class ContentAction
     public AlfrescoContentPage selectFolder()
     {
         LOG.info("Select Folder");
+        WebElement contentRow = getContentRow();
+        getBrowser().waitUntilChildElementIsPresent(contentRow, contentNameSelector);
         getContentRow().findElement(contentNameSelector).click();
         alfrescoContentPage.waitForCurrentFolderBreadcrumb((FolderModel) contentModel);
         return alfrescoContentPage;

@@ -7,6 +7,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -69,11 +70,17 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         By folderRow = By.xpath(String.format(folderElementToSelectRow, folderToSelect.getName()));
         By folder = By.xpath(String.format(folderElementToSelect, folderToSelect.getName()));
         browser.waitUntilElementVisible(folderPathsArea);
+        WebElement selectedFolder = browser.waitUntilChildElementIsPresent(folderPathsArea, folder);
+        try
+        {
+            browser.waitUntilElementClickable(selectedFolder).click();
+        }
+        catch (ElementClickInterceptedException e)
+        {
+            LOG.info("Retry click on folder");
+            selectedFolder.click();
+        }
         WebElement selectRow = browser.waitUntilChildElementIsPresent(folderPathsArea, folderRow);
-        WebElement folderElement = selectRow.findElement(folder);
-        browser.waitUntilElementVisible(folderElement);
-        browser.mouseOver(folderElement);
-        browser.clickJS(folderElement);
         browser.waitUntilElementHasAttribute(selectRow, "class", "selected");
         return this;
     }
