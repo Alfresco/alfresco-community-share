@@ -43,7 +43,7 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
             .assertSearchButtonIsDisplayed()
             .clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("siteSearchDashlet.balloonMessage"))
+            .assertHelpBalloonMessageEquals(language.translate("siteSearchDashlet.balloonMessage"))
             .closeHelpBalloon()
             .assertAllLimitValuesAreDisplayed()
                 .typeInSearch(RandomData.getRandomAlphanumeric())

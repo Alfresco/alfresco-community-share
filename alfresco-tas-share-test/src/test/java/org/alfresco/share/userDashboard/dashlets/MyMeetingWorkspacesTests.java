@@ -40,7 +40,7 @@ public class MyMeetingWorkspacesTests extends AbstractUserDashboardDashletsTests
             .assertNoMeetingWorkspacesMessageIsDisplayed()
             .clickOnHelpIcon(DashletHelpIcon.MY_MEETING_WORKSPACES)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("myMeetingWorkspacesDashlet.helpBalloonMessage"))
+            .assertHelpBalloonMessageEquals(language.translate("myMeetingWorkspacesDashlet.helpBalloonMessage"))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();
     }

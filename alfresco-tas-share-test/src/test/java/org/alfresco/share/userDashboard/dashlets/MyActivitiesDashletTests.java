@@ -38,17 +38,12 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 1)
     public void checkActivitiesDashletWithNoActivities()
     {
-
-        myActivitiesDashlet.assertDashletTitleEquals(language.translate("myActivitiesDashlet.title"))
-//            .assertEmptyDashletMessageIsCorrect()
-            .assertRssFeedButtonIsDisplayed();
         myActivitiesDashlet
             .assertEmptyDashletMessageEquals()
             .assertRssFeedButtonIsDisplayed().assertDashletTitleEquals(language.translate("myActivitiesDashlet.title"))
-
             .clickOnHelpIcon(DashletHelpIcon.MY_ACTIVITIES)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("myActivitiesDashlet.helpMessage"))
+            .assertHelpBalloonMessageEquals(language.translate("myActivitiesDashlet.helpMessage"))
             .closeHelpBalloon()
                 .assertActivitiesFilterHasAllOptions()
                 .assertSelectedActivityFilterContains(language.translate("activitiesDashlet.filter.everyone"))

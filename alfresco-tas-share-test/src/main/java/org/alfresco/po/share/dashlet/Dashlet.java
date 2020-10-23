@@ -141,11 +141,11 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return helpBallonText.getText();
     }
 
-    public T assertHelpBalloonMessageIs(String expectedMessage)
+    public T assertHelpBalloonMessageEquals(String expectedMessage)
     {
-        LOG.info("Assert balloon message is: {}", expectedMessage);
+        LOG.info("Assert balloon message equals: {}", expectedMessage);
         assertEquals(browser.waitUntilElementVisible(helpBallonText).getText(), expectedMessage,
-            "Balloon has not the expected message");
+            String.format("Help balloon message not equals %s ", expectedMessage));
 
         return (T) this;
     }
@@ -169,10 +169,11 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         return (T) this;
     }
 
-    public T assertDashletTitleEquals(String title)
+    public T assertDashletTitleEquals(String expectedTitle)
     {
-        LOG.info("Assert dashlet title is: {}", title);
-        assertEquals(getDashletTitle(), title, String.format("Dashlet title not equals %s", title));
+        LOG.info("Assert dashlet title equals: {}", expectedTitle);
+        assertEquals(getDashletTitle(), expectedTitle,
+            String.format("Dashlet title not equals %s ",expectedTitle));
 
         return (T) this;
     }

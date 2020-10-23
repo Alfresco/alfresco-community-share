@@ -37,7 +37,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     @FindBy (css = "span[id='HEADER_REPOSITORY_text'] a")
     protected WebElement repositoryButton;
     @FindBy (css = "#yui-gen48")
-    protected WebElement errorButton;
+    protected WebElement okErrorDialogButton;
     private String currentSiteName;
     @FindBy (css = "h1[id='HEADER_TITLE'] a.alfresco-navigation-_HtmlAnchorMixin")
     private WebElement siteName;
@@ -172,9 +172,12 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
         return browser.waitUntilElementVisible(siteName).getText();
     }
 
-    public void navigateErrorClick()
+    public void clickOkButtonFromErrorDialogIfDisplayed()
     {
-        if (getBrowser().isElementDisplayed(errorButton))
-            errorButton.click();
+        if (getBrowser().isElementDisplayed(okErrorDialogButton))
+        {
+            LOG.info("Click OK button from error dialog");
+            okErrorDialogButton.click();
+        }
     }
 }

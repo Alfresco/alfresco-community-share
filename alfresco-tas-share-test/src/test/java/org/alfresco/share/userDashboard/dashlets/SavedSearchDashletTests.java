@@ -44,7 +44,7 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
             .assertConfigureDashletButtonIsDisplayed()
             .clickOnHelpIcon(DashletHelpIcon.SAVED_SEARCH)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("savedSearchDashlet.balloonMessage"))
+            .assertHelpBalloonMessageEquals(language.translate("savedSearchDashlet.balloonMessage"))
             .closeHelpBalloon()
             .clickConfigureDashlet()
                 .assertDialogTitleEqualsWithExpected(language.translate("savedSearchDashlet.config.title"))

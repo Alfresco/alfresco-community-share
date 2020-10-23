@@ -40,7 +40,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
         mySitesDashlet.assertDashletTitleEquals(language.translate("mySitesDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_SITES)
                 .assertBalloonMessageIsDisplayed()
-                .assertHelpBalloonMessageIs(language.translate("mySitesDashlet.balloonMessage"))
+                .assertHelpBalloonMessageEquals(language.translate("mySitesDashlet.balloonMessage"))
                 .closeHelpBalloon()
             .assertSitesFilterButtonIsDisplayed()
             .assertCreateSiteButtonIsDisplayed()

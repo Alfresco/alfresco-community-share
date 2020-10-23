@@ -65,7 +65,7 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
         imagePreviewDashlet
              .assertDashletTitleEquals(language.translate(EXPECTED_IMAGE_PREVIEW_DASHLET_TITLE))
              .clickOnHelpIcon(DashletHelpIcon.IMAGE_PREVIEW)
-             .assertHelpBalloonMessageIs(language.translate(EXPECTED_IMAGE_PREVIEW_HELP_BALLOON_MESSAGE))
+             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_IMAGE_PREVIEW_HELP_BALLOON_MESSAGE))
              .closeHelpBalloon()
              .assertBalloonMessageIsNotDisplayed();
     }

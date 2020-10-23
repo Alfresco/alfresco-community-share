@@ -52,7 +52,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
         myTasksDashlet.assertDashletTitleEquals(language.translate("myTasksDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_TASKS)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("myTasksDashlet.balloonMessage"))
+            .assertHelpBalloonMessageEquals(language.translate("myTasksDashlet.balloonMessage"))
             .assertStartWorkflowIsDisplayed()
             .assertCompletedTasksButtonIsDisplayed()
             .assertActiveTasksButtonIsDisplayed()

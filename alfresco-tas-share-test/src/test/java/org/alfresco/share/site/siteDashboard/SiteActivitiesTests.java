@@ -101,7 +101,7 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
             .assertRssFeedButtonIsDisplayed().assertDashletTitleEquals(language.translate("siteActivities.title"))
             .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_ACTIVITIES)
                 .assertBalloonMessageIsDisplayed()
-                .assertHelpBalloonMessageIs(language.translate("siteActivities.help"))
+                .assertHelpBalloonMessageEquals(language.translate("siteActivities.help"))
                 .closeHelpBalloon()
             .assertActivitiesFilterHasAllOptions()
             .assertSelectedActivityFilterContains(language.translate("activitiesDashlet.filter.everyone"))

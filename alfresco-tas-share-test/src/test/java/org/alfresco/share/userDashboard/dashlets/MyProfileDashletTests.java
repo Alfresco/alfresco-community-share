@@ -58,7 +58,7 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
         myProfileDashlet.assertDashletTitleEquals(language.translate("myProfileDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_PROFILE)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("myProfileDashlet.helpBalloonMessage"))
+            .assertHelpBalloonMessageEquals(language.translate("myProfileDashlet.helpBalloonMessage"))
             .closeHelpBalloon()
             .assertViewFullProfileButtonIsDisplayed()
             .assertAvatarIsDisplayed()

@@ -50,7 +50,7 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
             .assertNoUpcomingEventsIsDisplayed()
             .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_CALENDAR)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("myCalendarDashlet.HelpBalloonText"))
+            .assertHelpBalloonMessageEquals(language.translate("myCalendarDashlet.HelpBalloonText"))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();
     }

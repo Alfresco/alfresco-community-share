@@ -47,7 +47,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
         contentImEditingDashlet.assertDashletTitleEquals(language.translate("contentImEditingDashlet.title"))
             .clickHelpIcon()
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageIs(language.translate("contentImEditingDashlet.HelpBalloonText"))
+            .assertHelpBalloonMessageEquals(language.translate("contentImEditingDashlet.HelpBalloonText"))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed()
             .assertAllHeadersAreDisplayed();

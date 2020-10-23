@@ -1,75 +1,79 @@
 package org.alfresco.share.site.siteDashboard;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
-import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
-import org.alfresco.dataprep.SiteService;
+import java.util.Arrays;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyDiscussionsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class MyDiscussionsDashletTests extends ContextAwareWebTest
+public class MyDiscussionsDashletTests extends AbstractSiteDashboardDashletsTests
 {
+    private static final String EXPECTED_DASHLET_TITLE = "myDiscussionDashlet.title";
+    private static final String EXPECTED_EMPTY_TOPICS_MESSAGE = "myDiscussionDashlet.noTopicsMessage";
+    private static final String EXPECTED_MY_TOPICS = "myDiscussionDashlet.myTopics";
+    private static final String EXPECTED_ALL_TOPICS = "myDiscussionDashlet.allTopics";
+    private static final String EXPECTED_LAST_DAY = "myDiscussionDashlet.lastDay";
+    private static final String EXPECTED_LAST_7_DAYS = "myDiscussionDashlet.last7Days";
+    private static final String EXPECTED_LAST_14_DAYS = "myDiscussionDashlet.last14Days";
+    private static final String EXPECTED_LAST_28_DAYS = "myDiscussionDashlet.last28Days";
+    private static final String EXPECTED_HELP_BALLOON_MESSAGE = "myDiscussionDashlet.helpBalloonMessage";
+
+    private UserModel userModel;
+    private SiteModel siteModel;
 
     @Autowired
-    SiteDashboardPage siteDashboardPage;
+    private SiteDashboardPage siteDashboardPage;
 
     @Autowired
-    MyDiscussionsDashlet myDiscussionsDashlet;
-
-    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private MyDiscussionsDashlet myDiscussionsDashlet;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(userName, password, siteName, SiteDashlet.MY_DISCUSSIONS, DashletLayout.THREE_COLUMNS, 3, 1);
-        setupAuthenticatedSession(userName, password);
-    }
+        userModel = dataUser.usingAdmin().createRandomTestUser();
+        setupAuthenticatedSession(userModel);
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        addDashlet(siteModel, Dashlets.MY_DISCUSSIONS, 1);
     }
 
     @TestRail (id = "C2791")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void myDiscussionsDashlet()
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayMyDiscussionDashletDropDownsWithOptions()
     {
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.navigateErrorClick();
-        LOG.info("Step 1: Verify 'My Discussions' dahslet");
+        siteDashboardPage.navigate(siteModel);
+        myDiscussionsDashlet
+            .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
+            .assertNoTopicsMessageEquals(language.translate(EXPECTED_EMPTY_TOPICS_MESSAGE))
 
-        myDiscussionsDashlet.assertDashletTitleEquals(language.translate("myDiscussionDashlet.title"))
-            .assertNoTopicsMessageIsDisplayed();
+            .assertMyTopicsDropdownOptionsEqual(Arrays.asList(
+                language.translate(EXPECTED_MY_TOPICS),
+                language.translate(EXPECTED_ALL_TOPICS)))
 
-        LOG.info("Step 2: Verify 'My Topics' filter");
-        myDiscussionsDashlet.assertTopicDropdownHasAllOptions()
-            .assertHistoryDropdownHasAllOptions();
+            .assertHistoryDropdownOptionsEqual(Arrays.asList(
+                language.translate(EXPECTED_LAST_DAY),
+                language.translate(EXPECTED_LAST_7_DAYS),
+                language.translate(EXPECTED_LAST_14_DAYS),
+                language.translate(EXPECTED_LAST_28_DAYS)))
 
-        LOG.info("Step 4: Click Help icon");
-        myDiscussionsDashlet.clickOnHelpIcon(DashletHelpIcon.MY_DISCUSSIONS);
-        assertTrue(myDiscussionsDashlet.isHelpBalloonDisplayed());
-        assertEquals(myDiscussionsDashlet.getHelpBalloonMessage(), "Discussion Forum dashlet.\nView your latest posts on the Discussion Forum.");
+            .clickOnHelpIcon(DashletHelpIcon.MY_DISCUSSIONS)
+            .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
+            .closeHelpBalloon()
+            .assertBalloonMessageIsNotDisplayed();
+    }
 
-        LOG.info("Step 5: Close ballon popup");
-        myDiscussionsDashlet.closeHelpBalloon();
-        assertFalse(myDiscussionsDashlet.isHelpBalloonDisplayed());
+    @AfterClass (alwaysRun = true)
+    public void cleanupTest()
+    {
+       removeUserFromAlfresco(userModel);
+       deleteSites(siteModel);
     }
 }

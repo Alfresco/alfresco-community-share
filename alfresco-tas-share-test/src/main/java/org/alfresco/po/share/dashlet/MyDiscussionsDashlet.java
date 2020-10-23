@@ -1,18 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import static org.testng.Assert.assertEquals;
 
-import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 @PageObject
 public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
@@ -40,10 +36,12 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    public MyDiscussionsDashlet assertNoTopicsMessageIsDisplayed()
+    public MyDiscussionsDashlet assertNoTopicsMessageEquals(String expectedMessage)
     {
-        LOG.info("Assert No topics message is displayed");
-        Assert.assertEquals(defaultDashletMessage.getText(), language.translate("myDiscussionDashlet.noTopics"));
+        LOG.info("Assert No topics message equals:{}", expectedMessage);
+        assertEquals(defaultDashletMessage.getText(), expectedMessage,
+            String.format("No topics message not equals %s", expectedMessage));
+
         return this;
     }
 
@@ -67,28 +65,25 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
         return options;
     }
 
-    public MyDiscussionsDashlet assertTopicDropdownHasAllOptions()
+    public MyDiscussionsDashlet assertMyTopicsDropdownOptionsEqual(List<String> myTopicsDropDownOptions)
     {
-        LOG.info("Assert all options from topics filter are displayed");
+        LOG.info("Assert My Topics drop down options equal: {}",myTopicsDropDownOptions);
         clickOnTopicButton();
-        List<String> currentOptions = browser.getTextFromElementList(dropDownOptionsList);
-        List<String> expectedValues = Arrays.asList(language.translate("myDiscussionDashlet.myTopics"),
-            language.translate("myDiscussionDashlet.allTopics"));
-        Assert.assertTrue(currentOptions.equals(expectedValues), "All options are found");
+        List<String> actualDropDownOptions = browser.getTextFromElementList(dropDownOptionsList);
+        assertEquals(myTopicsDropDownOptions, actualDropDownOptions,
+            String.format("My Topics drop down options not equal %s", myTopicsDropDownOptions));
+
         return this;
     }
 
-    public MyDiscussionsDashlet assertHistoryDropdownHasAllOptions()
+    public MyDiscussionsDashlet assertHistoryDropdownOptionsEqual(List<String> historyDropDownOptions)
     {
-        LOG.info("Assert all options from history filter are displayed");
+        LOG.info("Assert History drop down options equal: {}", historyDropDownOptions);
         clickHistoryButton();
-        List<String> expectedValues = Arrays.asList(
-            language.translate("myDiscussionDashlet.lastDay"),
-            language.translate("myDiscussionDashlet.last7Days"),
-            language.translate("myDiscussionDashlet.last14Days"),
-            language.translate("myDiscussionDashlet.last28Days"));
-        List<String> currentOptions = getCurrentOptions();
-        Assert.assertTrue(currentOptions.equals(expectedValues), "All options are found");
+        List<String> actualDropDownOptions = getCurrentOptions();
+        assertEquals(historyDropDownOptions, actualDropDownOptions,
+            String.format("History drop down options not equal %s", historyDropDownOptions));
+
         return this;
     }
 }
