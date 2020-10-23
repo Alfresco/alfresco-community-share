@@ -68,6 +68,8 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         browser.waitUntilElementVisible(folderPathsArea);
         WebElement folder = browser.waitUntilChildElementIsPresent(folderPathsArea,
             By.xpath(String.format(folderElementToSelect, folderToSelect.getName())));
+        browser.mouseOver(folder);
+        browser.waitUntilElementVisible(folder);
         browser.waitUntilElementClickable(folder).click();
         return this;
     }
