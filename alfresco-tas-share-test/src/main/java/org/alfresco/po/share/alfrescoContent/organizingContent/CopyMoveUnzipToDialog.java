@@ -65,12 +65,12 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     public CopyMoveUnzipToDialog selectFolder(FolderModel folderToSelect)
     {
         LOG.info("Select folder {}", folderToSelect.getName());
+        By folder = By.xpath(String.format(folderElementToSelect, folderToSelect.getName();
         browser.waitUntilElementVisible(folderPathsArea);
-        WebElement folder = browser.waitUntilChildElementIsPresent(folderPathsArea,
+        browser.waitUntilChildElementIsPresent(folderPathsArea,
             By.xpath(String.format(folderElementToSelect, folderToSelect.getName())));
-        browser.mouseOver(folder);
-        browser.waitUntilElementVisible(folder);
-        browser.waitUntilElementClickable(folder).click();
+        WebElement folderElement = folderPathsArea.findElement(folder);
+        browser.waitUntilElementVisible(folderElement).click();
         return this;
     }
 
