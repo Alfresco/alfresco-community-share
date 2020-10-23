@@ -6,6 +6,7 @@ import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -37,8 +38,9 @@ public class RemoveUserFromGroupDialog extends ShareDialog
         return this;
     }
 
-    public RemoveUserFromGroupDialog assertDialogMessageIsCorrect(UserModel user)
+    public RemoveUserFromGroupDialog assertRemoveUserDialogMessageIsCorrect(UserModel user)
     {
+        LOG.info("Assert remove dialog message for user {} is correct", user.getUsername());
         String userFormat = String.format("%s %s (%s)",
             user.getFirstName(), user.getLastName(), user.getUsername());
         String expectedDialogMessage = String.format(language.translate("adminTools.groups.removeUser.message"), userFormat);
@@ -57,14 +59,15 @@ public class RemoveUserFromGroupDialog extends ShareDialog
 
     public RemoveUserFromGroupDialog assertNoButtonIsDisplayed()
     {
-        LOG.info("Assert Yes button is displayed");
+        LOG.info("Assert No button is displayed");
         Assert.assertTrue(browser.isElementDisplayed(buttonsList.get(1)), "No button is displayed");
         return this;
     }
 
     public void clickYes()
     {
-        buttonsList.get(0).click();
+        LOG.info("Click Yes");
+        browser.waitUntilElementClickable(buttonsList.get(0)).click();
         waitUntilMessageDisappears();
     }
 }

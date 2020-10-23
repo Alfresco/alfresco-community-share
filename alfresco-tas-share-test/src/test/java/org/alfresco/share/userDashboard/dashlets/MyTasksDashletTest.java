@@ -40,6 +40,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
     public void cleanup()
     {
         removeUserFromAlfresco(addUserAfterWorkflow, taskUser);
+        dataGroup.usingAdmin().deleteGroup(testGroup);
         dataSite.usingAdmin().deleteSite(site);
     }
 

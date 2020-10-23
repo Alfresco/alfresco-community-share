@@ -193,11 +193,6 @@ public class GroupsPage extends AdminToolsPage
         return this;
     }
 
-    public void checkShowSystemGroupsCheckbox()
-    {
-        showSystemGroupsCheckbox.click();
-    }
-
     public GroupsPage assertGroupIsDisplayed(GroupModel groupModel)
     {
         Assert.assertTrue(browser.isElementDisplayed(getItemGroup(groupModel.getDisplayName())),

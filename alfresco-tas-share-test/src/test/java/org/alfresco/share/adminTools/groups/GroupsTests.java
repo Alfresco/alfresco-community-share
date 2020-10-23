@@ -3,7 +3,6 @@ package org.alfresco.share.adminTools.groups;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
@@ -34,7 +33,7 @@ public class GroupsTests extends ContextAwareWebTest
                        parent1, parent2, parent3, subGroup;
 
     @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    public void setupTest()
     {
         createGroup = new GroupModel(RandomData.getRandomAlphanumeric());
         searchGroup = new GroupModel(c9471group);
@@ -54,11 +53,11 @@ public class GroupsTests extends ContextAwareWebTest
         setupAuthenticatedSession(getAdminUser());
     }
 
-    @AfterClass
-    public void afterClass()
+    @AfterClass(alwaysRun = true)
+    public void cleanUp()
     {
         cleanupAuthenticatedSession();
-        asList(createGroup, deleteGroup, editGroup, searchGroup, searchGroup1, parent1)
+        asList(createGroup, deleteGroup, editGroup, searchGroup, searchGroup1, parent1, parent2, parent3, subGroup)
             .forEach(group -> dataGroup.usingAdmin().deleteGroup(group));
     }
 

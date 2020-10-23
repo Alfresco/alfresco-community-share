@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  */
 public class SubgroupsTests extends ContextAwareWebTest
 {
-    private GroupModel parentGroup, subGroupToRemove;
+    private GroupModel parentGroup;
     private UserModel userToAdd, userToRemove;
 
     @Autowired
@@ -30,9 +30,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         userToRemove = dataUser.usingAdmin().createRandomTestUser();
 
         parentGroup = dataGroup.usingAdmin().createRandomGroup();
-        subGroupToRemove = dataGroup.createRandomGroup();
         dataGroup.usingUser(userToRemove).addUserToGroup(parentGroup);
-        dataGroup.addGroupToParentGroup(parentGroup, subGroupToRemove);
         setupAuthenticatedSession(getAdminUser());
     }
 
@@ -57,6 +55,7 @@ public class SubgroupsTests extends ContextAwareWebTest
                 .assertCancelCreateNewGroupButtonDisplayed()
                 .createGroup(subGroup)
                 .assertColumnContainsGroup(2, subGroup.getGroupIdentifier());
+        dataGroup.usingAdmin().deleteGroup(subGroup);
     }
 
     @TestRail (id = "C9491, C9478")
@@ -80,6 +79,7 @@ public class SubgroupsTests extends ContextAwareWebTest
                 .addGroup(addedSubGroup);
         groupsPage.waitUntilNotificationMessageDisappears();
         groupsPage.assertColumnContainsGroup(2, addedSubGroup.getDisplayName());
+        dataGroup.usingAdmin().deleteGroup(addedSubGroup);
     }
 
     @TestRail (id = "C9481, C9485")
@@ -113,14 +113,14 @@ public class SubgroupsTests extends ContextAwareWebTest
             .selectGroup(parentGroup)
             .clickRemoveUser(userToRemove)
                 .assertDialogTitleIsCorrect()
-                .assertDialogMessageIsCorrect(userToRemove)
+                .assertRemoveUserDialogMessageIsCorrect(userToRemove)
                 .assertYesButtonIsDisplayed()
                 .assertNoButtonIsDisplayed()
                 .clickYes();
         groupsPage.assertUserIsNotDisplayed(userToRemove);
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void cleanupRemoveGroups()
     {
         dataGroup.usingAdmin().deleteGroup(parentGroup);
