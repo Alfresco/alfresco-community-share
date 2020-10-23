@@ -209,6 +209,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertUserIsNotDisplayed(UserModel userModel)
     {
+        browser.waitUntilElementDisappears(By.xpath(String.format(groupRow, getUserFormat(userModel))));
         Assert.assertFalse(isGroupDisplayed(getUserFormat(userModel)),
             String.format("User %s was found", userModel.getUsername()));
         return this;

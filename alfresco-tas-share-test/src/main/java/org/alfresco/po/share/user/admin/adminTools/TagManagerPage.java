@@ -181,7 +181,7 @@ public class TagManagerPage extends AdminToolsPage
     {
         clearAndType(searchInput, tagName);
         browser.mouseOver(searchButton);
-        browser.waitUntilElementClickable(searchButton).click();
+        browser.clickJS(searchButton);
         return (TagManagerPage) this.renderedPage();
     }
 

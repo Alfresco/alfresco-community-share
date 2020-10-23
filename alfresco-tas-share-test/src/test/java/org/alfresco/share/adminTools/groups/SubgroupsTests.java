@@ -102,7 +102,6 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.assertColumnContainsUser(2, userToAdd);
     }
 
-
     @TestRail (id = "C9490")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeUser()
