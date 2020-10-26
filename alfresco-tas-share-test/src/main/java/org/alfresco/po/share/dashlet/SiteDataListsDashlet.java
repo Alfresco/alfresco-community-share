@@ -26,9 +26,6 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     @FindBy (css = ".site-data-lists .body a")
     protected List<WebElement> dataListsLinks;
 
-    @FindBy (css = ".dashlet-padding>h3")
-    protected WebElement message;
-
     @FindBy (css = ".datagrid-meta h2")
     protected WebElement dataListTitle;
 
@@ -52,6 +49,9 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 
     @FindBy (css = ".detail-list-item.first-item")
     protected WebElement detailListItem;
+
+    @FindBy (css = ".dashlet-padding>h3")
+    protected WebElement message;
 
     protected By newListWindowLocator = By.cssSelector(".hd");
     protected By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
@@ -99,15 +99,6 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         LOG.info("Assert create data list link displayed");
         assertTrue(browser.isElementDisplayed(createDataListLinkLocator),
             "Create data list link is not displayed");
-
-        return this;
-    }
-
-    public SiteDataListsDashlet assertDisplayedMessageIs(String dataListExpectedMessage)
-    {
-        LOG.info("Assert displayed message is: {}", dataListExpectedMessage);
-        assertEquals(message.getText(), dataListExpectedMessage,
-            "Data list message is not displayed");
 
         return this;
     }
@@ -178,6 +169,15 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         assertEquals(getDataListRow(dataListTitle).findElement(descriptionElement).getText(),
             expectedItemDescription, String.format("Site data list item description %s not equals expected",
                 listItemDescriptionLocator));
+
+        return this;
+    }
+
+    public SiteDataListsDashlet assertEmptyListMessageEquals(String emptyMessageExpected)
+    {
+        LOG.info("Assert empty list message equals: {}", emptyMessageExpected);
+        assertEquals(message.getText(), emptyMessageExpected,
+            String.format("Empty list message not equals %s ", emptyMessageExpected));
 
         return this;
     }

@@ -45,6 +45,6 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
                 .clickOk();
         rssFeedDashlet.assertDashletTitleContains("FeedForAll Sample Feed")
             .clickOnRssLink(1)
-            .assertRssFeedLinkIsOpened(sampleRssFeedTitle);
+            .assertRssFeedLinkIsOpenedInNewBrowserTab(sampleRssFeedTitle);
     }
 }

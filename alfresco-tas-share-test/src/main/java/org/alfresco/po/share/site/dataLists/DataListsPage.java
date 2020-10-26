@@ -126,6 +126,15 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return this;
     }
 
+    public DataListsPage assertEmptyListMessageEquals(String emptyMessageExpected)
+    {
+        LOG.info("Assert empty list message equals: {}", emptyMessageExpected);
+        assertEquals(listMessage.getText(), emptyMessageExpected,
+            String.format("Empty list message not equals %s ", emptyMessageExpected));
+
+        return this;
+    }
+
     /**
      * Checking if the created data list displayed in 'List' is highlighted (this is happening only after the created list is clicked).
      *

@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 
 public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 {
+    private static final String EXPECTED_EMPTY_DATA_LIST_MESSAGE = "dataListPage.noListSelected.message";
     private final String EXPECTED_DASHLET_TITLE = "siteDataList.dashletTitle";
     private final String LIST_ITEM_TITLE = String.format("C5569%s", getRandomAlphanumeric());
     private final String LIST_ITEM_DESCRIPTION = String.format("C5569%s", getRandomAlphanumeric());
@@ -49,7 +50,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .assertCreateDataListLinkDisplayed()
-            .assertDisplayedMessageIs(language.translate(EXPECTED_EMPTY_LIST_MESSAGE))
+            .assertEmptyListMessageEquals(language.translate(EXPECTED_EMPTY_LIST_MESSAGE))
             .clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
@@ -100,7 +101,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(siteModel);
         siteDataListsDashlet.clickOnCreateDataListLink()
             .clickCancelButton()
-            .assertNoDataListSelectedMessageIsDisplayed();
+            .assertEmptyListMessageEquals(language.translate(EXPECTED_EMPTY_DATA_LIST_MESSAGE));
     }
 
     // TODO: To be moved in permission package

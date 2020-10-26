@@ -2,13 +2,8 @@ package org.alfresco.po.share.dashlet;
 
 import static org.testng.Assert.assertTrue;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;

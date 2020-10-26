@@ -4,7 +4,6 @@ import java.util.Arrays;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyDiscussionsDashlet;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -30,9 +29,6 @@ public class MyDiscussionsDashletTests extends AbstractSiteDashboardDashletsTest
     private SiteModel siteModel;
 
     @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
-    @Autowired
     private MyDiscussionsDashlet myDiscussionsDashlet;
 
     @BeforeClass (alwaysRun = true)
@@ -47,13 +43,12 @@ public class MyDiscussionsDashletTests extends AbstractSiteDashboardDashletsTest
 
     @TestRail (id = "C2791")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
-    public void shouldDisplayMyDiscussionDashletDropDownsWithOptions()
+    public void shouldDisplaySpecificMessageWhenMyDiscussionDashletHasNoTopics()
     {
         siteDashboardPage.navigate(siteModel);
         myDiscussionsDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .assertNoTopicsMessageEquals(language.translate(EXPECTED_EMPTY_TOPICS_MESSAGE))
-
             .assertMyTopicsDropdownOptionsEqual(Arrays.asList(
                 language.translate(EXPECTED_MY_TOPICS),
                 language.translate(EXPECTED_ALL_TOPICS)))

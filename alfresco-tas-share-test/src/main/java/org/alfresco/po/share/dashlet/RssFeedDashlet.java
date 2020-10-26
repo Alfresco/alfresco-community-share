@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
@@ -9,7 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 @PageObject
 public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
@@ -51,11 +52,6 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         return browser.isElementDisplayed(configureDashletButton);
     }
 
-    public int getFeedsListSize()
-    {
-        return feedsList.size();
-    }
-
     public EnterFeedURLPopUp configureDashlet()
     {
         LOG.info("Configure dashlet");
@@ -74,7 +70,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         return this;
     }
 
-    public RssFeedDashlet assertRssFeedLinkIsOpened(String expectedUrlTitle)
+    public RssFeedDashlet assertRssFeedLinkIsOpenedInNewBrowserTab(String expectedUrlTitle)
     {
         LOG.info("Assert RSS Feed window is opened");
         int tabs = browser.getWindowHandles().size();
@@ -89,6 +85,23 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         getBrowser().waitUrlContains(expectedUrlTitle, 20);
         assertTrue(getBrowser().getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
         getBrowser().closeWindowAndSwitchBack();
+        return this;
+    }
+
+    public RssFeedDashlet assertListSizeEquals(int expectedListSize)
+    {
+        LOG.info("Assert list size equals: {}", expectedListSize);
+        browser.refresh();
+        assertEquals(feedsList.size(), expectedListSize,
+            String.format("List size not equals %d ", expectedListSize));
+
+        return this;
+    }
+
+    public RssFeedDashlet assertHelpBalloonIsNotDisplayed()
+    {
+        LOG.info("Assert help balloon is not displayed");
+        assertFalse(isHelpBalloonDisplayed(), "Help balloon is displayed");
         return this;
     }
 }
