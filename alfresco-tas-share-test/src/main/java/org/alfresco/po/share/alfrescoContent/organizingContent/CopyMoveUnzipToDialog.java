@@ -8,11 +8,13 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -70,19 +72,30 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         By folderRow = By.xpath(String.format(folderElementToSelectRow, folderToSelect.getName()));
         By folder = By.xpath(String.format(folderElementToSelect, folderToSelect.getName()));
         browser.waitUntilElementVisible(folderPathsArea);
-        WebElement selectedFolder = browser.waitUntilChildElementIsPresent(folderPathsArea, folder);
-        try
-        {
-            browser.waitUntilElementClickable(selectedFolder).click();
-        }
-        catch (ElementClickInterceptedException e)
-        {
-            LOG.info("Retry click on folder");
-            selectedFolder.click();
-        }
-        WebElement selectRow = browser.waitUntilChildElementIsPresent(folderPathsArea, folderRow);
-        browser.waitUntilElementHasAttribute(selectRow, "class", "selected");
+        waitAndSelectFolder(folder, folderRow);
         return this;
+    }
+
+    private void waitAndSelectFolder(By folderElement, By folderRow)
+    {
+        int retry = 0;
+        while(retry < WAIT_15)
+        {
+            try
+            {
+                folderPathsArea.findElement(folderElement).click();
+                if(folderPathsArea.findElement(folderRow).getAttribute("class").contains("selected"))
+                {
+                    break;
+                }
+                break;
+            }
+            catch (ElementClickInterceptedException | StaleElementReferenceException | NoSuchElementException e)
+            {
+                retry++;
+                LOG.info("Retry select folder - {}", retry);
+            }
+        }
     }
 
     /**
