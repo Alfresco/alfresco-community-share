@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
@@ -17,12 +18,16 @@ import org.testng.annotations.Test;
  */
 public class LoginTests extends ContextAwareWebTest
 {
+    private String randomString = RandomData.getRandomAlphanumeric();
     private String dashBoardUrl = "share/page/user/%s/dashboard";
     private UserModel validUser;
-    private final String[] specialUsers = { "isaías", "user.name", "test3&test3", "test5=test5" };
+    private final String[] specialUsers = { randomString + "isaías",
+                                            randomString + "user.name",
+                                            randomString + "test3&test3",
+                                            randomString + "test5=test5" };
     private List<UserModel> specialUserList = new ArrayList<>();
-    private final UserModel specialPassUser = new UserModel("specialPassUser", "abc@123");
-    private UserModel testUserC2084 = new UserModel("testUserC2084", password);
+    private final UserModel specialPassUser = new UserModel("specialPassUser" + randomString, "abc@123");
+    private UserModel testUserC2084 = new UserModel("testUserC2084" + randomString, password);
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

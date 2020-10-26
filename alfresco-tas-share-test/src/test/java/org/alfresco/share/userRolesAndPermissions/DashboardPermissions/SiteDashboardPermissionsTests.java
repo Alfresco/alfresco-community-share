@@ -57,7 +57,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8723")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void siteDashboardPermissionsConsumerRole()
     {
         setupAuthenticatedSession(userConsumer, password);
@@ -75,7 +75,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8724")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
 
     public void siteDashboardPermissionsContributorRole()
     {
@@ -94,7 +94,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8725")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
 
     public void siteDashboardPermissionsCollaboratorRole()
     {
@@ -113,7 +113,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8726")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
 
     public void siteDashboardPermissionsSiteManagerRole()
     {

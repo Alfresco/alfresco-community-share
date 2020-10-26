@@ -62,7 +62,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8674")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifySiteManagerPage()
     {
         sitesManagerPage.navigate()
@@ -76,7 +76,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8675")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToPublic()
     {
         sitesManagerPage.navigate().usingSite(site2)
@@ -87,7 +87,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8676")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToModerated()
     {
         sitesManagerPage.navigate().usingSite(site3)
@@ -98,7 +98,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8680")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToPrivate()
     {
         sitesManagerPage.navigate().usingSite(site4)
@@ -109,7 +109,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8683, C8682, C2868")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyUserAddedAndRemovedFromSiteAdminGroup()
     {
         try
@@ -127,7 +127,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8689")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void siteAdminBecomeSitesManager()
     {
         sitesManagerPage.navigate()
@@ -135,7 +135,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8696")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSiteAsSiteAdmin()
     {
         sitesManagerPage.navigate().usingSite(site5)

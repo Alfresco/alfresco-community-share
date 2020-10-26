@@ -59,7 +59,6 @@ public class TagManagerTests extends ContextAwareWebTest
             .renameTag(updatedTag)
             .searchTag(updatedTag)
             .assertTagIsDisplayed(updatedTag);
-        cmisApi.authenticateUser(dataUser.getAdminUser()).usingResource(file).refreshResource();
         RestTagModelsCollection tags = restApi.withCoreAPI().usingResource(file).getNodeTags();
         tags.assertThat()
             .entriesListContains("tag", updatedTag);

@@ -27,7 +27,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8703")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void userHasSearchManagerRightsWhenAddedToAdminGroup()
     {
         setupAuthenticatedSession(userAdmin);
@@ -41,7 +41,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8704, C8713")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void userHasSearchManagerRightsWhenAddedToSearchAdministratorsGroup()
     {
         String filterId = RandomData.getRandomAlphanumeric();

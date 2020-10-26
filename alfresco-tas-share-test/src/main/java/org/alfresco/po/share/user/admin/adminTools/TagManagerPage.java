@@ -1,6 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -33,9 +32,8 @@ public class TagManagerPage extends AdminToolsPage
     @FindBy (css = ".tags-List>.title")
     private WebElement tableTitle;
 
-    @RenderWebElement
-    @FindBy (css = ".tags-List div.yui-dt:not([class*='hidden']), .tags-List div.tags-list-info:not([class*='hidden'])")
-    private WebElement tableBody;
+    @FindBy (css = "div[class='dashlet tags-List'] .yui-dt-message")
+    private WebElement loadingTagsMessage;
 
     @FindBy (css = ".dashlet thead")
     private WebElement tableHead;
@@ -66,7 +64,7 @@ public class TagManagerPage extends AdminToolsPage
     @FindBy (css = "button[id*='search']")
     private WebElement searchButton;
 
-    @FindBy (css = "div[class*='tags-list-info']")
+    @FindBy (css = "div[class='tags-list-info']")
     private WebElement noFoundMessage;
 
     @Override
@@ -170,18 +168,27 @@ public class TagManagerPage extends AdminToolsPage
         {
             Utility.waitToLoopTime(1);
             LOG.error(String.format("Wait for tag %s to be displayed - retry: %s", tagName, retryCount));
-            search(tagName);
+            clickSearchAndWaitForTagTableToBeLoaded();
             found = isTagDisplayed(tagName);
             retryCount++;
         }
         return this;
     }
 
+    private void clickSearchAndWaitForTagTableToBeLoaded()
+    {
+        browser.mouseOver(searchButton);
+        browser.clickJS(searchButton);
+        if(!browser.isElementDisplayed(noFoundMessage))
+        {
+            browser.waitUntilElementHasAttribute(loadingTagsMessage, "style", "display: none;");
+        }
+    }
+
     private TagManagerPage search(String tagName)
     {
         clearAndType(searchInput, tagName);
-        browser.mouseOver(searchButton);
-        browser.clickJS(searchButton);
+        clickSearchAndWaitForTagTableToBeLoaded();
         return (TagManagerPage) this.renderedPage();
     }
 
