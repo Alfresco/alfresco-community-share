@@ -158,7 +158,7 @@ public class TagManagerPage extends AdminToolsPage
      *
      * @param tagName - tag name
      */
-    public TagManagerPage searchTag(String tagName)
+    public TagManagerPage searchTagWithRetry(String tagName)
     {
         LOG.info(String.format("Search for tag: %s", tagName));
         search(tagName);
@@ -185,7 +185,7 @@ public class TagManagerPage extends AdminToolsPage
         }
     }
 
-    private TagManagerPage search(String tagName)
+    public TagManagerPage search(String tagName)
     {
         clearAndType(searchInput, tagName);
         clickSearchAndWaitForTagTableToBeLoaded();

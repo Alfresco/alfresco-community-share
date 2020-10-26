@@ -54,10 +54,10 @@ public class TagManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag() throws Exception
     {
-        tagManagerPage.searchTag(tag1)
+        tagManagerPage.searchTagWithRetry(tag1)
             .clickEdit(tag1)
             .renameTag(updatedTag)
-            .searchTag(updatedTag)
+            .searchTagWithRetry(updatedTag)
             .assertTagIsDisplayed(updatedTag);
         RestTagModelsCollection tags = restApi.withCoreAPI().usingResource(file).getNodeTags();
         tags.assertThat()
@@ -73,7 +73,7 @@ public class TagManagerTests extends ContextAwareWebTest
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
             .assertTableHeadersAreCorrect()
-            .searchTag(tag2)
+            .searchTagWithRetry(tag2)
                 .clickEdit(tag2)
                     .assertRenameTagLabelIsCorrect()
                     .assertOkButtonIsDisplayed()
@@ -85,12 +85,12 @@ public class TagManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteTag()
     {
-        tagManagerPage.searchTag(tag3)
+        tagManagerPage.searchTagWithRetry(tag3)
             .clickDelete(tag3)
                 .assertConfirmDeleteMessageIsCorrect(tag3)
                 .assertDeleteButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
                 .clickDelete(tagManagerPage);
-        tagManagerPage.assertTagIsNotDisplayed(tag3);
+        tagManagerPage.search(tag3).assertTagIsNotDisplayed(tag3);
     }
 }

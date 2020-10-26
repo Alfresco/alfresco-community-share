@@ -256,6 +256,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public DocumentDetailsPage assertDocumentDetailsPageIsOpened()
     {
+        LOG.info("Assert Document Details page is opened");
         assertTrue(browser.isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
         return this;
     }
