@@ -55,6 +55,8 @@ public class ContentAction
     public ContentAction assertContentIsDisplayed()
     {
         LOG.info("Assert is displayed");
+        WebElement content = getContentRow();
+        getBrowser().waitUntilElementVisible(content, 5);
         assertTrue(getBrowser().isElementDisplayed(getContentRow()),
             String.format("Content '%s' is not displayed", contentModel.getName()));
         return this;
@@ -73,8 +75,9 @@ public class ContentAction
     {
         LOG.info("Select Folder");
         WebElement contentRow = getContentRow();
-        getBrowser().waitUntilChildElementIsPresent(contentRow, contentNameSelector);
-        getContentRow().findElement(contentNameSelector).click();
+        WebElement content = getBrowser().waitUntilChildElementIsPresent(contentRow, contentNameSelector);
+        getBrowser().mouseOver(content);
+        content.click();
         alfrescoContentPage.waitForCurrentFolderBreadcrumb((FolderModel) contentModel);
         return alfrescoContentPage;
     }

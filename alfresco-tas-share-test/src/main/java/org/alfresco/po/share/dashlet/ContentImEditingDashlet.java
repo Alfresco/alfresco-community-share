@@ -1,10 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -16,6 +13,8 @@ import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 import java.util.List;
+
+import static org.testng.Assert.*;
 
 /**
  * Created by Mirela Tifui on 11/23/2017.
@@ -40,11 +39,6 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
     private By editedDocumentName = By.cssSelector("h4 > a");
     private By editDocumentSite = By.cssSelector("a[class$='site-link']");
 
-    private WebElement selectSiteNameLink(String siteName)
-    {
-        return browser.findElement(By.xpath("//div[contains(@id, '_default-document-template')]//div[@class='details']//a[text()='" + siteName + "']"));
-    }
-
     @Override
     public String getDashletTitle()
     {
@@ -60,13 +54,13 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
     public ContentImEditingDashlet assertAllHeadersAreDisplayed()
     {
         getBrowser().waitUntilElementsVisible(dashletContentHeaders);
-        Assert.assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
             language.translate("contentImEditingDashlet.documents")));
-        Assert.assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
             language.translate("contentImEditingDashlet.blogPosts")));
-        Assert.assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
             language.translate("contentImEditingDashlet.wikiPages")));
-        Assert.assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
             language.translate("contentImEditingDashlet.forumPosts")));
         return this;
     }
@@ -91,10 +85,10 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
     {
         boolean found = isDocumentDisplayedInDashlet(file);
         int i = 0;
-        while(i < WAIT_30 && !found)
+        while(i < WAIT_60 && !found)
         {
             i++;
-            LOG.info(String.format("Wait for document to be displayed: %s", i));
+            LOG.error("Wait for document {} to be displayed: {}", file.getName(), i);
             browser.refresh();
             renderedPage();
             found = isDocumentDisplayedInDashlet(file);
@@ -104,15 +98,17 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
 
     public ContentImEditingDashlet assertDocumentIsDisplayed(FileModel file)
     {
+        LOG.info("Assert document {} is displayed", file.getName());
         waitForDocumentToBeDisplayed(file);
-        Assert.assertTrue(isDocumentDisplayedInDashlet(file),
-            String.format("File %s is displayed in content I'm editing dashlet", file.getName()));
+        assertTrue(isDocumentDisplayedInDashlet(file),
+            String.format("File %s is not displayed in content I'm editing dashlet", file.getName()));
         return this;
     }
 
     public ContentImEditingDashlet assertDocumentIsNotDisplayed(FileModel file)
     {
-        Assert.assertFalse(isDocumentDisplayedInDashlet(file),
+        LOG.info("Assert document {} is noy displayed", file.getName());
+        assertFalse(isDocumentDisplayedInDashlet(file),
             String.format("File %s is displayed in content I'm editing dashlet", file.getName()));
         return this;
     }

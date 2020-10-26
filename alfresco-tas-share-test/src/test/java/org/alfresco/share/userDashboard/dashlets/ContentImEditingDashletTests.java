@@ -3,6 +3,7 @@ package org.alfresco.share.userDashboard.dashlets;
 import org.alfresco.po.share.dashlet.ContentImEditingDashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -16,7 +17,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
     private ContentImEditingDashlet contentImEditingDashlet;
 
     @Autowired
-    private DocumentLibraryPage documentLibraryPage;
+    private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
     private FileModel testFile;
@@ -62,7 +63,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
         userDashboard.navigate(user);
         contentImEditingDashlet.assertDocumentIsDisplayed(testFile)
             .clickDocument(testFile);
-        Assert.assertTrue(documentLibraryPage.isFileDisplayed(testFile.getName()));
+        documentLibraryPage.usingContent(testFile).assertContentIsDisplayed();
 
         userDashboard.navigate(user);
         contentImEditingDashlet.clickSite(testFile)
