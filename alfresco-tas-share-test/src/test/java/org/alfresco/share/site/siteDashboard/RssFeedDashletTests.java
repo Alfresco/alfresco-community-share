@@ -64,7 +64,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     {
         siteDashboardPage.navigate(siteModel);
         rssFeedDashlet.configureDashlet()
-            .assertDialogTitleEqualsWithExpected(EXPECTED_DIALOG_TITLE)
+            .assertDialogTitleEquals(EXPECTED_DIALOG_TITLE)
             .setUrlValue(RSS_FEED_URL)
             .selectNumberOfItemsToDisplay(NUMBER_OF_ITEMS_DISPLAYED)
             .selectOpenLinksInNewWindowCheckboxFromDialog()

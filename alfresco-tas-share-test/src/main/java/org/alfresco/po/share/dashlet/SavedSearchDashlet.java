@@ -1,13 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.utility.model.FileModel;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 @PageObject
 public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
@@ -43,26 +44,29 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    public SavedSearchDashlet assertNoResultsMessageIsDisplayed()
+    public SavedSearchDashlet assertNoResultsFoundMessageEquals(String expectedNoResultsFoundMessage)
     {
-        LOG.info("Assert No results found message is displayed");
-        browser.waitUntilElementContainsText(defaultDashletMessage, language.translate("savedSearchDashlet.noResults"));
-        Assert.assertEquals(defaultDashletMessage.getText(), language.translate("savedSearchDashlet.noResults"));
+        LOG.info("Assert No results found message equals: {}", expectedNoResultsFoundMessage);
+        browser.waitUntilElementContainsText(defaultDashletMessage, expectedNoResultsFoundMessage);
+        assertEquals(defaultDashletMessage.getText(), expectedNoResultsFoundMessage, String
+            .format("No results found message not equals %s ", expectedNoResultsFoundMessage));
+
         return this;
     }
 
     public SavedSearchDashlet assertConfigureDashletButtonIsDisplayed()
     {
+        LOG.info("Assert configure dashlet button is displayed");
         browser.mouseOver(titleBar);
-        Assert.assertTrue(browser.isElementDisplayed(configureDashletIcon), "Configure dashlet button is displayed");
+        assertTrue(browser.isElementDisplayed(configureDashletIcon),
+            "Configure dashlet button is not displayed");
+
         return this;
     }
 
-    /**
-     * Click on configure dashlet icon.
-     */
-    public ConfigureSavedSearchDashletDialog clickConfigureDashlet()
+    public ConfigureSavedSearchDashletDialog configureDashlet()
     {
+        LOG.info("Configure dashlet");
         browser.mouseOver(titleBar);
         configureDashletIcon.click();
         return (ConfigureSavedSearchDashletDialog) configureSavedSearchPopUp.renderedPage();
@@ -76,20 +80,19 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 
     public SavedSearchDashlet assertFileIsDisplayed(String fileName)
     {
-        LOG.info(String.format("Assert file %s is found in saved search dashlet", fileName));
-        Assert.assertTrue(browser.isElementDisplayed(getSearchRow(fileName)), String.format("File %s was found", fileName));
+        LOG.info("Assert file is found in saved search dashlet: {}", fileName);
+        assertTrue(browser.isElementDisplayed(getSearchRow(fileName)),
+            String.format("File %s was not found", fileName));
+
         return this;
     }
 
-    public SavedSearchDashlet assertFileIsDisplayed(FileModel file)
+    public SavedSearchDashlet assertInFolderPathEquals(String fileName, String folderPath)
     {
-        return assertFileIsDisplayed(file.getName());
-    }
+        LOG.info("Assert In Folder path equals: {}", folderPath);
+        assertEquals(getSearchRow(fileName).findElement(inFolderLocation).getText(), folderPath,
+            String.format("In Folder path not equals :%s ", folderPath));
 
-    public SavedSearchDashlet assertInFolderPathIs(String fileName, String folderPath)
-    {
-        Assert.assertEquals(getSearchRow(fileName).findElement(inFolderLocation).getText(),
-            String.format(language.translate("savedSearchDashlet.item.inFolderPath"), folderPath));
         return this;
     }
 }

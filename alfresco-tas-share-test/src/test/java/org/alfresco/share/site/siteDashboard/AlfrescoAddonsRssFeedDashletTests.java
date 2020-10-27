@@ -61,7 +61,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
         rssFeedDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .configureDashlet()
-            .assertDialogTitleEqualsWithExpected(EXPECTED_DIALOG_TITLE)
+            .assertDialogTitleEquals(EXPECTED_DIALOG_TITLE)
             .setUrlValue(RSS_FEED_URL)
             .selectNumberOfItemsToDisplay(NUMBER_OF_ITEMS_DISPLAYED)
             .selectOpenLinksInNewWindowCheckboxFromDialog()

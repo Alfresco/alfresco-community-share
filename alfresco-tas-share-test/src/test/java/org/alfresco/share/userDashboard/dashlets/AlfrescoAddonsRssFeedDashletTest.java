@@ -36,7 +36,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
         rssFeedDashlet.configureDashlet()
-            .assertDialogTitleEqualsWithExpected(language.translate("rssFeedDashlet.configureDialogTitle"))
+            .assertDialogTitleEquals(language.translate("rssFeedDashlet.configureDialogTitle"))
                 .setUrlValue(sampleRssFeed)
                 .selectNumberOfItemsToDisplay(5)
                 .assertNumberOfItemsToDisplayFromDropDownIs(String.valueOf(5))

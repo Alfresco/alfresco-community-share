@@ -50,7 +50,7 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
             .assertHelpBalloonMessageEquals(language.translate("webViewDashlet.balloonMessage"))
             .closeHelpBalloon()
                 .clickConfigureDashlet()
-                    .assertDialogTitleEqualsWithExpected(language.translate("webViewDashlet.configure.title"))
+                    .assertDialogTitleEquals(language.translate("webViewDashlet.configure.title"))
                     .assertLinkTitleFieldIsDisplayed()
                     .assertUrlFieldIsDisplayed()
                     .assertOKButtonIsDisplayed()

@@ -101,10 +101,11 @@ public abstract class DashletPopUp<T> extends HtmlPage
         return (T) this;
     }
 
-    public T assertDialogTitleEqualsWithExpected(String expectedDialogTitle)
+    public T assertDialogTitleEquals(String expectedDialogTitle)
     {
-        LOG.info("Assert dialog title equals with: {}", expectedDialogTitle);
-        assertEquals(dialogTitle.getText(), expectedDialogTitle, "Dialog title is incorrect");
+        LOG.info("Assert dialog title equals: {}", expectedDialogTitle);
+        assertEquals(dialogTitle.getText(), expectedDialogTitle,
+            String.format("Dialog title not equals %s ", expectedDialogTitle));
 
         return (T) this;
     }
