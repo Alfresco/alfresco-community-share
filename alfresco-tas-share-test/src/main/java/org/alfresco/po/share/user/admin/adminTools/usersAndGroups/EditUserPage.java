@@ -9,6 +9,7 @@ import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -24,10 +25,10 @@ public class EditUserPage extends SharePage<EditUserPage>
     @Autowired
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
 
+    @RenderWebElement
     @FindBy (css = "button[id$='_default-update-groupfinder-group-search-button-button']")
     private WebElement searchGroupButton;
 
-    @RenderWebElement
     @FindBy (css = "button[id$='_default-updateuser-clearphoto-button-button']")
     private WebElement useDefaultButton;
 
@@ -53,9 +54,6 @@ public class EditUserPage extends SharePage<EditUserPage>
     @FindBy (css = "input[id$='_default-update-email']")
     private WebElement emailField;
 
-    @FindBy (css = "input[id$='_default-update-groupfinder-search-text']")
-    private WebElement groupsInputField;
-
     @FindBy (css = "input[id$='_default-update-quota']")
     private WebElement quotaField;
 
@@ -74,6 +72,7 @@ public class EditUserPage extends SharePage<EditUserPage>
     @FindAll (@FindBy (css = "h3[class='itemname']"))
     private List<WebElement> groupSearchResults;
 
+    private By groupsInputField = By.cssSelector("input[id$='_default-update-groupfinder-search-text']");
     private String genericAddToGroupButton = "//h3[@class='itemname' and text()='%s']/../../..//button";
     private String genericRemoveButton = "//div[contains(@id, 'default-update-groups')]//span[text()= '%s']";
 
@@ -86,7 +85,15 @@ public class EditUserPage extends SharePage<EditUserPage>
     public EditUserPage navigate(String userName)
     {
         setUserName(userName);
-        return navigate();
+        try
+        {
+            return navigate();
+        }
+        catch (TimeoutException e)
+        {
+            LOG.error("Retry navigate to Edit User Page");
+            return navigate();
+        }
     }
 
     public EditUserPage navigate(UserModel user)
@@ -120,7 +127,9 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertUserFullNameIsDisplayedInTitle(UserModel user)
     {
-        Assert.assertEquals(userNameInEditUserPageTitle.getText(), String.format("%s %s", user.getFirstName(), user.getLastName()));
+        LOG.info("Assert User full name is displayed in title: {} {}", user.getFirstName(), user.getLastName());
+        Assert.assertEquals(browser.waitUntilElementVisible(userNameInEditUserPageTitle).getText(),
+            String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
 
@@ -181,17 +190,11 @@ public class EditUserPage extends SharePage<EditUserPage>
         return this;
     }
 
-    public void editGroupsField(String groupName)
-    {
-        groupsInputField.clear();
-        groupsInputField.sendKeys(groupName);
-    }
-
     public EditUserPage searchGroupWithRetry(GroupModel group)
     {
-        groupsInputField.clear();
-        groupsInputField.sendKeys(group.getGroupIdentifier());
-        searchGroupButton.click();
+        WebElement inputElement = browser.waitUntilElementVisible(groupsInputField);
+        clearAndType(inputElement, group.getGroupIdentifier());
+        browser.waitUntilElementClickable(searchGroupButton).click();
         int counter = 0;
         boolean found = isGroupInSearchResults(group.getGroupIdentifier());
         while (!found && counter <= 5)

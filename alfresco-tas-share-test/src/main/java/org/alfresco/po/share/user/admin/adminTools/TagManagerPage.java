@@ -187,6 +187,7 @@ public class TagManagerPage extends AdminToolsPage
 
     public TagManagerPage search(String tagName)
     {
+        browser.waitUntilElementVisible(searchInput);
         clearAndType(searchInput, tagName);
         clickSearchAndWaitForTagTableToBeLoaded();
         return (TagManagerPage) this.renderedPage();
