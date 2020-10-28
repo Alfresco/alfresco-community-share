@@ -15,15 +15,4 @@
       </packages>
    </test>
 
-   <test name="Admin Console Tests">
-      <groups>
-         <run>
-            <include name="AlfrescoConsoles"></include>
-         </run>
-      </groups>
-      <packages>
-         <package name="org.alfresco.adminconsole.*"></package>
-      </packages>
-   </test>
-
 </suite>
