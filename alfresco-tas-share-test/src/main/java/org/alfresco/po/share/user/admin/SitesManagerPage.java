@@ -279,7 +279,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             return this;
         }
 
-        public ManagerSiteAction assertSiteVisibilityIs(Visibility visibility)
+        public ManagerSiteAction assertSiteVisibilityEquals(Visibility visibility)
         {
             LOG.info("Assert site visibility is: {}", visibility.toString());
             String visibilityValue = visibility.toString().toLowerCase();

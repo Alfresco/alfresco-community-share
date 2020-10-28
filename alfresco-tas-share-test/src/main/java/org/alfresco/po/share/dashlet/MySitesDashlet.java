@@ -20,6 +20,9 @@ import ru.yandex.qatools.htmlelements.element.Link;
 
 import java.util.List;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 @PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
@@ -88,7 +91,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public MySitesDashlet assertSiteIsDisplayed(SiteModel siteModel)
     {
         LOG.info("Assert site {} is  displayed", siteModel.getTitle());
-        Assert.assertTrue(browser.isElementDisplayed(getSiteRow(siteModel.getTitle())),
+        assertTrue(browser.isElementDisplayed(getSiteRow(siteModel.getTitle())),
             String.format("Site %s is not displayed", siteModel.getTitle()));
         return this;
     }
@@ -98,7 +101,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         LOG.info("Assert site {} is not displayed", site.getTitle());
         By siteElement = By.xpath(String.format(siteRow, site.getTitle()));
         browser.waitUntilElementDisappears(siteElement);
-        Assert.assertFalse(browser.isElementDisplayed(siteElement), String.format("Site %s is displayed", site.getTitle()));
+        assertFalse(browser.isElementDisplayed(siteElement), String.format("Site %s is displayed", site.getTitle()));
 
         return this;
     }
@@ -168,7 +171,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertCreateSiteButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createSiteLink), "Create site button is displayed");
+        assertTrue(browser.isElementDisplayed(createSiteLink), "Create site button is displayed");
         return this;
     }
 
@@ -207,7 +210,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertSitesFilterButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(sitesFilterButton), "Sites filter button is displayed");
+        assertTrue(browser.isElementDisplayed(sitesFilterButton), "Sites filter button is displayed");
         return this;
     }
 

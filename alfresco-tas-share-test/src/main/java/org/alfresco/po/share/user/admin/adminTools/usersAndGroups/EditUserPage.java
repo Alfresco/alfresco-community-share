@@ -16,6 +16,8 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
+import static org.testng.Assert.*;
+
 /**
  * Created by Mirela Tifui on 12/9/2016.
  */
@@ -103,32 +105,32 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertSearchGroupButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(searchGroupButton), "Search group button is displayed");
+        assertTrue(browser.isElementDisplayed(searchGroupButton), "Search group button is displayed");
         return this;
     }
 
     public EditUserPage assertUseDefaultButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(useDefaultButton), "Use default button is displayed");
+        assertTrue(browser.isElementDisplayed(useDefaultButton), "Use default button is displayed");
         return this;
     }
 
     public EditUserPage assertSaveChangesButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(saveChangesButton), "Save button is displayed");
+        assertTrue(browser.isElementDisplayed(saveChangesButton), "Save button is displayed");
         return this;
     }
 
     public EditUserPage assertCancelButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 
     public EditUserPage assertUserFullNameIsDisplayedInTitle(UserModel user)
     {
         LOG.info("Assert User full name is displayed in title: {} {}", user.getFirstName(), user.getLastName());
-        Assert.assertEquals(browser.waitUntilElementVisible(userNameInEditUserPageTitle).getText(),
+        assertEquals(browser.waitUntilElementVisible(userNameInEditUserPageTitle).getText(),
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
@@ -136,18 +138,18 @@ public class EditUserPage extends SharePage<EditUserPage>
     public EditUserPage assertAllSectionsAreDisplayed()
     {
         List<String> sectionTexts = browser.getTextFromElementList(userProfileHeaderList);
-        Assert.assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.info")),
+        assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.info")),
             "Info section is displayed");
-        Assert.assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.aboutUser")),
+        assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.aboutUser")),
             "About User section is displayed");
-        Assert.assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.photo")),
+        assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.photo")),
             "Photo section is displayed");
         return this;
     }
 
     public EditUserPage assertFirstNameFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(firstNameField), "First Name field is displayed");
+        assertTrue(browser.isElementDisplayed(firstNameField), "First Name field is displayed");
         return this;
     }
 
@@ -160,7 +162,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertLastNameFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(lastNameField), "Last Name field is displayed");
+        assertTrue(browser.isElementDisplayed(lastNameField), "Last Name field is displayed");
         return this;
     }
 
@@ -173,7 +175,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertEmailFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(emailField), "Email field is displayed");
+        assertTrue(browser.isElementDisplayed(emailField), "Email field is displayed");
         return this;
     }
 
@@ -186,7 +188,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertGroupSearchFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(groupsInputField), "Group search field is displayed");
+        assertTrue(browser.isElementDisplayed(groupsInputField), "Group search field is displayed");
         return this;
     }
 
@@ -209,7 +211,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertQuotaFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(quotaField), "Quota field is displayed");
+        assertTrue(browser.isElementDisplayed(quotaField), "Quota field is displayed");
         return this;
     }
 
@@ -222,7 +224,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertNewPasswordFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(newPasswordField), "New password field is displayed");
+        assertTrue(browser.isElementDisplayed(newPasswordField), "New password field is displayed");
         return this;
     }
 
@@ -234,7 +236,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertVerifyPasswordFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(verifyPasswordField), "Verify password field is displayed");
+        assertTrue(browser.isElementDisplayed(verifyPasswordField), "Verify password field is displayed");
         return this;
     }
 
@@ -246,7 +248,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertDisableAccountIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(disableAccount), "Disable account is displayed");
+        assertTrue(browser.isElementDisplayed(disableAccount), "Disable account is displayed");
         return this;
     }
 
@@ -258,7 +260,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertPhotoIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(photoField), "Photo is displayed");
+        assertTrue(browser.isElementDisplayed(photoField), "Photo is displayed");
         return this;
     }
 
@@ -279,14 +281,14 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public EditUserPage assertGroupIsAdded(GroupModel group)
     {
-        Assert.assertTrue(browser.isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
+        assertTrue(browser.isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
             String.format("Group %s was added", group.getGroupIdentifier()));
         return this;
     }
 
     public EditUserPage assertGroupIsNotAdded(GroupModel group)
     {
-        Assert.assertFalse(browser.isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
+        assertFalse(browser.isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
             String.format("Group %s was added", group.getGroupIdentifier()));
         return this;
     }
@@ -305,14 +307,14 @@ public class EditUserPage extends SharePage<EditUserPage>
     public EditUserPage assertGroupIsFound(GroupModel group)
     {
         LOG.info(String.format("Assert group %s is found", group.getGroupIdentifier()));
-        Assert.assertTrue(isGroupInSearchResults(group.getGroupIdentifier()), String.format("Group %s was found", group.getGroupIdentifier()));
+        assertTrue(isGroupInSearchResults(group.getGroupIdentifier()), String.format("Group %s was found", group.getGroupIdentifier()));
         return this;
     }
 
     public EditUserPage assertAddButtonIsDisplayedForGroup(GroupModel group)
     {
         LOG.info(String.format("Assert add group button is found for group %s", group.getGroupIdentifier()));
-        Assert.assertTrue(browser.isElementDisplayed(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier()))),
+        assertTrue(browser.isElementDisplayed(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier()))),
             String.format("Add button is displayed for group: %s", group.getGroupIdentifier()));
         return this;
     }

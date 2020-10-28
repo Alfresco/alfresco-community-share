@@ -71,7 +71,7 @@ public class SitesManagerTests extends ContextAwareWebTest
             .assertTableHasAllColumns()
             .usingSite(site1)
                 .assertSiteDescriptionIs(siteDescription)
-                .assertSiteVisibilityIs(Visibility.MODERATED)
+                .assertSiteVisibilityEquals(Visibility.MODERATED)
                 .assertSiteManagerIsYes();
     }
 
@@ -82,7 +82,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         sitesManagerPage.navigate().usingSite(site2)
             .changeSiteVisibility(Visibility.PUBLIC)
             .assertSuccessIndicatorIsDisplayed()
-            .assertSiteVisibilityIs(Visibility.PUBLIC);
+            .assertSiteVisibilityEquals(Visibility.PUBLIC);
         siteDashboardPage.navigate(site2).assertSiteVisibilityIs(Visibility.PUBLIC);
     }
 
@@ -93,7 +93,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         sitesManagerPage.navigate().usingSite(site3)
             .changeSiteVisibility(Visibility.MODERATED)
             .assertSuccessIndicatorIsDisplayed()
-            .assertSiteVisibilityIs(Visibility.MODERATED);
+            .assertSiteVisibilityEquals(Visibility.MODERATED);
         siteDashboardPage.navigate(site3).assertSiteVisibilityIs(Visibility.MODERATED);
     }
 
@@ -104,7 +104,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         sitesManagerPage.navigate().usingSite(site4)
             .changeSiteVisibility(Visibility.PRIVATE)
             .assertSuccessIndicatorIsDisplayed()
-            .assertSiteVisibilityIs(Visibility.PRIVATE);
+            .assertSiteVisibilityEquals(Visibility.PRIVATE);
         siteDashboardPage.navigate(site4).assertSiteVisibilityIs(Visibility.PRIVATE);
     }
 

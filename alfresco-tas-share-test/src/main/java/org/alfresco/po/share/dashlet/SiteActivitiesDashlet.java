@@ -4,15 +4,15 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.*;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.testng.Assert;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 @PageObject
 public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivitiesDashlet>
 {
-    private static String siteRssFeed = "share/feedservice/components/dashlets/activities/list?format=atomfeed&mode=site&site=%s";
+    private static final String siteRssFeed = "share/feedservice/components/dashlets/activities/list?format=atomfeed&mode=site&site=%s";
 
     public SiteActivitiesDashlet assertEmptyDashletMessageEquals()
     {
@@ -37,10 +37,10 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
     public SiteActivitiesDashlet assertAddDocumentActivityIsNotDisplayedForUser(UserModel user, FileModel file)
     {
         LOG.info("Assert add document activity for {} is not displayed for user {}", file.getName(), user.getUsername());
-        Assert.assertFalse(browser.getTextFromElementList(activityRows).contains(
+        assertFalse(browser.getTextFromElementList(activityRows).contains(
             String.format(language.translate("siteActivities.document.createActivity"),
                 user.getFirstName(), user.getLastName(), file.getName())),
-                    String.format("Add document activity is displayed for user", user.getUsername()));
+                    String.format("Add document activity is displayed for user %s", user.getUsername()));
         return this;
     }
 
