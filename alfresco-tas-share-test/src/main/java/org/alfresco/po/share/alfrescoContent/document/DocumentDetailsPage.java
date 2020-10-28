@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
@@ -72,6 +73,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy (css = ".node-header h1")
     protected WebElement headerFileName;
 
+    @RenderWebElement
     @FindBy (linkText = "Download")
     protected WebElement downloadDocument;
 
@@ -149,10 +151,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     @FindBy (css = "[id*=default-paginator-top] [class*=previous]")
     protected WebElement previousPage;
-
-    @RenderWebElement
-    @FindBy (css = ".viewmode-label")
-    protected List<WebElement> propertiesList;
 
     @FindBy (css = ".viewmode-value")
     protected List<WebElement> propertiesValuesList;
@@ -247,6 +245,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private final By latestVersion = By.cssSelector("div[id$='_default-latestVersion'] span.document-version");
     protected final By addToFavouriteIcon = By.cssSelector("a[class$='favourite-document']");
     protected final By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
+    private final By propertiesList = By.cssSelector(".viewmode-label");
 
     @Override
     public String getRelativePath()
@@ -581,10 +580,19 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesTextList = new ArrayList<>();
-        getBrowser().waitUntilElementsVisible(propertiesList);
-        for (WebElement property : propertiesList)
+        List<WebElement> properties = getBrowser().findElements(propertiesList);
+        for (WebElement property : properties)
+        {
             propertiesTextList.add(property.getText().substring(0, property.getText().indexOf(":")));
+        }
         return DataUtil.areListsEquals(propertiesTextList, expectedPropertiesList);
+    }
+
+    public DocumentDetailsPage assertPropertiesAreDisplayed(String... properties)
+    {
+        LOG.info("Assert properties are displayed {}", Arrays.asList(properties));
+        assertTrue(arePropertiesDisplayed(properties), "Not all properties are displayed");
+        return this;
     }
 
     /**
@@ -595,9 +603,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public String checkPropertiesAreNotDisplayed(ArrayList<String> propertiesNotDisplayedList)
     {
-        for (int i = 0; i < propertiesList.size(); i++)
+        List<WebElement> properties = browser.findElements(propertiesList);
+        for (int i = 0; i < properties.size(); i++)
         {
-            String property = propertiesList.get(i).getText();
+            String property = properties.get(i).getText();
             for (String aPropertiesNotDisplayedList : propertiesNotDisplayedList)
             {
                 if (property.equals(aPropertiesNotDisplayedList))
@@ -615,7 +624,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public boolean isPropertyDisplayed(String propertyText)
     {
-        for (WebElement aPropertiesList : propertiesList)
+        List<WebElement> properties = browser.findElements(propertiesList);
+        for (WebElement aPropertiesList : properties)
         {
             if (aPropertiesList.getText().equals(propertyText))
                 return true;
@@ -629,9 +639,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public String getPropertyValue(String propertyName)
     {
-        for (int i = 0; i < propertiesList.size(); i++)
+        List<WebElement> properties = browser.findElements(propertiesList);
+        for (int i = 0; i < properties.size(); i++)
         {
-            if (propertiesList.get(i).getText().replace(":", "").equals(propertyName))
+            if (properties.get(i).getText().replace(":", "").equals(propertyName))
             {
                 return propertiesValuesList.get(i).getText();
             }
