@@ -82,7 +82,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
         calendarPage.navigate(siteName);
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -95,11 +95,11 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click 'Delete' button.");
         deleteEventDialog.clickDelete(calendarPage);
-        assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
+//        assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+        siteCalendarDashlet.assertEventListTitleEquals(eventName);
     }
 
     @TestRail (id = "C5400")
@@ -112,7 +112,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
         calendarPage.navigate(siteName);
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -128,11 +128,11 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click 'Close' on 'Event Information' pop-up.");
         eventInformationDialog.clickCancelButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The event is still displayed on the 'Calendar' page.");
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The event is still displayed on the 'Calendar' page.");
 
         LOG.info("STEP 6: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
     @TestRail (id = "C5415")
@@ -146,7 +146,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickDayButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -159,11 +159,11 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click 'Delete' button.");
         deleteEventDialog.clickDelete(calendarPage);
-        assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
+//        assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+        siteCalendarDashlet.assertEventListTitleEquals(eventName);
     }
 
     @TestRail (id = "C5416")
@@ -177,7 +177,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickDayButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -193,11 +193,11 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click 'Close' on 'Event Information' pop-up.");
         eventInformationDialog.clickCancelButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The event is still displayed on the 'Calendar' page.");
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The event is still displayed on the 'Calendar' page.");
 
         LOG.info("STEP 6: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
     @TestRail (id = "C5417")
@@ -211,7 +211,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickWeekButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -224,11 +224,11 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click 'Delete' button.");
         deleteEventDialog.clickDelete(calendarPage);
-        assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
+//        assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
     @TestRail (id = "C5418")
@@ -242,7 +242,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickWeekButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -258,11 +258,11 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click 'Close' on 'Event Information' pop-up.");
         eventInformationDialog.clickCancelButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The event is still present on the 'Calendar' page.");
+//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The event is still present on the 'Calendar' page.");
 
         LOG.info("STEP 6: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
     @TestRail (id = "C5419")
@@ -293,7 +293,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
     @TestRail (id = "C5420")
@@ -327,7 +327,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
     @TestRail (id = "C6080")
@@ -351,7 +351,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
     @TestRail (id = "C6084")
@@ -375,6 +375,6 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Go to site's dashboard and verify 'Site Calendar' dashlet.");
         siteDashboardPage.navigate(siteName);
-        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
+//        assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 }

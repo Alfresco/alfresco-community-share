@@ -1,7 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
+import static org.testng.Assert.assertEquals;
 
+import java.util.List;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -18,6 +19,9 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 {
+    private static final int BEGIN_INDEX = 0;
+    private static final int RETRIES_60 = 60;
+
     @Autowired
     CalendarPage calendarPage;
 
@@ -31,7 +35,9 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     @FindBy (css = "div.dashlet.calendar .dashlet-padding>h3")
     private WebElement dashletMessage;
 
-    private By eventStartDate = By.xpath("ancestor::*[@class='details2']//a");
+    private final By eventStartDate = By.xpath("ancestor::*[@class='details2']//a");
+    private String eventTitleLinkLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//a[contains(text(), '%s')]";
+    private String eventTimeLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//span[contains(text(), '%s ')]";
 
     @Override
     public String getDashletTitle()
@@ -39,63 +45,86 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    private WebElement findEvent(String eventName)
+    private WebElement findEventByTitle(String eventTitle)
     {
-        return browser.findFirstElementWithValue(siteEventsNameList, eventName);
+        LOG.info("Find event by title: {}", eventTitle);
+        return browser.findFirstElementWithValue(siteEventsNameList, eventTitle);
     }
 
-    /**
-     * Check if the specific event is displayed in Site Calendar Dashlet
-     *
-     * @param eventName
-     * @return true if it is displayed in Site Calendar Dashlet
-     */
-    public boolean isEventPresentInList(String eventName)
+    private WebElement waitUntilEventTitleLinkIsDisplayed(String eventLinkTitle)
     {
-        return findEvent(eventName) != null;
+        LOG.info("Wait until event title link is displayed: {}", eventLinkTitle);
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(
+            eventTitleLinkLocator, eventLinkTitle)), WAIT_1, RETRIES_60);
     }
 
-    /**
-     * Get event duration details
-     *
-     * @param eventName
-     * @return
-     */
-    public String getEventDetails(String eventName)
+    private WebElement waitUntilEventTimeIsDisplayed(String eventTime)
     {
-        return findEvent(eventName).findElement(By.xpath("..")).getText();
+        LOG.info("Wait until event time is displayed: {}", eventTime);
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(
+            eventTimeLocator, eventTime)), WAIT_1, RETRIES_60);
     }
 
-    /**
-     * Get event start date
-     *
-     * @param eventName
-     * @return
-     */
-    public String getEventStartDate(String eventName)
+    public SiteCalendarDashlet assertEventListTitleEquals(String expectedEventTitleLink)
     {
-        return findEvent(eventName).findElement(eventStartDate).getText();
+        LOG.info("Assert event list title equals: {}", expectedEventTitleLink);
+        assertEquals(waitUntilEventTitleLinkIsDisplayed(expectedEventTitleLink).getText(), expectedEventTitleLink,
+            String.format("Event list title not equals %s ", expectedEventTitleLink));
+
+        return this;
     }
 
-    /**
-     * Get the message when no events are displayed in Site Calendar Dashlet
-     *
-     * @return
-     */
-    public String getDashletMessage()
+    public String getEventDetails(String eventTitle)
     {
-        return dashletMessage.getText();
+        LOG.info("Get event title: {}", eventTitle);
+        return findEventByTitle(eventTitle).findElement(By.xpath("..")).getText();
     }
 
-    /**
-     * Click on the event name from Site Calendar dashlet
-     *
-     * @param eventName
-     * @return CalendarPage
-     */
-    public CalendarPage clickEvent(String eventName)
+    public SiteCalendarDashlet assertEventTimeEquals(String expectedEventTime, String eventTitle)
     {
-        browser.findFirstElementWithValue(siteEventsNameList, eventName).click();
+        LOG.info("Assert event time equals: {}", expectedEventTime);
+        String eventTime = getEventTimeWithoutTitle(expectedEventTime, eventTitle);
+        assertEquals(eventTime, expectedEventTime,
+            String.format("Event time not equals %s ", expectedEventTime));
+
+        return this;
+    }
+
+    private String getEventTimeWithoutTitle(String eventTime, String eventTitle)
+    {
+        LOG.info("Get event time without title: {}", eventTime);
+        String eventTimeAndTitle = waitUntilEventTimeIsDisplayed(eventTime).getText();
+        return eventTimeAndTitle.substring(BEGIN_INDEX, eventTimeAndTitle.indexOf(eventTitle)).trim();
+    }
+
+    public String getEventStartDate(String eventTitle)
+    {
+        LOG.info("Get event start date: {}", eventTitle);
+        return findEventByTitle(eventTitle).findElement(eventStartDate).getText();
+    }
+
+    public SiteCalendarDashlet assertEventStartDateEquals(String eventTitle, String eventStartDate)
+    {
+        LOG.info("Assert event date equals: {}", eventStartDate);
+        assertEquals(getEventStartDate(eventTitle), eventStartDate,
+            String.format("Event start date not equals %s", eventStartDate));
+
+        return this;
+    }
+
+    public SiteCalendarDashlet assertNoUpcomingEventsMessageEquals(String expectedNoEventsMessage)
+    {
+        LOG.info("Assert no upcoming events message equals: {}", expectedNoEventsMessage);
+        assertEquals(dashletMessage.getText(), expectedNoEventsMessage,
+            String.format("No events message not equals %s ", expectedNoEventsMessage));
+
+        return this;
+    }
+
+    public CalendarPage clickEvent(String eventTitle)
+    {
+        LOG.info("Click event with title: {}", eventTitle);
+        browser.findFirstElementWithValue(siteEventsNameList, eventTitle).click();
         return (CalendarPage) calendarPage.renderedPage();
     }
 }

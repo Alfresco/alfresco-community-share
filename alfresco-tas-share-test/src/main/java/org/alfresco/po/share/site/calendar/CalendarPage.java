@@ -1,7 +1,9 @@
 package org.alfresco.po.share.site.calendar;
 
-import java.util.List;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
+import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -14,7 +16,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Table;
@@ -81,15 +82,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @FindBy (xpath = "//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]")
     private WebElement today;
 
-    private By eventsList = By.xpath(
-        "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
-
     @FindAll (@FindBy (css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
     private List<WebElement> agendaEventsName;
-
-    private By deleteIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'deleteAction']");
-    private By editIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'editAction']");
-    private By infoIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[contains(@class, 'infoAction')]");
 
     @FindBy (css = "a.addEvent")
     private Link agendaAddEvent;
@@ -98,13 +92,15 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @FindBy (id = "calendar_t")
     private WebElement miniCalendar;
 
-    private By selectedView = By.cssSelector("span.yui-button-checked");
-    private By calendarView = By.id("yui-history-field");
-    @FindAll (@FindBy (xpath = "//div[contains(@class, 'fc-view-agendaDay')/th[@calss, 'fc-agenda-axis fc-widget-header']"))
-    private List<WebElement> hoursDisplayedInDayView;
+    private final By selectedView = By.cssSelector("span.yui-button-checked");
+    private final By calendarView = By.id("yui-history-field");
+    private final By deleteIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'deleteAction']");
+    private final By editIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'editAction']");
+    private final By infoIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[contains(@class, 'infoAction')]");
+    private final By eventsList = By.xpath(
+        "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
+    private final By allDayEvents = By.cssSelector("a[class*='fc-event-allday']");
 
-    @FindAll (@FindBy (xpath = "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']"))
-    private List<WebElement> eventList;
 
     @Override
     public String getRelativePath()
@@ -114,173 +110,127 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     public CalendarPage assertCalendarPageIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(miniCalendar), "Calendar page is opened");
+        LOG.info("Assert calendar page is opened");
+        assertTrue(browser.isElementDisplayed(miniCalendar), "Calendar page is not opened");
         return this;
     }
 
-    /**
-     * Get de WebElement with value = tagName
-     *
-     * @param tagName
-     * @return
-     */
     private WebElement selectTag(String tagName)
     {
+        LOG.info("Select tag: {}", tagName);
         WebElement selectTagElement = browser.findFirstElementWithValue(tags, tagName);
         browser.waitUntilElementVisible(selectTagElement);
         browser.waitUntilElementClickable(selectTagElement);
+
         return selectTagElement;
     }
 
-    /**
-     * Check if a tag is displayed in the Tags list
-     *
-     * @param tagName
-     * @return
-     */
     public boolean isTagDisplayed(String tagName)
     {
-        return selectTag(tagName) != null;
+        LOG.info("Check tag is displayed: {}", tagName);
+        return browser.isElementDisplayed(selectTag(tagName));
     }
 
-    /**
-     * Get the link compound by tag name and number of events associated with that tag
-     *
-     * @param tagName
-     * @return String
-     */
     public String getTagLink(String tagName)
     {
+        LOG.info("Get tag link: {}", tagName);
         browser.waitInSeconds(2);
         return selectTag(tagName).findElement(By.xpath("..")).getText();
     }
 
-    /**
-     * Click link from Tags section
-     */
     public void clickTagLink(String tagName)
     {
+        LOG.info("Click tag link: {}",tagName);
         selectTag(tagName).click();
         browser.waitInSeconds(2);
         this.renderedPage();
     }
 
-    private WebElement selectEvent(String event)
+    private WebElement getEventTitleFromCalendar(String eventTitle)
     {
+        LOG.info("Get event title from calendar: {}", eventTitle);
         browser.waitUntilElementIsDisplayedWithRetry(eventsList);
-        return browser.findFirstElementWithValue(browser.waitUntilElementsVisible(eventsList), event);
+        return browser.findFirstElementWithValue(browser.waitUntilElementsVisible(eventsList), eventTitle);
     }
 
-    /**
-     * Check if an event is present in calendar
-     *
-     * @param event
-     * @return true if event is present
-     */
-    public boolean isEventPresentInCalendar(String event)
+    private boolean isAllDayEventListSizeEquals(int expectedListSize)
     {
-        boolean eventState = false;
-        try
-        {
-            int retry = 0;
+        browser.waitUntilElementIsDisplayedWithRetry(allDayEvents);
+        List<WebElement> titles = browser.findElements(allDayEvents);
 
-            if (retry < 5)
-            {
-                if (selectEvent(event) != null)
-                {
-                    eventState = true;
-                } else eventState = false;
-            }
-
-        } catch (StaleElementReferenceException se)
-        {
-            return isEventPresentInCalendar(event);
-        }
-        return eventState;
+        return titles.size() == expectedListSize;
     }
 
-    /**
-     * Click on event displayed in calendar (Day, Week, Month views))
-     *
-     * @param event
-     * @return
-     */
-    public EventInformationDialog clickOnEvent(String event)
+    public CalendarPage assertAllDayEventListSizeEquals(int listSize)
+    {
+        LOG.info("Assert is not an all day event: {}", listSize);
+        assertTrue(isAllDayEventListSizeEquals(listSize),
+            String.format("Event with title %s is an all day event", listSize));
+
+        return this;
+    }
+
+    public CalendarPage assertCalendarEventTitleEquals(String expectedCalendarEventTitle)
+    {
+        LOG.info("Assert calendar event title equals: {}", expectedCalendarEventTitle);
+        assertEquals(getEventTitleFromCalendar(expectedCalendarEventTitle).getText(), expectedCalendarEventTitle,
+        String.format("Calendar event title not equals %s ", expectedCalendarEventTitle));
+
+        return this;
+    }
+
+    public EventInformationDialog clickOnEvent(String eventTitle)
     {
         try
         {
-            if (isEventPresentInCalendar(event))
+            if (getEventTitleFromCalendar(eventTitle).getText().equals(eventTitle))
             {
-                browser.mouseOver(selectEvent(event));
-                selectEvent(event).click();
+                LOG.info("Click event title: {}", eventTitle);
+                browser.mouseOver(getEventTitleFromCalendar(eventTitle));
+                getEventTitleFromCalendar(eventTitle).click();
             } else
             {
                 throw new NoSuchElementException("Unable to locate expected event.");
             }
-        } catch (StaleElementReferenceException se)
+        } catch (StaleElementReferenceException staleElementReferenceException)
         {
-            clickOnEvent(event);
+            LOG.info("Element is no longer appears in DOM: {}", staleElementReferenceException.getMessage());
+            clickOnEvent(eventTitle);
         }
-
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
-    public EventInformationDialog clickEvent(String eventName)
-    {
-        return null;
-    }
-
-    /**
-     * Click on Add Event Button
-     *
-     * @return AddEventDialog
-     */
     public AddEventDialog clickAddEventButton()
     {
+        LOG.info("Click add event button");
         getBrowser().waitUntilElementVisible(addEventButton);
         getBrowser().waitUntilElementClickable(addEventButton).click();
+
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
-    /**
-     * Check if 'Show All Items' link is dispayed in Tags section
-     *
-     * @return
-     */
     public boolean isShowAllItemsLinkDisplayed()
     {
+        LOG.info("Check is show all items link displayed");
         return showAllItems.isDisplayed();
     }
 
-    /**
-     * Click on Day button from calendar bar
-     *
-     * @return CalendarPage Day view
-     */
     public CalendarPage clickDayButton()
     {
+        LOG.info("Click day button");
         dayButton.click();
         browser.waitInSeconds(2);
         return (CalendarPage) this.renderedPage();
     }
 
-    /**
-     * Click on Week button from calendar bar
-     *
-     * @return CalendarPage Week view
-     */
     public CalendarPage clickWeekButton()
     {
+        LOG.info("Click week button");
         getBrowser().waitUntilElementClickable(weekButton).click();
         browser.waitInSeconds(4);
         return (CalendarPage) this.renderedPage();
     }
 
-    /**
-     * Click on Month button from calendar bar
-     *
-     * @return CalendarPage Month view
-     */
     public CalendarPage clickMonthButton()
     {
         monthButton.click();
@@ -288,281 +238,191 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         return (CalendarPage) this.renderedPage();
     }
 
-    /**
-     * Click on Agenda button from calendar bar
-     *
-     * @return
-     */
     public CalendarPage clickAgendaButton()
     {
+        LOG.info("Click agenda button");
         agendaButton.click();
         browser.waitInSeconds(1);
+
         return (CalendarPage) this.renderedPage();
     }
 
-    /**
-     * Check if an event is present in calendar Agenda view
-     *
-     * @param eventName
-     * @return true if event is present
-     */
     public boolean isEventPresentInAgenda(String eventName)
     {
+        LOG.info("Check is event present in agenda: {}", eventName);
         return browser.findFirstElementWithValue(agendaEventsName, eventName) != null;
     }
 
-    /**
-     * Click on event displayed in calendar Agenda view
-     *
-     * @param eventName
-     * @return
-     */
     public EventInformationDialog clickOnEventInAgenda(String eventName)
     {
+        LOG.info("Click event in agenda: {}", eventName);
         browser.findFirstElementWithValue(agendaEventsName, eventName).click();
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
-    /**
-     * Click on today date in Calendar, Month View
-     *
-     * @return AddEventDialog
-     */
     public AddEventDialog clickTodayInCalendar()
     {
+        LOG.info("Click today in calendar");
         today.click();
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
-    /**
-     * Click on the Calendar, Day View
-     *
-     * @return AddEventDialog
-     */
     public AddEventDialog clickOnTheCalendarDayView()
     {
+        LOG.info("Click the calendar day view");
         browser.findFirstDisplayedElement(By.cssSelector(".fc-view-agendaDay .fc-agenda-slots .fc-widget-content")).click();
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
-    /**
-     * Click on the Calendar, Week View
-     *
-     * @return AddEventDialog
-     */
     public AddEventDialog clickOnTheCalendarWeekView()
     {
+        LOG.info("click the calendar week view");
         browser.findFirstDisplayedElement(By.cssSelector(".fc-view-agendaWeek .fc-agenda-slots .fc-widget-content")).click();
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
-    /**
-     * Click on the Add an event to this calendar link from Agenda View
-     *
-     * @return AddEventDialog
-     */
     public AddEventDialog clickAddEventToThisCalendar()
     {
+        LOG.info("Click add event to this calendar");
         agendaAddEvent.click();
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
-    /**
-     * Check if the specified event is an all day event or not
-     *
-     * @param event
-     * @return true if event title doesn't have any event-time siblings
-     */
-    public boolean isAllDayEvent(String event)
+    public String getEventStartTimeFromCalendar(String eventTitle)
     {
-        return selectEvent(event).findElements(By.xpath("../*")).size() == 1;
+        LOG.info("Get event start time from calendar");
+        return getEventTitleFromCalendar(eventTitle).findElement(By.xpath("preceding-sibling::*[1]|../preceding-sibling::*[1]/div")).getText();
     }
 
-    /**
-     * Get event start time displayed in calendar
-     *
-     * @param event
-     * @return start time
-     */
-    public String getEventStartTimeFromCalendar(String event)
+    public String getEventDurationFromAgenda(String eventTitle)
     {
-        return selectEvent(event).findElement(By.xpath("preceding-sibling::*[1]|../preceding-sibling::*[1]/div")).getText();
+        LOG.info("Get event duration from agenda: {}", eventTitle);
+        return browser.findFirstElementWithValue(agendaEventsName, eventTitle).findElement(By.xpath("../preceding-sibling::*[1]/div")).getText();
     }
 
-    /**
-     * Get event duration displayed in agenda
-     *
-     * @param event
-     * @return event duration
-     */
-    public String getEventDurationFromAgenda(String event)
-    {
-        return browser.findFirstElementWithValue(agendaEventsName, event).findElement(By.xpath("../preceding-sibling::*[1]/div")).getText();
-    }
-
-    /**
-     * Get Calendar header
-     *
-     * @return
-     */
     public String getCalendarHeader()
     {
+        LOG.info("Get calendar header text");
         return calendarHeader.getText();
     }
 
-    /**
-     * Get Monday from current week
-     *
-     * @return
-     */
+    public CalendarPage assertCalendarHeaderEquals(String expectedCalendarHeader)
+    {
+        LOG.info("Assert calendar header equals: {}", expectedCalendarHeader);
+        assertEquals(getCalendarHeader(), expectedCalendarHeader,
+            String.format("Calendar header not equals %s ", expectedCalendarHeader));
+
+        return this;
+    }
+
     public String getMondayFromCurrentWeek()
     {
+        LOG.info("Get Monday from current week");
         DateTime today = new DateTime();
         return today.weekOfWeekyear().roundFloorCopy().toString("d MMMM yyyy");
     }
 
-    /**
-     * Get Thursday from current week
-     *
-     * @return
-     */
     public DateTime getThursdayFromCurrentWeek()
     {
+        LOG.info("Get Thursday from current week");
         DateTime today = new DateTime();
         return today.weekOfWeekyear().roundFloorCopy().plusDays(3);
     }
 
-    /**
-     * Method to check if the MiniCalendar is present on the Calendar Page
-     */
-
-    public boolean isMiniCalendarPresent()
+    public boolean isMiniCalendarDisplayed()
     {
+        LOG.info("Check is mini calendar displayed");
         return browser.isElementDisplayed(miniCalendar);
     }
 
-    /**
-     * Method to get the selected view name
-     *
-     * @return
-     */
     public String getSelectedViewName()
     {
+        LOG.info("Get selected view name");
         return browser.findElement(selectedView).getText();
     }
 
-    /**
-     * Method to get the view displayed on the Calendar Page
-     *
-     * @return
-     */
     public String viewDisplayed()
     {
+        LOG.info("Get calendar view attribute");
         return browser.findElement(calendarView).getAttribute("value");
     }
 
-    /**
-     * Method to click on the Next button next to Agenda
-     *
-     * @return
-     */
     public CalendarPage clickOnNextButton()
     {
+        LOG.info("Get next button state");
         nextButton.click();
-        browser.waitInSeconds(1);
+        browser.waitInSeconds(WAIT_1);
+
         return (CalendarPage) this.renderedPage();
     }
 
-    /**
-     * Method to click on the Previous button next to the Today button
-     *
-     * @return
-     */
     public CalendarPage clickOnPreviousButton()
     {
+        LOG.info("Click previous button");
         previousButton.click();
-        browser.waitInSeconds(1);
+        browser.waitInSeconds(WAIT_1);
+
         return (CalendarPage) this.renderedPage();
     }
 
-    /**
-     * Method to get the state of the Next button to check if it is disabled or not.
-     *
-     * @return
-     */
     public String getNextButtonState()
     {
+        LOG.info("Get next button state");
         return browser.findElement(By.cssSelector("button[id$='_default-next-button-button']")).getAttribute("disabled");
     }
 
-    /**
-     * Method to get the state of the Today button
-     */
     public String getTodayButtonState()
     {
+        LOG.info("Get today button state");
         return browser.findElement(By.cssSelector("button[id$='_default-today-button-button']")).getAttribute("disabled");
     }
 
-    /**
-     * Click on specified event Delete icon from Agenda view
-     *
-     * @param eventName
-     * @return DeleteDialog
-     */
     public DeleteDialog clickDeleteIcon(String eventName)
     {
+        LOG.info("Click delete icon");
         WebElement eventElement = browser.findFirstElementWithValue(agendaEventsName, eventName);
         browser.mouseOver(eventElement);
         eventElement.findElement(deleteIcon).click();
+
         return (DeleteDialog) deleteDialog.renderedPage();
     }
 
-    /**
-     * Click on specified event Edit icon from Agenda view
-     *
-     * @param eventName
-     * @return EditEventDialog
-     */
     public EditEventDialog clickEditIcon(String eventName)
     {
+        LOG.info("Click edit icon");
         WebElement eventElement = browser.findFirstElementWithValue(agendaEventsName, eventName);
         browser.mouseOver(eventElement);
         eventElement.findElement(editIcon).click();
+
         return (EditEventDialog) editEventDialog.renderedPage();
     }
 
-    /**
-     * Click on specified event View icon from Agenda view
-     *
-     * @param eventName
-     * @return EventInformationDialog
-     */
     public EventInformationDialog clickViewIcon(String eventName)
     {
+        LOG.info("Click view icon");
         WebElement eventElement = browser.findFirstElementWithValue(agendaEventsName, eventName);
         browser.mouseOver(eventElement);
         eventElement.findElement(infoIcon).click();
+
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
-    /**
-     * Check if current date is highlighted
-     *
-     * @return
-     */
-    public Boolean isTodayHighlightedInCalendar()
+    public boolean isTodayHighlightedInCalendar()
     {
+        LOG.info("Check is today highlighted in calendar");
         return today.getAttribute("class").contains("fc-state-highlight");
     }
 
     public CalendarPage clickShowAllItems()
     {
+        LOG.info("Click shows all items");
         browser.findElement(By.cssSelector("a[rel='-all-']")).click();
         return (CalendarPage) this.renderedPage();
     }
 
     public CalendarPage clickTodayButton()
     {
+        LOG.info("Click today button");
         todayButton.click();
         browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
