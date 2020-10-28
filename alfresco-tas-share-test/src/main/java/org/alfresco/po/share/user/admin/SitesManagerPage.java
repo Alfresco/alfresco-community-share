@@ -6,6 +6,7 @@ import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -83,7 +84,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             waiUntilLoadingMessageDisappears();
             return this;
         }
-        catch(TimeoutException e)
+        catch(TimeoutException | PageRenderTimeException e)
         {
             LOG.error("Reload Site Manager page");
             return super.navigate();
