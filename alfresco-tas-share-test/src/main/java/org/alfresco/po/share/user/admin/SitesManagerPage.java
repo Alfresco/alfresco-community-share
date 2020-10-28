@@ -273,6 +273,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             getSiteRow().findElement(siteRowVisibility).click();
             browser.waitUntilElementsVisible(dropdownOptionsList);
             WebElement option = browser.findFirstElementWithValue(dropdownOptionsList, visibilityValue);
+            browser.mouseOver(option);
             browser.waitUntilElementClickable(option);
             browser.clickJS(option);
             browser.waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
