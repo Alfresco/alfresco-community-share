@@ -266,20 +266,22 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
 
         public ManagerSiteAction changeSiteVisibility(Visibility visibility)
         {
-            LOG.info(String.format("Change site visibility to %s", visibility.toString()));
+            LOG.info("Change site visibility to {}", visibility.toString());
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
             getSiteRow().findElement(siteRowVisibility).click();
             browser.waitUntilElementsVisible(dropdownOptionsList);
             WebElement option = browser.findFirstElementWithValue(dropdownOptionsList, visibilityValue);
+            browser.waitUntilElementClickable(option);
             browser.clickJS(option);
             browser.waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
+
             return this;
         }
 
-        public ManagerSiteAction assertSiteVisibilityIs(Visibility visibility)
+        public ManagerSiteAction assertSiteVisibilityEquals(Visibility visibility)
         {
-            LOG.info(String.format("Assert site visibility is: %s", visibility.toString()));
+            LOG.info("Assert site visibility is: {}", visibility.toString());
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
             assertEquals(getSiteRow().findElement(siteRowVisibility).getText(), visibilityValue,

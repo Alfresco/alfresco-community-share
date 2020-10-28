@@ -11,7 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
@@ -139,6 +138,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         defaultActivitiesButton.click();
         browser.waitUntilElementsVisible(filters);
         assertEquals(expectedUserActivities, browser.getTextFromElementList(filters), "Not all options are found in items filter");
+
         return (T) this;
     }
 
@@ -153,6 +153,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         daysRangeButton.click();
         browser.waitUntilElementsVisible(filters);
         assertEquals(expectedUserActivities, browser.getTextFromElementList(filters), "Not all options are found in history filter");
+
         return (T) this;
     }
 
@@ -183,6 +184,21 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         browser.mouseOver(activitiesDashletTitle);
         browser.mouseOver(myActivitiesButton);
         assertTrue(browser.isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
+
+        return (T) this;
+    }
+
+    protected T assertRssFeedContainsExpectedUrl(String url)
+    {
+        LOG.info("Assert Rss Feed contains url {}", url);
+        browser.mouseOver(activitiesDashletTitle);
+        browser.waitUntilElementClickable(rssFeedButton).click();
+        getBrowser().switchTo().alert().dismiss();
+        getBrowser().switchWindow(1);
+        getBrowser().waitUrlContains(url, 5);
+        assertTrue(getBrowser().getCurrentUrl().contains(url), "Rss Feed is not opened with the correct url");
+        getBrowser().closeWindowAndSwitchBack();
+
         return (T) this;
     }
 
@@ -238,6 +254,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         myActivitiesButton.click();
         browser.waitUntilElementsVisible(dropDownOptionsList);
         browser.selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), dropDownOptionsList);
+
         return (T) this;
     }
 
@@ -247,6 +264,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         daysRangeButton.click();
         browser.waitUntilElementsVisible(dropDownOptionsList);
         browser.selectOptionFromFilterOptionsList(getActivitiesDaysRangeFilter(noDaysOption), dropDownOptionsList);
+
         return (T) this;
     }
 

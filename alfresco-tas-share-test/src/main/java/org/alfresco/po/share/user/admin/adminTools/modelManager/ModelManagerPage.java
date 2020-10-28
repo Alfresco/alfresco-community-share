@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialog;
@@ -12,6 +12,7 @@ import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.List;
  * Created by Mirela Tifui on 11/28/2016.
  */
 @PageObject
-public class ModelManagerPage extends AdminToolsPage
+public class ModelManagerPage extends SharePage<ModelManagerPage>
 {
     private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
     private By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
@@ -67,6 +68,22 @@ public class ModelManagerPage extends AdminToolsPage
     public String getRelativePath()
     {
         return "share/page/console/admin-console/custom-model-manager";
+    }
+
+    @Override
+    public ModelManagerPage navigate()
+    {
+        try
+        {
+            super.navigate();
+            waiUntilLoadingMessageDisappears();
+            return this;
+        }
+        catch(TimeoutException e)
+        {
+            LOG.error("Reload Custom Model page");
+            return super.navigate();
+        }
     }
 
     public ModelManagerPage assertCreateModelButtonIsDisplayed()

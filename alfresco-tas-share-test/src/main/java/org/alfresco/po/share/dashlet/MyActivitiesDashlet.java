@@ -89,9 +89,8 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertCreatedLinkActivityIsDisplayed(UserModel user, ContentModel contentModel, SiteModel site)
     {
         LOG.info("Assert create link activity is displayed for content {}", contentModel.getName());
-        assertTrue(browser.isElementDisplayed(getActivityRow(
-            String.format(language.translate("activitiesDashlet.link.createActivity"),
-                user.getFirstName(), user.getLastName(), contentModel.getName(), site.getTitle()))),
+        assertTrue(browser.isElementDisplayed(getActivityRow(String.format(language.translate("activitiesDashlet.link.createActivity"),
+            user.getFirstName(), user.getLastName(), contentModel.getName(), site.getTitle()))),
                 "Create link activity is not displayed");
         return this;
     }

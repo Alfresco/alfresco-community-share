@@ -1,17 +1,12 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
-import org.apache.commons.lang3.EnumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -22,6 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
+
+import java.util.List;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 @PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
@@ -64,7 +64,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     @FindBy (css = "div[class^='dashlet my-sites'] div[class*='empty']")
     protected WebElement defaultSiteEmptyText;
 
-    private String siteRow = "//a[text()='%s']/../../../..";
+    private String siteRow = "//div[starts-with(@class,'dashlet my-sites')]//a[text()='%s']/../../../..";
     private By siteTitleElement = By.cssSelector(".site-title a");
     private By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
     private By deleteButton = By.cssSelector("a[class^='delete-site']");
@@ -90,16 +90,19 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertSiteIsDisplayed(SiteModel siteModel)
     {
-        Assert.assertTrue(browser.isElementDisplayed(getSiteRow(siteModel.getTitle())),
-            String.format("Site %s is displayed", siteModel.getTitle()));
+        LOG.info("Assert site {} is  displayed", siteModel.getTitle());
+        assertTrue(browser.isElementDisplayed(getSiteRow(siteModel.getTitle())),
+            String.format("Site %s is not displayed", siteModel.getTitle()));
         return this;
     }
 
     public MySitesDashlet assertSiteIsNotDisplayed(SiteModel site)
     {
-        browser.waitUntilElementDisappears(By.xpath(String.format(siteRow, site.getTitle())));
-        Assert.assertFalse(browser.isElementDisplayed(By.xpath(String.format(siteRow, site.getTitle()))),
-            String.format("Site %s is displayed", site.getTitle()));
+        LOG.info("Assert site {} is not displayed", site.getTitle());
+        By siteElement = By.xpath(String.format(siteRow, site.getTitle()));
+        browser.waitUntilElementDisappears(siteElement);
+        assertFalse(browser.isElementDisplayed(siteElement), String.format("Site %s is displayed", site.getTitle()));
+
         return this;
     }
 
@@ -149,7 +152,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public MySitesDashlet selectOptionFromSiteFilters(SitesFilter sitesFilter)
     {
         browser.waitUntilElementVisible(sitesFilterButton);
-        sitesFilterButton.click();
+        browser.waitUntilElementClickable(sitesFilterButton).click();
         browser.selectOptionFromFilterOptionsList(getFilterValue(sitesFilter), myfavoritesOptions);
         return (MySitesDashlet) this.renderedPage();
 
@@ -168,7 +171,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertCreateSiteButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createSiteLink), "Create site button is displayed");
+        assertTrue(browser.isElementDisplayed(createSiteLink), "Create site button is displayed");
         return this;
     }
 
@@ -207,7 +210,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertSitesFilterButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(sitesFilterButton), "Sites filter button is displayed");
+        assertTrue(browser.isElementDisplayed(sitesFilterButton), "Sites filter button is displayed");
         return this;
     }
 

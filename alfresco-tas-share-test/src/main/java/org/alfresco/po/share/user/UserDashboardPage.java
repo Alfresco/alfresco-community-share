@@ -51,9 +51,8 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     @FindBy (css = ".welcome-info")
     private WebElement welcomePanelInfo;
 
-    @FindBy (css = "button[id$='_default-hide-button-button']")
-    private WebElement welcomePanelHideButton;
-
+    private By welcomePanelHideButton = By.cssSelector("button[id$='_default-hide-button-button']");
+    private By welcomePanelInfoGetStarted = By.cssSelector(".welcome-info h1");
     private String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
     private String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
 
@@ -242,7 +241,7 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     public UserDashboardPage assertAlfrescoDocumentationPageIsOpenedFromWelcomePanel()
     {
         LOG.info("Assert Alfresco Documentation page is opened from welcome panel");
-        welcomePanelInfo.click();
+        browser.waitUntilElementClickable(welcomePanelInfoGetStarted).click();
         getBrowser().waitUrlContains("https://docs.alfresco.com/", 5);
         Assert.assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         getBrowser().navigate().back();
