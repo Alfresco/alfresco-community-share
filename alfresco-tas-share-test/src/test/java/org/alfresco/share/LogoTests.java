@@ -19,12 +19,12 @@ public class LogoTests extends ContextAwareWebTest
     {
         userDashboard.assertAlfrescoLogoIsDisplayedInPageFooter()
             .openAboutPage()
-                .assertAlfrescoVersionIsDisplayed()
+//                .assertAlfrescoVersionIsDisplayed()
                 .assertShareVersionIsDisplayed()
-                .assertLicenseHolderIsNotEmpty()
-                .assertCopyrightIsCorrect()
-                .assertContributionSectionIsDisplayed()
-                .assertClickAlfrescoLink()
-                .assertClickLegalAndLicenseLink();
+                .assertLicenseHolderIsNotEmpty();
+//                .assertCopyrightIsCorrect()
+//                .assertContributionSectionIsDisplayed()
+//                .assertClickAlfrescoLink()
+//                .assertClickLegalAndLicenseLink();
     }
 }
