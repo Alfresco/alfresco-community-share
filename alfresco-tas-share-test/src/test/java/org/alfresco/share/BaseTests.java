@@ -40,7 +40,7 @@ public class BaseTests extends AbstractTestNGSpringContextTests
     DriverProvider driverProvider = new DriverProvider();
 
     @BeforeMethod(alwaysRun = true)
-    public void beforeEachTest() throws Exception
+    public void beforeEachTest()
     {
         //webDriver.set(browserFactory.getWebBrowser());
         webDriver.set(driverProvider.startWebDriver());

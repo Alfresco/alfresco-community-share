@@ -19,7 +19,8 @@ public class LoginTests2 extends BaseTests {
     private UserDashboardPage userDashboardPage;
 
     @BeforeMethod(alwaysRun = true)
-    public void beforeEachTest() {
+    public void beforeEachTest()
+    {
         userModel = dataUser.usingAdmin().createRandomTestUser();
         super.beforeEachTest();
 
