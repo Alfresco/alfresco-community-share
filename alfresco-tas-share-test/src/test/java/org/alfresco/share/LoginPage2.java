@@ -14,10 +14,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage2 {
 
-    private WebDriver driver;
+    private ThreadLocal<WebDriver> webDriver;
 
-    public LoginPage2(WebDriver driver) {
-        this.driver = driver;
+    public LoginPage2(ThreadLocal<WebDriver> webDriver) {
+        this.webDriver = webDriver;
     }
 
     private By usernameInput = By.cssSelector("[id$='default-username']");
@@ -26,7 +26,7 @@ public class LoginPage2 {
     private By errorMessage = By.cssSelector(".error");
 
     public FluentWait<WebDriver> setWaitingTime(int timeOutInSeconds, int pollingTimeInMillis) {
-        return new WebDriverWait(driver, timeOutInSeconds)
+        return new WebDriverWait(webDriver.get(), timeOutInSeconds)
             .pollingEvery(Duration.ofMillis(pollingTimeInMillis))
             .ignoring(ElementClickInterceptedException.class)
             .ignoring(ElementNotInteractableException.class)
@@ -73,10 +73,10 @@ public class LoginPage2 {
         try {
            setWaitingTime(60, 2)
                 .until(ExpectedConditions.textToBe(errorMessage,expectedMessage));
-           return driver.findElement(errorMessage).getText();
+           return webDriver.get().findElement(errorMessage).getText();
 
         }catch (NoSuchElementException e) {
-            System.out.println("Catch block " + driver.findElement(errorMessage).getText());
+            System.out.println("Catch block " + webDriver.get().findElement(errorMessage).getText());
         }
         return "Nu i acasa";
     }

@@ -13,21 +13,20 @@ public class DriverProvider {
 
     public WebDriver startWebDriver() {
         webDriver = createChromeDriver();
-//        webDriver = createFirefoxDriver();
-//        webDriver.manage().window().maximize();
 
         return webDriver;
     }
 
     private WebDriver createChromeDriver() {
         System.setProperty("webdriver.chrome.driver", "D:\\share-tests-automation\\src\\test\\java\\org\\alfresco\\share\\chromedriver.exe");
+//        WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--start-maximized");
-//        chromeOptions.addArguments("--headless");
-        chromeOptions.addArguments("--no-sandbox");
-        chromeOptions.addArguments("--disable-dev-shm-usage");
+        chromeOptions.addArguments("--headless");
+//        chromeOptions.addArguments("--no-sandbox");
+//        chromeOptions.addArguments("--disable-dev-shm-usage");
 
-//        chromeOptions.setPageLoadStrategy(PageLoadStrategy.NONE);
+        chromeOptions.setPageLoadStrategy(PageLoadStrategy.NONE);
 
         return new ChromeDriver(chromeOptions);
     }
@@ -35,16 +34,12 @@ public class DriverProvider {
     private WebDriver createFirefoxDriver() {
         System.setProperty("webdriver.gecko.driver", "D:\\share-tests-automation\\src\\test\\java\\org\\alfresco\\share\\geckodriver.exe");
         FirefoxOptions firefoxOptions = new FirefoxOptions();
-//        firefoxOptions.addArguments("--headless");
+        firefoxOptions.addArguments("--headless");
         firefoxOptions.addArguments("--no-sandbox");
         firefoxOptions.addArguments("--disable-dev-shm-usage");
 
 //        firefoxOptions.setPageLoadStrategy(PageLoadStrategy.NONE);
 
         return new FirefoxDriver(firefoxOptions);
-    }
-
-    public void closeWebDriver() {
-        webDriver.quit();
     }
 }

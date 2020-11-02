@@ -14,19 +14,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UserDashboardPage {
 
-    private By headerPage = By.cssSelector("#HEADER_CUSTOMIZE_USER_DASHBOARD");
-    private By aboutLink = By.cssSelector(".copyright>a>img");
-    private By version = By.cssSelector(".about>.header:nth-child(1)");
-    private By licenseHolder = By.cssSelector(".about .licenseHolder");
+    private final By headerPage = By.cssSelector("#HEADER_CUSTOMIZE_USER_DASHBOARD");
+    private final By aboutLink = By.cssSelector(".copyright>a>img");
+    private final By version = By.cssSelector(".about>.header:nth-child(1)");
+    private final By licenseHolder = By.cssSelector(".about .licenseHolder");
 
-    private WebDriver webDriver;
+    private final ThreadLocal<WebDriver> webDriver;
 
-    public UserDashboardPage(WebDriver webDriver) {
+    public UserDashboardPage(ThreadLocal<WebDriver> webDriver) {
         this.webDriver = webDriver;
     }
 
     public FluentWait<WebDriver> setWaitingTime(int timeOutInSeconds, int pollingTimeInMillis) {
-        return new WebDriverWait(webDriver, timeOutInSeconds)
+        return new WebDriverWait(webDriver.get(), timeOutInSeconds)
             .pollingEvery(Duration.ofMillis(pollingTimeInMillis))
             .ignoring(ElementClickInterceptedException.class)
             .ignoring(ElementNotInteractableException.class)
