@@ -1,11 +1,16 @@
 package org.alfresco.share;
 
 import java.util.Arrays;
+
+import org.alfresco.common.EnvProperties;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.web.browser.Browser;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.alfresco.utility.web.browser.WebBrowserFactory;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,7 +19,13 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 @ContextConfiguration(classes = ShareTestContext.class)
-public class BaseTests extends AbstractTestNGSpringContextTests {
+public class BaseTests extends AbstractTestNGSpringContextTests
+{
+    @Autowired
+    public EnvProperties properties;
+
+    @Autowired
+    private WebBrowserFactory browserFactory;
 
     @Autowired
     protected SiteDashboardPage siteDashboardPage;
@@ -29,14 +40,17 @@ public class BaseTests extends AbstractTestNGSpringContextTests {
     DriverProvider driverProvider = new DriverProvider();
 
     @BeforeMethod(alwaysRun = true)
-    public void beforeEachTest() {
+    public void beforeEachTest() throws Exception
+    {
+        //webDriver.set(browserFactory.getWebBrowser());
         webDriver.set(driverProvider.startWebDriver());
         navigateTo();
     }
 
-    private void navigateTo() {
+    private void navigateTo()
+    {
         try {
-            webDriver.get().navigate().to("http://localhost:8080/share/page/");
+            webDriver.get().navigate().to(properties.getShareUrl());
 //            new WebDriverWait(webDriver.get(), 30, 1).until(ExpectedConditions.urlToBe("http://localhost:8080/share/page/"));
         }catch (Exception e) {
         }
