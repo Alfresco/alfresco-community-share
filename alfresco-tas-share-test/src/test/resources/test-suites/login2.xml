@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Demo Suite" parallel="methods" thread-count="5">
+
+   <test name="parallel_tests">
+      <classes>
+         <class name="org.alfresco.share.LoginTests2" />
+         <class name="org.alfresco.share.LogoTests2"/>
+      </classes>
+   </test>
+</suite>

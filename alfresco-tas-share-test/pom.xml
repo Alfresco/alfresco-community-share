@@ -11,7 +11,7 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-<!--      <suiteXmlFile>login.xml</suiteXmlFile>-->
+      <suiteXmlFile>src/test/resources/test-suites/login2.xml</suiteXmlFile>
       <maven-remote-resources.version>1.6.0</maven-remote-resources.version>
       <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
       <tas.utility.version>3.0.36-SNAPSHOT</tas.utility.version>
@@ -144,9 +144,9 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.0.0-M5</version>
             <configuration>
-<!--              <suiteXmlFiles>-->
-<!--                  <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
-<!--               </suiteXmlFiles>-->
+              <suiteXmlFiles>
+                  <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+               </suiteXmlFiles>
             </configuration>
          </plugin>
 
