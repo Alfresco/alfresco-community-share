@@ -1,5 +1,6 @@
 package org.alfresco.share;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,19 +8,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-public class DriverProvider {
+public class DriverProvider
+{
 
     private WebDriver webDriver;
 
     public WebDriver startWebDriver() {
-        webDriver = createChromeDriver();
+        webDriver = createFirefoxDriver();
 
         return webDriver;
     }
 
     private WebDriver createChromeDriver() {
-        System.setProperty("webdriver.chrome.driver", "D:\\share-tests-automation\\src\\test\\java\\org\\alfresco\\share\\chromedriver.exe");
-//        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--start-maximized");
         chromeOptions.addArguments("--headless");
@@ -32,7 +33,8 @@ public class DriverProvider {
     }
 
     private WebDriver createFirefoxDriver() {
-        System.setProperty("webdriver.gecko.driver", "D:\\share-tests-automation\\src\\test\\java\\org\\alfresco\\share\\geckodriver.exe");
+        //System.setProperty("webdriver.gecko.driver", "D:\\share-tests-automation\\src\\test\\java\\org\\alfresco\\share\\geckodriver.exe");
+        WebDriverManager.firefoxdriver().setup();
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.addArguments("--headless");
         firefoxOptions.addArguments("--no-sandbox");
