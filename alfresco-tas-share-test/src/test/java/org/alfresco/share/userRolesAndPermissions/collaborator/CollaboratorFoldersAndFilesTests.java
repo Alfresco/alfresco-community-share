@@ -323,7 +323,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickSite(siteName);
         copyMoveUnzipToDialog.clickPathFolder(folderName);
         LOG.info("Step 3: Click 'Copy' button");
-        copyMoveUnzipToDialog.clickCopyButton(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCopyToButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
         LOG.info("Step 4: Verify displayed folders from Documents.");
         documentLibraryPage.navigate(siteName);
