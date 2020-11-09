@@ -43,7 +43,7 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
 
         documentLibraryPage2.navigate(site)
             .usingContent(favoriteFile)
-                .assertAddToFavoritesTooltipEqualsWithExpected()
+                .assertAddFileToFavoritesTooltipEqualsWithExpected()
                 .addToFavorites()
                 .assertRemoveFromFavoritesIsDisplayed();
     }
@@ -57,7 +57,7 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
 
         documentLibraryPage2.navigate(site)
             .usingContent(favoriteFolder)
-                .assertAddToFavoritesTooltipEqualsWithExpected()
+                .assertAddFolderToFavoritesTooltipEqualsWithExpected()
                 .addToFavorites()
                 .assertRemoveFromFavoritesIsDisplayed();
     }
@@ -72,7 +72,7 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
 
         documentLibraryPage2.navigate(site)
             .usingContent(favoriteFile)
-                .assertRemoveFromFavoritesTooltipEqualsWithExpected()
+                .assertRemoveFileFromFavoritesTooltipEqualsWithExpected()
                 .removeFromFavorites()
                 .assertAddToFavoritesIsDisplayed();
     }
@@ -87,7 +87,7 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
 
         documentLibraryPage2.navigate(site)
             .usingContent(folder)
-                .assertRemoveFromFavoritesTooltipEqualsWithExpected()
+                .assertRemoveFolderFromFavoritesTooltipEqualsWithExpected()
                 .removeFromFavorites()
                 .assertAddToFavoritesIsDisplayed();
     }

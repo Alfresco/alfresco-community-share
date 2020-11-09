@@ -167,36 +167,39 @@ public class ContentAction
         return (DeleteDialog) deleteDialog.renderedPage();
     }
 
-    public ContentAction assertAddToFavoritesTooltipEqualsWithExpected()
+    public ContentAction assertAddFileToFavoritesTooltipEqualsWithExpected()
     {
-        String tooltipValue;
-        if(contentModel instanceof FileModel)
-        {
-            tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addDocumentToFavorites");
-        }
-        else
-        {
-            tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addFolderToFavorites");
-        }
-        LOG.info("Assert add to favorites tooltip equals to {}", tooltipValue);
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addDocumentToFavorites");
+        LOG.info("Assert add file to favorites tooltip equals to {}", tooltipValue);
         assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"), tooltipValue,
-            String.format("Add to favorite not equals to %s", tooltipValue));
+            String.format("Add to favorite tootip not equals to %s", tooltipValue));
         return this;
     }
 
-    public ContentAction assertRemoveFromFavoritesTooltipEqualsWithExpected()
+    public ContentAction assertAddFolderToFavoritesTooltipEqualsWithExpected()
     {
-        LOG.info("Assert remove from favorites tooltip is correct");
-        if(contentModel instanceof FileModel)
-        {
-            assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"),
-                alfrescoContentPage.language.translate("documentLibrary.contentAction.removeDocumentFromFavorites"));
-        }
-        else
-        {
-            assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"),
-                alfrescoContentPage.language.translate("documentLibrary.contentAction.removeFolderFromFavorites"));
-        }
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addFolderToFavorites");
+        LOG.info("Assert add folder to favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite tooltip not equals to %s", tooltipValue));
+        return this;
+    }
+
+    public ContentAction assertRemoveFileFromFavoritesTooltipEqualsWithExpected()
+    {
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.removeDocumentFromFavorites");
+        LOG.info("Assert remove file from favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite tooltip not equals to %s", tooltipValue));
+        return this;
+    }
+
+    public ContentAction assertRemoveFolderFromFavoritesTooltipEqualsWithExpected()
+    {
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.removeFolderFromFavorites");
+        LOG.info("Assert remove folder from favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite tooltip not equals to %s", tooltipValue));
         return this;
     }
 
