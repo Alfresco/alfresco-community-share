@@ -86,7 +86,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     public T clickOnHelpIcon(DashletHelpIcon dashlet)
     {
         LOG.info("Click Help Icon");
-        if(dashlet.name == DashletHelpIcon.MY_PROFILE.name)
+        if(dashlet.name.equals(DashletHelpIcon.MY_PROFILE.name))
         {
             browser.findElement(By.cssSelector(helpIconMyProfile)).click();
             return (T) this;

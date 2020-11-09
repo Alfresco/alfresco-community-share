@@ -201,7 +201,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, ItemActions.EDIT_IN_ALFRESCO,
             editInAlfrescoPage);
         LOG.info("Step 3: Edit content and save changes.");
-        editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName, updatedContent, updatedTitle, updatedDescription);
+        editInAlfrescoPage.enterDocumentDetails(updatedDocName, updatedContent, updatedTitle, updatedDescription);
         editInAlfrescoPage.clickButton("Save");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step4: Click on testFile to open file and check content.");
@@ -224,7 +224,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedByOtherUser, ItemActions.EDIT_IN_ALFRESCO,
             editInAlfrescoPage);
         LOG.info("Step 3: Edit content and save changes.");
-        editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName1, updatedContent1, updatedTitle1, updatedDescription1);
+        editInAlfrescoPage.enterDocumentDetails(updatedDocName1, updatedContent1, updatedTitle1, updatedDescription1);
         editInAlfrescoPage.clickButton("Save");
 
         LOG.info("Step4: Click on testFile to open file and check content.");

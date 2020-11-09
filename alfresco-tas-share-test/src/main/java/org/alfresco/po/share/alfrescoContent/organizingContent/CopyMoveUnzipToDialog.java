@@ -55,7 +55,6 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 
     private By sitePickerArea = By.cssSelector(".site-picker");
     private By dialogBody = By.cssSelector("div[id$='default-copyMoveTo-dialog']");
-    private By createLinkMessage = By.cssSelector("div[id*='message_c'] .bd .message");
     private String siteToSelect = "//h4[text()='%s']";
     private String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
     private String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";

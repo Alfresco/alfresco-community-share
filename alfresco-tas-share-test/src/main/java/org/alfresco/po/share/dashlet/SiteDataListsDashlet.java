@@ -53,7 +53,6 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     @FindBy (css = ".dashlet-padding>h3")
     protected WebElement message;
 
-    protected By newListWindowLocator = By.cssSelector(".hd");
     protected By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
     protected String listLinkLocator = "//a[@title='%s']";
     private By descriptionElement = By.cssSelector(".description");

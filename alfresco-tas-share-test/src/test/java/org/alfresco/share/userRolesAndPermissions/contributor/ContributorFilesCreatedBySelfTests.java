@@ -168,7 +168,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Steps2: Click 'Edit in Alfresco'.");
         documentLibraryPage.clickDocumentLibraryItemAction(toBeEdited, ItemActions.EDIT_IN_ALFRESCO, editInAlfresco);
         LOG.info("Steps3: Edit content and save changes.");
-        editInAlfresco.sendDocumentDetailsFields("editedName", "editedContent", "editedTitle", "editedDescription");
+        editInAlfresco.enterDocumentDetails("editedName", "editedContent", "editedTitle", "editedDescription");
         editInAlfresco.clickButton("Save");
         LOG.info("Steps4: Click on test file to open file and check content.");
         documentLibraryPage.clickOnFile("editedName");
