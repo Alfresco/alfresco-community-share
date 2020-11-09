@@ -44,13 +44,10 @@ public class DeleteDialog extends ShareDialog
     public DeleteDialog assertDeleteDialogHeaderEqualsTo(String expectedHeader)
     {
         LOG.info("Assert dialog header equals to {}", expectedHeader);
-        assertEquals(dialogHeader.getText(), expectedHeader, "Dialog header is not correct");
+        assertEquals(dialogHeader.getText(), expectedHeader, String.format("Dialog header is not equals to %s", expectedHeader));
         return this;
     }
 
-    /**
-     * @return Dialog's displayed message
-     */
     public String getMessage()
     {
         return message.getText();

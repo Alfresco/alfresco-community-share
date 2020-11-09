@@ -169,7 +169,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     public T assertDocumentsRootBreadcrumbIsDisplayed()
     {
         LOG.info("Assert Documents root breadcrumb is displayed");
-        getBrowser().waitUntilElementVisible(documentsRootBreadcrumb);
+        browser.waitUntilElementVisible(documentsRootBreadcrumb);
         assertTrue(getBrowser().isElementDisplayed(documentsRootBreadcrumb), "Documents root breadcrumb is displayed");
         return (T) this;
     }
@@ -271,6 +271,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
 
     public T selectFromDocumentsFilter(DocumentsFilter documentFilter)
     {
+        LOG.info("Select document filter {}", documentFilter.toString());
         List<WebElement> filters = getBrowser().findElements(documentsFilter);
         browser.findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)).click();
         browser.waitUntilElementVisible(selectedFilter);
@@ -281,7 +282,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     {
         LOG.info("Assert documents filter header title '{}' is displayed", expectedHeaderTitle);
         assertEquals(getBrowser().waitUntilElementVisible(documentsFilterHeaderTitle).getText(), expectedHeaderTitle,
-            String.format("%s header title is not displayed", expectedHeaderTitle));
+            String.format("%s header title is not equals to", expectedHeaderTitle));
         return (T) this;
     }
 

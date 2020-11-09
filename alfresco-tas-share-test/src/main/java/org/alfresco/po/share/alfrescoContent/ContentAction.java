@@ -169,17 +169,18 @@ public class ContentAction
 
     public ContentAction assertAddToFavoritesTooltipEqualsWithExpected()
     {
-        LOG.info("Assert add to favorites tooltip is correct");
+        String tooltipValue;
         if(contentModel instanceof FileModel)
         {
-            assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"),
-                alfrescoContentPage.language.translate("documentLibrary.contentAction.addDocumentToFavorites"));
+            tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addDocumentToFavorites");
         }
         else
         {
-            assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"),
-                alfrescoContentPage.language.translate("documentLibrary.contentAction.addFolderToFavorites"));
+            tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addFolderToFavorites");
         }
+        LOG.info("Assert add to favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite not equals to %s", tooltipValue));
         return this;
     }
 
