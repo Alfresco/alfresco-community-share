@@ -53,7 +53,7 @@ public class ChangeContentTypeDialog extends ShareDialog
             if (aButtonsList.getText().equals(buttonName))
                 aButtonsList.click();
         }
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
