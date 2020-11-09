@@ -87,10 +87,10 @@ public class TagManagerTests extends ContextAwareWebTest
     {
         tagManagerPage.searchTagWithRetry(tag3)
             .clickDelete(tag3)
-                .assertConfirmDeleteMessageIsCorrect(tag3)
+                .assertConfirmDeleteMessageEqualsTo(tag3)
                 .assertDeleteButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
-                .clickDelete(tagManagerPage);
+                .clickDelete();
         tagManagerPage.search(tag3).assertTagIsNotDisplayed(tag3);
     }
 }

@@ -1,10 +1,11 @@
 package org.alfresco.po.share;
 
-import org.alfresco.common.Timeout;
+import okio.Utf8;
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
@@ -33,25 +34,43 @@ public class DeleteDialog extends ShareDialog
     @FindBy (css = "#prompt_h + div.bd")
     private WebElement message;
 
+    private By dialogBody = By.id("prompt_c");
+
     public String getHeader()
     {
         return dialogHeader.getText();
     }
 
-    /**
-     * @return Dialog's displayed message
-     */
+    public DeleteDialog assertDeleteDialogHeaderEqualsTo(String expectedHeader)
+    {
+        LOG.info("Assert dialog header equals to {}", expectedHeader);
+        assertEquals(dialogHeader.getText(), expectedHeader, String.format("Dialog header is not equals to %s", expectedHeader));
+        return this;
+    }
+
     public String getMessage()
     {
         return message.getText();
     }
 
-    public DeleteDialog assertConfirmDeleteMessageIsCorrect(String deletedObject)
+    public DeleteDialog assertConfirmDeleteMessageEqualsTo(String deletedObject)
     {
-        LOG.info("Assert confirm delete message is correct");
+        LOG.info("Assert confirm delete message is correct for content {}", deletedObject);
         assertEquals(message.getText(), String.format(language.translate("confirmDeletion.message"), deletedObject),
             "Delete confirm message is correct");
         return this;
+    }
+
+    public DeleteDialog assertConfirmDeleteMessageEqualsTo(ContentModel deletedContent)
+    {
+        return assertConfirmDeleteMessageEqualsTo(deletedContent.getName());
+    }
+
+    public void clickDelete()
+    {
+        LOG.info("Click Delete");
+        browser.waitUntilElementClickable(deleteButton).click();
+        waitUntilNotificationMessageDisappears();
     }
 
     public <T> SharePage clickDelete(SharePage page)
@@ -63,7 +82,8 @@ public class DeleteDialog extends ShareDialog
 
     public void clickCancel()
     {
-        cancelButton.click();
+        browser.waitUntilElementClickable(cancelButton).click();
+        browser.waitUntilElementDisappears(dialogBody);
     }
 
     public boolean isCancelButtonDisplayed()

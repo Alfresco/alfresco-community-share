@@ -1,8 +1,10 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.utility.model.ContentModel;
+import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -10,34 +12,40 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class ContentAction
 {
     private final Logger LOG = LoggerFactory.getLogger(ContentAction.class);
 
-    private AlfrescoContentPage alfrescoContentPage;
-    private DocumentDetailsPage documentDetailsPage;
-    private CopyMoveUnzipToDialog copyMoveDialog;
-    private ContentModel contentModel;
+    private final AlfrescoContentPage alfrescoContentPage;
+    private final DocumentDetailsPage documentDetailsPage;
+    private final CopyMoveUnzipToDialog copyMoveDialog;
+    private final DeleteDialog deleteDialog;
+    private final ContentModel contentModel;
 
-    private By contentNameSelector = By.cssSelector(".filename a");
-    private By moreActionLink = By.cssSelector(".show-more");
-    private By moreActionsArea = By.cssSelector(".more-actions");
-    private By copyToAction = By.id("onActionCopyTo");
-    private By moveToAction = By.id("onActionMoveTo");
-    private By linkThumbnail = By.cssSelector(".thumbnail .link");
-    private String highlightContent = "yui-dt-highlighted";
+    private final By contentNameSelector = By.cssSelector(".filename a");
+    private final By moreActionLink = By.cssSelector(".show-more");
+    private final By moreActionsArea = By.cssSelector(".more-actions");
+    private final By copyToAction = By.id("onActionCopyTo");
+    private final By moveToAction = By.id("onActionMoveTo");
+    private final By linkThumbnail = By.cssSelector(".thumbnail .link");
+    private final By deleteAction = By.id("onActionDelete");
+    private final By addToFavoritesLink = By.className("favourite-action");
+    private final By removeFavoriteLink = By.cssSelector("a[class='favourite-action enabled']");
+    private final By locateAction = By.id("onActionLocate");
+    private final String highlightContent = "yui-dt-highlighted";
 
     public ContentAction(ContentModel contentModel, AlfrescoContentPage contentPage,
                          DocumentDetailsPage documentDetailsPage,
-                         CopyMoveUnzipToDialog copyMoveDialog)
+                         CopyMoveUnzipToDialog copyMoveDialog,
+                         DeleteDialog deleteDialog)
     {
         this.contentModel = contentModel;
         this.alfrescoContentPage = contentPage;
         this.documentDetailsPage = documentDetailsPage;
         this.copyMoveDialog = copyMoveDialog;
+        this.deleteDialog = deleteDialog;
 
         LOG.info(String.format("Using content: '%s'", contentModel.getName()));
     }
@@ -59,6 +67,7 @@ public class ContentAction
         getBrowser().waitUntilElementVisible(content, 5);
         assertTrue(getBrowser().isElementDisplayed(getContentRow()),
             String.format("Content '%s' is not displayed", contentModel.getName()));
+
         return this;
     }
 
@@ -79,6 +88,7 @@ public class ContentAction
         getBrowser().mouseOver(content);
         content.click();
         alfrescoContentPage.waitForCurrentFolderBreadcrumb((FolderModel) contentModel);
+
         return alfrescoContentPage;
     }
 
@@ -87,15 +97,23 @@ public class ContentAction
         LOG.info("Select file");
         getContentRow().findElement(contentNameSelector).click();
         documentDetailsPage.renderedPage();
+
         return documentDetailsPage;
+    }
+
+    public ContentAction assertContentIsHighlighted()
+    {
+        LOG.info("Assert content is highlighted");
+        assertTrue(getContentRow().getAttribute("class").contains(highlightContent), "Content is not highlighted");
+        return this;
     }
 
     private ContentAction mouseOverContent()
     {
         LOG.info("Mouse over content");
-        WebElement contentRow = getContentRow();
-        getBrowser().mouseOver(contentRow);
-        getBrowser().waitUntilElementHasAttribute(contentRow, "class", highlightContent);
+        getBrowser().mouseOver(getContentRow().findElement(contentNameSelector));
+        getBrowser().waitUntilElementHasAttribute(getContentRow(), "class", highlightContent);
+
         return this;
     }
 
@@ -106,6 +124,7 @@ public class ContentAction
         getBrowser().mouseOver(moreAction);
         moreAction.click();
         getBrowser().waitUntilChildElementIsPresent(getContentRow(), moreActionsArea);
+
         return this;
     }
 
@@ -115,6 +134,7 @@ public class ContentAction
         mouseOverContent();
         clickMore();
         getContentRow().findElement(copyToAction).click();
+
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 
@@ -124,6 +144,7 @@ public class ContentAction
         mouseOverContent();
         clickMore();
         getContentRow().findElement(moveToAction).click();
+
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 
@@ -132,6 +153,117 @@ public class ContentAction
         LOG.info("Assert thumbnail link type is displayed");
         assertTrue(getBrowser().isElementDisplayed(getContentRow().findElement(linkThumbnail)),
             String.format("Content %s doesn't have thumbnail link type", contentModel.getName()));
+
+        return this;
+    }
+
+    public DeleteDialog clickDelete()
+    {
+        LOG.info("Click Delete");
+        mouseOverContent();
+        clickMore();
+        getContentRow().findElement(deleteAction).click();
+
+        return (DeleteDialog) deleteDialog.renderedPage();
+    }
+
+    public ContentAction assertAddFileToFavoritesTooltipEqualsWithExpected()
+    {
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addDocumentToFavorites");
+        LOG.info("Assert add file to favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite tootip not equals to %s", tooltipValue));
+        return this;
+    }
+
+    public ContentAction assertAddFolderToFavoritesTooltipEqualsWithExpected()
+    {
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.addFolderToFavorites");
+        LOG.info("Assert add folder to favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite tooltip not equals to %s", tooltipValue));
+        return this;
+    }
+
+    public ContentAction assertRemoveFileFromFavoritesTooltipEqualsWithExpected()
+    {
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.removeDocumentFromFavorites");
+        LOG.info("Assert remove file from favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite tooltip not equals to %s", tooltipValue));
+        return this;
+    }
+
+    public ContentAction assertRemoveFolderFromFavoritesTooltipEqualsWithExpected()
+    {
+        String tooltipValue = alfrescoContentPage.language.translate("documentLibrary.contentAction.removeFolderFromFavorites");
+        LOG.info("Assert remove folder from favorites tooltip equals to {}", tooltipValue);
+        assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"), tooltipValue,
+            String.format("Add to favorite tooltip not equals to %s", tooltipValue));
+        return this;
+    }
+
+    public ContentAction assertAddToFavoritesIsDisplayed()
+    {
+        LOG.info("Assert Add to favorites is displayed");
+        WebElement contentRow = getContentRow();
+        mouseOverContent();
+        assertTrue(getBrowser().isElementDisplayed(contentRow.findElement(addToFavoritesLink)),
+        "Add to favorites link is not displayed");
+
+        return this;
+    }
+
+    public ContentAction assertRemoveFromFavoritesIsDisplayed()
+    {
+        LOG.info("Assert remove from favorites is displayed");
+        WebElement contentRow = getContentRow();
+        mouseOverContent();
+        assertTrue(getBrowser().isElementDisplayed(contentRow.findElement(removeFavoriteLink)),
+                "Remove from favorites link is not displayed");
+
+        return this;
+    }
+
+    public ContentAction addToFavorites()
+    {
+        LOG.info("Add to favorites");
+        WebElement contentRow = getContentRow();
+        mouseOverContent();
+        contentRow.findElement(addToFavoritesLink).click();
+        getBrowser().waitUntilChildElementIsPresent(contentRow, removeFavoriteLink);
+
+        return this;
+    }
+
+    public ContentAction removeFromFavorites()
+    {
+        LOG.info("Remove from favorites");
+        WebElement contentRow = getContentRow();
+        mouseOverContent();
+        contentRow.findElement(removeFavoriteLink).click();
+        getBrowser().waitUntilChildElementIsPresent(contentRow, addToFavoritesLink);
+
+        return this;
+    }
+
+    public AlfrescoContentPage clickLocate()
+    {
+        LOG.info("Select Locate action");
+        mouseOverContent();
+        if (contentModel instanceof FolderModel)
+        {
+            clickMore();
+        }
+        getContentRow().findElement(locateAction).click();
+        return alfrescoContentPage;
+    }
+
+    public ContentAction assertContentIsChecked()
+    {
+        LOG.info("Assert content is checked");
+        assertTrue(getContentRow().findElement(alfrescoContentPage.selectCheckBox).isSelected(),
+            String.format("Content %s is checked", contentModel.getName()));
         return this;
     }
 }
