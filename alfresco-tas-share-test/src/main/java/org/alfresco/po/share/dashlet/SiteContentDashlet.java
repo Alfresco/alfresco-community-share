@@ -50,7 +50,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     protected WebElement getDocumentRow(String documentName)
     {
         return browser.waitWithRetryAndReturnWebElement
-            (By.xpath(String.format(documentRow, documentName)), 1, WAIT_30);
+            (By.xpath(String.format(documentRow, documentName)), WAIT_1, RETRY_TIMES);
     }
 
     public SiteContentDashlet assertEmptySiteContentMessageIsCorrect()

@@ -82,7 +82,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         LOG.info("Get data list row: {}", dataListTitle);
 
         return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
-            dataListTitle)), 1, WAIT_30);
+            dataListTitle)), WAIT_1, RETRY_TIMES);
     }
 
     public CreateDataListDialog clickOnCreateDataListLink()

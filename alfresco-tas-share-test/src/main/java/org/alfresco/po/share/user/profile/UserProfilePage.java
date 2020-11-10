@@ -1,5 +1,7 @@
 package org.alfresco.po.share.user.profile;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.utility.model.UserModel;
@@ -21,6 +23,9 @@ import java.util.stream.Collectors;
 @PageObject
 public class UserProfilePage extends SharePage<UserProfilePage> implements AccessibleByMenuBar
 {
+
+    private static final String EMPTY_SPACE = " ";
+
     @Autowired
     private EditUserProfilePage editUserProfilePage;
 
@@ -198,15 +203,16 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
         return (EditUserProfilePage) editUserProfilePage.renderedPage();
     }
 
-    public String getNameLabel()
+    public String assertUsernameEquals(String firstName, String lastName)
     {
+        assertEquals(nameLabel.getText(), firstName.concat(EMPTY_SPACE).concat(lastName));
         return nameLabel.getText();
     }
 
     public UserProfilePage assertSummaryIs(String summaryValue)
     {
         LOG.info(String.format("Assert summary value is: %s", summaryValue));
-        Assert.assertEquals(summary.getText(), summaryValue, "Summary is correct");
+        assertEquals(summary.getText(), summaryValue, "Summary is correct");
         return this;
     }
 
@@ -231,7 +237,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     private UserProfilePage checkValue(String element, String label, String value)
     {
-        Assert.assertEquals(browser.findElement(By.xpath(String.format(element,
+        assertEquals(browser.findElement(By.xpath(String.format(element,
             language.translate(label))))
             .findElement(fieldValue).getText(), value);
         return this;

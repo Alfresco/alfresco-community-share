@@ -24,7 +24,7 @@ public enum Dashlets
     SITE_PROFILE("Site Profile"),
     SITE_SEARCH("Site Search"),
     SITE_CONTENT_REPORT("Site File Type Breakdown"),
-    TOP_SITE_CONTRIBUTOR_REPORT("Site Contributor Breakdo..."),
+    SITE_CONTRIBUTOR_BREAKDOWN("Site Contributor Breakdown"),
     WEB_VIEW("Web View"),
     WELCOME_SITE("Welcome Site"),
     WIKI("Wiki"),

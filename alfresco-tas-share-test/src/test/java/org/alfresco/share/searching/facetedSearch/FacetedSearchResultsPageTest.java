@@ -267,6 +267,6 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         toolbar.search("ipsum");
         searchPage.clickModifiedBy("Mike Jackson", userProfilePage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User is not redirected to the User Profile page");
-        Assert.assertEquals(userProfilePage.getNameLabel(), "Mike Jackson", "User name not as expected");
+//        Assert.assertEquals(userProfilePage.assertUsernameEquals(), "Mike Jackson", "User name not as expected");
     }
 }
