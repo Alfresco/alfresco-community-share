@@ -63,8 +63,6 @@ public class ContentAction
     public ContentAction assertContentIsDisplayed()
     {
         LOG.info("Assert is displayed");
-        WebElement content = getContentRow();
-        getBrowser().waitUntilElementVisible(content, 5);
         assertTrue(getBrowser().isElementDisplayed(getContentRow()),
             String.format("Content '%s' is not displayed", contentModel.getName()));
 
