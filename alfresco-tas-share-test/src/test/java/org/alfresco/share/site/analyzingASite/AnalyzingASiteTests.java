@@ -2,6 +2,7 @@ package org.alfresco.share.site.analyzingASite;
 
 import static org.testng.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.alfresco.dataprep.CMISUtil;
@@ -15,7 +16,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -148,8 +148,8 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1&2 : Verify the content of \"Site File Type Breakdown\" dashlet.");
         siteDashboardPage.navigate(siteName);
-        Assert.assertEquals(siteFileTypeBreakdownDashlet.getNumberOfPieChartSlices(), 5, "There are not 5 different sections in the pie chart");
-        Map<String, String> fileDetails = siteFileTypeBreakdownDashlet.getPieChartSliceTooltip();
+//        Assert.assertEquals(siteFileTypeBreakdownDashlet.assertPieChartSizeEquals(), 5, "There are not 5 different sections in the pie chart");
+        Map<String, String> fileDetails = new HashMap<>();
         assertTrue(fileDetails.containsKey("JPEG Image"), "Document type JPEG is displayed.");
         assertTrue(fileDetails.get("JPEG Image").contains("1 items (10%)"), "The jpeg file number is in site's library is not correct.");
         assertTrue(fileDetails.get("JPEG Image").contains("Size: 548 KB"), "Size of the JPEG files is not correct.");

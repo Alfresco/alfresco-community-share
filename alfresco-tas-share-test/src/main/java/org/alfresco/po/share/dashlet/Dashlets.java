@@ -23,7 +23,7 @@ public enum Dashlets
     SITE_MEMBERS("Site Members"),
     SITE_PROFILE("Site Profile"),
     SITE_SEARCH("Site Search"),
-    SITE_CONTENT_REPORT("Site File Type Breakdown"),
+    SITE_FILE_TYPE_BREAKDOWN("Site File Type Breakdown"),
     SITE_CONTRIBUTOR_BREAKDOWN("Site Contributor Breakdown"),
     WEB_VIEW("Web View"),
     WELCOME_SITE("Welcome Site"),

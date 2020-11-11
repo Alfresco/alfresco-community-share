@@ -27,7 +27,7 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
     private static final String PAST_YEAR = "siteContributorBreakdown.dropdown.PastYear";
     private static final String DATE_RANGE = "siteContributorBreakdown.dropdown.DateRange";
     private static final String EXPECTED_DASHLET_TITLE = "siteContributorBreakdown.dropdown.DashletTitle";
-    private static final String EXPECTED_EMPTY_MESSAGE = "siteContributorBreakdown.DashleEmptyMessage";
+    private static final String EXPECTED_EMPTY_MESSAGE = "siteContributorBreakdown.DashletEmptyMessage";
     private static final int EXPECTED_PIE_CHART_SIZE = 1;
 
     private UserModel userModel;
