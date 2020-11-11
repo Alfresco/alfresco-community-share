@@ -263,7 +263,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step6: Set the folder created in preconditions as path");
         copyMoveToDialog.clickPathFolder(folderName);
         LOG.info("Step7: Click 'Move' button. Verify the displayed files");
-        copyMoveToDialog.clickMoveButton(documentLibraryPage);
+        copyMoveToDialog.clickMoveButton();
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Documents");
