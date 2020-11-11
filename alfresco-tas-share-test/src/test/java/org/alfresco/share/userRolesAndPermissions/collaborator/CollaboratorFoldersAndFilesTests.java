@@ -286,7 +286,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step 4: Select 'testFolder4' for the path.");
         copyMoveUnzipToDialog.clickPathFolder(folderName2);
         LOG.info("Step 5: Click 'Move' button. Verify the displayed folders.");
-        copyMoveUnzipToDialog.clickMoveButton(documentLibraryPage);
+        copyMoveUnzipToDialog.clickMoveButton();
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents");
         LOG.info("Step 6: Open the 'testFolder4' created in preconditions and verify displayed folders.");
         documentLibraryPage.clickOnFolderName(folderName2);

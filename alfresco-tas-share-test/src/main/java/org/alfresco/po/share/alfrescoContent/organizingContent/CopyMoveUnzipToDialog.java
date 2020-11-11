@@ -147,7 +147,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     public SharePage clickCreateLinkButton(SharePage page)
     {
         browser.waitUntilElementClickable(createLinkButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         return (SharePage) page.renderedPage();
     }
 
@@ -180,7 +180,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     {
         LOG.info("Click Copy To button");
         browser.waitUntilElementClickable(unzipCopyMoveButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancelButton()
@@ -190,10 +190,10 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         browser.waitUntilElementDisappears(dialogBody);
     }
 
-    public SharePage clickMoveButton(SharePage page)
+    public void clickMoveButton()
     {
+        LOG.info("Click Move button");
         browser.waitUntilElementClickable(unzipCopyMoveButton).click();
-        waitUntilMessageDisappears();
-        return (SharePage) page.renderedPage();
+        waitUntilNotificationMessageDisappears();
     }
 }
