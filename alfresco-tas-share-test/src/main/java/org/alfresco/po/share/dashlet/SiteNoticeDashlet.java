@@ -1,15 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
+import static org.testng.Assert.assertEquals;
 
 import org.alfresco.common.Utils;
-import org.alfresco.po.share.TinyMce.TinyMceColourCode;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
@@ -23,33 +22,26 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     @RenderWebElement
     @FindBy (css = "div[class*='notice-dashlet']")
     protected HtmlElement dashletContainer;
-    @Autowired
-    TinyMceEditor tinyMceEditor;
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+
     @FindBy (css = "div[class*='notice-dashlet'] div[class*='edit']")
     private WebElement editIcon;
-
-    @FindBy (xpath = "//div[contains(text(),'Configure Site Notice')]")
-    private WebElement configurePanelTitle;
-
-    @FindBy (css = "a.container-close")
-    private WebElement configurePanelCloseButton;
 
     @FindBy (css = "input[name='title']")
     private WebElement titleInput;
 
-    @FindAll (@FindBy (css = "div[class*='notice-dashlet'] div[class*='text-content'] p"))
-    private List<WebElement> noticeText;
-
     @FindBy (css = "button[id*='configDialog-ok-button']")
-    private WebElement configPanelOk;
+    private WebElement dialogOkButton;
 
     @FindBy (css = "button[id*='configDialog-cancel-button']")
-    private WebElement configPanelCancel;
+    private WebElement dialogCancelButton;
 
-    @FindBy (css = "div[id$='_default-configDialog-configDialog'] a.container-close")
-    private WebElement closeConfigPanel;
+    private By noticeMessageLocator = By.cssSelector("div[class*='notice-dashlet'] div[class*='text-content'] p");
+
+    @Autowired
+    private TinyMceEditor tinyMceEditor;
+
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
 
     @Override
     public String getDashletTitle()
@@ -57,103 +49,52 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    public void openConfigurePanel()
+    public SiteNoticeDashlet openConfigurationDialog()
     {
+        LOG.info("Open configuration dialog");
         editIcon.click();
+        return this;
     }
 
-    public boolean isConfigurePanelOpened()
+    public SiteNoticeDashlet setSiteNoticeDashletTitle(String title)
     {
-        return browser.isElementDisplayed(configurePanelTitle);
-    }
-
-    public void closeConfigurePanel()
-    {
-        configurePanelCloseButton.click();
-        browser.refresh();
-    }
-
-    /**
-     * Method clicks on the title input and types in the title parameter
-     *
-     * @param title
-     */
-    public void setSiteNoticeDashletTitle(String title)
-    {
+        LOG.info("Set site notice dashlet title: {}", title);
         Utils.clearAndType(titleInput, title);
+        return this;
     }
 
-    public String getSiteNoticeText()
+    public SiteNoticeDashlet assertSiteNoticeMessageEquals(String expectedNoticeMessage)
     {
-        String text = "";
-        String text2;
-        for (WebElement aNoticeText : noticeText)
-        {
-            text2 = aNoticeText.getText();
-            text = text + text2;
-        }
-        return text;
+        LOG.info("Assert site notice message equals: {}", expectedNoticeMessage);
+        String actualNoticeMessage = browser.findElement(noticeMessageLocator).getText();
+        assertEquals(actualNoticeMessage, expectedNoticeMessage,
+            String.format("Notice message not equals %s ", expectedNoticeMessage));
+
+        return this;
     }
 
-    public void setSiteNoticeText(String text)
+    public SiteNoticeDashlet setSiteNoticeDashletDocumentText(String documentText)
     {
-        tinyMceEditor.setText(text);
+        LOG.info("Set site notice dashlet document text: {}", documentText);
+        tinyMceEditor.setText(documentText);
         tinyMceEditor.selectTextFromEditor();
+
+        return this;
     }
 
-    public SiteDashboardPage clickOkButton()
+    public SiteDashboardPage clickDialogOkButton()
     {
-        getBrowser().waitUntilElementVisible(configPanelOk);
-        getBrowser().waitUntilElementClickable(configPanelOk).click();
+        LOG.info("Click dialog Ok button");
+        browser.waitUntilElementVisible(dialogOkButton);
+        browser.waitUntilElementClickable(dialogOkButton).click();
         return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
-    public SiteDashboardPage clickCancelbutton()
+    public SiteDashboardPage clickDialogCancelButton()
     {
-        getBrowser().waitUntilElementVisible(configPanelCancel);
-        getBrowser().waitUntilElementClickable(configPanelCancel).click();
+        LOG.info("Click Cancel button");
+        browser.waitUntilElementVisible(dialogCancelButton);
+        browser.waitUntilElementClickable(dialogCancelButton).click();
         return (SiteDashboardPage) siteDashboardPage.renderedPage();
-    }
-
-    public SiteDashboardPage clickCloseButton()
-    {
-        closeConfigPanel.click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
-    }
-
-    public void setTextColour(String colour)
-    {
-        switch (colour)
-        {
-            case "BLUE":
-                tinyMceEditor.clickColorCode(TinyMceColourCode.BLUE);
-                break;
-            case "YELLOW":
-                tinyMceEditor.clickColorCode(TinyMceColourCode.YELLOW);
-                break;
-            default:
-                tinyMceEditor.clickColorCode(TinyMceColourCode.BLACK);
-        }
-    }
-
-    public void setTextBackgroundColour(String colour)
-    {
-        switch (colour)
-        {
-            case "BLUE":
-                tinyMceEditor.clickBackgroundColorCode(TinyMceColourCode.BLUE);
-                break;
-            case "YELLOW":
-                tinyMceEditor.clickBackgroundColorCode(TinyMceColourCode.YELLOW);
-                break;
-            default:
-                tinyMceEditor.clickBackgroundColorCode(TinyMceColourCode.BLACK);
-        }
-    }
-
-    public String siteNoticeGetText()
-    {
-        editIcon.click();
-        return tinyMceEditor.getText();
     }
 }
