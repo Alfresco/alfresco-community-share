@@ -1,58 +1,46 @@
 package org.alfresco.po.share.site.members;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.EnumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-@PageObject
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 {
+    private SiteGroupsPage siteGroupsPage;
+
     @RenderWebElement
-    @FindBy (css = "div[class='finder-wrapper']")
-    protected WebElement groupFinderWrapper;
+    protected By groupFinderWrapper = By.cssSelector("div[class='finder-wrapper']");
     @RenderWebElement
-    @FindBy (css = "div[class='groupslist']")
-    protected WebElement groupsListBox;
-    @FindBy (css = "div[class='title'] label")
-    protected WebElement defaultSearchText;
-    @FindBy (css = "input[id*='group-finder']")
-    protected WebElement groupSearchBox;
-    @FindBy (css = "button[id*='group-search-button']")
-    protected WebElement groupSearchButton;
-    @FindBy (css = "div[class*='grouplistWrapper'] div[class*='title']")
-    protected WebElement groupsListTitle;
-    @FindBy (css = "button[id*='selectallroles']")
-    protected WebElement setRolesButton;
-    @FindBy (css = "button[id*='default-add-button']")
-    protected WebElement addGroupsButton;
+    protected By groupsListBox = By.cssSelector("div[class='groupslist']");
+    protected By defaultSearchText = By.cssSelector("div[class='title'] label");
+    protected By groupSearchBox = By.cssSelector("input[id*='group-finder']");
+    protected By groupSearchButton = By.cssSelector("button[id*='group-search-button']");
+    protected By groupsListTitle = By.cssSelector("div[class*='grouplistWrapper'] div[class*='title']");
+    protected By setRolesButton = By.cssSelector("button[id*='selectallroles']");
+    protected By addGroupsButton = By.cssSelector("button[id*='default-add-button']");
     @RenderWebElement
-    @FindBy (css = "span[id*='backTo'] a")
-    protected WebElement backToSiteGroups;
-    @FindAll (@FindBy (css = "div[id*='default-results'] tbody[class='yui-dt-data'] tr"))
-    protected List<WebElement> groupResultsList;
-    @FindAll (@FindBy (css = "div[id*='inviteelist'] tbody[class='yui-dt-data'] tr"))
-    protected List<WebElement> groupInvitedList;
-    @FindAll (@FindBy (css = "li[class*='yuimenuitem']"))
-    protected List<WebElement> allRolesFilterOptions;
-    @FindBy (css = "div[id*='invitationBar'] button")
-    protected WebElement setAllRolesToButton;
+    protected By backToSiteGroups = By.cssSelector("span[id*='backTo'] a");
+    protected By groupResultsList = By.cssSelector("div[id*='default-results'] tbody[class='yui-dt-data'] tr");
+    protected By groupInvitedList = By.cssSelector("div[id*='inviteelist'] tbody[class='yui-dt-data'] tr");
+    protected By allRolesFilterOptions = By.cssSelector("li[class*='yuimenuitem']");
+    protected By setAllRolesToButton = By.cssSelector("div[id*='invitationBar'] button");
     protected By roleOptions = By.cssSelector("div[id*='inviteelist'] div.yui-menu-button-menu.visible a.yuimenuitemlabel");
-    @Autowired
-    SiteGroupsPage siteGroupsPage;
-    @FindBy (css = "div[id*='default-results'] td[class='yui-dt-empty']")
-    private WebElement searchResultsText;
+    private By searchResultsText = By.cssSelector("div[id*='default-results'] td[class='yui-dt-empty']");
+
+    public AddSiteGroupsPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+        siteGroupsPage = new SiteGroupsPage(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -60,114 +48,68 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         return String.format("share/page/site/%s/add-groups", getCurrentSiteName());
     }
 
-    /**
-     * Get default search text
-     *
-     * @return
-     */
     public String getDefaultSearchText()
     {
-        return defaultSearchText.getText();
+        return getBrowser().findElement(defaultSearchText).getText();
     }
 
-    /**
-     * Get groups list title
-     *
-     * @return
-     */
     public String getGroupsListTitle()
     {
-        return groupsListTitle.getText();
+        return getBrowser().findElement(groupsListTitle).getText();
     }
 
-    /**
-     * Checks whether search box is displayed or not
-     *
-     * @return
-     */
     public boolean isGroupSearchBoxDisplayed()
     {
-        return browser.isElementDisplayed(groupSearchBox);
+        return getBrowser().isElementDisplayed(groupSearchBox);
     }
 
-    /**
-     * Checks whether search button is displayed or not
-     *
-     * @return
-     */
     public boolean isGroupSearchButtonDisplayed()
     {
-        return browser.isElementDisplayed(groupSearchButton);
+        return getBrowser().isElementDisplayed(groupSearchButton);
     }
 
-    /**
-     * Checks whether set roles button is displayed or not
-     *
-     * @return
-     */
     public boolean isSetRolesButtonDisplayed()
     {
-        return browser.isElementDisplayed(setRolesButton);
+        return getBrowser().isElementDisplayed(setRolesButton);
     }
 
-    /**
-     * Check if Add Groups button is enabled or disabled
-     *
-     * @return
-     */
     public boolean isAddGroupsButtonEnabled()
     {
-        return addGroupsButton.isEnabled();
+        return getBrowser().findElement(addGroupsButton).isEnabled();
     }
 
-    /**
-     * Check if Go Back to Site Groups link is displayed
-     *
-     * @return
-     */
     public boolean isGoBackToSiteGroupsDisplayed()
     {
-        return browser.isElementDisplayed(backToSiteGroups);
+        return getBrowser().isElementDisplayed(backToSiteGroups);
     }
 
-    /**
-     * Press Go Back To Site Groups link
-     */
     public SiteGroupsPage goBackToSiteGroupsPage()
     {
-        backToSiteGroups.click();
-
-        return (SiteGroupsPage) siteGroupsPage.renderedPage();
+        getBrowser().findElement(backToSiteGroups).click();
+        return (SiteGroupsPage) this.renderedPage();
     }
 
-    /**
-     * Search for a specific group
-     *
-     * @param groupName
-     * @return
-     */
     public AddSiteGroupsPage searchForGroup(String groupName)
     {
-        groupSearchBox.clear();
-        groupSearchBox.sendKeys(groupName);
-        groupSearchButton.click();
+        clearAndType(getBrowser().findElement(groupSearchBox), groupName);
+        getBrowser().findElement(groupSearchButton).click();
 
         return (AddSiteGroupsPage) this.renderedPage();
     }
 
     public WebElement selectGroupInSearchResults(String group)
     {
-        return browser.findFirstElementWithValue(groupResultsList, group);
+        return getBrowser().findFirstElementWithValue(groupResultsList, group);
     }
 
     public WebElement selectGroupInInvitedList(String group)
     {
-        return browser.findFirstElementWithValue(groupInvitedList, group);
+        return getBrowser().findFirstElementWithValue(groupInvitedList, group);
     }
 
     public boolean isGroupReturned(String groupName)
     {
-        return browser.isElementDisplayed(selectGroupInSearchResults(groupName));
+        return getBrowser().isElementDisplayed(selectGroupInSearchResults(groupName));
     }
 
     public void addGroup(String groupName)
@@ -177,18 +119,18 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public boolean isGroupInvited(String groupName)
     {
-        return browser.isElementDisplayed(selectGroupInInvitedList(groupName));
+        return getBrowser().isElementDisplayed(selectGroupInInvitedList(groupName));
     }
 
     public List<String> getRolesFromFilter()
     {
-        setAllRolesToButton.click();
+        getBrowser().findElement(setAllRolesToButton).click();
         List<String> roles = new ArrayList<>();
-        for (WebElement allRolesFilterOption : allRolesFilterOptions)
+        for (WebElement allRolesFilterOption : getBrowser().findElements(allRolesFilterOptions))
         {
             roles.add(allRolesFilterOption.getText());
         }
-        setAllRolesToButton.click();
+        getBrowser().findElement(setAllRolesToButton).click();
         return roles;
     }
 
@@ -212,8 +154,8 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         try
         {
-            setAllRolesToButton.click();
-            browser.selectOptionFromFilterOptionsList(roleOption, allRolesFilterOptions);
+            getBrowser().findElement(setAllRolesToButton).click();
+            getBrowser().selectOptionFromFilterOptionsList(roleOption, getBrowser().findElements(allRolesFilterOptions));
             return (AddSiteGroupsPage) this.renderedPage();
         } catch (NoSuchElementException nse)
         {
@@ -228,10 +170,11 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         try
         {
             selectGroupInInvitedList(groupName).findElement(By.cssSelector("button")).click();
-            List<WebElement> groupRoleOptions = browser.waitUntilElementsVisible(roleOptions);
-            browser.selectOptionFromFilterOptionsList(roleOption, groupRoleOptions);
+            List<WebElement> groupRoleOptions = getBrowser().waitUntilElementsVisible(roleOptions);
+            getBrowser().selectOptionFromFilterOptionsList(roleOption, groupRoleOptions);
             return (AddSiteGroupsPage) this.renderedPage();
-        } catch (NoSuchElementException nse)
+        }
+        catch (NoSuchElementException nse)
         {
             LOG.error("Set role option not present" + nse.getMessage());
             throw new PageOperationException(roleOption + " option not present.");
@@ -240,37 +183,21 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage addGroups()
     {
-        browser.waitUntilElementVisible(addGroupsButton);
-        browser.waitUntilElementClickable(addGroupsButton).click();
+        getBrowser().waitUntilElementVisible(addGroupsButton);
+        getBrowser().waitUntilElementClickable(addGroupsButton).click();
         return (AddSiteGroupsPage) this.renderedPage();
     }
 
-    /**
-     * Get the search text when looking for groups
-     *
-     * @return
-     */
     public String getSearchText()
     {
-        return searchResultsText.getText();
+        return getBrowser().findElement(searchResultsText).getText();
     }
 
-    /**
-     * Get the search text
-     *
-     * @return
-     */
     public String getSearchBoxContent()
     {
-        return groupSearchBox.getAttribute("value");
+        return getBrowser().findElement(groupSearchBox).getAttribute("value");
     }
 
-    /**
-     * Complete flow to add a group to a site
-     *
-     * @param group
-     * @param role
-     */
     public void addGroupWorkflow(String group, String role)
     {
         searchForGroup(group);
@@ -285,8 +212,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage clickAddGroupsButton()
     {
-        browser.waitUntilElementClickable(addGroupsButton, 30).click();
-        browser.waitInSeconds(1);
+        getBrowser().waitUntilElementClickable(addGroupsButton, 30).click();
         return (AddSiteGroupsPage) this.renderedPage();
     }
 

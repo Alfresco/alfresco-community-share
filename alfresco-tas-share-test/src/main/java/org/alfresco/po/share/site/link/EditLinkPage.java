@@ -5,6 +5,7 @@ import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,13 +17,12 @@ import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
-@PageObject
 public class EditLinkPage extends SiteCommon<EditLinkPage>
 {
-    @Autowired
+    //@Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
     @RenderWebElement
@@ -62,6 +62,11 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
 
     private By removeTag = By.cssSelector("span.remove");
 
+    public EditLinkPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -99,8 +104,8 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
 
     public WebElement selectTagDetailsRow(String tagName)
     {
-        browser.switchTo().defaultContent();
-        return browser.findFirstElementWithValue(tagsList, tagName);
+        getBrowser().switchTo().defaultContent();
+        return getBrowser().findFirstElementWithValue(tagsList, tagName);
     }
 
     /**
@@ -108,7 +113,7 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
      */
     public void removeTag(String tagName)
     {
-        Actions actions = new Actions(browser);
+        Actions actions = new Actions(getBrowser());
         actions.moveToElement(selectTagDetailsRow(tagName));
         actions.moveToElement(selectTagDetailsRow(tagName).findElement(removeTag));
         actions.click();

@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
  */
 public class SiteMembersTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired

@@ -25,14 +25,12 @@ import org.testng.annotations.Test;
 
 public class DashboardXSSTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
     @Autowired
     EditSiteDetailsDialog editSiteDetailsDialog;
     @Autowired
     private WebViewDashlet webViewDashlet;
-    @Autowired
-    private UserDashboardPage userDashboardPage;
     @Autowired
     private ConfigureWebViewDashletPopUp configureWebViewDashletPopUp;
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
@@ -129,7 +127,6 @@ public class DashboardXSSTests extends ContextAwareWebTest
         if (!webViewDashlet.isDashletDisplayed(DashletHelpIcon.WEB_VIEW))
         {
             userService.addDashlet(testUser, password, UserDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
-            userDashboardPage.refresh();
         }
         Assert.assertEquals(webViewDashlet.getDashletTitle(), "Web View", "'Web View' dashlet is not displayed in user's dashboard.");
     }

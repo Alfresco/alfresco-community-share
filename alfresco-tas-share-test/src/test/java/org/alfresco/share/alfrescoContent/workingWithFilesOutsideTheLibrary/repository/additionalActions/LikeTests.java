@@ -22,9 +22,9 @@ public class LikeTests extends ContextAwareWebTest
     private final String path = "User Homes/" + user;
     private final String folderNameC8302 = "C8302 Folder";
     private final String folderNameC8304 = "C8304 Folder";
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
-    @Autowired
+    //@Autowired
     private SocialFeatures socialFeatures;
 
     @BeforeClass (alwaysRun = true)

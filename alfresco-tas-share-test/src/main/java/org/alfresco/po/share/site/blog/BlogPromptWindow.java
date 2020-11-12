@@ -2,14 +2,13 @@ package org.alfresco.po.share.site.blog;
 
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 {
     @Autowired
@@ -29,6 +28,11 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     private By editCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']");
 
+    public BlogPromptWindow(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -42,12 +46,12 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     public void writeComment(String blogComment)
     {
-        browser.switchTo().frame(browser.findElement(By.xpath(
+        getBrowser().switchTo().frame(getBrowser().findElement(By.xpath(
             "//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe")));
-        WebElement element = browser.findElement(By.id("tinymce"));
+        WebElement element = getBrowser().findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogComment);
-        browser.switchTo().defaultContent();
+        getBrowser().switchTo().defaultContent();
     }
 
     /**
@@ -66,7 +70,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     public void clickAddCommentButton()
     {
-        browser.findElement(addCommentButton).click();
+        getBrowser().findElement(addCommentButton).click();
     }
 
     /**
@@ -75,7 +79,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     public void clickCancelOnAddCommentWindow()
     {
-        browser.findElement(cancelButtonCommentWindow).click();
+        getBrowser().findElement(cancelButtonCommentWindow).click();
     }
 
     /**
@@ -84,7 +88,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     public void clickSaveButtonOnEditComment()
     {
-        browser.findElement(saveButtonEditCommentWindow).click();
+        getBrowser().findElement(saveButtonEditCommentWindow).click();
     }
 
     /**
@@ -92,7 +96,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
      */
     public void clickCancelButtonOnEditComment()
     {
-        browser.findElement(cancelButtonEditCommentWindow).click();
+        getBrowser().findElement(cancelButtonEditCommentWindow).click();
     }
 
     /**
@@ -101,7 +105,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     public boolean isEditCommentDisplayed()
     {
-        return browser.isElementDisplayed(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
+        return getBrowser().isElementDisplayed(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
     }
 
     /**
@@ -109,7 +113,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
      */
     public String getEditCommentBoxLabel()
     {
-        return browser.findElement(editCommentBoxLabel).getText();
+        return getBrowser().findElement(editCommentBoxLabel).getText();
     }
 
     /**

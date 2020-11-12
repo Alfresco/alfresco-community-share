@@ -23,10 +23,10 @@ public class SitesManagerTests extends ContextAwareWebTest
     private SiteModel site1, site2, site3, site4, site5, site6;
     private final String siteDescription = "Site Description";
 
-    @Autowired
-    private SitesManagerPage sitesManagerPage;
+    //@Autowired
+    private SitesManagerPage sitesManagerPage; // TODO: instantiate in before method
 
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
     @Autowired
@@ -141,8 +141,9 @@ public class SitesManagerTests extends ContextAwareWebTest
         sitesManagerPage.navigate().usingSite(site5)
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(site5.getTitle())
-            .clickDeleteFromSitesManager().waiUntilLoadingMessageDisappears()
-                .usingSite(site5).assertSiteIsNotDisplayed();
+            .clickDeleteFromSitesManager();
+        sitesManagerPage.waiUntilLoadingMessageDisappears()
+            .usingSite(site5).assertSiteIsNotDisplayed();
         navigate(String.format(properties.getShareUrl() + "/page/site/%s/dashboard", site5.getId()));
         systemErrorPage.renderedPage();
         systemErrorPage.assertSomethingIsWrongWithThePageMessageIsDisplayed();

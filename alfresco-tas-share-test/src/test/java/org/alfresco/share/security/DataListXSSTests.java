@@ -46,13 +46,13 @@ public class DataListXSSTests extends ContextAwareWebTest
     @Autowired
     SiteDataListsDashlet siteDataListsDashlet;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired
     CreateDataListDialog createDataListDialog;
 
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
@@ -270,7 +270,6 @@ public class DataListXSSTests extends ContextAwareWebTest
         if (!siteDataListsDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.DATA_LISTS))
         {
             siteService.addDashlet(testUser, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.THREE_COLUMNS, 3, 1);
-            siteDashboardPage.refresh();
         }
         Assert.assertEquals(siteDataListsDashlet.getDashletTitle(), "Site Data Lists", "'Site Data List' dashlet is not displayed in user's site dashboard.");
     }

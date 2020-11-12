@@ -49,7 +49,7 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     @Autowired
     private SiteCalendarDashlet siteCalendarDashlet;
 
-    @Autowired
+    //@Autowired
     private CalendarPage calendarPage;
 
     @BeforeClass (alwaysRun = true)

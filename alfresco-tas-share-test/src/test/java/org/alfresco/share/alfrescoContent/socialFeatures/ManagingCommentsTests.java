@@ -24,7 +24,7 @@ public class ManagingCommentsTests extends ContextAwareWebTest
     private final String editedComment = "Test comment edited for C9934";
     @Autowired
     private DocumentDetailsPage documentPreviewPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

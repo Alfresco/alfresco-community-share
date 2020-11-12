@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
  */
 public class ContentFormatPageTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
     @Autowired
     DocumentDetailsPage documentDetailsPage;

@@ -22,13 +22,13 @@ import org.testng.annotations.Test;
 
 public class EditingABlogPostTests extends ContextAwareWebTest
 {
-    @Autowired
+ //   @Autowired
     BlogPostListPage blogPage;
 
-    @Autowired
+   // @Autowired
     BlogPostViewPage blogPostView;
 
-    @Autowired
+   // @Autowired
     EditBlogPostPage editBlogPost;
 
     private String user = String.format("C5560User%s", RandomData.getRandomAlphanumeric());

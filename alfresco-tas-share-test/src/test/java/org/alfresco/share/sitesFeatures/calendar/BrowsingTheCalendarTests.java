@@ -23,10 +23,10 @@ import org.testng.annotations.Test;
 
 public class BrowsingTheCalendarTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
 
-    @Autowired
+    //@Autowired
     MiniCalendar miniCalendar;
 
     @Autowired

@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
  */
 public class BrowsingWikiPagesTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WikiListPage wikiListPage;
 
     private String uniqueIdentifier;

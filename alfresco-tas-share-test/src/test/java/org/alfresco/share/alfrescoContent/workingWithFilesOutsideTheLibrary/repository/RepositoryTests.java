@@ -34,7 +34,7 @@ public class RepositoryTests extends ContextAwareWebTest
     DocumentDetailsPage documentDetailsPage;
     @Autowired
     GoogleDocsCommon googleDocs;
-    @Autowired
+   // @Autowired
     private UserDashboardPage userDashboardPage;
     @Autowired
     private RepositoryPage repositoryPage;

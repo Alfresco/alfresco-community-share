@@ -25,10 +25,10 @@ import java.util.List;
  */
 public class CustomizeSiteTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private CustomizeSitePage customizeSite;
 
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboard;
 
     @Autowired

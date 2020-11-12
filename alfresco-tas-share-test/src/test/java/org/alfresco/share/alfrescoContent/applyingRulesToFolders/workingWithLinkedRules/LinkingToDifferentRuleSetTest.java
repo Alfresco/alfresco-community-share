@@ -35,13 +35,13 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     private final String folderName = "Folder-C7327-" + random;
     private final String folderName2 = "Folder2-C7327-" + random;
     private final String ruleName1 = "rule-C7327-" + random;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private ManageRulesPage manageRulesPage;
-    @Autowired
+    //@Autowired
     private EditRulesPage editRulesPage;
-    @Autowired
+    //@Autowired
     private LinkedToRuleSetPage linkedToRuleSetPage;
     @Autowired
     private SelectDestinationDialog selectDestinationDialog;
@@ -57,7 +57,7 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
@@ -77,7 +77,7 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
         editRulesPage.cleanupSelectedValues();
         LOG.info("Navigate to Manage Rule page for folder2");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
     }

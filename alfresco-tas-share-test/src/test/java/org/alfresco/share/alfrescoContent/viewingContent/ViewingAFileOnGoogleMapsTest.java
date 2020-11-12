@@ -32,7 +32,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     private final double latitude = 27.6014;
     @Autowired
     PreviewFileActionsSection documentActions;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
@@ -79,7 +79,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
 
         LOG.info("Step 3: Click on View on Google Maps");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_ON_GOOGLE_MAPS, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_ON_GOOGLE_MAPS);
         Assert.assertTrue(documentLibraryPage.isFileOpenedInGoogleMaps(), "File is not opened in Google Maps");
         Assert.assertTrue(documentLibraryPage.isDocumentThumbnailDisplayedOnGoogleMaps(), "Document thumbnail is not displayed in Google Maps");
 

@@ -1,49 +1,47 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.TextInput;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author bogdan.bocancea
  */
-@PageObject
-public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements AccessibleByMenuBar
+public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    private UserProfilePage userProfilePage;
+    private String userName;
 
     @RenderWebElement
-    @FindBy (css = "input[id$='default-oldpassword']")
-    private WebElement oldPasswordInput;
-
+    private By oldPasswordInput = By.cssSelector("input[id$='default-oldpassword']");
     @RenderWebElement
-    @FindBy (css = "input[id$='default-newpassword1']")
-    private TextInput newPassword;
+    private By newPassword = By.cssSelector("input[id$='default-newpassword1']");
+    private By confirmNewPassword = By.cssSelector("input[id$='default-newpassword2']");
+    private By okButton = By.cssSelector("button[id$='default-button-ok-button']");
+    private By errorPrompt = By.id("prompt");
+    private By errorPromptMessage = By.cssSelector("#prompt .bd");
+    private By errorPromptOKButton = By.cssSelector("#prompt button");
 
-    @RenderWebElement
-    @FindBy (css = "input[id$='default-newpassword2']")
-    private TextInput confirmNewPassword;
+    public ChangePasswordPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
-    @RenderWebElement
-    @FindBy (css = "button[id$='default-button-ok-button']")
-    private WebElement okButton;
+    public String getUserName()
+    {
+        return userName;
+    }
 
-    @FindBy (id = "prompt")
-    private WebElement errorPrompt;
-
-    @FindBy (css = "#prompt .bd")
-    private WebElement errorPromptMessage;
-
-    @FindBy (css = "#prompt button")
-    private WebElement errorPromptOKButton;
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
 
     @Override
     public String getRelativePath()
@@ -57,30 +55,28 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
         return navigate();
     }
 
-    @SuppressWarnings ("unchecked")
     @Override
     public ChangePasswordPage navigateByMenuBar()
     {
-        toolbar.clickUserMenu().clickChangePassword();
-        return (ChangePasswordPage) renderedPage();
+        return (ChangePasswordPage) new Toolbar(browser).clickUserMenu().clickChangePassword().renderedPage();
     }
 
-    public void typeOldPassword(String oldPasswordText)
+    public ChangePasswordPage typeOldPassword(String oldPasswordText)
     {
-        oldPasswordInput.clear();
-        oldPasswordInput.sendKeys(oldPasswordText);
+        clearAndType(getBrowser().findElement(oldPasswordInput), oldPasswordText);
+        return this;
     }
 
-    public void typeNewPassword(String newPasswordText)
+    public ChangePasswordPage typeNewPassword(String newPasswordText)
     {
-        newPassword.clear();
-        newPassword.sendKeys(newPasswordText);
+        clearAndType(getBrowser().findElement(newPassword), newPasswordText);
+        return this;
     }
 
-    public void typeConfirmNewPassword(String confirmNewPasswordText)
+    public ChangePasswordPage typeConfirmNewPassword(String confirmNewPasswordText)
     {
-        confirmNewPassword.clear();
-        confirmNewPassword.sendKeys(confirmNewPasswordText);
+        clearAndType(getBrowser().findElement(confirmNewPassword), confirmNewPasswordText);
+        return this;
     }
 
     public void clickOkButton()
@@ -90,12 +86,12 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
 
     public boolean isOldPasswordInputDisplayed()
     {
-        return browser.isElementDisplayed(oldPasswordInput);
+        return getBrowser().isElementDisplayed(oldPasswordInput);
     }
 
     public ChangePasswordPage assertChangePasswordPageIsOpened()
     {
-        Assert.assertTrue(browser.getCurrentUrl().contains("change-password"), "Change password page is opened");
+        assertTrue(getBrowser().getCurrentUrl().contains("change-password"), "Change password page is opened");
         return this;
     }
 
@@ -105,7 +101,7 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
         typeNewPassword(newPassword);
         typeConfirmNewPassword(newPassword);
         clickOkButton();
-        return (UserProfilePage) userProfilePage.renderedPage();
+        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
     }
 
     public ChangePasswordPage changePasswordAndExpectError(String oldPassword, String newPassword, String confirmPassword)
@@ -114,10 +110,10 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
         typeNewPassword(newPassword);
         typeConfirmNewPassword(confirmPassword);
         clickOkButton();
-        browser.waitUntilElementVisible(errorPrompt);
-        Assert.assertEquals(errorPromptMessage.getText(), language.translate("changeUserPassword.errorPrompt.message"),
+        getBrowser().waitUntilElementVisible(errorPrompt);
+        assertEquals(getBrowser().findElement(errorPromptMessage).getText(), language.translate("changeUserPassword.errorPrompt.message"),
             "Error prompt message is correct");
-        errorPromptOKButton.click();
+        getBrowser().findElement(errorPromptOKButton).click();
         return this;
     }
 }

@@ -46,7 +46,7 @@ public class TagTests extends ContextAwareWebTest
     private final String path = "Shared/" + folderForTagTests;
     private final String user = "User" + random;
     private final String path13766 = "Shared/" + folderName3;
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
     @Autowired
     private EditPropertiesDialog editPropertiesDialog;
@@ -120,7 +120,7 @@ public class TagTests extends ContextAwareWebTest
     public void addExistingTag()
     {
         LOG.info("STEP1: Hover over " + docName2 + ".STEP2: Click \"Edit Properties\" option");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName2, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        sharedFilesPage.clickDocumentLibraryItemAction(docName2, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName2), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 

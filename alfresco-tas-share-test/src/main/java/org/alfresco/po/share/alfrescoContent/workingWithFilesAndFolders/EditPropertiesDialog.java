@@ -23,10 +23,10 @@ public class EditPropertiesDialog extends ShareDialog
     @Autowired
     SelectDialog selectDialog;
 
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
 
-    @Autowired
+   // @Autowired
     DocumentLibraryPage documentLibraryPage;
 
     @RenderWebElement

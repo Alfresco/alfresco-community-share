@@ -180,7 +180,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
         assertTrue(repository.isTemplateDisplayed(docName), "Template is not displayed");
 
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
-        repository.clickOnTemplate(docName, repository);
+        repository.clickOnTemplate(docName);
         assertTrue(repository.isContentNameDisplayed(docName), "Newly created document is not displayed in Repository/UserHomes ");
         repository.clickOnFile(docName);
         Assert.assertEquals(documentDetailsPage.getContentText(), docContent);
@@ -203,7 +203,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Select the test template, provide title and description and check that the new folder is created");
 
-        repository.clickOnTemplate(folderName, createFolderFromTemplate);
+        repository.clickOnTemplate(folderName);
         //assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderName);
 

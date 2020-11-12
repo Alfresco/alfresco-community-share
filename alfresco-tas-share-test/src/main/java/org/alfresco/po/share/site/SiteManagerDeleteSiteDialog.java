@@ -1,54 +1,40 @@
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-@PageObject
-public class SiteManagerDeleteSiteDialog extends ShareDialog
+public class SiteManagerDeleteSiteDialog extends ShareDialog2
 {
-    @Autowired
-    private SitesManagerPage sitesManagerPage;
-
     @RenderWebElement
-    @FindBy(css = "div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body")
-    private WebElement deleteSiteConfirmFromSitesManager;
-
+    private By deleteSiteConfirmFromSitesManager = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body");
     @RenderWebElement
-    @FindBy (css = "div#ALF_SITE_SERVICE_DIALOG:not([style*='display: none']) #ALF_SITE_SERVICE_DIALOG_CANCELLATION_label")
-    private WebElement cancelFromSitesManager;
-
-    @FindBy (css = "span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION']>span")
-    private WebElement confirmFromSitesManager;
-
+    private By cancelFromSitesManager = By.cssSelector("div#ALF_SITE_SERVICE_DIALOG:not([style*='display: none']) #ALF_SITE_SERVICE_DIALOG_CANCELLATION_label");
+    private By confirmFromSitesManager = By.cssSelector("span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION']>span");
     private By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
+
+    public SiteManagerDeleteSiteDialog(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public SiteManagerDeleteSiteDialog assertConfirmMessageFromSiteManagerIsCorrect(String siteName)
     {
-        Assert.assertEquals(deleteSiteConfirmFromSitesManager.getText(),
+        Assert.assertEquals(getBrowser().findElement(deleteSiteConfirmFromSitesManager).getText(),
             String.format(language.translate("deleteSite.confirmFromSitesManager"), siteName));
         return this;
     }
 
-    public SitesManagerPage clickCancelFromSitesManager()
+    public void clickCancelFromSitesManager()
     {
-        cancelFromSitesManager.click();
-        return (SitesManagerPage) sitesManagerPage.renderedPage();
+        getBrowser().findElement(cancelFromSitesManager).click();
     }
 
-    /**
-     * Click 'Ok' button from Delete site dialog, from Sites Manager page
-     */
-    public SitesManagerPage clickDeleteFromSitesManager()
+    public void clickDeleteFromSitesManager()
     {
-        browser.waitUntilElementClickable(confirmFromSitesManager).click();
-        browser.waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);
-        return (SitesManagerPage) sitesManagerPage.renderedPage();
+        getBrowser().waitUntilElementClickable(confirmFromSitesManager).click();
+        getBrowser().waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);
     }
 }

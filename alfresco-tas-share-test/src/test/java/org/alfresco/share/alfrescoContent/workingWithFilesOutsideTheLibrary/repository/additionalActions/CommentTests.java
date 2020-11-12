@@ -26,7 +26,7 @@ public class CommentTests extends ContextAwareWebTest
     CreateContentPage createContent;
     @Autowired
     private RepositoryPage repositoryPage;
-    @Autowired
+    //@Autowired
     private SocialFeatures socialFeatures;
     @Autowired
     private DocumentDetailsPage documentDetails;

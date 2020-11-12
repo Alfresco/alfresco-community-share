@@ -23,11 +23,11 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     @RenderWebElement
     @FindBy (css = "div[class*='colleagues']")
     protected WebElement dashletContainer;
-    @Autowired
+    //@Autowired
     AddSiteUsersPage addSiteUsersPage;
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
-    @Autowired
+    //@Autowired
     SiteMembersPage siteMembersPage;
     @FindBy (css = "a[href='add-users']")
     private WebElement addUsersLink;

@@ -24,22 +24,22 @@ import static org.testng.Assert.assertTrue;
  */
 public class EnteringSiteTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteFinderPage siteFinderPage;
 
     @Autowired
     MySitesDashlet mySitesDashlet;
 
-    @Autowired
+   // @Autowired
     UserSitesListPage userSitesListPage;
 
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     private String user1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
@@ -157,7 +157,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
         assertTrue(toolbar.isResultDisplayedInLiveSearch(siteName), siteName + " should be found.");
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        toolbar.clickResult(siteName, siteDashboardPage);
+        toolbar.clickResult(siteName);
         assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 }

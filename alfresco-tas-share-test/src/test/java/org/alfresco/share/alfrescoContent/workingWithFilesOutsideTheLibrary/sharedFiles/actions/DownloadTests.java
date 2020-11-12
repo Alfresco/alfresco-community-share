@@ -21,7 +21,7 @@ public class DownloadTests extends ContextAwareWebTest
     private final String folderNameC8027 = "folderNameC80272 " + random;
     private final String fileContent = "test content";
     private final String path = "Shared";
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharePage;
 
     @BeforeClass (alwaysRun = true)
@@ -51,7 +51,7 @@ public class DownloadTests extends ContextAwareWebTest
         sharePage.navigate();
 
         LOG.info("Step 1: Mouse over file, click Download");
-        sharePage.clickDocumentLibraryItemAction(fileNameC8024, ItemActions.DOWNLOAD, sharePage);
+        sharePage.clickDocumentLibraryItemAction(fileNameC8024, ItemActions.DOWNLOAD);
         sharePage.acceptAlertIfDisplayed();
 
         LOG.info("Step 2: Check the file was saved locally");
@@ -65,7 +65,7 @@ public class DownloadTests extends ContextAwareWebTest
         sharePage.navigate();
 
         LOG.info("Step 1: Mouse over folder, click Download");
-        sharePage.clickDocumentLibraryItemAction(folderNameC8027, ItemActions.DOWNLOAD_AS_ZIP, sharePage);
+        sharePage.clickDocumentLibraryItemAction(folderNameC8027, ItemActions.DOWNLOAD_AS_ZIP);
         sharePage.acceptAlertIfDisplayed();
         LOG.info("Step 2: Check the folder was saved locally");
         Assert.assertTrue(isFileInDirectory(folderNameC8027, ".zip"), "The folder was not found in the specified location");

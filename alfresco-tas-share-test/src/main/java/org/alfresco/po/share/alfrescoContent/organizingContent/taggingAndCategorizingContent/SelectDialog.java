@@ -25,7 +25,7 @@ public class SelectDialog extends ShareDialog
     @Autowired
     EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
 
     @FindBy (css = "div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']")

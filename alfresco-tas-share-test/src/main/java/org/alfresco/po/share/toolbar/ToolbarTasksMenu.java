@@ -1,52 +1,46 @@
 package org.alfresco.po.share.toolbar;
 
+import org.alfresco.po.share.SharePageObject2;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 
-@PageObject
-public class ToolbarTasksMenu extends Toolbar
+import static org.testng.Assert.assertTrue;
+
+public class ToolbarTasksMenu extends SharePageObject2
 {
     @RenderWebElement
-    @FindBy (id = "HEADER_MY_TASKS_text")
-    private WebElement myTasks;
+    private By myTasks = By.id("HEADER_MY_TASKS_text");
+    private By workflowsIveStarted = By.id("HEADER_MY_WORKFLOWS_text");
 
-    @RenderWebElement
-    @FindBy (id = "HEADER_MY_WORKFLOWS_text")
-    private WebElement workflowsIveStarted;
-
-    @Autowired
-    private MyTasksPage myTasksPage;
-
-    @Autowired
-    private WorkflowsIveStartedPage workflowsIveStartedPage;
+    public ToolbarTasksMenu(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public ToolbarTasksMenu assertMyTasksIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(myTasks), "My Tasks link is displayed");
+        assertTrue(getBrowser().isElementDisplayed(myTasks), "My Tasks link is displayed");
         return this;
     }
 
     public ToolbarTasksMenu assertWorkflowIStartedIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(workflowsIveStarted), "Workflow I started link is displayed");
+        assertTrue(getBrowser().isElementDisplayed(workflowsIveStarted), "Workflow I started link is displayed");
         return this;
     }
 
     public MyTasksPage clickMyTasks()
     {
         getBrowser().waitUntilElementClickable(myTasks).click();
-        return (MyTasksPage) myTasksPage.renderedPage();
+        return (MyTasksPage) new MyTasksPage(browser).renderedPage();
     }
 
     public WorkflowsIveStartedPage clickWorkflowsIStarted()
     {
         getBrowser().waitUntilElementClickable(workflowsIveStarted).click();
-        return (WorkflowsIveStartedPage) workflowsIveStartedPage.renderedPage();
+        return (WorkflowsIveStartedPage) new WorkflowsIveStartedPage(browser).renderedPage();
     }
 }

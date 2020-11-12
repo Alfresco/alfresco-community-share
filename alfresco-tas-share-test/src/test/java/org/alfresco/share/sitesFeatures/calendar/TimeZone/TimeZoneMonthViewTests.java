@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
  */
 public class TimeZoneMonthViewTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
 
     @Autowired

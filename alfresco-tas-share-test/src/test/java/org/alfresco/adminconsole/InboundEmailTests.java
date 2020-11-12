@@ -22,7 +22,7 @@ public class InboundEmailTests extends ContextAwareWebTest
     @Autowired
     InboundEmailPage inboundEmailPage;
 
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
     @Autowired

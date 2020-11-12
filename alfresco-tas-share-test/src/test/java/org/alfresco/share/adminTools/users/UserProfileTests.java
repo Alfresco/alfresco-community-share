@@ -3,32 +3,37 @@ package org.alfresco.share.adminTools.users;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserProfileTests extends ContextAwareWebTest
+public class UserProfileTests extends BaseShareWebTests
 {
-    @Autowired
     private UsersPage usersPage;
-
-    @Autowired
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
-
-    @Autowired
     private EditUserPage editUserPage;
 
     private UserModel browseUser, editUser, deleteUser, enableUser, removeGroupUser, addUserToGroup;
     private GroupModel c9423Group;
 
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        usersPage = new UsersPage(browser);
+        userProfileAdminToolsPage = new UserProfileAdminToolsPage(browser);
+        editUserPage = new EditUserPage(browser);
+
+        setupAuthenticatedSession(getAdminUser());
+    }
+
     @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    public void dataPrep()
     {
         browseUser = dataUser.usingAdmin().createRandomTestUser();
         editUser = dataUser.createRandomTestUser();
@@ -38,14 +43,6 @@ public class UserProfileTests extends ContextAwareWebTest
         addUserToGroup = dataUser.createRandomTestUser();
 
         c9423Group = dataGroup.usingAdmin().createRandomGroup();
-        setupAuthenticatedSession(adminUser, adminPassword);
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanUp()
-    {
-        removeUserFromAlfresco(browseUser, editUser, enableUser, removeGroupUser, addUserToGroup);
-        dataGroup.deleteGroup(c9423Group);
     }
 
     @TestRail (id = "C9415")
@@ -192,5 +189,12 @@ public class UserProfileTests extends ContextAwareWebTest
                 .removeGroup(ALFRESCO_ADMIN_GROUP)
                 .clickSaveChanges()
                     .assertGroupIsNotDisplayed(ALFRESCO_ADMIN_GROUP.getGroupIdentifier());
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanUp()
+    {
+        removeUserFromAlfresco(browseUser, editUser, enableUser, removeGroupUser, addUserToGroup);
+        dataGroup.deleteGroup(c9423Group);
     }
 }

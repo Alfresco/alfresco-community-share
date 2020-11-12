@@ -35,13 +35,13 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     SiteContentDashlet siteContentDashlet;
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboard;
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+   // @Autowired
     EditInAlfrescoPage editInAlfrescoPage;
-    @Autowired
+    //@Autowired
     SocialFeatures socialFeatures;
     private String userName2 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
@@ -173,7 +173,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site, add another user to site, add document to site, login to Share, navigate to site's dashboard");
         setupAuthenticatedSession(userName2, userName2);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, ItemActions.EDIT_IN_ALFRESCO);
         editInAlfrescoPage.sendDocumentDetailsFields("editedName", "editedContent", "editedTitle", "editedDescription");
         editInAlfrescoPage.clickButton("Save");
         socialFeatures.clickLikeButton("editedName");
@@ -247,7 +247,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         softAssert.assertTrue(siteContentDashlet.isFileLinkPresent(docName));
         LOG.info("Step 6: Edit offline and check I'm Editing filter");
         documentLibraryPage.navigate(siteNameFilters);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_OFFLINE, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_OFFLINE);
         siteDashboard.navigate(siteNameFilters);
         siteContentDashlet.clickDefaultFilterButton();
         siteContentDashlet.selectFilter("I'm Editing");

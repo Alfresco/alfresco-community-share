@@ -32,16 +32,16 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private static final int BEGIN_INDEX = 0;
     private static final String VERSION_NUMBER = "1";
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
 
     @Autowired
     AspectsForm aspectsForm;
 
-    @Autowired
+   // @Autowired
     DocumentLibraryPage documentLibraryPage;
 
     @Autowired

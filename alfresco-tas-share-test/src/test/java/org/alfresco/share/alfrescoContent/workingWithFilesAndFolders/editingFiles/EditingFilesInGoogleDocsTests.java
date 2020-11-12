@@ -21,11 +21,11 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
     String googleDocPath = testDataFolder + googleDocName;
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
-    @Autowired
+    //@Autowired
     UploadContent uploadContent;
     private String userName;
     private String siteName;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
@@ -64,7 +64,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         uploadContent.uploadContent(googleDocPath);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS, googleDocsCommon);
+        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
 
         LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         googleDocsCommon.clickOkButtonOnTheAuthPopup();

@@ -27,11 +27,11 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

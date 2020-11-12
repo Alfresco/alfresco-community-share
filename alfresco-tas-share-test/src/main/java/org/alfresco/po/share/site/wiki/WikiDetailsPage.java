@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -14,10 +15,9 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-@PageObject
 public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 {
-    @Autowired
+    //@Autowired
     ViewWikiPage viewWikiPage;
 
     @RenderWebElement
@@ -62,6 +62,11 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     @FindBy (css = "[class=bd] span")
     private WebElement revertNotification;
 
+    public WikiDetailsPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -105,8 +110,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
         try
         {
             selectVersionButton.click();
-            browser.selectOptionFromFilterOptionsList(version, dropDownVersionsList);
-            browser.waitInSeconds(2);
+            getBrowser().selectOptionFromFilterOptionsList(version, dropDownVersionsList);
             Assert.assertTrue(selectVersionButton.getText().contains(version), "Incorrect filter selected");
 
             return (WikiDetailsPage) this.renderedPage();
@@ -130,7 +134,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 
     public WebElement selectVersionDetails(String version)
     {
-        return browser.findFirstElementWithValue(versionsList, version);
+        return getBrowser().findFirstElementWithValue(versionsList, version);
     }
 
     public void clickOnVersion(String version)

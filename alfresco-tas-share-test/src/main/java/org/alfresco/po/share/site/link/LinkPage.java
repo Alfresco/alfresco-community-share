@@ -6,6 +6,7 @@ import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -13,16 +14,15 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 
-@PageObject
 public class LinkPage extends SiteCommon<LinkPage>
 {
-    @Autowired
+    //@Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    @Autowired
+    //@Autowired
     CreateLinkPage createLinkPage;
 
-    @Autowired
+    //@Autowired
     EditLinkPage editLinkPage;
 
     @RenderWebElement
@@ -94,6 +94,11 @@ public class LinkPage extends SiteCommon<LinkPage>
     private By linkDetails = By.cssSelector("span[class=item]");
     private By linkTags = By.cssSelector(".detail [class=tag] a");
 
+    public LinkPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -139,7 +144,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public WebElement selectLinkDetailsRow(String linkTitle)
     {
-        return browser.findFirstElementWithValue(linksList, linkTitle);
+        return getBrowser().findFirstElementWithValue(linksList, linkTitle);
     }
 
     public List<String> getLinkTags(String linkTitle)
@@ -215,8 +220,7 @@ public class LinkPage extends SiteCommon<LinkPage>
      */
     public void clickSpecificTag(String tagName)
     {
-        browser.findElement(By.cssSelector("li a[rel='" + tagName + "']")).click();
-        browser.waitInSeconds(8);
+        getBrowser().findElement(By.cssSelector("li a[rel='" + tagName + "']")).click();
     }
 
     /**
@@ -231,15 +235,15 @@ public class LinkPage extends SiteCommon<LinkPage>
         {
             case "All Links":
                 allLinksFilter.click();
-                browser.waitUntilElementContainsText(linksListTitle, "All Links");
+                getBrowser().waitUntilElementContainsText(linksListTitle, "All Links");
                 break;
             case "My Links":
                 myLinksFilter.click();
-                browser.waitUntilElementContainsText(linksListTitle, "My Links");
+                getBrowser().waitUntilElementContainsText(linksListTitle, "My Links");
                 break;
             case "Recently Added":
                 recentLinksFilter.click();
-                browser.waitUntilElementContainsText(linksListTitle, "Recently Added Links");
+                getBrowser().waitUntilElementContainsText(linksListTitle, "Recently Added Links");
                 break;
         }
         return (LinkPage) this.renderedPage();
@@ -247,7 +251,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public boolean isLinkDisplayed(String linkTitle)
     {
-        return browser.isElementDisplayed(selectLinkDetailsRow(linkTitle));
+        return getBrowser().isElementDisplayed(selectLinkDetailsRow(linkTitle));
     }
 
     public LinkDetailsViewPage clickOnLinkName(String linkTitle)
@@ -258,7 +262,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public String getNoLinksFoundMsg()
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
         return dataTableMsgEmpty.getText();
     }
 
@@ -270,19 +274,19 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public void clickOnLinkURL(String linkURL)
     {
-        browser.findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
+        getBrowser().findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
     }
 
     public EditLinkPage clickEditLink(String linkTitle)
     {
-        browser.mouseOver(browser.findFirstElementWithValue(linksList, linkTitle));
+        getBrowser().mouseOver(getBrowser().findFirstElementWithValue(linksList, linkTitle));
         selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".edit-link span")).click();
         return (EditLinkPage) editLinkPage.renderedPage();
     }
 
     public boolean clickDeleteLink(String linkTitle)
     {
-        browser.mouseOver(browser.findFirstElementWithValue(linksList, linkTitle));
+        getBrowser().mouseOver(getBrowser().findFirstElementWithValue(linksList, linkTitle));
         selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".delete-link span")).click();
         return deleteLinkPrompt.isDisplayed();
     }
@@ -290,7 +294,7 @@ public class LinkPage extends SiteCommon<LinkPage>
     public List<String> getTagsFromTagsSection()
     {
         List<String> tags = new ArrayList<>();
-        List<WebElement> tagsList = browser.findElements(By.cssSelector("li [class=tag] a"));
+        List<WebElement> tagsList = getBrowser().findElements(By.cssSelector("li [class=tag] a"));
         for (WebElement tag : tagsList)
         {
             tags.add(tag.getText());

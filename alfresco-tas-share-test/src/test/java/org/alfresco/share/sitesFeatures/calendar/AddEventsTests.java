@@ -32,16 +32,16 @@ import org.testng.annotations.Test;
  */
 public class AddEventsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
 
     @Autowired
     AddEventDialog addEventDialog;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired

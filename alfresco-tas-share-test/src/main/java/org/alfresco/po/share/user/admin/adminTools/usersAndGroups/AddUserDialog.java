@@ -1,84 +1,66 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author Laura.Capsa
- */
-@PageObject
-public class AddUserDialog extends ShareDialog
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+public class AddUserDialog extends ShareDialog2
 {
     protected String searchedUsername = "a[href$='%s/profile']";
 
     @RenderWebElement
-    @FindBy (css = "span[id*='peoplepicker']")
-    private WebElement dialogTitle;
-
+    private By dialogTitle = By.cssSelector("span[id*='peoplepicker']");
     @RenderWebElement
-    @FindBy (css = "div[id*='search-peoplefinder'] input")
-    private WebElement searchInputField;
-
+    private By searchInputField = By.cssSelector("div[id*='search-peoplefinder'] input");
     @RenderWebElement
-    @FindBy (css = "div[id*='search-peoplefinder'] button[id*='search']")
-    private WebElement searchButton;
+    private By searchButton = By.cssSelector("div[id*='search-peoplefinder'] button[id*='search']");
+    private By searchResultsList = By.cssSelector(".itemname");
+    private By addButtonsList = By.cssSelector("td[class*='actions'] button");
+    private By closeButton = By.cssSelector("div[id*='default-peoplepicker'] a[class='container-close']");
 
-    @FindAll (@FindBy (css = ".itemname"))
-    private List<WebElement> searchResultsList;
-
-    @FindAll (@FindBy (css = "td[class*='actions'] button"))
-    private List<WebElement> addButtonsList;
-
-    @RenderWebElement
-    @FindBy (css = "div[id*='default-peoplepicker'] a[class='container-close']")
-    private WebElement closeButton;
+    public AddUserDialog(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public AddUserDialog assertAddUserDialogTitleIsCorrect()
     {
-        Assert.assertEquals(dialogTitle.getText(), language.translate("adminTools.groups.addUserDialog.title"));
+        assertEquals(getBrowser().findElement(dialogTitle).getText(), language.translate("adminTools.groups.addUserDialog.title"));
         return this;
     }
 
     public AddUserDialog assertSearchButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public AddUserDialog assertSearchInputIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(searchInputField), "Search input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(searchInputField), "Search input is displayed");
         return this;
     }
 
     private void fillInSearchInput(String textToSearch)
     {
-        searchInputField.clear();
-        searchInputField.sendKeys(textToSearch);
+        clearAndType(searchInputField, textToSearch);
     }
 
     public void clickSearchButton()
     {
-        searchButton.click();
+        getBrowser().findElement(searchButton).click();
     }
 
-    /**
-     * Fill in search input field with a user name and click 'Search' button
-     *
-     * @param userToSearch typed in search input field
-     */
     public AddUserDialog searchUser(String userToSearch)
     {
         int retry = 0;
@@ -106,77 +88,59 @@ public class AddUserDialog extends ShareDialog
         return (AddUserDialog) this.renderedPage();
     }
 
-    /**
-     * @return list of search results
-     */
     public ArrayList<String> getSearchResultsName()
     {
-        return searchResultsList.stream()
+        return getBrowser().findElements(searchResultsList).stream()
             .map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public AddUserDialog assertUserIsFound(UserModel userModel)
     {
-        Assert.assertTrue(getSearchResultsName().contains(getUserFormat(userModel)));
+        assertTrue(getSearchResultsName().contains(getUserFormat(userModel)));
         return this;
     }
 
-    /**
-     * @param searchResult name of the item from search results list
-     * @return position of searchResult in list. -1 if searchResult isn't displayed
-     */
     public int getItemIndexFromSearchResults(String searchResult)
     {
         ArrayList<String> searchResultsList = getSearchResultsName();
         return searchResultsList.indexOf(searchResult);
     }
 
-    /**
-     * Click 'Add' button for a search result item
-     *
-     * @param searchResult to be added
-     */
     public void clickAddButtonForUser(String searchResult)
     {
         int index = getItemIndexFromSearchResults(searchResult);
-        addButtonsList.get(index).click();
+        getBrowser().findElements(addButtonsList).get(index).click();
     }
 
     public void addUser(UserModel userModel)
     {
         clickAddButtonForUser(String.format("%s %s (%s)",
             userModel.getFirstName(), userModel.getLastName(), userModel.getUsername()));
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
     }
 
-    /**
-     * Checking if user is displayed in 'Add User' popup list
-     *
-     * @param username - the username surrounded by parentheses
-     * @return true if user is displayed, else false
-     */
     public boolean isUserDisplayed(String username)
     {
-        return browser.isElementDisplayed(By.cssSelector(String.format(searchedUsername, username)));
+        return getBrowser().isElementDisplayed(By.cssSelector(String.format(searchedUsername, username)));
     }
 
     public boolean isAddButtonDisplayed(String searchResult)
     {
         int index = getItemIndexFromSearchResults(searchResult);
-        return browser.isElementDisplayed(addButtonsList.get(index));
+        return getBrowser().isElementDisplayed(getBrowser().findElements(addButtonsList).get(index));
     }
 
     public AddUserDialog assertAddButtonIsDisplayedForUser(UserModel user)
     {
         int index = getItemIndexFromSearchResults(getUserFormat(user));
-        Assert.assertTrue(browser.isElementDisplayed(addButtonsList.get(index)));
+        assertTrue(getBrowser().isElementDisplayed(getBrowser().findElements(addButtonsList).get(index)));
         return this;
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return browser.isElementDisplayed(closeButton);
+        return getBrowser().isElementDisplayed(closeButton);
     }
 
     private String getUserFormat(UserModel userModel)

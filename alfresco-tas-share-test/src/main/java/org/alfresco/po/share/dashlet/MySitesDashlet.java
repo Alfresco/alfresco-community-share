@@ -26,10 +26,10 @@ import static org.testng.Assert.assertTrue;
 @PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     private CreateSiteDialog createSiteDialog;
 
     @Autowired

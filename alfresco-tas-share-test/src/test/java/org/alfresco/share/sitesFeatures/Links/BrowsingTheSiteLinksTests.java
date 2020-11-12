@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  */
 public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());

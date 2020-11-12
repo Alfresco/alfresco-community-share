@@ -24,7 +24,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     @RenderWebElement
     @FindAll (@FindBy (css = "p a"))
     protected List<WebElement> siteManagersList;
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
     @RenderWebElement
     @FindBy (css = ".msg.dashlet-padding>h2")

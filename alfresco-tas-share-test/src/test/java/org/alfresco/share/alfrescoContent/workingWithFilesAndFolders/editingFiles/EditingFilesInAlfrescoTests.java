@@ -29,7 +29,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
     private String editedTitle;
     private String editedDescription;
 
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @Autowired
@@ -39,7 +39,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
     @Autowired
     private DocumentCommon documentCommon;
 
-    @Autowired
+    //@Autowired
     private EditInAlfrescoPage editInAlfrescoPage;
 
     @Autowired
@@ -83,8 +83,8 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO,
-            editInAlfrescoPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO
+        );
 
         LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedName, editedContent, editedTitle, editedDescription);

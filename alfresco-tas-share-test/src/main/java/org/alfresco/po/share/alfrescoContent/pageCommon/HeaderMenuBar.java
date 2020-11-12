@@ -1,15 +1,14 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@PageObject
+import java.util.ArrayList;
+import java.util.List;
+
 public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 {
     @FindBy (css = "button[id*='fileSelect']")
@@ -26,6 +25,11 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     private By selectedItemsOptionsSelector = By.cssSelector("div[id*='selectedItems'] span");
 
+    public HeaderMenuBar(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -35,38 +39,27 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public boolean isSelectButtonDisplayed()
     {
-        return browser.isElementDisplayed(selectMenu);
+        return getBrowser().isElementDisplayed(selectMenu);
     }
 
     public void clickSelectMenu()
     {
-        browser.waitUntilElementClickable(selectMenu, 40).click();
+        getBrowser().waitUntilElementClickable(selectMenu, 40).click();
     }
 
-    /**
-     * Click on an option from "Select" menu
-     *
-     * @param optionText to be clicked on
-     */
     public void clickSelectOption(String optionText)
     {
-        browser.selectOptionFromFilterOptionsList(optionText, selectOptionsList);
-        browser.waitInSeconds(1);
+        getBrowser().selectOptionFromFilterOptionsList(optionText, selectOptionsList);
     }
 
-    /**
-     * Check if "Selected Items..." menu is enabled
-     *
-     * @return true if menu is enabled
-     */
     public boolean isSelectedItemsMenuEnabled()
     {
-        return !browser.isElementDisplayed(selectedItemsMenuDisabled);
+        return !getBrowser().isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public boolean isSelectItemsMenuDisplayedDisabled()
     {
-        return browser.isElementDisplayed(selectedItemsMenuDisabled);
+        return getBrowser().isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public void clickSelectedItemsMenu()
@@ -74,27 +67,15 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
         selectedItemsMenu.click();
     }
 
-    /**
-     * Click on option from "Selected Items..." menu
-     *
-     * @param optionText to be clicked
-     */
     public void clickSelectedItemsOption(String optionText)
     {
-        browser.waitInSeconds(2);
-        List<WebElement> selectedItemsOptionsList = browser.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
-        browser.selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
+        List<WebElement> selectedItemsOptionsList = getBrowser().findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
+        getBrowser().selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
     }
 
-    /**
-     * Check "Selected Items..." menu values
-     *
-     * @param expectedList list of values to be displayed
-     * @return displayed options from "Selected Items"
-     */
     public String verifySelectedItemsValues(ArrayList<String> expectedList)
     {
-        List<WebElement> selectedItemsOptionsList = browser.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
+        List<WebElement> selectedItemsOptionsList = getBrowser().findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
         for (String anExpectedList : expectedList)
         {
             int k = 0;

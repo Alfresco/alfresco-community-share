@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SelectDocumentPopupPage extends SelectPopUpPage
 {
-
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
     @FindBy (css = "div[id$='packageItems-cntrl-picker-head']")

@@ -3,14 +3,13 @@ package org.alfresco.po.share.site.blog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 
-@Primary
-@PageObject
 public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 {
     @RenderWebElement
@@ -22,7 +21,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     protected WebElement saveAsDraftButton;
     @FindBy (css = "button[id$='_default-cancel-button-button']")
     protected WebElement cancelButton;
-    @Autowired
+    //@Autowired
     BlogPostViewPage blogPostViewPage;
     private By pageTitle = By.xpath("//div[@id ='bd']//div[@class = 'page-form-header']//h1");
     @RenderWebElement
@@ -34,9 +33,14 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     private WebElement addTagButton;
     private By deleteTagButton = By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']");
 
+    public CreateBlogPostPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     public WebElement findTag(String Tag)
     {
-        return browser.findElement(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
+        return getBrowser().findElement(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
     }
 
     @Override
@@ -50,7 +54,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public String getPageTitle()
     {
-        return browser.findElement(pageTitle).getText();
+        return getBrowser().findElement(pageTitle).getText();
     }
 
     /**
@@ -70,10 +74,10 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void sendBlogPostTextInput(String blogPostContentText)
     {
-        browser.switchTo().frame(browser.findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
-        WebElement element = browser.findElement(By.id("tinymce"));
+        getBrowser().switchTo().frame(getBrowser().findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
+        WebElement element = getBrowser().findElement(By.id("tinymce"));
         element.sendKeys(blogPostContentText);
-        browser.switchTo().defaultContent();
+        getBrowser().switchTo().defaultContent();
     }
 
     /**
@@ -101,8 +105,8 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void clickDeleteTag(String Tag)
     {
-        browser.mouseOver(findTag(Tag));
-        browser.findElement(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']")).click();
+        getBrowser().mouseOver(findTag(Tag));
+        getBrowser().findElement(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']")).click();
     }
 
     /**
@@ -124,7 +128,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public boolean isTagPresent(String Tag)
     {
-        return browser.isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
+        return getBrowser().isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
     }
 
     /**
@@ -135,8 +139,8 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public boolean isDeleteButtonAvailable(String Tag)
     {
-        browser.mouseOver(findTag(Tag));
-        return browser.isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']"));
+        getBrowser().mouseOver(findTag(Tag));
+        return getBrowser().isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']"));
     }
 
     /**

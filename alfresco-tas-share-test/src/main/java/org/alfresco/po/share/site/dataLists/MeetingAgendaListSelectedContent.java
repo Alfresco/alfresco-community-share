@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class MeetingAgendaListSelectedContent extends ListItemSelectedContent
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     MeetingAgendaListItemsTable tableRow;
     private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");

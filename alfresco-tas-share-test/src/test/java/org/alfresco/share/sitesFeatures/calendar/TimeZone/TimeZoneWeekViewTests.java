@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
  */
 public class TimeZoneWeekViewTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
 
     @Autowired
@@ -119,7 +119,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
@@ -149,7 +148,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
@@ -183,7 +181,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
@@ -215,7 +212,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
@@ -251,7 +247,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
@@ -284,7 +279,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
@@ -351,7 +345,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         //getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
@@ -385,7 +378,6 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        calendarPage.refresh();
         calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 //        assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");

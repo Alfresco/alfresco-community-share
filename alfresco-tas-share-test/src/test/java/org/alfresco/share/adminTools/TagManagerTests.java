@@ -2,6 +2,7 @@ package org.alfresco.share.adminTools;
 
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -12,13 +13,13 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * UI tests for Admin Tools > Tag Manager page
- */
-public class TagManagerTests extends ContextAwareWebTest
+public class TagManagerTests extends BaseShareWebTests
 {
+    private TagManagerPage tagManagerPage;
+
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();
     private final String updatedTag = "updated" + uniqueIdentifier;
     private final String tag1 = "tag1" + uniqueIdentifier;
@@ -27,8 +28,14 @@ public class TagManagerTests extends ContextAwareWebTest
     private SiteModel site;
     private FileModel file;
 
-    @Autowired
-    private TagManagerPage tagManagerPage;
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        tagManagerPage = new TagManagerPage(browser);
+
+        setupAuthenticatedSession(getAdminUser());
+        tagManagerPage.navigate();
+    }
 
     @BeforeClass (alwaysRun = true)
     public void setupClass() throws Exception
@@ -39,15 +46,6 @@ public class TagManagerTests extends ContextAwareWebTest
 
         restApi.authenticateUser(getAdminUser())
             .withCoreAPI().usingResource(file).addTags(tag1, tag2, tag3);
-
-        setupAuthenticatedSession(getAdminUser());
-        tagManagerPage.navigate();
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        dataSite.usingAdmin().deleteSite(site);
     }
 
     @TestRail (id = "C9383")
@@ -68,7 +66,6 @@ public class TagManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyTagManagerPage()
     {
-        tagManagerPage.navigate();
         tagManagerPage.assertSearchButtonIsDisplayed()
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
@@ -90,7 +87,13 @@ public class TagManagerTests extends ContextAwareWebTest
                 .assertConfirmDeleteMessageIsCorrect(tag3)
                 .assertDeleteButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
-                .clickDelete(tagManagerPage);
+                .clickDelete();
         tagManagerPage.search(tag3).assertTagIsNotDisplayed(tag3);
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanup()
+    {
+        dataSite.usingAdmin().deleteSite(site);
     }
 }

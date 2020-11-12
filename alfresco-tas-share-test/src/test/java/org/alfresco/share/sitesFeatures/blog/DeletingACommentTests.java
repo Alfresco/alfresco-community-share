@@ -20,13 +20,13 @@ import org.testng.annotations.Test;
 
 public class DeletingACommentTests extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     BlogPostListPage blogPage;
 
-    @Autowired
+   // @Autowired
     BlogPostViewPage blogPostView;
 
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
 
     private String user = String.format("C6063User%s", RandomData.getRandomAlphanumeric());
@@ -71,7 +71,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Are you sure you want to delete this comment?");
 
         LOG.info("Step 2: Click Delete button");
-        deleteDialog.clickDelete(blogPostView);
+        deleteDialog.clickDelete();
         getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }
@@ -94,7 +94,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Are you sure you want to delete this comment?");
 
         LOG.info("Step 2: Click Delete button");
-        deleteDialog.clickDelete(blogPostView);
+        deleteDialog.clickDelete();
         getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }

@@ -155,18 +155,16 @@ public class LiveSearchPage extends HtmlPage
         return page.renderedPage();
     }
 
-    public HtmlPage clickSiteName(String siteName, HtmlPage page)
+    public void clickSiteName(String siteName)
     {
         browser.waitUntilElementIsVisibleWithRetry(By.xpath("//div[@class='alf-livesearch-item']//a[text()='" + siteName + "']"), 4);
         browser.findElement(By.xpath("//div[@class='alf-livesearch-item']//a[text()='" + siteName + "']")).click();
-        return page.renderedPage();
     }
 
-    public HtmlPage clickUserName(String userName, HtmlPage page)
+    public void clickUserName(String userName)
     {
         browser.waitUntilElementIsVisibleWithRetry(By.xpath("//div[@class='alf-livesearch-item']//a[text()='" + userName + "']"), 4);
         browser.findElement(By.xpath("//div[@class='alf-livesearch-item']//a[text()='" + userName + "']")).click();
-        return page.renderedPage();
     }
 
     public String getPeopleResults()
@@ -193,16 +191,14 @@ public class LiveSearchPage extends HtmlPage
         return actualItemTitle.toString();
     }
 
-    public HtmlPage clickPeopleUserName(String userName, HtmlPage page)
+    public void clickPeopleUserName(String userName)
     {
         browser.findFirstElementWithValue(peopleList, userName).click();
-        return page.renderedPage();
     }
 
-    public HtmlPage clickSiteNameLiveSearch(String siteName, HtmlPage page)
+    public void clickSiteNameLiveSearch(String siteName)
     {
         browser.findFirstElementWithValue(siteList, siteName).click();
-        return page.renderedPage();
     }
 
     public void selectSiteContext()

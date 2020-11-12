@@ -31,11 +31,11 @@ public class TrashcanTests extends ContextAwareWebTest
     private final String userName = "profileUser-" + random;
     private final String description = "Description-" + random;
     private final String fileContent = "file content.";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private HeaderMenuBar headerMenuBar;
-    @Autowired
+    //@Autowired
     private DeleteDialog deleteDialog;
     @Autowired
     private UserTrashcanPage userTrashcanPage;
@@ -79,7 +79,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 2, folderName + "\n" + fileName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
 
@@ -122,7 +122,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), Collections.singletonList(folderName).toString(), "Document Library folders=");
 
@@ -165,8 +165,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, folderName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete(documentLibraryPage);
-        deleteDialog.waitUntilMessageDisappears();
+        deleteDialog.clickDelete();
 
         assertEquals(documentLibraryPage.getFilesList().toString(), Collections.singletonList(fileName).toString(), "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");

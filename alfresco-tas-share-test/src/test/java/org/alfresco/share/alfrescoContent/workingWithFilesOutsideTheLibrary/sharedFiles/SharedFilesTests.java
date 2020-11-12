@@ -21,9 +21,9 @@ public class SharedFilesTests extends ContextAwareWebTest
 {
     private final String docName = String.format("Doc-C7661-%s", RandomData.getRandomAlphanumeric());
     private final String path = "Shared/";
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private SocialFeatures socialFeatures;
 
     @BeforeClass (alwaysRun = true)

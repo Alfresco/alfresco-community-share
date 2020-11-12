@@ -20,10 +20,10 @@ import org.testng.annotations.Test;
 
 public class AdvancedSearchPageTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     AdvancedSearchPage advancedSearchPage;
 
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
 
     private void createPreconditions(String userName, String siteName, String identifier)

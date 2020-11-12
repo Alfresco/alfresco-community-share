@@ -18,16 +18,16 @@ import org.testng.annotations.Test;
  */
 public class ModuleBrowserTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private UserDashboardPage userDashboardPage;
 
-    @Autowired
+    //@Autowired
     private AdminToolsPage adminToolsPage;
 
-    @Autowired
+    //@Autowired
     private ModuleBrowserPage moduleBrowserPage;
 
-    @Autowired
+    //@Autowired
     private Toolbar toolbar;
 
     private UserModel user;
@@ -54,7 +54,8 @@ public class ModuleBrowserTests extends ContextAwareWebTest
         adminToolsPage.assertToolIsAvailable(language.translate("moduleBrowser.title"));
 
         LOG.info("Step 3: Click on Module Browser option from Tools");
-        adminToolsPage.navigateToNodeFromToolsPanel("Module Browser", moduleBrowserPage);
+        adminToolsPage.navigateToNodeFromToolsPanel("Module Browser");
+        moduleBrowserPage.renderedPage();
         assertCurrentUrlContains("module-package");
 
         LOG.info("Step 4: Logout Admin user and Login with userName into Share");

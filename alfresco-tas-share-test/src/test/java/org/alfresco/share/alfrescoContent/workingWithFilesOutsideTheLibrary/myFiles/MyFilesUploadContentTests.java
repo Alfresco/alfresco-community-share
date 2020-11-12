@@ -21,11 +21,11 @@ import org.testng.annotations.Test;
  */
 public class MyFilesUploadContentTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private MyFilesPage myFilesPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private UploadContent uploadContent;
 
     private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -75,7 +75,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getContentText(), "contents", String.format("Contents of %s are wrong.", testFile));
         LOG.info("STEP2: Navigate back to My Files page and click on upload new version for the file.");
         myFilesPage.navigate();
-        myFilesPage.clickDocumentLibraryItemAction(testFile, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
+        myFilesPage.clickDocumentLibraryItemAction(testFile, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("STEP3: Update the file with major version.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         getBrowser().waitInSeconds(4);

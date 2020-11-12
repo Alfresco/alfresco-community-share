@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 
 public class RestrictingMobileAccessTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @Autowired
@@ -28,7 +28,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Autowired
     private AspectsForm aspectsForm;
 
-    @Autowired
+    //@Autowired
     private EditPropertiesPage editPropertiesPage;
 
     private String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
@@ -72,7 +72,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Restrictable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step3: Click 'Apply Changes' and verify the restrictions are placed on the file");
-        aspectsForm.clickApplyChangesButton(documentDetailsPage);
+        aspectsForm.clickApplyChangesButton();
         Assert.assertTrue(documentDetailsPage.isAspectDisplayed("Restrictable"), "Restrictable aspect is added");
 
     }
@@ -118,7 +118,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
         aspectsForm.removeAspect("Restrictable");
 
         LOG.info("Step3: Click 'Apply changes' button and verify the 'Restrictable' property is removed from 'Properties' section");
-        aspectsForm.clickApplyChangesButton(documentDetailsPage);
+        aspectsForm.clickApplyChangesButton();
         Assert.assertFalse(documentDetailsPage.isAspectNotDisplayed("Restrictable"), "Restrictable aspect is removed");
     }
 

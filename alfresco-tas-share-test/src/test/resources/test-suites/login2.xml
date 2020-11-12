@@ -4,8 +4,8 @@
 
    <test name="Parallel">
       <classes>
-         <class name="org.alfresco.share.LoginTests2" />
-         <class name="org.alfresco.share.LogoTests2"/>
+         <class name="org.alfresco.share.ToolbarTests" />
+         <!--<class name="org.alfresco.share.userProfile.ChangePasswordTest" />-->
       </classes>
    </test>
 </suite>

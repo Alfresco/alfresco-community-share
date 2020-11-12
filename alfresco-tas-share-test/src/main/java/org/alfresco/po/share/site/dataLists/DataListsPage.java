@@ -1,21 +1,19 @@
 package org.alfresco.po.share.site.dataLists;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.testng.Assert.*;
+
 public class DataListsPage extends SiteCommon<DataListsPage>
 {
     public Content currentContent = (Content) new NoListItemSelectedContent();
@@ -105,6 +103,11 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private final By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
     private final By newListWindowLocator = By.cssSelector(".hd");
 
+    public DataListsPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -114,7 +117,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public DataListsPage assertDataListPageIsOpened()
     {
         LOG.info("Assert data list page is opened");
-        assertTrue(browser.getCurrentUrl().contains("data-lists"), "Data List page is not opened");
+        assertTrue(getBrowser().getCurrentUrl().contains("data-lists"), "Data List page is not opened");
         return this;
     }
 
@@ -135,22 +138,16 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return this;
     }
 
-    /**
-     * Checking if the created data list displayed in 'List' is highlighted (this is happening only after the created list is clicked).
-     *
-     * @param expectedList - name of created list
-     * @return true if the list is highlighted and false if is not highlighted.
-     */
     public boolean isExpectedListSelected(String expectedList)
     {
-        return browser.findElement(listSelected).getText().equals(expectedList);
+        return getBrowser().findElement(listSelected).getText().equals(expectedList);
     }
 
     public DataListsPage setListItemSelectedContent()
     {
         LOG.info("Set list item selected content");
         currentContent = new ListItemSelectedContent();
-        currentContent.setBrowser(browser);
+        currentContent.setBrowser(getBrowser());
         return this;
     }
 
@@ -164,14 +161,14 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public DataListsPage assertNewListDialogIsNotDisplayed()
     {
         LOG.info("Assert new list dialog is not displayed");
-        assertFalse(browser.isElementDisplayed(newListWindowLocator), "");
+        assertFalse(getBrowser().isElementDisplayed(newListWindowLocator), "");
         return this;
     }
 
     public DataListsPage clickOnCreateDataListLink()
     {
         LOG.info("Click \"New List\" button");
-        browser.findElement(createDataListLinkLocator).click();
+        getBrowser().findElement(createDataListLinkLocator).click();
         return this;
     }
 
@@ -227,17 +224,10 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return this;
     }
 
-    public DataListsPage selectContactListFromTypesOfListsAvailable() // TODO: gresit
-    {
-        LOG.info("Select contact list from types of lists available");
-        listType.click();
-        return this;
-    }
-
     public DataListsPage assertDataListLinkDescriptionEquals(String expectedListDescription)
     {
         LOG.info("Assert data list link description equals: {}", expectedListDescription);
-        WebElement linkLocator = browser.findElement(By.xpath(listLinkLocator));
+        WebElement linkLocator = getBrowser().findElement(By.xpath(listLinkLocator));
         assertEquals(linkLocator.getText(), expectedListDescription,
             String.format("List link description not equals %s", linkLocator.getText()));
         return this;
@@ -245,7 +235,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public List<String> getListsItemsTitle()
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(listWithCreatedLists);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(listWithCreatedLists);
 
         List<WebElement> linksList = dataListsSection.findElements(By.cssSelector("a.filter-link"));
         List<String> dataListsName = new ArrayList<>(linksList.size());
@@ -259,18 +249,18 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private WebElement getDataListElement(String listName)
     {
         List<WebElement> linksList = dataListsSection.findElements(By.cssSelector("a.filter-link"));
-        return browser.findFirstElementWithValue(linksList, listName);
+        return getBrowser().findFirstElementWithValue(linksList, listName);
     }
 
     public boolean noListDisplayed()
     {
-        return browser.isElementDisplayed(noListDisplayed);
+        return getBrowser().isElementDisplayed(noListDisplayed);
     }
 
     public DataListsPage assertNewListButtonIsDisplayed()
     {
         LOG.info("Assert new list button is displayed");
-        assertTrue(browser.isElementDisplayed(newListButton), "New list button is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(newListButton), "New list button is not displayed");
         return this;
     }
 
@@ -310,20 +300,14 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return this;
     }
 
-    /**
-     * Checking if New Item button is displayed in selected Data List page.
-     *
-     * @return true if the button is displayed and false if the button is not displayed.
-     */
     public boolean isNewItemButtonDisplayed()
     {
-        return browser.isElementDisplayed(newItemButton);
+        return getBrowser().isElementDisplayed(newItemButton);
     }
 
     private DataListsPage clickDataList(String listName, Class c)
     {
         getDataListElement(listName).click();
-        browser.waitInSeconds(3);
         try
         {
             currentContent = (Content) c.getDeclaredConstructor().newInstance();
@@ -331,7 +315,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         {
             e.printStackTrace();
         }
-        currentContent.setBrowser(browser);
+        currentContent.setBrowser(getBrowser());
         return this;
     }
 
@@ -387,19 +371,19 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public boolean isEditButtonDisplayedForList(String listName)
     {
-        browser.mouseOver(getDataListElement(listName));
-        return browser.isElementDisplayed(editListButton);
+        getBrowser().mouseOver(getDataListElement(listName));
+        return getBrowser().isElementDisplayed(editListButton);
     }
 
     public boolean isDeleteButtonDisplayedForList(String listName)
     {
-        browser.mouseOver(getDataListElement(listName));
-        return browser.isElementDisplayed(deleteListButton);
+        getBrowser().mouseOver(getDataListElement(listName));
+        return getBrowser().isElementDisplayed(deleteListButton);
     }
 
     public EditListDetailsPopUp clickEditButtonForList(String listName)
     {
-        browser.mouseOver(getDataListElement(listName));
+        getBrowser().mouseOver(getDataListElement(listName));
         editListButton.click();
         return (EditListDetailsPopUp) editListDetailsPopUp.renderedPage();
     }
@@ -407,7 +391,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public DeleteListPopUp clickDeleteButtonForList(String listName)
     {
-        browser.mouseOver(getDataListElement(listName));
+        getBrowser().mouseOver(getDataListElement(listName));
         deleteListButton.click();
         return (DeleteListPopUp) deleteListPopUp.renderedPage();
     }
@@ -425,20 +409,20 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public boolean isEditButtonDisabled(String listName)
     {
-        browser.mouseOver(getDataListElement(listName));
-        return browser.isElementDisplayed(editButtonDisabled);
+        getBrowser().mouseOver(getDataListElement(listName));
+        return getBrowser().isElementDisplayed(editButtonDisabled);
     }
 
     public void clickOnDisabledEditButton(String listName)
     {
-        browser.mouseOver(getDataListElement(listName));
+        getBrowser().mouseOver(getDataListElement(listName));
         editButtonDisabled.click();
     }
 
     public DataListsPage assertDataListItemTitleEquals(String itemTitle)
     {
         LOG.info("Assert data list item title equals: {}", itemTitle);
-        WebElement actualTitle = browser.findElement(By.xpath(String.format(listItemTitleLocator, itemTitle)));
+        WebElement actualTitle = getBrowser().findElement(By.xpath(String.format(listItemTitleLocator, itemTitle)));
         assertEquals( actualTitle.getText(), itemTitle, String.format("Data list item title not equals %s: ", itemTitle));
 
         return this;
@@ -446,27 +430,22 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public boolean isListWithCreatedListsDisplayed()
     {
-        return browser.isElementDisplayed(listWithCreatedLists);
+        return getBrowser().isElementDisplayed(listWithCreatedLists);
     }
 
     public EditItemPopUp clickEditButtonForListItem()
     {
-        browser.mouseOver(listItemActionsField);
-        browser.waitUntilElementVisible(editListItemButton).click();
+        getBrowser().mouseOver(listItemActionsField);
+        getBrowser().waitUntilElementVisible(editListItemButton).click();
         return (EditItemPopUp) editItemPopUp.renderedPage();
     }
 
     public CreateNewItemPopUp clickNewItemButton()
     {
-        browser.waitUntilElementVisible(newItemButton).click();
+        getBrowser().waitUntilElementVisible(newItemButton).click();
         return (CreateNewItemPopUp) createNewItemPopUp.renderedPage();
     }
 
-    /**
-     * Get a list of 'New Item' table column header names.
-     *
-     * @return list of strings.
-     */
     public List<String> getTextOfTableColumnHeader()
     {
         List<String> tableHeaderListString = new ArrayList<>();
@@ -478,14 +457,8 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return tableHeaderListString;
     }
 
-    /**
-     * Check if 'Create New Item' popup is displayed with the correct form.
-     *
-     * @param listName - the keyword contained by the form, used in 'action' form attribute.
-     * @return true if the form that contains that specific keyword is displayed, else false.
-     */
     public boolean isNewItemPopupFormDisplayed(CreateNewItemPopUp.NewItemPopupForm listName)
     {
-        return browser.isElementDisplayed(By.xpath(String.format(createNewItemForm, listName.name)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(createNewItemForm, listName.name)));
     }
 }

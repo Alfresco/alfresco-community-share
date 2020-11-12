@@ -1,14 +1,17 @@
 package org.alfresco.share.adminTools.groups;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
+import org.kohsuke.rngom.parse.host.Base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static java.util.Arrays.asList;
@@ -16,9 +19,8 @@ import static java.util.Arrays.asList;
 /**
  * @author Bogdan Bocancea
  */
-public class GroupsTests extends ContextAwareWebTest
+public class GroupsTests extends BaseShareWebTests
 {
-    @Autowired
     private GroupsPage groupsPage;
 
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
@@ -33,7 +35,7 @@ public class GroupsTests extends ContextAwareWebTest
                        parent1, parent2, parent3, subGroup;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         createGroup = new GroupModel(RandomData.getRandomAlphanumeric());
         searchGroup = new GroupModel(c9471group);
@@ -50,7 +52,15 @@ public class GroupsTests extends ContextAwareWebTest
         dataGroup.addGroupToParentGroup(parent1, subGroup);
         dataGroup.addGroupToParentGroup(parent2, subGroup);
         dataGroup.addGroupToParentGroup(parent3, subGroup);
+
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        groupsPage = new GroupsPage(browser);
         setupAuthenticatedSession(getAdminUser());
+        groupsPage.navigate();
     }
 
     @AfterClass(alwaysRun = true)
@@ -65,7 +75,6 @@ public class GroupsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteGroup()
     {
-        groupsPage.navigate();
         groupsPage.clickBrowse()
             .delete(deleteGroup).assertGroupIsNotDisplayed(deleteGroup);
     }
@@ -74,7 +83,6 @@ public class GroupsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void deleteGroupWithMultipleParents()
     {
-        groupsPage.navigate();
         groupsPage.writeInSearchInput("C9473ParentGroup")
             .clickSearch()
             .clickBrowse()
@@ -115,7 +123,6 @@ public class GroupsTests extends ContextAwareWebTest
     public void editGroup()
     {
         String newDisplayName = RandomData.getRandomAlphanumeric();
-        groupsPage.navigate();
         groupsPage.assertSectionTitleIsGroups()
             .clickBrowse().editGroup(editGroup, newDisplayName)
                 .assertGroupIsNotDisplayed(editGroup);
@@ -127,7 +134,6 @@ public class GroupsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createGroup()
     {
-        groupsPage.navigate();
         groupsPage.clickBrowse()
             .clickCreateNewGroup(1).createGroup(createGroup)
                 .assertGroupIsDisplayed(createGroup);
@@ -137,7 +143,6 @@ public class GroupsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void searchForAGroup()
     {
-        groupsPage.navigate();
         groupsPage.writeInSearchInput(c9471group)
             .clickSearch().waitUntilSearchElementDisplayed()
                 .assertGroupIsFoundInSearch(searchGroup)

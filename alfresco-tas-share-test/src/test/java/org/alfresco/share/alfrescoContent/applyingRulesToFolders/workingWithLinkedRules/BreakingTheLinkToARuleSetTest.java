@@ -34,15 +34,15 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
     private final String folderName = "Folder-C7332-" + random;
     private final String folderName2 = "Folder2-C7332-" + random;
     private final String ruleName = "rule-C7332-" + random;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private ManageRulesPage manageRulesPage;
-    @Autowired
+    //@Autowired
     private EditRulesPage editRulesPage;
-    @Autowired
+    //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
+    //@Autowired
     private LinkedToRuleSetPage linkedToRuleSetPage;
     @Autowired
     private SelectDestinationDialog selectDestinationDialog;
@@ -58,7 +58,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
@@ -77,7 +77,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         editRulesPage.cleanupSelectedValues();
         LOG.info("Navigate to Manage Rule page for folder2");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
         LOG.info("Link rule of folder2 with rule of folder1");
@@ -92,7 +92,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder2");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName2, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
     }

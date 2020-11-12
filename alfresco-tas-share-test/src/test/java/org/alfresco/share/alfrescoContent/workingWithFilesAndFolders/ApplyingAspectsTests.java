@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 
 public class ApplyingAspectsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @Autowired
@@ -86,7 +86,7 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
-        aspectsForm.clickApplyChangesButton(documentDetailsPage);
+        aspectsForm.clickApplyChangesButton();
         Assert.assertTrue(documentDetailsPage.isAspectDisplayed("Audio"), "Audio aspect is added");
         documentDetailsPage.clickManageAspects();
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");

@@ -29,7 +29,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     private final String siteName4 = String.format("siteC7504%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

@@ -127,7 +127,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8278), fileNameC8278 + " is not available in Repository");
         LOG.info("STEP1: Hover over the content created in the preconditions");
         LOG.info("STEP2: Click \"Edit Properties\" option");
-        repositoryPage.clickDocumentLibraryItemAction(fileNameC8278, ItemActions.EDIT_PROPERTIES, repositoryPage);
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC8278, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileNameC8278),
             "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");

@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 public class UserToolTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     UsersPage usersPage;
 
     @BeforeClass(alwaysRun = true)

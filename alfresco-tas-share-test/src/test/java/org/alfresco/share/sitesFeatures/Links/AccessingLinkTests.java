@@ -26,14 +26,15 @@ import org.testng.annotations.Test;
  */
 public class AccessingLinkTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
-    @Autowired
+   // @Autowired
     CustomizeSitePage customizeSitePage;
+
     DateTime currentDate;
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());

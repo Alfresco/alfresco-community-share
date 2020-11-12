@@ -31,16 +31,16 @@ import org.testng.annotations.Test;
  */
 public class FacetedSearchTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
-    @Autowired
+   // @Autowired
     SearchPage searchPage;
 
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
     @Autowired
@@ -49,7 +49,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     @Autowired
     SelectPopUpPage selectPopUpPage;
 
-    @Autowired
+   // @Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired
@@ -262,7 +262,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         selectAssigneeToWorkflowPopUp.searchUser(userName);
         selectPopUpPage.clickAddIcon("FirstName LastName (" + userName + ")");
         selectAssigneeToWorkflowPopUp.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(searchPage);
+        startWorkflowPage.clickStartWorkflow();
         userDashboardPage.navigate(userName);
         assertTrue(myTasksDashlet.isTaskPresent("FacetedWorkflowDescription"), "Task is not present in Active tasks");
         cleanupAuthenticatedSession();

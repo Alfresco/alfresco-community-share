@@ -30,7 +30,7 @@ public class MovingContentTests extends ContextAwareWebTest
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
@@ -64,7 +64,7 @@ public class MovingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("STEP1: Hover over the file.Click 'More...' menu. Click 'Move to...'");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.MOVE_TO);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + docName + " to...", "Displayed pop-up=");
         LOG.info("STEP2: Set the destination to 'All Sites'. Select 'site1'");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
@@ -74,7 +74,7 @@ public class MovingContentTests extends ContextAwareWebTest
         LOG.info("STEP3: Set the folder created in preconditions as path");
         copyMoveUnzipToDialog.clickPathFolder(folderName);
         LOG.info("STEP4: Click 'Move' button");
-        copyMoveUnzipToDialog.clickMoveButton(documentLibraryPage);
+        copyMoveUnzipToDialog.clickMoveButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in Documents");
         LOG.info("STEP5: Open the folder created in preconditions");
@@ -100,7 +100,7 @@ public class MovingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("STEP1: Hover over folder. From 'More...' menu, click 'Move to...' option");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName1, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName1, ItemActions.MOVE_TO);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + folderName1 + " to...", "Displayed pop-up=");
         LOG.info("STEP2: Set the destination to 'All Sites'");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
@@ -111,7 +111,7 @@ public class MovingContentTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getPathList(), expectedPath.toString(), "Path");
         LOG.info("STEP4: Set the folder created in preconditions as path. Click 'Move' button.");
         copyMoveUnzipToDialog.clickPathFolder(folderName2);
-        copyMoveUnzipToDialog.clickMoveButton(documentLibraryPage);
+        copyMoveUnzipToDialog.clickMoveButton();
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog is displayed.");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName1), folderName1 + " displayed in Documents.");

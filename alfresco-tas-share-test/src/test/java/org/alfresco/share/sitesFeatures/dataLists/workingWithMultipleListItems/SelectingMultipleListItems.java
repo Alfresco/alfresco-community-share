@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
  */
 public class SelectingMultipleListItems extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     @Autowired

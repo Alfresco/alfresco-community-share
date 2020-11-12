@@ -26,13 +26,13 @@ import org.testng.annotations.Test;
  */
 public class AddSiteMembersTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     AddSiteUsersPage addSiteUsersPage;
 
-    @Autowired
+    //@Autowired
     SiteMembersPage siteMembersPage;
 
-    @Autowired
+   // @Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired

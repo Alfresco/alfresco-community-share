@@ -27,7 +27,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     private final String siteNameC5783 = String.format("SiteName-C5783-%s", RandomData.getRandomAlphanumeric());
     private final String siteNameC5785 = String.format("SiteName-C5785-%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "File-C5785";
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboard;
     @Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
@@ -73,7 +73,6 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     public void multipleFileTypesAvailableInTheSiteLibrary()
     {
         siteDashboard.navigate(siteNameC5785);
-        siteDashboard.refresh();
 
         LOG.info("STEP 1: Check the content displayed by the Site File Type Breakdown dashlet.");
         assertEquals(siteFileTypeBreakdownDashlet.getNumberOfPieChartSlices(), 4, "In Site's library there are only 4 file types.");

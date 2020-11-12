@@ -1,11 +1,9 @@
 package org.alfresco.po.share.site.discussion;
 
-import java.util.List;
-
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -15,19 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-@PageObject
+import java.util.List;
+
 public class TopicListPage extends SiteCommon<TopicListPage>
 {
-    @Autowired
+    //@Autowired
     TopicViewPage topicViewPage;
 
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
 
-    @Autowired
+   // @Autowired
     EditTopicPage editTopicPage;
 
-    @Autowired
+   // @Autowired
     private CreateNewTopicPage createNewTopicPage;
 
     @RenderWebElement
@@ -77,6 +76,11 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     private By editTopic = By.cssSelector(".onEditTopic a");
     private By deleteTopic = By.cssSelector(".onDeleteTopic a");
 
+    public TopicListPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -102,7 +106,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     private WebElement getTopicElement(String topicTitle)
     {
-        return browser.findFirstElementWithValue(topicsList, topicTitle);
+        return getBrowser().findFirstElementWithValue(topicsList, topicTitle);
     }
 
     /**
@@ -113,7 +117,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public boolean isTopicDisplayed(String topicTitle)
     {
-        return browser.isElementDisplayed(getTopicElement(topicTitle));
+        return getBrowser().isElementDisplayed(getTopicElement(topicTitle));
     }
 
     /**
@@ -242,10 +246,10 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         viewButton.click();
         if (viewButtonText.equals("Simple View"))
         {
-            browser.waitUntilElementVisible(By.cssSelector(".node.topic.simple"));
+            getBrowser().waitUntilElementVisible(By.cssSelector(".node.topic.simple"));
         } else
         {
-            browser.waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
+            getBrowser().waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
         }
         return (TopicListPage) this.renderedPage();
 
@@ -259,7 +263,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public boolean isTagDisplayed(String tagName)
     {
-        return browser.findFirstElementWithValue(tagsList, tagName) != null;
+        return getBrowser().findFirstElementWithValue(tagsList, tagName) != null;
     }
 
     /**
@@ -270,7 +274,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public String getTagAssociatedTopicsNo(String tagName)
     {
-        String tagElement = browser.findFirstElementWithValue(tagsList, tagName).findElement(By.xpath("..")).getText();
+        String tagElement = getBrowser().findFirstElementWithValue(tagsList, tagName).findElement(By.xpath("..")).getText();
         return tagElement.substring(tagElement.indexOf("("));
     }
 
@@ -282,8 +286,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public TopicListPage clickTag(String tagName)
     {
-        browser.findFirstElementWithValue(tagsList, tagName).click();
-        browser.waitInSeconds(2);
+        getBrowser().findFirstElementWithValue(tagsList, tagName).click();
         return (TopicListPage) this.renderedPage();
     }
 
@@ -291,48 +294,48 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-            browser.isElementDisplayed(getTopicElement(topic), topicContent);
-        } catch (NoSuchElementException se)
+            return getBrowser().isElementDisplayed(getTopicElement(topic), topicContent);
+        }
+        catch (NoSuchElementException se)
         {
             return false;
         }
-        return false;
     }
 
     public boolean areTopicRepliesDisplayed(String topic)
     {
         try
         {
-            browser.isElementDisplayed(getTopicElement(topic), topicReplies);
-        } catch (NoSuchElementException se)
+           return getBrowser().isElementDisplayed(getTopicElement(topic), topicReplies);
+        }
+        catch (NoSuchElementException se)
         {
             return false;
         }
-        return false;
     }
 
     public boolean areTopicTagsDisplayed(String topic)
     {
         try
         {
-            browser.isElementDisplayed(getTopicElement(topic), topicTags);
-        } catch (NoSuchElementException se)
+            return getBrowser().isElementDisplayed(getTopicElement(topic), topicTags);
+        }
+        catch (NoSuchElementException se)
         {
             return false;
         }
-        return false;
     }
 
     public boolean isReadLinkDisplayed(String topic)
     {
         try
         {
-            browser.isElementDisplayed(getTopicElement(topic), readTopic);
-        } catch (NoSuchElementException se)
+            return getBrowser().isElementDisplayed(getTopicElement(topic), readTopic);
+        }
+        catch (NoSuchElementException se)
         {
             return false;
         }
-        return false;
     }
 
     public String getMessageDisplayed()
@@ -371,7 +374,6 @@ public class TopicListPage extends SiteCommon<TopicListPage>
                 newTopics.click();
                 break;
         }
-        browser.waitInSeconds(2);
         return (TopicListPage) this.renderedPage();
     }
 }

@@ -27,11 +27,11 @@ import org.testng.annotations.Test;
 //
 public class AccessingCalendarTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
-    @Autowired
+    //@Autowired
     CustomizeSitePage customizeSitePage;
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     private String user = String.format("User1%s", RandomData.getRandomAlphanumeric());

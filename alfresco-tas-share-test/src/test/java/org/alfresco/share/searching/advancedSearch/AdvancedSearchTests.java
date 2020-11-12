@@ -21,11 +21,11 @@ import org.testng.asserts.SoftAssert;
  */
 public class AdvancedSearchTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     AdvancedSearchPage advancedSearchPage;
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
-    @Autowired
+    //s@Autowired
     DocumentLibraryPage documentLibraryPage;
     @Autowired
     EditPropertiesDialog editPropertiesDialog;
@@ -109,7 +109,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         String folderTitle = "Folder title";
         String description = "This is a test folder";
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         editPropertiesDialog.setTitle(folderTitle);
         editPropertiesDialog.setDescription(description);
         editPropertiesDialog.clickSave();

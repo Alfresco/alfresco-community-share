@@ -7,47 +7,36 @@ import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Select;
 
-@PageObject
 public class ApplicationPage extends AdminToolsPage
 {
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
 
     @RenderWebElement
-    @FindBy (css = "select#console-options-theme-menu")
-    private Select themeDropdown;
-
-    @FindBy (css = "div.apply button[id$='_default-apply-button-button']")
-    private Button applyButton;
-
-    @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]")
-    private WebElement defaultAlfrescoImage;
-
-    @FindBy (css = ".info")
-    private WebElement mainText;
-
+    private By themeDropdown = By.cssSelector("select#console-options-theme-menu");
+    private By applyButton = By.cssSelector("div.apply button[id$='_default-apply-button-button']");
+    private By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
+    private By mainText = By.cssSelector( ".info");
     @RenderWebElement
-    @FindBy (css = "button[id$='reset-button-button']")
-    private Button resetButton;
-
-    @RenderWebElement
-    @FindBy (css = "form[id*=admin-console] button[id*=upload-button-button]")
-    private Button uploadButton;
-
+    private By resetButton = By.cssSelector("button[id$='reset-button-button']");
+    private By uploadButton = By.cssSelector("form[id*=admin-console] button[id*=upload-button-button]");
     private String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
 
     private final UploadFileDialog uploadDialog;
 
-    public ApplicationPage(UploadFileDialog uploadDialog) {
-        this.uploadDialog = uploadDialog;
+    public ApplicationPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+        this.uploadDialog = new UploadFileDialog(browser);
     }
 
     @Override
@@ -58,13 +47,13 @@ public class ApplicationPage extends AdminToolsPage
 
     public UploadFileDialog clickUpload()
     {
-        browser.waitUntilElementVisible(uploadButton).click();
+        getBrowser().waitUntilElementVisible(uploadButton).click();
         return (UploadFileDialog) uploadDialog.renderedPage();
     }
 
     public ApplicationPage clickApply()
     {
-        browser.waitUntilElementClickable(applyButton).click();
+        getBrowser().waitUntilElementClickable(applyButton).click();
         return (ApplicationPage) this.renderedPage();
     }
 
@@ -77,29 +66,31 @@ public class ApplicationPage extends AdminToolsPage
 
     public boolean isAlfrescoDefaultImageDisplayed()
     {
-        return browser.isElementDisplayed(defaultAlfrescoImage);
+        return  getBrowser().isElementDisplayed(defaultAlfrescoImage);
     }
 
     public ApplicationPage resetImageToDefault()
     {
         //click Reset button
-        browser.waitUntilElementClickable(resetButton).click();
-        browser.waitUntilElementVisible(defaultAlfrescoImage);
+        getBrowser().waitUntilElementClickable(resetButton).click();
+        getBrowser().waitUntilElementVisible(defaultAlfrescoImage);
         return this;
     }
 
     public ApplicationPage selectTheme(Theme theme)
     {
-        themeDropdown.selectByValue(theme.getSelectValue());
+        Select themeOptions = new Select(getBrowser().findElement(themeDropdown));
+        themeOptions.selectByValue(theme.getSelectValue());
         clickApply();
-        browser.waitUntilElementVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
-        this.refresh();
+        getBrowser().waitUntilElementVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
+        getBrowser().refresh();
         return (ApplicationPage) this.renderedPage();
     }
 
     public boolean isThemeOptionSelected(Theme theme)
     {
-        List<WebElement> options = themeDropdown.getOptions();
+        Select themeOptions = new Select(getBrowser().findElement(themeDropdown));
+        List<WebElement> options = themeOptions.getOptions();
         return options.stream().anyMatch(value ->
             value.getAttribute("value").contains(theme.getSelectValue()) && value.isSelected());
     }
@@ -107,7 +98,7 @@ public class ApplicationPage extends AdminToolsPage
     public boolean doesBodyContainTheme(Theme theme)
     {
         By themeToBeFound = By.xpath(String.format(bodyTheme, theme.getSelectValue()));
-        return browser.isElementDisplayed(themeToBeFound);
+        return getBrowser().isElementDisplayed(themeToBeFound);
     }
 
     public ApplicationPage assertThemeOptionIsSelected(Theme theme)
@@ -124,6 +115,6 @@ public class ApplicationPage extends AdminToolsPage
 
     public String checkText()
     {
-        return mainText.getText();
+        return getBrowser().findElement(mainText).getText();
     }
 }

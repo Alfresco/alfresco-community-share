@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
  */
 public class EditEventAgendaItemTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     @Autowired

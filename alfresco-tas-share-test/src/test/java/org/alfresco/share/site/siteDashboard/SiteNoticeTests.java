@@ -22,7 +22,7 @@ import org.testng.asserts.SoftAssert;
  */
 public class SiteNoticeTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired

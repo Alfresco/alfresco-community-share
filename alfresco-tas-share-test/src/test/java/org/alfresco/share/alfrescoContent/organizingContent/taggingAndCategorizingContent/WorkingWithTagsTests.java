@@ -22,7 +22,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
 {
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @TestRail (id = "C7444")

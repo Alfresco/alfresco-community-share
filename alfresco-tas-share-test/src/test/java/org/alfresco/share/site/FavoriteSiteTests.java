@@ -22,10 +22,10 @@ import org.testng.annotations.Test;
 
 public class FavoriteSiteTests extends ContextAwareWebTest
 {
-    @Autowired
+    //Autowired
     UserDashboardPage userDashboardPage;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired

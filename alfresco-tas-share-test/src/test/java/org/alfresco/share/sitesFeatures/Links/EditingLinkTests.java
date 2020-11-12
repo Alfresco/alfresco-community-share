@@ -24,14 +24,15 @@ import org.testng.annotations.Test;
  */
 public class EditingLinkTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
-    @Autowired
+    //@Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    @Autowired
+    //@Autowired
     EditLinkPage editLinkPage;
+
     DateTime currentDate;
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";

@@ -61,7 +61,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     private final String dataListRow = "//a[text()='%s']/..";
     private final String listItemDescriptionLocator = "//div[text()='%s']";
 
-    @Autowired
+    //@Autowired
     private DataListsPage dataListsPage;
 
     @Autowired

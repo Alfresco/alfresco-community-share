@@ -19,10 +19,10 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
     @Autowired
     private MyProfileDashlet myProfileDashlet;
 
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
 
-    @Autowired
+    //@Autowired
     private EditUserProfilePage editUserProfilePage;
 
     private UserModel user;

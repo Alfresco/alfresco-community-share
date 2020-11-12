@@ -51,7 +51,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8240), fileNameC8240 + " is not available in Repository");
 
         LOG.info("Step 1: Mouse over file, click Download");
-        repositoryPage.clickDocumentLibraryItemAction(fileNameC8240, ItemActions.DOWNLOAD, repositoryPage);
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC8240, ItemActions.DOWNLOAD);
         repositoryPage.acceptAlertIfDisplayed();
         LOG.info("Step 2: Check the file was saved locally");
 
@@ -65,7 +65,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8243), folderNameC8243 + " is not available in Repository");
 
         LOG.info("Step 1: Mouse over folder, click Download");
-        repositoryPage.clickDocumentLibraryItemAction(folderNameC8243, ItemActions.DOWNLOAD_AS_ZIP, repositoryPage);
+        repositoryPage.clickDocumentLibraryItemAction(folderNameC8243, ItemActions.DOWNLOAD_AS_ZIP);
         repositoryPage.acceptAlertIfDisplayed();
 
         LOG.info("Step 2: Check the folder was saved locally");

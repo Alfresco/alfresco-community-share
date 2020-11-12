@@ -25,9 +25,9 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     private final String docContent = "C6940 content";
     @Autowired
     ContentAspects contentAspects;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentsFilters filters;
 
     @BeforeClass (alwaysRun = true)

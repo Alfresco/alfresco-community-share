@@ -1,29 +1,32 @@
 package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.UserSitesListPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static java.util.Arrays.asList;
-
-public class UserProfileSitesTests extends ContextAwareWebTest
+public class UserProfileSitesTests extends BaseShareWebTests
 {
-    @Autowired
-    private UserSitesListPage userSites;
+    private UserSitesListPage userSitesPage;
 
     private UserModel user, invitedUser, noSitesUser;
     private SiteModel inviteSite, publicSite, notInvitedSite;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
+    {
+        userSitesPage = new UserSitesListPage(browser);
+    }
+
+    @BeforeClass(alwaysRun = true)
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         invitedUser = dataUser.createRandomTestUser();
@@ -42,13 +45,12 @@ public class UserProfileSitesTests extends ContextAwareWebTest
         removeUserFromAlfresco(user, invitedUser, noSitesUser);
     }
 
-
     @TestRail (id = "C2154")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void viewSitesWhereUserHasMembershipTest()
     {
         setupAuthenticatedSession(invitedUser);
-        userSites.navigate(invitedUser)
+        userSitesPage.navigate(invitedUser)
             .assertSiteIsDisplayed(inviteSite)
             .assertSiteIsDisplayed(publicSite)
             .assertSiteIsNotDisplayed(notInvitedSite)
@@ -60,7 +62,7 @@ public class UserProfileSitesTests extends ContextAwareWebTest
     public void userWithNoSitesTest()
     {
         setupAuthenticatedSession(invitedUser);
-        userSites.navigate(noSitesUser)
+        userSitesPage.navigate(noSitesUser)
             .assertUserHasNoSitesMessageIsDisplayed();
     }
 }

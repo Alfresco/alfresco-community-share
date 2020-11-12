@@ -24,10 +24,10 @@ import org.testng.annotations.Test;
 
 public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
     @Autowired
@@ -36,7 +36,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     @Autowired
     MyTasksDashlet myTasksDashlet;
 
-    @Autowired
+   // @Autowired
     UserDashboardPage userDashboardPage;
 
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -83,7 +83,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review And Approve (single reviewer)' from the drop-down list.");
@@ -97,7 +97,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -116,7 +116,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (one or more reviewers)' from the drop-down list.");
@@ -132,7 +132,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(user3);
         selectPopUpPage.clickAddIcon("firstName3 lastName3 (" + user3 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -159,7 +159,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (group review)' from the drop-down list.");
@@ -174,7 +174,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
 
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Navigate to User Dashboard.");
@@ -191,7 +191,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (pooled review)' from the drop-down list.");
@@ -206,7 +206,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
 
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Navigate to User Dashboard.");

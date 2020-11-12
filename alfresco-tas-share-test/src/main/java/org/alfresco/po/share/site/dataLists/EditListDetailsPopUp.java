@@ -22,7 +22,7 @@ public class EditListDetailsPopUp extends ShareDialog
     protected WebElement cancelButton;
     @FindBy (css = "div[id$='editList-dialog'] a")
     protected WebElement closeButton;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     public void modifyTitle(String newTitle)

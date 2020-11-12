@@ -31,7 +31,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("locateFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("locateDoc%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
@@ -72,7 +72,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " is displayed in Recently added documents list.");
 
         LOG.info("STEP3: Hover over the file name and click 'Locate file' link from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.LOCATE_FILE, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.LOCATE_FILE);
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "User is redirected to location of the created document.");
@@ -97,7 +97,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
             "My Favorites documents are displayed.");
 
         LOG.info("STEP3: Hover over the folder name and click 'Locate folder' link from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.LOCATE_FOLDER, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.LOCATE_FOLDER);
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "User is redirected to location of the created folder.");

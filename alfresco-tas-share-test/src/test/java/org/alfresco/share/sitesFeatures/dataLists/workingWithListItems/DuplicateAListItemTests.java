@@ -21,7 +21,7 @@ public class DuplicateAListItemTests extends ContextAwareWebTest
 {
     @Autowired
     protected EditItemPopUp editItemPopUp;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     private String userName;
     private String siteName;

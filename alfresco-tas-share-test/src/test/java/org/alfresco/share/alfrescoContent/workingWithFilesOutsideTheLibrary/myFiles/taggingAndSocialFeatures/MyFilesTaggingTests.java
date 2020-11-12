@@ -39,7 +39,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private final String myFilesPath = "User Homes/" + user;
 
-    @Autowired
+    //@Autowired
     private MyFilesPage myFilesPage;
     @Autowired
     private EditPropertiesDialog editPropertiesDialog;
@@ -123,7 +123,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.navigate();
 
         LOG.info("STEP1: Click \"Edit Properties\" option");
-        myFilesPage.clickDocumentLibraryItemAction(testFileC7873, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        myFilesPage.clickDocumentLibraryItemAction(testFileC7873, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), testFileC7873),
             "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");

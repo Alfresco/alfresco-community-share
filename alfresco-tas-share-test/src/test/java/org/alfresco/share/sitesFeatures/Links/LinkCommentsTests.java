@@ -20,10 +20,10 @@ import org.testng.annotations.Test;
  */
 public class LinkCommentsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
-    @Autowired
+    //@Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
     @Autowired

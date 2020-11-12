@@ -26,9 +26,9 @@ public class NavigationPanelTests extends ContextAwareWebTest
     private final String folderName = "folder-C7928-" + uniqueId;
     private final String path = "Shared/";
     private final String tag = "tag-" + uniqueId.toLowerCase();
-    @Autowired
+    //@Autowired
     private DocumentsFilters documentsFilters;
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
 
     @BeforeClass (alwaysRun = true)

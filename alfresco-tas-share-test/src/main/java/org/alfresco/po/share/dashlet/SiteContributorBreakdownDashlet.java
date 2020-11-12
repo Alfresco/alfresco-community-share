@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBreakdownDashlet>
 {
     public By tooltipMessage = By.cssSelector("div[id^='tipsyPvBehavior']");
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
     @RenderWebElement
     @FindBy (id = "DASHLET")

@@ -26,7 +26,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     private final String folderName = "folderName";
     private final String videoFile = "Video2.WMV";
     private final String picture = "Lighthouse.jpg";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

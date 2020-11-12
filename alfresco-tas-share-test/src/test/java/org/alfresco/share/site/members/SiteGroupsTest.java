@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
  */
 public class SiteGroupsTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteGroupsPage siteGroupsPage;
 
     @Autowired

@@ -20,10 +20,10 @@ import org.testng.annotations.Test;
 
 public class WikiMainPageTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WikiMainPage wikiPage;
 
-    @Autowired
+    //@Autowired
     EditWikiPage editWikiPage;
 
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());

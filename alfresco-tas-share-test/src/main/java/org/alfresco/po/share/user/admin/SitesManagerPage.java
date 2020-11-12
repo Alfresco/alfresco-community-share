@@ -1,22 +1,19 @@
 package org.alfresco.po.share.user.admin;
 
 import org.alfresco.dataprep.SiteService.Visibility;
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -24,43 +21,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.*;
 
-/**
- * Created by Claudia Agache on 7/1/2016.
- */
-@PageObject
-public class SitesManagerPage extends SharePage<SitesManagerPage> implements AccessibleByMenuBar
+public class SitesManagerPage extends SharePage2<SitesManagerPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    private ListPagination listPagination;
-
-    @Autowired
-    protected SiteManagerDeleteSiteDialog deleteSiteDialog;
-
-    @Autowired
-    protected SiteUsersPage siteUsers;
-
     @RenderWebElement
-    @FindBy (css = "thead .label")
-    private List<WebElement> tableHeadList;
-
+    private By tableHeadList = By.cssSelector("thead .label");
     @RenderWebElement
-    @FindBy (id = "DOCLIB_DOCUMENT_LIST")
-    private WebElement sitesTable;
-
-    @FindAll (@FindBy (css = "tr.alfresco-lists-views-layouts-Row"))
-    private List<WebElement> siteRows;
-
-    @FindAll (@FindBy (css = "div.dijitPopup[style*=visible] td.dijitMenuItemLabel"))
-    private List<WebElement> dropdownOptionsList;
-
+    private By sitesTable = By.id("DOCLIB_DOCUMENT_LIST");
+    private By dropdownOptionsList = By.cssSelector("div.dijitPopup[style*=visible] td.dijitMenuItemLabel");
     private By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
+    private By nextPageButton = By.id("DOCLIB_PAGINATION_MENU_PAGE_FORWARD");
+
+    public SitesManagerPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     @Override
     public String getRelativePath()
@@ -72,7 +48,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     @Override
     public SitesManagerPage navigateByMenuBar()
     {
-        return toolbar.clickSitesManager();
+        return new Toolbar(browser).clickSitesManager();
     }
 
     @Override
@@ -94,7 +70,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     public SitesManagerPage assertSiteManagerPageIsOpened()
     {
         LOG.info("Assert Site Manager page is opened");
-        assertTrue(browser.getCurrentUrl().contains("manage-sites"), "Site Manager page is opened");
+        assertTrue(getBrowser().getCurrentUrl().contains("manage-sites"), "Site Manager page is opened");
         return this;
     }
 
@@ -106,25 +82,20 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
              language.translate("adminTools.siteManager.visibility"),
              language.translate("adminTools.siteManager.imASiteManager"),
              language.translate("adminTools.siteManager.actions")));
-        ArrayList<String> tableHeaderText = tableHeadList.stream().map(WebElement::getText)
+        List<WebElement> tableList = getBrowser().waitUntilElementsVisible(tableHeadList);
+        ArrayList<String> tableHeaderText = tableList.stream().map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));
         assertEquals(tableHeaderText, expectedTableHeader, "All table columns are displayed");
         return this;
     }
 
-    /**
-     * Find a managed site row by name from paginated results.
-     *
-     * @param siteName the required site name
-     * @return the managed site row
-     */
     public WebElement findManagedSiteRowByNameFromPaginatedResults(String siteName)
     {
         do
         {
-            browser.waitUntilElementIsPresent(siteRowsElements);
-            browser.waitUntilElementVisible(siteRowsElements);
-            List<WebElement> siteList = browser.findElements(siteRowsElements);
+            getBrowser().waitUntilElementIsPresent(siteRowsElements);
+            getBrowser().waitUntilElementVisible(siteRowsElements);
+            List<WebElement> siteList = getBrowser().findElements(siteRowsElements);
             for(WebElement siteRow : siteList)
             {
                 if(siteRow.getText().contains(siteName))
@@ -132,9 +103,9 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
                     return siteRow;
                 }
             }
-            if(listPagination.hasNextPage())
+            if(hasNextPage())
             {
-                listPagination.clickNextButton();
+                clickNextButton();
                 waiUntilLoadingMessageDisappears();
             }
             else
@@ -142,18 +113,31 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
                 break;
             }
         }
-        while (browser.findElements(siteRowsElements).size() > 0);
+        while (getBrowser().findElements(siteRowsElements).size() > 0);
         return null;
+    }
+
+    public boolean hasNextPage()
+    {
+        return getBrowser().findElement(nextPageButton).getAttribute("aria-disabled").equals("false");
+    }
+
+    public void clickNextButton()
+    {
+        if (hasNextPage())
+        {
+            getBrowser().waitUntilElementClickable(nextPageButton).click();
+        }
     }
 
     public boolean isSitesTableDisplayed()
     {
-        return browser.isElementDisplayed(sitesTable);
+        return getBrowser().isElementDisplayed(sitesTable);
     }
 
     public ManagerSiteAction usingSite(String site)
     {
-        return new ManagerSiteAction(this, site, deleteSiteDialog);
+        return new ManagerSiteAction(this, site, new SiteManagerDeleteSiteDialog(browser));
     }
 
     public ManagerSiteAction usingSite(SiteModel site)
@@ -179,6 +163,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             this.sitesManagerPage = sitesManagerPage;
             this.siteName = siteName;
             this.deleteSiteDialog = deleteSiteDialog;
+
             LOG.info(String.format("Using site: %s", siteName));
         }
 
@@ -204,7 +189,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         private void clickActionsButton()
         {
             WebElement actionsButton = getSiteRow().findElement(siteRowActionsButton);
-            browser.mouseOver(actionsButton);
+            getBrowser().mouseOver(actionsButton);
             actionsButton.click();
         }
 
@@ -212,13 +197,13 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             LOG.info("Become site manager");
             clickActionsButton();
-            browser.waitUntilElementsVisible(dropdownOptionsList);
-            WebElement becomeBtn = browser.findFirstElementWithValue(dropdownOptionsList,
+            getBrowser().waitUntilElementsVisible(dropdownOptionsList);
+            WebElement becomeBtn = getBrowser().findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
-            browser.mouseOver(becomeBtn);
+            getBrowser().mouseOver(becomeBtn);
             becomeBtn.click();
             sitesManagerPage.waiUntilLoadingMessageDisappears();
-            browser.waitUntilChildElementIsPresent(getSiteRow(), siteRowSiteManager);
+            getBrowser().waitUntilChildElementIsPresent(getSiteRow(), siteRowSiteManager);
             if(getSiteRow().findElement(siteRowSiteManager).getText().equals(language.translate("adminTools.siteManager.no")))
             {
                 LOG.error("Retry action Become Site Manager");
@@ -249,7 +234,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             LOG.info("Click Delete");
             clickActionsButton();
-            browser.findFirstElementWithValue(dropdownOptionsList,
+            getBrowser().findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.deleteSite")).click();
             deleteSiteDialog.renderedPage();
             return deleteSiteDialog;
@@ -261,7 +246,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             clickDelete();
             deleteSiteDialog.clickDeleteFromSitesManager();
             sitesManagerPage.waiUntilLoadingMessageDisappears();
-            browser.waitUntilElementDisappears(getSiteRow());
+            getBrowser().waitUntilElementDisappears(getSiteRow());
             return this;
         }
 
@@ -271,11 +256,11 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
             getSiteRow().findElement(siteRowVisibility).click();
-            browser.waitUntilElementsVisible(dropdownOptionsList);
-            WebElement option = browser.findFirstElementWithValue(dropdownOptionsList, visibilityValue);
-            browser.waitUntilElementClickable(option);
-            browser.clickJS(option);
-            browser.waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
+            getBrowser().waitUntilElementsVisible(dropdownOptionsList);
+            WebElement option = getBrowser().findFirstElementWithValue(dropdownOptionsList, visibilityValue);
+            getBrowser().waitUntilElementClickable(option);
+            getBrowser().clickJS(option);
+            getBrowser().waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
 
             return this;
         }
@@ -293,7 +278,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         public ManagerSiteAction assertSuccessIndicatorIsDisplayed()
         {
             LOG.info("Assert success indicator is displayed");
-            assertTrue(browser.isElementDisplayed(getSiteRow().findElement(successIndicator)), "Success indicator is displayed");
+            assertTrue(getBrowser().isElementDisplayed(getSiteRow().findElement(successIndicator)), "Success indicator is displayed");
             return this;
         }
 
@@ -308,7 +293,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             LOG.info("Assert Become site manager option is available");
             getSiteRow().findElement(siteRowActionsButton).click();
-            assertTrue(browser.isElementDisplayed(browser.findFirstElementWithValue(dropdownOptionsList,
+            assertTrue(getBrowser().isElementDisplayed(getBrowser().findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"))));
             return this;
         }
@@ -317,7 +302,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             LOG.info("Assert Become site manager option is NOT available");
             getSiteRow().findElement(siteRowActionsButton).click();
-            assertFalse(browser.isElementDisplayed( browser.findFirstElementWithValue(dropdownOptionsList,
+            assertFalse(getBrowser().isElementDisplayed( getBrowser().findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"))));
             return this;
         }
@@ -326,7 +311,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             LOG.info("Assert Delete Site option is available");
             getSiteRow().findElement(siteRowActionsButton).click();
-            assertTrue(browser.isElementDisplayed( browser.findFirstElementWithValue(dropdownOptionsList,
+            assertTrue(getBrowser().isElementDisplayed(getBrowser().findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.deleteSite"))));
             return this;
         }
@@ -335,7 +320,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             LOG.info("Assert Delete Site option is NOT available");
             getSiteRow().findElement(siteRowActionsButton).click();
-            assertFalse(browser.isElementDisplayed( browser.findFirstElementWithValue(dropdownOptionsList,
+            assertFalse(getBrowser().isElementDisplayed(getBrowser().findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.deleteSite"))));
             return this;
         }
@@ -344,7 +329,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             LOG.info("Click Site Name");
             getSiteRow().findElement(siteRowName).click();
-            return (SiteUsersPage) siteUsers.renderedPage();
+            return (SiteUsersPage) new SiteUsersPage(browser).renderedPage();
         }
     }
 }

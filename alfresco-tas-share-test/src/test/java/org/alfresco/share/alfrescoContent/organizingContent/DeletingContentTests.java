@@ -36,9 +36,9 @@ public class DeletingContentTests extends ContextAwareWebTest
     private final String folderPathInRepository = "Sites/" + siteName + "/documentLibrary/";
     @Autowired
     Notification notification;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
@@ -66,12 +66,12 @@ public class DeletingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP1: Hover over the file STEP2: Click 'More...' link. Click 'Delete Document' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.DELETE_DOCUMENT, deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.DELETE_DOCUMENT);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), docName));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
 //        assertEquals(notification.getDisplayedNotification(), String.format(language.translate("documentLibrary.deletedNotification"), docName), "'testDoc' was deleted pop-up is displayed.");
 
         LOG.info("STEP4: Verify that the file was deleted");
@@ -87,12 +87,12 @@ public class DeletingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP1: Hover over the file. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderNameD, ItemActions.DELETE_FOLDER, deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderNameD, ItemActions.DELETE_FOLDER);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderNameD));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
 //        assertEquals(notification.getDisplayedNotification(), String.format(language.translate("documentLibrary.deletedNotification"), folderNameD), "'delFolder' was deleted pop-up is displayed.");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderNameD), "Documents item list is refreshed and is empty");
         assertFalse(documentLibraryPage.getExplorerPanelDocuments().contains(folderNameD), "'DelFolder' is not visible in 'Library' section of the browsing pane.");
@@ -109,7 +109,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickFolderFromExplorerPanel(folderNameC);
 
         LOG.info("STEP1: Hover 'DelSubfolder' name from the content item list. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        documentLibraryPage.clickDocumentLibraryItemAction(subFolder, ItemActions.DELETE_FOLDER, deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(subFolder, ItemActions.DELETE_FOLDER);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), subFolder));
 

@@ -28,7 +28,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
     private final DateTime currentDate = new DateTime();
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;

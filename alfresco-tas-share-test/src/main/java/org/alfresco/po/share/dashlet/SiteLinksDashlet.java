@@ -21,10 +21,10 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @PageObject
 public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
 {
-    @Autowired
+    //@Autowired
     CreateLinkPage createLinkPage;
 
-    @Autowired
+    //@Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
     @RenderWebElement

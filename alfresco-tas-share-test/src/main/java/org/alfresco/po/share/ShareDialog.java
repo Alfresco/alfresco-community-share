@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public abstract class ShareDialog extends SharePageObject
 {
-    @Autowired
+    //@Autowired
     public Toolbar toolbar;
 
     @FindBy (css = "div.dijitDialog:not([style*='display: none']) .dijitDialogCloseIcon," +

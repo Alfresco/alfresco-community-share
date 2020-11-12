@@ -2,70 +2,43 @@ package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.utility.Utility;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-import java.util.List;
-
-/**
- * @author Laura.Capsa
- */
-@PageObject
 public class TagManagerPage extends AdminToolsPage
 {
-    private final By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
-    private final By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
+    private DeleteDialog deleteDialog;
+    private EditTagDialog editTagDialog;
+
+    private By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
+    private By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
+    private By tableTitle = By.cssSelector(".tags-List>.title");
+    private By loadingTagsMessage = By.cssSelector("div[class='dashlet tags-List'] .yui-dt-message");
+    private By tableHead = By.cssSelector(".dashlet thead");
+    private By nextLink = By.cssSelector("a[id*='next-link']");
+    private By nextLinkDisabled = By.cssSelector("span[id*='next-span']");
+    private By previousLink = By.cssSelector("a[id*='prev-link']");
+    private By previousLinkDisabled = By.cssSelector("span[id*='prev-span']");
+    private By pagesList = By.cssSelector("div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page");
+    private By currentPage = By.cssSelector("span[class*='current-page']");
+    @RenderWebElement
+    private By searchInput = By.cssSelector("input[id*='search']");
+    @RenderWebElement
+    private By searchButton = By.cssSelector("button[id*='search']");
+    private By noFoundMessage = By.cssSelector("div[class='tags-list-info']");
 
     private String tagRow = "//b[text()='%s']/../../../../..";
 
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private EditTagDialog editTagDialog;
-
-    @FindBy (css = ".tags-List>.title")
-    private WebElement tableTitle;
-
-    @FindBy (css = "div[class='dashlet tags-List'] .yui-dt-message")
-    private WebElement loadingTagsMessage;
-
-    @FindBy (css = ".dashlet thead")
-    private WebElement tableHead;
-
-    @FindBy (css = "a[id*='next-link']")
-    private WebElement nextLink;
-
-    @FindBy (css = "span[id*='next-span']")
-    private WebElement nextLinkDisabled;
-
-    @FindBy (css = "a[id*='prev-link']")
-    private WebElement previousLink;
-
-    @FindBy (css = "span[id*='prev-span']")
-    private WebElement previousLinkDisabled;
-
-    @FindBy (css = "div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page")
-    private List<WebElement> pagesList;
-
-    @FindBy (css = "span[class*='current-page']")
-    private WebElement currentPage;
-
-    @RenderWebElement
-    @FindBy (css = "input[id*='search']")
-    private WebElement searchInput;
-
-    @RenderWebElement
-    @FindBy (css = "button[id*='search']")
-    private WebElement searchButton;
-
-    @FindBy (css = "div[class='tags-list-info']")
-    private WebElement noFoundMessage;
+    public TagManagerPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+        deleteDialog = new DeleteDialog(browser);
+        editTagDialog = new EditTagDialog(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -73,54 +46,44 @@ public class TagManagerPage extends AdminToolsPage
         return "share/page/console/admin-console/tag-management";
     }
 
-    /**
-     * Click 'Edit Tag' icon for a tag
-     *
-     * @param tag to be edited
-     * @return the edit tag dialog
-     */
     public EditTagDialog clickEdit(String tag)
     {
         LOG.info(String.format("Click edit for tag: %s", tag));
         WebElement tagRow = getTagRow(tag);
-        browser.mouseOver(searchInput);
-        browser.mouseOver(tagRow);
-        browser.waitUntilElementVisible(editIconSelector);
-        browser.waitUntilElementVisible(tagRow.findElement(editIconSelector)).click();
+        getBrowser().mouseOver(getBrowser().findElement(searchInput));
+        getBrowser().mouseOver(tagRow);
+        getBrowser().waitUntilElementVisible(editIconSelector);
+        getBrowser().waitUntilElementVisible(tagRow.findElement(editIconSelector)).click();
+
         return (EditTagDialog) editTagDialog.renderedPage();
     }
 
-    /**
-     * Click 'Delete Tag' icon for a tag
-     *
-     * @param tag to be deleted
-     * @return the delete tag dialog
-     */
     public DeleteDialog clickDelete(String tag)
     {
         LOG.info(String.format("Click delete for tag: %s", tag));
         WebElement tagRow = getTagRow(tag);
-        browser.mouseOver(searchInput);
-        browser.mouseOver(tagRow);
-        browser.waitUntilElementVisible(tagRow.findElement(deleteIconSelector)).click();
+        getBrowser().mouseOver(getBrowser().findElement(searchInput));
+        getBrowser().mouseOver(tagRow);
+        getBrowser().waitUntilElementVisible(tagRow.findElement(deleteIconSelector)).click();
+
         return (DeleteDialog) deleteDialog.renderedPage();
     }
 
     private WebElement getTagRow(String tagName)
     {
-        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(tagRow, tagName)), 1, WAIT_30);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(tagRow, tagName)), 1, WAIT_30);
     }
 
     public boolean isTagDisplayed(String tagName)
     {
-        return browser.isElementDisplayed(By.xpath(String.format(tagRow, tagName)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(tagRow, tagName)));
     }
 
     private TagManagerPage clickNextPage()
     {
-        if (!currentPage.getText().equals(Integer.toString(pagesList.size())))
+        if (!getElementText(currentPage).equals(Integer.toString(getBrowser().findElements(pagesList).size())))
         {
-            nextLink.click();
+            clickElement(nextLink);
         }
         return (TagManagerPage) this.renderedPage();
     }
@@ -128,36 +91,31 @@ public class TagManagerPage extends AdminToolsPage
     public TagManagerPage assertSearchButtonIsDisplayed()
     {
         LOG.info("Assert Search button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        Assert.assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public TagManagerPage assertSearchInputFieldDisplayed()
     {
         LOG.info("Assert Search input is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(searchInput), "Search input is displayed");
+        Assert.assertTrue(getBrowser().isElementDisplayed(searchInput), "Search input is displayed");
         return this;
     }
 
     public TagManagerPage assertTableTitleIsCorrect()
     {
         LOG.info(String.format("Assert tags table title is: %s", language.translate("tagManager.tableTitle")));
-        Assert.assertEquals(tableTitle.getText(), language.translate("tagManager.tableTitle"), "Table title");
+        Assert.assertEquals(getElementText(tableTitle), language.translate("tagManager.tableTitle"), "Table title");
         return this;
     }
 
     public TagManagerPage assertTableHeadersAreCorrect()
     {
         LOG.info("Assert tag table headers are correct");
-        Assert.assertEquals(tableHead.getText(), language.translate("tagManager.tableHead"), "Table headers");
+        Assert.assertEquals(getElementText(tableHead), language.translate("tagManager.tableHead"), "Table headers");
         return this;
     }
 
-    /**
-     * Search by a specific tag name
-     *
-     * @param tagName - tag name
-     */
     public TagManagerPage searchTagWithRetry(String tagName)
     {
         LOG.info(String.format("Search for tag: %s", tagName));
@@ -177,17 +135,18 @@ public class TagManagerPage extends AdminToolsPage
 
     private void clickSearchAndWaitForTagTableToBeLoaded()
     {
-        browser.mouseOver(searchButton);
-        browser.clickJS(searchButton);
-        if(!browser.isElementDisplayed(noFoundMessage))
+        WebElement search = getBrowser().findElement(searchButton);
+        getBrowser().mouseOver(search);
+        getBrowser().clickJS(search);
+        if(!getBrowser().isElementDisplayed(noFoundMessage))
         {
-            browser.waitUntilElementHasAttribute(loadingTagsMessage, "style", "display: none;");
+            getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(loadingTagsMessage), "style", "display: none;");
         }
     }
 
     public TagManagerPage search(String tagName)
     {
-        browser.waitUntilElementVisible(searchInput);
+        getBrowser().waitUntilElementVisible(searchInput);
         clearAndType(searchInput, tagName);
         clickSearchAndWaitForTagTableToBeLoaded();
         return (TagManagerPage) this.renderedPage();

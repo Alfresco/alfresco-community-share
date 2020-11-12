@@ -3,7 +3,6 @@ package org.alfresco.po.share.alfrescoContent.aspects;
 import java.util.List;
 
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
@@ -152,11 +151,10 @@ public class AspectsForm extends ShareDialog
         }
     }
 
-    public HtmlPage clickApplyChangesButton(HtmlPage pageToBeRendered)
+    public void clickApplyChangesButton()
     {
         saveButton.click();
-        waitUntilMessageDisappears();
-        return pageToBeRendered.renderedPage();
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickCloseButton()

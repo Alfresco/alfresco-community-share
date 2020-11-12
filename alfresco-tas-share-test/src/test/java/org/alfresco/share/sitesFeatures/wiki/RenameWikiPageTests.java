@@ -23,13 +23,13 @@ import org.testng.annotations.Test;
  */
 public class RenameWikiPageTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WikiMainPage wikiMainPage;
 
     @Autowired
     RenameWikiMainPagePopup renameWikiMainPage;
 
-    @Autowired
+    //@Autowired
     WikiListPage wikiListPage;
 
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());

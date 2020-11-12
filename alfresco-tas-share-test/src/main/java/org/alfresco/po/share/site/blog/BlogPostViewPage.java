@@ -1,33 +1,32 @@
 package org.alfresco.po.share.site.blog;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
+import java.util.ArrayList;
+import java.util.List;
+
 public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
     public By commentText = By.cssSelector("div[class ='comment-content'] p");
     @FindBy (xpath = "//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']")
     public WebElement noCommentsText;
-    @Autowired
+    //@Autowired
     CreateBlogPostPage createBlogPostPage;
-    @Autowired
+    //@Autowired
     BlogPostListPage blogPostListPage;
-    @Autowired
+    //@Autowired
     EditBlogPostPage editBlogPostPage;
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
-    @Autowired
+    //@Autowired
     BlogPromptWindow blogPromptWindow;
     @RenderWebElement
     @FindBy (css = "div[id*='_blog-postview'] div.nodeTitle>a")
@@ -54,6 +53,11 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     private By commentAuthorName = By.xpath("//span[@class = 'info']/a");
     private By editCommentButton = By.xpath("//a[@title='Edit Comment']");
     private By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
+
+    public BlogPostViewPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     @Override
     public String getRelativePath()
@@ -154,7 +158,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     private WebElement selectComment(String user)
     {
-        return browser.findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
+        return getBrowser().findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
     }
 
     /**
@@ -196,8 +200,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
      */
     public void clickEditComment(String user)
     {
-        browser.mouseOver(selectComment(user));
-        browser.findElement(editCommentButton).click();
+        getBrowser().mouseOver(selectComment(user));
+        getBrowser().findElement(editCommentButton).click();
     }
 
     /**
@@ -205,8 +209,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
      */
     public DeleteDialog clickDeleteComment(String user)
     {
-        browser.mouseOver(selectComment(user));
-        browser.findElement(deleteCommentButton).click();
+        getBrowser().mouseOver(selectComment(user));
+        getBrowser().findElement(deleteCommentButton).click();
         return (DeleteDialog) deleteDialog.renderedPage();
     }
 

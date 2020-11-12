@@ -22,7 +22,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     @Autowired
     SiteSearchDashlet siteSearchDashlet;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());

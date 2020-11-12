@@ -14,13 +14,13 @@ import org.testng.annotations.Test;
 
 public class SettingHomePageTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
 
-    @Autowired
+    //@Autowired
     private PeopleFinderPage peopleFinderPage;
 
-    @Autowired
+    //@Autowired
     private UserProfilePage userProfilePage;
 
     private UserModel user;

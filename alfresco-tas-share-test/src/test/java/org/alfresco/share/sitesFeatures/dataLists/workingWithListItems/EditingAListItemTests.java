@@ -31,7 +31,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     protected EditItemPopUp editItemPopUp;
     @Autowired
     DataListsService dataLists;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     private String userName;
     private String siteName;

@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
  */
 public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
 {
-    @Autowired
+    ///@Autowired
     TopicListPage topicListPage;
     private DateTime today;
     private DateTime eightDaysAgo;

@@ -25,10 +25,10 @@ import org.testng.annotations.BeforeClass;
  */
 public class CreateNewWebQuickStartTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
     @Autowired
@@ -37,7 +37,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     @Autowired
     MyTasksDashlet myTasksDashlet;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -76,7 +76,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Section Structure' from the drop-down list.");
@@ -90,7 +90,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -112,7 +112,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Web Assets' from the drop-down list.");
@@ -126,7 +126,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");

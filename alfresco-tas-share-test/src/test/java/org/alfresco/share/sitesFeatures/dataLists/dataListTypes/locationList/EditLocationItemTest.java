@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
  */
 public class EditLocationItemTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     @Autowired

@@ -13,10 +13,10 @@ import org.testng.annotations.Test;
 
 public class PeopleFinderPageTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     PeopleFinderPage peopleFinderPage;
 
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
 
     @Autowired

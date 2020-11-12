@@ -24,13 +24,13 @@ import org.testng.annotations.Test;
  */
 public class ActionsManagePermissionsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     RepositoryPage repositoryPage;
 
-    @Autowired
+    //@Autowired
     ManagePermissionsPage managePermissionsPage;
 
-    @Autowired
+    //@Autowired
     EditInAlfrescoPage editInAlfrescoPage;
 
     @Autowired
@@ -101,8 +101,8 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(userName), userName + " is not displayed in Repository Page");
         LOG.info("Step 3: Click Manage Permissions link in More menu for user's home folder;");
-        repositoryPage.clickDocumentLibraryItemAction(userName, ItemActions.MANAGE_REPO_PERMISSIONS,
-                managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(userName, ItemActions.MANAGE_REPO_PERMISSIONS
+        );
         LOG.info("Step 4: Verify Manage Permissions page");
         Assert.assertTrue(managePermissionsPage.isAddUserGroupButtonDisplayed(), "Add User/Group button is not displayed");
         Assert.assertTrue(managePermissionsPage.isTheSaveButtonDisplayed(), "The Save button is not displayed");
@@ -124,7 +124,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         LOG.info("Preconditions: ");
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS);
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202758_1);
         managePermissionsPage.clickSearchButton();
@@ -143,8 +143,8 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         setupAuthenticatedSession(userC202758_1, password);
         repositoryPage.navigate();
         LOG.info("Step 2: Click Manage Permissions link in More menu for " + folderName + " folder");
-        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS,
-                managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS
+        );
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser1).contains("Coordinator"));
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser2).contains("Coordinator"));
         LOG.info("Step 3: Change User2 role to \"Consumer\"");
@@ -176,7 +176,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         String updateContent = "Updated test content for C202776";
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        repositoryPage.clickDocumentLibraryItemAction(folderC202776, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(folderC202776, ItemActions.MANAGE_REPO_PERMISSIONS);
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202776);
         managePermissionsPage.clickSearchButton();
@@ -192,7 +192,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         LOG.info("Step 2: On the Repository page click on TestFolder");
         repositoryPage.clickOnFolderName(folderC202776);
         LOG.info("Step 3: Mouseover TestSubfolder and click on Manage Permissions action");
-        repositoryPage.clickDocumentLibraryItemAction(subFolderC202776, ItemActions.MANAGE_REPO_PERMISSIONS, managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(subFolderC202776, ItemActions.MANAGE_REPO_PERMISSIONS);
         LOG.info("Step 4: Check inherited permissions");
         Assert.assertTrue(managePermissionsPage.getInheritedPermissions(identifierUser1).contains("Coordinator"));
         LOG.info("Step 5: Return to Repository, TestSubfolder and check available actions for TestFile");
@@ -202,7 +202,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         List<String> expectedActions = Arrays.asList("Edit in Google Docs™", "Edit Properties", "Edit in Alfresco Share", "Edit Offline", "Delete Document");
         Assert.assertTrue(repositoryPage.areActionsAvailableForLibraryItem(fileNameC202776, expectedActions), "Expected actions");
         LOG.info("Step 6: Edit TestFile and save changes");
-        repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, ItemActions.EDIT_IN_ALFRESCO);
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "User is not on Edit In Alfresco page");
         editInAlfrescoPage.typeContent(updateContent);
         editInAlfrescoPage.clickSaveButton();

@@ -14,13 +14,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/// **
-// * Created by Gabriela Virna on 7/01/2016.
-// */
-//
 public class ReviewingSiteMembersTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteUsersPage siteUsersPage;
 
     private String user1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());

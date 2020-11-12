@@ -25,7 +25,7 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     protected HtmlElement dashletContainer;
     @Autowired
     TinyMceEditor tinyMceEditor;
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
     @FindBy (css = "div[class*='notice-dashlet'] div[class*='edit']")
     private WebElement editIcon;

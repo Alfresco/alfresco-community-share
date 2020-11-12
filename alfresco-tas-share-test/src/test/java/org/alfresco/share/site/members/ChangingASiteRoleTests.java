@@ -34,16 +34,16 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     @Autowired
     DataGroup dataGroup;
 
-    @Autowired
+   // @Autowired
     SiteGroupsPage siteGroupsPage;
 
-    @Autowired
+   // @Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired
     SiteMembersDashlet siteMembersDashlet;
 
-    @Autowired
+    //@Autowired
     SiteUsersPage siteUsersPage;
 
     UserModel manager, testUser;

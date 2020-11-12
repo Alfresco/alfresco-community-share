@@ -3,6 +3,7 @@ package org.alfresco.po.share.site.wiki;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -10,19 +11,18 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 
-@PageObject
 public class WikiMainPage extends SiteCommon<WikiMainPage>
 {
-    @Autowired
+    //@Autowired
     EditWikiPage editWikiPage;
 
-    @Autowired
+    //@Autowired
     CreateWikiPage createWikiPage;
 
-    @Autowired
+    //@Autowired
     WikiListPage wikiListPage;
 
-    @Autowired
+    //@Autowired
     WikiDetailsPage wikiDetailsPage;
 
     @RenderWebElement
@@ -75,6 +75,11 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     private String imageLink = "//img[contains(@src,'";
 
+    public WikiMainPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     /**
      * Click on Edit Page link from Wiki main page
      *
@@ -83,7 +88,6 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     public EditWikiPage clickEditPageLink()
     {
         wikiEditPageLink.click();
-        browser.waitInSeconds(2);
         return (EditWikiPage) editWikiPage.renderedPage();
     }
 
@@ -95,8 +99,6 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public String getWikiPageContent()
     {
-
-        browser.waitInSeconds(2);
         return wikiPageContent.getText();
     }
 
@@ -129,7 +131,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
         String image1 = imageLink + imageName + "')]";
         String image = StringUtils.deleteWhitespace(image1);
-        return browser.isElementDisplayed(By.xpath(image));
+        return getBrowser().isElementDisplayed(By.xpath(image));
     }
 
     public boolean clickOnRenameWikiMainPageButton()
@@ -140,7 +142,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public String getWikiMainPageTitle()
     {
-        browser.waitUntilElementVisible(wikiMainPageTtitle);
+        getBrowser().waitUntilElementVisible(wikiMainPageTtitle);
         return wikiMainPageTtitle.getText();
     }
 

@@ -13,7 +13,6 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 
@@ -37,8 +36,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     private final String docContent = "content of the file.";
     private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
     @Autowired
-    AdminToolsPage adminToolsPage;
-    @Autowired
     ModelManagerPage modelManagerPage;
     @Autowired
     CreateModelDialogPage createModelDialogPage;
@@ -46,13 +43,13 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     ModelDetailsPage modelDetailsPage;
     @Autowired
     CreateCustomTypeDialog createCustomTypeDialog;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private ChangeContentTypeDialog changeContentTypeDialog;
-    @Autowired
+    //@Autowired
     private EditPropertiesPage editPropertiesPage;
 
     @BeforeClass (alwaysRun = true)
@@ -108,7 +105,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 
         LOG.info("STEP1: Verify folder's Properties list from 'Folder Actions' section");

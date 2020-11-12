@@ -30,9 +30,9 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     CreateContentPage create;
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private SocialFeatures social;
 
     @BeforeClass (alwaysRun = true)

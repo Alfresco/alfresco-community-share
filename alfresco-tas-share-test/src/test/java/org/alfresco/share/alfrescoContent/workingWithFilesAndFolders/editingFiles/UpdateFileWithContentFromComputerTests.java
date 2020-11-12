@@ -23,13 +23,13 @@ import org.testng.annotations.Test;
 public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
 {
 
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+   //@Autowired
     private UploadFileDialog uploadFileDialog;
-    @Autowired
+   // @Autowired
     private UploadContent uploadContent;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
@@ -65,7 +65,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1: Click 'Upload new version' action for the test file");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.UPLOAD_NEW_VERSION, uploadFileDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("Step2 - Click on 'Select files to upload' button, browse to the new version of the test file and select it. Click 'Upload' button.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
         LOG.info("Step3 - Check the new title of the file displayed in Document Library.");

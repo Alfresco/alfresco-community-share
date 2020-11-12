@@ -25,17 +25,17 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
     private final String testFilePath = testDataFolder + testFile;
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+   // @Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private SiteDashboardPage sitePage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private NewFolderDialog newContentDialog;
-    @Autowired
+    //@Autowired
     private UploadContent uploadContent;
-    @Autowired
+    //@Autowired
     private SocialFeatures social;
 
     @TestRail (id = "C12839")
@@ -47,7 +47,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
         assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
@@ -75,7 +75,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         myFilesPage.clickCreateButton();
         myFilesPage.clickFolderLink();
@@ -106,7 +106,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
         assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
@@ -134,7 +134,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         myFilesPage.clickCreateButton();
         myFilesPage.clickFolderLink();
@@ -166,7 +166,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
         getBrowser().refresh();
@@ -181,7 +181,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
 
         LOG.info("STEP3: Navigate to My Files page.");
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         assertEquals(social.getNumberOfComments(testFile), 1, "Number of comments=");
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
@@ -197,7 +197,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         myFilesPage.clickCreateButton();
         myFilesPage.clickFolderLink();
@@ -215,7 +215,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
 
         LOG.info("STEP3: Navigate to My Files page");
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);

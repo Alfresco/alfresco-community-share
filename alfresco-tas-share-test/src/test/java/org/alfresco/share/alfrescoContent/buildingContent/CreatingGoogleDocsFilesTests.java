@@ -22,7 +22,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     private final String documentTitle = "testDocument";
     private final String spreadsheetTitle = "testSpreadsheet";
     private final String presentationTitle = "testPresentation";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private GoogleDocsCommon googleDocs;

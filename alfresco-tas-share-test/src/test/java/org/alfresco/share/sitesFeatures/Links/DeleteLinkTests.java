@@ -25,10 +25,10 @@ import org.testng.annotations.Test;
  */
 public class DeleteLinkTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
-    @Autowired
+   // @Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
     @Autowired

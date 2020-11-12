@@ -25,7 +25,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("Folder%s", RandomData.getRandomAlphanumeric());
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     @Autowired
     CreateNewItemPopUp createNewItemPopUp;

@@ -2,39 +2,24 @@ package org.alfresco.share.adminTools.application;
 
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.user.admin.adminTools.ApplicationPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * UI tests for Admin Tools > Application page
- */
-public class ApplicationTests extends ContextAwareWebTest
+public class ApplicationTests extends BaseShareWebTests
 {
-    @Autowired
     private ApplicationPage applicationPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    @BeforeMethod(alwaysRun = true)
+    public void beforeTest()
     {
+        applicationPage = new ApplicationPage(browser);
+
         setupAuthenticatedSession(getAdminUser());
         applicationPage.navigate();
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void afterClass()
-    {
-        applicationPage.selectTheme(Theme.LIGHT);
-        if (!applicationPage.isAlfrescoDefaultImageDisplayed())
-        {
-            applicationPage.resetImageToDefault();
-        }
-        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C9292")
@@ -55,9 +40,16 @@ public class ApplicationTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void changeTheme()
     {
-        applicationPage.selectTheme(Theme.YELLOW)
-            .assertThemeOptionIsSelected(Theme.YELLOW)
-            .assertBodyContainsTheme(Theme.YELLOW);
+        try
+        {
+            applicationPage.selectTheme(Theme.YELLOW)
+                .assertThemeOptionIsSelected(Theme.YELLOW)
+                .assertBodyContainsTheme(Theme.YELLOW);
+        }
+        finally
+        {
+            applicationPage.selectTheme(Theme.LIGHT);
+        }
     }
 
     @TestRail (id = "C299219")

@@ -27,7 +27,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     private final String folderName = "testFolder";
     @Autowired
     PreviewFileActionsSection documentActions;
-    @Autowired
+   // @Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
@@ -61,7 +61,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
         LOG.info("Step 3: Click View In Browser.");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_IN_BROWSER, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_IN_BROWSER);
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
             "File content is not correct or file has not be opened in new window");
     }

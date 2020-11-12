@@ -19,13 +19,13 @@ import static org.testng.Assert.assertTrue;
  */
 public class BecomeSiteManagerTest extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     SiteDashboardPage siteDashboard;
 
-    @Autowired
+   // @Autowired
     SiteUsersPage siteUsers;
 
-    @Autowired
+    //@Autowired
     SitesManagerPage sitesManager;
 
     private String uniqueIdentifier;
@@ -141,7 +141,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
             "'Customize site' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
 
         LOG.info("STEP 2: Click on 'Become Site Manager' action. Click again 'Site configuration options' icon.");
-        siteDashboard.clickOptionInSiteConfigurationDropDown("Become Site Manager", siteDashboard);
+        siteDashboard.clickOptionInSiteConfigurationDropDown("Become Site Manager");
         siteDashboard.waitUntilNotificationMessageDisappears();
         siteDashboard.clickSiteConfiguration();
 

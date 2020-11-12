@@ -27,11 +27,11 @@ public class ViewingAFileTests extends ContextAwareWebTest
     private final DateTime currentDate = new DateTime();
     @Autowired
     private DocumentDetailsPage documentPreviewPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private PreviewFileActionsSection fileActions;
-    @Autowired
+    //@Autowired
     private UserDashboardPage userDashboard;
 
     @BeforeClass (alwaysRun = true)

@@ -1,49 +1,31 @@
 package org.alfresco.po.share;
 
-import java.util.List;
-
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextBlock;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
-@PageObject
-public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements AccessibleByMenuBar
+import static org.testng.Assert.assertTrue;
+
+public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements AccessibleByMenuBar
 {
-    @FindAll (@FindBy (css = "tbody[class='yui-dt-data'] tr"))
-    protected List<WebElement> searchResultsList;
-
-    @Autowired
-    UserProfilePage userProfilePage;
+    private By searchResultsList = By.cssSelector("tbody[class='yui-dt-data'] tr");
 
     @RenderWebElement
-    @FindBy (css = "input[id$='default-search-text']")
-    private TextInput searchInputField;
-
-    @FindBy (css = "button[id$='default-search-button-button']")
-    private Button searchButton;
-
-    @FindBy (css = "[id*='default-help']")
-    private TextBlock searchHelpMessage;
-
-    @FindBy (css = "[id*='default-results-info']")
-    private TextBlock searchResultsInfo;
-
-    @FindBy (css = ".yui-dt-empty")
-    private TextBlock noResults;
-
+    private By searchInputField = By.cssSelector("input[id$='default-search-text']");
+    private By searchButton = By.cssSelector("button[id$='default-search-button-button']");
+    private By searchHelpMessage = By.cssSelector("[id*='default-help']");
+    private By searchResultsInfo = By.cssSelector("[id*='default-results-info']");
+    private By noResults = By.cssSelector(".yui-dt-empty");
     private By avatar = By.cssSelector(".avatar");
+
+    public PeopleFinderPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     @Override
     public String getRelativePath()
@@ -55,109 +37,87 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
     @Override
     public PeopleFinderPage navigateByMenuBar()
     {
-        return toolbar.clickPeople();
+        return (PeopleFinderPage) new Toolbar(browser).clickPeople().renderedPage();
     }
 
     public PeopleFinderPage assertPeopleFinderPageIsOpened()
     {
-        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "People finder page is opened");
+        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "People finder page is opened");
         return this;
     }
 
-    /**
-     * Type searchInput
-     *
-     * @param searchInput
-     */
     public void typeSearchInput(String searchInput)
     {
-        Utils.clearAndType(searchInputField, searchInput);
+        clearAndType(getBrowser().findElement(searchInputField), searchInput);
     }
 
-    /**
-     * Click Search button
-     */
     public void clickSearch()
     {
-        searchButton.click();
+        getBrowser().waitUntilElementClickable(searchButton).click();
     }
 
-    /**
-     * Click Search button
-     */
     public void clickSearchAndWaitForResults()
     {
-        browser.waitUntilElementClickable(searchButton.getWrappedElement(), properties.getImplicitWait());
-        searchButton.click();
-        browser.waitInSeconds(5);
-        int i = 0;
+        getBrowser().waitUntilElementClickable(searchButton).click(); //TODO redo method search and wait for results
+        /*int i = 0;
+
         while ((searchResultsList.size() == 0 || browser.isElementDisplayed(noResults.getWrappedElement())) && i < 5)
         {
             searchButton.click();
             browser.waitInSeconds(5);
             i++;
-        }
+        }*/
     }
 
-    /**
-     * Search for people
-     *
-     * @param searchInput
-     */
     public void search(String searchInput)
     {
         typeSearchInput(searchInput);
         clickSearchAndWaitForResults();
     }
 
-    /**
-     * Get the message when no results are found
-     *
-     * @return String message
-     */
     public String getNoResultsText()
     {
-        return noResults.getText();
+        return getBrowser().findElement(noResults).getText();
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return browser.isElementDisplayed(searchButton.getWrappedElement());
+        return getBrowser().isElementDisplayed(searchButton);
     }
 
     public boolean isSearchInputFieldDisplayed()
     {
-        return browser.isElementDisplayed(searchInputField.getWrappedElement());
+        return getBrowser().isElementDisplayed(searchInputField);
     }
 
     public String getSearchInputFieldValue()
     {
-        return searchInputField.getWrappedElement().getAttribute("value").trim();
+        return getBrowser().findElement(searchInputField).getAttribute("value").trim();
     }
 
     public String getSearchInputFieldPlaceholder()
     {
-        return searchInputField.getWrappedElement().getAttribute("placeholder").trim();
+        return getBrowser().findElement(searchInputField).getAttribute("placeholder").trim();
     }
 
     public boolean isHelpMessageDisplayed()
     {
-        return browser.isElementDisplayed(searchHelpMessage.getWrappedElement());
+        return getBrowser().isElementDisplayed(searchHelpMessage);
     }
 
     public String getSearchHelpMessage()
     {
-        return searchHelpMessage.getText();
+        return getBrowser().findElement(searchHelpMessage).getText();
     }
 
     public String getSearchResultsInfo()
     {
-        return searchResultsInfo.getText();
+        return getBrowser().findElement(searchResultsInfo).getText();
     }
 
     public WebElement selectUser(String username)
     {
-        return browser.findFirstElementWithValue(searchResultsList, username);
+        return getBrowser().findFirstElementWithValue(searchResultsList, username);
     }
 
     public boolean isUserDisplayed(String username)
@@ -167,22 +127,22 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
 
     public boolean isUserAvatarDisplayed(String username)
     {
-        return browser.isElementDisplayed(selectUser(username).findElement(avatar));
+        return getBrowser().isElementDisplayed(selectUser(username).findElement(avatar));
     }
 
     public UserProfilePage clickUserLink(String username)
     {
         selectUser(username).findElement(By.cssSelector("a")).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
+        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
     }
 
     public boolean isFollowButtonDisplayed(String username)
     {
-        return browser.isElementDisplayed(selectUser(username).findElement(By.cssSelector("button")));
+        return getBrowser().isElementDisplayed(selectUser(username).findElement(By.cssSelector("button")));
     }
 
     public int getNumberOfSearchResults()
     {
-        return searchResultsList.size();
+        return getBrowser().findElements(searchResultsList).size();
     }
 }

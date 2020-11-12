@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  */
 public class AnalyzingASiteTests extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired

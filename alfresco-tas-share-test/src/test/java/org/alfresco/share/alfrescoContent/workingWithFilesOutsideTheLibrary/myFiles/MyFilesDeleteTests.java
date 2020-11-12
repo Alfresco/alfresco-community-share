@@ -27,9 +27,9 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     private final String testFile = String.format("testFile%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private final String myFilesPath = "User Homes/" + user;
-    @Autowired
+   // @Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
@@ -59,12 +59,12 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Delete Document' link");
-        myFilesPage.clickDocumentLibraryItemAction(testFile, ItemActions.DELETE_DOCUMENT, deleteDialog);
+        myFilesPage.clickDocumentLibraryItemAction(testFile, ItemActions.DELETE_DOCUMENT);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), testFile));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete(myFilesPage);
+        deleteDialog.clickDelete();
 
         LOG.info("STEP4: Verify that the file was deleted");
         assertFalse(myFilesPage.isContentNameDisplayed(testFile), "Documents item list is refreshed and is empty");
@@ -81,12 +81,12 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over the folder. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER, deleteDialog);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete(myFilesPage);
+        deleteDialog.clickDelete();
         assertFalse(myFilesPage.isContentNameDisplayed(folderName), "Documents item list is refreshed and is empty");
         assertFalse(myFilesPage.getExplorerPanelDocuments().contains(folderName), "'DelFolder' is not visible in 'Library' section of the browsing pane.");
     }

@@ -26,7 +26,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Autowired
     private ModelManagerPage modelManagerPage;
 
-    @Autowired
+   // @Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @Autowired

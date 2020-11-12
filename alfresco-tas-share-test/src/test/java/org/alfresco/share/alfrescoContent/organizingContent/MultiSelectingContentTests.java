@@ -30,13 +30,13 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private HeaderMenuBar headerMenuBar;
-    @Autowired
+   // @Autowired
     private StartWorkflowPage startWorkflowPage;
-    @Autowired
+    //@Autowired
     private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
@@ -276,7 +276,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
             "'Confirm Multiple Delete' dialog message=");
 
         LOG.info("STEP5: Click 'Delete' button");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
         expectedContentList3.clear();
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedContentList3.toString(), "Document Library - displayed folders=");
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedContentList3.toString(), "Document Library - displayed files=");

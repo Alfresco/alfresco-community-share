@@ -29,19 +29,19 @@ import org.testng.annotations.Test;
  */
 public class ReplyingToDiscussionTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     TopicViewPage topicViewPage;
 
-    @Autowired
+    //@Autowired
     TopicListPage topicListPage;
 
     @Autowired
     Notification notification;
 
-    @Autowired
+    //@Autowired
     InsertLinkPopUp insertLinkPopUp;
 
-    @Autowired
+    //@Autowired
     InsertImagePopUp insertImagePopUp;
 
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");

@@ -7,6 +7,7 @@ import java.util.Set;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -14,16 +15,12 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-/**
- * Created by Claudia Agache on 7/22/2016.
- */
-@PageObject
 public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 {
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
-    @Autowired
+    //@Autowired
     EditLinkPage editLinkPage;
 
     @RenderWebElement
@@ -85,6 +82,11 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     private WebElement cancelSubmitCommentButton;
     private By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
+    public LinkDetailsViewPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -118,7 +120,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public boolean isTagDisplayedInTagsList(String tag)
     {
-        return browser.findFirstElementWithValue(tagsList, tag) != null;
+        return getBrowser().findFirstElementWithValue(tagsList, tag) != null;
     }
 
     public boolean isCommentsSectionDisplayed()
@@ -165,13 +167,12 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public void clickOnLinkURL(String linkURL)
     {
-        browser.findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
-
+        getBrowser().findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
     }
 
     public int getWinHandlesNo()
     {
-        Set<String> set = browser.getWindowHandles();
+        Set<String> set = getBrowser().getWindowHandles();
         return set.size();
     }
 
@@ -190,25 +191,24 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public boolean clickOnAddCommentButton()
     {
         addCommentButton.click();
-        return browser.findElement(commentContentIframe).isDisplayed();
+        return getBrowser().findElement(commentContentIframe).isDisplayed();
     }
 
     public void addComment(String comment)
     {
-        browser.switchTo().frame((WebElement) browser.findElement(commentContentIframe));
-        WebElement editable = browser.switchTo().activeElement();
+        getBrowser().switchTo().frame((WebElement) getBrowser().findElement(commentContentIframe));
+        WebElement editable = getBrowser().switchTo().activeElement();
         editable.sendKeys(comment);
-        browser.switchTo().defaultContent();
+        getBrowser().switchTo().defaultContent();
         submitCommentButton.click();
-        browser.refresh();
     }
 
     public void cancelAddComment(String comment)
     {
-        browser.switchTo().frame(browser.findElement(commentContentIframe));
-        WebElement editable = browser.switchTo().activeElement();
+        getBrowser().switchTo().frame(getBrowser().findElement(commentContentIframe));
+        WebElement editable = getBrowser().switchTo().activeElement();
         editable.sendKeys(comment);
-        browser.switchTo().defaultContent();
+        getBrowser().switchTo().defaultContent();
         cancelSubmitCommentButton.click();
     }
 
@@ -224,7 +224,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public WebElement selectCommentDetailsRow(String commentTitle)
     {
-        return browser.findFirstElementWithValue(commentDetailsList, commentTitle);
+        return getBrowser().findFirstElementWithValue(commentDetailsList, commentTitle);
     }
 
     public String getCommentAuthor(String comment)
@@ -239,22 +239,22 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public boolean clickEditComment(String comment)
     {
-        browser.mouseOver(browser.findFirstElementWithValue(commentDetailsList, comment));
+        getBrowser().mouseOver(getBrowser().findFirstElementWithValue(commentDetailsList, comment));
         selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=edit-comment]")).click();
-        return browser.findElement(commentContentIframe).isDisplayed();
+        return getBrowser().findElement(commentContentIframe).isDisplayed();
     }
 
     public void clearCommentContent()
     {
-        browser.switchTo().frame(browser.findElement(commentContentIframe));
-        WebElement editable = browser.switchTo().activeElement();
+        getBrowser().switchTo().frame(getBrowser().findElement(commentContentIframe));
+        WebElement editable = getBrowser().switchTo().activeElement();
         editable.clear();
-        browser.switchTo().defaultContent();
+        getBrowser().switchTo().defaultContent();
     }
 
     public boolean clickDeleteCommentLink(String comment)
     {
-        browser.mouseOver(browser.findFirstElementWithValue(commentDetailsList, comment));
+        getBrowser().mouseOver(getBrowser().findFirstElementWithValue(commentDetailsList, comment));
         selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=delete-comment]")).click();
         return deleteLinkPrompt.isDisplayed();
     }

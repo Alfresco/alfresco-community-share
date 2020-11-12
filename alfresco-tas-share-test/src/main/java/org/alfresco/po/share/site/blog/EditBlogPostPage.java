@@ -1,16 +1,20 @@
 package org.alfresco.po.share.site.blog;
 
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class EditBlogPostPage extends CreateBlogPostPage
 {
     public By editBlogPageTitle = By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']");
-    @Autowired
+    //@Autowired
     BlogPostViewPage blogPostViewPage;
+
+    public EditBlogPostPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     /**
      * Method to send input to the Title field
@@ -20,7 +24,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     public void editTitle(String editedTitle)
     {
-        browser.waitUntilElementVisible(titleField);
+        getBrowser().waitUntilElementVisible(titleField);
         titleField.clear();
         titleField.sendKeys(editedTitle);
     }
@@ -33,11 +37,11 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     public void sendBlogPostTextInput(String blogPostContentText)
     {
-        browser.switchTo().frame(browser.findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
-        WebElement element = browser.findElement(By.id("tinymce"));
+        getBrowser().switchTo().frame(getBrowser().findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
+        WebElement element = getBrowser().findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogPostContentText);
-        browser.switchTo().defaultContent();
+        getBrowser().switchTo().defaultContent();
     }
 
     /**
@@ -56,7 +60,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
      */
     public String getEditBlogPostPageTitle()
     {
-        return browser.findElement(editBlogPageTitle).getText();
+        return getBrowser().findElement(editBlogPageTitle).getText();
     }
 
 }

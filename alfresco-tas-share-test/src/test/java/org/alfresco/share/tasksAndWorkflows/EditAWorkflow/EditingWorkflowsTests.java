@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
  */
 public class EditingWorkflowsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;
 
     @Autowired
@@ -34,7 +34,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     @Autowired
     TaskDetailsPage taskDetailsPage;
 
-    @Autowired
+   // @Autowired
     MyTasksPage myTasksPage;
 
     @Autowired
@@ -75,7 +75,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         editTaskPage.writeComment(comment);
 
         LOG.info("STEP 5: Click on 'Save and Close' button and verify changes are saved.");
-        editTaskPage.clickOnSaveButton(taskDetailsPage);
+        editTaskPage.clickOnSaveButton();
         Assert.assertTrue(taskDetailsPage.getStatus().contains("In Progress"));
         Assert.assertTrue(taskDetailsPage.getComment().contains(comment));
 
@@ -107,7 +107,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         editTaskPage.selectStatus(EditTaskPage.TaskStatus.ON_HOLD);
         getBrowser().waitInSeconds(2);
         editTaskPage.writeComment(comment);
-        editTaskPage.clickOnSaveButton(myTasksPage);
+        editTaskPage.clickOnSaveButton();
         Assert.assertTrue(myTasksPage.getStatus(workflowName).contains("On Hold"));
         userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);

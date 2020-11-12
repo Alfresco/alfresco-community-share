@@ -1,50 +1,36 @@
 package org.alfresco.po.share;
 
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.Utility;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-
 import java.util.List;
 
-@PageObject
-public class SiteFinderPage extends SharePage<SiteFinderPage> implements AccessibleByMenuBar
+public class SiteFinderPage extends SharePage2<SiteFinderPage> implements AccessibleByMenuBar
 {
-    @FindAll (@FindBy (css = "div[id$='default-sites'] tr[class*='yui-dt-rec']"))
-    protected List<WebElement> siteRowList;
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+    protected By siteRowList = By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']");
     @RenderWebElement
-    @FindBy (css = "div[class$=search-button] button")
-    private WebElement searchButton;
+    private By searchButton = By.cssSelector("div[class$=search-button] button");
     @RenderWebElement
-    @FindBy (css = "div[class$=search-text] input")
-    private WebElement searchField;
-    @RenderWebElement
-    @FindBy (className = "results")
-    private WebElement resultsPane;
-    @FindBy (css = "tbody[class*='message'] div")
-    private WebElement searchMessage;
-
-    @FindBy (css = "div[class='sitedescription']")
-    private List<WebElement> siteDescriptionList;
-
-    @FindBy (css = "td[class*='yui-dt-col-button'] button")
-    private WebElement cancelRequestButton;
-
+    private By searchField = By.cssSelector("div[class$=search-text] input");
+    private By searchMessage = By.cssSelector("tbody[class*='message'] div");
+    private By siteDescriptionList = By.cssSelector("div[class='sitedescription']");
+    private By cancelRequestButton = By.cssSelector("td[class*='yui-dt-col-button'] button");
     private By siteVisibility = By.cssSelector("span[class*='visibility']");
     private By siteNameLink = By.cssSelector("h3.sitename > a");
+
+    public SiteFinderPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     @Override
     public String getRelativePath()
@@ -54,7 +40,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
 
     public SiteFinderPage assertSiteFinderPageIsOpened()
     {
-        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Site Finder page is opened");
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Site Finder page is opened");
         return this;
     }
 
@@ -62,12 +48,12 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     @Override
     public SiteFinderPage navigateByMenuBar()
     {
-        return toolbar.clickSites().clickSiteFinder();
+        return (SiteFinderPage) new Toolbar(browser).clickSites().clickSiteFinder().renderedPage();
     }
 
     public void searchSite(String site)
     {
-        Utils.clearAndType(searchField, site);
+        clearAndType(getBrowser().findElement(searchField), site);
         getBrowser().waitUntilElementClickable(searchButton).sendKeys(Keys.ENTER);
         this.renderedPage();
     }
@@ -91,12 +77,6 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         }
     }
 
-    /**
-     * Check if the site was found
-     *
-     * @param siteName String
-     * @return true if the site was found, else return false
-     */
     public boolean checkSiteWasFound(String siteName)
     {
         int counter = 0;
@@ -117,9 +97,9 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         {
             while (!isSiteFound(siteName) && counter < 5)
             {
-                browser.refresh();
+                getBrowser().refresh();
                 this.renderedPage();
-                searchButton.click();
+                getBrowser().findElement(searchButton).click();
                 getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div[id$='_default-sites'] tr[class^='yui-dt-rec']"), 3);
                 LOG.info("Site not found " + e.getMessage().toString());
                 counter++;
@@ -129,16 +109,9 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         return false;
     }
 
-
-    /**
-     * Retrieves the link that match the site name.
-     *
-     * @param siteName String
-     * @return WebElement that match the site name
-     */
     public WebElement selectSite(final String siteName)
     {
-        return browser.findFirstElementWithValue(siteRowList, siteName);
+        return getBrowser().findFirstElementWithValue(siteRowList, siteName);
     }
 
     /**
@@ -151,7 +124,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     {
         Parameter.checkIsMandotary("Site name", siteName);
         WebElement siteRow = selectSite(siteName);
-        return browser.waitUntilElementsVisible(siteRow.findElements(By.cssSelector("button")));
+        return getBrowser().waitUntilElementsVisible(siteRow.findElements(By.cssSelector("button")));
     }
 
     /**
@@ -163,7 +136,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      */
     public boolean isButtonDisplayedForSite(String siteName, String buttonName)
     {
-        browser.waitUntilElementsVisible(getTheButtonsForSite(siteName));
+        getBrowser().waitUntilElementsVisible(getTheButtonsForSite(siteName));
         for (WebElement button : getTheButtonsForSite(siteName))
         {
             if (button.getText().equals(buttonName))
@@ -184,74 +157,69 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         for (WebElement button : getTheButtonsForSite(siteName))
             if (button.getText().equals(buttonName))
             {
-                browser.waitUntilElementClickable(button, 30).click();
+                getBrowser().waitUntilElementClickable(button, 30).click();
                 if (!buttonName.equals("Delete"))
-                    browser.waitUntilElementDoesNotContainText(button, buttonName);
+                    getBrowser().waitUntilElementDoesNotContainText(button, buttonName);
                 break;
             }
     }
 
-    /**
-     * Open site page
-     *
-     * @param siteName
-     * @return {@link}SiteDashboardPage
-     */
     public SiteDashboardPage accessSite(final String siteName)
     {
         selectSite(siteName).findElement(siteNameLink).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
+        return (SiteDashboardPage) new SiteDashboardPage(browser).renderedPage();
     }
 
     public boolean isSearchFieldDisplayed()
     {
-        return browser.isElementDisplayed(searchField);
+        return getBrowser().isElementDisplayed(searchField);
     }
 
     public SiteFinderPage assertSearchFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(searchField), "Search field is displayed");
+        Assert.assertTrue(getBrowser().isElementDisplayed(searchField), "Search field is displayed");
         return this;
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return browser.isElementDisplayed(searchButton);
+        return getBrowser().isElementDisplayed(searchButton);
     }
 
     public String getSearchMessage()
     {
-        return searchMessage.getText();
+        return getBrowser().findElement(searchMessage).getText();
     }
 
     public boolean isSearchResultsListDisplayed()
     {
-        return siteRowList.size() > 0;
+        return getBrowser().findElements(siteRowList).size() > 0;
     }
 
     public boolean isSiteNameListDisplayed()
     {
-        return browser.findDisplayedElementsFromLocator(siteNameLink).size() > 0;
+        return getBrowser().findDisplayedElementsFromLocator(siteNameLink).size() > 0;
     }
 
     public boolean isSiteDescriptionListDisplayed()
     {
-        return siteDescriptionList.size() > 0;
+        return getBrowser().findElements(siteDescriptionList).size() > 0;
     }
 
     public boolean isSiteVisibilityListDisplayed()
     {
-        return browser.isElementDisplayed(siteVisibility);
+        return getBrowser().isElementDisplayed(siteVisibility);
     }
 
     public String getVisibilityLabel()
     {
-        return browser.waitUntilElementVisible(siteVisibility).getText();
+        return getBrowser().waitUntilElementVisible(siteVisibility).getText();
     }
 
     public String getButtonCancelRequestText(String textExpected)
     {
-        getBrowser().waitUntilElementContainsText(cancelRequestButton, textExpected);
-        return cancelRequestButton.getText();
+        WebElement cancelButton = getBrowser().findElement(cancelRequestButton);
+        getBrowser().waitUntilElementContainsText(cancelButton, textExpected);
+        return cancelButton.getText();
     }
 }

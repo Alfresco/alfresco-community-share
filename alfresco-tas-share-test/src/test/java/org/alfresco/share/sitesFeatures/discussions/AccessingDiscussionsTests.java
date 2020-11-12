@@ -28,10 +28,11 @@ import org.testng.annotations.Test;
  */
 public class AccessingDiscussionsTests extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     TopicListPage topicListPage;
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
+
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
     private String user = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());

@@ -19,10 +19,10 @@ import static org.testng.Assert.*;
  */
 public class SiteFinderTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteFinderPage siteFinderPage;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     String user1 = String.format("profileUser1-%s", RandomData.getRandomAlphanumeric());

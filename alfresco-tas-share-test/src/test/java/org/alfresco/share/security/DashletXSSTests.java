@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 public class DashletXSSTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private CustomizeUserDashboardPage customizeUserDashboardPage;
 
     @Autowired
@@ -30,9 +30,6 @@ public class DashletXSSTests extends ContextAwareWebTest
 
     @Autowired
     private EnterFeedURLPopUp enterFeedURLPopUp;
-
-    @Autowired
-    private UserDashboardPage userDashboardPage;
 
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private String testUser = "TestUser_" + uniqueIdentifier;
@@ -86,7 +83,6 @@ public class DashletXSSTests extends ContextAwareWebTest
         if (!rssFeedDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.RSS_FEED))
         {
             userService.addDashlet(testUser, password, UserDashlet.RSS_FEED, DashletLayout.THREE_COLUMNS, 3, 1);
-            userDashboardPage.refresh();
         }
         Assert.assertTrue(rssFeedDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.RSS_FEED), "'RSS Feed' ('Alfresco Blog') dashlet is not displayed in user's dashboard.");
     }

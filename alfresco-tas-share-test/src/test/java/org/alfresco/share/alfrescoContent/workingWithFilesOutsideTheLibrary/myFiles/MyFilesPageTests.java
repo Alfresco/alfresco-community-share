@@ -24,9 +24,9 @@ public class MyFilesPageTests extends ContextAwareWebTest
     private final String nonAdminFile = String.format("nonAdminDoc%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("adminDoc%s", RandomData.getRandomAlphanumeric());
     private final String tag = String.format("testTag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
-    @Autowired
+    //@Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentsFilters filters;
 
     @BeforeClass (alwaysRun = true)

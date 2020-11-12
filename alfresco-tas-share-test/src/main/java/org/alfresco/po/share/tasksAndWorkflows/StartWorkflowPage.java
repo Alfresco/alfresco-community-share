@@ -1,16 +1,12 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
@@ -19,10 +15,12 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-@PageObject
+import java.util.ArrayList;
+import java.util.List;
+
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 {
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
     @Autowired
@@ -113,6 +111,11 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     @FindBy (css = "input[id*='sendEMailNotifications'][type='checkbox']")
     private WebElement sendEMailNotificationsCheckbox;
 
+    public StartWorkflowPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -121,7 +124,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public StartWorkflowPage assertStartWorkflowPageIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
+        Assert.assertTrue(getBrowser().isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
         return this;
     }
 
@@ -136,14 +139,14 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         {
             startWorkflowDropDown.click();
         }
-        browser.waitUntilElementVisible(workflowMenu);
-        browser.selectOptionFromFilterOptionsList(workflow, dropdownOptions);
-        browser.waitUntilElementContainsText(startWorkflowDropDown, workflow);
+        getBrowser().waitUntilElementVisible(workflowMenu);
+        getBrowser().selectOptionFromFilterOptionsList(workflow, dropdownOptions);
+        getBrowser().waitUntilElementContainsText(startWorkflowDropDown, workflow);
     }
 
     public void addWorkflowDescription(String workflowDescription)
     {
-        browser.waitUntilElementVisible(By.cssSelector("textarea[id*=workflowDescription]"));
+        getBrowser().waitUntilElementVisible(By.cssSelector("textarea[id*=workflowDescription]"));
         workflowDescriptionTextarea.click();
         workflowDescriptionTextarea.sendKeys(workflowDescription);
     }
@@ -155,13 +158,13 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
             if (!calendar.isDisplayed())
             {
-                browser.waitUntilElementClickable(datePickerIcon).click();
+                getBrowser().waitUntilElementClickable(datePickerIcon).click();
             }
 
-            browser.waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: block");
-            browser.mouseOver(calendarToday);
+            getBrowser().waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: block");
+            getBrowser().mouseOver(calendarToday);
             calendarToday.click();
-            browser.waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: none");
+            getBrowser().waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: none");
         } catch (Exception e)
         {
             LOG.info("Couldn't choose current date from Date Picker.");
@@ -170,13 +173,13 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public void clickDatePickerIcon()
     {
-        browser.waitUntilElementClickable(datePickerIcon).click();
-        browser.waitUntilWebElementIsDisplayedWithRetry(calendar);
+        getBrowser().waitUntilElementClickable(datePickerIcon).click();
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(calendar);
     }
 
     public boolean isCalendarDisplayed()
     {
-        return browser.waitUntilElementVisible(calendar).isDisplayed();
+        return getBrowser().waitUntilElementVisible(calendar).isDisplayed();
     }
 
     public String getWorkflowDueDateInputValue()
@@ -186,7 +189,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public boolean isTodayDisplayed()
     {
-        return browser.isElementDisplayed(calendarToday);
+        return getBrowser().isElementDisplayed(calendarToday);
     }
 
     public String getWorkflowDueDate()
@@ -196,33 +199,29 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public void selectWorkflowPriority(String priority)
     {
-        browser.selectOptionFromFilterOptionsList(priority, workflowPrioritiesList);
-        browser.waitUntilElementHasAttribute(browser.findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='" + priority + "']")), "selected", "true");
+        getBrowser().selectOptionFromFilterOptionsList(priority, workflowPrioritiesList);
+        getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='" + priority + "']")), "selected", "true");
     }
 
-    public HtmlPage clickStartWorkflow(HtmlPage page)
+    public void clickStartWorkflow()
     {
         //workaround for "MNT-17015"
 
         getBrowser().waitUntilElementVisible(submitWorkflow);
         getBrowser().waitUntilElementClickable(submitWorkflow);
 
-        browser.clickJS(submitWorkflow);
-        if (browser.isElementDisplayed(submitWorkflow))
-            browser.clickJS(submitWorkflow);
+        getBrowser().clickJS(submitWorkflow);
+        if (getBrowser().isElementDisplayed(submitWorkflow))
+            getBrowser().clickJS(submitWorkflow);
         if (isAlertPresent())
         {
-            browser.handleModalDialogAcceptingAlert();
+            getBrowser().handleModalDialogAcceptingAlert();
         }
         dismissErrorPopup();
-        if (browser.isElementDisplayed(submitWorkflow))
-            browser.clickJS(submitWorkflow);
-        return page.renderedPage();
+        if (getBrowser().isElementDisplayed(submitWorkflow))
+            getBrowser().clickJS(submitWorkflow);
     }
 
-    /**
-     * @return content items from Start Workflow form -> "Items" section
-     */
     public String getItemsList()
     {
         ArrayList<String> itemsTextList = new ArrayList<>();
@@ -233,50 +232,32 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         return itemsTextList.toString();
     }
 
-    /**
-     * Method that is clicking on Select Assignee button.
-     * Method used on workflow that requires MAX one assigned user as: New Task and Review And Approve (single reviewer).
-     *
-     * @return the popup from where user will be selected.
-     */
     public SelectPopUpPage clickOnSelectButtonSingleAssignee()
     {
-        WebElement selectElement = browser.waitUntilElementVisible(selectAssigneeButton);
-        browser.waitUntilElementClickable(selectElement).click();
+        WebElement selectElement = getBrowser().waitUntilElementVisible(selectAssigneeButton);
+        getBrowser().waitUntilElementClickable(selectElement).click();
         return (SelectPopUpPage) selectPopUpPage.renderedPage();
     }
 
-    /**
-     * Method that is clicking on Select Assignees button.
-     * Method used on workflow that requires MIN one assigned user as: Review And Approve (one or more reviewers).
-     *
-     * @return the popup from where users will be selected.
-     */
     public SelectPopUpPage clickOnSelectButtonMultipleAssignees()
     {
-        WebElement selectElement = browser.waitUntilElementVisible(selectAssigneesButton);
-        browser.waitUntilElementClickable(selectElement).click();
+        WebElement selectElement = getBrowser().waitUntilElementVisible(selectAssigneesButton);
+        getBrowser().waitUntilElementClickable(selectElement).click();
         return (SelectPopUpPage) selectPopUpPage.renderedPage();
     }
 
-    /**
-     * Method that is clicking on Select Assignee Group button.
-     * Method used on workflow that requires an assigned group as: Review And Approve (group review), Review and Approve (pooled review).
-     *
-     * @return the popup from where groups will be selected.
-     */
     public SelectPopUpPage clickGroupSelectButton()
     {
-        WebElement selectElement = browser.waitUntilElementVisible(selectGroupButton);
-        browser.waitUntilElementClickable(selectElement).click();
+        WebElement selectElement = getBrowser().waitUntilElementVisible(selectGroupButton);
+        getBrowser().waitUntilElementClickable(selectElement).click();
         return (SelectPopUpPage) selectPopUpPage.renderedPage();
     }
 
     public DocumentLibraryPage cancelStartWorkflow()
     {
         //workaround for "MNT-17015"
-        browser.clickJS(cancelStartWorkflow);
-        if (browser.isElementDisplayed(cancelStartWorkflow))
+        getBrowser().clickJS(cancelStartWorkflow);
+        if (getBrowser().isElementDisplayed(cancelStartWorkflow))
             cancelStartWorkflow.click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
@@ -307,14 +288,14 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public boolean isWorkflowFormDisplayed()
     {
-        return browser.waitUntilElementVisible(workflowForm).isDisplayed();
+        return getBrowser().waitUntilElementVisible(workflowForm).isDisplayed();
     }
 
     public boolean isAlertPresent()
     {
         try
         {
-            browser.switchTo().alert();
+            getBrowser().switchTo().alert();
             return true;
         } catch (NoAlertPresentException noAlertPresentException)
         {
@@ -324,18 +305,18 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     private void dismissErrorPopup()
     {
-        if (browser.isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
-            browser.waitUntilElementVisible(By.cssSelector("div#prompt button")).click();
+        if (getBrowser().isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
+            getBrowser().waitUntilElementVisible(By.cssSelector("div#prompt button")).click();
     }
 
     public boolean isStartWorkflowDropDownVisible()
     {
-        return browser.isElementDisplayed(startWorkflowDropDown);
+        return getBrowser().isElementDisplayed(startWorkflowDropDown);
     }
 
     public boolean isWorkflowMenuVisible()
     {
-        return browser.isElementDisplayed(workflowMenu);
+        return getBrowser().isElementDisplayed(workflowMenu);
     }
 
     public void clickStartWorkflowDropDown()
@@ -345,25 +326,25 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public boolean isWorkflowFormVisible()
     {
-        return browser.isElementDisplayed(workflowForm);
+        return getBrowser().isElementDisplayed(workflowForm);
     }
 
     public void toggleSendEmailCheckBox(Boolean isChecked)
     {
         if (!sendEMailNotificationsCheckbox.getAttribute("value").equalsIgnoreCase(isChecked.toString()))
         {
-            browser.waitUntilElementClickable(sendEMailNotificationsCheckbox).click();
+            getBrowser().waitUntilElementClickable(sendEMailNotificationsCheckbox).click();
         }
     }
 
     public String getSendEmailCheckBoxValue()
     {
-        return browser.findElement(By.cssSelector("input[id*='sendEMailNotifications'][type='hidden']")).getAttribute("value");
+        return getBrowser().findElement(By.cssSelector("input[id*='sendEMailNotifications'][type='hidden']")).getAttribute("value");
     }
 
     public void clickRemoveAllItemsButton()
     {
-        browser.waitUntilElementClickable(removeeAllItemsButton).click();
+        getBrowser().waitUntilElementClickable(removeeAllItemsButton).click();
         this.renderedPage();
     }
 

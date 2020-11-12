@@ -29,13 +29,13 @@ public class UnzipContentTests extends ContextAwareWebTest
     private final String zipFile = "archiveC8040.zip";
     private final String zipContent = "fileC8040";
     private final String acpFile = "archiveC8041.acp";
-    @Autowired
+   // @Autowired
     HeaderMenuBar headerMenuBar;
-    @Autowired
+    //@Autowired
     UploadContent uploadContent;
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
@@ -82,7 +82,7 @@ public class UnzipContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathFirstItem(), expectedDestionationPath, "Destination set to=");
         Assert.assertTrue(unzipToDialog.getPathList().contains(expectedDestionationPath), "Destination set to = ");
         LOG.info("STEP4: Click 'Unzip' button and navigate to Shared Files");
-        unzipToDialog.clickUnzipButton(documentDetailsPage);
+        unzipToDialog.clickUnzipButton();
         sharedFilesPage.navigate();
         assertTrue(sharedFilesPage.isContentNameDisplayed(zipContent), zipFile + "'s content is displayed, " + zipContent);
     }
@@ -103,7 +103,7 @@ public class UnzipContentTests extends ContextAwareWebTest
         String expectedDestinationPath = "Shared Files";
         assertEquals(unzipToDialog.getPathFirstItem(), expectedDestinationPath, "Destionation set to=");
         LOG.info("STEP4: Click 'Unzip' button and navigate to Shared Files");
-        unzipToDialog.clickUnzipButton(documentDetailsPage);
+        unzipToDialog.clickUnzipButton();
         sharedFilesPage.navigate();
         assertTrue(sharedFilesPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))),
             "A folder with archive name is present in Documents list.");

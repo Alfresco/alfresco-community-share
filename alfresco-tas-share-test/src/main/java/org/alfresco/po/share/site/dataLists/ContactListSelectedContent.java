@@ -20,7 +20,7 @@ public class ContactListSelectedContent extends ListItemSelectedContent
     protected static By balloon = By.cssSelector("div[class='bd'] span[class='message']");
     @FindAll (@FindBy (css = "div[id$='default-grid'] th span"))
     protected List<WebElement> tableColumnHeader;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     ContactListItemsTable tableRow;
     @FindBy (css = "div[class='grid yui-dt'] table")

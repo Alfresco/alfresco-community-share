@@ -23,9 +23,9 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
     private final String docName = "testFile1";
     private final String docName1 = "testFile2";
     private final String siteName = String.format("C6333SiteName%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentsFilters filters;
 
     @BeforeClass (alwaysRun = true)

@@ -1,11 +1,10 @@
 package org.alfresco.po.share.site.discussion;
 
-import java.util.List;
-
+import io.swagger.models.auth.In;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -14,19 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
+import java.util.List;
+
 /**
  * Created by Claudia Agache on 8/8/2016.
  */
-@PageObject
 public class TopicViewPage extends SiteCommon<TopicViewPage>
 {
-    @Autowired
+   // @Autowired
     EditTopicPage editTopicPage;
 
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
 
-    @Autowired
+    //@Autowired
     TopicListPage topicListPage;
 
     /* Top Buttons */
@@ -92,6 +92,11 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private By replyBoxMenu = By.className("mce-menu");
     private By replyBoxMenuItem = By.className("mce-text");
 
+    public TopicViewPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -106,7 +111,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     private WebElement selectReply(String reply)
     {
-        return browser.findFirstElementWithValue(repliesList, reply);
+        return getBrowser().findFirstElementWithValue(repliesList, reply);
     }
 
     /**
@@ -126,7 +131,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicReplyHeader()
     {
-        browser.waitUntilElementVisible(addReplyHeader);
+        getBrowser().waitUntilElementVisible(addReplyHeader);
         return addReplyHeader.getText();
     }
 
@@ -277,11 +282,11 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     public void typeReply(String content)
     {
-        browser.switchToFrame(browser.waitUntilElementVisible(replyTextArea).getAttribute("id"));
-        WebElement editable = browser.switchTo().activeElement();
+        getBrowser().switchToFrame(getBrowser().waitUntilElementVisible(replyTextArea).getAttribute("id"));
+        WebElement editable = getBrowser().switchTo().activeElement();
         editable.clear();
         editable.sendKeys(content);
-        browser.switchToDefaultContent();
+        getBrowser().switchToDefaultContent();
     }
 
     /**
@@ -301,9 +306,9 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getReplyBoxContent()
     {
-        browser.switchToFrame(browser.findElement(replyTextArea).getAttribute("id"));
-        String editableText = browser.switchTo().activeElement().getText();
-        browser.switchToDefaultContent();
+        getBrowser().switchToFrame(getBrowser().findElement(replyTextArea).getAttribute("id"));
+        String editableText = getBrowser().switchTo().activeElement().getText();
+        getBrowser().switchToDefaultContent();
         return editableText;
     }
 
@@ -337,7 +342,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isReplyIndentedFromItsParent(String replyChild, String replyParent)
     {
-        return browser.isElementDisplayed(selectReply(replyParent),
+        return getBrowser().isElementDisplayed(selectReply(replyParent),
             By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
     }
 
@@ -361,15 +366,15 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isReplyVisible(String reply)
     {
-        return browser.isElementDisplayed(selectReply(reply));
+        return getBrowser().isElementDisplayed(selectReply(reply));
     }
 
     public InsertLinkPopUp selectOptionFromInsertMenu(String option)
     {
         insertMenuButton.click();
-        WebElement insertMenu = browser.waitUntilElementVisible(replyBoxMenu);
-        browser.findFirstElementWithValue(insertMenu.findElements(replyBoxMenuItem), option).click();
-        return new InsertLinkPopUp();
+        WebElement insertMenu = getBrowser().waitUntilElementVisible(replyBoxMenu);
+        getBrowser().findFirstElementWithValue(insertMenu.findElements(replyBoxMenuItem), option).click();
+        return (InsertLinkPopUp) new InsertLinkPopUp(browser).renderedPage();
     }
 
     /**
@@ -392,7 +397,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isImageDisplayedInReply(String reply, String imageSource)
     {
-        return browser.isElementDisplayed(selectReply(reply), By.cssSelector("img[src='" + imageSource + "']"));
+        return getBrowser().isElementDisplayed(selectReply(reply), By.cssSelector("img[src='" + imageSource + "']"));
     }
 
     /**

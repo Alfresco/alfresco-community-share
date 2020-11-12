@@ -30,33 +30,30 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 8/16/2016.
- */
 public class SearchManagerTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     AdvancedSearchPage advancedSearchPage;
 
     @Autowired
     SearchManagerPage searchManagerPage;
 
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
 
     @Autowired
     CreateNewFilterDialog createNewFilterPopup;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired
     MyDocumentsDashlet myDocumentsDashlet;
 
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
     @Autowired
@@ -151,7 +148,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("Step 1: Open 'Advanced Search' page and click 'Search' button.");
         advancedSearchPage.navigate();
         advancedSearchPage.click1stSearch();
-        assertTrue(searchPage.isSearchManagerDisplayed(), "'Search Manager' link is displayed on the page.");
+        searchPage.assertSearchManagerButtonIsDisplayed();
 
         LOG.info("Step 2: Click on 'Search Manager' link.");
         searchPage.clickSearchManagerLink();

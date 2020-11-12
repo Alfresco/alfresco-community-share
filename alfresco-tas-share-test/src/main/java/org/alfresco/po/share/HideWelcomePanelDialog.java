@@ -1,51 +1,43 @@
 package org.alfresco.po.share;
 
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-@PageObject
-public class HideWelcomePanelDialog extends ShareDialog
+public class HideWelcomePanelDialog extends ShareDialog2
 {
-    @FindBy (css = "span[class$='alf-primary-button']>span>button")
-    private WebElement okButton;
-
+    private By okButton = By.cssSelector("span[class$='alf-primary-button']>span>button");
     @RenderWebElement
-    @FindBy (css = ".alf-confirmation-panel-text")
-    private WebElement panelText;
-
-    @RenderWebElement
-    @FindBy (css = " #prompt p")
-    private WebElement panelTextSettingsIcon;
-
-    @FindBy (css = " #prompt .alf-configure-icon")
-    private WebElement configIcon;
-
+    private By panelText = By.cssSelector(".alf-confirmation-panel-text");
+    private By panelTextSettingsIcon = By.cssSelector(" #prompt p");
+    private By configIcon = By.cssSelector(" #prompt .alf-configure-icon");
     private By startedPanelContainer = By.cssSelector("[id$=get-started-panel-container]");
 
-    /**
-     * Method used to confirm 'Hide Welcome Panel' action
-     */
+    public HideWelcomePanelDialog(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public void clickOK()
     {
         LOG.info("Click OK");
-        panelText.click();
-        browser.waitUntilElementClickable(okButton).click();
-        browser.waitUntilElementDisappears(startedPanelContainer, 10);
+        getBrowser().findElement(panelText).click();
+        getBrowser().waitUntilElementClickable(okButton).click();
+        getBrowser().waitUntilElementDisappears(startedPanelContainer, 10);
     }
 
     public HideWelcomePanelDialog assertHideWelcomePanelDialogContentIsCorrect()
     {
         LOG.info("Assert Hide welcome panel dialog content is correct");
-        Assert.assertEquals(panelText.getText(), language.translate("hideWelcomePanelDialog.message"),
-            "Dialog message is correct");
-        Assert.assertTrue(browser.isElementDisplayed(configIcon), "Config icon is displayed");
-        Assert.assertEquals(panelTextSettingsIcon.getText(), language.translate("hideWelcomePanelDialog.selectSettingIcon"),
-            "Select setting icon message is correct");
+        Assert.assertEquals(getBrowser().findElement(panelText).getText(), language.translate("hideWelcomePanelDialog.message"),
+                "Dialog message is correct");
+        Assert.assertTrue(getBrowser().isElementDisplayed(configIcon), "Config icon is displayed");
+        Assert.assertEquals(getBrowser().findElement(panelTextSettingsIcon).getText(), language.translate("hideWelcomePanelDialog.selectSettingIcon"),
+                "Select setting icon message is correct");
+
         return this;
     }
 }

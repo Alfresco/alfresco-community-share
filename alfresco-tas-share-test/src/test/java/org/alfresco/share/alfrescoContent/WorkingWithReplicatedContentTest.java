@@ -26,9 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-/**
- * @author Laura.Capsa
- */
 public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 {
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
@@ -39,23 +36,23 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         Arrays.asList("Repository", "Data Dictionary", "Transfers", "Transfer Target Groups", "Default Group"));
     private final String pathForTransferTargetFolder = "Data Dictionary/Transfers/Transfer Target Groups/Default Group";
     private final String transferTargetFolder = "TransferFolder-" + uniqueIdentifier;
-    @Autowired
+    //@Autowired
     private LoginPage loginPage;
-    @Autowired
+    //@Autowired
     private CreateSiteDialog createSiteDialog;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
     @Autowired
     private NewFolderDialog newContentDialog;
-    @Autowired
+    //@Autowired
     private AdminToolsPage adminToolsPage;
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
     @Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private ReplicationJobsPage replicationJobsPage;
     @Autowired
     private CreateEditReplicationJobPage createEditReplicationJobPage;
@@ -94,7 +91,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         assertEquals(repositoryPage.getBreadcrumbList(), explorerPanelPath.toString(), "Breadcrumb=");
 
         LOG.info("Edit properties for " + transferTargetFolder);
-        repositoryPage.clickDocumentLibraryItemAction(transferTargetFolder, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        repositoryPage.clickDocumentLibraryItemAction(transferTargetFolder, ItemActions.EDIT_PROPERTIES);
         editPropertiesDialog.updateFolderDetailsForReplication(properties.getServer2Url(), properties.getServer2Port(), adminUser, adminPassword);
     }
 
@@ -115,7 +112,8 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         adminToolsPage.navigate();
 
         LOG.info("STEP1: Navigate to 'Admin Tools -> Repository -> Replication jobs'");
-        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.replicationJobs"), replicationJobsPage);
+        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.replicationJobs"));
+        replicationJobsPage.renderedPage();
         assertEquals(adminToolsPage.getCurrentUrl(), properties.getShareUrl() + replicationJobsPage.getRelativePath(), "User is redirected to=");
 
         LOG.info("STEP2: Click 'Create Job' button");

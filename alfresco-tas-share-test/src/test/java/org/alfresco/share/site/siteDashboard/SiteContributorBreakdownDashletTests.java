@@ -27,10 +27,10 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     @Autowired
     SiteContributorBreakdownDashlet siteContributorBreakdownDashlet;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
 
     private String userName1 = String.format("CUser1%s", RandomData.getRandomAlphanumeric());

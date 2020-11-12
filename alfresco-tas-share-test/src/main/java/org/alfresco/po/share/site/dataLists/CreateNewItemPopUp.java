@@ -27,7 +27,7 @@ public class CreateNewItemPopUp extends ShareDialog
     protected String dropDownLocator = "select[id*='%s']";
     protected String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
     protected String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     @Autowired
     SelectDocumentPopupPage selectDocumentPopupPage;

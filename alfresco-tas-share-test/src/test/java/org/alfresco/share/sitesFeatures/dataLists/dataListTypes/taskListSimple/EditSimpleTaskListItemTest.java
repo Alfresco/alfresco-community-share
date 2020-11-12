@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
  */
 public class EditSimpleTaskListItemTest extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     DataListsPage dataListsPage;
 
     @Autowired

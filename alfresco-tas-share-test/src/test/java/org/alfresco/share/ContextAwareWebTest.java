@@ -93,16 +93,16 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     @Autowired
     public RestWrapper restApi;
 
-    @Autowired
-    private LoginPage loginPage;
+    //@Autowired
+    private LoginPage loginPage; //todo: remove
 
-    @Autowired
+    //@Autowired
     private AIMSPage aimsPage;
-    
-    @Autowired
+
+    //@Autowired
     protected UserDashboardPage userDashboard;
 
-    @Autowired
+    //@Autowired
     public Toolbar toolbar;
 
     protected String srcRoot = System.getProperty("user.dir") + File.separator;

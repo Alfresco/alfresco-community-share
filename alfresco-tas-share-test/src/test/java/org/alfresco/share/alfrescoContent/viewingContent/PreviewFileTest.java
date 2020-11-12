@@ -29,7 +29,7 @@ public class PreviewFileTest extends ContextAwareWebTest
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

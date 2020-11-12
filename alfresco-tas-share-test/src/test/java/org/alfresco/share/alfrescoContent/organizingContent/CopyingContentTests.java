@@ -36,11 +36,11 @@ public class CopyingContentTests extends ContextAwareWebTest
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
 
-    @Autowired
+   // @Autowired
     private Toolbar toolbar;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
     @Autowired
     private CopyMoveUnzipToDialog copyMoveToDialog;
@@ -71,12 +71,12 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
         LOG.info("STEP3: Set the destination to 'Shared Files'");
         copyMoveToDialog.clickDestinationButton("Shared Files");
         LOG.info("STEP4: Click 'Copy' button");
-        copyMoveToDialog.clickCopyButton(documentLibraryPage);
+        copyMoveToDialog.clickCopyButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
         LOG.info("STEP5: Verify displayed files from Documents");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in 'Documents'");
@@ -102,12 +102,12 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
         LOG.info("STEP3: Set the destination to 'Shared Files'");
         copyMoveToDialog.clickDestinationButton("Shared Files");
         LOG.info("STEP4: Click 'Cancel' button");
-        copyMoveToDialog.clickCancelButton(documentLibraryPage);
+        copyMoveToDialog.clickCancelButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
         LOG.info("STEP5: Verify displayed files from Documents");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in 'Documents'");
@@ -135,7 +135,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName1);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
         LOG.info("STEP4: Set the destination to 'All Sites'");
         copyMoveToDialog.clickDestinationButton("All Sites");
@@ -146,7 +146,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         ArrayList<String> expectedPath = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
         LOG.info("STEP6: Click 'Copy' button");
-        copyMoveToDialog.clickCopyButton(documentLibraryPage);
+        copyMoveToDialog.clickCopyButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
         LOG.info("STEP7: Verify that the folder has been copied");
         documentLibraryPage.navigate(siteName2);

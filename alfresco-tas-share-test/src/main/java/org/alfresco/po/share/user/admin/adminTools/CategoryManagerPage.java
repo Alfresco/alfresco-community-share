@@ -2,48 +2,39 @@ package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class CategoryManagerPage extends AdminToolsPage
 {
-    @RenderWebElement
-    @FindBy (css = "div[id$=default-category-manager]")
-    private WebElement categoryManagerDiv;
-
-    @FindBy (css = ".insitu-edit input[type='text']")
-    private WebElement editCategoryNameInput;
-
-    @FindBy (css = ".insitu-edit a:nth-of-type(1)")
-    private WebElement editCategorySaveButton;
-
-    @FindBy (css = ".insitu-edit a:nth-of-type(2)")
-    private WebElement editCategoryCancelButton;
-
-    @Autowired
     private AddCategoryDialog addCategoryDialog;
-
-    @Autowired
     private DeleteDialog deleteDialog;
 
+    @RenderWebElement
+    private By categoryManagerDiv = By.cssSelector("div[id$=default-category-manager]");
+    private By editCategoryNameInput = By.cssSelector(".insitu-edit input[type='text']");
+    private By editCategorySaveButton = By.cssSelector(".insitu-edit a:nth-of-type(1)");
+    private By editCategoryCancelButton = By.cssSelector(".insitu-edit a:nth-of-type(2)");
     private By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible']");
-
     private By editCategoryButton = By.cssSelector("span.insitu-edit-category[style*='visibility: visible']");
-
     private By deleteCategoryButton = By.cssSelector("span.insitu-delete-category[style*='visibility: visible']");
-
     private String categoryLocator = "//span[contains(@id, 'labelel') and text()='%s']";
+
+    public CategoryManagerPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+        addCategoryDialog = new AddCategoryDialog(browser);
+        deleteDialog = new DeleteDialog(browser);
+    }
 
     private WebElement category(String categoryLabel)
     {
         By categoryBy = By.xpath(String.format(categoryLocator, categoryLabel));
-        return browser.waitUntilElementVisible(categoryBy);
+        return getBrowser().waitUntilElementVisible(categoryBy);
     }
 
     @Override
@@ -54,8 +45,8 @@ public class CategoryManagerPage extends AdminToolsPage
 
     public AddCategoryDialog clickAddButton()
     {
-        WebElement addButton = browser.waitUntilElementVisible(addCategoryButton);
-        browser.mouseOver(addButton);
+        WebElement addButton = getBrowser().waitUntilElementVisible(addCategoryButton);
+        getBrowser().mouseOver(addButton);
         addButton.click();
         return (AddCategoryDialog) addCategoryDialog.renderedPage();
     }
@@ -74,59 +65,60 @@ public class CategoryManagerPage extends AdminToolsPage
     public DeleteDialog clickDeleteButton(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-        WebElement deleteCat = browser.waitUntilElementVisible(deleteCategoryButton);
-        browser.mouseOver(deleteCat);
-        browser.clickJS(deleteCat);
+        WebElement deleteCat = getBrowser().waitUntilElementVisible(deleteCategoryButton);
+        getBrowser().mouseOver(deleteCat);
+        getBrowser().clickJS(deleteCat);
         return (DeleteDialog) deleteDialog.renderedPage();
     }
 
     public CategoryManagerPage deleteCategory(String categoryName)
     {
-        return (CategoryManagerPage) clickDeleteButton(categoryName).clickDelete(this);
+        clickDeleteButton(categoryName).clickDelete();
+        return (CategoryManagerPage) this.renderedPage();
     }
 
     public void clickEditCategory(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-        WebElement ediCat = browser.waitUntilElementVisible(editCategoryButton);
-        browser.mouseOver(ediCat);
-        browser.clickJS(ediCat);
+        WebElement ediCat = getBrowser().waitUntilElementVisible(editCategoryButton);
+        getBrowser().mouseOver(ediCat);
+        getBrowser().clickJS(ediCat);
     }
 
     public CategoryManagerPage editCategory(String categoryName, String newCategoryName)
     {
         clickEditCategory(categoryName);
-        if(!browser.isElementDisplayed(editCategoryNameInput))
+        if(!getBrowser().isElementDisplayed(editCategoryNameInput))
         {
             LOG.info("Click Edit category again");
             clickEditCategory(categoryName);
         }
-        editCategoryNameInput.sendKeys(newCategoryName);
-        editCategorySaveButton.click();
+        getBrowser().findElement(editCategoryNameInput).sendKeys(newCategoryName);
+        clickElement(editCategorySaveButton);
         return (CategoryManagerPage) this.renderedPage();
     }
 
     private void mouseOverOnCategory(String categoryName)
     {
-        WebElement category = browser.waitWithRetryAndReturnWebElement(
+        WebElement category = getBrowser().waitWithRetryAndReturnWebElement(
             By.xpath(String.format(categoryLocator, categoryName)), 2, 20);
         try
         {
-            browser.mouseOver(category);
+            getBrowser().mouseOver(category);
         }
         catch (StaleElementReferenceException e)
         {
-           WebElement cat = browser.waitUntilElementIsPresent(By.xpath(String.format(categoryLocator, categoryName)));
-           browser.mouseOver(cat);
+           WebElement cat = getBrowser().waitUntilElementIsPresent(By.xpath(String.format(categoryLocator, categoryName)));
+            getBrowser().mouseOver(cat);
         }
-        browser.waitUntilElementVisible(addCategoryButton);
+        getBrowser().waitUntilElementVisible(addCategoryButton);
     }
 
     public boolean isCategoryDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        browser.waitUntilElementIsDisplayedWithRetry(category, 1, 20);
-        return browser.isElementDisplayed(category);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(category, 1, 20);
+        return getBrowser().isElementDisplayed(category);
     }
 
     public boolean isSubcategoryDisplayed(String parentCategory, String expectedSubCategory)
@@ -151,7 +143,7 @@ public class CategoryManagerPage extends AdminToolsPage
     public boolean isCategoryNotDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        browser.waitUntilElementDisappearsWithRetry(category, (int) properties.getImplicitWait());
-        return !browser.isElementDisplayed(category);
+        getBrowser().waitUntilElementDisappearsWithRetry(category, (int) properties.getImplicitWait());
+        return !getBrowser().isElementDisplayed(category);
     }
 }

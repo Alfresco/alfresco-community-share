@@ -18,13 +18,13 @@ import org.testng.annotations.Test;
 
 public class ManagingPendingInvitationsTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteMembersPage siteMembersPage;
 
-    @Autowired
+   //@Autowired
     AddSiteUsersPage addSiteUsersPage;
 
-    @Autowired
+   //@Autowired
     PendingInvitesPage pendingInvitesPage;
 
     /**

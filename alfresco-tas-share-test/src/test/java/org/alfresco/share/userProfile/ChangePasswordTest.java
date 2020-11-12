@@ -1,40 +1,41 @@
 package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-public class ChangePasswordTest extends ContextAwareWebTest
+public class ChangePasswordTest extends BaseShareWebTests
 {
-    private UserModel user, userInvalidChange;
-
-    @Autowired
+    private UserModel user;
     private ChangePasswordPage changePasswordPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void datePrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
-        userInvalidChange = dataUser.createRandomTestUser();
     }
 
-    @AfterClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        changePasswordPage = new ChangePasswordPage(browser);
+
+        setupAuthenticatedSession(user);
+    }
+
+    @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(user, userInvalidChange);
+        removeUserFromAlfresco(user);
     }
 
     @TestRail (id = "C2226")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void changeUserPassword()
     {
-        setupAuthenticatedSession(user);
         String newPassword = user.getPassword() + "--new";
         changePasswordPage.navigate(user)
             .assertChangePasswordPageIsOpened()
@@ -43,20 +44,19 @@ public class ChangePasswordTest extends ContextAwareWebTest
                 .assertUserProfilePageIsOpened();
         user.setPassword(newPassword);
         setupAuthenticatedSession(user);
-        userDashboard.assertUserDashboardPageIsOpened();
+        userDashboardPage.assertUserDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2227, 2229")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void incorrectOldOrNewPasswordTests()
     {
-        setupAuthenticatedSession(userInvalidChange);
-        changePasswordPage.navigate(userInvalidChange)
-            .changePasswordAndExpectError(userInvalidChange.getPassword() + "-invalid",
-                userInvalidChange.getPassword() + "-1",
-                userInvalidChange.getPassword() + "-1")
-            .changePasswordAndExpectError(userInvalidChange.getPassword(),
-                userInvalidChange.getPassword() + "-1",
-                userInvalidChange.getPassword() + "2");
+        changePasswordPage.navigate(user)
+            .changePasswordAndExpectError(user.getPassword() + "-invalid",
+                user.getPassword() + "-1",
+                user.getPassword() + "-1")
+            .changePasswordAndExpectError(user.getPassword(),
+                user.getPassword() + "-1",
+                user.getPassword() + "2");
     }
 }

@@ -1,13 +1,18 @@
 package org.alfresco.po.share.site.discussion;
 
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 
 /**
  * Created by Claudia Agache on 8/9/2016.
  */
-@PageObject
 public class EditTopicPage extends CreateNewTopicPage
 {
+    public EditTopicPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
     /**
      * Check if page is opened
      *

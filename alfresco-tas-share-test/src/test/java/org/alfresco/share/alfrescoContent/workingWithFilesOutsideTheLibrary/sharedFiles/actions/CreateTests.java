@@ -36,7 +36,7 @@ public class CreateTests extends ContextAwareWebTest
     private final String googleDocSpreadsheet = "googleDocTitle.xlsx";
     private final String googleDocPresentation = "googleDocTitle.pptx";
     private final String docContent = "googleDoccontent";
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
@@ -214,13 +214,12 @@ public class CreateTests extends ContextAwareWebTest
         sharedFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        sharedFilesPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
+        sharedFilesPage.clickOnTemplate(folderTemplateName);
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Insert data into input fields and save.");
         createFolderFromTemplate.fillInDetails("TestFolderC7931", "Test Title C7931", "Test Description C7931");
         createFolderFromTemplate.clickSave();
-        sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed("TestFolderC7931"), "Subfolder not found");
         Assert.assertTrue(sharedFilesPage.getExplorerPanelDocuments().contains("TestFolderC7931"), "Subfolder not found in Documents explorer panel");
@@ -253,7 +252,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(sharedFilesPage.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        sharedFilesPage.clickOnTemplate(fileTemplateName, sharedFilesPage);
+        sharedFilesPage.clickOnTemplate(fileTemplateName);
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
 
         LOG.info("Step 3: Login with testUser2 and navigate to Shared Files page.");
@@ -295,7 +294,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName));
         Assert.assertFalse(sharedFilesPage.isInfoBannerDisplayed(googleDocName), "Locked label displayed");
@@ -336,7 +334,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
         Assert.assertFalse(sharedFilesPage.isInfoBannerDisplayed(googleDocSpreadsheet), "Locked label displayed");
@@ -377,7 +374,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Presentation");
-        sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocPresentation));
         Assert.assertFalse(sharedFilesPage.isInfoBannerDisplayed(googleDocPresentation), "Locked label displayed");

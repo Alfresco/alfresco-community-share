@@ -1,29 +1,28 @@
 package org.alfresco.po.share.user;
 
 import org.alfresco.po.share.DashboardCustomization;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author bogdan.bocancea
  */
-@PageObject
 public class CustomizeUserDashboardPage extends DashboardCustomization<CustomizeUserDashboardPage>
 {
     @RenderWebElement
-    @FindBy (css = "div[id$='default-welcome-preference']")
-    private WebElement getStartedPanel;
-
+    private By getStartedPanel = By.cssSelector("div[id$='default-welcome-preference']");
     @RenderWebElement
-    @FindBy (css = "input[id$='welcomePanelEnabled']")
-    private WebElement showOnDashboardRadio;
+    private By showOnDashboardRadio = By.cssSelector( "input[id$='welcomePanelEnabled']");
+    private By hideFromDashboardRadio = By.cssSelector("input[id$='welcomePanelDisabled']");
 
-    @FindBy (css = "input[id$='welcomePanelDisabled']")
-    private WebElement hideFromDashboardRadio;
+    public CustomizeUserDashboardPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     @Override
     public String getRelativePath()
@@ -34,35 +33,35 @@ public class CustomizeUserDashboardPage extends DashboardCustomization<Customize
     public CustomizeUserDashboardPage selectShowGetStartedPanelOnDashboard()
     {
         LOG.info("Select Show on dashboard");
-        showOnDashboardRadio.click();
+        clickElement(showOnDashboardRadio);
         return this;
     }
 
     public CustomizeUserDashboardPage selectHideStartedPanelFromDashboard()
     {
         LOG.info("Select hide from Dashboard");
-        hideFromDashboardRadio.click();
+        clickElement(hideFromDashboardRadio);
         return this;
     }
 
     public CustomizeUserDashboardPage assertShowOnDashboardIsNotSelected()
     {
         LOG.info("Assert Show on dashboard is NOT selected");
-        Assert.assertFalse(showOnDashboardRadio.isSelected(), "Show on dashboard is not selected");
+        assertFalse(getBrowser().findElement(showOnDashboardRadio).isSelected(), "Show on dashboard is not selected");
         return this;
     }
 
     public CustomizeUserDashboardPage assertHideFromDashboardIsSelected()
     {
         LOG.info("Assert Hide from dashboard is selected");
-        Assert.assertTrue(hideFromDashboardRadio.isSelected(), "Hide from dashboard is selected");
+        assertTrue(getBrowser().findElement(hideFromDashboardRadio).isSelected(), "Hide from dashboard is selected");
         return this;
     }
 
     public CustomizeUserDashboardPage assertShowOnDashboardIsSelected()
     {
         LOG.info("Assert Show on dashboard is selected");
-        Assert.assertTrue(showOnDashboardRadio.isSelected(), "Show on dashboard is not selected");
+        assertTrue(getBrowser().findElement(showOnDashboardRadio).isSelected(), "Show on dashboard is not selected");
         return this;
     }
 }

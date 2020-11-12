@@ -1,45 +1,38 @@
 package org.alfresco.po.share.site.members;
 
+import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.context.annotation.Primary;
-
-import static org.testng.Assert.assertTrue;
-
-@Primary
-@PageObject
 public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 {
-    @FindAll (@FindBy (css = "td+td>div.yui-dt-liner>h3"))
-    private List<WebElement> namesList;
+    private SiteGroupsPage siteGroupsPage;
+    private SiteUsersPage siteUsersPage;
 
-    @FindBy (css = "a[id*='site-members-link']")
-    private WebElement siteUsers;
-
-    @FindBy (css = "a[id*='site-groups-link']")
-    private WebElement siteGroups;
-
-    @FindBy (css = "a[id*='pending-invites-link']")
-    private WebElement pendingInvites;
-
-    @FindAll (@FindBy (css = "tbody[class='yui-dt-data'] tr"))
-    private List<WebElement> siteMemberRow;
-
-    @FindAll (@FindBy (css = "div.visible ul.first-of-type li a"))
-    private List<WebElement> dropDownOptionsList;
-
+    private By namesList = By.cssSelector("td+td>div.yui-dt-liner>h3");
+    @RenderWebElement
+    private By siteUsers = By.cssSelector("a[id*='site-members-link']");
+    private By siteGroups = By.cssSelector("a[id*='site-groups-link']");
+    private By pendingInvites = By.cssSelector("a[id*='pending-invites-link']");
+    private By siteMemberRow = By.cssSelector("tbody[class='yui-dt-data'] tr");
+    private By dropDownOptionsList = By.cssSelector("div.visible ul.first-of-type li a");
     private By currentRoleButton = By.cssSelector("td[class*='role'] button");
     private By removeButton = By.cssSelector(".uninvite button");
     private By currentRole = By.cssSelector("td[class*='role'] div :first-child");
     private String memberName = "td>a[href$='%s/profile']";
+
+    public SiteMembersPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+        siteGroupsPage = new SiteGroupsPage(browser);
+        siteUsersPage = new SiteUsersPage(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -47,13 +40,6 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return String.format("share/page/site/%s/site-members", getCurrentSiteName());
     }
 
-    /**
-     * Method returns if the user or group has the specified role
-     *
-     * @param role String
-     * @param name String
-     * @return True if role is selected for the specified name
-     */
     public boolean isRoleSelected(String role, String name)
     {
         return selectMember(name).findElement(currentRole).getText().contains(role);
@@ -77,54 +63,32 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
      */
     public boolean isRoleButtonDisplayed(String name)
     {
-        return browser.isElementDisplayed(selectMember(name), currentRoleButton);
+        return getBrowser().isElementDisplayed(selectMember(name), currentRoleButton);
     }
 
-    /**
-     * Navigate to site groups page
-     *
-     * @return
-     */
     public SiteGroupsPage openSiteGroupsPage()
     {
-        siteGroups.click();
-        return new SiteGroupsPage();
+        getBrowser().findElement(siteGroups).click();
+        return (SiteGroupsPage) siteGroupsPage.renderedPage();
     }
 
-    /**
-     * Navigate to site users page
-     *
-     * @return
-     */
     public SiteUsersPage openSiteUsersPage()
     {
-        siteUsers.click();
-        return new SiteUsersPage();
+        getBrowser().findElement(siteUsers).click();
+        return (SiteUsersPage) siteUsersPage.renderedPage();
     }
 
-    /**
-     * Get all site users or groups names
-     *
-     * @return
-     */
     public List<String> getSiteMembersList()
     {
-        browser.waitUntilElementsVisible(namesList);
+        getBrowser().waitUntilElementsVisible(namesList);
         List<String> names = new ArrayList<>();
-        for (WebElement aNamesList : namesList)
+        for (WebElement aNamesList : getBrowser().findElements(namesList))
         {
             names.add(aNamesList.getText());
         }
-
         return names;
     }
 
-    /**
-     * Check if a user or a group is a site member
-     *
-     * @param name
-     * @return true if name is found in the members list, false otherwise
-     */
     public boolean isASiteMember(String name)
     {
         return getSiteMembersList().stream().anyMatch(member -> member.equals(name));
@@ -137,36 +101,24 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     public void waitSiteMemberToDisappear(String siteMember)
     {
-        browser.waitUntilElementDisappears(browser.findElement(By.cssSelector(String.format(memberName, siteMember))));
+        getBrowser().waitUntilElementDisappears(getBrowser().findElement(By.cssSelector(String.format(memberName, siteMember))));
     }
 
-    /**
-     * Select row corresponding to an user or a group
-     *
-     * @param name
-     * @return
-     */
     public WebElement selectMember(String name)
     {
-        return browser.findFirstElementWithValue(siteMemberRow, name);
+        return getBrowser().findFirstElementWithValue(siteMemberRow, name);
     }
 
-    /**
-     * Change the role for the specified userName
-     *
-     * @param newRole  String
-     * @param userName String
-     */
     public void changeRoleForMember(String newRole, String userName)
     {
         selectMember(userName).findElement(currentRoleButton).click();
-        browser.waitUntilElementsVisible(dropDownOptionsList);
-        browser.selectOptionFromFilterOptionsList(newRole, dropDownOptionsList);
+        getBrowser().waitUntilElementsVisible(dropDownOptionsList);
+        getBrowser().selectOptionFromFilterOptionsList(newRole, getBrowser().findElements(dropDownOptionsList));
         waitUntilNotificationMessageDisappears();
     }
 
     public boolean isPendingInvitesDisplayed()
     {
-        return browser.isElementDisplayed(pendingInvites);
+        return getBrowser().isElementDisplayed(pendingInvites);
     }
 }

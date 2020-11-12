@@ -25,7 +25,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     @Autowired
     private NewFolderDialog newFolderDialog;
 
-    @Autowired
+    //@Autowired
     private UploadFileDialog uploadFileDialog;
 
     @Autowired

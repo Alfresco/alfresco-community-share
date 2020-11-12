@@ -31,13 +31,13 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     private final String lastName = "LastName";
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private HeaderMenuBar headerMenuBar;
-    @Autowired
+    //@Autowired
     private DeleteDialog deleteDialog;
-    @Autowired
+    //@Autowired
     private UserProfilePage userProfilePage;
     @Autowired
     private UserTrashcanPage userTrashcanPage;
@@ -73,7 +73,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
             "Not selected content=");
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
         ArrayList<String> expectedDisplayedContent1 = new ArrayList<>(Collections.singletonList(fileName3));
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedDisplayedContent1.toString(), "Displayed files in 'Documents' list=");
 
@@ -133,7 +133,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
             "Not selected content=");
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
         ArrayList<String> expectedDisplayedContent1 = new ArrayList<>(Collections.singletonList(folderName3));
         assertTrue(documentLibraryPage.getFoldersList().toString().contains(expectedDisplayedContent1.toString()), "Displayed files in 'Documents' list=");
         LOG.info("STEP2: Open the user menu on the toolbar and click 'My Profile' then the 'Trashcan' tab");

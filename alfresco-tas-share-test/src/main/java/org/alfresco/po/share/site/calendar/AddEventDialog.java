@@ -26,7 +26,7 @@ public class AddEventDialog extends ShareDialog
     @RenderWebElement
     @FindBy (id = "eventEditPanel-dialog_h")
     protected WebElement dialogHeader;
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
     @Autowired
     CalendarPicker calendarPicker;

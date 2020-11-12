@@ -6,6 +6,7 @@ import java.util.List;
 import org.alfresco.po.share.Theme;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,7 +17,6 @@ import ru.yandex.qatools.htmlelements.element.Button;
 /**
  * @author bogdan.bocancea
  */
-@PageObject
 public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 {
     @Autowired
@@ -42,6 +42,11 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     private String renameAction = ".actions > a[name='.onRenameClick']";
     private String removeAction = ".actions > a[name='.onRemoveClick']";
 
+    public CustomizeSitePage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -55,7 +60,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isSiteThemeDisplayed()
     {
-        return browser.isElementDisplayed(siteThemeSelect);
+        return getBrowser().isElementDisplayed(siteThemeSelect);
     }
 
     public void selectTheme(Theme theme)
@@ -133,7 +138,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isRenameDisplayed(SitePageType page)
     {
-        return browser.isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + renameAction));
+        return getBrowser().isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + renameAction));
     }
 
     /**
@@ -144,7 +149,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isRemoveDisplayed(SitePageType page)
     {
-        return browser.isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + removeAction));
+        return getBrowser().isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + removeAction));
     }
 
     /**
@@ -154,13 +159,13 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public void addPageToSite(SitePageType page)
     {
-        WebElement pageElem = browser.findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = getBrowser().findElement(By.cssSelector(page.getCustomizeCssLocator()));
         getBrowser().waitUntilElementClickable(pageElem).click();
         getBrowser().waitUntilElementVisible(pageElem);
-        browser.scrollToElement(currentSitePagesArea);
+        getBrowser().scrollToElement(currentSitePagesArea);
         pageElem.click();
-        browser.waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
-        browser.dragAndDrop(pageElem, currentSitePagesArea);
+        getBrowser().waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
+        getBrowser().dragAndDrop(pageElem, currentSitePagesArea);
         retryAddPageToSite(page, pageElem);
     }
 
@@ -172,7 +177,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         while (i < retry && !added)
         {
             LOG.info(String.format("Retry add page - %s", i));
-            browser.dragAndDrop(pageElem, currentSitePagesArea);
+            getBrowser().dragAndDrop(pageElem, currentSitePagesArea);
             added = isPageAddedToCurrentPages(page);
             i++;
         }
@@ -186,7 +191,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isPageAddedToCurrentPages(SitePageType page)
     {
-        return browser.isElementDisplayed(By.cssSelector("ul[id$='default-currentPages-ul'] " + page.getCustomizeCssLocator()));
+        return getBrowser().isElementDisplayed(By.cssSelector("ul[id$='default-currentPages-ul'] " + page.getCustomizeCssLocator()));
     }
 
     /**
@@ -196,7 +201,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public void removePage(SitePageType page)
     {
-        WebElement pageElem = browser.findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = getBrowser().findElement(By.cssSelector(page.getCustomizeCssLocator()));
         pageElem.findElement(By.cssSelector(removeAction)).click();
     }
 
@@ -208,7 +213,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public void renamePage(SitePageType page, String newName)
     {
-        WebElement pageElem = browser.findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = getBrowser().findElement(By.cssSelector(page.getCustomizeCssLocator()));
         pageElem.findElement(By.cssSelector(renameAction)).click();
         renameSiteDialog.renderedPage();
         renameSiteDialog.typeDisplayName(newName);
@@ -223,7 +228,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public String getPageDisplayName(SitePageType page)
     {
-        WebElement pageElem = browser.findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = getBrowser().findElement(By.cssSelector(page.getCustomizeCssLocator()));
         return pageElem.findElement(By.cssSelector(".title")).getText();
     }
 }

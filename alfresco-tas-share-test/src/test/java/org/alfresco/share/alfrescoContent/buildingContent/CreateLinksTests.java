@@ -36,10 +36,10 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Autowired
     private SiteActivitiesDashlet siteActivitiesDashlet;
 
-    @Autowired
+   // @Autowired
     private SearchPage searchPage;
 
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
     @BeforeClass (alwaysRun = true)

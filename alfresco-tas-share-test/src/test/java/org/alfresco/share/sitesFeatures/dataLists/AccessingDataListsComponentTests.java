@@ -36,13 +36,13 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     @Autowired
     DataSite dataSite;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     CustomizeSitePage customizeSitePage;
 
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     private String userName;

@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 
 public class DeletingADataListTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     @Autowired

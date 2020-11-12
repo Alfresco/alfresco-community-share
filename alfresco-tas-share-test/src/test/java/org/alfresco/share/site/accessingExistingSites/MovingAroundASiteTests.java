@@ -18,13 +18,13 @@ import org.testng.annotations.Test;
 
 public class MovingAroundASiteTests extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     SiteDashboardPage siteDashboard;
 
-    @Autowired
+    //@Autowired
     CustomizeSitePage customizeSite;
 
-    @Autowired
+    //@Autowired
     AddSiteUsersPage addSiteUsersPage;
 
     private String user = String.format("User1%s", RandomData.getRandomAlphanumeric());

@@ -6,6 +6,7 @@ import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -19,13 +20,12 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 /**
  * Created by Claudia Agache on 7/22/2016.
  */
-@PageObject
 public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 {
-    @Autowired
+    //@Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
     @RenderWebElement
@@ -63,6 +63,11 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     @FindBy (css = "[id*=default-load-popular-tags-link]")
     private Button choosePopularTags;
+
+    public CreateLinkPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     @Override
     public String getRelativePath()
@@ -123,7 +128,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public boolean isLinkDescriptionDisplayed()
     {
-        return browser.isElementDisplayed(linkDescription);
+        return getBrowser().isElementDisplayed(linkDescription);
     }
 
     public String getLinkDescription()

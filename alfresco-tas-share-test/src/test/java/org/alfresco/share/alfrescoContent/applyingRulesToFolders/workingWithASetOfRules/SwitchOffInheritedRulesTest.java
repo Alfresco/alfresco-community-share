@@ -41,13 +41,13 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     private final String path = "Sites/" + siteName + "/documentLibrary/" + folder1;
     @Autowired
     SelectDestinationDialog selectDestinationDialog;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private ManageRulesPage manageRulesPage;
-    @Autowired
+    //@Autowired
     private EditRulesPage editRulesPage;
-    @Autowired
+    //@Autowired
     private RuleDetailsPage ruleDetailsPage;
     @Autowired
     private DocumentCommon documentCommon;
@@ -63,7 +63,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for " + folder1);
-        documentLibraryPage.clickDocumentLibraryItemAction(folder1, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folder1, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder1 + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
@@ -101,7 +101,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     public void switchOffInheritRules()
     {
         LOG.info("STEP1: Navigate to 'Manage Rules' page for " + folder2);
-        documentLibraryPage.clickDocumentLibraryItemAction(folder2, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folder2, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder2 + ": Rules", "Rule title=");
         LOG.info("STEP2: Click on 'Inherit Rules' button");

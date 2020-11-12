@@ -2,32 +2,25 @@ package org.alfresco.share.adminTools.users;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreateUsersTests extends ContextAwareWebTest
+public class CreateUsersTests extends BaseShareWebTests
 {
-    @Autowired
     private CreateUserPage createUsers;
-
-    @Autowired
     private UsersPage usersPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void authenticate()
-    {
-        setupAuthenticatedSession(getAdminUser());
-    }
 
     @BeforeMethod (alwaysRun = true)
     public void precondition()
     {
+        createUsers = new CreateUserPage(browser);
+        usersPage = new UsersPage(browser);
+
+        setupAuthenticatedSession(getAdminUser());
         usersPage.navigate();
     }
 

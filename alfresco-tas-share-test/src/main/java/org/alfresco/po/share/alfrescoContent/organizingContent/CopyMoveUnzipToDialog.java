@@ -119,13 +119,6 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         waitUntilNotificationMessageDisappears();
     }
 
-    public SharePage clickCreateLinkButton(SharePage page)
-    {
-        browser.waitUntilElementClickable(createLinkButton).click();
-        waitUntilMessageDisappears();
-        return (SharePage) page.renderedPage();
-    }
-
     public boolean isCreateLinkButtonDisplayed()
     {
         return getBrowser().isElementDisplayed(createLinkButton);
@@ -145,29 +138,25 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         return this;
     }
 
-    public SharePage clickUnzipButton(SharePage page)
+    public void clickUnzipButton()
     {
         getBrowser().waitUntilElementClickable(unzipCopyMoveButton, 3).click();
-        return (SharePage) page.renderedPage();
     }
 
-    public SharePage clickCopyButton(SharePage page)
+    public void clickCopyButton()
     {
         getBrowser().waitUntilElementClickable(unzipCopyMoveButton).click();
         waitUntilMessageDisappears();
-        return (SharePage) page.renderedPage();
     }
 
-    public SharePage clickCancelButton(SharePage page)
+    public void clickCancelButton()
     {
         getBrowser().waitUntilElementClickable(cancelButton, 3).click();
-        return (SharePage) page.renderedPage();
     }
 
-    public SharePage clickMoveButton(SharePage page)
+    public void clickMoveButton()
     {
         getBrowser().waitUntilElementClickable(unzipCopyMoveButton).click();
         waitUntilMessageDisappears();
-        return (SharePage) page.renderedPage();
     }
 }

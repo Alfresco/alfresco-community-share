@@ -21,10 +21,10 @@ import org.testng.annotations.Test;
  */
 public class CustomizeSiteDashboardTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CustomizeSiteDashboardPage customizeSite;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboard;
 
     @Autowired

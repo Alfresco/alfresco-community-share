@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 
 public class WikiDashletTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboard;
 
     @Autowired

@@ -31,7 +31,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
     private final String lastName = "LastName";
     private final String description = "Description-" + random;
     private final String fileContent = "content of the file.";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

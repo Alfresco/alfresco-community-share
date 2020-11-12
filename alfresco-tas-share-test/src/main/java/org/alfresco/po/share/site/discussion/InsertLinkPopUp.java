@@ -1,8 +1,8 @@
 package org.alfresco.po.share.site.discussion;
 
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,9 +12,10 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 /**
  * Created by Claudia Agache on 8/11/2016.
  */
-@PageObject
-public class InsertLinkPopUp extends ShareDialog
+public class InsertLinkPopUp extends ShareDialog2
 {
+    private TopicViewPage topicViewPage;
+
     @RenderWebElement
     @FindBy (className = "mce-title")
     private WebElement popupTitle;
@@ -47,6 +48,12 @@ public class InsertLinkPopUp extends ShareDialog
     private By targetMenu = By.cssSelector("#mce-modal-block+div");
     private By targetMenuItem = By.className("mce-text");
 
+    public InsertLinkPopUp(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+        topicViewPage = new TopicViewPage(browser);
+    }
+
     public TopicViewPage insertLink(String url, String text, String title, String target)
     {
         urlInput.sendKeys(url);
@@ -54,10 +61,10 @@ public class InsertLinkPopUp extends ShareDialog
         textToDisplayInput.sendKeys(text);
         titleInput.sendKeys(title);
         targetButton.click();
-        WebElement menu = browser.waitUntilElementVisible(targetMenu);
-        browser.findFirstElementWithValue(menu.findElements(targetMenuItem), target).click();
+        WebElement menu = getBrowser().waitUntilElementVisible(targetMenu);
+        getBrowser().findFirstElementWithValue(menu.findElements(targetMenuItem), target).click();
         okButton.click();
-        return new TopicViewPage();
+        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     public String getPopupTitle()
@@ -67,7 +74,7 @@ public class InsertLinkPopUp extends ShareDialog
 
     public boolean isTextPresent(String text)
     {
-        browser.waitUntilElementContainsText(insertLinkPopup, text);
+        getBrowser().waitUntilElementContainsText(insertLinkPopup, text);
         return insertLinkPopup.getText().contains(text);
     }
 }

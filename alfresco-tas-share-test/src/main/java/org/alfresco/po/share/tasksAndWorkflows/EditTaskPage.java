@@ -10,13 +10,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
 @PageObject
 public class EditTaskPage extends SharePage<EditTaskPage>
 {
-    @Autowired
+    //@Autowired
     MyTasksPage myTasksPage;
 
     @RenderWebElement
@@ -83,21 +82,19 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         return this;
     }
 
-    public <T> SharePage approve(String comment, SharePage<T> page)
+    public void approve(String comment)
     {
         this.outcomeApprove = "Approved";
         commentTextArea.sendKeys(comment);
         approveButton.click();
-        return (SharePage) page.renderedPage();
     }
 
-    public <T> SharePage reject(String comment, SharePage<T> page)
+    public void reject(String comment)
     {
         getBrowser().waitUntilElementVisible(commentTextArea);
         commentTextArea.sendKeys(comment);
         getBrowser().waitUntilElementVisible(rejectButton);
         getBrowser().waitUntilElementClickable(rejectButton).click();
-        return page;
     }
 
     public void clickRejectButton()
@@ -188,10 +185,9 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         commentTextArea.sendKeys(comment);
     }
 
-    public <T> SharePage clickOnSaveButton(SharePage<T> page)
+    public void clickOnSaveButton()
     {
         browser.findElement(saveButton).click();
-        return (SharePage) page.renderedPage();
     }
 
     public boolean isStatusOptionPresent(TaskStatus status)
@@ -233,18 +229,10 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         return (EditTaskPage) this.renderedPage();
     }
 
-    public MyTasksPage clickTaskDoneButton()
+    public void clickTaskDoneButton()
     {
         browser.waitUntilElementVisible(taskDoneButton);
         taskDoneButton.click();
-        return (MyTasksPage) myTasksPage.renderedPage();
-    }
-
-    public <T> SharePage clickTaskDoneButton(SharePage<T> page)
-    {
-        browser.waitUntilElementVisible(taskDoneButton);
-        taskDoneButton.click();
-        return (SharePage) page.renderedPage();
     }
 
     public String getItemsList()

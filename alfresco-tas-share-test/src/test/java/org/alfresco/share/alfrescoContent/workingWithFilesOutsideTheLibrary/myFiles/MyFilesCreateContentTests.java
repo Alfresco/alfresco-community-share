@@ -32,7 +32,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     private final String googleDocPresentation = "googleDoc title.pptx";
     private final String docContent = "googleDoccontent";
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+   // @Autowired
     private MyFilesPage myFilesPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
@@ -170,7 +170,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         myFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
         Assert.assertTrue(myFilesPage.isTemplateDisplayed(folderTemplateName));
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        myFilesPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
+        myFilesPage.clickOnTemplate(folderTemplateName);
         //Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
@@ -194,7 +194,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(myFilesPage.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        myFilesPage.clickOnTemplate(fileTemplateName, myFilesPage);
+        myFilesPage.clickOnTemplate(fileTemplateName);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
     }
 

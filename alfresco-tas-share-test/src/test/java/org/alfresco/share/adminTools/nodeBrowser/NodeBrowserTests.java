@@ -1,30 +1,35 @@
 package org.alfresco.share.adminTools.nodeBrowser;
 
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * UI tests for Admin Tools > Node browser page
- */
-public class NodeBrowserTests extends ContextAwareWebTest
+public class NodeBrowserTests extends BaseShareWebTests
 {
-    @Autowired
     private NodeBrowserPage nodeBrowserPage;
 
     private SiteModel site;
     private FileModel file;
     private final String content = RandomStringUtils.randomAlphanumeric(10);
     private String cmisSearchTerm;
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        nodeBrowserPage = new NodeBrowserPage(browser);
+
+        setupAuthenticatedSession(dataUser.getAdminUser());
+        nodeBrowserPage.navigate();
+    }
 
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
@@ -35,9 +40,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
         cmisApi.authenticateUser(dataUser.getAdminUser()).usingSite(site)
             .createFile(file);
         cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
-
-        setupAuthenticatedSession(dataUser.getAdminUser());
-        nodeBrowserPage.navigate();
     }
 
     @AfterClass (alwaysRun = true)
@@ -132,7 +134,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
             .assertSearchButtonIsDisplayed();
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS })
     public void executeCustomNodeSearch()
     {
         LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
@@ -141,7 +143,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
             .assertReferenceContainsValue("workspace://SpacesStore/");
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS })
     public void getSearchResultsNoResults()
     {
         LOG.info("Step 1: Navigate to Node Browser page and perform a search that will not return results");

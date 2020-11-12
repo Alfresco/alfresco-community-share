@@ -19,13 +19,13 @@ import org.testng.annotations.Test;
 
 public class SiteProfileDashletTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboard;
 
     @Autowired
     SiteProfileDashlet siteProfileDashlet;
 
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
 
     private String userName1;

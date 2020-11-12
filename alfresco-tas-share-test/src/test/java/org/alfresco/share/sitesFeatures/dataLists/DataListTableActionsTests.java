@@ -24,7 +24,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     private final String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("description%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     @Autowired
     ManageContactListItems manageContactListItems;

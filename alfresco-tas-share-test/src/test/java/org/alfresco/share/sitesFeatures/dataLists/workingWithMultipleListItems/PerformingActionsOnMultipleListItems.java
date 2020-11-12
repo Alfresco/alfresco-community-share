@@ -28,7 +28,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
     @Autowired
     ContactListSelectedContent contactListSelectedContent;
 
-    @Autowired
+   // @Autowired
     DataListsPage dataListsPage;
 
     private String uniqueIdentifier;

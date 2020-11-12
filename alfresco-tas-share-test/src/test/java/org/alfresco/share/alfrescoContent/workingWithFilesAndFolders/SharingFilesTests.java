@@ -34,11 +34,11 @@ public class SharingFilesTests extends ContextAwareWebTest
     private final String folderName = "C7093 folder";
     private final String siteNameC7093 = String.format("C7093%s", RandomData.getRandomAlphanumeric());
     private final String siteNameC7649 = String.format("siteNameC7649%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private SocialFeatures social;
-    @Autowired
+    //@Autowired
     private LoginPage loginPage;
     @Autowired
     private DocumentDetailsPage documentDetails;

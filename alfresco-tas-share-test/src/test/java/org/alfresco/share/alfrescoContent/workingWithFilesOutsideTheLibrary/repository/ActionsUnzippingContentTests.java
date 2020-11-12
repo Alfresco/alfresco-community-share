@@ -69,7 +69,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickUnzipButton(documentDetailsPage);
+        unzipToDialog.clickUnzipButton();
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);
@@ -97,7 +97,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickUnzipButton(documentDetailsPage);
+        unzipToDialog.clickUnzipButton();
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);

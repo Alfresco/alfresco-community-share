@@ -7,10 +7,10 @@
  */
 package org.alfresco.common;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.alfresco.utility.web.browser.WebBrowserFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
 
 /**
  * @author Bogdan Bocancea
@@ -21,4 +21,14 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource({"dataprep.properties"})
 public class ShareTestContext
 {
+   /* @Autowired
+    private WebBrowserFactory browserFactory;
+
+    @Bean
+    public ThreadLocal<WebBrowser> browser() throws Exception
+    {
+        ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
+        browser.set(browserFactory.getWebBrowser());
+        return browser;
+    }*/
 }

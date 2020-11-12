@@ -30,16 +30,16 @@ import org.testng.annotations.Test;
  */
 public class BasicSearchTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
 
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired
@@ -119,7 +119,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         assertTrue(toolbar.isResultDisplayedInLiveSearch(siteName1), "Live search result list contains the searched site.");
 
         LOG.info("STEP5: Click a site link from search results");
-        toolbar.clickResult(siteName1, siteDashboardPage);
+        toolbar.clickResult(siteName1);
         assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "The user1 is redirected to:");
 
         LOG.info("STEP6: Fill in toolbar search field with a document name");
@@ -127,7 +127,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         assertTrue(toolbar.isResultDisplayedInLiveSearch(docName1), "Live search result list contains the searched document.");
 
         LOG.info("STEP7: Click a document link from search results");
-        toolbar.clickResult(docName1, documentDetailsPage);
+        toolbar.clickResult(docName1);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "The user1 is redirected to:");
 
         LOG.info("STEP8: Fill in toolbar search field with a wiki page");

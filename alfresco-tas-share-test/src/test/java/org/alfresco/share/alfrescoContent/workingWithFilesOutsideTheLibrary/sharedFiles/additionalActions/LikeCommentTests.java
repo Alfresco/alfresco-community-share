@@ -31,9 +31,9 @@ public class LikeCommentTests extends ContextAwareWebTest
     private final String comment = "Comment " + uniqueId;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private SocialFeatures social;
 
     @BeforeClass (alwaysRun = true)

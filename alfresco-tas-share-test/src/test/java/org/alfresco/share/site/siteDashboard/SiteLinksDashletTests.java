@@ -30,17 +30,18 @@ import org.testng.annotations.Test;
  */
 public class SiteLinksDashletTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboard;
 
     @Autowired
     SiteLinksDashlet siteLinksDashlet;
 
-    @Autowired
+   // @Autowired
     CreateLinkPage createLinkPage;
 
-    @Autowired
+    //@Autowired
     LinkDetailsViewPage linkDetailsViewPage;
+
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
     private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private String siteName;

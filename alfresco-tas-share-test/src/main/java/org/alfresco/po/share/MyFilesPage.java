@@ -4,12 +4,17 @@ import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-@PageObject
 public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
+    public MyFilesPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -20,12 +25,12 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     @Override
     public MyFilesPage navigateByMenuBar()
     {
-        return toolbar.clickMyFiles();
+        return (MyFilesPage) new Toolbar(browser).clickMyFiles().renderedPage();
     }
 
     public MyFilesPage assertMyFilesPageIsOpened()
     {
-        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "My Files page is opened");
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "My Files page is opened");
         return this;
     }
 }
