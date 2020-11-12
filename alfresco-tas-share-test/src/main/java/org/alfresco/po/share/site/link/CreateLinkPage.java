@@ -1,12 +1,10 @@
 package org.alfresco.po.share.site.link;
 
 import java.util.List;
-
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -23,10 +21,10 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 {
     @Autowired
-    LinkDetailsViewPage linkDetailsViewPage;
+    private LinkDetailsViewPage linkDetailsViewPage;
 
     @Autowired
-    LinkPage linkPage;
+    private LinkPage linkPage;
 
     @RenderWebElement
     @FindBy (css = "button[id$='links-linkedit_x0023_default-ok-button']")
@@ -70,76 +68,31 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
         return String.format("share/page/site/%s/links-linkedit", getCurrentSiteName());
     }
 
-    public boolean isSaveButtonDisplayed()
-    {
-        return saveButton.isDisplayed();
-    }
-
     public LinkDetailsViewPage clickSaveButton()
     {
         saveButton.click();
         return (LinkDetailsViewPage) linkDetailsViewPage.renderedPage();
     }
 
-    public boolean isLinkTitleDisplayed()
+    public CreateLinkPage typeLinkTitle(String title)
     {
-        return linkTitle.isDisplayed();
-    }
-
-    public boolean isLinkTitleMandatory()
-    {
-        return linkTitle.getWrappedElement().findElement(By.xpath("../*[text()='*']")).isDisplayed();
-    }
-
-    public String getLinkTitle()
-    {
-        return linkTitle.getText();
-    }
-
-    public void typeLinkTitle(String title)
-    {
+        LOG.info("Clear and type link title: {}", title);
         Utils.clearAndType(linkTitle, title);
+        return this;
     }
 
-    public boolean isLinkURLDisplayed()
+    public CreateLinkPage typeLinkUrl(String url)
     {
-        return linkURL.isDisplayed();
-    }
-
-    public boolean isLinkURLMandatory()
-    {
-        return linkURL.getWrappedElement().findElement(By.xpath("../*[text()='*']")).isDisplayed();
-    }
-
-    public String getLinkURL()
-    {
-        return linkURL.getText();
-    }
-
-    public void typeLinkURL(String url)
-    {
+        LOG.info("Clear and type link url: {}", url);
         Utils.clearAndType(linkURL, url);
+        return this;
     }
 
-    public boolean isLinkDescriptionDisplayed()
+    public CreateLinkPage typeLinkDescription(String description)
     {
-        return browser.isElementDisplayed(linkDescription);
-    }
-
-    public String getLinkDescription()
-    {
-        return linkDescription.getText();
-    }
-
-    public void typeLinkDescription(String description)
-    {
-        linkDescription.clear();
-        linkDescription.sendKeys(description);
-    }
-
-    public boolean isLinkInternalDisplayed()
-    {
-        return linkInternal.isDisplayed();
+        LOG.info("Clear and type link description");
+        clearAndType(linkDescription, description);
+        return this;
     }
 
     public boolean isLinkInternalChecked()
@@ -152,45 +105,18 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
         linkInternal.select();
     }
 
-    public boolean isLinkTagDisplayed()
+    public CreateLinkPage addTag(String tag)
     {
-        return linkTag.isDisplayed();
-    }
-
-    public boolean isAddTagButtonDisplayed()
-    {
-        return addTagButton.isDisplayed();
-    }
-
-    public void addTag(String tag)
-    {
-        Utils.clearAndType(linkTag, tag);
+        LOG.info("Add tag: {}", tag);
+        clearAndType(linkTag, tag);
         addTagButton.click();
-    }
 
-    public boolean isPopularTagsLinkDisplayed()
-    {
-        return popularTagsLink.isDisplayed();
-    }
-
-    public void clickPopularTagsLink()
-    {
-        popularTagsLink.click();
-    }
-
-    public boolean isCancelButtonDisplayed()
-    {
-        return cancelButton.isDisplayed();
+        return this;
     }
 
     public LinkPage clickCancelButton()
     {
         cancelButton.click();
         return (LinkPage) linkPage.renderedPage();
-    }
-
-    public boolean isChoosePopularTagsLinkDisplayed()
-    {
-        return choosePopularTags.isDisplayed();
     }
 }
