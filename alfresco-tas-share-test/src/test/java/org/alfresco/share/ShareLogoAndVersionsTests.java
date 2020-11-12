@@ -5,7 +5,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class LogoTests extends ContextAwareWebTest
+public class ShareLogoAndVersionsTests extends ContextAwareWebTest
 {
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -26,5 +26,11 @@ public class LogoTests extends ContextAwareWebTest
                 .assertContributionSectionIsDisplayed()
                 .assertClickAlfrescoLink()
                 .assertClickLegalAndLicenseLink();
+    }
+
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    public void checkThatShareVersionWarningIsNotDisplayed()
+    {
+        userDashboard.assertShareVersionWarningIsNotDisplayed();
     }
 }
