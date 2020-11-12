@@ -1,8 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
+import static org.testng.Assert.assertEquals;
 
-import org.alfresco.po.share.site.members.AddSiteUsersPage;
+import java.util.List;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -19,20 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 {
-    private final String membersPath = "(.//div[contains(@class, 'colleagues')]//div[contains(@class, 'detail-list-item')])";
+    private static final String EMPTY_SPACE = " ";
+
     @RenderWebElement
     @FindBy (css = "div[class*='colleagues']")
     protected WebElement dashletContainer;
-    @Autowired
-    AddSiteUsersPage addSiteUsersPage;
-    @Autowired
-    UserProfilePage userProfilePage;
-    @Autowired
-    SiteMembersPage siteMembersPage;
+
     @FindBy (css = "a[href='add-users']")
     private WebElement addUsersLink;
-    @FindBy (xpath = membersPath)
-    private List<WebElement> siteMembersList;
 
     @FindBy (css = "div[class*='scrollableList'] div[class*='info'] :first-child")
     private WebElement emptyMembersListMessage;
@@ -46,10 +40,15 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     @FindAll (@FindBy (css = "div[class='body scrollableList'] div.person"))
     private List<WebElement> membersList;
 
-    @FindAll (@FindBy (css = "div[class='body scrollableList'] div.person a"))
-    private List<WebElement> memberNameList;
+    @Autowired
+    private UserProfilePage userProfilePage;
+
+    @Autowired
+    private SiteMembersPage siteMembersPage;
 
     private By memberRole = By.cssSelector("div.person>div");
+    private String usernameLocator = "//a[normalize-space()='%s']";
+    private String userRoleLocator = "//div[@class='person']/div[normalize-space()='%s']";
 
     private WebElement allMembersButton(String buttonText)
     {
@@ -64,11 +63,16 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 
     public String getEmptyMembersListMessage()
     {
-       /* if (membersList.isEmpty())
-            return emptyMembersListMessage.getText();
-        else
-            return "Site members list isn't empty.";*/
         return emptyMembersListMessage.getText();
+    }
+
+    public SiteMembersDashlet assertMembersListMessageEquals(String expectedMembersListMessage)
+    {
+        LOG.info("Assert members list message equals: {}", expectedMembersListMessage);
+        assertEquals(emptyMembersListMessage.getText(), expectedMembersListMessage,
+            String.format("Members list message not equals %s ", expectedMembersListMessage));
+
+        return this;
     }
 
     public boolean isAddUsersLinkDisplayed()
@@ -76,77 +80,60 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
         return browser.isElementDisplayed(addUsersLink);
     }
 
-    public String getAddUsersLinkText()
+    public SiteMembersDashlet assertAddUsersLinkTextEquals(String expectedAddUsersLinkText)
     {
-        return addUsersLink.getText();
+        LOG.info("Assert Add Users link text equals: {}", expectedAddUsersLinkText);
+        assertEquals(addUsersLink.getText(), expectedAddUsersLinkText,
+            String.format("Add Users link text not equals %s ", expectedAddUsersLinkText));
+
+        return this;
     }
 
-    public boolean isAllMembersLinkDisplayed()
+    public SiteMembersDashlet assertAllMembersLinkTextEquals(String expectedAllMembersLinkText)
     {
-        return browser.isElementDisplayed(allMembersLink);
+        LOG.info("Assert All Members link text equals: {}", expectedAllMembersLinkText);
+        assertEquals(allMembersLink.getText(), expectedAllMembersLinkText,
+            String.format("All Members link text not equals %s ", expectedAllMembersLinkText));
+
+        return this;
     }
 
-    public String getAllMembersLinkText()
+    public SiteMembersDashlet assertUsernameEquals(String expectedFirstName, String expectedLastName)
     {
-        return allMembersLink.getText();
+        LOG.info("Assert user name equals: {}, {}", expectedFirstName, expectedLastName);
+        String actualUsername = formattedActualUsername(expectedFirstName, expectedLastName);
+        assertEquals(actualUsername, expectedFirstName.concat(EMPTY_SPACE).concat(expectedLastName));
+
+        return this;
     }
 
-    /**
-     * Verifies each member's information is displayed and not empty
-     *
-     * @param info member's information to be checked: username, role
-     */
-    public boolean isUserInfoDisplayed(String info)
+    private String formattedActualUsername(String expectedFirstName, String expectedLastName)
     {
-        int counter = 0;
-        String username = "//div[@class='person']//a";
-        String role = "//div[@class='person']/div";
+        browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(usernameLocator,
+            expectedFirstName.concat(EMPTY_SPACE).concat(expectedLastName))), WAIT_1, RETRY_TIMES);
 
-        switch (info)
-        {
-            case "username":
-                info = username;
-                break;
-            case "role":
-                info = role;
-                break;
-            default:
-                throw new IllegalArgumentException("Parameter can be 'username' or 'role'. " + info + " is incorrect!");
-        }
-
-        for (int i = 0; i < membersList.size(); i++)
-        {
-            String member = membersPath + "[" + (i + 1) + "]";
-
-            if (browser.findElement(By.xpath(member + info)).isDisplayed())
-                if (!browser.findElement(By.xpath(member + info)).getText().isEmpty())
-                    counter++;
-                else
-                    break;
-            else
-                break;
-        }
-
-        return counter == membersList.size();
+        return browser.findElement(By.xpath(String
+            .format(usernameLocator, expectedFirstName.concat(EMPTY_SPACE).concat(expectedLastName))))
+            .getText();
     }
 
-    public boolean isPaginationDisplayed()
+    public SiteMembersDashlet assertUserRoleEquals(String expectedUserRole)
     {
-        return browser.isElementDisplayed(paginationSection);
+        LOG.info("Assert user role equals: {}", expectedUserRole);
+        String actualUserRole = browser.findElement(By.xpath(String.format(userRoleLocator, expectedUserRole))).getText();
+        assertEquals(actualUserRole, expectedUserRole,
+            String.format("User role not equals %s ", expectedUserRole));
+
+        return this;
     }
 
-    public String getPaginationText()
+    public SiteMembersDashlet assertPaginationTextEquals(String expectedPaginationText)
     {
-        return paginationSection.getText();
-    }
+        LOG.info("Assert pagination text equals: {}", expectedPaginationText);
+        assertEquals(paginationSection.getText(), expectedPaginationText,
+            String.format("Pagination text not equals %s ", expectedPaginationText));
 
-    /**
-     * Press Add Users button
-     */
-    public AddSiteUsersPage addSiteUsers()
-    {
-        addUsersLink.click();
-        return (AddSiteUsersPage) addSiteUsersPage.renderedPage();
+        return this;
     }
 
     public String getMemberRole(String member)
@@ -154,18 +141,11 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
         return browser.findFirstElementWithValue(membersList, member).findElement(memberRole).getText();
     }
 
-    public UserProfilePage selectSiteMember(String userName)
+    public UserProfilePage navigateToProfilePageOfGivenUser(String username)
     {
-        browser.waitUntilElementsVisible(memberNameList);
-        browser.findFirstElementWithValue(memberNameList, userName).click();
+        LOG.info("Navigate to profile page of given user: {}", username);
+        browser.findElement(By.xpath(String.format(usernameLocator, username))).click();
         return (UserProfilePage) userProfilePage.renderedPage();
-    }
-
-    public boolean isMemberNameDisplayed(String userName)
-    {
-        browser.waitUntilElementsVisible(memberNameList);
-        String actualUserName = browser.findFirstElementWithValue(memberNameList, userName).getText();
-        return actualUserName.equals(userName);
     }
 
     public SiteMembersPage clickAllMembersButton(String buttonText)

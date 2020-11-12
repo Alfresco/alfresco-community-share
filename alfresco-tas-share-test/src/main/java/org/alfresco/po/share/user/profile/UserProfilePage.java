@@ -1,6 +1,7 @@
 package org.alfresco.po.share.user.profile;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -110,55 +111,55 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     public UserProfilePage assertUserProfilePageIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(infoLink), "User profile page is opened");
+        assertTrue(browser.isElementDisplayed(infoLink), "User profile page is opened");
         return this;
     }
 
     public UserProfilePage assertInfoLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(infoLink), "Info link is displayed");
+        assertTrue(browser.isElementDisplayed(infoLink), "Info link is displayed");
         return this;
     }
 
     public UserProfilePage assertSitesLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(sitesLink), "Sites link is displayed");
+        assertTrue(browser.isElementDisplayed(sitesLink), "Sites link is displayed");
         return this;
     }
 
     public UserProfilePage assertContentLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(contentLink), "Content link is displayed");
+        assertTrue(browser.isElementDisplayed(contentLink), "Content link is displayed");
         return this;
     }
 
     public UserProfilePage assertImFollowingLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(followingLink), "Following link is displayed");
+        assertTrue(browser.isElementDisplayed(followingLink), "Following link is displayed");
         return this;
     }
 
     public UserProfilePage assertFollowingMeLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(followersLink), "Following Me link is displayed");
+        assertTrue(browser.isElementDisplayed(followersLink), "Following Me link is displayed");
         return this;
     }
 
     public UserProfilePage assertChangePasswordLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(changePasswordLink), "Change password link is displayed");
+        assertTrue(browser.isElementDisplayed(changePasswordLink), "Change password link is displayed");
         return this;
     }
 
     public UserProfilePage assertNotificationsLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(notificationLink), "Notifications link is displayed");
+        assertTrue(browser.isElementDisplayed(notificationLink), "Notifications link is displayed");
         return this;
     }
 
     public UserProfilePage assertTrashcanLinkIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(trashcanLink), "Trashcan link is displayed");
+        assertTrue(browser.isElementDisplayed(trashcanLink), "Trashcan link is displayed");
         return this;
     }
 
@@ -203,10 +204,12 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
         return (EditUserProfilePage) editUserProfilePage.renderedPage();
     }
 
-    public String assertUsernameEquals(String firstName, String lastName)
+    public UserProfilePage assertUsernameEquals(String firstName, String lastName)
     {
-        assertEquals(nameLabel.getText(), firstName.concat(EMPTY_SPACE).concat(lastName));
-        return nameLabel.getText();
+        LOG.info("Assert username equals: {}, {}", firstName, lastName);
+        assertEquals(nameLabel.getText(), firstName.concat(EMPTY_SPACE).concat(lastName),
+            String.format("Username not equals %s %s ", firstName, lastName));
+        return this;
     }
 
     public UserProfilePage assertSummaryIs(String summaryValue)
@@ -223,15 +226,15 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     public UserProfilePage assertAboutUserHasValues(String... values)
     {
-        LOG.info(String.format("Assert values '%s' are displayed in About User section", Arrays.asList(values)));
-        Assert.assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
+        LOG.info("Assert values {} are displayed in About User section", Arrays.asList(values));
+        assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
         return this;
     }
 
     public UserProfilePage assertUserInfoIsEmpty()
     {
         LOG.info("Assert About user has no values");
-        Assert.assertTrue(getAboutUserInfo().isEmpty(), "User info has no values");
+        assertTrue(getAboutUserInfo().isEmpty(), "User info has no values");
         return this;
     }
 
@@ -301,13 +304,13 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     public UserProfilePage assertDefaultAvatarIsDisplayed()
     {
         browser.waitUntilElementHasAttribute(photo, "src", "no-user-photo-64.png");
-        Assert.assertTrue(photo.getAttribute("src").contains("no-user-photo-64.png"));
+        assertTrue(photo.getAttribute("src").contains("no-user-photo-64.png"));
         return this;
     }
 
     public UserProfilePage assertNewAvatarIsDisplayed()
     {
-        Assert.assertTrue(photo.getAttribute("src").contains("/content/thumbnails/avatar"));
+        assertTrue(photo.getAttribute("src").contains("/content/thumbnails/avatar"));
         return this;
     }
 }
