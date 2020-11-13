@@ -1,16 +1,16 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
+import static org.testng.Assert.assertEquals;
 
+import java.util.List;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.Link;
 
 @PageObject
 public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
@@ -18,26 +18,16 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     @RenderWebElement
     @FindBy (css = "div.dashlet.site-profile")
     protected HtmlElement dashletContainer;
-    @RenderWebElement
-    @FindAll (@FindBy (css = "p"))
-    protected List<WebElement> sitesProfileLabels;
-    @RenderWebElement
-    @FindAll (@FindBy (css = "p a"))
-    protected List<WebElement> siteManagersList;
-    @Autowired
-    UserProfilePage userProfilePage;
+
     @RenderWebElement
     @FindBy (css = ".msg.dashlet-padding>h2")
     private WebElement welcomeMessage;
-    @RenderWebElement
-    @FindBy (xpath = "//span[normalize-space(.) = 'Site Manager(s):']")
-    private WebElement siteManagersLabel;
-    @RenderWebElement
-    @FindBy (xpath = "//span[normalize-space(.) = 'Visibility:']")
-    private WebElement visibilityLabel;
-    @RenderWebElement
-    @FindBy (xpath = "//div[normalize-space(.) = 'This dashlet displays the site details. Only the site manager can change this information.']")
-    private WebElement helpText;
+
+    private final By siteProfileRowLocator = By.cssSelector("div[class='msg dashlet-padding'] > p");
+    private final String managerLinkLocator = "//div[@class='msg dashlet-padding']//a[text()='%s']";
+
+    @Autowired
+    private UserProfilePage userProfilePage;
 
     @Override
     public String getDashletTitle()
@@ -45,136 +35,69 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Get the "Welcome" message from "Site Profile" dashlet
-     *
-     * @return String message
-     */
-    public String getWelcomeMessageText()
+    public SiteProfileDashlet assertSiteWelcomeMessageEquals(String expectedWelcomeMessage)
     {
-        return welcomeMessage.getText();
+        LOG.info("Assert welcome message equals: {}", expectedWelcomeMessage);
+        assertEquals(welcomeMessage.getText(), expectedWelcomeMessage,
+            String.format("Welcome message not equals %s ", expectedWelcomeMessage));
+
+        return this;
     }
 
-    /**
-     * Get list of labels displayed in Site Profile dashlet
-     */
-
-    public List<WebElement> getSiteProfileLabels()
+    public SiteProfileDashlet assertSiteDescriptionEquals(String expectedSiteDescription)
     {
-        return sitesProfileLabels;
+        LOG.info("Assert site description equals: {}", expectedSiteDescription);
+        String actualSiteDescription = getSiteProfileRow(expectedSiteDescription).getText();
+        assertEquals(actualSiteDescription, expectedSiteDescription,
+            String.format("Site description not equals %s ", expectedSiteDescription));
+
+        return this;
     }
 
-    /**
-     * Get list of users links displayed in Site Profile dashlet
-     */
-
-    public List<WebElement> getSiteManagersList()
+    public SiteProfileDashlet assertSiteManagerEquals(String expectedSiteManagerLabel,String expectedSiteManagerValue)
     {
-        return siteManagersList;
+        LOG.info("Assert site manager equals: {}", expectedSiteManagerValue);
+        String actualSiteManager = getSiteProfileRow(
+            expectedSiteManagerLabel.concat(expectedSiteManagerValue)).getText();
+
+        assertEquals(actualSiteManager, expectedSiteManagerLabel.concat(expectedSiteManagerValue),
+            String.format("Site manager not equals %s ",
+                expectedSiteManagerLabel.concat(expectedSiteManagerValue)));
+
+        return this;
     }
 
-    /**
-     * Retrieves the label that match the site description.
-     *
-     * @param description
-     * @return {@link Link} that matches description
-     */
-
-    public WebElement getSiteDescription(final String description)
+    public UserProfilePage clickSiteManagerLink(String managerLinkName)
     {
-        return browser.findFirstElementWithValue(sitesProfileLabels, description);
-    }
-
-    /**
-     * Verify if a site description is displayed in User Profile --> Sites
-     *
-     * @param description
-     * @return True if description exists
-     */
-
-    public boolean isSiteDescriptionPresent(String description)
-    {
-        return browser.isElementDisplayed(getSiteDescription(description));
-    }
-
-    /**
-     * Retrieves the link that match the user's name.
-     *
-     * @param siteManager name identifier
-     * @return {@link Link} that matches userName
-     */
-
-    public WebElement getSiteMember(final String siteManager)
-    {
-        return browser.findFirstElementWithValue(siteManagersList, siteManager);
-    }
-
-    /**
-     * Verify if a user name is displayed in Site Profile dashlet
-     *
-     * @param siteManager
-     * @return True if user exists
-     */
-
-    public boolean isMemberPresent(String siteManager)
-    {
-        return browser.isElementDisplayed(getSiteMember(siteManager));
-    }
-
-    /**
-     * Verify if site "Site Managers" label is displayed in Site Profile dashlet
-     *
-     * @return True if "Site Managers" label exists
-     */
-
-    public boolean isSiteManagersLabelDisplayed()
-    {
-        return browser.isElementDisplayed(siteManagersLabel);
-    }
-
-    /**
-     * Verify if site visibility label is displayed in Site Profile dashlet
-     *
-     * @return True if site visibility exists
-     */
-
-    public boolean isVisibilityLabelDisplayed()
-    {
-        return browser.isElementDisplayed(visibilityLabel);
-    }
-
-    /**
-     * Retrieves the label that match the site name.
-     *
-     * @param siteVisibility @return label that matches site's visibility
-     */
-
-    public WebElement getSiteVisibility(final String siteVisibility)
-    {
-        return browser.findFirstElementWithValue(sitesProfileLabels, siteVisibility);
-    }
-
-    /**
-     * Verify if site visibility is displayed in Site Profile dashlet
-     *
-     * @param siteVisibility
-     * @return True if Site exists
-     */
-    public boolean isSiteVisibilityPresent(String siteVisibility)
-    {
-        return browser.isElementDisplayed(getSiteVisibility(siteVisibility));
-    }
-
-    /**
-     * Open user profile page
-     *
-     * @param managerName
-     * @return
-     */
-    public UserProfilePage clickSiteManager(final String managerName)
-    {
-        getSiteMember(managerName).click();
+        browser.findElement(By.xpath(String.format(managerLinkLocator, managerLinkName))).click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
 
+    public SiteProfileDashlet assertSiteVisibilityEquals(String expectedSiteVisibilityLabel,String expectedSiteVisibilityValue)
+    {
+        LOG.info("Assert site visibility equals: {}", expectedSiteVisibilityValue);
+        String actualSiteManager = getSiteProfileRow(
+            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)).getText();
+
+        assertEquals(actualSiteManager.toLowerCase(),
+            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue).toLowerCase(),
+            String.format("Site manager not equals %s ",
+                expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)));
+
+        return this;
+    }
+
+    private WebElement getSiteProfileRow(String searchedSiteLabel)
+    {
+        List<WebElement> siteProfileRows = browser.findElements(siteProfileRowLocator);
+
+        for (WebElement currentRow : siteProfileRows)
+        {
+            if (currentRow.getText().equalsIgnoreCase(searchedSiteLabel))
+            {
+                return currentRow;
+            }
+        }
+        return siteProfileRows.get(0);
+    }
 }

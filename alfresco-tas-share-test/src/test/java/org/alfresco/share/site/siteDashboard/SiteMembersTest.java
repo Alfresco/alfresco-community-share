@@ -68,7 +68,7 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
 
     @TestRail(id = "C588529")
     @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
-    public void shouldDisplayUsernameInUserProfilePage()
+    public void shouldDisplayUsernameInUserProfilePageWhenAccessedFromSiteMembersDashlet()
     {
         ListUserWithRoles userRoles = dataUser.addUsersWithRolesToSite(siteModel, UserRole.SiteCollaborator);
         userModel = userRoles.getOneUserWithRole(UserRole.SiteCollaborator);
