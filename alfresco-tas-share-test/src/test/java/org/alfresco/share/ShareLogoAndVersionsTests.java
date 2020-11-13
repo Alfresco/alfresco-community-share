@@ -28,7 +28,7 @@ public class ShareLogoAndVersionsTests extends ContextAwareWebTest
                 .assertClickLegalAndLicenseLink();
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH }, enabled = false)
     public void checkThatShareVersionWarningIsNotDisplayed()
     {
         userDashboard.assertShareVersionWarningIsNotDisplayed();
