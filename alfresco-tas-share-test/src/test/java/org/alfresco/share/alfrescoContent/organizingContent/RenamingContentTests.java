@@ -44,7 +44,8 @@ public class RenamingContentTests extends ContextAwareWebTest
         documentLibraryPage2.navigate(site)
             .usingContent(fileToRename)
                 .clickRenameIcon()
-                .typeNewNameAndSave(newFile.getName());
+                .typeNewName(newFile.getName())
+                .clickSave();
         documentLibraryPage2.usingContent(fileToRename).assertContentIsNotDisplayed();
         documentLibraryPage2.usingContent(newFile).assertContentIsDisplayed();
     }
@@ -60,7 +61,8 @@ public class RenamingContentTests extends ContextAwareWebTest
         documentLibraryPage2.navigate(site)
             .usingContent(folderToRename)
             .clickRenameIcon()
-            .typeNewNameAndSave(newFolder.getName());
+            .typeNewName(newFolder.getName())
+            .clickSave();
         documentLibraryPage2.usingContent(folderToRename).assertContentIsNotDisplayed();
         documentLibraryPage2.usingContent(newFolder).assertContentIsDisplayed();
     }
@@ -76,7 +78,8 @@ public class RenamingContentTests extends ContextAwareWebTest
         documentLibraryPage2.navigate(site)
             .usingContent(fileToRename)
             .clickRenameIcon()
-            .typeNewNameAndCancel(newFile.getName());
+            .typeNewName(newFile.getName())
+            .clickCancel();
         documentLibraryPage2.usingContent(fileToRename).assertContentIsDisplayed();
         documentLibraryPage2.usingContent(newFile).assertContentIsNotDisplayed();
     }

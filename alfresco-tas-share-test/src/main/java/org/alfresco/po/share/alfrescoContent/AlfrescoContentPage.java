@@ -16,7 +16,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 import java.util.Arrays;
 import java.util.List;
@@ -89,24 +88,20 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     @FindBy (css = ".onActionCopyTo")
     private WebElement copyToFromSelectedItems;
 
-    private By documentsFilter = By.cssSelector("a.filter-link");
-    private By selectedFilter = By.cssSelector(".filterLink .selected");
-    private By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
-    private By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
-    protected String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
-    protected String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
-    protected String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
+    private final By documentsFilter = By.cssSelector("a.filter-link");
+    private final By selectedFilter = By.cssSelector(".filterLink .selected");
+    private final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
+    private final By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
+    private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
+    protected final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
+    protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
+    private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
+    private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
+    private final By startWorkflowFromSelectedItems = By.cssSelector(".onActionAssignWorkflow");
+    private final By deleteFromSelectedItems = By.cssSelector(".onActionDelete");
+
+    private String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
-    protected By selectCheckBox = By.cssSelector("input[name='fileChecked']");
-    private By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
-    private By selectMenuDocumentsOption = By.cssSelector(".selectDocuments");
-    private By selectMenuFoldersOption = By.cssSelector(".selectFolders");
-    private By selectMenuAllOption = By.cssSelector(".selectAll");
-    private By selectNoneOption = By.cssSelector(".selectNone");
-    private By selectMenuInvertSelectionOption = By.cssSelector(".selectInvert");
-    private By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
-    private By startWorkflowFromSelectedItems = By.cssSelector(".onActionAssignWorkflow");
-    private By deleteFromSelectedItems = By.cssSelector(".onActionDelete");
 
     public T clickCreate()
     {
@@ -287,14 +282,14 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         return (T) this;
     }
 
-    public T assertActionsInSelectedItemsMenuEqualsTo(String... actions)
+    public T assertActionsInSelectedItemsMenuEqualTo(String... actions)
     {
         LOG.info("Assert available actions from selected items menu are {}", Arrays.asList(actions));
         List<WebElement> items = getBrowser().findElements(selectedItemsActionNames);
         String[] values = getBrowser().getTextFromElementList(items).toArray(new String[0]);
         Arrays.sort(values);
         Arrays.sort(actions);
-        Assert.assertEquals(values, actions, "Not all actions are found");
+        assertEquals(values, actions, String.format("Actions not equals to %s", Arrays.asList(actions)));
 
         return (T) this;
     }
@@ -306,38 +301,11 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         return (T) this;
     }
 
-    public T selectDocumentsFromSelectMenu()
+    public T selectOptionFromSelectMenu(SelectMenuOptions selectMenuOptions)
     {
         LOG.info("Select Document option from Select menu");
-        browser.waitUntilElementVisible(selectMenuDocumentsOption).click();
-        return (T) this;
-    }
-
-    public T selectFolderFromSelectMenu()
-    {
-        LOG.info("Select Folder option from Select menu");
-        browser.waitUntilElementVisible(selectMenuFoldersOption).click();
-        return (T) this;
-    }
-
-    public T selectAllFromSelectMenu()
-    {
-        LOG.info("Select All option from Select menu");
-        browser.waitUntilElementVisible(selectMenuAllOption).click();
-        return (T) this;
-    }
-
-    public T selectNoneFromSelectMenu()
-    {
-        LOG.info("Select None option from Select menu");
-        browser.waitUntilElementVisible(selectNoneOption).click();
-        return (T) this;
-    }
-
-    public T selectInvertSelectionFromSelectMenu()
-    {
-        LOG.info("Select All option from Select menu");
-        browser.waitUntilElementVisible(selectMenuInvertSelectionOption).click();
+        By option = By.cssSelector(selectMenuOptions.getLocator());
+        browser.waitUntilElementVisible(option).click();
         return (T) this;
     }
 
@@ -446,5 +414,26 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         RECENTLY_MODIFIED,
         RECENTLY_ADDED,
         FAVORITES
+    }
+
+    public enum SelectMenuOptions
+    {
+        DOCUMENTS(".selectDocuments"),
+        FOLDERS(".selectFolders"),
+        ALL(".selectAll"),
+        INVERT_SELECTION(".selectInvert"),
+        NONE(".selectNone");
+
+        private String locator;
+
+        SelectMenuOptions(String locator)
+        {
+            this.locator = locator;
+        }
+
+        public String getLocator()
+        {
+            return locator;
+        }
     }
 }

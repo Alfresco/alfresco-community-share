@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
+import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.SelectMenuOptions;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -66,12 +67,12 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
         documentLibraryPage.navigate(site)
             .clickSelectMenu()
-            .selectDocumentsFromSelectMenu()
+            .selectOptionFromSelectMenu(SelectMenuOptions.DOCUMENTS)
                 .assertContentsAreChecked(xmlFile, textFile)
                 .assertContentsAreNotChecked(folder)
             .assertSelectedItemsMenuIsEnabled()
             .clickSelectedItems()
-            .assertActionsInSelectedItemsMenuEqualsTo(
+            .assertActionsInSelectedItemsMenuEqualTo(
                 language.translate("documentLibrary.contentActions.downloadAsZip"),
                 language.translate("documentLibrary.contentActions.copyTo"),
                 language.translate("documentLibrary.contentActions.moveTo"),
@@ -80,12 +81,12 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
                 language.translate("documentLibrary.selectedItemsMenu.deselectAll"));
 
         documentLibraryPage.clickSelectMenu()
-            .selectFolderFromSelectMenu()
+            .selectOptionFromSelectMenu(SelectMenuOptions.FOLDERS)
                 .assertContentsAreChecked(folder)
                 .assertContentsAreNotChecked(xmlFile, textFile)
             .assertSelectedItemsMenuIsEnabled()
             .clickSelectedItems()
-            .assertActionsInSelectedItemsMenuEqualsTo(
+            .assertActionsInSelectedItemsMenuEqualTo(
                 language.translate("documentLibrary.contentActions.downloadAsZip"),
                 language.translate("documentLibrary.contentActions.copyTo"),
                 language.translate("documentLibrary.contentActions.moveTo"),
@@ -93,14 +94,14 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
                 language.translate("documentLibrary.selectedItemsMenu.deselectAll"));
 
         documentLibraryPage.clickSelectMenu()
-            .selectInvertSelectionFromSelectMenu()
+            .selectOptionFromSelectMenu(SelectMenuOptions.INVERT_SELECTION)
                 .assertContentsAreChecked(textFile, xmlFile)
                 .assertContentsAreNotChecked(folder);
         documentLibraryPage.clickSelectMenu()
-            .selectAllFromSelectMenu()
+            .selectOptionFromSelectMenu(SelectMenuOptions.ALL)
             .assertContentsAreChecked(xmlFile, textFile, folder);
         documentLibraryPage.clickSelectMenu()
-            .selectNoneFromSelectMenu()
+            .selectOptionFromSelectMenu(SelectMenuOptions.NONE)
             .assertContentsAreNotChecked(xmlFile, textFile, folder);
     }
 

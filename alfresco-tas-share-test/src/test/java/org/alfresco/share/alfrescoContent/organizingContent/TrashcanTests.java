@@ -45,21 +45,21 @@ public class TrashcanTests extends ContextAwareWebTest
                 .assertConfirmDeleteMessageEqualsTo(language.translate("emptyTrashcan.message"))
                 .clickDelete();
         userTrashcanPage.assertNoItemsExistMessageIsDisplayed()
-            .assertNoItemsExistsMessageIsCorrect();
+            .assertNoItemsExistMessageEqualTo(language.translate("emptyTrashcan.noItems"));
     }
 
     @TestRail (id = "C7572")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyTrashcanDeleteFile()
     {
-        FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(trashSite).createFile(file1)
-            .then().usingResource(file1).delete();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        cmisApi.usingSite(trashSite).createFile(file)
+            .then().usingResource(file).delete();
 
         userTrashcanPage.navigate(trashUser)
-            .clickDeleteButton(file1)
+            .clickDeleteButton(file)
             .clickDelete();
-        userTrashcanPage.assertContentIsNotDisplayed(file1);
+        userTrashcanPage.assertContentIsNotDisplayed(file);
     }
 
     @TestRail (id = "C7573")

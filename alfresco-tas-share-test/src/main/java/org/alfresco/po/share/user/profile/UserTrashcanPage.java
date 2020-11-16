@@ -159,12 +159,11 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
         return this;
     }
 
-    public UserTrashcanPage assertNoItemsExistsMessageIsCorrect()
+    public UserTrashcanPage assertNoItemsExistMessageEqualTo(String expectedMessage)
     {
         LOG.info("Assert No Items Exist message is correct");
         WebElement emptyMessage = browser.waitUntilElementVisible(emptyTrashcanMessageSelector);
-        assertEquals(emptyMessage.getText(), language.translate("emptyTrashcan.noItems"),
-            "Empty trashcan message is not correct");
+        assertEquals(emptyMessage.getText(), expectedMessage, String.format("No items exist message not equal to %s", expectedMessage));
         return this;
     }
 }

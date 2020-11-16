@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -79,9 +80,9 @@ public class ContentAction
     public ContentAction assertContentIsNotDisplayed()
     {
         LOG.info("Assert is NOT displayed");
-        assertFalse(getBrowser().isElementDisplayed(
-            By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()))),
-                String.format("Content '%s' is displayed", contentModel.getName()));
+        By content = By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()));
+        getBrowser().waitUntilElementDisappears(content, alfrescoContentPage.WAIT_5);
+        assertFalse(getBrowser().isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
 
@@ -298,27 +299,31 @@ public class ContentAction
         return this;
     }
 
-    public ContentAction typeNewNameAndSave(String newName)
+    public ContentAction typeNewName(String newName)
     {
-        LOG.info("Rename with value {} and save", newName);
+        LOG.info("Rename with value {}", newName);
         WebElement contentRow = getContentRow();
         WebElement input = contentRow.findElement(renameInput);
-        input.clear();
-        input.sendKeys(newName);
-        contentRow.findElement(renameSaveButton).click();
+        Utils.clearAndType(input, newName);
+
+        return this;
+    }
+
+    public ContentAction clickSave()
+    {
+        LOG.info("Click Save");
+        WebElement input = getContentRow().findElement(renameInput);
+        getContentRow().findElement(renameSaveButton).click();
         getBrowser().waitUntilElementDisappears(input);
 
         return this;
     }
 
-    public ContentAction typeNewNameAndCancel(String newName)
+    public ContentAction clickCancel()
     {
-        LOG.info("Rename with value {} and cancel", newName);
-        WebElement contentRow = getContentRow();
-        WebElement input = contentRow.findElement(renameInput);
-        input.clear();
-        input.sendKeys(newName);
-        contentRow.findElement(renameCancelButton).click();
+        LOG.info("Click Cancel");
+        WebElement input = getContentRow().findElement(renameInput);
+        getContentRow().findElement(renameCancelButton).click();
         getBrowser().waitUntilElementDisappears(input);
 
         return this;

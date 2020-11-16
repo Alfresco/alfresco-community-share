@@ -67,7 +67,7 @@ public class DeleteDialog extends ShareDialog
     public DeleteDialog assertConfirmDeleteMessageEqualsTo(String expectedMessage)
     {
         LOG.info("Assert confirm delete message equals with expected {}", expectedMessage);
-        assertEquals(message.getText(), expectedMessage, "Delete confirm message is correct");
+        assertEquals(message.getText(), expectedMessage, String.format("Delete confirm message not equals to %s", expectedMessage));
         return this;
     }
 
