@@ -1,12 +1,12 @@
 package org.alfresco.po.share.user.profile;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.EmptyTrashcanDialog;
+import org.alfresco.utility.model.ContentModel;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -15,6 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.testng.Assert.*;
+
 /**
  * @author bogdan.bocancea
  */
@@ -22,25 +27,31 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 public class UserTrashcanPage extends SharePage<UserTrashcanPage>
 {
     @Autowired
-    EmptyTrashcanDialog emptyTrashcanDialog;
+    private DeleteDialog deleteDialog;
+
     int counter = 0;
+
     @RenderWebElement
     @FindBy (css = "input[id$='default-search-text']")
     private TextInput searchInput;
+
     @RenderWebElement
     @FindBy (css = "button[id$='search-button-button']")
     private Button searchButton;
+
     @FindBy (css = "button[id*='empty']")
     private WebElement emptyButton;
-    @FindBy (css = ".yui-dt-data tr")
-    private List<WebElement> itemRowsList;
+
     @FindAll (@FindBy (css = ".yui-dt-liner > .name"))
     private List<WebElement> itemsNameList;
+
     private By deletionTimestampSelector = By.cssSelector(".yui-dt-liner div:nth-child(2)");
     private By locationBeforeDeletionSelector = By.cssSelector(".yui-dt-liner div:nth-child(3)");
-    private By recoverButtonSelector = By.cssSelector(".yui-dt-liner>span[id*='user-trashcan']>span:nth-child(1) button");
-    private By deleteButtonSelector = By.cssSelector(".yui-dt-liner>span[id*='user-trashcan'] span:nth-child(2) button");
+    private By recoverButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(1) button");
+    private By deleteButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(2) button");
     private By emptyTrashcanMessageSelector = By.cssSelector(".yui-dt-empty div");
+    private By itemRowsList = By.cssSelector(".yui-dt-data tr");
+    private By itemsFolderName = By.xpath("//div[@class='name' and text()='%s']");
 
     @Override
     public String getRelativePath()
@@ -48,12 +59,18 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
         return setRelativePathForUserPage("share/page/user/%s/user-trashcan", getUserName());
     }
 
-    /**
-     * Search for items
-     *
-     * @param searchTerm
-     * @return List<WebElement>
-     */
+    public UserTrashcanPage navigate(String userName)
+    {
+        setUserName(userName);
+        return navigate();
+    }
+
+    public UserTrashcanPage navigate(UserModel userModel)
+    {
+        setUserName(userModel.getUsername());
+        return navigate();
+    }
+
     public List<WebElement> search(String searchTerm)
     {
         searchInput.clear();
@@ -67,12 +84,6 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
         searchButton.click();
     }
 
-    public UserTrashcanPage navigate(String userName)
-    {
-        setUserName(userName);
-        return navigate();
-    }
-
     public String getItemsNamesList()
     {
         ArrayList<String> itemsNameTextList = new ArrayList<>();
@@ -83,87 +94,76 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
         return itemsNameTextList.toString();
     }
 
-    public WebElement selectItemRow(String item)
+    private WebElement getItemRow(String item)
     {
         return browser.findFirstElementWithValue(itemRowsList, item);
     }
 
-    /**
-     * Verify the following buttons are displayed for each content item from Trashcan: 'Recover' and 'Delete' button
-     *
-     * @return message on verrify
-     */
-    public String verifyItemButtons()
+    private boolean findRow(String itemName)
     {
-        for (WebElement anItemsNameList : itemsNameList)
-        {
-            WebElement recoverButton = selectItemRow(anItemsNameList.getText()).findElement(recoverButtonSelector);
-            if (!browser.isElementDisplayed(recoverButton))
-                return anItemsNameList.getText() + " -> 'Recover' button isn't displayed!";
-
-            WebElement deleteButton = selectItemRow(anItemsNameList.getText()).findElement(deleteButtonSelector);
-            if (!browser.isElementDisplayed(deleteButton))
-                return anItemsNameList.getText() + " -> 'Delete' button isn't displayed!";
-        }
-        return "ok";
+        List<WebElement> trashRows = browser.findElements(itemRowsList);
+        return trashRows.stream().anyMatch(row -> row.getText().equals(itemName));
     }
 
-    /**
-     * Verify the following is displayed for each content item from Trashcan: timestamp of deletion and location before deletion
-     *
-     * @return message on verify
-     */
-    public String verifyItemDeleteInfo()
+    public UserTrashcanPage assertContentIsNotDisplayed(String contentName)
     {
-        for (WebElement anItemsNameList : itemsNameList)
-        {
-            WebElement deletionTimestamp = selectItemRow(anItemsNameList.getText()).findElement(deletionTimestampSelector);
-            if (!browser.isElementDisplayed(deletionTimestamp))
-                return anItemsNameList.getText() + " -> timestamp of deletion isn't displayed!";
-
-            WebElement locationBeforeDeletion = selectItemRow(anItemsNameList.getText()).findElement(locationBeforeDeletionSelector);
-            if (!browser.isElementDisplayed(locationBeforeDeletion))
-                return anItemsNameList.getText() + " -> location before deletion isn't displayed!";
-        }
-        return "ok";
+        LOG.info("Assert content {} is not displayed", contentName);
+        assertFalse(findRow(contentName), String.format("Content %s is displayed", contentName));
+        return this;
     }
 
-    /**
-     * Click on 'Recover' button for a trashcan item
-     *
-     * @param itemName item's button to be clicked
-     */
-    public void clickRecoverButton(String itemName)
+    public UserTrashcanPage assertContentIsNotDisplayed(ContentModel contentModel)
     {
-        selectItemRow(itemName).findElement(recoverButtonSelector).click();
-        LOG.info("Waiting for trashcan item '" + itemName + "' to be deleted...");
-        browser.waitInSeconds(2);
+        assertContentIsNotDisplayed(contentModel.getName());
+        return this;
     }
 
-    /**
-     * Empty Trashcan
-     */
-    public EmptyTrashcanDialog clickEmptyButton()
+    public UserTrashcanPage clickRecoverButton(String itemName)
     {
-        emptyButton.click();
-        return (EmptyTrashcanDialog) emptyTrashcanDialog.renderedPage();
+        LOG.info("Click Recover button for item {}", itemName);
+        getItemRow(itemName).findElement(recoverButtonSelector).click();
+        waitUntilNotificationMessageDisappears();
+
+        return this;
     }
 
-    public String getNoItemsMessage()
+    public UserTrashcanPage clickRecoverButton(ContentModel content)
     {
-        WebElement emptyTrashcanMessage = browser.waitUntilElementVisible(emptyTrashcanMessageSelector);
-        if (!isEmptyTrashcanMessageDisplayed() && counter < 2)
-        {
-            counter++;
-            browser.refresh();
-            this.renderedPage();
-            getNoItemsMessage();
-        }
-        return emptyTrashcanMessage.getText();
+        return clickRecoverButton(content.getName());
     }
 
-    public boolean isEmptyTrashcanMessageDisplayed()
+    public DeleteDialog clickDeleteButton(String itemName)
     {
-        return browser.isElementDisplayed(emptyTrashcanMessageSelector);
+        LOG.info("Click Recover button for item {}", itemName);
+        getItemRow(itemName).findElement(deleteButtonSelector).click();
+
+        return (DeleteDialog) deleteDialog.renderedPage();
+    }
+
+    public DeleteDialog clickDeleteButton(ContentModel content)
+    {
+        return clickDeleteButton(content.getName());
+    }
+
+    public DeleteDialog clickEmptyButton()
+    {
+        browser.waitUntilElementClickable(emptyButton).click();
+        return (DeleteDialog) deleteDialog.renderedPage();
+    }
+
+    public UserTrashcanPage assertNoItemsExistMessageIsDisplayed()
+    {
+        LOG.info("Assert No Items Exist message is displayed");
+        WebElement emptyMessage = browser.waitUntilElementVisible(emptyTrashcanMessageSelector);
+        assertTrue(browser.isElementDisplayed(emptyMessage), "Empty items message is not displayed");
+        return this;
+    }
+
+    public UserTrashcanPage assertNoItemsExistMessageEqualTo(String expectedMessage)
+    {
+        LOG.info("Assert No Items Exist message is correct");
+        WebElement emptyMessage = browser.waitUntilElementVisible(emptyTrashcanMessageSelector);
+        assertEquals(emptyMessage.getText(), expectedMessage, String.format("No items exist message not equal to %s", expectedMessage));
+        return this;
     }
 }

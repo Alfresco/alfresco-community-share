@@ -48,7 +48,7 @@ public class DeletingContentTests extends ContextAwareWebTest
             .usingContent(fileToDelete)
             .clickDelete()
                 .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteDocument"))
-                .assertConfirmDeleteMessageEqualsTo(fileToDelete)
+                .assertConfirmDeleteMessageForContentEqualsTo(fileToDelete)
                 .clickDelete();
         documentLibraryPage.usingContent(fileToDelete).assertContentIsNotDisplayed();
     }
@@ -67,7 +67,7 @@ public class DeletingContentTests extends ContextAwareWebTest
             .usingContent(folderToDelete)
             .clickDelete()
                 .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteFolder"))
-                .assertConfirmDeleteMessageEqualsTo(folderToDelete)
+                .assertConfirmDeleteMessageForContentEqualsTo(folderToDelete)
                 .clickDelete();
 
         documentLibraryPage.usingContent(folderToDelete).assertContentIsNotDisplayed();

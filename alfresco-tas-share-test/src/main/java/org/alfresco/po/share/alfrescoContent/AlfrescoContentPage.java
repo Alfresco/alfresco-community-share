@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
@@ -16,12 +17,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.swing.text.DocumentFilter;
-
+import java.util.Arrays;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPage<T>>
 {
@@ -42,6 +41,9 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
 
     @Autowired
     private DeleteDialog deleteDialog;
+
+    @Autowired
+    private StartWorkflowPage startWorkflowPage;
 
     @RenderWebElement
     @FindBy(css = "button[id$='createContent-button-button']")
@@ -86,15 +88,20 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     @FindBy (css = ".onActionCopyTo")
     private WebElement copyToFromSelectedItems;
 
-    private By documentsFilter = By.cssSelector("a.filter-link");
-    private By selectedFilter = By.cssSelector(".filterLink .selected");
-    private By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
-    private By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
-    protected String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
-    protected String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
-    protected String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
+    private final By documentsFilter = By.cssSelector("a.filter-link");
+    private final By selectedFilter = By.cssSelector(".filterLink .selected");
+    private final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
+    private final By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
+    private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
+    protected final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
+    protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
+    private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
+    private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
+    private final By startWorkflowFromSelectedItems = By.cssSelector(".onActionAssignWorkflow");
+    private final By deleteFromSelectedItems = By.cssSelector(".onActionDelete");
+
+    private String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
-    protected By selectCheckBox = By.cssSelector("input[name='fileChecked']");
 
     public T clickCreate()
     {
@@ -252,6 +259,20 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         return (T) this;
     }
 
+    public T assertSelectedItemsMenuIsEnabled()
+    {
+        LOG.info("Assert Selected Items is enabled");
+        assertTrue(selectedItemsLink.isEnabled(), "Selected Items is not enabled");
+        return (T) this;
+    }
+
+    public T assertSelectedItemsMenuIsDisabled()
+    {
+        LOG.info("Assert Selected Items is enabled");
+        assertFalse(selectedItemsLink.isEnabled(), "Selected Items is not enabled");
+        return (T) this;
+    }
+
     public T clickSelectedItems()
     {
         LOG.info("Click Selected Items");
@@ -261,12 +282,77 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         return (T) this;
     }
 
+    public T assertActionsInSelectedItemsMenuEqualTo(String... actions)
+    {
+        LOG.info("Assert available actions from selected items menu are {}", Arrays.asList(actions));
+        List<WebElement> items = getBrowser().findElements(selectedItemsActionNames);
+        String[] values = getBrowser().getTextFromElementList(items).toArray(new String[0]);
+        Arrays.sort(values);
+        Arrays.sort(actions);
+        assertEquals(values, actions, String.format("Actions not equals to %s", Arrays.asList(actions)));
+
+        return (T) this;
+    }
+
+    public T clickSelectMenu()
+    {
+        LOG.info("Click Select menu");
+        browser.findElement(selectMenu).click();
+        return (T) this;
+    }
+
+    public T selectOptionFromSelectMenu(SelectMenuOptions selectMenuOptions)
+    {
+        LOG.info("Select Document option from Select menu");
+        By option = By.cssSelector(selectMenuOptions.getLocator());
+        browser.waitUntilElementVisible(option).click();
+        return (T) this;
+    }
+
+    public T assertContentsAreChecked(ContentModel... contentModels)
+    {
+        for(ContentModel content:contentModels)
+        {
+            LOG.info("Assert content {} is checked", content.getName());
+            assertTrue(getContentRow(content.getName()).findElement(selectCheckBox).isSelected(),
+                String.format("Content %s is not checked", content.getName()));
+        }
+        return (T) this;
+    }
+
+    public T assertContentsAreNotChecked(ContentModel... contentModels)
+    {
+        for(ContentModel content:contentModels)
+        {
+            LOG.info("Assert content {} is checked", content.getName());
+            assertFalse(getContentRow(content.getName()).findElement(selectCheckBox).isSelected(),
+                String.format("Content %s is not checked", content.getName()));
+        }
+        return (T) this;
+    }
+
     public CopyMoveUnzipToDialog clickCopyToFromSelectedItems()
     {
         LOG.info("Click Copy To...");
         browser.waitUntilElementVisible(copyToFromSelectedItems).click();
 
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
+    }
+
+    public StartWorkflowPage clickStartWorkflowFromSelectedItems()
+    {
+        LOG.info("Click Stat Workflow...");
+        browser.waitUntilElementVisible(startWorkflowFromSelectedItems).click();
+
+        return (StartWorkflowPage) startWorkflowPage.renderedPage();
+    }
+
+    public DeleteDialog clickDeleteFromSelectedItems()
+    {
+        LOG.info("Click Delete");
+        browser.waitUntilElementVisible(deleteFromSelectedItems).click();
+
+        return (DeleteDialog) deleteDialog.renderedPage();
     }
 
     public T selectFromDocumentsFilter(DocumentsFilter documentFilter)
@@ -328,5 +414,26 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         RECENTLY_MODIFIED,
         RECENTLY_ADDED,
         FAVORITES
+    }
+
+    public enum SelectMenuOptions
+    {
+        DOCUMENTS(".selectDocuments"),
+        FOLDERS(".selectFolders"),
+        ALL(".selectAll"),
+        INVERT_SELECTION(".selectInvert"),
+        NONE(".selectNone");
+
+        private String locator;
+
+        SelectMenuOptions(String locator)
+        {
+            this.locator = locator;
+        }
+
+        public String getLocator()
+        {
+            return locator;
+        }
     }
 }
