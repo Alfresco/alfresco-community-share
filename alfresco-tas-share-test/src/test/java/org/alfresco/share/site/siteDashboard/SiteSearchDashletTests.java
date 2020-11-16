@@ -1,112 +1,112 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
-import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
-import org.alfresco.dataprep.SiteService;
+import static java.util.Arrays.asList;
+import static org.alfresco.utility.model.FileModel.getRandomFileModel;
+
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class SiteSearchDashletTests extends ContextAwareWebTest
+public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
 {
-    @Autowired
-    SiteSearchDashlet siteSearchDashlet;
+    private static final String EXPECTED_TITLE = "siteSearchDashlet.title";
+    private static final String EXPECTED_BALLOON_MESSAGE = "siteSearchDashlet.balloonMessage";
+    private static final String RANDOM_ALPHANUMERIC = RandomData.getRandomAlphanumeric();
+    private static final String EXPECTED_NO_RESULTS_FOUND_MESSAGE = "siteSearchDashlet.noResults";
+
+    private static final String EXPECTED_10 = "10";
+    private static final String EXPECTED_25 = "25";
+    private static final String EXPECTED_50 = "50";
+    private static final String EXPECTED_100 = "100";
+
+    private UserModel userModel;
+    private SiteModel siteModel;
+    private FileModel fileModel;
 
     @Autowired
-    SiteDashboardPage siteDashboardPage;
+    private SiteSearchDashlet siteSearchDashlet;
 
-    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private String docName = "siteSearchDoc" + RandomData.getRandomAlphanumeric();
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_SEARCH, DashletLayout.THREE_COLUMNS, 3, 1);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Test content");
-        setupAuthenticatedSession(userName, password);
-    }
+        userModel = dataUser.usingAdmin().createRandomTestUser();
+        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        cmisApi.authenticateUser(userModel);
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        siteService.delete(adminUser, adminPassword, siteName);
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
-
+        setupAuthenticatedSession(userModel);
+        addDashlet(siteModel, Dashlets.SITE_SEARCH, 1);
     }
 
     @TestRail (id = "C2775")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES  })
-    public void siteSearchDashletTest()
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
+    public void checkDisplaySpecificMessageWhenNoSearchResultsReturned()
     {
-        LOG.info("Step 1: Verify Site Search dashlet");
-        siteDashboardPage.navigate(siteName);
-        siteSearchDashlet.assertDashletTitleEquals(language.translate("siteSearchDashlet.title"))
-            .assertSearchFieldIsDisplayed()
-            .assertSearchResultDropdownIsDisplayed()
-            .assertSearchButtonIsDisplayed()
+        siteDashboardPage.navigate(siteModel);
+        siteSearchDashlet
+            .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
             .clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH)
-            .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageEquals(language.translate("siteSearchDashlet.balloonMessage"))
+            .assertHelpBalloonMessageEquals(language.translate(EXPECTED_BALLOON_MESSAGE))
             .closeHelpBalloon()
-            .assertAllLimitValuesAreDisplayed()
-                .typeInSearch(RandomData.getRandomAlphanumeric())
-                .clickSearchButton()
-                .assertNoResultsIsDisplayed();
-    }
+            .assertBalloonMessageIsNotDisplayed();
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
-    public void searchAvailableItemsTest()
-    {
-        LOG.info("Step 1: Navigate to site dashboard and perform search in site search dashlet");
-        siteDashboardPage.navigate(siteName);
-        siteSearchDashlet.typeInSearch(docName);
-        siteSearchDashlet.clickSearchButton();
-        Assert.assertTrue(siteSearchDashlet.isResultDisplayed(docName), docName + " is not displayed in search results");
-    }
-
-    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
-    public void searchNoResultsAreReturnedTest()
-    {
-        siteDashboardPage.navigate(siteName);
-        siteSearchDashlet.typeInSearch("NonExisting")
+        siteSearchDashlet
+            .openSearchFilterDropdown()
+            .assertDropdownValuesEqual(asList(EXPECTED_10, EXPECTED_25, EXPECTED_50, EXPECTED_100))
+            .typeInSearch(RANDOM_ALPHANUMERIC)
             .clickSearchButton()
-            .assertNoResultsIsDisplayed();
+            .assertNoResultsFoundMessageEquals(language.translate(EXPECTED_NO_RESULTS_FOUND_MESSAGE));
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SITE_DASHBOARD })
-    public void searchWithSearchLimit()
+    @TestRail (id = "C2424")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
+    public void shouldDisplaySearchResult()
     {
-        //setup done inside the test as it would increase time for all tests as it is run in a @BeforeClass
-        int docCount = 0;
-        while (docCount < 29)
-        {
-            String random = RandomData.getRandomAlphanumeric();
-            String docName = "docNameTest_" + random;
-            LOG.info("Document " + docCount + " is being created");
-            contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Test content");
-            docCount++;
-        }
-        //testSteps
-        siteDashboardPage.navigate(siteName);
-        siteSearchDashlet.setSize("25");
-        siteSearchDashlet.typeInSearch("docNameTest");
-        siteSearchDashlet.clickSearchButton();
-        Assert.assertTrue(siteSearchDashlet.isSearchLimitSetTo("25"), "Size limit is not set to 25");
-        Assert.assertEquals(siteSearchDashlet.getResultsNumber(), 25, "Results number is not as expected");
+        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        cmisApi.usingSite(siteModel).createFile(fileModel);
+
+        siteDashboardPage.navigate(siteModel);
+        siteSearchDashlet
+            .typeInSearch(fileModel.getName())
+            .clickSearchButton()
+            .assertReturnedSearchResultEquals(fileModel.getName());
+    }
+
+    @TestRail (id = "C588829")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
+    public void shouldDisplayFileNameInDocumentDetailsPageWhenAccessedFromSiteSearchDashlet()
+    {
+        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        cmisApi.usingSite(siteModel).createFile(fileModel);
+
+        siteDashboardPage.navigate(siteModel);
+        siteSearchDashlet
+            .typeInSearch(fileModel.getName())
+            .clickSearchButton()
+            .clickFileLinkName(fileModel.getName());
+
+        documentDetailsPage
+            .assertDocumentTitleEquals(fileModel);
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanupTest()
+    {
+        removeUserFromAlfresco(userModel);
+        deleteSites(siteModel);
     }
 }

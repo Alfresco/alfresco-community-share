@@ -1,5 +1,7 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import static java.util.Arrays.asList;
+
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
@@ -14,10 +16,18 @@ import org.testng.annotations.Test;
 
 public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
-    private SiteSearchDashlet siteSearchDashlet;
+    private static final String EXPECTED_10 = "10";
+    private static final String EXPECTED_25 = "25";
+    private static final String EXPECTED_50 = "50";
+    private static final String EXPECTED_100 = "100";
+    private static final String EXPECTED_NO_RESULTS_FOUND_MESSAGE = "siteSearchDashlet.noResults";
+    private static final String EXPECTED_TITLE = "siteSearchDashlet.title";
+    private static final String EXPECTED_BALLOON_MESSAGE = "siteSearchDashlet.balloonMessage";
 
     private UserModel user;
+
+    @Autowired
+    private SiteSearchDashlet siteSearchDashlet;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -37,17 +47,17 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void siteSearchDashletTest()
     {
-        siteSearchDashlet.assertDashletTitleEquals(language.translate("siteSearchDashlet.title"))
-            .assertSearchFieldIsDisplayed()
-            .assertSearchResultDropdownIsDisplayed()
-            .assertSearchButtonIsDisplayed()
+        siteSearchDashlet.assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
             .clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH)
             .assertBalloonMessageIsDisplayed()
-            .assertHelpBalloonMessageEquals(language.translate("siteSearchDashlet.balloonMessage"))
+            .assertHelpBalloonMessageEquals(language.translate(EXPECTED_BALLOON_MESSAGE))
             .closeHelpBalloon()
-            .assertAllLimitValuesAreDisplayed()
+            .assertBalloonMessageIsNotDisplayed()
+            .openSearchFilterDropdown()
+            .assertDropdownValuesEqual(asList(EXPECTED_10, EXPECTED_25, EXPECTED_50, EXPECTED_100))
                 .typeInSearch(RandomData.getRandomAlphanumeric())
                 .clickSearchButton()
-                .assertNoResultsIsDisplayed();
+            .assertNoResultsFoundMessageEquals(
+                language.translate(EXPECTED_NO_RESULTS_FOUND_MESSAGE));
     }
 }
