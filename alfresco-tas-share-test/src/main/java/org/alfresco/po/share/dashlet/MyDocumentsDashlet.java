@@ -61,7 +61,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public WebElement getDocumentRow(String documentName)
     {
         return browser.waitWithRetryAndReturnWebElement
-            (By.xpath(String.format(documentRow, documentName)), 1, 20);
+            (By.xpath(String.format(documentRow, documentName)), 1, WAIT_30);
     }
 
     private String getFilterValue(DocumentsFilter filter)
@@ -70,13 +70,13 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         switch (filter)
         {
             case RECENTLY_MODIFIED:
-                filterValue = language.translate("myDocumentsDashlet.filter.recentlyModified");
+                filterValue = language.translate("dashlet.filter.recentlyModified");
                 break;
             case EDITING:
-                filterValue = language.translate("myDocumentsDashlet.filter.editing");
+                filterValue = language.translate("dashlet.filter.editing");
                 break;
             case MY_FAVORITES:
-                filterValue = language.translate("myDocumentsDashlet.filter.favorites");
+                filterValue = language.translate("dashlet.filter.favorites");
                 break;
             default:
                 break;

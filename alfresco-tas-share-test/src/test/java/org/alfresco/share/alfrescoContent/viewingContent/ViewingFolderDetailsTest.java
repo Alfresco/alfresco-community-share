@@ -67,7 +67,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
         assertTrue(documentDetailsPage.isTagsFeaturePanelDisplayed(), "Tags feature panel is not displayed");
 
         LOG.info("Step 4 - Click the folder in the breadcrumb trail at the top of the screen to return to the item list for that folder.");
-        documentDetailsPage.clickOnFolderFromBreadrcumbTrail();
+        documentDetailsPage.clickOnFolderFromBreadcrumbTrail();
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isDocumentListDisplayed(), "Documents list for folder is not displayed");
     }

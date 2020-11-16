@@ -81,7 +81,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
         LOG.info("Assert History drop down options equal: {}", historyDropDownOptions);
         clickHistoryButton();
         List<String> actualDropDownOptions = getCurrentOptions();
-        assertEquals(historyDropDownOptions, actualDropDownOptions,
+        assertEquals(actualDropDownOptions, historyDropDownOptions,
             String.format("History drop down options not equal %s", historyDropDownOptions));
 
         return this;

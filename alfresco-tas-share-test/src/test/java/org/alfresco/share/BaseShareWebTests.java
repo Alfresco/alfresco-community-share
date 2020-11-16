@@ -7,6 +7,7 @@ import org.alfresco.common.ShareTestContext;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.TasProperties;
@@ -79,6 +80,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
+    protected Toolbar toolbar;
 
     @BeforeMethod(alwaysRun = true)
     public void setupBrowser() throws Exception
@@ -87,6 +89,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
 
         loginPage = new LoginPage(browser);
         userDashboardPage = new UserDashboardPage(browser);
+        toolbar = new Toolbar(browser);
     }
 
     @AfterMethod(alwaysRun = true)

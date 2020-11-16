@@ -4,36 +4,40 @@ import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static java.util.Arrays.asList;
 
-public class SitesManagerTests extends ContextAwareWebTest
+public class SitesManagerTests extends BaseShareWebTests
 {
     private UserModel user, siteAdmin;
     private SiteModel site1, site2, site3, site4, site5, site6;
     private final String siteDescription = "Site Description";
 
-    //@Autowired
-    private SitesManagerPage sitesManagerPage; // TODO: instantiate in before method
-
-    //@Autowired
+    private SitesManagerPage sitesManagerPage;
     private SiteDashboardPage siteDashboardPage;
-
-    @Autowired
     private SystemErrorPage systemErrorPage;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
+    {
+        siteDashboardPage = new SiteDashboardPage(browser);
+        sitesManagerPage = new SitesManagerPage(browser);
+        systemErrorPage = new SystemErrorPage(browser);
+        setupAuthenticatedSession(siteAdmin);
+    }
+
+    @BeforeClass (alwaysRun = true)
+    public void dataPrep()
     {
         user = dataUser.createRandomTestUser();
         siteAdmin = dataUser.createRandomTestUser();
@@ -49,8 +53,6 @@ public class SitesManagerTests extends ContextAwareWebTest
         site4 = dataSite.usingUser(siteAdmin).createPublicRandomSite();
         site5 = dataSite.usingUser(siteAdmin).createPublicRandomSite();
         site6 = dataSite.usingAdmin().createPublicRandomSite();
-
-        setupAuthenticatedSession(siteAdmin);
     }
 
     @AfterClass (alwaysRun = true)

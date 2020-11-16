@@ -1,6 +1,11 @@
 package org.alfresco.share.adminTools.categoryManager;
 
+import org.alfresco.dataprep.UserService;
+import org.alfresco.po.share.SystemErrorPage;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -8,17 +13,16 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.awt.desktop.UserSessionEvent;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static org.testng.Assert.assertTrue;
 
-/**
- * UI tests for Admin Tools > Category Manager page
- */
-public class CategoryManagerTests extends ContextAwareWebTest
+public class CategoryManagerTests extends BaseShareWebTests
 {
     private final String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
     private final String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());
@@ -26,12 +30,15 @@ public class CategoryManagerTests extends ContextAwareWebTest
     private final String categoryEdited = String.format("categoryEdited%s", RandomData.getRandomAlphanumeric());
     private final String subCategoryName = String.format("testSubCategory%s", RandomData.getRandomAlphanumeric());
 
-    @Autowired
     private CategoryManagerPage categoryManagerPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    @Autowired
+    private UserService userService;
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
+        categoryManagerPage = new CategoryManagerPage(browser);
         setupAuthenticatedSession(dataUser.getAdminUser());
         categoryManagerPage.navigate();
     }
@@ -40,8 +47,8 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void afterClassDeleteAddedCategories()
     {
         Stream.of(category9295, categoryEdited, subCategoryName).filter(categoryName
-            -> userService.categoryExists(adminUser, adminPassword, categoryName)).forEach(categoryName
-            -> userService.deleteCategory(adminUser, adminPassword, categoryName));
+            -> userService.categoryExists(getAdminUser().getUsername(), getAdminUser().getPassword(), categoryName)).forEach(categoryName
+            -> userService.deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), categoryName));
     }
 
     @TestRail (id = "C9294")
@@ -70,7 +77,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void deleteCategory()
     {
         LOG.info("Step 1: Delete the category.");
-        userService.createRootCategory(adminUser, adminPassword, category9301);
+        userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9301);
         categoryManagerPage.navigate();
         categoryManagerPage.deleteCategory(category9301);
 
@@ -82,7 +89,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
-        userService.createRootCategory(adminUser, adminPassword, category9298);
+        userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9298);
         categoryManagerPage.navigate();
         categoryManagerPage.editCategory(category9298, categoryEdited);
         assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));

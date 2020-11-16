@@ -16,6 +16,7 @@ import java.net.URL;
 
 import static org.alfresco.utility.report.log.Step.STEP;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 /**
  * handle common cases related to a share page
@@ -52,6 +53,8 @@ public abstract class SharePage<T> extends SharePageObject
 
     @FindBy (id = "HEADER_USER_MENU_LOGOUT")
     private WebElement logoutLink;
+
+    private By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
 
     public String getUserName()
     {
@@ -175,6 +178,13 @@ public abstract class SharePage<T> extends SharePageObject
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
         assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
+        return (T) renderedPage();
+    }
+
+    public T assertShareVersionWarningIsNotDisplayed()
+    {
+        LOG.info("Assert Share Version warning is not displayed");
+        assertFalse(browser.isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
         return (T) renderedPage();
     }
 

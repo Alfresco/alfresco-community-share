@@ -53,7 +53,6 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     @FindBy (css = ".dashlet-padding>h3")
     protected WebElement message;
 
-    protected By newListWindowLocator = By.cssSelector(".hd");
     protected By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
     protected String listLinkLocator = "//a[@title='%s']";
     private By descriptionElement = By.cssSelector(".description");
@@ -83,7 +82,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         LOG.info("Get data list row: {}", dataListTitle);
 
         return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
-            dataListTitle)), 1, WAIT_30);
+            dataListTitle)), WAIT_1, RETRY_TIMES);
     }
 
     public CreateDataListDialog clickOnCreateDataListLink()

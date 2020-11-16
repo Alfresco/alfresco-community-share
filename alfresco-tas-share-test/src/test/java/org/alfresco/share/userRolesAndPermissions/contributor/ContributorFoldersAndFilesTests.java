@@ -232,7 +232,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         ArrayList<String> expectedPath = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
         LOG.info("Step5: Click 'Copy' button");
-        copyMoveToDialog.clickCopyButton();
+        copyMoveToDialog.clickCopyToButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog displayed");
         LOG.info("Step6: Verify displayed folder has been copied");
         documentLibraryPage.navigate(siteName2);

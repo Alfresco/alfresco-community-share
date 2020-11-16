@@ -32,10 +32,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Rusu Andrei
- */
-
 public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 {
     @Autowired
@@ -323,7 +319,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickSite(siteName);
         copyMoveUnzipToDialog.clickPathFolder(folderName);
         LOG.info("Step 3: Click 'Copy' button");
-        copyMoveUnzipToDialog.clickCopyButton();
+        copyMoveUnzipToDialog.clickCopyToButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
         LOG.info("Step 4: Verify displayed folders from Documents.");
         documentLibraryPage.navigate(siteName);

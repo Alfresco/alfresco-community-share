@@ -24,9 +24,6 @@ import static org.testng.Assert.assertTrue;
 public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
 {
     @Autowired
-    private SearchManagerPage searchManagerPage;
-
-    @Autowired
     private SearchCopyMoveDialog copyMoveDialog;
 
     public By searchResult = By.id("FCTSRCH_SEARCH_RESULT");
@@ -478,7 +475,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchManagerPage clickSearchManagerLink()
     {
         getBrowser().waitUntilElementVisible(searchManager).click();
-        return (SearchManagerPage) searchManagerPage.renderedPage();
+        return (SearchManagerPage) new SearchManagerPage(browser).renderedPage();
     }
 
     public void clickShowMore()
@@ -860,12 +857,6 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public boolean isConfigureSearchButtonDisplayed()
     {
         return getBrowser().isElementDisplayed(configureSearchButton);
-    }
-
-    public HtmlPage clickConfigureButton(HtmlPage page)
-    {
-        getBrowser().findElement(configureSearchButton).click();
-        return page.renderedPage();
     }
 
     public void clickModifiedBy(String modifierName)

@@ -1,50 +1,45 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
-
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.common.Parameter;
-import org.apache.commons.lang3.StringUtils;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Link;
+import java.util.List;
+
+import static org.testng.Assert.*;
 
 @PageObject
 public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 {
-    @FindAll (@FindBy (css = ".filename>a"))
-    protected List<WebElement> documentsLinksList;
     @FindAll (@FindBy (css = ".yuimenuitemlabel.yuimenuitemlabel"))
     protected List<WebElement> filters;
-    protected By docDetails = By.xpath("../following-sibling::*[1][@class='detail']/span[1]");
-    protected String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'%s')]";
-    protected String bigThumbnailIcon = "//img[contains(@src, '/content/thumbnails/doclib?c=queue&ph=true')][contains(@title,'%s')]";
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+
     @RenderWebElement
     @FindBy (css = "div.dashlet.docsummary")
     private WebElement dashletContainer;
+
     @FindBy (css = "div.dashlet.docsummary span[class$='first-child'] [title='Simple View']")
-    private WebElement simpleViewButton;
+    private WebElement simpleViewIcon;
+
     @FindBy (css = " div.dashlet.docsummary span[class$='first-child'] [title='Detailed View']")
-    private WebElement detailedViewButton;
-    @FindAll (@FindBy (css = ".bd>img"))
-    private WebElement bigPreview;
+    private WebElement detailedViewIcon;
+
     @FindBy (css = "[id$='default-filters']")
     private WebElement defaultFilterButton;
-    private By addToFavoritesLink = By.cssSelector("a[title = 'Add document to favorites']");
-    private By removeFromFavoritesLink = By.cssSelector("a[title = 'Remove document from favorites']");
-    private By like = By.cssSelector("a[title = 'Like this document']");
-    private By unlike = By.cssSelector("a[title = 'Unlike']");
-    private By commentLink = By.cssSelector("a.comment");
-    private By numberOfLikes = By.cssSelector("span.likes-count");
-    private By documentsList = By.cssSelector("tbody.yui-dt-data tr");
-    private By documentVersion = By.cssSelector("span.document-version");
+
+    private final By emptyMessage = By.cssSelector("div[id$='default-documents'] .empty");
+    protected String documentRow = "//div[starts-with(@class, 'dashlet docsummary')]//a[text()='%s']/../../../..";
+
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     @Override
     protected String getDashletTitle()
@@ -52,309 +47,248 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * This method is used to click on "Simple View" button
-     */
-    public void clickSimpleViewButton()
+    protected WebElement getDocumentRow(String documentName)
     {
-        simpleViewButton.click();
+        return browser.waitWithRetryAndReturnWebElement
+            (By.xpath(String.format(documentRow, documentName)), WAIT_1, RETRY_TIMES);
     }
 
-    /**
-     * This method is used to verify if an small thumbnail icon is displayed for a file
-     */
-
-    public boolean isSmallThumbnailDisplayed(String fileName)
+    public SiteContentDashlet assertEmptySiteContentMessageIsCorrect()
     {
-        String smallThumbnail = StringUtils.deleteWhitespace(String.format(smallThumbnailIcon, fileName));
+        LOG.info("Assert empty site content message is correct");
+        assertEquals(getBrowser().findElement(emptyMessage).getText(), language.translate("siteContentDashlet.emptyList"),
+        "Empty list site content dashlet message is not correct");
 
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(smallThumbnail), 5);
-        return browser.isElementDisplayed(By.xpath(smallThumbnail));
+        return this;
     }
 
-    /**
-     * This method is used to verify if an big thumbnail icon is displayed for a file
-     */
-
-    public boolean isBigThumbnailDisplayed(String fileName)
+    public SiteContentDashlet clickSimpleViewIcon()
     {
-        String bigThumbnail = StringUtils.deleteWhitespace(String.format(bigThumbnailIcon, fileName));
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(bigThumbnail), 5);
-        return browser.isElementDisplayed(By.xpath(bigThumbnail));
+        LOG.info("Click simple view icon");
+        simpleViewIcon.click();
+        return this;
     }
 
-    /**
-     * Get list of document links displayed in Site Content dashlet
-     */
-
-    public List<WebElement> getDocumentsLinksList()
+    public SiteContentDashlet openFilterDropdown()
     {
-        return documentsLinksList;
-    }
-
-    /**
-     * Retrieves the link that matches a file name.
-     *
-     * @param fileName identifier
-     * @return {@link Link} that matches fileName
-     */
-
-    public WebElement getFileLink(final String fileName)
-    {
-        browser.waitUntilElementIsDisplayedWithRetry(documentsList, 5);
-        return browser.findFirstElementWithValue(documentsLinksList, fileName);
-    }
-
-    /**
-     * Verify if a link for a file is displayed in Site Content dashlet
-     *
-     * @param fileName
-     * @return True if user exists
-     */
-
-    public boolean isFileLinkPresent(String fileName)
-    {
-        int counter = 0;
-        boolean found = false;
-        while (!found && counter < 6)
-        {
-            found = browser.isElementDisplayed(getFileLink(fileName));
-
-            if (!found)
-            {
-                browser.refresh();
-                browser.waitInSeconds(5);
-                counter++;
-            }
-        }
-        return found;
-    }
-
-    /**
-     * Open document details page for a file
-     *
-     * @param fileName
-     * @return
-     */
-    public DocumentDetailsPage clickFileLink(final String fileName)
-    {
-        getFileLink(fileName).click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
-    }
-
-    /**
-     * Open user profile page
-     *
-     * @param fileName
-     * @return
-     */
-    public DocumentDetailsPage clickBigThumbnailForFile(String fileName)
-    {
-        String bigThumbnail = StringUtils.deleteWhitespace(String.format(bigThumbnailIcon, fileName));
-        browser.findElement(By.xpath(bigThumbnail)).click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
-    }
-
-    /**
-     * This method is used to hover over small thumbnail icon
-     */
-
-    public void mouseHoverSmallThumbail(String fileName)
-    {
-        String smallThumbnail = StringUtils.deleteWhitespace(String.format(smallThumbnailIcon, fileName));
-
-        browser.mouseOver(browser.findElement(By.xpath(smallThumbnail)));
-        browser.waitUntilElementVisible(By.cssSelector(".bd>img"));
-    }
-
-    /**
-     * This method is used to verify if an big preview is displayed for a file
-     */
-
-    public boolean isBigPreviewDisplayed()
-    {
-        return browser.isElementDisplayed(bigPreview);
-    }
-
-    /**
-     * Verify if a document details section is displayed
-     *
-     * @param document
-     * @return True if details are displayed
-     */
-    public boolean isDocDetailsSectionPresent(String document)
-    {
-        return getFileLink(document).findElement(docDetails) != null;
-    }
-
-    public boolean areFileDetailsDisplayed(String fileName, String siteName)
-    {
-
-        String details = getFileLink(fileName).findElement(docDetails).getText();
-        return (details.contains("Modified") || details.contains("Created")) && details.contains("in " + siteName)
-            && ((details.contains("just now") || (details.contains("ago"))));
-
-    }
-
-    public boolean isFileDescription(String fileName, String description)
-    {
-        By fileDescription = By.xpath("// *[contains(text(), '" + description + "')]");
-        Parameter.checkIsMandotary("File", selectItem(fileName));
-        return selectItem(fileName).findElement(fileDescription) != null;
-    }
-
-    /**
-     * Get document details
-     *
-     * @param document
-     * @return
-     */
-    public String getDocDetails(String document)
-    {
-        return getFileLink(document).findElement(docDetails).getText();
-    }
-
-    /**
-     * This method is used to click on default filter button
-     */
-
-    public void clickDefaultFilterButton()
-
-    {
+        LOG.info("Open filter dropdown");
         defaultFilterButton.click();
+        return this;
     }
 
-    public boolean isFilterDisplayed(String filter)
+    public SiteContentDashlet assertFilterLabelEquals(String expectedFilterLabel)
     {
-        return browser.findFirstElementWithValue(filters, filter) != null;
+        LOG.info("Assert filter label equals: {}", expectedFilterLabel);
+        WebElement dropdownFilterLabel = browser.findFirstElementWithValue(filters, expectedFilterLabel);
+        assertEquals(dropdownFilterLabel.getText(), expectedFilterLabel,
+            String.format("Filter label not equals %s ", expectedFilterLabel));
+
+        return this;
     }
 
-    public boolean isSimpleViewButtonPresent()
+    public SiteContentDashlet assertDetailedViewIconIsDisplayed()
     {
-        return browser.isElementDisplayed(simpleViewButton);
+        LOG.info("Assert detailed view icon is displayed");
+        assertTrue(browser.isElementDisplayed(detailedViewIcon), "Detailed view icon is not displayed");
+
+        return this;
     }
 
-    public boolean isDetailedViewButtonPresent()
+    public SiteContentDashlet clickDetailedViewButton()
     {
-        return browser.isElementDisplayed(detailedViewButton);
+        LOG.info("Click detailed view button");
+        browser.waitUntilElementVisible(detailedViewIcon).click();
+        return this;
     }
 
-    public void clickDetailedViewButton()
+    public ManageSiteContent usingDocument(FileModel file)
     {
-        browser.waitUntilElementVisible(detailedViewButton).click();
+        return new ManageSiteContent(this, documentDetailsPage, file);
     }
 
-    public void addFileToFavorites(String fileName)
+    public class ManageSiteContent
     {
-        Parameter.checkIsMandotary("File", selectItem(fileName));
-        browser.waitUntilElementVisible(selectItem(fileName).findElement(addToFavoritesLink)).click();
-        //selectItem(fileName).findElement(addToFavoritesLink).click();
-        int counter = 0;
-        while (!isFileAddedToFavorites(fileName) && counter < 5)
+        private SiteContentDashlet siteContentDashlet;
+        private DocumentDetailsPage documentDetailsPage;
+        private FileModel file;
+
+        private By siteLocator = By.cssSelector(".detail span a");
+        private By thumbnail = By.cssSelector("td[headers$='thumbnail '] a");
+        private By fileNameLocator = By.cssSelector(".filename>a");
+        private By description = By.cssSelector(".detail:nth-of-type(2) > span");
+        private By documentVersion = By.cssSelector(".document-version");
+        private By fileSize = By.cssSelector(".detail:nth-of-type(1)>span:nth-of-type(2)");
+        private By likeAction = By.cssSelector("a[class='like-action like1']");
+        private By unlikeAction = By.cssSelector("a[class='like-action like1 enabled']");
+        private By likesCount = By.cssSelector(".likes-count");
+        private By favoriteAction = By.cssSelector("a[class^='favourite-action']");
+        private By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite0 enabled']");
+        private By commentLink = By.cssSelector("a.comment");
+
+        public ManageSiteContent(SiteContentDashlet siteContentDashlet, DocumentDetailsPage documentDetailsPage, FileModel file)
         {
-            browser.waitInSeconds(1);
-            counter++;
-        }
-    }
+            this.siteContentDashlet = siteContentDashlet;
+            this.documentDetailsPage = documentDetailsPage;
+            this.file = file;
 
-    public void removeFileFromFavorites(String fileName)
-    {
-        Parameter.checkIsMandotary("File", selectItem(fileName));
-        selectItem(fileName).findElement(removeFromFavoritesLink).click();
-        int counter = 0;
-        while (!isAddToFavoritesLinkDisplayed(fileName) && counter < 5)
+            LOG.info(String.format("Using file: %s in Site Content dashlet", file.getName()));
+        }
+
+        private WebBrowser getBrowser()
         {
-            browser.waitInSeconds(1);
-            counter++;
+            return siteContentDashlet.getBrowser();
         }
-    }
 
-    public void likeFile(String fileName)
-    {
-        Parameter.checkIsMandotary("File", selectItem(fileName));
-        selectItem(fileName).findElement(like).click();
-        int counter = 0;
-        while (!isUnlikeLinkDisplayed(fileName) && counter < 5)
+        public WebElement getFileRow()
         {
-            browser.waitInSeconds(1);
-            counter++;
+            return siteContentDashlet.getDocumentRow(file.getName());
         }
-    }
 
-    public void unlikeFile(String fileName)
-    {
-        Parameter.checkIsMandotary("File", selectItem(fileName));
-        selectItem(fileName).findElement(unlike).click();
-        int counter = 0;
-        while (!isLikeButtonDisplayed(fileName) && counter < 5)
+        public ManageSiteContent assertFileIsDisplayed()
         {
-            browser.waitInSeconds(1);
-            counter++;
+            assertTrue(getBrowser().isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
+            return this;
         }
-    }
 
-    public boolean isLikeButtonDisplayed(String fileName)
-    {
-        return browser.isElementDisplayed(selectItem(fileName), like);
-    }
+        public ManageSiteContent assertFileIsNotDisplayed()
+        {
+            assertFalse(getBrowser().isElementDisplayed(
+                By.xpath(String.format(siteContentDashlet.documentRow, file.getName()))));
+            return this;
+        }
 
-    public boolean isUnlikeLinkDisplayed(String fileName)
-    {
-        return browser.isElementDisplayed(selectItem(fileName), unlike);
-    }
+        public ManageSiteContent assertSiteEqualsTo(SiteModel site)
+        {
+            LOG.info("Assert site equals to {}", site.getTitle());
+            assertEquals(getFileRow().findElement(siteLocator).getText(), site.getTitle(),
+                String.format("Site %s is not displayed", site.getTitle()));
+            return this;
+        }
 
-    public boolean isAddToFavoritesLinkDisplayed(String fileName)
-    {
-        return browser.isElementDisplayed(selectItem(fileName), addToFavoritesLink);
-    }
+        public ManageSiteContent assertThumbnailIsDisplayed()
+        {
+            LOG.info("Assert thumbnail is displayed");
+            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(thumbnail)),
+                "Thumbnail is not displayed");
+            return this;
+        }
 
-    public boolean isCommentLinkDisplayed(String fileName)
-    {
-        return browser.isElementDisplayed(selectItem(fileName), commentLink);
-    }
+        public DocumentDetailsPage clickFileName()
+        {
+            LOG.info("Click file name");
+            getFileRow().findElement(fileNameLocator).click();
+            return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+        }
 
-    public DocumentDetailsPage clickCommentLink(String fileName)
-    {
-        browser.waitUntilElementIsDisplayedWithRetry(commentLink);
-        selectItem(fileName).findElement(commentLink).click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
-    }
+        public ManageSiteContent assertDescriptionEqualsTo(String expectedDescription)
+        {
+            LOG.info("Assert expected description equals to {}", expectedDescription);
+            assertEquals(getFileRow().findElement(description).getText(), expectedDescription,
+                "File description is not correct");
+            return this;
+        }
 
-    public boolean isFileVersionDisplayed(String fileName, String fileVersion)
-    {
-        browser.mouseOver(selectItem(fileName));
-        if (browser.isElementDisplayed(selectItem(fileName), documentVersion))
-            return selectItem(fileName).findElement(documentVersion).getText().equals(fileVersion);
-        return false;
-    }
+        public ManageSiteContent assertFileVersionEqualsTo(double expectedVersion)
+        {
+            LOG.info("Assert file version equals to {}", expectedVersion);
+            getBrowser().mouseOver(getFileRow().findElement(fileNameLocator));
+            getBrowser().waitUntilChildElementIsPresent(getFileRow(), documentVersion);
+            assertEquals(Double.valueOf(getFileRow().findElement(documentVersion).getText()), expectedVersion,
+                "File version is not correct");
+            return this;
+        }
 
-    public boolean isFileAddedToFavorites(String fileName)
-    {
-        return browser.isElementDisplayed(selectItem(fileName), removeFromFavoritesLink);
-    }
+        public ManageSiteContent assertFileSizeEqualsTo(String expectedFileSize)
+        {
+            LOG.info("Assert file size equals to {}", expectedFileSize);
+            assertEquals(getFileRow().findElement(fileSize).getText(), expectedFileSize,
+                "File size is not correct");
+            return this;
+        }
 
-    public int getNumberOfLikes(String fileName)
-    {
-        Parameter.checkIsMandotary("File", selectItem(fileName));
-        return Integer.parseInt(selectItem(fileName).findElement(numberOfLikes).getText());
-    }
+        public ManageSiteContent assertLikeIsDisplayed()
+        {
+            LOG.info("Assert like is displayed");
+            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(likeAction)), "Like is not displayed");
+            return this;
+        }
 
-    public boolean isDocumentSizeDisplayed(String fileName, String size)
-    {
-        String documentSize = "//*[contains(text(), '" + size + "')]";
-        return browser.isElementDisplayed(selectItem(fileName), By.xpath(documentSize));
-    }
+        public ManageSiteContent assertUnlikeIsDisplayed()
+        {
+            LOG.info("Assert unlike is displayed");
+            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is not displayed");
+            return this;
+        }
 
-    public WebElement selectItem(String document)
-    {
-        browser.waitUntilElementIsDisplayedWithRetry(documentsList, 6);
-        List<WebElement> itemsList = browser.findElements(documentsList);
-        return browser.findFirstElementWithValue(itemsList, document);
-    }
+        public ManageSiteContent assertNumberOfLikesEqualsTo(int nrOfLikes)
+        {
+            LOG.info("Assert number of likes equals to {}", nrOfLikes);
+            int likes = Integer.parseInt(getFileRow().findElement(likesCount).getText());
+            assertEquals(likes, nrOfLikes, "Number of likes is correct");
+            return this;
+        }
 
-    public SiteContentDashlet selectFilter(String filterName)
-    {
-        browser.findFirstElementWithValue(filters, filterName).click();
-        return (SiteContentDashlet) this.renderedPage();
+        public ManageSiteContent clickLike()
+        {
+            LOG.info("Click like");
+            WebElement likeBtn;
+            try
+            {
+                likeBtn = getFileRow().findElement(likeAction);
+            }
+            catch (NoSuchElementException e)
+            {
+                likeBtn = getFileRow().findElement(likeAction);
+            }
+            browser.clickJS(likeBtn);
+            browser.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
+            return this;
+        }
+
+        public ManageSiteContent clickUnlike()
+        {
+            LOG.info("Click unlike");
+            browser.clickJS(getFileRow().findElement(unlikeAction));
+            browser.waitUntilChildElementIsPresent(getFileRow(), likeAction);
+            return this;
+        }
+
+        public ManageSiteContent assertAddToFavoriteIsDisplayed()
+        {
+            LOG.info("Assert add to favorite is displayed");
+            assertTrue(browser.isElementDisplayed(getFileRow().findElement(favoriteAction)),
+                "Favorite action is not displayed");
+            return this;
+        }
+
+        public ManageSiteContent assertRemoveFromFavoriteIsDisplayed()
+        {
+            LOG.info("Assert remove from favorite is displayed");
+            assertTrue(browser.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
+            "Remove from favorite is not displayed");
+            return this;
+        }
+
+        public ManageSiteContent addToFavorite()
+        {
+            LOG.info("Add file to favorite");
+            browser.clickJS(getFileRow().findElement(favoriteAction));
+            browser.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
+            return this;
+        }
+
+        public ManageSiteContent removeFromFavorite()
+        {
+            LOG.info("Remove file from favorite");
+            browser.clickJS(getFileRow().findElement(removeFromFavorite));
+            browser.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
+            return this;
+        }
+
+        public DocumentDetailsPage clickCommentLink()
+        {
+            getFileRow().findElement(commentLink).click();
+            return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+        }
     }
 }

@@ -17,6 +17,7 @@ public abstract class SharePageObject extends HtmlPage
     public static final int WAIT_30 = 30;
     public static final int WAIT_60 = 60;
     public static final int DEFAULT_RETRY = 3;
+    public static final int RETRY_TIMES = 20;
     public static String LAST_MODIFICATION_MESSAGE = "";
     public static final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
 

@@ -1,19 +1,21 @@
 package org.alfresco.po.share.site.link;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Link;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 {
@@ -29,9 +31,6 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     @FindBy (xpath = "//a[contains(text(), 'Links List')]")
     private WebElement linksListLink;
-
-    @FindBy (css = ".node.linksview")
-    private WebElement linkView;
 
     @FindBy (css = ".nodeTitle>a")
     private Link linkTitle;
@@ -51,12 +50,6 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     @FindAll (@FindBy (className = "tag-link"))
     private List<WebElement> tagsList;
 
-    @FindBy (css = ".comments-list>h2")
-    private WebElement commentsSection;
-
-    @FindBy (css = "[id*=default-comments-list]")
-    private WebElement defaultCommentsSection;
-
     @FindBy (css = ".onEditLink>a")
     private WebElement editLink;
 
@@ -72,15 +65,13 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     @FindAll (@FindBy (css = ".comment-content"))
     private List<WebElement> commentsList;
 
-    @FindAll (@FindBy (css = "[class=info] a"))
-    private List<WebElement> commentAuthor;
-
     @FindAll (@FindBy (css = ".comment-details"))
     private List<WebElement> commentDetailsList;
 
     @FindBy (css = "[id*=default-add-cancel-button]")
     private WebElement cancelSubmitCommentButton;
-    private By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+
+    private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
     public LinkDetailsViewPage(ThreadLocal<WebBrowser> browser)
     {
@@ -93,59 +84,48 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
         return String.format("share/page/site/%s/links-view", getCurrentSiteName());
     }
 
-    public String getLinkTitle()
+    public LinkDetailsViewPage assertLinkTitleEquals(String expectedLinkTitle)
     {
-        return linkTitle.getText();
+        LOG.info("Assert link title equals: {}", expectedLinkTitle);
+        assertEquals(linkTitle.getText(), expectedLinkTitle,
+            String.format("Link title not equals %s ", expectedLinkTitle));
+
+        return this;
     }
 
-    public String getLinkURL()
+    public LinkDetailsViewPage assertLinkUrlEquals(String expectedLinkUrl)
     {
-        return linkURL.getText();
+        LOG.info("Assert link url equals: {}", expectedLinkUrl);
+        assertEquals(linkURL.getText(), expectedLinkUrl,
+            String.format("Link url not equals %s ", expectedLinkUrl));
+        return this;
     }
 
-    public String getCreationDate()
+    public LinkDetailsViewPage assertLinkCreationDateContains(DateFormat dateFormat)
     {
-        return creationDate.getText();
+        LOG.info("Assert link creation date contains: {}", dateFormat);
+        assertTrue(creationDate.getText().contains(dateFormat.format(new Date())),
+            String.format("Link creation date not contains %s", dateFormat));
+
+        return this;
     }
 
-    public String getCreatedBy()
+    public LinkDetailsViewPage assertCreatedByLabelEqualsFullUserName(String firstName, String lastName)
     {
-        return createdBy.getText();
+        LOG.info("Assert created by label equals full username: {}", firstName, lastName);
+        assertEquals(createdBy.getText(), firstName.concat(" " + lastName),
+                String.format("Full username not equals %s and %s ", firstName, lastName));
+
+        return this;
     }
 
-    public String getDescription()
+    public LinkDetailsViewPage assertLinkDescriptionEquals(String expectedLinkDescription)
     {
-        return description.getText();
-    }
+        LOG.info("Assert link description equals: {}", expectedLinkDescription);
+        assertEquals(description.getText(), expectedLinkDescription,
+            String.format("Link description not equals %s ", expectedLinkDescription));
 
-    public boolean isTagDisplayedInTagsList(String tag)
-    {
-        return getBrowser().findFirstElementWithValue(tagsList, tag) != null;
-    }
-
-    public boolean isCommentsSectionDisplayed()
-    {
-        return commentsSection.isDisplayed();
-    }
-
-    public boolean isAddCommentButtonDisplayed()
-    {
-        return addCommentButton.isDisplayed();
-    }
-
-    public String getNoCommentsMessage()
-    {
-        return defaultCommentsSection.getText();
-    }
-
-    public boolean isEditLinkDisplayed()
-    {
-        return editLink.isDisplayed();
-    }
-
-    public boolean isDeleteLinkDisplayed()
-    {
-        return deleteLink.isDisplayed();
+        return this;
     }
 
     public LinkPage clickOnLinksListLink()
@@ -170,12 +150,6 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
         getBrowser().findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
     }
 
-    public int getWinHandlesNo()
-    {
-        Set<String> set = getBrowser().getWindowHandles();
-        return set.size();
-    }
-
     public EditLinkPage clickOnEditLink()
     {
         editLink.click();
@@ -196,8 +170,9 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public void addComment(String comment)
     {
-        getBrowser().switchTo().frame((WebElement) getBrowser().findElement(commentContentIframe));
+        getBrowser().switchTo().frame(getBrowser().findElement(commentContentIframe));
         WebElement editable = getBrowser().switchTo().activeElement();
+
         editable.sendKeys(comment);
         getBrowser().switchTo().defaultContent();
         submitCommentButton.click();

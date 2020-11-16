@@ -1,6 +1,6 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -9,7 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class SearchManagerTests extends ContextAwareWebTest
+public class SearchManagerTests extends BaseShareWebTests
 {
     private UserModel userAdmin, searchAdmin;
 

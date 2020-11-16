@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CategoryManagerPage extends AdminToolsPage
 {
-    private AddCategoryDialog addCategoryDialog;
-    private DeleteDialog deleteDialog;
-
     @RenderWebElement
     private By categoryManagerDiv = By.cssSelector("div[id$=default-category-manager]");
     private By editCategoryNameInput = By.cssSelector(".insitu-edit input[type='text']");
@@ -27,8 +24,6 @@ public class CategoryManagerPage extends AdminToolsPage
     public CategoryManagerPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        addCategoryDialog = new AddCategoryDialog(browser);
-        deleteDialog = new DeleteDialog(browser);
     }
 
     private WebElement category(String categoryLabel)
@@ -48,7 +43,7 @@ public class CategoryManagerPage extends AdminToolsPage
         WebElement addButton = getBrowser().waitUntilElementVisible(addCategoryButton);
         getBrowser().mouseOver(addButton);
         addButton.click();
-        return (AddCategoryDialog) addCategoryDialog.renderedPage();
+        return (AddCategoryDialog) new AddCategoryDialog(browser).renderedPage();
     }
 
     public CategoryManagerPage addCategory(String categoryName)
@@ -68,7 +63,7 @@ public class CategoryManagerPage extends AdminToolsPage
         WebElement deleteCat = getBrowser().waitUntilElementVisible(deleteCategoryButton);
         getBrowser().mouseOver(deleteCat);
         getBrowser().clickJS(deleteCat);
-        return (DeleteDialog) deleteDialog.renderedPage();
+        return (DeleteDialog) new DeleteDialog(browser).renderedPage();
     }
 
     public CategoryManagerPage deleteCategory(String categoryName)

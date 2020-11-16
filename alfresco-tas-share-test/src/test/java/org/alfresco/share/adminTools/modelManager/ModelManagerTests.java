@@ -3,6 +3,7 @@ package org.alfresco.share.adminTools.modelManager;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.share.ContextAwareWebTest;
@@ -18,16 +19,13 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * UI tests for Admin Tools > Model Manager page
- */
 public class ModelManagerTests extends ContextAwareWebTest
 {
     @Autowired
     private ModelManagerPage modelManagerPage;
 
-   // @Autowired
-    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
@@ -290,6 +288,8 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void useImportedModel()
     {
+        String[] defaultProperties = {"Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"};
+        String[] modelProperties = {"Title", "Modifier", "Creator"};
         String filePath = testDataFolder + "Marketing_content.zip";
         name = "Marketing_content";
         CustomContentModel importedModel = new CustomContentModel(name, name, name);
@@ -303,18 +303,12 @@ public class ModelManagerTests extends ContextAwareWebTest
             .clickActions().activateModel();
 
         setupAuthenticatedSession(user);
-        documentLibraryPage.navigate(site);
+        documentLibraryPage.navigate(site)
+            .usingContent(file).selectFile().assertPropertiesAreDisplayed(defaultProperties)
+                .clickDocumentActionsOption("Change Type", changeContentTypeDialog);
 
-        LOG.info("Step 1: On the Document Library page click the name of the testDocument to open the file in Preview and check default properties");
-        documentLibraryPage.clickOnFile(file.getName());
-        Assert.assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
-
-        LOG.info("Step 2: On the Document Details page click Change Type action;");
-        documentDetailsPage.clickDocumentActionsOption("Change Type", changeContentTypeDialog);
-
-        LOG.info("Step 3: Select the Marketing content (MKT:Marketing) type and apply it to the testDocument");
         changeContentTypeDialog.selectOption("Marketing content (MKT:Marketing)");
         changeContentTypeDialog.clickButton("OK");
-        Assert.assertTrue(documentDetailsPage.arePropertiesDisplayed("Title", "Modifier", "Creator"), "Displayed properties:");
+        documentDetailsPage.assertPropertiesAreDisplayed(modelProperties);
     }
 }

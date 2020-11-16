@@ -1,161 +1,94 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import static java.util.Arrays.asList;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * @author Laura.Capsa
- */
 public class CopyingContentTests extends ContextAwareWebTest
 {
-    private final String userName = String.format("profileUser1-%s", RandomData.getRandomAlphanumeric());
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
-    private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
-    private final String docContent = "content of the file.";
-
-   // @Autowired
-    private Toolbar toolbar;
-    //@Autowired
-    private DocumentLibraryPage documentLibraryPage;
-    //@Autowired
-    private SharedFilesPage sharedFilesPage;
     @Autowired
-    private CopyMoveUnzipToDialog copyMoveToDialog;
+    private DocumentLibraryPage2 documentLibraryPage;
+
+    private UserModel testUser;
+    private SiteModel testSite;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        testUser = dataUser.usingAdmin().createRandomTestUser();
+        testSite = dataSite.usingUser(testUser).createPublicRandomSite();
+        cmisApi.authenticateUser(testUser);
+        setupAuthenticatedSession(testUser);
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        removeUserFromAlfresco(testUser);
+        deleteSites(testSite);
     }
 
-
     @TestRail (id = "C7377")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void copyFileToSharedFiles()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void checkCopyFileToSharedFiles()
     {
-        String siteName = String.format("Site-C7377-%s", RandomData.getRandomAlphanumeric());
-        String docName = String.format("Doc-C7377-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO);
-        assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
-        LOG.info("STEP3: Set the destination to 'Shared Files'");
-        copyMoveToDialog.clickDestinationButton("Shared Files");
-        LOG.info("STEP4: Click 'Copy' button");
-        copyMoveToDialog.clickCopyButton();
-        assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
-        LOG.info("STEP5: Verify displayed files from Documents");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in 'Documents'");
-        LOG.info("STEP6: Go to 'Shared Files', from toolbar and verify the displayed files");
-        sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed(docName),
-            docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
-        cleanupAuthenticatedSession();
-        siteService.delete(adminUser, adminPassword, siteName);
+        FileModel fileToCopy = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+        cmisApi.usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
 
+        documentLibraryPage.navigate(testSite)
+            .usingContent(fileToCopy).clickCopyTo()
+            .selectSharedFilesDestination()
+            .clickCopyToButton();
+
+        FileModel copiedFile = new FileModel(fileToCopy.getName());
+        copiedFile.setCmisLocation(Utility.buildPath(cmisApi.getSharedPath(), fileToCopy.getName()));
+        cmisApi.usingResource(copiedFile).assertThat().existsInRepo()
+            .and().delete();
     }
 
     @TestRail (id = "C7378")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void cancelCopyFileToSharedFiles()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void checkCancelCopyFileToSharedFiles()
     {
-        String siteName = String.format("Site-C7378-%s", RandomData.getRandomAlphanumeric());
-        String docName = String.format("Doc-C7378-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.COPY_TO);
-        assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
-        LOG.info("STEP3: Set the destination to 'Shared Files'");
-        copyMoveToDialog.clickDestinationButton("Shared Files");
-        LOG.info("STEP4: Click 'Cancel' button");
-        copyMoveToDialog.clickCancelButton();
-        assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
-        LOG.info("STEP5: Verify displayed files from Documents");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in 'Documents'");
-        LOG.info("STEP6: Go to 'Shared Files', from toolbar and verify the displayed files");
-        toolbar.clickSharedFiles();
-        assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " displayed in 'Shared Files'");
-        cleanupAuthenticatedSession();
-        siteService.delete(adminUser, adminPassword, siteName);
+        FileModel fileToCopy = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+        cmisApi.usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
 
+        documentLibraryPage.navigate(testSite)
+            .usingContent(fileToCopy).clickCopyTo()
+            .selectSharedFilesDestination()
+            .clickCancelButton();
+        FileModel copiedFile = new FileModel(fileToCopy.getName());
+        copiedFile.setCmisLocation(Utility.buildPath(cmisApi.getSharedPath(), fileToCopy.getName()));
+
+        cmisApi.usingResource(copiedFile).assertThat().doesNotExistInRepo();
     }
 
     @TestRail (id = "C7388")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void copyFolderToPublicSite()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void checkCopyFolderToPublicSite()
     {
-        String siteName1 = String.format("Site1-C7388-%s", RandomData.getRandomAlphanumeric());
-        String siteName2 = String.format("Site2-C7388-%s", RandomData.getRandomAlphanumeric());
-        String docName = String.format("TestDoc-C7388-%s", RandomData.getRandomAlphanumeric());
-        String folderName = String.format("Folder-C7388-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        contentService.createFolder(userName, password, folderName, siteName1);
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName1);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO);
-        assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
-        LOG.info("STEP4: Set the destination to 'All Sites'");
-        copyMoveToDialog.clickDestinationButton("All Sites");
-        ArrayList<String> expectedPath_destination = new ArrayList<>(asList("Documents", folderName));
-        assertEquals(copyMoveToDialog.getPathList(), expectedPath_destination.toString(), "Path");
-        LOG.info("STEP5: Select a site");
-        copyMoveToDialog.clickSite(siteName2);
-        ArrayList<String> expectedPath = new ArrayList<>(Collections.singletonList("Documents"));
-        assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
-        LOG.info("STEP6: Click 'Copy' button");
-        copyMoveToDialog.clickCopyButton();
-        assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
-        LOG.info("STEP7: Verify that the folder has been copied");
-        documentLibraryPage.navigate(siteName2);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        ArrayList<String> expectedFolderList = new ArrayList<>(Collections.singletonList(folderName));
-        assertEquals(documentLibraryPage.getFoldersList().toString(), expectedFolderList.toString(), "Displayed folders=");
-        cleanupAuthenticatedSession();
-        siteService.delete(adminUser, adminPassword, siteName1);
-        siteService.delete(adminUser, adminPassword, siteName2);
+        SiteModel siteDestination = dataSite.usingUser(testUser).createPublicRandomSite();
+        FolderModel folderToCopy = FolderModel.getRandomFolderModel();
+        FileModel subFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
 
+        cmisApi.usingSite(testSite).createFolder(folderToCopy)
+            .usingResource(folderToCopy).createFile(subFile);
+        documentLibraryPage.navigate(testSite)
+            .usingContent(folderToCopy).clickCopyTo()
+            .selectAllSitesDestination()
+            .selectSite(siteDestination).clickCopyToButton();
+
+        documentLibraryPage.navigate(siteDestination)
+            .usingContent(folderToCopy).assertContentIsDisplayed()
+            .selectFolder()
+            .usingContent(subFile).assertContentIsDisplayed();
+
+        dataSite.usingAdmin().deleteSite(siteDestination);
     }
 }

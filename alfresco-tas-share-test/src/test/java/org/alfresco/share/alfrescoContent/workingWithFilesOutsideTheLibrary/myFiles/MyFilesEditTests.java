@@ -165,7 +165,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
         myFilesPage.clickDocumentLibraryItemAction(docNameC8212, ItemActions.EDIT_IN_ALFRESCO);
 
         LOG.info("Step2: Edit the document's properties by sending new input");
-        editInAlfrescoPage.sendDocumentDetailsFields(editedDocName, editedContent, editedTitle, editedDescription);
+        editInAlfrescoPage.enterDocumentDetails(editedDocName, editedContent, editedTitle, editedDescription);
 
         LOG.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");

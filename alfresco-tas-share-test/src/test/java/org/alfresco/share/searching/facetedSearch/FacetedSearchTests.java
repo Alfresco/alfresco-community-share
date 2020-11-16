@@ -208,7 +208,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Copy to...");
         LOG.info("STEP3: Copy the selected files to destination site.");
-        copyMoveUnzipToDialog.clickAllSitesButton();
+        copyMoveUnzipToDialog.selectAllSitesDestination();
         copyMoveUnzipToDialog.selectSite(siteForCopy);
         copyMoveUnzipToDialog.clickDocumentLibrary();
         copyMoveUnzipToDialog.clickButton("Copy");
@@ -230,7 +230,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Move to...");
         LOG.info("STEP3: Move the selected files to destination site.");
-        copyMoveUnzipToDialog.clickAllSitesButton();
+        copyMoveUnzipToDialog.selectAllSitesDestination();
         copyMoveUnzipToDialog.selectSite(siteForMove);
         copyMoveUnzipToDialog.clickDocumentLibrary();
         copyMoveUnzipToDialog.clickButton("Move");

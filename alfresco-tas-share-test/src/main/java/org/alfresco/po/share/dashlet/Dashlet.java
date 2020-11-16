@@ -42,7 +42,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     protected String dashletBar = "div[class*='%s'] div[class='title']";
 
     protected String helpIcon = "div[class*='%s'] div[class='titleBarActionIcon help']";
-    protected String helpIconMyProfile = "div[class='dashlet'] div[class='titleBarActionIcon help']";
+    protected By helpIconMyProfile = By.cssSelector("div[class='dashlet'] div[class='titleBarActionIcon help']");
     private HtmlElement currentHandleElement;
     private String resizeDashlet = "//div[text()='%s']/../div[@class='yui-resize-handle yui-resize-handle-b']/div";
 
@@ -86,12 +86,16 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     public T clickOnHelpIcon(DashletHelpIcon dashlet)
     {
         LOG.info("Click Help Icon");
-        if(dashlet.name == DashletHelpIcon.MY_PROFILE.name)
+        if(dashlet.name.equals(DashletHelpIcon.MY_PROFILE.name))
         {
-            browser.findElement(By.cssSelector(helpIconMyProfile)).click();
+            WebElement helpMyProfile =  browser.findElement(helpIconMyProfile);
+            browser.mouseOver(helpMyProfile);
+            helpMyProfile.click();
             return (T) this;
         }
-        browser.findElement(By.cssSelector(String.format(helpIcon, dashlet.name))).click();
+        WebElement helpElement = browser.findElement(By.cssSelector(String.format(helpIcon, dashlet.name)));
+        browser.mouseOver(helpElement);
+        helpElement.click();
         return (T) this;
     }
 

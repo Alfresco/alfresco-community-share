@@ -233,8 +233,8 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
                 catch (MoveTargetOutOfBoundsException e)
                 {
                     LOG.error(String.format("Failed to add dashlet %s. Will retry...", dashlet.getDashletName()));
+                    retryAddDashlet(dashlet, webDashlet, target, columnNumber);
                 }
-                retryAddDashlet(dashlet, webDashlet, target, columnNumber);
             }
             else
             {

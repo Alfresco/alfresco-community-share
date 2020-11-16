@@ -1,14 +1,11 @@
 package org.alfresco.po.share;
 
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.renderer.ElementState;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.testng.Assert;
 
 import java.net.MalformedURLException;
@@ -18,6 +15,7 @@ import java.net.URL;
 
 import static org.alfresco.utility.report.log.Step.STEP;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public abstract class SharePage2<T> extends SharePageObject2
 {
@@ -31,6 +29,7 @@ public abstract class SharePage2<T> extends SharePageObject2
     private By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
     private By userMenu = By.id("HEADER_USER_MENU_POPUP");
     private By logoutLink = By.id("HEADER_USER_MENU_LOGOUT");
+    private By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
 
     /**
      * Wire up the relative path in your Page Object class
@@ -131,6 +130,13 @@ public abstract class SharePage2<T> extends SharePageObject2
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
         assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
+        return (T) renderedPage();
+    }
+
+    public T assertShareVersionWarningIsNotDisplayed()
+    {
+        LOG.info("Assert Share Version warning is not displayed");
+        assertFalse(getBrowser().isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
         return (T) renderedPage();
     }
 

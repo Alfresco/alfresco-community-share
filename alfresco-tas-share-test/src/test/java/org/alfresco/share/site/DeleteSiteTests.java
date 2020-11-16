@@ -44,7 +44,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     //@Autowired
     SearchPage searchFromToolbarPage;
 
-    @Autowired
+    //@Autowired
     SystemErrorPage systemErrorPage;
 
     @Autowired

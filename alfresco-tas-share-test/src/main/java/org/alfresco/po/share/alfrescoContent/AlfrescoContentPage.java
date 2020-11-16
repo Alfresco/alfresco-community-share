@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
@@ -15,6 +16,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.swing.text.DocumentFilter;
+
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPage<T>>
@@ -33,6 +39,9 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
 
     @Autowired
     private CopyMoveUnzipToDialog copyMoveDialog;
+
+    //@Autowired
+    private DeleteDialog deleteDialog;
 
     @RenderWebElement
     @FindBy(css = "button[id$='createContent-button-button']")
@@ -77,11 +86,15 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
     @FindBy (css = ".onActionCopyTo")
     private WebElement copyToFromSelectedItems;
 
+    private By documentsFilter = By.cssSelector("a.filter-link");
+    private By selectedFilter = By.cssSelector(".filterLink .selected");
+    private By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
+    private By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
     protected String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
     protected String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
     protected String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
-    private By selectCheckBox = By.cssSelector("input[name='fileChecked']");
+    protected By selectCheckBox = By.cssSelector("input[name='fileChecked']");
 
     public T clickCreate()
     {
@@ -150,6 +163,14 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         LOG.info(String.format("Assert folder %s is displayed in breadcrumb", folder.getName()));
         assertTrue(browser.isElementDisplayed(By.xpath(String.format(breadcrumb, folder.getName()))),
             String.format("Folder %s is displayed in breadcrumb", folder.getName()));
+        return (T) this;
+    }
+
+    public T assertDocumentsRootBreadcrumbIsDisplayed()
+    {
+        LOG.info("Assert Documents root breadcrumb is displayed");
+        browser.waitUntilElementVisible(documentsRootBreadcrumb);
+        assertTrue(getBrowser().isElementDisplayed(documentsRootBreadcrumb), "Documents root breadcrumb is displayed");
         return (T) this;
     }
 
@@ -248,8 +269,64 @@ public abstract class AlfrescoContentPage<T> extends SharePage<AlfrescoContentPa
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 
+    public T selectFromDocumentsFilter(DocumentsFilter documentFilter)
+    {
+        LOG.info("Select document filter {}", documentFilter.toString());
+        List<WebElement> filters = getBrowser().findElements(documentsFilter);
+        browser.findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)).click();
+        browser.waitUntilElementVisible(selectedFilter);
+        return (T) this;
+    }
+
+    public T assertDocumentsFilterHeaderTitleEqualsTo(String expectedHeaderTitle)
+    {
+        LOG.info("Assert documents filter header title '{}' is displayed", expectedHeaderTitle);
+        assertEquals(getBrowser().waitUntilElementVisible(documentsFilterHeaderTitle).getText(), expectedHeaderTitle,
+            String.format("%s header title is not equals to", expectedHeaderTitle));
+        return (T) this;
+    }
+
+    private String getDocumentsFilterValue(DocumentsFilter documentsFilter)
+    {
+        String filterValue = "";
+        switch (documentsFilter)
+        {
+            case ALL_DOCUMENTS:
+                filterValue = language.translate("documentLibrary.documentsFilter.all");
+                break;
+            case EDITING_ME:
+                filterValue = language.translate("documentLibrary.documentsFilter.editingMe");
+                break;
+            case EDITING_OTHERS:
+                filterValue = language.translate("documentLibrary.documentsFilter.othersEditing");
+                break;
+            case RECENTLY_MODIFIED:
+                filterValue = language.translate("documentLibrary.documentsFilter.recentlyModified");
+                break;
+            case RECENTLY_ADDED:
+                filterValue = language.translate("documentLibrary.documentsFilter.recentlyAdded");
+                break;
+            case FAVORITES:
+                filterValue = language.translate("documentLibrary.documentsFilter.favorites");
+                break;
+            default:
+                break;
+        }
+        return filterValue;
+    }
+
     public ContentAction usingContent(ContentModel contentModel)
     {
-        return new ContentAction(contentModel, this, documentDetailsPage, copyMoveDialog);
+        return new ContentAction(contentModel,this, documentDetailsPage, copyMoveDialog, deleteDialog);
+    }
+
+    public enum DocumentsFilter
+    {
+        ALL_DOCUMENTS,
+        EDITING_ME,
+        EDITING_OTHERS,
+        RECENTLY_MODIFIED,
+        RECENTLY_ADDED,
+        FAVORITES
     }
 }

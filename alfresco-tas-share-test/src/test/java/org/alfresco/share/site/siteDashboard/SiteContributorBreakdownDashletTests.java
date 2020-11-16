@@ -1,100 +1,85 @@
 package org.alfresco.share.site.siteDashboard;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.dataprep.SiteService;
+import java.util.Arrays;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContributorBreakdownDashlet;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Mirela Tifui on 3/10/2017.
- */
-public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
+public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardDashletsTests
 {
+    private static final String TODAY = "siteContributorBreakdown.dropdown.Today";
+    private static final String LAST_7_DAYS = "siteContributorBreakdown.dropdown.Last7Days";
+    private static final String LAST_30_DAYS = "siteContributorBreakdown.dropdown.Last30Days";
+    private static final String PAST_YEAR = "siteContributorBreakdown.dropdown.PastYear";
+    private static final String DATE_RANGE = "siteContributorBreakdown.dropdown.DateRange";
+    private static final String EXPECTED_DASHLET_TITLE = "siteContributorBreakdown.dropdown.DashletTitle";
+    private static final String EXPECTED_EMPTY_MESSAGE = "siteContributorBreakdown.DashletEmptyMessage";
+    private static final int EXPECTED_PIE_CHART_SIZE = 1;
+
+    private UserModel userModel;
+    private SiteModel siteModel;
+    private FileModel fileModel;
+
     @Autowired
-    SiteContributorBreakdownDashlet siteContributorBreakdownDashlet;
-
-    //@Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    //@Autowired
-    UserProfilePage userProfilePage;
-
-    private String userName1 = String.format("CUser1%s", RandomData.getRandomAlphanumeric());
-    private String userName2 = String.format("CUser2%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("CSiteName%s", RandomData.getRandomAlphanumeric());
-    private String fileName1User1 = String.format("File1User1%s", RandomData.getRandomAlphanumeric());
-    private String fileName2User1 = String.format("File2User1%s", RandomData.getRandomAlphanumeric());
-    private String fileName1User2 = String.format("File1User2%s", RandomData.getRandomAlphanumeric());
-    private String fileContent = "File content for site dashboard test";
+    private SiteContributorBreakdownDashlet siteContributorBreakdownDashlet;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, "User1", "User1");
-        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, "FNUser2", "LNUser2");
-        siteService.create(userName1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(adminUser, adminPassword, siteName, DashboardCustomization.SiteDashlet.SITE_CONTRIB_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
-        userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
-        contentService.createDocument(userName1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User1, fileContent);
-        contentService.createDocument(userName1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName2User1, fileContent);
-        contentService.createDocument(userName2, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User2, fileContent);
-        setupAuthenticatedSession(userName1, password);
+        userModel = dataUser.usingAdmin().createRandomTestUser();
+        setupAuthenticatedSession(userModel);
+        cmisApi.authenticateUser(userModel);
+
+        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        addDashlet(siteModel, Dashlets.SITE_CONTRIBUTOR_BREAKDOWN, 1);
+    }
+
+    @TestRail (id = "C202732")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void checkSpecificMessageWhenSiteContributorBreakdownDashletIsEmpty()
+    {
+        siteDashboardPage.navigate(siteModel);
+        siteContributorBreakdownDashlet
+            .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
+            .assertDashletEmptyMessageEquals(language.translate(EXPECTED_EMPTY_MESSAGE))
+            .openFilterDropDown()
+            .assertDropdownFilterEquals(Arrays.asList(
+                language.translate(TODAY),
+                language.translate(LAST_7_DAYS),
+                language.translate(LAST_30_DAYS),
+                language.translate(PAST_YEAR),
+                language.translate(DATE_RANGE)));
+}
+
+    @TestRail (id = "C202304")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayUserFullNameInUserProfilePageWhenClickedFromPieChart()
+    {
+        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        cmisApi.usingSite(siteModel).createFile(fileModel);
+
+        siteDashboardPage.navigate(siteModel);
+        siteContributorBreakdownDashlet
+            .assertPieChartSizeEquals(EXPECTED_PIE_CHART_SIZE)
+            .clickPieChartUsername()
+            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
     }
 
     @AfterClass (alwaysRun = true)
-    public void cleanup()
+    public void cleanupTest()
     {
-        userService.delete(adminUser, adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser, adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-
-        siteService.delete(adminUser, adminPassword, siteName);
-    }
-
-
-    @TestRail (id = "C202732")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void checkTheSiteContributorBreakdownDashlet()
-    {
-        LOG.info("Step 1: Check the Site Contributor Breakdown dashlet default data");
-        siteDashboardPage.navigate(siteName);
-        Assert.assertEquals(siteContributorBreakdownDashlet.getDashletTitle(), "Site Contributor Breakdown", "The Site Contributor Breakdown dashlet title is not correct");
-        Assert.assertTrue(siteContributorBreakdownDashlet.isPeriodFilterDisplayed(), "The period filter is not displayed on the Site Contributor Breakdown dashlet");
-        Assert.assertEquals(siteContributorBreakdownDashlet.getSelectedFilterOption(), "Last 30 Days", "Last 30 days option is not selected by default");
-
-        LOG.info("Step 2: Check the Period Filter options");
-        ArrayList<String> expectedOptions = new ArrayList<>(Arrays.asList("Today", "Last 7 Days", "Last 30 Days", "Past Year", "Date Range"));
-        Assert.assertEquals(siteContributorBreakdownDashlet.getOptionText(), expectedOptions, expectedOptions + " filter options are not displayed");
-    }
-
-    @TestRail (id = "C202304")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void openUsersProfileFromSiteContributorBreakdownDashlet()
-    {
-        LOG.info("Step 1: Click on \"user2\" section.");
-        siteDashboardPage.navigate(siteName);
-        Assert.assertEquals(siteContributorBreakdownDashlet.getNumberOfPieChartSlices(), 2, "Pie chart slices is different!");
-        siteContributorBreakdownDashlet.clickOnUserSection(userName2);
-
-        LOG.info("Step 2: Check that user is redirected to User Profile page and that " + userName2 + " profile details are displayed");
-        String expectedName = "FNUser2 " + "LNUser2";
-        String expectedEmail = userName2 + "@test.com";
-        Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User Profile Page is not displayed");
-        Assert.assertEquals(userProfilePage.getNameLabel(), expectedName, expectedName + " is not displayed on the User Profile Page");
+        removeUserFromAlfresco(userModel);
+        deleteSites(siteModel);
     }
 }

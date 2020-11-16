@@ -1,9 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import static org.testng.Assert.assertEquals;
 
+import java.util.List;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -20,12 +19,16 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @Primary
 public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownDashlet>
 {
+    private static final String ORIGINAL_TITLE_ATTRIBUTE = "original-title";
+    private static final String REMOVE_HTML_TAGS = "<[^>]*>";
+    private static final String EMPTY = "";
+
     @RenderWebElement
     @FindBy (id = "DASHLET")
     private HtmlElement dashletContainer;
 
     @FindBy (css = "#DASHLET svg text")
-    private HtmlElement dashletMessage;
+    private HtmlElement dashletEmptyMessage;
 
     @FindAll (@FindBy (css = "div[id^='alfresco_charts_ccc_PieChart'] path[transform]"))
     private List<WebElement> pieChartSlices;
@@ -33,37 +36,59 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     @FindBy (css = "div[id^='tipsyPvBehavior']")
     private WebElement sliceTooltip;
 
+    private static final String fileTypeNameLocator = "//*[text()='%s']";
+    private static final String pieChartSlice = "path[transform]:nth-child";
+
     @Override
     public String getDashletTitle()
     {
         return dashletContainer.findElement(By.cssSelector("div.alfresco-dashlets-Dashlet__title")).getText();
     }
 
-    /**
-     * Get Site File Type Breakdown dashlet message when no files are available in sites library
-     *
-     * @return
-     */
-    public String getDashletMessage()
+    public SiteFileTypeBreakdownDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
-        return dashletMessage.getText();
+        LOG.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
+        assertEquals(dashletEmptyMessage.getText(), expectedEmptyMessage,
+            String.format("Empty message not equals %s ", expectedEmptyMessage));
+
+        return this;
     }
 
-    public int getNumberOfPieChartSlices()
+    public SiteFileTypeBreakdownDashlet assertPieChartSizeEquals(String fileName, int expectedPieChartSize)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id^='alfresco_charts_ccc_PieChart'] path[transform]"));
-        return pieChartSlices.size();
+        LOG.info("Assert pie chart size equals: {}", expectedPieChartSize);
+        browser.waitWithRetryAndReturnWebElement(
+            By.xpath(String.format(fileTypeNameLocator, fileName)), WAIT_1, RETRY_TIMES);
+
+        assertEquals(pieChartSlices.size(), expectedPieChartSize,
+            String.format("Pie chart size not equals %d ", expectedPieChartSize));
+        return this;
     }
 
-    public Map<String, String> getPieChartSliceTooltip()
+    public SiteFileTypeBreakdownDashlet assertPieChartTooltipTextEquals(String expectedTooltipText,String pieChartIndex)
     {
-        Map<String, String> slicesTooltip = new HashMap<>();
-        for (WebElement slice : pieChartSlices)
-        {
-            browser.mouseOver(slice);
-            String tooltip = sliceTooltip.getAttribute("original-title");
-            slicesTooltip.put(tooltip.substring(tooltip.indexOf("<strong>") + 8, tooltip.indexOf("</strong>")), tooltip.substring(tooltip.indexOf("<br/>"), tooltip.indexOf("</div>")));
-        }
-        return slicesTooltip;
+        LOG.info("Assert pie chart tooltip text equals: {}", expectedTooltipText);
+        String formattedCssSelector = pieChartSlice.concat("(").concat(pieChartIndex).concat(")");
+        browser.scrollToElement(browser.findElement(By.cssSelector(formattedCssSelector)));
+        browser.mouseOverViaJavascript(browser.findElement(By.cssSelector(formattedCssSelector)));
+
+        assertEquals(getAttributeValueWithoutHtmlTags(), expectedTooltipText,
+            String.format("Pie chart tooltip text not equals %s ", expectedTooltipText));
+        return this;
+    }
+
+    private String getAttributeValueWithoutHtmlTags()
+    {
+        LOG.info("Get original title attribute without html tags");
+        return sliceTooltip.getAttribute(ORIGINAL_TITLE_ATTRIBUTE).replaceAll(REMOVE_HTML_TAGS, EMPTY);
+    }
+
+    public SiteFileTypeBreakdownDashlet assertPieChartFileTypeNameEquals(String expectedFileTypeName)
+    {
+        LOG.info("Assert pie chart file type name equals: {}", expectedFileTypeName);
+        assertEquals(browser.findElement(By.xpath(String.format(fileTypeNameLocator, expectedFileTypeName))).getText(),
+            expectedFileTypeName, String.format("Pie chart file type name not equals %s", expectedFileTypeName));
+
+        return this;
     }
 }

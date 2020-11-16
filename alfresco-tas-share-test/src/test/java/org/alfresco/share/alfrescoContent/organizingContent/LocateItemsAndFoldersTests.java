@@ -1,109 +1,74 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.DocumentsFilter;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.ItemActions;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
 import org.alfresco.utility.report.Bug;
-import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 9/13/2016.
- */
 public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 {
-    private final String testUser = String.format("user%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private final String folderName = String.format("locateFolder%s", RandomData.getRandomAlphanumeric());
-    private final String docName = String.format("locateDoc%s", RandomData.getRandomAlphanumeric());
-    //@Autowired
-    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage2 documentLibraryPage2;
+
+    private UserModel user;
+    private SiteModel site;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Document content");
-        contentService.createFolder(testUser, password, folderName, siteName);
-        contentAction.setFolderAsFavorite(testUser, password, siteName, folderName);
-
-        setupAuthenticatedSession(testUser, password);
+        user = dataUser.usingAdmin().createRandomTestUser();
+        site = dataSite.usingUser(user).createPublicRandomSite();
+        cmisApi.authenticateUser(user);
+        restApi.authenticateUser(user);
+        setupAuthenticatedSession(user);
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword, siteName);
+        removeUserFromAlfresco(user);
+        deleteSites(site);
     }
-
 
     @Bug (id = "MNT-17556")
     @TestRail (id = "C7516")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void locateFileDetailedView()
+    public void verifyLocateFile()
     {
-        documentLibraryPage.navigate(siteName);
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        cmisApi.usingSite(site).createFile(file).assertThat().existsInRepo();
 
-        LOG.info("STEP 1: From 'Options' dropdown choose 'Detailed View' option");
-        documentLibraryPage.selectViewFromOptionsMenu("Detailed View");
-
-        LOG.info("STEP 2: Choose a view option from left side explorer pane -> 'Documents' section");
-        documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.RecentlyAdded.title);
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[contains(@class, 'message') and text()='Documents Added Recently']"));
-        assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.RecentlyAdded.header, "Header=");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " is displayed in Recently added documents list.");
-
-        LOG.info("STEP3: Hover over the file name and click 'Locate file' link from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.LOCATE_FILE);
-        ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
-        assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "User is redirected to location of the created document.");
-        documentLibraryPage.clickCheckBox(docName);
-        assertTrue(documentLibraryPage.isContentSelected(docName), docName + " is selected.");
-        assertFalse(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
+        documentLibraryPage2.navigate(site)
+            .selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
+            .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
+            .usingContent(file)
+            .clickLocate().assertDocumentsRootBreadcrumbIsDisplayed();
+        documentLibraryPage2.usingContent(file)
+            .assertContentIsDisplayed().assertContentIsHighlighted();
     }
 
     @Bug (id = "MNT-17556")
     @TestRail (id = "C7517")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void locateFolderDetailedView()
+    public void verifyLocateFolderDetailedView() throws Exception
     {
-        documentLibraryPage.navigate(siteName);
+        FolderModel folder = FolderModel.getRandomFolderModel();
+        cmisApi.usingSite(site).createFolder(folder).assertThat().existsInRepo();
+        restApi.withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
-        LOG.info("STEP 1: From 'Options' dropdown choose 'Detailed View' option");
-        documentLibraryPage.selectViewFromOptionsMenu("Detailed View");
-
-        LOG.info("STEP 2: Choose a view option from left side explorer pane -> 'Documents' section");
-        documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.Favorites.title);
-        assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.Favorites.header,
-            "My Favorites documents are displayed.");
-
-        LOG.info("STEP3: Hover over the folder name and click 'Locate folder' link from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.LOCATE_FOLDER);
-        ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
-        assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "User is redirected to location of the created folder.");
-        documentLibraryPage.clickCheckBox(folderName);
-
-        assertTrue(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
-        assertFalse(documentLibraryPage.isContentSelected(docName), docName + " is selected.");
+        documentLibraryPage2.navigate(site)
+            .selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
+            .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
+            .usingContent(folder)
+            .clickLocate().assertDocumentsRootBreadcrumbIsDisplayed();
+        documentLibraryPage2.usingContent(folder)
+            .assertContentIsDisplayed().assertContentIsHighlighted();
     }
 }

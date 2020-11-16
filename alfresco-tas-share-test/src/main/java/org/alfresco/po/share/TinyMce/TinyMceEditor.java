@@ -21,7 +21,7 @@ public class TinyMceEditor extends HtmlPage
     public String BoldContent = "//body[@id='tinymce']//p//strong";
     @FindBy (css = "div[aria-label^='Text'] button[class$='mce-open']")
     public WebElement CSS_STR_FORE_COLOUR;
-    @FindBy (css = "iframe[id*='content_ifr']")
+    @FindBy (css = "iframe[id*='configDialog-text_ifr']")
     private WebElement iFrame;
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
     @FindBy (css = "div[aria-label*='Background'] button span")

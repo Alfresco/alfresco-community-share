@@ -1,19 +1,22 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
-
 import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
+
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/22/2016.
@@ -41,6 +44,7 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
     private HtmlElement emptyDashletMessage;
 
     private By linkDetails = By.xpath("../following-sibling::*[@class = 'actions']/a");
+    private String linkNameLocator = "//div[@class='link']//a[text()='%s']";
 
     @Override
     public String getDashletTitle()
@@ -48,14 +52,13 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Get the message when no links are displayed in Site Links Dashlet
-     *
-     * @return
-     */
-    public String getDashletMessage()
+    public SiteLinksDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
-        return emptyDashletMessage.getText();
+        LOG.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
+        assertEquals(emptyDashletMessage.getText(), expectedEmptyMessage,
+            String.format("Empty message not equals %s", expectedEmptyMessage));
+
+        return this;
     }
 
     private WebElement findLink(String link)
@@ -63,65 +66,44 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
         return browser.findFirstElementWithValue(siteLinksList, link);
     }
 
-    /**
-     * Check if the specific link is displayed in Site Links Dashlet
-     *
-     * @param link
-     * @return true if it is displayed in Site Link Dashlet
-     */
-    public boolean isLinkPresentInList(String link)
+    public SiteLinksDashlet assertDashletLinkNameEquals(String expectedLinkName)
     {
-        return findLink(link) != null;
+        LOG.info("Assert dashlet link name equals: {}", expectedLinkName);
+        String actualLinkName = browser.findElement(By.xpath(String.format(linkNameLocator, expectedLinkName))).getText();
+        assertEquals(actualLinkName, expectedLinkName,
+            String.format("Link name not equals %s ", expectedLinkName));
+
+        return this;
     }
 
-    public boolean hasLinkDetailsButton(String link)
+    public LinkDetailsViewPage clickLinkDetailsButton(String linkName)
     {
-        return findLink(link).findElement(linkDetails) != null;
-    }
-
-    /**
-     * Click on the link's details button for the specified link
-     *
-     * @param link
-     * @return LinkDetailsViewPage
-     */
-    public LinkDetailsViewPage clickLinkDetailsButton(String link)
-    {
-        findLink(link).findElement(linkDetails).click();
+        LOG.info("Click link details: {}", linkName);
+        findLink(linkName).findElement(linkDetails).click();
         return (LinkDetailsViewPage) linkDetailsViewPage.renderedPage();
     }
 
-    /**
-     * Click on the Create Link link
-     *
-     * @return CreateLinkPage
-     */
-    public CreateLinkPage clickCreateLink()
+    public CreateLinkPage clickCreateLinkButton()
     {
+        LOG.info("Click Create Link button");
         createLink.click();
         return (CreateLinkPage) createLinkPage.renderedPage();
     }
 
-    /**
-     * Check if Create Link link is displayed or not
-     *
-     * @return true if it is displayed
-     */
-    public boolean isCreateLinkDisplayed()
+    public SiteLinksDashlet clickLinkByName(String linkName)
     {
-        return createLink.isDisplayed();
+        LOG.info("Click link with name: {}", linkName);
+        browser.findElement(By.xpath(String.format(linkNameLocator, linkName))).click();
+        return this;
     }
 
-    public int getNumberOfLinks()
+    public SiteLinksDashlet assertUrlContains(String expectedUrl)
     {
-        try
-        {
-            List<WebElement> linksList = browser.findElements(By.cssSelector("div.dashlet.site-links>div.scrollableList div[class='link']>a"));
-            return linksList.size();
-        } catch (StaleElementReferenceException ex)
-        {
-            LOG.info(ex.getStackTrace().toString());
-        }
-        return getNumberOfLinks();
+        LOG.info("Assert url contains: {}", expectedUrl);
+        browser.switchWindow(1);
+        assertTrue(new WebDriverWait(browser, WAIT_15).until(ExpectedConditions.urlContains(expectedUrl)),
+            String.format("Url not contains %s ", expectedUrl));
+
+        return this;
     }
 }

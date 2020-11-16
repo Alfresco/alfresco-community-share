@@ -3,38 +3,30 @@ package org.alfresco.po.share.searching;
 import org.alfresco.po.share.site.accessingExistingSites.ConfirmationDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
 
-/**
- * Created by Claudia Agache on 8/24/2016.
- */
-@PageObject
 public class ConfirmDeletionDialog extends ConfirmationDialog
 {
-    @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CANCEL_label")
-    protected Button dialogNoButton;
-
+    private By dialogNoButton = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CANCEL_label");
     @RenderWebElement
-    @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title")
-    private WebElement dialogTitle;
+    private By dialogTitle = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title");
 
-    /**
-     * Obtain the title of Request Sent dialog
-     *
-     * @return the title
-     */
-    public String getDialogTitle()
+    public ConfirmDeletionDialog(ThreadLocal<WebBrowser> browser)
     {
-        return dialogTitle.getText();
+        this.browser = browser;
     }
 
-    /**
-     * Click on the No button
-     */
+    public String getDialogTitle()
+    {
+        return getElementText(dialogTitle);
+    }
+
     public void clickNoButton()
     {
-        dialogNoButton.click();
+        getBrowser().findElement(dialogNoButton).click();
     }
 }

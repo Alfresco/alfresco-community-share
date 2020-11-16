@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -7,61 +8,35 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
 
-/**
- * Created by Claudia Agache on 7/22/2016.
- */
-public abstract class ConfirmationDialog extends HtmlPage
+public abstract class ConfirmationDialog extends ShareDialog2
 {
     @RenderWebElement
-    @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM_label")
-    protected Button confirmDeletionButton;
+    protected By confirmDeletionButton = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM_label");
+    protected By dialogMessage = By.cssSelector("div.dialog-body");
+    protected By dialogCloseButton = By.cssSelector("span.dijitDialogCloseIcon");
 
-    @FindBy (css = "div.dialog-body")
-    protected WebElement dialogMessage;
-
-    @FindBy (css = "span.dijitDialogCloseIcon")
-    protected WebElement dialogCloseButton;
-
-    /**
-     * Obtain the message of the dialog
-     *
-     * @return the message
-     */
     public String getDialogMessage()
     {
-        return browser.waitUntilElementVisible(dialogMessage).getText();
+        return getBrowser().waitUntilElementVisible(dialogMessage).getText();
     }
 
-    /**
-     * Click on the OK button
-     */
     public void clickOKButton()
     {
         getBrowser().waitUntilElementClickable(confirmDeletionButton).click();
     }
 
-    /**
-     * Check if Ok button is displayed
-     *
-     * @return true if it's displayed, false otherwise
-     */
     public boolean isOkButtonDisplayed()
     {
-        return browser.waitUntilElementVisible(By.cssSelector("span[class$='dijitButtonContents']")).isDisplayed();
+        return getBrowser().waitUntilElementVisible(By.cssSelector("span[class$='dijitButtonContents']")).isDisplayed();
     }
 
-    /**
-     * Check if Close button is displayed
-     *
-     * @return true if it's displayed, false otherwise
-     */
     public boolean isCloseButtonDisplayed()
     {
-        return browser.isElementDisplayed(dialogCloseButton);
+        return getBrowser().isElementDisplayed(dialogCloseButton);
     }
 
     public void clickCloseButton()
     {
-        dialogCloseButton.click();
+        getBrowser().findElement(dialogCloseButton).click();
     }
 }

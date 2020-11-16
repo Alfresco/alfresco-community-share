@@ -5,7 +5,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class LogoTests extends BaseShareWebTests
+public class ShareLogoAndVersionsTests extends BaseShareWebTests
 {
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -26,5 +26,11 @@ public class LogoTests extends BaseShareWebTests
                 .assertContributionSectionIsDisplayed()
                 .assertClickAlfrescoLink()
                 .assertClickLegalAndLicenseLink();
+    }
+
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH }, enabled = false)
+    public void checkThatShareVersionWarningIsNotDisplayed()
+    {
+        userDashboardPage.assertShareVersionWarningIsNotDisplayed();
     }
 }

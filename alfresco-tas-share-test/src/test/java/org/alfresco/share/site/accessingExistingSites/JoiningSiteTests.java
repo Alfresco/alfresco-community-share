@@ -49,7 +49,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     @Autowired
     EditTaskPage editTaskPage;
 
-    @Autowired
+    //@Autowired
     RequestSentDialog requestSentDialog;
 
     @Autowired

@@ -9,8 +9,6 @@ import org.testng.Assert;
 
 public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 {
-    private SiteGroupsPage siteGroupsPage;
-
     @RenderWebElement
     private By searchForUsersBox = By.cssSelector("div[class='finder-wrapper']");
     @RenderWebElement
@@ -44,7 +42,6 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     public AddSiteUsersPage(ThreadLocal<WebBrowser> browser)
     {
         this.browser = browser;
-        siteGroupsPage = new SiteGroupsPage(browser);
     }
 
     @Override
@@ -56,7 +53,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     public SiteGroupsPage openGroupsPage()
     {
         getBrowser().findElement(siteGroups).click();
-        return (SiteGroupsPage) siteGroupsPage.renderedPage();
+        return (SiteGroupsPage) new SiteGroupsPage(browser).renderedPage();
     }
 
     public AddSiteUsersPage searchForUser(String user)

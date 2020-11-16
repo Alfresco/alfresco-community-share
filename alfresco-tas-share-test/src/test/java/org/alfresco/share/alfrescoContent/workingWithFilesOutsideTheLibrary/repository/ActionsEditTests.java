@@ -220,7 +220,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO);
 
         LOG.info("Step2: Edit the document's properties by sending new input");
-        editInAlfrescoPage.sendDocumentDetailsFields(editedFileName, editedContent, editedTitle, editedDescription);
+        editInAlfrescoPage.enterDocumentDetails(editedFileName, editedContent, editedTitle, editedDescription);
 
         LOG.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");

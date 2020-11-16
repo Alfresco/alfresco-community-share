@@ -105,14 +105,14 @@ public class CustomizeUserDashboardTests extends BaseShareWebTests
         myTasksDashlet.resizeDashlet(20, 1);
         int sizeAfter = myTasksDashlet.getDashletHeight();
         Assert.assertTrue(sizeAfter > sizeBefore, "Dashlet size is increased");
-        myTasksDashlet.resizeDashlet(-50, 0);
+        myTasksDashlet.resizeDashlet(-30, 0);
         Assert.assertTrue(myTasksDashlet.getDashletHeight() < sizeAfter);
 
         sizeBefore = myActivitiesDashlet.getDashletHeight();
-        myActivitiesDashlet.resizeDashlet(100, 1);
+        myActivitiesDashlet.resizeDashlet(50, 1);
         sizeAfter = myActivitiesDashlet.getDashletHeight();
         Assert.assertTrue(sizeAfter > sizeBefore, "Dashlet size is increased");
-        myActivitiesDashlet.resizeDashlet(-200, 0);
+        myActivitiesDashlet.resizeDashlet(-100, 0);
         Assert.assertTrue(myActivitiesDashlet.getDashletHeight() < sizeAfter);
     }
 }

@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
@@ -33,31 +34,22 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private static final String VERSION_NUMBER = "1";
 
     //@Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    //@Autowired
     EditPropertiesPage editPropertiesPage;
 
     @Autowired
-    AspectsForm aspectsForm;
+    private AspectsForm aspectsForm;
 
    // @Autowired
     DocumentLibraryPage documentLibraryPage;
 
     @Autowired
-    TinyMceEditor tinyMceEditor;
-
-    @FindAll (@FindBy (css = ".filename [href*=document-details]"))
-    private List<WebElement> filesList;
+    private TinyMceEditor tinyMceEditor;
 
     @Autowired
     private CopyMoveUnzipToDialog copyMoveDialog;
 
     @FindBy (css = "div[id*='_default-comments-list'] td[class ='yui-dt-empty']")
     public WebElement noComments;
-
-    @FindBy (css = ".filename")
-    protected WebElement fileListLocator;
 
     @FindBy (css = ".folder-actions.folder-details-panel a[title='Manage Permissions']")
     protected WebElement managePermissionsLink;
@@ -72,6 +64,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy (css = ".node-header h1")
     protected WebElement headerFileName;
 
+    @RenderWebElement
     @FindBy (linkText = "Download")
     protected WebElement downloadDocument;
 
@@ -149,10 +142,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     @FindBy (css = "[id*=default-paginator-top] [class*=previous]")
     protected WebElement previousPage;
-
-    @RenderWebElement
-    @FindBy (css = ".viewmode-label")
-    protected List<WebElement> propertiesList;
 
     @FindBy (css = ".viewmode-value")
     protected List<WebElement> propertiesValuesList;
@@ -235,18 +224,17 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy (id = "onActionCopyTo")
     private WebElement copyToAction;
 
-    private final By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
     private final By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
     private final By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
-    private final By commentButton = By.xpath("//span[@class ='item item-separator item-social']//a[@title = 'Comment on this document']");
     private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
     private final By editComment = By.cssSelector("[class*=edit-comment]");
     private final By commContent = By.cssSelector("[class=comment-content]");
     private final By documentActionsOptionsSelector = By.cssSelector(".action-set div a span");
     private final By olderVersion = By.cssSelector("div[id$='_default-olderVersions'] span.document-version");
     private final By latestVersion = By.cssSelector("div[id$='_default-latestVersion'] span.document-version");
-    protected final By addToFavouriteIcon = By.cssSelector("a[class$='favourite-document']");
-    protected final By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
+    private final By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
+    private final By propertiesList = By.cssSelector(".viewmode-label");
+    private final By message = By.cssSelector("span[class='message']");
 
     @Override
     public String getRelativePath()
@@ -332,12 +320,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         List<WebElement> versionList = browser.waitUntilElementsVisible(latestVersion);
         return browser.findFirstElementWithValue(versionList, version) != null;
-
     }
 
-    /**
-     * Method to get the locked message for document
-     */
     public String getLockedMessage()
     {
         return lockedMessage.getText();
@@ -375,20 +359,24 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return browser.isElementDisplayed(commentForm);
     }
 
-    /**
-     * Method used to enter and add comment
-     */
-    public void addComment(String comment)
+    public DocumentDetailsPage addComment(String comment)
     {
-        browser.waitUntilElementClickable(commentContentIframe, 5L).click();
+        LOG.info("Add comment: {}", comment);
+        browser.waitUntilElementClickable(commentContentIframe, WAIT_5).click();
         browser.findElement(commentContentIframe).sendKeys(comment);
         addCommentButtonSave.click();
-        getBrowser().waitUntilElementDisappears(By.cssSelector("span[class='message']"), 5L);
+        getBrowser().waitUntilElementDisappears(message, WAIT_5);
+
+        return (DocumentDetailsPage) renderedPage();
     }
 
-    /**
-     * Method used to click 'Ok' button on 'Revert to previous version' pop-up
-     */
+    public DocumentDetailsPage assertAddedCommentEquals(String expectedComment)
+    {
+        LOG.info("Assert added comment equals: {}", expectedComment);
+        assertEquals(getCommentContent(expectedComment), expectedComment);
+        return this;
+    }
+
     public DocumentDetailsPage clickOkOnRevertPopup()
     {
         okOnRevertPopup.click();
@@ -416,7 +404,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public void clickOnDownloadButton()
     {
         downloadDocument.click();
-        browser.waitInSeconds(10);
+        browser.waitInSeconds(WAIT_10);
     }
 
     public String getMinimizeMaximizeText()
@@ -500,12 +488,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return browser.findFirstElementWithValue(commentsList, comment);
     }
 
-    /**
-     * Method used to edit comment
-     */
     public void clickOnEditComment(String comment)
     {
-        // browser.refresh();
         Actions actions = new Actions(browser);
         actions.moveToElement(selectCommentDetailsRow(comment));
         actions.moveToElement(selectCommentDetailsRow(comment).findElement(editComment));
@@ -534,7 +518,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public void clickOnNextPage()
     {
         nextPage.click();
-        browser.waitInSeconds(2);
+        browser.waitInSeconds(WAIT_5);
     }
 
     public void clickOnPreviousPage()
@@ -548,56 +532,42 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return commentsList.size();
     }
 
-    /**
-     * Click any option from 'Document Actions' section
-     *
-     * @param optionName
-     */
     public void clickDocumentActionsOption(String optionName)
     {
         List<WebElement> optionsList = browser.waitUntilElementsVisible(documentActionsOptionsSelector);
         browser.selectOptionFromFilterOptionsList(optionName, optionsList);
     }
 
-    /**
-     * Click an option from 'Document Actions' section and render page
-     *
-     * @param optionName the option to be clicked
-     * @param page the page to be rendered after click
-     */
     public <T> HtmlPage clickDocumentActionsOption(String optionName, HtmlPage page)
     {
         clickDocumentActionsOption(optionName);
         return page.renderedPage();
     }
 
-
-    /**
-     * Verify displayed elements from 'Properties' section
-     *
-     * @param expectedPropertiesList list of expected properties to be checked
-     * @return
-     */
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesTextList = new ArrayList<>();
-        getBrowser().waitUntilElementsVisible(propertiesList);
-        for (WebElement property : propertiesList)
+        List<WebElement> properties = getBrowser().findElements(propertiesList);
+        for (WebElement property : properties)
+        {
             propertiesTextList.add(property.getText().substring(0, property.getText().indexOf(":")));
+        }
         return DataUtil.areListsEquals(propertiesTextList, expectedPropertiesList);
     }
 
-    /**
-     * Verify a list of elements isn't displayed in 'Properties' section
-     *
-     * @param propertiesNotDisplayedList list of properties to be checked that aren't displayed
-     * @return first property from given list that is displayed
-     */
+    public DocumentDetailsPage assertPropertiesAreDisplayed(String... properties)
+    {
+        LOG.info("Assert properties are displayed {}", Arrays.asList(properties));
+        assertTrue(arePropertiesDisplayed(properties), "Not all properties are displayed");
+        return this;
+    }
+
     public String checkPropertiesAreNotDisplayed(ArrayList<String> propertiesNotDisplayedList)
     {
-        for (int i = 0; i < propertiesList.size(); i++)
+        List<WebElement> properties = browser.findElements(propertiesList);
+        for (int i = 0; i < properties.size(); i++)
         {
-            String property = propertiesList.get(i).getText();
+            String property = properties.get(i).getText();
             for (String aPropertiesNotDisplayedList : propertiesNotDisplayedList)
             {
                 if (property.equals(aPropertiesNotDisplayedList))
@@ -607,15 +577,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return "Given list isn't displayed";
     }
 
-    /**
-     * Verify presence of given property in 'Properties' section
-     *
-     * @param propertyText to be checked
-     * @return true if property is displayed
-     */
     public boolean isPropertyDisplayed(String propertyText)
     {
-        for (WebElement aPropertiesList : propertiesList)
+        List<WebElement> properties = browser.findElements(propertiesList);
+        for (WebElement aPropertiesList : properties)
         {
             if (aPropertiesList.getText().equals(propertyText))
                 return true;
@@ -623,15 +588,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return false;
     }
 
-    /**
-     * @param propertyName to be found in 'Properties' section
-     * @return value of the given propertyName
-     */
     public String getPropertyValue(String propertyName)
     {
-        for (int i = 0; i < propertiesList.size(); i++)
+        List<WebElement> properties = browser.findElements(propertiesList);
+        for (int i = 0; i < properties.size(); i++)
         {
-            if (propertiesList.get(i).getText().replace(":", "").equals(propertyName))
+            if (properties.get(i).getText().replace(":", "").equals(propertyName))
             {
                 return propertiesValuesList.get(i).getText();
             }
@@ -647,84 +609,30 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return this;
     }
 
-    /**
-     * Method to get the file location (folder name for the folder containing
-     * the file under test)
-     */
-
-    public String getFileLocation()
-    {
-        return browser.findElement(fileLocation).getText();
-    }
-
-    /**
-     * Method to check if Documents link is present to return to Document
-     * Library
-     *
-     * @return
-     */
     public boolean isDocumentsLinkPresent()
     {
         return browser.isElementDisplayed(By.xpath("//span[@class = 'folder-link']//a"));
     }
 
-    /**
-     * Method to click on the Documents link
-     */
     public DocumentLibraryPage clickDocumentsLink()
     {
         browser.findElement(documentsLink).click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
-    /**
-     * Method to check if the thumbnail indicating the document type is present
-     *
-     * @return
-     */
     public String isDocumentThumbnailDisplayed()
     {
         return browser.findElement(By.xpath("//img[@class = 'node-thumbnail']")).getAttribute("src");
     }
-
-    /**
-     * Method to check if the Like button is present
-     *
-     * @return
-     */
 
     public boolean isLikeButtonPresent()
     {
         return browser.isElementDisplayed(By.xpath("//span[@class= 'item item-separator item-social']//a[text()='Like']"));
     }
 
-    /**
-     * Method to check if the comment button is displayed
-     *
-     * @return
-     */
-    public boolean isCommentButtonDisplayed()
-    {
-        return browser.isElementDisplayed(commentButton);
-    }
-
-    /**
-     * Method to check if the Download button is available in the top right side
-     * of the page
-     */
-
     public boolean isDownloadButtonDisplayed()
     {
         return browser.isElementDisplayed(downloadButton);
-    }
-
-    /**
-     * Method to click on the Download button in the top right side of the page
-     */
-
-    public void clickTheDownloadButtonTopRight()
-    {
-        downloadButton.click();
     }
 
     public boolean isFilePropertiesDetailsDisplayed()
@@ -747,7 +655,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return browser.isElementDisplayed(tagsFeaturePanel);
     }
 
-    public void clickOnFolderFromBreadrcumbTrail()
+    public void clickOnFolderFromBreadcrumbTrail()
     {
         folderLinkFromBreadcrumbTrail.click();
     }
@@ -780,18 +688,16 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public void clickDeleteComment(String comment, String comment2)
     {
         getBrowser().waitUntilElementVisible(commContent);
-        try{
+        try
+        {
             browser.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-
         }
         catch(Exception e)
         {
             browser.mouseOver(selectCommentDetailsRow(comment2).findElement(commContent));
         }
-
         getBrowser().waitUntilElementClickable(deleteCommentButton).click();
     }
-
 
     public void clickDeleteOnDeleteComment()
     {
@@ -836,16 +742,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return (EditPropertiesPage) editPropertiesPage.renderedPage();
     }
 
-    public List<String> getDocumentLibraryFilesList()
-    {
-        List<String> filesName = new ArrayList<>();
-        for (WebElement file : filesList)
-        {
-            filesName.add(file.getText());
-        }
-        return filesName;
-    }
-
     public String getContentText()
     {
         return Utils.retry(() -> browser.waitUntilElementVisible(contentText).getText().trim(), WAIT_5);
@@ -857,11 +753,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         assertEquals(getContentText(), expectedContent, "File content is correct");
         return this;
     }
-
-    /**
-     * Method to check if the value for 'Offline Expires After (hours)' is
-     * updated when 'Restrictable' aspect is applied
-     */
 
     public boolean isRestrictableValueUpdated(String hours)
     {
@@ -912,18 +803,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         return browser.isElementDisplayed(revertButton);
     }
 
-    /**
-     * Method used to click on revert to previous version button
-     */
     public void clickRevertButton()
     {
         browser.waitUntilElementClickable(revertButton).click();
         browser.waitUntilElementVisible(okOnRevertPopup);
     }
 
-    /**
-     * Method used to enter and add comment to an item
-     */
     public void addCommentToItem(String comment)
     {
         browser.switchTo().frame(browser.waitUntilElementVisible(commentTextArea));

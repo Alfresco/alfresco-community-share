@@ -13,7 +13,6 @@ public class ToolbarTests extends BaseShareWebTests
 {
     private SiteDashboardPage siteDashboardPage;
     private UserProfilePage userProfilePage;
-    private Toolbar toolbar;
 
     private UserModel normalUser, adminUser, siteUser;
 
@@ -28,7 +27,6 @@ public class ToolbarTests extends BaseShareWebTests
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        toolbar = new Toolbar(browser);
         siteDashboardPage = new SiteDashboardPage(browser);
         userProfilePage = new UserProfilePage(browser);
     }

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Demo Suite" parallel="methods" thread-count="5">
+<suite name="Demo Suite" parallel="methods" thread-count="10">
 
    <test name="Parallel">
       <classes>
-         <class name="org.alfresco.share.ToolbarTests" />
-         <!--<class name="org.alfresco.share.userProfile.ChangePasswordTest" />-->
+        <!-- <class name="org.alfresco.share.ToolbarTests" />-->
+         <class name="org.alfresco.share.adminTools.alfrescoPowerUsers.SearchManagerTests" />
+         <class name="org.alfresco.share.adminTools.alfrescoPowerUsers.SitesManagerTests" />
+         <class name="org.alfresco.share.adminTools.application.ApplicationTests" />
+         <class name="org.alfresco.share.adminTools.categoryManager.CategoryManagerTests" />
       </classes>
    </test>
 </suite>

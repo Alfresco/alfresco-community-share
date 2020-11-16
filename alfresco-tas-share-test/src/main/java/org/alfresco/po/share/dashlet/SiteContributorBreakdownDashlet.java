@@ -1,10 +1,11 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -23,9 +24,11 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public By tooltipMessage = By.cssSelector("div[id^='tipsyPvBehavior']");
     //@Autowired
     UserProfilePage userProfilePage;
+
     @RenderWebElement
     @FindBy (id = "DASHLET")
     private WebElement dashletContainer;
+
     @FindAll (@FindBy (css = "div[class='alfresco-charts-ccc-Chart'] path[transform]"))
     private List<WebElement> pieChartSlices;
 
@@ -39,20 +42,24 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     private WebElement periodFilter;
 
     @FindBy (css = "div[id$='_CONTROL_dropdown'] tr[id^='dijit_MenuItem'] td[id$='_text']")
-    private List<WebElement> optionsListText;
+    private List<WebElement> optionsListLocator;
 
-    @FindBy (css = "span[class$='dijitValidationTextBoxLabel ']")
-    private WebElement selectedFilterOption;
+    private final By dropDownLocator = By.cssSelector("td[data-dojo-attach-point='titleNode']");
+    private final By dashletEmptyMessageLocator = By.cssSelector("#DASHLET svg text");
+    private final By userLocator = By.cssSelector("div[class='alfresco-charts-ccc-Chart'] text");
+    private final By pieChartLocator = By.cssSelector("div[class='alfresco-charts-ccc-Chart'] path[transform]");
 
-    public int getNumberOfPieChartSlices()
+    public SiteContributorBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] path[transform]"));
-        return pieChartSlices.size();
+        LOG.info("Assert pie chart size equals: {}", expectedPieChartSize);
+        browser.waitUntilElementIsDisplayedWithRetry(pieChartLocator, WAIT_1, RETRY_TIMES);
+        assertEquals(pieChartSlices.size(), expectedPieChartSize);
+        return this;
     }
 
     public Map<String, String> getPieChartSliceTooltip()
     {
-        Map<String, String> slicesTooltip = new HashMap<>();
+        HashMap<String, String> slicesTooltip = new HashMap<>();
         for (WebElement slice : pieChartSlices)
         {
             browser.mouseOver(slice);
@@ -69,42 +76,49 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
         return browser.waitUntilElementVisible(dashletTitle).getText();
     }
 
-    public boolean isPeriodFilterDisplayed()
+    private List<String> addOptionsToList()
     {
-        browser.waitUntilElementVisible(periodFilter);
-        return browser.isElementDisplayed(periodFilter);
-    }
-
-    public ArrayList<String> getOptionText()
-    {
-        periodFilter.click();
-        ArrayList<String> optionText = new ArrayList<>();
-        for (WebElement anOptionsListText : optionsListText)
+        List<String> optionsList = new ArrayList<>();
+        for (WebElement option : optionsListLocator)
         {
-            optionText.add(anOptionsListText.getText());
+            LOG.info("Add option to list: {}", option.getText());
+            optionsList.add(option.getText());
         }
-        System.out.println("Text: " + optionText);
-        return optionText;
+        return optionsList;
     }
 
-    public String getSelectedFilterOption()
+    public UserProfilePage clickPieChartUsername()
     {
-        return browser.waitUntilElementVisible(selectedFilterOption).getText();
-    }
-
-    public UserProfilePage clickOnUserSection(String userName)
-    {
-        List<WebElement> testUsers = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] text"));
-        List<WebElement> pieChartSlices = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] path[transform]"));
-        for (int i = 0; i < testUsers.size(); i++)
-        {
-            if (testUsers.get(i).getText().contains(userName))
-            {
-                pieChartSlices.get(i).click();
-                break;
-            }
-        }
+        LOG.info("Click pie chart username");
+        browser.scrollIntoView(browser.findElement(userLocator));
+        browser.waitUntilElementClickable(userLocator);
+        browser.findElement(userLocator).click();
 
         return (UserProfilePage) userProfilePage.renderedPage();
+    }
+
+    public SiteContributorBreakdownDashlet assertDropdownFilterEquals(List<String> expectedDropdownFilter)
+    {
+        LOG.info("Assert dropdown filter equals: {}", expectedDropdownFilter);
+        List<String> actualDropDownOptions = addOptionsToList();
+        assertEquals(actualDropDownOptions, expectedDropdownFilter,
+            String.format("Dropdown filter not equals %s", expectedDropdownFilter));
+
+        return this;
+    }
+
+    public SiteContributorBreakdownDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
+    {
+        LOG.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
+        assertEquals(browser.findElement(dashletEmptyMessageLocator).getText(), expectedEmptyMessage);
+        return this;
+    }
+
+    public SiteContributorBreakdownDashlet openFilterDropDown() {
+        LOG.info("Open filters dropdown");
+        browser.waitUntilElementClickable(dropDownLocator, WAIT_10);
+        browser.findElement(dropDownLocator).click();
+
+        return this;
     }
 }

@@ -77,12 +77,6 @@ public class SelectDestinationDialog extends ShareDialog
         browser.waitInSeconds(1);
     }
 
-    public void clickAllSitesButton()
-    {
-        browser.waitUntilElementClickable(allSitesButton, 10L);
-        allSitesButton.click();
-    }
-
     /**
      * Choose any site from "Site" section
      *

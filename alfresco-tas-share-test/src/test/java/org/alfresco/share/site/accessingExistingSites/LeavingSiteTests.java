@@ -30,7 +30,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     //@Autowired
     SiteDashboardPage siteDashboard;
 
-    @Autowired
+    //@Autowired
     LeaveSiteDialog leaveSiteDialog;
 
     //@Autowired

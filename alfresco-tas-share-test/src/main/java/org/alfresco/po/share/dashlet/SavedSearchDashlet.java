@@ -75,7 +75,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     private WebElement getSearchRow(String fileName)
     {
         return browser.waitWithRetryAndReturnWebElement
-            (By.xpath(String.format(searchRow, fileName)), 1, 30);
+            (By.xpath(String.format(searchRow, fileName)), WAIT_1, RETRY_TIMES);
     }
 
     public SavedSearchDashlet assertFileIsDisplayed(String fileName)

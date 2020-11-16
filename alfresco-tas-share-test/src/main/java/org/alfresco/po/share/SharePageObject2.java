@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-@Component
-@Scope(value = "prototype")
 public abstract class SharePageObject2
 {
     protected final Logger LOG = LoggerFactory.getLogger(SharePageObject2.class);

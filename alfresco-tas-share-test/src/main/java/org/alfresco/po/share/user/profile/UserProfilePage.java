@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
+
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -8,15 +9,12 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * @author bogdan.bocancea
@@ -24,6 +22,7 @@ import static org.testng.Assert.assertTrue;
 public class UserProfilePage extends SharePage2<UserProfilePage> implements AccessibleByMenuBar
 {
     private String userName;
+    private static final String EMPTY_SPACE = " ";
 
     private By editProfile = By.cssSelector("button[id$='button-edit-button']");
     @RenderWebElement
@@ -140,11 +139,6 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
         return this;
     }
 
-    /**
-     * Verify if About header is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isAboutHeaderDisplayed()
     {
         return getBrowser().isElementDisplayed(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
@@ -178,15 +172,18 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
         return (EditUserProfilePage) new EditUserProfilePage(browser).renderedPage();
     }
 
-    public String getNameLabel()
+    public UserProfilePage assertUsernameEquals(String firstName, String lastName)
     {
-        return getBrowser().findElement(nameLabel).getText();
+        LOG.info("Assert username equals: {}, {}", firstName, lastName);
+        assertEquals(getElementText(nameLabel), firstName.concat(EMPTY_SPACE).concat(lastName),
+                String.format("Username not equals %s %s ", firstName, lastName));
+        return this;
     }
 
     public UserProfilePage assertSummaryIs(String summaryValue)
     {
         LOG.info(String.format("Assert summary value is: %s", summaryValue));
-        Assert.assertEquals(getBrowser().findElement(summary).getText(), summaryValue, "Summary is correct");
+        assertEquals(getElementText(summary), summaryValue, "Summary is correct");
         return this;
     }
 
@@ -198,7 +195,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertAboutUserHasValues(String... values)
     {
-        LOG.info(String.format("Assert values '%s' are displayed in About User section", Arrays.asList(values)));
+        LOG.info("Assert values {} are displayed in About User section", Arrays.asList(values));
         assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
         return this;
     }
@@ -212,7 +209,8 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     private UserProfilePage checkValue(String element, String label, String value)
     {
-        Assert.assertEquals(getBrowser().findElement(By.xpath(String.format(element,
+
+        assertEquals(getBrowser().findElement(By.xpath(String.format(element,
             language.translate(label))))
             .findElement(fieldValue).getText(), value);
         return this;
@@ -275,6 +273,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertDefaultAvatarIsDisplayed()
     {
+        LOG.info("Assert default avatar is displayed");
         WebElement photoElement = getBrowser().findElement(photo);
         getBrowser().waitUntilElementHasAttribute(photoElement, "src", "no-user-photo-64.png");
         assertTrue(photoElement.getAttribute("src").contains("no-user-photo-64.png"));
@@ -283,6 +282,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertNewAvatarIsDisplayed()
     {
+        LOG.info("Assert new avatar is displayed");
         assertTrue(getBrowser().findElement(photo).getAttribute("src").contains("/content/thumbnails/avatar"));
         return this;
     }
