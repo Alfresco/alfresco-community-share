@@ -29,7 +29,7 @@ public class TrashcanTests extends ContextAwareWebTest
 
     @TestRail (id = "C10506")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void emptyTrashcan()
+    public void verifyEmptyTrashcan()
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
@@ -50,7 +50,7 @@ public class TrashcanTests extends ContextAwareWebTest
 
     @TestRail (id = "C7572")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void trashcanDeleteFile()
+    public void verifyTrashcanDeleteFile()
     {
         FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         cmisApi.usingSite(trashSite).createFile(file1)
@@ -64,7 +64,7 @@ public class TrashcanTests extends ContextAwareWebTest
 
     @TestRail (id = "C7573")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void trashcanDeleteFolder()
+    public void verifyTrashcanDeleteFolder()
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
         cmisApi.usingSite(trashSite).createFolder(folder)
