@@ -1,13 +1,13 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -18,6 +18,11 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.testng.Assert.assertTrue;
 
 @PageObject
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
@@ -113,6 +118,10 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     @FindBy (css = "input[id*='sendEMailNotifications'][type='checkbox']")
     private WebElement sendEMailNotificationsCheckbox;
 
+    private By workflowFormArea = By.cssSelector("div[id$='default-startWorkflowForm-alf-id0-form-fields']");
+    private By itemsAreaRows = By.cssSelector("div[id$='packageItems-cntrl-currentValueDisplay'] .yui-dt-data>tr");
+    private String attachedDocumentRow = "//a[text()='%s']/../../../..";
+
     @Override
     public String getRelativePath()
     {
@@ -121,7 +130,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public StartWorkflowPage assertStartWorkflowPageIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
+        assertTrue(browser.isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
         return this;
     }
 
@@ -138,7 +147,20 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         }
         browser.waitUntilElementVisible(workflowMenu);
         browser.selectOptionFromFilterOptionsList(workflow, dropdownOptions);
-        browser.waitUntilElementContainsText(startWorkflowDropDown, workflow);
+        browser.waitUntilElementVisible(workflowFormArea);
+    }
+
+    public StartWorkflowPage selectWorkflowType(WorkflowType workflowType)
+    {
+        String workflowTypeValue = getWorkflowTypeFilterValue(workflowType);
+        LOG.info("Select workflow type {}", workflowTypeValue);
+        browser.mouseOver(startWorkflowDropDown);
+        startWorkflowDropDown.click();
+        browser.waitUntilElementVisible(workflowMenu);
+        browser.selectOptionFromFilterOptionsList(workflowTypeValue, dropdownOptions);
+        browser.waitUntilElementContainsText(startWorkflowDropDown, workflowTypeValue);
+
+        return this;
     }
 
     public void addWorkflowDescription(String workflowDescription)
@@ -373,4 +395,46 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         return (SelectDocumentPopupPage) selectDocumentPopupPage.renderedPage();
     }
 
+    private WebElement getItemRow(String itemName)
+    {
+        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(attachedDocumentRow, itemName)),WAIT_1, WAIT_10);
+    }
+
+    public StartWorkflowPage assertItemsAreDisplayed(FileModel... files)
+    {
+        browser.waitUntilElementVisible(itemsAreaRows);
+        for(FileModel file : files)
+        {
+            LOG.info("Assert file {} is displayed in items", file.getName());
+            assertTrue(browser.isElementDisplayed(By.xpath(String.format(attachedDocumentRow, file.getName()))),
+                String.format("File %s is not displayed", file.getName()));
+        }
+        return this;
+    }
+
+    private String getWorkflowTypeFilterValue(WorkflowType workflowType)
+    {
+        String filterValue = "";
+        switch (workflowType)
+        {
+            case NewTask:
+                filterValue = language.translate("startWorkflowPage.workflowType.newTask");
+                break;
+            case GroupReview:
+                filterValue = language.translate("startWorkflowPage.workflowType.groupReview");
+                break;
+            case MultipleReviewers:
+                filterValue = language.translate("startWorkflowPage.workflowType.multipleReviewers");
+                break;
+            case SingleReviewer:
+                filterValue = language.translate("startWorkflowPage.workflowType.singleReviewer");
+                break;
+            case PooledReview:
+                filterValue = language.translate("startWorkflowPage.workflowType.pooledReview");
+                break;
+            default:
+                break;
+        }
+        return filterValue;
+    }
 }

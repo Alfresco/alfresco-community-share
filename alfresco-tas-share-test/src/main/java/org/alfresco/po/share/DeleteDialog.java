@@ -1,7 +1,5 @@
 package org.alfresco.po.share;
 
-import okio.Utf8;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -53,7 +51,7 @@ public class DeleteDialog extends ShareDialog
         return message.getText();
     }
 
-    public DeleteDialog assertConfirmDeleteMessageEqualsTo(String deletedObject)
+    public DeleteDialog assertConfirmDeleteMessageForContentEqualsTo(String deletedObject)
     {
         LOG.info("Assert confirm delete message is correct for content {}", deletedObject);
         assertEquals(message.getText(), String.format(language.translate("confirmDeletion.message"), deletedObject),
@@ -61,9 +59,16 @@ public class DeleteDialog extends ShareDialog
         return this;
     }
 
-    public DeleteDialog assertConfirmDeleteMessageEqualsTo(ContentModel deletedContent)
+    public DeleteDialog assertConfirmDeleteMessageForContentEqualsTo(ContentModel deletedContent)
     {
-        return assertConfirmDeleteMessageEqualsTo(deletedContent.getName());
+        return assertConfirmDeleteMessageForContentEqualsTo(deletedContent.getName());
+    }
+
+    public DeleteDialog assertConfirmDeleteMessageEqualsTo(String expectedMessage)
+    {
+        LOG.info("Assert confirm delete message equals with expected {}", expectedMessage);
+        assertEquals(message.getText(), expectedMessage, "Delete confirm message is correct");
+        return this;
     }
 
     public void clickDelete()

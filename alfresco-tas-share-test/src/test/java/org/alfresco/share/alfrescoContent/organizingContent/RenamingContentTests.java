@@ -1,111 +1,83 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * @author Laura.Capsa
- */
 public class RenamingContentTests extends ContextAwareWebTest
 {
-    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
-    private final String docContent = "content of the file.";
-    private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
     @Autowired
-    private DocumentLibraryPage documentLibraryPage;
+    private DocumentLibraryPage2 documentLibraryPage2;
+
+    private UserModel user;
+    private SiteModel site;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
-        siteService.create(userName, password, domain, siteName, "Description", SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        user = dataUser.usingAdmin().createRandomTestUser();
+        site = dataSite.usingUser(user).createPublicRandomSite();
+        cmisApi.authenticateUser(user);
+        setupAuthenticatedSession(user);
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        removeUserFromAlfresco(user);
+        deleteSites(site);
     }
 
     @TestRail (id = "C7419")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void renameFileByEditIcon()
     {
-        String docName = String.format("Doc-C7419-%s", RandomData.getRandomAlphanumeric());
-        String newFileName = "newFileNameC7419";
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        LOG.info("STEP1: Hover over the file name");
-        assertTrue(documentLibraryPage.isRenameIconDisplayed(docName), "'Rename' icon is displayed.");
-        LOG.info("STEP2: Click on \"Rename\" icon");
-        documentLibraryPage.clickRenameIcon(docName);
-        assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
-        assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
-        LOG.info("STEP3: Fill in input field with a new name and click \"Save\" button");
-        documentLibraryPage.typeContentName(newFileName);
-        documentLibraryPage.clickButtonFromRenameContent("Save");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(newFileName), docName + " name updated to: " + newFileName);
-        assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
+        FileModel fileToRename = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
+        cmisApi.usingSite(site).createFile(fileToRename);
+
+        documentLibraryPage2.navigate(site)
+            .usingContent(fileToRename)
+                .clickRenameIcon()
+                .typeNewNameAndSave(newFile.getName());
+        documentLibraryPage2.usingContent(fileToRename).assertContentIsNotDisplayed();
+        documentLibraryPage2.usingContent(newFile).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7420")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void renameFolderByEditIcon()
     {
-        String newFolderName = "new folder name C7420";
-        String folderName = String.format("Folder-C7420-%s", RandomData.getRandomAlphanumeric());
-        contentService.createFolder(userName, password, folderName, siteName);
-        documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        LOG.info("STEP1: Hover over the folder name");
-        assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is displayed.");
-        LOG.info("STEP2: Click on \"Rename\" icon");
-        documentLibraryPage.clickRenameIcon(folderName);
-        assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
-        assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
-        LOG.info("STEP3: Fill in input field with a new name and click \"Save\" button");
-        documentLibraryPage.typeContentName(newFolderName);
-        documentLibraryPage.clickButtonFromRenameContent("Save");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(newFolderName), newFolderName + " name updated to: " + newFolderName);
-        assertFalse(documentLibraryPage.isContentNameInputField(), "Folder is input field.");
+        FolderModel folderToRename = FolderModel.getRandomFolderModel();
+        FolderModel newFolder = FolderModel.getRandomFolderModel();
+        cmisApi.usingSite(site).createFolder(folderToRename);
+
+        documentLibraryPage2.navigate(site)
+            .usingContent(folderToRename)
+            .clickRenameIcon()
+            .typeNewNameAndSave(newFolder.getName());
+        documentLibraryPage2.usingContent(folderToRename).assertContentIsNotDisplayed();
+        documentLibraryPage2.usingContent(newFolder).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7431")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelRenamingContent()
     {
-        String docName = String.format("Doc-C7431-%s", RandomData.getRandomAlphanumeric());
-        String newFileName = "new file name C7431";
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        LOG.info("STEP1: Hover over the file name");
-        assertTrue(documentLibraryPage.isRenameIconDisplayed(docName), "'Rename' icon is displayed.");
-        LOG.info("STEP2: Click on \"Rename\" icon");
-        documentLibraryPage.clickRenameIcon(docName);
-        assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
-        assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
-        LOG.info("STEP3: Fill in input field with a new name and click \"Cancel\" button");
-        documentLibraryPage.typeContentName(newFileName);
-        documentLibraryPage.clickButtonFromRenameContent("Cancel");
-        assertFalse(documentLibraryPage.isContentNameDisplayed(newFileName), docName + " name isn't updated to: " + newFileName);
-        assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
+        FileModel fileToRename = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
+        cmisApi.usingSite(site).createFile(fileToRename);
+
+        documentLibraryPage2.navigate(site)
+            .usingContent(fileToRename)
+            .clickRenameIcon()
+            .typeNewNameAndCancel(newFile.getName());
+        documentLibraryPage2.usingContent(fileToRename).assertContentIsDisplayed();
+        documentLibraryPage2.usingContent(newFile).assertContentIsNotDisplayed();
     }
 }
