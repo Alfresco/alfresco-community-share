@@ -287,15 +287,14 @@ public class ContentAction
         WebElement contentRow = getContentRow();
         mouseOverContent();
         WebElement rename = getBrowser().waitUntilElementVisible(renameIcon);
-        rename.click();
-        if(contentRow.findElement(renameForm).getAttribute("style").equals("display: inline;"))
+        int i = 0;
+        while (!contentRow.findElement(renameForm).getAttribute("style").equals("display: inline;")
+            && i < alfrescoContentPage.WAIT_15)
         {
-            return this;
+            getBrowser().waitUntilElementClickable(rename).click();
+            i++;
         }
-        LOG.info("Retry clicking rename icon");
-        rename.click();
         getBrowser().waitUntilChildElementIsPresent(contentRow, renameInput);
-
         return this;
     }
 
