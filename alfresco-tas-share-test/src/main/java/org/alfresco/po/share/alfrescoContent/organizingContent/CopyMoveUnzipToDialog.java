@@ -170,10 +170,11 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         return this;
     }
 
-    public SharePage clickUnzipButton(SharePage page)
+    public void clickUnzipButton()
     {
+        LOG.info("Click Unzip To button");
         browser.waitUntilElementClickable(unzipCopyMoveButton).click();
-        return (SharePage) page.renderedPage();
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickCopyToButton()
