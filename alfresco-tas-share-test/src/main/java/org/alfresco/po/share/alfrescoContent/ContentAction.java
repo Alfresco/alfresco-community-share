@@ -281,6 +281,14 @@ public class ContentAction
         return this;
     }
 
+    /**
+     * Method to click on rename icon
+     *
+     * @return instance of ContentAction
+     *
+     * @implNote Depends on test environments, style attribute of renameForm web element is empty or not.
+     * The workaround is to perform a click on rename icon web element, while style attribute is empty
+     */
     public ContentAction clickRenameIcon()
     {
         LOG.info("Click Rename icon");
