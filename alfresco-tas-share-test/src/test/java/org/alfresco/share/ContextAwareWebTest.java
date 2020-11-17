@@ -12,10 +12,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.Utility;
-import org.alfresco.utility.data.DataGroup;
-import org.alfresco.utility.data.DataSite;
-import org.alfresco.utility.data.DataUserAIS;
-import org.alfresco.utility.data.DataWorkflow;
+import org.alfresco.utility.data.*;
 import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.FolderModel;
@@ -24,7 +21,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -98,6 +94,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     private AIMSPage aimsPage;
+
+    @Autowired
+    protected DataContent dataContent;
     
     @Autowired
     protected UserDashboardPage userDashboard;

@@ -238,6 +238,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private final By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
     private final By propertiesList = By.cssSelector(".viewmode-label");
     private final By message = By.cssSelector("span[class='message']");
+    private final By unzipToAction = By.id("onActionUnzipTo");
 
     @Override
     public String getRelativePath()
@@ -837,6 +838,13 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         LOG.info("Click Copy To...");
         browser.waitUntilElementClickable(copyToAction).click();
+        return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
+    }
+
+    public CopyMoveUnzipToDialog clickUnzipTo()
+    {
+        LOG.info("Click Unzip To...");
+        browser.waitUntilElementClickable(unzipToAction).click();
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 }
