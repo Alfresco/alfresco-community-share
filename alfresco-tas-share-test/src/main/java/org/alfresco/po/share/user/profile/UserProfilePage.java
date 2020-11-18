@@ -1,6 +1,5 @@
 package org.alfresco.po.share.user.profile;
 
-
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;

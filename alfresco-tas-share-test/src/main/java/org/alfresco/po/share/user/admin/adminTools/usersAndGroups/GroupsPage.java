@@ -3,13 +3,10 @@ package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -21,11 +18,6 @@ import static org.testng.Assert.assertTrue;
 
 public class GroupsPage extends AdminToolsPage
 {
-    private RemoveUserFromGroupDialog removeUserFromGroupDialog;
-    private DeleteGroupDialog deleteGroupDialog;
-    private AddUserDialog addUserDialog;
-    private AddGroupDialog addGroupDialog;
-
     @RenderWebElement
     private By sectionTitle = By.cssSelector("label[for*='default-search-text']");
     @RenderWebElement
@@ -71,10 +63,6 @@ public class GroupsPage extends AdminToolsPage
     public GroupsPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        addUserDialog = new AddUserDialog(browser);
-        deleteGroupDialog = new DeleteGroupDialog(browser);
-        removeUserFromGroupDialog = new RemoveUserFromGroupDialog(browser);
-        addGroupDialog = new AddGroupDialog(browser);
     }
 
     @Override
@@ -264,7 +252,7 @@ public class GroupsPage extends AdminToolsPage
     public AddGroupDialog clickAddGroup(int groupColumn)
     {
         getBrowser().waitUntilElementVisible(By.cssSelector(String.format(addSubGroupButton, groupColumn))).click();
-        return (AddGroupDialog) addGroupDialog.renderedPage();
+        return (AddGroupDialog) new AddGroupDialog(browser).renderedPage();
     }
 
     public GroupsPage assertAddUserButtonIsDisplayed(int groupColumn)
@@ -277,15 +265,9 @@ public class GroupsPage extends AdminToolsPage
     public AddUserDialog clickAddUser(int groupColumn)
     {
         getBrowser().waitUntilElementVisible(By.cssSelector(String.format(addUserGroupButton, groupColumn))).click();
-        return (AddUserDialog) addUserDialog.renderedPage();
+        return (AddUserDialog) new AddUserDialog(browser).renderedPage();
     }
 
-    /**
-     * Click 'Remove User' button from second column
-     *
-     * @param user to be removed
-     * @return 'Remove User' dialog
-     */
     public RemoveUserFromGroupDialog clickRemoveUser(UserModel user)
     {
         WebElement groupElement = mouseOverGroup(getUserFormat(user));
@@ -294,22 +276,17 @@ public class GroupsPage extends AdminToolsPage
         getBrowser().scrollToElement(remove);
         getBrowser().mouseOver(remove);
         getBrowser().waitUntilElementClickable(remove).click();
-        return (RemoveUserFromGroupDialog) removeUserFromGroupDialog.renderedPage();
+
+        return (RemoveUserFromGroupDialog) new RemoveUserFromGroupDialog(browser).renderedPage();
     }
 
-    /**
-     * Click 'Delete Group' button
-     *
-     * @param groupName to be deleted
-     * @return 'Delete Group' dialog
-     */
     public DeleteGroupDialog clickDelete(String groupName)
     {
         WebElement groupElement = mouseOverGroup(groupName);
         WebElement delete = groupElement.findElement(deleteGroupButton);
         getBrowser().mouseOver(delete);
         getBrowser().waitUntilElementClickable(delete).click();
-        return (DeleteGroupDialog) deleteGroupDialog.renderedPage();
+        return (DeleteGroupDialog) new DeleteGroupDialog(browser).renderedPage();
     }
 
     public GroupsPage assertNewGroupTitleIsDisplayed()
@@ -410,6 +387,7 @@ public class GroupsPage extends AdminToolsPage
         getBrowser().waitUntilElementClickable(delete).click();
         getBrowser().waitUntilElementVisible(deleteGroupOKButton).click();
         waitUntilNotificationMessageDisappears();
+
         return this;
     }
 

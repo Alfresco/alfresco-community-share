@@ -37,7 +37,7 @@ public class UnzipContentTests extends ContextAwareWebTest
     DeleteDialog deleteDialog;
     //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private CopyMoveUnzipToDialog unzipToDialog;

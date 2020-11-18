@@ -17,11 +17,7 @@ import java.util.List;
 
 public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 {
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
     //@Autowired
-    private DocumentLibraryPage documentLibraryPage;
-    @Autowired
     private SelectDialog selectDialog;
 
     private By selectButtonForCustomSmartFolder = By.cssSelector("button[id*='yui-gen21-button']");
@@ -77,13 +73,12 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     public DocumentDetailsPage clickButton(String buttonName)
     {
         getBrowser().findFirstElementWithValue(buttonsList, buttonName).click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+        return (DocumentDetailsPage) new DocumentDetailsPage(browser).renderedPage();
     }
 
-    public DocumentLibraryPage clickButtonForFolder(String buttonName)
+    public void clickButtonForFolder(String buttonName)
     {
         getBrowser().selectOptionFromFilterOptionsList(buttonName, getBrowser().findElements(buttonsList));
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
     public void clickHelpIconForRestrictableAspect()

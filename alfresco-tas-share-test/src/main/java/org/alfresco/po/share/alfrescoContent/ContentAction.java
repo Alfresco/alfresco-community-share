@@ -1,8 +1,10 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
@@ -34,6 +36,12 @@ public class ContentAction
     private final By addToFavoritesLink = By.className("favourite-action");
     private final By removeFavoriteLink = By.cssSelector("a[class='favourite-action enabled']");
     private final By locateAction = By.id("onActionLocate");
+    private final By renameIcon = By.cssSelector(".filename span.insitu-edit[style*='visibility: visible']");
+    private final By renameForm = By.cssSelector("form[class='insitu-edit']");
+    private final By renameInput = By.cssSelector("form[class='insitu-edit']>input");
+    private final By renameSaveButton = By.cssSelector("form[class='insitu-edit']>a:nth-of-type(1)");
+    private final By renameCancelButton = By.cssSelector("form[class='insitu-edit']>a:nth-of-type(2)");
+
     private final String highlightContent = "yui-dt-highlighted";
 
     public ContentAction(ContentModel contentModel, AlfrescoContentPage contentPage,
@@ -72,9 +80,9 @@ public class ContentAction
     public ContentAction assertContentIsNotDisplayed()
     {
         LOG.info("Assert is NOT displayed");
-        assertFalse(getBrowser().isElementDisplayed(
-            By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()))),
-                String.format("Content '%s' is displayed", contentModel.getName()));
+        By content = By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()));
+        getBrowser().waitUntilElementDisappears(content, alfrescoContentPage.WAIT_5);
+        assertFalse(getBrowser().isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
 
@@ -261,7 +269,62 @@ public class ContentAction
     {
         LOG.info("Assert content is checked");
         assertTrue(getContentRow().findElement(alfrescoContentPage.selectCheckBox).isSelected(),
+            String.format("Content %s is not checked", contentModel.getName()));
+        return this;
+    }
+
+    public ContentAction assertContentIsNotChecked()
+    {
+        LOG.info("Assert content is not checked");
+        assertTrue(getContentRow().findElement(alfrescoContentPage.selectCheckBox).isSelected(),
             String.format("Content %s is checked", contentModel.getName()));
+        return this;
+    }
+
+    public ContentAction clickRenameIcon()
+    {
+        LOG.info("Click Rename icon");
+        WebElement contentRow = getContentRow();
+        mouseOverContent();
+        WebElement rename = getBrowser().waitUntilElementVisible(renameIcon);
+        int i = 0;
+        while (!contentRow.findElement(renameForm).getAttribute("style").equals("display: inline;")
+            && i < alfrescoContentPage.WAIT_15)
+        {
+            getBrowser().waitUntilElementClickable(rename).click();
+            i++;
+        }
+        getBrowser().waitUntilChildElementIsPresent(contentRow, renameInput);
+        return this;
+    }
+
+    public ContentAction typeNewName(String newName)
+    {
+        LOG.info("Rename with value {}", newName);
+        WebElement contentRow = getContentRow();
+        WebElement input = contentRow.findElement(renameInput);
+        Utils.clearAndType(input, newName);
+
+        return this;
+    }
+
+    public ContentAction clickSave()
+    {
+        LOG.info("Click Save");
+        WebElement input = getContentRow().findElement(renameInput);
+        getContentRow().findElement(renameSaveButton).click();
+        getBrowser().waitUntilElementDisappears(input);
+
+        return this;
+    }
+
+    public ContentAction clickCancel()
+    {
+        LOG.info("Click Cancel");
+        WebElement input = getContentRow().findElement(renameInput);
+        getContentRow().findElement(renameCancelButton).click();
+        getBrowser().waitUntilElementDisappears(input);
+
         return this;
     }
 }

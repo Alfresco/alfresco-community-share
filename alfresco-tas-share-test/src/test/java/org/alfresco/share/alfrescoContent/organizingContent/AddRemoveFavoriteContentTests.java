@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
 {
-    @Autowired
+   //@Autowired
     private DocumentLibraryPage2 documentLibraryPage2;
 
     private UserModel user;

@@ -3,11 +3,16 @@ package org.alfresco.po.share.site;
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 
-@PageObject
 public class DocumentLibraryPage2 extends AlfrescoContentPage<DocumentLibraryPage2>
 {
     private String siteId;
+
+    public DocumentLibraryPage2(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public String getSiteId()
     {

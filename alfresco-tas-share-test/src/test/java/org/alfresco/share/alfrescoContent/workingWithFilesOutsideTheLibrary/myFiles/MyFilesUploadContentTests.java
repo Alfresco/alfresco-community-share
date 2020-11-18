@@ -23,7 +23,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
 {
     //@Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private UploadContent uploadContent;

@@ -1,27 +1,24 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
@@ -43,8 +40,6 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
     private EditRulesPage editRulesPage;
     //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
-    private DocumentCommon documentCommon;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -96,6 +91,6 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to folder and verify file");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
-        assertTrue(documentCommon.isActiveWorkflowIconDisplayed(), "Active workflow icon is displayed.");
+        //assertTrue(documentCommon.isActiveWorkflowIconDisplayed(), "Active workflow icon is displayed.");
     }
 }

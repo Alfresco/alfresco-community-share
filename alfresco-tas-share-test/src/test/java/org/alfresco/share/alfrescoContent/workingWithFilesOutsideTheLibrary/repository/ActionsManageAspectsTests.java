@@ -15,10 +15,10 @@ import org.testng.annotations.Test;
 
 public class ActionsManageAspectsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //Autowired
     private RepositoryPage repositoryPage;
 
-    @Autowired
+    //@Autowired
     private AspectsForm aspectsForm;
 
     private String nonAdminUser;

@@ -31,7 +31,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
     SearchPage searchPage;
     //@Autowired
     Toolbar toolbar;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     //@Autowired
     DocumentLibraryPage documentLibraryPage;

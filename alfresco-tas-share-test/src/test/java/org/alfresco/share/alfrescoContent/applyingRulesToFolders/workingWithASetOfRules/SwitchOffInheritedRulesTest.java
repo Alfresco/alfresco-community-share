@@ -1,17 +1,10 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules;
 
-import static org.alfresco.dataprep.CMISUtil.DocumentType.TEXT_PLAIN;
-import static org.testng.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
@@ -22,6 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.alfresco.dataprep.CMISUtil.DocumentType.TEXT_PLAIN;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
@@ -49,8 +48,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     private EditRulesPage editRulesPage;
     //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
-    private DocumentCommon documentCommon;
+
 
     @BeforeClass ()
     public void setupTest()

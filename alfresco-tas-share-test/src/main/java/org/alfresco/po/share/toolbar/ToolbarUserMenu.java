@@ -79,7 +79,7 @@ public class ToolbarUserMenu extends SharePageObject2
     {
         LOG.info("Assert Alfresco Documentation window is opened");
         getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains("https://docs.alfresco.com/", 5);
+        getBrowser().waitUrlContains("https://docs.alfresco.com/", 10);
         assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         getBrowser().closeWindowAndSwitchBack();
 

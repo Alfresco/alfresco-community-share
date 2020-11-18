@@ -1,56 +1,37 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import java.util.List;
-
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
-/**
- * Created by Mirela Tifui on 12/6/2016.
- */
-@PageObject
-public class CreateCustomTypeDialog extends ShareDialog
+import static org.testng.Assert.assertTrue;
+
+public class CreateCustomTypeDialog extends ShareDialog2
 {
-    @Autowired
-    ModelDetailsPage modelDetailsPage;
-
     @RenderWebElement
-    @FindBy (id = "CMM_CREATE_TYPE_DIALOG")
-    private WebElement createCustomTypeWindow;
-
+    private By createCustomTypeWindow = By.id("CMM_CREATE_TYPE_DIALOG");
     @RenderWebElement
-    @FindBy (css = "span[widgetid='CMM_CREATE_TYPE_DIALOG_OK']>span")
-    private WebElement createButton;
-
+    private By createButton = By.cssSelector("span[widgetid='CMM_CREATE_TYPE_DIALOG_OK']>span");
     @RenderWebElement
-    @FindBy (id = "CMM_CREATE_TYPE_DIALOG_CANCEL_label")
-    private WebElement cancelButton;
+    private By cancelButton = By.id("CMM_CREATE_TYPE_DIALOG_CANCEL_label");
+    private By nameField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']");
+    private By displayLabelField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='title']");
+    private By descriptionField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea");
+    private By parentTypeElement = By.cssSelector(".dijitSelectLabel");
+    private By parentTypeElements = By.cssSelector("table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']");
 
-    @FindBy (xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']")
-    private WebElement nameField;
-
-    @FindBy (xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='title']")
-    private WebElement displayLabelField;
-
-    @FindBy (xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea")
-    private WebElement descriptionField;
-
-    @FindBy (css = ".dijitSelectLabel")
-    private WebElement parentTypeElement;
-
-    @FindAll (@FindBy (css = "table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']"))
-    private List<WebElement> parentTypeElements;
+    public CreateCustomTypeDialog(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public ModelDetailsPage clickCreate()
     {
         getBrowser().waitUntilElementClickable(createButton).click();
+        ModelDetailsPage modelDetailsPage = new ModelDetailsPage(browser);
         modelDetailsPage.waiUntilLoadingMessageDisappears();
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
@@ -58,7 +39,7 @@ public class CreateCustomTypeDialog extends ShareDialog
     public void selectParentType(String parentType)
     {
         getBrowser().waitUntilElementVisible(parentTypeElement).click();
-        for (WebElement type : parentTypeElements)
+        for (WebElement type : getBrowser().findElements(parentTypeElements))
         {
             if (type.getAttribute("aria-label").equals(parentType))
             {
@@ -69,7 +50,7 @@ public class CreateCustomTypeDialog extends ShareDialog
 
     public void clickCancelButton()
     {
-        cancelButton.click();
+        getBrowser().findElement(cancelButton).click();
     }
 
     public CreateCustomTypeDialog typeName(String name)
@@ -91,7 +72,7 @@ public class CreateCustomTypeDialog extends ShareDialog
 
     public CreateCustomTypeDialog assertCreateCustomTypeWindowDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createCustomTypeWindow), "Create custom type button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(createCustomTypeWindow), "Create custom type button is displayed");
         return this;
     }
 }

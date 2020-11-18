@@ -29,7 +29,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     private final String folderName2 = uniqueId + "folder2";
     private final String path = "Shared/";
     private final String comment = "Comment " + uniqueId;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private SharedFilesPage sharedFilesPage;

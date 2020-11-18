@@ -35,7 +35,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     private final String acpPath = testDataFolder + acpFile;
     //@Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private CopyMoveUnzipToDialog unzipToDialog;

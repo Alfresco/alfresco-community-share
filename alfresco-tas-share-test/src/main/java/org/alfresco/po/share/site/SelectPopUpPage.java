@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;

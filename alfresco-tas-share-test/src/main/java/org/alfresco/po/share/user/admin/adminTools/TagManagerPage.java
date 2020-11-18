@@ -11,9 +11,6 @@ import org.testng.Assert;
 
 public class TagManagerPage extends AdminToolsPage
 {
-    private DeleteDialog deleteDialog;
-    private EditTagDialog editTagDialog;
-
     private By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
     private By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
     private By tableTitle = By.cssSelector(".tags-List>.title");
@@ -36,8 +33,6 @@ public class TagManagerPage extends AdminToolsPage
     public TagManagerPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        deleteDialog = new DeleteDialog(browser);
-        editTagDialog = new EditTagDialog(browser);
     }
 
     @Override
@@ -55,7 +50,7 @@ public class TagManagerPage extends AdminToolsPage
         getBrowser().waitUntilElementVisible(editIconSelector);
         getBrowser().waitUntilElementVisible(tagRow.findElement(editIconSelector)).click();
 
-        return (EditTagDialog) editTagDialog.renderedPage();
+        return (EditTagDialog) new EditTagDialog(browser).renderedPage();
     }
 
     public DeleteDialog clickDelete(String tag)
@@ -66,7 +61,7 @@ public class TagManagerPage extends AdminToolsPage
         getBrowser().mouseOver(tagRow);
         getBrowser().waitUntilElementVisible(tagRow.findElement(deleteIconSelector)).click();
 
-        return (DeleteDialog) deleteDialog.renderedPage();
+        return (DeleteDialog) new DeleteDialog(browser).renderedPage();
     }
 
     private WebElement getTagRow(String tagName)
@@ -137,11 +132,11 @@ public class TagManagerPage extends AdminToolsPage
     {
         WebElement search = getBrowser().findElement(searchButton);
         getBrowser().mouseOver(search);
-        getBrowser().clickJS(search);
-        if(!getBrowser().isElementDisplayed(noFoundMessage))
+        getBrowser().waitUntilElementClickable(search).click();
+        /*if(!getBrowser().isElementDisplayed(noFoundMessage))
         {
-            getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(loadingTagsMessage), "style", "display: none;");
-        }
+            getBrowser().waitUntilElementHasAttribute(loadingTagsMessage, "style", "display: none;");
+        }*/
     }
 
     public TagManagerPage search(String tagName)

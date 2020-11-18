@@ -27,7 +27,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     private String siteName;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private GoogleDocsCommon googleDocsCommon;

@@ -28,7 +28,7 @@ public class MyFilesTests extends ContextAwareWebTest
     private final String C7648description = "C7648 description";
    // @Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private CreateContentPage create;
     //@Autowired
     private UserDashboardPage userDashboard;

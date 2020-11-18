@@ -1,111 +1,84 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
-import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteProfileDashlet;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class SiteProfileDashletTests extends ContextAwareWebTest
+public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
 {
-    //@Autowired
-    SiteDashboardPage siteDashboard;
+    private static final String EXPECTED_TITLE = "siteProfileDashlet.title";
+    private static final String WELCOME_TO = "siteProfileDashlet.bodyTitle";
+    private static final String MANAGER_LABEL = "siteProfileDashlet.managerLabel";
+    private static final String VISIBILITY_LABEL = "siteProfileDashlet.visibilityLabel";
+    private static final String EXPECTED_BALLOON_MESSAGE = "siteProfileDashlet.helpBalloonMessage";
+    private static final String EMPTY_SPACE = " ";
+
+    private UserModel userModel;
+    private SiteModel siteModel;
 
     @Autowired
-    SiteProfileDashlet siteProfileDashlet;
-
-    //@Autowired
-    UserProfilePage userProfilePage;
-
-    private String userName1;
-    private String userName2;
-    private String siteName1;
-    private String role;
-    private String welcomeMessage;
-    private String siteDescription;
-    private String siteVisibility;
+    private SiteProfileDashlet siteProfileDashlet;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
-        userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
-        siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
-        role = "SiteManager";
-        siteVisibility = "Public";
-        siteDescription = "testDescription";
-        welcomeMessage = "Welcome to " + siteName1;
+        userModel = dataUser.usingAdmin().createRandomTestUser();
+        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
 
-        userService.create(adminUser, adminPassword, userName1, userName1, userName1 + domain, "fName1", "lName1");
-        userService.create(adminUser, adminPassword, userName2, userName2, userName2 + domain, "fName2", "lName2");
-        siteService.create(userName1, userName1, domain, siteName1, "testDescription", SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(userName1, userName1, userName2, siteName1, role);
-        siteService.addDashlet(userName1, userName1, siteName1, SiteDashlet.SITE_PROFILE, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-
-        setupAuthenticatedSession(userName1, userName1);
-
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser, adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-        siteService.delete(adminUser, adminPassword, siteName1);
-
+        setupAuthenticatedSession(userModel);
+        addDashlet(siteModel, Dashlets.SITE_PROFILE, 1);
+        siteDashboardPage.navigate(siteModel);
     }
 
     @TestRail (id = "C2811")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
-    public void verifySiteProfileDashlet()
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplaySiteProfileDashletDetails()
     {
+        siteProfileDashlet
+            .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
+            .assertSiteWelcomeMessageEquals(
+                language.translate(WELCOME_TO).concat(siteModel.getId()));
 
-        LOG.info("STEP 1 - Verify \"Site Profile\" dashlet");
-        siteDashboard.navigate(siteName1);
+        siteProfileDashlet
+            .assertSiteDescriptionEquals(
+                siteModel.getTitle().concat(siteModel.getVisibility().name()));
 
-        Assert.assertEquals(siteProfileDashlet.getDashletTitle(), "Site Profile");
+        siteProfileDashlet
+            .assertSiteManagerEquals(language.translate(MANAGER_LABEL),
+                    userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())));
 
-//        Assert.assertTrue(siteProfileDashlet.assertDashletHelpIconDisplayed(DashletHelpIcon.SITE_PROFILE));
-        Assert.assertEquals(siteProfileDashlet.getWelcomeMessageText(), welcomeMessage);
+        siteProfileDashlet
+            .assertSiteVisibilityEquals(language.translate(VISIBILITY_LABEL), siteModel.getVisibility().name());
 
-        Assert.assertTrue(siteProfileDashlet.isSiteDescriptionPresent(siteDescription));
-        Assert.assertTrue(siteProfileDashlet.isSiteManagersLabelDisplayed());
+        siteProfileDashlet
+            .clickOnHelpIcon(DashletHelpIcon.SITE_PROFILE)
+            .assertHelpBalloonMessageEquals(language.translate(EXPECTED_BALLOON_MESSAGE))
+            .closeHelpBalloon()
+            .assertBalloonMessageIsNotDisplayed();
+    }
 
-        Assert.assertTrue(siteProfileDashlet.isVisibilityLabelDisplayed());
-        Assert.assertTrue(siteProfileDashlet.isSiteVisibilityPresent(siteVisibility), "Site " + siteName1 + "'s visibility is not available");
+    @TestRail (id = "C588828")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayUsernameInUserProfilePageWhenAccessedFromSiteProfileDashlet()
+    {
+        siteProfileDashlet
+            .clickSiteManagerLink(
+                userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())))
+            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+    }
 
-        Assert.assertTrue(siteProfileDashlet.isMemberPresent("fName1 lName1"), "User " + userName1 + " is not present");
-        Assert.assertTrue(siteProfileDashlet.isMemberPresent("fName2 lName2"), "User " + userName2 + " is not present");
-
-        LOG.info("STEP 2 - Click  \"Help\" icon and verify it's contents");
-        siteProfileDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_PROFILE);
-
-        Assert.assertTrue(siteProfileDashlet.isHelpBalloonDisplayed());
-
-        Assert.assertEquals(siteProfileDashlet.getHelpBalloonMessage(),
-            "This dashlet displays the site details. Only the site manager can change this information.");
-
-        LOG.info("STEP 3 - Close  \"Help\" icon");
-        siteProfileDashlet.closeHelpBalloon();
-        Assert.assertFalse(siteProfileDashlet.isHelpBalloonDisplayed());
-
-        LOG.info("STEP 4 - Click  \"User\" link and verify \"User Profile Page\" opens");
-
-        siteProfileDashlet.clickSiteManager("fName1 lName1");
-        userProfilePage.assertUserProfilePageIsOpened();
-
+    @AfterClass (alwaysRun = true)
+    public void cleanupTest()
+    {
+        removeUserFromAlfresco(userModel);
+        deleteSites(siteModel);
     }
 }

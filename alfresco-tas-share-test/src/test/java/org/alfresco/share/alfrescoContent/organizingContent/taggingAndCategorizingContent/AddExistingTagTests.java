@@ -38,9 +38,9 @@ public class AddExistingTagTests extends ContextAwareWebTest
     private final String tagName2 = "C7464-2" + random;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)

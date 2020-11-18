@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel testUser;

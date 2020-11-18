@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class MovingContentTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;

@@ -20,10 +20,10 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
+    //@Autowired
     private AspectsForm aspectsForm;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());

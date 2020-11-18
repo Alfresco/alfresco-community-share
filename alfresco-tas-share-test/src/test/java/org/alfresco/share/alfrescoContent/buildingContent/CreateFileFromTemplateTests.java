@@ -13,7 +13,7 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
 {
     private final String templateContent = "template content";
 
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel testUser;

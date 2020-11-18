@@ -38,7 +38,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     private final String newVersionFileName = "EditedTestFile8650.docx";
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
     EditPropertiesDialog editPropertiesDialog;
@@ -50,7 +50,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     UploadContent uploadContent;
     @Autowired
     GoogleDocsCommon googleDocs;
-    @Autowired
+    //@Autowired
     CreateContentPage createContent;
     private String folderName;
     private String testFilePath;

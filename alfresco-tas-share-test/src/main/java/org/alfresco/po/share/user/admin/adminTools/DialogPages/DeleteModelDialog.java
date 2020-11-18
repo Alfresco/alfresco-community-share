@@ -1,85 +1,75 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 
-/**
- * Created by Mirela Tifui on 12/5/2016.
- */
-@PageObject
-public class DeleteModelDialog extends ShareDialog
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+public class DeleteModelDialog extends ShareDialog2
 {
-    @FindBy(id = "CMM_DELETE_MODEL_DIALOG_title")
-    private WebElement deleteModelDialogTitle;
-
+    private final By deleteModelDialogTitle = By.id("CMM_DELETE_MODEL_DIALOG_title");
     @RenderWebElement
-    @FindBy(id = "CMM_DELETE_MODEL_DIALOG")
-    private WebElement deleteModelDialog;
-
+    private final By deleteModelDialog = By.id("CMM_DELETE_MODEL_DIALOG");
     @RenderWebElement
-    @FindBy (css = "#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(1) span[role='button']")
-    private WebElement deleteButton;
-
+    private final By deleteButton = By.cssSelector("#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(1) span[role='button']");
     @RenderWebElement
-    @FindBy (css = "#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(2) span[role='button']")
-    private WebElement cancelButton;
+    private final By cancelButton = By.cssSelector("#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(2) span[role='button']");
+    private final By deleteModelDialogText = By.xpath("//div[@id='CMM_DELETE_MODEL_DIALOG']//div[@class='dialog-body']");
 
-    @FindBy (xpath = "//div[@id='CMM_DELETE_MODEL_DIALOG']//div[@class='dialog-body']")
-    private WebElement deleteModelDialogText;
-
-    @Autowired
-    private ModelManagerPage modelManagerPage;
+    public DeleteModelDialog(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public String getDeleteModelDialogText()
     {
-        return deleteModelDialogText.getText();
+        return getElementText(deleteModelDialogText);
     }
 
     public DeleteModelDialog assertDeleteModelDialogTextIsCorrect(String modelName)
     {
-        Assert.assertEquals(deleteModelDialogText.getText(), String.format(language.translate("deleteModelDialog.text"), modelName));
+        assertEquals(getDeleteModelDialogText(), String.format(language.translate("deleteModelDialog.text"), modelName));
         return this;
     }
 
     public boolean isDeleteModelDialogDisplayed()
     {
-        return browser.isElementDisplayed(deleteModelDialog);
+        return getBrowser().isElementDisplayed(deleteModelDialog);
     }
 
     public DeleteModelDialog assertDeleteModelDialogIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(deleteModelDialog), "Delete model dialog is displayed");
+        assertTrue(getBrowser().isElementDisplayed(deleteModelDialog), "Delete model dialog is displayed");
         return this;
     }
 
     public String getDeleteModelDialogTitle()
     {
-        return deleteModelDialogTitle.getText();
+        return getElementText(deleteModelDialogTitle);
     }
 
     public ModelManagerPage clickDelete()
     {
         getBrowser().waitUntilElementClickable(deleteButton).click();
         getBrowser().waitUntilElementDisappears(deleteModelDialog);
+        ModelManagerPage modelManagerPage = new ModelManagerPage(browser);
         modelManagerPage.waiUntilLoadingMessageDisappears();
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 
     public DeleteModelDialog assertDeleteButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(deleteButton), "Delete button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(deleteButton), "Delete button is displayed");
         return this;
     }
 
     public DeleteModelDialog assertCancelButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 }

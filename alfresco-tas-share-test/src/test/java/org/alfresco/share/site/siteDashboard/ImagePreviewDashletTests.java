@@ -41,7 +41,7 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
     @Autowired
     private ImagePreviewDashlet imagePreviewDashlet;
 
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @Autowired

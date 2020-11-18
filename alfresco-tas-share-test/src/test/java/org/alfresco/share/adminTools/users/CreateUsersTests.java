@@ -15,7 +15,7 @@ public class CreateUsersTests extends BaseShareWebTests
     private UsersPage usersPage;
 
     @BeforeMethod (alwaysRun = true)
-    public void precondition()
+    public void beforeTest()
     {
         createUsers = new CreateUserPage(browser);
         usersPage = new UsersPage(browser);

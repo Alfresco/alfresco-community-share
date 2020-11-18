@@ -31,7 +31,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
     private UploadFileDialog uploadFileDialog;
    // @Autowired
     private UploadContent uploadContent;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());

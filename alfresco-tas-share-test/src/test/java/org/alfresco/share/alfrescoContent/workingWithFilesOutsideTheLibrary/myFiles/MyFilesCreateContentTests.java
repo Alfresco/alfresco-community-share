@@ -34,11 +34,11 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
    // @Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private CreateContentPage createContent;
-    @Autowired
+    //@Autowired
     private NewFolderDialog createFolderFromTemplate;
     @Autowired
     private GoogleDocsCommon googleDocs;

@@ -2,13 +2,10 @@ package org.alfresco.share.adminTools.groups;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.share.BaseShareWebTests;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
-import org.kohsuke.rngom.parse.host.Base;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -52,7 +49,6 @@ public class GroupsTests extends BaseShareWebTests
         dataGroup.addGroupToParentGroup(parent1, subGroup);
         dataGroup.addGroupToParentGroup(parent2, subGroup);
         dataGroup.addGroupToParentGroup(parent3, subGroup);
-
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -66,7 +62,6 @@ public class GroupsTests extends BaseShareWebTests
     @AfterClass(alwaysRun = true)
     public void cleanUp()
     {
-        cleanupAuthenticatedSession();
         asList(createGroup, deleteGroup, editGroup, searchGroup, searchGroup1, parent1, parent2, parent3, subGroup)
             .forEach(group -> dataGroup.usingAdmin().deleteGroup(group));
     }

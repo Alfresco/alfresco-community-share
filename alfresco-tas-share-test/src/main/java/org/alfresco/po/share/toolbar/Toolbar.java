@@ -242,14 +242,13 @@ public class Toolbar extends SharePageObject2
 
     public void searchInToolbar(String searchTerm)
     {
-        clearAndType(getBrowser().waitUntilElementVisible(searchBoxInput), searchTerm);
+        clearAndType(getBrowser().waitUntilElementVisible(searchBoxInput, WAIT_60), searchTerm);
     }
 
     public SearchPage search(String searchTerm)
     {
         searchInToolbar(searchTerm);
         getBrowser().findElement(searchBoxInput).sendKeys(Keys.RETURN);
-        waitUntilNotificationMessageDisappears();
         SearchPage searchPage = new SearchPage(browser);
         searchPage.waitForPageToLoad();
         return (SearchPage) searchPage.renderedPage();

@@ -84,7 +84,7 @@ public class TagManagerTests extends BaseShareWebTests
     {
         tagManagerPage.searchTagWithRetry(tag3)
             .clickDelete(tag3)
-                .assertConfirmDeleteMessageEqualsTo(tag3)
+                .assertConfirmDeleteMessageForContentEqualsTo(tag3)
                 .assertDeleteButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
                 .clickDelete();

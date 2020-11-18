@@ -26,9 +26,9 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     private final String folderNameC7907 = "C7907 folder name";
     private final String fileName7908 = "7908 fileName";
     private final String folderName7909 = "7909 folderName";
-    @Autowired
+    //@Autowired
     CreateContentPage create;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;

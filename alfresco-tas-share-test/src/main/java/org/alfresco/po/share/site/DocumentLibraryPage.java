@@ -63,13 +63,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     @Autowired
     GoogleDocsCommon googleDocs;
-    @Autowired
+    //@Autowired
     CreateContentPage createContent;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private UploadFileDialog uploadDialog;
-    @Autowired
+   // @Autowired
     private NewFolderDialog newContentDialog;
 
     private static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";

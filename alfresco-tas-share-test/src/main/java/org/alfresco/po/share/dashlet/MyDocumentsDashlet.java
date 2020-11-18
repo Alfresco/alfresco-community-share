@@ -40,7 +40,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     @FindBy (css = "div[id$='default-simpleDetailed'] span:nth-of-type(2) button")
     private WebElement detailedViewButton;
 
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     protected String documentRow = "//div[starts-with(@class,'dashlet my-documents')]//a[text()='%s']/../../../..";

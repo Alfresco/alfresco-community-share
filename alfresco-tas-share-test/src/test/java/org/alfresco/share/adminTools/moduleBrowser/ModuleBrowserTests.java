@@ -1,54 +1,42 @@
 package org.alfresco.share.adminTools.moduleBrowser;
 
-import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * UI tests for Admin Tools > Module browser page
- */
-public class ModuleBrowserTests extends ContextAwareWebTest
+public class ModuleBrowserTests extends BaseShareWebTests
 {
-    //@Autowired
-    private UserDashboardPage userDashboardPage;
-
-    //@Autowired
     private AdminToolsPage adminToolsPage;
-
-    //@Autowired
     private ModuleBrowserPage moduleBrowserPage;
-
-    //@Autowired
-    private Toolbar toolbar;
 
     private UserModel user;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
+        adminToolsPage = new AdminToolsPage(browser);
+        moduleBrowserPage = new ModuleBrowserPage(browser);
+
+        setupAuthenticatedSession(getAdminUser());
     }
 
-    @AfterClass (alwaysRun = true)
-    public void afterClass()
+    @BeforeClass (alwaysRun = true)
+    public void dataPrep()
     {
-        removeUserFromAlfresco(user);
+        user = dataUser.usingAdmin().createRandomTestUser();
     }
 
     @TestRail (id = "C9498")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void accessModuleBrowserPage()
     {
-        setupAuthenticatedSession(adminUser, adminPassword);
         LOG.info("Step 1: Navigate to Admin Tools page");
         adminToolsPage.navigate();
         adminToolsPage.assertToolIsAvailable(language.translate("moduleBrowser.title"));
@@ -69,9 +57,14 @@ public class ModuleBrowserTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyTheAccessModuleBrowserPageInfo()
     {
-        setupAuthenticatedSession(adminUser, adminPassword);
         moduleBrowserPage.navigate();
         moduleBrowserPage.assertModuleTableHeadersAreDisplayed()
             .assertGoogleDocsModuleIsPresent();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void afterClass()
+    {
+        removeUserFromAlfresco(user);
     }
 }

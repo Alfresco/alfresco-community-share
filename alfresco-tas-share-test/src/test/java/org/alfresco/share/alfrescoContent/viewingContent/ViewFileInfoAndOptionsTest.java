@@ -30,7 +30,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
     private final DateTime currentDate = new DateTime();
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
@@ -70,7 +70,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
         Assert.assertTrue(documentDetailsPage.getModifyDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong modification date!");
 
         LOG.info("STEP 3: Click 'Download' icon to download testFile");
-        documentDetailsPage.clickOnDownloadButton();
+        documentDetailsPage.clickDownloadButton();
         Assert.assertTrue(isFileInDirectory(docName, null), "File does not exist!");
 
 

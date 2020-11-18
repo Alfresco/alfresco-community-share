@@ -58,7 +58,7 @@ public class AddUserDialog extends ShareDialog2
 
     public void clickSearchButton()
     {
-        getBrowser().findElement(searchButton).click();
+        getBrowser().waitUntilElementClickable(searchButton).click();
     }
 
     public AddUserDialog searchUser(String userToSearch)
@@ -71,7 +71,8 @@ public class AddUserDialog extends ShareDialog2
             typeAndSearch(userToSearch);
             found = isUserDisplayed(userToSearch);
             retry++;
-            Utility.waitToLoopTime(1, String.format("Waiting for user %s to be found.", userToSearch));
+            Utility.waitToLoopTime(1);
+            LOG.error(String.format("Waiting for user %s to be found.", userToSearch));
         }
         return this;
     }

@@ -156,35 +156,38 @@ public class ModelActions
     public ModelActions activateModel()
     {
         LOG.info("Activate model");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.activate"), modelManagerPage);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.activate"));
+        modelManagerPage.waiUntilLoadingMessageDisappears();
         return this;
     }
 
     public ModelActions deactivateModel()
     {
         LOG.info("Activate model");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.deactivate"), modelManagerPage);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.deactivate"));
+        modelManagerPage.waiUntilLoadingMessageDisappears();
         return this;
     }
 
     public EditModelDialog clickEdit()
     {
         LOG.info("Click Edit");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.edit"), editModelDialog);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.edit"));
         return editModelDialog;
     }
 
     public DeleteModelDialog clickDelete()
     {
         LOG.info("Click Edit");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.delete"), deleteModelDialog);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.delete"));
         return deleteModelDialog;
     }
 
     public ModelActions exportModel()
     {
         LOG.info("Click Edit");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.export"), modelManagerPage);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.export"));
+        modelManagerPage.waiUntilLoadingMessageDisappears();
         return this;
     }
 

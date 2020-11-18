@@ -23,10 +23,10 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editFilePropertiesDialog;
 
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
 
     private String uniqueIdentifier;

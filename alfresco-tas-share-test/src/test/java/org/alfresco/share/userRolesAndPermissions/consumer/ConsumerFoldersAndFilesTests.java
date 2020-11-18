@@ -37,7 +37,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     //@Autowired
     SharedFilesPage sharedFilesPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
     //@Autowired

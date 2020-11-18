@@ -1,10 +1,7 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import static org.testng.Assert.assertEquals;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -18,6 +15,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class ViewingAFileTests extends ContextAwareWebTest
 {
     private final String user = "C9917User1489451372540";
@@ -25,12 +24,11 @@ public class ViewingAFileTests extends ContextAwareWebTest
     private final String description = String.format("C9917SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String docName = "File-C9917";
     private final DateTime currentDate = new DateTime();
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentPreviewPage;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    private PreviewFileActionsSection fileActions;
+
     //@Autowired
     private UserDashboardPage userDashboard;
 
@@ -152,7 +150,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFile(docName);
 
         LOG.info("Step 2: Check the document actions available");
-        Assert.assertTrue(fileActions.isDocumentActionsBlockDisplayed(), "Document Actions block is not displayed");
+        /*Assert.assertTrue(fileActions.isDocumentActionsBlockDisplayed(), "Document Actions block is not displayed");
         Assert.assertTrue(fileActions.isViewInBrowserDisplayed(), "View in browser action is not displayed");
         Assert.assertTrue(fileActions.isEditInGoogleDocsDisplayed(), "Edit in google docs action is not displayed");
         Assert.assertTrue(fileActions.isEditInMicrosoftOfficeDisplayed(), "Edit in Microsoft Office action is not displayed");
@@ -181,6 +179,6 @@ public class ViewingAFileTests extends ContextAwareWebTest
         Assert.assertTrue(fileActions.isWorkflowsBlockDisplayed(), "Workflows block is not displayed");
 
         LOG.info("Step 7: Check that Version History block is displayed ");
-        Assert.assertTrue(fileActions.isVersionHistoryBlockDisplayed(), "Version History block is not displayed");
+        Assert.assertTrue(fileActions.isVersionHistoryBlockDisplayed(), "Version History block is not displayed");*/
     }
 }

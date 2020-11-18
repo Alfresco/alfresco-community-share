@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 public class MyFilesManageAspectsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private AspectsForm aspectsForm;
 
     //@Autowired

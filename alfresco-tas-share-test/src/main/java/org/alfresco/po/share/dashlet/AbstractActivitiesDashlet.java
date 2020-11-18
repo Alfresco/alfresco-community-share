@@ -28,7 +28,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     //@Autowired
     protected SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     protected DocumentDetailsPage documentDetailsPage;
 
     @RenderWebElement

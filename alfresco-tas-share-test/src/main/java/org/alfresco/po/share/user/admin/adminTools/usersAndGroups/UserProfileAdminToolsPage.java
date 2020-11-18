@@ -18,9 +18,6 @@ import static org.testng.Assert.assertTrue;
 
 public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsPage>
 {
-    @Autowired
-    private DeleteUserDialogPage deleteUserDialogPage;
-
     private String userName;
 
     public By accountStatus = By.cssSelector("span[id$='_default-view-enabled']");
@@ -174,7 +171,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     {
         LOG.info("Click Delete");
         getBrowser().waitUntilElementClickable(deleteUserButton).click();
-        return (DeleteUserDialogPage) deleteUserDialogPage.renderedPage();
+        return (DeleteUserDialogPage) new DeleteUserDialogPage(browser).renderedPage();
     }
 
     public UserProfileAdminToolsPage assertQuotaIs(String expectedQuota)

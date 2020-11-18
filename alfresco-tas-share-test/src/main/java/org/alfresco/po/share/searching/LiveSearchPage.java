@@ -148,11 +148,10 @@ public class LiveSearchPage extends HtmlPage
         browser.waitUntilElementClickable(closeButton).click();
     }
 
-    public HtmlPage clickDocumentName(String documentName, HtmlPage page)
+    public void clickDocumentName(String documentName)
     {
         browser.waitUntilElementIsVisibleWithRetry(By.xpath("//div[@class='alf-livesearch-item']//a[text()='" + documentName + "']"), 4);
         browser.findElement(By.xpath("//div[@class='alf-livesearch-item']//a[text()='" + documentName + "']")).click();
-        return page.renderedPage();
     }
 
     public void clickSiteName(String siteName)

@@ -28,7 +28,7 @@ public class MyFilesDownloadTests extends ContextAwareWebTest
     private MyFilesPage myFilesPage;
     //@Autowired
     private SiteDashboardPage sitePage;
-    @Autowired
+    //@Autowired
     private NewFolderDialog newContentDialog;
    // @Autowired
     private UploadContent uploadContent;

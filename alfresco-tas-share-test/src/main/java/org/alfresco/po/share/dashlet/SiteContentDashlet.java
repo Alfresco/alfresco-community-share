@@ -38,7 +38,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     private final By emptyMessage = By.cssSelector("div[id$='default-documents'] .empty");
     protected String documentRow = "//div[starts-with(@class, 'dashlet docsummary')]//a[text()='%s']/../../../..";
 
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @Override

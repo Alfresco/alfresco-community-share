@@ -37,10 +37,10 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
    // @Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
+    //@Autowired
     NewFolderDialog newContentDialog;
 
     //@Autowired

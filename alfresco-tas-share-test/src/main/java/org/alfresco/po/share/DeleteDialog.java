@@ -40,7 +40,7 @@ public class DeleteDialog extends ShareDialog2
         return getBrowser().findElement(message).getText();
     }
 
-    public DeleteDialog assertConfirmDeleteMessageEqualsTo(String deletedObject)
+    public DeleteDialog assertConfirmDeleteMessageForContentEqualsTo(String deletedObject)
     {
         LOG.info("Assert confirm delete message is correct for content {}", deletedObject);
         assertEquals(getElementText(message), String.format(language.translate("confirmDeletion.message"), deletedObject),
@@ -48,9 +48,16 @@ public class DeleteDialog extends ShareDialog2
         return this;
     }
 
-    public DeleteDialog assertConfirmDeleteMessageEqualsTo(ContentModel deletedContent)
+    public DeleteDialog assertConfirmDeleteMessageForContentEqualsTo(ContentModel deletedContent)
     {
-        return assertConfirmDeleteMessageEqualsTo(deletedContent.getName());
+        return assertConfirmDeleteMessageForContentEqualsTo(deletedContent.getName());
+    }
+
+    public DeleteDialog assertConfirmDeleteMessageEqualsTo(String expectedMessage)
+    {
+        LOG.info("Assert confirm delete message equals with expected {}", expectedMessage);
+        assertEquals(getElementText(message), expectedMessage, String.format("Delete confirm message not equals to %s", expectedMessage));
+        return this;
     }
 
     public void clickDelete()

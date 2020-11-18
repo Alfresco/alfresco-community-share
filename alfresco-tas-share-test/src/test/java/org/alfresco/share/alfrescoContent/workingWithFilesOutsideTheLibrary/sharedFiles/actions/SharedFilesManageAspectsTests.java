@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 {
 
-    @Autowired
+    //@Autowired
     private AspectsForm aspectsForm;
 
     //@Autowired

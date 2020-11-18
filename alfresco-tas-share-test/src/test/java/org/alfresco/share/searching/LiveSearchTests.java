@@ -34,7 +34,7 @@ public class LiveSearchTests extends ContextAwareWebTest
     DocumentLibraryPage documentLibraryPage;
     //@Autowired
     UserDashboardPage userDashboardPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     //@Autowired
     UserProfilePage userProfilePage;
@@ -148,7 +148,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         toolbar.searchInToolbar(docName);
-        liveSearchPage.clickDocumentName(docName, documentDetailsPage);
+        liveSearchPage.clickDocumentName(docName);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Document Details", "User is not redirected to the document details page");
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, docName + " is not displayed on the Document Details page");
         cleanupAuthenticatedSession();

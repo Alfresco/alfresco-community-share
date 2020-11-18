@@ -4,17 +4,13 @@ import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 9/2/2016.
- */
 public class DeletingContentTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
@@ -48,7 +44,7 @@ public class DeletingContentTests extends ContextAwareWebTest
             .usingContent(fileToDelete)
             .clickDelete()
             .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteDocument"))
-            .assertConfirmDeleteMessageEqualsTo(fileToDelete)
+            .assertConfirmDeleteMessageForContentEqualsTo(fileToDelete)
             .clickDelete();
         documentLibraryPage.usingContent(fileToDelete).assertContentIsNotDisplayed();
     }
@@ -62,12 +58,12 @@ public class DeletingContentTests extends ContextAwareWebTest
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
         cmisApi.usingSite(testSite).createFolder(folderToDelete)
-                .usingResource(folderToDelete).createFolder(subFolder).createFile(subFile);
+            .usingResource(folderToDelete).createFolder(subFolder).createFile(subFile);
         documentLibraryPage.navigate(testSite)
             .usingContent(folderToDelete)
             .clickDelete()
             .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteFolder"))
-            .assertConfirmDeleteMessageEqualsTo(folderToDelete)
+            .assertConfirmDeleteMessageForContentEqualsTo(folderToDelete)
             .clickDelete();
 
         documentLibraryPage.usingContent(folderToDelete).assertContentIsNotDisplayed();
@@ -84,8 +80,8 @@ public class DeletingContentTests extends ContextAwareWebTest
         cmisApi.usingSite(testSite).createFolder(folderToCancel);
 
         documentLibraryPage.navigate(testSite)
-                .usingContent(folderToCancel)
-                .clickDelete().clickCancel();
+            .usingContent(folderToCancel)
+            .clickDelete().clickCancel();
         documentLibraryPage.usingContent(folderToCancel).assertContentIsDisplayed();
     }
 }

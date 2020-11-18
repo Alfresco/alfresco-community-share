@@ -8,9 +8,6 @@ import org.openqa.selenium.WebElement;
 
 public class SiteUsersPage extends SiteMembersPage
 {
-    private UserProfilePage userProfilePage;
-    private AddSiteUsersPage addSiteUsersPage;
-
     private By addUsers = By.cssSelector("a[id*='invitePeople']");
     private By searchBox = By.cssSelector(".search-term");
     private String removeButton = "//button[contains(text(),'Remove')]";
@@ -20,8 +17,6 @@ public class SiteUsersPage extends SiteMembersPage
     public SiteUsersPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        userProfilePage = new UserProfilePage(browser);
-        addSiteUsersPage = new AddSiteUsersPage(browser);
     }
 
     @Override
@@ -33,7 +28,7 @@ public class SiteUsersPage extends SiteMembersPage
     public AddSiteUsersPage goToAddUsersPage()
     {
         getBrowser().findElement(addUsers).click();
-        return (AddSiteUsersPage) addSiteUsersPage.renderedPage();
+        return (AddSiteUsersPage) new AddSiteUsersPage(browser).renderedPage();
     }
 
     public void clickSearch()
@@ -72,6 +67,6 @@ public class SiteUsersPage extends SiteMembersPage
     public UserProfilePage clickUser(String userName)
     {
         getBrowser().findFirstDisplayedElement(By.xpath("//td//a[normalize-space(text())='" + userName + "']")).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
+        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
     }
 }

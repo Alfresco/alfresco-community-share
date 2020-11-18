@@ -40,7 +40,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     private SocialFeatures social;
     //@Autowired
     private LoginPage loginPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetails;
     @Autowired
     private EnvProperties envProperties;

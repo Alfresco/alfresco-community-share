@@ -36,7 +36,7 @@ public class UploadTests extends ContextAwareWebTest
     private final String doc3 = "Doc-C13756-" + random;
    // @Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private UploadContent uploadContent;

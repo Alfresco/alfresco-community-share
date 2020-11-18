@@ -1,71 +1,54 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import static org.alfresco.common.Utils.clearAndType;
-
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 
-/**
- * Created by Mirela Tifui on 11/28/2016.
- */
-@PageObject
-public class CreateModelDialogPage extends ShareDialog
+public class CreateModelDialogPage extends ShareDialog2
 {
     @RenderWebElement
-    @FindBy (xpath = "//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='namespace']")
-    private WebElement namespaceField;
-
-    @FindBy (xpath = "//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='prefix']")
-    private WebElement prefixField;
-
+    private By namespaceField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='namespace']");
+    private By prefixField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='prefix']");
     @RenderWebElement
-    @FindBy (xpath = "//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='name']")
-    private WebElement nameField;
+    private By nameField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='name']");
+    private By creatorField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='author']");
+    private By descriptionField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//textarea[@name='description']");
+    private By createButton = By.cssSelector("span[widgetid='CMM_CREATE_MODEL_DIALOG_OK']>span");
 
-    @FindBy (xpath = "//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='author']")
-    private WebElement creatorField;
-
-    @FindBy (xpath = "//div[@id='CMM_CREATE_MODEL_DIALOG']//textarea[@name='description']")
-    private WebElement descriptionField;
-
-    @FindBy (css = "span[widgetid='CMM_CREATE_MODEL_DIALOG_OK']>span")
-    private WebElement createButton;
-
-    @Autowired
-    private ModelManagerPage modelManagerPage;
+    public CreateModelDialogPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public void sendNamespaceText(String namespace)
     {
-        browser.waitUntilElementVisible(namespaceField);
+        getBrowser().waitUntilElementVisible(namespaceField);
         clearAndType(namespaceField, namespace);
     }
 
     public void sendPrefixText(String prefix)
     {
-        browser.waitUntilElementVisible(prefixField);
+        getBrowser().waitUntilElementVisible(prefixField);
         clearAndType(prefixField, prefix);
     }
 
     public void sendNameText(String name)
     {
-        browser.waitUntilElementVisible(nameField);
+        getBrowser().waitUntilElementVisible(nameField);
         clearAndType(nameField, name);
     }
 
     public void sendCreatorText(String creator)
     {
-        browser.waitUntilElementVisible(creatorField);
+        getBrowser().waitUntilElementVisible(creatorField);
         clearAndType(creatorField, creator);
     }
 
     public void sendDescription(String description)
     {
-        browser.waitUntilElementVisible(descriptionField);
+        getBrowser().waitUntilElementVisible(descriptionField);
         clearAndType(descriptionField, description);
     }
 
@@ -73,6 +56,6 @@ public class CreateModelDialogPage extends ShareDialog
     {
         getBrowser().waitUntilElementVisible(createButton);
         getBrowser().waitUntilElementClickable(createButton).click();
-        return (ModelManagerPage) modelManagerPage.renderedPage();
+        return (ModelManagerPage) new ModelManagerPage(browser).renderedPage();
     }
 }

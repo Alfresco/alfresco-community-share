@@ -35,9 +35,9 @@ public class CreateTagTests extends ContextAwareWebTest
     private final String folderTag = "tagC10210-" + random;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)

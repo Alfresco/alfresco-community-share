@@ -19,10 +19,6 @@ import static org.testng.Assert.assertTrue;
 
 public class UsersPage extends AdminToolsPage
 {
-    private CreateUserPage createUsers;
-    private UploadUserResultsPage uploadUserResultsPage;
-    private UserProfileAdminToolsPage userProfileAdminToolsPage;
-
     @RenderWebElement
     private By newUserButton = By.cssSelector("button[id$='_default-newuser-button-button']");
     @RenderWebElement
@@ -39,9 +35,6 @@ public class UsersPage extends AdminToolsPage
     public UsersPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        createUsers = new CreateUserPage(browser);
-        uploadUserResultsPage = new UploadUserResultsPage(browser);
-        userProfileAdminToolsPage = new UserProfileAdminToolsPage(browser);
     }
 
     @Override
@@ -57,7 +50,7 @@ public class UsersPage extends AdminToolsPage
         getBrowser().waitUntilElementVisible(newUserElement);
         getBrowser().mouseOver(newUserElement);
         newUserElement.click();
-        return (CreateUserPage) createUsers.renderedPage();
+        return (CreateUserPage) new CreateUserPage(browser).renderedPage();
     }
 
     public UsersPage searchUserWithRetry(String user)
@@ -109,7 +102,7 @@ public class UsersPage extends AdminToolsPage
 
     public UsersPage assertSuccessfullyCreatedNewUserNotificationIsDisplayed()
     {
-        assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.users.createUserNotification"),
+        assertEquals(notificationMessageThread.get(), language.translate("adminTools.users.createUserNotification"),
             "Create user notification is displayed");
         return this;
     }
@@ -165,13 +158,14 @@ public class UsersPage extends AdminToolsPage
         getBrowser().findElement(uploadUsersButton).click();
         getBrowser().waitUntilElementVisible(fileInput).sendKeys(filePath);
         getBrowser().findElement(uploadButton).click();
-        return (UploadUserResultsPage) uploadUserResultsPage.renderedPage();
+
+        return (UploadUserResultsPage) new UploadUserResultsPage(browser).renderedPage();
     }
 
     public UsersPage assertDeleteUserNotificationIsDisplayed()
     {
         LOG.info("Assert delete user notification is displayed");
-        assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.user.deleteUser.notification"));
+        assertEquals(notificationMessageThread.get(), language.translate("adminTools.user.deleteUser.notification"));
         return this;
     }
 
@@ -190,6 +184,7 @@ public class UsersPage extends AdminToolsPage
         expectedTableHeaders.add(language.translate("adminTools.user.table.deleted"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.action"));
         assertTrue(tableHeaders.containsAll(expectedTableHeaders), "All table headers are displayed");
+
         return this;
     }
 
@@ -260,7 +255,7 @@ public class UsersPage extends AdminToolsPage
         public UserProfileAdminToolsPage selectUserFullName()
         {
             getUserRow().findElement(userFullName).click();
-            return (UserProfileAdminToolsPage) userProfileAdminToolsPage.renderedPage();
+            return (UserProfileAdminToolsPage) new UserProfileAdminToolsPage(browser).renderedPage();
         }
 
         public UserRowAction assertUserDeleteIconIsDisplayed()

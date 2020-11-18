@@ -38,11 +38,11 @@ public class CreateTests extends ContextAwareWebTest
     private final String docContent = "googleDoccontent";
     //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+   // @Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private CreateContentPage createContent;
-    @Autowired
+    //@Autowired
     private NewFolderDialog createFolderFromTemplate;
     @Autowired
     private GoogleDocsCommon googleDocs;

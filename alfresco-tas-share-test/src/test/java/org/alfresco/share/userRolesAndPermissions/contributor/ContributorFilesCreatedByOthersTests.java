@@ -36,9 +36,9 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     UploadContent uploadContent;
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     CreateContentPage create;
    // @Autowired
     EditInAlfrescoPage editInAlfresco;

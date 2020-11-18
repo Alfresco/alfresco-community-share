@@ -41,9 +41,9 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
     //@Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+   // @Autowired
     private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)

@@ -1,34 +1,27 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-/**
- * Created by Mirela Tifui on 12/9/2016.
- */
-@PageObject
-public class DeleteUserDialogPage extends ShareDialog
+public class DeleteUserDialogPage extends ShareDialog2
 {
     @RenderWebElement
-    @FindBy (id = "deleteDialog_c")
-    private WebElement deleteUserWindow;
-
-    @FindBy (css = "div[id='deleteDialog_c'] div.yui-u")
-    private WebElement deleteUserText;
-
+    private By deleteUserWindow = By.id("deleteDialog_c");
+    private By deleteUserText = By.cssSelector("div[id='deleteDialog_c'] div.yui-u");
     @RenderWebElement
-    @FindBy (css = "#yui-gen0 button")
-    private WebElement deleteUserButton;
+    private By deleteUserButton = By.cssSelector("#yui-gen0 button");
+
+    public DeleteUserDialogPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public DeleteUserDialogPage assertDeleteUserDialogIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(deleteUserWindow), "Delete user dialog is displayed");
+        Assert.assertTrue(getBrowser().isElementDisplayed(deleteUserWindow), "Delete user dialog is displayed");
         return this;
     }
 
@@ -40,7 +33,7 @@ public class DeleteUserDialogPage extends ShareDialog
 
     public DeleteUserDialogPage assertDeleteUserDialogTextIsCorrect()
     {
-        Assert.assertEquals(deleteUserText.getText(), language.translate("deleteUser.dialog"));
+        Assert.assertEquals(getElementText(deleteUserText), language.translate("deleteUser.dialog"));
         return this;
     }
 }

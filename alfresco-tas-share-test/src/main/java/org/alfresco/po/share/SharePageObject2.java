@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -34,7 +32,7 @@ public abstract class SharePageObject2
     public static final int WAIT_30 = 30;
     public static final int WAIT_60 = 60;
     public static final int DEFAULT_RETRY = 3;
-    public static String LAST_MODIFICATION_MESSAGE = "";
+    public static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
     public static final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
 
     public static TasProperties tasProperties;
@@ -59,18 +57,18 @@ public abstract class SharePageObject2
         return browser.get();
     }
 
-    public String waitUntilNotificationMessageDisappears()
+    public ThreadLocal<String>  waitUntilNotificationMessageDisappears()
     {
         try
         {
-            LAST_MODIFICATION_MESSAGE = getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText();
+            notificationMessageThread.set(getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText());
             getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
         }
         catch (TimeoutException exception)
         {
             LOG.info("Failed to get notification message {}", exception.getMessage());
         }
-        return LAST_MODIFICATION_MESSAGE;
+        return notificationMessageThread;
     }
 
     public void clearAndType(WebElement webElement, String value)

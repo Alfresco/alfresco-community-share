@@ -1,44 +1,38 @@
 package org.alfresco.share.adminTools.modelManager;
 
+import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.rest.model.RestCustomTypeModel;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ModelManagerTests extends ContextAwareWebTest
+import static org.testng.Assert.assertTrue;
+
+public class ModelManagerTests extends BaseShareWebTests
 {
-    @Autowired
     private ModelManagerPage modelManagerPage;
-
-    @Autowired
-    private DocumentLibraryPage2 documentLibraryPage;
-
-    @Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @Autowired
-    private ChangeContentTypeDialog changeContentTypeDialog;
+    private UserService userService;
 
     private UserModel user;
     private SiteModel site;
     private FileModel file;
 
-    private String name, nameSpace, prefix;
-    private List<CustomContentModel> modelsToRemove = new ArrayList<>();
+    private static List<CustomContentModel> modelsToRemove = Collections.synchronizedList(new ArrayList<>());
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -49,7 +43,15 @@ public class ModelManagerTests extends ContextAwareWebTest
         cmisApi.authenticateUser(user).usingSite(site).createFile(file).assertThat().existsInRepo();
 
         restApi.authenticateUser(getAdminUser());
-        setupAuthenticatedSession(adminUser, adminPassword);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void precondition()
+    {
+        modelManagerPage = new ModelManagerPage(browser);
+        documentDetailsPage = new DocumentDetailsPage(browser);
+
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @AfterClass (alwaysRun = true)
@@ -87,9 +89,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createModel()
     {
-        name = String.format("C42565Name-%s", RandomData.getRandomAlphanumeric());
-        nameSpace = String.format("C42565Namespace-%s", RandomData.getRandomAlphanumeric());
-        prefix = String.format("C42565-%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42565Name-%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C42565Namespace-%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C42565-%s", RandomData.getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, nameSpace, prefix);
         modelsToRemove.add(newModel);
 
@@ -110,7 +112,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void activateModel()
     {
-        name = String.format("C9516Model-%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9516Model-%s", RandomData.getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, name, name);
         modelManagerPage.navigate();
         modelsToRemove.add(newModel);
@@ -127,7 +129,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editModel()
     {
-        name = String.format("C9517-%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9517-%s", RandomData.getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, name, name);
         restApi.withPrivateAPI().usingCustomModel().createCustomModel(newModel);
 
@@ -161,7 +163,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteModel()
     {
-        name = String.format("C9518testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9518testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelToDelete = new CustomContentModel(name, name, name);
         restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToDelete);
 
@@ -180,7 +182,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deactivateModel()
     {
-        name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelToDeactivate = new CustomContentModel(name, name, name);
         modelsToRemove.add(modelToDeactivate);
         restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToDeactivate);
@@ -196,7 +198,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void exportModel()
     {
-        name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelToExport = new CustomContentModel(name, name, name);
         restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToExport);
         modelsToRemove.add(modelToExport);
@@ -204,7 +206,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToExport)
             .clickActions().exportModel();
-        Assert.assertTrue(isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
+        assertTrue(isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
     }
 
     @TestRail (id = "C9509, C9511")
@@ -212,7 +214,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void importModel()
     {
         String filePath = testDataFolder + "C9509TestModelName.zip";
-        name = "C9509TestModelName";
+        String name = "C9509TestModelName";
         CustomContentModel importedModel = new CustomContentModel(name, name, name);
         modelsToRemove.add(importedModel);
 
@@ -235,7 +237,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createCustomType()
     {
-        name = String.format("C42566testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42566testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelForCustomType = new CustomContentModel(name, name, name);
         RestCustomTypeModel newCustomType = new RestCustomTypeModel("TestCustomTypeName", "cm:content", "CustomTypeLabel");
         modelsToRemove.add(modelForCustomType);
@@ -264,7 +266,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createAspect()
     {
-        name = String.format("C42567testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42567testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelForAspect = new CustomContentModel(name, name, name);
         CustomAspectModel newAspect = new CustomAspectModel("TestAspectName", "aspectNameLabel");
         modelsToRemove.add(modelForAspect);
@@ -291,7 +293,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String[] defaultProperties = {"Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"};
         String[] modelProperties = {"Title", "Modifier", "Creator"};
         String filePath = testDataFolder + "Marketing_content.zip";
-        name = "Marketing_content";
+        String name = "Marketing_content";
         CustomContentModel importedModel = new CustomContentModel(name, name, name);
         modelsToRemove.add(importedModel);
 
@@ -303,12 +305,12 @@ public class ModelManagerTests extends ContextAwareWebTest
             .clickActions().activateModel();
 
         setupAuthenticatedSession(user);
-        documentLibraryPage.navigate(site)
-            .usingContent(file).selectFile().assertPropertiesAreDisplayed(defaultProperties)
-                .clickDocumentActionsOption("Change Type", changeContentTypeDialog);
+        documentDetailsPage.navigate(file)
+            .assertPropertiesAreDisplayed(defaultProperties)
+            .clickChangeType()
+                .selectOption("Marketing content (MKT:Marketing)")
+                .clickOkButton();
 
-        changeContentTypeDialog.selectOption("Marketing content (MKT:Marketing)");
-        changeContentTypeDialog.clickButton("OK");
         documentDetailsPage.assertPropertiesAreDisplayed(modelProperties);
     }
 }

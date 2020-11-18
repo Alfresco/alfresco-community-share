@@ -26,7 +26,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)

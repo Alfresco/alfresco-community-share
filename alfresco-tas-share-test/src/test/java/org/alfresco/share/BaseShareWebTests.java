@@ -4,6 +4,7 @@ import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
+import org.alfresco.common.WebBrowserConfig;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
@@ -11,6 +12,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.TasProperties;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
@@ -19,20 +21,22 @@ import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.browser.WebBrowser;
-import org.alfresco.utility.web.browser.WebBrowserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+
+import static org.testng.Assert.assertTrue;
 
 @ContextConfiguration(classes = ShareTestContext.class)
 public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
@@ -54,7 +58,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     public EnvProperties properties;
 
     @Autowired
-    private WebBrowserFactory browserFactory;
+    private WebBrowserConfig browserConfig;
 
     @Autowired
     public DataSite dataSite;
@@ -83,9 +87,9 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     protected Toolbar toolbar;
 
     @BeforeMethod(alwaysRun = true)
-    public void setupBrowser() throws Exception
+    public void beforeEachTest()
     {
-        browser.set(browserFactory.getWebBrowser());
+        browser.set(browserConfig.getWebBrowser());
 
         loginPage = new LoginPage(browser);
         userDashboardPage = new UserDashboardPage(browser);
@@ -152,16 +156,12 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
 
     public void cleanupAuthenticatedSession()
     {
-        dataUser.logout();
         getBrowser().cleanUpAuthenticatedSession();
     }
 
     public void removeUserFromAlfresco(UserModel... users)
     {
-        Arrays.stream(users).forEach(user ->
-        {
-            dataUser.usingAdmin().deleteUser(user);
-        });
+        Arrays.stream(users).forEach(user -> dataUser.usingAdmin().deleteUser(user));
     }
 
     public void deleteSites(SiteModel... sites)
@@ -171,6 +171,25 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
 
     public void assertCurrentUrlContains(String value)
     {
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains(value), String.format("%s is displayed in current url", value));
+        assertTrue(getBrowser().getCurrentUrl().contains(value), String.format("%s is displayed in current url", value));
     }
+
+    public boolean isFileInDirectory(String fileName, String extension)
+    {
+        int retry = 0;
+        int seconds = 10;
+        if (extension != null)
+        {
+            fileName = fileName + extension;
+        }
+        File filePath = new File(testDataFolder + File.separator + fileName);
+        filePath.deleteOnExit();
+        while (retry <= seconds && !filePath.exists())
+        {
+            retry++;
+            Utility.waitToLoopTime(1, String.format("Wait for '%s' to get downloaded", fileName));
+        }
+        return filePath.exists();
+    }
+
 }

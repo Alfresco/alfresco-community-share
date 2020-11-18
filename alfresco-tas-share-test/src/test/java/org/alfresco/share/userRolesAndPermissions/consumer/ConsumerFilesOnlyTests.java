@@ -34,7 +34,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
     //@Autowired
@@ -43,7 +43,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     @Autowired
     GoogleDocsCommon googleDocsCommon;
 
-    @Autowired
+    //@Autowired
     CreateContentPage createContent;
 
    // @Autowired

@@ -32,20 +32,14 @@ public class NodeBrowserTests extends BaseShareWebTests
     }
 
     @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    public void dataPrep()
     {
         site = dataSite.usingAdmin().createPublicRandomSite();
         file = FileModel.getRandomFileModel(FileType.XML, content);
 
-        cmisApi.authenticateUser(dataUser.getAdminUser()).usingSite(site)
-            .createFile(file);
+        cmisApi.authenticateUser(dataUser.getAdminUser())
+            .usingSite(site).createFile(file);
         cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void afterClass()
-    {
-        dataSite.usingAdmin().deleteSite(site);
     }
 
     @TestRail (id = "C9309")
@@ -152,5 +146,11 @@ public class NodeBrowserTests extends BaseShareWebTests
             .clickSearch()
             .assertNoItemsFoundIsDisplayed()
             .assertNoItemsFoundLabelIsCorrect();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void afterClass()
+    {
+        dataSite.usingAdmin().deleteSite(site);
     }
 }

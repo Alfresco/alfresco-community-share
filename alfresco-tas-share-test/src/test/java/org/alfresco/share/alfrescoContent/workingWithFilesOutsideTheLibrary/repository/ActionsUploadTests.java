@@ -29,7 +29,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
     private RepositoryPage repositoryPage;
     //@Autowired
     private UploadContent uploadContent;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     private String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
     private String testFilePath = testDataFolder + testFile;

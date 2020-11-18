@@ -1,84 +1,49 @@
 package org.alfresco.po.share.TinyMce;
 
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.SharePageObject2;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-/**
- * Created by Alex Argint
- */
-@PageObject
-public class TinyMceEditor extends HtmlPage
+public class TinyMceEditor extends SharePageObject2
 {
-
     public String FRAME_ID = "";
     public String TINYMCE_CONTENT = "body[id$='tinymce']";
-
-    // private static final String XPATH_COLOUR_FONT = "//font";
     public String BoldContent = "//body[@id='tinymce']//p//strong";
-    @FindBy (css = "div[aria-label^='Text'] button[class$='mce-open']")
-    public WebElement CSS_STR_FORE_COLOUR;
-    @FindBy (css = "iframe[id*='configDialog-text_ifr']")
-    private WebElement iFrame;
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
-    @FindBy (css = "div[aria-label*='Background'] button span")
-    private WebElement CSS_COLOUR_FONT2;
-    @FindBy (css = "i.mce-i-removeformat")
-    private WebElement CSS_REMOVE_FORMAT;
-    @FindBy (css = "rich.txt.editor.color.code")
-    private WebElement CSS_COLOR_ATT;
-    @FindBy (css = "i[class$='mce-i-bold']")
-    private WebElement CSS_STR_BOLD;
-    @FindBy (css = "i[class$='mce-i-italic']")
-    private WebElement CSS_STR_ITALIC;
-    @FindBy (css = "i[class$='mce-i-underline']")
-    private WebElement CSS_STR_UNDER_LINED;
-    @FindBy (css = "i[class$='mce-i-bullist']")
-    private WebElement CSS_STR_BULLETS;
-    @FindBy (css = "i[class$='mce-i-numlist']")
-    private WebElement CSS_STR_NUMBERS;
-    @FindBy (css = "#tinymce>p>b")
-    private WebElement CSS_STR_BOLD_FMT_TXT;
-    @FindBy (css = "#tinymce>p>i")
-    private WebElement CSS_STR_ITALIC_FMT_TXT;
-    @FindBy (css = "#tinymce>p>u")
-    private WebElement CSS_STR_UNDER_LINED_FMT_TXT;
-    @FindBy (css = "#tinymce>ul>li")
-    private WebElement CSS_STR_BULLET_FMT_TXT;
-    @FindBy (css = "#tinymce>ol>li")
-    private WebElement CSS_STR_NUMBER_FMT_TXT;
-    @FindBy (css = "#tinymce>p")
-    private WebElement CSS_STR_TEXT_TAG;
-    @FindBy (css = "#tinymce>p>font")
-    private WebElement CSS_COLOR_FONT;
 
-    @FindBy (css = "button[id$='mce_43-open']")
-    private WebElement CSS_EDIT;
-
-    @FindBy (css = "button[id$='mce_46-open']")
-    private WebElement CSS_FORMAT;
-
-    @FindBy (css = "i[class$='mce-i-undo']")
-    private WebElement CSS_UNDO;
-
-    //    private static final String CSS_UNDO  = ".//form[contains(@id, 'default-add-form')]//i[contains(@class, 'mce-i-undo')]";
-
-    @FindBy (css = "i[class$='mce-i-redo']")
-    private WebElement CSS_REDO;
-
-    @FindBy (css = "#tinymce>ul>li")
-    private WebElement CSS_BULLET_TEXT;
-
-    @FindBy (css = "DIV[class='comments-list']>DIV[class='comment-form'] i[class$='mce-i-bold']")
-    private WebElement CSS_BOLD_EDIT;
-
-    @FindBy (css = "div[aria-label*='Background'] button[class='mce-open']")
-    private WebElement CSS_STR_BACK_GROUND_COLOUR;
+    public By CSS_STR_FORE_COLOUR = By.cssSelector("div[aria-label^='Text'] button[class$='mce-open']");
+    private By iFrame = By.cssSelector("iframe[id*='content_ifr']");
+    private By CSS_COLOUR_FONT2 = By.cssSelector("div[aria-label*='Background'] button span");
+    private By CSS_REMOVE_FORMAT = By.cssSelector("i.mce-i-removeformat");
+    private By CSS_COLOR_ATT = By.cssSelector("rich.txt.editor.color.code");
+    private By CSS_STR_BOLD = By.cssSelector("i[class$='mce-i-bold']");
+    private By CSS_STR_ITALIC = By.cssSelector("i[class$='mce-i-italic']");
+    private By CSS_STR_UNDER_LINED = By.cssSelector("i[class$='mce-i-underline']");
+    private By CSS_STR_BULLETS = By.cssSelector("i[class$='mce-i-bullist']");
+    private By CSS_STR_NUMBERS = By.cssSelector("i[class$='mce-i-numlist']");
+    private By CSS_STR_BOLD_FMT_TXT = By.cssSelector("#tinymce>p>b");
+    private By CSS_STR_ITALIC_FMT_TXT = By.cssSelector("#tinymce>p>i");
+    private By CSS_STR_UNDER_LINED_FMT_TXT = By.cssSelector("#tinymce>p>u");
+    private By CSS_STR_BULLET_FMT_TXT = By.cssSelector("#tinymce>ul>li");
+    private By CSS_STR_NUMBER_FMT_TXT = By.cssSelector("#tinymce>ol>li");
+    private By CSS_STR_TEXT_TAG = By.cssSelector("#tinymce>p");
+    private By CSS_COLOR_FONT = By.cssSelector("#tinymce>p>font");
+    private By CSS_EDIT = By.cssSelector("button[id$='mce_43-open']");
+    private By CSS_FORMAT = By.cssSelector("button[id$='mce_46-open']");
+    private By CSS_UNDO = By.cssSelector("i[class$='mce-i-undo']");
+    private By CSS_REDO = By.cssSelector("i[class$='mce-i-redo']");
+    private By CSS_BULLET_TEXT = By.cssSelector("#tinymce>ul>li");
+    private By CSS_BOLD_EDIT = By.cssSelector("DIV[class='comments-list']>DIV[class='comment-form'] i[class$='mce-i-bold']");
+    private By CSS_STR_BACK_GROUND_COLOUR = By.cssSelector("div[aria-label*='Background'] button[class='mce-open']");
     private String frameId = null;
     private FormatType formatType;
+
+    public TinyMceEditor(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     public String getFrameId()
     {
@@ -96,7 +61,7 @@ public class TinyMceEditor extends HtmlPage
         this.formatType = formatType;
     }
 
-    public WebElement textElements()
+    public By textElements()
     {
         switch (formatType)
         {
@@ -132,7 +97,7 @@ public class TinyMceEditor extends HtmlPage
         }
     }
 
-    public WebElement getCSSOfText(FormatType formatType)
+    public By getCSSOfText(FormatType formatType)
     {
         switch (formatType)
         {
@@ -160,90 +125,65 @@ public class TinyMceEditor extends HtmlPage
         setFrameId(frameId);
     }
 
-    /**
-     * @param txt
-     */
     public void addContent(String txt)
     {
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", txt);
-            browser.executeJavaScript(setCommentJs);
+            getBrowser().executeJavaScript(setCommentJs);
         } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error("Element : " + txt + " is not present", noSuchElementExp);
         }
     }
 
-    /**
-     * Click on TinyMCE editor's format option.
-     */
     public void clickTextFormatter(FormatType formatType)
     {
         setFormatType(formatType);
         selectTextFromEditor();
-        clickElementOnRichTextFormatter(textElements());
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
     }
 
-    /**
-     * Click to select color code on text.
-     */
     public void clickColorCode(TinyMceColourCode colourCode)
     {
         selectTextFromEditor();
         setFormatType(FormatType.COLOR);
-        clickElementOnRichTextFormatter(textElements());
-        WebElement colour = browser.findElement(By.cssSelector(colourCode.getForeColourLocator()));
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
+        WebElement colour = getBrowser().findElement(By.cssSelector(colourCode.getForeColourLocator()));
         clickElementOnRichTextFormatter(colour);
     }
 
-    /**
-     * Click to select color code on text.
-     */
     public void clickBackgroundColorCode(TinyMceColourCode bgColourCode)
     {
         selectTextFromEditor();
         setFormatType(FormatType.BACK_GROUND_COLOR);
-        clickElementOnRichTextFormatter(textElements());
-        WebElement bgColour = browser.findElement(By.cssSelector(bgColourCode.getBgColourLocator()));
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
+        WebElement bgColour = getBrowser().findElement(By.cssSelector(bgColourCode.getBgColourLocator()));
         clickElementOnRichTextFormatter(bgColour);
     }
 
-    /**
-     * b
-     * click to undo to default format.
-     */
     public void clickUndo()
     {
         setFormatType(FormatType.UNDO);
-        clickElementOnRichTextFormatter(textElements());
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
     }
 
-    /**
-     * click to edit button
-     */
     public void clickEdit()
     {
         setFormatType(FormatType.EDIT);
-        clickElementOnRichTextFormatter(textElements());
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
     }
 
-    /**
-     * click to format button
-     */
     public void clickFormat()
     {
         setFormatType(FormatType.FORMAT);
-        clickElementOnRichTextFormatter(textElements());
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
     }
 
-    /**
-     * Click to Redo the undo operation.
-     */
     public void clickRedo()
     {
         setFormatType(FormatType.REDO);
-        clickElementOnRichTextFormatter(textElements());
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
     }
 
     /**
@@ -253,7 +193,7 @@ public class TinyMceEditor extends HtmlPage
     {
         try
         {
-            CSS_REMOVE_FORMAT.click();
+            getBrowser().findElement(CSS_REMOVE_FORMAT).click();
         }
         catch (NoSuchElementException noSuchElementExp)
         {
@@ -265,20 +205,17 @@ public class TinyMceEditor extends HtmlPage
     {
         // This select all in the edit pane
         /**
-         * @author Michael Suzuki Changed to use tinymce directly as its faster to edit with tinymce object instead of using the ui. The script below will
-         *         select every thing inside the editing pane.
+         * @author Michael Suzuki Changed to use tinymce directly as its faster to edit with tinymce object instead of using the ui.
+         * The script below will select every thing inside the editing pane.
          */
-        browser.executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
+        getBrowser().executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
     }
 
-    /**
-     * @param element
-     */
     protected void clickElementOnRichTextFormatter(WebElement element)
     {
         try
         {
-            browser.switchToDefaultContent();
+            getBrowser().switchToDefaultContent();
             element.click();
 
         } catch (NoSuchElementException noSuchElementExp)
@@ -291,26 +228,21 @@ public class TinyMceEditor extends HtmlPage
     {
         try
         {
-            browser.switchToFrame(getFrameId());
-            String text = browser.findElement(By.cssSelector(TINYMCE_CONTENT)).getText();
-            browser.switchToDefaultContent();
+            getBrowser().switchToFrame(getFrameId());
+            String text = getBrowser().findElement(By.cssSelector(TINYMCE_CONTENT)).getText();
+            getBrowser().switchToDefaultContent();
             return text;
-        } catch (NoSuchElementException noSuchElementExp)
+        }
+        catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error("Element : does not exist", noSuchElementExp);
             return "";
         }
     }
 
-    /**
-     * This method sets the given text into Site Content Configure text editor.
-     *
-     * @param text
-     */
-
     public void setText(String text)
     {
-        browser.clickJS(iFrame);
+        getBrowser().clickJS(getBrowser().findElement(iFrame));
 
         if (text == null)
         {
@@ -318,31 +250,22 @@ public class TinyMceEditor extends HtmlPage
         }
 
         String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-        browser.executeJavaScript(setCommentJs);
+        getBrowser().executeJavaScript(setCommentJs);
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
-        browser.executeJavaScript(setCommentJs);
+        getBrowser().executeJavaScript(setCommentJs);
     }
 
-    /**
-     * Click on TinyMCE editor's format option.
-     *
-     * @param formatType
-     */
     public void clickTextFormatterWithOutSelectingText(FormatType formatType)
     {
         setFormatType(formatType);
-        clickElementOnRichTextFormatter(textElements());
+        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
     }
 
-    /**
-     * This method does the removing of text/image/links and format from the tinymce editor.
-     */
+
     public void clearAll()
     {
-
         String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-        browser.executeJavaScript(setCommentJs);
-
+        getBrowser().executeJavaScript(setCommentJs);
     }
 
     public enum FormatType

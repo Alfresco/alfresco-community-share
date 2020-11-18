@@ -39,9 +39,9 @@ public class CategorizingContent extends ContextAwareWebTest
     private final String category2 = "Regions";
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
     @Autowired
     private ContentAspects contentAspect;

@@ -28,15 +28,15 @@ public class RepositoryTests extends ContextAwareWebTest
     private final String folderName2 = "folderNameSite2";
     private final String fileContent = "test content";
     private final String siteName2 = "2SecondTestSite" + RandomData.getRandomAlphanumeric();
-    @Autowired
+    //@Autowired
     CreateContentPage create;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
     GoogleDocsCommon googleDocs;
    // @Autowired
     private UserDashboardPage userDashboardPage;
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
 
     @BeforeClass (alwaysRun = true)

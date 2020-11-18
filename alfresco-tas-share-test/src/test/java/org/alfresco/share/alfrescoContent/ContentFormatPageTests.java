@@ -22,11 +22,11 @@ public class ContentFormatPageTests extends ContextAwareWebTest
 {
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
     CommentPage commentPage;
-    @Autowired
+    //@Autowired
     TinyMceEditor commentBox;
 
     private String userName = "user" + RandomData.getRandomAlphanumeric();

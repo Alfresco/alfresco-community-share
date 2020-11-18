@@ -44,7 +44,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     private DocumentLibraryPage documentLibraryPage;
     //@Autowired
     private ManageRulesPage manageRulesPage;
-    @Autowired
+    //@Autowired
     private NewFolderDialog newContentDialog;
 
     @BeforeClass (alwaysRun = true)

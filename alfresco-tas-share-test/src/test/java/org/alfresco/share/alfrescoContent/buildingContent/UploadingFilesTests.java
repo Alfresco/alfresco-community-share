@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 public class UploadingFilesTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;

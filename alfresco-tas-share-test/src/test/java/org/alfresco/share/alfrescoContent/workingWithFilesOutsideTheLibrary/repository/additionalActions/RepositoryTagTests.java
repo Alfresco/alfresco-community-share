@@ -36,11 +36,11 @@ public class RepositoryTagTests extends ContextAwareWebTest
     private final String tagC8267 = String.format("tag-C8267%s", RandomData.getRandomAlphanumeric());
     private final String tagC8278 = String.format("tag-C8278%s", RandomData.getRandomAlphanumeric());
     private final String tagC8290 = String.format("tag-C8290%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)

@@ -44,19 +44,19 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     DocumentLibraryPage documentLibraryPage;
     //@Autowired
     SocialFeatures socialFeatures;
-    @Autowired
+    //@Autowired
     EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     SelectDialog selectDialog;
     @Autowired
     CopyMoveUnzipToDialog copyMoveToDialog;
     //@Autowired
     ManagePermissionsPage managePermissionsPage;
-    @Autowired
+    //@Autowired
     AspectsForm aspectsForm;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+   // @Autowired
     ChangeContentTypeDialog changeContentTypeDialog;
     //@Autowired
     EditPropertiesPage editPropertiesPage;
@@ -393,7 +393,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step3: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("Smart Folder Template");
 
-        changeContentTypeDialog.clickButton("OK");
+        changeContentTypeDialog.clickOkButton();
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name", "Locale", "Version Label", "Modifier",

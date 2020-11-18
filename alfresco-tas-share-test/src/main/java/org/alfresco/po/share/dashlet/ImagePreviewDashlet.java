@@ -15,7 +15,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 {
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @RenderWebElement

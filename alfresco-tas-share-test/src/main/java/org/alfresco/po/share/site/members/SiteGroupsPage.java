@@ -10,8 +10,6 @@ import java.util.List;
 
 public class SiteGroupsPage extends SiteMembersPage
 {
-    private AddSiteGroupsPage addSiteGroupsPage;
-
     private By addGroups = By.cssSelector("a[id*='addGroups']");
     @RenderWebElement
     private By searchGroupField = By.cssSelector("input[class*='search-term']");
@@ -31,7 +29,6 @@ public class SiteGroupsPage extends SiteMembersPage
     public SiteGroupsPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        addSiteGroupsPage = new AddSiteGroupsPage(browser);
     }
 
     @Override
@@ -43,7 +40,7 @@ public class SiteGroupsPage extends SiteMembersPage
     public AddSiteGroupsPage addGroup()
     {
         getBrowser().findElement(addGroups).click();
-        return (AddSiteGroupsPage) addSiteGroupsPage.renderedPage();
+        return (AddSiteGroupsPage) new AddSiteGroupsPage(browser).renderedPage();
     }
 
     public void typeSearchGroup(String searchGroup)

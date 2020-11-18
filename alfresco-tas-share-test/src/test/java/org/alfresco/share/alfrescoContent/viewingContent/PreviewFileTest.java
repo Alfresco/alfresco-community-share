@@ -27,7 +27,7 @@ public class PreviewFileTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final String docName = "MultiPageDocument.docx";
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;

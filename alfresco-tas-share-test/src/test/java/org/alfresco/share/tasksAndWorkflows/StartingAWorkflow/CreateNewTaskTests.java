@@ -46,7 +46,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
     //@Autowired

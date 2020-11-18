@@ -28,7 +28,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
     private final String docContent = "content of the file.";
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private BecomeContentOwnerDialog becomeContentOwnerDialog;

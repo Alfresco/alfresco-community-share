@@ -55,7 +55,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     @Autowired
     MyTasksDashlet myTasksDashlet;
 
-    @Autowired
+    //@Autowired
     UserTrashcanPage userTrashcanPage;
 
     @Autowired

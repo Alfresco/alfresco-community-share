@@ -33,7 +33,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
     //@Autowired
     EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
     private String userName = String.format("0_0C202757User%s", RandomData.getRandomAlphanumeric());

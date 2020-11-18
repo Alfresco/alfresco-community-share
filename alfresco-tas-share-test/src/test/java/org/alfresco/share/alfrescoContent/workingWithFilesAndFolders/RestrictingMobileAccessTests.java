@@ -22,10 +22,10 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
+    //@Autowired
     private AspectsForm aspectsForm;
 
     //@Autowired

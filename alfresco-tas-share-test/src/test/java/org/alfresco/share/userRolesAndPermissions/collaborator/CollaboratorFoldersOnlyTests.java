@@ -42,7 +42,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     private DocumentsFilters documentsFilters;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private NewFolderDialog newFolderDialog;
     //@Autowired
     private ManageRulesPage manageRulesPage;

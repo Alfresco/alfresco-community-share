@@ -29,9 +29,9 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     private MyFilesPage myFilesPage;
     //@Autowired
     private SiteDashboardPage sitePage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private NewFolderDialog newContentDialog;
     //@Autowired
     private UploadContent uploadContent;

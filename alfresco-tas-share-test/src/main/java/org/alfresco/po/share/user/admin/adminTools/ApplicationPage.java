@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 public class ApplicationPage extends AdminToolsPage
 {
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
@@ -31,12 +34,9 @@ public class ApplicationPage extends AdminToolsPage
     private By uploadButton = By.cssSelector("form[id*=admin-console] button[id*=upload-button-button]");
     private String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
 
-    private final UploadFileDialog uploadDialog;
-
     public ApplicationPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        this.uploadDialog = new UploadFileDialog(browser);
     }
 
     @Override
@@ -48,13 +48,20 @@ public class ApplicationPage extends AdminToolsPage
     public UploadFileDialog clickUpload()
     {
         getBrowser().waitUntilElementVisible(uploadButton).click();
-        return (UploadFileDialog) uploadDialog.renderedPage();
+        return (UploadFileDialog) new UploadFileDialog(browser).renderedPage();
     }
 
     public ApplicationPage clickApply()
     {
         getBrowser().waitUntilElementClickable(applyButton).click();
         return (ApplicationPage) this.renderedPage();
+    }
+
+    public ApplicationPage assertDefaultAlfrescoImageIsNotDisplayed()
+    {
+        LOG.info("Assert default Alfresco image is not displayed");
+        assertFalse(getBrowser().isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is displayed");
+        return this;
     }
 
     public ApplicationPage uploadImage()
@@ -64,9 +71,17 @@ public class ApplicationPage extends AdminToolsPage
         return clickApply();
     }
 
+    public ApplicationPage assertDefaultAlfrescoImageIsDisplayed()
+    {
+        LOG.info("Assert default Alfresco image is displayed");
+        getBrowser().waitUntilElementVisible(defaultAlfrescoImage);
+        assertTrue(getBrowser().isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is not displayed");
+        return this;
+    }
+
     public boolean isAlfrescoDefaultImageDisplayed()
     {
-        return  getBrowser().isElementDisplayed(defaultAlfrescoImage);
+        return getBrowser().isElementDisplayed(defaultAlfrescoImage);
     }
 
     public ApplicationPage resetImageToDefault()
@@ -79,7 +94,7 @@ public class ApplicationPage extends AdminToolsPage
 
     public ApplicationPage selectTheme(Theme theme)
     {
-        Select themeOptions = new Select(getBrowser().findElement(themeDropdown));
+        Select themeOptions = new Select(getBrowser().waitUntilElementVisible(themeDropdown));
         themeOptions.selectByValue(theme.getSelectValue());
         clickApply();
         getBrowser().waitUntilElementVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
@@ -103,13 +118,13 @@ public class ApplicationPage extends AdminToolsPage
 
     public ApplicationPage assertThemeOptionIsSelected(Theme theme)
     {
-        Assert.assertTrue(isThemeOptionSelected(theme), "Theme is selected");
+        assertTrue(isThemeOptionSelected(theme), "Theme is selected");
         return this;
     }
 
     public ApplicationPage assertBodyContainsTheme(Theme theme)
     {
-        Assert.assertTrue(doesBodyContainTheme(theme), "New theme is applied");
+        assertTrue(doesBodyContainTheme(theme), "New theme is applied");
         return this;
     }
 

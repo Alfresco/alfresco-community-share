@@ -30,13 +30,13 @@ public class ActionsCreateTests extends ContextAwareWebTest
     private final String docContent = "C8159 template content";
     private final String pathFolderTemplate = "Data Dictionary/Space Templates";
     private final String folderName = String.format("C8158%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private CreateContentPage create;
-    @Autowired
+    //@Autowired
     private RepositoryPage repository;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private NewFolderDialog createFolderFromTemplate;
 
     @BeforeClass (alwaysRun = true)

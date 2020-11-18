@@ -42,7 +42,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     private final String userName2 = "user2-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
-    @Autowired
+   // @Autowired
     NewFolderDialog newContentDialog;
     //@Autowired
     AddSiteUsersPage addSiteUsersPage;

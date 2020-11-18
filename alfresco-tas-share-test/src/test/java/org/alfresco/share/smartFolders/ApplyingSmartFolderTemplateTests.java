@@ -31,7 +31,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     AspectsForm aspectsForm;
 
     @Autowired
@@ -40,7 +40,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     //@Autowired
     EditPropertiesPage editPropertiesPage;
 
-    @Autowired
+   // @Autowired
     NewFolderDialog newContentDialog;
 
     //@Autowired
@@ -52,7 +52,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     //@Autowired
     RepositoryPage repositoryPage;
 
-    @Autowired
+    //@Autowired
     SelectDialog selectDialog;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());

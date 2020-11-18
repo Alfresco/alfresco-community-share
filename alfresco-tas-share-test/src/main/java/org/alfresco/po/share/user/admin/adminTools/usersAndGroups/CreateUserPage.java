@@ -232,7 +232,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertPasswordDoesntMatchNotificationIsDisplayed()
     {
-        assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.user.passwordMatchNotification"),
+        assertEquals(notificationMessageThread.get(), language.translate("adminTools.user.passwordMatchNotification"),
             "Password doesn't match notification is displayed");
         return this;
     }

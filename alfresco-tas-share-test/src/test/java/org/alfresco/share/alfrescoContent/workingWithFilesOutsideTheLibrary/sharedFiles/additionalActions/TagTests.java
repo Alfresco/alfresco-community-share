@@ -50,7 +50,7 @@ public class TagTests extends ContextAwareWebTest
     private SharedFilesPage sharedFilesPage;
     @Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+   //@Autowired
     private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)

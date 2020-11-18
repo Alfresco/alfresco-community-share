@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class SocialFeatures extends DocumentLibraryPage
 {
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     public By facebookHomeLink = By.id("homelink");

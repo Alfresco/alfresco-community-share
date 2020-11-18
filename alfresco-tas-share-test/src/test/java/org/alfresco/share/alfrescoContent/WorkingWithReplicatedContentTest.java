@@ -44,7 +44,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
     private DocumentLibraryPage documentLibraryPage;
     //@Autowired
     private SiteDashboardPage siteDashboardPage;
-    @Autowired
+    //@Autowired
     private NewFolderDialog newContentDialog;
     //@Autowired
     private AdminToolsPage adminToolsPage;

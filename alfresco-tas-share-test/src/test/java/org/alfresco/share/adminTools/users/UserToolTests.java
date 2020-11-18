@@ -1,26 +1,24 @@
 package org.alfresco.share.adminTools.users;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserToolTests extends ContextAwareWebTest
+public class UserToolTests extends BaseShareWebTests
 {
-    //@Autowired
     UsersPage usersPage;
 
-    @BeforeClass(alwaysRun = true)
-    public void authenticate()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
+        usersPage = new UsersPage(browser);
         setupAuthenticatedSession(getAdminUser());
     }
-
 
     @TestRail (id = "C9392")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })

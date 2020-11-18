@@ -54,19 +54,18 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     }
 
     @Override
-    public String waitUntilNotificationMessageDisappears()
+    public ThreadLocal<String> waitUntilNotificationMessageDisappears()
     {
-        String message = "";
         try
         {
-            message = getBrowser().waitUntilElementVisible(notificationMessage, 5).getText();
+            notificationMessageThread.set(getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText());
             getBrowser().waitUntilElementDisappears(notificationMessage);
         }
         catch (TimeoutException exception)
         {
             // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
         }
-        return message;
+        return notificationMessageThread;
     }
 
     public SearchManagerPage assertSearchManagerPageIsOpened()

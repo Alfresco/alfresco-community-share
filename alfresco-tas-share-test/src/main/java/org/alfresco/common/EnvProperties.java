@@ -97,6 +97,9 @@ public class EnvProperties
     @Value("${aims.enabled}")
     private boolean aimsEnabled;
 
+    @Value("${browser.headless}")
+    private boolean browserHeadless;
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
     {
@@ -300,6 +303,10 @@ public class EnvProperties
         return aimsEnabled;
     }
 
+    public boolean isBrowserHeadless()
+    {
+        return browserHeadless;
+    }
 }
 
 

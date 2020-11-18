@@ -26,14 +26,11 @@ public class ApplicationTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addAndResetNewLogo()
     {
-        LOG.info("Step 1: Upload a new logo image in the 'Application' page.");
-        applicationPage.uploadImage();
-        LOG.info("Step 2: Verify the new logo image was uploaded successfully.");
-        Assert.assertFalse(applicationPage.isAlfrescoDefaultImageDisplayed(), "Alfresco default image is displayed!");
-        LOG.info("Step 3: Reset the new image to the default one.");
-        applicationPage.resetImageToDefault();
-        LOG.info("Step 4: Verify the new image was removed successfully.");
-        Assert.assertTrue(applicationPage.isAlfrescoDefaultImageDisplayed(), "Alfresco default image is not displayed!");
+        applicationPage.uploadImage()
+            .assertDefaultAlfrescoImageIsNotDisplayed()
+            .resetImageToDefault()
+            .clickApply()
+            .assertDefaultAlfrescoImageIsDisplayed();
     }
 
     @TestRail (id = "C9281")
@@ -48,6 +45,7 @@ public class ApplicationTests extends BaseShareWebTests
         }
         finally
         {
+            applicationPage.navigate();
             applicationPage.selectTheme(Theme.LIGHT);
         }
     }

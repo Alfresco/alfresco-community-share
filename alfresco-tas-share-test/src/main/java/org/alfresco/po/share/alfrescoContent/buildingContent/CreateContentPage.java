@@ -1,130 +1,112 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.SharePageObject2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.testng.Assert.assertTrue;
 
-@PageObject
-public class CreateContentPage extends SharePage<CreateContentPage>
+public class CreateContentPage extends SharePage2<CreateContentPage>
 {
-    @Autowired
-    private TinyMceEditor tinyMceEditor;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
     @RenderWebElement
-    @FindBy (css = "div[id*='_default-form-fields']")
-    private WebElement createForm;
-
+    private By createForm = By.cssSelector("div[id*='_default-form-fields']");
     @RenderWebElement
-    @FindBy (css = "input[name='prop_cm_name']")
-    private WebElement nameField;
-
-    @FindBy (css = "textarea[name='prop_cm_content']")
-    private WebElement contentField;
-
-    @FindBy (css = "input[name='prop_cm_title']")
-    private WebElement titleField;
-
-    @FindBy (css = "textarea[name='prop_cm_description']")
-    private WebElement descriptionField;
-
-    @FindBy (css = "label[for$='default_prop_cm_name'] .mandatory-indicator")
-    private WebElement nameInputIsMandatoryMarker;
-
+    private By nameField = By.cssSelector("input[name='prop_cm_name']");
+    private By contentField = By.cssSelector("textarea[name='prop_cm_content']");
+    private By titleField = By.cssSelector("input[name='prop_cm_title']");
+    private By descriptionField = By.cssSelector("textarea[name='prop_cm_description']");
+    private By nameInputIsMandatoryMarker = By.cssSelector("label[for$='default_prop_cm_name'] .mandatory-indicator");
     @RenderWebElement
-    @FindBy (css = "button[id$='submit-button']")
-    private WebElement submitButton;
+    private By submitButton = By.cssSelector("button[id$='submit-button']");
+    private By cancelButton = By.cssSelector("button[id*='form-cancel-button']");
+    private By htmlContentField = By.cssSelector("div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe");
 
-    @FindBy (css = "button[id*='form-cancel-button']")
-    private WebElement cancelButton;
-
-    @FindBy (css = "div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe")
-    private WebElement htmlContentField;
+    public CreateContentPage(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
 
     @Override
     public String getRelativePath()
     {
-        return "";
+        return null;
     }
 
     public CreateContentPage assertCreateContentPageIsOpened()
     {
         LOG.info("Assert Content page is opened");
-        assertTrue(browser.getCurrentUrl().contains("create-content"), "Create content page is not opened");
+        assertTrue(getBrowser().getCurrentUrl().contains("create-content"), "Create content page is not opened");
         return this;
     }
 
     public CreateContentPage assertNameInputHasMandatoryMarker()
     {
         LOG.info("Assert Name input has mandatory marker");
-        assertTrue(browser.isElementDisplayed(nameInputIsMandatoryMarker), "Name input is not mandatory");
+        assertTrue(getBrowser().isElementDisplayed(nameInputIsMandatoryMarker), "Name input is not mandatory");
         return this;
     }
 
     public CreateContentPage assertCreateButtonIsDisplayed()
     {
         LOG.info("Assert Create button is displayed");
-        assertTrue(browser.isElementDisplayed(submitButton), "Create button is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(submitButton), "Create button is not displayed");
         return this;
     }
 
     public CreateContentPage assertCancelButtonIsDisplayed()
     {
         LOG.info("Assert Cancel button is displayed");
-        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
 
     public CreateContentPage typeName(String name)
     {
-        Utils.clearAndType(nameField, name);
+        clearAndType(nameField, name);
         return this;
     }
 
     public CreateContentPage typeTitle(String title)
     {
-        Utils.clearAndType(titleField, title);
+        clearAndType(titleField, title);
         return this;
     }
 
     public CreateContentPage typeContent(String content)
     {
-        Utils.clearAndType(contentField, content);
+        clearAndType(contentField, content);
         return this;
     }
 
     public CreateContentPage typeDescription(String description)
     {
-        Utils.clearAndType(descriptionField, description);
+        clearAndType(descriptionField, description);
         return this;
     }
 
     public DocumentDetailsPage clickCreate()
     {
-        submitButton.click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+        getBrowser().findElement(submitButton).click();
+        return (DocumentDetailsPage) new DocumentDetailsPage(browser).renderedPage();
     }
 
     public void clickCancel()
     {
-        cancelButton.click();
+        getBrowser().findElement(cancelButton).click();
     }
 
     public CreateContentPage sendInputForHTMLContent(String inputHTMLContent)
     {
         LOG.info("Send input for HTML file types");
+        TinyMceEditor tinyMceEditor = new TinyMceEditor(browser);
         tinyMceEditor.setText(inputHTMLContent);
-        browser.focusOnWebElement(nameField);
+        getBrowser().focusOnWebElement(getBrowser().findElement(nameField));
         return this;
     }
 }

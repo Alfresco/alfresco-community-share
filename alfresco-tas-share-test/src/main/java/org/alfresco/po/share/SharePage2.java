@@ -97,7 +97,7 @@ public abstract class SharePage2<T> extends SharePageObject2
     public T assertLastNotificationMessageEquals(String expectedMessage)
     {
         LOG.info("Assert last notification message is: {}", expectedMessage);
-        assertEquals(LAST_MODIFICATION_MESSAGE, expectedMessage, "Last notification message is not correct");
+        assertEquals(notificationMessageThread.get(), expectedMessage, "Last notification message is not correct");
         return (T) renderedPage();
     }
 

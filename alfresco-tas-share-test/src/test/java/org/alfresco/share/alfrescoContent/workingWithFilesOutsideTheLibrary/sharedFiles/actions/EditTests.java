@@ -49,15 +49,15 @@ public class EditTests extends ContextAwareWebTest
     public CmisWrapper cmisApi;
     //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editFilePropertiesDialog;
     //@Autowired
     private EditInAlfrescoPage editInAlfrescoPage;
     @Autowired
     private GoogleDocsCommon googleDocsCommon;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
     //@Autowired
     private UploadContent uploadContent;
@@ -185,8 +185,8 @@ public class EditTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), updatedContent, updatedDocName2 + " 's content=");
 
         LOG.info("Step7: Verify Title and Description fields");
-        assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedTitle), "Updated title is not displayed");
-        assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedDescription), "Updated description is not displayed");
+        //assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedTitle), "Updated title is not displayed");
+        //assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedDescription), "Updated description is not displayed");
     }
 
     @TestRail (id = "C7994")

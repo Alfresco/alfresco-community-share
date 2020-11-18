@@ -33,7 +33,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     private final String fileName1 = "fileC7410";
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private CopyMoveUnzipToDialog unzipToDialog;

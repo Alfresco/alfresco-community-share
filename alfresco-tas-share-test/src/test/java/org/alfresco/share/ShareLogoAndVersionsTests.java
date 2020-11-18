@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 public class ShareLogoAndVersionsTests extends BaseShareWebTests
 {
     @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    public void beforeTest()
     {
         setupAuthenticatedSession(getAdminUser());
     }

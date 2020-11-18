@@ -25,11 +25,11 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     private final String zipContent = "testFile1";
     private final String acpFile = "archiveC8257.acp";
     private final String acpContent = "fileC8257";
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
     @Autowired
     private CopyMoveUnzipToDialog unzipToDialog;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)

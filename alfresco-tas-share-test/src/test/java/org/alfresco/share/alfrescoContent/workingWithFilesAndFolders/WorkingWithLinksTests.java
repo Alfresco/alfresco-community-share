@@ -65,7 +65,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
     //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private GoogleDocsCommon googleDocsCommon;

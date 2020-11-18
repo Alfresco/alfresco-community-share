@@ -1,17 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Table;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @PageObject
 public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
@@ -30,24 +27,11 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     @FindBy (css = "button[id$='default-resultSize-button']")
     private WebElement filterButton;
 
-    @FindAll (@FindBy (css = "div.sitesearch div.bd ul.first-of-type li a"))
-    private List<WebElement> dropDownFilterList;
-
-    @FindBy (css = "div[id$='_default-search-results'] table")
-    private Table resultsTable;
-
-    @FindBy (css = "span[id$='_default-resultSize'] button")
-    private WebElement setSizeButton;
-
     @FindBy (css = "div.sitesearch .yui-dt-empty>div")
-    private WebElement noResults;
+    private WebElement noResultsMessage;
 
-    private By filterOption = By.cssSelector("div.sitesearch div.bd ul.first-of-type li a");
-
-    private WebElement selectSize(String size)
-    {
-        return browser.findElement(By.xpath("//div[contains(@class, 'yui-menu-button-menu visible')]//a[text()='" + size + "']"));
-    }
+    private final By filterOption = By.cssSelector("div.sitesearch div.bd ul.first-of-type li a");
+    private final String siteSearchRow = "//h3[@class='itemname']//a[normalize-space()='%s']";
 
     @Override
     public String getDashletTitle()
@@ -55,82 +39,71 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    public SiteSearchDashlet assertSearchFieldIsDisplayed()
-    {
-        Assert.assertTrue(browser.isElementDisplayed(searchField), "Search field is displayed");
-        return this;
-    }
-
-    public SiteSearchDashlet assertSearchButtonIsDisplayed()
-    {
-        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
-        return this;
-    }
-
-    public SiteSearchDashlet assertSearchResultDropdownIsDisplayed()
-    {
-        Assert.assertTrue(browser.isElementDisplayed(filterButton), "Search filter is displayed");
-        return this;
-    }
-
     private List<String> getDropDownValues()
     {
-        filterButton.click();
         List<WebElement> options = browser.waitUntilElementsVisible(filterOption);
         return options.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public SiteSearchDashlet assertAllLimitValuesAreDisplayed()
+    public SiteSearchDashlet assertDropdownValuesEqual(List<String> dropDownValues)
     {
-        Assert.assertTrue(getDropDownValues().equals(Arrays.asList(new String[]{"10", "25", "50", "100"})), "All limits are found");
+        LOG.info("Assert dropdown values equal: {}", dropDownValues);
+        assertEquals(getDropDownValues(), dropDownValues,
+            String.format("Drop down values not equal %s ", dropDownValues));
+
         return this;
     }
 
     public SiteSearchDashlet clickSearchButton()
     {
+        LOG.info("Click Search button");
         searchButton.click();
+        return this;
+    }
+
+    public SiteSearchDashlet clickFileLinkName(String fileLinkName)
+    {
+        LOG.info("Click file link name: {}", fileLinkName);
+        browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(siteSearchRow, fileLinkName)), WAIT_1, RETRY_TIMES);
+        browser.scrollToElement(browser.findElement(By.xpath(String.format(siteSearchRow, fileLinkName))));
+        browser.findElement(By.xpath(String.format(siteSearchRow, fileLinkName))).click();
+
         return this;
     }
 
     public SiteSearchDashlet typeInSearch(String inputText)
     {
+        LOG.info("Type in search field: {}", inputText);
         searchField.clear();
         searchField.sendKeys(inputText);
         return this;
     }
 
-    public boolean isResultDisplayed(String resultName)
+    public SiteSearchDashlet assertReturnedSearchResultEquals(String expectedSearchResult)
     {
-        String results = resultsTable.getRowsAsString().toString();
-        return results.contains(resultName);
-    }
+        LOG.info("Assert returned search results equals: {}", expectedSearchResult);
+        browser.waitWithRetryAndReturnWebElement(
+            By.xpath(String.format(siteSearchRow, expectedSearchResult)), WAIT_1, RETRY_TIMES);
+        assertEquals(
+            browser.findElement(By.xpath(String.format(siteSearchRow, expectedSearchResult)))
+                .getText(), expectedSearchResult, String.format("Returned search result not equals %s ", expectedSearchResult));
 
-    public SiteSearchDashlet assertNoResultsIsDisplayed()
-    {
-        browser.waitUntilElementVisible(noResults);
-        Assert.assertTrue(browser.isElementDisplayed(noResults), "No results is displayed");
-        Assert.assertEquals(noResults.getText(), language.translate("siteSearchDashlet.noResults"));
         return this;
     }
 
-    public void setSize(String sizeToSet)
+    public SiteSearchDashlet assertNoResultsFoundMessageEquals(String expectedSearchMessage)
     {
-        browser.mouseOver(setSizeButton);
-        setSizeButton.click();
-        getBrowser().waitUntilElementVisible(By.cssSelector("div[class*='yui-menu-button-menu visible']"));
-        selectSize(sizeToSet).click();
-        this.renderedPage();
+        LOG.info("Assert no results found message equals: {}", expectedSearchMessage);
+        browser.waitUntilElementVisible(noResultsMessage);
+        assertEquals(noResultsMessage.getText(), expectedSearchMessage,
+            String.format("No results found message not equals %s ", expectedSearchMessage));
+
+        return this;
     }
 
-    public boolean isSearchLimitSetTo(String sizeLimit)
-    {
-        return setSizeButton.getText().contains(sizeLimit);
-    }
-
-    public int getResultsNumber()
-    {
-        int allResults = resultsTable.getRowsAsString().size();
-        int actualResultsNumber = allResults - 1;
-        return actualResultsNumber;
+    public SiteSearchDashlet openSearchFilterDropdown() {
+        LOG.info("Open search filter dropdown");
+        filterButton.click();
+        return this;
     }
 }

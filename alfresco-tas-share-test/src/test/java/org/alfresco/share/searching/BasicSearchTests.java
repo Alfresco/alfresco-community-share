@@ -42,7 +42,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
     @Autowired

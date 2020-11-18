@@ -32,7 +32,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
     //@Autowired
     EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
     //@Autowired
