@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.wiki;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -87,17 +89,13 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
         return (EditWikiPage) editWikiPage.renderedPage();
     }
 
-    /**
-     * This method is used to get wiki page content
-     *
-     * @return wiki page content
-     */
-
-    public String getWikiPageContent()
+    public WikiMainPage assertWikiPageContentEquals(String expectedWikiContent)
     {
+        LOG.info("Assert wiki page content equals: {}", expectedWikiContent);
+        assertEquals(wikiPageContent.getText(), expectedWikiContent,
+            String.format("Wiki content not equals %s ", expectedWikiContent));
 
-        browser.waitInSeconds(2);
-        return wikiPageContent.getText();
+        return this;
     }
 
     /**
@@ -138,10 +136,14 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
         return renameWikiMainPagePanel.isDisplayed();
     }
 
-    public String getWikiMainPageTitle()
+    public WikiMainPage assertWikiMainPageTitleEquals(String expectedWikiTitle)
     {
+        LOG.info("Assert wiki main page title equals: {}", expectedWikiTitle);
         browser.waitUntilElementVisible(wikiMainPageTtitle);
-        return wikiMainPageTtitle.getText();
+        assertEquals(wikiMainPageTtitle.getText(), expectedWikiTitle,
+            String.format("Wiki main page title not equals %s ", expectedWikiTitle));
+
+        return this;
     }
 
     public void clickOnMainPageLink()

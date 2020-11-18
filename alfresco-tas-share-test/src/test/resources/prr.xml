@@ -29,7 +29,6 @@
          <class name="org.alfresco.share.security.SiteXSSTests"></class>
          <class name="org.alfresco.share.security.WorkflowSecurityTests"></class>
          <class name="org.alfresco.share.site.TestsFromBugs"></class>
-         <class name="org.alfresco.share.site.siteDashboard.SiteWebQuickStartDashletTest"></class>
          <class name="org.alfresco.share.userDashboard.dashlets.ContentImEditingDashletTests"></class>
          <class name="org.alfresco.share.userDashboard.dashlets.MyCalendarDashletTests"></class>
 

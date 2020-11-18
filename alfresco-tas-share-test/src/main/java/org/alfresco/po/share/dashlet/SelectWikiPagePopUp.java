@@ -1,12 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageObject
-public class SelectWikiPagePopUp extends DashletPopUp
+public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
 {
     @FindBy (css = "div[style*='cursor: move']")
     private WebElement selectWikiPage;
@@ -17,15 +19,13 @@ public class SelectWikiPagePopUp extends DashletPopUp
     @FindBy (css = "select[name='wikipage']")
     private WebElement selectAPageDropDown;
 
-    /**
-     * Method to get the Configure dashlet (Edit) PopUp text on Wiki dashlet
-     *
-     * @return the Configure Wiki Dashlet form text displayed.
-     */
-
-    public String getEditPopupText()
+    public SelectWikiPagePopUp assertDialogBodyMessageEquals(String expectedDialogBodyMessage)
     {
-        return selectWikiPageText.getText();
+        LOG.info("Assert dialog body message equals: {}", expectedDialogBodyMessage);
+        assertEquals(selectWikiPageText.getText(), expectedDialogBodyMessage,
+            String.format("Dialog body message not equals %s ", expectedDialogBodyMessage));
+
+        return this;
     }
 
     /**
@@ -46,35 +46,19 @@ public class SelectWikiPagePopUp extends DashletPopUp
         selectAPageDropDown.findElement(By.xpath("option[" + position + "]")).click();
     }
 
-    /**
-     * Method to get the name of the Wiki Page from the Select a Page drop down list.
-     *
-     * @return the Wiki Page name from the Select a Page drop down
-     */
-
-    public String getWikiPageName()
+    public SelectWikiPagePopUp assertDropdownOptionEquals(String expectedDropdownOption)
     {
-        return selectAPageDropDown.getText();
+        LOG.info("Assert dropdown option equals: {}", expectedDropdownOption);
+        assertEquals(selectAPageDropDown.getText(), expectedDropdownOption,
+            String.format("Drop down option not equals %s ", expectedDropdownOption));
 
+        return this;
     }
 
-    /**
-     * Method to click on the droop down list on Select Wiki Page popup.
-     */
-    public void clickDropDownListOnSelectWikiPage()
+    public SelectWikiPagePopUp clickDialogDropdown()
     {
+        LOG.info("Click dialog dropdown");
         selectAPageDropDown.click();
+        return this;
     }
-
-    /**
-     * Method to check that the Select Wiki Page Form is displayed (Configure Dashlet(Edit))
-     *
-     * @return Select Wiki Page form title
-     */
-
-    public String getEditWikiPageFormTitle()
-    {
-        return selectWikiPage.getText();
-    }
-
 }
