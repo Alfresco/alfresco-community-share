@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -13,14 +15,13 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
     @FindBy (css = "div.dashlet.wiki")
     private WebElement dashletContainer;
 
-    private By configureDashlet = By.cssSelector("div.dashlet.wiki [class$='edit']");
-
     @FindBy (css = "div.dashlet.wiki [class$='rich-content dashlet-padding']")
     private WebElement defaultDashletMessage;
 
-    private By wikiDashletTitle = By.cssSelector("div.dashlet.wiki [class$='title']");
-
-    private By wikiDashletText = By.cssSelector("div.dashlet.wiki [class$='body scrollablePanel']");
+    private final By wikiDashletTitle = By.cssSelector("div.dashlet.wiki [class$='title']");
+    private final By configureDashlet = By.cssSelector("div.dashlet.wiki [class$='edit']");
+    private final By wikiDashletText = By.cssSelector("div.dashlet.wiki [class$='body scrollablePanel']");
+    private final String dashletLinkTitleLocator = "//a[contains(text(),'%s')]";
 
     @Override
     protected String getDashletTitle()
@@ -28,57 +29,37 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    /**
-     * Method to verify that configure this dashlet icon is displayed
-     *
-     * @return true if Configure Dashlet icon is displayed on the Wiki dashlet.
-     */
-
-    public boolean isConfigureDashletIconDisplayed()
+    public WikiDashlet assertWikiDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
-        browser.mouseOver(browser.findElement(configureDashlet));
-        return browser.waitUntilElementVisible(configureDashlet).isDisplayed();
+        LOG.info("Assert wiki dashlet empty message equals: {}", expectedEmptyMessage);
+        assertEquals(defaultDashletMessage.getText(), expectedEmptyMessage,
+            String.format("Empty message not equals %s ", expectedEmptyMessage));
+
+        return this;
     }
-
-    /**
-     * Method to get the text displayed on Wiki dashlet
-     */
-
-    public String getWikiMessage()
-    {
-        return defaultDashletMessage.getText();
-    }
-
-    /**
-     * Method to click the Configure dashlet (Edit) icon on Wiki dashlet
-     */
 
     public void clickOnConfigureDashletIcon()
     {
         browser.findElement(configureDashlet).click();
     }
 
-    /**
-     * Method to get the Wiki dashlet title.
-     *
-     * @return the Wiki Dashlet title displayed
-     */
     public String getWikiDashletTitle()
-
     {
-
         return browser.findElement(wikiDashletTitle).getText();
     }
 
-    /**
-     * Method to get the text displayed on the Wiki Dashlet content.
-     *
-     * @return the text displayed on the Wiki dashlet on Site Dashboard.
-     */
-    public String getWikiDashletContentText()
+    public WikiDashlet assertWikiDashletMessageEquals(String expectedWikiDashletMessage)
     {
-
-        return browser.findElement(wikiDashletText).getText();
+        LOG.info("Assert wiki dashlet message equals: {}", expectedWikiDashletMessage);
+        assertEquals(browser.findElement(wikiDashletText).getText(), expectedWikiDashletMessage);
+        return this;
     }
 
+    public WikiDashlet clickDashletLinkTitle(String wikiDashletLinkTitle)
+    {
+        LOG.info("Click dashlet link title: {}", wikiDashletLinkTitle);
+        browser.findElement(By.xpath(String.format(dashletLinkTitleLocator, wikiDashletLinkTitle))).click();
+
+        return this;
+    }
 }

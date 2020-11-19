@@ -169,7 +169,9 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 
     public void clickUnzipButton()
     {
+        LOG.info("Click Unzip To button");
         browser.waitUntilElementClickable(unzipCopyMoveButton).click();
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickCopyToButton()

@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.wiki;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -91,15 +93,13 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
         return (EditWikiPage) editWikiPage.renderedPage();
     }
 
-    /**
-     * This method is used to get wiki page content
-     *
-     * @return wiki page content
-     */
-
-    public String getWikiPageContent()
+    public WikiMainPage assertWikiPageContentEquals(String expectedWikiContent)
     {
-        return wikiPageContent.getText();
+        LOG.info("Assert wiki page content equals: {}", expectedWikiContent);
+        assertEquals(wikiPageContent.getText(), expectedWikiContent,
+            String.format("Wiki content not equals %s ", expectedWikiContent));
+
+        return this;
     }
 
     /**
@@ -107,7 +107,6 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
      *
      * @return create wiki page
      */
-
     public CreateWikiPage clickWikiNewPage()
     {
         newPageButton.click();
@@ -119,7 +118,6 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
      *
      * @return wiki page list page
      */
-
     public WikiListPage clickOnWikiListLink()
     {
         wikiPageListLink.click();
@@ -140,10 +138,15 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
         return renameWikiMainPagePanel.isDisplayed();
     }
 
-    public String getWikiMainPageTitle()
+    public WikiMainPage assertWikiMainPageTitleEquals(String expectedWikiTitle)
     {
+
+        LOG.info("Assert wiki main page title equals: {}", expectedWikiTitle);
         getBrowser().waitUntilElementVisible(wikiMainPageTtitle);
-        return wikiMainPageTtitle.getText();
+        assertEquals(wikiMainPageTtitle.getText(), expectedWikiTitle,
+            String.format("Wiki main page title not equals %s ", expectedWikiTitle));
+        return this;
+
     }
 
     public void clickOnMainPageLink()

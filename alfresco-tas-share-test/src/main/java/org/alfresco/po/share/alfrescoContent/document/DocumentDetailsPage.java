@@ -105,6 +105,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By propertiesList = By.cssSelector(".viewmode-label");
     private final By message = By.cssSelector("span[class='message']");
     private final By changeTypeAction = By.cssSelector("#onActionChangeType > a");
+    private final By unzipToAction = By.id("onActionUnzipTo");
 
     public DocumentDetailsPage(ThreadLocal<WebBrowser> browser)
     {
@@ -706,10 +707,18 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 
+
     public ChangeContentTypeDialog clickChangeType()
     {
         LOG.info("Click Change Type");
         getBrowser().waitUntilElementClickable(changeTypeAction).click();
         return (ChangeContentTypeDialog) new ChangeContentTypeDialog(browser).renderedPage();
+    }
+
+    public CopyMoveUnzipToDialog clickUnzipTo()
+    {
+        LOG.info("Click Unzip To...");
+        getBrowser().waitUntilElementClickable(unzipToAction).click();
+        return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
     }
 }

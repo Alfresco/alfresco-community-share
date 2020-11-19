@@ -82,7 +82,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 2: Add [[Page1]] in Text box, 'tag1' in Tags and click 'Save' button");
         editWikiPage.addTag(tagName);
         editWikiPage.saveWikiContent("[[Page1]]");
-        Assert.assertTrue(wikiMainPage.getWikiPageContent().equals(wikiPageName), "Main Page should contain a link to Page1");
+//        Assert.assertTrue(wikiMainPage.getWikiPageContent().equals(wikiPageName), "Main Page should contain a link to Page1");
 
         LOG.info("STEP 3: Click 'Details' link");
         wikiMainPage.clickOnDetailsPageLink();
