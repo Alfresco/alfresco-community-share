@@ -1,12 +1,10 @@
 package org.alfresco.share.adminTools.users;
 
-import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UploadUserResultsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

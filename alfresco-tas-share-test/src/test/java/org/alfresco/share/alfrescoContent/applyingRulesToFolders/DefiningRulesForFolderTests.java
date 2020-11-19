@@ -56,7 +56,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     private EditRulesPage editRulesPage;
     //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
+    //@Autowired
     private SelectDestinationDialog selectDestinationDialog;
     //@Autowired
     private DeleteDialog deleteDialog;

@@ -1,29 +1,35 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CopyingContentTests extends ContextAwareWebTest
+public class CopyingContentTests extends BaseShareWebTests
 {
-    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
+    private FolderModel sharedFiles = new FolderModel("Shared Files");
 
     private UserModel testUser;
     private SiteModel testSite;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createPublicRandomSite();
         cmisApi.authenticateUser(testUser);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
         setupAuthenticatedSession(testUser);
     }
 
@@ -44,8 +50,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(testSite)
             .usingContent(fileToCopy).clickCopyTo()
             .selectSharedFilesDestination()
+            .selectFolder(sharedFiles)
             .clickCopyToButton();
-
         FileModel copiedFile = new FileModel(fileToCopy.getName());
         copiedFile.setCmisLocation(Utility.buildPath(cmisApi.getSharedPath(), fileToCopy.getName()));
         cmisApi.usingResource(copiedFile).assertThat().existsInRepo()

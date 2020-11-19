@@ -1,18 +1,21 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.apache.commons.io.FilenameUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
 
-public class UnzippingContentTests extends ContextAwareWebTest
+public class UnzippingContentTests extends BaseShareWebTests
 {
+    private DocumentLibraryPage2 documentLibraryPage;
+
     private final String zipFileName = "archiveC7409.zip";
     private final String acpFileName = "archiveC7410.acp";
     private final File zipFile = new File(testDataFolder.concat(zipFileName));
@@ -21,15 +24,18 @@ public class UnzippingContentTests extends ContextAwareWebTest
     private UserModel user;
     private SiteModel site;
 
-    //@Autowired
-    private DocumentLibraryPage2 documentLibraryPage2;
-
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
         cmisApi.authenticateUser(user);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
         setupAuthenticatedSession(user);
     }
 
@@ -46,7 +52,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     {
         FileModel zipFileModel = dataContent.usingUser(user)
             .usingSite(site).uploadDocument(zipFile);
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(zipFileModel)
             .selectFile()
             .clickUnzipTo()
@@ -55,7 +61,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
             .clickUnzipButton();
         FolderModel unzipFolder = new FolderModel(FilenameUtils.getBaseName(zipFileModel.getName()));
         FileModel unzipFileName = new FileModel("fileC7409");
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(unzipFolder).assertContentIsDisplayed()
             .selectFolder()
                 .usingContent(unzipFileName).assertContentIsDisplayed();
@@ -68,7 +74,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
         FileModel acpFileModel = dataContent.usingUser(user)
             .usingSite(site)
             .uploadDocument(acpFile);
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(acpFileModel)
             .selectFile()
             .clickUnzipTo()
@@ -77,7 +83,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
             .clickUnzipButton();
         FolderModel unzipFolder = new FolderModel(FilenameUtils.getBaseName(acpFileModel.getName()));
         FileModel unzipFileName = new FileModel("fileC7410");
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(unzipFolder).assertContentIsDisplayed()
             .selectFolder()
             .usingContent(unzipFileName).assertContentIsDisplayed();
@@ -92,7 +98,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
         FileModel acpFileModel = dataContent.usingUser(user)
             .usingResource(folder)
             .uploadDocument(acpFile);
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(folder).selectFolder()
             .usingContent(acpFileModel)
             .selectFile()
@@ -102,7 +108,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
             .selectFolder(folder)
             .clickCancelButton();
         FolderModel unzipFolder = new FolderModel(FilenameUtils.getBaseName(acpFileModel.getName()));
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(folder).selectFolder()
             .usingContent(unzipFolder).assertContentIsNotDisplayed();
     }

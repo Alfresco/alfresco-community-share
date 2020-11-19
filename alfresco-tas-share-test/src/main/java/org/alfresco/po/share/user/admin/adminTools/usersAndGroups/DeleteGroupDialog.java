@@ -113,7 +113,7 @@ public class DeleteGroupDialog extends ShareDialog2
 
     public GroupsPage clickDelete()
     {
-        getBrowser().findElement(deleteButton).click();
+        getBrowser().waitUntilElementClickable(deleteButton).click();
         return (GroupsPage) groupsPage.renderedPage();
     }
 

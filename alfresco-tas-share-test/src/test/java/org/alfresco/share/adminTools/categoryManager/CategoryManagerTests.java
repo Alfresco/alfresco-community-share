@@ -40,7 +40,6 @@ public class CategoryManagerTests extends BaseShareWebTests
     {
         categoryManagerPage = new CategoryManagerPage(browser);
         setupAuthenticatedSession(dataUser.getAdminUser());
-        categoryManagerPage.navigate();
     }
 
     @AfterClass (alwaysRun = true)
@@ -55,6 +54,7 @@ public class CategoryManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCategoryManagerPage()
     {
+        categoryManagerPage.navigate();
         LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
         asList("Category Root", "Languages", "Regions", "Software Document Classification", "Tags")
             .forEach(defaultCategory ->
@@ -65,6 +65,7 @@ public class CategoryManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addNewCategory()
     {
+        categoryManagerPage.navigate();
         LOG.info("Step 1: Add a new category in the 'Category Manager' page.");
         categoryManagerPage.addCategory(category9295);
 
@@ -76,6 +77,7 @@ public class CategoryManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteCategory()
     {
+        categoryManagerPage.navigate();
         LOG.info("Step 1: Delete the category.");
         userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9301);
         categoryManagerPage.navigate();
@@ -89,6 +91,7 @@ public class CategoryManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
+        categoryManagerPage.navigate();
         userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9298);
         categoryManagerPage.navigate();
         categoryManagerPage.editCategory(category9298, categoryEdited);
@@ -99,6 +102,7 @@ public class CategoryManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void addAndOpenSubCategory()
     {
+        categoryManagerPage.navigate();
         categoryManagerPage.addSubCategory("Languages", subCategoryName);
         assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName),
             String.format("Subcategory %s is not displayed in the list", subCategoryName));

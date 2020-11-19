@@ -245,7 +245,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         return Utility.buildPath(String.format("/Sites/%s/documentLibrary", site.getId()));
     }
 
-
     public void removeUserFromAlfresco(UserModel... users)
     {
         Arrays.stream(users).forEach(user -> {

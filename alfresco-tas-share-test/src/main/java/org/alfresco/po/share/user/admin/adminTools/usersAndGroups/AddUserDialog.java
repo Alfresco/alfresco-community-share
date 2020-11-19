@@ -66,7 +66,7 @@ public class AddUserDialog extends ShareDialog2
         int retry = 0;
         typeAndSearch(userToSearch);
         boolean found = isUserDisplayed(userToSearch);
-        while (retry < 15 && !found)
+        while (retry < WAIT_30 && !found)
         {
             typeAndSearch(userToSearch);
             found = isUserDisplayed(userToSearch);

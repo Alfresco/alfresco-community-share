@@ -41,7 +41,7 @@ public class EditRulesTests extends ContextAwareWebTest
     private EditRulesPage editRulesPage;
     //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
+    //@Autowired
     private SelectDestinationDialog selectDestinationDialog;
     private String folderName, ruleName;
 

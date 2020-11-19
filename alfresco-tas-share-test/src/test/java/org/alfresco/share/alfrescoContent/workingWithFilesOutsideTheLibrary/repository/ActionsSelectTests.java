@@ -28,7 +28,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
     private RepositoryPage repositoryPage;
     //@Autowired
     private HeaderMenuBar menuBar;
-    @Autowired
+   // @Autowired
     private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
     @BeforeClass (alwaysRun = true)

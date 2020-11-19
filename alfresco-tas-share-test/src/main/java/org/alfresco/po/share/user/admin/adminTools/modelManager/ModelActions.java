@@ -72,7 +72,7 @@ public class ModelActions
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, 1, modelManagerPage.WAIT_5);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, 1, modelManagerPage.WAIT_10);
         return getBrowser().findElement(modelRowLocator);
     }
 
@@ -138,7 +138,9 @@ public class ModelActions
     public ModelActions clickActions()
     {
         LOG.info("Click Actions");
-        getModelRow().findElement(actionsButton).click();
+        WebElement actionButton = getModelRow().findElement(actionsButton);
+        getBrowser().mouseOver(actionButton);
+        getBrowser().waitUntilElementClickable(actionButton).click();
         getBrowser().waitUntilElementsVisible(actions);
         return this;
     }

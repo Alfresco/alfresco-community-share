@@ -26,9 +26,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     public void setupTest()
     {
         nodeBrowserPage = new NodeBrowserPage(browser);
-
         setupAuthenticatedSession(dataUser.getAdminUser());
-        nodeBrowserPage.navigate();
     }
 
     @BeforeClass (alwaysRun = true)
@@ -46,7 +44,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void luceneSearch()
     {
-        LOG.info("Step 1: Do a 'lucene' search.");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
             .searchFor(content)
             .clickSearch()
@@ -58,7 +56,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void nodeRefSearch()
     {
-        LOG.info("Step 1: Do a 'nodeRef' search.");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.NODEREF)
             .searchFor("workspace://SpacesStore/" + file.getNodeRefWithoutVersion())
             .clickSearch()
@@ -73,7 +71,7 @@ public class NodeBrowserTests extends BaseShareWebTests
         String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s",
             site.getId(), file.getName());
 
-        LOG.info("Step 1: Do a 'xpath' search.");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.XPATH)
             .searchFor(xpathSearchTerm)
             .clickSearch()
@@ -85,7 +83,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void ftsAlfrescoSearch()
     {
-        LOG.info("Step 1: Do a 'fts-alfresco' search.");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO)
             .searchFor("cm:name:" + file.getName())
             .clickSearch()
@@ -97,7 +95,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisStrictSearch()
     {
-        LOG.info("Step 1: Do a 'cmis-strict' search.");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_STRICT)
             .searchFor(cmisSearchTerm)
             .clickSearch()
@@ -109,7 +107,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisAlfrescoSearch()
     {
-        LOG.info("Step 1: Do a 'cmis-alfresco' search.");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_ALFRESCO)
             .searchFor(cmisSearchTerm)
             .clickSearch()
@@ -131,7 +129,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS })
     public void executeCustomNodeSearch()
     {
-        LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.STORE_ROOT)
             .clickSearch()
             .assertReferenceContainsValue("workspace://SpacesStore/");
@@ -140,7 +138,7 @@ public class NodeBrowserTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS })
     public void getSearchResultsNoResults()
     {
-        LOG.info("Step 1: Navigate to Node Browser page and perform a search that will not return results");
+        nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
             .searchFor(String.valueOf(System.currentTimeMillis()))
             .clickSearch()

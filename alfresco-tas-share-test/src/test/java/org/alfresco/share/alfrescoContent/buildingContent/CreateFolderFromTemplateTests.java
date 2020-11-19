@@ -1,18 +1,17 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreateFolderFromTemplateTests extends ContextAwareWebTest
+public class CreateFolderFromTemplateTests extends BaseShareWebTests
 {
-    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel testUser;
@@ -20,14 +19,20 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     private FolderModel parentTemplateFolder = new FolderModel("Software Engineering Project");
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-        setupAuthenticatedSession(testUser);
         cmisApi.authenticateUser(testUser);
 
         parentTemplateFolder.setCmisLocation(Utility.buildPath(getDocumentLibraryPath(testSite), parentTemplateFolder.getName()));
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        setupAuthenticatedSession(testUser);
     }
 
     @AfterClass(alwaysRun = true)

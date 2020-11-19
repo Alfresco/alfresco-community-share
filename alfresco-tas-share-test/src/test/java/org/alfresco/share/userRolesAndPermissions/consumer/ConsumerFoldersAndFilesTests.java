@@ -43,7 +43,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     //@Autowired
     SocialFeatures social;
 
-    @Autowired
+    //@Autowired
     CopyMoveUnzipToDialog copyMoveToDialog;
 
     //@Autowired
@@ -182,7 +182,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8770, ItemActions.COPY_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + fileC8770 + " to...", "Displayed pop up");
         LOG.info("STEP3: Set the destination to 'Shared Files'");
-        copyMoveToDialog.clickDestinationButton("Shared Files");
+        copyMoveToDialog.selectSharedFilesDestination();
         LOG.info("STEP4: Click 'Copy' button");
         copyMoveToDialog.clickCopyToButton();
         LOG.info("STEP5: Verify displayed files from Documents");

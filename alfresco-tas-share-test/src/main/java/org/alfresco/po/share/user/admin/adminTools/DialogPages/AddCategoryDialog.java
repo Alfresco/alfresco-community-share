@@ -5,6 +5,7 @@ import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class AddCategoryDialog extends ShareDialog2
 {
@@ -20,8 +21,10 @@ public class AddCategoryDialog extends ShareDialog2
 
     public CategoryManagerPage addCategory(String categoryName)
     {
-        getBrowser().waitUntilElementVisible(addCategoryNameInput).sendKeys(categoryName);
-        getBrowser().waitUntilElementClickable(addCategoryNameOKButton).click();
+        clearAndType(addCategoryNameInput, categoryName);
+        WebElement addButton = getBrowser().waitUntilElementVisible(addCategoryNameOKButton);
+        getBrowser().mouseOver(addButton);
+        getBrowser().waitUntilElementClickable(addButton).click();
         waitUntilNotificationMessageDisappears();
         return (CategoryManagerPage) new CategoryManagerPage(browser).renderedPage();
     }

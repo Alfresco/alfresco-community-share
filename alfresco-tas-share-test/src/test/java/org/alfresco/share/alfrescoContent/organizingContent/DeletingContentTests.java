@@ -1,36 +1,35 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class DeletingContentTests extends ContextAwareWebTest
+public class DeletingContentTests extends BaseShareWebTests
 {
-    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
     private SiteModel testSite;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(user).createPublicRandomSite();
         cmisApi.authenticateUser(user);
-        setupAuthenticatedSession(user);
-        documentLibraryPage.navigate(testSite);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(testSite);
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        setupAuthenticatedSession(user);
     }
 
     @TestRail (id = "C9544")
@@ -83,5 +82,12 @@ public class DeletingContentTests extends ContextAwareWebTest
             .usingContent(folderToCancel)
             .clickDelete().clickCancel();
         documentLibraryPage.usingContent(folderToCancel).assertContentIsDisplayed();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanup()
+    {
+        removeUserFromAlfresco(user);
+        deleteSites(testSite);
     }
 }

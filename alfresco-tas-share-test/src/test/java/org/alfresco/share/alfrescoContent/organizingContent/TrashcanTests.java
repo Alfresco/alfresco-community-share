@@ -1,29 +1,36 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class TrashcanTests extends ContextAwareWebTest
+public class TrashcanTests extends BaseShareWebTests
 {
-    //@Autowired
     private UserTrashcanPage userTrashcanPage;
 
     private UserModel trashUser;
     private SiteModel trashSite;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         trashUser = dataUser.usingAdmin().createRandomTestUser();
         trashSite = dataSite.usingUser(trashUser).createPublicRandomSite();
-
         cmisApi.authenticateUser(trashUser);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        userTrashcanPage = new UserTrashcanPage(browser);
         setupAuthenticatedSession(trashUser);
     }
 

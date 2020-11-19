@@ -1,36 +1,35 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.user.profile.UserTrashcanPage;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class RenamingContentTests extends ContextAwareWebTest
+public class RenamingContentTests extends BaseShareWebTests
 {
-    //@Autowired
-    private DocumentLibraryPage2 documentLibraryPage2;
+    private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
     private SiteModel site;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
         cmisApi.authenticateUser(user);
-        setupAuthenticatedSession(user);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        setupAuthenticatedSession(user);
     }
 
     @TestRail (id = "C7419")
@@ -41,13 +40,13 @@ public class RenamingContentTests extends ContextAwareWebTest
         FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
         cmisApi.usingSite(site).createFile(fileToRename);
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(fileToRename)
             .clickRenameIcon()
             .typeNewName(newFile.getName())
             .clickSave();
-        documentLibraryPage2.usingContent(fileToRename).assertContentIsNotDisplayed();
-        documentLibraryPage2.usingContent(newFile).assertContentIsDisplayed();
+        documentLibraryPage.usingContent(fileToRename).assertContentIsNotDisplayed();
+        documentLibraryPage.usingContent(newFile).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7420")
@@ -58,13 +57,13 @@ public class RenamingContentTests extends ContextAwareWebTest
         FolderModel newFolder = FolderModel.getRandomFolderModel();
         cmisApi.usingSite(site).createFolder(folderToRename);
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(folderToRename)
             .clickRenameIcon()
             .typeNewName(newFolder.getName())
             .clickSave();
-        documentLibraryPage2.usingContent(folderToRename).assertContentIsNotDisplayed();
-        documentLibraryPage2.usingContent(newFolder).assertContentIsDisplayed();
+        documentLibraryPage.usingContent(folderToRename).assertContentIsNotDisplayed();
+        documentLibraryPage.usingContent(newFolder).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7431")
@@ -75,12 +74,19 @@ public class RenamingContentTests extends ContextAwareWebTest
         FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
         cmisApi.usingSite(site).createFile(fileToRename);
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(fileToRename)
             .clickRenameIcon()
             .typeNewName(newFile.getName())
             .clickCancel();
-        documentLibraryPage2.usingContent(fileToRename).assertContentIsDisplayed();
-        documentLibraryPage2.usingContent(newFile).assertContentIsNotDisplayed();
+        documentLibraryPage.usingContent(fileToRename).assertContentIsDisplayed();
+        documentLibraryPage.usingContent(newFile).assertContentIsNotDisplayed();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanup()
+    {
+        removeUserFromAlfresco(user);
+        deleteSites(site);
     }
 }

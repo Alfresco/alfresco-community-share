@@ -2,31 +2,35 @@ package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class RecoveringDeletedContentTests extends ContextAwareWebTest
+public class RecoveringDeletedContentTests extends BaseShareWebTests
 {
-    //@Autowired
     private UserTrashcanPage userTrashcanPage;
-
-    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel trashcanUser;
     private SiteModel trashcanSite;
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         trashcanUser = dataUser.usingAdmin().createRandomTestUser();
         trashcanSite = dataSite.usingUser(trashcanUser).createPublicRandomSite();
         cmisApi.authenticateUser(trashcanUser);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        userTrashcanPage = new UserTrashcanPage(browser);
         setupAuthenticatedSession(trashcanUser);
     }
 

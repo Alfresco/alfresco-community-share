@@ -8,6 +8,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.renderer.Renderer;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -17,9 +18,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public abstract class SharePageObject2
 {
@@ -64,7 +63,7 @@ public abstract class SharePageObject2
             notificationMessageThread.set(getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText());
             getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
         }
-        catch (TimeoutException exception)
+        catch (TimeoutException | StaleElementReferenceException exception)
         {
             LOG.info("Failed to get notification message {}", exception.getMessage());
         }
@@ -103,7 +102,7 @@ public abstract class SharePageObject2
          * get the RenderWebElement annotation of all declared fields and
          * render them based on the rules defined
          */
-        List<Field> allFields = getAllDeclaredFields(new LinkedList<>(), this.getClass());
+        List<Field> allFields = getAllDeclaredFields(Collections.synchronizedList(new ArrayList<>()), this.getClass());
         for (Field field : allFields)
         {
             for (Annotation annotation : field.getAnnotationsByType(RenderWebElement.class))

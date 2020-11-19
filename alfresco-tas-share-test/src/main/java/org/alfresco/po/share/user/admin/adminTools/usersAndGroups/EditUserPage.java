@@ -242,7 +242,6 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public UserProfileAdminToolsPage clickSaveChanges()
     {
-        getBrowser().waitUntilElementVisible(saveChangesButton);
         getBrowser().waitUntilElementClickable(saveChangesButton).click();
         waitUntilNotificationMessageDisappears();
 

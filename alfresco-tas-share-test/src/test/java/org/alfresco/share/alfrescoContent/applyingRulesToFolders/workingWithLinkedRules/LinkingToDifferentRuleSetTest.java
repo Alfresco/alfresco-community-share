@@ -43,7 +43,7 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     private EditRulesPage editRulesPage;
     //@Autowired
     private LinkedToRuleSetPage linkedToRuleSetPage;
-    @Autowired
+    //@Autowired
     private SelectDestinationDialog selectDestinationDialog;
 
     @BeforeClass (alwaysRun = true)

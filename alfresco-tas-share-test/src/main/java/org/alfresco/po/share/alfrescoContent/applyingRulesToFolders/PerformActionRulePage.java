@@ -11,7 +11,7 @@ public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
 
     EditRulesPage editRulesPage;
 
-    @Autowired
+    //@Autowired
     SelectDestinationDialog selectDestinationDialog;
 
     private By mimetypeDropDown = By.cssSelector("div[id*=ruleConfigAction] select[title=Mimetype]");

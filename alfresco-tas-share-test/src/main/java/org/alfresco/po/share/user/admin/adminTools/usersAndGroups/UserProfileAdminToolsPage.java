@@ -25,7 +25,6 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     private By editUserButton = By.cssSelector("button[id$='_default-edituser-button-button']");
     @RenderWebElement
     private By deleteUserButton = By.cssSelector("button[id$='_default-deleteuser-button-button']");
-    @RenderWebElement
     private By goBackButton = By.cssSelector("button[id$='_default-goback-button-button']");
     private By userNameInAboutSection = By.cssSelector("div [id$='_default-view-name']");
     private By userProfileHeaderList = By.cssSelector("div.header-bar");

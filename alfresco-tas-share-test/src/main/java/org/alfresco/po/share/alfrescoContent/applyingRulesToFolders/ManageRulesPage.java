@@ -13,7 +13,7 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     private DocumentLibraryPage documentLibraryPage;
     private EditRulesPage editRulesPage;
 
-    @Autowired
+    //@Autowired
     SelectDestinationDialog selectDestinationDialog;
 
     public By contentRule = By.cssSelector("li.rules-list-item.selected.dnd-draggable");

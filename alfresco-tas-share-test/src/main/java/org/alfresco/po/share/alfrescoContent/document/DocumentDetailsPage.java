@@ -31,9 +31,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private static final int BEGIN_INDEX = 0;
     private static final String VERSION_NUMBER = "1";
 
-    @Autowired
-    private CopyMoveUnzipToDialog copyMoveDialog;
-
     private final By noComments = By.cssSelector("div[id*='_default-comments-list'] td[class ='yui-dt-empty']");
     private final By managePermissionsLink = By.cssSelector(".folder-actions.folder-details-panel a[title='Manage Permissions']");
     private final By documentTitle = By.cssSelector("div[class='node-info'] h1");
@@ -704,7 +701,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         LOG.info("Click Copy To...");
         getBrowser().waitUntilElementClickable(copyToAction).click();
-        return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
+        return (CopyMoveUnzipToDialog) new CopyMoveUnzipToDialog(browser).renderedPage();
     }
 
 
@@ -719,6 +716,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         LOG.info("Click Unzip To...");
         getBrowser().waitUntilElementClickable(unzipToAction).click();
-        return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
+        return (CopyMoveUnzipToDialog) new CopyMoveUnzipToDialog(browser).renderedPage();
     }
 }

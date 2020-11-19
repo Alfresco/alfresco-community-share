@@ -94,11 +94,11 @@ public class ApplicationPage extends AdminToolsPage
 
     public ApplicationPage selectTheme(Theme theme)
     {
-        Select themeOptions = new Select(getBrowser().waitUntilElementVisible(themeDropdown));
+        WebElement themeElement = getBrowser().waitUntilElementVisible(themeDropdown);
+        Select themeOptions = new Select(themeElement);
         themeOptions.selectByValue(theme.getSelectValue());
         clickApply();
         getBrowser().waitUntilElementVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
-        getBrowser().refresh();
         return (ApplicationPage) this.renderedPage();
     }
 

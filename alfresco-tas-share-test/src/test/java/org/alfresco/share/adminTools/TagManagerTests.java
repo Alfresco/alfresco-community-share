@@ -34,7 +34,6 @@ public class TagManagerTests extends BaseShareWebTests
         tagManagerPage = new TagManagerPage(browser);
 
         setupAuthenticatedSession(getAdminUser());
-        tagManagerPage.navigate();
     }
 
     @BeforeClass (alwaysRun = true)
@@ -52,6 +51,7 @@ public class TagManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag() throws Exception
     {
+        tagManagerPage.navigate();
         tagManagerPage.searchTagWithRetry(tag1)
             .clickEdit(tag1)
             .renameTag(updatedTag)
@@ -66,6 +66,7 @@ public class TagManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyTagManagerPage()
     {
+        tagManagerPage.navigate();
         tagManagerPage.assertSearchButtonIsDisplayed()
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
@@ -82,6 +83,7 @@ public class TagManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteTag()
     {
+        tagManagerPage.navigate();
         tagManagerPage.searchTagWithRetry(tag3)
             .clickDelete(tag3)
                 .assertConfirmDeleteMessageForContentEqualsTo(tag3)

@@ -189,7 +189,7 @@ public class ModelManagerTests extends BaseShareWebTests
         restApi.withPrivateAPI().usingCustomModel(modelToDeactivate).activateModel();
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToDeactivate)
-            .clickActions().assertStatusIsActive()
+            .clickActions()
                 .deactivateModel()
                 .assertStatusIsInactive();
     }

@@ -92,7 +92,7 @@ public class ContentAction
         WebElement contentRow = getContentRow();
         WebElement content = getBrowser().waitUntilChildElementIsPresent(contentRow, contentNameSelector);
         getBrowser().mouseOver(content);
-        content.click();
+        getBrowser().waitUntilElementClickable(content).click();
         alfrescoContentPage.waitForCurrentFolderBreadcrumb((FolderModel) contentModel);
 
         return alfrescoContentPage;

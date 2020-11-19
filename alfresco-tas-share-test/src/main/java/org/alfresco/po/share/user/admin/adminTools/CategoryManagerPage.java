@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CategoryManagerPage extends AdminToolsPage
 {
     @RenderWebElement
-    private By categoryManagerDiv = By.cssSelector("div[id$=default-category-manager]");
+    private By categoryManagerDiv = By.cssSelector("div[class='category']");
     private By editCategoryNameInput = By.cssSelector(".insitu-edit input[type='text']");
     private By editCategorySaveButton = By.cssSelector(".insitu-edit a:nth-of-type(1)");
     private By editCategoryCancelButton = By.cssSelector(".insitu-edit a:nth-of-type(2)");
@@ -100,11 +100,11 @@ public class CategoryManagerPage extends AdminToolsPage
         try
         {
             getBrowser().mouseOver(category);
+            getBrowser().mouseOver(category);
         }
         catch (StaleElementReferenceException e)
         {
-           WebElement cat = getBrowser().waitUntilElementIsPresent(By.xpath(String.format(categoryLocator, categoryName)));
-            getBrowser().mouseOver(cat);
+            getBrowser().mouseOver(category);
         }
         getBrowser().waitUntilElementVisible(addCategoryButton);
     }
@@ -138,7 +138,7 @@ public class CategoryManagerPage extends AdminToolsPage
     public boolean isCategoryNotDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        getBrowser().waitUntilElementDisappearsWithRetry(category, (int) properties.getImplicitWait());
+        getBrowser().waitUntilElementDisappearsWithRetry(category, WAIT_5);
         return !getBrowser().isElementDisplayed(category);
     }
 }

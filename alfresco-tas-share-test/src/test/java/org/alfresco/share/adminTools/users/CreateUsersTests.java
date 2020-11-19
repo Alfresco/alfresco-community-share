@@ -21,7 +21,6 @@ public class CreateUsersTests extends BaseShareWebTests
         usersPage = new UsersPage(browser);
 
         setupAuthenticatedSession(getAdminUser());
-        usersPage.navigate();
     }
 
     @TestRail (id = "C42597")
@@ -29,6 +28,7 @@ public class CreateUsersTests extends BaseShareWebTests
     public void verifyCreateUsersPage()
     {
         LOG.info("Step1: Click 'New User' button.");
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .assertAllInputsFromInfoSectionAreDisplayed()
             .assertAllElementsFromAboutUserAreDisplayed()
@@ -40,6 +40,7 @@ public class CreateUsersTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browseCreateUserPage()
     {
+        usersPage.navigate();
         usersPage.clickNewUserButton().assertCreateUserPageIsOpened();
     }
 
@@ -48,7 +49,7 @@ public class CreateUsersTests extends BaseShareWebTests
     public void createUser()
     {
         UserModel user = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         LOG.info("Step1: Click 'New User' button.");
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
@@ -64,7 +65,7 @@ public class CreateUsersTests extends BaseShareWebTests
     public void createAndStartAnother()
     {
         UserModel user = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .clickCreateUserAndStartAnother();
@@ -80,7 +81,7 @@ public class CreateUsersTests extends BaseShareWebTests
     public void managePassword()
     {
         UserModel user = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .setFirstName(user.getFirstName())
             .setLastName(user.getLastName())
@@ -99,7 +100,7 @@ public class CreateUsersTests extends BaseShareWebTests
     public void addingUserToGroup()
     {
         UserModel user = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .addUserToGroup(ALFRESCO_ADMIN_GROUP)
@@ -121,7 +122,7 @@ public class CreateUsersTests extends BaseShareWebTests
     public void disableAccount()
     {
         UserModel userToDisable = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(userToDisable)
             .checkDisableAccount()
@@ -138,6 +139,7 @@ public class CreateUsersTests extends BaseShareWebTests
     public void addQuotaToUser()
     {
         UserModel user = UserModel.getRandomUserModel();
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .setQuota("17")

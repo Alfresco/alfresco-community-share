@@ -23,9 +23,6 @@ import static org.testng.Assert.*;
 
 public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
 {
-    @Autowired
-    private CopyMoveUnzipToDialog copyMoveDialog;
-
     @RenderWebElement
     private final By createButton = By.cssSelector("button[id$='createContent-button-button']");
     private final By createOptionsArea = By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']");
@@ -109,7 +106,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> waitForCurrentFolderBreadcrumb(String folderName)
     {
         LOG.info("Wait for folder breadcrumb {}", folderName);
-        getBrowser().waitUntilElementContainsText(getBrowser().findElement(currentBreadcrumb), folderName);
+        getBrowser().waitUntilElementContainsText(currentBreadcrumb, folderName);
         return this;
     }
 
@@ -289,7 +286,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     {
         LOG.info("Click Copy To...");
         getBrowser().waitUntilElementVisible(copyToFromSelectedItems).click();
-        return (CopyMoveUnzipToDialog) copyMoveDialog.renderedPage();
+        return (CopyMoveUnzipToDialog) new CopyMoveUnzipToDialog(browser).renderedPage();
     }
 
     public StartWorkflowPage clickStartWorkflowFromSelectedItems()
@@ -357,7 +354,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
         return new ContentAction(contentModel,
             this,
             new DocumentDetailsPage(browser),
-            copyMoveDialog,
+            new CopyMoveUnzipToDialog(browser),
             new DeleteDialog(browser));
     }
 

@@ -1,90 +1,92 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent;
 
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-@PageObject
-public class CopyMoveUnzipToDialog extends SelectDestinationDialog
+public class CopyMoveUnzipToDialog extends ShareDialog2
 {
-    @FindAll (@FindBy (css = "div[id='ALF_COPY_MOVE_DIALOG'] span[class*='alfresco-buttons-AlfButton']"))
-    private List<WebElement> buttonsList;
-
-    @FindBy (css = ".message")
-    private WebElement message;
-
-    @FindBy (css = "button[id$='_default-copyMoveTo-link-button']")
-    private WebElement createLinkButton;
-
+    private By createLinkButton = By.cssSelector("button[id$='_default-copyMoveTo-link-button']");
+    private By dialogTitle = By.cssSelector("div[id*='title']");
     @RenderWebElement
-    @FindBy (css = "button[id$='_default-copyMoveTo-ok-button']")
-    private WebElement unzipCopyMoveButton;
-
-    @FindBy (css = "button[id$='_default-copyMoveTo-cancel-button']")
-    private WebElement cancelButton;
-
-    @FindBy (css = "button[id$='copyMoveTo-recentsites-button']")
-    private WebElement recentSitesDestination;
-
-    @FindBy (css = "button[id$='copyMoveTo-shared-button']")
-    private WebElement sharedFilesDestination;
-
-    @FindBy (css = "button[id$='copyMoveTo-site-button']")
-    private WebElement allSitesDestination;
-
-    @FindBy (css = "div[id$='default-copyMoveTo-treeview']")
-    private WebElement folderPathsArea;
-
+    private By unzipCopyMoveButton = By.cssSelector("button[id$='_default-copyMoveTo-ok-button']");
+    private By cancelButton = By.cssSelector("button[id$='_default-copyMoveTo-cancel-button']");
+    private By recentSitesDestination = By.cssSelector("button[id$='copyMoveTo-recentsites-button']");
+    private By sharedFilesDestination = By.cssSelector("span[id$='default-copyMoveTo-shared']");
+    private By myFilesDestination = By.cssSelector("button[id$='copyMoveTo-myfiles-button']");
+    private By allSitesDestination = By.cssSelector("button[id$='copyMoveTo-site-button']");
+    private By folderPathsArea = By.cssSelector("div[id$='default-copyMoveTo-treeview']");
     private By sitePickerArea = By.cssSelector(".site-picker");
     private By dialogBody = By.cssSelector("div[id$='default-copyMoveTo-dialog']");
     private String siteToSelect = "//h4[text()='%s']";
     private String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
     private String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";
 
+    private final String destinationChecked = "yui-radio-button-checked";
+
+    public CopyMoveUnzipToDialog(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
+    public String getDialogTitle()
+    {
+        return getElementText(dialogTitle);
+    }
+
     public CopyMoveUnzipToDialog selectRecentSitesDestination()
     {
         LOG.info("Select Recent Sites");
-        browser.waitUntilElementClickable(recentSitesDestination).click();
-        browser.waitUntilElementVisible(sitePickerArea);
+        getBrowser().waitUntilElementClickable(recentSitesDestination).click();
+        getBrowser().waitUntilElementVisible(sitePickerArea);
         return this;
     }
 
     public CopyMoveUnzipToDialog selectSharedFilesDestination()
     {
         LOG.info("Select Shared Files destination");
-        browser.waitUntilElementClickable(sharedFilesDestination).click();
-        browser.waitUntilElementVisible(folderPathsArea);
+        WebElement shared = getBrowser().waitUntilElementVisible(sharedFilesDestination);
+        getBrowser().mouseOver(shared);
+        shared.click();
+        getBrowser().waitUntilElementHasAttribute(shared, "class", destinationChecked);
+        getBrowser().waitUntilElementVisible(folderPathsArea);
+        return this;
+    }
+
+    public CopyMoveUnzipToDialog selectMyFilesDestination()
+    {
+        LOG.info("Select My Files destination");
+        getBrowser().waitUntilElementClickable(myFilesDestination).click();
+        getBrowser().waitUntilElementVisible(folderPathsArea);
         return this;
     }
 
     public CopyMoveUnzipToDialog selectAllSitesDestination()
     {
         LOG.info("Select Shared Files destination");
-        browser.waitUntilElementClickable(allSitesDestination).click();
-        browser.waitUntilElementVisible(sitePickerArea);
+        getBrowser().waitUntilElementClickable(allSitesDestination).click();
+        getBrowser().waitUntilElementVisible(sitePickerArea);
         return this;
     }
 
     public CopyMoveUnzipToDialog selectSite(SiteModel site)
     {
         LOG.info("Select site {}", site.getTitle());
-        WebElement sitePicker = browser.waitUntilElementVisible(sitePickerArea);
-        browser.waitUntilChildElementIsPresent(sitePicker, By.xpath(String.format(siteToSelect, site.getTitle()))).click();
+        WebElement sitePicker =  getBrowser().waitUntilElementVisible(sitePickerArea);
+        getBrowser().waitUntilChildElementIsPresent(sitePicker, By.xpath(String.format(siteToSelect, site.getTitle()))).click();
         return this;
     }
 
@@ -93,7 +95,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         LOG.info("Select folder {}", folderToSelect.getName());
         By folderRow = By.xpath(String.format(folderElementToSelectRow, folderToSelect.getName()));
         By folder = By.xpath(String.format(folderElementToSelect, folderToSelect.getName()));
-        browser.waitUntilElementVisible(folderPathsArea);
+        getBrowser().waitUntilElementVisible(folderPathsArea);
         waitAndSelectFolder(folder, folderRow);
         return this;
     }
@@ -105,8 +107,9 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         {
             try
             {
-                folderPathsArea.findElement(folderElement).click();
-                if(folderPathsArea.findElement(folderRow).getAttribute("class").contains("selected"))
+                WebElement folder = getBrowser().findElement(folderPathsArea);
+                folder.findElement(folderElement).click();
+                if(folder.findElement(folderRow).getAttribute("class").contains("selected"))
                 {
                     break;
                 }
@@ -120,32 +123,11 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         }
     }
 
-    /**
-     * Click on a button from the bottom of Copy/MoveTo dialog
-     *
-     * @param buttonName name of the button to be clicked (e.g: Move, Cancel)
-     */
-    public void clickButton(String buttonName)
-    {
-        for (WebElement aButtonsList : buttonsList)
-        {
-            if (aButtonsList.getText().equals(buttonName))
-                aButtonsList.click();
-        }
-    }
-
     public void clickCreateLinkButton()
     {
         LOG.info("Click Create Link button");
-        browser.waitUntilElementClickable(createLinkButton).click();
+        getBrowser().waitUntilElementClickable(createLinkButton).click();
         waitUntilNotificationMessageDisappears();
-    }
-
-    public SharePage clickCreateLinkButton(SharePage page)
-    {
-        browser.waitUntilElementClickable(createLinkButton).click();
-        waitUntilNotificationMessageDisappears();
-        return (SharePage) page.renderedPage();
     }
 
     public boolean isCreateLinkButtonDisplayed()
@@ -156,42 +138,45 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     public CopyMoveUnzipToDialog assertCreateLinkButtonIsDisplayed()
     {
         LOG.info("Assert Create Link button is displayed");
-        assertTrue(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 
     public CopyMoveUnzipToDialog assertCreateLinkButtonIsNotDisplayed()
     {
         LOG.info("Assert Create Link button is displayed");
-        assertFalse(browser.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        assertFalse(getBrowser().isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 
     public void clickUnzipButton()
     {
         LOG.info("Click Unzip To button");
-        browser.waitUntilElementClickable(unzipCopyMoveButton).click();
+        getBrowser().waitUntilElementClickable(unzipCopyMoveButton).click();
+        getBrowser().waitUntilElementDisappears(dialogBody);
         waitUntilNotificationMessageDisappears();
     }
 
     public void clickCopyToButton()
     {
         LOG.info("Click Copy To button");
-        browser.waitUntilElementClickable(unzipCopyMoveButton).click();
+        getBrowser().waitUntilElementClickable(unzipCopyMoveButton).click();
+        getBrowser().waitUntilElementDisappears(dialogBody);
         waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancelButton()
     {
         LOG.info("Click Cancel button");
-        browser.waitUntilElementClickable(cancelButton).click();
-        browser.waitUntilElementDisappears(dialogBody);
+        getBrowser().waitUntilElementClickable(cancelButton).click();
+        getBrowser().waitUntilElementDisappears(dialogBody);
     }
 
     public void clickMoveButton()
     {
         LOG.info("Click Move button");
-        browser.waitUntilElementClickable(unzipCopyMoveButton).click();
+        getBrowser().waitUntilElementClickable(unzipCopyMoveButton).click();
+        getBrowser().waitUntilElementDisappears(dialogBody);
         waitUntilNotificationMessageDisappears();
     }
 }

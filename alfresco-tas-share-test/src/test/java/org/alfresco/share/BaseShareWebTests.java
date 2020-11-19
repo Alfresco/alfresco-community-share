@@ -13,6 +13,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.TasProperties;
 import org.alfresco.utility.Utility;
+import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
@@ -21,20 +22,28 @@ import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.browser.WebBrowser;
+import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.testng.Assert.assertTrue;
 
@@ -50,6 +59,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     public static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");
     public static String FILE_CONTENT = "Share file content";
     public final String password = "password";
+    private File screenshotFolder = new File("./target/reports/screenshots");
 
     @Autowired
     public TasProperties tasProperties;
@@ -81,10 +91,23 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     @Autowired
     protected RestWrapper restApi;
 
+    @Autowired
+    protected DataContent dataContent;
+
     protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
     protected Toolbar toolbar;
+
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite()
+    {
+        if(!screenshotFolder.exists())
+        {
+            LOG.info("Creating screenshots folder");
+            screenshotFolder.mkdir();
+        }
+    }
 
     @BeforeMethod(alwaysRun = true)
     public void beforeEachTest()
@@ -97,10 +120,42 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     }
 
     @AfterMethod(alwaysRun = true)
-    public void afterEachTest()
+    public void afterEachTest(final Method method, final ITestResult result)
     {
+        LOG.info("***************************************************************************************************");
+        DateTime now = new DateTime();
+        LOG.info(String.format("*** %s ***  Ending test %s:%s %s (%s s.)", now.toString("HH:mm:ss"), method.getDeclaringClass().getSimpleName(), method.getName(),
+                result.isSuccess() ? "SUCCESS" : "!!! FAILURE !!!", (result.getEndMillis() - result.getStartMillis()) / 1000));
+        LOG.info("***************************************************************************************************");
+        if(!result.isSuccess())
+        {
+            saveScreenshot(method);
+        }
+
         getBrowser().manage().deleteAllCookies();
         getBrowser().quit();
+    }
+
+    private void saveScreenshot(Method testMethod)
+    {
+        File screen = ((TakesScreenshot)getBrowser()).getScreenshotAs(OutputType.FILE);
+        try
+        {
+            if(testMethod != null)
+            {
+                Date dNow = new Date();
+                SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd.hhmmss");
+                LOG.info(String.format("Generating screenshot for test: %s",
+                    testMethod.getDeclaringClass().getSimpleName() + "#" + testMethod.getName()));
+                File destination = new File(String.format("%s%s%s_%s.png", screenshotFolder.getAbsolutePath(),
+                    File.separator, testMethod.getDeclaringClass().getSimpleName() + "#" + testMethod.getName(), ft.format(dNow)));
+                FileUtils.copyFile(screen, destination);
+            }
+        }
+        catch (IOException e)
+        {
+            LOG.error(String.format("Failed to copy screenshot %s", screen.getAbsolutePath()));
+        }
     }
 
     protected WebBrowser getBrowser()
@@ -120,7 +175,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
 
     private void loginViaBrowser(String userName, String password)
     {
-        cleanupAuthenticatedSession();
+        getBrowser().manage().deleteAllCookies();
         UserModel validUser = new UserModel(userName, password);
         getLoginPage().navigate().login(validUser);
         userDashboardPage.waitForSharePageToLoad();
@@ -192,4 +247,8 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
         return filePath.exists();
     }
 
+    public String getDocumentLibraryPath(SiteModel site)
+    {
+        return Utility.buildPath(String.format("/Sites/%s/documentLibrary", site.getId()));
+    }
 }

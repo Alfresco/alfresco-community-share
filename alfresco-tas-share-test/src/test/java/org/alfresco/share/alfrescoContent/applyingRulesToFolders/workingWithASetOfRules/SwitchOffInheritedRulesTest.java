@@ -38,7 +38,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     private final String folder2 = "Folder2-C7325-" + random;
     private final String fileName = "File-C7325-" + random;
     private final String path = "Sites/" + siteName + "/documentLibrary/" + folder1;
-    @Autowired
+    //@Autowired
     SelectDestinationDialog selectDestinationDialog;
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;

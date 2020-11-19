@@ -1,37 +1,35 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
+public class AddRemoveFavoriteContentTests extends BaseShareWebTests
 {
-   //@Autowired
-    private DocumentLibraryPage2 documentLibraryPage2;
+    private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
     private SiteModel site;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
         cmisApi.authenticateUser(user);
         restApi.authenticateUser(user);
-        setupAuthenticatedSession(user);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        setupAuthenticatedSession(user);
     }
 
     @TestRail (id = "C7501")
@@ -41,7 +39,7 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
         cmisApi.usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(favoriteFile)
                 .assertAddFileToFavoritesTooltipEqualsWithExpected()
                 .addToFavorites()
@@ -55,7 +53,7 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
         FolderModel favoriteFolder = FolderModel.getRandomFolderModel();
         cmisApi.usingSite(site).createFolder(favoriteFolder).assertThat().existsInRepo();
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(favoriteFolder)
                 .assertAddFolderToFavoritesTooltipEqualsWithExpected()
                 .addToFavorites()
@@ -70,7 +68,7 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
         cmisApi.usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
         restApi.withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(favoriteFile)
                 .assertRemoveFileFromFavoritesTooltipEqualsWithExpected()
                 .removeFromFavorites()
@@ -85,10 +83,17 @@ public class AddRemoveFavoriteContentTests extends ContextAwareWebTest
         cmisApi.usingSite(site).createFolder(folder).assertThat().existsInRepo();
         restApi.withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site)
             .usingContent(folder)
                 .assertRemoveFolderFromFavoritesTooltipEqualsWithExpected()
                 .removeFromFavorites()
                 .assertAddToFavoritesIsDisplayed();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanup()
+    {
+        removeUserFromAlfresco(user);
+        deleteSites(site);
     }
 }

@@ -57,7 +57,7 @@
    <test name="CreatingGoogleDocsFilesTests">
       <classes>
          <class
-            name="org.alfresco.share.alfrescoContent.buildingContent.CreatingGoogleDocsFilesTests" />
+            name="org.alfresco.share.alfrescoContent.googleDocs.CreatingGoogleDocsFilesTests" />
       </classes>
    </test>
    <test name="OrganizingFoldersTests">

@@ -44,7 +44,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
     private RuleDetailsPage ruleDetailsPage;
     //@Autowired
     private LinkedToRuleSetPage linkedToRuleSetPage;
-    @Autowired
+    //@Autowired
     private SelectDestinationDialog selectDestinationDialog;
 
     @BeforeClass (alwaysRun = true)

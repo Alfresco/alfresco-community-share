@@ -1,17 +1,18 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
+import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class MovingContentTests extends ContextAwareWebTest
+public class MovingContentTests extends BaseShareWebTests
 {
-    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
@@ -19,14 +20,20 @@ public class MovingContentTests extends ContextAwareWebTest
     private FolderModel destination;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
         destination = FolderModel.getRandomFolderModel();
 
-        setupAuthenticatedSession(user);
         cmisApi.authenticateUser(user).usingSite(site).createFolder(destination);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        setupAuthenticatedSession(user);
     }
 
     @TestRail (id = "C7345")

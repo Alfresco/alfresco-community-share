@@ -1,4 +1,4 @@
-package org.alfresco.share.alfrescoContent.buildingContent;
+package org.alfresco.share.alfrescoContent.googleDocs;
 
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
