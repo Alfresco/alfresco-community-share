@@ -44,7 +44,6 @@ public class ModuleBrowserTests extends BaseShareWebTests
         LOG.info("Step 3: Click on Module Browser option from Tools");
         adminToolsPage.navigateToNodeFromToolsPanel("Module Browser");
         moduleBrowserPage.renderedPage();
-        assertCurrentUrlContains("module-package");
 
         LOG.info("Step 4: Logout Admin user and Login with userName into Share");
         setupAuthenticatedSession(user);

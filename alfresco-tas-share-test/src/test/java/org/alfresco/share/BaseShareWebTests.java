@@ -1,5 +1,12 @@
 package org.alfresco.share;
 
+import static org.alfresco.common.Utils.saveScreenshot;
+import static org.alfresco.common.Utils.screenshotFolder;
+
+import java.io.File;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
@@ -12,7 +19,6 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.TasProperties;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
@@ -22,10 +28,8 @@ import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.browser.WebBrowser;
-import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.NoSuchSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +39,6 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
-import static org.testng.Assert.assertTrue;
 
 @ContextConfiguration(classes = ShareTestContext.class)
 public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
@@ -59,7 +52,6 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     public static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");
     public static String FILE_CONTENT = "Share file content";
     public final String password = "password";
-    private File screenshotFolder = new File("./target/reports/screenshots");
 
     @Autowired
     public TasProperties tasProperties;
@@ -104,7 +96,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     {
         if(!screenshotFolder.exists())
         {
-            LOG.info("Creating screenshots folder");
+            LOG.info("Creating screenshot folder");
             screenshotFolder.mkdir();
         }
     }
@@ -129,32 +121,23 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
         LOG.info("***************************************************************************************************");
         if(!result.isSuccess())
         {
-            saveScreenshot(method);
+            saveScreenshot(getBrowser(),method);
         }
-
-        getBrowser().manage().deleteAllCookies();
-        getBrowser().quit();
+        closeBrowser();
     }
 
-    private void saveScreenshot(Method testMethod)
+    private void closeBrowser()
     {
-        File screen = ((TakesScreenshot)getBrowser()).getScreenshotAs(OutputType.FILE);
-        try
+        LOG.info("Close browser..");
+        try {
+            getBrowser().manage().deleteAllCookies();
+            getBrowser().quit();
+        } catch (NoSuchSessionException noSuchSessionException) {
+            LOG.info("Browser is not closed: {}", noSuchSessionException.getMessage());
+        } finally
         {
-            if(testMethod != null)
-            {
-                Date dNow = new Date();
-                SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd.hhmmss");
-                LOG.info(String.format("Generating screenshot for test: %s",
-                    testMethod.getDeclaringClass().getSimpleName() + "#" + testMethod.getName()));
-                File destination = new File(String.format("%s%s%s_%s.png", screenshotFolder.getAbsolutePath(),
-                    File.separator, testMethod.getDeclaringClass().getSimpleName() + "#" + testMethod.getName(), ft.format(dNow)));
-                FileUtils.copyFile(screen, destination);
-            }
-        }
-        catch (IOException e)
-        {
-            LOG.error(String.format("Failed to copy screenshot %s", screen.getAbsolutePath()));
+            LOG.info("Finally close browser..");
+            getBrowser().quit();
         }
     }
 
@@ -216,39 +199,23 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
 
     public void removeUserFromAlfresco(UserModel... users)
     {
-        Arrays.stream(users).forEach(user -> dataUser.usingAdmin().deleteUser(user));
+        for (UserModel userModel : users)
+        {
+            if (userModel != null)
+            {
+                dataUser.usingAdmin().deleteUser(userModel);
+            }
+        }
     }
 
     public void deleteSites(SiteModel... sites)
     {
-        Arrays.stream(sites).forEach(site -> dataSite.usingAdmin().deleteSite(site));
-    }
-
-    public void assertCurrentUrlContains(String value)
-    {
-        assertTrue(getBrowser().getCurrentUrl().contains(value), String.format("%s is displayed in current url", value));
-    }
-
-    public boolean isFileInDirectory(String fileName, String extension)
-    {
-        int retry = 0;
-        int seconds = 10;
-        if (extension != null)
+        for (SiteModel siteModel : sites)
         {
-            fileName = fileName + extension;
+            if (siteModel != null)
+            {
+                dataSite.usingAdmin().deleteSite(siteModel);
+            }
         }
-        File filePath = new File(testDataFolder + File.separator + fileName);
-        filePath.deleteOnExit();
-        while (retry <= seconds && !filePath.exists())
-        {
-            retry++;
-            Utility.waitToLoopTime(1, String.format("Wait for '%s' to get downloaded", fileName));
-        }
-        return filePath.exists();
-    }
-
-    public String getDocumentLibraryPath(SiteModel site)
-    {
-        return Utility.buildPath(String.format("/Sites/%s/documentLibrary", site.getId()));
     }
 }

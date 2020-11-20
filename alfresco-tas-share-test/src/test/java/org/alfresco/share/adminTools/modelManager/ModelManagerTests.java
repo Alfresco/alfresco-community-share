@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.testng.Assert.assertTrue;
 
 public class ModelManagerTests extends BaseShareWebTests

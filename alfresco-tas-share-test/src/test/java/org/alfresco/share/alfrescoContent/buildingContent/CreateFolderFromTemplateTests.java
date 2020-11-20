@@ -25,7 +25,9 @@ public class CreateFolderFromTemplateTests extends BaseShareWebTests
         testSite = dataSite.usingUser(testUser).createPublicRandomSite();
         cmisApi.authenticateUser(testUser);
 
-        parentTemplateFolder.setCmisLocation(Utility.buildPath(getDocumentLibraryPath(testSite), parentTemplateFolder.getName()));
+        parentTemplateFolder.setCmisLocation(Utility.buildPath(
+            Utility.buildPath(String.format("/Sites/%s/documentLibrary", testSite.getId())),
+            parentTemplateFolder.getName()));
     }
 
     @BeforeMethod(alwaysRun = true)
