@@ -167,6 +167,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
 
     public void setupAuthenticatedSession(UserModel user)
     {
+        LOG.info("Setup authenticated session for user {}", user.getUsername());
         getBrowser().manage().deleteAllCookies();
         getLoginPage().navigate();
         HttpState state = userService.login(user.getUsername(), user.getPassword());
@@ -181,11 +182,8 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
         {
             return new AIMSPage(browser);
         }
-
         return loginPage;
     }
-
-
 
     protected void navigate(String pageUrl)
     {

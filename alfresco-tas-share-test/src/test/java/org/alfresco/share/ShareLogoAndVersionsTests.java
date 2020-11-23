@@ -17,7 +17,8 @@ public class ShareLogoAndVersionsTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void checkAboutBox()
     {
-        userDashboardPage.assertAlfrescoLogoIsDisplayedInPageFooter()
+        userDashboardPage.navigate(getAdminUser())
+            .assertAlfrescoLogoIsDisplayedInPageFooter()
             .openAboutPage()
             .assertAlfrescoVersionIsDisplayed()
                 .assertShareVersionIsDisplayed()
@@ -31,6 +32,7 @@ public class ShareLogoAndVersionsTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.AUTH }, enabled = false)
     public void checkThatShareVersionWarningIsNotDisplayed()
     {
-        userDashboardPage.assertShareVersionWarningIsNotDisplayed();
+        userDashboardPage.navigate(getAdminUser())
+            .assertShareVersionWarningIsNotDisplayed();
     }
 }

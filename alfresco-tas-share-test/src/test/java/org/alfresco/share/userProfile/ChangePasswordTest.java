@@ -38,7 +38,7 @@ public class ChangePasswordTest extends BaseShareWebTests
             .assertUserProfilePageIsOpened();
         user.setPassword(newPassword);
         setupAuthenticatedSession(user);
-        userDashboardPage.assertUserDashboardPageIsOpened();
+        userDashboardPage.navigate(user).assertUserDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2227, 2229")

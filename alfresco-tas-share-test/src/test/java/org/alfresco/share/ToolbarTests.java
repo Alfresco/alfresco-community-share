@@ -42,6 +42,7 @@ public class ToolbarTests extends BaseShareWebTests
     public void verifyAlfrescoToolbarItemsWithNormalUser()
     {
         setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.assertToolbarIsDisplayed()
             .assertHomeIsDisplayed()
             .assertMyFilesIsDisplayed()
@@ -89,6 +90,7 @@ public class ToolbarTests extends BaseShareWebTests
     {
         dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
         setupAuthenticatedSession(adminUser);
+        userDashboardPage.navigate(adminUser);
         toolbar.assertAdminToolsIsDisplayed()
             .clickAdminTools().assertAdminApplicationPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
@@ -101,6 +103,7 @@ public class ToolbarTests extends BaseShareWebTests
     public void verifyTheLinksFromTheUserMenu()
     {
         setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.clickUserMenu().clickUserDashboard()
             .assertUserDashboardPageIsOpened();
 
@@ -129,6 +132,7 @@ public class ToolbarTests extends BaseShareWebTests
     public void verifyTheLinksFromTasksMenu()
     {
         setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.clickTasks().clickMyTasks()
             .assertMyTasksPageIsOpened()
             .assertStartWorkflowIsDisplayed();
@@ -179,6 +183,7 @@ public class ToolbarTests extends BaseShareWebTests
     public void verifyTheLinksFromAlfrescoToolbar()
     {
         setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.clickHome();
         userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();

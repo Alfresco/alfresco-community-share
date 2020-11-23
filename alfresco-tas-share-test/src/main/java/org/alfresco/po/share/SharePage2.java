@@ -7,31 +7,29 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
-import org.testng.Assert;
 
-import javax.print.attribute.standard.PageRanges;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.alfresco.utility.report.log.Step.STEP;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
 
 public abstract class SharePage2<T> extends SharePageObject2
 {
-    private static final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
-
+    private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     @RenderWebElement
     private By body= By.id("Share");
     @RenderWebElement
-    private By pageHeader = By.id("HEADER_TITLE");
-    private By headerLogo = By.id("HEADER_LOGO");
-    private By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
-    private By userMenu = By.id("HEADER_USER_MENU_POPUP");
-    private By logoutLink = By.id("HEADER_USER_MENU_LOGOUT");
-    private By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
+    private final By pageHeader = By.id("HEADER_TITLE");
+    private final By headerLogo = By.id("HEADER_LOGO");
+    private final By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
+    private final By userMenu = By.id("HEADER_USER_MENU_POPUP");
+    private final By logoutLink = By.id("HEADER_USER_MENU_LOGOUT");
+    private final By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
 
     /**
      * Wire up the relative path in your Page Object class
@@ -134,7 +132,7 @@ public abstract class SharePage2<T> extends SharePageObject2
 
     public T assertAlfrescoLogoIsDisplayedInPageFooter()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
+        assertTrue(getBrowser().isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
         return (T) renderedPage();
     }
 

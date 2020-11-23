@@ -34,9 +34,6 @@ public class EnvProperties
     @Value ("${browser.name}")
     private String browserName;
 
-    @Value ("${browser.version}")
-    private String browserVersion;
-
     @Value ("${browser.implicitWait}")
     private long implicitWait;
 
@@ -146,16 +143,6 @@ public class EnvProperties
     public void setGridEnabled(boolean gridEnabled)
     {
         this.gridEnabled = gridEnabled;
-    }
-
-    public String getBrowserVersion()
-    {
-        return browserVersion;
-    }
-
-    public void setBrowserVersion(String browserVersion)
-    {
-        this.browserVersion = browserVersion;
     }
 
     public String getEnvPlatformName()
