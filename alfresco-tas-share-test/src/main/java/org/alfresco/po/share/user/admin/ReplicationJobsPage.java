@@ -1,16 +1,15 @@
 package org.alfresco.po.share.user.admin;
 
-import java.util.List;
-
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ReplicationJobsPage extends AdminToolsPage
+import java.util.List;
+
+public class ReplicationJobsPage extends SharePage2<ReplicationJobsPage>
 {
     @Autowired
     CreateEditReplicationJobPage createEditReplicationJobPage;
@@ -30,7 +29,7 @@ public class ReplicationJobsPage extends AdminToolsPage
 
     public ReplicationJobsPage(ThreadLocal<WebBrowser> browser)
     {
-        super(browser);
+        this.browser = browser;
     }
 
     @Override

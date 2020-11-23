@@ -46,9 +46,6 @@ public class EnvProperties
     @Value ("${grid.enabled}")
     private boolean gridEnabled;
 
-    @Value ("${screenshots.dir}")
-    private File screenshotsPath;
-
     @Value ("${env.platform}")
     private String envPlatformName;
 
@@ -149,24 +146,6 @@ public class EnvProperties
     public void setGridEnabled(boolean gridEnabled)
     {
         this.gridEnabled = gridEnabled;
-    }
-
-    public File getScreenshotsPath()
-    {
-        return screenshotsPath;
-    }
-
-    public void setScreenshotsPath(String screenshotsPath)
-    {
-        File f = Paths.get(screenshotsPath).toFile();
-        if (f.isFile() && !f.exists())
-        {
-            f.getParentFile().mkdirs();
-        } else if (!f.exists())
-        {
-            f.mkdirs();
-        }
-        this.screenshotsPath = f;
     }
 
     public String getBrowserVersion()

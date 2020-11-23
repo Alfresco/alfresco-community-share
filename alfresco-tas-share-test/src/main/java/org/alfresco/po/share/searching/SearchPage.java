@@ -23,9 +23,6 @@ import static org.testng.Assert.assertTrue;
 
 public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    private SearchCopyMoveDialog copyMoveDialog;
-
     public By searchResult = By.id("FCTSRCH_SEARCH_RESULT");
     public By searchResultRows = By.id("FCTSRCH_SEARCH_RESULT");
     public By deleteDialogConfirm = By.cssSelector("span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION");
@@ -897,11 +894,11 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         LOG.info("Click Copy to... from Selected Items");
         getBrowser().waitUntilElementVisible(copyToAction).click();
-        return (SearchCopyMoveDialog) copyMoveDialog.renderedPage();
+        return (SearchCopyMoveDialog) new SearchCopyMoveDialog(browser).renderedPage();
     }
 
     public SearchResultContentAction usingContent(ContentModel contentModel)
     {
-        return new SearchResultContentAction(contentModel, this, copyMoveDialog);
+        return new SearchResultContentAction(contentModel, this, new SearchCopyMoveDialog(browser));
     }
 }

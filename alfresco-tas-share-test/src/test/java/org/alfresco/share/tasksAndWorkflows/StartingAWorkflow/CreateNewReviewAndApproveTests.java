@@ -30,7 +30,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     //@Autowired
     StartWorkflowPage startWorkflowPage;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
     @Autowired

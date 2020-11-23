@@ -31,7 +31,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     //@Autowired
     StartWorkflowPage startWorkflowPage;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
     @Autowired

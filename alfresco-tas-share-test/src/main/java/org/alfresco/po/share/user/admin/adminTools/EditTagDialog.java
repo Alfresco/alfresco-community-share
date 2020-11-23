@@ -10,22 +10,18 @@ import static org.testng.Assert.assertTrue;
 
 public class EditTagDialog extends ShareDialog2
 {
-    private TagManagerPage tagManagerPage;
-
     @RenderWebElement
     private By dialogTitle = By.cssSelector("div[id*='edit-tag-dialogTitle']");
     private By renameLabel = By.cssSelector("form[id*='edit-tag'] label");
     private By requiredSymbol = By.cssSelector("form[id*='edit-tag'] div[class='yui-u']");
     @RenderWebElement
-    private By editTagInputField = By.cssSelector("input[id*='edit-tag']");
-    @RenderWebElement
+    private By editTagInputField = By.cssSelector("input[name='name']");
     private By okButton = By.cssSelector("button[id*='ok']");
     private By cancelButton = By.cssSelector("button[id*='tag-cancel']");
 
     public EditTagDialog(ThreadLocal<WebBrowser> browser)
     {
         this.browser = browser;
-        tagManagerPage = new TagManagerPage(browser);
     }
 
     public String getDialogTitle()
@@ -65,8 +61,9 @@ public class EditTagDialog extends ShareDialog2
     {
         LOG.info(String.format("Rename tag to: %s", updatedTag));
         clearAndType(editTagInputField, updatedTag);
-        clickElement(okButton);
-        tagManagerPage.waitUntilNotificationMessageDisappears();
-        return (TagManagerPage) tagManagerPage.renderedPage();
+        getBrowser().waitUntilElementClickable(okButton).click();
+        waitUntilNotificationMessageDisappears();
+
+        return (TagManagerPage) new TagManagerPage(browser).renderedPage();
     }
 }

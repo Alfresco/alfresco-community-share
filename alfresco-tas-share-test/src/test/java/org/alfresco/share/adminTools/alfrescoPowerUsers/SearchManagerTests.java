@@ -31,9 +31,11 @@ public class SearchManagerTests extends BaseShareWebTests
     public void userHasSearchManagerRightsWhenAddedToAdminGroup()
     {
         setupAuthenticatedSession(userAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
         dataGroup.usingUser(userAdmin).addUserToGroup(ALFRESCO_ADMIN_GROUP);
         setupAuthenticatedSession(userAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
             .clickSearchManagerLink()
                 .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))
@@ -45,10 +47,13 @@ public class SearchManagerTests extends BaseShareWebTests
     public void userHasSearchManagerRightsWhenAddedToSearchAdministratorsGroup()
     {
         String filterId = RandomData.getRandomAlphanumeric();
+
         setupAuthenticatedSession(searchAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
         dataGroup.usingUser(searchAdmin).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
         setupAuthenticatedSession(searchAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
             .clickSearchManagerLink()
                 .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))

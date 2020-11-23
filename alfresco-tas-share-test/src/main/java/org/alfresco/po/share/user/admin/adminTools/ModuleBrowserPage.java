@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -7,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertTrue;
 
-public class ModuleBrowserPage extends AdminToolsPage
+public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
 {
     @RenderWebElement
     private By moduleContent = By.id("LIST_WITH_HEADER_ITEMS");
@@ -20,13 +21,20 @@ public class ModuleBrowserPage extends AdminToolsPage
 
     public ModuleBrowserPage(ThreadLocal<WebBrowser> browser)
     {
-        super(browser);
+        this.browser = browser;
     }
 
     @Override
     public String getRelativePath()
     {
         return "share/page/console/admin-console/module-package";
+    }
+
+    public ModuleBrowserPage assertModuleBrowserPageIsOpened()
+    {
+        LOG.info("Assert Module browser page is opened");
+        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Module browser page is not opened");
+        return this;
     }
 
     public WebElement selectModuleName(String moduleName)

@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
  */
 public class CreateNewTaskTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SelectDocumentPopupPage selectDocumentPopupPage;
 
     @Autowired
@@ -55,7 +55,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     //@Autowired
     StartWorkflowPage startWorkflowPage;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
     @Autowired

@@ -30,7 +30,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
     //@Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+   // @Autowired
     EditItemPopUp editItemPopUp;
 
     String random = RandomData.getRandomAlphanumeric();

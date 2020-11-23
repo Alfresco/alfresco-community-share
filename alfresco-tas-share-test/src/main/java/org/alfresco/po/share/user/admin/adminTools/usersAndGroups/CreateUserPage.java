@@ -17,8 +17,6 @@ import static org.testng.Assert.assertFalse;
 
 public class CreateUserPage extends SharePage2<CreateUserPage>
 {
-    public static final String URL = "share/page/console/admin-console/users#state=panel%3Dcreate";
-
     private By searchForGroupsMessage = By.cssSelector(".create-main .yui-dt-empty div");
 
     @RenderWebElement
@@ -50,7 +48,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
     @Override
     public String getRelativePath()
     {
-        return URL;
+        return "share/page/console/admin-console/users#state=panel%3Dcreate";
     }
 
     public CreateUserPage assertCreateUserPageIsOpened()

@@ -1,15 +1,18 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.DeleteDialog;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
-public class CategoryManagerPage extends AdminToolsPage
+import static org.testng.Assert.assertFalse;
+
+public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 {
     @RenderWebElement
     private By categoryManagerDiv = By.cssSelector("div[class='category']");
@@ -23,7 +26,7 @@ public class CategoryManagerPage extends AdminToolsPage
 
     public CategoryManagerPage(ThreadLocal<WebBrowser> browser)
     {
-        super(browser);
+        this.browser = browser;
     }
 
     private WebElement category(String categoryLabel)
@@ -62,7 +65,7 @@ public class CategoryManagerPage extends AdminToolsPage
         mouseOverOnCategory(categoryName);
         WebElement deleteCat = getBrowser().waitUntilElementVisible(deleteCategoryButton);
         getBrowser().mouseOver(deleteCat);
-        getBrowser().clickJS(deleteCat);
+        deleteCat.click();
         return (DeleteDialog) new DeleteDialog(browser).renderedPage();
     }
 
@@ -88,8 +91,13 @@ public class CategoryManagerPage extends AdminToolsPage
             LOG.info("Click Edit category again");
             clickEditCategory(categoryName);
         }
-        getBrowser().findElement(editCategoryNameInput).sendKeys(newCategoryName);
-        clickElement(editCategorySaveButton);
+        WebElement input = getBrowser().waitUntilElementVisible(editCategoryNameInput);
+        input.sendKeys(newCategoryName);
+
+        WebElement saveBtn = getBrowser().waitUntilElementClickable(editCategorySaveButton);
+        getBrowser().mouseOver(saveBtn);
+        saveBtn.click();
+        waitUntilNotificationMessageDisappears();
         return (CategoryManagerPage) this.renderedPage();
     }
 
@@ -97,14 +105,20 @@ public class CategoryManagerPage extends AdminToolsPage
     {
         WebElement category = getBrowser().waitWithRetryAndReturnWebElement(
             By.xpath(String.format(categoryLocator, categoryName)), 2, 20);
-        try
+        int i = 0;
+        while(i < WAIT_10)
         {
-            getBrowser().mouseOver(category);
-            getBrowser().mouseOver(category);
-        }
-        catch (StaleElementReferenceException e)
-        {
-            getBrowser().mouseOver(category);
+            try
+            {
+                getBrowser().mouseOver(category);
+                break;
+            }
+            catch (StaleElementReferenceException e)
+            {
+                LOG.error("Retry mouse over on category. Error {}", e.getMessage());
+                i++;
+                getBrowser().mouseOver(category);
+            }
         }
         getBrowser().waitUntilElementVisible(addCategoryButton);
     }
@@ -129,16 +143,27 @@ public class CategoryManagerPage extends AdminToolsPage
                 category(parentCategory).findElement(By.xpath("../..//a[@class='ygtvspacer']")).click();
             }
             isSubCatDisplayed = getBrowser().isElementDisplayed(category);
-            getBrowser().refresh();
+            navigate();
             retryCount++;
         }
         return isSubCatDisplayed;
     }
 
-    public boolean isCategoryNotDisplayed(String categoryName)
+    public CategoryManagerPage assertCategoryIsNotDisplayed(String categoryName)
     {
+        LOG.info("Assert category {} is not displayed", categoryName);
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        getBrowser().waitUntilElementDisappearsWithRetry(category, WAIT_5);
-        return !getBrowser().isElementDisplayed(category);
+        int i = 0;
+        while(i < WAIT_10)
+        {
+            LOG.info("Wait until category {} is deleted", categoryName);
+            if(!getBrowser().isElementDisplayed(category))
+            {
+                break;
+            }
+            i++;
+        }
+        assertFalse(getBrowser().isElementDisplayed(category), String.format("Category %s is displayed", category));
+        return this;
     }
 }

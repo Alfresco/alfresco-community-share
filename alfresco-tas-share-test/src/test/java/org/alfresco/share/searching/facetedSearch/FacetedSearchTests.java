@@ -45,10 +45,10 @@ public class FacetedSearchTests extends ContextAwareWebTest
     //@Autowired
     StartWorkflowPage startWorkflowPage;
 
-    @Autowired
+    //@Autowired
     SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
    // @Autowired
@@ -60,7 +60,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     //@Autowired
     UserTrashcanPage userTrashcanPage;
 
-    @Autowired
+    //@Autowired
     SearchCopyMoveDialog copyMoveUnzipToDialog;
 
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();

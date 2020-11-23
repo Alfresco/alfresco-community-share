@@ -19,7 +19,7 @@ public class UserProfileTests extends BaseShareWebTests
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
     private EditUserPage editUserPage;
 
-    private UserModel browseUser, editUser, deleteUser, enableUser, removeGroupUser, addUserToGroup;
+    private static UserModel browseUser, deleteUser, enableUser, removeGroupUser, addUserToGroup;
     private GroupModel c9423Group;
 
     @BeforeMethod(alwaysRun = true)
@@ -36,7 +36,6 @@ public class UserProfileTests extends BaseShareWebTests
     public void dataPrep()
     {
         browseUser = dataUser.usingAdmin().createRandomTestUser();
-        editUser = dataUser.createRandomTestUser();
         deleteUser = dataUser.createRandomTestUser();
         enableUser = dataUser.createRandomTestUser();
         removeGroupUser = dataUser.createRandomTestUser();
@@ -87,6 +86,7 @@ public class UserProfileTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editingUser()
     {
+        UserModel editUser = dataUser.createRandomTestUser();
         String firstName = "c9417editedFN";
         String lastName = "c9417editedLN";
         String email = "c9417edited@editedEmail.com";
@@ -132,7 +132,7 @@ public class UserProfileTests extends BaseShareWebTests
                 .assertDeleteUserDialogTextIsCorrect()
                 .clickDelete();
         usersPage.waitUntilNotificationMessageDisappears();
-        usersPage.searchUser(newUser.getUsername())
+        usersPage.navigate().searchUser(newUser.getUsername())
             .usingUser(newUser).assertUserIsNotFound();
     }
 
@@ -146,8 +146,8 @@ public class UserProfileTests extends BaseShareWebTests
             .assertDeleteUserDialogIsOpened()
             .assertDeleteUserDialogTextIsCorrect()
             .clickDelete();
-        usersPage.assertDeleteUserNotificationIsDisplayed()
-            .searchUser(deleteUser.getUsername())
+        usersPage.assertDeleteUserNotificationIsDisplayed();
+        usersPage.searchUser(deleteUser.getUsername())
             .usingUser(deleteUser).assertUserDeleteIconIsDisplayed()
                 .assertDeletedIsDisplayed();
     }
@@ -167,12 +167,12 @@ public class UserProfileTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void enablingAccount()
     {
-        editUserPage.navigate(editUser)
-            .clickDisabledAccount()
+        editUserPage.navigate(enableUser)
+            .selectDisabledAccount()
             .clickSaveChanges()
                 .assertAccountStatusIsDisabled()
             .clickEditUser()
-                .clickDisabledAccount()
+                .selectEnableAccount()
                 .clickSaveChanges()
                     .assertAccountStatusIsEnabled();
     }
@@ -194,7 +194,7 @@ public class UserProfileTests extends BaseShareWebTests
     @AfterClass (alwaysRun = true)
     public void cleanUp()
     {
-        removeUserFromAlfresco(browseUser, editUser, enableUser, removeGroupUser, addUserToGroup);
+        removeUserFromAlfresco(browseUser, enableUser, removeGroupUser, addUserToGroup);
         dataGroup.deleteGroup(c9423Group);
     }
 }

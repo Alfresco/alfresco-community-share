@@ -3,6 +3,7 @@ package org.alfresco.share.adminTools.modelManager;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
+import org.alfresco.rest.model.RestCustomModel;
 import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.share.BaseShareWebTests;
 import org.alfresco.testrail.TestRail;
@@ -16,6 +17,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import static org.alfresco.common.Utils.isFileInDirectory;
@@ -69,11 +71,16 @@ public class ModelManagerTests extends BaseShareWebTests
     private void deleteCustomModel(CustomContentModel customContentModel)
     {
         restApi.authenticateUser(dataUser.getAdminUser());
-        if(restApi.withPrivateAPI().usingCustomModel(customContentModel).getModel().getStatus().equals("ACTIVE"))
+
+        RestCustomModel customModelToDelete = restApi.withPrivateAPI().usingCustomModel(customContentModel).getModel();
+        if(customModelToDelete != null)
         {
-            restApi.withPrivateAPI().usingCustomModel(customContentModel).deactivateModel();
+            if(customModelToDelete.getStatus().equals("ACTIVE"))
+            {
+                restApi.withPrivateAPI().usingCustomModel(customModelToDelete).deactivateModel();
+            }
+            restApi.withPrivateAPI().usingCustomModel(customModelToDelete).deleteModel();
         }
-        restApi.withPrivateAPI().usingCustomModel(customContentModel).deleteModel();
     }
 
     @TestRail (id = "C9500")
@@ -132,7 +139,7 @@ public class ModelManagerTests extends BaseShareWebTests
     {
         String name = String.format("C9517-%s", RandomData.getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, name, name);
-        restApi.withPrivateAPI().usingCustomModel().createCustomModel(newModel);
+        createCustomModel(newModel);
 
         String editedNamespace = String.format("C9517editedNamespace%s", RandomData.getRandomAlphanumeric());
         String editedPrefix = String.format("C9517editedPrefix%s", RandomData.getRandomAlphanumeric());
@@ -166,7 +173,7 @@ public class ModelManagerTests extends BaseShareWebTests
     {
         String name = String.format("C9518testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelToDelete = new CustomContentModel(name, name, name);
-        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToDelete);
+        createCustomModel(modelToDelete);
 
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToDelete)
@@ -186,7 +193,7 @@ public class ModelManagerTests extends BaseShareWebTests
         String name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelToDeactivate = new CustomContentModel(name, name, name);
         modelsToRemove.add(modelToDeactivate);
-        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToDeactivate);
+        createCustomModel(modelToDeactivate);
         restApi.withPrivateAPI().usingCustomModel(modelToDeactivate).activateModel();
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToDeactivate)
@@ -201,7 +208,7 @@ public class ModelManagerTests extends BaseShareWebTests
     {
         String name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
         CustomContentModel modelToExport = new CustomContentModel(name, name, name);
-        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelToExport);
+        createCustomModel(modelToExport);
         modelsToRemove.add(modelToExport);
 
         modelManagerPage.navigate();
@@ -242,8 +249,7 @@ public class ModelManagerTests extends BaseShareWebTests
         CustomContentModel modelForCustomType = new CustomContentModel(name, name, name);
         RestCustomTypeModel newCustomType = new RestCustomTypeModel("TestCustomTypeName", "cm:content", "CustomTypeLabel");
         modelsToRemove.add(modelForCustomType);
-
-        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelForCustomType);
+        createCustomModel(modelForCustomType);
 
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelForCustomType)
@@ -271,7 +277,7 @@ public class ModelManagerTests extends BaseShareWebTests
         CustomContentModel modelForAspect = new CustomContentModel(name, name, name);
         CustomAspectModel newAspect = new CustomAspectModel("TestAspectName", "aspectNameLabel");
         modelsToRemove.add(modelForAspect);
-        restApi.withPrivateAPI().usingCustomModel().createCustomModel(modelForAspect);
+        createCustomModel(modelForAspect);
 
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelForAspect)
@@ -313,5 +319,20 @@ public class ModelManagerTests extends BaseShareWebTests
                 .clickOkButton();
 
         documentDetailsPage.assertPropertiesAreDisplayed(modelProperties);
+    }
+
+    private void createCustomModel(CustomContentModel customModel)
+    {
+        try
+        {
+            restApi.authenticateUser(getAdminUser())
+                .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
+        }
+        catch (Exception e)
+        {
+            LOG.error("Failed to create custom model {}. Error: {}", customModel.getName(), e.getMessage());
+            restApi.authenticateUser(getAdminUser())
+                .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
+        }
     }
 }

@@ -55,7 +55,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
             waiUntilLoadingMessageDisappears();
             return this;
         }
-        catch(TimeoutException | PageRenderTimeException e)
+        catch(TimeoutException | PageRenderTimeException  e)
         {
             LOG.error("Reload Custom Model page");
             return super.navigate();

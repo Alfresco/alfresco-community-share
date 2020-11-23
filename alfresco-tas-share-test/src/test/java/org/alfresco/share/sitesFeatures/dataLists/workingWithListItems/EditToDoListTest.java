@@ -29,8 +29,9 @@ public class EditToDoListTest extends ContextAwareWebTest
    // @Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     EditItemPopUp editItemPopUp;
+
     int priority = 1;
     String itemFile = "testFile1";
     String attachedFile = "testDoc.txt";

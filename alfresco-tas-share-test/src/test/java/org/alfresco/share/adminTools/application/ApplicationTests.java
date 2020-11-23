@@ -17,15 +17,14 @@ public class ApplicationTests extends BaseShareWebTests
     public void beforeTest()
     {
         applicationPage = new ApplicationPage(browser);
-
         setupAuthenticatedSession(getAdminUser());
-        applicationPage.navigate();
     }
 
     @TestRail (id = "C9292")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addAndResetNewLogo()
     {
+        applicationPage.navigate();
         applicationPage.uploadImage()
             .assertDefaultAlfrescoImageIsNotDisplayed()
             .resetImageToDefault()
@@ -37,6 +36,7 @@ public class ApplicationTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void changeTheme()
     {
+        applicationPage.navigate();
         try
         {
             applicationPage.selectTheme(Theme.YELLOW)
@@ -54,6 +54,7 @@ public class ApplicationTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkText()
     {
+        applicationPage.navigate();
         Assert.assertEquals(applicationPage.checkText(), language.translate("aplicationPage.info"));
     }
 }

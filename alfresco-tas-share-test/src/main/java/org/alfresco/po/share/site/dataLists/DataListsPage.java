@@ -92,7 +92,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     @Autowired
     private DeleteListPopUp deleteListPopUp;
 
-    @Autowired
+    //@Autowired
     private EditItemPopUp editItemPopUp;
 
     @Autowired

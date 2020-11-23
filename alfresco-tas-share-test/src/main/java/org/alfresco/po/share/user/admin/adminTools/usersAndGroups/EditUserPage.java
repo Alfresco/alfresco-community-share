@@ -24,7 +24,6 @@ public class EditUserPage extends SharePage2<EditUserPage>
 {
     private String userName;
 
-    @RenderWebElement
     private By searchGroupButton = By.cssSelector("button[id$='_default-update-groupfinder-group-search-button-button']");
     private By useDefaultButton = By.cssSelector("button[id$='_default-updateuser-clearphoto-button-button']");
     @RenderWebElement
@@ -32,6 +31,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
     private By cancelButton = By.cssSelector("button[id$='_default-updateuser-cancel-button-button']");
     private By userNameInEditUserPageTitle = By.cssSelector("span[id$='_default-update-title']");
     private By userProfileHeaderList = By.cssSelector("form[id$='_default-update-form'] div.header-bar");
+    @RenderWebElement
     private By firstNameField = By.cssSelector("input[id$='_default-update-firstname']");
     private By lastNameField = By.cssSelector("input[id$='_default-update-lastname']");
     private By emailField = By.cssSelector("input[id$='_default-update-email']");
@@ -137,7 +137,8 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage editFirstName(String firstName)
     {
-        clearAndType(firstNameField, firstName);
+        WebElement firstNameElement = getBrowser().waitUntilElementVisible(firstNameField);
+        clearAndType(firstNameElement, firstName);
         return this;
     }
 
@@ -149,7 +150,8 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage editLastNameField(String lastName)
     {
-        clearAndType(lastNameField, lastName);
+        WebElement lastNameElement = getBrowser().waitUntilElementVisible(lastNameField);
+        clearAndType(lastNameElement, lastName);
         return this;
     }
 
@@ -161,7 +163,8 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage editEmailField(String email)
     {
-        clearAndType(emailField, email);
+        WebElement emailElement = getBrowser().waitUntilElementVisible(emailField);
+        clearAndType(emailElement, email);
         return this;
     }
 
@@ -228,9 +231,31 @@ public class EditUserPage extends SharePage2<EditUserPage>
         return this;
     }
 
-    public EditUserPage clickDisabledAccount()
+    public EditUserPage selectDisabledAccount()
     {
-        getBrowser().waitUntilElementClickable(disableAccount).click();
+        WebElement disableCheck = getBrowser().waitUntilElementVisible(disableAccount);
+        getBrowser().scrollToElement(disableCheck);
+        getBrowser().mouseOver(disableCheck);
+        disableCheck.click();
+        if(!disableCheck.isSelected())
+        {
+            LOG.info("Retry select disable account");
+            disableCheck.click();
+        }
+        return this;
+    }
+
+    public EditUserPage selectEnableAccount()
+    {
+        WebElement disableCheck = getBrowser().waitUntilElementVisible(disableAccount);
+        getBrowser().scrollToElement(disableCheck);
+        getBrowser().mouseOver(disableCheck);
+        disableCheck.click();
+        if(disableCheck.isSelected())
+        {
+            LOG.info("Retry select enable account");
+            disableCheck.click();
+        }
         return this;
     }
 

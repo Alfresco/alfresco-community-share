@@ -3,14 +3,12 @@ package org.alfresco.share.adminTools;
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
 import org.alfresco.share.BaseShareWebTests;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -70,8 +68,8 @@ public class TagManagerTests extends BaseShareWebTests
         tagManagerPage.assertSearchButtonIsDisplayed()
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
-            .assertTableHeadersAreCorrect()
             .searchTagWithRetry(tag2)
+                .assertTableHeadersAreCorrect()
                 .clickEdit(tag2)
                     .assertRenameTagLabelIsCorrect()
                     .assertOkButtonIsDisplayed()

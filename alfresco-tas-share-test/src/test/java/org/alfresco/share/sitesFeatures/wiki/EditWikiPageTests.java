@@ -38,7 +38,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     WikiListPage wikiListPage;
     //@Autowired
     CreateWikiPage createWikiPage;
-    @Autowired
+    //@Autowired
     SelectDocumentPopupPage selectDoc;
     //@Autowired
     WikiPage wikiPage;

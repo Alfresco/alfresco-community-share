@@ -90,7 +90,7 @@ public class ToolbarTests extends BaseShareWebTests
         dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
         setupAuthenticatedSession(adminUser);
         toolbar.assertAdminToolsIsDisplayed()
-            .clickAdminTools().assertAdminToolsPageIsOpened();
+            .clickAdminTools().assertAdminApplicationPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
         setupAuthenticatedSession(adminUser);
         toolbar.assertAdminToolsIsNotDisplayed();

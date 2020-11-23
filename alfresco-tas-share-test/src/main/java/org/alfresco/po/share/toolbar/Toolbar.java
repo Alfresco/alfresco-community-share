@@ -8,13 +8,12 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.po.share.user.admin.adminTools.ApplicationPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.util.List;
 
@@ -187,11 +186,11 @@ public class Toolbar extends SharePageObject2
         return this;
     }
 
-    public AdminToolsPage clickAdminTools()
+    public ApplicationPage clickAdminTools()
     {
         LOG.info("Click Admin Tools");
         getBrowser().waitUntilElementClickable(adminToolsLink).click();
-        return (AdminToolsPage) new AdminToolsPage(browser).renderedPage();
+        return (ApplicationPage) new ApplicationPage(browser).renderedPage();
     }
 
     public Toolbar assertUserMenuIsDisplayed()

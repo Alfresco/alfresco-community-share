@@ -1,15 +1,15 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.DeleteDialog;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-public class TagManagerPage extends AdminToolsPage
+public class TagManagerPage extends SharePage2<TagManagerPage>
 {
     private By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
     private By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
@@ -23,16 +23,16 @@ public class TagManagerPage extends AdminToolsPage
     private By pagesList = By.cssSelector("div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page");
     private By currentPage = By.cssSelector("span[class*='current-page']");
     @RenderWebElement
-    private By searchInput = By.cssSelector("input[id*='search']");
+    private By searchInput = By.cssSelector("input[id$='search-text']");
     @RenderWebElement
-    private By searchButton = By.cssSelector("button[id*='search']");
+    private By searchButton = By.cssSelector(".search-button button");
     private By noFoundMessage = By.cssSelector("div[class='tags-list-info']");
 
     private String tagRow = "//b[text()='%s']/../../../../..";
 
     public TagManagerPage(ThreadLocal<WebBrowser> browser)
     {
-        super(browser);
+        this.browser = browser;
     }
 
     @Override
@@ -107,7 +107,8 @@ public class TagManagerPage extends AdminToolsPage
     public TagManagerPage assertTableHeadersAreCorrect()
     {
         LOG.info("Assert tag table headers are correct");
-        Assert.assertEquals(getElementText(tableHead), language.translate("tagManager.tableHead"), "Table headers");
+        Assert.assertEquals(getBrowser().waitUntilElementVisible(tableHead).getText(),
+            language.translate("tagManager.tableHead"), "Table headers");
         return this;
     }
 
@@ -121,29 +122,26 @@ public class TagManagerPage extends AdminToolsPage
         {
             Utility.waitToLoopTime(1);
             LOG.error(String.format("Wait for tag %s to be displayed - retry: %s", tagName, retryCount));
-            clickSearchAndWaitForTagTableToBeLoaded();
+            search(tagName);
             found = isTagDisplayed(tagName);
             retryCount++;
         }
         return this;
     }
 
-    private void clickSearchAndWaitForTagTableToBeLoaded()
+    private void clickSearch()
     {
         WebElement search = getBrowser().findElement(searchButton);
         getBrowser().mouseOver(search);
         getBrowser().waitUntilElementClickable(search).click();
-        /*if(!getBrowser().isElementDisplayed(noFoundMessage))
-        {
-            getBrowser().waitUntilElementHasAttribute(loadingTagsMessage, "style", "display: none;");
-        }*/
     }
 
     public TagManagerPage search(String tagName)
     {
-        getBrowser().waitUntilElementVisible(searchInput);
-        clearAndType(searchInput, tagName);
-        clickSearchAndWaitForTagTableToBeLoaded();
+        WebElement input = getBrowser().waitUntilElementVisible(searchInput);
+        input.click();
+        clearAndType(input, tagName);
+        clickSearch();
         return (TagManagerPage) this.renderedPage();
     }
 

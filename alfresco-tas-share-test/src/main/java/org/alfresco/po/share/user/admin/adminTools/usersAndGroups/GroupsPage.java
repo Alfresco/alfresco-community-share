@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class GroupsPage extends AdminToolsPage
+public class GroupsPage extends SharePage2<GroupsPage>
 {
     @RenderWebElement
     private By sectionTitle = By.cssSelector("label[for*='default-search-text']");
@@ -48,7 +49,6 @@ public class GroupsPage extends AdminToolsPage
     private By deleteGroupCancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
     private By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
     private By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
-    private By deleteMessage = By.cssSelector("div[id='message_c'");
     private String groupRow = "//div[@class='yui-columnbrowser-column-body']//span[text()='%s']/..";
     private By deleteGroupButton = By.cssSelector(".groups-delete-button");
     private By updateGroupButton = By.cssSelector(".groups-update-button");
@@ -62,7 +62,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage(ThreadLocal<WebBrowser> browser)
     {
-        super(browser);
+        this.browser = browser;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertSectionTitleIsGroups()
     {
-        Assert.assertEquals(getBrowser().findElement(sectionTitle).getText(), language.translate("adminTools.groups.title"));
+        assertEquals(getBrowser().findElement(sectionTitle).getText(), language.translate("adminTools.groups.title"));
         return this;
     }
 
@@ -230,7 +230,9 @@ public class GroupsPage extends AdminToolsPage
     public GroupsPage selectGroup(String itemName)
     {
         LOG.info(String.format("Select group %s", itemName));
-        getItemGroup(itemName).click();
+        WebElement groupToClick = getItemGroup(itemName);
+        getBrowser().mouseOver(groupToClick);
+        groupToClick.click();
         getBrowser().waitUntilElementHasAttribute(getBrowser().findElement
             (By.xpath(String.format(groupRow, itemName))), "class", "item-selected");
         return this;
@@ -291,7 +293,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertNewGroupTitleIsDisplayed()
     {
-        Assert.assertEquals(getBrowser().waitUntilElementVisible(newGroupPanelTitle).getText(),
+        assertEquals(getBrowser().waitUntilElementVisible(newGroupPanelTitle).getText(),
             language.translate("adminTools.groups.newGroupPanelTitle"), "New Group title is displayed");
         return this;
     }
@@ -316,13 +318,13 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertGroupIdentifierFieldLabelIsCorrect()
     {
-        Assert.assertEquals(getBrowser().findElement(identifierFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.identifier"));
+        assertEquals(getBrowser().findElement(identifierFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.identifier"));
         return this;
     }
 
     public GroupsPage assertDisplayNameFieldLabelIsCorrect()
     {
-        Assert.assertEquals(getBrowser().findElement(displayNameFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.displayName"));
+        assertEquals(getBrowser().findElement(displayNameFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.displayName"));
         return this;
     }
 
@@ -424,17 +426,15 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertSearchBarTextIs(String searchKeyword, int results)
     {
-        Assert.assertEquals(getBrowser().findElement(searchBar).getText(), String.format(
+        assertEquals(getBrowser().findElement(searchBar).getText(), String.format(
             language.translate("adminTools.groups.searchResultHeader"), searchKeyword, results));
         return this;
     }
 
     public GroupsPage assertDeleteInfoMessageIsDisplayed(String group)
     {
-        getBrowser().waitUntilElementVisible(deleteMessage);
-        Assert.assertEquals( getBrowser().findElement(deleteMessage).getText(),
+        assertEquals(notificationMessageThread.get(),
             String.format(language.translate("adminTools.groups.deleteMessage"), group));
-        getBrowser().waitUntilElementDisappears(deleteMessage);
         return this;
     }
 

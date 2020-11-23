@@ -79,7 +79,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private GoogleDocsCommon googleDocsCommon;
     //@Autowired
     private StartWorkflowPage startWorkflowPage;
-    @Autowired
+    //@Autowired
     private SelectPopUpPage selectPopUpPage;
     @Autowired
     private WorkflowDetailsPage workflowDetailsPage;

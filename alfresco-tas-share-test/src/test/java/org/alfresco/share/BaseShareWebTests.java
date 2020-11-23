@@ -1,17 +1,11 @@
 package org.alfresco.share;
 
-import static org.alfresco.common.Utils.saveScreenshot;
-import static org.alfresco.common.Utils.screenshotFolder;
-
-import java.io.File;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.WebBrowserConfig;
+import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
@@ -28,7 +22,9 @@ import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.browser.WebBrowser;
+import org.apache.commons.httpclient.HttpState;
 import org.joda.time.DateTime;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +35,15 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+
+import java.io.File;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+
+import static org.alfresco.common.Utils.saveScreenshot;
+import static org.alfresco.common.Utils.screenshotFolder;
 
 @ContextConfiguration(classes = ShareTestContext.class)
 public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
@@ -86,6 +91,9 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     @Autowired
     protected DataContent dataContent;
 
+    @Autowired
+    private UserService userService;
+
     protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
@@ -129,12 +137,16 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     private void closeBrowser()
     {
         LOG.info("Close browser..");
-        try {
+        try
+        {
             getBrowser().manage().deleteAllCookies();
             getBrowser().quit();
-        } catch (NoSuchSessionException noSuchSessionException) {
+        }
+        catch (NoSuchSessionException noSuchSessionException)
+        {
             LOG.info("Browser is not closed: {}", noSuchSessionException.getMessage());
-        } finally
+        }
+        finally
         {
             LOG.info("Finally close browser..");
             getBrowser().quit();
@@ -146,22 +158,21 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
         return browser.get();
     }
 
-    public void setupAuthenticatedSession(String userName, String password)
-    {
-        loginViaBrowser(userName, password);
-    }
-
-    public void setupAuthenticatedSession(UserModel userModel)
-    {
-        loginViaBrowser(userModel.getUsername(), userModel.getPassword());
-    }
-
-    private void loginViaBrowser(String userName, String password)
+    public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
     {
         getBrowser().manage().deleteAllCookies();
-        UserModel validUser = new UserModel(userName, password);
-        getLoginPage().navigate().login(validUser);
+        getLoginPage().navigate().login(userModel);
         userDashboardPage.waitForSharePageToLoad();
+    }
+
+    public void setupAuthenticatedSession(UserModel user)
+    {
+        getBrowser().manage().deleteAllCookies();
+        getLoginPage().navigate();
+        HttpState state = userService.login(user.getUsername(), user.getPassword());
+        getBrowser().manage().deleteAllCookies();
+        Arrays.stream(state.getCookies()).forEach(cookie
+            -> getBrowser().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
     }
 
     public CommonLoginPage getLoginPage()
@@ -173,6 +184,8 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
 
         return loginPage;
     }
+
+
 
     protected void navigate(String pageUrl)
     {

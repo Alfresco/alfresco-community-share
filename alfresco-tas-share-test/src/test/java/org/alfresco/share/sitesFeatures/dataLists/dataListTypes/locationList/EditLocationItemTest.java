@@ -29,7 +29,7 @@ public class EditLocationItemTest extends ContextAwareWebTest
     //@Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     EditItemPopUp editItemPopUp;
 
     String random = RandomData.getRandomAlphanumeric();

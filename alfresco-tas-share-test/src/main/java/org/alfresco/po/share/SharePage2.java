@@ -1,5 +1,6 @@
 package org.alfresco.po.share;
 
+import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
@@ -8,6 +9,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.testng.Assert;
 
+import javax.print.attribute.standard.PageRanges;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -64,12 +66,21 @@ public abstract class SharePage2<T> extends SharePageObject2
     /**
      * Navigate directly to relative path of the object based on {@link #getRelativePath()} constructed
      */
-    @SuppressWarnings ("unchecked")
     public T navigate()
     {
         STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
         getBrowser().navigate().to(relativePathToURL());
-        return (T) renderedPage();
+        try
+        {
+            getBrowser().waitUntilElementVisible(body, WAIT_60);
+            return (T) renderedPage();
+        }
+        catch (PageRenderTimeException | TimeoutException e)
+        {
+            LOG.error("Navigation to {} failed", e.getMessage());
+            getBrowser().refresh();
+            return (T) renderedPage();
+        }
     }
 
     public void navigateWithoutRender()

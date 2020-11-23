@@ -32,7 +32,7 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
    // @Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     EditItemPopUp editItemPopUp;
 
     String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());

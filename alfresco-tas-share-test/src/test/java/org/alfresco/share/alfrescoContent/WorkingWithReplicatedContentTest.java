@@ -1,12 +1,5 @@
 package org.alfresco.share.alfrescoContent;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.LoginPage;
@@ -19,12 +12,18 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.admin.CreateEditReplicationJobPage;
 import org.alfresco.po.share.user.admin.ReplicationJobsPage;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 {
@@ -46,8 +45,6 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
     private SiteDashboardPage siteDashboardPage;
     //@Autowired
     private NewFolderDialog newContentDialog;
-    //@Autowired
-    private AdminToolsPage adminToolsPage;
     //@Autowired
     private RepositoryPage repositoryPage;
     @Autowired
@@ -109,12 +106,10 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         String description = "C7600 Job Description " + uniqueIdentifier;
         ArrayList<String> payloadDestinationPath = new ArrayList<>(Arrays.asList("Sites", site, "documentLibrary", folder));
 
-        adminToolsPage.navigate();
 
         LOG.info("STEP1: Navigate to 'Admin Tools -> Repository -> Replication jobs'");
-        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.replicationJobs"));
-        replicationJobsPage.renderedPage();
-        assertEquals(adminToolsPage.getCurrentUrl(), properties.getShareUrl() + replicationJobsPage.getRelativePath(), "User is redirected to=");
+        replicationJobsPage.navigate();
+        assertEquals(replicationJobsPage.getCurrentUrl(), properties.getShareUrl() + replicationJobsPage.getRelativePath(), "User is redirected to=");
 
         LOG.info("STEP2: Click 'Create Job' button");
         replicationJobsPage.clickCreateJobButton();
@@ -146,7 +141,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 
         LOG.info("STEP9: Click 'Create Job' button");
         createEditReplicationJobPage.clickCreateJobButton();
-        assertEquals(adminToolsPage.getCurrentUrl(), properties.getShareUrl() + replicationJobsPage.getRelativePath() + "?jobName=" + name,
+        assertEquals(createEditReplicationJobPage.getCurrentUrl(), properties.getShareUrl() + replicationJobsPage.getRelativePath() + "?jobName=" + name,
             "User is redirected to=");
         assertTrue(replicationJobsPage.isJobDisplayedInList(name), name + " job is displayed in 'Jobs' section.");
 

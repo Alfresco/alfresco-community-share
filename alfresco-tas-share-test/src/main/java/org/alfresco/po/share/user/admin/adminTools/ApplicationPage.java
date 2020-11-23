@@ -1,25 +1,23 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import java.io.File;
-import java.util.List;
-
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.UploadFileDialog;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
+
+import java.io.File;
+import java.util.List;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class ApplicationPage extends AdminToolsPage
+public class ApplicationPage extends SharePage2<ApplicationPage>
 {
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
@@ -36,13 +34,20 @@ public class ApplicationPage extends AdminToolsPage
 
     public ApplicationPage(ThreadLocal<WebBrowser> browser)
     {
-        super(browser);
+        this.browser = browser;
     }
 
     @Override
     public String getRelativePath()
     {
         return "share/page/console/admin-console/application";
+    }
+
+    public ApplicationPage assertAdminApplicationPageIsOpened()
+    {
+        LOG.info("Assert Application Admin Tools page is opened");
+        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Application page is not opened");
+        return this;
     }
 
     public UploadFileDialog clickUpload()
@@ -54,7 +59,7 @@ public class ApplicationPage extends AdminToolsPage
     public ApplicationPage clickApply()
     {
         getBrowser().waitUntilElementClickable(applyButton).click();
-        return (ApplicationPage) this.renderedPage();
+        return this;
     }
 
     public ApplicationPage assertDefaultAlfrescoImageIsNotDisplayed()
@@ -86,7 +91,7 @@ public class ApplicationPage extends AdminToolsPage
 
     public ApplicationPage resetImageToDefault()
     {
-        //click Reset button
+        LOG.info("Reset image to default");
         getBrowser().waitUntilElementClickable(resetButton).click();
         getBrowser().waitUntilElementVisible(defaultAlfrescoImage);
         return this;
@@ -94,12 +99,14 @@ public class ApplicationPage extends AdminToolsPage
 
     public ApplicationPage selectTheme(Theme theme)
     {
+        LOG.info("Select theme: {}", theme.name);
         WebElement themeElement = getBrowser().waitUntilElementVisible(themeDropdown);
         Select themeOptions = new Select(themeElement);
         themeOptions.selectByValue(theme.getSelectValue());
         clickApply();
         getBrowser().waitUntilElementVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
-        return (ApplicationPage) this.renderedPage();
+
+        return this;
     }
 
     public boolean isThemeOptionSelected(Theme theme)
@@ -118,12 +125,14 @@ public class ApplicationPage extends AdminToolsPage
 
     public ApplicationPage assertThemeOptionIsSelected(Theme theme)
     {
+        LOG.info("Assert theme option selected is {}", theme.name);
         assertTrue(isThemeOptionSelected(theme), "Theme is selected");
         return this;
     }
 
     public ApplicationPage assertBodyContainsTheme(Theme theme)
     {
+        LOG.info("Assert share body contains theme {}", theme.name);
         assertTrue(doesBodyContainTheme(theme), "New theme is applied");
         return this;
     }

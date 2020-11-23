@@ -6,7 +6,7 @@ import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -20,21 +20,20 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
 {
     private String userName;
 
-    public By accountStatus = By.cssSelector("span[id$='_default-view-enabled']");
+    private final By accountStatus = By.cssSelector("span[id$='_default-view-enabled']");
     @RenderWebElement
-    private By editUserButton = By.cssSelector("button[id$='_default-edituser-button-button']");
+    private final By editUserButton = By.cssSelector("button[id$='_default-edituser-button-button']");
     @RenderWebElement
-    private By deleteUserButton = By.cssSelector("button[id$='_default-deleteuser-button-button']");
-    private By goBackButton = By.cssSelector("button[id$='_default-goback-button-button']");
-    private By userNameInAboutSection = By.cssSelector("div [id$='_default-view-name']");
-    private By userProfileHeaderList = By.cssSelector("div.header-bar");
-    private By infoFromSections = By.cssSelector(".field-label-right");
-    private By userQuota = By.cssSelector("span[id$='_default-view-quota']");
-    private By email = By.cssSelector("span[id$='_default-view-email']");
-    private By addedGroups = By.cssSelector("span[id*='default-view-groups']");
-    private By userProfileUserName = By.cssSelector("span[id$='_default-view-title']");
-    private By userPhoto = By.cssSelector( "div.photo img.view-photoimg");
-    private By sectionsInfo = By.xpath("//div[@class='field-row']");
+    private final By deleteUserButton = By.cssSelector("button[id$='_default-deleteuser-button-button']");
+    private final By goBackButton = By.cssSelector("button[id$='_default-goback-button-button']");
+    private final By userNameInAboutSection = By.cssSelector("div [id$='_default-view-name']");
+    private final By userProfileHeaderList = By.cssSelector("div.header-bar");
+    private final By infoFromSections = By.cssSelector(".field-label-right");
+    private final By userQuota = By.cssSelector("span[id$='_default-view-quota']");
+    private final By email = By.cssSelector("span[id$='_default-view-email']");
+    private final By addedGroups = By.cssSelector("span[id*='default-view-groups']");
+    private final By userProfileUserName = By.cssSelector("span[id$='_default-view-title']");
+    private final By userPhoto = By.cssSelector( "div.photo img.view-photoimg");
 
     public UserProfileAdminToolsPage(ThreadLocal<WebBrowser> browser)
     {
@@ -183,8 +182,9 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertAccountStatusIsDisabled()
     {
         LOG.info("Assert account is disabled");
-        getBrowser().waitUntilElementVisible(accountStatus);
-        assertEquals(getElementText(accountStatus), language.translate("adminTools.user.status.disabled"));
+        WebElement status = getBrowser().waitUntilElementVisible(accountStatus);
+        getBrowser().scrollToElement(status);
+        assertEquals(status.getText(), language.translate("adminTools.user.status.disabled"));
 
         return this;
     }
@@ -192,8 +192,10 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertAccountStatusIsEnabled()
     {
         LOG.info("Assert account is enabled");
-        getBrowser().waitUntilElementVisible(accountStatus);
-        assertEquals(getElementText(accountStatus), language.translate("adminTools.user.status.enabled"));
+        WebElement status = getBrowser().waitUntilElementVisible(accountStatus);
+        getBrowser().scrollToElement(status);
+        assertEquals(status.getText(), language.translate("adminTools.user.status.enabled"));
+
         return this;
     }
 
@@ -203,6 +205,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
         Arrays.sort(items);
         Arrays.sort(groupNames);
         assertEquals(items, groupNames);
+
         return this;
     }
 

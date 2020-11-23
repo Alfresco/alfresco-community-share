@@ -1,22 +1,16 @@
 package org.alfresco.share.adminTools.categoryManager;
 
 import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.SystemErrorPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.BaseShareWebTests;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.awt.desktop.UserSessionEvent;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
@@ -39,7 +33,7 @@ public class CategoryManagerTests extends BaseShareWebTests
     public void setupTest()
     {
         categoryManagerPage = new CategoryManagerPage(browser);
-        setupAuthenticatedSession(dataUser.getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(dataUser.getAdminUser());
     }
 
     @AfterClass (alwaysRun = true)
@@ -78,13 +72,9 @@ public class CategoryManagerTests extends BaseShareWebTests
     public void deleteCategory()
     {
         categoryManagerPage.navigate();
-        LOG.info("Step 1: Delete the category.");
         userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9301);
-        categoryManagerPage.navigate();
-        categoryManagerPage.deleteCategory(category9301);
-
-        LOG.info("Step 2: Verify the delete category is no longer present in the 'Category Manager' page.");
-        assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9301));
+        categoryManagerPage.deleteCategory(category9301)
+            .assertCategoryIsNotDisplayed(category9301);
     }
 
     @TestRail (id = "C9298")
@@ -93,10 +83,9 @@ public class CategoryManagerTests extends BaseShareWebTests
     {
         categoryManagerPage.navigate();
         userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9298);
-        categoryManagerPage.navigate();
         categoryManagerPage.editCategory(category9298, categoryEdited);
         assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));
-        assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9298));
+        categoryManagerPage.assertCategoryIsNotDisplayed(category9298);
     }
 
     @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })

@@ -1,62 +1,47 @@
 package org.alfresco.po.share.site.dataLists;
 
-import java.util.List;
-
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 
-@Primary
-@PageObject
-public class CreateNewItemPopUp extends ShareDialog
+import java.util.List;
+
+public class CreateNewItemPopUp extends ShareDialog2
 {
     @RenderWebElement
-    @FindBy (css = "button[id$='submit-button']")
-    protected WebElement saveButton;
-    @FindBy (css = "button[id$='form-cancel-button']")
-    protected WebElement cancelButton;
+    protected By saveButton = By.cssSelector("button[id$='submit-button']");
+    protected By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
     protected String fieldLocator = "div[class*='form-field'] [id*='%s']";
     protected String dropDownLocator = "select[id*='%s']";
     protected String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
     protected String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
+    private By selectAttachmentButton = By.cssSelector("div[id*='attachments-cntrl-itemGroupActions'] button");
+
     //@Autowired
     DataListsPage dataListsPage;
-    @Autowired
-    SelectDocumentPopupPage selectDocumentPopupPage;
-    @Autowired
-    SelectPopUpPage selectPopUpPage;
-    @FindBy (css = "div[id*='attachments-cntrl-itemGroupActions'] button")
-    private WebElement selectAttachmentButton;
 
-    /**
-     * Method used to add content in input field.
-     *
-     * @param field   - the input field from the popup that will be filled with content;
-     * @param content - content to be inserted;
-     */
+    public CreateNewItemPopUp(ThreadLocal<WebBrowser> browser)
+    {
+        this.browser = browser;
+    }
+
     public void addContent(String field, String content)
     {
-        WebElement fieldElement = browser.waitUntilElementVisible(By.cssSelector(String.format(fieldLocator, field)));
+        WebElement fieldElement = getBrowser().waitUntilElementVisible(By.cssSelector(String.format(fieldLocator, field)));
         fieldElement.clear();
         fieldElement.sendKeys(content);
     }
 
-    /**
-     * Remove attachment
-     *
-     * @param filename
-     */
     public void removeAttachments(String filename)
     {
-        browser.findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
+        getBrowser().findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
+        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(browser);
         selectDocumentPopupPage.renderedPage();
         selectDocumentPopupPage.clickRemoveIcon(filename);
         selectDocumentPopupPage.clickOkButton();
@@ -66,7 +51,8 @@ public class CreateNewItemPopUp extends ShareDialog
     {
         if (folderName != null)
         {
-            browser.findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
+            getBrowser().findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
+            SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(browser);
             selectDocumentPopupPage.clickItem(folderName);
             selectDocumentPopupPage.clickAddIcon(fileName);
             selectDocumentPopupPage.clickOkButton();
@@ -80,7 +66,8 @@ public class CreateNewItemPopUp extends ShareDialog
      */
     public void addAttachmentFromDocumentLibrary(String fileName)
     {
-        browser.findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
+        getBrowser().findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
+        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(browser);
         selectDocumentPopupPage.renderedPage();
         selectDocumentPopupPage.clickAddIcon(fileName);
         selectDocumentPopupPage.clickOkButton();
@@ -90,7 +77,8 @@ public class CreateNewItemPopUp extends ShareDialog
     {
         if (userName != null)
         {
-            browser.findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
+            getBrowser().findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
+            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(browser);
             selectPopUpPage.renderedPage();
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
@@ -102,7 +90,8 @@ public class CreateNewItemPopUp extends ShareDialog
     {
         if (userName != null)
         {
-            browser.findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
+            getBrowser().findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
+            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(browser);
             selectPopUpPage.renderedPage();
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
@@ -114,7 +103,8 @@ public class CreateNewItemPopUp extends ShareDialog
     {
         if (userName != null)
         {
-            browser.findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
+            getBrowser().findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
+            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(browser);
             selectPopUpPage.renderedPage();
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
@@ -122,57 +112,39 @@ public class CreateNewItemPopUp extends ShareDialog
         }
     }
 
-    /**
-     * Select
-     *
-     * @param item         value of option
-     * @param dropDownList dropdown id
-     */
     public void selectDropDownItem(String item, String dropDownList)
     {
         if (item != null)
         {
-            browser.waitUntilElementsVisible(By.cssSelector("option"));
-            Select dropdown = new Select(browser.findElement(By.cssSelector(String.format(dropDownLocator, dropDownList))));
+            getBrowser().waitUntilElementsVisible(By.cssSelector("option"));
+            Select dropdown = new Select(getBrowser().findElement(By.cssSelector(String.format(dropDownLocator, dropDownList))));
             dropdown.selectByValue(item);
         }
     }
 
     public DataListsPage clickCancel()
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(cancelButton, 5);
-        cancelButton.click();
+        getBrowser().waitUntilElementClickable(cancelButton).click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
     public DataListsPage clickSave()
     {
-        saveButton.click();
+        getBrowser().waitUntilElementClickable(saveButton).click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
     public DataListsPage clickCloseButton()
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(closeButton, 5);
-        closeButton.click();
+        getBrowser().waitUntilElementClickable(closeButton).click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
-    /**
-     * Method used to fill the fields from 'Create New Item' popup for 'Contact List' type.
-     *
-     * @param fieldsValue - list of strings. Each input field needs his own string in this list;
-     */
     public void fillCreateNewContactItem(List<String> fieldsValue)
     {
         fillCreateNewItemPopupFields(ContactListFields.class, fieldsValue);
     }
 
-    /**
-     * Method used to fill the fields from 'Create New Item' popup for 'Event Agenda' type.
-     *
-     * @param fieldsValue - list of strings. Each input field needs his own string in this list;
-     */
     public void fillCreateNewEventAgendaItem(List<String> fieldsValue)
     {
         fillCreateNewItemPopupFields(EventAgendaFields.class, fieldsValue);
@@ -329,11 +301,11 @@ public class CreateNewItemPopUp extends ShareDialog
 
         for (Enum<E> enumValue : enumData.getEnumConstants())
         {
-            WebElement formField = browser.findElement(By.cssSelector(String.format(webElement, enumValue)));
+            WebElement formField = getBrowser().findElement(By.cssSelector(String.format(webElement, enumValue)));
 
-            areAllFieldsDisplayed = areAllFieldsDisplayed && browser.isElementDisplayed(formField);
+            areAllFieldsDisplayed = areAllFieldsDisplayed && getBrowser().isElementDisplayed(formField);
 
-            if (!browser.isElementDisplayed(formField))
+            if (!getBrowser().isElementDisplayed(formField))
             {
                 System.out.println("The field '" + enumValue.name() + "' is not present in 'New Item' popup.");
             }
@@ -379,7 +351,7 @@ public class CreateNewItemPopUp extends ShareDialog
 
         for (Enum<E> enumValue : enumData.getEnumConstants())
         {
-            String fieldText = browser.findElement(By.cssSelector(String.format(webElement, enumValue))).getAttribute("value");
+            String fieldText = getBrowser().findElement(By.cssSelector(String.format(webElement, enumValue))).getAttribute("value");
 
             areFieldsFilled = areFieldsFilled && fieldText.equals(searchedText);
 
@@ -422,7 +394,7 @@ public class CreateNewItemPopUp extends ShareDialog
      */
     public boolean isSelectAttachmentButtonLocatorDisplayed()
     {
-        return browser.isElementDisplayed(selectAttachmentButton);
+        return getBrowser().isElementDisplayed(selectAttachmentButton);
     }
 
     /**
@@ -432,7 +404,7 @@ public class CreateNewItemPopUp extends ShareDialog
      */
     public boolean isSaveButtonDisplayed()
     {
-        return browser.isElementDisplayed(saveButton);
+        return getBrowser().isElementDisplayed(saveButton);
     }
 
     /**
@@ -442,7 +414,7 @@ public class CreateNewItemPopUp extends ShareDialog
      */
     public boolean isCancelButtonDisplayed()
     {
-        return browser.isElementDisplayed(cancelButton);
+        return getBrowser().isElementDisplayed(cancelButton);
     }
 
 

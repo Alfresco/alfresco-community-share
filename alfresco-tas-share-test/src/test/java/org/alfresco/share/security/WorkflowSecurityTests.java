@@ -58,7 +58,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     UserProfilePage userProfilePage;
     //@Autowired
     StartWorkflowPage startWorkflowPage;
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
     //@Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;

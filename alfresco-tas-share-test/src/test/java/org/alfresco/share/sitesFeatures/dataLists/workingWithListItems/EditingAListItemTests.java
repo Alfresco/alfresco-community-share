@@ -26,8 +26,7 @@ import org.testng.annotations.Test;
 
 public class EditingAListItemTests extends ContextAwareWebTest
 {
-
-    @Autowired
+    //@Autowired
     protected EditItemPopUp editItemPopUp;
     @Autowired
     DataListsService dataLists;

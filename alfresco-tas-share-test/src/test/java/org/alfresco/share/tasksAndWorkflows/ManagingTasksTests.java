@@ -46,13 +46,13 @@ public class ManagingTasksTests extends ContextAwareWebTest
    // @Autowired
     UserDashboardPage userDashboardPage;
 
-    @Autowired
+    //@Autowired
     SelectAssigneePopUp selectAssigneePopUp;
 
     //@Autowired
     MyTasksPage myTasksPage;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
     @Autowired
