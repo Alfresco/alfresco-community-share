@@ -94,7 +94,8 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public ApplicationPage resetImageToDefault()
     {
         LOG.info("Reset image to default");
-        getBrowser().waitUntilElementClickable(resetButton).click();
+        WebElement reset = getBrowser().waitUntilElementVisible(resetButton);
+        getBrowser().clickJS(reset);
         getBrowser().waitUntilElementVisible(defaultAlfrescoImage);
         return this;
     }
