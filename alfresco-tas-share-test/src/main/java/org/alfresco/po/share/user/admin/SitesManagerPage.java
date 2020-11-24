@@ -6,13 +6,11 @@ import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 

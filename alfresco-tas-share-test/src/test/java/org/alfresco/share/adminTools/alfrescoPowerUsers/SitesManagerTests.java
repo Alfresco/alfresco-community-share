@@ -121,7 +121,7 @@ public class SitesManagerTests extends BaseShareWebTests
         userDashboardPage.navigate(user);
         toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
-        setupAuthenticatedSession(user);
+        setupAuthenticatedSessionViaLoginPage(user);
         toolbar.assertSitesManagerIsNotDisplayed();
     }
 
