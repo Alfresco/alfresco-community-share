@@ -6,6 +6,7 @@ import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -133,7 +134,15 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
     {
         WebElement search = getBrowser().findElement(searchButton);
         getBrowser().mouseOver(search);
-        getBrowser().waitUntilElementClickable(search).click();
+        try
+        {
+            getBrowser().waitUntilElementClickable(search).click();
+        }
+        catch (ElementClickInterceptedException e)
+        {
+            LOG.error("Failed to click Search button. Retry ");
+            getBrowser().clickJS(search);
+        }
     }
 
     public TagManagerPage search(String tagName)

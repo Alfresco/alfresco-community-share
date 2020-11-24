@@ -259,8 +259,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             getBrowser().waitUntilElementsVisible(dropdownOptionsList);
             WebElement option = getBrowser().findFirstElementWithValue(dropdownOptionsList, visibilityValue);
             getBrowser().mouseOver(option);
-            getBrowser().waitUntilElementClickable(option);
-            getBrowser().clickJS(option);
+            getBrowser().waitUntilElementClickable(option).click();
             getBrowser().waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
 
             return this;
