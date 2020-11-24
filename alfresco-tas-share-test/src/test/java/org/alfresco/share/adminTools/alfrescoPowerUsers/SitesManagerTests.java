@@ -33,7 +33,6 @@ public class SitesManagerTests extends BaseShareWebTests
         siteDashboardPage = new SiteDashboardPage(browser);
         sitesManagerPage = new SitesManagerPage(browser);
         systemErrorPage = new SystemErrorPage(browser);
-        setupAuthenticatedSession(siteAdmin);
     }
 
     @BeforeClass (alwaysRun = true)
@@ -67,6 +66,7 @@ public class SitesManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifySiteManagerPage()
     {
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate()
             .assertSiteManagerPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("adminTools.sitesManager.browser.pageTitle"))
@@ -81,6 +81,7 @@ public class SitesManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToPublic()
     {
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site2)
             .changeSiteVisibility(Visibility.PUBLIC)
             .assertSuccessIndicatorIsDisplayed()
@@ -92,6 +93,7 @@ public class SitesManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToModerated()
     {
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site3)
             .changeSiteVisibility(Visibility.MODERATED)
             .assertSuccessIndicatorIsDisplayed()
@@ -103,6 +105,7 @@ public class SitesManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToPrivate()
     {
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site4)
             .changeSiteVisibility(Visibility.PRIVATE)
             .assertSuccessIndicatorIsDisplayed()
@@ -114,25 +117,19 @@ public class SitesManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyUserAddedAndRemovedFromSiteAdminGroup()
     {
-        try
-        {
-            setupAuthenticatedSession(user);
-            userDashboardPage.navigate(user);
-            toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
-            dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
-            setupAuthenticatedSession(user);
-            toolbar.assertSitesManagerIsNotDisplayed();
-        }
-        finally
-        {
-            setupAuthenticatedSession(siteAdmin);
-        }
+        setupAuthenticatedSession(user);
+        userDashboardPage.navigate(user);
+        toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
+        dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
+        setupAuthenticatedSession(user);
+        toolbar.assertSitesManagerIsNotDisplayed();
     }
 
     @TestRail (id = "C8689")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void siteAdminBecomeSitesManager()
     {
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate()
             .usingSite(site6).becomeSiteManager().assertSiteManagerIsYes();
     }
@@ -141,6 +138,7 @@ public class SitesManagerTests extends BaseShareWebTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSiteAsSiteAdmin()
     {
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site5)
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(site5.getTitle())

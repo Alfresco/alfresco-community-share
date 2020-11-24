@@ -159,6 +159,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
         LOG.info("Click Save");
         WebElement saveBtn = getBrowser().waitUntilElementClickable(save);
         getBrowser().scrollToElement(saveBtn);
+        getBrowser().mouseOver(saveBtn);
         saveBtn.click();
         return (UserProfilePage) new UserProfilePage(browser).renderedPage();
     }
