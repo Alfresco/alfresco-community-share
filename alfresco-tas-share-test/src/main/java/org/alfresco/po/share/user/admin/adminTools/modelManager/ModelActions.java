@@ -7,6 +7,7 @@ import org.alfresco.utility.model.CustomAspectModel;
 import org.alfresco.utility.model.CustomContentModel;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,8 @@ public class ModelActions
     private By actions = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']");
     private String modelRow = "//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='%s']/../../../..";
     private By nameValue = By.cssSelector("td[class*='nameColumn'] span[class='value']");
+    private By activeStatus = By.cssSelector("span[class^='status active']");
+    private By inactiveStatus = By.cssSelector("span[class='status alfresco-renderers-Property medium']");
 
     public ModelActions(CustomContentModel contentModel, ModelManagerPage modelManagerPage, EditModelDialog editModelDialog,
                         DeleteModelDialog deleteModelDialog, ModelDetailsPage modelDetailsPage)
@@ -160,6 +163,7 @@ public class ModelActions
         LOG.info("Activate model");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.activate"));
         modelManagerPage.waiUntilLoadingMessageDisappears();
+        waitForContentModelStatus(activeStatus);
         return this;
     }
 
@@ -168,7 +172,27 @@ public class ModelActions
         LOG.info("Activate model");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.deactivate"));
         modelManagerPage.waiUntilLoadingMessageDisappears();
+        waitForContentModelStatus(inactiveStatus);
         return this;
+    }
+
+    private void waitForContentModelStatus(By modelStatus)
+    {
+        int i = 0;
+        while(i < modelManagerPage.WAIT_15)
+        {
+            try
+            {
+                getBrowser().waitUntilChildElementIsPresent(getModelRow(), modelStatus);
+                break;
+            }
+            catch (StaleElementReferenceException e)
+            {
+                LOG.error("Wait for custom model status to change");
+                i++;
+                continue;
+            }
+        }
     }
 
     public EditModelDialog clickEdit()

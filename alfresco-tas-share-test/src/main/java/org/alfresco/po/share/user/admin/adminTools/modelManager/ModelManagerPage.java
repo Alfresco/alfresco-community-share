@@ -121,6 +121,15 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
         return (ImportModelDialog) new ImportModelDialog(browser).renderedPage();
     }
 
+    public ModelActions usingModel(CustomContentModel contentModel)
+    {
+        return new ModelActions(contentModel,
+            this,
+            new EditModelDialog(browser),
+            new DeleteModelDialog(browser),
+            new ModelDetailsPage(browser));
+    }
+
     public void clickOnAction(String actionName)
     {
         List<WebElement> actionsOptions = getBrowser().waitUntilElementsVisible(actions);
@@ -133,15 +142,6 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
                 break;
             }
         }
-    }
-
-    public ModelActions usingModel(CustomContentModel contentModel)
-    {
-        return new ModelActions(contentModel,
-            this,
-            new EditModelDialog(browser),
-            new DeleteModelDialog(browser),
-            new ModelDetailsPage(browser));
     }
 
     public ModelActions usingCustomType(CustomContentModel contentModel, RestCustomTypeModel customTypeModel)

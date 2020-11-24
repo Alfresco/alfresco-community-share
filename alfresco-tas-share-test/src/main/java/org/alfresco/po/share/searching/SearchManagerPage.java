@@ -210,7 +210,8 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
         getBrowser().waitUntilElementClickable(editIcon).click();
         getBrowser().waitUntilElementVisible(filterPropertyDropDownArrow).click();
         selectFilterProperty(newFilterProperty).click();
-        getBrowser().waitUntilElementClickable(filterRow.findElement(EDIT_SAVE)).click();
+        WebElement saveBtn = filterRow.findElement(EDIT_SAVE);
+        getBrowser().waitUntilElementClickable(saveBtn).click();
         waitUntilNotificationMessageDisappears();
 
         return this;
