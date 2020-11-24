@@ -88,7 +88,7 @@ public class TagManagerTests extends BaseShareWebTests
                 .assertDeleteButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
                 .clickDelete();
-        tagManagerPage.search(tag3).assertTagIsNotDisplayed(tag3);
+        tagManagerPage.navigate().search(tag3).assertTagIsNotDisplayed(tag3);
     }
 
     @AfterClass (alwaysRun = true)

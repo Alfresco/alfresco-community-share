@@ -75,8 +75,8 @@ public abstract class SharePage2<T> extends SharePageObject2
         }
         catch (PageRenderTimeException | TimeoutException e)
         {
-            LOG.error("Navigation to {} failed", e.getMessage());
-            getBrowser().refresh();
+            LOG.error("Navigation to {} failed. Error: {}", getRelativePath(), e.getMessage());
+            getBrowser().navigate().to(relativePathToURL());
             return (T) renderedPage();
         }
     }
