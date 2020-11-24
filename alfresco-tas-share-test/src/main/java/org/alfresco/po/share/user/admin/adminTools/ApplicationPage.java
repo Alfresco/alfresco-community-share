@@ -58,7 +58,9 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage clickApply()
     {
-        getBrowser().waitUntilElementClickable(applyButton).click();
+        WebElement apply = getBrowser().waitUntilElementVisible(applyButton);
+        getBrowser().mouseOver(apply);
+        apply.click();
         return this;
     }
 

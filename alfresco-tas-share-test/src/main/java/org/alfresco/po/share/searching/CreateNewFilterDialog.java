@@ -192,8 +192,9 @@ public class CreateNewFilterDialog extends ShareDialog2
 
     public SearchManagerPage clickSave()
     {
-        getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(saveButton), "aria-disabled", "false");
-        getBrowser().waitUntilElementClickable(saveButton).click();
+        WebElement save = getBrowser().waitUntilElementVisible(saveButton);
+        getBrowser().waitUntilElementHasAttribute(save, "aria-disabled", "false");
+        save.click();
         SearchManagerPage searchManagerPage = new SearchManagerPage(browser);
         searchManagerPage.waitUntilNotificationMessageDisappears();
         return (SearchManagerPage) searchManagerPage.renderedPage();
