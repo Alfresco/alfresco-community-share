@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -148,6 +149,7 @@ public class WebBrowserConfig implements FactoryBean<WebBrowser>
     private void setFirefoxDriver()
     {
         String geckodriver;
+        URL geckodriverPath;
         if (SystemUtils.IS_OS_WINDOWS)
         {
             geckodriver = "shared-resources/geckodriver/geckodriver.exe";
@@ -155,14 +157,15 @@ public class WebBrowserConfig implements FactoryBean<WebBrowser>
         else if (SystemUtils.IS_OS_MAC)
         {
             geckodriver = "shared-resources/geckodriver/geckodriver_mac";
-            Utility.getTestResourceFile(geckodriver).setExecutable(true);
+            //Utility.getTestResourceFile(geckodriver).setExecutable(true);
         }
         else
         {
             geckodriver = "shared-resources/geckodriver/geckodriver_linux";
-            Utility.getTestResourceFile(geckodriver).setExecutable(true);
+            //Utility.getTestResourceFile(geckodriver).setExecutable(true);
         }
-        System.setProperty("webdriver.gecko.driver", Utility.getTestResourceFile(geckodriver).toString());
+        geckodriverPath = this.getClass().getClassLoader().getResource(geckodriver);
+        System.setProperty("webdriver.gecko.driver", geckodriverPath.getPath());
     }
 
     private String getDownloadLocation()
