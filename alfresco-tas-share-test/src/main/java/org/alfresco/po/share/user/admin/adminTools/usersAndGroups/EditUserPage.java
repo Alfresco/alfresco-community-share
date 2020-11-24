@@ -24,6 +24,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
 {
     private String userName;
 
+    @RenderWebElement
     private By searchGroupButton = By.cssSelector("button[id$='_default-update-groupfinder-group-search-button-button']");
     private By useDefaultButton = By.cssSelector("button[id$='_default-updateuser-clearphoto-button-button']");
     @RenderWebElement
