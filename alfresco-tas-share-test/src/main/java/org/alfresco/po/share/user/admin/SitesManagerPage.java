@@ -51,22 +51,6 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return new Toolbar(browser).clickSitesManager();
     }
 
-    @Override
-    public SitesManagerPage navigate()
-    {
-        try
-        {
-            super.navigate();
-            return this;
-        }
-        catch(TimeoutException | PageRenderTimeException e)
-        {
-            LOG.error("Reload Site Manager page");
-            getBrowser().refresh();
-            return super.navigate();
-        }
-    }
-
     public SitesManagerPage assertSiteManagerPageIsOpened()
     {
         LOG.info("Assert Site Manager page is opened");
