@@ -255,7 +255,8 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             LOG.info("Change site visibility to {}", visibility.toString());
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
-            getSiteRow().findElement(siteRowVisibility).click();
+            WebElement siteRowVisibleDropdown = getBrowser().waitUntilElementVisible(siteRowVisibility);
+            siteRowVisibleDropdown.click();
             getBrowser().waitUntilElementsVisible(dropdownOptionsList);
             WebElement option = getBrowser().findFirstElementWithValue(dropdownOptionsList, visibilityValue);
             getBrowser().mouseOver(option);

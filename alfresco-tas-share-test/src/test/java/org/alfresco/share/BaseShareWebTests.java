@@ -26,6 +26,7 @@ import org.apache.commons.httpclient.HttpState;
 import org.joda.time.DateTime;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +113,7 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     @BeforeMethod(alwaysRun = true)
     public void beforeEachTest()
     {
-        browser.set(browserConfig.getWebBrowser());
+        initBrowser();
 
         loginPage = new LoginPage(browser);
         userDashboardPage = new UserDashboardPage(browser);
@@ -132,6 +133,19 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
             saveScreenshot(getBrowser(),method);
         }
         closeBrowser();
+    }
+
+    private void initBrowser()
+    {
+        try
+        {
+            browser.set(browserConfig.getWebBrowser());
+        }
+        catch (TimeoutException e)
+        {
+            LOG.error("Failed to init browser: {}", e.getMessage());
+            browser.set(browserConfig.getWebBrowser());
+        }
     }
 
     private void closeBrowser()
