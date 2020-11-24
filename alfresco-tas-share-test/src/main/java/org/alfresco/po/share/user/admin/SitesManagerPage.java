@@ -154,6 +154,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         private By siteRowActionsButton = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions div.dijitPopupMenuItem");
         private By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager .value");
         private By siteRowVisibility = By.cssSelector("td.alfresco-lists-views-layouts-Cell.visibility table");
+        private By siteRowVisibilityArrow = By.cssSelector("input[class$='dijitArrowButtonInner']");
         private By successIndicator = By.cssSelector("div[class='indicator success']");
         private By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
         private String siteAction = "div.dijitPopup[style*=visible] tr[title='%s']";
@@ -253,15 +254,13 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         public ManagerSiteAction changeSiteVisibility(Visibility visibility)
         {
             LOG.info("Change site visibility to {}", visibility.toString());
+            WebElement siteRow = getSiteRow();
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
-            WebElement siteRowVisibleDropdown = getBrowser().waitUntilElementVisible(siteRowVisibility);
-            siteRowVisibleDropdown.click();
-            getBrowser().waitUntilElementsVisible(dropdownOptionsList);
-            WebElement option = getBrowser().findFirstElementWithValue(dropdownOptionsList, visibilityValue);
-            getBrowser().mouseOver(option);
-            getBrowser().waitUntilElementClickable(option).click();
-            getBrowser().waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
+            siteRow.findElement(siteRowVisibilityArrow).click();
+            List<WebElement> options = getBrowser().waitUntilElementsVisible(dropdownOptionsList);
+            WebElement option = getBrowser().findFirstElementWithValue(options, visibilityValue);
+            option.click();
 
             return this;
         }
@@ -279,6 +278,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         public ManagerSiteAction assertSuccessIndicatorIsDisplayed()
         {
             LOG.info("Assert success indicator is displayed");
+            getBrowser().waitUntilChildElementIsPresent(getSiteRow(), successIndicator);
             assertTrue(getBrowser().isElementDisplayed(getSiteRow().findElement(successIndicator)), "Success indicator is displayed");
             return this;
         }
