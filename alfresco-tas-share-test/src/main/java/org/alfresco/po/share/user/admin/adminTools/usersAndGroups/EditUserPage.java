@@ -1,22 +1,17 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import java.util.List;
-
-import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
+import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+
+import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -74,10 +69,13 @@ public class EditUserPage extends SharePage2<EditUserPage>
         {
             return navigate();
         }
-        catch (TimeoutException e)
+        catch (TimeoutException | PageRenderTimeException e)
         {
             LOG.error("Retry navigate to Edit User Page");
-            return navigate();
+            UserProfileAdminToolsPage userProfileAdminToolsPage = new UserProfileAdminToolsPage(browser);
+            userProfileAdminToolsPage.navigate(userName);
+            userProfileAdminToolsPage.clickEditUser();
+            return this;
         }
     }
 

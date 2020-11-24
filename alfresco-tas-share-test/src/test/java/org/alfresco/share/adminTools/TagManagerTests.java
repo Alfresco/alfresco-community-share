@@ -31,7 +31,7 @@ public class TagManagerTests extends BaseShareWebTests
     {
         tagManagerPage = new TagManagerPage(browser);
 
-        setupAuthenticatedSession(getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(getAdminUser());
     }
 
     @BeforeClass (alwaysRun = true)
