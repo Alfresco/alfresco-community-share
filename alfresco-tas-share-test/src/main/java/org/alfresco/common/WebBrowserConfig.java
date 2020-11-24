@@ -149,7 +149,6 @@ public class WebBrowserConfig implements FactoryBean<WebBrowser>
     private void setFirefoxDriver()
     {
         String geckodriver;
-        URL geckodriverPath;
         if (SystemUtils.IS_OS_WINDOWS)
         {
             geckodriver = "shared-resources/geckodriver/geckodriver.exe";
@@ -157,15 +156,19 @@ public class WebBrowserConfig implements FactoryBean<WebBrowser>
         else if (SystemUtils.IS_OS_MAC)
         {
             geckodriver = "shared-resources/geckodriver/geckodriver_mac";
-            //Utility.getTestResourceFile(geckodriver).setExecutable(true);
+            getGeckodriverResourceFile(geckodriver).setExecutable(true);
         }
         else
         {
             geckodriver = "shared-resources/geckodriver/geckodriver_linux";
-            //Utility.getTestResourceFile(geckodriver).setExecutable(true);
+            getGeckodriverResourceFile(geckodriver).setExecutable(true);
         }
-        geckodriverPath = this.getClass().getClassLoader().getResource(geckodriver);
-        System.setProperty("webdriver.gecko.driver", geckodriverPath.getPath());
+        System.setProperty("webdriver.gecko.driver", this.getClass().getClassLoader().getResource(geckodriver).getPath());
+    }
+
+    private File getGeckodriverResourceFile(String geckodriverPath)
+    {
+        return new File(this.getClass().getClassLoader().getResource(geckodriverPath).getFile());
     }
 
     private String getDownloadLocation()
