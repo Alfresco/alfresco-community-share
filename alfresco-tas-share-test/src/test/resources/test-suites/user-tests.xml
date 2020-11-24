@@ -4,20 +4,10 @@
       <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
    </listeners>
 
-   <test name="User Tests">
+   <test name="User and Authentication Tests">
       <groups>
          <run>
-           <include name="user"></include>
-         </run>
-      </groups>
-      <packages>
-         <package name="org.alfresco.share.*"></package>
-      </packages>
-   </test>
-
-   <test name="Authentication Tests">
-      <groups>
-         <run>
+            <include name="user"></include>
             <include name="auth"></include>
          </run>
       </groups>

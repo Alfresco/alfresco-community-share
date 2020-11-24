@@ -139,7 +139,6 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
     public TagManagerPage search(String tagName)
     {
         WebElement input = getBrowser().waitUntilElementVisible(searchInput);
-        input.click();
         clearAndType(input, tagName);
         clickSearch();
         return (TagManagerPage) this.renderedPage();

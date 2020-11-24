@@ -101,6 +101,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     {
         LOG.info("Select theme: {}", theme.name);
         WebElement themeElement = getBrowser().waitUntilElementVisible(themeDropdown);
+        getBrowser().mouseOver(themeElement);
         Select themeOptions = new Select(themeElement);
         themeOptions.selectByValue(theme.getSelectValue());
         clickApply();
