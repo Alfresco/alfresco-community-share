@@ -57,12 +57,12 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         try
         {
             super.navigate();
-            waiUntilLoadingMessageDisappears();
             return this;
         }
         catch(TimeoutException | PageRenderTimeException e)
         {
             LOG.error("Reload Site Manager page");
+            getBrowser().refresh();
             return super.navigate();
         }
     }
