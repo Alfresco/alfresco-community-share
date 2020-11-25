@@ -120,7 +120,7 @@ public class LoginTests extends BaseTests
             loginPage.navigate().login(specialUser);
             userDashboardPage.renderedPage();
             userDashboardPage.assertPageHeaderIsCorrect(specialUser);
-            cleanupAuthenticatedSession();
+            getBrowser().manage().deleteAllCookies();
         });
     }
 

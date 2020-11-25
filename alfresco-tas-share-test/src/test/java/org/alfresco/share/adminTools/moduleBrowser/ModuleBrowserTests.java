@@ -41,7 +41,7 @@ public class ModuleBrowserTests extends BaseTests
         setupAuthenticatedSession(user);
         userDashboardPage.navigate(user);
         toolbar.assertAdminToolsIsNotDisplayed();
-        cleanupAuthenticatedSession();
+        getBrowser().manage().deleteAllCookies();
     }
 
     @TestRail (id = "C9499")
