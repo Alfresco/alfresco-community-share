@@ -8,7 +8,8 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+
+import static org.testng.Assert.*;
 
 public class TagManagerPage extends SharePage2<TagManagerPage>
 {
@@ -88,35 +89,34 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
     public TagManagerPage assertSearchButtonIsDisplayed()
     {
         LOG.info("Assert Search button is displayed");
-        Assert.assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public TagManagerPage assertSearchInputFieldDisplayed()
     {
         LOG.info("Assert Search input is displayed");
-        Assert.assertTrue(getBrowser().isElementDisplayed(searchInput), "Search input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(searchInput), "Search input is displayed");
         return this;
     }
 
     public TagManagerPage assertTableTitleIsCorrect()
     {
         LOG.info(String.format("Assert tags table title is: %s", language.translate("tagManager.tableTitle")));
-        Assert.assertEquals(getElementText(tableTitle), language.translate("tagManager.tableTitle"), "Table title");
+        assertEquals(getElementText(tableTitle), language.translate("tagManager.tableTitle"), "Table title");
         return this;
     }
 
     public TagManagerPage assertTableHeadersAreCorrect()
     {
         LOG.info("Assert tag table headers are correct");
-        Assert.assertEquals(getBrowser().waitUntilElementVisible(tableHead).getText(),
+        assertEquals(getBrowser().waitUntilElementVisible(tableHead).getText(),
             language.translate("tagManager.tableHead"), "Table headers");
         return this;
     }
 
     public TagManagerPage searchTagWithRetry(String tagName)
     {
-        LOG.info("Search for tag: {}", tagName);
         search(tagName);
         boolean found = isTagDisplayed(tagName);
         int retryCount = 0;
@@ -148,23 +148,32 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     public TagManagerPage search(String tagName)
     {
+        LOG.info("Search for tag {}", tagName);
         WebElement input = getBrowser().waitUntilElementVisible(searchInput);
         clearAndType(input, tagName);
         clickSearch();
-        return (TagManagerPage) this.renderedPage();
+        return this;
     }
 
     public TagManagerPage assertTagIsDisplayed(String tag)
     {
         LOG.info(String.format("Assert tag %s is displayed", tag));
-        Assert.assertTrue(isTagDisplayed(tag), String.format("Tag %s was found", tag));
+        assertTrue(isTagDisplayed(tag), String.format("Tag %s was found", tag));
         return this;
     }
 
     public TagManagerPage assertTagIsNotDisplayed(String tag)
     {
         LOG.info(String.format("Assert tag %s is NOT displayed", tag));
-        Assert.assertFalse(isTagDisplayed(tag), String.format("Tag %s was found", tag));
+        assertFalse(isTagDisplayed(tag), String.format("Tag %s was found", tag));
+        return this;
+    }
+
+    public TagManagerPage assertNoTagFoundMessageIsDisplayed()
+    {
+        LOG.info("Assert No tag found message is displayed");
+        getBrowser().waitUntilElementVisible(noFoundMessage);
+        assertTrue(getBrowser().isElementDisplayed(noFoundMessage), "No tag found message is not displayed");
         return this;
     }
 }
