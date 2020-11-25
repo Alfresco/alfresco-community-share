@@ -49,8 +49,8 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         WebElement tagRow = getTagRow(tag);
         getBrowser().mouseOver(getBrowser().findElement(searchInput));
         getBrowser().mouseOver(tagRow);
-        getBrowser().waitUntilElementVisible(editIconSelector);
-        getBrowser().waitUntilElementVisible(tagRow.findElement(editIconSelector)).click();
+        WebElement editButton = getBrowser().waitUntilChildElementIsPresent(tagRow, editIconSelector);
+        editButton.click();
 
         return (EditTagDialog) new EditTagDialog(browser).renderedPage();
     }
