@@ -1,11 +1,12 @@
 package org.alfresco.common;
 
-import static org.alfresco.utility.Utility.getTestResourceFile;
-
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import org.alfresco.utility.TasProperties;
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.exception.TestConfigurationException;
 import org.alfresco.utility.exception.UnrecognizedBrowser;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,9 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class creates selenium webdriver specific for each browser and OS.
+ */
 @Component
 public class BrowserFactory implements FactoryBean<WebBrowser>
 {
@@ -115,10 +119,12 @@ public class BrowserFactory implements FactoryBean<WebBrowser>
         else if (SystemUtils.IS_OS_MAC)
         {
             geckodriverPath = "shared-resources/geckodriver/geckodriver_mac";
+            getTestResourceFile(geckodriverPath).setExecutable(true);
         }
         else
         {
             geckodriverPath = "shared-resources/geckodriver/geckodriver_linux";
+            getTestResourceFile(geckodriverPath).setExecutable(true);
         }
         System.setProperty("webdriver.gecko.driver", this.getClass().getClassLoader().getResource(geckodriverPath).getPath());
     }
@@ -141,7 +147,17 @@ public class BrowserFactory implements FactoryBean<WebBrowser>
         System.setProperty("webdriver.chrome.driver", getTestResourceFile(chromedriverPath).toString());
     }
 
-    private static String getDownloadLocation()
+    private File getTestResourceFile(String filePath)
+    {
+        URL resource = Utility.class.getClassLoader().getResource(filePath);
+        if (resource == null) {
+            throw new TestConfigurationException(String.format("[%s] file was not found in your main resources folder.", filePath));
+        } else {
+            return new File(resource.getFile());
+        }
+    }
+
+    private String getDownloadLocation()
     {
         String srcRoot = System.getProperty("user.dir") + File.separator;
         return srcRoot + "testdata" + File.separator;

@@ -23,6 +23,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class represents a template which should be inherit by each page object class.
+ * We should have a base class for each page object or page component.
+ *
+ * So for example we going to have:
+ * - BasePages for each page object class.
+ * - BaseDialogComponent for each dialog component class.
+ * - BaseDashletComponent for each component class.
+ *
+ * In the base pages/components we will store only common members/methods which are in each child classes.
+ */
 public abstract class BasePages
 {
     protected final Logger LOG = LoggerFactory.getLogger(BasePages.class);
