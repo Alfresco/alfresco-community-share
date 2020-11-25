@@ -213,6 +213,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
         WebElement saveBtn = filterRow.findElement(EDIT_SAVE);
         getBrowser().waitUntilElementClickable(saveBtn).click();
         waitUntilNotificationMessageDisappears();
+        getBrowser().waitUntilElementContainsText(filterProp, newFilterProperty);
 
         return this;
     }
