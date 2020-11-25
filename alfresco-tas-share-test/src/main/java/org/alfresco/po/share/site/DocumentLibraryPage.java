@@ -33,7 +33,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 {
     public DocumentLibraryPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+      super(browser);
     }
 
     public enum CreateMenuOption

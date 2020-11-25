@@ -19,18 +19,18 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
     private String userName;
 
     @RenderWebElement
-    private By oldPasswordInput = By.cssSelector("input[id$='default-oldpassword']");
+    private final By oldPasswordInput = By.cssSelector("input[id$='default-oldpassword']");
     @RenderWebElement
-    private By newPassword = By.cssSelector("input[id$='default-newpassword1']");
-    private By confirmNewPassword = By.cssSelector("input[id$='default-newpassword2']");
-    private By okButton = By.cssSelector("button[id$='default-button-ok-button']");
-    private By errorPrompt = By.id("prompt");
-    private By errorPromptMessage = By.cssSelector("#prompt .bd");
-    private By errorPromptOKButton = By.cssSelector("#prompt button");
+    private final By newPassword = By.cssSelector("input[id$='default-newpassword1']");
+    private final By confirmNewPassword = By.cssSelector("input[id$='default-newpassword2']");
+    private final By okButton = By.cssSelector("button[id$='default-button-ok-button']");
+    private final By errorPrompt = By.id("prompt");
+    private final By errorPromptMessage = By.cssSelector("#prompt .bd");
+    private final By errorPromptOKButton = By.cssSelector("#prompt button");
 
     public ChangePasswordPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()

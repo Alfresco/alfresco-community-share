@@ -18,38 +18,36 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     private String userName;
 
     @RenderWebElement
-    private By firstNameInput = By.cssSelector("input[id$='input-firstName']");
+    private final By firstNameInput = By.cssSelector("input[id$='input-firstName']");
     @RenderWebElement
-    private By lastNameInput = By.cssSelector("input[id$='input-lastName']");
-    private By jobTitleInput = By.cssSelector("input[id$='input-jobtitle']");
-    private By locationInput = By.cssSelector("input[id$='input-location']");
-    private By summaryInput = By.cssSelector("textarea[id$='input-bio']");
-    private By uploadAvatar = By.cssSelector("button[@id$='button-upload-button']");
-    private By telephoneInput = By.cssSelector("input[id$='input-telephone']");
-    private By mobileInput = By.cssSelector("input[id$='input-mobile']");
-    private By emailInput = By.cssSelector("input[id$='input-email']");
-    private By skypeInput = By.cssSelector("input[id$='input-skype']");
-    private By instantmsgInput = By.cssSelector("input[id$='input-instantmsg']");
-    private By googleUserNameInput = By.cssSelector("input[id$='input-googleusername']");
-    private By companyNameInput = By.cssSelector("input[id$='input-organization']");
-    private By companyAddress1Input = By.cssSelector("input[id$='input-companyaddress1']");
-    private By companyAddress2Input = By.cssSelector("input[id$='input-companyaddress2']");
-    private By companyAddress3Input = By.cssSelector("input[id$='input-companyaddress3']");
-    private By companyPostCodeInput = By.cssSelector("input[id$='input-companypostcode']");
-    private By companyTelephoneInput = By.cssSelector("input[id$='input-companytelephone']");
-    private By companyEmailInput = By.cssSelector("input[id$='input-companyemail']");
-    private By companyFaxInput = By.cssSelector("input[id$='input-companyfax']");
-    private By avatar = By.cssSelector("div[id$='editview'] .photoimg");
-    private By useDefaultPhoto = By.cssSelector("button[id$='button-clearphoto-button']");
-    private By uploadPhoto = By.cssSelector("button[id$='default-button-upload-button']");
-    private By imageInstructions = By.cssSelector(".phototxt");
-    private By cancel = By.cssSelector("button[id$='button-cancel-button']");
-    private By save = By.cssSelector("button[id$='button-save-button']");
-    private final String saveButtonHover = "yui-submit-button-hover";
+    private final By lastNameInput = By.cssSelector("input[id$='input-lastName']");
+    private final By jobTitleInput = By.cssSelector("input[id$='input-jobtitle']");
+    private final By locationInput = By.cssSelector("input[id$='input-location']");
+    private final By summaryInput = By.cssSelector("textarea[id$='input-bio']");
+    private final By telephoneInput = By.cssSelector("input[id$='input-telephone']");
+    private final By mobileInput = By.cssSelector("input[id$='input-mobile']");
+    private final By emailInput = By.cssSelector("input[id$='input-email']");
+    private final By skypeInput = By.cssSelector("input[id$='input-skype']");
+    private final By instantmsgInput = By.cssSelector("input[id$='input-instantmsg']");
+    private final By googleUserNameInput = By.cssSelector("input[id$='input-googleusername']");
+    private final By companyNameInput = By.cssSelector("input[id$='input-organization']");
+    private final By companyAddress1Input = By.cssSelector("input[id$='input-companyaddress1']");
+    private final By companyAddress2Input = By.cssSelector("input[id$='input-companyaddress2']");
+    private final By companyAddress3Input = By.cssSelector("input[id$='input-companyaddress3']");
+    private final By companyPostCodeInput = By.cssSelector("input[id$='input-companypostcode']");
+    private final By companyTelephoneInput = By.cssSelector("input[id$='input-companytelephone']");
+    private final By companyEmailInput = By.cssSelector("input[id$='input-companyemail']");
+    private final By companyFaxInput = By.cssSelector("input[id$='input-companyfax']");
+    private final By avatar = By.cssSelector("div[id$='editview'] .photoimg");
+    private final By useDefaultPhoto = By.cssSelector("button[id$='button-clearphoto-button']");
+    private final By uploadPhoto = By.cssSelector("button[id$='default-button-upload-button']");
+    private final By imageInstructions = By.cssSelector(".phototxt");
+    private final By cancel = By.cssSelector("button[id$='button-cancel-button']");
+    private final By save = By.cssSelector("button[id$='button-save-button']");
 
     public EditUserProfilePage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()

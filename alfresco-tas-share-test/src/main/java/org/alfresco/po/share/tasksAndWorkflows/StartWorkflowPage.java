@@ -1,5 +1,9 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
@@ -12,48 +16,40 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertTrue;
 
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 {
     @RenderWebElement
-    private By startWorkflowDropDown = By.cssSelector("button[id*='default-workflow-definition']");
-    private By workflowForm = By.cssSelector("div[class='form-fields']");
-    private By selectedReviewerName = By.cssSelector("div[class*='itemtype']");
-    private By workflowMenu = By.cssSelector("[id*=default-workflow-definition-menu] ul");
-    private By dropdownOptions = By.cssSelector("[id*=default-workflow-definition-menu] li .title");
-    private By workflowDescriptionTextarea = By.cssSelector("textarea[id*=workflowDescription]");
-    private By workflowDueDate = By.cssSelector("input[id*='workflowDueDate-cntrl-date']");
-    private By workflowDueDateInput = By.cssSelector("input[id$='workflowDueDate']");
-    private By datePickerIcon = By.cssSelector(".datepicker-icon");
-    private By chooseWorkflowDate = By.cssSelector("div[id*=workflowDueDate]");
-    private By workflowPriority = By.cssSelector("[id*=workflowPriority]");
-    private By workflowPrioritiesList = By.cssSelector("[id*=workflowPriority] option");
-    private By calendarToday = By.cssSelector("td.today>a");
-    private By calendar = By.cssSelector("div[id$='workflowDueDate-cntrl']");
-    private By submitWorkflow = By.cssSelector("button[id*='form-submit']");
-    private By itemsList = By.cssSelector(".form-field h3 a");
-    private By selectAssigneeButton = By.cssSelector("div[id$='assignee-cntrl-itemGroupActions'] button");
-    private By selectAssigneesButton = By.cssSelector("div[id$='assignees-cntrl-itemGroupActions'] button");
-    private By selectGroupButton = By.cssSelector("div[id$='groupAssignee-cntrl-itemGroupActions'] button");
-    private By cancelStartWorkflow = By.cssSelector("[id*=form-cancel-button]");
-    private By taskStatusList = By.cssSelector("[id*=default_prop_bpm_status] option");
-    private By reassignButton = By.cssSelector("[id*=default-reassign-button]");
-    private By addItemsButton = By.xpath("//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Add']");
-    private By removeeAllItemsButton = By.xpath("//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Remove All']");
-    private By sendEMailNotificationsCheckbox = By.cssSelector("input[id*='sendEMailNotifications'][type='checkbox']");
-    private By workflowFormArea = By.cssSelector("div[id$='default-startWorkflowForm-alf-id0-form-fields']");
-    private By itemsAreaRows = By.cssSelector("div[id$='packageItems-cntrl-currentValueDisplay'] .yui-dt-data>tr");
-    private String attachedDocumentRow = "//a[text()='%s']/../../../..";
+    private final By startWorkflowDropDown = By.cssSelector("button[id*='default-workflow-definition']");
+    private final By workflowForm = By.cssSelector("div[class='form-fields']");
+    private final By selectedReviewerName = By.cssSelector("div[class*='itemtype']");
+    private final By workflowMenu = By.cssSelector("[id*=default-workflow-definition-menu] ul");
+    private final By dropdownOptions = By.cssSelector("[id*=default-workflow-definition-menu] li .title");
+    private final By workflowDescriptionTextarea = By.cssSelector("textarea[id*=workflowDescription]");
+    private final By workflowDueDate = By.cssSelector("input[id*='workflowDueDate-cntrl-date']");
+    private final By workflowDueDateInput = By.cssSelector("input[id$='workflowDueDate']");
+    private final By datePickerIcon = By.cssSelector(".datepicker-icon");
+    private final By chooseWorkflowDate = By.cssSelector("div[id*=workflowDueDate]");
+    private final By workflowPrioritiesList = By.cssSelector("[id*=workflowPriority] option");
+    private final By calendarToday = By.cssSelector("td.today>a");
+    private final By calendar = By.cssSelector("div[id$='workflowDueDate-cntrl']");
+    private final By submitWorkflow = By.cssSelector("button[id*='form-submit']");
+    private final By itemsList = By.cssSelector(".form-field h3 a");
+    private final By selectAssigneeButton = By.cssSelector("div[id$='assignee-cntrl-itemGroupActions'] button");
+    private final By selectAssigneesButton = By.cssSelector("div[id$='assignees-cntrl-itemGroupActions'] button");
+    private final By selectGroupButton = By.cssSelector("div[id$='groupAssignee-cntrl-itemGroupActions'] button");
+    private final By cancelStartWorkflow = By.cssSelector("[id*=form-cancel-button]");
+    private final By taskStatusList = By.cssSelector("[id*=default_prop_bpm_status] option");
+    private final By reassignButton = By.cssSelector("[id*=default-reassign-button]");
+    private final By addItemsButton = By.xpath("//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Add']");
+    private final By removeeAllItemsButton = By.xpath("//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Remove All']");
+    private final By sendEMailNotificationsCheckbox = By.cssSelector("input[id*='sendEMailNotifications'][type='checkbox']");
+    private final By itemsAreaRows = By.cssSelector("div[id$='packageItems-cntrl-currentValueDisplay'] .yui-dt-data>tr");
+    private final String attachedDocumentRow = "//a[text()='%s']/../../../..";
 
     public StartWorkflowPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

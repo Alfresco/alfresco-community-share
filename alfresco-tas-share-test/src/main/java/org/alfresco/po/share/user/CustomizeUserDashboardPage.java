@@ -14,14 +14,12 @@ import static org.testng.Assert.assertTrue;
 public class CustomizeUserDashboardPage extends DashboardCustomization<CustomizeUserDashboardPage>
 {
     @RenderWebElement
-    private By getStartedPanel = By.cssSelector("div[id$='default-welcome-preference']");
-    @RenderWebElement
-    private By showOnDashboardRadio = By.cssSelector( "input[id$='welcomePanelEnabled']");
-    private By hideFromDashboardRadio = By.cssSelector("input[id$='welcomePanelDisabled']");
+    private final By showOnDashboardRadio = By.cssSelector( "input[id$='welcomePanelEnabled']");
+    private final By hideFromDashboardRadio = By.cssSelector("input[id$='welcomePanelDisabled']");
 
     public CustomizeUserDashboardPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

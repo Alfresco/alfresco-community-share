@@ -23,31 +23,30 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     private String userName;
     private static final String EMPTY_SPACE = " ";
 
-    private By editProfile = By.cssSelector("button[id$='button-edit-button']");
+    private final By editProfile = By.cssSelector("button[id$='button-edit-button']");
     @RenderWebElement
-    private By infoLink = By.cssSelector("a[id$='default-profile-link']");
-    private By headers = By.cssSelector("div[id$='readview'] .viewcolumn .header-bar");
-    private By nameLabel = By.cssSelector(".namelabel");
-    private By summary = By.cssSelector(".biorow>div");
-    private By aboutUserDetails = By.cssSelector(".fieldlabel");
-    private By userInformation = By.cssSelector(".viewcolumn .row");
+    private final By infoLink = By.cssSelector("a[id$='default-profile-link']");
+    private final By headers = By.cssSelector("div[id$='readview'] .viewcolumn .header-bar");
+    private final By nameLabel = By.cssSelector(".namelabel");
+    private final By summary = By.cssSelector(".biorow>div");
+    private final By aboutUserDetails = By.cssSelector(".fieldlabel");
     @RenderWebElement
-    private By sitesLink = By.cssSelector("a[id$='default-user-sites-link']");
-    private By contentLink = By.cssSelector("a[id$='user-content-link']");
-    private By followingLink = By.cssSelector("a[id$='following-link']");
-    private By followersLink = By.cssSelector("a[id$='followers-link']");
-    private By changePasswordLink = By.cssSelector("a[id$='change-password-link']");
-    private By notificationLink = By.cssSelector("a[id$='user-notifications-link']");
-    private By trashcanLink = By.cssSelector("a[id$='user-trashcan-link']");
-    private By photo = By.cssSelector("div[id$='readview'] .photoimg");
-    private By fieldValue = By.cssSelector(".fieldvalue");
-    private String contactInfoDuplicateRow = "(//span[text()= '%s'])[1]/..";
-    private String companyInfoDuplicateRow = "(//span[text()= '%s'])[2]/..";
-    private String valueRow = "//span[@class='fieldlabelright' and text()='%s']/..";
+    private final By sitesLink = By.cssSelector("a[id$='default-user-sites-link']");
+    private final By contentLink = By.cssSelector("a[id$='user-content-link']");
+    private final By followingLink = By.cssSelector("a[id$='following-link']");
+    private final By followersLink = By.cssSelector("a[id$='followers-link']");
+    private final By changePasswordLink = By.cssSelector("a[id$='change-password-link']");
+    private final By notificationLink = By.cssSelector("a[id$='user-notifications-link']");
+    private final By trashcanLink = By.cssSelector("a[id$='user-trashcan-link']");
+    private final By photo = By.cssSelector("div[id$='readview'] .photoimg");
+    private final By fieldValue = By.cssSelector(".fieldvalue");
+    private final String contactInfoDuplicateRow = "(//span[text()= '%s'])[1]/..";
+    private final String companyInfoDuplicateRow = "(//span[text()= '%s'])[2]/..";
+    private final String valueRow = "//span[@class='fieldlabelright' and text()='%s']/..";
 
     public UserProfilePage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()

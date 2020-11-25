@@ -15,21 +15,21 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     private SiteGroupsPage siteGroupsPage;
     private SiteUsersPage siteUsersPage;
 
-    private By namesList = By.cssSelector("td+td>div.yui-dt-liner>h3");
+    private final By namesList = By.cssSelector("td+td>div.yui-dt-liner>h3");
     @RenderWebElement
-    private By siteUsers = By.cssSelector("a[id*='site-members-link']");
-    private By siteGroups = By.cssSelector("a[id*='site-groups-link']");
-    private By pendingInvites = By.cssSelector("a[id*='pending-invites-link']");
-    private By siteMemberRow = By.cssSelector("tbody[class='yui-dt-data'] tr");
-    private By dropDownOptionsList = By.cssSelector("div.visible ul.first-of-type li a");
-    private By currentRoleButton = By.cssSelector("td[class*='role'] button");
-    private By removeButton = By.cssSelector(".uninvite button");
-    private By currentRole = By.cssSelector("td[class*='role'] div :first-child");
-    private String memberName = "td>a[href$='%s/profile']";
+    private final By siteUsers = By.cssSelector("a[id*='site-members-link']");
+    private final By siteGroups = By.cssSelector("a[id*='site-groups-link']");
+    private final By pendingInvites = By.cssSelector("a[id*='pending-invites-link']");
+    private final By siteMemberRow = By.cssSelector("tbody[class='yui-dt-data'] tr");
+    private final By dropDownOptionsList = By.cssSelector("div.visible ul.first-of-type li a");
+    private final By currentRoleButton = By.cssSelector("td[class*='role'] button");
+    private final By removeButton = By.cssSelector(".uninvite button");
+    private final By currentRole = By.cssSelector("td[class*='role'] div :first-child");
+    private final String memberName = "td>a[href$='%s/profile']";
 
     public SiteMembersPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         siteGroupsPage = new SiteGroupsPage(browser);
         siteUsersPage = new SiteUsersPage(browser);
     }

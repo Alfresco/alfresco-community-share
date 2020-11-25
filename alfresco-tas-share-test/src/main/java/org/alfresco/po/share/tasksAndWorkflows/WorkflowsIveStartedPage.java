@@ -16,33 +16,31 @@ import static org.testng.Assert.assertTrue;
 
 public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    WorkflowDetailsPage workflowDetailsPage;
+    private WorkflowDetailsPage workflowDetailsPage;
 
-    protected By workflowRowList = By.cssSelector("div[id$='_default-workflows'] tr[class*='yui-dt-rec']");
-    protected By viewHistoryLink = By.cssSelector("div[class*='workflow-view-link'] a");
-    protected By cancelWorkflowLink = By.cssSelector("div[class*='workflow-cancel-link'] a");
-    protected By workflowTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
-    protected By cancelWorkflowYesButton = By.xpath("//div[text()='Cancel workflow']/..//button[text()='Yes']");
-    protected By cancelWorkflowNoButton = By.xpath("//div[text()='Cancel workflow']/..//button[text()='No']");
-    protected By completedFilter = By.xpath("//a[text() = 'Completed']");
-    protected By deleteWorkflowLink = By.cssSelector("div[class*='workflow-delete-link'] a");
-    protected By deleteWorkflowYesButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='Yes']");
-    protected By deleteWorkflowNoButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='No']");
+    private final By workflowRowList = By.cssSelector("div[id$='_default-workflows'] tr[class*='yui-dt-rec']");
+    private final By viewHistoryLink = By.cssSelector("div[class*='workflow-view-link'] a");
+    private final By cancelWorkflowLink = By.cssSelector("div[class*='workflow-cancel-link'] a");
+    private final By workflowTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
+    private final By cancelWorkflowYesButton = By.xpath("//div[text()='Cancel workflow']/..//button[text()='Yes']");
+    private final By cancelWorkflowNoButton = By.xpath("//div[text()='Cancel workflow']/..//button[text()='No']");
+    private final By completedFilter = By.xpath("//a[text() = 'Completed']");
+    private final By deleteWorkflowLink = By.cssSelector("div[class*='workflow-delete-link'] a");
+    private final By deleteWorkflowYesButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='Yes']");
+    private final By deleteWorkflowNoButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='No']");
     @RenderWebElement
-    private By startWorkflow = By.cssSelector("[id$='default-startWorkflow-button-button']");
+    private final By startWorkflow = By.cssSelector("[id$='default-startWorkflow-button-button']");
     @RenderWebElement
-    private By workflowBody = By.cssSelector(".alfresco-datatable.workflows");
-    private By workflowsFilter = By.cssSelector("div[id*='_all-filter'] div h2");
-    private By dueFilter = By.cssSelector("div[id*='_due-filter'] div h2");
-    private By startedFilter = By.cssSelector("div[id*='_started-filter'] div h2");
-    private By priorityFilter = By.cssSelector("div[id*='_priority-filter'] div h2");
-    private By workflowTypeFilter = By.cssSelector("div[id*='_workflow-type-filter'] div h2");
-    private By activeWorkflows = By.cssSelector("div[class*='workflow-list-bar'] div h2");
+    private final By workflowsFilter = By.cssSelector("div[id*='_all-filter'] div h2");
+    private final By dueFilter = By.cssSelector("div[id*='_due-filter'] div h2");
+    private final By startedFilter = By.cssSelector("div[id*='_started-filter'] div h2");
+    private final By priorityFilter = By.cssSelector("div[id*='_priority-filter'] div h2");
+    private final By workflowTypeFilter = By.cssSelector("div[id*='_workflow-type-filter'] div h2");
+    private final By activeWorkflows = By.cssSelector("div[class*='workflow-list-bar'] div h2");
 
     public WorkflowsIveStartedPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
