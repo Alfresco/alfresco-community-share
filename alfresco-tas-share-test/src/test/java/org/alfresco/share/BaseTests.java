@@ -139,12 +139,12 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     {
         try
         {
-            browser.set(browserConfig.createWebBrowser());
+            browser.set(browserConfig.createBrowser());
         }
         catch (TimeoutException e)
         {
             LOG.error("Failed to init browser: {}", e.getMessage());
-            browser.set(browserConfig.createWebBrowser());
+            browser.set(browserConfig.createBrowser());
         }
     }
 

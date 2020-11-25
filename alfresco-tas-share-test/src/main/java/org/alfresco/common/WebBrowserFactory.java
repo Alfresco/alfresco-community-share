@@ -23,20 +23,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebBrowserFactory implements FactoryBean<WebBrowser>
 {
+    private static final String CHROME = "chrome";
+    private static final String FIREFOX = "firefox";
+
     @Autowired
     private TasProperties properties;
 
     @Autowired
     private EnvProperties shareProperties;
 
-    public WebBrowser createWebBrowser()
+    public WebBrowser createBrowser()
     {
-        WebBrowser webbrowser = new WebBrowser(fromProperties(properties), properties);
-        if(!properties.getBrowserName().toLowerCase().equals("chrome"))
-        {
-            webbrowser.maximize();
-        }
-        return webbrowser;
+        WebBrowser webBrowser = new WebBrowser(createBrowserBasedOnOS(properties), properties);
+        webBrowser.maximize();
+
+        return webBrowser;
     }
 
     @Override
@@ -54,114 +55,115 @@ public class WebBrowserFactory implements FactoryBean<WebBrowser>
     @Override
     public WebBrowser getObject()
     {
-        return createWebBrowser();
+        return createBrowser();
     }
 
     public void quit()
     {
-        createWebBrowser().quit();
+        createBrowser().quit();
     }
 
-    public FirefoxOptions setFirefoxOptions(TasProperties properties)
+    private FirefoxOptions setFirefoxOptions(TasProperties properties)
     {
-        FirefoxOptions options = new FirefoxOptions();
-        options.addPreference("browser.download.dir", getDownloadLocation());
-        options.addPreference("browser.download.folderList", 2);
-        options.addPreference("browser.download.manager.alertOnEXEOpen", false);
-        options.addPreference("browser.helperApps.neverAsk.saveToDisk",
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        firefoxOptions.addPreference("browser.download.dir", getDownloadLocation());
+        firefoxOptions.addPreference("browser.download.folderList", 2);
+        firefoxOptions.addPreference("browser.download.manager.alertOnEXEOpen", false);
+        firefoxOptions.addPreference("browser.helperApps.neverAsk.saveToDisk",
                 "application/msword, application/csv, application/ris, text/csv, image/png, application/pdf, text/html, text/plain, "
                         + "application/zip, application/x-zip, application/x-zip-compressed, application/download, application/octet-stream, "
                         + "application/vnd.openxmlformats-officedocument.wordprocessingml.document,"
                         + "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         + "application/vnd.openxmlformats-officedocument.presentationml.presentation");
-        options.addPreference("browser.download.manager.showWhenStarting", false);
-        options.addPreference("browser.download.manager.focusWhenStarting", false);
-        options.addPreference("browser.download.useDownloadDir", true);
-        options.addPreference("browser.helperApps.alwaysAsk.force", false);
-        options.addPreference("browser.download.manager.alertOnEXEOpen", false);
-        options.addPreference("browser.download.manager.closeWhenDone", true);
-        options.addPreference("browser.download.manager.showAlertOnComplete", false);
-        options.addPreference("intl.accept_languages", getBrowserLanguage(properties));
-        options.setAcceptInsecureCerts(true);
-        options.setHeadless(Boolean.valueOf(shareProperties.isBrowserHeadless()));
-        return options;
+        firefoxOptions.addPreference("browser.download.manager.showWhenStarting", false);
+        firefoxOptions.addPreference("browser.download.manager.focusWhenStarting", false);
+        firefoxOptions.addPreference("browser.download.useDownloadDir", true);
+        firefoxOptions.addPreference("browser.helperApps.alwaysAsk.force", false);
+        firefoxOptions.addPreference("browser.download.manager.alertOnEXEOpen", false);
+        firefoxOptions.addPreference("browser.download.manager.closeWhenDone", true);
+        firefoxOptions.addPreference("browser.download.manager.showAlertOnComplete", false);
+        firefoxOptions.addPreference("intl.accept_languages", getBrowserLanguage(properties));
+        firefoxOptions.setAcceptInsecureCerts(true);
+        firefoxOptions.setHeadless(shareProperties.isBrowserHeadless());
+
+        return firefoxOptions;
     }
 
-    public WebDriver fromProperties(TasProperties properties)
+    public WebDriver createBrowserBasedOnOS(TasProperties properties)
     {
         switch (properties.getBrowserName().toLowerCase())
         {
-            case "firefox":
-                setFirefoxDriver();
+            case FIREFOX:
+                setFirefoxDriverPath();
                 if (SystemUtils.IS_OS_LINUX)
                 {
                     FirefoxBinary firefoxBinary = new FirefoxBinary();
-                    firefoxBinary.addCommandLineOptions("--headless");
-                    Map<String, String> env = new HashMap<String, String>();
+//                    firefoxBinary.addCommandLineOptions("--headless");
+                    Map<String, String> env = new HashMap<>();
                     env.put("DISPLAY", ":" + properties.getDisplayXport());
-                    FirefoxOptions options1 = setFirefoxOptions(properties);
-                    options1.setBinary(firefoxBinary);
-                    return new FirefoxDriver(new GeckoDriverService.Builder().withEnvironment(env).build(), options1);
+                    FirefoxOptions firefoxOptions = setFirefoxOptions(properties);
+                    firefoxOptions.setBinary(firefoxBinary);
+                    return new FirefoxDriver(new GeckoDriverService.Builder().withEnvironment(env).build(), firefoxOptions);
                 }
                 else
                 {
                     return new FirefoxDriver(setFirefoxOptions(properties));
                 }
-            case "chrome":
-                setChromeDriver();
-                HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
-                chromePrefs.put("profile.default_content_settings.popups", 0);
-                chromePrefs.put("download.default_directory", getDownloadLocation());
+            case CHROME:
+                setChromeDriverPath();
+                HashMap<String, Object> chromePreferences = new HashMap<>();
+                chromePreferences.put("profile.default_content_settings.popups", 0);
+                chromePreferences.put("download.default_directory", getDownloadLocation());
 
-                ChromeOptions options = new ChromeOptions();
-                options.addArguments("--start-maximized");
-                options.addArguments(String.format("--lang=%s", getBrowserLanguage(properties)));
-                options.setExperimentalOption("prefs", chromePrefs);
-                ChromeDriver chromeDriver = new ChromeDriver(options);
-                return chromeDriver;
+                ChromeOptions chromeOptions = new ChromeOptions();
+//                chromeOptions.addArguments("--start-maximized");
+                chromeOptions.addArguments(String.format("--lang=%s", getBrowserLanguage(properties)));
+                chromeOptions.setExperimentalOption("prefs", chromePreferences);
+
+                return new ChromeDriver(chromeOptions);
             default:
                 throw new UnrecognizedBrowser(properties.getBrowserName());
         }
     }
 
-    private void setChromeDriver()
+    private void setChromeDriverPath()
     {
-        String chromedriver;
+        String chromedriverPath;
         if (SystemUtils.IS_OS_WINDOWS)
         {
-            chromedriver = "shared-resources/chromedriver/chromedriver.exe";
+            chromedriverPath = "shared-resources/chromedriver/chromedriver.exe";
         }
         else if (SystemUtils.IS_OS_MAC)
         {
-            chromedriver = "shared-resources/chromedriver/chromedriver_mac";
-            Utility.getTestResourceFile(chromedriver).setExecutable(true);
+            chromedriverPath = "shared-resources/chromedriver/chromedriver_mac";
+            Utility.getTestResourceFile(chromedriverPath).setExecutable(true);
         }
         else
         {
-            chromedriver = "shared-resources/chromedriver/chromedriver_linux";
-            Utility.getTestResourceFile(chromedriver).setExecutable(true);
+            chromedriverPath = "shared-resources/chromedriver/chromedriver_linux";
+            Utility.getTestResourceFile(chromedriverPath).setExecutable(true);
         }
-        System.setProperty("webdriver.chrome.driver", Utility.getTestResourceFile(chromedriver).toString());
+        System.setProperty("webdriver.chrome.driver", Utility.getTestResourceFile(chromedriverPath).toString());
     }
 
-    private void setFirefoxDriver()
+    private void setFirefoxDriverPath()
     {
-        String geckodriver;
+        String geckodriverPath;
         if (SystemUtils.IS_OS_WINDOWS)
         {
-            geckodriver = "shared-resources/geckodriver/geckodriver.exe";
+            geckodriverPath = "shared-resources/geckodriver/geckodriver.exe";
         }
         else if (SystemUtils.IS_OS_MAC)
         {
-            geckodriver = "shared-resources/geckodriver/geckodriver_mac";
-            getGeckodriverResourceFile(geckodriver).setExecutable(true);
+            geckodriverPath = "shared-resources/geckodriver/geckodriver_mac";
+            getGeckodriverResourceFile(geckodriverPath).setExecutable(true);
         }
         else
         {
-            geckodriver = "shared-resources/geckodriver/geckodriver_linux";
-            getGeckodriverResourceFile(geckodriver).setExecutable(true);
+            geckodriverPath = "shared-resources/geckodriver/geckodriver_linux";
+            getGeckodriverResourceFile(geckodriverPath).setExecutable(true);
         }
-        System.setProperty("webdriver.gecko.driver", this.getClass().getClassLoader().getResource(geckodriver).getPath());
+        System.setProperty("webdriver.gecko.driver", this.getClass().getClassLoader().getResource(geckodriverPath).getPath());
     }
 
     private File getGeckodriverResourceFile(String geckodriverPath)
