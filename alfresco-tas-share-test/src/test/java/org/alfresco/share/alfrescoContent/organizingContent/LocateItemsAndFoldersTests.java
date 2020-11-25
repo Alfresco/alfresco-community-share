@@ -2,7 +2,7 @@ package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.DocumentsFilter;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.alfresco.utility.report.Bug;
@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class LocateItemsAndFoldersTests extends BaseShareWebTests
+public class LocateItemsAndFoldersTests extends BaseTests
 {
     private DocumentLibraryPage2 documentLibraryPage;
 

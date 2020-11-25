@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools.moduleBrowser;
 
 import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ModuleBrowserTests extends BaseShareWebTests
+public class ModuleBrowserTests extends BaseTests
 {
     private ModuleBrowserPage moduleBrowserPage;
 

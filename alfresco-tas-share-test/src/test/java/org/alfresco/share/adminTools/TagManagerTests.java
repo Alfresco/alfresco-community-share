@@ -2,7 +2,7 @@ package org.alfresco.share.adminTools;
 
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class TagManagerTests extends BaseShareWebTests
+public class TagManagerTests extends BaseTests
 {
     private TagManagerPage tagManagerPage;
 
@@ -30,8 +30,7 @@ public class TagManagerTests extends BaseShareWebTests
     public void setupTest()
     {
         tagManagerPage = new TagManagerPage(browser);
-
-        setupAuthenticatedSessionViaLoginPage(getAdminUser());
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @BeforeClass (alwaysRun = true)
@@ -88,7 +87,7 @@ public class TagManagerTests extends BaseShareWebTests
                 .assertDeleteButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
                 .clickDelete();
-        tagManagerPage.navigate().search(tag3).assertTagIsNotDisplayed(tag3);
+        tagManagerPage.search(tag3).assertTagIsNotDisplayed(tag3);
     }
 
     @AfterClass (alwaysRun = true)

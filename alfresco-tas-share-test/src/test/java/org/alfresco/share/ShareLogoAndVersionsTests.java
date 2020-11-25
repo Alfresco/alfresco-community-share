@@ -5,7 +5,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ShareLogoAndVersionsTests extends BaseShareWebTests
+public class ShareLogoAndVersionsTests extends BaseTests
 {
     @BeforeMethod(alwaysRun = true)
     public void beforeTest()

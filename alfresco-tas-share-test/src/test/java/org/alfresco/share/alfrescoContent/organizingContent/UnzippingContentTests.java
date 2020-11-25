@@ -1,7 +1,7 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.apache.commons.io.FilenameUtils;
@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 
-public class UnzippingContentTests extends BaseShareWebTests
+public class UnzippingContentTests extends BaseTests
 {
     private DocumentLibraryPage2 documentLibraryPage;
 

@@ -1,7 +1,6 @@
 package org.alfresco.share;
 
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
@@ -9,7 +8,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
 
-public class ToolbarTests extends BaseShareWebTests
+public class ToolbarTests extends BaseTests
 {
     private SiteDashboardPage siteDashboardPage;
     private UserProfilePage userProfilePage;

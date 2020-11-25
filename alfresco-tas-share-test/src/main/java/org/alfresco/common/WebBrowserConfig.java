@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +30,7 @@ public class WebBrowserConfig implements FactoryBean<WebBrowser>
     @Autowired
     private EnvProperties shareProperties;
 
-    public WebBrowser getWebBrowser()
+    public WebBrowser createWebBrowser()
     {
         WebBrowser webbrowser = new WebBrowser(fromProperties(properties), properties);
         if(!properties.getBrowserName().toLowerCase().equals("chrome"))
@@ -56,12 +55,12 @@ public class WebBrowserConfig implements FactoryBean<WebBrowser>
     @Override
     public WebBrowser getObject()
     {
-        return getWebBrowser();
+        return createWebBrowser();
     }
 
     public void quit()
     {
-        getWebBrowser().quit();
+        createWebBrowser().quit();
     }
 
     public FirefoxOptions setFirefoxOptions(TasProperties properties)

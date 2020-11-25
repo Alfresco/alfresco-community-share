@@ -60,7 +60,8 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         WebElement tagRow = getTagRow(tag);
         getBrowser().mouseOver(getBrowser().findElement(searchInput));
         getBrowser().mouseOver(tagRow);
-        getBrowser().waitUntilElementVisible(tagRow.findElement(deleteIconSelector)).click();
+        WebElement deleteButton = tagRow.findElement(deleteIconSelector);
+        getBrowser().waitUntilElementClickable(deleteButton).click();
 
         return (DeleteDialog) new DeleteDialog(browser).renderedPage();
     }
@@ -115,14 +116,14 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     public TagManagerPage searchTagWithRetry(String tagName)
     {
-        LOG.info(String.format("Search for tag: %s", tagName));
+        LOG.info("Search for tag: {}", tagName);
         search(tagName);
         boolean found = isTagDisplayed(tagName);
         int retryCount = 0;
         while(!found && retryCount < WAIT_30)
         {
             Utility.waitToLoopTime(1);
-            LOG.error(String.format("Wait for tag %s to be displayed - retry: %s", tagName, retryCount));
+            LOG.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCount);
             search(tagName);
             found = isTagDisplayed(tagName);
             retryCount++;

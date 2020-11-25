@@ -9,14 +9,13 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
  * @author bogdan.bocancea
  */
-public class LoginTests extends BaseShareWebTests
+public class LoginTests extends BaseTests
 {
     private String randomString = RandomData.getRandomAlphanumeric();
     private String dashBoardUrl = "share/page/user/%s/dashboard";

@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools.users;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -9,7 +9,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserToolTests extends BaseShareWebTests
+public class UserToolTests extends BaseTests
 {
     UsersPage usersPage;
 
