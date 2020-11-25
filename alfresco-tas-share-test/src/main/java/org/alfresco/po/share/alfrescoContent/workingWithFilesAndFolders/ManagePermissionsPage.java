@@ -1,9 +1,10 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -11,9 +12,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 {
@@ -51,8 +49,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     private List<WebElement> breadcrumbList;
     @FindAll (@FindBy (css = "div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']"))
     private List<WebElement> usersAndGroupsList;
-    private By usersAndGroupsLocallySetPermissions = By.cssSelector("div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']");
-    private By inheritedPermissionsUsersAndGroups = By.cssSelector("div[id$='_default-inheritedPermissions'] tr[class^='yui-dt-rec ']");
     @FindBy (css = "div[id$='_default-directContainer'] div[id$='_default-directPermissions']")
     private WebElement locallySetPermissionsList;
     @FindBy (css = "div.onActionDelete")
@@ -67,13 +63,16 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     private WebElement roleButton;
     @FindBy (css = "div[id$='_default-directPermissions'] td[class='yui-dt-empty'] div")
     private WebElement noPermissionsSet;
-    private By searchResultsList = By.cssSelector("td[class$='yui-dt-col-fullName'] span");
-    private By addButton = By.xpath("//button[text()='Add ']");
-    private By roles = By.cssSelector("div.yui-module.yui-overlay.yuimenu.yui-button-menu.yui-menu-button-menu.visible li");
+
+    private final By searchResultsList = By.cssSelector("td[class$='yui-dt-col-fullName'] span");
+    private final By addButton = By.xpath("//button[text()='Add ']");
+    private final By roles = By.cssSelector("div.yui-module.yui-overlay.yuimenu.yui-button-menu.yui-menu-button-menu.visible li");
+    private final By usersAndGroupsLocallySetPermissions = By.cssSelector("div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']");
+    private final By inheritedPermissionsUsersAndGroups = By.cssSelector("div[id$='_default-inheritedPermissions'] tr[class^='yui-dt-rec ']");
 
     public ManagePermissionsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

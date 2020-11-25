@@ -3,17 +3,14 @@ package org.alfresco.po.share.site.blog;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 {
@@ -36,16 +33,17 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private WebElement defaultBlogPostList;
     @FindAll (@FindBy (css = "div[id*='archives'] a.filter-link"))
     private List<WebElement> archivesMonths;
-    private By editButton = By.xpath(".//../div[@class = 'nodeEdit']//div[@class = 'onEditBlogPost']//a//span[text() = 'Edit']");
-    private By blogLinkName = By.id("HEADER_SITE_BLOG-POSTLIST");
-    private By allFilter = By.cssSelector("ul.filterLink span.all>a");
-    private By latestFilter = By.cssSelector("ul.filterLink span.new>a");
-    private By myDraftsFilter = By.cssSelector("ul.filterLink span.mydrafts>a");
-    private By myPublished = By.cssSelector("ul.filterLink span.mypublished>a");
+
+    private final By editButton = By.xpath(".//../div[@class = 'nodeEdit']//div[@class = 'onEditBlogPost']//a//span[text() = 'Edit']");
+    private final By blogLinkName = By.id("HEADER_SITE_BLOG-POSTLIST");
+    private final By allFilter = By.cssSelector("ul.filterLink span.all>a");
+    private final By latestFilter = By.cssSelector("ul.filterLink span.new>a");
+    private final By myDraftsFilter = By.cssSelector("ul.filterLink span.mydrafts>a");
+    private final By myPublished = By.cssSelector("ul.filterLink span.mypublished>a");
 
     public BlogPostListPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+      super(browser);
     }
 
     public WebElement selectBlogPostWithtitle(String title)

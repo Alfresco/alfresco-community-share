@@ -2,9 +2,7 @@ package org.alfresco.po.share.site.wiki;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.Alert;
@@ -12,7 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 {
@@ -45,11 +42,11 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     @FindAll (@FindBy (css = "[id$='default-current-tags'] li a span"))
     private List<WebElement> wikiPageTagsList;
 
-    private By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
     public CreateWikiPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+      super(browser);
     }
 
     /**
@@ -76,7 +73,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     public void typeWikiPageContent(String content)
     {
-        getBrowser().switchTo().frame((WebElement) getBrowser().findElement(wikiPageContent));
+        getBrowser().switchTo().frame(getBrowser().findElement(wikiPageContent));
         WebElement editable = getBrowser().switchTo().activeElement();
         editable.sendKeys(content);
         getBrowser().switchTo().defaultContent();

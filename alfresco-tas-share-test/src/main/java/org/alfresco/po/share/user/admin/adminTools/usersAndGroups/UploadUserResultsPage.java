@@ -10,11 +10,11 @@ public class UploadUserResultsPage extends BasePages
     private UsersPage usersPage;
 
     @RenderWebElement
-    private By goBackButton = By.cssSelector("button[id*='default-csv-goback-button-button']");
+    private final By goBackButton = By.cssSelector("button[id*='default-csv-goback-button-button']");
 
     public UploadUserResultsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         usersPage = new UsersPage(browser);
     }
 

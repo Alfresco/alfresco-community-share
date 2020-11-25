@@ -2,16 +2,13 @@ package org.alfresco.po.share.site.wiki;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
@@ -57,19 +54,18 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     @FindBy (css = "span[class='myPages'] a")
     private WebElement myPagesFilter;
 
-
-    private By editPage = By.cssSelector("div.editPage a");
-    private By pageName = By.cssSelector("[class=pageTitle] a");
-    private By deletePage = By.cssSelector(".deletePage a");
-    private By missingWikiPage = By.cssSelector(".rich-content a");
-    private By pageDetails = By.cssSelector("div.detailsPage a");
-    private By wikiRowDetails = By.cssSelector("div[class='publishedDetails'] span");
-    private By wikiPageContent = By.cssSelector("div[class='pageCopy rich-content']");
-    private By wikiPageTags = By.cssSelector("div[class=pageTags] a");
+    private final By editPage = By.cssSelector("div.editPage a");
+    private final By pageName = By.cssSelector("[class=pageTitle] a");
+    private final By deletePage = By.cssSelector(".deletePage a");
+    private final By missingWikiPage = By.cssSelector(".rich-content a");
+    private final By pageDetails = By.cssSelector("div.detailsPage a");
+    private final By wikiRowDetails = By.cssSelector("div[class='publishedDetails'] span");
+    private final By wikiPageContent = By.cssSelector("div[class='pageCopy rich-content']");
+    private final By wikiPageTags = By.cssSelector("div[class=pageTags] a");
 
     public WikiListPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     /**

@@ -14,18 +14,17 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
     @RenderWebElement
     protected By searchInput = By.cssSelector("[id*='default-search-text']");
     @RenderWebElement
-    protected By searchButton = By.cssSelector("[id*='default-search-button']");
-    private By resultsPane = By.className("results");
-    private By pendingInvitesList = By.cssSelector("tbody[class='yui-dt-data'] tr");
-    private By invitationUserAvatar = By.cssSelector(".avatar");
-    private By invitationUserName = By.xpath("(//*[@class='attr-value'])[1]");
-    private By invitationSentDate = By.xpath("(//*[@class='attr-value'])[2]");
-    private By invitationUserRole = By.xpath("(//*[@class='attr-value'])[3]");
-    private By cancelButton = By.cssSelector("button");
+    private final By searchButton = By.cssSelector("[id*='default-search-button']");
+    private final By pendingInvitesList = By.cssSelector("tbody[class='yui-dt-data'] tr");
+    private final By invitationUserAvatar = By.cssSelector(".avatar");
+    private final By invitationUserName = By.xpath("(//*[@class='attr-value'])[1]");
+    private final By invitationSentDate = By.xpath("(//*[@class='attr-value'])[2]");
+    private final By invitationUserRole = By.xpath("(//*[@class='attr-value'])[3]");
+    private final By cancelButton = By.cssSelector("button");
 
     public PendingInvitesPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -51,6 +52,11 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
 
     private String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
+
+    public AlfrescoContentPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public AlfrescoContentPage<T> clickCreate()
     {

@@ -16,7 +16,7 @@ import static org.testng.Assert.*;
 
 public class DataListsPage extends SiteCommon<DataListsPage>
 {
-    public Content currentContent = (Content) new NoListItemSelectedContent();
+    public Content currentContent = new NoListItemSelectedContent();
 
     @RenderWebElement
     @FindBy (css = "div.datalists div.filter")
@@ -105,7 +105,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public DataListsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

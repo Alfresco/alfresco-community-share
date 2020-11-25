@@ -17,15 +17,15 @@ public class UserContentPage extends SharePage2<UserContentPage>
     private String userName;
 
     @RenderWebElement
-    private By recentlyAddedLabel = By.cssSelector(".viewcolumn>div:nth-child(1)");
-    private By noAddedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(1)");
+    private final By recentlyAddedLabel = By.cssSelector(".viewcolumn>div:nth-child(1)");
+    private final By noAddedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(1)");
     @RenderWebElement
-    private By recentlyModfiedLabel = By.cssSelector(".viewcolumn>div:nth-child(3)");
-    private By noModifiedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(2)");
+    private final By recentlyModfiedLabel = By.cssSelector(".viewcolumn>div:nth-child(3)");
+    private final By noModifiedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(2)");
 
     public UserContentPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

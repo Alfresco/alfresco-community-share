@@ -2,9 +2,7 @@ package org.alfresco.po.share.alfrescoContent.pageCommon;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
@@ -59,7 +57,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public DocumentsFilters(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     /**

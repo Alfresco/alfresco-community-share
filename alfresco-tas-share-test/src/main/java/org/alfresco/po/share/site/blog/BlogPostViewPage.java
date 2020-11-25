@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.blog;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,10 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
@@ -56,7 +54,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     public BlogPostViewPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

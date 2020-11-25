@@ -61,16 +61,13 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     @FindBy (css = "[class*=toolbar-titlebar] h2")
     private WebElement libraryImagesTitlebar;
 
-    // @FindBy(css = "[id$=content-docPicker-cntrl-picker]")
-    // private WebElement selectDocPopUp;
-
-    private By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
-    private By removeTag = By.cssSelector("span.remove");
-    private String imageLink = "//img[contains(@title,'";
+    private final By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By removeTag = By.cssSelector("span.remove");
+    private final String imageLink = "//img[contains(@title,'";
 
     public EditWikiPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ReplicationJobsPage extends SharePage2<ReplicationJobsPage>
 
     public ReplicationJobsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

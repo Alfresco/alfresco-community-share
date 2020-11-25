@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -9,27 +9,27 @@ import java.util.Arrays;
 
 import static org.testng.Assert.*;
 
-public class DeleteGroupDialog extends ShareDialog2
+public class DeleteGroupDialog extends BaseDialogComponent
 {
     private GroupsPage groupsPage;
 
     @RenderWebElement
-    private By dialogHeader = By.cssSelector("div[id*='deletegroupdialog_h']");
+    private final By dialogHeader = By.cssSelector("div[id*='deletegroupdialog_h']");
     @RenderWebElement
-    private By multiparentMessage = By.cssSelector("span[id*='multiparent-message']");
+    private final By multiparentMessage = By.cssSelector("span[id*='multiparent-message']");
     @RenderWebElement
-    private By parent = By.cssSelector("div[id*='multiparent'] div[id*='parent']");
-    private By removeRow = By.cssSelector("span[id*='remove-message']");
-    private By deleteRow = By.cssSelector("div[id*='multiparent'] div[id*='-deleterow']");
+    private final By parent = By.cssSelector("div[id*='multiparent'] div[id*='parent']");
+    private final By removeRow = By.cssSelector("span[id*='remove-message']");
+    private final By deleteRow = By.cssSelector("div[id*='multiparent'] div[id*='-deleterow']");
     @RenderWebElement
-    private By deleteButton = By.cssSelector("button[id*='remove']");
-    private By cancelButton = By.cssSelector("div[id*='deletegroupdialog'] button[id*='cancel']");
-    private By removeRadioButton = By.cssSelector("input[id*='remove']");
-    private By deleteRadioButton = By.cssSelector("input[id*='delete']");
+    private final By deleteButton = By.cssSelector("button[id*='remove']");
+    private final By cancelButton = By.cssSelector("div[id*='deletegroupdialog'] button[id*='cancel']");
+    private final By removeRadioButton = By.cssSelector("input[id*='remove']");
+    private final By deleteRadioButton = By.cssSelector("input[id*='delete']");
 
     public DeleteGroupDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         groupsPage = new GroupsPage(browser);
     }
 

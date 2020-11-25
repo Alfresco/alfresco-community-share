@@ -17,32 +17,32 @@ import static org.testng.Assert.assertFalse;
 
 public class CreateUserPage extends SharePage2<CreateUserPage>
 {
-    private By searchForGroupsMessage = By.cssSelector(".create-main .yui-dt-empty div");
+    private final By searchForGroupsMessage = By.cssSelector(".create-main .yui-dt-empty div");
 
     @RenderWebElement
-    private By firstNameInputField = By.cssSelector("input[id$='firstname']");
-    private By lastNameInputField = By.cssSelector("input[id$='lastname']");
-    private By emailInputField = By.cssSelector("input[id$='email']");
-    private By usernameInputField = By.cssSelector("input[id$='default-create-username']");
-    private By passwordInputField = By.cssSelector("input[id$='password']");
-    private By verifyPasswordInputField = By.cssSelector("input[id$='verifypassword']");
-    private By groupFinderInputField = By.cssSelector("input[id$='groupfinder-search-text']");
-    private By searchButton = By.cssSelector("button[id*='groupfinder']");
-    private By quotaInputField = By.cssSelector("input[id$='quota']");
-    private By quotaType = By.cssSelector("select[id*='quotatype']");
-    private By disableAccountCheckBox = By.cssSelector("input[id*='disableaccount']");
+    private final By firstNameInputField = By.cssSelector("input[id$='firstname']");
+    private final By lastNameInputField = By.cssSelector("input[id$='lastname']");
+    private final By emailInputField = By.cssSelector("input[id$='email']");
+    private final By usernameInputField = By.cssSelector("input[id$='default-create-username']");
+    private final By passwordInputField = By.cssSelector("input[id$='password']");
+    private final By verifyPasswordInputField = By.cssSelector("input[id$='verifypassword']");
+    private final By groupFinderInputField = By.cssSelector("input[id$='groupfinder-search-text']");
+    private final By searchButton = By.cssSelector("button[id*='groupfinder']");
+    private final By quotaInputField = By.cssSelector("input[id$='quota']");
+    private final By quotaType = By.cssSelector("select[id*='quotatype']");
+    private final By disableAccountCheckBox = By.cssSelector("input[id*='disableaccount']");
     @RenderWebElement
-    private By createUserButton = By.cssSelector("button[id$='createuser-ok-button-button']");
-    private By createUserAndStartAnotherButton = By.cssSelector("button[id$='createuser-another-button-button']");
-    private By cancelButton = By.cssSelector(".createuser-cancel-button button");
-    private By duplicateUserPrompt = By.cssSelector("div[id='prompt']");
-    private By duplicateUserPromptButton = By.cssSelector("div[id='prompt'] button");
-    private By groupRows = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
-    private String addedGroup = "//div[@class='groupselection-row']//span[text()='%s']";
+    private final By createUserButton = By.cssSelector("button[id$='createuser-ok-button-button']");
+    private final By createUserAndStartAnotherButton = By.cssSelector("button[id$='createuser-another-button-button']");
+    private final By cancelButton = By.cssSelector(".createuser-cancel-button button");
+    private final By duplicateUserPrompt = By.cssSelector("div[id='prompt']");
+    private final By duplicateUserPromptButton = By.cssSelector("div[id='prompt'] button");
+    private final By groupRows = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
+    private final String addedGroup = "//div[@class='groupselection-row']//span[text()='%s']";
 
     public CreateUserPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

@@ -2,7 +2,6 @@ package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.DashboardCustomization;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.browser.WebBrowser;
 
 /**
@@ -14,7 +13,7 @@ public class CustomizeSiteDashboardPage<T> extends DashboardCustomization<Custom
 
     public CustomizeSiteDashboardPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getCurrentSiteName()

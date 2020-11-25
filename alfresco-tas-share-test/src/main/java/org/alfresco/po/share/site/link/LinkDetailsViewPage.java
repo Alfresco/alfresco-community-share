@@ -75,7 +75,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public LinkDetailsViewPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

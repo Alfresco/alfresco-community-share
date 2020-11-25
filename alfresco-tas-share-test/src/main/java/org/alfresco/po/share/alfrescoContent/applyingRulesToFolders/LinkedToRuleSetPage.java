@@ -1,11 +1,9 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class LinkedToRuleSetPage extends SiteCommon<LinkedToRuleSetPage>
 {
@@ -13,7 +11,7 @@ public class LinkedToRuleSetPage extends SiteCommon<LinkedToRuleSetPage>
 
     public LinkedToRuleSetPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

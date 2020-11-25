@@ -8,11 +8,11 @@ import org.testng.Assert;
 public class SystemErrorPage extends BasePages
 {
     @RenderWebElement
-    private By errorHeader = By.cssSelector(".alf-error-header");
+    private final By errorHeader = By.cssSelector(".alf-error-header");
 
     public SystemErrorPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getErrorHeader()

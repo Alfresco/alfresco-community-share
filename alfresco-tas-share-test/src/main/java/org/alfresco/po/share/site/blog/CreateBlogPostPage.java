@@ -1,14 +1,11 @@
 package org.alfresco.po.share.site.blog;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 
 public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 {
@@ -31,11 +28,10 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     private WebElement tagsField;
     @FindBy (xpath = "//div[@class = 'taglibrary']//span[@class = 'yui-button yui-push-button']//button[text()='Add']")
     private WebElement addTagButton;
-    private By deleteTagButton = By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']");
 
     public CreateBlogPostPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public WebElement findTag(String Tag)

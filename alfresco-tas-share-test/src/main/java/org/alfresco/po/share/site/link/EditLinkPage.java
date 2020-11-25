@@ -60,11 +60,11 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
     @FindAll (@FindBy (css = "li.onRemoveTag a"))
     private List<WebElement> tagsList;
 
-    private By removeTag = By.cssSelector("span.remove");
+    private final By removeTag = By.cssSelector("span.remove");
 
     public EditLinkPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

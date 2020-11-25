@@ -23,11 +23,11 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     @FindBy (css = ".selected-items button[disabled]")
     private WebElement selectedItemsMenuDisabled;
 
-    private By selectedItemsOptionsSelector = By.cssSelector("div[id*='selectedItems'] span");
+    private final By selectedItemsOptionsSelector = By.cssSelector("div[id*='selectedItems'] span");
 
     public HeaderMenuBar(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
