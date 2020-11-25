@@ -1,15 +1,21 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 
 public class LeaveSiteDialog extends ConfirmationDialog
 {
-    private By dialogContainer = By.id("ALF_SITE_SERVICE_DIALOG");
+    private final By dialogContainer = By.id("ALF_SITE_SERVICE_DIALOG");
     @RenderWebElement
-    private By dialogTitle = By.id("ALF_SITE_SERVICE_DIALOG_title");
-    private By dialogCancelButton = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG'] span[class$='alfresco-buttons-AlfButton'] span[id^='alfresco_buttons_AlfButton']");
-    private By okButton = By.cssSelector(".footer span[class*='call-to-action'] span[role='button']");
+    private final By dialogTitle = By.id("ALF_SITE_SERVICE_DIALOG_title");
+    private final By dialogCancelButton = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG'] span[class$='alfresco-buttons-AlfButton'] span[id^='alfresco_buttons_AlfButton']");
+    private final By okButton = By.cssSelector(".footer span[class*='call-to-action'] span[role='button']");
+
+    public LeaveSiteDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getDialogTitle()
     {

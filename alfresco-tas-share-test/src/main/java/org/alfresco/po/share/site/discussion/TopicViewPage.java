@@ -1,6 +1,6 @@
 package org.alfresco.po.share.site.discussion;
 
-import io.swagger.models.auth.In;
+import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,11 +9,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
-
-import java.util.List;
 
 /**
  * Created by Claudia Agache on 8/8/2016.
@@ -60,22 +57,9 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     @FindBy (xpath = "//div[contains(text(), 'Add Reply')]")
     private WebElement addReplyHeader;
 
-    private By replyLink = By.cssSelector(".onAddReply>a");
-    private By content = By.className("content");
-    private By status = By.className("nodeStatus");
-    private By noReplies = By.cssSelector(".replyTo+span");
-
     /* Replies area */
     @FindAll (@FindBy (css = ".reply"))
     private List<WebElement> repliesList;
-
-    private By replyAuthor = By.cssSelector(".userLink>a");
-    private By replyPostedOn = By.xpath("//*[text()='Posted on: ']/following-sibling::*[1]");
-    private By editReplyLink = By.cssSelector(".onEditReply>a");
-    private By showHideReplies = By.className("showHideChildren");
-
-    /* Add/Edit Reply area */
-    private By replyTextArea = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
     @FindBy (className = "replyTitle")
     private WebElement replyBoxTitle;
@@ -89,12 +73,21 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     @FindBy (xpath = "//button[descendant-or-self::*[text()='Insert']]")
     private Button insertMenuButton;
 
-    private By replyBoxMenu = By.className("mce-menu");
-    private By replyBoxMenuItem = By.className("mce-text");
+    private final By replyBoxMenu = By.className("mce-menu");
+    private final By replyBoxMenuItem = By.className("mce-text");
+    private final By replyLink = By.cssSelector(".onAddReply>a");
+    private final By content = By.className("content");
+    private final By status = By.className("nodeStatus");
+    private final By noReplies = By.cssSelector(".replyTo+span");
+    private final By replyAuthor = By.cssSelector(".userLink>a");
+    private final By replyPostedOn = By.xpath("//*[text()='Posted on: ']/following-sibling::*[1]");
+    private final By editReplyLink = By.cssSelector(".onEditReply>a");
+    private final By showHideReplies = By.className("showHideChildren");
+    private final By replyTextArea = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
     public TopicViewPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+      super(browser);
     }
 
     @Override

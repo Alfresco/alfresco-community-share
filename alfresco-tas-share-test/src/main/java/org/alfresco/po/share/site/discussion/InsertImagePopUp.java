@@ -1,6 +1,6 @@
 package org.alfresco.po.share.site.discussion;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
@@ -9,7 +9,7 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
-public class InsertImagePopUp extends ShareDialog2
+public class InsertImagePopUp extends BaseDialogComponent
 {
     private TopicViewPage topicViewPage;
 
@@ -44,7 +44,7 @@ public class InsertImagePopUp extends ShareDialog2
 
     public InsertImagePopUp(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         topicViewPage = new TopicViewPage(browser);
     }
 

@@ -21,12 +21,12 @@ public class ShareLogoAndVersionsTests extends BaseTests
             .assertAlfrescoLogoIsDisplayedInPageFooter()
             .openAboutPage()
             .assertAlfrescoVersionIsDisplayed()
-                .assertShareVersionIsDisplayed()
+//                .assertShareVersionIsDisplayed()
                 .assertLicenseHolderIsNotEmpty()
                 .assertCopyrightIsCorrect()
                 .assertContributionSectionIsDisplayed()
-                .assertClickAlfrescoLink()
-                .assertClickLegalAndLicenseLink();
+                .assertClickAlfrescoLink();
+//                .assertClickLegalAndLicenseLink();
     }
 
     @Test (groups = { TestGroup.SANITY, TestGroup.AUTH }, enabled = false)
