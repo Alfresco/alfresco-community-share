@@ -1,6 +1,6 @@
 package org.alfresco.po.share.alfrescoContent;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -8,22 +8,21 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectDestinationDialog extends ShareDialog2
+public class SelectDestinationDialog extends BaseDialogComponent
 {
-    protected By destinationList = By.cssSelector("button[role='radio']");
-    protected By siteList = By.cssSelector(".site-picker h4");
-    private By dialogTitle = By.cssSelector("div[id*='title']");
-    private By sitesListCopyFilesTo = By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']");
-    private By pathList = By.cssSelector(".path .ygtvlabel");
-    private By okButton = By.cssSelector("button[id*='ok']");
-    private By cancelButton = By.cssSelector("button[id*='destinationDialog-cancel']");
-    private By documentLibraryPath = By.cssSelector("div.dijitTreeNodeContainer span[id^='alfresco_navigation_PathTree']");
-    private By copyToDialogTitle = By.cssSelector("#ALF_COPY_MOVE_DIALOG_title");
-    private By linkButton = By.cssSelector("button[id$='_default-rulesPicker-ok-button']");
-    private By allSitesButton = By.cssSelector("div[title='All Sites'] span");
+    private final By destinationList = By.cssSelector("button[role='radio']");
+    private final By siteList = By.cssSelector(".site-picker h4");
+    private final By dialogTitle = By.cssSelector("div[id*='title']");
+    private final By sitesListCopyFilesTo = By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']");
+    private final By pathList = By.cssSelector(".path .ygtvlabel");
+    private final By okButton = By.cssSelector("button[id*='ok']");
+    private final By cancelButton = By.cssSelector("button[id*='destinationDialog-cancel']");
+    private final By documentLibraryPath = By.cssSelector("div.dijitTreeNodeContainer span[id^='alfresco_navigation_PathTree']");
+    private final By linkButton = By.cssSelector("button[id$='_default-rulesPicker-ok-button']");
 
     public SelectDestinationDialog(ThreadLocal<WebBrowser> browser)
     {
+        super(browser);
         this.browser = browser;
     }
 

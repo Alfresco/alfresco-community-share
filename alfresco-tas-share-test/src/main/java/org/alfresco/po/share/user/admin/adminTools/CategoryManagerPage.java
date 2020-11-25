@@ -25,7 +25,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 
     public CategoryManagerPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     private WebElement category(String categoryLabel)

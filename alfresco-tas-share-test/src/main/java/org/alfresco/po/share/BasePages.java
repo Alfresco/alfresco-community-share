@@ -27,6 +27,7 @@ public abstract class BasePages
 {
     protected final Logger LOG = LoggerFactory.getLogger(BasePages.class);
 
+    //todo: move below vars into another class
     public static final int WAIT_1 = 1;
     public static final int WAIT_5 = 5;
     public static final int WAIT_10 = 10;
@@ -34,6 +35,7 @@ public abstract class BasePages
     public static final int WAIT_30 = 30;
     public static final int WAIT_60 = 60;
     public static final int DEFAULT_RETRY = 3;
+
     public static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
     public static final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
 
@@ -41,9 +43,9 @@ public abstract class BasePages
     public static EnvProperties properties;
     public static Language language;
 
-    protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
+    protected ThreadLocal<WebBrowser> browser;
 
-    public BasePages()
+    public BasePages(ThreadLocal<WebBrowser> browser)
     {
         if(properties == null)
         {
@@ -52,6 +54,7 @@ public abstract class BasePages
             tasProperties = context.getBean(TasProperties.class);
             language = context.getBean(Language.class);
         }
+        this.browser = browser;
     }
 
     public WebBrowser getBrowser()

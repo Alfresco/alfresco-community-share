@@ -2,6 +2,7 @@ package org.alfresco.po.share;
 
 import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -25,13 +26,12 @@ public abstract class SharePage2<T> extends BasePages
     private By body= By.id("Share");
     @RenderWebElement
     private final By pageHeader = By.id("HEADER_TITLE");
-    private final By headerLogo = By.id("HEADER_LOGO");
     private final By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
-    private final By userMenu = By.id("HEADER_USER_MENU_POPUP");
-    private final By logoutLink = By.id("HEADER_USER_MENU_LOGOUT");
     private final By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
 
-
+    public SharePage2(ThreadLocal<WebBrowser> browser) {
+        super(browser);
+    }
 
     /**
      * Wire up the relative path in your Page Object class
