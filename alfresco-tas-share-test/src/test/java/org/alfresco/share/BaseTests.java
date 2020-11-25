@@ -111,9 +111,10 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     }
 
     @BeforeMethod(alwaysRun = true)
-    public void beforeEachTest()
+    public void beforeEachTest(Method method)
     {
-        initBrowser();
+        LOG.info("STARTED TEST: {}", method.getName());
+        createBrowser();
 
         loginPage = new LoginPage(browser);
         userDashboardPage = new UserDashboardPage(browser);
@@ -123,11 +124,9 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     @AfterMethod(alwaysRun = true)
     public void afterEachTest(final Method method, final ITestResult result)
     {
-        LOG.info("***************************************************************************************************");
-        DateTime now = new DateTime();
-        LOG.info(String.format("*** %s ***  Ending test %s:%s %s (%s s.)", now.toString("HH:mm:ss"), method.getDeclaringClass().getSimpleName(), method.getName(),
-                result.isSuccess() ? "SUCCESS" : "!!! FAILURE !!!", (result.getEndMillis() - result.getStartMillis()) / 1000));
-        LOG.info("***************************************************************************************************");
+
+        LOG.info("FINISHED TEST: {}, {}, {}", method.getDeclaringClass().getSimpleName(), method.getName(),
+            result.isSuccess() ? "PASSED" : "FAILED");
         if(!result.isSuccess())
         {
             saveScreenshot(getBrowser(),method);
@@ -135,7 +134,7 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
         closeBrowser();
     }
 
-    private void initBrowser()
+    private void createBrowser()
     {
         try
         {
@@ -162,8 +161,11 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
         }
         finally
         {
-            LOG.info("Finally close browser..");
-            getBrowser().quit();
+            if (getBrowser() != null)
+            {
+                LOG.info("Finally close browser..");
+                getBrowser().quit();
+            }
         }
     }
 
