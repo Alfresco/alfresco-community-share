@@ -1,6 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 
 import static org.testng.Assert.assertTrue;
 
-public class CreateContentPage extends BasePages<CreateContentPage>
+public class CreateContentPage extends SharePage2<CreateContentPage>
 {
     @RenderWebElement
     private By createForm = By.cssSelector("div[id*='_default-form-fields']");

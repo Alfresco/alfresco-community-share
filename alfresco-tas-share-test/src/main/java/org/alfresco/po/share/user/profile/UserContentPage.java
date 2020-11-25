@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -12,7 +12,7 @@ import static org.testng.AssertJUnit.assertEquals;
 /**
  * @author bogdan.bocancea
  */
-public class UserContentPage extends BasePages<UserContentPage>
+public class UserContentPage extends SharePage2<UserContentPage>
 {
     private String userName;
 

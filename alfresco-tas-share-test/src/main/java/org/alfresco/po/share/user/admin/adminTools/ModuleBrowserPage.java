@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertTrue;
 
-public class ModuleBrowserPage extends BasePages<ModuleBrowserPage>
+public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
 {
     @RenderWebElement
     private By moduleContent = By.id("LIST_WITH_HEADER_ITEMS");

@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateAspectDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class ModelDetailsPage extends BasePages<ModelDetailsPage>
+public class ModelDetailsPage extends SharePage2<ModelDetailsPage>
 {
     @RenderWebElement
     private By createCustomTypeButton = By.cssSelector("span[class*='createTypeButton'] span");

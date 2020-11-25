@@ -1,6 +1,6 @@
 package org.alfresco.po.share.searching;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -11,7 +11,7 @@ import org.testng.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchManagerPage extends BasePages<SearchManagerPage>
+public class SearchManagerPage extends SharePage2<SearchManagerPage>
 {
     private static final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
     private static final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");

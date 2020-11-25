@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.UserModel;
@@ -18,7 +18,7 @@ import static org.testng.Assert.*;
 /**
  * @author bogdan.bocancea
  */
-public class UserProfilePage extends BasePages<UserProfilePage> implements AccessibleByMenuBar
+public class UserProfilePage extends SharePage2<UserProfilePage> implements AccessibleByMenuBar
 {
     private String userName;
     private static final String EMPTY_SPACE = " ";

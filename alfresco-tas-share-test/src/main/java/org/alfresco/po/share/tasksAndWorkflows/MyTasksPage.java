@@ -1,6 +1,6 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class MyTasksPage extends BasePages<MyTasksPage> implements AccessibleByMenuBar
+public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleByMenuBar
 {
     @Autowired
     EditTaskPage editTaskPage;

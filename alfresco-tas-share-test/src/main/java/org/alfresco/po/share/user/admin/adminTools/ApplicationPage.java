@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -15,7 +15,7 @@ import java.util.List;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class ApplicationPage extends BasePages<ApplicationPage>
+public class ApplicationPage extends SharePage2<ApplicationPage>
 {
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;

@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -17,7 +17,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class UsersPage extends BasePages<UsersPage>
+public class UsersPage extends SharePage2<UsersPage>
 {
     @RenderWebElement
     private By newUserButton = By.cssSelector("button[id$='_default-newuser-button-button']");

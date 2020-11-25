@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.profile;
 
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class UserTrashcanPage extends BasePages<UserTrashcanPage>
+public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 {
     private String userName;
 

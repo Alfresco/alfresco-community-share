@@ -40,13 +40,13 @@ public class UploadFileDialog extends ShareDialog2
         getBrowser().waitUntilElementDisappears(dialogBody);
     }
 
-    public <T> BasePages uploadFileAndRenderPage(String location, BasePages<T> page)
+    public <T> SharePage2 uploadFileAndRenderPage(String location, SharePage2<T> page)
     {
         LOG.info("Upload file from {} and render page", location);
         uploadFile(location);
         getBrowser().waitUntilElementDisappears(dialogBody);
         
-        return (BasePages) page.renderedPage();
+        return (SharePage2) page.renderedPage();
     }
 
     public boolean isUploadFailedMessageDisplayed()

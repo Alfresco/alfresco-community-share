@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialog;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class ModelManagerPage extends BasePages<ModelManagerPage>
+public class ModelManagerPage extends SharePage2<ModelManagerPage>
 {
     private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
     private By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");

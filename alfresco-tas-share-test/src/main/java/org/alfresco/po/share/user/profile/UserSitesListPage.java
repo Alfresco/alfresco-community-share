@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.SiteModel;
@@ -19,7 +19,7 @@ import static org.testng.Assert.assertNull;
 /**
  * @author bogdan.bocancea
  */
-public class UserSitesListPage extends BasePages<UserSitesListPage> implements AccessibleByMenuBar
+public class UserSitesListPage extends SharePage2<UserSitesListPage> implements AccessibleByMenuBar
 {
     private String userName;
 

@@ -1,10 +1,10 @@
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.SiteModel;
 import org.openqa.selenium.By;
 
-public abstract class SiteCommon<T> extends BasePages<SiteCommon<T>>
+public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 {
     protected By waitPopup = By.cssSelector(".wait");
     protected By addUser = By.cssSelector("img.alf-user-icon");

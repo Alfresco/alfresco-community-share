@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
-public class NodeBrowserPage extends BasePages<NodeBrowserPage>
+public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 {
     private By searchInput = By.cssSelector("div.search-text textarea");
 

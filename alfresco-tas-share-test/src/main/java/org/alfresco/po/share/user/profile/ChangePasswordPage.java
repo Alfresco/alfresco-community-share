@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.UserModel;
@@ -14,7 +14,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * @author bogdan.bocancea
  */
-public class ChangePasswordPage extends BasePages<ChangePasswordPage> implements AccessibleByMenuBar
+public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implements AccessibleByMenuBar
 {
     private String userName;
 

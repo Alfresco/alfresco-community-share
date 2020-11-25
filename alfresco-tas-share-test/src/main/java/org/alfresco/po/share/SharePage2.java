@@ -18,7 +18,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 
-public abstract class BasePages<T> extends SharePageObject2
+public abstract class SharePage2<T> extends SharePageObject2
 {
     private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     @RenderWebElement
@@ -30,6 +30,8 @@ public abstract class BasePages<T> extends SharePageObject2
     private final By userMenu = By.id("HEADER_USER_MENU_POPUP");
     private final By logoutLink = By.id("HEADER_USER_MENU_LOGOUT");
     private final By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
+
+
 
     /**
      * Wire up the relative path in your Page Object class

@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -15,7 +15,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
-public class CreateUserPage extends BasePages<CreateUserPage>
+public class CreateUserPage extends SharePage2<CreateUserPage>
 {
     private By searchForGroupsMessage = By.cssSelector(".create-main .yui-dt-empty div");
 

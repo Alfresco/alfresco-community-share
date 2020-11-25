@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertTrue;
 
-public class PeopleFinderPage extends BasePages<PeopleFinderPage> implements AccessibleByMenuBar
+public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements AccessibleByMenuBar
 {
     private By searchResultsList = By.cssSelector("tbody[class='yui-dt-data'] tr");
 

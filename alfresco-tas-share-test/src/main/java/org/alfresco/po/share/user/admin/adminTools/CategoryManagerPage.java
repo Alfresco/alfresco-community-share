@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertFalse;
 
-public class CategoryManagerPage extends BasePages<CategoryManagerPage>
+public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 {
     @RenderWebElement
     private By categoryManagerDiv = By.cssSelector("div[class='category']");

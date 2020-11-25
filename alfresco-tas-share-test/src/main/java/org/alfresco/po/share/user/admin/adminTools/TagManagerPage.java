@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.*;
 
-public class TagManagerPage extends BasePages<TagManagerPage>
+public class TagManagerPage extends SharePage2<TagManagerPage>
 {
     private By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
     private By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");

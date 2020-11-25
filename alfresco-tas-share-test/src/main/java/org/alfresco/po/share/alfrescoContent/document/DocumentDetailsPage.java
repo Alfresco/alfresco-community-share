@@ -2,7 +2,7 @@ package org.alfresco.po.share.alfrescoContent.document;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -24,7 +24,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class DocumentDetailsPage extends BasePages<DocumentDetailsPage>
+public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 {
     private FileModel currentFile;
     private static final int BEGIN_INDEX = 0;

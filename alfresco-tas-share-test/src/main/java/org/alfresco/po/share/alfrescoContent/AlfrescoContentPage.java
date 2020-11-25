@@ -1,7 +1,7 @@
 package org.alfresco.po.share.alfrescoContent;
 
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public abstract class AlfrescoContentPage<T> extends BasePages<AlfrescoContentPage<T>>
+public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
 {
     @RenderWebElement
     private final By createButton = By.cssSelector("button[id$='createContent-button-button']");

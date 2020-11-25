@@ -21,7 +21,7 @@ import static org.testng.Assert.assertEquals;
 /**
  * @author bogdan.bocancea
  */
-public abstract class DashboardCustomization<T> extends BasePages<DashboardCustomization<T>>
+public abstract class DashboardCustomization<T> extends SharePage2<DashboardCustomization<T>>
 {
     private final int columns = 4;
     private final int maxDashletsInColumn = 5;
