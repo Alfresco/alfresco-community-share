@@ -1,15 +1,14 @@
 package org.alfresco.common;
 
-import static org.alfresco.common.Utils.getBrowserLanguage;
-import static org.alfresco.common.Utils.getDownloadLocation;
-import static org.alfresco.common.Utils.getGeckodriverResourceFile;
 import static org.alfresco.utility.Utility.getTestResourceFile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import org.alfresco.utility.TasProperties;
 import org.alfresco.utility.exception.UnrecognizedBrowser;
 import org.alfresco.utility.web.browser.WebBrowser;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -116,12 +115,10 @@ public class BrowserFactory implements FactoryBean<WebBrowser>
         else if (SystemUtils.IS_OS_MAC)
         {
             geckodriverPath = "shared-resources/geckodriver/geckodriver_mac";
-            getGeckodriverResourceFile(geckodriverPath).setExecutable(true);
         }
         else
         {
             geckodriverPath = "shared-resources/geckodriver/geckodriver_linux";
-            getGeckodriverResourceFile(geckodriverPath).setExecutable(true);
         }
         System.setProperty("webdriver.gecko.driver", this.getClass().getClassLoader().getResource(geckodriverPath).getPath());
     }
@@ -136,14 +133,27 @@ public class BrowserFactory implements FactoryBean<WebBrowser>
         else if (SystemUtils.IS_OS_MAC)
         {
             chromedriverPath = "shared-resources/chromedriver/chromedriver_mac";
-            getTestResourceFile(chromedriverPath).setExecutable(true);
         }
         else
         {
             chromedriverPath = "shared-resources/chromedriver/chromedriver_linux";
-            getTestResourceFile(chromedriverPath).setExecutable(true);
         }
         System.setProperty("webdriver.chrome.driver", getTestResourceFile(chromedriverPath).toString());
+    }
+
+    private static String getDownloadLocation()
+    {
+        String srcRoot = System.getProperty("user.dir") + File.separator;
+        return srcRoot + "testdata" + File.separator;
+    }
+
+    private String getBrowserLanguage(TasProperties properties)
+    {
+        if(!StringUtils.isEmpty(properties.getBrowserLanguageCountry()))
+        {
+            return properties.getBrowserLanguage() + "-" +  properties.getBrowserLanguageCountry();
+        }
+        return properties.getBrowserLanguage();
     }
 
     @Override

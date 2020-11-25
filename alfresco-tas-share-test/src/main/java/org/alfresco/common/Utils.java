@@ -10,11 +10,9 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.function.Supplier;
-import org.alfresco.utility.TasProperties;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
@@ -209,25 +207,5 @@ public final class Utils
         {
             LOG.error(String.format("Failed to copy screenshot %s", screen.getAbsolutePath()));
         }
-    }
-
-    public static File getGeckodriverResourceFile(String geckodriverPath)
-    {
-        return new File(Utils.class.getClassLoader().getResource(geckodriverPath).getFile());
-    }
-
-    public static String getDownloadLocation()
-    {
-        String srcRoot = System.getProperty("user.dir") + File.separator;
-        return srcRoot + "testdata" + File.separator;
-    }
-
-    public static String getBrowserLanguage(TasProperties properties)
-    {
-        if(!StringUtils.isEmpty(properties.getBrowserLanguageCountry()))
-        {
-            return properties.getBrowserLanguage() + "-" +  properties.getBrowserLanguageCountry();
-        }
-        return properties.getBrowserLanguage();
     }
 }
