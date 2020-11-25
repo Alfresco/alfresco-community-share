@@ -189,7 +189,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public void typeInputConfigText(String textBoxId, String condition)
     {
         WebElement element = getBrowser().findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
-        Utils.clearAndType(element, condition);
+        clearAndType(element, condition);
     }
 
     public String getInputConfigText(String textBoxId)

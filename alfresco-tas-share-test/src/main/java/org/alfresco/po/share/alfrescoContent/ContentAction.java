@@ -311,7 +311,7 @@ public class ContentAction
         LOG.info("Rename with value {}", newName);
         WebElement contentRow = getContentRow();
         WebElement input = contentRow.findElement(renameInput);
-        Utils.clearAndType(input, newName);
+        alfrescoContentPage.clearAndType(input, newName);
 
         return this;
     }

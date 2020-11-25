@@ -134,7 +134,7 @@ public class AddEventDialog extends ShareDialog
     public void typeInEventTitleInput(String title)
     {
         Parameter.checkIsMandotary("Event title", title);
-        Utils.clearAndType(eventTitle, title);
+        clearAndType(eventTitle, title);
     }
 
     /**
@@ -164,7 +164,7 @@ public class AddEventDialog extends ShareDialog
      */
     public void typeInEventLocationInput(String location)
     {
-        Utils.clearAndType(eventLocation, location);
+        clearAndType(eventLocation, location);
     }
 
     /**
@@ -194,7 +194,7 @@ public class AddEventDialog extends ShareDialog
      */
     public void typeInEventDescriptionInput(String description)
     {
-        Utils.clearAndType(eventDescription, description);
+        clearAndType(eventDescription, description);
     }
 
     /**

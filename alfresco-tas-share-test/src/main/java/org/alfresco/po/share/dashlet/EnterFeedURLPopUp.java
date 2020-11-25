@@ -1,9 +1,5 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -11,6 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.TextInput;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/7/2016.
@@ -40,7 +39,8 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
     public EnterFeedURLPopUp setUrlValue(String url)
     {
         LOG.info("Set url value: {}", url);
-        Utils.clearAndType(urlField, url);
+        urlField.clear();
+        urlField.sendKeys(url);
 
         return this;
     }
