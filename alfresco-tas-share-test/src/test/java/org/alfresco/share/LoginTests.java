@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -29,9 +30,12 @@ public class LoginTests extends BaseTests
     private final UserModel specialPassUser = new UserModel("specialPassUser" + randomString, "abc@123");
     private UserModel testUserC2084 = new UserModel("testUserC2084" + randomString, password);
 
+    private LoginPage loginPage;
+
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
+        loginPage = new LoginPage(browser);
         validUser = dataUser.usingAdmin().createRandomTestUser();
         dataUser.createUser(testUserC2084);
         dataUser.createUser(specialPassUser);
@@ -52,7 +56,7 @@ public class LoginTests extends BaseTests
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginValidCredentials()
     {
-        getLoginPage().navigate()
+        loginPage.navigate()
             .assertLoginPageIsOpened()
             .assertLoginPageTitleIsCorrect().login(validUser);
         userDashboardPage.renderedPage();
@@ -65,8 +69,8 @@ public class LoginTests extends BaseTests
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidCredentials()
     {
-        getLoginPage().navigate().login("fakeUser", "fakePassword");
-        getLoginPage()
+        loginPage.navigate().login("fakeUser", "fakePassword");
+        loginPage
             .assertAuthenticationErrorIsDisplayed()
             .assertAuthenticationErrorMessageIsCorrect();
     }
@@ -75,8 +79,8 @@ public class LoginTests extends BaseTests
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidPassword()
     {
-        getLoginPage().navigate().login(validUser.getUsername(), "fakePassword");
-        getLoginPage()
+        loginPage.navigate().login(validUser.getUsername(), "fakePassword");
+        loginPage
             .assertAuthenticationErrorIsDisplayed()
             .assertAuthenticationErrorMessageIsCorrect();
     }
@@ -86,23 +90,23 @@ public class LoginTests extends BaseTests
     public void invalidUserRedirectedTologinPage()
     {
         navigate(String.format(dashBoardUrl, validUser.getUsername()));
-        getLoginPage().renderedPage();
-        getLoginPage().assertLoginPageIsOpened().login("user123", "wrongpass");
-        getLoginPage().assertAuthenticationErrorIsDisplayed();
+        loginPage.renderedPage();
+        loginPage.assertLoginPageIsOpened().login("user123", "wrongpass");
+        loginPage.assertAuthenticationErrorIsDisplayed();
     }
 
     @TestRail(id = "C2084")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginAutoComplete()
     {
-        getLoginPage().navigate().autoCompleteUsername(testUserC2084.getUsername());
-        getLoginPage().typePassword(password);
-        getLoginPage().clickLogin();
-        if (getLoginPage().isAuthenticationErrorDisplayed())
+        loginPage.navigate().autoCompleteUsername(testUserC2084.getUsername());
+        loginPage.typePassword(password);
+        loginPage.clickLogin();
+        if (loginPage.isAuthenticationErrorDisplayed())
         {
-            getLoginPage().autoCompleteUsername(testUserC2084.getUsername());
-            getLoginPage().typePassword(password);
-            getLoginPage().clickLogin();
+            loginPage.autoCompleteUsername(testUserC2084.getUsername());
+            loginPage.typePassword(password);
+            loginPage.clickLogin();
         }
         userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
@@ -113,7 +117,7 @@ public class LoginTests extends BaseTests
     public void loginUserWithSpecialChar()
     {
         specialUserList.forEach(specialUser -> {
-            getLoginPage().navigate().login(specialUser);
+            loginPage.navigate().login(specialUser);
             userDashboardPage.renderedPage();
             userDashboardPage.assertPageHeaderIsCorrect(specialUser);
             cleanupAuthenticatedSession();
@@ -124,8 +128,8 @@ public class LoginTests extends BaseTests
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginUserWithSpecialPassword()
     {
-        getLoginPage().navigate();
-        getLoginPage().login(specialPassUser);
+        loginPage.navigate();
+        loginPage.login(specialPassUser);
         userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
     }

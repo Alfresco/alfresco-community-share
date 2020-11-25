@@ -174,31 +174,15 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
         return browser.get();
     }
 
-    public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
-    {
-        getBrowser().manage().deleteAllCookies();
-        getLoginPage().navigate().login(userModel);
-        userDashboardPage.waitForSharePageToLoad();
-    }
-
     public void setupAuthenticatedSession(UserModel user)
     {
         LOG.info("Setup authenticated session for user {}", user.getUsername());
         getBrowser().manage().deleteAllCookies();
-        getLoginPage().navigate();
+        loginPage.navigate();
         HttpState state = userService.login(user.getUsername(), user.getPassword());
         getBrowser().manage().deleteAllCookies();
         Arrays.stream(state.getCookies()).forEach(cookie
             -> getBrowser().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
-    }
-
-    public CommonLoginPage getLoginPage()
-    {
-        if (dataAIS.isEnabled())
-        {
-            return new AIMSPage(browser);
-        }
-        return loginPage;
     }
 
     protected void navigate(String pageUrl)
