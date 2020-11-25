@@ -58,7 +58,7 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     public SiteNoticeDashlet setSiteNoticeDashletTitle(String title)
     {
         LOG.info("Set site notice dashlet title: {}", title);
-        Utils.clearAndType(titleInput, title);
+        clearAndType(titleInput, title);
         return this;
     }
 

@@ -676,7 +676,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         getBrowser().switchTo().frame(getBrowser().waitUntilElementVisible(commentTextArea));
         WebElement commentBody = getBrowser().findElement(By.id("tinymce"));
-        Utils.clearAndType(commentBody, comment);
+        clearAndType(commentBody, comment);
         getBrowser().switchTo().defaultContent();
         getBrowser().waitUntilElementClickable(addCommentButtonSave).click();
     }
