@@ -16,19 +16,19 @@ import static org.testng.Assert.assertTrue;
 public class ToolbarUserMenu extends BasePages
 {
     @RenderWebElement
-    private By userDashboard = By.id("HEADER_USER_MENU_DASHBOARD_text");
+    private final By userDashboard = By.id("HEADER_USER_MENU_DASHBOARD_text");
     @RenderWebElement
-    private By myProfileMenu = By.id("HEADER_USER_MENU_PROFILE_text");
-    private By help = By.id("HEADER_USER_MENU_HELP_text");
-    private By setCurrentPageAsHome = By.id("HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text");
-    private By setDashBoardAsHome = By.id("HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
-    private By changePassword = By.id("HEADER_USER_MENU_CHANGE_PASSWORD_text");
-    private By logout = By.id("HEADER_USER_MENU_LOGOUT_text");
-    private By dropdownMenu = By.id("HEADER_USER_MENU_POPUP_dropdown");
+    private final By myProfileMenu = By.id("HEADER_USER_MENU_PROFILE_text");
+    private final By help = By.id("HEADER_USER_MENU_HELP_text");
+    private final By setCurrentPageAsHome = By.id("HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text");
+    private final By setDashBoardAsHome = By.id("HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
+    private final By changePassword = By.id("HEADER_USER_MENU_CHANGE_PASSWORD_text");
+    private final By logout = By.id("HEADER_USER_MENU_LOGOUT_text");
+    private final By dropdownMenu = By.id("HEADER_USER_MENU_POPUP_dropdown");
 
     public ToolbarUserMenu(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public ToolbarUserMenu assertUserDashboardIsDisplayed()

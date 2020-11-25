@@ -23,28 +23,28 @@ import static org.testng.Assert.assertTrue;
 public class Toolbar extends BasePages
 {
     @RenderWebElement
-    private By toolbar = By.id("SHARE_HEADER");
+    private final By toolbar = By.id("SHARE_HEADER");
     @RenderWebElement
-    private By homeLink = By.cssSelector("div[widgetid='HEADER_HOME']");
-    private By myFilesLink = By.id("HEADER_MY_FILES_text");
-    private By sharedFilesLink = By.id("HEADER_SHARED_FILES_text");
-    private By sitesLink = By.id("HEADER_SITES_MENU_text");
-    private By tasksLink = By.id("HEADER_TASKS_text");
-    private By peopleLink = By.id("HEADER_PEOPLE_text");
-    private By repositoryLink = By.id("HEADER_REPOSITORY_text");
-    private By sitesManagerLink = By.id("HEADER_SITES_CONSOLE_text");
-    private By adminToolsLink = By.id("HEADER_ADMIN_CONSOLE_text");
-    private By userMenuLink = By.id("HEADER_USER_MENU_POPUP");
-    private By searchIcon = By.cssSelector(".alf-search-icon");
-    private By advancedSearchLink = By.id("HEADER_SEARCH_BOX_ADVANCED_SEARCH_text");
-    private By searchBoxInput = By.id("HEADER_SEARCHBOX_FORM_FIELD");
-    private By clearSearchBox = By.cssSelector(".alfresco-header-SearchBox-clear");
-    private By searchResultsInToolbar = By.cssSelector("div.alf-livesearch-item>a");
-    private By searchButton = By.cssSelector("span.alfresco-buttons-AlfButton.confirmationButton.call-to-action.dijitButton");
+    private final By homeLink = By.cssSelector("div[widgetid='HEADER_HOME']");
+    private final By myFilesLink = By.id("HEADER_MY_FILES_text");
+    private final By sharedFilesLink = By.id("HEADER_SHARED_FILES_text");
+    private final By sitesLink = By.id("HEADER_SITES_MENU_text");
+    private final By tasksLink = By.id("HEADER_TASKS_text");
+    private final By peopleLink = By.id("HEADER_PEOPLE_text");
+    private final By repositoryLink = By.id("HEADER_REPOSITORY_text");
+    private final By sitesManagerLink = By.id("HEADER_SITES_CONSOLE_text");
+    private final By adminToolsLink = By.id("HEADER_ADMIN_CONSOLE_text");
+    private final By userMenuLink = By.id("HEADER_USER_MENU_POPUP");
+    private final By searchIcon = By.cssSelector(".alf-search-icon");
+    private final By advancedSearchLink = By.id("HEADER_SEARCH_BOX_ADVANCED_SEARCH_text");
+    private final By searchBoxInput = By.id("HEADER_SEARCHBOX_FORM_FIELD");
+    private final By clearSearchBox = By.cssSelector(".alfresco-header-SearchBox-clear");
+    private final By searchResultsInToolbar = By.cssSelector("div.alf-livesearch-item>a");
+    private final By searchButton = By.cssSelector("span.alfresco-buttons-AlfButton.confirmationButton.call-to-action.dijitButton");
 
     public Toolbar(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public Toolbar assertToolbarIsDisplayed()

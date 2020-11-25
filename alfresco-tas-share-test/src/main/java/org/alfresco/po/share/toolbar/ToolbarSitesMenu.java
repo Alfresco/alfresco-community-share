@@ -14,27 +14,28 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 public class ToolbarSitesMenu extends BasePages
 {
-    private By recentSitesSection = By.xpath("//tr[starts-with(@id,'HEADER_SITES_MENU_RECENT')]/../../../../div[@class='alf-menu-group-title']");
-    private By recentSitesRowList = By.cssSelector("td[id^='HEADER_SITES_MENU_RECENT_']");
-    private By usefulSection = By.cssSelector("#HEADER_SITES_MENU_dropdown .alf-menu-group:last-child > *:first-child");
+    private final By recentSitesSection = By.xpath("//tr[starts-with(@id,'HEADER_SITES_MENU_RECENT')]/../../../../div[@class='alf-menu-group-title']");
+    private final By recentSitesRowList = By.cssSelector("td[id^='HEADER_SITES_MENU_RECENT_']");
+    private final By usefulSection = By.cssSelector("#HEADER_SITES_MENU_dropdown .alf-menu-group:last-child > *:first-child");
     @RenderWebElement
-    private By mySites = By.id("HEADER_SITES_MENU_MY_SITES_text");
-    private By siteFinder = By.id("HEADER_SITES_MENU_SITE_FINDER_text");
-    private By createSite = By.id("HEADER_SITES_MENU_CREATE_SITE_text");
-    private By favorites = By.id("HEADER_SITES_MENU_FAVOURITES_text");
-    private By sitesDopdown = By.id("HEADER_SITES_MENU_dropdown");
-    private By favoriteSitesRowList = By.cssSelector("td[id^='HEADER_SITES_MENU_FAVOURITE_'] a");
-    private By favoriteDropDown = By.id("HEADER_SITES_MENU_FAVOURITES_dropdown");
-    private By addCurrentSiteToFavorites = By.id("HEADER_SITES_MENU_ADD_FAVOURITE_text");
-    private By removeCurrentSiteFromFavorites = By.id("HEADER_SITES_MENU_REMOVE_FAVOURITE_text");
+    private final By mySites = By.id("HEADER_SITES_MENU_MY_SITES_text");
+    private final By siteFinder = By.id("HEADER_SITES_MENU_SITE_FINDER_text");
+    private final By createSite = By.id("HEADER_SITES_MENU_CREATE_SITE_text");
+    private final By favorites = By.id("HEADER_SITES_MENU_FAVOURITES_text");
+    private final By sitesDopdown = By.id("HEADER_SITES_MENU_dropdown");
+    private final By favoriteSitesRowList = By.cssSelector("td[id^='HEADER_SITES_MENU_FAVOURITE_'] a");
+    private final By favoriteDropDown = By.id("HEADER_SITES_MENU_FAVOURITES_dropdown");
+    private final By addCurrentSiteToFavorites = By.id("HEADER_SITES_MENU_ADD_FAVOURITE_text");
+    private final By removeCurrentSiteFromFavorites = By.id("HEADER_SITES_MENU_REMOVE_FAVOURITE_text");
 
     public ToolbarSitesMenu(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public ToolbarSitesMenu assertRecentSitesSectionIsDisplayed()
@@ -66,9 +67,9 @@ public class ToolbarSitesMenu extends BasePages
 
     public ToolbarSitesMenu assertSiteIsInRecentSites(String siteName)
     {
-        LOG.info(String.format("Assert site %s is displayed in recent sites", siteName));
+        LOG.info("Assert site %s is displayed in recent sites: {}", siteName);
         List<WebElement> recentSites = getBrowser().findElements(recentSitesRowList);
-        assertTrue(getBrowser().findFirstElementWithValue(recentSites, siteName) != null,
+        assertNotNull(getBrowser().findFirstElementWithValue(recentSites, siteName),
             String.format("Assert site %s is found in Recent Sites section", siteName));
         return this;
     }
@@ -177,7 +178,7 @@ public class ToolbarSitesMenu extends BasePages
 
     public ToolbarSitesMenu assertSiteIsFavorite(String siteName)
     {
-        LOG.info(String.format("Assert site %s is found in favorites", siteName));
+        LOG.info("Assert site is found in favorites :{}", siteName);
         assertTrue(isSiteFavorite(siteName), String.format("Site %s is found in favorites", siteName));
         return this;
     }
@@ -189,8 +190,9 @@ public class ToolbarSitesMenu extends BasePages
 
     public ToolbarSitesMenu assertSiteIsNotFavorite(String siteName)
     {
-        LOG.info(String.format("Assert site %s is NOT found in favorites", siteName));
-        assertFalse(isSiteFavorite(siteName), String.format("Site %s is found in favorites"));
+        LOG.info("Assert site is not found in favorites: {}", siteName);
+        assertFalse(isSiteFavorite(siteName),
+            String.format("Site %s is found in favorites", siteName));
         return this;
     }
 
@@ -201,7 +203,7 @@ public class ToolbarSitesMenu extends BasePages
 
     public SiteDashboardPage clickFavoriteSite(String siteName)
     {
-        LOG.info(String.format("Select site %s from favorites", siteName));
+        LOG.info("Select site %s from favorites: {}", siteName);
         getBrowser().findElement(favorites).click();
         getBrowser().waitUntilElementVisible(favoriteDropDown);
         getBrowser().findFirstElementWithValue(favoriteSitesRowList, siteName).click();

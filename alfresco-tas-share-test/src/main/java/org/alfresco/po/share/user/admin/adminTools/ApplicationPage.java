@@ -21,18 +21,18 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
 
     @RenderWebElement
-    private By themeDropdown = By.cssSelector("select#console-options-theme-menu");
-    private By applyButton = By.cssSelector("div.apply button[id$='_default-apply-button-button']");
-    private By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
-    private By mainText = By.cssSelector( ".info");
+    private final By themeDropdown = By.cssSelector("select#console-options-theme-menu");
+    private final By applyButton = By.cssSelector("div.apply button[id$='_default-apply-button-button']");
+    private final By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
+    private final By mainText = By.cssSelector( ".info");
     @RenderWebElement
-    private By resetButton = By.cssSelector("button[id$='reset-button-button']");
-    private By uploadButton = By.cssSelector("form[id*=admin-console] button[id*=upload-button-button]");
-    private String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
+    private final By resetButton = By.cssSelector("button[id$='reset-button-button']");
+    private final By uploadButton = By.cssSelector("form[id*=admin-console] button[id*=upload-button-button]");
+    private final String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
 
     public ApplicationPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

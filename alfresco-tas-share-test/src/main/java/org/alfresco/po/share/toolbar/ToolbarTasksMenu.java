@@ -12,12 +12,12 @@ import static org.testng.Assert.assertTrue;
 public class ToolbarTasksMenu extends BasePages
 {
     @RenderWebElement
-    private By myTasks = By.id("HEADER_MY_TASKS_text");
-    private By workflowsIveStarted = By.id("HEADER_MY_WORKFLOWS_text");
+    private final By myTasks = By.id("HEADER_MY_TASKS_text");
+    private final By workflowsIveStarted = By.id("HEADER_MY_WORKFLOWS_text");
 
     public ToolbarTasksMenu(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public ToolbarTasksMenu assertMyTasksIsDisplayed()

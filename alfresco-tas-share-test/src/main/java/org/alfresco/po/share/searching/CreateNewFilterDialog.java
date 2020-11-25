@@ -1,6 +1,6 @@
 package org.alfresco.po.share.searching;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -8,47 +8,46 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class CreateNewFilterDialog extends ShareDialog2
+public class CreateNewFilterDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    private By dialogTitle = By.className("dijitDialogTitle");
-    private By showWithSearch = By.cssSelector("input[name='isEnabled']");
-    protected By filterPropertyInput = By.id("FORM_FACET_QNAME_CONTROL");
-    protected By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
-    protected By filterPropertyOptions = By.cssSelector("div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem");
-    protected By sortByInput = By.cssSelector("table#FORM_SORTBY_CONTROL  div.dijitButtonText");
-    protected By sortByArrow = By.cssSelector("table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner");
-    protected By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
-    protected By noFilters = By.cssSelector("div#FORM_MAX_FILTERS input[role='spinbutton']");
-    protected By minFilterLength = By.cssSelector("div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']");
-    protected By minRequiredResults = By.cssSelector("div#FORM_HIT_THRESHOLD input[role='spinbutton']");
-    protected By filterAvailabilityInput = By.cssSelector("div#FORM_SCOPE div.dijitButtonText");
-    protected By filterAvailabilityArrow = By.cssSelector("div#FORM_SCOPE input.dijitArrowButtonInner");
-    protected By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
-    protected By sitesDoneEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img");
-    protected By sitesCancelEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img");
-    protected By sitesSiteNameArrow = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]");
-    protected By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
-    protected By currentSitesEntries = By.cssSelector("div.entries div.read-display");
+    private final By dialogTitle = By.className("dijitDialogTitle");
+    private final By showWithSearch = By.cssSelector("input[name='isEnabled']");
+    private final By filterPropertyInput = By.id("FORM_FACET_QNAME_CONTROL");
+    private final By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
+    private final By filterPropertyOptions = By.cssSelector("div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem");
+    private final By sortByInput = By.cssSelector("table#FORM_SORTBY_CONTROL  div.dijitButtonText");
+    private final By sortByArrow = By.cssSelector("table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner");
+    private final By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
+    private final By noFilters = By.cssSelector("div#FORM_MAX_FILTERS input[role='spinbutton']");
+    private final By minFilterLength = By.cssSelector("div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']");
+    private final By minRequiredResults = By.cssSelector("div#FORM_HIT_THRESHOLD input[role='spinbutton']");
+    private final By filterAvailabilityInput = By.cssSelector("div#FORM_SCOPE div.dijitButtonText");
+    private final By filterAvailabilityArrow = By.cssSelector("div#FORM_SCOPE input.dijitArrowButtonInner");
+    private final By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
+    private final By sitesDoneEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img");
+    private final By sitesCancelEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img");
+    private final By sitesSiteNameArrow = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]");
+    private final By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
+    private final By currentSitesEntries = By.cssSelector("div.entries div.read-display");
     @RenderWebElement
-    protected By saveButton = By.cssSelector("span[id$='_OK']");
-    protected By cancelButton = By.cssSelector("span[id$='_CANCEL_label']");
-    protected By closeButton = By.xpath("//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']");
+    private final By saveButton = By.cssSelector("span[id$='_OK']");
+    private final By cancelButton = By.cssSelector("span[id$='_CANCEL_label']");
+    private final By closeButton = By.xpath("//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']");
     @RenderWebElement
-    private By filterIdInput = By.cssSelector("input[name='filterID']");
+    private final By filterIdInput = By.cssSelector("input[name='filterID']");
     @RenderWebElement
-    protected By filterNameInput = By.cssSelector( "input[name='displayName']");
-    private By fieldIdDescription = By.cssSelector("#FORM_FILTER_ID div.description");
-    private By fieldNameDescription = By.cssSelector("#FORM_DISPLAY_NAME div.description");
-    private By fieldIdMandatory = By.cssSelector("#FORM_FILTER_ID .required");
-    private By fieldNameMandatory = By.cssSelector("#FORM_DISPLAY_NAME .required");
-    protected By requiredMark = By.className("required");
-    protected By dropdownOptions = By.className("dijitMenuItemLabel");
-    private By sitesAddButton = By.cssSelector("#FORM_SCOPED_SITES div.button.add>img");
+    private final By filterNameInput = By.cssSelector( "input[name='displayName']");
+    private final By fieldIdDescription = By.cssSelector("#FORM_FILTER_ID div.description");
+    private final By fieldNameDescription = By.cssSelector("#FORM_DISPLAY_NAME div.description");
+    private final By fieldIdMandatory = By.cssSelector("#FORM_FILTER_ID .required");
+    private final By fieldNameMandatory = By.cssSelector("#FORM_DISPLAY_NAME .required");
+    private final By dropdownOptions = By.className("dijitMenuItemLabel");
+    private final By sitesAddButton = By.cssSelector("#FORM_SCOPED_SITES div.button.add>img");
 
     public CreateNewFilterDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public Boolean isDialogDisplayed()

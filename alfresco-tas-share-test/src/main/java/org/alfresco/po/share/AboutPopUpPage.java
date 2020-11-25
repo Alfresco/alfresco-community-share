@@ -3,34 +3,31 @@ package org.alfresco.po.share;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.testng.Assert.*;
 
 /**
  * @author Bogdan.Bocancea
  */
-public class AboutPopUpPage extends ShareDialog2
+public class AboutPopUpPage extends BaseDialogComponent
 {
     private final String alfrescoUrl = "https://www.alfresco.com/";
 
     @RenderWebElement
-    private By shareVersion = By.cssSelector(".about>.header:nth-child(1)");
+    private final By shareVersion = By.cssSelector(".about>.header:nth-child(1)");
     @RenderWebElement
-    private By shareComponentsVersions = By.cssSelector(".about>div:nth-child(2)");
-    private By alfrescoVersion = By.cssSelector(".about>.header:nth-child(3)");
-    private By alfrescoBuildDetails = By.cssSelector(".about>div:nth-child(4)");
-    protected By licenseHolder = By.cssSelector(".about .licenseHolder");
-    protected By contributions = By.cssSelector(".contributions-bg");
-    protected By copyRight = By.cssSelector(".copy > span");
-    protected By alfrescoLink = By.cssSelector(".copy>a:nth-child(2)");
-    protected By legalAndLicenceLink = By.cssSelector(".copy>a:nth-child(3)");
+    private final By shareComponentsVersions = By.cssSelector(".about>div:nth-child(2)");
+    private final By alfrescoVersion = By.cssSelector(".about>.header:nth-child(3)");
+    private final By alfrescoBuildDetails = By.cssSelector(".about>div:nth-child(4)");
+    private final By licenseHolder = By.cssSelector(".about .licenseHolder");
+    private final By contributions = By.cssSelector(".contributions-bg");
+    private final By copyRight = By.cssSelector(".copy > span");
+    private final By alfrescoLink = By.cssSelector(".copy>a:nth-child(2)");
+    private final By legalAndLicenceLink = By.cssSelector(".copy>a:nth-child(3)");
 
     public AboutPopUpPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getShareVersion()
@@ -88,23 +85,7 @@ public class AboutPopUpPage extends ShareDialog2
         return this;
     }
 
-    public AboutPopUpPage assertClickLegalAndLicenseLink()
-    {
-        clickLegalAndLicenceLink();
-        getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains(alfrescoUrl, 10);
-        assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
-        getBrowser().closeWindowAndSwitchBack();
-        return this;
-    }
-
     public AboutPopUpPage assertAlfrescoVersionIsDisplayed()
-    {
-        assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
-        return this;
-    }
-
-    public AboutPopUpPage assertShareVersionIsDisplayed()
     {
         assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
         return this;

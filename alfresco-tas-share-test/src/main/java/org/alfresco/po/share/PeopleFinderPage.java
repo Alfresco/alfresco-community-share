@@ -12,19 +12,19 @@ import static org.testng.Assert.assertTrue;
 
 public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements AccessibleByMenuBar
 {
-    private By searchResultsList = By.cssSelector("tbody[class='yui-dt-data'] tr");
+    private final By searchResultsList = By.cssSelector("tbody[class='yui-dt-data'] tr");
 
     @RenderWebElement
-    private By searchInputField = By.cssSelector("input[id$='default-search-text']");
-    private By searchButton = By.cssSelector("button[id$='default-search-button-button']");
-    private By searchHelpMessage = By.cssSelector("[id*='default-help']");
-    private By searchResultsInfo = By.cssSelector("[id*='default-results-info']");
-    private By noResults = By.cssSelector(".yui-dt-empty");
-    private By avatar = By.cssSelector(".avatar");
+    private final By searchInputField = By.cssSelector("input[id$='default-search-text']");
+    private final By searchButton = By.cssSelector("button[id$='default-search-button-button']");
+    private final By searchHelpMessage = By.cssSelector("[id*='default-help']");
+    private final By searchResultsInfo = By.cssSelector("[id*='default-results-info']");
+    private final By noResults = By.cssSelector(".yui-dt-empty");
+    private final By avatar = By.cssSelector(".avatar");
 
     public PeopleFinderPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
