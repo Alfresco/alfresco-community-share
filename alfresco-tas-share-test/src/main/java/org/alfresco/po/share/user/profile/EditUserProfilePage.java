@@ -44,7 +44,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     private By uploadPhoto = By.cssSelector("button[id$='default-button-upload-button']");
     private By imageInstructions = By.cssSelector(".phototxt");
     private By cancel = By.cssSelector("button[id$='button-cancel-button']");
-    private By save = By.cssSelector("span[id$='default-button-save']");
+    private By save = By.cssSelector("button[id$='button-save-button']");
     private final String saveButtonHover = "yui-submit-button-hover";
 
     public EditUserProfilePage(ThreadLocal<WebBrowser> browser)
@@ -159,10 +159,13 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     {
         LOG.info("Click Save");
         WebElement saveBtn = getBrowser().waitUntilElementVisible(save);
-        getBrowser().scrollToElement(saveBtn);
         getBrowser().mouseOver(saveBtn);
-        getBrowser().waitUntilElementHasAttribute(saveBtn, "class", saveButtonHover);
         saveBtn.click();
+        if(getBrowser().isElementDisplayed(saveBtn))
+        {
+            LOG.error("Failed to click save button. Retry");
+            saveBtn.click();
+        }
         return (UserProfilePage) new UserProfilePage(browser).renderedPage();
     }
 }

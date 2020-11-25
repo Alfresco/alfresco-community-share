@@ -1,13 +1,13 @@
 package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
 
-public class ChangePasswordTest extends BaseShareWebTests
+public class ChangePasswordTest extends BaseTests
 {
     private UserModel user, changeUser;
     private ChangePasswordPage changePasswordPage;

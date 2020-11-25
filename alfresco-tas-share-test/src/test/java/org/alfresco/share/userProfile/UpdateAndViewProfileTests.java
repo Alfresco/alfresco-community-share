@@ -2,15 +2,13 @@ package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.share.BaseShareWebTests;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.*;
 
-public class UpdateAndViewProfileTests extends BaseShareWebTests
+public class UpdateAndViewProfileTests extends BaseTests
 {
     private UserProfilePage userProfilePage;
     private EditUserProfilePage editUserPage;

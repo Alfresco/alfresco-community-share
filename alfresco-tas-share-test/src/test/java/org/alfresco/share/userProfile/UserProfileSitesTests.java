@@ -1,7 +1,7 @@
 package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.UserSitesListPage;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserProfileSitesTests extends BaseShareWebTests
+public class UserProfileSitesTests extends BaseTests
 {
     private UserSitesListPage userSitesPage;
 

@@ -1,7 +1,7 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FolderModel;
@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class OrganizingFoldersTests extends BaseShareWebTests
+public class OrganizingFoldersTests extends BaseTests
 {
     private DocumentLibraryPage2 documentLibraryPage;
 

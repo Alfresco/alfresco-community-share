@@ -5,7 +5,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.rest.model.RestCustomModel;
 import org.alfresco.rest.model.RestCustomTypeModel;
-import org.alfresco.share.BaseShareWebTests;
+import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
@@ -17,13 +17,12 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.testng.Assert.assertTrue;
 
-public class ModelManagerTests extends BaseShareWebTests
+public class ModelManagerTests extends BaseTests
 {
     private ModelManagerPage modelManagerPage;
     private DocumentDetailsPage documentDetailsPage;

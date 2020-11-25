@@ -47,9 +47,9 @@ import static org.alfresco.common.Utils.saveScreenshot;
 import static org.alfresco.common.Utils.screenshotFolder;
 
 @ContextConfiguration(classes = ShareTestContext.class)
-public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
+public abstract class BaseTests extends AbstractTestNGSpringContextTests
 {
-    protected final Logger LOG = LoggerFactory.getLogger(BaseShareWebTests.class);
+    protected final Logger LOG = LoggerFactory.getLogger(BaseTests.class);
 
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
@@ -139,12 +139,12 @@ public abstract class BaseShareWebTests extends AbstractTestNGSpringContextTests
     {
         try
         {
-            browser.set(browserConfig.getWebBrowser());
+            browser.set(browserConfig.createWebBrowser());
         }
         catch (TimeoutException e)
         {
             LOG.error("Failed to init browser: {}", e.getMessage());
-            browser.set(browserConfig.getWebBrowser());
+            browser.set(browserConfig.createWebBrowser());
         }
     }
 
