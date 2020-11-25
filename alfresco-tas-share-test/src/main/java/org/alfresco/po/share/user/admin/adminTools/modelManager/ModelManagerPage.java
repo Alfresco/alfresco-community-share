@@ -21,22 +21,20 @@ import static org.testng.Assert.assertTrue;
 
 public class ModelManagerPage extends SharePage2<ModelManagerPage>
 {
-    private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
-    private By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
-    private By statusColumn = By.cssSelector("th[class*=' statusColumn '] span");
-    private By actionsColumn = By.cssSelector("th[class*=' actionsColumn '] span");
-    private By actions = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']");
+    private final By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
+    private final By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
+    private final By statusColumn = By.cssSelector("th[class*=' statusColumn '] span");
+    private final By actionsColumn = By.cssSelector("th[class*=' actionsColumn '] span");
+    private final By actions = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']");
     @RenderWebElement
-    private By createModelButton = By.cssSelector("span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
-    private By importModelButton = By.cssSelector("span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
+    private final By createModelButton = By.cssSelector("span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
+    private final By importModelButton = By.cssSelector("span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
     @RenderWebElement
-    private By modelsList = By.className("alfresco-lists-views-AlfListView");
-    private By noModelsText = By.cssSelector("div.alfresco-lists-views-AlfListView__no-data");
-    private By createAspectButton = By.cssSelector("span[class*='createPropertyGroupButton'] span");
+    private final By noModelsText = By.cssSelector("div.alfresco-lists-views-AlfListView__no-data");
 
     public ModelManagerPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

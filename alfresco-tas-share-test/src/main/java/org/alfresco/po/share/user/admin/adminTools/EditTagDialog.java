@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -8,20 +8,20 @@ import org.openqa.selenium.By;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class EditTagDialog extends ShareDialog2
+public class EditTagDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    private By dialogTitle = By.cssSelector("div[id*='edit-tag-dialogTitle']");
-    private By renameLabel = By.cssSelector("form[id*='edit-tag'] label");
-    private By requiredSymbol = By.cssSelector("form[id*='edit-tag'] div[class='yui-u']");
+    private final By dialogTitle = By.cssSelector("div[id*='edit-tag-dialogTitle']");
+    private final By renameLabel = By.cssSelector("form[id*='edit-tag'] label");
+    private final By requiredSymbol = By.cssSelector("form[id*='edit-tag'] div[class='yui-u']");
     @RenderWebElement
-    private By editTagInputField = By.cssSelector("input[name='name']");
-    private By okButton = By.cssSelector("button[id*='ok']");
-    private By cancelButton = By.cssSelector("button[id*='tag-cancel']");
+    private final By editTagInputField = By.cssSelector("input[name='name']");
+    private final By okButton = By.cssSelector("button[id*='ok']");
+    private final By cancelButton = By.cssSelector("button[id*='tag-cancel']");
 
     public EditTagDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getDialogTitle()

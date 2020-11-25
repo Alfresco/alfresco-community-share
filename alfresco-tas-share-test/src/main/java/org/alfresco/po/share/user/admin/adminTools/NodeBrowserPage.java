@@ -13,30 +13,28 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 {
-    private By searchInput = By.cssSelector("div.search-text textarea");
+    private final By searchInput = By.cssSelector("div.search-text textarea");
 
     @RenderWebElement
-    private By searchTypeDropdownButton = By.cssSelector("button[id$='_default-lang-menu-button-button']");
+    private final By searchTypeDropdownButton = By.cssSelector("button[id$='_default-lang-menu-button-button']");
     @RenderWebElement
-    private By storeTypeDropdownButton = By.cssSelector("button[id$='_default-store-menu-button-button']");
-    private By searchButton = By.cssSelector("button[id$='_default-search-button-button']");
+    private final By storeTypeDropdownButton = By.cssSelector("button[id$='_default-store-menu-button-button']");
+    private final By searchButton = By.cssSelector("button[id$='_default-search-button-button']");
     @RenderWebElement
-    private By searchResults = By.cssSelector(".search-main");
-    private By results = By.cssSelector(".yui-dt-data > tr");
-    private By resultNoItemsFound = By.cssSelector(".yui-dt-empty > div");
-    private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
-    private By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
-    private By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
-    private By options = By.cssSelector(".yuimenu.visible li>a");
-    private By visibleDropdown = By.cssSelector(".yui-button-menu.yui-menu-button-menu.visible");
-    private String fileNameRow = "//a[text()='cm:%s']/../../..";
-    private By parentRows = By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div");
-    private By referenceRows = By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a");
-    private String loadingMessage = "//div[contains(text(), '%s')]";
+    private final By resultNoItemsFound = By.cssSelector(".yui-dt-empty > div");
+    private final By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
+    private final By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
+    private final By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
+    private final By options = By.cssSelector(".yuimenu.visible li>a");
+    private final By visibleDropdown = By.cssSelector(".yui-button-menu.yui-menu-button-menu.visible");
+    private final String fileNameRow = "//a[text()='cm:%s']/../../..";
+    private final By parentRows = By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div");
+    private final By referenceRows = By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a");
+    private final String loadingMessage = "//div[contains(text(), '%s')]";
 
     public NodeBrowserPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -8,20 +8,19 @@ import org.openqa.selenium.By;
 
 import static org.testng.Assert.assertTrue;
 
-public class CreateAspectDialog extends ShareDialog2
+public class CreateAspectDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    private By createAspectWidow = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG");
-    private By createButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
+    private final By createAspectWidow = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG");
+    private final By createButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
     @RenderWebElement
-    private By cancelButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_CANCEL_label");
-    private By nameField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='name']");
-    private By displayLabelField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='title']");
-    private By descriptionField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG div.control textarea");
+    private final By nameField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='name']");
+    private final By displayLabelField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='title']");
+    private final By descriptionField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG div.control textarea");
 
     public CreateAspectDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public CreateAspectDialog assertCreateAspectDialogIsOpened()

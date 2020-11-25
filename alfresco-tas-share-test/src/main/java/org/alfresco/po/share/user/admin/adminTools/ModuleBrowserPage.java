@@ -11,17 +11,17 @@ import static org.testng.Assert.assertTrue;
 public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
 {
     @RenderWebElement
-    private By moduleContent = By.id("LIST_WITH_HEADER_ITEMS");
+    private final By moduleContent = By.id("LIST_WITH_HEADER_ITEMS");
     @RenderWebElement
-    private By titleTableHeader = By.id("titleTableHeader");
-    private By descriptionTableHeader = By.id("descriptionTableHeader");
-    private By versionTableHeader = By.id("versionTableHeader");
-    private By modulesList = By.cssSelector("tr[id*=alfresco_lists_views_layouts_Row]");
-    private By modelManagerPageTitle = By.id("HEADER_TITLE");
+    private final By titleTableHeader = By.id("titleTableHeader");
+    private final By descriptionTableHeader = By.id("descriptionTableHeader");
+    private final By versionTableHeader = By.id("versionTableHeader");
+    private final By modulesList = By.cssSelector("tr[id*=alfresco_lists_views_layouts_Row]");
+    private final By modelManagerPageTitle = By.id("HEADER_TITLE");
 
     public ModuleBrowserPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

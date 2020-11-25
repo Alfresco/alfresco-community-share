@@ -34,6 +34,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     public TagManagerPage(ThreadLocal<WebBrowser> browser)
     {
+        super(browser);
         this.browser = browser;
     }
 

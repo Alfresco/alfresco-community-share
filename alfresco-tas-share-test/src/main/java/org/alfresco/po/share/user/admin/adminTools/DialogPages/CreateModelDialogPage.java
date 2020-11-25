@@ -1,25 +1,25 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 
-public class CreateModelDialogPage extends ShareDialog2
+public class CreateModelDialogPage extends BaseDialogComponent
 {
     @RenderWebElement
-    private By namespaceField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='namespace']");
-    private By prefixField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='prefix']");
+    private final By namespaceField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='namespace']");
+    private final By prefixField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='prefix']");
     @RenderWebElement
-    private By nameField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='name']");
-    private By creatorField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='author']");
-    private By descriptionField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//textarea[@name='description']");
-    private By createButton = By.cssSelector("span[widgetid='CMM_CREATE_MODEL_DIALOG_OK']>span");
+    private final By nameField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='name']");
+    private final By creatorField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='author']");
+    private final By descriptionField = By.xpath("//div[@id='CMM_CREATE_MODEL_DIALOG']//textarea[@name='description']");
+    private final By createButton = By.cssSelector("span[widgetid='CMM_CREATE_MODEL_DIALOG_OK']>span");
 
     public CreateModelDialogPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public void sendNamespaceText(String namespace)

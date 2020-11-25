@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -9,23 +9,23 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertTrue;
 
-public class CreateCustomTypeDialog extends ShareDialog2
+public class CreateCustomTypeDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    private By createCustomTypeWindow = By.id("CMM_CREATE_TYPE_DIALOG");
+    private final By createCustomTypeWindow = By.id("CMM_CREATE_TYPE_DIALOG");
     @RenderWebElement
-    private By createButton = By.cssSelector("span[widgetid='CMM_CREATE_TYPE_DIALOG_OK']>span");
+    private final By createButton = By.cssSelector("span[widgetid='CMM_CREATE_TYPE_DIALOG_OK']>span");
     @RenderWebElement
-    private By cancelButton = By.id("CMM_CREATE_TYPE_DIALOG_CANCEL_label");
-    private By nameField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']");
-    private By displayLabelField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='title']");
-    private By descriptionField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea");
-    private By parentTypeElement = By.cssSelector(".dijitSelectLabel");
-    private By parentTypeElements = By.cssSelector("table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']");
+    private final By cancelButton = By.id("CMM_CREATE_TYPE_DIALOG_CANCEL_label");
+    private final By nameField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']");
+    private final By displayLabelField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='title']");
+    private final By descriptionField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea");
+    private final By parentTypeElement = By.cssSelector(".dijitSelectLabel");
+    private final By parentTypeElements = By.cssSelector("table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']");
 
     public CreateCustomTypeDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public ModelDetailsPage clickCreate()

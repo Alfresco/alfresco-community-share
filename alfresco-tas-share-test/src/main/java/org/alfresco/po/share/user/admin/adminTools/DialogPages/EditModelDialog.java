@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 
 import static org.testng.Assert.assertEquals;
 
-public class EditModelDialog extends ShareDialog2
+public class EditModelDialog extends BaseDialogComponent
 {
     @RenderWebElement
     private final By saveButton = By.id("CMM_EDIT_MODEL_DIALOG_OK_label");
@@ -24,7 +24,7 @@ public class EditModelDialog extends ShareDialog2
 
     public EditModelDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public EditModelDialog editNamespace(String nameSpace)

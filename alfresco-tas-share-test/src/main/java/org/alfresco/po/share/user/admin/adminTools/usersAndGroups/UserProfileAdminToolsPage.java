@@ -37,7 +37,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
 
     public UserProfileAdminToolsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()
