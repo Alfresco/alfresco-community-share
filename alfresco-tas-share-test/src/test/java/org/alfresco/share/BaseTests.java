@@ -18,12 +18,10 @@ import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
-import org.alfresco.utility.TasProperties;
 import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
-import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
@@ -51,6 +49,7 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
 {
     protected final Logger LOG = LoggerFactory.getLogger(BaseTests.class);
 
+    //todo: below variables should be moved into their classes, because they are not used in all test classes
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
     public static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
@@ -60,22 +59,16 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     public final String password = "password";
 
     @Autowired
-    public TasProperties tasProperties;
-
-    @Autowired
     public EnvProperties properties;
 
     @Autowired
-    private BrowserFactory browserConfig;
+    private BrowserFactory browserFactory;
 
     @Autowired
     public DataSite dataSite;
 
     @Autowired
     protected DataUserAIS dataUser;
-
-    @Autowired
-    protected DataAIS dataAIS;
 
     @Autowired
     protected DataGroup dataGroup;
@@ -138,12 +131,12 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     {
         try
         {
-            browser.set(browserConfig.createBrowser());
+            browser.set(browserFactory.createBrowser());
         }
         catch (TimeoutException e)
         {
             LOG.error("Failed to init browser: {}", e.getMessage());
-            browser.set(browserConfig.createBrowser());
+            browser.set(browserFactory.createBrowser());
         }
     }
 
