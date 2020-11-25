@@ -2,7 +2,7 @@ package org.alfresco.po.share;
 
 import org.alfresco.utility.model.UserModel;
 
-public abstract class CommonLoginPage extends SharePageObject2
+public abstract class CommonLoginPage extends BasePages
 {
     public abstract CommonLoginPage assertLoginPageIsOpened();
 

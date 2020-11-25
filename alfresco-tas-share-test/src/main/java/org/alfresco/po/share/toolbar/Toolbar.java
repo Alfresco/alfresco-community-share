@@ -2,7 +2,7 @@ package org.alfresco.po.share.toolbar;
 
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.PeopleFinderPage;
-import org.alfresco.po.share.SharePageObject2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
@@ -20,7 +20,7 @@ import java.util.List;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class Toolbar extends SharePageObject2
+public class Toolbar extends BasePages
 {
     @RenderWebElement
     private By toolbar = By.id("SHARE_HEADER");

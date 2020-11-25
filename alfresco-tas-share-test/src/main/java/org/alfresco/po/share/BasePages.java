@@ -23,9 +23,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class SharePageObject2
+public abstract class BasePages
 {
-    protected final Logger LOG = LoggerFactory.getLogger(SharePageObject2.class);
+    protected final Logger LOG = LoggerFactory.getLogger(BasePages.class);
 
     public static final int WAIT_1 = 1;
     public static final int WAIT_5 = 5;
@@ -43,7 +43,7 @@ public abstract class SharePageObject2
 
     protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
 
-    public SharePageObject2()
+    public BasePages()
     {
         if(properties == null)
         {
@@ -99,7 +99,7 @@ public abstract class SharePageObject2
         return getBrowser().getTitle();
     }
 
-    public SharePageObject2 renderedPage()
+    public BasePages renderedPage()
     {
         /*
          * get the RenderWebElement annotation of all declared fields and

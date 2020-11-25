@@ -3,19 +3,17 @@ package org.alfresco.po.share.toolbar;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
-import org.alfresco.po.share.SharePageObject2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.testng.Assert.assertTrue;
 
-public class ToolbarUserMenu extends SharePageObject2
+public class ToolbarUserMenu extends BasePages
 {
     @RenderWebElement
     private By userDashboard = By.id("HEADER_USER_MENU_DASHBOARD_text");

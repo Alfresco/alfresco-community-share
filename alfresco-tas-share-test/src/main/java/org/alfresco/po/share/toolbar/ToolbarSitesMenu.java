@@ -1,6 +1,6 @@
 package org.alfresco.po.share.toolbar;
 
-import org.alfresco.po.share.SharePageObject2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -16,7 +16,7 @@ import java.util.List;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class ToolbarSitesMenu extends SharePageObject2
+public class ToolbarSitesMenu extends BasePages
 {
     private By recentSitesSection = By.xpath("//tr[starts-with(@id,'HEADER_SITES_MENU_RECENT')]/../../../../div[@class='alf-menu-group-title']");
     private By recentSitesRowList = By.cssSelector("td[id^='HEADER_SITES_MENU_RECENT_']");

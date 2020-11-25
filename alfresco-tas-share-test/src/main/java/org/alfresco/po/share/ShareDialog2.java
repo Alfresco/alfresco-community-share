@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 /**
  * @author Bogdan.Bocancea
  */
-public abstract class ShareDialog2 extends SharePageObject2
+public abstract class ShareDialog2 extends BasePages
 {
     protected By closeButton = By.cssSelector( "div.dijitDialog:not([style*='display: none']) .dijitDialogCloseIcon," +
         "div.yui-dialog:not([style*='visibility: hidden']) [class*='close']");

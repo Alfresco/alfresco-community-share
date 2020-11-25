@@ -18,7 +18,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 
-public abstract class SharePage2<T> extends SharePageObject2
+public abstract class SharePage2<T> extends BasePages
 {
     private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     @RenderWebElement
