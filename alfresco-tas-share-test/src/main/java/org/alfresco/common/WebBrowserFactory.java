@@ -1,5 +1,8 @@
 package org.alfresco.common;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import org.alfresco.utility.TasProperties;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.exception.UnrecognizedBrowser;
@@ -17,12 +20,8 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 @Component
-public class WebBrowserConfig implements FactoryBean<WebBrowser>
+public class WebBrowserFactory implements FactoryBean<WebBrowser>
 {
     @Autowired
     private TasProperties properties;

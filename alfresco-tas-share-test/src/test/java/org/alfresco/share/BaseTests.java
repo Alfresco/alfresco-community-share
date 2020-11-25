@@ -4,7 +4,7 @@ import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
-import org.alfresco.common.WebBrowserConfig;
+import org.alfresco.common.WebBrowserFactory;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
@@ -66,7 +66,7 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     public EnvProperties properties;
 
     @Autowired
-    private WebBrowserConfig browserConfig;
+    private WebBrowserFactory browserConfig;
 
     @Autowired
     public DataSite dataSite;
