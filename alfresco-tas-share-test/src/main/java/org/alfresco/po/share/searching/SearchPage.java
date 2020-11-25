@@ -1,17 +1,15 @@
 package org.alfresco.po.share.searching;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.ContentModel;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +19,7 @@ import java.util.NoSuchElementException;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
+public class SearchPage extends BasePages<SearchPage> implements AccessibleByMenuBar
 {
     public By searchResult = By.id("FCTSRCH_SEARCH_RESULT");
     public By searchResultRows = By.id("FCTSRCH_SEARCH_RESULT");

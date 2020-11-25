@@ -1,6 +1,6 @@
 package org.alfresco.po.share.searching;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implements AccessibleByMenuBar
+public class AdvancedSearchPage extends BasePages<AdvancedSearchPage> implements AccessibleByMenuBar
 {
     @RenderWebElement
     private By keywordsSearchField = By.cssSelector("input[id$='default-search-text']");

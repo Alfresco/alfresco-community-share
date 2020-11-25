@@ -14,7 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import java.util.List;
 
-public class SiteFinderPage extends SharePage2<SiteFinderPage> implements AccessibleByMenuBar
+public class SiteFinderPage extends BasePages<SiteFinderPage> implements AccessibleByMenuBar
 {
     protected By siteRowList = By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']");
     @RenderWebElement

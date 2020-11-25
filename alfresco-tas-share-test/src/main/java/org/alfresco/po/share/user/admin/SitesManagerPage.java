@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin;
 
 import org.alfresco.dataprep.SiteService.Visibility;
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.alfresco.po.share.site.members.SiteUsersPage;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
 
-public class SitesManagerPage extends SharePage2<SitesManagerPage> implements AccessibleByMenuBar
+public class SitesManagerPage extends BasePages<SitesManagerPage> implements AccessibleByMenuBar
 {
     @RenderWebElement
     private By tableHeadList = By.cssSelector("thead .label");

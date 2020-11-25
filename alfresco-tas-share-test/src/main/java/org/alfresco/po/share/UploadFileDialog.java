@@ -2,14 +2,11 @@ package org.alfresco.po.share;
 
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.FindBy;
 
 /**
  * @author bogdan.bocancea
@@ -43,13 +40,13 @@ public class UploadFileDialog extends ShareDialog2
         getBrowser().waitUntilElementDisappears(dialogBody);
     }
 
-    public <T> SharePage2 uploadFileAndRenderPage(String location, SharePage2<T> page)
+    public <T> BasePages uploadFileAndRenderPage(String location, BasePages<T> page)
     {
         LOG.info("Upload file from {} and render page", location);
         uploadFile(location);
         getBrowser().waitUntilElementDisappears(dialogBody);
         
-        return (SharePage2) page.renderedPage();
+        return (BasePages) page.renderedPage();
     }
 
     public boolean isUploadFailedMessageDisplayed()

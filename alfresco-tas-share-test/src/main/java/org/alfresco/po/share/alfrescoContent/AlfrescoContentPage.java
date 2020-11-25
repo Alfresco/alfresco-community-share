@@ -1,7 +1,7 @@
 package org.alfresco.po.share.alfrescoContent;
 
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -14,14 +14,13 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.*;
 
-public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
+public abstract class AlfrescoContentPage<T> extends BasePages<AlfrescoContentPage<T>>
 {
     @RenderWebElement
     private final By createButton = By.cssSelector("button[id$='createContent-button-button']");

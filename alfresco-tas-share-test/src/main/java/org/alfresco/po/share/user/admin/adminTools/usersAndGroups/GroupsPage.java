@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class GroupsPage extends SharePage2<GroupsPage>
+public class GroupsPage extends BasePages<GroupsPage>
 {
     @RenderWebElement
     private By sectionTitle = By.cssSelector("label[for*='default-search-text']");

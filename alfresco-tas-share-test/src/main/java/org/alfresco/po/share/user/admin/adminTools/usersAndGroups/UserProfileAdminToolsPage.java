@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -16,7 +16,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsPage>
+public class UserProfileAdminToolsPage extends BasePages<UserProfileAdminToolsPage>
 {
     private String userName;
 

@@ -1,6 +1,6 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage> implements AccessibleByMenuBar
+public class WorkflowsIveStartedPage extends BasePages<WorkflowsIveStartedPage> implements AccessibleByMenuBar
 {
     @Autowired
     WorkflowDetailsPage workflowDetailsPage;

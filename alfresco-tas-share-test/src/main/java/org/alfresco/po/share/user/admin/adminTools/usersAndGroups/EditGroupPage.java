@@ -1,12 +1,12 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 
-public class EditGroupPage extends SharePage2<EditGroupPage>
+public class EditGroupPage extends BasePages<EditGroupPage>
 {
     @RenderWebElement
     private By saveChangesButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");

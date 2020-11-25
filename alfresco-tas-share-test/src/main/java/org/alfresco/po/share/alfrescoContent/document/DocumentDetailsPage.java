@@ -2,7 +2,7 @@ package org.alfresco.po.share.alfrescoContent.document;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -16,7 +16,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +24,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
+public class DocumentDetailsPage extends BasePages<DocumentDetailsPage>
 {
     private FileModel currentFile;
     private static final int BEGIN_INDEX = 0;

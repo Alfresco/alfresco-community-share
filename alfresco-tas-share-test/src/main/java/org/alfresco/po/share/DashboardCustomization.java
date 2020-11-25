@@ -3,7 +3,6 @@ package org.alfresco.po.share;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
@@ -22,7 +21,7 @@ import static org.testng.Assert.assertEquals;
 /**
  * @author bogdan.bocancea
  */
-public abstract class DashboardCustomization<T> extends SharePage2<DashboardCustomization<T>>
+public abstract class DashboardCustomization<T> extends BasePages<DashboardCustomization<T>>
 {
     private final int columns = 4;
     private final int maxDashletsInColumn = 5;

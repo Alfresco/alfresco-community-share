@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.GroupModel;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class EditUserPage extends SharePage2<EditUserPage>
+public class EditUserPage extends BasePages<EditUserPage>
 {
     private String userName;
 

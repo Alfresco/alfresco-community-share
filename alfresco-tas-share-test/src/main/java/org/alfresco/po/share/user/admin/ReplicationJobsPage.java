@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class ReplicationJobsPage extends SharePage2<ReplicationJobsPage>
+public class ReplicationJobsPage extends BasePages<ReplicationJobsPage>
 {
     @Autowired
     CreateEditReplicationJobPage createEditReplicationJobPage;

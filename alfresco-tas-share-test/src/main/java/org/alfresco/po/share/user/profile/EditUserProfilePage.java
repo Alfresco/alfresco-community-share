@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.BasePages;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author bogdan.bocancea
  */
-public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
+public class EditUserProfilePage extends BasePages<EditUserProfilePage>
 {
     private String userName;
 
