@@ -12,21 +12,18 @@ import static org.testng.Assert.assertTrue;
 public class CreateContentPage extends SharePage2<CreateContentPage>
 {
     @RenderWebElement
-    private By createForm = By.cssSelector("div[id*='_default-form-fields']");
+    private final By nameField = By.cssSelector("input[name='prop_cm_name']");
+    private final By contentField = By.cssSelector("textarea[name='prop_cm_content']");
+    private final By titleField = By.cssSelector("input[name='prop_cm_title']");
+    private final By descriptionField = By.cssSelector("textarea[name='prop_cm_description']");
+    private final By nameInputIsMandatoryMarker = By.cssSelector("label[for$='default_prop_cm_name'] .mandatory-indicator");
     @RenderWebElement
-    private By nameField = By.cssSelector("input[name='prop_cm_name']");
-    private By contentField = By.cssSelector("textarea[name='prop_cm_content']");
-    private By titleField = By.cssSelector("input[name='prop_cm_title']");
-    private By descriptionField = By.cssSelector("textarea[name='prop_cm_description']");
-    private By nameInputIsMandatoryMarker = By.cssSelector("label[for$='default_prop_cm_name'] .mandatory-indicator");
-    @RenderWebElement
-    private By submitButton = By.cssSelector("button[id$='submit-button']");
-    private By cancelButton = By.cssSelector("button[id*='form-cancel-button']");
-    private By htmlContentField = By.cssSelector("div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe");
+    private final By submitButton = By.cssSelector("button[id$='submit-button']");
+    private final By cancelButton = By.cssSelector("button[id*='form-cancel-button']");
 
     public CreateContentPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

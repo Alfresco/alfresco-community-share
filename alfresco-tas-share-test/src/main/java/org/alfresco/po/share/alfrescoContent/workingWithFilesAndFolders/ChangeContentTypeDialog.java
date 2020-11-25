@@ -1,25 +1,23 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.po.share.ShareDialog2;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-public class ChangeContentTypeDialog extends ShareDialog2
+public class ChangeContentTypeDialog extends BaseDialogComponent
 {
-    private By dialogTitle = By.cssSelector("div[id*='changeType-dialogTitle']");
+    private final By dialogTitle = By.cssSelector("div[id*='changeType-dialogTitle']");
     @RenderWebElement
-    private By typeDropdown = By.cssSelector("select[id*='changeType']");
-    private By mandatory = By.cssSelector("form div[class='yui-u']");
-    private By okButton = By.cssSelector("button[id$='changeType-ok-button']");
-    private By cancelButton = By.cssSelector("button[id$='changeType-cancel-button']");
+    private final By typeDropdown = By.cssSelector("select[id*='changeType']");
+    private final By mandatory = By.cssSelector("form div[class='yui-u']");
+    private final By okButton = By.cssSelector("button[id$='changeType-ok-button']");
+    private final By cancelButton = By.cssSelector("button[id$='changeType-cancel-button']");
 
     public ChangeContentTypeDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getDialogTitle()

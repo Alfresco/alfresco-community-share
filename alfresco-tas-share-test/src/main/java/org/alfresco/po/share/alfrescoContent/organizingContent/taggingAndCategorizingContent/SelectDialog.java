@@ -2,22 +2,16 @@ package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCatego
 
 import java.util.List;
 
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Button;
 
-public class SelectDialog extends ShareDialog2
+public class SelectDialog extends BaseDialogComponent
 {
     @Autowired
     EditPropertiesDialog editPropertiesDialog;

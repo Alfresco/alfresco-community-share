@@ -2,36 +2,30 @@ package org.alfresco.po.share.alfrescoContent.aspects;
 
 import java.util.List;
 
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.ShareDialog2;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-public class AspectsForm extends ShareDialog2
+public class AspectsForm extends BaseDialogComponent
 {
     @RenderWebElement
-    protected By aspectsFormTitle = By.cssSelector("[id$='default-aspects-title']");
-    @RenderWebElement
-    protected By availableToAddPanel = By.cssSelector("[id$='default-aspects-left']");
-    @RenderWebElement
-    protected By currentlySelectedPanel = By.cssSelector("[id$='default-aspects-right']");
-    protected By closeButton = By.cssSelector(".container-close");
-    protected By cancelButton = By.cssSelector("button[id*='cancel']");
-    protected By saveButton = By.cssSelector("button[id*='ok-button']");
-    protected By availableAspectsList = By.cssSelector("div[class*='list-left yui-dt'] tr[class*='yui-dt-rec']");
-    protected By aspectsSelectedList = By.cssSelector("div[class*='list-right yui-dt'] tr[class*='yui-dt-rec']");
-    protected By addButtonsList = By.cssSelector("span[class*='addIcon']");
-    protected By removeButtonsList = By.cssSelector("span[class*='removeIcon']");
+    private final By aspectsFormTitle = By.cssSelector("[id$='default-aspects-title']");
+    private final By availableToAddPanel = By.cssSelector("[id$='default-aspects-left']");
+    private final By closeButton = By.cssSelector(".container-close");
+    private final By cancelButton = By.cssSelector("button[id*='cancel']");
+    private final By saveButton = By.cssSelector("button[id*='ok-button']");
+    private final By availableAspectsList = By.cssSelector("div[class*='list-left yui-dt'] tr[class*='yui-dt-rec']");
+    private final By aspectsSelectedList = By.cssSelector("div[class*='list-right yui-dt'] tr[class*='yui-dt-rec']");
+    private final By addButtonsList = By.cssSelector("span[class*='addIcon']");
+    private final By removeButtonsList = By.cssSelector("span[class*='removeIcon']");
 
     public AspectsForm(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public List<WebElement> getAddButtonsList()
@@ -87,6 +81,7 @@ public class AspectsForm extends ShareDialog2
         return getBrowser().isElementDisplayed(saveButton);
     }
 
+    @Override
     public boolean isCloseButtonDisplayed()
     {
         return getBrowser().isElementDisplayed(closeButton);

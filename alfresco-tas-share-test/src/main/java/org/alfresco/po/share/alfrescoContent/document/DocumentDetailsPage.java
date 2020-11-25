@@ -31,12 +31,10 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private static final String VERSION_NUMBER = "1";
 
     private final By noComments = By.cssSelector("div[id*='_default-comments-list'] td[class ='yui-dt-empty']");
-    private final By managePermissionsLink = By.cssSelector(".folder-actions.folder-details-panel a[title='Manage Permissions']");
     private final By documentTitle = By.cssSelector("div[class='node-info'] h1");
     @RenderWebElement
     private final By docDetailsPageHeader = By.cssSelector(".node-header");
     private final By headerFileName = By.cssSelector(".node-header h1");
-    private final By socialBar = By.cssSelector("div[class='node-social']");
     private final By likeUnlikeAction = By.cssSelector("[class*=like-action]");
     private final By likesCount = By.cssSelector("[class=likes-count]");
     private final By itemModifier = By.cssSelector(".item-modifier a");
@@ -85,7 +83,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By commentTextArea = By.cssSelector("iframe[id*='comments']");
     private final By lockedMessage = By.xpath(".//span[contains(@class,'locked')]");
     private final By okOnRevertPopup = By.cssSelector("#alfresco-revertVersion-instance-ok-button-button");
-    private final By contentError = By.cssSelector(".message");
     private final By addCommentButton = By.cssSelector("span[class$='onAddCommentClick'] button");
     private final By commentsIframe = By.cssSelector("iframe[id$='default-add-content_ifr']");
     private final By copyToAction = By.id("onActionCopyTo");
@@ -105,12 +102,12 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public DocumentDetailsPage navigate(FileModel file)
     {
-        LOG.info(String.format("Navigate to document details of file: %s", file.getCmisLocation()));
+        LOG.info("Navigate to document details of file: {}", file.getCmisLocation());
         setCurrentFileModel(file);
         return navigate();
     }
@@ -428,7 +425,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return this;
     }
 
-    public String checkPropertiesAreNotDisplayed(ArrayList<String> propertiesNotDisplayedList)
+    public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
         List<WebElement> properties = getBrowser().findElements(propertiesList);
         for (int i = 0; i < properties.size(); i++)
