@@ -66,7 +66,7 @@ public class SitesManagerTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifySiteManagerPage()
     {
-        setupAuthenticatedSession(siteAdmin);
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
         sitesManagerPage.navigate()
             .assertSiteManagerPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("adminTools.sitesManager.browser.pageTitle"))
