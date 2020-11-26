@@ -4,10 +4,10 @@ import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
 import org.alfresco.share.BaseTests;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
+import org.apache.commons.lang.RandomStringUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,8 +25,7 @@ public class TagManagerTests extends BaseTests
         tagManagerPage = new TagManagerPage(browser);
 
         tagFile.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
-        tag.set("tag" + RandomData.getRandomAlphanumeric().toLowerCase());
-
+        tag.set("tag" + RandomStringUtils.randomAlphabetic(4).toLowerCase());
         getCmisApi().authenticateUser(getAdminUser()).usingShared().createFile(tagFile.get());
         getRestApi().authenticateUser(getAdminUser())
             .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
@@ -45,7 +44,7 @@ public class TagManagerTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag() throws Exception
     {
-        String updatedTag = "tagupdate" + RandomData.getRandomAlphanumeric().toLowerCase();
+        String updatedTag = RandomStringUtils.randomAlphabetic(4).toLowerCase();
         tagManagerPage.navigate();
         tagManagerPage.searchTagWithRetry(tag.get())
             .clickEdit(tag.get())
