@@ -23,7 +23,6 @@ public class CreateFolderFromTemplateTests extends BaseTest
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-        cmisApi.authenticateUser(testUser);
 
         parentTemplateFolder.setCmisLocation(Utility.buildPath(
             Utility.buildPath(String.format("/Sites/%s/documentLibrary", testSite.getId())),
@@ -34,6 +33,7 @@ public class CreateFolderFromTemplateTests extends BaseTest
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        cmisApi.authenticateUser(testUser);
         setupAuthenticatedSession(testUser);
     }
 

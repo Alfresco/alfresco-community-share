@@ -25,13 +25,13 @@ public class CopyingContentTests extends BaseTest
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-        cmisApi.authenticateUser(testUser);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        cmisApi.authenticateUser(testUser);
         setupAuthenticatedSession(testUser);
     }
 

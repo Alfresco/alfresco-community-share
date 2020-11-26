@@ -4,11 +4,13 @@ import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage.SearchType;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -23,6 +25,9 @@ public class NodeBrowserTests extends BaseTest
     private final String content = RandomStringUtils.randomAlphanumeric(10);
     private String cmisSearchTerm;
 
+    @Autowired
+    private DataContent dataContent;
+
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
@@ -36,8 +41,7 @@ public class NodeBrowserTests extends BaseTest
         site = dataSite.usingAdmin().createPublicRandomSite();
         file = FileModel.getRandomFileModel(FileType.XML, content);
 
-        cmisApi.authenticateUser(dataUser.getAdminUser())
-            .usingSite(site).createFile(file);
+        dataContent.usingUser(getAdminUser()).usingSite(site).createContent(file);
         cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
     }
 

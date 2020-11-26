@@ -1,18 +1,33 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Content Tests" preserve-order="true">
+<suite name="Content Tests" parallel="methods" thread-count="5">
    <listeners>
       <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
    </listeners>
 
-   <test name="Building content">
+   <test name="Content Tests">
       <groups>
          <run>
            <include name="content"></include>
          </run>
       </groups>
-      <packages>
-         <package name="org.alfresco.share.alfrescoContent.buildingContent.*"></package>
-      </packages>
+      <classes>
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.DeletingContentTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.LocateItemsAndFoldersTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.AddRemoveFavoriteContentTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.RecoveringDeletedContentTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.TrashcanTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.MovingContentTests" />
+         <class name="org.alfresco.share.alfrescoContent.buildingContent.CreateFileFromTemplateTests" />
+         <class name="org.alfresco.share.alfrescoContent.buildingContent.CreateFolderFromTemplateTests" />
+         <class name="org.alfresco.share.alfrescoContent.buildingContent.CreatingFilesTests" />
+         <class name="org.alfresco.share.alfrescoContent.buildingContent.UploadingFilesTests" />
+         <class name="org.alfresco.share.alfrescoContent.buildingContent.OrganizingFoldersTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.CopyingContentTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.MultiSelectingContentTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.RenamingContentTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.TrashcanTests" />
+         <class name="org.alfresco.share.alfrescoContent.organizingContent.UnzippingContentTests" />
+      </classes>
    </test>
 
 </suite>

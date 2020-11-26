@@ -25,29 +25,29 @@ public class TagManagerTests extends BaseTest
     private final String tag2 = "tag2" + uniqueIdentifier;
     private final String tag3 = "tag3" + uniqueIdentifier;
     private SiteModel site;
-    private FileModel file;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception {
         tagManagerPage = new TagManagerPage(browser);
+        cmisApi.authenticateUser(getAdminUser());
         setupAuthenticatedSession(getAdminUser());
     }
 
     @BeforeClass (alwaysRun = true)
-    public void setupClass() throws Exception
+    public void setupClass()
     {
         site = dataSite.usingAdmin().createPublicRandomSite();
-        file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.authenticateUser(getAdminUser()).usingSite(site).createFile(file);
-
-        restApi.authenticateUser(getAdminUser())
-            .withCoreAPI().usingResource(file).addTags(tag1, tag2, tag3);
     }
 
     @TestRail (id = "C9383")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag() throws Exception
     {
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        cmisApi.usingSite(site).createFile(file);
+        restApi.authenticateUser(getAdminUser())
+            .withCoreAPI().usingResource(file).addTags(tag1, tag2, tag3);
+
         tagManagerPage.navigate();
         tagManagerPage.searchTagWithRetry(tag1)
             .clickEdit(tag1)

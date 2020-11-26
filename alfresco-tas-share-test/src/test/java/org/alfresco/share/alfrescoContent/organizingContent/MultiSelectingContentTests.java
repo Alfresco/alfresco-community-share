@@ -25,7 +25,6 @@ public class MultiSelectingContentTests extends BaseTest
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
     }
 
     @BeforeMethod(alwaysRun = true)

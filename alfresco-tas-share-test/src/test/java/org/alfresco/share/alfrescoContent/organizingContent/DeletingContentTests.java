@@ -23,13 +23,13 @@ public class DeletingContentTests extends BaseTest
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        cmisApi.authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -37,15 +37,19 @@ public class DeletingContentTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyDeleteDocument()
     {
+        FolderModel folder = FolderModel.getRandomFolderModel();
         FileModel fileToDelete = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(fileToDelete).assertThat().existsInRepo();
+        cmisApi.usingSite(testSite).createFolder(folder)
+            .then().usingResource(folder)
+                .createFile(fileToDelete).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(testSite)
-            .usingContent(fileToDelete)
-            .clickDelete()
-            .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteDocument"))
-            .assertConfirmDeleteMessageForContentEqualsTo(fileToDelete)
-            .clickDelete();
+            .usingContent(folder).selectFolder()
+                .usingContent(fileToDelete)
+                .clickDelete()
+                .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteDocument"))
+                .assertConfirmDeleteMessageForContentEqualsTo(fileToDelete)
+                .clickDelete();
         documentLibraryPage.usingContent(fileToDelete).assertContentIsNotDisplayed();
     }
 
@@ -68,8 +72,8 @@ public class DeletingContentTests extends BaseTest
 
         documentLibraryPage.usingContent(folderToDelete).assertContentIsNotDisplayed();
         cmisApi.usingResource(folderToDelete).assertThat().doesNotExistInRepo()
-                .usingResource(subFile).assertThat().doesNotExistInRepo()
-                .usingResource(subFolder).assertThat().doesNotExistInRepo();
+            .usingResource(subFile).assertThat().doesNotExistInRepo()
+            .usingResource(subFolder).assertThat().doesNotExistInRepo();
     }
 
     @TestRail (id = "C6968")

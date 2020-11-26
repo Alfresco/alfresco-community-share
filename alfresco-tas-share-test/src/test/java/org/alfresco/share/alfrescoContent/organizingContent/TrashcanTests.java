@@ -13,7 +13,7 @@ public class TrashcanTests extends BaseTest
 {
     private final static String FILE_CONTENT = "Share file content";
 
-    private UserModel trashUser;
+    private UserModel trashUser, cleanUser;
     private SiteModel trashSite;
 
     private UserTrashcanPage userTrashcanPage;
@@ -22,15 +22,14 @@ public class TrashcanTests extends BaseTest
     public void dataPrep()
     {
         trashUser = dataUser.usingAdmin().createRandomTestUser();
+        cleanUser = dataUser.usingAdmin().createRandomTestUser();
         trashSite = dataSite.usingUser(trashUser).createPublicRandomSite();
-        cmisApi.authenticateUser(trashUser);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         userTrashcanPage = new UserTrashcanPage(browser);
-        setupAuthenticatedSession(trashUser);
     }
 
     @TestRail (id = "C10506")
@@ -39,11 +38,12 @@ public class TrashcanTests extends BaseTest
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(trashSite)
-            .createFolder(folderToDelete).createFile(file)
-            .and().assertThat().existsInRepo();
+        cmisApi.authenticateUser(cleanUser).usingShared()
+            .createFolder(folderToDelete).createFile(file);
         cmisApi.usingResource(file).delete()
             .and().usingResource(folderToDelete).deleteFolderTree();
+
+        setupAuthenticatedSession(cleanUser);
 
         userTrashcanPage.navigate(trashUser)
             .clickEmptyButton()
@@ -59,8 +59,10 @@ public class TrashcanTests extends BaseTest
     public void verifyTrashcanDeleteFile()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(trashSite).createFile(file)
+        cmisApi.authenticateUser(trashUser)
+            .usingSite(trashSite).createFile(file)
             .then().usingResource(file).delete();
+        setupAuthenticatedSession(trashUser);
 
         userTrashcanPage.navigate(trashUser)
             .clickDeleteButton(file)
@@ -73,9 +75,11 @@ public class TrashcanTests extends BaseTest
     public void verifyTrashcanDeleteFolder()
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(trashSite).createFolder(folder)
-            .then().usingResource(folder).delete();
+        cmisApi.authenticateUser(trashUser)
+            .usingSite(trashSite).createFolder(folder)
+                .then().usingResource(folder).delete();
 
+        setupAuthenticatedSession(trashUser);
         userTrashcanPage.navigate(trashUser)
             .clickDeleteButton(folder)
             .clickDelete();
@@ -85,7 +89,7 @@ public class TrashcanTests extends BaseTest
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(trashUser);
+        removeUserFromAlfresco(trashUser, cleanUser);
         deleteSites(trashSite);
     }
 }

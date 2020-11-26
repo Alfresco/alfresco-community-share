@@ -44,7 +44,8 @@ public class ContentAction
 
     private final String highlightContent = "yui-dt-highlighted";
 
-    public ContentAction(ContentModel contentModel, AlfrescoContentPage contentPage,
+    public ContentAction(ContentModel contentModel,
+                         AlfrescoContentPage contentPage,
                          DocumentDetailsPage documentDetailsPage,
                          CopyMoveUnzipToDialog copyMoveDialog,
                          DeleteDialog deleteDialog)
@@ -81,7 +82,7 @@ public class ContentAction
     {
         LOG.info("Assert is NOT displayed");
         By content = By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()));
-        getBrowser().waitUntilElementDisappears(content, alfrescoContentPage.WAIT_5);
+        getBrowser().waitUntilElementDisappears(content, alfrescoContentPage.WAIT_10);
         assertFalse(getBrowser().isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }

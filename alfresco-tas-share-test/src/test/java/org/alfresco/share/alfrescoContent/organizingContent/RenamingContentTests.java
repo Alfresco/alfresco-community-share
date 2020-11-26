@@ -23,13 +23,13 @@ public class RenamingContentTests extends BaseTest
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        cmisApi.authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
