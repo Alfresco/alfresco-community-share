@@ -27,8 +27,7 @@ public class TagManagerTests extends BaseTest
     private FileModel file;
 
     @BeforeMethod(alwaysRun = true)
-    public void setupTest()
-    {
+    public void setupTest() throws Exception {
         tagManagerPage = new TagManagerPage(browser);
         setupAuthenticatedSession(getAdminUser());
     }
@@ -88,7 +87,7 @@ public class TagManagerTests extends BaseTest
                 .assertCancelButtonIsDisplayed()
                 .clickDelete();
         tagManagerPage.assertNoTagFoundMessageIsDisplayed()
-            .search(tag3).assertTagIsNotDisplayed(tag3);
+            .searchTag(tag3).assertTagIsNotDisplayed(tag3);
     }
 
     @AfterClass (alwaysRun = true)

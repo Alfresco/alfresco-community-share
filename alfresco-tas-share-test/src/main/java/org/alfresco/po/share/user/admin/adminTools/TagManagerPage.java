@@ -1,5 +1,9 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
@@ -9,33 +13,28 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
 
-import static org.testng.Assert.*;
-
 public class TagManagerPage extends SharePage2<TagManagerPage>
 {
-    private By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
-    private By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
-    private By tableTitle = By.cssSelector(".tags-List>.title");
-    private By loadingTagsMessage = By.cssSelector("div[class='dashlet tags-List'] .yui-dt-message");
-    private By tableHead = By.cssSelector(".dashlet thead");
-    private By nextLink = By.cssSelector("a[id*='next-link']");
-    private By nextLinkDisabled = By.cssSelector("span[id*='next-span']");
-    private By previousLink = By.cssSelector("a[id*='prev-link']");
-    private By previousLinkDisabled = By.cssSelector("span[id*='prev-span']");
-    private By pagesList = By.cssSelector("div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page");
-    private By currentPage = By.cssSelector("span[class*='current-page']");
+    private final By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
+    private final By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
+    private final By tableTitle = By.cssSelector(".tags-List>.title");
+    private final By tableHead = By.cssSelector(".dashlet thead");
+    private final By nextLink = By.cssSelector("a[id*='next-link']");
+    private final By pagesList = By.cssSelector("div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page");
+    private final By currentPage = By.cssSelector("span[class*='current-page']");
+
     @RenderWebElement
-    private By searchInput = By.cssSelector("input[id$='search-text']");
+    private final By searchInput = By.cssSelector("input[id$='search-text']");
+
     @RenderWebElement
-    private By searchButton = By.cssSelector(".search-button button");
-    private By noFoundMessage = By.cssSelector("div[class='tags-list-info']");
+    private final By searchButton = By.cssSelector(".search-button button");
+    private final By noFoundMessage = By.cssSelector("div[class='tags-list-info']");
 
     private String tagRow = "//b[text()='%s']/../../../../..";
 
     public TagManagerPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
-        this.browser = browser;
     }
 
     @Override
@@ -118,14 +117,14 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     public TagManagerPage searchTagWithRetry(String tagName)
     {
-        search(tagName);
+        searchTag(tagName);
         boolean found = isTagDisplayed(tagName);
         int retryCount = 0;
         while(!found && retryCount < WAIT_30)
         {
             Utility.waitToLoopTime(1);
             LOG.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCount);
-            search(tagName);
+            searchTag(tagName);
             found = isTagDisplayed(tagName);
             retryCount++;
         }
@@ -147,7 +146,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         }
     }
 
-    public TagManagerPage search(String tagName)
+    public TagManagerPage searchTag(String tagName)
     {
         LOG.info("Search for tag {}", tagName);
         WebElement input = getBrowser().waitUntilElementVisible(searchInput);

@@ -1,27 +1,23 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.testng.Assert.assertFalse;
+
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
-import static org.testng.Assert.assertFalse;
-
 public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 {
-    @RenderWebElement
-    private By categoryManagerDiv = By.cssSelector("div[class='category']");
-    private By editCategoryNameInput = By.cssSelector(".insitu-edit input[type='text']");
-    private By editCategorySaveButton = By.cssSelector(".insitu-edit a:nth-of-type(1)");
-    private By editCategoryCancelButton = By.cssSelector(".insitu-edit a:nth-of-type(2)");
-    private By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible']");
-    private By editCategoryButton = By.cssSelector("span.insitu-edit-category[style*='visibility: visible']");
-    private By deleteCategoryButton = By.cssSelector("span.insitu-delete-category[style*='visibility: visible']");
-    private String categoryLocator = "//span[contains(@id, 'labelel') and text()='%s']";
+    private final By editCategoryNameInput = By.cssSelector(".insitu-edit input[type='text']");
+    private final By editCategorySaveButton = By.cssSelector(".insitu-edit a:nth-of-type(1)");
+    private final By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible']");
+    private final By editCategoryButton = By.cssSelector("span.insitu-edit-category[style*='visibility: visible']");
+    private final By deleteCategoryButton = By.cssSelector("span.insitu-delete-category[style*='visibility: visible']");
+    private final String categoryLocator = "//span[contains(@id, 'labelel') and text()='%s']";
 
     public CategoryManagerPage(ThreadLocal<WebBrowser> browser)
     {
