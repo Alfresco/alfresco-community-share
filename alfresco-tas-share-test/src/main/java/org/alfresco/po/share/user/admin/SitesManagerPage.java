@@ -165,7 +165,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         public ManagerSiteAction assertSiteIsNotDisplayed()
         {
             LOG.info("Assert site is not displayed");
-            Assert.assertNull(getSiteRow(), String.format("Site %s is displayed", siteName));
+            assertFalse(getBrowser().isElementDisplayed(getSiteRow()), String.format("Site %s is displayed", siteName));
             return this;
         }
 
