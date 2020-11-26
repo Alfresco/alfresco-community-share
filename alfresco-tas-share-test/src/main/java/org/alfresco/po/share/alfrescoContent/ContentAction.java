@@ -82,7 +82,6 @@ public class ContentAction
     {
         LOG.info("Assert is NOT displayed");
         By content = By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()));
-        getBrowser().waitUntilElementDisappears(content, alfrescoContentPage.WAIT_10);
         assertFalse(getBrowser().isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }

@@ -18,8 +18,10 @@ public class UnzippingContentTests extends BaseTests
 
     private final String zipFileName = "archiveC7409.zip";
     private final String acpFileName = "archiveC7410.acp";
+    private final String acpCancelUnzip = "archiveC8041.acp";
     private final File zipFile = new File(testDataFolder.concat(zipFileName));
     private final File acpFile = new File(testDataFolder.concat(acpFileName));
+    private final File acpCancelFile = new File(testDataFolder.concat(acpCancelUnzip));
 
     private UserModel user;
     private SiteModel site;
@@ -93,23 +95,18 @@ public class UnzippingContentTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCancelUnzipAcpFile()
     {
-        FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site).createFolder(folder);
         FileModel acpFileModel = dataContent.usingUser(user)
-            .usingResource(folder)
-            .uploadDocument(acpFile);
+            .usingSite(site)
+            .uploadDocument(acpCancelFile);
         documentLibraryPage.navigate(site)
-            .usingContent(folder).selectFolder()
             .usingContent(acpFileModel)
             .selectFile()
             .clickUnzipTo()
             .selectRecentSitesDestination()
             .selectSite(site)
-            .selectFolder(folder)
             .clickCancelButton();
         FolderModel unzipFolder = new FolderModel(FilenameUtils.getBaseName(acpFileModel.getName()));
         documentLibraryPage.navigate(site)
-            .usingContent(folder).selectFolder()
             .usingContent(unzipFolder).assertContentIsNotDisplayed();
     }
 }

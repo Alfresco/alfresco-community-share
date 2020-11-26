@@ -65,6 +65,11 @@ public class DeleteDialog extends ShareDialog2
         LOG.info("Click Delete");
         getBrowser().waitUntilElementClickable(deleteButton).click();
         waitUntilNotificationMessageDisappears();
+        if(getBrowser().isElementDisplayed(MESSAGE_LOCATOR))
+        {
+            LOG.info("Wait for the second message");
+            waitUntilNotificationMessageDisappears();
+        }
     }
 
     public <T> SharePage clickDelete(SharePage page)

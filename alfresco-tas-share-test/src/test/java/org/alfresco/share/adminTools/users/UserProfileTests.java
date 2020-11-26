@@ -1,5 +1,6 @@
 package org.alfresco.share.adminTools.users;
 
+import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
@@ -8,6 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -15,6 +17,9 @@ import org.testng.annotations.Test;
 
 public class UserProfileTests extends BaseTests
 {
+    @Autowired
+    private UserService userService;
+
     private UsersPage usersPage;
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
     private EditUserPage editUserPage;
@@ -139,13 +144,14 @@ public class UserProfileTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteAuthorizedUser()
     {
+        userService.login(deleteUser.getUsername(), deleteUser.getPassword());
         userProfileAdminToolsPage.navigate(deleteUser)
             .clickDelete()
             .assertDeleteUserDialogIsOpened()
             .assertDeleteUserDialogTextIsCorrect()
             .clickDelete();
         usersPage.assertDeleteUserNotificationIsDisplayed();
-        usersPage.searchUser(deleteUser.getUsername())
+        usersPage.navigate().searchUser(deleteUser.getUsername())
             .usingUser(deleteUser).assertUserDeleteIconIsDisplayed()
                 .assertDeletedIsDisplayed();
     }
