@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 /**
  * @author bogdan.bocancea
  */
-public class LoginTests extends BaseTests
+public class LoginTests extends BaseTest
 {
     private String randomString = RandomData.getRandomAlphanumeric();
     private String dashBoardUrl = "share/page/user/%s/dashboard";

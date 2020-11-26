@@ -43,7 +43,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         return "share/page/console/admin-console/node-browser";
     }
 
-    public NodeBrowserPage selectSearchType(SEARCH_TYPE searchType)
+    public NodeBrowserPage selectSearchType(SearchType searchType)
     {
         getBrowser().waitUntilElementVisible(searchTypeDropdownButton);
         getBrowser().waitUntilElementClickable(searchTypeDropdownButton).click();
@@ -62,7 +62,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         return (NodeBrowserPage) this.renderedPage();
     }
 
-    public NodeBrowserPage assertSearchTypeIsSelected(SEARCH_TYPE searchType)
+    public NodeBrowserPage assertSearchTypeIsSelected(SearchType searchType)
     {
         assertTrue(getElementText(searchTypeDropdownButton).equals(searchType.getSearchType()));
         return this;
@@ -168,7 +168,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         return this;
     }
 
-    public enum SEARCH_TYPE
+    public enum SearchType
     {
         STORE_ROOT("storeroot"),
         NODEREF("noderef"),
@@ -182,7 +182,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
         private String searchType;
 
-        SEARCH_TYPE(String searchType)
+        SearchType(String searchType)
         {
             this.searchType = searchType;
         }

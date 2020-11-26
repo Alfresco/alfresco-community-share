@@ -1,6 +1,6 @@
 package org.alfresco.po.share.toolbar;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 
 import static org.testng.Assert.assertTrue;
 
-public class ToolbarTasksMenu extends BasePages
+public class ToolbarTasksMenu extends BasePage
 {
     @RenderWebElement
     private final By myTasks = By.id("HEADER_MY_TASKS_text");

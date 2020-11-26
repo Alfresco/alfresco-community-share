@@ -4,7 +4,7 @@ import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 
 import static java.util.Arrays.asList;
 
-public class SitesManagerTests extends BaseTests
+public class SitesManagerTests extends BaseTest
 {
     private UserModel user, siteAdmin;
     private SiteModel site1, site2, site3, site4, site5, site6;

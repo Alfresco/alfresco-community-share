@@ -1,7 +1,7 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.*;
@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CopyingContentTests extends BaseTests
+public class CopyingContentTests extends BaseTest
 {
     private DocumentLibraryPage2 documentLibraryPage;
     private FolderModel sharedFiles = new FolderModel("Shared Files");

@@ -2,13 +2,13 @@ package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
 
-public class UpdateAndViewProfileTests extends BaseTests
+public class UpdateAndViewProfileTests extends BaseTest
 {
     private UserProfilePage userProfilePage;
     private EditUserProfilePage editUserPage;

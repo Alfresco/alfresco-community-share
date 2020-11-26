@@ -3,7 +3,7 @@ package org.alfresco.po.share.toolbar;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
@@ -13,7 +13,7 @@ import org.openqa.selenium.By;
 
 import static org.testng.Assert.assertTrue;
 
-public class ToolbarUserMenu extends BasePages
+public class ToolbarUserMenu extends BasePage
 {
     @RenderWebElement
     private final By userDashboard = By.id("HEADER_USER_MENU_DASHBOARD_text");

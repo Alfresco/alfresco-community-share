@@ -5,7 +5,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.rest.model.RestCustomModel;
 import org.alfresco.rest.model.RestCustomTypeModel;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
@@ -22,7 +22,7 @@ import java.util.List;
 import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.testng.Assert.assertTrue;
 
-public class ModelManagerTests extends BaseTests
+public class ModelManagerTests extends BaseTest
 {
     private ModelManagerPage modelManagerPage;
     private DocumentDetailsPage documentDetailsPage;

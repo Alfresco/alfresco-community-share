@@ -3,7 +3,7 @@ package org.alfresco.share.alfrescoContent.organizingContent;
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.SelectMenuOptions;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterClass;
@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class MultiSelectingContentTests extends BaseTests
+public class MultiSelectingContentTests extends BaseTest
 {
     private DocumentLibraryPage2 documentLibraryPage;
 

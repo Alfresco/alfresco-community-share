@@ -25,18 +25,17 @@ import java.util.List;
 
 /**
  * This class represents a template which should be inherit by each page object class.
- * We should have a base class for each page object or page component.
  *
  * So for example we going to have:
- * - BasePages for each page object class.
+ * - BasePage for each page object class.
  * - BaseDialogComponent for each dialog component class.
  * - BaseDashletComponent for each component class.
  *
  * In the base pages/components we will store only common members/methods which are in each child classes.
  */
-public abstract class BasePages
+public abstract class BasePage
 {
-    protected final Logger LOG = LoggerFactory.getLogger(BasePages.class);
+    protected final Logger LOG = LoggerFactory.getLogger(BasePage.class);
 
     //todo: move below vars into another class
     public static final int WAIT_1 = 1;
@@ -56,7 +55,7 @@ public abstract class BasePages
 
     protected ThreadLocal<WebBrowser> browser;
 
-    public BasePages(ThreadLocal<WebBrowser> browser)
+    public BasePage(ThreadLocal<WebBrowser> browser)
     {
         if(properties == null)
         {
@@ -113,7 +112,7 @@ public abstract class BasePages
         return getBrowser().getTitle();
     }
 
-    public BasePages renderedPage()
+    public BasePage renderedPage()
     {
         /*
          * get the RenderWebElement annotation of all declared fields and

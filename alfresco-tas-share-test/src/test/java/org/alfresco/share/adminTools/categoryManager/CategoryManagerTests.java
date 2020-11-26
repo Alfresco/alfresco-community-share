@@ -2,7 +2,7 @@ package org.alfresco.share.adminTools.categoryManager;
 
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 import static org.testng.Assert.assertTrue;
 
-public class CategoryManagerTests extends BaseTests
+public class CategoryManagerTests extends BaseTest
 {
     private final String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
     private final String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());

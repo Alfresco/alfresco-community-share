@@ -3,7 +3,7 @@ package org.alfresco.share.adminTools.users;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserProfileTests extends BaseTests
+public class UserProfileTests extends BaseTest
 {
     private UsersPage usersPage;
     private UserProfileAdminToolsPage userProfileAdminToolsPage;

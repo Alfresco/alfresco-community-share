@@ -29,7 +29,6 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.httpclient.HttpState;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +44,9 @@ import org.testng.annotations.BeforeSuite;
  * Only test class which will not use this template should be LoginTest.
  */
 @ContextConfiguration(classes = ShareTestContext.class)
-public abstract class BaseTests extends AbstractTestNGSpringContextTests
+public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
-    protected final Logger LOG = LoggerFactory.getLogger(BaseTests.class);
+    protected final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
     //todo: below variables should be moved into their classes, because they are not used in all test classes
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
@@ -107,7 +106,7 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     public void beforeEachTest(Method method)
     {
         LOG.info("STARTED TEST: {}", method.getName());
-        createBrowser();
+        browser.set(browserFactory.createBrowser());
 
         loginPage = new LoginPage(browser);
         userDashboardPage = new UserDashboardPage(browser);
@@ -115,9 +114,8 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     }
 
     @AfterMethod(alwaysRun = true)
-    public void afterEachTest(final Method method, final ITestResult result)
+    public void afterEachTest(Method method, ITestResult result)
     {
-
         LOG.info("FINISHED TEST: {}, {}, {}", method.getDeclaringClass().getSimpleName(), method.getName(),
             result.isSuccess() ? "PASSED" : "FAILED");
         if(!result.isSuccess())
@@ -127,25 +125,11 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
         closeBrowser();
     }
 
-    private void createBrowser()
-    {
-        try
-        {
-            browser.set(browserFactory.createBrowser());
-        }
-        catch (TimeoutException e)
-        {
-            LOG.error("Failed to init browser: {}", e.getMessage());
-            browser.set(browserFactory.createBrowser());
-        }
-    }
-
     private void closeBrowser()
     {
-        LOG.info("Close browser..");
         try
         {
-            getBrowser().manage().deleteAllCookies();
+            LOG.info("Close browser..");
             getBrowser().quit();
         }
         catch (NoSuchSessionException noSuchSessionException)

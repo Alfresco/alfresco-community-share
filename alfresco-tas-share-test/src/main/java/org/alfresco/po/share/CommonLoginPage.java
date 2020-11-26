@@ -3,7 +3,7 @@ package org.alfresco.po.share;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.browser.WebBrowser;
 
-public abstract class CommonLoginPage extends BasePages
+public abstract class CommonLoginPage extends BasePage
 {
     public CommonLoginPage(ThreadLocal<WebBrowser> browser)
     {

@@ -1,12 +1,12 @@
 package org.alfresco.po.share.TinyMce;
 
-import org.alfresco.po.share.BasePages;
+import org.alfresco.po.share.BasePage;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-public class TinyMceEditor extends BasePages
+public class TinyMceEditor extends BasePage
 {
     public String FRAME_ID = "";
     public String TINYMCE_CONTENT = "body[id$='tinymce']";

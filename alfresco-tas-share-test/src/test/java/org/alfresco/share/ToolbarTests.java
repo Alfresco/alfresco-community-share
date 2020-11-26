@@ -8,7 +8,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
 
-public class ToolbarTests extends BaseTests
+public class ToolbarTests extends BaseTest
 {
     private SiteDashboardPage siteDashboardPage;
     private UserProfilePage userProfilePage;
