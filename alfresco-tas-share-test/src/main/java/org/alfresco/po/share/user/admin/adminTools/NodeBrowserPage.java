@@ -20,7 +20,6 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
     @RenderWebElement
     private final By storeTypeDropdownButton = By.cssSelector("button[id$='_default-store-menu-button-button']");
     private final By searchButton = By.cssSelector("button[id$='_default-search-button-button']");
-    @RenderWebElement
     private final By resultNoItemsFound = By.cssSelector(".yui-dt-empty > div");
     private final By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private final By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
