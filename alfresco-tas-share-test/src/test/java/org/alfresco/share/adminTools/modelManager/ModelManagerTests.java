@@ -1,5 +1,6 @@
 package org.alfresco.share.adminTools.modelManager;
 
+import java.io.File;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
@@ -24,6 +25,8 @@ import static org.testng.Assert.assertTrue;
 
 public class ModelManagerTests extends BaseTest
 {
+    private String srcRoot = System.getProperty("user.dir") + File.separator;
+    private String testDataFolder = srcRoot + "testdata" + File.separator;
     private ModelManagerPage modelManagerPage;
     private DocumentDetailsPage documentDetailsPage;
 

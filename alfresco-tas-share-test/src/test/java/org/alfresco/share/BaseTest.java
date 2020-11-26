@@ -46,9 +46,6 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
     private final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
-    //todo: below variables should be moved into their classes, because they are not used in all test classes
-    protected String srcRoot = System.getProperty("user.dir") + File.separator;
-    protected String testDataFolder = srcRoot + "testdata" + File.separator;
     public static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
     public static final GroupModel ALFRESCO_SITE_ADMINISTRATORS = new GroupModel("SITE_ADMINISTRATORS");
     public static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");

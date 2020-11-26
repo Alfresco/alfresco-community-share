@@ -14,7 +14,8 @@ import java.io.File;
 
 public class UnzippingContentTests extends BaseTest
 {
-    private DocumentLibraryPage2 documentLibraryPage;
+    private String srcRoot = System.getProperty("user.dir") + File.separator;
+    private String testDataFolder = srcRoot + "testdata" + File.separator;
 
     private final String zipFileName = "archiveC7409.zip";
     private final String acpFileName = "archiveC7410.acp";
@@ -23,6 +24,8 @@ public class UnzippingContentTests extends BaseTest
 
     private UserModel user;
     private SiteModel site;
+
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()

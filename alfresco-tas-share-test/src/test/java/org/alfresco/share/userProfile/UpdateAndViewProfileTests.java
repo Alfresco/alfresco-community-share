@@ -1,5 +1,6 @@
 package org.alfresco.share.userProfile;
 
+import java.io.File;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.BaseTest;
@@ -10,6 +11,9 @@ import org.testng.annotations.*;
 
 public class UpdateAndViewProfileTests extends BaseTest
 {
+    private String srcRoot = System.getProperty("user.dir") + File.separator;
+    private String testDataFolder = srcRoot + "testdata" + File.separator;
+
     private UserProfilePage userProfilePage;
     private EditUserProfilePage editUserPage;
 

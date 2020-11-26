@@ -1,5 +1,6 @@
 package org.alfresco.share.adminTools.users;
 
+import java.io.File;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -10,6 +11,9 @@ import org.testng.annotations.Test;
 
 public class ImportUsersTests extends BaseTest
 {
+    protected String srcRoot = System.getProperty("user.dir") + File.separator;
+    protected String testDataFolder = srcRoot + "testdata" + File.separator;
+
     private UsersPage usersPage;
 
     @BeforeMethod(alwaysRun = true)
