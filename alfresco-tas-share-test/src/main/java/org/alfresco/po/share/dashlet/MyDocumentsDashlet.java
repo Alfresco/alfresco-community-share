@@ -93,7 +93,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet filter(DocumentsFilter filter)
     {
-        filterButton.click();
+        browser.waitUntilElementClickable(filterButton).click();
         browser.selectOptionFromFilterOptionsList(getFilterValue(filter), filterOptions);
         return this;
     }

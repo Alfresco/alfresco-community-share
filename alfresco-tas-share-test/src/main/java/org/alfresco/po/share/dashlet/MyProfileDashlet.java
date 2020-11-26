@@ -36,6 +36,7 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     @Override
     public String getDashletTitle()
     {
+        browser.waitUntilElementVisible(dashletContainer);
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
