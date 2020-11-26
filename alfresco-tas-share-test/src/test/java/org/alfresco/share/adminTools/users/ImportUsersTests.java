@@ -11,8 +11,9 @@ import org.testng.annotations.Test;
 
 public class ImportUsersTests extends BaseTest
 {
-    protected String srcRoot = System.getProperty("user.dir") + File.separator;
-    protected String testDataFolder = srcRoot + "testdata" + File.separator;
+    private final String password = "password";
+    private String srcRoot = System.getProperty("user.dir") + File.separator;
+    private String testDataFolder = srcRoot + "testdata" + File.separator;
 
     private UsersPage usersPage;
 

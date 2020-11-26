@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
  */
 public class LoginTests extends BaseTest
 {
+    private final String password = "password";
     private String randomString = RandomData.getRandomAlphanumeric();
     private String dashBoardUrl = "share/page/user/%s/dashboard";
     private UserModel validUser;

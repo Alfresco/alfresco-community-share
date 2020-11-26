@@ -11,7 +11,8 @@ import org.testng.annotations.Test;
 
 public class UserToolTests extends BaseTest
 {
-    UsersPage usersPage;
+    private final String password = "password";
+    private UsersPage usersPage;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()

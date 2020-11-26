@@ -9,6 +9,7 @@ import org.testng.annotations.*;
 
 public class ChangePasswordTest extends BaseTest
 {
+    private final String password = "password";
     private UserModel user, changeUser;
     private ChangePasswordPage changePasswordPage;
 

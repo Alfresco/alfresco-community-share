@@ -3,7 +3,6 @@ package org.alfresco.share;
 import static org.alfresco.common.Utils.saveScreenshot;
 import static org.alfresco.common.Utils.screenshotFolder;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import org.alfresco.cmis.CmisWrapper;
@@ -19,7 +18,6 @@ import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
-import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -46,20 +44,14 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
     private final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
-    public static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
-    public static final GroupModel ALFRESCO_SITE_ADMINISTRATORS = new GroupModel("SITE_ADMINISTRATORS");
-    public static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");
-    public static String FILE_CONTENT = "Share file content";
-    public final String password = "password";
-
     @Autowired
     private BrowserFactory browserFactory;
 
     @Autowired
-    public DataSite dataSite;
+    protected DataUserAIS dataUser;
 
     @Autowired
-    protected DataUserAIS dataUser;
+    public DataSite dataSite;
 
     @Autowired
     protected DataGroup dataGroup;
