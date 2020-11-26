@@ -24,14 +24,18 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class represents a template which should be inherit by each page object class.
+ * This class represents a template which should be inherit by each page object/component class.
  *
- * So for example we going to have:
- * - BasePage for each page object class.
- * - BaseDialogComponent for each dialog component class.
- * - BaseDashletComponent for each component class.
+ * So for example we are going to have:
  *
- * In the base pages/components we will store only common members/methods which are in each child classes.
+ * 1.<PageObjectClass> extends BasePage
+ *   e.g: UploadUserResultsPage extends BasePage
+ *
+ * 2.<PageComponentClass> extends BaseComponent
+ *    e.g: DeleteDialog extends BaseDialogComponent
+ *    e.g: BaseDialog extends BasePage
+ *
+ * In the base pages/components class we will store only common members/methods which are in each child classes.
  */
 public abstract class BasePage
 {
