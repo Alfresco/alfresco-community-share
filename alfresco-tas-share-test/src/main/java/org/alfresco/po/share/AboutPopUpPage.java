@@ -85,6 +85,22 @@ public class AboutPopUpPage extends BaseDialogComponent
         return this;
     }
 
+    public AboutPopUpPage assertClickLegalAndLicenseLink()
+    {
+        clickLegalAndLicenceLink();
+        getBrowser().switchWindow(1);
+        getBrowser().waitUrlContains(alfrescoUrl, 10);
+        assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
+        getBrowser().closeWindowAndSwitchBack();
+        return this;
+    }
+
+    public AboutPopUpPage assertShareVersionIsDisplayed()
+    {
+        assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
+        return this;
+    }
+
     public AboutPopUpPage assertAlfrescoVersionIsDisplayed()
     {
         assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
