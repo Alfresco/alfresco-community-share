@@ -65,6 +65,7 @@ public class DeleteDialog extends ShareDialog2
         LOG.info("Click Delete");
         getBrowser().waitUntilElementClickable(deleteButton).click();
         waitUntilNotificationMessageDisappears();
+        LOG.error("Message for delete tag (for travis debug) {}", notificationMessageThread.get());
         if(getBrowser().isElementDisplayed(MESSAGE_LOCATOR))
         {
             LOG.info("Wait for the second message");

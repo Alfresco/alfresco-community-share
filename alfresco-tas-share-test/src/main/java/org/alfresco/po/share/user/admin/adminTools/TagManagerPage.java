@@ -69,12 +69,12 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     private WebElement getTagRow(String tagName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(tagRow, tagName)), 1, WAIT_30);
+        return getBrowser().waitUntilElementVisible(By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
     public boolean isTagDisplayed(String tagName)
     {
-        return getBrowser().isElementDisplayed(By.xpath(String.format(tagRow, tagName)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
     private TagManagerPage clickNextPage()

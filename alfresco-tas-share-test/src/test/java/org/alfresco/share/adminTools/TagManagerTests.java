@@ -7,10 +7,8 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
-import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -18,43 +16,43 @@ public class TagManagerTests extends BaseTests
 {
     private TagManagerPage tagManagerPage;
 
-    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();
-    private final String updatedTag = "updated" + uniqueIdentifier;
-    private final String tag1 = "tag1" + uniqueIdentifier;
-    private final String tag2 = "tag2" + uniqueIdentifier;
-    private final String tag3 = "tag3" + uniqueIdentifier;
-    private SiteModel site;
+    private ThreadLocal<String> tag = new ThreadLocal<>();
+    private ThreadLocal<FileModel> tagFile = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    public void setupTest() throws Exception
     {
         tagManagerPage = new TagManagerPage(browser);
-        getCmisApi().authenticateUser(getAdminUser());
+
+        tagFile.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
+        tag.set("tag" + RandomData.getRandomAlphanumeric().toLowerCase());
+
+        getCmisApi().authenticateUser(getAdminUser()).usingShared().createFile(tagFile.get());
+        getRestApi().authenticateUser(getAdminUser())
+            .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
+
         setupAuthenticatedSession(getAdminUser());
     }
 
-    @BeforeClass (alwaysRun = true)
-    public void setupClass()
+    @AfterMethod(alwaysRun = true)
+    public void cleanUp()
     {
-        site = dataSite.usingAdmin().createPublicRandomSite();
+        getCmisApi().authenticateUser(getAdminUser())
+            .usingResource(tagFile.get()).delete();
     }
 
     @TestRail (id = "C9383")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag() throws Exception
     {
-        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(site).createFile(file);
-        getRestApi().authenticateUser(getAdminUser())
-            .withCoreAPI().usingResource(file).addTags(tag1, tag2, tag3);
-
+        String updatedTag = "tagupdate" + RandomData.getRandomAlphanumeric().toLowerCase();
         tagManagerPage.navigate();
-        tagManagerPage.searchTagWithRetry(tag1)
-            .clickEdit(tag1)
+        tagManagerPage.searchTagWithRetry(tag.get())
+            .clickEdit(tag.get())
             .renameTag(updatedTag)
             .searchTagWithRetry(updatedTag)
             .assertTagIsDisplayed(updatedTag);
-        RestTagModelsCollection tags = getRestApi().withCoreAPI().usingResource(file).getNodeTags();
+        RestTagModelsCollection tags = getRestApi().withCoreAPI().usingResource(tagFile.get()).getNodeTags();
         tags.assertThat()
             .entriesListContains("tag", updatedTag);
     }
@@ -67,9 +65,9 @@ public class TagManagerTests extends BaseTests
         tagManagerPage.assertSearchButtonIsDisplayed()
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
-            .searchTagWithRetry(tag2)
+            .searchTagWithRetry(tag.get())
                 .assertTableHeadersAreCorrect()
-                .clickEdit(tag2)
+                .clickEdit(tag.get())
                     .assertRenameTagLabelIsCorrect()
                     .assertOkButtonIsDisplayed()
                     .assertCancelButtonIsDisplayed()
@@ -81,19 +79,15 @@ public class TagManagerTests extends BaseTests
     public void deleteTag()
     {
         tagManagerPage.navigate();
-        tagManagerPage.searchTagWithRetry(tag3)
-            .clickDelete(tag3)
-                .assertConfirmDeleteMessageForContentEqualsTo(tag3)
+        tagManagerPage.searchTagWithRetry(tag.get())
+            .clickDelete(tag.get())
+                .assertConfirmDeleteMessageForContentEqualsTo(tag.get())
                 .assertDeleteButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
                 .clickDelete();
         tagManagerPage.assertNoTagFoundMessageIsDisplayed()
-            .search(tag3).assertTagIsNotDisplayed(tag3);
+            .search(tag.get())
+            .assertTagIsNotDisplayed(tag.get());
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        dataSite.usingAdmin().deleteSite(site);
-    }
 }

@@ -4,6 +4,7 @@ import org.alfresco.po.share.ShareDialog2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -61,9 +62,11 @@ public class EditTagDialog extends ShareDialog2
     {
         LOG.info(String.format("Rename tag to: %s", updatedTag));
         clearAndType(editTagInputField, updatedTag);
-        getBrowser().waitUntilElementClickable(okButton).click();
+        WebElement ok = getBrowser().waitUntilElementVisible(okButton);
+        getBrowser().mouseOver(ok);
+        getBrowser().waitUntilElementClickable(ok).click();
         waitUntilNotificationMessageDisappears();
-
+        LOG.error("Message for rename tag (for travis debug) {}", notificationMessageThread.get());
         return (TagManagerPage) new TagManagerPage(browser).renderedPage();
     }
 }
