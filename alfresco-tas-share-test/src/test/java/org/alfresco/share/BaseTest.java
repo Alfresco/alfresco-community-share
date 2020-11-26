@@ -14,7 +14,6 @@ import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
-import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
