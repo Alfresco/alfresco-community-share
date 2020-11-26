@@ -12,11 +12,13 @@ import org.testng.annotations.Test;
 
 public class RecoveringDeletedContentTests extends BaseTest
 {
-    private UserTrashcanPage userTrashcanPage;
-    private DocumentLibraryPage2 documentLibraryPage;
+    private static final String FILE_CONTENT = "Share file content";
 
     private UserModel trashcanUser;
     private SiteModel trashcanSite;
+
+    private UserTrashcanPage userTrashcanPage;
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @BeforeClass(alwaysRun = true)
     public void dataPrep()

@@ -12,8 +12,10 @@ import org.testng.annotations.Test;
 
 public class CopyingContentTests extends BaseTest
 {
-    private DocumentLibraryPage2 documentLibraryPage;
+    private static final String FILE_CONTENT = "Share file content";
     private FolderModel sharedFiles = new FolderModel("Shared Files");
+
+    private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel testUser;
     private SiteModel testSite;

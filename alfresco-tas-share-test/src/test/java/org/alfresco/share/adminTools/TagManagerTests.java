@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 public class TagManagerTests extends BaseTest
 {
+    private static final String FILE_CONTENT = "Share file content";
     private TagManagerPage tagManagerPage;
 
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();

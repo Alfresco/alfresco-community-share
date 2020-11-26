@@ -10,6 +10,7 @@ import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -23,6 +24,8 @@ import static java.util.Arrays.asList;
 
 public class SitesManagerTests extends BaseTest
 {
+    private static final GroupModel ALFRESCO_SITE_ADMINISTRATORS = new GroupModel("SITE_ADMINISTRATORS");
+
     private UserModel user, siteAdmin;
     private SiteModel site1, site2, site3, site4, site5, site6;
     private final String siteDescription = "Site Description";

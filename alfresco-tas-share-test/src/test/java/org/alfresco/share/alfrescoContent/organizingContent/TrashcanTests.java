@@ -11,10 +11,12 @@ import org.testng.annotations.Test;
 
 public class TrashcanTests extends BaseTest
 {
-    private UserTrashcanPage userTrashcanPage;
+    private final static String FILE_CONTENT = "Share file content";
 
     private UserModel trashUser;
     private SiteModel trashSite;
+
+    private UserTrashcanPage userTrashcanPage;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()

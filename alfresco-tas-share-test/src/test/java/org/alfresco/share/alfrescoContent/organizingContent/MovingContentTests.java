@@ -11,11 +11,13 @@ import org.testng.annotations.Test;
 
 public class MovingContentTests extends BaseTest
 {
-    private DocumentLibraryPage2 documentLibraryPage;
+    private static final String FILE_CONTENT = "Share file content";
 
     private UserModel user;
     private SiteModel site;
     private FolderModel destination;
+
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()

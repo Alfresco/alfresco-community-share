@@ -13,6 +13,8 @@ import org.testng.annotations.Test;
 
 public class LocateItemsAndFoldersTests extends BaseTest
 {
+    private static final String FILE_CONTENT = "Share file content";
+
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;

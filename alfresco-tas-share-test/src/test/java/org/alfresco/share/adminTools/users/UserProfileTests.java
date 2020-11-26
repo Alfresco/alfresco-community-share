@@ -15,6 +15,8 @@ import org.testng.annotations.Test;
 
 public class UserProfileTests extends BaseTest
 {
+    private static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
+
     private UsersPage usersPage;
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
     private EditUserPage editUserPage;

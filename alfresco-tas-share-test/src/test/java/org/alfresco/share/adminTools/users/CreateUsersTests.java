@@ -4,6 +4,7 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUserPage
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.BeforeMethod;
@@ -11,6 +12,8 @@ import org.testng.annotations.Test;
 
 public class CreateUsersTests extends BaseTest
 {
+    private static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
+
     private CreateUserPage createUsers;
     private UsersPage usersPage;
 

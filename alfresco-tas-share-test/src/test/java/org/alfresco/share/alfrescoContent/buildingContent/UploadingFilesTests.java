@@ -11,10 +11,12 @@ import org.testng.annotations.Test;
 
 public class UploadingFilesTests extends BaseTest
 {
-    private DocumentLibraryPage2 documentLibraryPage;
+    private static final String FILE_CONTENT = "Share file content";
 
     private UserModel user;
     private SiteModel site;
+
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @BeforeClass(alwaysRun = true)
     public void dataPrep()
