@@ -27,7 +27,6 @@ public class CreateUsersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCreateUsersPage()
     {
-        LOG.info("Step1: Click 'New User' button.");
         usersPage.navigate();
         usersPage.clickNewUserButton()
             .assertAllInputsFromInfoSectionAreDisplayed()
@@ -50,7 +49,6 @@ public class CreateUsersTests extends BaseTest
     {
         UserModel user = UserModel.getRandomUserModel();
         usersPage.navigate();
-        LOG.info("Step1: Click 'New User' button.");
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .clickCreate()

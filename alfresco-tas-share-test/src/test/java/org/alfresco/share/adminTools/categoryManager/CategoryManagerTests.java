@@ -49,7 +49,6 @@ public class CategoryManagerTests extends BaseTest
     public void verifyCategoryManagerPage()
     {
         categoryManagerPage.navigate();
-        LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
         asList("Category Root", "Languages", "Regions", "Software Document Classification", "Tags")
             .forEach(defaultCategory ->
                 assertTrue(categoryManagerPage.isCategoryDisplayed(defaultCategory), defaultCategory + " is displayed."));
@@ -60,10 +59,8 @@ public class CategoryManagerTests extends BaseTest
     public void addNewCategory()
     {
         categoryManagerPage.navigate();
-        LOG.info("Step 1: Add a new category in the 'Category Manager' page.");
         categoryManagerPage.addCategory(category9295);
 
-        LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
         assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 

@@ -1,5 +1,8 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -10,6 +13,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -26,6 +30,9 @@ public class SitesManagerTests extends BaseTest
     private SitesManagerPage sitesManagerPage;
     private SiteDashboardPage siteDashboardPage;
     private SystemErrorPage systemErrorPage;
+
+    @Autowired
+    private EnvProperties properties;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -136,8 +143,7 @@ public class SitesManagerTests extends BaseTest
 
     @TestRail (id = "C8696")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void deleteSiteAsSiteAdmin()
-    {
+    public void deleteSiteAsSiteAdmin() throws URISyntaxException, MalformedURLException {
         setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate().usingSite(site5)
             .clickDelete()
@@ -145,7 +151,8 @@ public class SitesManagerTests extends BaseTest
             .clickDeleteFromSitesManager();
         sitesManagerPage.waiUntilLoadingMessageDisappears()
             .usingSite(site5).assertSiteIsNotDisplayed();
-        navigate(String.format(properties.getShareUrl() + "/page/site/%s/dashboard", site5.getId()));
+        getBrowser().navigate().to(properties.getShareUrl().toURI()
+            .resolve(String.format(properties.getShareUrl() + "/page/site/%s/dashboard", site5.getId())).toURL());
         systemErrorPage.renderedPage();
         systemErrorPage.assertSomethingIsWrongWithThePageMessageIsDisplayed();
     }

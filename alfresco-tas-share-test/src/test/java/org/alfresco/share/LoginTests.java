@@ -1,14 +1,18 @@
 package org.alfresco.share;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.alfresco.common.EnvProperties;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -31,6 +35,9 @@ public class LoginTests extends BaseTest
     private UserModel testUserC2084 = new UserModel("testUserC2084" + randomString, password);
 
     private LoginPage loginPage;
+
+    @Autowired
+    private EnvProperties properties;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -87,9 +94,9 @@ public class LoginTests extends BaseTest
 
     @TestRail(id = "C2083")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
-    public void invalidUserRedirectedTologinPage()
-    {
-        navigate(String.format(dashBoardUrl, validUser.getUsername()));
+    public void invalidUserRedirectedTologinPage() throws URISyntaxException, MalformedURLException {
+        getBrowser().navigate().to(properties.getShareUrl().toURI()
+            .resolve(String.format(dashBoardUrl, validUser.getUsername())).toURL());
         loginPage.renderedPage();
         loginPage.assertLoginPageIsOpened().login("user123", "wrongpass");
         loginPage.assertAuthenticationErrorIsDisplayed();

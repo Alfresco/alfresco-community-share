@@ -329,7 +329,6 @@ public class ModelManagerTests extends BaseTest
         }
         catch (Exception e)
         {
-            LOG.error("Failed to create custom model {}. Error: {}", customModel.getName(), e.getMessage());
             restApi.authenticateUser(getAdminUser())
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
         }

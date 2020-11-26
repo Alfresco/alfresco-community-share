@@ -34,10 +34,7 @@ public class ModuleBrowserTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void accessModuleBrowserPage()
     {
-        LOG.info("Step 1: Navigate to Admin Tools page");
         moduleBrowserPage.navigate().assertModuleBrowserPageIsOpened();
-
-        LOG.info("Step 4: Logout Admin user and Login with userName into Share");
         setupAuthenticatedSession(user);
         userDashboardPage.navigate(user);
         toolbar.assertAdminToolsIsNotDisplayed();

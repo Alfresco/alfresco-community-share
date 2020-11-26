@@ -5,12 +5,9 @@ import static org.alfresco.common.Utils.screenshotFolder;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.BrowserFactory;
-import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.dataprep.UserService;
@@ -47,7 +44,7 @@ import org.testng.annotations.BeforeSuite;
 @ContextConfiguration(classes = ShareTestContext.class)
 public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
-    protected final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
+    private final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
     //todo: below variables should be moved into their classes, because they are not used in all test classes
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
@@ -57,9 +54,6 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     public static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");
     public static String FILE_CONTENT = "Share file content";
     public final String password = "password";
-
-    @Autowired
-    public EnvProperties properties;
 
     @Autowired
     private BrowserFactory browserFactory;
@@ -161,19 +155,6 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         getBrowser().manage().deleteAllCookies();
         Arrays.stream(state.getCookies()).forEach(cookie
             -> getBrowser().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
-    }
-
-    protected void navigate(String pageUrl)
-    {
-        LOG.info(String.format("Navigate to: '%s'", pageUrl));
-        try
-        {
-            getBrowser().navigate().to(properties.getShareUrl().toURI().resolve(pageUrl).toURL());
-        }
-        catch (URISyntaxException | MalformedURLException me)
-        {
-            throw new RuntimeException("Page url: " + pageUrl + " is invalid");
-        }
     }
 
     public UserModel getAdminUser()
