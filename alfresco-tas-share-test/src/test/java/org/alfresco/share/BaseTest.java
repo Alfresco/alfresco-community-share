@@ -41,6 +41,7 @@ import org.testng.annotations.BeforeSuite;
 
 /**
  * This class represents a test template which should be inherit by each test class.
+ * e.g. ToolbarTests extends BaseTest
  * Only test class which will not use this template should be LoginTests.
  */
 @ContextConfiguration(classes = ShareTestContext.class)

@@ -29,11 +29,11 @@ import java.util.List;
  * So for example we are going to have:
  *
  * 1.<PageObjectClass> extends BasePage
- *   e.g: UploadUserResultsPage extends BasePage
+ *    e.g. UploadUserResultsPage extends BasePage
  *
  * 2.<PageComponentClass> extends BaseComponent
- *    e.g: DeleteDialog extends BaseDialogComponent
- *    e.g: BaseDialog extends BasePage
+ *    e.g. DeleteDialog extends BaseDialogComponent
+ *    e.g. BaseDialog extends BasePage
  *
  * In the base pages/components class we will store only common members/methods which are in each child classes.
  */
