@@ -35,8 +35,7 @@ public class NodeBrowserTests extends BaseTests
         site = dataSite.usingAdmin().createPublicRandomSite();
         file = FileModel.getRandomFileModel(FileType.XML, content);
 
-        cmisApi.authenticateUser(dataUser.getAdminUser())
-            .usingSite(site).createFile(file);
+        dataContent.usingUser(getAdminUser()).usingSite(site).createContent(file);
         cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
     }
 

@@ -21,13 +21,13 @@ public class DeletingContentTests extends BaseTests
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -35,15 +35,19 @@ public class DeletingContentTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyDeleteDocument()
     {
+        FolderModel folder = FolderModel.getRandomFolderModel();
         FileModel fileToDelete = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(fileToDelete).assertThat().existsInRepo();
+        getCmisApi().usingSite(testSite).createFolder(folder)
+            .then().usingResource(folder)
+                .createFile(fileToDelete).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(testSite)
-            .usingContent(fileToDelete)
-            .clickDelete()
-            .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteDocument"))
-            .assertConfirmDeleteMessageForContentEqualsTo(fileToDelete)
-            .clickDelete();
+            .usingContent(folder).selectFolder()
+                .usingContent(fileToDelete)
+                .clickDelete()
+                .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteDocument"))
+                .assertConfirmDeleteMessageForContentEqualsTo(fileToDelete)
+                .clickDelete();
         documentLibraryPage.usingContent(fileToDelete).assertContentIsNotDisplayed();
     }
 
@@ -55,7 +59,7 @@ public class DeletingContentTests extends BaseTests
         FileModel subFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
-        cmisApi.usingSite(testSite).createFolder(folderToDelete)
+        getCmisApi().usingSite(testSite).createFolder(folderToDelete)
             .usingResource(folderToDelete).createFolder(subFolder).createFile(subFile);
         documentLibraryPage.navigate(testSite)
             .usingContent(folderToDelete)
@@ -65,9 +69,9 @@ public class DeletingContentTests extends BaseTests
             .clickDelete();
 
         documentLibraryPage.usingContent(folderToDelete).assertContentIsNotDisplayed();
-        cmisApi.usingResource(folderToDelete).assertThat().doesNotExistInRepo()
-                .usingResource(subFile).assertThat().doesNotExistInRepo()
-                .usingResource(subFolder).assertThat().doesNotExistInRepo();
+        getCmisApi().usingResource(folderToDelete).assertThat().doesNotExistInRepo()
+            .usingResource(subFile).assertThat().doesNotExistInRepo()
+            .usingResource(subFolder).assertThat().doesNotExistInRepo();
     }
 
     @TestRail (id = "C6968")
@@ -75,7 +79,7 @@ public class DeletingContentTests extends BaseTests
     public void cancelDeletingFolder()
     {
         FolderModel folderToCancel = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(testSite).createFolder(folderToCancel);
+        getCmisApi().usingSite(testSite).createFolder(folderToCancel);
 
         documentLibraryPage.navigate(testSite)
             .usingContent(folderToCancel)

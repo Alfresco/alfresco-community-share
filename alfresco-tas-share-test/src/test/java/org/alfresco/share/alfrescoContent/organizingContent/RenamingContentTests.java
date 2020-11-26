@@ -21,13 +21,13 @@ public class RenamingContentTests extends BaseTests
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -37,7 +37,7 @@ public class RenamingContentTests extends BaseTests
     {
         FileModel fileToRename = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
-        cmisApi.usingSite(site).createFile(fileToRename);
+        getCmisApi().usingSite(site).createFile(fileToRename);
 
         documentLibraryPage.navigate(site)
             .usingContent(fileToRename)
@@ -54,7 +54,7 @@ public class RenamingContentTests extends BaseTests
     {
         FolderModel folderToRename = FolderModel.getRandomFolderModel();
         FolderModel newFolder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFolder(folderToRename);
+        getCmisApi().usingSite(site).createFolder(folderToRename);
 
         documentLibraryPage.navigate(site)
             .usingContent(folderToRename)
@@ -71,7 +71,7 @@ public class RenamingContentTests extends BaseTests
     {
         FileModel fileToRename = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
-        cmisApi.usingSite(site).createFile(fileToRename);
+        getCmisApi().usingSite(site).createFile(fileToRename);
 
         documentLibraryPage.navigate(site)
             .usingContent(fileToRename)

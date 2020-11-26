@@ -32,7 +32,6 @@ public class ModelManagerTests extends BaseTests
 
     private UserModel user;
     private SiteModel site;
-    private FileModel file;
 
     private static List<CustomContentModel> modelsToRemove = Collections.synchronizedList(new ArrayList<>());
 
@@ -41,10 +40,6 @@ public class ModelManagerTests extends BaseTests
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "content");
-        cmisApi.authenticateUser(user).usingSite(site).createFile(file).assertThat().existsInRepo();
-
-        restApi.authenticateUser(getAdminUser());
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -52,33 +47,32 @@ public class ModelManagerTests extends BaseTests
     {
         modelManagerPage = new ModelManagerPage(browser);
         documentDetailsPage = new DocumentDetailsPage(browser);
-
+        getRestApi().authenticateUser(getAdminUser());
         setupAuthenticatedSession(getAdminUser());
     }
 
     @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        cmisApi.authenticateUser(user).usingResource(file).delete();
+        dataSite.usingUser(user).deleteSite(site);
         userService.emptyTrashcan(user.getUsername(), user.getPassword());
 
         removeUserFromAlfresco(user);
-        dataSite.usingAdmin().deleteSite(site);
         modelsToRemove.forEach(this::deleteCustomModel);
     }
 
     private void deleteCustomModel(CustomContentModel customContentModel)
     {
-        restApi.authenticateUser(dataUser.getAdminUser());
+        getRestApi().authenticateUser(dataUser.getAdminUser());
 
-        RestCustomModel customModelToDelete = restApi.withPrivateAPI().usingCustomModel(customContentModel).getModel();
+        RestCustomModel customModelToDelete = getRestApi().withPrivateAPI().usingCustomModel(customContentModel).getModel();
         if(customModelToDelete != null)
         {
             if(customModelToDelete.getStatus().equals("ACTIVE"))
             {
-                restApi.withPrivateAPI().usingCustomModel(customModelToDelete).deactivateModel();
+                getRestApi().withPrivateAPI().usingCustomModel(customModelToDelete).deactivateModel();
             }
-            restApi.withPrivateAPI().usingCustomModel(customModelToDelete).deleteModel();
+            getRestApi().withPrivateAPI().usingCustomModel(customModelToDelete).deleteModel();
         }
     }
 
@@ -193,7 +187,7 @@ public class ModelManagerTests extends BaseTests
         CustomContentModel modelToDeactivate = new CustomContentModel(name, name, name);
         modelsToRemove.add(modelToDeactivate);
         createCustomModel(modelToDeactivate);
-        restApi.withPrivateAPI().usingCustomModel(modelToDeactivate).activateModel();
+        getRestApi().withPrivateAPI().usingCustomModel(modelToDeactivate).activateModel();
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToDeactivate)
             .clickActions()
@@ -303,6 +297,10 @@ public class ModelManagerTests extends BaseTests
         CustomContentModel importedModel = new CustomContentModel(name, name, name);
         modelsToRemove.add(importedModel);
 
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "content");
+        getCmisApi().authenticateUser(user)
+            .usingSite(site).createFile(file).assertThat().existsInRepo();
+
         modelManagerPage.navigate();
         modelManagerPage.clickImportModel()
             .importFile(filePath)
@@ -324,13 +322,13 @@ public class ModelManagerTests extends BaseTests
     {
         try
         {
-            restApi.authenticateUser(getAdminUser())
+            getRestApi().authenticateUser(getAdminUser())
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
         }
         catch (Exception e)
         {
             LOG.error("Failed to create custom model {}. Error: {}", customModel.getName(), e.getMessage());
-            restApi.authenticateUser(getAdminUser())
+            getRestApi().authenticateUser(getAdminUser())
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
         }
     }

@@ -23,7 +23,6 @@ public class RecoveringDeletedContentTests extends BaseTests
     {
         trashcanUser = dataUser.usingAdmin().createRandomTestUser();
         trashcanSite = dataSite.usingUser(trashcanUser).createPublicRandomSite();
-        cmisApi.authenticateUser(trashcanUser);
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -31,6 +30,7 @@ public class RecoveringDeletedContentTests extends BaseTests
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
         userTrashcanPage = new UserTrashcanPage(browser);
+        getCmisApi().authenticateUser(trashcanUser);
         setupAuthenticatedSession(trashcanUser);
     }
 
@@ -38,14 +38,14 @@ public class RecoveringDeletedContentTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyRecoverDeletedDocument()
     {
-        FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(trashcanSite).createFile(file1)
-            .then().usingResource(file1).delete();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().usingSite(trashcanSite).createFile(file)
+            .then().usingResource(file).delete();
 
         userTrashcanPage.navigate(trashcanUser)
-            .clickRecoverButton(file1);
+            .clickRecoverButton(file);
         documentLibraryPage.navigate(trashcanSite)
-            .usingContent(file1).assertContentIsDisplayed();
+            .usingContent(file).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7571")
@@ -54,7 +54,7 @@ public class RecoveringDeletedContentTests extends BaseTests
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(trashcanSite).createFolder(folderToDelete)
+        getCmisApi().usingSite(trashcanSite).createFolder(folderToDelete)
             .then().usingResource(folderToDelete).createFile(subFile)
                 .and().usingResource(folderToDelete).deleteFolderTree();
 

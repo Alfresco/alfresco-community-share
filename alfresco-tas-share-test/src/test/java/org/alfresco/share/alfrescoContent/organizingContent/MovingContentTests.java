@@ -15,22 +15,20 @@ public class MovingContentTests extends BaseTests
 
     private UserModel user;
     private SiteModel site;
-    private FolderModel destination;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        destination = FolderModel.getRandomFolderModel();
-
-        cmisApi.authenticateUser(user).usingSite(site).createFolder(destination);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -38,8 +36,9 @@ public class MovingContentTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkMoveFileToFolderInSite()
     {
+        FolderModel destination = FolderModel.getRandomFolderModel();
         FileModel fileToMove = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site).createFile(fileToMove);
+        getCmisApi().usingSite(site).createFile(fileToMove).createFolder(destination);
 
         documentLibraryPage.navigate(site)
             .usingContent(fileToMove)
@@ -58,10 +57,13 @@ public class MovingContentTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkMoveFolderWithChildrenInSite()
     {
+        FolderModel destination = FolderModel.getRandomFolderModel();
         FolderModel folderToMove = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site).createFolder(folderToMove)
-            .then().usingResource(folderToMove).createFile(subFile);
+        getCmisApi().usingSite(site)
+            .createFolder(destination)
+            .createFolder(folderToMove)
+                .then().usingResource(folderToMove).createFile(subFile);
 
         documentLibraryPage.navigate(site)
             .usingContent(folderToMove).clickMoveTo()

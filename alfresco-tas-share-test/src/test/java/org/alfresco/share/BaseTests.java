@@ -34,6 +34,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
@@ -83,11 +84,8 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     @Autowired
     protected Language language;
 
-    @Autowired
-    protected CmisWrapper cmisApi;
-
-    @Autowired
-    protected RestWrapper restApi;
+    private ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
+    private ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
 
     @Autowired
     protected DataContent dataContent;
@@ -114,10 +112,22 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests
     public void beforeEachTest()
     {
         initBrowser();
+        cmisApi.set(applicationContext.getBean(CmisWrapper.class));
+        restApi.set(applicationContext.getBean(RestWrapper.class));
 
         loginPage = new LoginPage(browser);
         userDashboardPage = new UserDashboardPage(browser);
         toolbar = new Toolbar(browser);
+    }
+
+    public CmisWrapper getCmisApi()
+    {
+        return cmisApi.get();
+    }
+
+    public RestWrapper getRestApi()
+    {
+        return restApi.get();
     }
 
     @AfterMethod(alwaysRun = true)

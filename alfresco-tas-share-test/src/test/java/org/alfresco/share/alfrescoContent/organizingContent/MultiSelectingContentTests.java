@@ -23,13 +23,13 @@ public class MultiSelectingContentTests extends BaseTests
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -39,7 +39,7 @@ public class MultiSelectingContentTests extends BaseTests
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFile(testFile).createFolder(testFolder);
+        getCmisApi().usingSite(site).createFile(testFile).createFolder(testFolder);
 
         documentLibraryPage.navigate(site)
             .checkContent(testFolder)
@@ -58,7 +58,7 @@ public class MultiSelectingContentTests extends BaseTests
         FileModel textFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site)
+        getCmisApi().usingSite(site)
             .createFolder(folder)
             .createFile(textFile)
             .createFile(xmlFile);
@@ -109,7 +109,7 @@ public class MultiSelectingContentTests extends BaseTests
     {
         FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel file2 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site)
+        getCmisApi().usingSite(site)
             .createFile(file1)
             .createFile(file2);
 
@@ -127,7 +127,7 @@ public class MultiSelectingContentTests extends BaseTests
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFile(testFile).createFolder(testFolder);
+        getCmisApi().usingSite(site).createFile(testFile).createFolder(testFolder);
 
         documentLibraryPage.navigate(site)
             .checkContent(testFolder, testFile)

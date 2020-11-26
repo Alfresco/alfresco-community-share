@@ -12,9 +12,9 @@ import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +43,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     private final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
     private final By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
     private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
-    protected final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
+    protected static String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
     protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
     private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
     private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
@@ -118,7 +118,9 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> assertFolderIsDisplayedInBreadcrumb(FolderModel folder)
     {
         LOG.info(String.format("Assert folder %s is displayed in breadcrumb", folder.getName()));
-        assertTrue(getBrowser().isElementDisplayed(By.xpath(String.format(breadcrumb, folder.getName()))),
+        By folderBreadcrumb = By.xpath(String.format(breadcrumb, folder.getName()));
+        getBrowser().waitUntilElementVisible(folderBreadcrumb);
+        assertTrue(getBrowser().isElementDisplayed(folderBreadcrumb),
             String.format("Folder %s is displayed in breadcrumb", folder.getName()));
         return this;
     }
@@ -126,6 +128,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsDisplayed()
     {
         LOG.info("Assert Documents root breadcrumb is displayed");
+        getBrowser().waitUntilElementIsPresent(documentsRootBreadcrumb);
         getBrowser().waitUntilElementVisible(documentsRootBreadcrumb);
         assertTrue(getBrowser().isElementDisplayed(documentsRootBreadcrumb), "Documents root breadcrumb is displayed");
         return this;

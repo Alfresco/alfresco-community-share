@@ -29,13 +29,13 @@ public class UnzippingContentTests extends BaseTests
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -94,7 +94,7 @@ public class UnzippingContentTests extends BaseTests
     public void verifyCancelUnzipAcpFile()
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFolder(folder);
+        getCmisApi().usingSite(site).createFolder(folder);
         FileModel acpFileModel = dataContent.usingUser(user)
             .usingResource(folder)
             .uploadDocument(acpFile);

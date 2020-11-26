@@ -139,8 +139,6 @@ public class UserProfileTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteAuthorizedUser()
     {
-        cmisApi.authenticateUser(deleteUser);
-
         userProfileAdminToolsPage.navigate(deleteUser)
             .clickDelete()
             .assertDeleteUserDialogIsOpened()

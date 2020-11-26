@@ -46,7 +46,7 @@ public class UploadingFilesTests extends BaseTests
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
         FileModel fileToUpload = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.authenticateUser(user).usingSite(site).createFolder(folder);
+        getCmisApi().authenticateUser(user).usingSite(site).createFolder(folder);
         documentLibraryPage.navigate(site)
             .usingContent(folder).selectFolder()
                 .uploadContent(fileToUpload);

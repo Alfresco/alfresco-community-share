@@ -23,7 +23,6 @@ public class CreateFolderFromTemplateTests extends BaseTests
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-        cmisApi.authenticateUser(testUser);
 
         parentTemplateFolder.setCmisLocation(Utility.buildPath(
             Utility.buildPath(String.format("/Sites/%s/documentLibrary", testSite.getId())),
@@ -34,6 +33,7 @@ public class CreateFolderFromTemplateTests extends BaseTests
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        getCmisApi().authenticateUser(testUser);
         setupAuthenticatedSession(testUser);
     }
 
@@ -74,7 +74,7 @@ public class CreateFolderFromTemplateTests extends BaseTests
             .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder)
                 .clickSave();
         documentLibraryPage.usingContent(parentTemplateFolder).assertContentIsDisplayed();
-        cmisApi.usingResource(discussions).assertThat().existsInRepo()
+        getCmisApi().usingResource(discussions).assertThat().existsInRepo()
             .usingResource(documentation).assertThat().existsInRepo()
             .usingResource(presentations).assertThat().existsInRepo()
             .usingResource(qualityAssurance).assertThat().existsInRepo()
