@@ -3,8 +3,10 @@ package org.alfresco.share.alfrescoContent.organizingContent;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.model.*;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -26,6 +28,9 @@ public class UnzippingContentTests extends BaseTest
     private SiteModel site;
 
     private DocumentLibraryPage2 documentLibraryPage;
+
+    @Autowired
+    protected DataContent dataContent;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()

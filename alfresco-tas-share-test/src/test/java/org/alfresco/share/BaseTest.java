@@ -66,9 +66,6 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     protected RestWrapper restApi;
 
     @Autowired
-    protected DataContent dataContent;
-
-    @Autowired
     private UserService userService;
 
     protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
