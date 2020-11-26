@@ -100,7 +100,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
             result.isSuccess() ? "PASSED" : "FAILED");
         if(!result.isSuccess())
         {
-            saveScreenshot(getBrowser(),method);
+            saveScreenshot(browser.get(), method);
         }
         closeBrowser();
     }
@@ -110,7 +110,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         try
         {
             LOG.info("Close browser..");
-            getBrowser().quit();
+            browser.get().quit();
         }
         catch (NoSuchSessionException noSuchSessionException)
         {
@@ -118,28 +118,23 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
         finally
         {
-            if (getBrowser() != null)
+            if (browser.get() != null)
             {
                 LOG.info("Finally close browser..");
-                getBrowser().quit();
+                browser.get().quit();
             }
         }
-    }
-
-    protected WebBrowser getBrowser()
-    {
-        return browser.get();
     }
 
     public void setupAuthenticatedSession(UserModel user)
     {
         LOG.info("Setup authenticated session for user {}", user.getUsername());
-        getBrowser().manage().deleteAllCookies();
+        browser.get().manage().deleteAllCookies();
         loginPage.navigate();
         HttpState state = userService.login(user.getUsername(), user.getPassword());
-        getBrowser().manage().deleteAllCookies();
+        browser.get().manage().deleteAllCookies();
         Arrays.stream(state.getCookies()).forEach(cookie
-            -> getBrowser().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
+            -> browser.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
     }
 
     public UserModel getAdminUser()

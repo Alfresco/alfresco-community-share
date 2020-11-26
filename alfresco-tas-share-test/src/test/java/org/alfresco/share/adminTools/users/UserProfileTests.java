@@ -162,7 +162,7 @@ public class UserProfileTests extends BaseTest
             .editQuota("50")
             .clickSaveChanges()
                 .assertQuotaIs("50 GB");
-        getBrowser().manage().deleteAllCookies();
+        browser.get().manage().deleteAllCookies();
     }
 
     @TestRail (id = "C9426")

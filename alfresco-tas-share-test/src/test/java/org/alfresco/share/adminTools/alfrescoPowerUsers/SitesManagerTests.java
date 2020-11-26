@@ -154,7 +154,7 @@ public class SitesManagerTests extends BaseTest
             .clickDeleteFromSitesManager();
         sitesManagerPage.waiUntilLoadingMessageDisappears()
             .usingSite(site5).assertSiteIsNotDisplayed();
-        getBrowser().navigate().to(properties.getShareUrl().toURI()
+        browser.get().navigate().to(properties.getShareUrl().toURI()
             .resolve(String.format(properties.getShareUrl() + "/page/site/%s/dashboard", site5.getId())).toURL());
         systemErrorPage.renderedPage();
         systemErrorPage.assertSomethingIsWrongWithThePageMessageIsDisplayed();

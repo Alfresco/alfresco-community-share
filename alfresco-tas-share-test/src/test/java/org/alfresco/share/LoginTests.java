@@ -96,7 +96,7 @@ public class LoginTests extends BaseTest
     @TestRail(id = "C2083")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void invalidUserRedirectedTologinPage() throws URISyntaxException, MalformedURLException {
-        getBrowser().navigate().to(properties.getShareUrl().toURI()
+        browser.get().navigate().to(properties.getShareUrl().toURI()
             .resolve(String.format(dashBoardUrl, validUser.getUsername())).toURL());
         loginPage.renderedPage();
         loginPage.assertLoginPageIsOpened().login("user123", "wrongpass");
@@ -128,7 +128,7 @@ public class LoginTests extends BaseTest
             loginPage.navigate().login(specialUser);
             userDashboardPage.renderedPage();
             userDashboardPage.assertPageHeaderIsCorrect(specialUser);
-            getBrowser().manage().deleteAllCookies();
+            browser.get().manage().deleteAllCookies();
         });
     }
 
