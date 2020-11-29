@@ -59,15 +59,12 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     protected Language language;
 
     @Autowired
-    protected CmisWrapper cmisApi;
-
-    @Autowired
-    protected RestWrapper restApi;
-
-    @Autowired
     private UserService userService;
 
     protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
+    private ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
+    private ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
+
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
     protected Toolbar toolbar;
@@ -87,6 +84,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         LOG.info("STARTED TEST: {}", method.getName());
         browser.set(browserFactory.createBrowser());
+
+        cmisApi.set(applicationContext.getBean(CmisWrapper.class));
+        restApi.set(applicationContext.getBean(RestWrapper.class));
 
         loginPage = new LoginPage(browser);
         userDashboardPage = new UserDashboardPage(browser);
@@ -140,6 +140,16 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     public UserModel getAdminUser()
     {
         return dataUser.getAdminUser();
+    }
+
+    public CmisWrapper getCmisApi()
+    {
+        return cmisApi.get();
+    }
+
+    public RestWrapper getRestApi()
+    {
+        return restApi.get();
     }
 
     public void removeUserFromAlfresco(UserModel... users)
