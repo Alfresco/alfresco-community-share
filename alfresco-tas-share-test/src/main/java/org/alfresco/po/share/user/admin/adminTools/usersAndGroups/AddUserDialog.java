@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -66,7 +67,7 @@ public class AddUserDialog extends BaseDialogComponent
         int retry = 0;
         typeAndSearch(userToSearch);
         boolean found = isUserDisplayed(userToSearch);
-        while (retry < WAIT_30 && !found)
+        while (retry < WAIT_30.getValue() && !found)
         {
             typeAndSearch(userToSearch);
             found = isUserDisplayed(userToSearch);

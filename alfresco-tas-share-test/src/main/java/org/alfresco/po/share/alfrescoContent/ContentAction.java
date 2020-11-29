@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.*;
 
 public class ContentAction
@@ -82,7 +83,6 @@ public class ContentAction
     {
         LOG.info("Assert is NOT displayed");
         By content = By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()));
-        getBrowser().waitUntilElementDisappears(content, alfrescoContentPage.WAIT_10);
         assertFalse(getBrowser().isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
@@ -298,7 +298,7 @@ public class ContentAction
         WebElement rename = getBrowser().waitUntilElementVisible(renameIcon);
         int i = 0;
         while (!contentRow.findElement(renameForm).getAttribute("style").equals("display: inline;")
-            && i < alfrescoContentPage.WAIT_15)
+            && i < WAIT_15.getValue())
         {
             getBrowser().waitUntilElementClickable(rename).click();
             i++;

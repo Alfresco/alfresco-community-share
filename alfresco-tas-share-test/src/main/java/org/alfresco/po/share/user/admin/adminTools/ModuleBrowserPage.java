@@ -6,6 +6,7 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.testng.Assert.assertTrue;
 
 public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
@@ -39,7 +40,7 @@ public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
 
     public WebElement selectModuleName(String moduleName)
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10.getValue());
         return getBrowser().findFirstElementWithValue(modulesList, moduleName);
     }
 

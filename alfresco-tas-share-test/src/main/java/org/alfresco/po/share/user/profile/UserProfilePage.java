@@ -1,5 +1,12 @@
 package org.alfresco.po.share.user.profile;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -8,12 +15,6 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.testng.Assert.*;
 
 /**
  * @author bogdan.bocancea
@@ -24,7 +25,6 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     private static final String EMPTY_SPACE = " ";
 
     private final By editProfile = By.cssSelector("button[id$='button-edit-button']");
-    @RenderWebElement
     private final By infoLink = By.cssSelector("a[id$='default-profile-link']");
     private final By headers = By.cssSelector("div[id$='readview'] .viewcolumn .header-bar");
     private final By nameLabel = By.cssSelector(".namelabel");

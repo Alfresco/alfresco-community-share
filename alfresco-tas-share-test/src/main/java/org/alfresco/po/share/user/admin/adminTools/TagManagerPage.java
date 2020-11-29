@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -69,12 +70,12 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     private WebElement getTagRow(String tagName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(tagRow, tagName)), 1, WAIT_30);
+        return getBrowser().waitUntilElementVisible(By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
     public boolean isTagDisplayed(String tagName)
     {
-        return getBrowser().isElementDisplayed(By.xpath(String.format(tagRow, tagName)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
     private TagManagerPage clickNextPage()
@@ -120,7 +121,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         searchTag(tagName);
         boolean found = isTagDisplayed(tagName);
         int retryCount = 0;
-        while(!found && retryCount < WAIT_30)
+        while(!found && retryCount < WAIT_30.getValue())
         {
             Utility.waitToLoopTime(1);
             LOG.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCount);

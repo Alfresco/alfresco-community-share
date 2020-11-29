@@ -14,6 +14,7 @@ import org.testng.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -122,7 +123,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public WebElement getUserRow(String userName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15.getValue());
     }
 
     public UsersPage assertSearchInputIsDisplayed()

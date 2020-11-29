@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site;
 
+import static org.alfresco.common.Wait.WAIT_15;
+
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.Utility;
@@ -82,7 +84,7 @@ public class SelectPopUpPage extends BaseDialogComponent
         clearAndType(searchInput, searchText);
         getBrowser().waitUntilElementClickable(searchButton).click();
         int counter = 0;
-        while (!getBrowser().isElementDisplayed(addIcon) && counter < WAIT_15)
+        while (!getBrowser().isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
         {
             LOG.info("Search: {}", counter);
             Utility.waitToLoopTime(1);

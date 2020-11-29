@@ -8,6 +8,7 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -110,7 +111,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     private WebElement getResultRow(String name)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(fileNameRow, name)), 1, WAIT_15);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(fileNameRow, name)), 1, WAIT_15.getValue());
     }
 
     public String getParentFor(String fileName)

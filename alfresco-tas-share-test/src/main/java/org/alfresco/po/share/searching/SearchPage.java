@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -125,7 +126,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void waitForPageToLoad()
     {
-        getBrowser().waitUntilElementVisible(searchButton, WAIT_60);
+        getBrowser().waitUntilElementVisible(searchButton, WAIT_60.getValue());
     }
 
     private boolean isContentDisplayed(ContentModel contentModel)
@@ -160,7 +161,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         LOG.info("Search for content: {}", contentToFind);
         boolean found = isContentDisplayed(contentToFind);
         int counter = 0;
-        while (!found && counter <= WAIT_60)
+        while (!found && counter <= WAIT_60.getValue())
         {
             Utility.waitToLoopTime(1, String.format("Wait for content to be displayed in search: %s", contentToFind.getName()));
             setSearchExpression(contentToFind.getName());
@@ -175,7 +176,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         int counter = 0;
         boolean allFound = false;
-        while(!allFound && counter <= WAIT_60)
+        while(!allFound && counter <= WAIT_60.getValue())
         {
             Utility.waitToLoopTime(1, String.format("Wait for content to be displayed in search for: %s", searchExpression));
             setSearchExpression(searchExpression);

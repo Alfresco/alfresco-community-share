@@ -4,6 +4,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.alfresco.common.Wait;
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
@@ -314,7 +315,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     private WebElement getItemRow(String itemName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(attachedDocumentRow, itemName)),WAIT_1, WAIT_10);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(attachedDocumentRow, itemName)),Wait.WAIT_1.getValue(), Wait.WAIT_10.getValue());
     }
 
     public StartWorkflowPage assertItemsAreDisplayed(FileModel... files)

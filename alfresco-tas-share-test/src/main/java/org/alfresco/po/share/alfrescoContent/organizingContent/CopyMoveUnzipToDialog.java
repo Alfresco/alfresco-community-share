@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.NoSuchElementException;
 
+import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -101,7 +102,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
     private void waitAndSelectFolder(By folderElement, By folderRow)
     {
         int retry = 0;
-        while(retry < WAIT_15)
+        while(retry < WAIT_15.getValue())
         {
             try
             {

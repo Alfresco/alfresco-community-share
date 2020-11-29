@@ -1,7 +1,13 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.alfresco.common.DataUtil;
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -16,13 +22,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 {
@@ -236,10 +235,10 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public DocumentDetailsPage addComment(String comment)
     {
         LOG.info("Add comment: {}", comment);
-        getBrowser().waitUntilElementClickable(commentContentIframe, WAIT_5).click();
+        getBrowser().waitUntilElementClickable(commentContentIframe, WAIT_5.getValue()).click();
         getBrowser().findElement(commentContentIframe).sendKeys(comment);
         getBrowser().findElement(addCommentButtonSave).click();
-        getBrowser().waitUntilElementDisappears(message, WAIT_5);
+        getBrowser().waitUntilElementDisappears(message, WAIT_5.getValue());
 
         return (DocumentDetailsPage) renderedPage();
     }

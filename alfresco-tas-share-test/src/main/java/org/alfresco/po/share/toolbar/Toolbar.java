@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -241,7 +242,7 @@ public class Toolbar extends BasePage
 
     public void searchInToolbar(String searchTerm)
     {
-        clearAndType(getBrowser().waitUntilElementVisible(searchBoxInput, WAIT_60), searchTerm);
+        clearAndType(getBrowser().waitUntilElementVisible(searchBoxInput, WAIT_60.getValue()), searchTerm);
     }
 
     public SearchPage search(String searchTerm)

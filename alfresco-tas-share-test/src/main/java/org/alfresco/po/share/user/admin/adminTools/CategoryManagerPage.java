@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.testng.Assert.assertFalse;
 
 import org.alfresco.po.share.DeleteDialog;
@@ -101,7 +102,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         WebElement category = getBrowser().waitWithRetryAndReturnWebElement(
             By.xpath(String.format(categoryLocator, categoryName)), 2, 20);
         int i = 0;
-        while(i < WAIT_10)
+        while(i < WAIT_10.getValue())
         {
             try
             {
@@ -149,7 +150,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         LOG.info("Assert category {} is not displayed", categoryName);
         By category = By.xpath(String.format(categoryLocator, categoryName));
         int i = 0;
-        while(i < WAIT_10)
+        while(i < WAIT_10.getValue())
         {
             LOG.info("Wait until category {} is deleted", categoryName);
             if(!getBrowser().isElementDisplayed(category))
