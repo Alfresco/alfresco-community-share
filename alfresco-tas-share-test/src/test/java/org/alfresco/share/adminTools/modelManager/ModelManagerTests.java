@@ -45,9 +45,9 @@ public class ModelManagerTests extends BaseTest
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
         file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "content");
-        cmisApi.authenticateUser(user).usingSite(site).createFile(file).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user).usingSite(site).createFile(file).assertThat().existsInRepo();
 
-        restApi.authenticateUser(getAdminUser());
+        getRestApi().authenticateUser(getAdminUser());
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -62,7 +62,7 @@ public class ModelManagerTests extends BaseTest
     @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        cmisApi.authenticateUser(user).usingResource(file).delete();
+        getCmisApi().authenticateUser(user).usingResource(file).delete();
         userService.emptyTrashcan(user.getUsername(), user.getPassword());
 
         removeUserFromAlfresco(user);
@@ -72,16 +72,16 @@ public class ModelManagerTests extends BaseTest
 
     private void deleteCustomModel(CustomContentModel customContentModel)
     {
-        restApi.authenticateUser(dataUser.getAdminUser());
+        getRestApi().authenticateUser(dataUser.getAdminUser());
 
-        RestCustomModel customModelToDelete = restApi.withPrivateAPI().usingCustomModel(customContentModel).getModel();
+        RestCustomModel customModelToDelete = getRestApi().withPrivateAPI().usingCustomModel(customContentModel).getModel();
         if(customModelToDelete != null)
         {
             if(customModelToDelete.getStatus().equals("ACTIVE"))
             {
-                restApi.withPrivateAPI().usingCustomModel(customModelToDelete).deactivateModel();
+                getRestApi().withPrivateAPI().usingCustomModel(customModelToDelete).deactivateModel();
             }
-            restApi.withPrivateAPI().usingCustomModel(customModelToDelete).deleteModel();
+            getRestApi().withPrivateAPI().usingCustomModel(customModelToDelete).deleteModel();
         }
     }
 
@@ -196,7 +196,7 @@ public class ModelManagerTests extends BaseTest
         CustomContentModel modelToDeactivate = new CustomContentModel(name, name, name);
         modelsToRemove.add(modelToDeactivate);
         createCustomModel(modelToDeactivate);
-        restApi.withPrivateAPI().usingCustomModel(modelToDeactivate).activateModel();
+        getRestApi().withPrivateAPI().usingCustomModel(modelToDeactivate).activateModel();
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToDeactivate)
             .clickActions()
@@ -327,12 +327,12 @@ public class ModelManagerTests extends BaseTest
     {
         try
         {
-            restApi.authenticateUser(getAdminUser())
+            getRestApi().authenticateUser(getAdminUser())
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
         }
         catch (Exception e)
         {
-            restApi.authenticateUser(getAdminUser())
+            getRestApi().authenticateUser(getAdminUser())
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
         }
     }

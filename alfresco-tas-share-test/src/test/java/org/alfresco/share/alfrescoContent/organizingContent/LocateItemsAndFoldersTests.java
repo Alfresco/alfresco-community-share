@@ -29,8 +29,8 @@ public class LocateItemsAndFoldersTests extends BaseTest
         documentLibraryPage = new DocumentLibraryPage2(browser);
         site.set(dataSite.usingUser(user).createPublicRandomSite());
 
-        cmisApi.authenticateUser(user);
-        restApi.authenticateUser(user);
+        getCmisApi().authenticateUser(user);
+        getRestApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -40,7 +40,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
     public void verifyLocateFile()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site.get())
+        getCmisApi().usingSite(site.get())
             .createFile(file).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(site.get())
@@ -57,8 +57,8 @@ public class LocateItemsAndFoldersTests extends BaseTest
     public void verifyLocateFolderDetailedView() throws Exception
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site.get()).createFolder(folder).assertThat().existsInRepo();
-        restApi.withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
+        getCmisApi().usingSite(site.get()).createFolder(folder).assertThat().existsInRepo();
+        getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
         documentLibraryPage.navigate(site.get())
             .selectFromDocumentsFilter(DocumentsFilter.FAVORITES)

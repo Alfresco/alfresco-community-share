@@ -32,7 +32,7 @@ public class RecoveringDeletedContentTests extends BaseTest
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
         userTrashcanPage = new UserTrashcanPage(browser);
-        cmisApi.authenticateUser(trashcanUser);
+        getCmisApi().authenticateUser(trashcanUser);
         setupAuthenticatedSession(trashcanUser);
     }
 
@@ -41,7 +41,7 @@ public class RecoveringDeletedContentTests extends BaseTest
     public void verifyRecoverDeletedDocument()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(trashcanSite).createFile(file)
+        getCmisApi().usingSite(trashcanSite).createFile(file)
             .then().usingResource(file).delete();
 
         userTrashcanPage.navigate(trashcanUser)
@@ -56,7 +56,7 @@ public class RecoveringDeletedContentTests extends BaseTest
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(trashcanSite).createFolder(folderToDelete)
+        getCmisApi().usingSite(trashcanSite).createFolder(folderToDelete)
             .then().usingResource(folderToDelete).createFile(subFile)
                 .and().usingResource(folderToDelete).deleteFolderTree();
 

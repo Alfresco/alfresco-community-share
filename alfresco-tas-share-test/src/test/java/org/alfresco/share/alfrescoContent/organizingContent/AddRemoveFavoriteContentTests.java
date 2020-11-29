@@ -29,7 +29,7 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
-        cmisApi.authenticateUser(user);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -38,7 +38,7 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void verifyAddFileToFavorites()
     {
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
+        getCmisApi().usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(site)
             .usingContent(favoriteFile)
@@ -52,7 +52,7 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void favoriteFolder()
     {
         FolderModel favoriteFolder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFolder(favoriteFolder).assertThat().existsInRepo();
+        getCmisApi().usingSite(site).createFolder(favoriteFolder).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(site)
             .usingContent(favoriteFolder)
@@ -66,8 +66,8 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void removeFavoriteForFile() throws Exception
     {
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
-        restApi.withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
+        getCmisApi().usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
+        getRestApi().withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
 
         documentLibraryPage.navigate(site)
             .usingContent(favoriteFile)
@@ -81,8 +81,8 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void removeFavoriteForFolder() throws Exception
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFolder(folder).assertThat().existsInRepo();
-        restApi.withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
+        getCmisApi().usingSite(site).createFolder(folder).assertThat().existsInRepo();
+        getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
         documentLibraryPage.navigate(site)
             .usingContent(folder)

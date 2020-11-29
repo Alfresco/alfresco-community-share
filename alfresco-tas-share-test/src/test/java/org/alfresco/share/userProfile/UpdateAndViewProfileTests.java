@@ -59,7 +59,7 @@ public class UpdateAndViewProfileTests extends BaseTest
     }
 
     @TestRail (id = "C2142, C2190")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER }, enabled = false)
     public void updateUserProfile()
     {
         String[] userDetails = { "John", "Snow", "Lord", "Winterfell",

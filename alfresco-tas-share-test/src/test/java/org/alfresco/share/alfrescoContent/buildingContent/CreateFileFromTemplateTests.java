@@ -30,7 +30,7 @@ public class CreateFileFromTemplateTests extends BaseTest
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
-        cmisApi.authenticateUser(getAdminUser());
+        getCmisApi().authenticateUser(getAdminUser());
         setupAuthenticatedSession(testUser);
     }
 
@@ -39,13 +39,13 @@ public class CreateFileFromTemplateTests extends BaseTest
     public void createFileFromTemplate()
     {
         templateFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, templateContent);
-        cmisApi.usingResource(nodeTemplates).createFile(templateFile);
+        getCmisApi().usingResource(nodeTemplates).createFile(templateFile);
         documentLibraryPage.navigate(testSite)
             .clickCreate().createFileFromTemplate(templateFile)
                 .usingContent(templateFile).assertContentIsDisplayed()
                     .selectFile().assertFileContentEquals(templateContent);
 
-        cmisApi.usingResource(templateFile).delete();
+        getCmisApi().usingResource(templateFile).delete();
     }
 
     @AfterClass(alwaysRun = true)

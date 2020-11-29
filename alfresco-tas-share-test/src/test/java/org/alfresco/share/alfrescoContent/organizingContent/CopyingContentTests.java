@@ -31,7 +31,7 @@ public class CopyingContentTests extends BaseTest
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
-        cmisApi.authenticateUser(testUser);
+        getCmisApi().authenticateUser(testUser);
         setupAuthenticatedSession(testUser);
     }
 
@@ -47,7 +47,7 @@ public class CopyingContentTests extends BaseTest
     public void checkCopyFileToSharedFiles()
     {
         FileModel fileToCopy = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
+        getCmisApi().usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(testSite)
             .usingContent(fileToCopy).clickCopyTo()
@@ -55,8 +55,8 @@ public class CopyingContentTests extends BaseTest
             .selectFolder(sharedFiles)
             .clickCopyToButton();
         FileModel copiedFile = new FileModel(fileToCopy.getName());
-        copiedFile.setCmisLocation(Utility.buildPath(cmisApi.getSharedPath(), fileToCopy.getName()));
-        cmisApi.usingResource(copiedFile).assertThat().existsInRepo()
+        copiedFile.setCmisLocation(Utility.buildPath(getCmisApi().getSharedPath(), fileToCopy.getName()));
+        getCmisApi().usingResource(copiedFile).assertThat().existsInRepo()
             .and().delete();
     }
 
@@ -65,16 +65,16 @@ public class CopyingContentTests extends BaseTest
     public void checkCancelCopyFileToSharedFiles()
     {
         FileModel fileToCopy = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
+        getCmisApi().usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(testSite)
             .usingContent(fileToCopy).clickCopyTo()
             .selectSharedFilesDestination()
             .clickCancelButton();
         FileModel copiedFile = new FileModel(fileToCopy.getName());
-        copiedFile.setCmisLocation(Utility.buildPath(cmisApi.getSharedPath(), fileToCopy.getName()));
+        copiedFile.setCmisLocation(Utility.buildPath(getCmisApi().getSharedPath(), fileToCopy.getName()));
 
-        cmisApi.usingResource(copiedFile).assertThat().doesNotExistInRepo();
+        getCmisApi().usingResource(copiedFile).assertThat().doesNotExistInRepo();
     }
 
     @TestRail (id = "C7388")
@@ -85,7 +85,7 @@ public class CopyingContentTests extends BaseTest
         FolderModel folderToCopy = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
 
-        cmisApi.usingSite(testSite).createFolder(folderToCopy)
+        getCmisApi().usingSite(testSite).createFolder(folderToCopy)
             .usingResource(folderToCopy).createFile(subFile);
         documentLibraryPage.navigate(testSite)
             .usingContent(folderToCopy).clickCopyTo()

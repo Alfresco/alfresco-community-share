@@ -30,7 +30,7 @@ public class MovingContentTests extends BaseTest
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
 
-        cmisApi.authenticateUser(user);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -40,7 +40,7 @@ public class MovingContentTests extends BaseTest
     {
         FolderModel destination = FolderModel.getRandomFolderModel();
         FileModel fileToMove = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site).createFile(fileToMove).createFolder(destination);
+        getCmisApi().usingSite(site).createFile(fileToMove).createFolder(destination);
 
         documentLibraryPage.navigate(site)
             .usingContent(fileToMove)
@@ -62,7 +62,7 @@ public class MovingContentTests extends BaseTest
         FolderModel destination = FolderModel.getRandomFolderModel();
         FolderModel folderToMove = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site)
+        getCmisApi().usingSite(site)
             .createFolder(destination)
             .createFolder(folderToMove)
                 .then().usingResource(folderToMove).createFile(subFile);

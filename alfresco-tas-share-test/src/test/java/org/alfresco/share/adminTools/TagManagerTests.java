@@ -29,7 +29,7 @@ public class TagManagerTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception {
         tagManagerPage = new TagManagerPage(browser);
-        cmisApi.authenticateUser(getAdminUser());
+        getCmisApi().authenticateUser(getAdminUser());
         setupAuthenticatedSession(getAdminUser());
     }
 
@@ -44,8 +44,8 @@ public class TagManagerTests extends BaseTest
     public void renamingTag() throws Exception
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site).createFile(file);
-        restApi.authenticateUser(getAdminUser())
+        getCmisApi().usingSite(site).createFile(file);
+        getRestApi().authenticateUser(getAdminUser())
             .withCoreAPI().usingResource(file).addTags(tag1, tag2, tag3);
 
         tagManagerPage.navigate();
@@ -54,7 +54,7 @@ public class TagManagerTests extends BaseTest
             .renameTag(updatedTag)
             .searchTagWithRetry(updatedTag)
             .assertTagIsDisplayed(updatedTag);
-        RestTagModelsCollection tags = restApi.withCoreAPI().usingResource(file).getNodeTags();
+        RestTagModelsCollection tags = getRestApi().withCoreAPI().usingResource(file).getNodeTags();
         tags.assertThat()
             .entriesListContains("tag", updatedTag);
     }

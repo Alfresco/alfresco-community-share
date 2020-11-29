@@ -38,9 +38,9 @@ public class TrashcanTests extends BaseTest
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.authenticateUser(cleanUser).usingShared()
+        getCmisApi().authenticateUser(cleanUser).usingShared()
             .createFolder(folderToDelete).createFile(file);
-        cmisApi.usingResource(file).delete()
+        getCmisApi().usingResource(file).delete()
             .and().usingResource(folderToDelete).deleteFolderTree();
 
         setupAuthenticatedSession(cleanUser);
@@ -59,7 +59,7 @@ public class TrashcanTests extends BaseTest
     public void verifyTrashcanDeleteFile()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.authenticateUser(trashUser)
+        getCmisApi().authenticateUser(trashUser)
             .usingSite(trashSite).createFile(file)
             .then().usingResource(file).delete();
         setupAuthenticatedSession(trashUser);
@@ -75,7 +75,7 @@ public class TrashcanTests extends BaseTest
     public void verifyTrashcanDeleteFolder()
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.authenticateUser(trashUser)
+        getCmisApi().authenticateUser(trashUser)
             .usingSite(trashSite).createFolder(folder)
                 .then().usingResource(folder).delete();
 

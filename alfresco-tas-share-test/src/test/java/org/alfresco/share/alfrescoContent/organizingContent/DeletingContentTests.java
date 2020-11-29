@@ -29,7 +29,7 @@ public class DeletingContentTests extends BaseTest
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
-        cmisApi.authenticateUser(user);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 
@@ -39,7 +39,7 @@ public class DeletingContentTests extends BaseTest
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
         FileModel fileToDelete = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFolder(folder)
+        getCmisApi().usingSite(testSite).createFolder(folder)
             .then().usingResource(folder)
                 .createFile(fileToDelete).assertThat().existsInRepo();
 
@@ -61,7 +61,7 @@ public class DeletingContentTests extends BaseTest
         FileModel subFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
-        cmisApi.usingSite(testSite).createFolder(folderToDelete)
+        getCmisApi().usingSite(testSite).createFolder(folderToDelete)
             .usingResource(folderToDelete).createFolder(subFolder).createFile(subFile);
         documentLibraryPage.navigate(testSite)
             .usingContent(folderToDelete)
@@ -71,7 +71,7 @@ public class DeletingContentTests extends BaseTest
             .clickDelete();
 
         documentLibraryPage.usingContent(folderToDelete).assertContentIsNotDisplayed();
-        cmisApi.usingResource(folderToDelete).assertThat().doesNotExistInRepo()
+        getCmisApi().usingResource(folderToDelete).assertThat().doesNotExistInRepo()
             .usingResource(subFile).assertThat().doesNotExistInRepo()
             .usingResource(subFolder).assertThat().doesNotExistInRepo();
     }
@@ -81,7 +81,7 @@ public class DeletingContentTests extends BaseTest
     public void cancelDeletingFolder()
     {
         FolderModel folderToCancel = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(testSite).createFolder(folderToCancel);
+        getCmisApi().usingSite(testSite).createFolder(folderToCancel);
 
         documentLibraryPage.navigate(testSite)
             .usingContent(folderToCancel)

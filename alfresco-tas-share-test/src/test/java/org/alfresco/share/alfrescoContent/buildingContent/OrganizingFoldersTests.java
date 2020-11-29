@@ -83,7 +83,7 @@ public class OrganizingFoldersTests extends BaseTest
         FolderModel parentFolder = FolderModel.getRandomFolderModel();
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
-        cmisApi.authenticateUser(user).usingSite(site).createFolder(parentFolder)
+        getCmisApi().authenticateUser(user).usingSite(site).createFolder(parentFolder)
             .usingResource(parentFolder).createFolder(subFolder);
 
         documentLibraryPage.navigate(site)

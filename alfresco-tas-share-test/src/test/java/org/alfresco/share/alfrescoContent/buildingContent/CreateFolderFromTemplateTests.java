@@ -33,7 +33,7 @@ public class CreateFolderFromTemplateTests extends BaseTest
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
-        cmisApi.authenticateUser(testUser);
+        getCmisApi().authenticateUser(testUser);
         setupAuthenticatedSession(testUser);
     }
 
@@ -74,7 +74,7 @@ public class CreateFolderFromTemplateTests extends BaseTest
             .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder)
                 .clickSave();
         documentLibraryPage.usingContent(parentTemplateFolder).assertContentIsDisplayed();
-        cmisApi.usingResource(discussions).assertThat().existsInRepo()
+        getCmisApi().usingResource(discussions).assertThat().existsInRepo()
             .usingResource(documentation).assertThat().existsInRepo()
             .usingResource(presentations).assertThat().existsInRepo()
             .usingResource(qualityAssurance).assertThat().existsInRepo()
