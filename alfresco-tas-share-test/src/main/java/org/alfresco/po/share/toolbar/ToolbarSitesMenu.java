@@ -41,6 +41,7 @@ public class ToolbarSitesMenu extends BasePage
     public ToolbarSitesMenu assertRecentSitesSectionIsDisplayed()
     {
         LOG.info("Assert Recent Sites section is displayed");
+        getBrowser().waitUntilElementVisible(recentSitesSection);
         assertTrue(getBrowser().isElementDisplayed(recentSitesSection), "Recent sites section is displayed");
         return this;
     }
@@ -82,6 +83,7 @@ public class ToolbarSitesMenu extends BasePage
     public ToolbarSitesMenu assertUsefulSectionIsDisplayed()
     {
         LOG.info("Assert Useful section is displayed");
+        getBrowser().waitUntilElementVisible(usefulSection);
         assertTrue(getBrowser().isElementDisplayed(usefulSection), "Useful section is displayed");
         return this;
     }
@@ -89,6 +91,7 @@ public class ToolbarSitesMenu extends BasePage
     public ToolbarSitesMenu assertMySitesIsDisplayed()
     {
         LOG.info("Assert My Sites link is displayed");
+        getBrowser().waitUntilElementVisible(mySites);
         assertTrue(getBrowser().isElementDisplayed(mySites), "My Sites is displayed");
         return this;
     }
@@ -96,7 +99,7 @@ public class ToolbarSitesMenu extends BasePage
     public UserSitesListPage clickMySites()
     {
         LOG.info("Click My Sites");
-        getBrowser().findElement(mySites).click();
+        getBrowser().waitUntilElementClickable(mySites).click();
         return (UserSitesListPage) new UserSitesListPage(browser).renderedPage();
     }
 

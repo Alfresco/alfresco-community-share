@@ -113,7 +113,7 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
         getBrowser().waitUntilElementVisible(errorPrompt);
         assertEquals(getBrowser().findElement(errorPromptMessage).getText(), language.translate("changeUserPassword.errorPrompt.message"),
             "Error prompt message is correct");
-        getBrowser().findElement(errorPromptOKButton).click();
+        getBrowser().waitUntilElementClickable(errorPromptOKButton).click();
         return this;
     }
 }

@@ -43,6 +43,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public SiteDashboardPage assertSiteDashboardPageIsOpened()
     {
         LOG.info("Assert site dashboard page is opened");
+        getBrowser().waitUntilElementVisible(siteVisibility);
         assertTrue(getBrowser().isElementDisplayed(siteVisibility), "Site dashboard page is opened");
         return this;
     }

@@ -57,7 +57,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     @Override
     public UserDashboardPage navigateByMenuBar()
     {
-        getBrowser().findElement(homeMenuLink).click();
+        getBrowser().waitUntilElementClickable(homeMenuLink).click();
         return (UserDashboardPage) renderedPage();
     }
 
@@ -131,6 +131,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage assertUserDashboardPageIsOpened()
     {
         LOG.info("Assert User Dashboard page is opened");
+        getBrowser().waitUntilElementVisible(customizeUserDashboard);
         assertTrue(getBrowser().isElementDisplayed(customizeUserDashboard), "User home page is not opened");
         return this;
     }
