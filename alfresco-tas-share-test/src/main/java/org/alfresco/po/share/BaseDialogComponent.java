@@ -5,6 +5,9 @@ import org.openqa.selenium.By;
 
 /**
  * @author Bogdan.Bocancea
+ *
+ * This class represents a dialog component template and should be extended by
+ * each class which use specific dialog component members/methods.
  */
 public abstract class BaseDialogComponent extends BasePage
 {

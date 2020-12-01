@@ -1,5 +1,6 @@
 package org.alfresco.po.share.toolbar;
 
+import org.alfresco.common.Wait;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
@@ -11,6 +12,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.testng.Assert.assertTrue;
 
 public class ToolbarUserMenu extends BasePage
@@ -77,7 +79,7 @@ public class ToolbarUserMenu extends BasePage
     {
         LOG.info("Assert Alfresco Documentation window is opened");
         getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains("https://docs.alfresco.com/", 10);
+        getBrowser().waitUrlContains("https://docs.alfresco.com/", WAIT_10.getValue());
         assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         getBrowser().closeWindowAndSwitchBack();
 

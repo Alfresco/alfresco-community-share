@@ -203,6 +203,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public UserProfilePage assertAboutUserHasValues(String... values)
     {
         LOG.info("Assert values {} are displayed in About User section", Arrays.asList(values));
+        getBrowser().waitUntilElementVisible(aboutUserDetails);
         assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
         return this;
     }
