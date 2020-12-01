@@ -1,5 +1,6 @@
 package org.alfresco.share.smartFolders;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;

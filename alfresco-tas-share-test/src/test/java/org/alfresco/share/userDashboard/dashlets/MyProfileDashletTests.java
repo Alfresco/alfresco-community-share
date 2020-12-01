@@ -1,5 +1,7 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyProfileDashlet;

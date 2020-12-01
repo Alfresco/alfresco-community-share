@@ -1,5 +1,7 @@
 package org.alfresco.share;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
@@ -104,8 +106,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     //@Autowired
     public Toolbar toolbar;
 
-    protected String srcRoot = System.getProperty("user.dir") + File.separator;
-    protected String testDataFolder = srcRoot + "testdata" + File.separator;
     public static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
     public static final GroupModel ALFRESCO_SITE_ADMINISTRATORS = new GroupModel("SITE_ADMINISTRATORS");
     public static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");

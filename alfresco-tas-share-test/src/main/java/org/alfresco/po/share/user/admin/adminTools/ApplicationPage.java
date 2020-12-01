@@ -1,5 +1,10 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.alfresco.common.Utils.testDataFolder;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.UploadFileDialog;
@@ -9,17 +14,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.io.File;
-import java.util.List;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 public class ApplicationPage extends SharePage2<ApplicationPage>
 {
-    protected String srcRoot = System.getProperty("user.dir") + File.separator;
-    protected String testDataFolder = srcRoot + "testdata" + File.separator;
-
     @RenderWebElement
     private final By themeDropdown = By.cssSelector("select#console-options-theme-menu");
     private final By applyButton = By.cssSelector("div.apply button[id$='_default-apply-button-button']");

@@ -1,5 +1,7 @@
 package org.alfresco.share.searching.advancedSearch;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;

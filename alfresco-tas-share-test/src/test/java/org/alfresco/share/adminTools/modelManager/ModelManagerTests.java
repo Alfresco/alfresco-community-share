@@ -1,6 +1,12 @@
 package org.alfresco.share.adminTools.modelManager;
 
-import java.io.File;
+import static org.alfresco.common.Utils.isFileInDirectory;
+import static org.alfresco.common.Utils.testDataFolder;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
@@ -9,24 +15,21 @@ import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.CustomAspectModel;
+import org.alfresco.utility.model.CustomContentModel;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static org.alfresco.common.Utils.isFileInDirectory;
-import static org.testng.Assert.assertTrue;
-
 public class ModelManagerTests extends BaseTest
 {
-    private String srcRoot = System.getProperty("user.dir") + File.separator;
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
     private ModelManagerPage modelManagerPage;
     private DocumentDetailsPage documentDetailsPage;
 

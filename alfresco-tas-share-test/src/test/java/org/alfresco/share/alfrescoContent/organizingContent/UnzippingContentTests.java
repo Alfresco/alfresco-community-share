@@ -1,10 +1,16 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import java.io.File;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.DataContent;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -12,17 +18,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 public class UnzippingContentTests extends BaseTest
 {
-    private String srcRoot = System.getProperty("user.dir") + File.separator;
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
-
     private final String zipFileName = "archiveC7409.zip";
     private final String acpFileName = "archiveC7410.acp";
-    private final File zipFile = new File(testDataFolder.concat(zipFileName));
-    private final File acpFile = new File(testDataFolder.concat(acpFileName));
+    private final File zipFile = new File(Utils.testDataFolder.concat(zipFileName));
+    private final File acpFile = new File(Utils.testDataFolder.concat(acpFileName));
 
     private UserModel user;
     private SiteModel site;

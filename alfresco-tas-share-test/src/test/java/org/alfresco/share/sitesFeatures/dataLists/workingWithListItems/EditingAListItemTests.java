@@ -1,5 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
+import static org.alfresco.common.Utils.srcRoot;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;

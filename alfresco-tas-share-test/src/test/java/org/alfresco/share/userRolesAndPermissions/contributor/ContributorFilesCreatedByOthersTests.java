@@ -1,5 +1,6 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
