@@ -42,6 +42,7 @@ public class LoginPage extends CommonLoginPage
     public CommonLoginPage assertLoginPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
+        getBrowser().waitUntilElementVisible(usernameInput);
         assertTrue(getBrowser().isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
     }
@@ -136,8 +137,7 @@ public class LoginPage extends CommonLoginPage
     {
         String colourBodyShare = getBrowser().findElement(bodyShare).getCssValue("background-color");
         String colourProductTagline = getBrowser().findElement(productTagline).getCssValue("color");
-        String[] colours = new String[] { colourBodyShare, colourProductTagline };
-        return colours;
+        return new String[] { colourBodyShare, colourProductTagline };
     }
 
     public String getAlfrescoShareColour()
@@ -167,5 +167,4 @@ public class LoginPage extends CommonLoginPage
         assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
         return this;
     }
-
 }

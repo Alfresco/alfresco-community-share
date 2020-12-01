@@ -85,54 +85,63 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertUserProfilePageIsOpened()
     {
+        getBrowser().waitUntilElementVisible(infoLink);
         assertTrue(getBrowser().isElementDisplayed(infoLink), "User profile page is opened");
         return this;
     }
 
     public UserProfilePage assertInfoLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(infoLink);
         assertTrue(getBrowser().isElementDisplayed(infoLink), "Info link is displayed");
         return this;
     }
 
     public UserProfilePage assertSitesLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(sitesLink);
         assertTrue(getBrowser().isElementDisplayed(sitesLink), "Sites link is displayed");
         return this;
     }
 
     public UserProfilePage assertContentLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(contentLink);
         assertTrue(getBrowser().isElementDisplayed(contentLink), "Content link is displayed");
         return this;
     }
 
     public UserProfilePage assertImFollowingLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(followingLink);
         assertTrue(getBrowser().isElementDisplayed(followingLink), "Following link is displayed");
         return this;
     }
 
     public UserProfilePage assertFollowingMeLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(followersLink);
         assertTrue(getBrowser().isElementDisplayed(followersLink), "Following Me link is displayed");
         return this;
     }
 
     public UserProfilePage assertChangePasswordLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(changePasswordLink);
         assertTrue(getBrowser().isElementDisplayed(changePasswordLink), "Change password link is displayed");
         return this;
     }
 
     public UserProfilePage assertNotificationsLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(notificationLink);
         assertTrue(getBrowser().isElementDisplayed(notificationLink), "Notifications link is displayed");
         return this;
     }
 
     public UserProfilePage assertTrashcanLinkIsDisplayed()
     {
+        getBrowser().waitUntilElementVisible(trashcanLink);
         assertTrue(getBrowser().isElementDisplayed(trashcanLink), "Trashcan link is displayed");
         return this;
     }
