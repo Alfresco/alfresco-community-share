@@ -187,6 +187,12 @@ public final class Utils
      */
     public static void saveScreenshot(WebBrowser browser, Method testMethod)
     {
+        if(!screenshotFolder.exists())
+        {
+            LOG.info("Creating screenshot folder");
+            screenshotFolder.mkdir();
+        }
+
         File screen = (browser).getScreenshotAs(OutputType.FILE);
         try
         {

@@ -1,7 +1,6 @@
 package org.alfresco.share;
 
 import static org.alfresco.common.Utils.saveScreenshot;
-import static org.alfresco.common.Utils.screenshotFolder;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -31,7 +30,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 
 /**
  * This class represents a test template which should be inherit by each test class.
@@ -68,16 +66,6 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
     protected Toolbar toolbar;
-
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite()
-    {
-        if(!screenshotFolder.exists())
-        {
-            LOG.info("Creating screenshot folder");
-            screenshotFolder.mkdir();
-        }
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void beforeEachTest(Method method)
