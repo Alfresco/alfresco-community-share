@@ -1,5 +1,7 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.alfresco.common.GroupModelRoles.ALFRESCO_ADMIN_GROUP;
+
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
@@ -17,8 +19,6 @@ import org.testng.annotations.Test;
 
 public class UserProfileTests extends BaseTest
 {
-    private static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
-
     private UsersPage usersPage;
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
     private EditUserPage editUserPage;

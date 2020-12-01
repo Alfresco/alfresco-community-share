@@ -1,5 +1,7 @@
 package org.alfresco.share.adminTools;
 
+import static org.alfresco.common.GroupModelRoles.FILE_CONTENT;
+
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
 import org.alfresco.share.BaseTest;
@@ -16,7 +18,6 @@ import org.testng.annotations.Test;
 
 public class TagManagerTests extends BaseTest
 {
-    private static final String FILE_CONTENT = "Share file content";
     private TagManagerPage tagManagerPage;
 
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();

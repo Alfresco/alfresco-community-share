@@ -1,9 +1,16 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.common.GroupModelRoles.FILE_CONTENT;
+
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -11,8 +18,6 @@ import org.testng.annotations.Test;
 
 public class TrashcanTests extends BaseTest
 {
-    private final static String FILE_CONTENT = "Share file content";
-
     private UserModel trashUser, cleanUser;
     private SiteModel trashSite;
 

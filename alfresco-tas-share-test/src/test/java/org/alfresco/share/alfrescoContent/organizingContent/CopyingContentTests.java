@@ -1,10 +1,17 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.common.GroupModelRoles.FILE_CONTENT;
+
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.Utility;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +19,6 @@ import org.testng.annotations.Test;
 
 public class CopyingContentTests extends BaseTest
 {
-    private static final String FILE_CONTENT = "Share file content";
     private FolderModel sharedFiles = new FolderModel("Shared Files");
 
     private DocumentLibraryPage2 documentLibraryPage;

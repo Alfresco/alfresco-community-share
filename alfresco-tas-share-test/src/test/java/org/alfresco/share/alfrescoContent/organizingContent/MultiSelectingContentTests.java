@@ -1,11 +1,18 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.common.GroupModelRoles.FILE_CONTENT;
+
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.SelectMenuOptions;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -13,8 +20,6 @@ import org.testng.annotations.Test;
 
 public class MultiSelectingContentTests extends BaseTest
 {
-    private static final String FILE_CONTENT = "Share file content";
-
     private UserModel user;
     private SiteModel site;
 

@@ -1,9 +1,11 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
+import static org.alfresco.common.GroupModelRoles.ALFRESCO_ADMIN_GROUP;
+import static org.alfresco.common.GroupModelRoles.ALFRESCO_SEARCH_ADMINISTRATORS;
+
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
@@ -12,9 +14,6 @@ import org.testng.annotations.Test;
 
 public class SearchManagerTests extends BaseTest
 {
-    private static final GroupModel ALFRESCO_ADMIN_GROUP = new GroupModel("ALFRESCO_ADMINISTRATORS");
-    private static final GroupModel ALFRESCO_SEARCH_ADMINISTRATORS = new GroupModel("ALFRESCO_SEARCH_ADMINISTRATORS");
-
     private UserModel userAdmin, searchAdmin;
 
     @BeforeClass (alwaysRun = true)
