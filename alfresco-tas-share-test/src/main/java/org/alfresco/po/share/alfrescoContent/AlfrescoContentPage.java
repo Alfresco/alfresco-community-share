@@ -134,7 +134,6 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsDisplayed()
     {
         LOG.info("Assert Documents root breadcrumb is displayed");
-        getBrowser().waitUntilElementIsPresent(documentsRootBreadcrumb);
         getBrowser().waitUntilElementVisible(documentsRootBreadcrumb);
         assertTrue(getBrowser().isElementDisplayed(documentsRootBreadcrumb), "Documents root breadcrumb is displayed");
         return this;
