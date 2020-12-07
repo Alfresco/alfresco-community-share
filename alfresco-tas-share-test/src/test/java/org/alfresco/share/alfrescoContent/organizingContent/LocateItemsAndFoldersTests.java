@@ -56,7 +56,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
             .selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
             .usingContent(file)
-            .clickLocate().assertDocumentsRootBreadcrumbIsDisplayed();
+            .clickLocate();
         documentLibraryPage.usingContent(file).assertContentIsHighlighted();
     }
 
@@ -73,7 +73,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
             .selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
             .usingContent(folder)
-            .clickLocate().assertDocumentsRootBreadcrumbIsDisplayed();
+            .clickLocate();
         documentLibraryPage.usingContent(folder).assertContentIsHighlighted();
     }
 
