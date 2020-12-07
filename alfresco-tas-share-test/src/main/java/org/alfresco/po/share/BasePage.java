@@ -2,12 +2,6 @@ package org.alfresco.po.share;
 
 import static org.alfresco.common.Wait.WAIT_5;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
@@ -21,10 +15,14 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Service;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class represents a template which should be inherit by each page object/component class.
