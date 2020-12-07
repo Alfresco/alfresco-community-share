@@ -6,7 +6,6 @@ import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 {
@@ -16,22 +15,22 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     //@Autowired
     SelectDestinationDialog selectDestinationDialog;
 
-    public By contentRule = By.cssSelector("li.rules-list-item.selected.dnd-draggable");
+    private final By contentRule = By.cssSelector("li.rules-list-item.selected.dnd-draggable");
     @RenderWebElement
-    private By title = By.cssSelector(".rules-header .rules-title");
-    private By noRulesText = By.xpath(".//*[contains(@class, 'dialog-options')]/*[1]");
-    private By createRulesLink = By.cssSelector(".dialog-option a[href*='rule-edit']");
-    private By createRulesDescription = By.xpath("(.//div[@class='dialog-option']/div)[1]");
-    private By linkToRuleSetLink = By.cssSelector("a[id*='linkToRuleSet']");
-    private By linkToRuleSetDescription = By.xpath("(.//div[@class='dialog-option']/div)[2]");
+    private final By title = By.cssSelector(".rules-header .rules-title");
+    private final By noRulesText = By.xpath(".//*[contains(@class, 'dialog-options')]/*[1]");
+    private final By createRulesLink = By.cssSelector(".dialog-option a[href*='rule-edit']");
+    private final By createRulesDescription = By.xpath("(.//div[@class='dialog-option']/div)[1]");
+    private final By linkToRuleSetLink = By.cssSelector("a[id*='linkToRuleSet']");
+    private final By linkToRuleSetDescription = By.xpath("(.//div[@class='dialog-option']/div)[2]");
     @RenderWebElement
-    private By inheritButton = By.cssSelector("button[id*='inheritButton']");
-    private By breadcrumbList = By.cssSelector("span.folder-link a");
-    private By inheritRulesMessage = By.cssSelector("#message .bd");
+    private final By inheritButton = By.cssSelector("button[id*='inheritButton']");
+    private final By breadcrumbList = By.cssSelector("span.folder-link a");
+    private final By inheritRulesMessage = By.cssSelector("#message .bd");
 
     public ManageRulesPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         documentLibraryPage = new DocumentLibraryPage(browser);
         editRulesPage = new EditRulesPage(browser);
     }

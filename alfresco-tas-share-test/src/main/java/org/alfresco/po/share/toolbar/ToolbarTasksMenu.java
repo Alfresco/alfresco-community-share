@@ -1,6 +1,6 @@
 package org.alfresco.po.share.toolbar;
 
-import org.alfresco.po.share.SharePageObject2;
+import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,15 +9,15 @@ import org.openqa.selenium.By;
 
 import static org.testng.Assert.assertTrue;
 
-public class ToolbarTasksMenu extends SharePageObject2
+public class ToolbarTasksMenu extends BasePage
 {
     @RenderWebElement
-    private By myTasks = By.id("HEADER_MY_TASKS_text");
-    private By workflowsIveStarted = By.id("HEADER_MY_WORKFLOWS_text");
+    private final By myTasks = By.id("HEADER_MY_TASKS_text");
+    private final By workflowsIveStarted = By.id("HEADER_MY_WORKFLOWS_text");
 
     public ToolbarTasksMenu(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public ToolbarTasksMenu assertMyTasksIsDisplayed()

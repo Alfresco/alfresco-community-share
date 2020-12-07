@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class DeleteModelDialog extends ShareDialog2
+public class DeleteModelDialog extends BaseDialogComponent
 {
     private final By deleteModelDialogTitle = By.id("CMM_DELETE_MODEL_DIALOG_title");
     @RenderWebElement
@@ -22,7 +22,7 @@ public class DeleteModelDialog extends ShareDialog2
 
     public DeleteModelDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getDeleteModelDialogText()

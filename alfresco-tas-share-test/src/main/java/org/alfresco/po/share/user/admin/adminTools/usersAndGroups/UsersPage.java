@@ -14,27 +14,28 @@ import org.testng.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class UsersPage extends SharePage2<UsersPage>
 {
     @RenderWebElement
-    private By newUserButton = By.cssSelector("button[id$='_default-newuser-button-button']");
+    private final By newUserButton = By.cssSelector("button[id$='_default-newuser-button-button']");
     @RenderWebElement
-    private By uploadUsersButton = By.cssSelector("button[id*='uploadusers']");
-    private By userSearchInputField = By.cssSelector("input[id*='search-text']");
-    private By searchButton = By.cssSelector("button[id*='search']");
-    private By fileInput = By.cssSelector("input[id*='default-filedata-file']");
-    private By uploadButton = By.cssSelector("#template_x002e_html-upload_x002e_console_x0023_default-upload-button-button");
-    private By tableHeaderElements = By.cssSelector("div[class$='results'] table>thead>tr:nth-of-type(1) span");
-    private By searchTextResult = By.cssSelector("div[id$='default-search-bar']");
+    private final By uploadUsersButton = By.cssSelector("button[id*='uploadusers']");
+    private final By userSearchInputField = By.cssSelector("input[id*='search-text']");
+    private final By searchButton = By.cssSelector("button[id*='search']");
+    private final By fileInput = By.cssSelector("input[id*='default-filedata-file']");
+    private final By uploadButton = By.cssSelector("#template_x002e_html-upload_x002e_console_x0023_default-upload-button-button");
+    private final By tableHeaderElements = By.cssSelector("div[class$='results'] table>thead>tr:nth-of-type(1) span");
+    private final By searchTextResult = By.cssSelector("div[id$='default-search-bar']");
 
-    private String userRow = "//td[contains(@headers, 'userName')]//div[text()='%s']/../..";
+    private final String userRow = "//td[contains(@headers, 'userName')]//div[text()='%s']/../..";
 
     public UsersPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -122,7 +123,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public WebElement getUserRow(String userName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15.getValue());
     }
 
     public UsersPage assertSearchInputIsDisplayed()

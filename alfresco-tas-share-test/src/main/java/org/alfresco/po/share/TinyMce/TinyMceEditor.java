@@ -1,48 +1,45 @@
 package org.alfresco.po.share.TinyMce;
 
-import org.alfresco.po.share.SharePageObject2;
+import org.alfresco.po.share.BasePage;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-public class TinyMceEditor extends SharePageObject2
+public class TinyMceEditor extends BasePage
 {
     public String FRAME_ID = "";
     public String TINYMCE_CONTENT = "body[id$='tinymce']";
-    public String BoldContent = "//body[@id='tinymce']//p//strong";
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
 
-    public By CSS_STR_FORE_COLOUR = By.cssSelector("div[aria-label^='Text'] button[class$='mce-open']");
-    private By iFrame = By.cssSelector("iframe[id*='content_ifr']");
-    private By CSS_COLOUR_FONT2 = By.cssSelector("div[aria-label*='Background'] button span");
-    private By CSS_REMOVE_FORMAT = By.cssSelector("i.mce-i-removeformat");
-    private By CSS_COLOR_ATT = By.cssSelector("rich.txt.editor.color.code");
-    private By CSS_STR_BOLD = By.cssSelector("i[class$='mce-i-bold']");
-    private By CSS_STR_ITALIC = By.cssSelector("i[class$='mce-i-italic']");
-    private By CSS_STR_UNDER_LINED = By.cssSelector("i[class$='mce-i-underline']");
-    private By CSS_STR_BULLETS = By.cssSelector("i[class$='mce-i-bullist']");
-    private By CSS_STR_NUMBERS = By.cssSelector("i[class$='mce-i-numlist']");
-    private By CSS_STR_BOLD_FMT_TXT = By.cssSelector("#tinymce>p>b");
-    private By CSS_STR_ITALIC_FMT_TXT = By.cssSelector("#tinymce>p>i");
-    private By CSS_STR_UNDER_LINED_FMT_TXT = By.cssSelector("#tinymce>p>u");
-    private By CSS_STR_BULLET_FMT_TXT = By.cssSelector("#tinymce>ul>li");
-    private By CSS_STR_NUMBER_FMT_TXT = By.cssSelector("#tinymce>ol>li");
-    private By CSS_STR_TEXT_TAG = By.cssSelector("#tinymce>p");
-    private By CSS_COLOR_FONT = By.cssSelector("#tinymce>p>font");
-    private By CSS_EDIT = By.cssSelector("button[id$='mce_43-open']");
-    private By CSS_FORMAT = By.cssSelector("button[id$='mce_46-open']");
-    private By CSS_UNDO = By.cssSelector("i[class$='mce-i-undo']");
-    private By CSS_REDO = By.cssSelector("i[class$='mce-i-redo']");
-    private By CSS_BULLET_TEXT = By.cssSelector("#tinymce>ul>li");
-    private By CSS_BOLD_EDIT = By.cssSelector("DIV[class='comments-list']>DIV[class='comment-form'] i[class$='mce-i-bold']");
-    private By CSS_STR_BACK_GROUND_COLOUR = By.cssSelector("div[aria-label*='Background'] button[class='mce-open']");
+    private final By CSS_STR_FORE_COLOUR = By.cssSelector("div[aria-label^='Text'] button[class$='mce-open']");
+    private final By iFrame = By.cssSelector("iframe[id*='content_ifr']");
+    private final By CSS_REMOVE_FORMAT = By.cssSelector("i.mce-i-removeformat");
+    private final By CSS_STR_BOLD = By.cssSelector("i[class$='mce-i-bold']");
+    private final By CSS_STR_ITALIC = By.cssSelector("i[class$='mce-i-italic']");
+    private final By CSS_STR_UNDER_LINED = By.cssSelector("i[class$='mce-i-underline']");
+    private final By CSS_STR_BULLETS = By.cssSelector("i[class$='mce-i-bullist']");
+    private final By CSS_STR_NUMBERS = By.cssSelector("i[class$='mce-i-numlist']");
+    private final By CSS_STR_BOLD_FMT_TXT = By.cssSelector("#tinymce>p>b");
+    private final By CSS_STR_ITALIC_FMT_TXT = By.cssSelector("#tinymce>p>i");
+    private final By CSS_STR_UNDER_LINED_FMT_TXT = By.cssSelector("#tinymce>p>u");
+    private final By CSS_STR_BULLET_FMT_TXT = By.cssSelector("#tinymce>ul>li");
+    private final By CSS_STR_NUMBER_FMT_TXT = By.cssSelector("#tinymce>ol>li");
+    private final By CSS_STR_TEXT_TAG = By.cssSelector("#tinymce>p");
+    private final By CSS_COLOR_FONT = By.cssSelector("#tinymce>p>font");
+    private final By CSS_EDIT = By.cssSelector("button[id$='mce_43-open']");
+    private final By CSS_FORMAT = By.cssSelector("button[id$='mce_46-open']");
+    private final By CSS_UNDO = By.cssSelector("i[class$='mce-i-undo']");
+    private final By CSS_REDO = By.cssSelector("i[class$='mce-i-redo']");
+    private final By CSS_BULLET_TEXT = By.cssSelector("#tinymce>ul>li");
+    private final By CSS_BOLD_EDIT = By.cssSelector("DIV[class='comments-list']>DIV[class='comment-form'] i[class$='mce-i-bold']");
+    private final By CSS_STR_BACK_GROUND_COLOUR = By.cssSelector("div[aria-label*='Background'] button[class='mce-open']");
     private String frameId = null;
     private FormatType formatType;
 
     public TinyMceEditor(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getFrameId()

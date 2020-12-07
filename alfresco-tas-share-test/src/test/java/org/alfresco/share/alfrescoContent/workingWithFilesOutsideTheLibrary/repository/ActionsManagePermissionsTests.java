@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import java.util.Arrays;
 import java.util.List;
 

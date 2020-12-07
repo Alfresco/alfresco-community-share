@@ -1,35 +1,37 @@
 package org.alfresco.po.share;
 
+import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.utility.report.log.Step.STEP;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
-import static org.alfresco.utility.report.log.Step.STEP;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
-
-public abstract class SharePage2<T> extends SharePageObject2
+public abstract class SharePage2<T> extends BasePage
 {
     private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     @RenderWebElement
     private By body= By.id("Share");
-    @RenderWebElement
     private final By pageHeader = By.id("HEADER_TITLE");
-    private final By headerLogo = By.id("HEADER_LOGO");
     private final By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
-    private final By userMenu = By.id("HEADER_USER_MENU_POPUP");
-    private final By logoutLink = By.id("HEADER_USER_MENU_LOGOUT");
     private final By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
+
+    public SharePage2(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     /**
      * Wire up the relative path in your Page Object class
@@ -70,7 +72,7 @@ public abstract class SharePage2<T> extends SharePageObject2
         getBrowser().navigate().to(relativePathToURL());
         try
         {
-            getBrowser().waitUntilElementVisible(body, WAIT_60);
+            getBrowser().waitUntilElementVisible(body, WAIT_60.getValue());
             return (T) renderedPage();
         }
         catch (PageRenderTimeException | TimeoutException e)
@@ -89,6 +91,7 @@ public abstract class SharePage2<T> extends SharePageObject2
 
     public String getPageHeader()
     {
+        getBrowser().waitUntilElementVisible(pageHeader);
         return getBrowser().findElement(pageHeader).getText();
     }
 

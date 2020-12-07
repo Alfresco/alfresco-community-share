@@ -2,7 +2,7 @@ package org.alfresco.share.adminTools.categoryManager;
 
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 import static org.testng.Assert.assertTrue;
 
-public class CategoryManagerTests extends BaseTests
+public class CategoryManagerTests extends BaseTest
 {
     private final String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
     private final String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());
@@ -49,7 +49,6 @@ public class CategoryManagerTests extends BaseTests
     public void verifyCategoryManagerPage()
     {
         categoryManagerPage.navigate();
-        LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
         asList("Category Root", "Languages", "Regions", "Software Document Classification", "Tags")
             .forEach(defaultCategory ->
                 assertTrue(categoryManagerPage.isCategoryDisplayed(defaultCategory), defaultCategory + " is displayed."));
@@ -60,10 +59,8 @@ public class CategoryManagerTests extends BaseTests
     public void addNewCategory()
     {
         categoryManagerPage.navigate();
-        LOG.info("Step 1: Add a new category in the 'Category Manager' page.");
         categoryManagerPage.addCategory(category9295);
 
-        LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
         assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 

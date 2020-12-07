@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools.moduleBrowser;
 
 import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ModuleBrowserTests extends BaseTests
+public class ModuleBrowserTests extends BaseTest
 {
     private ModuleBrowserPage moduleBrowserPage;
 
@@ -34,14 +34,11 @@ public class ModuleBrowserTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void accessModuleBrowserPage()
     {
-        LOG.info("Step 1: Navigate to Admin Tools page");
         moduleBrowserPage.navigate().assertModuleBrowserPageIsOpened();
-
-        LOG.info("Step 4: Logout Admin user and Login with userName into Share");
         setupAuthenticatedSession(user);
         userDashboardPage.navigate(user);
         toolbar.assertAdminToolsIsNotDisplayed();
-        cleanupAuthenticatedSession();
+        browser.get().manage().deleteAllCookies();
     }
 
     @TestRail (id = "C9499")

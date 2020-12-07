@@ -1,6 +1,6 @@
 package org.alfresco.po.share.site.discussion;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -12,7 +12,7 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 /**
  * Created by Claudia Agache on 8/11/2016.
  */
-public class InsertLinkPopUp extends ShareDialog2
+public class InsertLinkPopUp extends BaseDialogComponent
 {
     private TopicViewPage topicViewPage;
 
@@ -45,12 +45,12 @@ public class InsertLinkPopUp extends ShareDialog2
     @FindBy (xpath = ".//*[@class='mce-reset']")
     private WebElement insertLinkPopup;
 
-    private By targetMenu = By.cssSelector("#mce-modal-block+div");
-    private By targetMenuItem = By.className("mce-text");
+    private final By targetMenu = By.cssSelector("#mce-modal-block+div");
+    private final By targetMenuItem = By.className("mce-text");
 
     public InsertLinkPopUp(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         topicViewPage = new TopicViewPage(browser);
     }
 

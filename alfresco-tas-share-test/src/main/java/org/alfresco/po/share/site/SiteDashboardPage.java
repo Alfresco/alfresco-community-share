@@ -1,5 +1,10 @@
 package org.alfresco.po.share.site;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.model.SiteModel;
@@ -7,37 +12,26 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author bogdan.bocancea
  */
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
-    @Autowired
-    EditSiteDetailsDialog editSiteDetailsDialog;
+    private EditSiteDetailsDialog editSiteDetailsDialog;
 
-    private By siteHeaderTitle = By.cssSelector("#HEADER_TITLE a");
+    private final By siteHeaderTitle = By.cssSelector("#HEADER_TITLE a");
     @RenderWebElement
-    private By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
-    private By welcomeMessage = By.cssSelector(".msg.dashlet-padding>h2");
-    private By siteMembersBox = By.cssSelector("div[class*='colleagues']");
+    private final By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
     @RenderWebElement
-    private By siteVisibility = By.cssSelector("div[id='HEADER_TITLE_VISIBILITY'] span");
-    private By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
-    private By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
-    private String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
+    private final By siteVisibility = By.cssSelector("div[id='HEADER_TITLE_VISIBILITY'] span");
+    private final By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
+    private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
+    private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
     public SiteDashboardPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -49,6 +43,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public SiteDashboardPage assertSiteDashboardPageIsOpened()
     {
         LOG.info("Assert site dashboard page is opened");
+        getBrowser().waitUntilElementVisible(siteVisibility);
         assertTrue(getBrowser().isElementDisplayed(siteVisibility), "Site dashboard page is opened");
         return this;
     }

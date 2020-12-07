@@ -1,5 +1,13 @@
 package org.alfresco.po.share;
 
+import static org.alfresco.common.Wait.WAIT_5;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
@@ -16,34 +24,34 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-public abstract class SharePageObject2
+/**
+ * This class represents a template which should be inherit by each page object/component class.
+ *
+ * So for example we are going to have:
+ *
+ * 1.<PageObjectClass> extends BasePage
+ *    e.g. UploadUserResultsPage extends BasePage
+ *
+ * 2.<PageComponentClass> extends BaseComponent
+ *    e.g. DeleteDialog extends BaseDialogComponent
+ *    e.g. BaseDialog extends BasePage
+ *
+ * In the base pages/components class we will store only common members/methods which are in each child classes.
+ */
+public abstract class BasePage
 {
-    protected final Logger LOG = LoggerFactory.getLogger(SharePageObject2.class);
+    protected final Logger LOG = LoggerFactory.getLogger(BasePage.class);
 
-    public static final int WAIT_1 = 1;
-    public static final int WAIT_5 = 5;
-    public static final int WAIT_10 = 10;
-    public static final int WAIT_15 = 15;
-    public static final int WAIT_30 = 30;
-    public static final int WAIT_60 = 60;
-    public static final int DEFAULT_RETRY = 3;
     public static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
-    public static final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
+    public final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
 
-    public static TasProperties tasProperties;
-    public static EnvProperties properties;
-    public static Language language;
+    public TasProperties tasProperties;
+    public EnvProperties properties;
+    public Language language;
 
-    protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
+    protected ThreadLocal<WebBrowser> browser;
 
-    public SharePageObject2()
+    public BasePage(ThreadLocal<WebBrowser> browser)
     {
         if(properties == null)
         {
@@ -52,8 +60,10 @@ public abstract class SharePageObject2
             tasProperties = context.getBean(TasProperties.class);
             language = context.getBean(Language.class);
         }
+        this.browser = browser;
     }
 
+    //todo: access should be protected
     public WebBrowser getBrowser()
     {
         return browser.get();
@@ -63,7 +73,8 @@ public abstract class SharePageObject2
     {
         try
         {
-            notificationMessageThread.set(getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText());
+            notificationMessageThread.set(
+                getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, WAIT_5.getValue()).getText());
             getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
         }
         catch (TimeoutException | StaleElementReferenceException exception)
@@ -73,25 +84,29 @@ public abstract class SharePageObject2
         return notificationMessageThread;
     }
 
+    //todo: should be moved in WebBrowser class
     public void clearAndType(WebElement webElement, String value)
     {
         webElement.clear();
         webElement.sendKeys(value);
     }
 
+    //todo: should be moved in WebBrowser class
     public void clearAndType(By byElement, String value)
     {
         clearAndType(getBrowser().findElement(byElement), value);
     }
 
+    //todo: should be moved in WebBrowser class
     public void clickElement(By elementToClick)
     {
-        getBrowser().findElement(elementToClick).click();
+        getBrowser().waitUntilElementClickable(elementToClick).click();
     }
 
+    //todo: should be moved in WebBrowser class
     public String getElementText(By selector)
     {
-        return getBrowser().findElement(selector).getText();
+        return getBrowser().waitUntilElementVisible(selector).getText();
     }
 
     public String getPageTitle()
@@ -99,7 +114,7 @@ public abstract class SharePageObject2
         return getBrowser().getTitle();
     }
 
-    public SharePageObject2 renderedPage()
+    public BasePage renderedPage()
     {
         /*
          * get the RenderWebElement annotation of all declared fields and

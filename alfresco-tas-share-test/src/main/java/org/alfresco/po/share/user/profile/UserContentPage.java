@@ -17,15 +17,15 @@ public class UserContentPage extends SharePage2<UserContentPage>
     private String userName;
 
     @RenderWebElement
-    private By recentlyAddedLabel = By.cssSelector(".viewcolumn>div:nth-child(1)");
-    private By noAddedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(1)");
+    private final By recentlyAddedLabel = By.cssSelector(".viewcolumn>div:nth-child(1)");
+    private final By noAddedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(1)");
     @RenderWebElement
-    private By recentlyModfiedLabel = By.cssSelector(".viewcolumn>div:nth-child(3)");
-    private By noModifiedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(2)");
+    private final By recentlyModfiedLabel = By.cssSelector(".viewcolumn>div:nth-child(3)");
+    private final By noModifiedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(2)");
 
     public UserContentPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -54,6 +54,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
     public UserContentPage assertRecentlyAddedLabelIsDisplayed()
     {
         LOG.info("Assert Recently Added Label is displayed");
+        getBrowser().waitUntilElementVisible(recentlyAddedLabel);
         assertTrue(getBrowser().isElementDisplayed(recentlyAddedLabel), "Recently Added Label is displayed");
         return this;
     }
@@ -61,6 +62,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
     public UserContentPage assertNoAddedContentMessageIsDisplayed()
     {
         LOG.info("No content added message is displayed");
+        getBrowser().waitUntilElementVisible(noAddedContentMessage);
         assertTrue(getBrowser().isElementDisplayed(noAddedContentMessage), "No content added message is displayed");
         return this;
     }
@@ -68,6 +70,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
     public UserContentPage assertRecentlyModifiedLabelIsDisplayed()
     {
         LOG.info("Assert Recently Modified Label is displayed");
+        getBrowser().waitUntilElementVisible(recentlyModfiedLabel);
         assertTrue(getBrowser().isElementDisplayed(recentlyModfiedLabel), "Recently Modified Label is displayed");
         return this;
     }
@@ -75,6 +78,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
     public UserContentPage assertNoModifiedContentMessageIsDisplayed()
     {
         LOG.info("No modified content message is displayed");
+        getBrowser().waitUntilElementVisible(noAddedContentMessage);
         assertTrue(getBrowser().isElementDisplayed(noAddedContentMessage), "No modified content message is displayed");
         return this;
     }

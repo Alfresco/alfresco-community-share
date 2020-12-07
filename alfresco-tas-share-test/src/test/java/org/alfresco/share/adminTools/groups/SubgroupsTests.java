@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools.groups;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.GroupModel;
@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 /**
  * @author Bogdan Bocancea
  */
-public class SubgroupsTests extends BaseTests
+public class SubgroupsTests extends BaseTest
 {
     private GroupModel parentGroup;
     private UserModel userToAdd, userToRemove;

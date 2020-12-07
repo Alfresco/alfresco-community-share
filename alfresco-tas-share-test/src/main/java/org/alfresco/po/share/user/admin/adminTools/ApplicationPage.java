@@ -1,40 +1,34 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.SharePage2;
-import org.alfresco.po.share.Theme;
-import org.alfresco.po.share.UploadFileDialog;
-import org.alfresco.utility.exception.PageRenderTimeException;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-
-import java.io.File;
-import java.util.List;
-
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.Theme;
+import org.alfresco.po.share.UploadFileDialog;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
 public class ApplicationPage extends SharePage2<ApplicationPage>
 {
-    protected String srcRoot = System.getProperty("user.dir") + File.separator;
-    protected String testDataFolder = srcRoot + "testdata" + File.separator;
-
     @RenderWebElement
-    private By themeDropdown = By.cssSelector("select#console-options-theme-menu");
-    private By applyButton = By.cssSelector("div.apply button[id$='_default-apply-button-button']");
-    private By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
-    private By mainText = By.cssSelector( ".info");
+    private final By themeDropdown = By.cssSelector("select#console-options-theme-menu");
+    private final By applyButton = By.cssSelector("div.apply button[id$='_default-apply-button-button']");
+    private final By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
+    private final By mainText = By.cssSelector( ".info");
     @RenderWebElement
-    private By resetButton = By.cssSelector("button[id$='reset-button-button']");
-    private By uploadButton = By.cssSelector("form[id*=admin-console] button[id*=upload-button-button]");
-    private String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
+    private final By resetButton = By.cssSelector("button[id$='reset-button-button']");
+    private final By uploadButton = By.cssSelector("form[id*=admin-console] button[id*=upload-button-button]");
+    private final String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
 
     public ApplicationPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

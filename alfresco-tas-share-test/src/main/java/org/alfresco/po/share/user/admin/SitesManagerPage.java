@@ -26,14 +26,14 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     @RenderWebElement
     private By tableHeadList = By.cssSelector("thead .label");
     @RenderWebElement
-    private By sitesTable = By.id("DOCLIB_DOCUMENT_LIST");
-    private By dropdownOptionsList = By.cssSelector("div.dijitPopup[style*=visible] td.dijitMenuItemLabel");
-    private By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
-    private By nextPageButton = By.id("DOCLIB_PAGINATION_MENU_PAGE_FORWARD");
+    private final By sitesTable = By.id("DOCLIB_DOCUMENT_LIST");
+    private final By dropdownOptionsList = By.cssSelector("div.dijitPopup[style*=visible] td.dijitMenuItemLabel");
+    private final By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
+    private final By nextPageButton = By.id("DOCLIB_PAGINATION_MENU_PAGE_FORWARD");
 
     public SitesManagerPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
                 break;
             }
         }
-        while (getBrowser().findElements(siteRowsElements).size() > 0);
+        while (!getBrowser().findElements(siteRowsElements).isEmpty());
         return null;
     }
 
@@ -127,19 +127,19 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return usingSite(site.getTitle());
     }
 
+    //todo:remove this class from here
     public class ManagerSiteAction
     {
-        private SitesManagerPage sitesManagerPage;
-        private String siteName;
-        private SiteManagerDeleteSiteDialog deleteSiteDialog;
-        private By siteRowName = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteName span.inner");
-        private By siteRowActionsButton = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions div.dijitPopupMenuItem");
-        private By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager .value");
-        private By siteRowVisibility = By.cssSelector("td.alfresco-lists-views-layouts-Cell.visibility table");
-        private By siteRowVisibilityArrow = By.cssSelector("input[class$='dijitArrowButtonInner']");
-        private By successIndicator = By.cssSelector("div[class='indicator success']");
-        private By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
-        private String siteAction = "div.dijitPopup[style*=visible] tr[title='%s']";
+        private final SitesManagerPage sitesManagerPage;
+        private final String siteName;
+        private final SiteManagerDeleteSiteDialog deleteSiteDialog;
+        private final By siteRowName = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteName span.inner");
+        private final By siteRowActionsButton = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions div.dijitPopupMenuItem");
+        private final By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager .value");
+        private final By siteRowVisibility = By.cssSelector("td.alfresco-lists-views-layouts-Cell.visibility table");
+        private final By siteRowVisibilityArrow = By.cssSelector("input[class$='dijitArrowButtonInner']");
+        private final By successIndicator = By.cssSelector("div[class='indicator success']");
+        private final By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
 
         public ManagerSiteAction(SitesManagerPage sitesManagerPage, String siteName, SiteManagerDeleteSiteDialog deleteSiteDialog)
         {
@@ -147,7 +147,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             this.siteName = siteName;
             this.deleteSiteDialog = deleteSiteDialog;
 
-            LOG.info(String.format("Using site: %s", siteName));
+            LOG.info("Using site: {}", siteName);
         }
 
         public WebElement getSiteRow()
@@ -165,7 +165,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         public ManagerSiteAction assertSiteIsNotDisplayed()
         {
             LOG.info("Assert site is not displayed");
-            Assert.assertNull(getSiteRow(), String.format("Site %s is displayed", siteName));
+            assertFalse(getBrowser().isElementDisplayed(getSiteRow()), String.format("Site %s is displayed", siteName));
             return this;
         }
 

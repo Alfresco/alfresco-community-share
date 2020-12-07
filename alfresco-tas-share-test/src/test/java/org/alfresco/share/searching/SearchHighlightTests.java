@@ -1,5 +1,6 @@
 package org.alfresco.share.searching;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 

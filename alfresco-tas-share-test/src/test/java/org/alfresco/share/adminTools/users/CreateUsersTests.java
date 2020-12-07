@@ -1,15 +1,17 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreateUsersTests extends BaseTests
+public class CreateUsersTests extends BaseTest
 {
     private CreateUserPage createUsers;
     private UsersPage usersPage;
@@ -27,7 +29,6 @@ public class CreateUsersTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCreateUsersPage()
     {
-        LOG.info("Step1: Click 'New User' button.");
         usersPage.navigate();
         usersPage.clickNewUserButton()
             .assertAllInputsFromInfoSectionAreDisplayed()
@@ -50,7 +51,6 @@ public class CreateUsersTests extends BaseTests
     {
         UserModel user = UserModel.getRandomUserModel();
         usersPage.navigate();
-        LOG.info("Step1: Click 'New User' button.");
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .clickCreate()

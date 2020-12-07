@@ -20,49 +20,43 @@ import static org.testng.Assert.assertTrue;
 public class GroupsPage extends SharePage2<GroupsPage>
 {
     @RenderWebElement
-    private By sectionTitle = By.cssSelector("label[for*='default-search-text']");
+    private final By sectionTitle = By.cssSelector("label[for*='default-search-text']");
     @RenderWebElement
-    private By showSystemGroupsCheckbox = By.cssSelector("input[id*='show-all']");
-    @RenderWebElement
-    private By searchInput = By.cssSelector("input[id*='default-search-text']");
-    private By searchButton = By.cssSelector(".search-text button[id*='search']");
-    private By browseButton = By.cssSelector("button[id*='browse']");
-    private By searchBar = By.cssSelector("div[id*=default-search-bar-text]");
-    private By breadcrumbList = By.cssSelector("div[id*='breadcrumb'] span[class*='groups'] span[class*='item-text']");
-    private By selectedItemsList = By.cssSelector(".yui-columnbrowser-item-selected");
-    private By newGroupPanelTitle = By.cssSelector("div[id*='create'] .title");
-    private By identifierFieldLabel = By.cssSelector(".create-main .field-row:nth-of-type(2) .crud-label");
-    private By displayNameFieldLabel = By.cssSelector(".create-main .field-row:nth-of-type(4) .crud-label");
-    private By groupIdentifierInput = By.cssSelector("input[id*='create-shortname']");
-    private By groupDisplayNameInput = By.cssSelector("input[id*='create-displayname']");
-    private By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
-    private By createGroupOKButton = By.cssSelector("button[id*='creategroup-ok']");
-    private By cancelCreateGroupButton = By.cssSelector("button[id*='creategroup-cancel']");
-    private By nextPageButton = By.cssSelector("a[class='yui-pg-next']");
-    private By firstPageButton = By.cssSelector("a[class='yui-pg-first']");
-    private By currentPage = By.cssSelector(".yui-pg-current");
-    private By searchResultTable = By.cssSelector(".yui-dt-data > tr");
-    private By groupBody = By.cssSelector(".yui-columnbrowser-column-body");
-    private By groupBy = By.cssSelector("div.yui-columnbrowser-column-body span[class*=item-label]");
-    private By createAndCreateAnotherGroupButton = By.cssSelector("button[id*='creategroup-another']");
-    private By deleteGroupOKButton = By.cssSelector("button[id$='_default-remove-button-button']");
-    private By deleteGroupCancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
-    private By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
-    private By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
-    private String groupRow = "//div[@class='yui-columnbrowser-column-body']//span[text()='%s']/..";
-    private By deleteGroupButton = By.cssSelector(".groups-delete-button");
-    private By updateGroupButton = By.cssSelector(".groups-update-button");
-    private By searchShortName = By.cssSelector("td[headers$='shortName ']");
-    private By searchResults = By.cssSelector(".yui-dt-data > tr");
-    private By removeUser = By.cssSelector(".users-remove-button");
-    private String columnGroupValues = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='label']";
-    private String createSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='newgroup']";
-    private String addSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='addgroup']";
-    private String addUserGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='adduser']";
+    private final By searchInput = By.cssSelector("input[id*='default-search-text']");
+    private final By searchButton = By.cssSelector(".search-text button[id*='search']");
+    private final By browseButton = By.cssSelector("button[id*='browse']");
+    private final By searchBar = By.cssSelector("div[id*=default-search-bar-text]");
+    private final By breadcrumbList = By.cssSelector("div[id*='breadcrumb'] span[class*='groups'] span[class*='item-text']");
+    private final By newGroupPanelTitle = By.cssSelector("div[id*='create'] .title");
+    private final By identifierFieldLabel = By.cssSelector(".create-main .field-row:nth-of-type(2) .crud-label");
+    private final By displayNameFieldLabel = By.cssSelector(".create-main .field-row:nth-of-type(4) .crud-label");
+    private final By groupIdentifierInput = By.cssSelector("input[id*='create-shortname']");
+    private final By groupDisplayNameInput = By.cssSelector("input[id*='create-displayname']");
+    private final By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
+    private final By createGroupOKButton = By.cssSelector("button[id*='creategroup-ok']");
+    private final By cancelCreateGroupButton = By.cssSelector("button[id*='creategroup-cancel']");
+    private final By nextPageButton = By.cssSelector("a[class='yui-pg-next']");
+    private final By firstPageButton = By.cssSelector("a[class='yui-pg-first']");
+    private final By currentPage = By.cssSelector(".yui-pg-current");
+    private final By searchResultTable = By.cssSelector(".yui-dt-data > tr");
+    private final By groupBody = By.cssSelector(".yui-columnbrowser-column-body");
+    private final By createAndCreateAnotherGroupButton = By.cssSelector("button[id*='creategroup-another']");
+    private final By deleteGroupOKButton = By.cssSelector("button[id$='_default-remove-button-button']");
+    private final By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");private final By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
+    private final String groupRow = "//div[@class='yui-columnbrowser-column-body']//span[text()='%s']/..";
+    private final By deleteGroupButton = By.cssSelector(".groups-delete-button");
+    private final By updateGroupButton = By.cssSelector(".groups-update-button");
+    private final By searchShortName = By.cssSelector("td[headers$='shortName ']");
+    private final By searchResults = By.cssSelector(".yui-dt-data > tr");
+    private final By removeUser = By.cssSelector(".users-remove-button");
+    private final String columnGroupValues = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='label']";
+    private final String createSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='newgroup']";
+    private final String addSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='addgroup']";
+    private final String addUserGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='adduser']";
 
     public GroupsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -97,7 +91,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
         return this;
     }
 
-    public ArrayList<String> getBreadcrumb()
+    public List<String> getBreadcrumb()
     {
         return getBrowser().waitUntilElementsVisible(breadcrumbList).stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
     }

@@ -13,38 +13,32 @@ import java.util.List;
 
 public class SearchManagerPage extends SharePage2<SearchManagerPage>
 {
-    private static final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
-    private static final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");
-    private static final By FILTER_REORDER_DOWN = By.cssSelector("td:nth-of-type(1) span.down>img");
-    private static final By FILTER_ID = By.cssSelector("td:nth-of-type(2) span.inner");
-    private static final By FILTER_NAME = By.cssSelector("td:nth-of-type(3) span.inlineEditValue");
-    private static final By FILTER_PROPERTY = By.cssSelector("td[id^='SEARCH_CONFIG_FACET_QNAME_CELL_ITEM']");
-    private static final By FILTER_TYPE = By.cssSelector("td:nth-of-type(5) span.inlineEditValue");
-    private static final By FILTER_SHOW = By.cssSelector("td:nth-of-type(6) span.inlineEditValue");
-    private static final By FILTER_DEFAULT = By.cssSelector("td:nth-of-type(7)");
-    private static final By FILTER_AVAILABILITY = By.cssSelector("td:nth-of-type(8)");
-    private static final By FILTER_DELETE_IMAGE = By.cssSelector("td[id^='SEARCH_CONFIG_ACTIONS_CELL_ITEM'] > span");
-    private static final By EDIT_ICON = By.cssSelector("img.editIcon");
-    private static final By EDIT_INPUT = By.cssSelector("input.dijitInputInner");
-    private static final By EDIT_DROPDOWN = By.cssSelector("div.control-row table.dijitSelect");
-    private static final By EDITPROPERTY_DROPDOWN = By.cssSelector("div.control-row table.dijitDownArrowButton");
-    private static final By EDIT_DROPDOWN_POPUP = By.cssSelector("div[id$='_CONTROL_dropdown']");
-    private static final By EDIT_DROPDOWN_ITEM = By.cssSelector("table[id$='_CONTROL_menu'] tr.dijitMenuItem td.dijitMenuItemLabel");
-    private static final By EDIT_SAVE = By.cssSelector("span[class*='alfresco-buttons-AlfButton confirmationButton'] span");
-    private static final By EDIT_CANCEL = By.cssSelector("span[class*='alfresco-buttons-AlfButton cancelButton']");
-    private static final By PARENT = By.xpath("..");
+    private final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
+    private final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");
+    private final By FILTER_REORDER_DOWN = By.cssSelector("td:nth-of-type(1) span.down>img");
+    private final By FILTER_ID = By.cssSelector("td:nth-of-type(2) span.inner");
+    private final By FILTER_NAME = By.cssSelector("td:nth-of-type(3) span.inlineEditValue");
+    private final By FILTER_PROPERTY = By.cssSelector("td[id^='SEARCH_CONFIG_FACET_QNAME_CELL_ITEM']");
+    private final By FILTER_TYPE = By.cssSelector("td:nth-of-type(5) span.inlineEditValue");
+    private final By FILTER_SHOW = By.cssSelector("td:nth-of-type(6) span.inlineEditValue");
+    private final By FILTER_AVAILABILITY = By.cssSelector("td:nth-of-type(8)");
+    private final By FILTER_DELETE_IMAGE = By.cssSelector("td[id^='SEARCH_CONFIG_ACTIONS_CELL_ITEM'] > span");
+    private final By EDIT_ICON = By.cssSelector("img.editIcon");
+    private final By EDIT_INPUT = By.cssSelector("input.dijitInputInner");
+    private final By EDIT_SAVE = By.cssSelector("span[class*='alfresco-buttons-AlfButton confirmationButton'] span");
+    private final By EDIT_CANCEL = By.cssSelector("span[class*='alfresco-buttons-AlfButton cancelButton']");
+    private final By PARENT = By.xpath("..");
     @RenderWebElement
-    private By createNewFilter = By.id("CREATE_FACET_BUTTON_label");
-    private By filters = By.id("SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
-    private By filterTableColumns = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label");
-    private By filterPropertyDropDownArrow = By.cssSelector("input.dijitReset.dijitInputField.dijitArrowButtonInner");
-    private By filterPropertyOptions = By.cssSelector("div[id ='SEARCH_CONFIG_FACET_QNAME_ITEM_0_SELECT_CONTROL_dropdown'] tbody.dijitReset");
-    private By notificationMessage = By.cssSelector("div[class^='alfresco-notifications-AlfNotification']");
-    private String filterProperty = "//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='%s']";
+    private final By createNewFilter = By.id("CREATE_FACET_BUTTON_label");
+    private final  By filters = By.id("SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
+    private final By filterTableColumns = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label");
+    private final By filterPropertyDropDownArrow = By.cssSelector("input.dijitReset.dijitInputField.dijitArrowButtonInner");
+    private final By notificationMessage = By.cssSelector("div[class^='alfresco-notifications-AlfNotification']");
+    private final String filterProperty = "//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='%s']";
 
     public SearchManagerPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

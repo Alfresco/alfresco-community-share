@@ -1,14 +1,19 @@
 package org.alfresco.share;
 
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-public class ToolbarTests extends BaseTests
+public class ToolbarTests extends BaseTest
 {
     private SiteDashboardPage siteDashboardPage;
     private UserProfilePage userProfilePage;

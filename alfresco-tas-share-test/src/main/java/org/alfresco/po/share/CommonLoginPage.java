@@ -1,9 +1,15 @@
 package org.alfresco.po.share;
 
 import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.web.browser.WebBrowser;
 
-public abstract class CommonLoginPage extends SharePageObject2
+public abstract class CommonLoginPage extends BasePage
 {
+    public CommonLoginPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
     public abstract CommonLoginPage assertLoginPageIsOpened();
 
     public abstract void login(String username, String password);

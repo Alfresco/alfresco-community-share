@@ -1,5 +1,9 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
@@ -9,12 +13,6 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
 
 public class EditRulesPage extends SiteCommon<EditRulesPage>
 {
@@ -29,28 +27,27 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     @RenderWebElement
     private By descriptionInputField = By.cssSelector("textarea[id*='description']");
     @RenderWebElement
-    private By ifCheckbox = By.cssSelector("input[id*='ruleConfigIfCondition']");
-    private By createButton = By.cssSelector(".main-buttons button[id*='create-button']");
-    private By saveButton = By.cssSelector(".edit-buttons button[id*='save-button']");
-    private By createAndCreateAnotherButton = By.cssSelector(".main-buttons button[id*='createAnother']");
-    private By cancelButton = By.cssSelector(".main-buttons button[id*='cancel']");
-    private By disableRuleCheckbox = By.cssSelector(".disabled input");
-    private By ruleAppliesToSubfoldersCheckbox = By.cssSelector("input[id*='default-applyToChildren']");
-    private By unlessCheckbox = By.cssSelector("input[id*='ruleConfigUnlessCondition']");
-    private By whenDropDown = By.cssSelector("div[id*=ruleConfigType] .config-name");
-    private By ifAllCriteriaAreMetDropDown = By.cssSelector("div[id*=ruleConfigIfCondition] .config-name");
-    private By performActionDropDown = By.cssSelector("div[id*=ruleConfigAction] .config-name");
-    private String dropdownSelector = "div[id*='%s'] select[class='config-name']";
-    private String secondDropdownSelector = "div[id*='%s'] select[class='suppress-validation']";
-    private String inputConfigText = "ul[id*='%s'] input[type='text']";
-    private By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
-    private By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
-    private ArrayList<String> selectedValues = new ArrayList<>();
-    private By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
+    private final By ifCheckbox = By.cssSelector("input[id*='ruleConfigIfCondition']");
+    private final By createButton = By.cssSelector(".main-buttons button[id*='create-button']");
+    private final By saveButton = By.cssSelector(".edit-buttons button[id*='save-button']");
+    private final By createAndCreateAnotherButton = By.cssSelector(".main-buttons button[id*='createAnother']");
+    private final By disableRuleCheckbox = By.cssSelector(".disabled input");
+    private final By ruleAppliesToSubfoldersCheckbox = By.cssSelector("input[id*='default-applyToChildren']");
+    private final By unlessCheckbox = By.cssSelector("input[id*='ruleConfigUnlessCondition']");
+    private final By whenDropDown = By.cssSelector("div[id*=ruleConfigType] .config-name");
+    private final By ifAllCriteriaAreMetDropDown = By.cssSelector("div[id*=ruleConfigIfCondition] .config-name");
+    private final By performActionDropDown = By.cssSelector("div[id*=ruleConfigAction] .config-name");
+    private final String dropdownSelector = "div[id*='%s'] select[class='config-name']";
+    private final String secondDropdownSelector = "div[id*='%s'] select[class='suppress-validation']";
+    private final String inputConfigText = "ul[id*='%s'] input[type='text']";
+    private final By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
+    private final By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
+    private final ArrayList<String> selectedValues = new ArrayList<>();
+    private final By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
 
     public EditRulesPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         documentLibraryPage = new DocumentLibraryPage(browser);
         manageRulesPage = new ManageRulesPage(browser);
         ruleDetailsPage = new RuleDetailsPage(browser);

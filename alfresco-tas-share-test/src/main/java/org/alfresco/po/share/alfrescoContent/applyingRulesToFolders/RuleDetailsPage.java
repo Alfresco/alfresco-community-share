@@ -13,20 +13,20 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 {
     private EditRulesPage editRulesPage;
 
-    private By ruleTitle = By.cssSelector(".rule-details [id*='title']");
-    private By ruleDescription = By.cssSelector("span[id*='description']");
-    private By detailsSelector = By.cssSelector("div[id*='default-display'] div[class*='behaviour']");
-    private By whenCondition = By.cssSelector("ul[id*='ruleConfigType'] .name span");
+    private final By ruleTitle = By.cssSelector(".rule-details [id*='title']");
+    private final By ruleDescription = By.cssSelector("span[id*='description']");
+    private final By detailsSelector = By.cssSelector("div[id*='default-display'] div[class*='behaviour']");
+    private final By whenCondition = By.cssSelector("ul[id*='ruleConfigType'] .name span");
     @RenderWebElement
-    private By ifAllCriteriaCondition = By.cssSelector("ul[id*='ruleConfigIfCondition'] .name span");
-    private By performAction = By.cssSelector(".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']");
-    private By rulesList = By.cssSelector(".rules-list-container .title");
-    private By runRulesOptions = By.cssSelector(".rules-actions .yuimenuitemlabel");
-    private String buttonSelector = "button[id*='%s']";
+    private final By ifAllCriteriaCondition = By.cssSelector("ul[id*='ruleConfigIfCondition'] .name span");
+    private final By performAction = By.cssSelector(".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']");
+    private final By rulesList = By.cssSelector(".rules-list-container .title");
+    private final By runRulesOptions = By.cssSelector(".rules-actions .yuimenuitemlabel");
+    private final String buttonSelector = "button[id*='%s']";
 
     public RuleDetailsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         editRulesPage = new EditRulesPage(browser);
     }
 
@@ -46,11 +46,11 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
         return getBrowser().findElement(ruleDescription).getText();
     }
 
-    public ArrayList<String> getDetailsList()
+    public List<String> getDetailsList()
     {
         List<WebElement> descriptionDetailsList = getBrowser().waitUntilElementsVisible(detailsSelector);
         ArrayList<String> descriptionDetailsText = new ArrayList<>();
-        if (descriptionDetailsList.size() > 0)
+        if (!descriptionDetailsList.isEmpty())
             for (WebElement aDescriptionDetailsList : descriptionDetailsList)
             {
                 descriptionDetailsText.add(aDescriptionDetailsList.getText());
@@ -75,11 +75,11 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
         return getBrowser().findElement(performAction).getText();
     }
 
-    public ArrayList<String> getDisplayedRules()
+    public List<String> getDisplayedRules()
     {
         ArrayList<String> rulesTextList = new ArrayList<>();
         List<WebElement> list = getBrowser().findElements(rulesList);
-        if (list.size() > 0)
+        if (!list.isEmpty())
             for (WebElement aRulesList : list)
             {
                 rulesTextList.add(aRulesList.getText());

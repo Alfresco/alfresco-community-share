@@ -1,8 +1,6 @@
 package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.SharePage2;
-import org.alfresco.po.share.site.members.AddSiteUsersPage;
-import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -19,6 +17,11 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
     protected By configurationOptions = By.cssSelector("div[style*='visible'] tr[id^='HEADER']>td[id$='text']");
 
     private String currentSiteName;
+
+    public SiteCommon(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getCurrentSiteName()
     {
@@ -43,7 +46,7 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 
     public void clickSiteMembers()
     {
-        while (isWaitPopupDisplayed() == true)
+        while (isWaitPopupDisplayed())
         {
             getBrowser().waitUntilElementDisappears(waitPopup);
         }
@@ -90,6 +93,12 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
     {
         setCurrentSiteName(site.getId());
         return (T) navigate().renderedPage();
+    }
+
+    public void navigateWithoutRender(SiteModel site)
+    {
+        setCurrentSiteName(site.getId());
+        navigateWithoutRender();
     }
 
     public String getSiteName()

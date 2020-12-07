@@ -65,20 +65,20 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     @FindBy (css = ".yui-dt-empty div")
     private WebElement noTopicsMessage;
 
-    private By title = By.cssSelector(".nodeTitle>a");
-    private By status = By.cssSelector(".nodeStatus");
-    private By topicPublished = By.cssSelector(".published");
-    private By topicContent = By.cssSelector(".content");
-    private By topicReplies = By.cssSelector(".replyTo+span");
-    private By topicTags = By.cssSelector(".tagLabel+span");
-    private By readTopic = By.cssSelector("div.nodeFooter span.nodeAttrValue>a");
-    private By viewTopic = By.cssSelector(".onViewTopic a");
-    private By editTopic = By.cssSelector(".onEditTopic a");
-    private By deleteTopic = By.cssSelector(".onDeleteTopic a");
+    private final By title = By.cssSelector(".nodeTitle>a");
+    private final By status = By.cssSelector(".nodeStatus");
+    private final By topicPublished = By.cssSelector(".published");
+    private final By topicContent = By.cssSelector(".content");
+    private final By topicReplies = By.cssSelector(".replyTo+span");
+    private final By topicTags = By.cssSelector(".tagLabel+span");
+    private final By readTopic = By.cssSelector("div.nodeFooter span.nodeAttrValue>a");
+    private final By viewTopic = By.cssSelector(".onViewTopic a");
+    private final By editTopic = By.cssSelector(".onEditTopic a");
+    private final By deleteTopic = By.cssSelector(".onDeleteTopic a");
 
     public TopicListPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+      super(browser);
     }
 
     @Override

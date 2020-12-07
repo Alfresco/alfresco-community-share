@@ -1,20 +1,26 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreatingFilesTests extends BaseTests
+public class CreatingFilesTests extends BaseTest
 {
-    private DocumentLibraryPage2 documentLibraryPage;
-
     private UserModel testUser;
     private SiteModel testSite;
+
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()

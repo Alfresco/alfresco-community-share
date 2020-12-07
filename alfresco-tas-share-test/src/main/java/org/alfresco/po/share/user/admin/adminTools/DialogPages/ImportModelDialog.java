@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -9,19 +9,19 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
-public class ImportModelDialog extends ShareDialog2
+public class ImportModelDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    private By importModelWindow = By.id("CMM_IMPORT_DIALOG");
+    private final By importModelWindow = By.id("CMM_IMPORT_DIALOG");
     @RenderWebElement
-    private By importButton = By.id("CMM_IMPORT_DIALOG_OK");
-    private By importModelTitle = By.cssSelector("div[class='dijitDialogTitleBar'] span[id ='CMM_IMPORT_DIALOG_title']");
-    private By cancelButton = By.id("CMM_IMPORT_DIALOG_CANCEL_label");
-    private By fileInput = By.cssSelector(".alfresco-html-FileInput");
+    private final By importButton = By.id("CMM_IMPORT_DIALOG_OK");
+    private final By importModelTitle = By.cssSelector("div[class='dijitDialogTitleBar'] span[id ='CMM_IMPORT_DIALOG_title']");
+    private final By cancelButton = By.id("CMM_IMPORT_DIALOG_CANCEL_label");
+    private final By fileInput = By.cssSelector(".alfresco-html-FileInput");
 
     public ImportModelDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public ImportModelDialog assertImportModelDialogOpened()

@@ -40,7 +40,7 @@ public class TableView extends SiteCommon<TableView>
 
     public TableView(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     private WebElement findItemInTableInTableView(String contentName)

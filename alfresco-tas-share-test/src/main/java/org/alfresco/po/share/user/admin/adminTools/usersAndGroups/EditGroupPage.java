@@ -9,16 +9,16 @@ import org.openqa.selenium.By;
 public class EditGroupPage extends SharePage2<EditGroupPage>
 {
     @RenderWebElement
-    private By saveChangesButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
+    private final By saveChangesButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
     @RenderWebElement
-    private By cancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
-    private By displayNameInputField = By.cssSelector("input[id$='_default-update-displayname']");
-    private By identifierField = By.cssSelector("span[id$='_default-update-shortname']");
-    private By pageTitle = By.cssSelector("div[id$='_default-update'] div.title");
+    private final By cancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
+    private final By displayNameInputField = By.cssSelector("input[id$='_default-update-displayname']");
+    private final By identifierField = By.cssSelector("span[id$='_default-update-shortname']");
+    private final By pageTitle = By.cssSelector("div[id$='_default-update'] div.title");
 
     public EditGroupPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

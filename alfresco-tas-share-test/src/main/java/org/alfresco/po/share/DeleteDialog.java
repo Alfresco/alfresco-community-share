@@ -8,19 +8,19 @@ import org.openqa.selenium.By;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class DeleteDialog extends ShareDialog2
+public class DeleteDialog extends BaseDialogComponent
 {
     @RenderWebElement
     public By deleteButton = By.cssSelector("#prompt .ft .button-group>span:nth-of-type(1) button");
     @RenderWebElement
-    private By dialogHeader = By.id("prompt_h");
-    private By cancelButton = By.cssSelector("span[class*='default'] button");
-    private By message = By.cssSelector("#prompt_h + div.bd");
-    private By dialogBody = By.id("prompt_c");
+    private final By dialogHeader = By.id("prompt_h");
+    private final By cancelButton = By.cssSelector("span[class*='default'] button");
+    private final By message = By.cssSelector("#prompt_h + div.bd");
+    private final By dialogBody = By.id("prompt_c");
 
     public DeleteDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getHeader()
@@ -65,7 +65,6 @@ public class DeleteDialog extends ShareDialog2
         LOG.info("Click Delete");
         getBrowser().waitUntilElementClickable(deleteButton).click();
         waitUntilNotificationMessageDisappears();
-        LOG.error("Message for delete tag (for travis debug) {}", notificationMessageThread.get());
         if(getBrowser().isElementDisplayed(MESSAGE_LOCATOR))
         {
             LOG.info("Wait for the second message");

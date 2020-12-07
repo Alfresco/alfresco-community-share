@@ -1,25 +1,22 @@
 package org.alfresco.share.adminTools.users;
 
-import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserProfileTests extends BaseTests
-{
-    @Autowired
-    private UserService userService;
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
+public class UserProfileTests extends BaseTest
+{
     private UsersPage usersPage;
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
     private EditUserPage editUserPage;
@@ -164,7 +161,7 @@ public class UserProfileTests extends BaseTests
             .editQuota("50")
             .clickSaveChanges()
                 .assertQuotaIs("50 GB");
-        cleanupAuthenticatedSession();
+        browser.get().manage().deleteAllCookies();
     }
 
     @TestRail (id = "C9426")

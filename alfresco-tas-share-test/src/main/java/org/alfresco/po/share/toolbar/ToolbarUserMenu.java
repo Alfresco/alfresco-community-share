@@ -1,36 +1,36 @@
 package org.alfresco.po.share.toolbar;
 
+import org.alfresco.common.Wait;
 import org.alfresco.po.share.AIMSPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
-import org.alfresco.po.share.SharePageObject2;
+import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.testng.Assert.assertTrue;
 
-public class ToolbarUserMenu extends SharePageObject2
+public class ToolbarUserMenu extends BasePage
 {
     @RenderWebElement
-    private By userDashboard = By.id("HEADER_USER_MENU_DASHBOARD_text");
+    private final By userDashboard = By.id("HEADER_USER_MENU_DASHBOARD_text");
     @RenderWebElement
-    private By myProfileMenu = By.id("HEADER_USER_MENU_PROFILE_text");
-    private By help = By.id("HEADER_USER_MENU_HELP_text");
-    private By setCurrentPageAsHome = By.id("HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text");
-    private By setDashBoardAsHome = By.id("HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
-    private By changePassword = By.id("HEADER_USER_MENU_CHANGE_PASSWORD_text");
-    private By logout = By.id("HEADER_USER_MENU_LOGOUT_text");
-    private By dropdownMenu = By.id("HEADER_USER_MENU_POPUP_dropdown");
+    private final By myProfileMenu = By.id("HEADER_USER_MENU_PROFILE_text");
+    private final By help = By.id("HEADER_USER_MENU_HELP_text");
+    private final By setCurrentPageAsHome = By.id("HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text");
+    private final By setDashBoardAsHome = By.id("HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text");
+    private final By changePassword = By.id("HEADER_USER_MENU_CHANGE_PASSWORD_text");
+    private final By logout = By.id("HEADER_USER_MENU_LOGOUT_text");
+    private final By dropdownMenu = By.id("HEADER_USER_MENU_POPUP_dropdown");
 
     public ToolbarUserMenu(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public ToolbarUserMenu assertUserDashboardIsDisplayed()
@@ -79,7 +79,7 @@ public class ToolbarUserMenu extends SharePageObject2
     {
         LOG.info("Assert Alfresco Documentation window is opened");
         getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains("https://docs.alfresco.com/", 10);
+        getBrowser().waitUrlContains("https://docs.alfresco.com/", WAIT_10.getValue());
         assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         getBrowser().closeWindowAndSwitchBack();
 

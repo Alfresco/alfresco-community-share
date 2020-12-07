@@ -12,18 +12,18 @@ import static org.testng.Assert.assertTrue;
 
 public class AIMSPage extends CommonLoginPage
 {
-    private By usernameInput = By.id("username");
-    private By passwordInput = By.id("password");
+    private final By usernameInput = By.id("username");
+    private final By passwordInput = By.id("password");
     @RenderWebElement
-    private By submit = By.cssSelector("input.submit");
+    private final By submit = By.cssSelector("input.submit");
     @RenderWebElement
-    private By alfrescoLogo = By.cssSelector("img.logo");
-    private By errorLogin = By.cssSelector("div.alert-error span.message-text");
-    private By copyright = By.cssSelector(".copyright");
+    private final By alfrescoLogo = By.cssSelector("img.logo");
+    private final By errorLogin = By.cssSelector("div.alert-error span.message-text");
+    private final By copyright = By.cssSelector(".copyright");
 
     public AIMSPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public CommonLoginPage navigate()

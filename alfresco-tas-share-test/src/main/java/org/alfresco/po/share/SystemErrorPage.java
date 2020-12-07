@@ -5,14 +5,14 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
-public class SystemErrorPage extends SharePageObject2
+public class SystemErrorPage extends BasePage
 {
     @RenderWebElement
-    private By errorHeader = By.cssSelector(".alf-error-header");
+    private final By errorHeader = By.cssSelector(".alf-error-header");
 
     public SystemErrorPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getErrorHeader()

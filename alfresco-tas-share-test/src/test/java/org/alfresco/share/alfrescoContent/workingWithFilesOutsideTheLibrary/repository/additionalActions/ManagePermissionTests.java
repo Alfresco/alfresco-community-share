@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
 
+import static org.alfresco.common.Utils.srcRoot;
+
 import java.io.File;
 
 import org.alfresco.dataprep.CMISUtil;

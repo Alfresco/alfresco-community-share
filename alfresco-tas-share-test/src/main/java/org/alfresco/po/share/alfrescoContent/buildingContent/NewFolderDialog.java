@@ -1,6 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -8,21 +8,20 @@ import org.openqa.selenium.By;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class NewFolderDialog extends ShareDialog2
+public class NewFolderDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    protected By dialogTitle = By.cssSelector("div[id$='_default-createFolder-dialogTitle']");
-    @RenderWebElement
-    private By saveButton = By.cssSelector("button[id$='submit-button']");
-    private By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
-    private By nameField = By.cssSelector("input[name='prop_cm_name']");
-    private By titleField = By.cssSelector("input[name='prop_cm_title']");
-    private By descriptionField = By.cssSelector("textarea[name='prop_cm_description']");
-    private By mandatoryIndicator = By.cssSelector("label[for$='createFolder_prop_cm_name'] .mandatory-indicator");
+    private final By dialogTitle = By.cssSelector("div[id$='_default-createFolder-dialogTitle']");
+    private final By saveButton = By.cssSelector("button[id$='submit-button']");
+    private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
+    private final By nameField = By.cssSelector("input[name='prop_cm_name']");
+    private final By titleField = By.cssSelector("input[name='prop_cm_title']");
+    private final By descriptionField = By.cssSelector("textarea[name='prop_cm_description']");
+    private final By mandatoryIndicator = By.cssSelector("label[for$='createFolder_prop_cm_name'] .mandatory-indicator");
 
     public NewFolderDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public NewFolderDialog assertDialogTitleEquals(String expectedTitle)
@@ -124,7 +123,8 @@ public class NewFolderDialog extends ShareDialog2
     public NewFolderDialog assertNameInputContainsIllegalCharactersMessageIsDisplayed()
     {
         LOG.info("Assert name contains illegal characters message is displayed");
-        assertTrue(getBrowser().findElement(nameField).getAttribute("title").equals(language.translate("newFolderDialog.invalidName")));
+        assertEquals(language.translate("newFolderDialog.invalidName"),
+            getBrowser().findElement(nameField).getAttribute("title"));
         return this;
     }
 }

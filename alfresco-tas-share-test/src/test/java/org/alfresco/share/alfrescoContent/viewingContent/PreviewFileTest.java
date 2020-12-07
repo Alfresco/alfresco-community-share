@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import static org.alfresco.common.Utils.srcRoot;
+
 import java.io.File;
 
 import org.alfresco.dataprep.SiteService;

@@ -1,34 +1,33 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-public class CreateNewItemPopUp extends ShareDialog2
+public class CreateNewItemPopUp extends BaseDialogComponent
 {
     @RenderWebElement
-    protected By saveButton = By.cssSelector("button[id$='submit-button']");
-    protected By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
-    protected String fieldLocator = "div[class*='form-field'] [id*='%s']";
-    protected String dropDownLocator = "select[id*='%s']";
-    protected String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
-    protected String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
-    private By selectAttachmentButton = By.cssSelector("div[id*='attachments-cntrl-itemGroupActions'] button");
+    private final By saveButton = By.cssSelector("button[id$='submit-button']");
+    private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
+    protected final String fieldLocator = "div[class*='form-field'] [id*='%s']";
+    private final String dropDownLocator = "select[id*='%s']";
+    private final String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
+    private final String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
+    private final By selectAttachmentButton = By.cssSelector("div[id*='attachments-cntrl-itemGroupActions'] button");
 
     //@Autowired
     DataListsPage dataListsPage;
 
     public CreateNewItemPopUp(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public void addContent(String field, String content)

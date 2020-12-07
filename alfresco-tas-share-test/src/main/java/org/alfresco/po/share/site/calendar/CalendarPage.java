@@ -103,7 +103,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     public CalendarPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

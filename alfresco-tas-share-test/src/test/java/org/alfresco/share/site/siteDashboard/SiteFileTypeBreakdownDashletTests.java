@@ -1,5 +1,6 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 
 import java.io.File;

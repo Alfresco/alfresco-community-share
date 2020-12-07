@@ -1,7 +1,7 @@
 package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.UserSitesListPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserProfileSitesTests extends BaseTests
+public class UserProfileSitesTests extends BaseTest
 {
     private UserSitesListPage userSitesPage;
 
@@ -35,7 +35,6 @@ public class UserProfileSitesTests extends BaseTests
         inviteSite = dataSite.usingUser(user).createPrivateRandomSite();
         notInvitedSite = dataSite.usingUser(user).createPublicRandomSite();
         publicSite = dataSite.usingUser(invitedUser).createPublicRandomSite();
-        dataUser.usingUser(user).addUserToSite(invitedUser, inviteSite, UserRole.SiteConsumer);
     }
 
     @AfterClass(alwaysRun = true)
@@ -49,6 +48,7 @@ public class UserProfileSitesTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void viewSitesWhereUserHasMembershipTest()
     {
+        dataUser.usingUser(user).addUserToSite(invitedUser, inviteSite, UserRole.SiteConsumer);
         setupAuthenticatedSession(invitedUser);
         userSitesPage.navigate(invitedUser)
             .assertSiteIsDisplayed(inviteSite)
@@ -61,7 +61,7 @@ public class UserProfileSitesTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void userWithNoSitesTest()
     {
-        setupAuthenticatedSession(invitedUser);
+        setupAuthenticatedSession(noSitesUser);
         userSitesPage.navigate(noSitesUser)
             .assertUserHasNoSitesMessageIsDisplayed();
     }

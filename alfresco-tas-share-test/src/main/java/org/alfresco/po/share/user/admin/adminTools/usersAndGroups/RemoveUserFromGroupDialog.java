@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -9,17 +9,17 @@ import org.testng.Assert;
 
 import static org.testng.Assert.assertTrue;
 
-public class RemoveUserFromGroupDialog extends ShareDialog2
+public class RemoveUserFromGroupDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    private By dialogHeader = By.cssSelector("#prompt_h");
+    private final By dialogHeader = By.cssSelector("#prompt_h");
     @RenderWebElement
-    private By dialogMessage = By.cssSelector("#prompt .bd");
-    private By buttonsList = By.cssSelector(".button-group button");
+    private final By dialogMessage = By.cssSelector("#prompt .bd");
+    private final By buttonsList = By.cssSelector(".button-group button");
 
     public RemoveUserFromGroupDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public RemoveUserFromGroupDialog assertDialogTitleIsCorrect()

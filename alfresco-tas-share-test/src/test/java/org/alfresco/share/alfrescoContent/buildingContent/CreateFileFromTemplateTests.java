@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
 
-public class CreateFileFromTemplateTests extends BaseTests
+public class CreateFileFromTemplateTests extends BaseTest
 {
     private final String templateContent = "template content";
 

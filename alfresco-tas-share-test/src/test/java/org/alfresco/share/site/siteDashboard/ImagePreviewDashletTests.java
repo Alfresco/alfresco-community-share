@@ -1,5 +1,7 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import java.io.File;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;

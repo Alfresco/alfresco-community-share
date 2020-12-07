@@ -1,28 +1,29 @@
 package org.alfresco.po.share.site;
 
+import static org.alfresco.common.Wait.WAIT_15;
+
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class SelectPopUpPage extends ShareDialog2
+public class SelectPopUpPage extends BaseDialogComponent
 {
-    private By resultsList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr");
-    private By selectedList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] [class$='dt-data'] tr");
+    private final By resultsList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr");
+    private final By selectedList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] [class$='dt-data'] tr");
     @RenderWebElement
-    private By okButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] [id$='cntrl-ok-button']");
-    private By cancelButton = By.cssSelector("[id$='issueAssignedTo-cntrl-cancel-button']");
-    private By searchInput = By.cssSelector(".yui-dialog[style*='visibility: visible'] input[id*='cntrl-picker-searchText']");
-    private By searchButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] button[id$='searchButton-button']");
-    private By addIcon = By.cssSelector(".yui-dialog[style*='visibility: visible'] [class*='addIcon']");
-    private By removeIcon = By.cssSelector("[class*='removeIcon']");
+    private final By okButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] [id$='cntrl-ok-button']");
+    private final By searchInput = By.cssSelector(".yui-dialog[style*='visibility: visible'] input[id*='cntrl-picker-searchText']");
+    private final By searchButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] button[id$='searchButton-button']");
+    private final By addIcon = By.cssSelector(".yui-dialog[style*='visibility: visible'] [class*='addIcon']");
+    private final By removeIcon = By.cssSelector("[class*='removeIcon']");
 
     public SelectPopUpPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public WebElement selectDetailsRowResultList(String item)
@@ -83,9 +84,9 @@ public class SelectPopUpPage extends ShareDialog2
         clearAndType(searchInput, searchText);
         getBrowser().waitUntilElementClickable(searchButton).click();
         int counter = 0;
-        while (!getBrowser().isElementDisplayed(addIcon) && counter < WAIT_15)
+        while (!getBrowser().isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
         {
-            LOG.info("Search: " + counter);
+            LOG.info("Search: {}", counter);
             Utility.waitToLoopTime(1);
             getBrowser().findElement(searchButton).click();
             counter++;

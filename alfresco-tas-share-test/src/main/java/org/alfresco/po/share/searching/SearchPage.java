@@ -5,102 +5,90 @@ import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.ContentModel;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
 {
-    public By searchResult = By.id("FCTSRCH_SEARCH_RESULT");
-    public By searchResultRows = By.id("FCTSRCH_SEARCH_RESULT");
-    public By deleteDialogConfirm = By.cssSelector("span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION");
-    public By deleteDialogCancel = By.cssSelector("span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION");
-    private By numberOfResultsLabel = By.id("FCTSRCH_RESULTS_COUNT_LABEL");
-    private By selectedItemsMenu = By.id("SELECTED_ITEMS_MENU_text");
-    private By resultsDetailedViewList = By.cssSelector(".propertiesCell .nameAndTitleCell a .value");
+    private final By searchResultRows = By.id("FCTSRCH_SEARCH_RESULT");
+    private final By deleteDialogConfirm = By.cssSelector("span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION");
+    private final By deleteDialogCancel = By.cssSelector("span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION");
+    private final By numberOfResultsLabel = By.id("FCTSRCH_RESULTS_COUNT_LABEL");
+    private final By selectedItemsMenu = By.id("SELECTED_ITEMS_MENU_text");
+    private final By resultsDetailedViewList = By.cssSelector(".propertiesCell .nameAndTitleCell a .value");
     @RenderWebElement
-    private By searchInLabel = By.id("FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL");
-    private By searchTopMenu = By.id("FCTSRCH_TOP_MENU_BAR");
+    private final By searchInLabel = By.id("FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL");
     @RenderWebElement
-    private By searchButton = By.cssSelector("span[class*='confirmationButton'] span");
-    private By searchInDropdown = By.cssSelector("[id=FCTSRCH_SCOPE_SELECTION_MENU_text]");
-    private By searchInDropdownOptionsSelector = By.cssSelector("div[id='FCTSRCH_SCOPE_SELECTION_MENU_GROUP'] td[class*='dijitMenuItemLabel']");
-    private By filterTypeList = By.cssSelector(".label.alfresco-layout-Twister--open>h3");
-    private By showMore = By.cssSelector(".showMore .details");
-    private By showLess = By.cssSelector(".showLess .details");
-    private By sortDropdownButton = By.cssSelector("div[id='FCTSRCH_SORT_MENU'] span[class$='arrow']");
-    private By sortOptions = By.cssSelector("tr[id*='alfresco_menus_AlfCheckableMenuItem'] td:nth-child(3)");
-    private By allOptions = By.cssSelector(".filterLabel");
-    private By viewsDropdown = By.cssSelector("div[id='FCTSRCH_VIEWS_MENU'] img");
-    private By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
-    private By resultsGalleryViewList = By.cssSelector("[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']");
-    private By sliderIncrementIcon = By.cssSelector(".dijitSliderIncrementIconH");
-    private By sliderDecrementIcon = By.cssSelector(".dijitSliderDecrementIconH");
-    private By sliderGalleryView = By.cssSelector(".dijitSliderMoveable");
-    private By resultModifiedByList = By.cssSelector(".dateCell .value");
-    private By searchManager = By.cssSelector("#FCTSRCH_CONFIG_PAGE_LINK_text>a");
-    private By actionsLink = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']");
-    private By actionsOptions = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']");
-    private By checkboxList = By.cssSelector("span[id*='SELECTOR']");
-    private By selectedItemsList = By.id("SELECTED_LIST_ITEMS");
-    private By selectedItemsCheckboxOptions = By.cssSelector("#SELECTED_LIST_ITEMS_dropdown tr td[id*='text']");
-    private By selectedItemsDropdown = By.cssSelector("span[id='SELECTED_ITEMS_MENU_text']");
-    private By selectedItemsOptions = By.cssSelector("#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']");
-    private By selectAllButton = By.cssSelector("div[id='SELECTED_LIST_ITEMS'] img");
-    private By noSearchResults = By.cssSelector("div[id='FCTSRCH_SEARCH_ADVICE_NO_RESULTS'] div[title='Search suggestions:']");
-    private By copyToAction = By.id("onActionCopyTo_text");
-    private By optionsList = By.cssSelector("tr[class$='dijitMenuItem']");
-    private By folderResult = By.cssSelector("img[src*='folder']");
-    private By contentResult = By.cssSelector("img[src*='content']");
-    private By resultsTable = By.id("FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS");
-    private By confirmDeleteDialog = By.id("ALF_DELETE_CONTENT_DIALOG");
-    private By sortDropdown = By.cssSelector("div[id='FCTSRCH_SORT_MENU_dropdown'] tbody[class='dijitReset']");
-    private By sortOrderToggleButton = By.cssSelector("div[id='FCTSRCH_SORT_ORDER_TOGGLE'] img");
-    private By selector = By.cssSelector("span[id='FCTSRCH_SEARCH_RESULT_SELECTOR']");
+    private final By searchButton = By.cssSelector("span[class*='confirmationButton'] span");
+    private final By searchInDropdown = By.cssSelector("[id=FCTSRCH_SCOPE_SELECTION_MENU_text]");
+    private final By searchInDropdownOptionsSelector = By.cssSelector("div[id='FCTSRCH_SCOPE_SELECTION_MENU_GROUP'] td[class*='dijitMenuItemLabel']");
+    private final By filterTypeList = By.cssSelector(".label.alfresco-layout-Twister--open>h3");
+    private final By showMore = By.cssSelector(".showMore .details");
+    private final By showLess = By.cssSelector(".showLess .details");
+    private final By sortDropdownButton = By.cssSelector("div[id='FCTSRCH_SORT_MENU'] span[class$='arrow']");
+    private final By sortOptions = By.cssSelector("tr[id*='alfresco_menus_AlfCheckableMenuItem'] td:nth-child(3)");
+    private final By allOptions = By.cssSelector(".filterLabel");
+    private final By viewsDropdown = By.cssSelector("div[id='FCTSRCH_VIEWS_MENU'] img");
+    private final By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
+    private final By resultsGalleryViewList = By.cssSelector("[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']");
+    private final By sliderIncrementIcon = By.cssSelector(".dijitSliderIncrementIconH");
+    private final By sliderDecrementIcon = By.cssSelector(".dijitSliderDecrementIconH");
+    private final By sliderGalleryView = By.cssSelector(".dijitSliderMoveable");
+    private final By searchManager = By.cssSelector("#FCTSRCH_CONFIG_PAGE_LINK_text>a");
+    private final By actionsLink = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']");
+    private final By actionsOptions = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']");
+    private final By checkboxList = By.cssSelector("span[id*='SELECTOR']");
+    private final By selectedItemsCheckboxOptions = By.cssSelector("#SELECTED_LIST_ITEMS_dropdown tr td[id*='text']");
+    private final By selectedItemsDropdown = By.cssSelector("span[id='SELECTED_ITEMS_MENU_text']");
+    private final By selectedItemsOptions = By.cssSelector("#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']");
+    private final By noSearchResults = By.cssSelector("div[id='FCTSRCH_SEARCH_ADVICE_NO_RESULTS'] div[title='Search suggestions:']");
+    private final By copyToAction = By.id("onActionCopyTo_text");
+    private final By folderResult = By.cssSelector("img[src*='folder']");
+    private final By contentResult = By.cssSelector("img[src*='content']");
+    private final By confirmDeleteDialog = By.id("ALF_DELETE_CONTENT_DIALOG");
+    private final By sortOrderToggleButton = By.cssSelector("div[id='FCTSRCH_SORT_ORDER_TOGGLE'] img");
     @RenderWebElement
-    private By inputField = By.cssSelector("input[id$='_CONTROL']");
-    private By currentSortFilter = By.cssSelector("span[id='FCTSRCH_SORT_MENU_text']");
-    private By resultsList = By.cssSelector("tbody[id='FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS'] tr");
-    private By galleryViewResultsList = By.cssSelector("[id='FCTSRCH_GALLERY_VIEW_ITEMS'] td");
-    private By closeInfo = By.cssSelector("div[class='alfresco-dialog-AlfDialog dialogDisplayed dijitDialog'] span.dijitDialogCloseIcon span");
-    private By imagePreview = By.cssSelector("div[id='aikauLightbox'] div[id='aikauLightboxCaption']");
-    private By previewTitle = By.cssSelector("span.dijitDialogTitle");
-    private By modifiedBy = By.cssSelector("span.alfresco-renderers-DateLink");
-    private By configureSearchButton = By.cssSelector("div[id='FCTSRCH_CONFIG_PAGE_LINK'] span");
-    private By closePicturePreview = By.cssSelector("img[id='aikauCloseButton']");
-    private By closeFilePreviewButton = By.cssSelector("div[class*='dialogDisplayed dijitDialog'] span.dijitDialogCloseIcon");
-    private By selectedListItemsDropdownArrow = By.cssSelector("DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow");
-    private By highlightedSite = By.cssSelector("span[id='FCTSRCH_SEARCH_RESULT_SITE'] span mark");
-    private By highlightedModifiedDate = By.cssSelector("span[id='FCTSRCH_SEARCH_RESULT_DATE'] span mark");
+    private final By inputField = By.cssSelector("input[id$='_CONTROL']");
+    private final By currentSortFilter = By.cssSelector("span[id='FCTSRCH_SORT_MENU_text']");
+    private final By resultsList = By.cssSelector("tbody[id='FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS'] tr");
+    private final By galleryViewResultsList = By.cssSelector("[id='FCTSRCH_GALLERY_VIEW_ITEMS'] td");
+    private final By imagePreview = By.cssSelector("div[id='aikauLightbox'] div[id='aikauLightboxCaption']");
+    private final By previewTitle = By.cssSelector("span.dijitDialogTitle");
+    private final By modifiedBy = By.cssSelector("span.alfresco-renderers-DateLink");
+    private final By configureSearchButton = By.cssSelector("div[id='FCTSRCH_CONFIG_PAGE_LINK'] span");
+    private final By closePicturePreview = By.cssSelector("img[id='aikauCloseButton']");
+    private final By closeFilePreviewButton = By.cssSelector("div[class*='dialogDisplayed dijitDialog'] span.dijitDialogCloseIcon");
+    private final By selectedListItemsDropdownArrow = By.cssSelector("DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow");
+    private final By highlightedSite = By.cssSelector("span[id='FCTSRCH_SEARCH_RESULT_SITE'] span mark");
+    private final By highlightedModifiedDate = By.cssSelector("span[id='FCTSRCH_SEARCH_RESULT_DATE'] span mark");
 
-    private int i;
     private List<WebElement> selectedCheckboxes;
-    private By checkboxSelector = By.cssSelector("span[class*='selected']");
-    private By nameHighlight = By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] td div span a span.value mark");
-    private By contentHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_CONTENT_SNIPPET']/span/span[@class='value']/mark");
-    private By descriptionHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DESCRIPTION']/span/span[@class='value']/mark");
-    private By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
-    private By highlight = By.cssSelector("span.inner span mark");
+    private final By checkboxSelector = By.cssSelector("span[class*='selected']");
+    private final By nameHighlight = By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] td div span a span.value mark");
+    private final By contentHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_CONTENT_SNIPPET']/span/span[@class='value']/mark");
+    private final By descriptionHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DESCRIPTION']/span/span[@class='value']/mark");
+    private final By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
+    private final By highlight = By.cssSelector("span.inner span mark");
 
-    private By contentName = By.cssSelector(".nameAndTitleCell .value");
-    private By contentCheckBox = By.cssSelector("span[class^='alfresco-renderers-Selector']");
-    private By noResults =  By.cssSelector(".alfresco-search-NoSearchResults");
+    private final By contentName = By.cssSelector(".nameAndTitleCell .value");
+    private final By contentCheckBox = By.cssSelector("span[class^='alfresco-renderers-Selector']");
+    private final By noResults =  By.cssSelector(".alfresco-search-NoSearchResults");
 
     public SearchPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     private WebElement docName(String docName)
@@ -138,7 +126,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void waitForPageToLoad()
     {
-        getBrowser().waitUntilElementVisible(searchButton, WAIT_60);
+        getBrowser().waitUntilElementVisible(searchButton, WAIT_60.getValue());
     }
 
     private boolean isContentDisplayed(ContentModel contentModel)
@@ -170,10 +158,10 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public SearchPage searchForContentWithRetry(ContentModel contentToFind)
     {
-        LOG.info("Search for content {} with retry");
+        LOG.info("Search for content: {}", contentToFind);
         boolean found = isContentDisplayed(contentToFind);
         int counter = 0;
-        while (!found && counter <= WAIT_60)
+        while (!found && counter <= WAIT_60.getValue())
         {
             Utility.waitToLoopTime(1, String.format("Wait for content to be displayed in search: %s", contentToFind.getName()));
             setSearchExpression(contentToFind.getName());
@@ -188,7 +176,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         int counter = 0;
         boolean allFound = false;
-        while(!allFound && counter <= WAIT_60)
+        while(!allFound && counter <= WAIT_60.getValue())
         {
             Utility.waitToLoopTime(1, String.format("Wait for content to be displayed in search for: %s", searchExpression));
             setSearchExpression(searchExpression);
@@ -351,20 +339,18 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         List<WebElement> sortList = getBrowser().findElements(sortOptions);
         if (sortList.size() == 12)
-            if (sortList.get(0).getText().equals("Relevance")
-                    && sortList.get(1).getText().equals("Name")
-                    && sortList.get(2).getText().equals("Title")
-                    && sortList.get(3).getText().equals("Description")
-                    && sortList.get(4).getText().equals("Author")
-                    && sortList.get(5).getText().equals("Modifier")
-                    && sortList.get(6).getText().equals("Modified date")
-                    && sortList.get(7).getText().equals("Creator")
-                    && sortList.get(8).getText().equals("Created date")
-                    && sortList.get(9).getText().equals("Size") && sortList.get(10).getText().equals("Mime type")
-                    && sortList.get(11).getText().equals("Type"))
-            {
-                return true;
-            }
+            return sortList.get(0).getText().equals("Relevance")
+                && sortList.get(1).getText().equals("Name")
+                && sortList.get(2).getText().equals("Title")
+                && sortList.get(3).getText().equals("Description")
+                && sortList.get(4).getText().equals("Author")
+                && sortList.get(5).getText().equals("Modifier")
+                && sortList.get(6).getText().equals("Modified date")
+                && sortList.get(7).getText().equals("Creator")
+                && sortList.get(8).getText().equals("Created date")
+                && sortList.get(9).getText().equals("Size") && sortList.get(10).getText()
+                .equals("Mime type")
+                && sortList.get(11).getText().equals("Type");
         return false;
     }
 
@@ -374,7 +360,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         getBrowser().waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
     }
 
-    public ArrayList<String> getViewsDropdownOptions()
+    public List<String> getViewsDropdownOptions()
     {
         List<WebElement> viewsDropdownOptions = getBrowser().findElements(viewsDropdownOptionsSelector);
         ArrayList<String> viewsOptionsText = new ArrayList<>();
@@ -388,13 +374,13 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public boolean isSearchResultsListInDetailedView()
     {
         getBrowser().waitUntilElementsVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
-        return getBrowser().findElements(resultsDetailedViewList).size() > 0;
+        return !getBrowser().findElements(resultsDetailedViewList).isEmpty();
     }
 
     public boolean isSearchResultsListInGalleryView()
     {
         getBrowser().waitUntilElementVisible(By.cssSelector("[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']"));
-        return getBrowser().findElements(resultsGalleryViewList).size() > 0;
+        return !getBrowser().findElements(resultsGalleryViewList).isEmpty();
     }
 
     public SearchPage clickGalleryView()
@@ -535,6 +521,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         if (isResultFound(searchResult))
         {
             List<WebElement> checkBoxElements = getBrowser().findElements(checkboxList);
+            int i;
             for (i = 0; i < checkBoxElements.size(); i++)
             {
                 LOG.info("Position {} ", i);

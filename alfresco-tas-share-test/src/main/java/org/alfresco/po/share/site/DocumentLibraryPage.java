@@ -27,13 +27,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.alfresco.common.Utils.retryUntil;
+import static org.alfresco.common.Wait.WAIT_15;
+import static org.alfresco.common.Wait.WAIT_3;
+import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertTrue;
 
 public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO to be deleted
 {
     public DocumentLibraryPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+      super(browser);
     }
 
     public enum CreateMenuOption
@@ -192,7 +195,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public CreateContentPage clickCreateContentOption(CreateMenuOption option)
     {
-        getBrowser().waitUntilElementClickable(option.getLocator(), WAIT_15).click();
+        getBrowser().waitUntilElementClickable(option.getLocator(), WAIT_15.getValue()).click();
         return (CreateContentPage) createContent.renderedPage();
     }
 
@@ -201,13 +204,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public GoogleDocsCommon clickGoogleDocsOption(CreateMenuOption option)
     {
-        getBrowser().waitUntilElementClickable(option.getLocator(), WAIT_15).click();
+        getBrowser().waitUntilElementClickable(option.getLocator(), WAIT_15.getValue()).click();
         return (GoogleDocsCommon) googleDocs.renderedPage();
     }
 
     public NewFolderDialog clickFolderLink()
     {
-        getBrowser().waitUntilElementClickable(CreateMenuOption.FOLDER.getLocator(), WAIT_15).click();
+        getBrowser().waitUntilElementClickable(CreateMenuOption.FOLDER.getLocator(), WAIT_15.getValue()).click();
         return (NewFolderDialog) newContentDialog.renderedPage();
     }
 
@@ -225,7 +228,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             getBrowser().mouseOver(optionElement);
             getBrowser().waitUntilElementClickable(optionElement, Timeout.SHORT.getTimeoutSeconds()).click();
             return getBrowser().waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"), Timeout.MEDIUM.getTimeoutSeconds());
-        }, DEFAULT_RETRY);
+        }, WAIT_3.getValue());
     }
 
     private WebElement selectTemplate(String templateName)
@@ -435,7 +438,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public List<String> getFoldersList()
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(foldersList, WAIT_5);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(foldersList, WAIT_5.getValue());
         waitForRows();
         List<String> foldersName = new ArrayList<>();
         for (WebElement folder : getBrowser().findElements(foldersList))
@@ -503,7 +506,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             wait.until(ExpectedConditions.attributeContains(contentItemElement, "class", "yui-dt-highlighted"));
 
             return contentItemElement;
-        }, DEFAULT_RETRY);
+        }, WAIT_3.getValue());
     }
 
     /**
@@ -698,7 +701,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
                         getBrowser().waitUntilElementClickable(moreAction, Timeout.MEDIUM.getTimeoutSeconds()).click();
                         // wait for the actions to show
                         return getBrowser().waitUntilChildElementIsPresent(libraryItem, moreActionsMenu, Timeout.MEDIUM.getTimeoutSeconds());
-                    }, DEFAULT_RETRY);
+                    }, WAIT_3.getValue());
 
         }
         catch (TimeoutException e)
@@ -728,7 +731,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }
         try
         {
-            actionElement = getBrowser().waitUntilElementVisible(actionSelector, WAIT_15);
+            actionElement = getBrowser().waitUntilElementVisible(actionSelector, WAIT_15.getValue());
         }
         catch (TimeoutException timeoutException)
         {
@@ -790,7 +793,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
                         return true;
                     },
                     () -> getBrowser().isElementDisplayed(renameIcon),
-                    DEFAULT_RETRY);
+                    WAIT_3.getValue());
         }
         catch (RuntimeException runtimeException)
         {

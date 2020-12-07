@@ -16,20 +16,20 @@ import java.util.List;
 
 public class SiteFinderPage extends SharePage2<SiteFinderPage> implements AccessibleByMenuBar
 {
-    protected By siteRowList = By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']");
+    private final By siteRowList = By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']");
     @RenderWebElement
-    private By searchButton = By.cssSelector("div[class$=search-button] button");
+    private final By searchButton = By.cssSelector("div[class$=search-button] button");
     @RenderWebElement
-    private By searchField = By.cssSelector("div[class$=search-text] input");
-    private By searchMessage = By.cssSelector("tbody[class*='message'] div");
-    private By siteDescriptionList = By.cssSelector("div[class='sitedescription']");
-    private By cancelRequestButton = By.cssSelector("td[class*='yui-dt-col-button'] button");
-    private By siteVisibility = By.cssSelector("span[class*='visibility']");
-    private By siteNameLink = By.cssSelector("h3.sitename > a");
+    private final By searchField = By.cssSelector("div[class$=search-text] input");
+    private final By searchMessage = By.cssSelector("tbody[class*='message'] div");
+    private final By siteDescriptionList = By.cssSelector("div[class='sitedescription']");
+    private final By cancelRequestButton = By.cssSelector("td[class*='yui-dt-col-button'] button");
+    private final By siteVisibility = By.cssSelector("span[class*='visibility']");
+    private final By siteNameLink = By.cssSelector("h3.sitename > a");
 
     public SiteFinderPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

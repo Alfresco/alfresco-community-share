@@ -1,10 +1,14 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.model.*;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -12,8 +16,11 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 
-public class UnzippingContentTests extends BaseTests
+public class UnzippingContentTests extends BaseTest
 {
+    @Autowired
+    private DataContent dataContent;
+
     private DocumentLibraryPage2 documentLibraryPage;
 
     private final String zipFileName = "archiveC7409.zip";
@@ -66,7 +73,7 @@ public class UnzippingContentTests extends BaseTests
         documentLibraryPage.navigate(site)
             .usingContent(unzipFolder).assertContentIsDisplayed()
             .selectFolder()
-                .usingContent(unzipFileName).assertContentIsDisplayed();
+            .usingContent(unzipFileName).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7410")

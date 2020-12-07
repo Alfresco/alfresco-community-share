@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 

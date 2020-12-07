@@ -21,27 +21,21 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     private String userName;
 
     @RenderWebElement
-    private By homeMenuLink = By.id("HEADER_HOME");
+    private final By homeMenuLink = By.id("HEADER_HOME");
     @RenderWebElement
-    private By customizeUserDashboard = By.id("HEADER_CUSTOMIZE_USER_DASHBOARD");
-    private By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
-    private By alfrescoLogo = By.xpath("//img[@src='/share/res/components/images/alfresco-logo.svg']");
-    private By welcomePanel = By.cssSelector("[id$=get-started-panel-container]");
-    private By welcomePanelInfo = By.cssSelector( ".welcome-info");
-    private By welcomePanelHideButton = By.cssSelector("button[id$='_default-hide-button-button']");
-    private By welcomePanelInfoGetStarted = By.cssSelector(".welcome-info h1");
-    private String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
-    private String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
-
-    private By okButtonHidePanel = By.cssSelector("span[class$='alf-primary-button']>span>button");
-    private By panelText = By.cssSelector(".alf-confirmation-panel-text");
-    private By panelTextSettingsIcon = By.cssSelector(" #prompt p");
-    private By configIcon = By.cssSelector( " #prompt .alf-configure-icon");
-    private By startedPanelContainer = By.cssSelector("[id$=get-started-panel-container]");
+    private final By customizeUserDashboard = By.id("HEADER_CUSTOMIZE_USER_DASHBOARD");
+    private final By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
+    private final By alfrescoLogo = By.xpath("//img[@src='/share/res/components/images/alfresco-logo.svg']");
+    private final By welcomePanel = By.cssSelector("[id$=get-started-panel-container]");
+    private final By welcomePanelInfo = By.cssSelector( ".welcome-info");
+    private final By welcomePanelHideButton = By.cssSelector("button[id$='_default-hide-button-button']");
+    private final By welcomePanelInfoGetStarted = By.cssSelector(".welcome-info h1");
+    private final String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
+    private final String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
 
     public UserDashboardPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()
@@ -63,7 +57,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     @Override
     public UserDashboardPage navigateByMenuBar()
     {
-        getBrowser().findElement(homeMenuLink).click();
+        getBrowser().waitUntilElementClickable(homeMenuLink).click();
         return (UserDashboardPage) renderedPage();
     }
 
@@ -76,6 +70,12 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage navigate(UserModel userModel)
     {
         return navigate(userModel.getUsername());
+    }
+
+    public void navigateWithoutRender(UserModel userModel)
+    {
+        setUserName(userModel.getUsername());
+        super.navigateWithoutRender();
     }
 
     public CustomizeUserDashboardPage clickCustomizeUserDashboard()
@@ -137,6 +137,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage assertUserDashboardPageIsOpened()
     {
         LOG.info("Assert User Dashboard page is opened");
+        getBrowser().waitUntilElementVisible(customizeUserDashboard);
         assertTrue(getBrowser().isElementDisplayed(customizeUserDashboard), "User home page is not opened");
         return this;
     }

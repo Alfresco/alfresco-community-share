@@ -2,17 +2,14 @@ package org.alfresco.po.share.site.wiki;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
 public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
@@ -64,7 +61,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 
     public WikiDetailsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

@@ -24,16 +24,15 @@ public class UserSitesListPage extends SharePage2<UserSitesListPage> implements 
     private String userName;
 
     @RenderWebElement
-    private By headerBar = By.cssSelector(".header-bar");
-    private By sitesMenuLink = By.id("HEADER_SITES_MENU");
-    private By mySitesLink = By.id("HEADER_SITES_MENU_MY_SITES");
-    private By noSitesMessage = By.cssSelector("div.viewcolumn p");
-    private By siteRows = By.cssSelector(".sites > li");
-    private By siteNameLocator = By.cssSelector("p a");
+    private final By sitesMenuLink = By.id("HEADER_SITES_MENU");
+    private final By mySitesLink = By.id("HEADER_SITES_MENU_MY_SITES");
+    private final By noSitesMessage = By.cssSelector("div.viewcolumn p");
+    private final By siteRows = By.cssSelector(".sites > li");
+    private final By siteNameLocator = By.cssSelector("p a");
 
     public UserSitesListPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()

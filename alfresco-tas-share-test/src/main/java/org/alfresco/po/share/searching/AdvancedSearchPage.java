@@ -16,31 +16,29 @@ import static org.testng.Assert.assertTrue;
 public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implements AccessibleByMenuBar
 {
     @RenderWebElement
-    private By keywordsSearchField = By.cssSelector("input[id$='default-search-text']");
+    private final By keywordsSearchField = By.cssSelector("input[id$='default-search-text']");
     @RenderWebElement
-    private By searchButton1 = By.cssSelector("button[id$='_default-search-button-1-button']");
+    private final By searchButton1 = By.cssSelector("button[id$='_default-search-button-1-button']");
     @RenderWebElement
-    private By searchButton2 = By.cssSelector("button[id$='_default-search-button-2-button']");
-    private By lookForDropdownButton = By.cssSelector(".selected-form-button button");
-    private By lookForDropdownOptions = By.cssSelector(".selected-form-button .yuimenuitem");
-    private By nameInput = By.cssSelector("input[id$='prop_cm_name']");
-    private By titleTextarea = By.cssSelector("textarea[id$='prop_cm_title']");
-    private By descriptionTextarea = By.cssSelector("textarea[id$='prop_cm_description']");
-    private By mimetypeDropdown = By.cssSelector("select[id$='prop_mimetype']");
-    private By dateFromPicker = By.cssSelector("a[id$='prop_cm_modified-cntrl-icon-from'] img");
-    private By dateToPicker = By.cssSelector("a[id$='prop_cm_modified-cntrl-icon-to'] img");
-    private By modifierInput = By.cssSelector("input[id$='prop_cm_modifier']");
-    private By lookForDropdownOptionLabel = By.cssSelector(".yuimenuitemlabel");
-    private By lookForDropdownOptionDescription = By.cssSelector(".form-type-description");
-    private By fromDateInputField = By.cssSelector("input[id$='_default_0_prop_cm_modified-cntrl-date-from']");
-    private By toDateInputField = By.cssSelector("input[id$='_default_0_prop_cm_modified-cntrl-date-to']");
-    private By nameInputField = By.cssSelector("input[id$='_prop_cm_name']");
-    private By descriptionBox = By.cssSelector("textarea[id$='prop_cm_description']");
-    private By titleBox = By.cssSelector("textarea[id$='_prop_cm_title']");
+    private final By searchButton2 = By.cssSelector("button[id$='_default-search-button-2-button']");
+    private final By lookForDropdownButton = By.cssSelector(".selected-form-button button");
+    private final By lookForDropdownOptions = By.cssSelector(".selected-form-button .yuimenuitem");
+    private final By nameInput = By.cssSelector("input[id$='prop_cm_name']");
+    private final By titleTextarea = By.cssSelector("textarea[id$='prop_cm_title']");
+    private final By descriptionTextarea = By.cssSelector("textarea[id$='prop_cm_description']");
+    private final By mimetypeDropdown = By.cssSelector("select[id$='prop_mimetype']");
+    private final By dateFromPicker = By.cssSelector("a[id$='prop_cm_modified-cntrl-icon-from'] img");
+    private final By dateToPicker = By.cssSelector("a[id$='prop_cm_modified-cntrl-icon-to'] img");
+    private final By modifierInput = By.cssSelector("input[id$='prop_cm_modifier']");
+    private final By lookForDropdownOptionLabel = By.cssSelector(".yuimenuitemlabel");
+    private final By lookForDropdownOptionDescription = By.cssSelector(".form-type-description");
+    private final By fromDateInputField = By.cssSelector("input[id$='_default_0_prop_cm_modified-cntrl-date-from']");
+    private final By toDateInputField = By.cssSelector("input[id$='_default_0_prop_cm_modified-cntrl-date-to']");
+    private final By titleBox = By.cssSelector("textarea[id$='_prop_cm_title']");
 
     public AdvancedSearchPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -66,6 +64,7 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         return getBrowser().isElementDisplayed(keywordsSearchField);
     }
 
+    //todo better name
     public SearchPage click1stSearch()
     {
         getBrowser().waitUntilElementClickable(searchButton1).click();

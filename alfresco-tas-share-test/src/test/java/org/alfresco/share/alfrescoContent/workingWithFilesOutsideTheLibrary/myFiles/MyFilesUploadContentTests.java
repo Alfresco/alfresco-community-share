@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.MyFilesPage;

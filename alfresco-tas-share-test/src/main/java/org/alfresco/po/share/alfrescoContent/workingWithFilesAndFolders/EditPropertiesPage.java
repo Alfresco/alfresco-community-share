@@ -1,38 +1,34 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 {
-    //@Autowired
     private SelectDialog selectDialog;
 
-    private By selectButtonForCustomSmartFolder = By.cssSelector("button[id*='yui-gen21-button']");
-    private By helpIconForRestrictableAspect = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-help-icon']");
-    private By helpMessageForRestrictableAspect = By.cssSelector("[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']");
-    private By offlineExpiresafterInput = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-entry']");
+    private final By selectButtonForCustomSmartFolder = By.cssSelector("button[id*='yui-gen21-button']");
+    private final By helpIconForRestrictableAspect = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-help-icon']");
+    private final By helpMessageForRestrictableAspect = By.cssSelector("[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']");
+    private final By offlineExpiresafterInput = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-entry']");
     @RenderWebElement
-    private By buttonsList = By.cssSelector("button[id*='form']");
+    private final By buttonsList = By.cssSelector("button[id*='form']");
     @RenderWebElement
-    private By propertiesElements = By.cssSelector(".form-field>label");
-    private By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
+    private final By propertiesElements = By.cssSelector(".form-field>label");
+    private final By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
 
     public EditPropertiesPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -55,7 +51,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         return DataUtil.areListsEquals(propertiesList, expectedPropertiesList);
     }
 
-    public String checkPropertiesAreNotDisplayed(ArrayList<String> propertiesNotDisplayedList)
+    public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
         List<WebElement> elements = getBrowser().findElements(propertiesElements);
         for (int i = 0; i < elements.size(); i++)

@@ -1,20 +1,26 @@
 package org.alfresco.share.adminTools.nodeBrowser;
 
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage.SearchType;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class NodeBrowserTests extends BaseTests
+public class NodeBrowserTests extends BaseTest
 {
+    @Autowired
+    private DataContent dataContent;
+
     private NodeBrowserPage nodeBrowserPage;
 
     private SiteModel site;
@@ -44,7 +50,7 @@ public class NodeBrowserTests extends BaseTests
     public void luceneSearch()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
+        nodeBrowserPage.selectSearchType(SearchType.LUCENE)
             .searchFor(content)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -56,7 +62,7 @@ public class NodeBrowserTests extends BaseTests
     public void nodeRefSearch()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.NODEREF)
+        nodeBrowserPage.selectSearchType(SearchType.NODEREF)
             .searchFor("workspace://SpacesStore/" + file.getNodeRefWithoutVersion())
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -71,7 +77,7 @@ public class NodeBrowserTests extends BaseTests
             site.getId(), file.getName());
 
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.XPATH)
+        nodeBrowserPage.selectSearchType(SearchType.XPATH)
             .searchFor(xpathSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -83,7 +89,7 @@ public class NodeBrowserTests extends BaseTests
     public void ftsAlfrescoSearch()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO)
+        nodeBrowserPage.selectSearchType(SearchType.FTS_ALFRESCO)
             .searchFor("cm:name:" + file.getName())
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -95,7 +101,7 @@ public class NodeBrowserTests extends BaseTests
     public void cmisStrictSearch()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_STRICT)
+        nodeBrowserPage.selectSearchType(SearchType.CMIS_STRICT)
             .searchFor(cmisSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -107,7 +113,7 @@ public class NodeBrowserTests extends BaseTests
     public void cmisAlfrescoSearch()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_ALFRESCO)
+        nodeBrowserPage.selectSearchType(SearchType.CMIS_ALFRESCO)
             .searchFor(cmisSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -119,7 +125,7 @@ public class NodeBrowserTests extends BaseTests
     public void checkNodeBrowserPage()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.assertSearchTypeIsSelected(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO)
+        nodeBrowserPage.assertSearchTypeIsSelected(SearchType.FTS_ALFRESCO)
             .assertStoreTypeIsSelected(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE)
             .assertAllColumnsAreDisplayed()
             .assertSearchButtonIsDisplayed();
@@ -129,7 +135,7 @@ public class NodeBrowserTests extends BaseTests
     public void executeCustomNodeSearch()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.STORE_ROOT)
+        nodeBrowserPage.selectSearchType(SearchType.STORE_ROOT)
             .clickSearch()
             .assertReferenceContainsValue("workspace://SpacesStore/");
     }
@@ -138,7 +144,7 @@ public class NodeBrowserTests extends BaseTests
     public void getSearchResultsNoResults()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
+        nodeBrowserPage.selectSearchType(SearchType.LUCENE)
             .searchFor(String.valueOf(System.currentTimeMillis()))
             .clickSearch()
             .assertNoItemsFoundIsDisplayed()

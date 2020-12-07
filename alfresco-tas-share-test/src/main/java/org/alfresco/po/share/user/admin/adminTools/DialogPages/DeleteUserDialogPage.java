@@ -1,22 +1,22 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
-public class DeleteUserDialogPage extends ShareDialog2
+public class DeleteUserDialogPage extends BaseDialogComponent
 {
     @RenderWebElement
-    private By deleteUserWindow = By.id("deleteDialog_c");
-    private By deleteUserText = By.cssSelector("div[id='deleteDialog_c'] div.yui-u");
+    private final By deleteUserWindow = By.id("deleteDialog_c");
+    private final By deleteUserText = By.cssSelector("div[id='deleteDialog_c'] div.yui-u");
     @RenderWebElement
-    private By deleteUserButton = By.cssSelector("#yui-gen0 button");
+    private final By deleteUserButton = By.cssSelector("#yui-gen0 button");
 
     public DeleteUserDialogPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public DeleteUserDialogPage assertDeleteUserDialogIsOpened()

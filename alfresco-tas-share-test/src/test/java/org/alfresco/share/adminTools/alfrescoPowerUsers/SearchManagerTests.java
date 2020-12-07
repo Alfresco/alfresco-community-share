@@ -1,6 +1,9 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
-import org.alfresco.share.BaseTests;
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+import static org.alfresco.share.TestUtils.ALFRESCO_SEARCH_ADMINISTRATORS;
+
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -9,7 +12,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class SearchManagerTests extends BaseTests
+public class SearchManagerTests extends BaseTest
 {
     private UserModel userAdmin, searchAdmin;
 

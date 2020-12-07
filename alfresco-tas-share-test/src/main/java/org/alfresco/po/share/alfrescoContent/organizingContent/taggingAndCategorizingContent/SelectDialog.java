@@ -1,40 +1,36 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
 import java.util.List;
-
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Button;
 
-public class SelectDialog extends ShareDialog2
+public class SelectDialog extends BaseDialogComponent
 {
-    @Autowired
+//    @Autowired
     EditPropertiesDialog editPropertiesDialog;
 
-    private By dialogTitle = By.cssSelector("div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']");
-    private By tagInputField = By.cssSelector("input.create-new-input");
-    private By createNewIcon = By.cssSelector(".createNewIcon");
-    private By navigatorButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-picker-navigator-button']");
-    private By resultsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] .yui-dt-data");
-    private By selectedItemsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] tbody.yui-dt-data");
+    private final By dialogTitle = By.cssSelector("div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']");
+    private final By tagInputField = By.cssSelector("input.create-new-input");
+    private final By createNewIcon = By.cssSelector(".createNewIcon");
+    private final By resultsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] .yui-dt-data");
+    private final By selectedItemsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] tbody.yui-dt-data");
     @RenderWebElement
-    private By okButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-ok-button']");
+    private final By okButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-ok-button']");
+    private final By cancelButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']");
+    private final By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
+    private final By addIcon = By.cssSelector("a[class*='add-item']");
+    private final By removeIcon = By.cssSelector("a[class*='remove-item']");
 
-    private By cancelButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']");
-    private By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
-    private By addIcon = By.cssSelector("a[class*='add-item']");
-    private By removeIcon = By.cssSelector("a[class*='remove-item']");
+    public SelectDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getDialogTitle()
     {

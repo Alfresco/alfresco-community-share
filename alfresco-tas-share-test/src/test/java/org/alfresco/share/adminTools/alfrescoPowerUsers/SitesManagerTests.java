@@ -1,23 +1,28 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
+import static java.util.Arrays.asList;
+import static org.alfresco.share.TestUtils.ALFRESCO_SITE_ADMINISTRATORS;
+
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static java.util.Arrays.asList;
-
-public class SitesManagerTests extends BaseTests
+public class SitesManagerTests extends BaseTest
 {
     private UserModel user, siteAdmin;
     private SiteModel site1, site2, site3, site4, site5, site6;
@@ -26,6 +31,9 @@ public class SitesManagerTests extends BaseTests
     private SitesManagerPage sitesManagerPage;
     private SiteDashboardPage siteDashboardPage;
     private SystemErrorPage systemErrorPage;
+
+    @Autowired
+    private EnvProperties properties;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -66,7 +74,7 @@ public class SitesManagerTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifySiteManagerPage()
     {
-        setupAuthenticatedSessionViaLoginPage(siteAdmin);
+        setupAuthenticatedSession(siteAdmin);
         sitesManagerPage.navigate()
             .assertSiteManagerPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("adminTools.sitesManager.browser.pageTitle"))
@@ -121,7 +129,7 @@ public class SitesManagerTests extends BaseTests
         userDashboardPage.navigate(user);
         toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
-        setupAuthenticatedSessionViaLoginPage(user);
+        setupAuthenticatedSession(user);
         toolbar.assertSitesManagerIsNotDisplayed();
     }
 
@@ -138,14 +146,14 @@ public class SitesManagerTests extends BaseTests
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSiteAsSiteAdmin()
     {
-        setupAuthenticatedSession(siteAdmin);
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
         sitesManagerPage.navigate().usingSite(site5)
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(site5.getTitle())
             .clickDeleteFromSitesManager();
         sitesManagerPage.waiUntilLoadingMessageDisappears()
             .usingSite(site5).assertSiteIsNotDisplayed();
-        navigate(String.format(properties.getShareUrl() + "/page/site/%s/dashboard", site5.getId()));
+        siteDashboardPage.navigateWithoutRender(site5);
         systemErrorPage.renderedPage();
         systemErrorPage.assertSomethingIsWrongWithThePageMessageIsDisplayed();
     }

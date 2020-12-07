@@ -1,15 +1,19 @@
 package org.alfresco.share.adminTools.modelManager;
 
-import org.alfresco.dataprep.UserService;
+import static org.alfresco.common.Utils.isFileInDirectory;
+import static org.alfresco.common.Utils.testDataFolder;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.rest.model.RestCustomModel;
 import org.alfresco.rest.model.RestCustomTypeModel;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -19,16 +23,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.alfresco.common.Utils.isFileInDirectory;
-import static org.testng.Assert.assertTrue;
-
-public class ModelManagerTests extends BaseTests
+public class ModelManagerTests extends BaseTest
 {
+    private final Logger LOG = LoggerFactory.getLogger(ModelManagerTests.class);
+
     private ModelManagerPage modelManagerPage;
     private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private UserService userService;
 
     private UserModel user;
     private SiteModel site;
@@ -99,14 +99,15 @@ public class ModelManagerTests extends BaseTests
         modelManagerPage.navigate();
         modelManagerPage.createModel(newModel)
             .usingModel(newModel)
-                .assertModelIsDisplayed()
-                .assertModelNameSpaceIs(nameSpace)
-                .assertStatusIsInactive()
-                    .clickActions()
-                        .assertActionsAreAvailable(language.translate("modelManager.action.activate"),
-                                                   language.translate("modelManager.action.edit"),
-                                                   language.translate("modelManager.action.delete"),
-                                                   language.translate("modelManager.action.export"));
+            .assertModelIsDisplayed()
+            .assertModelNameSpaceIs(nameSpace)
+            .assertStatusIsInactive()
+            .clickActions()
+            .assertActionsAreAvailable(
+                language.translate("modelManager.action.activate"),
+                language.translate("modelManager.action.edit"),
+                language.translate("modelManager.action.delete"),
+                language.translate("modelManager.action.export"));
     }
 
     @TestRail (id = "C9516, C9520")
@@ -119,11 +120,12 @@ public class ModelManagerTests extends BaseTests
         modelsToRemove.add(newModel);
         modelManagerPage.createModel(newModel)
             .usingModel(newModel).assertModelIsDisplayed()
-                .clickActions().activateModel()
-                    .assertStatusIsActive()
-                .clickActions()
-                    .assertActionsAreAvailable(language.translate("modelManager.action.deactivate"),
-                                               language.translate("modelManager.action.export"));
+            .clickActions().activateModel()
+            .assertStatusIsActive()
+            .clickActions()
+            .assertActionsAreAvailable(
+                language.translate("modelManager.action.deactivate"),
+                language.translate("modelManager.action.export"));
     }
 
     @TestRail (id = "C9517")
@@ -142,11 +144,11 @@ public class ModelManagerTests extends BaseTests
         modelManagerPage.navigate();
         modelManagerPage.usingModel(newModel)
             .clickActions().clickEdit()
-                .assertNameFieldIsDisabled()
-                .editNamespace(editedNamespace)
-                .editPrefix(editedPrefix)
-                .editCreator(editedCreator)
-                .clickSave();
+            .assertNameFieldIsDisabled()
+            .editNamespace(editedNamespace)
+            .editPrefix(editedPrefix)
+            .editCreator(editedCreator)
+            .clickSave();
 
         newModel.setNamespacePrefix(editedNamespace);
         newModel.setNamespacePrefix(editedPrefix);
@@ -154,10 +156,10 @@ public class ModelManagerTests extends BaseTests
         modelManagerPage.usingModel(newModel)
             .assertModelNameSpaceIs(editedNamespace)
             .clickActions().clickEdit()
-                .assertNamespaceIs(editedNamespace)
-                .assertPrefixIs(editedPrefix)
-                .assertCreatorIs(editedCreator)
-                .clickCancel();
+            .assertNamespaceIs(editedNamespace)
+            .assertPrefixIs(editedPrefix)
+            .assertCreatorIs(editedCreator)
+            .clickCancel();
     }
 
     @TestRail (id = "C9518")
@@ -171,11 +173,11 @@ public class ModelManagerTests extends BaseTests
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToDelete)
             .clickActions().clickDelete()
-                .assertDeleteModelDialogIsDisplayed()
-                .assertDeleteModelDialogTextIsCorrect(modelToDelete.getName())
-                .assertCancelButtonIsDisplayed()
-                .assertDeleteButtonIsDisplayed()
-                .clickDelete();
+            .assertDeleteModelDialogIsDisplayed()
+            .assertDeleteModelDialogTextIsCorrect(modelToDelete.getName())
+            .assertCancelButtonIsDisplayed()
+            .assertDeleteButtonIsDisplayed()
+            .clickDelete();
         modelManagerPage.usingModel(modelToDelete).assertModelIsNotDisplayed();
     }
 
@@ -191,8 +193,8 @@ public class ModelManagerTests extends BaseTests
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToDeactivate)
             .clickActions()
-                .deactivateModel()
-                .assertStatusIsInactive();
+            .deactivateModel()
+            .assertStatusIsInactive();
     }
 
     @TestRail (id = "C9519")
@@ -247,14 +249,14 @@ public class ModelManagerTests extends BaseTests
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelForCustomType)
             .openCustomModel()
-                .assertCreateAspectButtonIsDisplayed()
-                .assertCreateCustomTypeButtonDisplayed()
-                .assertShowModelsButtonDisplayed()
-                .clickCreateCustomType()
-                    .assertCreateCustomTypeWindowDisplayed()
-                    .typeName(newCustomType.getName())
-                    .typeDisplayLabel(newCustomType.getTitle())
-                    .clickCreate();
+            .assertCreateAspectButtonIsDisplayed()
+            .assertCreateCustomTypeButtonDisplayed()
+            .assertShowModelsButtonDisplayed()
+            .clickCreateCustomType()
+            .assertCreateCustomTypeWindowDisplayed()
+            .typeName(newCustomType.getName())
+            .typeDisplayLabel(newCustomType.getTitle())
+            .clickCreate();
         modelManagerPage.usingCustomType(modelForCustomType, newCustomType)
             .assertCustomTypeIsDisplayed()
             .assertDisplayLabelIs(newCustomType.getTitle())
@@ -275,11 +277,11 @@ public class ModelManagerTests extends BaseTests
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelForAspect)
             .openCustomModel()
-                .clickCreateAspect()
-                    .assertCreateAspectDialogIsOpened()
-                    .typeName(newAspect.getName())
-                    .typeDisplayLabel(newAspect.getTitle())
-                    .clickCreate();
+            .clickCreateAspect()
+            .assertCreateAspectDialogIsOpened()
+            .typeName(newAspect.getName())
+            .typeDisplayLabel(newAspect.getTitle())
+            .clickCreate();
         modelManagerPage.usingAspect(modelForAspect, newAspect)
             .assertAspectIsDisplayed()
             .assertDisplayLabelIs(newAspect.getTitle())
@@ -312,8 +314,8 @@ public class ModelManagerTests extends BaseTests
         documentDetailsPage.navigate(file)
             .assertPropertiesAreDisplayed(defaultProperties)
             .clickChangeType()
-                .selectOption("Marketing content (MKT:Marketing)")
-                .clickOkButton();
+            .selectOption("Marketing content (MKT:Marketing)")
+            .clickOkButton();
 
         documentDetailsPage.assertPropertiesAreDisplayed(modelProperties);
     }

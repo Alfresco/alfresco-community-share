@@ -2,17 +2,13 @@ package org.alfresco.po.share.site.discussion;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 
 public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 {
@@ -41,7 +37,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 
     public CreateNewTopicPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+      super(browser);
     }
 
     @Override

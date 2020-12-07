@@ -20,30 +20,30 @@ public class EditUserPage extends SharePage2<EditUserPage>
     private String userName;
 
     @RenderWebElement
-    private By searchGroupButton = By.cssSelector("button[id$='_default-update-groupfinder-group-search-button-button']");
-    private By useDefaultButton = By.cssSelector("button[id$='_default-updateuser-clearphoto-button-button']");
+    private final By searchGroupButton = By.cssSelector("button[id$='_default-update-groupfinder-group-search-button-button']");
+    private final By useDefaultButton = By.cssSelector("button[id$='_default-updateuser-clearphoto-button-button']");
     @RenderWebElement
-    private By saveChangesButton = By.cssSelector("button[id$='_default-updateuser-save-button-button']");
-    private By cancelButton = By.cssSelector("button[id$='_default-updateuser-cancel-button-button']");
-    private By userNameInEditUserPageTitle = By.cssSelector("span[id$='_default-update-title']");
-    private By userProfileHeaderList = By.cssSelector("form[id$='_default-update-form'] div.header-bar");
+    private final By saveChangesButton = By.cssSelector("button[id$='_default-updateuser-save-button-button']");
+    private final By cancelButton = By.cssSelector("button[id$='_default-updateuser-cancel-button-button']");
+    private final By userNameInEditUserPageTitle = By.cssSelector("span[id$='_default-update-title']");
+    private final By userProfileHeaderList = By.cssSelector("form[id$='_default-update-form'] div.header-bar");
     @RenderWebElement
-    private By firstNameField = By.cssSelector("input[id$='_default-update-firstname']");
-    private By lastNameField = By.cssSelector("input[id$='_default-update-lastname']");
-    private By emailField = By.cssSelector("input[id$='_default-update-email']");
-    private By quotaField = By.cssSelector("input[id$='_default-update-quota']");
-    private By newPasswordField = By.cssSelector("input[id$='_default-update-password']");
-    private By verifyPasswordField = By.cssSelector("input[id$='_default-update-verifypassword']");
-    private By disableAccount = By.cssSelector("input[id$='_default-update-disableaccount']");
-    private By photoField = By.cssSelector("img[id$='_default-update-photoimg']");
-    private By groupSearchResults = By.cssSelector("h3[class='itemname']");
-    private By groupsInputField = By.cssSelector("input[id$='_default-update-groupfinder-search-text']");
-    private String genericAddToGroupButton = "//h3[@class='itemname' and text()='%s']/../../..//button";
-    private String genericRemoveButton = "//div[contains(@id, 'default-update-groups')]//span[text()= '%s']";
+    private final By firstNameField = By.cssSelector("input[id$='_default-update-firstname']");
+    private final By lastNameField = By.cssSelector("input[id$='_default-update-lastname']");
+    private final By emailField = By.cssSelector("input[id$='_default-update-email']");
+    private final By quotaField = By.cssSelector("input[id$='_default-update-quota']");
+    private final By newPasswordField = By.cssSelector("input[id$='_default-update-password']");
+    private final By verifyPasswordField = By.cssSelector("input[id$='_default-update-verifypassword']");
+    private final By disableAccount = By.cssSelector("input[id$='_default-update-disableaccount']");
+    private final By photoField = By.cssSelector("img[id$='_default-update-photoimg']");
+    private final By groupSearchResults = By.cssSelector("h3[class='itemname']");
+    private final By groupsInputField = By.cssSelector("input[id$='_default-update-groupfinder-search-text']");
+    private final String genericAddToGroupButton = "//h3[@class='itemname' and text()='%s']/../../..//button";
+    private final String genericRemoveButton = "//div[contains(@id, 'default-update-groups')]//span[text()= '%s']";
 
     public EditUserPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()

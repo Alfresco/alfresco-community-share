@@ -38,7 +38,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
         siteGroupsPage = new SiteGroupsPage(browser);
     }
 

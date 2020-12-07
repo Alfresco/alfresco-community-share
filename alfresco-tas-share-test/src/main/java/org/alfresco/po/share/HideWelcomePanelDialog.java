@@ -3,22 +3,20 @@ package org.alfresco.po.share;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-public class HideWelcomePanelDialog extends ShareDialog2
+public class HideWelcomePanelDialog extends BaseDialogComponent
 {
-    private By okButton = By.cssSelector("span[class$='alf-primary-button']>span>button");
+    private final By okButton = By.cssSelector("span[class$='alf-primary-button']>span>button");
     @RenderWebElement
-    private By panelText = By.cssSelector(".alf-confirmation-panel-text");
-    private By panelTextSettingsIcon = By.cssSelector(" #prompt p");
-    private By configIcon = By.cssSelector(" #prompt .alf-configure-icon");
-    private By startedPanelContainer = By.cssSelector("[id$=get-started-panel-container]");
+    private final By panelText = By.cssSelector(".alf-confirmation-panel-text");
+    private final By panelTextSettingsIcon = By.cssSelector(" #prompt p");
+    private final By configIcon = By.cssSelector(" #prompt .alf-configure-icon");
+    private final By startedPanelContainer = By.cssSelector("[id$=get-started-panel-container]");
 
     public HideWelcomePanelDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public void clickOK()

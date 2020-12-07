@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.ShareDialog2;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -11,26 +11,27 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class AddUserDialog extends ShareDialog2
+public class AddUserDialog extends BaseDialogComponent
 {
     protected String searchedUsername = "a[href$='%s/profile']";
 
     @RenderWebElement
-    private By dialogTitle = By.cssSelector("span[id*='peoplepicker']");
+    private final By dialogTitle = By.cssSelector("span[id*='peoplepicker']");
     @RenderWebElement
-    private By searchInputField = By.cssSelector("div[id*='search-peoplefinder'] input");
+    private final By searchInputField = By.cssSelector("div[id*='search-peoplefinder'] input");
     @RenderWebElement
-    private By searchButton = By.cssSelector("div[id*='search-peoplefinder'] button[id*='search']");
-    private By searchResultsList = By.cssSelector(".itemname");
-    private By addButtonsList = By.cssSelector("td[class*='actions'] button");
-    private By closeButton = By.cssSelector("div[id*='default-peoplepicker'] a[class='container-close']");
+    private final By searchButton = By.cssSelector("div[id*='search-peoplefinder'] button[id*='search']");
+    private final By searchResultsList = By.cssSelector(".itemname");
+    private final By addButtonsList = By.cssSelector("td[class*='actions'] button");
+    private final By closeButton = By.cssSelector("div[id*='default-peoplepicker'] a[class='container-close']");
 
     public AddUserDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public AddUserDialog assertAddUserDialogTitleIsCorrect()
@@ -66,7 +67,7 @@ public class AddUserDialog extends ShareDialog2
         int retry = 0;
         typeAndSearch(userToSearch);
         boolean found = isUserDisplayed(userToSearch);
-        while (retry < WAIT_30 && !found)
+        while (retry < WAIT_30.getValue() && !found)
         {
             typeAndSearch(userToSearch);
             found = isUserDisplayed(userToSearch);

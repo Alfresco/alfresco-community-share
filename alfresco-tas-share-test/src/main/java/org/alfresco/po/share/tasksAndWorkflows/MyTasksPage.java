@@ -1,5 +1,8 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -7,46 +10,37 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    EditTaskPage editTaskPage;
+    private EditTaskPage editTaskPage;
+    private ViewTaskPage viewTaskPage;
+    private WorkflowDetailsPage workflowDetailsPage;
 
-    @Autowired
-    ViewTaskPage viewTaskPage;
+    private final String completeTaskName = "Request to join %s site";
+    private final String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
+    private final String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
 
-    @Autowired
-    WorkflowDetailsPage workflowDetailsPage;
-
-    protected String completeTaskName = "Request to join %s site";
-    protected String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
-    protected String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
-
-    protected By taskRowList = By.cssSelector("div[id$='default-tasks'] tr[class*='yui-dt-rec']");
-    protected By editTaskLink = By.cssSelector("div[class*='task-edit'] a");
-    protected By viewTaskLink = By.cssSelector("div[class*='task-view'] a");
-    protected By viewWorkflowLink = By.cssSelector("div[class*='workflow-view'] a");
-    protected By taskTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
+    private final By taskRowList = By.cssSelector("div[id$='default-tasks'] tr[class*='yui-dt-rec']");
+    private final By editTaskLink = By.cssSelector("div[class*='task-edit'] a");
+    private final By viewTaskLink = By.cssSelector("div[class*='task-view'] a");
+    private final By viewWorkflowLink = By.cssSelector("div[class*='workflow-view'] a");
+    private final By taskTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
     @RenderWebElement
-    public By taskbarTitle = By.cssSelector("h2[id$='default-filterTitle']");
+    private final By taskbarTitle = By.cssSelector("h2[id$='default-filterTitle']");
     @RenderWebElement
-    private By tasksBody = By.cssSelector(".alfresco-datatable.tasks");
-    private By completedTasksButton = By.cssSelector("a[rel='completed']");
+    private final By tasksBody = By.cssSelector(".alfresco-datatable.tasks");
+    private final By completedTasksButton = By.cssSelector("a[rel='completed']");
     @RenderWebElement
-    private By startWorkflow = By.cssSelector("[id$='default-startWorkflow-button-button']");
-    private By tasksFilter = By.cssSelector("div[id*='_all-filter'] div h2");
-    private By dueFilter = By.cssSelector("div[id*='_due-filter'] div h2");
-    private By priorityFilter = By.cssSelector( "div[id*='_priority-filter'] div h2");
-    private By assigneeFilter = By.cssSelector("div[id*='_assignee-filter'] div h2");
+    private final By startWorkflow = By.cssSelector("[id$='default-startWorkflow-button-button']");
+    private final By tasksFilter = By.cssSelector("div[id*='_all-filter'] div h2");
+    private final By dueFilter = By.cssSelector("div[id*='_due-filter'] div h2");
+    private final By priorityFilter = By.cssSelector( "div[id*='_priority-filter'] div h2");
+    private final By assigneeFilter = By.cssSelector("div[id*='_assignee-filter'] div h2");
 
     public MyTasksPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @SuppressWarnings ("unchecked")

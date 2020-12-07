@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools.users;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -9,9 +9,11 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserToolTests extends BaseTests
+import static org.alfresco.share.TestUtils.PASSWORD;
+
+public class UserToolTests extends BaseTest
 {
-    UsersPage usersPage;
+    private UsersPage usersPage;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -37,8 +39,8 @@ public class UserToolTests extends BaseTests
     public void verifySearch()
     {
         String identifier = RandomData.getRandomAlphanumeric();
-        UserModel user1 = new UserModel(identifier + "C9392User1", password);
-        UserModel user2 = new UserModel(identifier + "C9392User2", password);
+        UserModel user1 = new UserModel(identifier + "C9392User1", PASSWORD);
+        UserModel user2 = new UserModel(identifier + "C9392User2", PASSWORD);
         dataUser.usingAdmin().createUser(user1);
         dataUser.usingAdmin().createUser(user2);
 

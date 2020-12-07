@@ -1,12 +1,11 @@
 package org.alfresco.po.share;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.browser.WebBrowser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
@@ -30,7 +29,8 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
 
     public MyFilesPage assertMyFilesPageIsOpened()
     {
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "My Files page is opened");
+        getBrowser().waitUrlContains(getRelativePath(), 30);
+        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "My Files page is opened");
         return this;
     }
 }

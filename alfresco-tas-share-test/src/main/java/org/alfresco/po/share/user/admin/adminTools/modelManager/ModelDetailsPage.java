@@ -7,7 +7,6 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -16,16 +15,15 @@ import static org.testng.Assert.assertTrue;
 public class ModelDetailsPage extends SharePage2<ModelDetailsPage>
 {
     @RenderWebElement
-    private By createCustomTypeButton = By.cssSelector("span[class*='createTypeButton'] span");
+    private final By createCustomTypeButton = By.cssSelector("span[class*='createTypeButton'] span");
     @RenderWebElement
-    private By createAspectButton = By.cssSelector("span[class*='createPropertyGroupButton'] span");
-    private By showModelsButton = By.cssSelector("span[class*='backButton '] span[id*='alfresco_buttons_AlfButton']");
-    private By typeList = By.cssSelector("div#TYPES_LIST tr[id^='alfresco_lists_views_layouts_Row']");
-    private By aspectList = By.cssSelector("div#PROPERTY_GROUPS_LIST tr[id^='alfresco_lists_views_layouts_Row']");
+    private final By createAspectButton = By.cssSelector("span[class*='createPropertyGroupButton'] span");
+    private final By showModelsButton = By.cssSelector("span[class*='backButton '] span[id*='alfresco_buttons_AlfButton']");
+    private final By aspectList = By.cssSelector("div#PROPERTY_GROUPS_LIST tr[id^='alfresco_lists_views_layouts_Row']");
 
     public ModelDetailsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

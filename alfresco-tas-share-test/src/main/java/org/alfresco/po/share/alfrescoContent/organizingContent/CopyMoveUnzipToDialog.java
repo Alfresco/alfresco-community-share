@@ -1,8 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent;
 
-import org.alfresco.po.share.ShareDialog2;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.utility.Utility;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -14,32 +12,33 @@ import org.openqa.selenium.WebElement;
 
 import java.util.NoSuchElementException;
 
+import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class CopyMoveUnzipToDialog extends ShareDialog2
+public class CopyMoveUnzipToDialog extends BaseDialogComponent
 {
-    private By createLinkButton = By.cssSelector("button[id$='_default-copyMoveTo-link-button']");
-    private By dialogTitle = By.cssSelector("div[id*='title']");
+    private final By createLinkButton = By.cssSelector("button[id$='_default-copyMoveTo-link-button']");
+    private final By dialogTitle = By.cssSelector("div[id*='title']");
     @RenderWebElement
-    private By unzipCopyMoveButton = By.cssSelector("button[id$='_default-copyMoveTo-ok-button']");
-    private By cancelButton = By.cssSelector("button[id$='_default-copyMoveTo-cancel-button']");
-    private By recentSitesDestination = By.cssSelector("button[id$='copyMoveTo-recentsites-button']");
-    private By sharedFilesDestination = By.cssSelector("span[id$='default-copyMoveTo-shared']");
-    private By myFilesDestination = By.cssSelector("button[id$='copyMoveTo-myfiles-button']");
-    private By allSitesDestination = By.cssSelector("button[id$='copyMoveTo-site-button']");
-    private By folderPathsArea = By.cssSelector("div[id$='default-copyMoveTo-treeview']");
-    private By sitePickerArea = By.cssSelector(".site-picker");
-    private By dialogBody = By.cssSelector("div[id$='default-copyMoveTo-dialog']");
-    private String siteToSelect = "//h4[text()='%s']";
-    private String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
-    private String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";
+    private final By unzipCopyMoveButton = By.cssSelector("button[id$='_default-copyMoveTo-ok-button']");
+    private final By cancelButton = By.cssSelector("button[id$='_default-copyMoveTo-cancel-button']");
+    private final By recentSitesDestination = By.cssSelector("button[id$='copyMoveTo-recentsites-button']");
+    private final By sharedFilesDestination = By.cssSelector("span[id$='default-copyMoveTo-shared']");
+    private final By myFilesDestination = By.cssSelector("button[id$='copyMoveTo-myfiles-button']");
+    private final By allSitesDestination = By.cssSelector("button[id$='copyMoveTo-site-button']");
+    private final By folderPathsArea = By.cssSelector("div[id$='default-copyMoveTo-treeview']");
+    private final By sitePickerArea = By.cssSelector(".site-picker");
+    private final By dialogBody = By.cssSelector("div[id$='default-copyMoveTo-dialog']");
+    private final String siteToSelect = "//h4[text()='%s']";
+    private final String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
+    private final String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";
 
     private final String destinationChecked = "yui-radio-button-checked";
 
     public CopyMoveUnzipToDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getDialogTitle()
@@ -103,7 +102,7 @@ public class CopyMoveUnzipToDialog extends ShareDialog2
     private void waitAndSelectFolder(By folderElement, By folderRow)
     {
         int retry = 0;
-        while(retry < WAIT_15)
+        while(retry < WAIT_15.getValue())
         {
             try
             {

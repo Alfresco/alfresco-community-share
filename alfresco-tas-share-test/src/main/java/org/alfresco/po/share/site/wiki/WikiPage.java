@@ -1,15 +1,12 @@
 package org.alfresco.po.share.site.wiki;
 
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class WikiPage extends SiteCommon<WikiPage>
 {
@@ -46,6 +43,7 @@ public class WikiPage extends SiteCommon<WikiPage>
 
     public WikiPage(ThreadLocal<WebBrowser> browser)
     {
+        super(browser);
         this.browser = browser;
     }
 

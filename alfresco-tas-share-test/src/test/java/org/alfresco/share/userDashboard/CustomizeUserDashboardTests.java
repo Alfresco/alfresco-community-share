@@ -5,7 +5,7 @@ import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.user.CustomizeUserDashboardPage;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 /**
  * @author bogdan.bocancea
  */
-public class CustomizeUserDashboardTests extends BaseTests
+public class CustomizeUserDashboardTests extends BaseTest
 {
     private CustomizeUserDashboardPage customizeUserDashboard;
 

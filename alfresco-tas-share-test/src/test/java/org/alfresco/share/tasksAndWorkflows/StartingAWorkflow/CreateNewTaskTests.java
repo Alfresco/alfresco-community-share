@@ -1,5 +1,6 @@
 package org.alfresco.share.tasksAndWorkflows.StartingAWorkflow;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;

@@ -1,5 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
+import static org.alfresco.common.Wait.WAIT_10;
+import static org.alfresco.common.Wait.WAIT_15;
+
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialog;
 import org.alfresco.rest.model.RestCustomTypeModel;
@@ -75,7 +78,7 @@ public class ModelActions
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, 1, modelManagerPage.WAIT_10);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, 1, WAIT_10.getValue());
         return getBrowser().findElement(modelRowLocator);
     }
 
@@ -179,7 +182,7 @@ public class ModelActions
     private void waitForContentModelStatus(By modelStatus)
     {
         int i = 0;
-        while(i < modelManagerPage.WAIT_15)
+        while(i < WAIT_15.getValue())
         {
             try
             {

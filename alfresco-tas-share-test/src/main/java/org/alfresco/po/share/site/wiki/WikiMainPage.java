@@ -3,14 +3,12 @@ package org.alfresco.po.share.site.wiki;
 import static org.testng.Assert.assertEquals;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 
 public class WikiMainPage extends SiteCommon<WikiMainPage>
@@ -79,7 +77,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public WikiMainPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     /**

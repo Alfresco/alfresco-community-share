@@ -1,5 +1,7 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import java.util.ArrayList;
 import java.util.List;
 

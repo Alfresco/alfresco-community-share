@@ -1,5 +1,9 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
@@ -9,26 +13,19 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 
 public class UploadContent extends SiteCommon<UploadContent>
 {
-    @Autowired
     private Environment env;
 
-    private By uploadButton = By.cssSelector("button[id$='-fileUpload-button-button']");
-    private By fileInput = By.className("dnd-file-selection-button");
-    private By uploadFilesToDialog = By.id("template_x002e_dnd-upload_x002e_documentlibrary_x0023_default-dialog_h");
+    private final By uploadButton = By.cssSelector("button[id$='-fileUpload-button-button']");
+    private final By fileInput = By.className("dnd-file-selection-button");
+    private final By uploadFilesToDialog = By.id("template_x002e_dnd-upload_x002e_documentlibrary_x0023_default-dialog_h");
 
     public UploadContent(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     private static File newFile(String fileName, String contents)

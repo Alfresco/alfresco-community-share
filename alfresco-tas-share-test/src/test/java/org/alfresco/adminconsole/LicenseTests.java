@@ -1,5 +1,7 @@
 package org.alfresco.adminconsole;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import org.alfresco.po.adminconsole.ControlObject;
 import org.alfresco.po.adminconsole.general.LicensePage;
 import org.alfresco.po.adminconsole.general.UploadNewLicenseDialog;

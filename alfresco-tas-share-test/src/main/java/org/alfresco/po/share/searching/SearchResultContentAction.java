@@ -1,5 +1,7 @@
 package org.alfresco.po.share.searching;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -7,8 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.testng.Assert.assertTrue;
 
 public class SearchResultContentAction
 {
@@ -18,10 +18,8 @@ public class SearchResultContentAction
     private ContentModel content;
     private SearchCopyMoveDialog copyMoveDialog;
 
-    private By actionsButton = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']");
-    private By actionOptionArea = By.cssSelector("div[class$='dijitSelectedFocused dijitFocused']");
-    private By copyToAction = By.id("FCTSRCH_SEARCH_RESULT_ACTIONS_document-copy-to");
-    private By actions = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']");
+    private final By actionsButton = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']");
+    private final By actions = By.cssSelector("#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']");
 
     public SearchResultContentAction(ContentModel content, SearchPage searchPage, SearchCopyMoveDialog copyMoveDialog)
     {

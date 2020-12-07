@@ -5,7 +5,6 @@ import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
 
@@ -14,11 +13,11 @@ public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
     //@Autowired
     SelectDestinationDialog selectDestinationDialog;
 
-    private By mimetypeDropDown = By.cssSelector("div[id*=ruleConfigAction] select[title=Mimetype]");
+    private final By mimetypeDropDown = By.cssSelector("div[id*=ruleConfigAction] select[title=Mimetype]");
 
     public PerformActionRulePage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public void transformAndCopy(Mimetype mimetypeTransformation, String targetSite , String targetFolder)

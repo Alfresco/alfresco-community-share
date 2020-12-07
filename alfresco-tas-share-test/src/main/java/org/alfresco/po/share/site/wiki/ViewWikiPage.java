@@ -1,7 +1,6 @@
 package org.alfresco.po.share.site.wiki;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
@@ -15,7 +14,7 @@ public class ViewWikiPage extends SiteCommon<ViewWikiPage>
 
     public ViewWikiPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
@@ -23,5 +22,4 @@ public class ViewWikiPage extends SiteCommon<ViewWikiPage>
     {
         return String.format("share/page/site/%s/wiki-page?title=Main_Page&action=view", getCurrentSiteName());
     }
-
 }

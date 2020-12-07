@@ -2,30 +2,27 @@ package org.alfresco.po.share;
 
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.FindBy;
 
 /**
  * @author bogdan.bocancea
  */
-public class UploadFileDialog extends ShareDialog2
+public class UploadFileDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    private By dialogBody = By.cssSelector("div[id*='default-dialog_c'][style*='visibility: visible']");
-    private By uploadInput = By.cssSelector("input.dnd-file-selection-button");
-    private By uploadFailedTransformationMessage = By.cssSelector("[class*='fileupload-progressFailure']");
+    private final By dialogBody = By.cssSelector("div[id*='default-dialog_c'][style*='visibility: visible']");
+    private final By uploadInput = By.cssSelector("input.dnd-file-selection-button");
+    private final By uploadFailedTransformationMessage = By.cssSelector("[class*='fileupload-progressFailure']");
     @RenderWebElement
-    private By closeUploadDialogButton = By.cssSelector("div[id*='dnd-upload'] a[class*='close']");
+    private final By closeUploadDialogButton = By.cssSelector("div[id*='dnd-upload'] a[class*='close']");
 
     public UploadFileDialog(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public void uploadFile(FileModel file)

@@ -1,8 +1,9 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
+import static org.alfresco.common.Utils.srcRoot;
+
 import java.io.File;
 import java.util.Arrays;
-
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
@@ -13,7 +14,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -25,10 +25,9 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("Folder%s", RandomData.getRandomAlphanumeric());
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-    //@Autowired
-    DataListsPage dataListsPage;
-    @Autowired
-    CreateNewItemPopUp createNewItemPopUp;
+
+    private DataListsPage dataListsPage;
+    private CreateNewItemPopUp createNewItemPopUp;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

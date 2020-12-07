@@ -1,8 +1,10 @@
 package org.alfresco.share.adminTools;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
-import org.alfresco.share.BaseTests;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
@@ -12,12 +14,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class TagManagerTests extends BaseTests
+public class TagManagerTests extends BaseTest
 {
     private TagManagerPage tagManagerPage;
 
-    private ThreadLocal<String> tag = new ThreadLocal<>();
-    private ThreadLocal<FileModel> tagFile = new ThreadLocal<>();
+    private final ThreadLocal<String> tag = new ThreadLocal<>();
+    private final ThreadLocal<FileModel> tagFile = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception
@@ -65,12 +67,12 @@ public class TagManagerTests extends BaseTests
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
             .searchTagWithRetry(tag.get())
-                .assertTableHeadersAreCorrect()
-                .clickEdit(tag.get())
-                    .assertRenameTagLabelIsCorrect()
-                    .assertOkButtonIsDisplayed()
-                    .assertCancelButtonIsDisplayed()
-                    .assertRequiredSymbolIsDisplayed();
+            .assertTableHeadersAreCorrect()
+            .clickEdit(tag.get())
+            .assertRenameTagLabelIsCorrect()
+            .assertOkButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed()
+            .assertRequiredSymbolIsDisplayed();
     }
 
     @TestRail (id = "C9388")
@@ -80,13 +82,12 @@ public class TagManagerTests extends BaseTests
         tagManagerPage.navigate();
         tagManagerPage.searchTagWithRetry(tag.get())
             .clickDelete(tag.get())
-                .assertConfirmDeleteMessageForContentEqualsTo(tag.get())
-                .assertDeleteButtonIsDisplayed()
-                .assertCancelButtonIsDisplayed()
-                .clickDelete();
+            .assertConfirmDeleteMessageForContentEqualsTo(tag.get())
+            .assertDeleteButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed()
+            .clickDelete();
         tagManagerPage.assertNoTagFoundMessageIsDisplayed()
-            .search(tag.get())
+            .searchTag(tag.get())
             .assertTagIsNotDisplayed(tag.get());
     }
-
 }

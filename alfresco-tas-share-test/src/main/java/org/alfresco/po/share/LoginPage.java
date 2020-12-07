@@ -1,15 +1,14 @@
 package org.alfresco.po.share;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class LoginPage extends CommonLoginPage
 {
@@ -18,19 +17,19 @@ public class LoginPage extends CommonLoginPage
     @RenderWebElement
     private By passwordInput = By.cssSelector("[id$='default-password']");
     @RenderWebElement
-    private By submit = By.cssSelector("button[id$='_default-submit-button']");
-    private By alfrescoLogo = By.cssSelector(".theme-company-logo");
-    private By copyright = By.cssSelector(".login-copy");
-    private By errorLogin = By.cssSelector(".error");
-    private By newTrademark = By.cssSelector(".login-tagline");
-    private By bodyShare = By.id("Share");
-    private By productTagline = By.cssSelector(".product-tagline");
-    private By alfrescoShare = By.cssSelector(".product-name");
-    private By trademark = By.cssSelector(".theme-trademark");
+    private final By submit = By.cssSelector("button[id$='_default-submit-button']");
+    private final By alfrescoLogo = By.cssSelector(".theme-company-logo");
+    private final By copyright = By.cssSelector(".login-copy");
+    private final By errorLogin = By.cssSelector(".error");
+    private final By newTrademark = By.cssSelector(".login-tagline");
+    private final By bodyShare = By.id("Share");
+    private final By productTagline = By.cssSelector(".product-tagline");
+    private final By alfrescoShare = By.cssSelector(".product-name");
+    private final By trademark = By.cssSelector(".theme-trademark");
 
     public LoginPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public CommonLoginPage navigate()
@@ -43,6 +42,7 @@ public class LoginPage extends CommonLoginPage
     public CommonLoginPage assertLoginPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
+        getBrowser().waitUntilElementVisible(usernameInput);
         assertTrue(getBrowser().isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
     }
@@ -137,8 +137,7 @@ public class LoginPage extends CommonLoginPage
     {
         String colourBodyShare = getBrowser().findElement(bodyShare).getCssValue("background-color");
         String colourProductTagline = getBrowser().findElement(productTagline).getCssValue("color");
-        String[] colours = new String[] { colourBodyShare, colourProductTagline };
-        return colours;
+        return new String[] { colourBodyShare, colourProductTagline };
     }
 
     public String getAlfrescoShareColour()
@@ -168,5 +167,4 @@ public class LoginPage extends CommonLoginPage
         assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
         return this;
     }
-
 }

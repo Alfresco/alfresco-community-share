@@ -63,7 +63,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public CreateLinkPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override

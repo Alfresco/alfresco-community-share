@@ -1,7 +1,13 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.alfresco.common.DataUtil;
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -16,14 +22,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 {
@@ -32,12 +30,10 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private static final String VERSION_NUMBER = "1";
 
     private final By noComments = By.cssSelector("div[id*='_default-comments-list'] td[class ='yui-dt-empty']");
-    private final By managePermissionsLink = By.cssSelector(".folder-actions.folder-details-panel a[title='Manage Permissions']");
     private final By documentTitle = By.cssSelector("div[class='node-info'] h1");
     @RenderWebElement
     private final By docDetailsPageHeader = By.cssSelector(".node-header");
     private final By headerFileName = By.cssSelector(".node-header h1");
-    private final By socialBar = By.cssSelector("div[class='node-social']");
     private final By likeUnlikeAction = By.cssSelector("[class*=like-action]");
     private final By likesCount = By.cssSelector("[class=likes-count]");
     private final By itemModifier = By.cssSelector(".item-modifier a");
@@ -86,7 +82,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By commentTextArea = By.cssSelector("iframe[id*='comments']");
     private final By lockedMessage = By.xpath(".//span[contains(@class,'locked')]");
     private final By okOnRevertPopup = By.cssSelector("#alfresco-revertVersion-instance-ok-button-button");
-    private final By contentError = By.cssSelector(".message");
     private final By addCommentButton = By.cssSelector("span[class$='onAddCommentClick'] button");
     private final By commentsIframe = By.cssSelector("iframe[id$='default-add-content_ifr']");
     private final By copyToAction = By.id("onActionCopyTo");
@@ -106,12 +101,12 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public DocumentDetailsPage navigate(FileModel file)
     {
-        LOG.info(String.format("Navigate to document details of file: %s", file.getCmisLocation()));
+        LOG.info("Navigate to document details of file: {}", file.getCmisLocation());
         setCurrentFileModel(file);
         return navigate();
     }
@@ -240,10 +235,10 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public DocumentDetailsPage addComment(String comment)
     {
         LOG.info("Add comment: {}", comment);
-        getBrowser().waitUntilElementClickable(commentContentIframe, WAIT_5).click();
+        getBrowser().waitUntilElementClickable(commentContentIframe, WAIT_5.getValue()).click();
         getBrowser().findElement(commentContentIframe).sendKeys(comment);
         getBrowser().findElement(addCommentButtonSave).click();
-        getBrowser().waitUntilElementDisappears(message, WAIT_5);
+        getBrowser().waitUntilElementDisappears(message, WAIT_5.getValue());
 
         return (DocumentDetailsPage) renderedPage();
     }
@@ -429,7 +424,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return this;
     }
 
-    public String checkPropertiesAreNotDisplayed(ArrayList<String> propertiesNotDisplayedList)
+    public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
         List<WebElement> properties = getBrowser().findElements(propertiesList);
         for (int i = 0; i < properties.size(); i++)

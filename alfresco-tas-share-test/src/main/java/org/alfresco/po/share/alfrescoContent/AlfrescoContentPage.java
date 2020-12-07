@@ -19,6 +19,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.*;
 
 public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
@@ -52,6 +53,11 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
 
     private String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
+
+    public AlfrescoContentPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public AlfrescoContentPage<T> clickCreate()
     {
@@ -91,7 +97,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
 
     protected WebElement getContentRow(String contentName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(contentRow, contentName)), 1, WAIT_30);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(contentRow, contentName)), 1, WAIT_30.getValue());
     }
 
     public AlfrescoContentPage<T> assertFolderIsDisplayedInFilter(FolderModel folder)

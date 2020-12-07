@@ -27,41 +27,45 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     private final int columns = 4;
     private final int maxDashletsInColumn = 5;
 
-    private By availableDashlets = By.cssSelector("ul.availableList>li.availableDashlet>span");
+    private final By availableDashlets = By.cssSelector("ul.availableList>li.availableDashlet>span");
 
-    private By subTitle = By.cssSelector(".sub-title");
-    private By layoutSection = By.cssSelector(".customise-layout");
-    private By dashletsSection = By.cssSelector(".customise-dashlets");
-    private By currentLayout = By.cssSelector("span[id$='_default-currentLayoutDescription-span']");
+    private final By subTitle = By.cssSelector(".sub-title");
+    private final By layoutSection = By.cssSelector(".customise-layout");
+    private final By dashletsSection = By.cssSelector(".customise-dashlets");
+    private final By currentLayout = By.cssSelector("span[id$='_default-currentLayoutDescription-span']");
     @RenderWebElement
-    private By changeLayout = By.cssSelector("button[id$='_default-change-button-button']");
-    private By oneColumn = By.cssSelector("button[id$='dashboard-1-column-button']");
-    private By twoColumn_left = By.cssSelector( "button[id$='2-columns-wide-left-button']");
-    private By twoColumn_right = By.cssSelector("button[id$='2-columns-wide-right-button']");
-    private By threeColumn = By.cssSelector("button[id$='3-columns-button']");
-    private By fourColumn = By.cssSelector("button[id$='dashboard-4-columns-button']");
-    private By newLayoutInstructions = By.cssSelector(".layouts .text");
-    private By dashletsInstructions = By.cssSelector(".instructions .text");
-    private By cancelNewLayout = By.cssSelector(".layouts .buttons button[id$='default-cancel-button-button']");
-    private By okButton = By.cssSelector("button[id$='save-button-button']");
-    private By cancelButton = By.cssSelector(".customise-dashlets .buttons span[id$='default-cancel-button']");
-    private By addDashlets = By.cssSelector("button[id$='addDashlets-button-button']");
-    private By availableColumns = By.cssSelector("div[id$='default-wrapper-div']");
+    private final By changeLayout = By.cssSelector("button[id$='_default-change-button-button']");
+    private final By oneColumn = By.cssSelector("button[id$='dashboard-1-column-button']");
+    private final By twoColumn_left = By.cssSelector( "button[id$='2-columns-wide-left-button']");
+    private final By twoColumn_right = By.cssSelector("button[id$='2-columns-wide-right-button']");
+    private final By threeColumn = By.cssSelector("button[id$='3-columns-button']");
+    private final By fourColumn = By.cssSelector("button[id$='dashboard-4-columns-button']");
+    private final By newLayoutInstructions = By.cssSelector(".layouts .text");
+    private final By dashletsInstructions = By.cssSelector(".instructions .text");
+    private final By cancelNewLayout = By.cssSelector(".layouts .buttons button[id$='default-cancel-button-button']");
+    private final By okButton = By.cssSelector("button[id$='save-button-button']");
+    private final By addDashlets = By.cssSelector("button[id$='addDashlets-button-button']");
+    private final By availableColumns = By.cssSelector("div[id$='default-wrapper-div']");
     @RenderWebElement
-    private By trashcan = By.cssSelector(".trashcan");
-    private By oneColumnLayout = By.cssSelector("li[id$='layout-li-dashboard-1-column']");
-    private By threeColumnsLayout = By.cssSelector("li[id$='layout-li-dashboard-3-columns']");
-    private By fourColumnsLayout = By.cssSelector("li[id$='layout-li-dashboard-4-columns']");
-    private By twoColumnsWideRightLayout = By.cssSelector("li[id$='layout-li-dashboard-2-columns-wide-right']");
-    private By twoColumnsWideLeftLayout = By.cssSelector("li[id$='layout-li-dashboard-2-columns-wide-left']");
-    private By closeAddDashlets = By.cssSelector(".closeLink");
-    private By availableDashletList = By.cssSelector(".availableList");
-    private By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
-    private String dashletInAddedColumn = "ul[id$='default-column-ul-%s'] > li:nth-child(%s)";
-    private String availableDashlet = "li[class='availableDashlet dnd-draggable'] div[title^='%s']";
-    private String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
-    private String targetColumn = "ul[id$='default-column-ul-%d']";
-    private String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
+    private final By trashcan = By.cssSelector(".trashcan");
+    private final By oneColumnLayout = By.cssSelector("li[id$='layout-li-dashboard-1-column']");
+    private final By threeColumnsLayout = By.cssSelector("li[id$='layout-li-dashboard-3-columns']");
+    private final By fourColumnsLayout = By.cssSelector("li[id$='layout-li-dashboard-4-columns']");
+    private final By twoColumnsWideRightLayout = By.cssSelector("li[id$='layout-li-dashboard-2-columns-wide-right']");
+    private final By twoColumnsWideLeftLayout = By.cssSelector("li[id$='layout-li-dashboard-2-columns-wide-left']");
+    private final By closeAddDashlets = By.cssSelector(".closeLink");
+    private final By availableDashletList = By.cssSelector(".availableList");
+    private final By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
+    private final String dashletInAddedColumn = "ul[id$='default-column-ul-%s'] > li:nth-child(%s)";
+    private final String availableDashlet = "li[class='availableDashlet dnd-draggable'] div[title^='%s']";
+    private final String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
+    private final String targetColumn = "ul[id$='default-column-ul-%d']";
+    private final String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
+
+    public DashboardCustomization(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public enum Layout
     {

@@ -19,22 +19,21 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
     private String userName;
 
     @RenderWebElement
-    private By searchInput = By.cssSelector("input[id$='default-search-text']");
+    private final By searchInput = By.cssSelector("input[id$='default-search-text']");
     @RenderWebElement
-    private By searchButton = By.cssSelector("button[id$='search-button-button']");
-    private By emptyButton = By.cssSelector("button[id*='empty']");
-    private By itemsNameList = By.cssSelector(".yui-dt-liner > .name");
-    private By deletionTimestampSelector = By.cssSelector(".yui-dt-liner div:nth-child(2)");
-    private By locationBeforeDeletionSelector = By.cssSelector(".yui-dt-liner div:nth-child(3)");
-    private By recoverButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(1) button");
-    private By deleteButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(2) button");
-    private By emptyTrashcanMessageSelector = By.cssSelector(".yui-dt-empty div");
-    private By itemRowsList = By.cssSelector(".yui-dt-data tr");
-    private By itemsFolderName = By.xpath("//div[@class='name' and text()='%s']");
+    private final By searchButton = By.cssSelector("button[id$='search-button-button']");
+    private final By emptyButton = By.cssSelector("button[id*='empty']");
+    private final By itemsNameList = By.cssSelector(".yui-dt-liner > .name");
+    private final By deletionTimestampSelector = By.cssSelector(".yui-dt-liner div:nth-child(2)");
+    private final By locationBeforeDeletionSelector = By.cssSelector(".yui-dt-liner div:nth-child(3)");
+    private final By recoverButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(1) button");
+    private final By deleteButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(2) button");
+    private final By emptyTrashcanMessageSelector = By.cssSelector(".yui-dt-empty div");
+    private final By itemRowsList = By.cssSelector(".yui-dt-data tr");
 
     public UserTrashcanPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     public String getUserName()

@@ -10,38 +10,38 @@ import org.testng.Assert;
 public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 {
     @RenderWebElement
-    private By searchForUsersBox = By.cssSelector("div[class='finder-wrapper']");
+    private final By searchForUsersBox = By.cssSelector("div[class='finder-wrapper']");
     @RenderWebElement
-    private By invitationListBox = By.cssSelector( "div[class='invitationlist']");
+    private final By invitationListBox = By.cssSelector( "div[class='invitationlist']");
     @RenderWebElement
-    private By addedUsersBox = By.cssSelector("div[class='added-users-list']");
-    private By instructionsBar = By.cssSelector("div[class='instructions-bar']");
-    private By siteGroups = By.cssSelector("a[id*='site-groups-link']");
-    private By addedUsersRows = By.cssSelector("div[class='added-users-list'] tbody[class='yui-dt-data'] tr");
-    protected By addUsersButton = By.cssSelector("[id*='default-invite-button-button']");
-    protected By externalUserFirstNameInput = By.cssSelector("[id*='default-firstname']");
-    protected By externalUserLastNameInput = By.cssSelector("[id*='default-lastname']");
-    protected By externalUserEmailInput = By.cssSelector("[id*='default-email']");
-    protected By externalUserAddButton = By.cssSelector("[id*='add-email-button-button']");
-    protected By setAllRolesToButton = By.cssSelector("[id*='selectallroles-button-button']");
-    protected By infoIcon = By.cssSelector("[id*='info-button-button']");
-    protected By infoBalloonText = By.cssSelector(".alf-info-balloon .text");
-    protected By infoBalloonCloseButton = By.cssSelector(".alf-info-balloon .closeButton");
-    protected By seeMoreLink = By.cssSelector(".alf-info-balloon a");
-    private By dropDownOptionsList = By.cssSelector("div.visible ul.first-of-type li a");
-    private By infoBalloon = By.xpath("//div[contains(@class,'yui-module') and contains(@style, 'visibility: visible')]");
-    private By searchResultsRows = By.cssSelector("div[class*='results'] tbody[class='yui-dt-data'] tr");
-    private By setUserRoleRows = By.cssSelector("div[class='invitationlist'] tbody[class='yui-dt-data'] tr");
-    private By addedUsersTally = By.cssSelector(".added-users-list-tally");
-    private By searchBoxInput = By.cssSelector("input[id*='default-search-text']");
-    private By selectRoleButton = By.cssSelector("td[class*='role'] button");
-    private By removeButton = By.cssSelector("td[class*='remove'] .removeIcon");
-    private By userRoleValue = By.cssSelector(".detail");
-    private By panelMessage = By.cssSelector(".yui-dt-message .yui-dt-liner");
+    private final By addedUsersBox = By.cssSelector("div[class='added-users-list']");
+    private final By instructionsBar = By.cssSelector("div[class='instructions-bar']");
+    private final By siteGroups = By.cssSelector("a[id*='site-groups-link']");
+    private final By addedUsersRows = By.cssSelector("div[class='added-users-list'] tbody[class='yui-dt-data'] tr");
+    private final By addUsersButton = By.cssSelector("[id*='default-invite-button-button']");
+    private final By externalUserFirstNameInput = By.cssSelector("[id*='default-firstname']");
+    private final By externalUserLastNameInput = By.cssSelector("[id*='default-lastname']");
+    private final By externalUserEmailInput = By.cssSelector("[id*='default-email']");
+    private final By externalUserAddButton = By.cssSelector("[id*='add-email-button-button']");
+    private final By setAllRolesToButton = By.cssSelector("[id*='selectallroles-button-button']");
+    private final By infoIcon = By.cssSelector("[id*='info-button-button']");
+    private final By infoBalloonText = By.cssSelector(".alf-info-balloon .text");
+    private final By infoBalloonCloseButton = By.cssSelector(".alf-info-balloon .closeButton");
+    private final By seeMoreLink = By.cssSelector(".alf-info-balloon a");
+    private final By dropDownOptionsList = By.cssSelector("div.visible ul.first-of-type li a");
+    private final By infoBalloon = By.xpath("//div[contains(@class,'yui-module') and contains(@style, 'visibility: visible')]");
+    private final By searchResultsRows = By.cssSelector("div[class*='results'] tbody[class='yui-dt-data'] tr");
+    private final By setUserRoleRows = By.cssSelector("div[class='invitationlist'] tbody[class='yui-dt-data'] tr");
+    private final By addedUsersTally = By.cssSelector(".added-users-list-tally");
+    private final By searchBoxInput = By.cssSelector("input[id*='default-search-text']");
+    private final By selectRoleButton = By.cssSelector("td[class*='role'] button");
+    private final By removeButton = By.cssSelector("td[class*='remove'] .removeIcon");
+    private final By userRoleValue = By.cssSelector(".detail");
+    private final By panelMessage = By.cssSelector(".yui-dt-message .yui-dt-liner");
 
     public AddSiteUsersPage(ThreadLocal<WebBrowser> browser)
     {
-        this.browser = browser;
+        super(browser);
     }
 
     @Override
