@@ -21,8 +21,10 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Service;
 
 /**
  * This class represents a template which should be inherit by each page object/component class.
@@ -45,9 +47,9 @@ public abstract class BasePage
     public static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
     public final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
 
-    public TasProperties tasProperties;
-    public EnvProperties properties;
-    public Language language;
+    public static TasProperties tasProperties;
+    public static EnvProperties properties;
+    public static Language language;
 
     protected ThreadLocal<WebBrowser> browser;
 
