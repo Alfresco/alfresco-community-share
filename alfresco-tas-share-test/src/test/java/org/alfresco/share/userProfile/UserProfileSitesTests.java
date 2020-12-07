@@ -35,7 +35,6 @@ public class UserProfileSitesTests extends BaseTest
         inviteSite = dataSite.usingUser(user).createPrivateRandomSite();
         notInvitedSite = dataSite.usingUser(user).createPublicRandomSite();
         publicSite = dataSite.usingUser(invitedUser).createPublicRandomSite();
-        dataUser.usingUser(user).addUserToSite(invitedUser, inviteSite, UserRole.SiteConsumer);
     }
 
     @AfterClass(alwaysRun = true)
@@ -49,6 +48,7 @@ public class UserProfileSitesTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void viewSitesWhereUserHasMembershipTest()
     {
+        dataUser.usingUser(user).addUserToSite(invitedUser, inviteSite, UserRole.SiteConsumer);
         setupAuthenticatedSession(invitedUser);
         userSitesPage.navigate(invitedUser)
             .assertSiteIsDisplayed(inviteSite)
@@ -61,7 +61,7 @@ public class UserProfileSitesTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void userWithNoSitesTest()
     {
-        setupAuthenticatedSession(invitedUser);
+        setupAuthenticatedSession(noSitesUser);
         userSitesPage.navigate(noSitesUser)
             .assertUserHasNoSitesMessageIsDisplayed();
     }

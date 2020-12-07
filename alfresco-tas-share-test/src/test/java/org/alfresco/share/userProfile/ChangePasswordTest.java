@@ -7,9 +7,10 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
 
+import static org.alfresco.share.TestUtils.PASSWORD;
+
 public class ChangePasswordTest extends BaseTest
 {
-    private final String password = "password";
     private UserModel user, changeUser;
     private ChangePasswordPage changePasswordPage;
 
@@ -35,7 +36,7 @@ public class ChangePasswordTest extends BaseTest
         changePasswordPage.navigate(user)
             .assertChangePasswordPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("changeUserPassword.browser.pageTitle"))
-            .changePassword(password, newPassword)
+            .changePassword(PASSWORD, newPassword)
             .assertUserProfilePageIsOpened();
         user.setPassword(newPassword);
         setupAuthenticatedSession(user);

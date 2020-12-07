@@ -72,6 +72,12 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
         return navigate(userModel.getUsername());
     }
 
+    public void navigateWithoutRender(UserModel userModel)
+    {
+        setUserName(userModel.getUsername());
+        super.navigateWithoutRender();
+    }
+
     public CustomizeUserDashboardPage clickCustomizeUserDashboard()
     {
         LOG.info("Click Customize user dashboard button");

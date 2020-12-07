@@ -95,6 +95,12 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
         return (T) navigate().renderedPage();
     }
 
+    public void navigateWithoutRender(SiteModel site)
+    {
+        setCurrentSiteName(site.getId());
+        navigateWithoutRender();
+    }
+
     public String getSiteName()
     {
         return getBrowser().waitUntilElementVisible(siteName).getText();

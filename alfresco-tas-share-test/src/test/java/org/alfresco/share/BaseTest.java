@@ -9,13 +9,18 @@ import org.alfresco.common.BrowserFactory;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.dataprep.UserService;
+import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
+import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
+import org.alfresco.utility.data.auth.DataAIS;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -48,7 +53,10 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     protected DataUserAIS dataUser;
 
     @Autowired
-    public DataSite dataSite;
+    protected DataAIS dataAIS;
+
+    @Autowired
+    protected DataSite dataSite;
 
     @Autowired
     protected DataGroup dataGroup;
@@ -57,7 +65,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     protected Language language;
 
     @Autowired
-    private UserService userService;
+    protected UserService userService;
 
     protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
     private ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
@@ -125,6 +133,22 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
             -> browser.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
     }
 
+    public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
+    {
+        browser.get().manage().deleteAllCookies();
+        getLoginPage().navigate().login(userModel);
+        userDashboardPage.waitForSharePageToLoad();
+    }
+
+    private CommonLoginPage getLoginPage()
+    {
+        if (dataAIS.isEnabled())
+        {
+            return new AIMSPage(browser);
+        }
+        return loginPage;
+    }
+
     public UserModel getAdminUser()
     {
         return dataUser.getAdminUser();
@@ -146,7 +170,14 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         {
             if (userModel != null)
             {
-                dataUser.usingAdmin().deleteUser(userModel);
+                try
+                {
+                    dataUser.usingAdmin().deleteUser(userModel);
+                }
+                catch (DataPreparationException e)
+                {
+                    LOG.error("Failed to delete user {}.", userModel.getUsername());
+                }
             }
         }
     }

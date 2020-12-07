@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
-import static org.alfresco.common.GroupModelRoles.ALFRESCO_ADMIN_GROUP;
-import static org.alfresco.common.GroupModelRoles.ALFRESCO_SEARCH_ADMINISTRATORS;
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+import static org.alfresco.share.TestUtils.ALFRESCO_SEARCH_ADMINISTRATORS;
 
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;

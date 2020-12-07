@@ -28,7 +28,8 @@ public abstract class SharePage2<T> extends BasePage
     private final By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
     private final By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
 
-    public SharePage2(ThreadLocal<WebBrowser> browser) {
+    public SharePage2(ThreadLocal<WebBrowser> browser)
+    {
         super(browser);
     }
 

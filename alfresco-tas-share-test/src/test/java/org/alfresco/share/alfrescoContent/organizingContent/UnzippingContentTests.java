@@ -1,16 +1,12 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import java.io.File;
-import org.alfresco.common.Utils;
+import static org.alfresco.common.Utils.testDataFolder;
+
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.DataContent;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.FolderModel;
-import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.*;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -18,20 +14,24 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 public class UnzippingContentTests extends BaseTest
 {
-    private final String zipFileName = "archiveC7409.zip";
-    private final String acpFileName = "archiveC7410.acp";
-    private final File zipFile = new File(Utils.testDataFolder.concat(zipFileName));
-    private final File acpFile = new File(Utils.testDataFolder.concat(acpFileName));
-
-    private UserModel user;
-    private SiteModel site;
+    @Autowired
+    private DataContent dataContent;
 
     private DocumentLibraryPage2 documentLibraryPage;
 
-    @Autowired
-    protected DataContent dataContent;
+    private final String zipFileName = "archiveC7409.zip";
+    private final String acpFileName = "archiveC7410.acp";
+    private final String acpCancelUnzip = "archiveC8041.acp";
+    private final File zipFile = new File(testDataFolder.concat(zipFileName));
+    private final File acpFile = new File(testDataFolder.concat(acpFileName));
+    private final File acpCancelFile = new File(testDataFolder.concat(acpCancelUnzip));
+
+    private UserModel user;
+    private SiteModel site;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()
@@ -73,7 +73,7 @@ public class UnzippingContentTests extends BaseTest
         documentLibraryPage.navigate(site)
             .usingContent(unzipFolder).assertContentIsDisplayed()
             .selectFolder()
-                .usingContent(unzipFileName).assertContentIsDisplayed();
+            .usingContent(unzipFileName).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7410")
@@ -102,23 +102,18 @@ public class UnzippingContentTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCancelUnzipAcpFile()
     {
-        FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site).createFolder(folder);
         FileModel acpFileModel = dataContent.usingUser(user)
-            .usingResource(folder)
-            .uploadDocument(acpFile);
+            .usingSite(site)
+            .uploadDocument(acpCancelFile);
         documentLibraryPage.navigate(site)
-            .usingContent(folder).selectFolder()
             .usingContent(acpFileModel)
             .selectFile()
             .clickUnzipTo()
             .selectRecentSitesDestination()
             .selectSite(site)
-            .selectFolder(folder)
             .clickCancelButton();
         FolderModel unzipFolder = new FolderModel(FilenameUtils.getBaseName(acpFileModel.getName()));
         documentLibraryPage.navigate(site)
-            .usingContent(folder).selectFolder()
             .usingContent(unzipFolder).assertContentIsNotDisplayed();
     }
 }

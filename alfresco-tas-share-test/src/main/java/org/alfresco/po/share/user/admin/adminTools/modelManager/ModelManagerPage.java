@@ -21,6 +21,7 @@ import static org.testng.Assert.assertTrue;
 
 public class ModelManagerPage extends SharePage2<ModelManagerPage>
 {
+    @RenderWebElement
     private final By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
     private final By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
     private final By statusColumn = By.cssSelector("th[class*=' statusColumn '] span");
@@ -29,7 +30,6 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
     @RenderWebElement
     private final By createModelButton = By.cssSelector("span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
     private final By importModelButton = By.cssSelector("span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
-    @RenderWebElement
     private final By noModelsText = By.cssSelector("div.alfresco-lists-views-AlfListView__no-data");
 
     public ModelManagerPage(ThreadLocal<WebBrowser> browser)

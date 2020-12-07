@@ -33,7 +33,7 @@ public class CategoryManagerTests extends BaseTest
     public void setupTest()
     {
         categoryManagerPage = new CategoryManagerPage(browser);
-        setupAuthenticatedSession(dataUser.getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(dataUser.getAdminUser());
     }
 
     @AfterClass (alwaysRun = true)

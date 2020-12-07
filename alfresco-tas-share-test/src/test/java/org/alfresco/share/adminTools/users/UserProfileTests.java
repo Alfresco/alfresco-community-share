@@ -1,8 +1,5 @@
 package org.alfresco.share.adminTools.users;
 
-import static org.alfresco.common.GroupModelRoles.ALFRESCO_ADMIN_GROUP;
-
-import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
@@ -11,11 +8,12 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
 public class UserProfileTests extends BaseTest
 {
@@ -25,9 +23,6 @@ public class UserProfileTests extends BaseTest
 
     private static UserModel browseUser, deleteUser, enableUser, removeGroupUser, addUserToGroup;
     private GroupModel c9423Group;
-
-    @Autowired
-    private UserService userService;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()

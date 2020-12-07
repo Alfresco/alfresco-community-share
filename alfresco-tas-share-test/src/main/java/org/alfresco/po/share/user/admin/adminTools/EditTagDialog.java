@@ -66,7 +66,7 @@ public class EditTagDialog extends BaseDialogComponent
         getBrowser().mouseOver(ok);
         getBrowser().waitUntilElementClickable(ok).click();
         waitUntilNotificationMessageDisappears();
-        LOG.error("Message for rename tag (for travis debug) {}", notificationMessageThread.get());
+
         return (TagManagerPage) new TagManagerPage(browser).renderedPage();
     }
 }

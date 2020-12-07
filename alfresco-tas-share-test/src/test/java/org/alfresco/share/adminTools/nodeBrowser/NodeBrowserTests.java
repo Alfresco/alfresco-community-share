@@ -18,15 +18,15 @@ import org.testng.annotations.Test;
 
 public class NodeBrowserTests extends BaseTest
 {
+    @Autowired
+    private DataContent dataContent;
+
     private NodeBrowserPage nodeBrowserPage;
 
     private SiteModel site;
     private FileModel file;
     private final String content = RandomStringUtils.randomAlphanumeric(10);
     private String cmisSearchTerm;
-
-    @Autowired
-    private DataContent dataContent;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()

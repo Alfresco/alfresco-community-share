@@ -9,15 +9,15 @@ public enum Wait {
   WAIT_0(0),
   WAIT_1(1),
   WAIT_3(3),
-  WAIT_4(3),
-  WAIT_5(3),
-  WAIT_8(3),
-  WAIT_10(3),
-  WAIT_15(3),
-  WAIT_20(3),
-  WAIT_30(3),
-  WAIT_40(3),
-  WAIT_60(3);
+  WAIT_4(4),
+  WAIT_5(5),
+  WAIT_8(8),
+  WAIT_10(10),
+  WAIT_15(15),
+  WAIT_20(20),
+  WAIT_30(30),
+  WAIT_40(40),
+  WAIT_60(60);
 
   private int value;
 

@@ -1,6 +1,6 @@
 package org.alfresco.share;
 
-import static org.alfresco.share.ContextAwareWebTest.ALFRESCO_ADMIN_GROUP;
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;

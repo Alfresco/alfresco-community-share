@@ -1,6 +1,6 @@
 package org.alfresco.share.adminTools.users;
 
-import static org.alfresco.common.GroupModelRoles.ALFRESCO_ADMIN_GROUP;
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;

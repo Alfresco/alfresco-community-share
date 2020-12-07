@@ -1,6 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import static org.alfresco.common.Wait.WAIT_10;
+import static org.alfresco.common.Wait.WAIT_20;
 import static org.testng.Assert.assertFalse;
 
 import org.alfresco.po.share.DeleteDialog;
@@ -100,7 +101,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     private void mouseOverOnCategory(String categoryName)
     {
         WebElement category = getBrowser().waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(categoryLocator, categoryName)), 2, 20);
+            By.xpath(String.format(categoryLocator, categoryName)), 1, WAIT_20.getValue());
         int i = 0;
         while(i < WAIT_10.getValue())
         {

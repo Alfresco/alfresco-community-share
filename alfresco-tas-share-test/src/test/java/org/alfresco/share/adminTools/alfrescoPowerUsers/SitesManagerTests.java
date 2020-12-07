@@ -1,7 +1,7 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
 import static java.util.Arrays.asList;
-import static org.alfresco.common.GroupModelRoles.ALFRESCO_SITE_ADMINISTRATORS;
+import static org.alfresco.share.TestUtils.ALFRESCO_SITE_ADMINISTRATORS;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -144,16 +144,16 @@ public class SitesManagerTests extends BaseTest
 
     @TestRail (id = "C8696")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void deleteSiteAsSiteAdmin() throws URISyntaxException, MalformedURLException {
-        setupAuthenticatedSession(siteAdmin);
+    public void deleteSiteAsSiteAdmin()
+    {
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
         sitesManagerPage.navigate().usingSite(site5)
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(site5.getTitle())
             .clickDeleteFromSitesManager();
         sitesManagerPage.waiUntilLoadingMessageDisappears()
             .usingSite(site5).assertSiteIsNotDisplayed();
-        browser.get().navigate().to(properties.getShareUrl().toURI()
-            .resolve(String.format(properties.getShareUrl() + "/page/site/%s/dashboard", site5.getId())).toURL());
+        siteDashboardPage.navigateWithoutRender(site5);
         systemErrorPage.renderedPage();
         systemErrorPage.assertSomethingIsWrongWithThePageMessageIsDisplayed();
     }

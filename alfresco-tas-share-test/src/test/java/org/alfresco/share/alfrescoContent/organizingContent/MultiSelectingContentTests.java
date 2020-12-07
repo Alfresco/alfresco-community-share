@@ -1,6 +1,6 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import static org.alfresco.common.GroupModelRoles.FILE_CONTENT;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.SelectMenuOptions;
@@ -36,6 +36,7 @@ public class MultiSelectingContentTests extends BaseTest
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(browser);
+        getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
 

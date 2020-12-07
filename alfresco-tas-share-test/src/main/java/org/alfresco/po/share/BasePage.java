@@ -42,7 +42,7 @@ public abstract class BasePage
 {
     protected final Logger LOG = LoggerFactory.getLogger(BasePage.class);
 
-    public ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
+    public static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
     public final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
 
     public TasProperties tasProperties;

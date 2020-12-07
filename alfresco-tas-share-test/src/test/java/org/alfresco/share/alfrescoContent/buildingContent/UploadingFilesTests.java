@@ -1,6 +1,6 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import static org.alfresco.common.GroupModelRoles.FILE_CONTENT;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;

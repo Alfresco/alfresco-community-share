@@ -7,14 +7,12 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsPage>
 {
@@ -211,7 +209,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
 
     public UserProfileAdminToolsPage assertGroupIsNotDisplayed(String groupName)
     {
-        Assert.assertFalse(getElementText(addedGroups).contains(groupName),
+        assertFalse(getBrowser().findElement(addedGroups).getText().contains(groupName),
             String.format("Group %s is displayed", groupName));
         return this;
     }
