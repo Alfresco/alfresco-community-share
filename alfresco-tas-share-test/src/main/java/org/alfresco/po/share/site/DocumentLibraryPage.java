@@ -1097,7 +1097,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public String switchToNewWindowAngGetContent()
     {
-        getBrowser().waitInSeconds((int) properties.getImplicitWait());
         String content = null;
 
         if (getBrowser().getWindowHandles().size() >= 1)

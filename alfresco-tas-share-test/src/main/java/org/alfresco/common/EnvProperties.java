@@ -34,17 +34,11 @@ public class EnvProperties
     @Value ("${browser.name}")
     private String browserName;
 
-    @Value ("${browser.implicitWait}")
-    private long implicitWait;
-
     @Value ("${grid.url}")
     private String gridUrl;
 
     @Value ("${grid.enabled}")
     private boolean gridEnabled;
-
-    @Value ("${env.platform}")
-    private String envPlatformName;
 
     @Value("${transformserver.url}")
     private URL transformationServerUrl;
@@ -115,16 +109,6 @@ public class EnvProperties
         this.browserName = browserName;
     }
 
-    public long getImplicitWait()
-    {
-        return implicitWait;
-    }
-
-    public void setImplicitWait(long implicitWait)
-    {
-        this.implicitWait = implicitWait;
-    }
-
     public URL getGridUrl() throws MalformedURLException
     {
         return new URL(gridUrl);
@@ -143,16 +127,6 @@ public class EnvProperties
     public void setGridEnabled(boolean gridEnabled)
     {
         this.gridEnabled = gridEnabled;
-    }
-
-    public String getEnvPlatformName()
-    {
-        return envPlatformName;
-    }
-
-    public void setEnvPlatformName(String envPlatformName)
-    {
-        this.envPlatformName = envPlatformName;
     }
 
     public URL getTransformationServerUrl() {return transformationServerUrl;}

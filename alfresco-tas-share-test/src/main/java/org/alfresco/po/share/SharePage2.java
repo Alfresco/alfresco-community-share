@@ -6,6 +6,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,6 +19,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
+import org.springframework.web.util.UriUtils;
 
 public abstract class SharePage2<T> extends BasePage
 {
@@ -164,12 +166,16 @@ public abstract class SharePage2<T> extends BasePage
     {
         if (!StringUtils.isEmpty(username))
         {
-            return String.format(pageUrl, username);
+            try
+            {
+                return UriUtils.encodePath(String.format(pageUrl, username), "UTF-8");
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                throw new RuntimeException(String.format("Unable to set the path for user {}. {}", username, e.getMessage()));
+            }
         }
-        else
-        {
-            throw new RuntimeException(String.format("Set the user name to navigate to %s page", this.getClass().getSimpleName()));
-        }
+        throw new RuntimeException(String.format("Set the user name to navigate to %s page", this.getClass().getSimpleName()));
     }
 
     /**
