@@ -3,9 +3,6 @@ package org.alfresco.share.adminTools.alfrescoPowerUsers;
 import static java.util.Arrays.asList;
 import static org.alfresco.share.TestUtils.ALFRESCO_SITE_ADMINISTRATORS;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -16,7 +13,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -31,9 +27,6 @@ public class SitesManagerTests extends BaseTest
     private SitesManagerPage sitesManagerPage;
     private SiteDashboardPage siteDashboardPage;
     private SystemErrorPage systemErrorPage;
-
-    @Autowired
-    private EnvProperties properties;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
