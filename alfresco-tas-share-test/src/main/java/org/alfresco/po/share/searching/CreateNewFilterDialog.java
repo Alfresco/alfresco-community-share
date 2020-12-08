@@ -151,12 +151,14 @@ public class CreateNewFilterDialog extends BaseDialogComponent
 
     public CreateNewFilterDialog typeFilterId(String value)
     {
+        getBrowser().waitUntilElementVisible(filterIdInput);
         clearAndType(filterIdInput, value);
         return this;
     }
 
     public CreateNewFilterDialog typeFilterName(String value)
     {
+        getBrowser().waitUntilElementVisible(filterNameInput);
         clearAndType(filterNameInput, value);
         return this;
     }
