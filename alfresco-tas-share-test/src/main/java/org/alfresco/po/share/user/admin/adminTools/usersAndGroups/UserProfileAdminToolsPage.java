@@ -1,73 +1,52 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Mirela Tifui on 12/8/2016.
- */
-@PageObject
-public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPage>
+import static org.testng.Assert.*;
+
+public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsPage>
 {
-    @Autowired
-    private EditUserPage editUserPage;
+    private String userName;
 
-    @Autowired
-    private DeleteUserDialogPage deleteUserDialogPage;
-
-    @FindBy (css = "span[id$='_default-view-enabled']")
-    public WebElement accountStatus;
-
+    private final By accountStatus = By.cssSelector("span[id$='_default-view-enabled']");
     @RenderWebElement
-    @FindBy (css = "button[id$='_default-edituser-button-button']")
-    private WebElement editUserButton;
-
+    private final By editUserButton = By.cssSelector("button[id$='_default-edituser-button-button']");
     @RenderWebElement
-    @FindBy (css = "button[id$='_default-deleteuser-button-button']")
-    private WebElement deleteUserButton;
+    private final By deleteUserButton = By.cssSelector("button[id$='_default-deleteuser-button-button']");
+    private final By goBackButton = By.cssSelector("button[id$='_default-goback-button-button']");
+    private final By userNameInAboutSection = By.cssSelector("div [id$='_default-view-name']");
+    private final By userProfileHeaderList = By.cssSelector("div.header-bar");
+    private final By infoFromSections = By.cssSelector(".field-label-right");
+    private final By userQuota = By.cssSelector("span[id$='_default-view-quota']");
+    private final By email = By.cssSelector("span[id$='_default-view-email']");
+    private final By addedGroups = By.cssSelector("span[id*='default-view-groups']");
+    private final By userProfileUserName = By.cssSelector("span[id$='_default-view-title']");
+    private final By userPhoto = By.cssSelector( "div.photo img.view-photoimg");
 
-    @RenderWebElement
-    @FindBy (css = "button[id$='_default-goback-button-button']")
-    private WebElement goBackButton;
+    public UserProfileAdminToolsPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
-    @FindBy (css = "div [id$='_default-view-name']")
-    private WebElement userNameInAboutSection;
+    public String getUserName()
+    {
+        return userName;
+    }
 
-    @FindAll (@FindBy (css = "div.header-bar"))
-    private List<WebElement> userProfileHeaderList;
-
-    @FindAll (@FindBy (css = ".field-label-right"))
-    private List<WebElement> infoFromSections;
-
-    @FindBy (css = "span[id$='_default-view-quota']")
-    private WebElement userQuota;
-
-    @FindBy (css = "span[id$='_default-view-email']")
-    private WebElement email;
-
-    @FindBy (css = "span[id*='default-view-groups']")
-    private WebElement addedGroups;
-
-    @FindBy (css = "span[id$='_default-view-title']")
-    private WebElement userProfileUserName;
-
-    @FindBy (css = "div.photo img.view-photoimg")
-    private WebElement userPhoto;
-
-    private By sectionsInfo = By.xpath("//div[@class='field-row']");
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
 
     @Override
     public String getRelativePath()
@@ -89,7 +68,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public UserProfileAdminToolsPage assertUserIsDisplayedInTitle(UserModel user)
     {
         LOG.info("Assert user first and last name are displayed in page title");
-        Assert.assertEquals(browser.waitUntilElementVisible(userProfileUserName).getText(),
+        assertEquals(getBrowser().waitUntilElementVisible(userProfileUserName).getText(),
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
@@ -97,43 +76,44 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public UserProfileAdminToolsPage assertEditUserButtonIsDisplayed()
     {
         LOG.info("Assert Edit User button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(editUserButton), "Edit User button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(editUserButton), "Edit User button is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertDeleteUserButtonIsDisplayed()
     {
         LOG.info("Assert Delete User button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(deleteUserButton), "Delete User button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(deleteUserButton), "Delete User button is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertGoBackButtonIsDisplayed()
     {
         LOG.info("Assert Go back button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(goBackButton), "Go back button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(goBackButton), "Go back button is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertAllSectionsAreDisplayed()
     {
         LOG.info("Assert all sections are displayed");
-        List<String> sectionTexts = browser.getTextFromElementList(userProfileHeaderList);
-        Assert.assertTrue(sectionTexts.contains(language.translate("adminTools.user.about")),
+        List<String> sectionTexts = getBrowser().getTextFromElementList(getBrowser().findElements(userProfileHeaderList));
+        assertTrue(sectionTexts.contains(language.translate("adminTools.user.about")),
             "About section is displayed");
-        Assert.assertTrue(sectionTexts.contains(language.translate("adminTools.user.contactInfo")),
+        assertTrue(sectionTexts.contains(language.translate("adminTools.user.contactInfo")),
             "Contact Information section is displayed");
-        Assert.assertTrue(sectionTexts.contains(language.translate("adminTools.user.companyDetails")),
+        assertTrue(sectionTexts.contains(language.translate("adminTools.user.companyDetails")),
             "Company Details section is displayed");
-        Assert.assertTrue(sectionTexts.contains(language.translate("adminTools.user.moreAboutUser")),
+        assertTrue(sectionTexts.contains(language.translate("adminTools.user.moreAboutUser")),
             "More about this user section is displayed");
+
         return this;
     }
 
     public UserProfileAdminToolsPage assertAllInfoAreDisplayedInSections()
     {
         LOG.info("Assert all filds are displayed in each section");
-        List<String> sectionTexts = browser.getTextFromElementList(infoFromSections);
+        List<String> sectionTexts = getBrowser().getTextFromElementList(getBrowser().findElements(infoFromSections));
         List<String> expectedInfo = new ArrayList<>();
         expectedInfo.add(language.translate("adminTools.user.email"));
         expectedInfo.add(language.translate("adminTools.user.telephone"));
@@ -149,79 +129,87 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
         expectedInfo.add(language.translate("adminTools.user.accountStatus"));
         expectedInfo.add(language.translate("adminTools.user.quota"));
         expectedInfo.add(language.translate("adminTools.user.usage"));
-        Assert.assertTrue(sectionTexts.containsAll(expectedInfo), "All sections info are displayed");
+        assertTrue(sectionTexts.containsAll(expectedInfo), "All sections info are displayed");
+
         return this;
     }
 
     public UserProfileAdminToolsPage assertUserPhotoIsDisplayed()
     {
         LOG.info("Assert user photo is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(userPhoto), "User photo is displayed");
+        assertTrue(getBrowser().isElementDisplayed(userPhoto), "User photo is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertUserFullNameIsDisplayedInAboutSection(UserModel user)
     {
-        Assert.assertEquals(userNameInAboutSection.getText(), String.format("%s %s", user.getFirstName(), user.getLastName()));
+        LOG.info("Assert user full name is displayed in about section {} {}", user.getFirstName(), user.getLastName());
+        assertEquals(getBrowser().findElement(userNameInAboutSection).getText(),
+            String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
 
     public EditUserPage clickEditUser()
     {
         LOG.info("Click Edit");
-        browser.waitUntilElementClickable(editUserButton).click();
-        return (EditUserPage) editUserPage.renderedPage();
+        getBrowser().waitUntilElementClickable(editUserButton).click();
+        return (EditUserPage) new EditUserPage(browser).renderedPage();
     }
 
     public UserProfileAdminToolsPage assertEmailIs(String expectedEmail)
     {
         LOG.info(String.format("Assert email is: %s", expectedEmail));
-        Assert.assertEquals(email.getText(), expectedEmail, "Email is correct");
+        assertEquals(getElementText(email), expectedEmail, "Email is correct");
         return this;
     }
 
     public DeleteUserDialogPage clickDelete()
     {
         LOG.info("Click Delete");
-        browser.waitUntilElementClickable(deleteUserButton).click();
-        return (DeleteUserDialogPage) deleteUserDialogPage.renderedPage();
+        getBrowser().waitUntilElementClickable(deleteUserButton).click();
+        return (DeleteUserDialogPage) new DeleteUserDialogPage(browser).renderedPage();
     }
 
     public UserProfileAdminToolsPage assertQuotaIs(String expectedQuota)
     {
         LOG.info(String.format("Assert user quota is: %s", expectedQuota));
-        Assert.assertEquals(browser.waitUntilElementVisible(userQuota).getText(), expectedQuota, "User quota is correct");
+        assertEquals(getBrowser().waitUntilElementVisible(userQuota).getText(), expectedQuota, "User quota is correct");
         return this;
     }
 
     public UserProfileAdminToolsPage assertAccountStatusIsDisabled()
     {
         LOG.info("Assert account is disabled");
-        browser.waitUntilElementVisible(accountStatus);
-        Assert.assertEquals(accountStatus.getText(), language.translate("adminTools.user.status.disabled"));
+        WebElement status = getBrowser().waitUntilElementVisible(accountStatus);
+        getBrowser().scrollToElement(status);
+        assertEquals(status.getText(), language.translate("adminTools.user.status.disabled"));
+
         return this;
     }
 
     public UserProfileAdminToolsPage assertAccountStatusIsEnabled()
     {
         LOG.info("Assert account is enabled");
-        browser.waitUntilElementVisible(accountStatus);
-        Assert.assertEquals(accountStatus.getText(), language.translate("adminTools.user.status.enabled"));
+        WebElement status = getBrowser().waitUntilElementVisible(accountStatus);
+        getBrowser().scrollToElement(status);
+        assertEquals(status.getText(), language.translate("adminTools.user.status.enabled"));
+
         return this;
     }
 
     public UserProfileAdminToolsPage assertGroupsAreDisplayed(String... groupNames)
     {
-        String [] items = browser.waitUntilElementVisible(addedGroups).getText().split("\\s*,\\s*");
+        String [] items = getBrowser().waitUntilElementVisible(addedGroups).getText().split("\\s*,\\s*");
         Arrays.sort(items);
         Arrays.sort(groupNames);
-        Assert.assertEquals(items, groupNames);
+        assertEquals(items, groupNames);
+
         return this;
     }
 
     public UserProfileAdminToolsPage assertGroupIsNotDisplayed(String groupName)
     {
-        Assert.assertFalse(addedGroups.getText().contains(groupName),
+        assertFalse(getBrowser().findElement(addedGroups).getText().contains(groupName),
             String.format("Group %s is displayed", groupName));
         return this;
     }

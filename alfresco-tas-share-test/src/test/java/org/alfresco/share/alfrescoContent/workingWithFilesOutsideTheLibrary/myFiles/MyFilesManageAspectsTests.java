@@ -15,10 +15,10 @@ import org.testng.annotations.Test;
 
 public class MyFilesManageAspectsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private AspectsForm aspectsForm;
 
-    @Autowired
+    //@Autowired
     private MyFilesPage myFilesPage;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
@@ -47,7 +47,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     {
         myFilesPage.navigate();
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
-        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
         Assert.assertTrue(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel is not diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedPanel(), "Currently Selected panel is not diaplyed");
@@ -65,7 +65,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     {
         myFilesPage.navigate();
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
-        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addAspect("Classifiable");
@@ -73,8 +73,8 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
-        aspectsForm.clickApplyChangesButton(myFilesPage);
-        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        aspectsForm.clickApplyChangesButton();
+        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
     }

@@ -23,6 +23,11 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     @FindBy (css = "div[class*='notice-dashlet']")
     protected HtmlElement dashletContainer;
 
+    //@Autowired
+    TinyMceEditor tinyMceEditor;
+    //@Autowired
+    SiteDashboardPage siteDashboardPage;
+
     @FindBy (css = "div[class*='notice-dashlet'] div[class*='edit']")
     private WebElement editIcon;
 
@@ -36,12 +41,6 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     private WebElement dialogCancelButton;
 
     private By noticeMessageLocator = By.cssSelector("div[class*='notice-dashlet'] div[class*='text-content'] p");
-
-    @Autowired
-    private TinyMceEditor tinyMceEditor;
-
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
 
     @Override
     public String getDashletTitle()
@@ -59,7 +58,7 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     public SiteNoticeDashlet setSiteNoticeDashletTitle(String title)
     {
         LOG.info("Set site notice dashlet title: {}", title);
-        Utils.clearAndType(titleInput, title);
+        clearAndType(titleInput, title);
         return this;
     }
 

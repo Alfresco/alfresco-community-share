@@ -20,13 +20,13 @@ import ru.yandex.qatools.htmlelements.element.Button;
 @PageObject
 public class EditPropertiesDialog extends ShareDialog
 {
-    @Autowired
+    //@Autowired
     SelectDialog selectDialog;
 
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
 
-    @Autowired
+   // @Autowired
     DocumentLibraryPage documentLibraryPage;
 
     @RenderWebElement

@@ -26,10 +26,10 @@ import org.testng.annotations.Test;
  */
 public class DeletingAListItemTest extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
 
     String random = RandomData.getRandomAlphanumeric();
@@ -71,7 +71,7 @@ public class DeletingAListItemTest extends ContextAwareWebTest
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "Delete dialog - Delete button is displayed.");
 
         LOG.info("STEP2: Click the Delete button on the Delete Item form");
-        deleteDialog.clickDelete(dataListsPage);
+        deleteDialog.clickDelete();
         assertFalse(dataListsPage.currentContent.isAnyListItemDisplayed(), "Data list item is displayed in Data List items list.");
 
         cleanupAuthenticatedSession();

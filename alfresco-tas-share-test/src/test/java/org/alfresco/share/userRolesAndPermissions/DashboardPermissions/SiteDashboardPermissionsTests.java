@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  */
 public class SiteDashboardPermissionsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     private String userConsumer = String.format("C8723ConsumerUser%s", RandomData.getRandomAlphanumeric());

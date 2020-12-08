@@ -22,10 +22,10 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
 {
-    @Autowired
+    //@Autowired
     private CalendarPage calendarPage;
 
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
     @RenderWebElement

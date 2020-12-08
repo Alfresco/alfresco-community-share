@@ -1,37 +1,43 @@
 package org.alfresco.share.adminTools.groups;
 
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * @author Bogdan Bocancea
  */
-public class SubgroupsTests extends ContextAwareWebTest
+public class SubgroupsTests extends BaseTest
 {
     private GroupModel parentGroup;
     private UserModel userToAdd, userToRemove;
 
-    @Autowired
     private GroupsPage groupsPage;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         userToAdd = dataUser.usingAdmin().createRandomTestUser();
         userToRemove = dataUser.usingAdmin().createRandomTestUser();
 
         parentGroup = dataGroup.usingAdmin().createRandomGroup();
         dataGroup.usingUser(userToRemove).addUserToGroup(parentGroup);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        groupsPage = new GroupsPage(browser);
         setupAuthenticatedSession(getAdminUser());
+        groupsPage.navigate();
     }
 
     @TestRail (id = "C9476")
@@ -39,7 +45,6 @@ public class SubgroupsTests extends ContextAwareWebTest
     public void createSubgroup()
     {
         GroupModel subGroup = new GroupModel(RandomData.getRandomAlphanumeric());
-        groupsPage.navigate();
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())
             .clickBrowse()
             .selectGroup(parentGroup)
@@ -63,7 +68,6 @@ public class SubgroupsTests extends ContextAwareWebTest
     public void addGroup()
     {
         GroupModel addedSubGroup = dataGroup.usingAdmin().createRandomGroup();
-        groupsPage.navigate();
 
         groupsPage.writeInSearchInput(parentGroup.getGroupIdentifier())
             .clickBrowse()
@@ -86,7 +90,6 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUser()
     {
-        groupsPage.navigate();
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())
             .clickBrowse()
             .selectGroup(parentGroup)
@@ -106,7 +109,6 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeUser()
     {
-        groupsPage.navigate();
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())
             .clickBrowse()
             .selectGroup(parentGroup)

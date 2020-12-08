@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class SearchByProfilePropertiesTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     PeopleFinderPage peopleFinderPage;
 
     @TestRail (id = "C6655")

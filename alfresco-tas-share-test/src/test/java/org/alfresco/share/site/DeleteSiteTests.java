@@ -32,32 +32,29 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Autowired
     EnvProperties envProperties;
 
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
-    @Autowired
+    //@Autowired
     SiteFinderPage siteFinderPage;
 
     @Autowired
     DeleteSiteDialog deleteSiteDialog;
 
-    @Autowired
+    //@Autowired
     SearchPage searchFromToolbarPage;
 
-    @Autowired
+    //@Autowired
     SystemErrorPage systemErrorPage;
 
     @Autowired
     MySitesDashlet mySitesDashlet;
 
-    @Autowired
+    //@Autowired
     SitesManagerPage sitesManagerPage;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    UserDashboardPage userDashboardPage;
 
     String userC2280 = String.format("userC2280%s", RandomData.getRandomAlphanumeric());
     String siteNameC2280_1 = String.format("SiteNameC2280%s", RandomData.getRandomAlphanumeric());
@@ -165,7 +162,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertFalse(siteFinderPage.isSiteFound(siteNameC2280_1), "The site isn't displayed on \"Site Finder\" page.");
 
         LOG.info("STEP7: Search for the file created within the site");
-        userDashboardPage.navigateByMenuBar();
+        userDashboard.navigateByMenuBar();
         toolbar.search(fileNameC2280);
         assertFalse(searchFromToolbarPage.isResultFound(fileNameC2280), String.format("File is found %s", fileNameC2280));
 
@@ -181,7 +178,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsManagerFromDashlet()
     {
         setupAuthenticatedSession(userC2280, password);
-        userDashboardPage.navigate(userC2280);
+        userDashboard.navigate(userC2280);
 
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
         mySitesDashlet.clickDelete(siteNameC2280_2);
@@ -224,7 +221,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP3: Verify options available for the site");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Delete"), false, "Delete option is not displayed.");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Leave"), true, "Leave option is displayed.");
-        userDashboardPage.navigate(userC2281);
+        userDashboard.navigate(userC2281);
 
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
@@ -252,7 +249,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Leave"), true, "Leave option is displayed.");
 
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
-        userDashboardPage.navigateByMenuBar();
+        userDashboard.navigateByMenuBar();
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
         softAssert.assertEquals(mySitesDashlet.isDeleteButtonDisplayed(siteNameUserCanNotDelete), false, "Delete button isn't displayed.");
         softAssert.assertAll();
@@ -278,7 +275,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Leave"), true, "Leave option is displayed.");
 
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
-        userDashboardPage.navigate(userC2283);
+        userDashboard.navigate(userC2283);
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
         assertEquals(mySitesDashlet.isDeleteButtonDisplayed(siteNameUserCanNotDelete), false, "Delete button isn't displayed.");
         softAssert.assertAll();

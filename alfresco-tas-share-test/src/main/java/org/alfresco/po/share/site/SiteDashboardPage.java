@@ -1,58 +1,38 @@
 package org.alfresco.po.share.site;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
 /**
  * @author bogdan.bocancea
  */
-@PageObject
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
-    @Autowired
-    EditSiteDetailsDialog editSiteDetailsDialog;
+    private EditSiteDetailsDialog editSiteDetailsDialog;
 
-    @FindBy (css = "#HEADER_TITLE a")
-    private WebElement siteHeaderTitle;
-
+    private final By siteHeaderTitle = By.cssSelector("#HEADER_TITLE a");
     @RenderWebElement
-    @FindBy (css = "div[class*='grid columnSize']")
-    private WebElement dashboardLayout;
-
-    @FindBy (css = ".msg.dashlet-padding>h2")
-    private WebElement welcomeMessage;
-
-    @FindBy (css = "div[class*='colleagues']")
-    private WebElement siteMembersBox;
-
+    private final By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
     @RenderWebElement
-    @FindBy (css = "div[id='HEADER_TITLE_VISIBILITY'] span")
-    private WebElement siteVisibility;
+    private final By siteVisibility = By.cssSelector("div[id='HEADER_TITLE_VISIBILITY'] span");
+    private final By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
+    private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
+    private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
-    @FindAll (@FindBy (css = "div[style*='visible'] tr[id^='HEADER']>td[id$='text']"))
-    private List<WebElement> siteConfigurationOptions;
-
-    @FindBy (id = "HEADER_SITE_MORE_PAGES")
-    private WebElement morePagesDropDown;
-
-    @FindBy (css = "div[id$='_default-configDialog-configDialog']")
-    private WebElement editRssDialog;
-
-    private By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
-    private String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
+    public SiteDashboardPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -63,35 +43,23 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public SiteDashboardPage assertSiteDashboardPageIsOpened()
     {
         LOG.info("Assert site dashboard page is opened");
-        Assert.assertTrue(browser.isElementDisplayed(siteVisibility), "Site dashboard page is opened");
+        getBrowser().waitUntilElementVisible(siteVisibility);
+        assertTrue(getBrowser().isElementDisplayed(siteVisibility), "Site dashboard page is opened");
         return this;
     }
 
     public SiteDashboardPage assertSiteHeaderTitleIs(SiteModel expectedSite)
     {
-        Assert.assertEquals(siteHeaderTitle.getText(), expectedSite.getTitle(), "Site header title is correct");
+        assertEquals(getBrowser().findElement(siteHeaderTitle).getText(), expectedSite.getTitle(), "Site header title is correct");
         return this;
     }
 
-    /**
-     * Get the number of columns from Site Dashboard
-     *
-     * @return number of columns
-     */
     public int getNumerOfColumns()
     {
-        String strCol = dashboardLayout.getAttribute("class");
+        String strCol = getBrowser().findElement(dashboardLayout).getAttribute("class");
         return Character.getNumericValue(strCol.charAt(strCol.length() - 1));
     }
 
-    /**
-     * Verify if a dashlet is located in the right column
-     *
-     * @param dashlet          Dashlets dashlet to verify
-     * @param column           int column (must be > 0 <=4)
-     * @param locationInColumn int location in column (must be > 0 <=5)
-     * @return true if found
-     */
     public boolean isDashletAddedInPosition(final Dashlets dashlet, final int column, final int locationInColumn)
     {
         if (column < 1 || column > 4)
@@ -104,47 +72,35 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            return browser.isElementDisplayed(By.xpath(String.format(
+            return getBrowser().isElementDisplayed(By.xpath(String.format(
                 "//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
         }
-        return browser.isElementDisplayed(By.xpath(String.format(
+        return getBrowser().isElementDisplayed(By.xpath(String.format(
             dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
     }
 
     public String getSiteVisibility()
     {
-        browser.waitUntilElementVisible(siteVisibility);
-        return siteVisibility.getText();
+        return getBrowser().waitUntilElementVisible(siteVisibility).getText();
     }
 
     public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
     {
         LOG.info(String.format("Assert site visibility is: %s", visibility.toString()));
-        Assert.assertEquals(browser.waitUntilElementVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
+        assertEquals(getBrowser().waitUntilElementVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
         return this;
     }
 
-    /**
-     * Verify presence of visibility type label that is right after Site name (e.g. Public, Private, Moderated)
-     *
-     * @return true if displayed
-     */
     public boolean isSiteVisibilityDisplayed()
     {
-        return browser.isElementDisplayed(siteVisibility);
+        return getBrowser().isElementDisplayed(siteVisibility);
     }
 
-    /**
-     * Search for an option in Site Configuration Options dropdown list
-     *
-     * @param option String - option to be found in dropdown list
-     * @return Boolean true if entry is found, false if not
-     */
     public boolean isOptionListedInSiteConfigurationDropDown(String option)
     {
         List<String> availableOptions = new ArrayList<>();
 
-        List<WebElement> siteConfigurationOptions = browser.findElements(configurationOptions);
+        List<WebElement> siteConfigurationOptions = getBrowser().findElements(configurationOptions);
         getBrowser().waitUntilElementsVisible(siteConfigurationOptions);
 
         for (WebElement siteConfigurationOption : siteConfigurationOptions)
@@ -159,41 +115,27 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return false;
     }
 
-    /**
-     * Click on the specified option from Site Configuration Options dropdown list
-     *
-     * @param option String - option to be clicked in dropdown list
-     */
-    public void clickOptionInSiteConfigurationDropDown(String option, HtmlPage page)
+    public void clickOptionInSiteConfigurationDropDown(String option)
     {
         SiteConfigurationOptions[] siteConfigurationOptions = SiteConfigurationOptions.values();
         for (SiteConfigurationOptions configurationOption : siteConfigurationOptions)
         {
             if (configurationOption.getOptionText().equals(option))
             {
-                browser.waitUntilElementVisible(configurationOption.getOptionLocator()).click();
+                getBrowser().waitUntilElementVisible(configurationOption.getOptionLocator()).click();
                 break;
             }
         }
     }
 
-    /**
-     * Click on 'Customize Site' option from Site Configuration Options dropdown list
-     */
     public void clickCustomizeSite()
     {
-        browser.waitUntilElementVisible(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator()).click();
+        getBrowser().waitUntilElementVisible(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator()).click();
     }
 
-    /**
-     * Search for a link in More menu
-     *
-     * @param link String - option to be found in menu
-     * @return Boolean true if entry is found, false if not
-     */
     public boolean isLinkDisplayedInMoreMenu(String link)
     {
-        List<WebElement> moreOptionsList = browser.waitUntilElementsVisible(moreOptions);
+        List<WebElement> moreOptionsList = getBrowser().waitUntilElementsVisible(moreOptions);
         for (WebElement option : moreOptionsList)
         {
             if (option.getText().equals(link))
@@ -204,103 +146,63 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return false;
     }
 
-    /**
-     * Click on the specified link from More menu
-     *
-     * @param link String - option to be clicked in menu
-     */
     public void clickLinkFromMoreMenu(String link)
     {
         clickMoreLink();
-        List<WebElement> moreOptionsList = browser.waitUntilElementsVisible(moreOptions);
+        List<WebElement> moreOptionsList = getBrowser().waitUntilElementsVisible(moreOptions);
         moreOptionsList.stream()
             .filter(option -> option.getText().equals(link))
             .findFirst().ifPresent(WebElement::click);
     }
 
-    /**
-     * Verify if a page is added to site dashboard
-     *
-     * @param page SitePageType the page
-     * @return true if page is added
-     */
     public boolean isPageAddedToDashboard(SitePageType page)
     {
-        if (browser.isElementDisplayed(page.getDashboardLocator()) == true)
+        if (getBrowser().isElementDisplayed(page.getDashboardLocator()) == true)
         {
             return true;
-        } else
+        }
+        else
         {
             if (isMoreLinkDisplayed())
             {
                 clickMoreLink();
-                return browser.isElementDisplayed(page.getDashboardLocator());
+                return getBrowser().isElementDisplayed(page.getDashboardLocator());
             }
             return false;
         }
     }
 
-    /**
-     * Click More link
-     */
     public void clickMoreLink()
     {
-        browser.waitUntilElementVisible(morePagesDropDown).click();
+        getBrowser().waitUntilElementVisible(morePagesDropDown).click();
     }
 
-    /**
-     * Click on the specified link from header navigation menu
-     *
-     * @param page
-     */
     public void clickLinkFromHeaderNavigationMenu(SitePageType page)
     {
-        browser.findElement(page.getDashboardLocator()).findElement(By.cssSelector("a")).click();
+        getBrowser().findElement(page.getDashboardLocator()).findElement(By.cssSelector("a")).click();
     }
 
-    /**
-     * Verify if More link is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isMoreLinkDisplayed()
     {
-        return browser.isElementDisplayed(morePagesDropDown);
+        return getBrowser().isElementDisplayed(morePagesDropDown);
     }
 
-    /**
-     * Get the display name for a page
-     *
-     * @param page SitePageType the page
-     * @return String display name
-     */
     public String getPageDisplayName(SitePageType page)
     {
-        WebElement pageElem = browser.findElement(By.cssSelector(page.getDashboardCssLocator()));
+        WebElement pageElem = getBrowser().findElement(By.cssSelector(page.getDashboardCssLocator()));
         return pageElem.findElement(By.cssSelector("span a")).getText();
     }
 
-    /**
-     * Navigate to site
-     * Opens Edit Details dialog
-     *
-     * @param siteId
-     */
     public EditSiteDetailsDialog navigateToEditSiteDetailsDialog(String siteId)
     {
         navigate(siteId);
         clickSiteConfiguration();
-        clickOptionInSiteConfigurationDropDown("Edit Site Details", editSiteDetailsDialog);
+        clickOptionInSiteConfigurationDropDown("Edit Site Details");
         return (EditSiteDetailsDialog) editSiteDetailsDialog.renderedPage();
     }
 
     public boolean somethingWentWrongMessage()
     {
-        return browser.isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
-    }
-
-    public boolean isRSSFeedConfigurationDialogDisplayed()
-    {
-        return getBrowser().isElementDisplayed(editRssDialog);
+        return getBrowser().isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
     }
 }

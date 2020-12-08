@@ -1,144 +1,111 @@
 package org.alfresco.po.share.user;
 
 import org.alfresco.po.share.HideWelcomePanelDialog;
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author bogdan.bocancea
  */
-@PageObject
-public class UserDashboardPage extends SharePage<UserDashboardPage> implements AccessibleByMenuBar
+public class UserDashboardPage extends SharePage2<UserDashboardPage> implements AccessibleByMenuBar
 {
-    @FindBy (id = "HEADER_CUSTOMIZE_USER_DASHBOARD")
-    private WebElement customizeUserDashboard;
-
-    @Autowired
-    private CustomizeUserDashboardPage customizeUserDashboardPage;
-
-    @Autowired
-    private HideWelcomePanelDialog hideWelcomePanelDialogue;
+    private String userName;
 
     @RenderWebElement
-    @FindBy (id = "HEADER_HOME")
-    private WebElement homeMenuLink;
-
-    @FindBy (css = "div[class*='grid columnSize']")
-    private WebElement dashboardLayout;
-
-    @FindBy (xpath = "//img[@src='/share/res/components/images/alfresco-logo.svg']")
-    private WebElement alfrescoLogo;
-
-    @FindBy (xpath = "/share/res/components/images/alfresco-share-logo-enterprise.png']")
-    private WebElement oldAlfrescoLogo;
-
+    private final By homeMenuLink = By.id("HEADER_HOME");
     @RenderWebElement
-    @FindBy (css = "div[id='HEADER_LOGO']")
-    private WebElement alfrescoLogoContainer;
+    private final By customizeUserDashboard = By.id("HEADER_CUSTOMIZE_USER_DASHBOARD");
+    private final By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
+    private final By alfrescoLogo = By.xpath("//img[@src='/share/res/components/images/alfresco-logo.svg']");
+    private final By welcomePanel = By.cssSelector("[id$=get-started-panel-container]");
+    private final By welcomePanelInfo = By.cssSelector( ".welcome-info");
+    private final By welcomePanelHideButton = By.cssSelector("button[id$='_default-hide-button-button']");
+    private final By welcomePanelInfoGetStarted = By.cssSelector(".welcome-info h1");
+    private final String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
+    private final String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
 
-    @FindBy (css = "[id$=get-started-panel-container]")
-    private WebElement welcomePanel;
+    public UserDashboardPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
-    @FindBy (css = ".welcome-info")
-    private WebElement welcomePanelInfo;
+    public String getUserName()
+    {
+        return userName;
+    }
 
-    private By welcomePanelHideButton = By.cssSelector("button[id$='_default-hide-button-button']");
-    private By welcomePanelInfoGetStarted = By.cssSelector(".welcome-info h1");
-    private String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
-    private String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
 
     @Override
     public String getRelativePath()
     {
         return setRelativePathForUserPage("share/page/user/%s/dashboard", getUserName());
     }
-
     @SuppressWarnings ("unchecked")
     @Override
     public UserDashboardPage navigateByMenuBar()
     {
-        homeMenuLink.click();
+        getBrowser().waitUntilElementClickable(homeMenuLink).click();
         return (UserDashboardPage) renderedPage();
     }
 
-    /**
-     * Navigate to user dashboard for a specific user
-     *
-     * @param userName String user name
-     * @return {@link UserDashboardPage}
-     */
     public UserDashboardPage navigate(String userName)
     {
         setUserName(userName);
         return navigate();
     }
 
-    /**
-     * Navigate to user dashboard for a specific user
-     *
-     * @param userModel String user name
-     * @return {@link UserDashboardPage}
-     */
     public UserDashboardPage navigate(UserModel userModel)
     {
-        setUserName(userModel.getUsername());
-        return navigate();
+        return navigate(userModel.getUsername());
     }
 
-    /**
-     * Click customize user dashboard
-     */
+    public void navigateWithoutRender(UserModel userModel)
+    {
+        setUserName(userModel.getUsername());
+        super.navigateWithoutRender();
+    }
+
     public CustomizeUserDashboardPage clickCustomizeUserDashboard()
     {
         LOG.info("Click Customize user dashboard button");
-        customizeUserDashboard.click();
-        return (CustomizeUserDashboardPage) customizeUserDashboardPage.renderedPage();
+        getBrowser().findElement(customizeUserDashboard).click();
+        return (CustomizeUserDashboardPage) new CustomizeUserDashboardPage(browser).renderedPage();
     }
 
-    /**
-     * Verify if customize user dashboard button is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isCustomizeUserDashboardDisplayed()
     {
-        return browser.isElementDisplayed(customizeUserDashboard);
+        return getBrowser().isElementDisplayed(customizeUserDashboard);
     }
 
     public UserDashboardPage assertCustomizeUserDashboardIsDisplayed()
     {
         LOG.info("Assert Customize User Dashboard button is displayed");
-        browser.waitUntilElementVisible(customizeUserDashboard);
-        Assert.assertTrue(browser.isElementDisplayed(customizeUserDashboard),
-            "Customize User Dashboard button is displayed");
+        getBrowser().waitUntilElementVisible(customizeUserDashboard);
+        assertTrue(getBrowser().isElementDisplayed(customizeUserDashboard), "Customize User Dashboard button is displayed");
         return this;
     }
 
     public UserDashboardPage assertNumberOfDashletColumnsIs(int columnsNumber)
     {
-        LOG.info(String.format("Assert dashboard has %s columns", columnsNumber));
-        String strCol = dashboardLayout.getAttribute("class");
-        Assert.assertEquals(Character.getNumericValue(strCol.charAt(strCol.length() - 1)), columnsNumber);
+        LOG.info("Assert dashboard has {} columns", columnsNumber);
+        String strCol = getBrowser().findElement(dashboardLayout).getAttribute("class");
+        assertEquals(Character.getNumericValue(strCol.charAt(strCol.length() - 1)), columnsNumber);
         return this;
     }
 
-    /**
-     * Verify if a dashlet is located in the right column
-     *
-     * @param dashlet          Dashlets dashlet to verify
-     * @param column           int column (must be > 0 <=4)
-     * @param locationInColumn int location in column (must be > 0 <=5)
-     * @return true if found
-     */
     public boolean isDashletAddedInPosition(final Dashlets dashlet, final int column, final int locationInColumn)
     {
         if (column < 1 || column > 4)
@@ -151,60 +118,41 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            return browser.isElementDisplayed(By.xpath(String.format(webViewDashletLocation, column, locationInColumn)));
+            return getBrowser().isElementDisplayed(By.xpath(String.format(webViewDashletLocation, column, locationInColumn)));
         }
-        return browser.isElementDisplayed(By.xpath(String.format(dashletOnDashboard, dashlet.getDashletName(), column, locationInColumn)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(dashletOnDashboard, dashlet.getDashletName(), column, locationInColumn)));
     }
 
     public UserDashboardPage assertDashletIsAddedInPosition(Dashlets dashlet, int column, int locationInColumn)
     {
-        Assert.assertTrue(isDashletAddedInPosition(dashlet, column, locationInColumn));
+        assertTrue(isDashletAddedInPosition(dashlet, column, locationInColumn));
         return this;
     }
 
-    public WebElement getCustomizeUserDashboard()
-    {
-        return customizeUserDashboard;
-    }
-
-    /**
-     * Verify if new alfresco logo is displayed on the page footer
-     *
-     * @return true if displayed, otherwise return false
-     */
     public boolean isNewAlfrescoLogoDisplayed()
     {
-        return browser.isElementDisplayed(alfrescoLogo);
-    }
-
-    /**
-     * Verify if old alfresco logo is displayed on the page footer
-     *
-     * @return true if displayed, otherwise return false
-     */
-    public boolean isOldAlfrescoLogoDisplayed()
-    {
-        return browser.isElementDisplayed(oldAlfrescoLogo);
+        return getBrowser().isElementDisplayed(alfrescoLogo);
     }
 
     public UserDashboardPage assertUserDashboardPageIsOpened()
     {
         LOG.info("Assert User Dashboard page is opened");
-        Assert.assertTrue(browser.isElementDisplayed(customizeUserDashboard), "User home page is not opened");
+        getBrowser().waitUntilElementVisible(customizeUserDashboard);
+        assertTrue(getBrowser().isElementDisplayed(customizeUserDashboard), "User home page is not opened");
         return this;
     }
 
     public UserDashboardPage assertUserDashboardPageTitleIsCorrect()
     {
         LOG.info("Assert User Dashboard page title is correct");
-        Assert.assertEquals(getPageTitle(), language.translate("userDashboard.PageTitle"), "User dashboard page title is correct");
+        assertEquals(getPageTitle(), language.translate("userDashboard.PageTitle"), "User dashboard page title is correct");
         return this;
     }
 
     public UserDashboardPage assertPageHeaderIsCorrect(UserModel userModel)
     {
         LOG.info("Assert User Dashboard header title is correct");
-        Assert.assertEquals(getPageHeader(), String.format(language.translate("userDashboard.headerTitle"),
+        assertEquals(getPageHeader(), String.format(language.translate("userDashboard.headerTitle"),
             userModel.getFirstName(), userModel.getLastName()));
         return this;
     }
@@ -212,21 +160,21 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     public UserDashboardPage assertWelcomePanelIsDisplayed()
     {
         LOG.info("Assert Welcome panel is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(welcomePanel), "Welcome panel is displayed");
+        assertTrue(getBrowser().isElementDisplayed(welcomePanel), "Welcome panel is displayed");
         return this;
     }
 
     public UserDashboardPage assertWelcomePanelIsNotDisplayed()
     {
         LOG.info("Assert Welcome panel is NOT displayed");
-        Assert.assertFalse(browser.isElementDisplayed(welcomePanel), "Welcome panel is displayed");
+        Assert.assertFalse(getBrowser().isElementDisplayed(welcomePanel), "Welcome panel is displayed");
         return this;
     }
 
     public UserDashboardPage assertWelcomePanelMessageIsCorrect()
     {
         LOG.info("Assert Welcome panel message is correct");
-        Assert.assertEquals(welcomePanelInfo.getText(), language.translate("userDashboard.welcomeMessage"),
+        assertEquals(getBrowser().waitUntilElementVisible(welcomePanelInfo).getText(), language.translate("userDashboard.welcomeMessage"),
             "Welcome panel message is correct");
         return this;
     }
@@ -234,25 +182,26 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     public UserDashboardPage assertHideWelcomePanelButtonIsDisplayed()
     {
         LOG.info("Assert Hide welcome panel button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(welcomePanelHideButton), "Hide button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(welcomePanelHideButton), "Hide button is displayed");
         return this;
     }
 
     public UserDashboardPage assertAlfrescoDocumentationPageIsOpenedFromWelcomePanel()
     {
         LOG.info("Assert Alfresco Documentation page is opened from welcome panel");
-        browser.waitUntilElementClickable(welcomePanelInfoGetStarted).click();
+        getBrowser().waitUntilElementClickable(welcomePanelInfoGetStarted).click();
         getBrowser().waitUrlContains("https://docs.alfresco.com/", 5);
-        Assert.assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
+        assertTrue(getBrowser().getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         getBrowser().navigate().back();
         renderedPage();
+
         return this;
     }
 
     public HideWelcomePanelDialog clickHideWelcomePanel()
     {
         LOG.info("Click Hide Welcome Panel");
-        browser.waitUntilElementClickable(welcomePanelHideButton).click();
-        return (HideWelcomePanelDialog) hideWelcomePanelDialogue.renderedPage();
+        getBrowser().waitUntilElementClickable(welcomePanelHideButton).click();
+        return (HideWelcomePanelDialog) new HideWelcomePanelDialog(browser).renderedPage();
     }
 }

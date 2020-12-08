@@ -26,7 +26,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     private final By siteProfileRowLocator = By.cssSelector("div[class='msg dashlet-padding'] > p");
     private final String managerLinkLocator = "//div[@class='msg dashlet-padding']//a[text()='%s']";
 
-    @Autowired
+   // @Autowired
     private UserProfilePage userProfilePage;
 
     @Override
@@ -39,7 +39,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     {
         LOG.info("Assert welcome message equals: {}", expectedWelcomeMessage);
         assertEquals(welcomeMessage.getText(), expectedWelcomeMessage,
-            String.format("Welcome message not equals %s ", expectedWelcomeMessage));
+                String.format("Welcome message not equals %s ", expectedWelcomeMessage));
 
         return this;
     }
@@ -49,7 +49,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
         LOG.info("Assert site description equals: {}", expectedSiteDescription);
         String actualSiteDescription = getSiteProfileRow(expectedSiteDescription).getText();
         assertEquals(actualSiteDescription, expectedSiteDescription,
-            String.format("Site description not equals %s ", expectedSiteDescription));
+                String.format("Site description not equals %s ", expectedSiteDescription));
 
         return this;
     }
@@ -58,11 +58,11 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     {
         LOG.info("Assert site manager equals: {}", expectedSiteManagerValue);
         String actualSiteManager = getSiteProfileRow(
-            expectedSiteManagerLabel.concat(expectedSiteManagerValue)).getText();
+                expectedSiteManagerLabel.concat(expectedSiteManagerValue)).getText();
 
         assertEquals(actualSiteManager, expectedSiteManagerLabel.concat(expectedSiteManagerValue),
-            String.format("Site manager not equals %s ",
-                expectedSiteManagerLabel.concat(expectedSiteManagerValue)));
+                String.format("Site manager not equals %s ",
+                        expectedSiteManagerLabel.concat(expectedSiteManagerValue)));
 
         return this;
     }
@@ -77,12 +77,12 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     {
         LOG.info("Assert site visibility equals: {}", expectedSiteVisibilityValue);
         String actualSiteManager = getSiteProfileRow(
-            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)).getText();
+                expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)).getText();
 
         assertEquals(actualSiteManager.toLowerCase(),
-            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue).toLowerCase(),
-            String.format("Site manager not equals %s ",
-                expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)));
+                expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue).toLowerCase(),
+                String.format("Site manager not equals %s ",
+                        expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)));
 
         return this;
     }

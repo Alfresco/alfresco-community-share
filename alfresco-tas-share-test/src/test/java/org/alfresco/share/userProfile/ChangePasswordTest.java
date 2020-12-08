@@ -1,33 +1,30 @@
 package org.alfresco.share.userProfile;
 
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-public class ChangePasswordTest extends ContextAwareWebTest
+import static org.alfresco.share.TestUtils.PASSWORD;
+
+public class ChangePasswordTest extends BaseTest
 {
-    private UserModel user, userInvalidChange;
-
-    @Autowired
+    private UserModel user, changeUser;
     private ChangePasswordPage changePasswordPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
-        userInvalidChange = dataUser.createRandomTestUser();
+        changeUser = dataUser.usingAdmin().createRandomTestUser();
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(user, userInvalidChange);
+        changePasswordPage = new ChangePasswordPage(browser);
     }
 
     @TestRail (id = "C2226")
@@ -39,24 +36,30 @@ public class ChangePasswordTest extends ContextAwareWebTest
         changePasswordPage.navigate(user)
             .assertChangePasswordPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("changeUserPassword.browser.pageTitle"))
-            .changePassword(password, newPassword)
-                .assertUserProfilePageIsOpened();
+            .changePassword(PASSWORD, newPassword)
+            .assertUserProfilePageIsOpened();
         user.setPassword(newPassword);
         setupAuthenticatedSession(user);
-        userDashboard.assertUserDashboardPageIsOpened();
+        userDashboardPage.navigate(user).assertUserDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2227, 2229")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void incorrectOldOrNewPasswordTests()
     {
-        setupAuthenticatedSession(userInvalidChange);
-        changePasswordPage.navigate(userInvalidChange)
-            .changePasswordAndExpectError(userInvalidChange.getPassword() + "-invalid",
-                userInvalidChange.getPassword() + "-1",
-                userInvalidChange.getPassword() + "-1")
-            .changePasswordAndExpectError(userInvalidChange.getPassword(),
-                userInvalidChange.getPassword() + "-1",
-                userInvalidChange.getPassword() + "2");
+        setupAuthenticatedSession(changeUser);
+        changePasswordPage.navigate(user)
+            .changePasswordAndExpectError(user.getPassword() + "-invalid",
+                    user.getPassword() + "-1",
+                    user.getPassword() + "-1")
+            .changePasswordAndExpectError(user.getPassword(),
+                    user.getPassword() + "-1",
+                    user.getPassword() + "2");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        removeUserFromAlfresco(user, changeUser);
     }
 }

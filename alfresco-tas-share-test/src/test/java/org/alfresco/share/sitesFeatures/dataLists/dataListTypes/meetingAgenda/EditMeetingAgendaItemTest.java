@@ -1,5 +1,6 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.meetingAgenda;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -27,10 +28,10 @@ import org.testng.annotations.Test;
  */
 public class EditMeetingAgendaItemTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     EditItemPopUp editItemPopUp;
 
     String random = RandomData.getRandomAlphanumeric();

@@ -1,90 +1,56 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
 import java.util.List;
-
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Button;
 
-/**
- * @author Laura.Capsa
- */
-@PageObject
-public class SelectDialog extends ShareDialog
+public class SelectDialog extends BaseDialogComponent
 {
-    @Autowired
+//    @Autowired
     EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
-    EditPropertiesPage editPropertiesPage;
-
-    @FindBy (css = "div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']")
-    private WebElement dialogTitle;
-
-    @FindBy (css = "input.create-new-input")
-    private WebElement tagInputField;
-
-    @FindBy (css = ".createNewIcon")
-    private WebElement createNewIcon;
-
-    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-picker-navigator-button']")
-    private Button navigatorButton;
-
-    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] .yui-dt-data")
-    private WebElement resultsPicker;
-
-    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] tbody.yui-dt-data")
-    private WebElement selectedItemsPicker;
-
+    private final By dialogTitle = By.cssSelector("div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']");
+    private final By tagInputField = By.cssSelector("input.create-new-input");
+    private final By createNewIcon = By.cssSelector(".createNewIcon");
+    private final By resultsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] .yui-dt-data");
+    private final By selectedItemsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] tbody.yui-dt-data");
     @RenderWebElement
-    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-ok-button']")
-    private WebElement okButton;
+    private final By okButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-ok-button']");
+    private final By cancelButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']");
+    private final By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
+    private final By addIcon = By.cssSelector("a[class*='add-item']");
+    private final By removeIcon = By.cssSelector("a[class*='remove-item']");
 
-    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']")
-    private WebElement cancelButton;
-
-    private By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
-    private By addIcon = By.cssSelector("a[class*='add-item']");
-    private By removeIcon = By.cssSelector("a[class*='remove-item']");
+    public SelectDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getDialogTitle()
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(dialogTitle);
-        if (browser.isElementDisplayed(dialogTitle))
-            return dialogTitle.getText();
-        return "isn't displayed!";
+        return getBrowser().waitUntilElementVisible(dialogTitle).getText();
     }
 
     private WebElement getItemElementFromResultsPicker(String item)
     {
-        List<WebElement> results = resultsPicker.findElements(itemsRows);
-        return browser.findFirstElementWithValue(results, item);
+        List<WebElement> results = getBrowser().findElement(resultsPicker).findElements(itemsRows);
+        return getBrowser().findFirstElementWithValue(results, item);
     }
 
     private WebElement getItemElementFromSelectedItemsPicker(String item)
     {
-        List<WebElement> selectedItems = selectedItemsPicker.findElements(itemsRows);
-        return browser.findFirstElementWithValue(selectedItems, item);
+        List<WebElement> selectedItems = getBrowser().findElement(selectedItemsPicker).findElements(itemsRows);
+        return getBrowser().findFirstElementWithValue(selectedItems, item);
     }
 
-    /**
-     * Click "Add" icon for any tags from left side picker
-     *
-     * @param items list of tags to be added
-     */
     public void selectItems(List<String> items)
     {
-        browser.waitInSeconds(2);
         for (String item : items)
         {
             try
@@ -92,7 +58,8 @@ public class SelectDialog extends ShareDialog
                 WebElement result = getItemElementFromResultsPicker(item);
                 Parameter.checkIsMandotary("Select item result", result);
                 result.findElement(addIcon).click();
-            } catch (NoSuchElementException noSuchElementExp)
+            }
+            catch (NoSuchElementException noSuchElementExp)
             {
                 LOG.error("Add icon for item: " + item + " is not present.", noSuchElementExp);
             }
@@ -115,62 +82,40 @@ public class SelectDialog extends ShareDialog
         }
     }
 
-    /**
-     * Check if add icon is displayed next to item name from results picker
-     *
-     * @param item
-     * @return true if add icon is displayed, false otherwise
-     */
     public boolean isItemSelectable(String item)
     {
-        return browser.isElementDisplayed(getItemElementFromResultsPicker(item).findElement(addIcon));
+        return getBrowser().isElementDisplayed(getItemElementFromResultsPicker(item).findElement(addIcon));
     }
 
-    /**
-     * Check if remove icon is displayed next to item name from selected items picker
-     *
-     * @param item
-     * @return true if add icon is displayed, false otherwise
-     */
     public boolean isItemRemovable(String item)
     {
-        return browser.isElementDisplayed(getItemElementFromSelectedItemsPicker(item).findElement(removeIcon));
+        return getBrowser().isElementDisplayed(getItemElementFromSelectedItemsPicker(item).findElement(removeIcon));
     }
 
-    /**
-     * Check if the given item is displayed in Selected Items picker
-     *
-     * @param item
-     * @return
-     */
     public boolean isItemSelected(String item)
     {
-        return browser.isElementDisplayed(getItemElementFromSelectedItemsPicker(item));
+        return getBrowser().isElementDisplayed(getItemElementFromSelectedItemsPicker(item));
     }
 
     public EditPropertiesDialog clickOk()
     {
-        okButton.click();
+        getBrowser().findElement(okButton).click();
         return (EditPropertiesDialog) editPropertiesDialog.renderedPage();
     }
 
     public void clickCancel()
     {
-        cancelButton.click();
+        getBrowser().findElement(cancelButton).click();
     }
 
-    /**
-     * @param tagName to be typed into Create New input field
-     */
     public void typeTag(String tagName)
     {
-        Utils.clearAndType(browser.waitUntilElementVisible(tagInputField), tagName);
+        clearAndType(tagInputField, tagName);
     }
 
     public void clickCreateNewIcon()
     {
-        browser.waitUntilElementClickable(createNewIcon, 5);
-        createNewIcon.click();
-        browser.waitUntilElementClickable(removeIcon, 20L);
+        getBrowser().waitUntilElementClickable(createNewIcon).click();
+        getBrowser().waitUntilElementVisible(removeIcon);
     }
 }

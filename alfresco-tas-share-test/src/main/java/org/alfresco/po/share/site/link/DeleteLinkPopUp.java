@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class DeleteLinkPopUp extends ShareDialog
 {
-    @Autowired
+    //@Autowired
     LinkPage linkPage;
 
     @RenderWebElement

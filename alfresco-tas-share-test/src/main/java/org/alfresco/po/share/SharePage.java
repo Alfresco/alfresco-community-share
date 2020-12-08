@@ -28,10 +28,10 @@ public abstract class SharePage<T> extends SharePageObject
     private static final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     public String userName;
 
-    @Autowired
+    //@Autowired
     AboutPopUpPage pop;
 
-    @Autowired
+    //@Autowired
     public Toolbar toolbar;
 
     @RenderWebElement (state = ElementState.PAGE_LOADED)

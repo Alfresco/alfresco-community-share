@@ -27,11 +27,11 @@ public class SelectTests extends ContextAwareWebTest
     private final String user = "user" + uniqueIdentifier;
     private final String docName = "DocC8004-" + uniqueIdentifier;
     private final String folderName = "FolderC8005-" + uniqueIdentifier;
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private HeaderMenuBar headerMenuBar;
 
     @BeforeClass (alwaysRun = true)

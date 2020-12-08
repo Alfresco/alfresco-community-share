@@ -1,6 +1,5 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -11,7 +10,6 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 @PageObject
 public class ConfigureWebViewDashletPopUp extends DashletPopUp<ConfigureWebViewDashletPopUp>
 {
-
     @FindBy (css = "input[id$='webviewTitle']")
     protected TextInput linkTitleField;
 
@@ -27,7 +25,8 @@ public class ConfigureWebViewDashletPopUp extends DashletPopUp<ConfigureWebViewD
 
     public void setLinkTitleField(String linkTitle)
     {
-        Utils.clearAndType(linkTitleField, linkTitle);
+        linkTitleField.clear();
+        linkTitleField.sendKeys(linkTitle);
     }
 
     public ConfigureWebViewDashletPopUp setUrlField(String url)

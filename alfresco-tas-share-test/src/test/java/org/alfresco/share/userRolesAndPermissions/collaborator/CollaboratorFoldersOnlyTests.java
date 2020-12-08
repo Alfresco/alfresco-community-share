@@ -38,13 +38,13 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId.toLowerCase();
     private final String title = "Title-" + uniqueId;
-    @Autowired
+   // @Autowired
     private DocumentsFilters documentsFilters;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private NewFolderDialog newFolderDialog;
-    @Autowired
+    //@Autowired
     private ManageRulesPage manageRulesPage;
 
     @BeforeClass (alwaysRun = true)
@@ -105,7 +105,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
             "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, ItemActions.LOCATE_FOLDER, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, ItemActions.LOCATE_FOLDER);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 
@@ -121,7 +121,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
             "'Manage Rules' option is displayed for " + folderName3);
 
         LOG.info("STEP2: Click 'Manage Rules' option for " + folderName3);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName3, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName3, ItemActions.MANAGE_RULES);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
     }
 

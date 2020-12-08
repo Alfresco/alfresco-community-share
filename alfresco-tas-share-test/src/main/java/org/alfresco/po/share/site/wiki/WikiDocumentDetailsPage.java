@@ -1,12 +1,11 @@
 package org.alfresco.po.share.site.wiki;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@PageObject
 public class WikiDocumentDetailsPage extends SiteCommon<WikiDocumentDetailsPage>
 {
     @RenderWebElement
@@ -16,10 +15,14 @@ public class WikiDocumentDetailsPage extends SiteCommon<WikiDocumentDetailsPage>
     @FindBy (css = "default-previous-button")
     private WebElement previousButton;
 
+    public WikiDocumentDetailsPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
     @Override
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/document-details?", getCurrentSiteName());
     }
-
 }

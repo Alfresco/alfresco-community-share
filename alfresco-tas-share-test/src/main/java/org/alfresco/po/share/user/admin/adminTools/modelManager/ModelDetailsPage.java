@@ -1,44 +1,30 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
-import java.util.List;
-
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateAspectDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
-/**
- * Created by Mirela Tifui on 12/6/2016.
- */
-@PageObject
-public class ModelDetailsPage extends SharePage<ModelDetailsPage>
+import java.util.List;
+
+import static org.testng.Assert.assertTrue;
+
+public class ModelDetailsPage extends SharePage2<ModelDetailsPage>
 {
-    @Autowired
-    private CreateCustomTypeDialog createCustomTypeDialog;
-
-    @Autowired
-    private CreateAspectDialog createAspectDialogPage;
-
     @RenderWebElement
-    @FindBy (css = "span[class*='createTypeButton'] span")
-    private WebElement createCustomTypeButton;
-
+    private final By createCustomTypeButton = By.cssSelector("span[class*='createTypeButton'] span");
     @RenderWebElement
-    @FindBy (css = "span[class*='createPropertyGroupButton'] span")
-    private WebElement createAspectButton;
+    private final By createAspectButton = By.cssSelector("span[class*='createPropertyGroupButton'] span");
+    private final By showModelsButton = By.cssSelector("span[class*='backButton '] span[id*='alfresco_buttons_AlfButton']");
+    private final By aspectList = By.cssSelector("div#PROPERTY_GROUPS_LIST tr[id^='alfresco_lists_views_layouts_Row']");
 
-    @RenderWebElement
-    @FindBy (css = "span[class*='backButton '] span[id*='alfresco_buttons_AlfButton']")
-    private WebElement showModelsButton;
-
-    private By typeList = By.cssSelector("div#TYPES_LIST tr[id^='alfresco_lists_views_layouts_Row']");
-    private By aspectList = By.cssSelector("div#PROPERTY_GROUPS_LIST tr[id^='alfresco_lists_views_layouts_Row']");
+    public ModelDetailsPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -48,37 +34,37 @@ public class ModelDetailsPage extends SharePage<ModelDetailsPage>
 
     public ModelDetailsPage assertCreateCustomTypeButtonDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createCustomTypeButton), "Create Custom Type button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(createCustomTypeButton), "Create Custom Type button is displayed");
         return this;
     }
 
     public String getAspectDetails(String aspectName)
     {
-        List<WebElement> itemsList = browser.waitUntilElementsVisible(aspectList);
-        return browser.findFirstElementWithValue(itemsList, aspectName).getText();
+        List<WebElement> itemsList = getBrowser().waitUntilElementsVisible(aspectList);
+        return getBrowser().findFirstElementWithValue(itemsList, aspectName).getText();
     }
 
     public ModelDetailsPage assertCreateAspectButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createAspectButton), "Create Aspect button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(createAspectButton), "Create Aspect button is displayed");
         return this;
     }
 
     public ModelDetailsPage assertShowModelsButtonDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(showModelsButton), "Show models button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(showModelsButton), "Show models button is displayed");
         return this;
     }
 
     public CreateCustomTypeDialog clickCreateCustomType()
     {
-        createCustomTypeButton.click();
-        return (CreateCustomTypeDialog) createCustomTypeDialog.renderedPage();
+        getBrowser().findElement(createCustomTypeButton).click();
+        return (CreateCustomTypeDialog) new CreateCustomTypeDialog(browser).renderedPage();
     }
 
     public CreateAspectDialog clickCreateAspect()
     {
-        createAspectButton.click();
-        return (CreateAspectDialog) createAspectDialogPage.renderedPage();
+        getBrowser().findElement(createAspectButton).click();
+        return (CreateAspectDialog) new CreateAspectDialog(browser).renderedPage();
     }
 }

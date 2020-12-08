@@ -24,21 +24,21 @@ import org.testng.annotations.Test;
  */
 public class LiveSearchTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
     @Autowired
     LiveSearchPage liveSearchPage;
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
-    @Autowired
+   //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
 
     private String userName = "testUser" + RandomData.getRandomAlphanumeric();
@@ -148,7 +148,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         toolbar.searchInToolbar(docName);
-        liveSearchPage.clickDocumentName(docName, documentDetailsPage);
+        liveSearchPage.clickDocumentName(docName);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Document Details", "User is not redirected to the document details page");
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, docName + " is not displayed on the Document Details page");
         cleanupAuthenticatedSession();
@@ -161,7 +161,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         toolbar.searchInToolbar(docName);
-        liveSearchPage.clickSiteName(siteName, documentLibraryPage);
+        liveSearchPage.clickSiteName(siteName);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Document Library", "User is not redirected to Document Library");
         Assert.assertEquals(documentLibraryPage.getSiteName(), siteName, "User is not redirected to " + siteName + " document library");
         cleanupAuthenticatedSession();
@@ -174,7 +174,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         toolbar.searchInToolbar(docName);
-        liveSearchPage.clickUserName(userName, userProfilePage);
+        liveSearchPage.clickUserName(userName);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User is not redirected to User Profile page");
         cleanupAuthenticatedSession();
     }
@@ -189,7 +189,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         toolbar.searchInToolbar(userName);
         Assert.assertEquals(liveSearchPage.getPeopleResults(), expected, userName + " is not available in the list of results");
         LOG.info("Step 2: Click user name and check that user profile is displayed");
-        liveSearchPage.clickPeopleUserName(userName, userProfilePage);
+        liveSearchPage.clickPeopleUserName(userName);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User not redirected to user page");
         cleanupAuthenticatedSession();
     }
@@ -204,7 +204,7 @@ public class LiveSearchTests extends ContextAwareWebTest
         toolbar.searchInToolbar(siteName);
         Assert.assertEquals(liveSearchPage.getSiteResults(), expected, siteName + " is not displayed");
         LOG.info("Step 2: Click the site name and check that site dashboard is displayed");
-        liveSearchPage.clickSiteNameLiveSearch(siteName, siteDashboardPage);
+        liveSearchPage.clickSiteNameLiveSearch(siteName);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Site Dashboard", "User is not redirected to Site Dashboard");
         Assert.assertEquals(siteDashboardPage.getSiteName(), siteName, "Site dashboard is not displayed");
         cleanupAuthenticatedSession();

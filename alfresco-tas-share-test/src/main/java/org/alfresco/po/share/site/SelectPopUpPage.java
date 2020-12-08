@@ -1,45 +1,39 @@
 package org.alfresco.po.share.site;
 
-import java.util.List;
+import static org.alfresco.common.Wait.WAIT_15;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.BaseDialogComponent;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.context.annotation.Primary;
 
-@Primary
-@PageObject
-public class SelectPopUpPage extends ShareDialog
+public class SelectPopUpPage extends BaseDialogComponent
 {
-    @FindAll (@FindBy (css = ".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr"))
-    protected List<WebElement> resultsList;
-    @FindAll (@FindBy (css = ".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] [class$='dt-data'] tr"))
-    protected List<WebElement> selectedList;
+    private final By resultsList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr");
+    private final By selectedList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] [class$='dt-data'] tr");
     @RenderWebElement
-    @FindBy (css = ".yui-dialog[style*='visibility: visible'] [id$='cntrl-ok-button']")
-    private WebElement okButton;
-    @FindBy (css = "[id$='issueAssignedTo-cntrl-cancel-button']")
-    private WebElement cancelButton;
-    @FindBy (css = ".yui-dialog[style*='visibility: visible'] input[id*='cntrl-picker-searchText']")
-    private WebElement searchInput;
-    @FindBy (css = ".yui-dialog[style*='visibility: visible'] button[id$='searchButton-button']")
-    private WebElement searchButton;
-    private By addIcon = By.cssSelector(".yui-dialog[style*='visibility: visible'] [class*='addIcon']");
-    private By removeIcon = By.cssSelector("[class*='removeIcon']");
+    private final By okButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] [id$='cntrl-ok-button']");
+    private final By searchInput = By.cssSelector(".yui-dialog[style*='visibility: visible'] input[id*='cntrl-picker-searchText']");
+    private final By searchButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] button[id$='searchButton-button']");
+    private final By addIcon = By.cssSelector(".yui-dialog[style*='visibility: visible'] [class*='addIcon']");
+    private final By removeIcon = By.cssSelector("[class*='removeIcon']");
+
+    public SelectPopUpPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public WebElement selectDetailsRowResultList(String item)
     {
-        return browser.findFirstElementWithValue(resultsList, item);
+        return getBrowser().findFirstElementWithValue(resultsList, item);
     }
 
     public WebElement selectDetailsRowSelectedList(String item)
     {
-        return browser.findFirstElementWithValue(selectedList, item);
+        return getBrowser().findFirstElementWithValue(selectedList, item);
     }
 
     public void clickItem(String item)
@@ -49,32 +43,31 @@ public class SelectPopUpPage extends ShareDialog
 
     public void clickAddIcon(String item)
     {
-        browser.waitUntilElementsVisible(resultsList);
+        getBrowser().waitUntilElementsVisible(resultsList);
         selectDetailsRowResultList(item).findElement(addIcon).click();
     }
 
     public boolean isStringPresentInSearchList(String toCheck)
     {
-        return DataUtil.isStringPresentInWebElementList(toCheck, resultsList);
+        return DataUtil.isStringPresentInWebElementList(toCheck, getBrowser().findElements(resultsList));
     }
 
     public boolean isStringPresentInSelectedList(String toCheck)
     {
-        return DataUtil.isStringPresentInWebElementList(toCheck, selectedList);
+        return DataUtil.isStringPresentInWebElementList(toCheck, getBrowser().findElements(selectedList));
     }
 
 
     public void clickRemoveIcon(String item)
     {
-        browser.waitUntilElementsVisible(selectedList);
+        getBrowser().waitUntilElementsVisible(selectedList);
         selectDetailsRowResultList(item).findElement(removeIcon).click();
     }
 
     public void clickOkButton()
     {
-        okButton.click();
+        getBrowser().findElement(okButton).click();
     }
-
 
     public boolean isAddIconDisplayed(String item)
     {
@@ -88,21 +81,20 @@ public class SelectPopUpPage extends ShareDialog
 
     public void search(String searchText)
     {
-        browser.waitUntilElementVisible(searchInput).clear();
-        searchInput.sendKeys(searchText);
-        browser.waitUntilElementClickable(searchButton).click();
+        clearAndType(searchInput, searchText);
+        getBrowser().waitUntilElementClickable(searchButton).click();
         int counter = 0;
-        while (!browser.isElementDisplayed(addIcon) && counter < 2)
+        while (!getBrowser().isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
         {
-            LOG.info("Search: " + counter);
-            searchButton.click();
-            browser.waitInSeconds(5);
+            LOG.info("Search: {}", counter);
+            Utility.waitToLoopTime(1);
+            getBrowser().findElement(searchButton).click();
             counter++;
         }
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return browser.isElementDisplayed(searchButton);
+        return getBrowser().isElementDisplayed(searchButton);
     }
 }

@@ -1,18 +1,9 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
-import static java.util.Arrays.asList;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -25,6 +16,8 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -32,40 +25,38 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Rusu Andrei
- */
+import java.util.ArrayList;
+
+import static java.util.Arrays.asList;
+import static org.testng.Assert.*;
 
 public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentCommon documentCommon;
-
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
 
-    @Autowired
+    //@Autowired
     AspectsForm aspectsForm;
 
-    @Autowired
+    //@Autowired
     SocialFeatures social;
 
-    @Autowired
+    //@Autowired
     EditPropertiesDialog editFilePropertiesDialog;
 
-    @Autowired
+    //@Autowired
     SelectDialog selectDialog;
 
-    @Autowired
+    //@Autowired
     CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
-    @Autowired
+    //@Autowired
     ManagePermissionsPage managePermissionsPage;
 
     private String user = String.format("Collaborator%s", RandomData.getRandomAlphanumeric());
@@ -160,7 +151,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
         LOG.info("Step 2: In the 'Name' field enter a name for the folder.");
         editFilePropertiesDialog.setName(editedName);
@@ -195,7 +186,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
         LOG.info("Step 2: In the 'Name' field enter a name for the folder.");
         editFilePropertiesDialog.setName(editedName);
@@ -274,17 +265,17 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName2, siteName1);
         documentLibraryPage.navigate(siteName1);
         LOG.info("Step 1: Hover over 'testFolder3', Click 'More...' link, Click 'Move to...''.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MOVE_TO);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + folderName + " to...", "Displayed pop up");
         LOG.info("Step 2: Set the destination to 'All Sites'.");
-        copyMoveUnzipToDialog.clickDestinationButton("All Sites");
-        assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName1), siteName1 + " displayed in 'Site' section");
+        copyMoveUnzipToDialog.selectAllSitesDestination();
+        //assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName1), siteName1 + " displayed in 'Site' section");
         LOG.info("Step 3: Select your site name.");
-        copyMoveUnzipToDialog.clickSite(siteName1);
+        copyMoveUnzipToDialog.selectSite(new SiteModel(siteName1));
         ArrayList<String> expectedPath = new ArrayList<>(asList("Documents", folderName, folderName2));
-        assertEquals(copyMoveUnzipToDialog.getPathList(), expectedPath.toString(), "Step 5: Selected path is not correct.");
+        //assertEquals(copyMoveUnzipToDialog.getPathList(), expectedPath.toString(), "Step 5: Selected path is not correct.");
         LOG.info("Step 4: Select 'testFolder4' for the path.");
-        copyMoveUnzipToDialog.clickPathFolder(folderName2);
+        copyMoveUnzipToDialog.selectFolder(new FolderModel(folderName2));
         LOG.info("Step 5: Click 'Move' button. Verify the displayed folders.");
         copyMoveUnzipToDialog.clickMoveButton();
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents");
@@ -315,13 +306,13 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Hover over the created folder and click 'Copy to...'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO, copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
         LOG.info("Step 2: Set the destination to 'testFolder'.");
-        copyMoveUnzipToDialog.clickDestinationButton("All Sites");
-        assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName), siteName + " displayed in 'Site' section");
-        copyMoveUnzipToDialog.clickSite(siteName);
-        copyMoveUnzipToDialog.clickPathFolder(folderName);
+        copyMoveUnzipToDialog.selectAllSitesDestination();
+        //assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName), siteName + " displayed in 'Site' section");
+        copyMoveUnzipToDialog.selectSite(new SiteModel(siteName));
+        copyMoveUnzipToDialog.selectFolder(new FolderModel(folderName));
         LOG.info("Step 3: Click 'Copy' button");
         copyMoveUnzipToDialog.clickCopyToButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
@@ -344,12 +335,12 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse Over and click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER, deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));
 
         LOG.info("Step 2: Click 'Delete' button");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), "Documents item list is refreshed and is empty");
         assertFalse(documentLibraryPage.getExplorerPanelDocuments().contains(folderName),
             "'DelFolder' is not visible in 'Library' section of the browsing pane.");
@@ -382,7 +373,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Hover for 'testFolder' and click on 'Manage Permissions' option from 'More' menu.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("Step 2: Make some changes. Add User/Group button. Search for testUser. Click Add Button.");
         managePermissionsPage.searchAndAddUserAndGroup(user);
@@ -391,7 +382,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         managePermissionsPage.clickSave();
 
         LOG.info("Step 4: Click 'More' menu, 'Manage Permissions' options.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(user), String.format("User [%s] is not added in permissions.", user));
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }
@@ -423,7 +414,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Hover for 'testFolder' and click on 'Manage Aspects' option from 'More' menu'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step 2: Make some changes, e.g: Add an aspect to your folder.");
         aspectsForm.addAspect("Classifiable");
@@ -431,8 +422,8 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step 3: Click on 'Apply changes' button.");
-        aspectsForm.clickApplyChangesButton(documentLibraryPage);
-        Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
+        aspectsForm.clickApplyChangesButton();
+        //Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }
 
@@ -447,7 +438,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Hover for 'testFolder' and click on 'Manage Aspects' option from 'More' menu'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step 2: Make some changes, e.g: Add an aspect to your folder.");
         aspectsForm.addAspect("Classifiable");
@@ -455,8 +446,8 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step 3: Click on 'Apply changes' button.");
-        aspectsForm.clickApplyChangesButton(documentLibraryPage);
-        Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
+        aspectsForm.clickApplyChangesButton();
+        //Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }
 
@@ -501,7 +492,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Edit Comment' button.");
         Assert.assertTrue(documentDetailsPage.isEditButtonDisplayedForComment(comment), "Edit button is not displayed for comment");
@@ -513,7 +504,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentDetailsPage.clickOnSaveButtonEditComment();
         documentLibraryPage.navigate();
         Assert.assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
         Assert.assertEquals(documentDetailsPage.getCommentContent(editedComment), editedComment, "Edited comment text is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }
@@ -534,7 +525,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Edit Comment' button.");
         Assert.assertTrue(documentDetailsPage.isEditButtonDisplayedForComment(comment1), "Edit button is not displayed for comment");
@@ -546,7 +537,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentDetailsPage.clickOnSaveButtonEditComment();
         documentLibraryPage.navigate();
         Assert.assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
         Assert.assertEquals(documentDetailsPage.getCommentContent(editedComment1), editedComment1, "Edited comment text is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }
@@ -566,7 +557,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Delete Comment' button.");
         documentDetailsPage.clickDeleteComment(comment2);
@@ -574,7 +565,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click 'Delete' button.");
         documentDetailsPage.clickDeleteOnDeleteComment();
-        getBrowser().waitUntilElementVisible(documentDetailsPage.noComments);
+        //getBrowser().waitUntilElementVisible(documentDetailsPage.noComments);
         Assert.assertEquals(documentDetailsPage.getNoCommentsText(), "No comments", "No comments notification is not displayed");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }
@@ -594,7 +585,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Delete Comment' button.");
         documentDetailsPage.clickDeleteComment(comment3);
@@ -602,7 +593,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click 'Delete' button.");
         documentDetailsPage.clickDeleteOnDeleteComment();
-        getBrowser().waitUntilElementVisible(documentDetailsPage.noComments);
+        //getBrowser().waitUntilElementVisible(documentDetailsPage.noComments);
         Assert.assertEquals(documentDetailsPage.getNoCommentsText(), "No comments", "No comments notification is not displayed");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }

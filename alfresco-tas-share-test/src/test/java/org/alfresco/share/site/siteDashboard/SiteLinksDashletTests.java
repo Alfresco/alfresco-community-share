@@ -40,10 +40,10 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
     @Autowired
     private SiteLinksDashlet siteLinksDashlet;
 
-    @Autowired
+    //@Autowired
     private CreateLinkPage createLinkPage;
 
-    @Autowired
+   // @Autowired
     private LinkDetailsViewPage linkDetailsViewPage;
 
     @Autowired

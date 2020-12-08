@@ -24,13 +24,13 @@ import org.testng.annotations.Test;
  */
 public class EditTopicTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     TopicListPage topicListPage;
 
-    @Autowired
+    //@Autowired
     EditTopicPage editTopicPage;
 
-    @Autowired
+    //@Autowired
     TopicViewPage topicViewPage;
 
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());

@@ -1,5 +1,6 @@
 package org.alfresco.share.tasksAndWorkflows.StartingAWorkflow;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.CustomizeUserDashboardPage;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -38,37 +38,34 @@ import org.testng.annotations.Test;
  */
 public class CreateNewTaskTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SelectDocumentPopupPage selectDocumentPopupPage;
 
     @Autowired
     WorkflowService workflowService;
 
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
+    //@Autowired
     HeaderMenuBar headerMenuBar;
 
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
     @Autowired
     MyTasksDashlet myTasksDashlet;
 
     @Autowired
-    UserDashboardPage userDashboardPage;
-
-    @Autowired
     EditTaskPage editTaskPage;
 
-    @Autowired
+    //@Autowired
     CustomizeUserDashboardPage customizeUserDashboardPage;
 
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
@@ -136,7 +133,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -150,7 +147,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.search(testUser);
         selectPopUpPage.clickAddIcon("firstName lastName (" + testUser + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
         cleanupAuthenticatedSession();
     }
@@ -165,7 +162,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -179,13 +176,13 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.search(C8345username);
         selectPopUpPage.clickAddIcon("C8345firstName C8345lastName (" + C8345username + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as '" + C8345username + "'.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(C8345username, password);
-        userDashboardPage.navigate(C8345username);
+        userDashboard.navigate(C8345username);
         assertTrue(myTasksDashlet.isTaskPresent(workflowMessage), "Task is not present in Active tasks");
 
         cleanupAuthenticatedSession();
@@ -201,7 +198,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -249,7 +246,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.search(testUser);
         selectPopUpPage.clickAddIcon("firstName lastName (" + testUser + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for '" + docName + "'.");
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName1), "Missing start workflow icon for '" + docName1 + "'.");
 
@@ -265,7 +262,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(C286291siteName);
 
         LOG.info("Precondition 2:  Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("Precondition 3: New Task workflow is selected;");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -327,13 +324,13 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Fill 'Message' field and click 'Start workflow' button.");
         startWorkflowPage.addWorkflowDescription(workflowMessage);
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),
             "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
 
         LOG.info("STEP 7: Login as Assignee user.");
         setupAuthenticatedSession(C286291usernameB, password);
-        userDashboardPage.navigate(C286291usernameB);
+        userDashboard.navigate(C286291usernameB);
 
         LOG.info("STEP 8: Check if 'My Task' dashlet is displayed in user dashboard.");
         addMyTaskDashletToDashboard();
@@ -376,7 +373,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Expand Selected Items menu.");
         LOG.info("STEP 3: Click Start Workflow action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 4: Select Adhoc task (New Task).");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -412,7 +409,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         Assert.assertEquals(startWorkflowPage.getSendEmailCheckBoxValue(), "false", "The checkbox couldn't be unchecked.");
 
         LOG.info("STEP 13: Click OK button.");
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),
             "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
 
@@ -486,7 +483,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         Assert.assertEquals(startWorkflowPage.getSendEmailCheckBoxValue(), "false", "The checkbox couldn't be unchecked.");
 
         LOG.info("STEP 11: Click Start Workflow button;");
-        startWorkflowPage.clickStartWorkflow(documentDetailsPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentDetailsPage.isDocDetailsPageHeaderDisplayed(),
             "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
 
@@ -523,7 +520,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("Precondition 7: Start workflow page is opened for the document;");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("Precondition 8: New Task workflow is selected;");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -556,7 +553,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         Assert.assertEquals(startWorkflowPage.getItemsList(), noItems.toString(), "Attached 'Items' list is not empty.");
 
         LOG.info("STEP 2: Click Start workflow button;");
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
 
         LOG.info("STEP 3: Login as Assignee user;");
         cleanupAuthenticatedSession();
@@ -589,7 +586,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file and click More then Start Workflow.");
-        documentLibraryPage.clickDocumentLibraryItemAction(documentName, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(documentName, ItemActions.START_WORKFLOW);
         Assert.assertTrue(startWorkflowPage.isStartWorkflowDropDownVisible(), "Start Workflow page is not opened");
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button.");
@@ -635,7 +632,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
             "Send Email Notifications checkbox is checked");
 
         LOG.info("STEP 12: Click Start Workflow button;");
-        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(documentName),
             "Missing start workflow icon for" + documentName);
 
@@ -643,7 +640,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser2, password);
 
         LOG.info("STEP 14: Add My tasks dahslet to My Dashboard.");
-        userDashboardPage.navigate(testUser2);
+        userDashboard.navigate(testUser2);
         addMyTaskDashletToDashboard();
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks",
             "'My Tasks' dashlet is not displayed in user's dashboard.");
@@ -666,7 +663,6 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         if (!myTasksDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.MY_TASKS))
         {
             userService.addDashlet(testUser, password, UserDashlet.MY_TASKS, DashletLayout.THREE_COLUMNS, 3, 1);
-            userDashboardPage.refresh();
         }
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "'My Tasks' dashlet is not displayed in user's dashboard.");
     }

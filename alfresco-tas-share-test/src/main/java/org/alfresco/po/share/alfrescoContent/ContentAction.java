@@ -1,20 +1,18 @@
 package org.alfresco.po.share.alfrescoContent;
 
-import org.alfresco.common.Utils;
+import static org.alfresco.common.Wait.WAIT_15;
+import static org.testng.Assert.*;
+
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.ContentModel;
-import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.testng.Assert.*;
 
 public class ContentAction
 {
@@ -44,7 +42,8 @@ public class ContentAction
 
     private final String highlightContent = "yui-dt-highlighted";
 
-    public ContentAction(ContentModel contentModel, AlfrescoContentPage contentPage,
+    public ContentAction(ContentModel contentModel,
+                         AlfrescoContentPage contentPage,
                          DocumentDetailsPage documentDetailsPage,
                          CopyMoveUnzipToDialog copyMoveDialog,
                          DeleteDialog deleteDialog)
@@ -81,7 +80,6 @@ public class ContentAction
     {
         LOG.info("Assert is NOT displayed");
         By content = By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()));
-        getBrowser().waitUntilElementDisappears(content, alfrescoContentPage.WAIT_5);
         assertFalse(getBrowser().isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
@@ -92,7 +90,7 @@ public class ContentAction
         WebElement contentRow = getContentRow();
         WebElement content = getBrowser().waitUntilChildElementIsPresent(contentRow, contentNameSelector);
         getBrowser().mouseOver(content);
-        content.click();
+        getBrowser().waitUntilElementClickable(content).click();
         alfrescoContentPage.waitForCurrentFolderBreadcrumb((FolderModel) contentModel);
 
         return alfrescoContentPage;
@@ -297,7 +295,7 @@ public class ContentAction
         WebElement rename = getBrowser().waitUntilElementVisible(renameIcon);
         int i = 0;
         while (!contentRow.findElement(renameForm).getAttribute("style").equals("display: inline;")
-            && i < alfrescoContentPage.WAIT_15)
+            && i < WAIT_15.getValue())
         {
             getBrowser().waitUntilElementClickable(rename).click();
             i++;
@@ -311,7 +309,7 @@ public class ContentAction
         LOG.info("Rename with value {}", newName);
         WebElement contentRow = getContentRow();
         WebElement input = contentRow.findElement(renameInput);
-        Utils.clearAndType(input, newName);
+        alfrescoContentPage.clearAndType(input, newName);
 
         return this;
     }

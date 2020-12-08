@@ -1,8 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.List;
+import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -11,7 +9,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
@@ -24,6 +25,13 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     @RenderWebElement
     @FindBy (css = "div[class*='colleagues']")
     protected WebElement dashletContainer;
+
+    //@Autowired
+    AddSiteUsersPage addSiteUsersPage;
+    //@Autowired
+    UserProfilePage userProfilePage;
+    //@Autowired
+    SiteMembersPage siteMembersPage;
 
     @FindBy (css = "a[href='add-users']")
     private WebElement addUsersLink;
@@ -39,12 +47,6 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 
     @FindAll (@FindBy (css = "div[class='body scrollableList'] div.person"))
     private List<WebElement> membersList;
-
-    @Autowired
-    private UserProfilePage userProfilePage;
-
-    @Autowired
-    private SiteMembersPage siteMembersPage;
 
     private By memberRole = By.cssSelector("div.person>div");
     private String usernameLocator = "//a[normalize-space()='%s']";

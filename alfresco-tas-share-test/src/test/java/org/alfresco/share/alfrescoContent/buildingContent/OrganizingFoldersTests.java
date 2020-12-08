@@ -1,33 +1,37 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class OrganizingFoldersTests extends ContextAwareWebTest
+public class OrganizingFoldersTests extends BaseTest
 {
-    @Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
     private SiteModel site;
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
         setupAuthenticatedSession(user);
-        documentLibraryPage.navigate(site);
     }
 
     @AfterClass (alwaysRun = true)
@@ -43,6 +47,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     {
         String randomFolder = RandomData.getRandomFolder();
         FolderModel testFolder = new FolderModel(randomFolder, randomFolder, randomFolder);
+        documentLibraryPage.navigate(site);
         documentLibraryPage.clickCreate().clickFolder()
             .assertDialogTitleEquals(language.translate("newFolderDialog.title"))
             .assertNameInputIsDisplayed()
@@ -64,6 +69,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     public void cancelCreatingFolder()
     {
         FolderModel cancelFolder = FolderModel.getRandomFolderModel();
+        documentLibraryPage.navigate(site);
         documentLibraryPage.clickCreate().clickFolder()
             .typeName(cancelFolder.getName())
             .clickCancel();
@@ -77,7 +83,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         FolderModel parentFolder = FolderModel.getRandomFolderModel();
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
-        cmisApi.authenticateUser(user).usingSite(site).createFolder(parentFolder)
+        getCmisApi().authenticateUser(user).usingSite(site).createFolder(parentFolder)
             .usingResource(parentFolder).createFolder(subFolder);
 
         documentLibraryPage.navigate(site)

@@ -1,94 +1,57 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
-import org.alfresco.common.Language;
+import static org.testng.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-
-/**
- * @author Laura.Capsa
- */
-@PageObject
 public class EditRulesPage extends SiteCommon<EditRulesPage>
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    private DocumentLibraryPage documentLibraryPage;
+    private ManageRulesPage manageRulesPage;
+    private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired
-    ManageRulesPage manageRulesPage;
-
-    @Autowired
-    protected Language language;
-
-    @Autowired
-    RuleDetailsPage ruleDetailsPage;
-
-    @FindBy (css = ".rule-edit .edit-header")
-    private WebElement pageHeader;
+    private By pageHeader = By.cssSelector(".rule-edit .edit-header");
 
     @RenderWebElement
-    @FindBy (css = "input[id*='title']")
-    private WebElement nameInputField;
-
+    private By nameInputField = By.cssSelector("input[id*='title']");
     @RenderWebElement
-    @FindBy (css = "textarea[id*='description']")
-    private WebElement descriptionInputField;
-
+    private By descriptionInputField = By.cssSelector("textarea[id*='description']");
     @RenderWebElement
-    @FindBy (css = "input[id*='ruleConfigIfCondition']")
-    private WebElement ifCheckbox;
+    private final By ifCheckbox = By.cssSelector("input[id*='ruleConfigIfCondition']");
+    private final By createButton = By.cssSelector(".main-buttons button[id*='create-button']");
+    private final By saveButton = By.cssSelector(".edit-buttons button[id*='save-button']");
+    private final By createAndCreateAnotherButton = By.cssSelector(".main-buttons button[id*='createAnother']");
+    private final By disableRuleCheckbox = By.cssSelector(".disabled input");
+    private final By ruleAppliesToSubfoldersCheckbox = By.cssSelector("input[id*='default-applyToChildren']");
+    private final By unlessCheckbox = By.cssSelector("input[id*='ruleConfigUnlessCondition']");
+    private final By whenDropDown = By.cssSelector("div[id*=ruleConfigType] .config-name");
+    private final By ifAllCriteriaAreMetDropDown = By.cssSelector("div[id*=ruleConfigIfCondition] .config-name");
+    private final By performActionDropDown = By.cssSelector("div[id*=ruleConfigAction] .config-name");
+    private final String dropdownSelector = "div[id*='%s'] select[class='config-name']";
+    private final String secondDropdownSelector = "div[id*='%s'] select[class='suppress-validation']";
+    private final String inputConfigText = "ul[id*='%s'] input[type='text']";
+    private final By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
+    private final By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
+    private final ArrayList<String> selectedValues = new ArrayList<>();
+    private final By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
 
-    @FindBy (css = ".main-buttons button[id*='create-button']")
-    private WebElement createButton;
-
-    @FindBy (css = ".edit-buttons button[id*='save-button']")
-    private WebElement saveButton;
-
-    @FindBy (css = ".main-buttons button[id*='createAnother']")
-    private WebElement createAndCreateAnotherButton;
-
-    @FindBy (css = ".main-buttons button[id*='cancel']")
-    private WebElement cancelButton;
-
-    @FindBy (css = ".disabled input")
-    private WebElement disableRuleCheckbox;
-
-    @FindBy (css = "input[id*='default-applyToChildren']")
-    private WebElement ruleAppliesToSubfoldersCheckbox;
-
-    @FindBy (css = "input[id*='ruleConfigUnlessCondition']")
-    private WebElement unlessCheckbox;
-
-    private By whenDropDown = By.cssSelector("div[id*=ruleConfigType] .config-name");
-    private By ifAllCriteriaAreMetDropDown = By.cssSelector("div[id*=ruleConfigIfCondition] .config-name");
-    private By performActionDropDown = By.cssSelector("div[id*=ruleConfigAction] .config-name");
-
-    private String dropdownSelector = "div[id*='%s'] select[class='config-name']";
-
-    private String secondDropdownSelector = "div[id*='%s'] select[class='suppress-validation']";
-
-    private String inputConfigText = "ul[id*='%s'] input[type='text']";
-
-    private By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
-
-    private By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
-
-    private ArrayList<String> selectedValues = new ArrayList<>();
-
-    private By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
+    public EditRulesPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+        documentLibraryPage = new DocumentLibraryPage(browser);
+        manageRulesPage = new ManageRulesPage(browser);
+        ruleDetailsPage = new RuleDetailsPage(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -98,83 +61,58 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public String getRulePageHeader()
     {
-        return pageHeader.getText();
+        return getBrowser().findElement(pageHeader).getText();
     }
 
     public void typeName(String name)
     {
-        Utils.clearAndType(nameInputField, name);
+        clearAndType(getBrowser().findElement(nameInputField), name);
     }
 
     public void typeDescription(String description)
     {
-        Utils.clearAndType(descriptionInputField, description);
+        clearAndType(getBrowser().findElement(descriptionInputField), description);
     }
 
     public void clickIfCheckbox()
     {
-        browser.waitUntilElementClickable(ifCheckbox, 40).click();
+        getBrowser().waitUntilElementClickable(ifCheckbox, 40).click();
     }
 
-    /**
-     * @param dropdownId    used for dropdownSelector:
-     *                      = "ruleConfigType" for "When" dropdown;
-     *                      = "ruleConfigIfCondition" for "If all criteria are met" dropdown;
-     *                      = "ruleConfigAction" for "Perform Action" dropdown
-     * @param indexOfOption index of the option to be selected from dropdown (index starting from 0)
-     */
     public void selectOptionFromDropdown(String dropdownId, int indexOfOption)
     {
-        Select dropdown = new Select(browser.findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
+        Select dropdown = new Select(getBrowser().findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
 
     public void selectOptionFromSecondDropdown(String dropdownId, int indexOfOption)
     {
-        Select dropdown = new Select(browser.findElement(By.cssSelector(String.format(secondDropdownSelector, dropdownId))));
+        Select dropdown = new Select(getBrowser().findElement(By.cssSelector(String.format(secondDropdownSelector, dropdownId))));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
 
-    /**
-     * @return list of selected dropdown values=
-     * index -> corresponding dropdown:
-     * 0 -> "When";
-     * 1 -> "If all criteria are met"
-     */
     public ArrayList<String> getSelectedOptionFromDropdown()
     {
         return selectedValues;
     }
 
-    /**
-     * Select comparison operator option from "If all criteria are met" dropdown = "Size"
-     *
-     * @param indexOfOption index of the option to be selected from dropdown (index starting from 0)
-     */
     public void selectOptionFromIfConditionCompareOperator(int indexOfOption)
     {
-        Select dropdown = new Select(browser.findElement(ifConditionCompareSelector));
+        Select dropdown = new Select(getBrowser().findElement(ifConditionCompareSelector));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
 
-    /**
-     * Clear selectedValues list, list of selected values from all dropdown.
-     * This method needs to be called after each verification of displayed details of rule
-     */
     public void cleanupSelectedValues()
     {
         selectedValues.clear();
     }
 
-    /**
-     * Click "Select" button from "Perform Action" section -> "Copy" option
-     */
     public void clickCopySelectButton()
     {
-        browser.waitUntilElementClickable(copySelectButtonSelector, 40).click();
+        getBrowser().waitUntilElementClickable(copySelectButtonSelector, 40).click();
     }
 
     public void typeRuleDetails(String ruleName, String description, List<Integer> indexOfOptionFromDropdown)
@@ -191,12 +129,12 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void clickDisableRuleCheckbox()
     {
-        disableRuleCheckbox.click();
+        getBrowser().findElement(disableRuleCheckbox).click();
     }
 
     public void clickRulesAppliesToSubfoldersCheckbox()
     {
-        browser.waitUntilElementVisible(ruleAppliesToSubfoldersCheckbox).click();
+        getBrowser().waitUntilElementVisible(ruleAppliesToSubfoldersCheckbox).click();
     }
 
     public RuleDetailsPage clickCreateButton()
@@ -207,26 +145,19 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public EditRulesPage clickCreateAndCreateAnotherButton()
     {
-        createAndCreateAnotherButton.click();
-        browser.refresh();
+        getBrowser().findElement(createAndCreateAnotherButton).click();
         return (EditRulesPage) this.renderedPage();
     }
 
     public RuleDetailsPage clickSaveButton()
     {
-        saveButton.click();
+        getBrowser().findElement(saveButton).click();
         return (RuleDetailsPage) ruleDetailsPage.renderedPage();
     }
 
-    /**
-     * @param dropdownId used for dropdownSelector:
-     *                   = "ruleConfigType" for "When" dropdown;
-     *                   = "ruleConfigIfCondition" for "If all criteria are met" dropdown;
-     *                   = "ruleConfigAction" for "Perform Action" dropdown
-     */
     public ArrayList<String> verifyDropdownOptions(String dropdownId, ArrayList<String> expectedOptionsList)
     {
-        Select dropdown = new Select(browser.findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
+        Select dropdown = new Select(getBrowser().findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
         List<WebElement> options = dropdown.getOptions();
         ArrayList<String> optionsTextList = new ArrayList<>();
         for (int i = 0; i < options.size(); i++)
@@ -239,87 +170,52 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void selectAspect(String aspectName)
     {
-        browser.selectOptionFromFilterOptionsList(aspectName, browser.findElements(aspectDropdownList));
+        getBrowser().selectOptionFromFilterOptionsList(aspectName, getBrowser().findElements(aspectDropdownList));
     }
 
-    /**
-     * Click on checkbox  "Unless all criteria are met:".
-     */
     public void clickUnlessCheckbox()
     {
-        browser.waitUntilElementClickable(unlessCheckbox).click();
+        getBrowser().waitUntilElementClickable(unlessCheckbox).click();
     }
 
-    /**
-     * Verify if "Unless all criteria are met:" is checked.
-     *
-     * @return true if is checked.
-     */
     public boolean isUnlessCheckboxSelected()
     {
-        return unlessCheckbox.isSelected();
+        return getBrowser().findElement(unlessCheckbox).isSelected();
     }
 
-    /**
-     * Method typeInputConfigText used for write the condtion on "Unless all criteria are met:" textbox.
-     *
-     * @param textBoxId used for
-     */
     public void typeInputConfigText(String textBoxId, String condition)
     {
-        WebElement element = browser.findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
-        Utils.clearAndType(element, condition);
+        WebElement element = getBrowser().findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
+        clearAndType(element, condition);
     }
 
     public String getInputConfigText(String textBoxId)
     {
-        WebElement element = browser.findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
+        WebElement element = getBrowser().findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
         return element.getAttribute("value");
     }
 
-    /**
-     * Select value from `When` dropdown.
-     *
-     * @param whenRuleName  value from WhenRule enum representing the choice from dropdown
-     */
-    public void selectWhenDropDownCondition(WhenRule whenRuleName) {
-        Select whenType = new Select(browser.findElement(whenDropDown));
+    public void selectWhenDropDownCondition(WhenRule whenRuleName)
+    {
+        Select whenType = new Select(getBrowser().findElement(whenDropDown));
         whenType.selectByValue(whenRuleName.getValue());
     }
 
-    /**
-     * Select value from `If all criteria are met` dropdown.
-     *
-     * @param ifAllCriteriaAreMetRuleName   value from IfAllCriteriaAreMetRule enum representing the condition from dropdown
-     */
-    public void selectIfDropDownCondition(IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName) {
-        Select ifType = new Select(browser.findElement(ifAllCriteriaAreMetDropDown));
+    public void selectIfDropDownCondition(IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName)
+    {
+        Select ifType = new Select(getBrowser().findElement(ifAllCriteriaAreMetDropDown));
         ifType.selectByVisibleText(ifAllCriteriaAreMetRuleName.getName());
     }
 
-    /**
-     * Select value from `Perform Action` dropdown
-     *
-     * @param performActionName value from PerformActionList enum representing the type of action for the rule from dropdown
-     */
-    public void selectPerformActionDropDown(PerformActionList performActionName) {
-        Select performAction = new Select(browser.findElement(performActionDropDown));
+    public void selectPerformActionDropDown(PerformActionList performActionName)
+    {
+        Select performAction = new Select(getBrowser().findElement(performActionDropDown));
         performAction.selectByValue(performActionName.getValue());
     }
 
-    /**
-     * Method that creates a rule for a folder
-     *
-     * @param ruleName                      the given name of the rule
-     * @param siteName                      the site in which is the folder that will have the rule
-     * @param sourceFolder                  the folder that will have the rule
-     * @param whenRuleName                  value of When from WhenRule enum
-     * @param ifAllCriteriaAreMetRuleName   value of If all criteria are met from IfAllCriteriaAreMetRule enum
-     * @param performActionName             value of Perform Action from PerformActionList enum
-     */
     public void defineRule(String ruleName, String siteName, String sourceFolder, WhenRule whenRuleName, IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName, PerformActionList performActionName) {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(sourceFolder, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(sourceFolder, ItemActions.MANAGE_RULES);
         manageRulesPage.clickCreateRules();
         typeName(ruleName);
         selectWhenDropDownCondition(whenRuleName);
@@ -327,10 +223,8 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         selectPerformActionDropDown(performActionName);
     }
 
-    /**
-     * List of values from `When` dropdown
-     */
-    public enum WhenRule {
+    public enum WhenRule
+    {
         itemsCreatedOrEnterFolder("Items are created or enter this folder", "inbound"),
         itemsUpdated("Items are updated", "update"),
         itemsDeletedOrLeaveFolder("Items are deleted or leave this folder", "outbound");
@@ -352,9 +246,6 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         }
     }
 
-    /**
-     * List of values from `If All Criteria Are Met Rule` dropdown
-     */
     public enum IfAllCriteriaAreMetRule {
         ALL_ITEMS("All Items", "no-condition", "condition"),
         SIZE("Size", "compare-property-value", "SIZE"),

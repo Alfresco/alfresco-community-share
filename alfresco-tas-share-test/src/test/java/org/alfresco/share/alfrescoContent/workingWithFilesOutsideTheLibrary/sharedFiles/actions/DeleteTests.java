@@ -30,9 +30,9 @@ public class DeleteTests extends ContextAwareWebTest
     private final String docName2 = "DocC13759-" + uniqueIdentifier;
     private final String folderName2 = "FolderC13759-" + uniqueIdentifier;
     private final String path = "Shared/";
-    @Autowired
+    //@Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+   // @Autowired
     private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
@@ -56,13 +56,13 @@ public class DeleteTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the file you want to delete");
         LOG.info("STEP2: Click 'More' menu -> \"Delete Document\"");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName, ItemActions.DELETE_DOCUMENT, deleteDialog);
+        sharedFilesPage.clickDocumentLibraryItemAction(docName, ItemActions.DELETE_DOCUMENT);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), docName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
 
         LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.clickDelete(sharedFilesPage);
+        deleteDialog.clickDelete();
         assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " is displayed.");
 
         cleanupAuthenticatedSession();
@@ -78,7 +78,7 @@ public class DeleteTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the file you want to delete and press \"More\"");
         LOG.info("STEP2: Press \"Delete Folder\"");
-        sharedFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER, deleteDialog);
+        sharedFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER);
 
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), folderName),
             "Delete dialog message= ");
@@ -86,7 +86,7 @@ public class DeleteTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
 
         LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.clickDelete(sharedFilesPage);
+        deleteDialog.clickDelete();
         assertFalse(sharedFilesPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
 
         cleanupAuthenticatedSession();

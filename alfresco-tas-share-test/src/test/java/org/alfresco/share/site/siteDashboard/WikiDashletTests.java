@@ -38,7 +38,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     @Autowired
     private SelectWikiPagePopUp selectWikiPage;
 
-    @Autowired
+    //@Autowired
     private WikiMainPage wikiMainPage;
 
     @Autowired

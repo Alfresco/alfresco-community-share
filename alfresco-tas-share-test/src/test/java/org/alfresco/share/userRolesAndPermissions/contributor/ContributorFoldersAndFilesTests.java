@@ -27,6 +27,8 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -40,27 +42,27 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     private final String description = String.format("SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("AdminFile%s", RandomData.getRandomAlphanumeric());
     private final String adminFolder = String.format("AdminFolder%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     SocialFeatures socialFeatures;
-    @Autowired
+    //@Autowired
     EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     SelectDialog selectDialog;
-    @Autowired
+    //@Autowired
     CopyMoveUnzipToDialog copyMoveToDialog;
-    @Autowired
+    //@Autowired
     ManagePermissionsPage managePermissionsPage;
-    @Autowired
+    //@Autowired
     AspectsForm aspectsForm;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+   // @Autowired
     ChangeContentTypeDialog changeContentTypeDialog;
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
-    @Autowired
+   // @Autowired
     private DeleteDialog deleteDialog;
     private String userContributor;
 
@@ -176,7 +178,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Preconditions: Navigate to Document Library for the page for the test site");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover over the created folder and click 'Edit Properties' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
         LOG.info("Step 2: In the 'Name' field enter a valid name");
         editPropertiesDialog.setName("FolderEditName");
@@ -222,15 +224,15 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(adminUser, adminPassword, folderName, siteName1);
         documentLibraryPage.navigate(siteName1);
         LOG.info("Steps1,2,3: Hover over the created folder. Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
         LOG.info("Step4: Set the destination to 'All sites'. Select a site.");
-        copyMoveToDialog.clickDestinationButton("All Sites");
+        copyMoveToDialog.selectAllSitesDestination();
         ArrayList<String> expectedPath_destination = new ArrayList<>(asList("Documents", folderName));
-        assertEquals(copyMoveToDialog.getPathList(), expectedPath_destination.toString(), "Path");
-        copyMoveToDialog.clickSite(siteName2);
+        //assertEquals(copyMoveToDialog.getPathList(), expectedPath_destination.toString(), "Path");
+        copyMoveToDialog.selectSite(new SiteModel(siteName2));
         ArrayList<String> expectedPath = new ArrayList<>(Collections.singletonList("Documents"));
-        assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
+        //assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
         LOG.info("Step5: Click 'Copy' button");
         copyMoveToDialog.clickCopyToButton();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog displayed");
@@ -254,14 +256,14 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1, 2,3: Hover over the file. Click 'More...' link. Click 'Move to...'");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.MOVE_TO, copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.MOVE_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Move " + fileName + " to...", "Displayed pop up");
         LOG.info("Step4: Set the destination to 'All Sites'");
-        copyMoveToDialog.clickDestinationButton("All Sites");
+        copyMoveToDialog.selectAllSitesDestination();
         LOG.info("Step5: Select 'site1'");
-        copyMoveToDialog.clickSite(siteName);
+        copyMoveToDialog.selectSite(new SiteModel(siteName));
         LOG.info("Step6: Set the folder created in preconditions as path");
-        copyMoveToDialog.clickPathFolder(folderName);
+        copyMoveToDialog.selectFolder(new FolderModel(folderName));
         LOG.info("Step7: Click 'Move' button. Verify the displayed files");
         copyMoveToDialog.clickMoveButton();
         documentLibraryPage.renderedPage();
@@ -291,11 +293,11 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1, 2: Hover over the file. Click 'More...' link. Click 'Delete Document' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.DELETE_DOCUMENT, deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.DELETE_DOCUMENT);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), fileName));
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete(documentLibraryPage);
+        deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Document Library of " + siteName);
     }
@@ -322,13 +324,13 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover for 'testFolder' and click on 'Manage Permissions' option from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS);
         LOG.info("Steps2: On the Manage Permissions page click on Add User/Group button and add permissions for a test user.");
         managePermissionsPage.searchAndAddUserOrGroup(user2, 0);
         LOG.info("Steps3: Click 'Save' button");
         managePermissionsPage.clickSave();
         LOG.info("Step4: Return to Manage Permissions page for the file and check if permissions were added successfully.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(fullName), String.format("User [%s] added in permissions.", user2));
         userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
@@ -353,14 +355,14 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(userContributor, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover for 'testFolder' and click on 'Manage Aspects' option from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addAspect("Classifiable");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
-        aspectsForm.clickApplyChangesButton(documentLibraryPage);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        aspectsForm.clickApplyChangesButton();
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
     }
@@ -393,7 +395,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step3: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("Smart Folder Template");
 
-        changeContentTypeDialog.clickButton("OK");
+        changeContentTypeDialog.clickOkButton();
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name", "Locale", "Version Label", "Modifier",

@@ -14,7 +14,6 @@ import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.ConfirmDeletionDialog;
 import org.alfresco.po.share.searching.CreateNewFilterDialog;
-import org.alfresco.po.share.searching.EditFilterPopup;
 import org.alfresco.po.share.searching.SearchManagerPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -30,39 +29,33 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 8/16/2016.
- */
 public class SearchManagerTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     AdvancedSearchPage advancedSearchPage;
 
-    @Autowired
+   // @Autowired
     SearchManagerPage searchManagerPage;
 
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
 
-    @Autowired
+    //@Autowired
     CreateNewFilterDialog createNewFilterPopup;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired
     MyDocumentsDashlet myDocumentsDashlet;
 
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
-    @Autowired
-    EditFilterPopup editFilterPopup;
-
-    @Autowired
+    //@Autowired
     ConfirmDeletionDialog confirmDeletionDialog;
 
     private String user1 = String.format("user1%s", RandomData.getRandomAlphanumeric());
@@ -151,7 +144,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("Step 1: Open 'Advanced Search' page and click 'Search' button.");
         advancedSearchPage.navigate();
         advancedSearchPage.click1stSearch();
-        assertTrue(searchPage.isSearchManagerDisplayed(), "'Search Manager' link is displayed on the page.");
+        searchPage.assertSearchManagerButtonIsDisplayed();
 
         LOG.info("Step 2: Click on 'Search Manager' link.");
         searchPage.clickSearchManagerLink();
@@ -310,13 +303,13 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click on the 'Filter ID' for any available filter from 'Search Manager' page (e.g.: 'filter_modifier').");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
 
         LOG.info("STEP 2: Go to the 'Number of Filters' field and select '2' value. Click 'Save' button.");
-        editFilterPopup.typeNumberOfFilters("2");
-        editFilterPopup.typeMinimumFilterLength("4"); // revert to default value
-        editFilterPopup.typeMinimumRequiredResults("1");// revert to default value
-        editFilterPopup.clickSave();
+        createNewFilterPopup.typeNumberOfFilters("2");
+        createNewFilterPopup.typeMinimumFilterLength("4"); // revert to default value
+        createNewFilterPopup.typeMinimumRequiredResults("1");// revert to default value
+        createNewFilterPopup.clickSave();
 
         LOG.info("STEP 3: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
         toolbar.search(documentName);
@@ -351,13 +344,13 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click on the 'Filter ID' for any available filter from 'Search Manager' page (e.g.: 'filter_modifier').");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
 
         LOG.info("STEP 2: Go to the 'Minimum Filter Length' field and select '20' value. Click 'Save' button.");
-        editFilterPopup.typeNumberOfFilters("5"); // revert to default value
-        editFilterPopup.typeMinimumFilterLength("20");
-        editFilterPopup.typeMinimumRequiredResults("1");// revert to default value
-        editFilterPopup.clickSave();
+        createNewFilterPopup.typeNumberOfFilters("5"); // revert to default value
+        createNewFilterPopup.typeMinimumFilterLength("20");
+        createNewFilterPopup.typeMinimumRequiredResults("1");// revert to default value
+        createNewFilterPopup.clickSave();
 
         LOG.info("STEP 3: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
         toolbar.search(documentName);
@@ -378,13 +371,13 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click on the 'Filter ID' for any available filter from 'Search Manager' page (e.g.: 'filter_modifier').");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
 
         LOG.info("STEP 2: Go to the 'Minimum Required Results' field and select '3' value. Click 'Save' button.");
-        editFilterPopup.typeNumberOfFilters("5"); // revert to default value
-        editFilterPopup.typeMinimumFilterLength("4"); // revert to default value
-        editFilterPopup.typeMinimumRequiredResults("3");
-        editFilterPopup.clickSave();
+        createNewFilterPopup.typeNumberOfFilters("5"); // revert to default value
+        createNewFilterPopup.typeMinimumFilterLength("4"); // revert to default value
+        createNewFilterPopup.typeMinimumRequiredResults("3");
+        createNewFilterPopup.clickSave();
 
         LOG.info("STEP 3: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
         toolbar.search(documentName);
@@ -471,20 +464,20 @@ public class SearchManagerTests extends ContextAwareWebTest
             + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
             + "- Filter Availability: Selected Sites (Sites: site1, site2)");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
-        editFilterPopup.typeFilterName(newFilterName);
-        editFilterPopup.clickShowWithSearchResults();
-        editFilterPopup.selectFromFilterProperty("Tag");
-        editFilterPopup.selectFromSortBy("Z-A");
-        editFilterPopup.typeNumberOfFilters("7");
-        editFilterPopup.typeMinimumFilterLength("3");
-        editFilterPopup.typeMinimumRequiredResults("3");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
+        createNewFilterPopup.typeFilterName(newFilterName);
+        createNewFilterPopup.clickShowWithSearchResults();
+        createNewFilterPopup.selectFromFilterProperty("Tag");
+        createNewFilterPopup.selectFromSortBy("Z-A");
+        createNewFilterPopup.typeNumberOfFilters("7");
+        createNewFilterPopup.typeMinimumFilterLength("3");
+        createNewFilterPopup.typeMinimumRequiredResults("3");
         createNewFilterPopup.selectFromFilterAvailability("Selected sites");
         createNewFilterPopup.addSite(site1);
         createNewFilterPopup.addSite(site2);
 
         LOG.info("STEP 3: Click 'Save' button.");
-        editFilterPopup.clickSave();
+        createNewFilterPopup.clickSave();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), newFilterName, "Filter name is changed.");
         assertEquals(searchManagerPage.getFilterProperty(filterId), "Tag", "Filter property is changed.");
@@ -493,16 +486,16 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on the filter's id ('filter1').");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
-        assertEquals(editFilterPopup.getFilterNameValue(), newFilterName, "Filter Name: testFilter2");
-        assertFalse(editFilterPopup.isShowWithSearchResultsChecked(), "Show with Search Results: No");
-        assertEquals(editFilterPopup.getSortBy(), "Z-A", "Sort By: Z-A");
-        assertEquals(editFilterPopup.getNoFilters(), "7", "Number of Filters: 7");
-        assertEquals(editFilterPopup.getMinimumFilterLength(), "3", "Minimum Filter Length: 3");
-        assertEquals(editFilterPopup.getMinimumRequiredResults(), "3", "Minimum Required Results: 3");
-        assertEquals(editFilterPopup.getFilterAvailability(), "Selected sites", "Filter Availability: Selected Sites");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
+        assertEquals(createNewFilterPopup.getFilterNameValue(), newFilterName, "Filter Name: testFilter2");
+        assertFalse(createNewFilterPopup.isShowWithSearchResultsChecked(), "Show with Search Results: No");
+        assertEquals(createNewFilterPopup.getSortBy(), "Z-A", "Sort By: Z-A");
+        assertEquals(createNewFilterPopup.getNoFilters(), "7", "Number of Filters: 7");
+        assertEquals(createNewFilterPopup.getMinimumFilterLength(), "3", "Minimum Filter Length: 3");
+        assertEquals(createNewFilterPopup.getMinimumRequiredResults(), "3", "Minimum Required Results: 3");
+        assertEquals(createNewFilterPopup.getFilterAvailability(), "Selected sites", "Filter Availability: Selected Sites");
         String[] expectedSelectedSites = { site1, site2 };
-        assertEqualsNoOrder(editFilterPopup.getCurrentSelectedSites(), expectedSelectedSites, "Selected Sites (Sites: site1, site2)");
+        assertEqualsNoOrder(createNewFilterPopup.getCurrentSelectedSites(), expectedSelectedSites, "Selected Sites (Sites: site1, site2)");
     }
 
     @TestRail (id = "C6314")
@@ -533,20 +526,20 @@ public class SearchManagerTests extends ContextAwareWebTest
             + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
             + "- Filter Availability: Selected Sites (Sites: site1, site2)");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
-        editFilterPopup.typeFilterName(newFilterName);
-        editFilterPopup.clickShowWithSearchResults();
-        editFilterPopup.selectFromFilterProperty("Tag");
-        editFilterPopup.selectFromSortBy("Z-A");
-        editFilterPopup.typeNumberOfFilters("7");
-        editFilterPopup.typeMinimumFilterLength("3");
-        editFilterPopup.typeMinimumRequiredResults("3");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
+        createNewFilterPopup.typeFilterName(newFilterName);
+        createNewFilterPopup.clickShowWithSearchResults();
+        createNewFilterPopup.selectFromFilterProperty("Tag");
+        createNewFilterPopup.selectFromSortBy("Z-A");
+        createNewFilterPopup.typeNumberOfFilters("7");
+        createNewFilterPopup.typeMinimumFilterLength("3");
+        createNewFilterPopup.typeMinimumRequiredResults("3");
         createNewFilterPopup.selectFromFilterAvailability("Selected sites");
         createNewFilterPopup.addSite(site1);
         createNewFilterPopup.addSite(site2);
 
         LOG.info("STEP 3: Click 'Close' button.");
-        editFilterPopup.clickClose();
+        createNewFilterPopup.clickClose();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name hasn't changed.");
         assertEquals(searchManagerPage.getFilterProperty(filterId), "Site", "Filter property hasn't changed.");
@@ -555,14 +548,14 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on the filter's id ('filter1').");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
-        assertEquals(editFilterPopup.getFilterNameValue(), filterName, "Filter Name: " + filterName);
-        assertTrue(editFilterPopup.isShowWithSearchResultsChecked(), "Show with Search Results: Yes");
-        assertEquals(editFilterPopup.getSortBy(), "A-Z", "Sort By: A-Z");
-        assertEquals(editFilterPopup.getNoFilters(), "10", "Number of Filters: 10");
-        assertEquals(editFilterPopup.getMinimumFilterLength(), "1", "Minimum Filter Length: 1");
-        assertEquals(editFilterPopup.getMinimumRequiredResults(), "1", "Minimum Required Results: 1");
-        assertEquals(editFilterPopup.getFilterAvailability(), "Everywhere", "Filter Availability: Everywhere");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
+        assertEquals(createNewFilterPopup.getFilterNameValue(), filterName, "Filter Name: " + filterName);
+        assertTrue(createNewFilterPopup.isShowWithSearchResultsChecked(), "Show with Search Results: Yes");
+        assertEquals(createNewFilterPopup.getSortBy(), "A-Z", "Sort By: A-Z");
+        assertEquals(createNewFilterPopup.getNoFilters(), "10", "Number of Filters: 10");
+        assertEquals(createNewFilterPopup.getMinimumFilterLength(), "1", "Minimum Filter Length: 1");
+        assertEquals(createNewFilterPopup.getMinimumRequiredResults(), "1", "Minimum Required Results: 1");
+        assertEquals(createNewFilterPopup.getFilterAvailability(), "Everywhere", "Filter Availability: Everywhere");
     }
 
     @TestRail (id = "C6299")
@@ -593,20 +586,20 @@ public class SearchManagerTests extends ContextAwareWebTest
             + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
             + "- Filter Availability: Selected Sites (Sites: site1, site2)");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
-        editFilterPopup.typeFilterName(newFilterName);
-        editFilterPopup.clickShowWithSearchResults();
-        editFilterPopup.selectFromFilterProperty("Tag");
-        editFilterPopup.selectFromSortBy("Z-A");
-        editFilterPopup.typeNumberOfFilters("7");
-        editFilterPopup.typeMinimumFilterLength("3");
-        editFilterPopup.typeMinimumRequiredResults("3");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
+        createNewFilterPopup.typeFilterName(newFilterName);
+        createNewFilterPopup.clickShowWithSearchResults();
+        createNewFilterPopup.selectFromFilterProperty("Tag");
+        createNewFilterPopup.selectFromSortBy("Z-A");
+        createNewFilterPopup.typeNumberOfFilters("7");
+        createNewFilterPopup.typeMinimumFilterLength("3");
+        createNewFilterPopup.typeMinimumRequiredResults("3");
         createNewFilterPopup.selectFromFilterAvailability("Selected sites");
         createNewFilterPopup.addSite(site1);
         createNewFilterPopup.addSite(site2);
 
         LOG.info("STEP 3: Click 'Cancel' button.");
-        editFilterPopup.clickCancel();
+        createNewFilterPopup.clickCancel();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name hasn't changed.");
         assertEquals(searchManagerPage.getFilterProperty(filterId), "Site", "Filter property hasn't changed.");
@@ -615,14 +608,14 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on the filter's id ('filter1').");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
-        assertEquals(editFilterPopup.getFilterNameValue(), filterName, "Filter Name: " + filterName);
-        assertTrue(editFilterPopup.isShowWithSearchResultsChecked(), "Show with Search Results: Yes");
-        assertEquals(editFilterPopup.getSortBy(), "A-Z", "Sort By: A-Z");
-        assertEquals(editFilterPopup.getNoFilters(), "10", "Number of Filters: 10");
-        assertEquals(editFilterPopup.getMinimumFilterLength(), "1", "Minimum Filter Length: 1");
-        assertEquals(editFilterPopup.getMinimumRequiredResults(), "1", "Minimum Required Results: 1");
-        assertEquals(editFilterPopup.getFilterAvailability(), "Everywhere", "Filter Availability: Everywhere");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
+        assertEquals(createNewFilterPopup.getFilterNameValue(), filterName, "Filter Name: " + filterName);
+        assertTrue(createNewFilterPopup.isShowWithSearchResultsChecked(), "Show with Search Results: Yes");
+        assertEquals(createNewFilterPopup.getSortBy(), "A-Z", "Sort By: A-Z");
+        assertEquals(createNewFilterPopup.getNoFilters(), "10", "Number of Filters: 10");
+        assertEquals(createNewFilterPopup.getMinimumFilterLength(), "1", "Minimum Filter Length: 1");
+        assertEquals(createNewFilterPopup.getMinimumRequiredResults(), "1", "Minimum Required Results: 1");
+        assertEquals(createNewFilterPopup.getFilterAvailability(), "Everywhere", "Filter Availability: Everywhere");
     }
 
     @TestRail (id = "C6286")
@@ -636,13 +629,13 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click on any filter ID for a default filter (e.g.: 'filter_creator').");
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
 
         LOG.info("STEP 2: Uncheck 'Show with Search Results' check box.");
-        editFilterPopup.clickShowWithSearchResults();
+        createNewFilterPopup.clickShowWithSearchResults();
 
         LOG.info("STEP 3: Click 'Save' button.");
-        editFilterPopup.clickSave();
+        createNewFilterPopup.clickSave();
 
         LOG.info("STEP 4: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
         toolbar.search(documentName);
@@ -651,13 +644,13 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("STEP 5: Open again 'Search Manager' page and click on the filter ID ('filter_creator').");
         searchManagerPage.navigate();
         searchManagerPage.clickFilterId(filterId);
-        assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
+        assertTrue(createNewFilterPopup.getDialogTitle().equals(filterId), "The dialog box for editing the filter is opened.");
 
         LOG.info("STEP 6: Check 'Show with Search Results' check box.");
-        editFilterPopup.clickShowWithSearchResults();
+        createNewFilterPopup.clickShowWithSearchResults();
 
         LOG.info("STEP 7: Click 'Save' button.");
-        editFilterPopup.clickSave();
+        createNewFilterPopup.clickSave();
 
         LOG.info("STEP 8: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
         toolbar.search(documentName);
@@ -881,7 +874,6 @@ public class SearchManagerTests extends ContextAwareWebTest
     public void deleteFilters()
     {
         searchManagerPage.navigate();
-        searchManagerPage.deleteAllNonDefaultFilters();
     }
 
 }

@@ -20,13 +20,13 @@ import org.testng.annotations.Test;
  */
 public class CancelWorkflowsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;
 
     @Autowired
     WorkflowService workflow;
 
-    @Autowired
+    //@Autowired
     MyTasksPage myTasksPage;
 
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());

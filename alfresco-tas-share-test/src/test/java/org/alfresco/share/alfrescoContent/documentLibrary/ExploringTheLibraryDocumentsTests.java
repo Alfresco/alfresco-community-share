@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -26,7 +27,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     private final String docName = "File-6320-0";
     private final String docName1 = "File-6320-1";
     private final String docName2 = "File-6320-2";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private DocumentsFilters filters;
@@ -106,7 +107,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Checkout testFile1 for offline editing");
         documentLibraryPage.navigate(siteNameC6321);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_OFFLINE, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_OFFLINE);
 
         LOG.info("Step 3: Open again Document Library and click I'm editing filter");
 

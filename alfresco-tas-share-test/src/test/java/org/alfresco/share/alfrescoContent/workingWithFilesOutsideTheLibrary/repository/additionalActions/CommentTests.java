@@ -22,13 +22,13 @@ public class CommentTests extends ContextAwareWebTest
     private final String path = "User Homes/" + user;
     private final String fileContent = "test file content";
     private final String folderNameC8306 = "C8306 Folder";
-    @Autowired
+   // @Autowired
     CreateContentPage createContent;
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
-    @Autowired
+    //@Autowired
     private SocialFeatures socialFeatures;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetails;
 
     @BeforeClass (alwaysRun = true)

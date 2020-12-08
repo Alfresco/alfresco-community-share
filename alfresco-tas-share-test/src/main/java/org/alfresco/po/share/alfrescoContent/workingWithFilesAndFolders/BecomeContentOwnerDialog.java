@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class BecomeContentOwnerDialog extends ShareDialog
 {
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
     @FindBy (id = "prompt_h")

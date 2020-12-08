@@ -1,36 +1,31 @@
 package org.alfresco.po.share.site.members;
 
+import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
-@PageObject
 public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 {
     @RenderWebElement
-    @FindBy (css = "[id*='default-search-text']")
-    protected WebElement searchInput;
-
+    protected By searchInput = By.cssSelector("[id*='default-search-text']");
     @RenderWebElement
-    @FindBy (css = "[id*='default-search-button']")
-    protected WebElement searchButton;
+    private final By searchButton = By.cssSelector("[id*='default-search-button']");
+    private final By pendingInvitesList = By.cssSelector("tbody[class='yui-dt-data'] tr");
+    private final By invitationUserAvatar = By.cssSelector(".avatar");
+    private final By invitationUserName = By.xpath("(//*[@class='attr-value'])[1]");
+    private final By invitationSentDate = By.xpath("(//*[@class='attr-value'])[2]");
+    private final By invitationUserRole = By.xpath("(//*[@class='attr-value'])[3]");
+    private final By cancelButton = By.cssSelector("button");
 
-    @RenderWebElement
-    @FindBy (className = "results")
-    private WebElement resultsPane;
-
-    private By pendingInvitesList = By.cssSelector("tbody[class='yui-dt-data'] tr");
-    private By invitationUserAvatar = By.cssSelector(".avatar");
-    private By invitationUserName = By.xpath("(//*[@class='attr-value'])[1]");
-    private By invitationSentDate = By.xpath("(//*[@class='attr-value'])[2]");
-    private By invitationUserRole = By.xpath("(//*[@class='attr-value'])[3]");
-    private By cancelButton = By.cssSelector("button");
+    public PendingInvitesPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -40,24 +35,22 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 
     private WebElement selectPendingInvitationRow(String firstName)
     {
-        return browser.findFirstElementWithValue(pendingInvitesList, firstName);
+        return getBrowser().findFirstElementWithValue(pendingInvitesList, firstName);
     }
 
     public boolean isPendingInvitesListDisplayed()
     {
-        return browser.isElementDisplayed(pendingInvitesList);
+        return getBrowser().isElementDisplayed(pendingInvitesList);
     }
 
     public void typeIntoSearchInput(String input)
     {
-        searchInput.clear();
-        searchInput.sendKeys(input);
+        clearAndType(getBrowser().findElement(searchInput), input);
     }
 
     public PendingInvitesPage clickSearchButton()
     {
-        searchButton.click();
-        browser.waitInSeconds(3);
+        getBrowser().findElement(searchButton).click();
         return (PendingInvitesPage) this.renderedPage();
     }
 
@@ -75,17 +68,17 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 
     public boolean isSearchInputDisplayed()
     {
-        return browser.isElementDisplayed(searchInput);
+        return getBrowser().isElementDisplayed(searchInput);
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return browser.isElementDisplayed(searchButton);
+        return getBrowser().isElementDisplayed(searchButton);
     }
 
     public boolean isCancelButtonDisplayed(String firstName)
     {
-        return browser.isElementDisplayed(selectPendingInvitationRow(firstName).findElement(cancelButton));
+        return getBrowser().isElementDisplayed(selectPendingInvitationRow(firstName).findElement(cancelButton));
     }
 
     public String getInvitationAvatarSource(String firstName)
@@ -108,13 +101,10 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
         return selectPendingInvitationRow(firstName).findElement(invitationUserRole).getText();
     }
 
-    /**
-     * @return list of users from 'Pending Requests' section
-     */
     public ArrayList<String> getPendingRequests()
     {
         ArrayList<String> pendingUsersText = new ArrayList<>();
-        List<WebElement> users = browser.findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
+        List<WebElement> users = getBrowser().findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
         for (WebElement user : users)
         {
             pendingUsersText.add(user.getText());

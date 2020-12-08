@@ -1,72 +1,58 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 
-/**
- * Created by Mirela Tifui on 12/6/2016.
- */
-@PageObject
-public class CreateAspectDialog extends ShareDialog
+import static org.testng.Assert.assertTrue;
+
+public class CreateAspectDialog extends BaseDialogComponent
 {
-    @Autowired
-    ModelDetailsPage modelDetailsPage;
-
     @RenderWebElement
-    @FindBy (id = "CMM_CREATE_PROPERTYGROUP_DIALOG")
-    private WebElement createAspectWidow;
-
-    @FindBy(id = "CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label")
-    private WebElement createButton;
-
+    private final By createAspectWidow = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG");
+    private final By createButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
     @RenderWebElement
-    @FindBy (id = "CMM_CREATE_PROPERTYGROUP_DIALOG_CANCEL_label")
-    private WebElement cancelButton;
+    private final By nameField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='name']");
+    private final By displayLabelField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='title']");
+    private final By descriptionField = By.cssSelector("#CMM_CREATE_PROPERTYGROUP_DIALOG div.control textarea");
 
-    @FindBy (css = "#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='name']")
-    private WebElement nameField;
-
-    @FindBy (css = "#CMM_CREATE_PROPERTYGROUP_DIALOG input[name='title']")
-    private WebElement displayLabelField;
-
-    @FindBy (css = "#CMM_CREATE_PROPERTYGROUP_DIALOG div.control textarea")
-    private WebElement descriptionField;
+    public CreateAspectDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public CreateAspectDialog assertCreateAspectDialogIsOpened()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createAspectWidow), "Create aspect dialog is opened");
+        assertTrue(getBrowser().isElementDisplayed(createAspectWidow), "Create aspect dialog is opened");
         return this;
     }
 
     public CreateAspectDialog typeName(String name)
     {
-        Utils.clearAndType(nameField, name);
+        clearAndType(nameField, name);
         return this;
     }
 
     public CreateAspectDialog typeDisplayLabel(String displayLabel)
     {
-        Utils.clearAndType(displayLabelField, displayLabel);
+        clearAndType(displayLabelField, displayLabel);
         return this;
     }
 
     public CreateAspectDialog typeDescription(String description)
     {
-        Utils.clearAndType(descriptionField, description);
+        clearAndType(descriptionField, description);
         return this;
     }
 
     public ModelDetailsPage clickCreate()
     {
-        browser.waitUntilElementClickable(createButton).click();
+        getBrowser().waitUntilElementClickable(createButton).click();
+        ModelDetailsPage modelDetailsPage = new ModelDetailsPage(browser);
         modelDetailsPage.waiUntilLoadingMessageDisappears();
+
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 }

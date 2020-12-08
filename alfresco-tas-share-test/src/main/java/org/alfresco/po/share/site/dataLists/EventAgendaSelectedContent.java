@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class EventAgendaSelectedContent extends ListItemSelectedContent
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     EventAgendaItemsTable tableRow;
     private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");

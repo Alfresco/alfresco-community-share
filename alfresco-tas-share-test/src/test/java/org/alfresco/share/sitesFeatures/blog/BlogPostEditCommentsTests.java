@@ -21,13 +21,13 @@ import org.testng.annotations.Test;
 
 public class BlogPostEditCommentsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     BlogPostListPage blogPage;
 
-    @Autowired
+    //@Autowired
     BlogPostViewPage blogPostView;
 
-    @Autowired
+    //@Autowired
     BlogPromptWindow commentWindow;
 
     private String user = String.format("C6061User%s", RandomData.getRandomAlphanumeric());

@@ -26,13 +26,13 @@ public class MyFilesTests extends ContextAwareWebTest
     private final String C7648title = "C7648 title";
     private final String C7648content = "C7648 content";
     private final String C7648description = "C7648 description";
-    @Autowired
+   // @Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private CreateContentPage create;
-    @Autowired
+    //@Autowired
     private UserDashboardPage userDashboard;
-    @Autowired
+    //@Autowired
     private Toolbar toolbar;
 
     @BeforeClass (alwaysRun = true)

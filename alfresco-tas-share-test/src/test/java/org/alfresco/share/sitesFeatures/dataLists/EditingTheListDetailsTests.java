@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 
 public class EditingTheListDetailsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     @Autowired

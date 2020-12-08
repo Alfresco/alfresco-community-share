@@ -22,7 +22,7 @@ import static org.testng.Assert.*;
 @PageObject
 public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
 {
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
     @RenderWebElement

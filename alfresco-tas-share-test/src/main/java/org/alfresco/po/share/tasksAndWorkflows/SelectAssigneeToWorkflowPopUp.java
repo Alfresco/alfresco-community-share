@@ -3,38 +3,35 @@ package org.alfresco.po.share.tasksAndWorkflows;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@PageObject
 public class SelectAssigneeToWorkflowPopUp extends SelectPopUpPage
 {
     @RenderWebElement
-    @FindBy (css = "[id$=assignee-cntrl-ok-button]")
-    private WebElement okButton;
+    private By okButton = By.cssSelector("[id$=assignee-cntrl-ok-button]");
+    private By cancelButton = By.cssSelector("[id$=assignee-cntrl-cancel-button]");
+    private By searchField = By.cssSelector("[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']");
+    private By searchButton = By.cssSelector("button[id$='searchButton-button']");
 
-    @RenderWebElement
-    @FindBy (css = "[id$=assignee-cntrl-cancel-button]")
-    private WebElement cancelButton;
-
-    @FindBy (css = "[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']")
-    private WebElement searchField;
-
-    @FindBy (css = "button[id$='searchButton-button']")
-    private WebElement searchButton;
+    public SelectAssigneeToWorkflowPopUp(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public void searchUser(String userName)
     {
-        browser.waitUntilElementVisible(By.cssSelector("[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']"));
-        searchField.sendKeys(userName);
-        searchButton.click();
+        getBrowser().waitUntilElementVisible(By.cssSelector("[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']"));
+        getBrowser().findElement(searchField).sendKeys(userName);
+        getBrowser().findElement(searchButton).click();
     }
 
     public void clearSearchField()
     {
-        browser.waitUntilElementVisible(By.cssSelector("[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']"));
-        searchField.clear();
+        getBrowser().waitUntilElementVisible(By.cssSelector("[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']"));
+        getBrowser().findElement(searchField).clear();
     }
 
     public void clickOkButton()
@@ -45,6 +42,6 @@ public class SelectAssigneeToWorkflowPopUp extends SelectPopUpPage
 
     public void clickCancelButton()
     {
-        cancelButton.click();
+        getBrowser().findElement(cancelButton).click();
     }
 }

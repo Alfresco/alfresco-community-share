@@ -1,27 +1,24 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
@@ -35,16 +32,14 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
     private final String ruleName = "rule-C7320-" + random;
     private final String folderName = "Folder-C7320-" + random;
     private final String fileName = "FileName-C7320-" + random;
-    @Autowired
+   // @Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private ManageRulesPage manageRulesPage;
-    @Autowired
+    //@Autowired
     private EditRulesPage editRulesPage;
-    @Autowired
+    //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
-    private DocumentCommon documentCommon;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -60,7 +55,7 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
@@ -96,6 +91,6 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to folder and verify file");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
-        assertTrue(documentCommon.isActiveWorkflowIconDisplayed(), "Active workflow icon is displayed.");
+        //assertTrue(documentCommon.isActiveWorkflowIconDisplayed(), "Active workflow icon is displayed.");
     }
 }

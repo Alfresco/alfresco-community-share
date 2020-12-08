@@ -33,15 +33,15 @@ public class EditRulesTests extends ContextAwareWebTest
     private final String siteName = "Site-" + RandomData.getRandomAlphanumeric();
     private final String description = "description-" + RandomData.getRandomAlphanumeric();
     private final String path = "Documents";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private ManageRulesPage manageRulesPage;
-    @Autowired
+    //@Autowired
     private EditRulesPage editRulesPage;
-    @Autowired
+    //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
+    //@Autowired
     private SelectDestinationDialog selectDestinationDialog;
     private String folderName, ruleName;
 
@@ -57,7 +57,7 @@ public class EditRulesTests extends ContextAwareWebTest
 
         documentLibraryPage.navigate(siteName);
         LOG.info("Navigate to Manage Rule page for folder");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
         LOG.info("Navigate to Create rule page");
         manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
@@ -88,7 +88,7 @@ public class EditRulesTests extends ContextAwareWebTest
     public void editRuleDetails()
     {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
 
         String updatedRuleName = "updateRule-C7254-" + RandomData.getRandomAlphanumeric();
         String updatedDescription = "Updated Rule description";

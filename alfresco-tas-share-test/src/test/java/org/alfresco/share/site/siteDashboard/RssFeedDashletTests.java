@@ -31,9 +31,6 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     @Autowired
     private RssFeedDashlet rssFeedDashlet;
 
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {

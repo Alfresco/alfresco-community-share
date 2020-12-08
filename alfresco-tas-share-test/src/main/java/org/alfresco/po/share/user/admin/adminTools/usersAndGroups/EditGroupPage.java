@@ -1,33 +1,25 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-/**
- * Created by Mirela Tifui on 12/12/2016.
- */
-@PageObject
-public class EditGroupPage extends SharePage<EditGroupPage>
+public class EditGroupPage extends SharePage2<EditGroupPage>
 {
     @RenderWebElement
-    private By saveChangesButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
-
+    private final By saveChangesButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
     @RenderWebElement
-    private By cancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
+    private final By cancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
+    private final By displayNameInputField = By.cssSelector("input[id$='_default-update-displayname']");
+    private final By identifierField = By.cssSelector("span[id$='_default-update-shortname']");
+    private final By pageTitle = By.cssSelector("div[id$='_default-update'] div.title");
 
-    @FindBy (css = "input[id$='_default-update-displayname']")
-    private WebElement displayNameInputField;
-
-    @FindBy (css = "span[id$='_default-update-shortname']")
-    private WebElement identifierField;
-
-    @FindBy (css = "div[id$='_default-update'] div.title")
-    private WebElement pageTitle;
+    public EditGroupPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -37,58 +29,55 @@ public class EditGroupPage extends SharePage<EditGroupPage>
 
     public boolean isIdentifierFieldDisplayed()
     {
-        browser.waitUntilElementVisible(identifierField);
-        return browser.isElementDisplayed(identifierField);
+        getBrowser().waitUntilElementVisible(identifierField);
+        return getBrowser().isElementDisplayed(identifierField);
     }
 
     public String getIdentifierText()
     {
-        browser.waitUntilElementVisible(identifierField);
-        return identifierField.getText();
+        return getBrowser().waitUntilElementVisible(identifierField).getText();
     }
 
     public boolean isDisplayNameInputFieldDisplayed()
     {
-        browser.waitUntilElementVisible(displayNameInputField);
-        return browser.isElementDisplayed(displayNameInputField);
+        getBrowser().waitUntilElementVisible(displayNameInputField);
+        return getBrowser().isElementDisplayed(displayNameInputField);
     }
 
     public void editDisplayName(String newDisplayName)
     {
-        browser.waitUntilElementVisible(displayNameInputField);
-        displayNameInputField.clear();
-        displayNameInputField.sendKeys(newDisplayName);
+        getBrowser().waitUntilElementVisible(displayNameInputField);
+        clearAndType(displayNameInputField, newDisplayName);
     }
 
     public HtmlPage clickSaveChangesButton(HtmlPage page)
     {
-        browser.waitUntilElementClickable(saveChangesButton, 5L);
-        browser.findElement(saveChangesButton).click();
+        getBrowser().waitUntilElementClickable(saveChangesButton, 5L);
+        getBrowser().findElement(saveChangesButton).click();
         return page.renderedPage();
     }
 
     public HtmlPage clickCancelButton(HtmlPage page)
     {
-        browser.waitUntilElementClickable(cancelButton, 5L);
-        browser.findElement(cancelButton).click();
+        getBrowser().waitUntilElementClickable(cancelButton, 5L);
+        getBrowser().findElement(cancelButton).click();
         return page.renderedPage();
     }
 
     public String getEditGroupPageTitle()
     {
-        return pageTitle.getText();
+        return getElementText(pageTitle);
     }
 
     public boolean isSaveChangesButtonDisplayed()
     {
-        browser.waitUntilElementVisible(saveChangesButton);
-        return browser.isElementDisplayed(saveChangesButton);
+        getBrowser().waitUntilElementVisible(saveChangesButton);
+        return getBrowser().isElementDisplayed(saveChangesButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        browser.waitUntilElementVisible(cancelButton);
-        return browser.isElementDisplayed(cancelButton);
+        getBrowser().waitUntilElementVisible(cancelButton);
+        return getBrowser().isElementDisplayed(cancelButton);
     }
-
 }

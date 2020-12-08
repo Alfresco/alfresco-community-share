@@ -10,7 +10,6 @@ package org.alfresco.common;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * @author Bogdan Bocancea
@@ -18,7 +17,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ComponentScan(basePackages = "org.alfresco")
 @ImportResource({"classpath*:alfresco-tester-context.xml", "classpath:dataprep-context.xml"})
-@PropertySource({"dataprep.properties"})
 public class ShareTestContext
 {
+
 }

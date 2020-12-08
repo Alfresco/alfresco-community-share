@@ -1,5 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
+import static org.alfresco.common.Utils.srcRoot;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,12 +28,11 @@ import org.testng.annotations.Test;
 
 public class EditingAListItemTests extends ContextAwareWebTest
 {
-
-    @Autowired
+    //@Autowired
     protected EditItemPopUp editItemPopUp;
     @Autowired
     DataListsService dataLists;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     private String userName;
     private String siteName;

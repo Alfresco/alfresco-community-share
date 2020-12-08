@@ -16,9 +16,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Mirela Tifui on 3/10/2017.
- */
 public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardDashletsTests
 {
     private static final String TODAY = "siteContributorBreakdown.dropdown.Today";
@@ -63,7 +60,7 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
                 language.translate(LAST_30_DAYS),
                 language.translate(PAST_YEAR),
                 language.translate(DATE_RANGE)));
-    }
+}
 
     @TestRail (id = "C202304")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES})

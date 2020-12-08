@@ -39,13 +39,13 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     DataUser dataUser;
     SiteModel moderated;
     UserModel userName1;
-    @Autowired
+    //@Autowired
     private UserDashboardPage userDashboardPage;
-    @Autowired
+    //@Autowired
     private SiteMembersPage siteMembersPage;
-    @Autowired
+    //@Autowired
     private PendingInvitesPage pendingInvitesPage;
-    @Autowired
+   // @Autowired
     private MyTasksPage myTasksPage;
     @Autowired
     private EditTaskPage editTaskPage;

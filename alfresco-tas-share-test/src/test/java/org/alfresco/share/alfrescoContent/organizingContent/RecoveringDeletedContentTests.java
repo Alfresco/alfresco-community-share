@@ -1,32 +1,43 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class RecoveringDeletedContentTests extends ContextAwareWebTest
+public class RecoveringDeletedContentTests extends BaseTest
 {
-    @Autowired
-    private UserTrashcanPage userTrashcanPage;
-
-    @Autowired
-    private DocumentLibraryPage2 documentLibraryPage;
-
     private UserModel trashcanUser;
     private SiteModel trashcanSite;
 
+    private UserTrashcanPage userTrashcanPage;
+    private DocumentLibraryPage2 documentLibraryPage;
+
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         trashcanUser = dataUser.usingAdmin().createRandomTestUser();
         trashcanSite = dataSite.usingUser(trashcanUser).createPublicRandomSite();
-        cmisApi.authenticateUser(trashcanUser);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        userTrashcanPage = new UserTrashcanPage(browser);
+        getCmisApi().authenticateUser(trashcanUser);
         setupAuthenticatedSession(trashcanUser);
     }
 
@@ -34,14 +45,14 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyRecoverDeletedDocument()
     {
-        FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(trashcanSite).createFile(file1)
-            .then().usingResource(file1).delete();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().usingSite(trashcanSite).createFile(file)
+            .then().usingResource(file).delete();
 
         userTrashcanPage.navigate(trashcanUser)
-            .clickRecoverButton(file1);
+            .clickRecoverButton(file);
         documentLibraryPage.navigate(trashcanSite)
-            .usingContent(file1).assertContentIsDisplayed();
+            .usingContent(file).assertContentIsDisplayed();
     }
 
     @TestRail (id = "C7571")
@@ -50,7 +61,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(trashcanSite).createFolder(folderToDelete)
+        getCmisApi().usingSite(trashcanSite).createFolder(folderToDelete)
             .then().usingResource(folderToDelete).createFile(subFile)
                 .and().usingResource(folderToDelete).deleteFolderTree();
 
@@ -59,8 +70,8 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
 
         documentLibraryPage.navigate(trashcanSite)
             .usingContent(folderToDelete).assertContentIsDisplayed()
-                .selectFolder()
-                    .usingContent(subFile).assertContentIsDisplayed();
+            .selectFolder()
+            .usingContent(subFile).assertContentIsDisplayed();
     }
 
     @AfterClass(alwaysRun = true)

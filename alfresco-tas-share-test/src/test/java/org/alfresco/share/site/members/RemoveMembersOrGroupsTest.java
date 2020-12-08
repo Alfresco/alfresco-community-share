@@ -23,13 +23,13 @@ import org.testng.annotations.Test;
 
 public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteUsersPage siteUsers;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     SiteGroupsPage siteGroupsPage;
 
     @Autowired

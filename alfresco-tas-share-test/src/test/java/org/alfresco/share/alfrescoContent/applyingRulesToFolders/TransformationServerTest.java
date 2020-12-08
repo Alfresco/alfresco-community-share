@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -25,22 +26,22 @@ import org.testng.annotations.Test;
 public class TransformationServerTest extends ContextAwareWebTest
 {
 
-    @Autowired
+    //@Autowired
     EditRulesPage editRulesPage;
 
-    @Autowired
+    //@Autowired
     PerformActionRulePage performActionRulePage;
 
-    @Autowired
+   // @Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     UploadFileDialog uploadFileDialog;
 
     @Autowired
     DocumentTransformationEnginePage documentTransformationEnginePage;
 
-    @Autowired
+    //@Autowired
     UploadContent uploadContent;
 
     private final String random = RandomData.getRandomAlphanumeric();

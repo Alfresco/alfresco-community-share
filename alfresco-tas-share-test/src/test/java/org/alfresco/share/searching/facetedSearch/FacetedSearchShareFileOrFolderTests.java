@@ -23,15 +23,15 @@ import org.testng.annotations.Test;
  */
 public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
     @Autowired
     ConfirmDeletionDialogShare confirmDeletionDialog;
-    @Autowired
+    //@Autowired
     AdvancedSearchPage advancedSearchPage;
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
     @Autowired
     EditPropertiesDialog editPropertiesDialog;
@@ -55,11 +55,11 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         editPropertiesDialog.setTitle(folderTitle);
         editPropertiesDialog.setDescription(description);
         editPropertiesDialog.clickSave();
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES);
         editPropertiesDialog.setTitle(fileTitle);
         editPropertiesDialog.setDescription(fileDescription);
         editPropertiesDialog.clickSave();
@@ -215,7 +215,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         advancedSearchPage.navigateByMenuBar();
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        advancedSearchPage.typeDescriptionText(description);
+        advancedSearchPage.typeDescription(description);
         advancedSearchPage.click2ndSearchButton();
         Assert.assertTrue(searchPage.isResultFoundWithRetry(folderName));
         Assert.assertTrue(searchPage.isDescriptionHighlighted(description), description + " is not highlighted");

@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
  */
 public class ViewEventTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
 
     @Autowired

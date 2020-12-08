@@ -37,11 +37,11 @@ public class CategorizingContent extends ContextAwareWebTest
     private final String removeCategoryDoc = String.format("removeCategoryDoc%s", RandomData.getRandomAlphanumeric());
     private final String category = "Languages";
     private final String category2 = "Regions";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
     @Autowired
     private ContentAspects contentAspect;
@@ -79,7 +79,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName), "'Edit Properties' pop-up is displayed");
 
         LOG.info("STEP3: Click 'Select' button from 'Categories'");
@@ -105,7 +105,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Mouse hover the folder's name link. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), folderName), "'Edit Properties' pop-up is displayed");
 
         LOG.info("STEP3: Click 'Select' button from 'Categories'");
@@ -131,7 +131,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(docWithCategory, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docWithCategory, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docWithCategory), "'Edit Properties' pop-up is displayed");
         assertTrue(editPropertiesDialog.isCategorySelected(category), "Precondition category is displayed in selected categories list.");
 
@@ -159,7 +159,7 @@ public class CategorizingContent extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(removeCategoryDoc, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(removeCategoryDoc, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), removeCategoryDoc), "'Edit Properties' pop-up is displayed");
         assertTrue(editPropertiesDialog.isCategorySelected(category), "Precondition category is displayed in selected categories list.");
 

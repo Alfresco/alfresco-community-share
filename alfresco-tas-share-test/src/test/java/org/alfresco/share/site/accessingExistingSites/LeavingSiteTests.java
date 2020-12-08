@@ -27,19 +27,19 @@ import org.testng.annotations.Test;
  */
 public class LeavingSiteTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboard;
 
-    @Autowired
+    //@Autowired
     LeaveSiteDialog leaveSiteDialog;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired
     MySitesDashlet mySitesDashlet;
 
-    @Autowired
+    //@Autowired
     SiteFinderPage siteFinderPage;
 
     @Autowired
@@ -83,7 +83,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         LOG.info("STEP 2: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
-        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
+        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site");
         int counter = 1;
         int retryRefreshCount = 5;
         while (counter <= retryRefreshCount)
@@ -102,7 +102,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
                 counter++;
                 getBrowser().refresh();
                 siteDashboard.clickSiteConfiguration();
-                siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
+                siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site");
             }
 
         }
@@ -123,7 +123,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
-        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
+        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site");
         int counter = 1;
         int retryRefreshCount = 5;
         while (counter <= retryRefreshCount)
@@ -146,7 +146,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
                 counter++;
                 getBrowser().refresh();
                 siteDashboard.clickSiteConfiguration();
-                siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
+                siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site");
             }
         }
         siteService.delete(adminUser, adminPassword, siteName);
@@ -189,7 +189,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
-        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
+        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site");
 
         leaveSiteDialog.renderedPage();
         assertEquals(leaveSiteDialog.getDialogTitle(), dialogTitle, "Dialog title is not as expected.");
@@ -216,7 +216,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
-        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
+        siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site");
         int counter = 1;
         int retryRefreshCount = 5;
         while (counter <= retryRefreshCount)
@@ -239,7 +239,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
                 counter++;
                 getBrowser().refresh();
                 siteDashboard.clickSiteConfiguration();
-                siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
+                siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site");
             }
         }
         siteService.delete(adminUser, adminPassword, siteName);

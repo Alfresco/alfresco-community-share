@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import static org.alfresco.common.Utils.srcRoot;
+
 import java.io.File;
 
 import org.alfresco.dataprep.SiteService;
@@ -27,9 +29,9 @@ public class PreviewFileTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final String docName = "MultiPageDocument.docx";
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

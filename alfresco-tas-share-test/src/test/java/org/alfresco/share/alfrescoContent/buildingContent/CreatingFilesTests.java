@@ -1,27 +1,38 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreatingFilesTests extends ContextAwareWebTest
+public class CreatingFilesTests extends BaseTest
 {
-    @Autowired
-    private DocumentLibraryPage2 documentLibraryPage;
-
     private UserModel testUser;
     private SiteModel testSite;
 
+    private DocumentLibraryPage2 documentLibraryPage;
+
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createPublicRandomSite();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        documentLibraryPage = new DocumentLibraryPage2(browser);
         setupAuthenticatedSession(testUser);
     }
 

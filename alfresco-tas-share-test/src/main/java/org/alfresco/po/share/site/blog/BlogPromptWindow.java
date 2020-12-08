@@ -2,32 +2,28 @@ package org.alfresco.po.share.site.blog;
 
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 {
-    @Autowired
+    //@Autowired
     TinyMceEditor tinyMceEditor;
 
     @RenderWebElement
-    @FindBy (xpath = "//div[@class = 'comment-form']//h2[text()='Add Your Comment...']")
-    private WebElement addCommentBoxLabel;
+    private final By addCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Add Your Comment...']");
+    private final By addCommentButton = By.xpath("//button[contains(@id, '_default-add-submit-button')]");
+    private final By cancelButtonCommentWindow = By.xpath("//button[contains(@id, '_default-add-cancel')]");
+    private final By saveButtonEditCommentWindow = By.xpath("//button[text()='Save']");
+    private final By cancelButtonEditCommentWindow = By.xpath("//button[text()='Cancel']");
+    private final By editCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']");
 
-    private By addCommentButton = By.xpath("//button[contains(@id, '_default-add-submit-button')]");
-
-    private By cancelButtonCommentWindow = By.xpath("//button[contains(@id, '_default-add-cancel')]");
-
-    private By saveButtonEditCommentWindow = By.xpath("//button[text()='Save']");
-
-    private By cancelButtonEditCommentWindow = By.xpath("//button[text()='Cancel']");
-
-    private By editCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']");
+    public BlogPromptWindow(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -36,87 +32,52 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
         return null;
     }
 
-    /**
-     * Method to write into the Comment text field
-     */
-
     public void writeComment(String blogComment)
     {
-        browser.switchTo().frame(browser.findElement(By.xpath(
+        getBrowser().switchTo().frame(getBrowser().findElement(By.xpath(
             "//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe")));
-        WebElement element = browser.findElement(By.id("tinymce"));
+        WebElement element = getBrowser().findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogComment);
-        browser.switchTo().defaultContent();
+        getBrowser().switchTo().defaultContent();
     }
 
-    /**
-     * Method to get the Add Comment box label
-     *
-     * @return
-     */
     public String getAddCommentLable()
     {
-        return addCommentBoxLabel.getText();
+        return getElementText(addCommentBoxLabel);
     }
-
-    /**
-     * Method to click Add Comment button
-     */
 
     public void clickAddCommentButton()
     {
-        browser.findElement(addCommentButton).click();
+        getBrowser().findElement(addCommentButton).click();
     }
-
-    /**
-     * Method to click Cancel button on the Add Comment
-     */
 
     public void clickCancelOnAddCommentWindow()
     {
-        browser.findElement(cancelButtonCommentWindow).click();
+        getBrowser().findElement(cancelButtonCommentWindow).click();
     }
-
-    /**
-     * Method to click the Save button on Edit Comment window
-     */
 
     public void clickSaveButtonOnEditComment()
     {
-        browser.findElement(saveButtonEditCommentWindow).click();
+        getBrowser().findElement(saveButtonEditCommentWindow).click();
     }
 
-    /**
-     * Method to click the Cancel button on the Edit comment window
-     */
+
     public void clickCancelButtonOnEditComment()
     {
-        browser.findElement(cancelButtonEditCommentWindow).click();
+        getBrowser().findElement(cancelButtonEditCommentWindow).click();
     }
-
-    /**
-     * Method to check if the Edit comment box is displayed
-     */
 
     public boolean isEditCommentDisplayed()
     {
-        return browser.isElementDisplayed(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
+        return getBrowser().isElementDisplayed(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
     }
 
-    /**
-     * Method to get the edit comment box label
-     */
     public String getEditCommentBoxLabel()
     {
-        return browser.findElement(editCommentBoxLabel).getText();
+        return getBrowser().findElement(editCommentBoxLabel).getText();
     }
 
-    /**
-     * Method to edit comment
-     *
-     * @param comment
-     */
     public void testEditComment(String comment)
     {
         tinyMceEditor.setText(comment);

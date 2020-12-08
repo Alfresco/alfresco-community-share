@@ -34,23 +34,11 @@ public class EnvProperties
     @Value ("${browser.name}")
     private String browserName;
 
-    @Value ("${browser.version}")
-    private String browserVersion;
-
-    @Value ("${browser.implicitWait}")
-    private long implicitWait;
-
     @Value ("${grid.url}")
     private String gridUrl;
 
     @Value ("${grid.enabled}")
     private boolean gridEnabled;
-
-    @Value ("${screenshots.dir}")
-    private File screenshotsPath;
-
-    @Value ("${env.platform}")
-    private String envPlatformName;
 
     @Value("${transformserver.url}")
     private URL transformationServerUrl;
@@ -97,6 +85,9 @@ public class EnvProperties
     @Value("${aims.enabled}")
     private boolean aimsEnabled;
 
+    @Value("${browser.headless}")
+    private boolean browserHeadless;
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
     {
@@ -118,16 +109,6 @@ public class EnvProperties
         this.browserName = browserName;
     }
 
-    public long getImplicitWait()
-    {
-        return implicitWait;
-    }
-
-    public void setImplicitWait(long implicitWait)
-    {
-        this.implicitWait = implicitWait;
-    }
-
     public URL getGridUrl() throws MalformedURLException
     {
         return new URL(gridUrl);
@@ -146,44 +127,6 @@ public class EnvProperties
     public void setGridEnabled(boolean gridEnabled)
     {
         this.gridEnabled = gridEnabled;
-    }
-
-    public File getScreenshotsPath()
-    {
-        return screenshotsPath;
-    }
-
-    public void setScreenshotsPath(String screenshotsPath)
-    {
-        File f = Paths.get(screenshotsPath).toFile();
-        if (f.isFile() && !f.exists())
-        {
-            f.getParentFile().mkdirs();
-        } else if (!f.exists())
-        {
-            f.mkdirs();
-        }
-        this.screenshotsPath = f;
-    }
-
-    public String getBrowserVersion()
-    {
-        return browserVersion;
-    }
-
-    public void setBrowserVersion(String browserVersion)
-    {
-        this.browserVersion = browserVersion;
-    }
-
-    public String getEnvPlatformName()
-    {
-        return envPlatformName;
-    }
-
-    public void setEnvPlatformName(String envPlatformName)
-    {
-        this.envPlatformName = envPlatformName;
     }
 
     public URL getTransformationServerUrl() {return transformationServerUrl;}
@@ -300,6 +243,10 @@ public class EnvProperties
         return aimsEnabled;
     }
 
+    public boolean isBrowserHeadless()
+    {
+        return browserHeadless;
+    }
 }
 
 

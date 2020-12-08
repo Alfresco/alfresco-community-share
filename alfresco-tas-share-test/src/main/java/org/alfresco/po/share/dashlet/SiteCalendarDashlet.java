@@ -22,7 +22,7 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     private static final int BEGIN_INDEX = 0;
     private static final int RETRIES_60 = 60;
 
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
 
     @RenderWebElement

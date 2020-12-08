@@ -37,22 +37,22 @@ public class ManagingTasksTests extends ContextAwareWebTest
     @Autowired
     WorkflowService workflowService;
 
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
     @Autowired
     MyTasksDashlet myTasksDashlet;
 
-    @Autowired
+   // @Autowired
     UserDashboardPage userDashboardPage;
 
-    @Autowired
+    //@Autowired
     SelectAssigneePopUp selectAssigneePopUp;
 
-    @Autowired
+    //@Autowired
     MyTasksPage myTasksPage;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
     @Autowired
@@ -206,7 +206,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription(taskDescription);
 
         LOG.info("STEP 6: Click Start workflow button.");
-        startWorkflowPage.clickStartWorkflow(myTasksPage);
+        startWorkflowPage.clickStartWorkflow();
         Assert.assertTrue(myTasksPage.isActiveTasksBarDisplayed(), "Active Task page is not displayed after clicking on 'Submit New Workflow' button.");
 
         LOG.info("STEP 7: Login Share as every subgroup member and verify task is displayed in My tasks dashlet");
@@ -247,7 +247,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 2: Press Approve/reject Button;");
-        editTaskPage.approve(firstUserMessage, userDashboardPage);
+        //editTaskPage.approve(firstUserMessage, userDashboardPage);
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is displayed in user's 'My Tasks' dashlet, but it shouldn't.");
 
         LOG.info("STEP 3: Log in as '" + C8596usernameB + "' user;");
@@ -279,7 +279,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 5: Press Approve/reject Button;");
-        editTaskPage.reject(secondUserMessage, userDashboardPage);
+        //editTaskPage.reject(secondUserMessage, userDashboardPage);
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is displayed in user's 'My Tasks' dashlet, but it shouldn't.");
 
         LOG.info("STEP 6: Log in as '" + C8596usernameC + "' user;");
@@ -313,7 +313,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 8: Press Approve/reject Button;");
-        editTaskPage.approve(thirdUserMessage, userDashboardPage);
+        //editTaskPage.approve(thirdUserMessage, userDashboardPage);
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "'" + taskName + "' task is displayed in user's 'My Tasks' dashlet, but it shouldn't.");
 
         LOG.info("STEP 9: Login Share as Creator task and verify task is displayed in My tasks dashlet;");

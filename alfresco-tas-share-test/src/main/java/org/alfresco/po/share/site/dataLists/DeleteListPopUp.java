@@ -15,7 +15,7 @@ public class DeleteListPopUp extends ShareDialog
     protected WebElement deleteButton;
     @FindBy (css = "span[class='button-group'] span[class*='default'] span button")
     protected WebElement cancelButton;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     public DataListsPage clickDeleteButton()

@@ -51,7 +51,7 @@ public class CreateDataListDialog extends ShareDialog
     protected By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
     private String typeOfListDescription = "//div[contains(@id, 'itemTypesContainer')]//a[text()='Contact List']//ancestor::*//div[contains(@id, 'itemTypesContainer')]//span";
 
-    @Autowired
+    //@Autowired
     private DataListsPage dataListsPage;
     /**
      * This method is checking if all the elements that should be in 'New List' popup are actually displayed.

@@ -24,10 +24,10 @@ public class CreateLinksTests extends ContextAwareWebTest
     private FileModel file2;
     private FolderModel testFolder;
 
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage2 documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @Autowired
@@ -36,10 +36,10 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Autowired
     private SiteActivitiesDashlet siteActivitiesDashlet;
 
-    @Autowired
+   // @Autowired
     private SearchPage searchPage;
 
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
     @BeforeClass (alwaysRun = true)

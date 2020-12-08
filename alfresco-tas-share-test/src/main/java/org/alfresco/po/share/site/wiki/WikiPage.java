@@ -1,25 +1,22 @@
 package org.alfresco.po.share.site.wiki;
 
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class WikiPage extends SiteCommon<WikiPage>
 {
-    @Autowired
+    //@Autowired
     WikiListPage wikiListPage;
 
-    @Autowired
+    //@Autowired
     WikiDocumentDetailsPage docDetailsPage;
 
-    @Autowired
+    //@Autowired
     WikiDetailsPage wikiDetailsPage;
 
     @RenderWebElement
@@ -44,6 +41,12 @@ public class WikiPage extends SiteCommon<WikiPage>
     @FindBy (css = "a[href*='details']")
     private WebElement wikiPageDetailsLink;
 
+    public WikiPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+        this.browser = browser;
+    }
+
     /**
      * Method used to get wiki page title
      *
@@ -64,7 +67,7 @@ public class WikiPage extends SiteCommon<WikiPage>
     public WikiListPage clickOnWikiListLink()
     {
 
-        browser.waitUntilWebElementIsDisplayedWithRetry(wikiPageListLink, 3);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(wikiPageListLink, 3);
         wikiPageListLink.click();
         return (WikiListPage) wikiListPage.renderedPage();
     }

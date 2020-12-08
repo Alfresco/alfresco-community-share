@@ -28,28 +28,28 @@ public class JoiningSiteTests extends ContextAwareWebTest
 {
     private final String randomData = RandomData.getRandomAlphanumeric();
 
-    @Autowired
+    //@Autowired
     SiteFinderPage siteFinderPage;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     SiteUsersPage siteUsersPage;
 
     @Autowired
     MySitesDashlet mySitesDashlet;
 
-    @Autowired
+    //@Autowired
     MyTasksPage myTasksPage;
 
     @Autowired
     EditTaskPage editTaskPage;
 
-    @Autowired
+    //@Autowired
     RequestSentDialog requestSentDialog;
 
     @Autowired
@@ -133,7 +133,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open " + siteNameC3053 + " dashboard  and click 'Site configuration options' -> 'Join Site'.");
         siteDashboardPage.navigate(siteNameC3053);
         siteDashboardPage.clickSiteConfiguration();
-        siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site", siteDashboardPage);
+        siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site");
         siteDashboardPage.waitUntilNotificationMessageDisappears();
 
         LOG.info("STEP 2: Click on 'Site Members' link.");
@@ -180,7 +180,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on 'Request to join " + siteNameC2831 + " site' task.");
         myTasksPage.clickEditTask(siteNameC2831);
         LOG.info("STEP 5: Click on 'Approve' button.");
-        editTaskPage.approve("Approve", myTasksPage);
+        editTaskPage.approve("Approve");
         myTasksPage.clickCompletedTasks();
         assertTrue(myTasksPage.checkTaskWasFound(siteNameC2831), "'Request to join " + siteNameC2831 + " site' task is expected to be displayed in 'Completed Tasks'.");
         LOG.info("STEP 6: Open 'Site Members' page for " + siteNameC2831 + ".");
@@ -207,7 +207,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
         LOG.info("STEP 3: Click 'Request to Join' button.");
 
-        siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join", requestSentDialog);
+        siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join");
         requestSentDialog.renderedPage();
         assertEquals(requestSentDialog.getDialogTitle(), "Request Sent", "'Request Sent' pop-up is displayed.");
         assertEquals(requestSentDialog.getDialogMessage(), dialogMessage, "'Request Sent' pop-up has the expected message.");
@@ -227,7 +227,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         myTasksPage.clickEditTask(siteNameC3059);
 
         LOG.info("STEP 8: Click on 'Approve' button.");
-        editTaskPage.approve("Approve", myTasksPage);
+        editTaskPage.approve("Approve");
         myTasksPage.clickCompletedTasks();
         assertTrue(myTasksPage.checkTaskWasFound(siteNameC3059), "'Request to join " + siteNameC3059 + " site' task is expected to be displayed in 'Completed Tasks'.");
 

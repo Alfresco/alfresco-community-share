@@ -3,13 +3,17 @@ package org.alfresco.po.share.alfrescoContent;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.alfresco.utility.web.browser.WebBrowser;
 
-@PageObject
+import static org.testng.Assert.assertTrue;
+
 public class SharedFilesPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
+    public SharedFilesPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -20,12 +24,13 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
     @Override
     public SharedFilesPage navigateByMenuBar()
     {
-        return toolbar.clickSharedFiles();
+        return (SharedFilesPage) new Toolbar(browser).clickSharedFiles().renderedPage();
     }
 
     public SharedFilesPage assertSharedFilesPageIsOpened()
     {
-        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
+        getBrowser().waitUrlContains(getRelativePath(), 30);
+        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
         return this;
     }
 }

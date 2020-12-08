@@ -5,14 +5,13 @@ import org.alfresco.po.share.site.CustomizeSiteDashboardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.model.SiteModel;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractSiteDashboardDashletsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     protected CustomizeSiteDashboardPage customizeSiteDashboardPage;
 
-    @Autowired
+    //@Autowired
     protected SiteDashboardPage siteDashboardPage;
 
     protected void addDashlet(SiteModel siteModel, Dashlets dashlets, int columnNumber)

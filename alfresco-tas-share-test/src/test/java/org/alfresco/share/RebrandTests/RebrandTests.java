@@ -23,16 +23,16 @@ import org.testng.asserts.SoftAssert;
 
 public class RebrandTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     LoginPage login;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboard;
 
-    @Autowired
+    //@Autowired
     AboutPopUpPage aboutPopup;
 
-    @Autowired
+    //@Autowired
     AdvancedSearchPage advancedSearch;
 
     @Autowired
@@ -47,7 +47,6 @@ public class RebrandTests extends ContextAwareWebTest
         login.navigate();
 
         assertTrue(login.isLogoDisplayed(), "New logo displayed on Sign In page");
-        assertFalse(login.isOldLogoDisplayed(), "Old logo displayed");
         assertFalse(login.isSimpleSmartDisplayed(), "'Simple+Smart' displayed");
         assertEquals(login.getBackgroundColour(), new String[] { "rgb(12, 121, 191)", "rgb(136, 136, 136)"
         }, "Background colour is not blue!");
@@ -66,10 +65,8 @@ public class RebrandTests extends ContextAwareWebTest
         logger.info("Verify Alfresco One logo in the footer is replaced with new Alfresco logo");
         setupAuthenticatedSession(adminUser, adminPassword);
         softAssert.assertTrue(userDashboard.isNewAlfrescoLogoDisplayed(), "New Alfresco logo displayed");
-        softAssert.assertFalse(userDashboard.isOldAlfrescoLogoDisplayed(), "Old Alfresco logo displayed");
         advancedSearch.navigate();
         softAssert.assertTrue(userDashboard.isNewAlfrescoLogoDisplayed(), "New Alfresco logo displayed");
-        softAssert.assertFalse(userDashboard.isOldAlfrescoLogoDisplayed(), "Old Alfresco logo displayed");
         softAssert.assertAll();
         cleanupAuthenticatedSession();
     }

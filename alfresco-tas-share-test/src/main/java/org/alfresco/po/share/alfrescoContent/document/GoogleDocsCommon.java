@@ -66,7 +66,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     protected String googleDocsLoginUrl = "https://accounts.google.com/ServiceLogin#identifier";
     protected String googleDocsTestEmail = "tsealfresco123@gmail.com";
     protected String googleDocsTestPassword = "NessPassword1!";
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
     @FindBy (id = "prompt_h")
     private WebElement promptAuthorizeWithGoogleDocs;

@@ -21,6 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBreakdownDashlet>
 {
+    public By tooltipMessage = By.cssSelector("div[id^='tipsyPvBehavior']");
+    //@Autowired
+    UserProfilePage userProfilePage;
+
     @RenderWebElement
     @FindBy (id = "DASHLET")
     private WebElement dashletContainer;
@@ -44,9 +48,6 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     private final By dashletEmptyMessageLocator = By.cssSelector("#DASHLET svg text");
     private final By userLocator = By.cssSelector("div[class='alfresco-charts-ccc-Chart'] text");
     private final By pieChartLocator = By.cssSelector("div[class='alfresco-charts-ccc-Chart'] path[transform]");
-
-    @Autowired
-    private UserProfilePage userProfilePage;
 
     public SiteContributorBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {

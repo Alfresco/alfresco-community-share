@@ -1,12 +1,11 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@PageObject
 public class TableView extends SiteCommon<TableView>
 {
     @FindBy (css = "span[class ='removeDefaultView']")
@@ -39,9 +38,14 @@ public class TableView extends SiteCommon<TableView>
     @FindBy (css = "th[id*='-th-actions']")
     private WebElement actionsColumnTitle;
 
+    public TableView(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
     private WebElement findItemInTableInTableView(String contentName)
     {
-        return browser
+        return getBrowser()
             .findElement(By.xpath("//table[contains(@id,'yuievtautoid')]//tbody[@class ='yui-dt-data']//td[contains(@class, 'yui-dt-col-name')]//a[text()='"
                 + contentName + "']"));
     }
@@ -53,134 +57,68 @@ public class TableView extends SiteCommon<TableView>
         return null;
     }
 
-    /**
-     * Method to check if the table view has been applied and content is displayed in table view
-     *
-     * @return
-     */
     public boolean isTableViewDisplayed()
     {
-        return browser.isElementDisplayed(tableInTableView);
+        return getBrowser().isElementDisplayed(tableInTableView);
     }
 
-    /**
-     * Method to check that the content is displayed while table view is selected
-     *
-     * @param contentName
-     * @return
-     */
     public String getContentNameTableView(String contentName)
     {
         return findItemInTableInTableView(contentName).getText();
     }
 
-    /**
-     * Method to check that the Selected column is displayed
-     *
-     * @return
-     */
     public boolean isSelectedColumnDisplayed()
     {
-        return browser.isElementDisplayed(selectedColumnTitle);
+        return getBrowser().isElementDisplayed(selectedColumnTitle);
     }
 
-    /**
-     * Method to check that the Status column is displayed
-     *
-     * @return
-     */
     public boolean isStatusColumnDisplayed()
     {
-        return browser.isElementDisplayed(statusColumnTitle);
+        return getBrowser().isElementDisplayed(statusColumnTitle);
     }
 
-    /**
-     * Method to check that the Thumbnail column is displayed
-     *
-     * @return
-     */
     public boolean isThumbnailColumnDisplayed()
     {
-        return browser.isElementDisplayed(thumbnailColumnTitle);
+        return getBrowser().isElementDisplayed(thumbnailColumnTitle);
     }
 
-    /**
-     * Method to check that the Name column is displayed
-     *
-     * @return
-     */
     public boolean isNameColumnDisplayed()
     {
-        return browser.isElementDisplayed(nameColumnTitle);
+        return getBrowser().isElementDisplayed(nameColumnTitle);
     }
 
-    /**
-     * Method to check that the Title column is displayed
-     *
-     * @return
-     */
     public boolean isTitleColumnDisplayed()
     {
-        return browser.isElementDisplayed(titleColumnTitle);
+        return getBrowser().isElementDisplayed(titleColumnTitle);
     }
 
-    /**
-     * Method to check that the Description column is displayed
-     *
-     * @return
-     */
     public boolean isDescriptionColumnDisplayed()
     {
-        return browser.isElementDisplayed(descriptionColumnTitle);
+        return getBrowser().isElementDisplayed(descriptionColumnTitle);
     }
 
-    /**
-     * Method to check that the Creator column is displayed
-     *
-     * @return
-     */
     public boolean isCreatorColumnDisplayed()
     {
-        return browser.isElementDisplayed(creatorColumnTitle);
+        return getBrowser().isElementDisplayed(creatorColumnTitle);
     }
 
-    /**
-     * Method to check that the Created column is displayed
-     *
-     * @return
-     */
     public boolean isCreatedColumnDisplayed()
     {
-        return browser.isElementDisplayed(createdColumnTitle);
+        return getBrowser().isElementDisplayed(createdColumnTitle);
     }
 
-    /**
-     * Method to check that the Modifier column is displayed
-     *
-     * @return
-     */
     public boolean isModifierColumnDisplayed()
     {
-        return browser.isElementDisplayed(modifierColumnTitle);
+        return getBrowser().isElementDisplayed(modifierColumnTitle);
     }
 
-    /**
-     * Method to check that the Modified column is displayed
-     *
-     * @return
-     */
     public boolean isModifiedColumnDisplayed()
     {
-        return browser.isElementDisplayed(modifiedColumnTitle);
+        return getBrowser().isElementDisplayed(modifiedColumnTitle);
     }
 
-    /**
-     * Method to check that the Actions column is displayed
-     *
-     * @return
-     */
     public boolean isActionsColumnDisplayed()
     {
-        return browser.isElementDisplayed(actionsColumnTitle);
+        return getBrowser().isElementDisplayed(actionsColumnTitle);
     }
 }

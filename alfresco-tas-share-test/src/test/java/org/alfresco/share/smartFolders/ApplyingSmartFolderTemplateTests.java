@@ -1,5 +1,6 @@
 package org.alfresco.share.smartFolders;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -28,31 +29,31 @@ import org.testng.annotations.Test;
 
 public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     AspectsForm aspectsForm;
 
     @Autowired
     EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
 
-    @Autowired
+   // @Autowired
     NewFolderDialog newContentDialog;
 
-    @Autowired
+    //@Autowired
     SmartFolders smartFolders;
 
-    @Autowired
+    //@Autowired
     UploadContent uploadContent;
 
-    @Autowired
+    //@Autowired
     RepositoryPage repositoryPage;
 
-    @Autowired
+    //@Autowired
     SelectDialog selectDialog;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
@@ -102,7 +103,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteNameC8665);
 
         LOG.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
@@ -117,10 +118,10 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         LOG.info("Step3: Click 'Apply Changes'.");
-        aspectsForm.clickApplyChangesButton(documentLibraryPage);
+        aspectsForm.clickApplyChangesButton();
 
         LOG.info("Step4: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step5: Click 'All Properties' link.");
@@ -166,7 +167,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
 
         LOG.info("Step3: Hover over folder, click More -> Manage Aspects");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step4: Click 'Add' button next to 'System Smart Folder' template and verify it moves to 'Currently Selected'");
         aspectsForm.addAspect("System Smart Folder");
@@ -174,10 +175,10 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         LOG.info("Step5: Click 'Apply Changes'.");
-        aspectsForm.clickApplyChangesButton(documentLibraryPage);
+        aspectsForm.clickApplyChangesButton();
 
         LOG.info("Step6: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step7: Click 'All Properties' link.");
@@ -226,7 +227,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteNameC8668);
 
         LOG.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step2: Click 'Add' button next to 'Custom Smart Folder' template and verify it moves to 'Currently Selected'");
         aspectsForm.addAspect("Custom Smart Folder");
@@ -234,10 +235,10 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         LOG.info("Step3: Click 'Apply Changes'.");
-        aspectsForm.clickApplyChangesButton(documentLibraryPage);
+        aspectsForm.clickApplyChangesButton();
 
         LOG.info("Step4: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step5: Click 'All Properties' link.");

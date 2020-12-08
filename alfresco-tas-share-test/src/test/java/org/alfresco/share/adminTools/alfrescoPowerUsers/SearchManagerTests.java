@@ -1,6 +1,9 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
-import org.alfresco.share.ContextAwareWebTest;
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+import static org.alfresco.share.TestUtils.ALFRESCO_SEARCH_ADMINISTRATORS;
+
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -9,7 +12,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class SearchManagerTests extends ContextAwareWebTest
+public class SearchManagerTests extends BaseTest
 {
     private UserModel userAdmin, searchAdmin;
 
@@ -31,9 +34,11 @@ public class SearchManagerTests extends ContextAwareWebTest
     public void userHasSearchManagerRightsWhenAddedToAdminGroup()
     {
         setupAuthenticatedSession(userAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
         dataGroup.usingUser(userAdmin).addUserToGroup(ALFRESCO_ADMIN_GROUP);
         setupAuthenticatedSession(userAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
             .clickSearchManagerLink()
                 .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))
@@ -45,10 +50,13 @@ public class SearchManagerTests extends ContextAwareWebTest
     public void userHasSearchManagerRightsWhenAddedToSearchAdministratorsGroup()
     {
         String filterId = RandomData.getRandomAlphanumeric();
+
         setupAuthenticatedSession(searchAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
         dataGroup.usingUser(searchAdmin).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
         setupAuthenticatedSession(searchAdmin);
+        userDashboardPage.navigate(userAdmin);
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
             .clickSearchManagerLink()
                 .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))

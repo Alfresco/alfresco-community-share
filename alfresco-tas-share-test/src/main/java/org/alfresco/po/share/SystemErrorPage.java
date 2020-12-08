@@ -1,31 +1,23 @@
 package org.alfresco.po.share;
 
-import org.alfresco.common.Language;
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 
-/**
- * @author Laura.Capsa
- */
-@PageObject
-public class SystemErrorPage extends HtmlPage
+public class SystemErrorPage extends BasePage
 {
-    @Autowired
-    private Language language;
-
     @RenderWebElement
-    @FindBy (css = ".alf-error-header")
-    private WebElement errorHeader;
+    private final By errorHeader = By.cssSelector(".alf-error-header");
+
+    public SystemErrorPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getErrorHeader()
     {
-        getBrowser().waitUntilElementVisible(errorHeader, 10L);
-        return errorHeader.getText();
+        return getBrowser().waitUntilElementVisible(errorHeader).getText();
     }
 
     public SystemErrorPage assertSomethingIsWrongWithThePageMessageIsDisplayed()

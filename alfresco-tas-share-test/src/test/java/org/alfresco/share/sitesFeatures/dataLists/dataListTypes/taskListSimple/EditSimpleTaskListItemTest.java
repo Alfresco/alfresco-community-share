@@ -29,10 +29,10 @@ import org.testng.annotations.Test;
  */
 public class EditSimpleTaskListItemTest extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     EditItemPopUp editItemPopUp;
 
     String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());

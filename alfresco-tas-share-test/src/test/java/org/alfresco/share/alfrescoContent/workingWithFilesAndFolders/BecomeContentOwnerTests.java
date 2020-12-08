@@ -26,9 +26,9 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
     private final String lastName = "LastName";
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private BecomeContentOwnerDialog becomeContentOwnerDialog;
@@ -114,7 +114,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Hover over 'Folder1' folder from 'Documents' list, then select 'View Details' option");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
         assertEquals(documentDetailsPage.getPropertyValue("Modifier:"), userContributor, "'Modifier' property value=");
 

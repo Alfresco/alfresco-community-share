@@ -2,13 +2,13 @@ package org.alfresco.share;
 
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ShareLogoAndVersionsTests extends ContextAwareWebTest
+public class ShareLogoAndVersionsTests extends BaseTest
 {
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    @BeforeMethod(alwaysRun = true)
+    public void beforeTest()
     {
         setupAuthenticatedSession(getAdminUser());
     }
@@ -17,9 +17,10 @@ public class ShareLogoAndVersionsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void checkAboutBox()
     {
-        userDashboard.assertAlfrescoLogoIsDisplayedInPageFooter()
+        userDashboardPage.navigate(getAdminUser())
+            .assertAlfrescoLogoIsDisplayedInPageFooter()
             .openAboutPage()
-                .assertAlfrescoVersionIsDisplayed()
+            .assertAlfrescoVersionIsDisplayed()
                 .assertShareVersionIsDisplayed()
                 .assertLicenseHolderIsNotEmpty()
                 .assertCopyrightIsCorrect()
@@ -31,6 +32,7 @@ public class ShareLogoAndVersionsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.AUTH }, enabled = false)
     public void checkThatShareVersionWarningIsNotDisplayed()
     {
-        userDashboard.assertShareVersionWarningIsNotDisplayed();
+        userDashboardPage.navigate(getAdminUser())
+            .assertShareVersionWarningIsNotDisplayed();
     }
 }

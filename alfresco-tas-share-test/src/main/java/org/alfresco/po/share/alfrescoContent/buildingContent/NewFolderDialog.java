@@ -1,88 +1,75 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-@PageObject
-public class NewFolderDialog extends ShareDialog
+public class NewFolderDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    @FindBy (css = "div[id$='_default-createFolder-dialogTitle']")
-    protected WebElement dialogTitle;
+    private final By dialogTitle = By.cssSelector("div[id$='_default-createFolder-dialogTitle']");
+    private final By saveButton = By.cssSelector("button[id$='submit-button']");
+    private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
+    private final By nameField = By.cssSelector("input[name='prop_cm_name']");
+    private final By titleField = By.cssSelector("input[name='prop_cm_title']");
+    private final By descriptionField = By.cssSelector("textarea[name='prop_cm_description']");
+    private final By mandatoryIndicator = By.cssSelector("label[for$='createFolder_prop_cm_name'] .mandatory-indicator");
 
-    @RenderWebElement
-    @FindBy (css = "button[id$='submit-button']")
-    private WebElement saveButton;
-
-    @FindBy (css = "button[id$='form-cancel-button']")
-    private WebElement cancelButton;
-
-    @RenderWebElement
-    @FindBy (css = "input[name='prop_cm_name']")
-    private WebElement nameField;
-
-    @FindBy (css = "input[name='prop_cm_title']")
-    private WebElement titleField;
-
-    @FindBy (css = "textarea[name='prop_cm_description']")
-    private WebElement descriptionField;
-
-    @FindBy (css = "label[for$='createFolder_prop_cm_name'] .mandatory-indicator")
-    private WebElement mandatoryIndicator;
+    public NewFolderDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public NewFolderDialog assertDialogTitleEquals(String expectedTitle)
     {
         LOG.info("Assert dialog title is {}", expectedTitle);
-        assertEquals(dialogTitle.getText(), expectedTitle, "Dialog title is not correct");
+        assertEquals(getElementText(dialogTitle), expectedTitle, "Dialog title is not correct");
         return this;
     }
 
     public NewFolderDialog assertSaveButtonIsDisplayed()
     {
         LOG.info("Assert Save button is displayed");
-        assertTrue(browser.isElementDisplayed(saveButton), "Save button is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(saveButton), "Save button is not displayed");
         return this;
     }
 
     public NewFolderDialog assertCancelButtonIsDisplayed()
     {
         LOG.info("Assert Cancel button is displayed");
-        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
 
     public NewFolderDialog assertNameInputIsDisplayed()
     {
         LOG.info("Assert name input is displayed");
-        assertTrue(browser.isElementDisplayed(nameField), "Name input is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(nameField), "Name input is not displayed");
         return this;
     }
 
     public NewFolderDialog assertTitleInputIsDisplayed()
     {
         LOG.info("Assert title input is displayed");
-        assertTrue(browser.isElementDisplayed(titleField), "Title input is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(titleField), "Title input is not displayed");
         return this;
     }
 
     public NewFolderDialog assertDescriptionInputIsDisplayed()
     {
         LOG.info("Assert description input is displayed");
-        assertTrue(browser.isElementDisplayed(descriptionField), "Description input is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(descriptionField), "Description input is not displayed");
         return this;
     }
 
     public NewFolderDialog assertMandatoryIndicatorForNameIsDisplayed()
     {
         LOG.info("Assert mandatory indicator is displayed");
-        assertTrue(browser.isElementDisplayed(mandatoryIndicator), "Mandatory indicator for name input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(mandatoryIndicator), "Mandatory indicator for name input is displayed");
         return this;
     }
 
@@ -90,19 +77,19 @@ public class NewFolderDialog extends ShareDialog
     {
         LOG.info("Click Save");
         getBrowser().waitUntilElementClickable(saveButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancel()
     {
         LOG.info("Click Cancel");
-        cancelButton.click();
+        getBrowser().findElement(cancelButton).click();
     }
 
     public NewFolderDialog typeName(String name)
     {
         LOG.info("Type name {}", name);
-        Utils.clearAndType(nameField, name);
+        clearAndType(nameField, name);
         return this;
     }
 
@@ -117,26 +104,27 @@ public class NewFolderDialog extends ShareDialog
 
     public String getNameFieldValue()
     {
-        return nameField.getAttribute("value");
+        return getBrowser().findElement(nameField).getAttribute("value");
     }
 
     public boolean isNewFolderPopupDisplayed()
     {
-        return browser.isElementDisplayed(dialogTitle) && dialogTitle.getText().equals("New Folder");
+        return getBrowser().isElementDisplayed(dialogTitle);
     }
 
     public NewFolderDialog assertNameInputIsInvalid()
     {
         LOG.info("Assert name input is invalid");
-        browser.waitUntilElementHasAttribute(nameField, "class", "invalid");
-        assertTrue(nameField.getAttribute("class").contains("invalid"),  "Name field is invalid");
+        getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(nameField), "class", "invalid");
+        assertTrue(getBrowser().findElement(nameField).getAttribute("class").contains("invalid"),  "Name field is invalid");
         return this;
     }
 
     public NewFolderDialog assertNameInputContainsIllegalCharactersMessageIsDisplayed()
     {
         LOG.info("Assert name contains illegal characters message is displayed");
-        assertTrue(nameField.getAttribute("title").equals(language.translate("newFolderDialog.invalidName")));
+        assertEquals(language.translate("newFolderDialog.invalidName"),
+            getBrowser().findElement(nameField).getAttribute("title"));
         return this;
     }
 }

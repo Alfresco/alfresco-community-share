@@ -28,10 +28,10 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     @Autowired
     private EditTaskPage editTaskPage;
 
-    @Autowired
+    //@Autowired
     private StartWorkflowPage startWorkflowPage;
 
-    @Autowired
+   // @Autowired
     private MyTasksPage myTasksPage;
 
     @Autowired

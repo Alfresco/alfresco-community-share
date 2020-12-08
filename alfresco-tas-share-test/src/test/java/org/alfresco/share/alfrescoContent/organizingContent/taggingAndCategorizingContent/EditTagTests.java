@@ -30,7 +30,7 @@ public class EditTagTests extends ContextAwareWebTest
     private final String newTagName = "newTagName-" + random;
     private final String fileName = "file-" + random;
     private final String userName = "profileUser-" + random;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)

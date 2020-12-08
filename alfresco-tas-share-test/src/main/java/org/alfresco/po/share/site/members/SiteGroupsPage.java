@@ -1,49 +1,35 @@
 package org.alfresco.po.share.site.members;
 
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextInput;
-
-@PageObject
 public class SiteGroupsPage extends SiteMembersPage
 {
-    public By waitMessage = By.cssSelector("span.wait");
-    @FindBy (css = "a[id*='addGroups']")
-    private WebElement addGroups;
+    private By addGroups = By.cssSelector("a[id*='addGroups']");
     @RenderWebElement
-    @FindBy (css = "input[class*='search-term']")
-    private TextInput searchGroupField;
+    private By searchGroupField = By.cssSelector("input[class*='search-term']");
     @RenderWebElement
-    @FindBy (css = "button[id$='site-groups_x0023_default-button-button']")
-    private Button searchButton;
-    @FindBy (css = "input[id$='_default-search-text']")
-    private WebElement searchInputBox;
-    @FindBy (css = "button[id$='_default-group-search-button-button']")
-    private WebElement searchButtonGroup;
-    @FindBy (css = "span[class$='-button-button'] button")
-    private WebElement addButton;
-    @FindAll (@FindBy (css = "a.yuimenuitemlabel"))
-    private List<WebElement> roles;
-    @FindBy (css = "td.yui-dt7-col-role.yui-dt-col-role button")
-    private WebElement selectRoleButton;
-    @FindBy (css = "button[id$='_default-add-button-button']")
-    private WebElement addGroupsButton;
-    @FindAll (@FindBy (css = "span.attr-value"))
-    private List<WebElement> groupId;
-    @FindAll (@FindBy (css = "td+td>div.yui-dt-liner>h3"))
-    private List<WebElement> groupNameList;
-    @FindBy (css = "div.detail span")
-    private WebElement idLabel;
-    @FindAll (@FindBy (css = "div.detail"))
-    private List<WebElement> idInSearchResults;
+    private By searchButton = By.cssSelector("button[id$='site-groups_x0023_default-button-button']");
+    private By searchInputBox = By.cssSelector("input[id$='_default-search-text']");
+    private By searchButtonGroup = By.cssSelector("button[id$='_default-group-search-button-button']");
+    private By addButton = By.cssSelector("span[class$='-button-button'] button");
+    private By roles = By.cssSelector("a.yuimenuitemlabel");
+    private By selectRoleButton = By.cssSelector("td.yui-dt7-col-role.yui-dt-col-role button");
+    private By addGroupsButton = By.cssSelector("button[id$='_default-add-button-button']");
+    private By groupId = By.cssSelector("span.attr-value");
+    private By groupNameList = By.cssSelector("td+td>div.yui-dt-liner>h3");
+    private By idLabel = By.cssSelector( "div.detail span");
+    private By idInSearchResults = By.cssSelector("div.detail");
+
+    public SiteGroupsPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -51,113 +37,78 @@ public class SiteGroupsPage extends SiteMembersPage
         return String.format("share/page/site/%s/site-groups", getCurrentSiteName());
     }
 
-    /**
-     * Press Add Group button
-     */
     public AddSiteGroupsPage addGroup()
     {
-        addGroups.click();
-        return new AddSiteGroupsPage();
+        getBrowser().findElement(addGroups).click();
+        return (AddSiteGroupsPage) new AddSiteGroupsPage(browser).renderedPage();
     }
 
-    /**
-     * Type searchGroup
-     *
-     * @param searchGroup String
-     */
     public void typeSearchGroup(String searchGroup)
     {
-        searchGroupField.sendKeys(searchGroup);
+        getBrowser().findElement(searchGroupField).sendKeys(searchGroup);
     }
-
-    /**
-     * Click Search button
-     */
 
     public void clickSearch()
     {
-        searchButton.click();
+        getBrowser().findElement(searchButton).click();
     }
 
-    /**
-     * Method returns if 'Remove' button is displayed for a specified group
-     *
-     * @param groupName String
-     * @return True if button is displayed
-     */
     public boolean isRemoveButtonDisplayedForGroup(String groupName)
     {
-        return browser.isElementDisplayed(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
+        return getBrowser().isElementDisplayed(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
     }
 
-    /**
-     * Removes specific group from site
-     *
-     * @param groupName
-     */
     public void removeGroup(String groupName)
     {
-        WebElement groupRemoveButton = browser.findElement(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
+        WebElement groupRemoveButton = getBrowser().findElement(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
         groupRemoveButton.click();
     }
 
-    /**
-     * Checks whether add groups button is visible or not
-     *
-     * @return
-     */
     public boolean isAddGroupsButtonDisplayed()
     {
-        return browser.isElementDisplayed(addGroups);
+        return getBrowser().isElementDisplayed(addGroups);
     }
 
     public void clickAddGroupsButton()
     {
-        browser.waitUntilElementClickable(addGroups, 5);
-        addGroups.click();
+        getBrowser().waitUntilElementClickable(addGroups, 5).click();
     }
 
     public void typeInSearchGroup(String groupName)
     {
-        searchInputBox.clear();
-        searchInputBox.sendKeys(groupName);
+        clearAndType(getBrowser().findElement(searchInputBox), groupName);
     }
 
     public void clickSearchButton()
     {
-        browser.waitUntilElementClickable(searchButtonGroup, 5);
-        searchButtonGroup.click();
+        getBrowser().waitUntilElementClickable(searchButtonGroup).click();
     }
 
     public void clickTheAddButton()
     {
-        browser.waitUntilElementClickable(addButton, 60);
-        addButton.click();
+        getBrowser().waitUntilElementClickable(addButton).click();
     }
 
     public void selectRole(String roleName)
     {
-        WebElement role = browser.findFirstElementWithValue(roles, roleName);
-        browser.waitUntilElementClickable(role, 50).click();
-        browser.waitInSeconds(2);
+        WebElement role = getBrowser().findFirstElementWithValue(roles, roleName);
+        getBrowser().waitUntilElementClickable(role).click();
     }
 
     public void clickSelectRoleButton()
     {
-        browser.waitUntilElementClickable(selectRoleButton, 10L);
-        selectRoleButton.click();
+        getBrowser().waitUntilElementClickable(selectRoleButton).click();
     }
 
     public void clickTheAddGroupsButton()
     {
-        browser.waitUntilElementClickable(addGroupsButton, 10L);
-        addGroupsButton.click();
+        getBrowser().waitUntilElementClickable(addGroupsButton).click();
     }
 
     public List<String> getIds()
     {
         List<String> id = new ArrayList<>();
-        for (WebElement aGroupId : groupId)
+        for (WebElement aGroupId : getBrowser().findElements(groupId))
         {
             id.add(aGroupId.getText());
         }
@@ -168,7 +119,7 @@ public class SiteGroupsPage extends SiteMembersPage
     public List<String> getSearchResultsGroupName()
     {
         List<String> groupName = new ArrayList<>();
-        for (WebElement aGroupNameList : groupNameList)
+        for (WebElement aGroupNameList : getBrowser().findElements(groupNameList))
         {
             groupName.add(aGroupNameList.getText());
         }
@@ -177,8 +128,7 @@ public class SiteGroupsPage extends SiteMembersPage
 
     public String getIdLabel()
     {
-        browser.waitUntilElementVisible(idLabel);
-        return idLabel.getText();
+        return getBrowser().waitUntilElementVisible(idLabel).getText();
     }
 
 
@@ -186,7 +136,7 @@ public class SiteGroupsPage extends SiteMembersPage
     {
         List<String> id = new ArrayList<>();
 
-        for (WebElement idInSearchResult : idInSearchResults)
+        for (WebElement idInSearchResult : getBrowser().findElements(idInSearchResults))
         {
             id.add(idInSearchResult.getText());
         }

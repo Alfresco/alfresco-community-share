@@ -33,9 +33,9 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     private final String subFolderName = "subFolder-" + uniqueId;
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId.toLowerCase();
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentsFilters documentsFilters;
 
     @BeforeClass (alwaysRun = true)
@@ -76,7 +76,7 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
             "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, ItemActions.LOCATE_FOLDER, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, ItemActions.LOCATE_FOLDER);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 

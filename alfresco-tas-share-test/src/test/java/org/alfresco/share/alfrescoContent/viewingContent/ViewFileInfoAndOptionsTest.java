@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import java.io.File;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
@@ -28,9 +30,9 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
     private final DateTime currentDate = new DateTime();
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
@@ -70,7 +72,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
         Assert.assertTrue(documentDetailsPage.getModifyDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong modification date!");
 
         LOG.info("STEP 3: Click 'Download' icon to download testFile");
-        documentDetailsPage.clickOnDownloadButton();
+        documentDetailsPage.clickDownloadButton();
         Assert.assertTrue(isFileInDirectory(docName, null), "File does not exist!");
 
 

@@ -3,49 +3,47 @@ package org.alfresco.share.adminTools.users;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UserProfileTests extends ContextAwareWebTest
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+
+public class UserProfileTests extends BaseTest
 {
-    @Autowired
     private UsersPage usersPage;
-
-    @Autowired
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
-
-    @Autowired
     private EditUserPage editUserPage;
 
-    private UserModel browseUser, editUser, deleteUser, enableUser, removeGroupUser, addUserToGroup;
+    private static UserModel browseUser, deleteUser, enableUser, removeGroupUser, addUserToGroup;
     private GroupModel c9423Group;
 
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        usersPage = new UsersPage(browser);
+        userProfileAdminToolsPage = new UserProfileAdminToolsPage(browser);
+        editUserPage = new EditUserPage(browser);
+
+        setupAuthenticatedSession(getAdminUser());
+    }
+
     @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    public void dataPrep()
     {
         browseUser = dataUser.usingAdmin().createRandomTestUser();
-        editUser = dataUser.createRandomTestUser();
         deleteUser = dataUser.createRandomTestUser();
         enableUser = dataUser.createRandomTestUser();
         removeGroupUser = dataUser.createRandomTestUser();
         addUserToGroup = dataUser.createRandomTestUser();
 
         c9423Group = dataGroup.usingAdmin().createRandomGroup();
-        setupAuthenticatedSession(adminUser, adminPassword);
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanUp()
-    {
-        removeUserFromAlfresco(browseUser, editUser, enableUser, removeGroupUser, addUserToGroup);
-        dataGroup.deleteGroup(c9423Group);
     }
 
     @TestRail (id = "C9415")
@@ -90,6 +88,7 @@ public class UserProfileTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editingUser()
     {
+        UserModel editUser = dataUser.createRandomTestUser();
         String firstName = "c9417editedFN";
         String lastName = "c9417editedLN";
         String email = "c9417edited@editedEmail.com";
@@ -135,22 +134,21 @@ public class UserProfileTests extends ContextAwareWebTest
                 .assertDeleteUserDialogTextIsCorrect()
                 .clickDelete();
         usersPage.waitUntilNotificationMessageDisappears();
-        usersPage.searchUser(newUser.getUsername())
+        usersPage.navigate().searchUser(newUser.getUsername())
             .usingUser(newUser).assertUserIsNotFound();
     }
 
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteAuthorizedUser()
     {
-        cmisApi.authenticateUser(deleteUser);
-
+        userService.login(deleteUser.getUsername(), deleteUser.getPassword());
         userProfileAdminToolsPage.navigate(deleteUser)
             .clickDelete()
             .assertDeleteUserDialogIsOpened()
             .assertDeleteUserDialogTextIsCorrect()
             .clickDelete();
-        usersPage.assertDeleteUserNotificationIsDisplayed()
-            .searchUser(deleteUser.getUsername())
+        usersPage.assertDeleteUserNotificationIsDisplayed();
+        usersPage.navigate().searchUser(deleteUser.getUsername())
             .usingUser(deleteUser).assertUserDeleteIconIsDisplayed()
                 .assertDeletedIsDisplayed();
     }
@@ -163,19 +161,19 @@ public class UserProfileTests extends ContextAwareWebTest
             .editQuota("50")
             .clickSaveChanges()
                 .assertQuotaIs("50 GB");
-        cleanupAuthenticatedSession();
+        browser.get().manage().deleteAllCookies();
     }
 
     @TestRail (id = "C9426")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void enablingAccount()
     {
-        editUserPage.navigate(editUser)
-            .clickDisabledAccount()
+        editUserPage.navigate(enableUser)
+            .selectDisabledAccount()
             .clickSaveChanges()
                 .assertAccountStatusIsDisabled()
             .clickEditUser()
-                .clickDisabledAccount()
+                .selectEnableAccount()
                 .clickSaveChanges()
                     .assertAccountStatusIsEnabled();
     }
@@ -192,5 +190,12 @@ public class UserProfileTests extends ContextAwareWebTest
                 .removeGroup(ALFRESCO_ADMIN_GROUP)
                 .clickSaveChanges()
                     .assertGroupIsNotDisplayed(ALFRESCO_ADMIN_GROUP.getGroupIdentifier());
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanUp()
+    {
+        removeUserFromAlfresco(browseUser, enableUser, removeGroupUser, addUserToGroup);
+        dataGroup.deleteGroup(c9423Group);
     }
 }

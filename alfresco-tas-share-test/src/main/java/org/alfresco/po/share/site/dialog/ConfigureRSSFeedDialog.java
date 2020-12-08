@@ -16,7 +16,7 @@ import ru.yandex.qatools.htmlelements.element.Select;
 @PageObject
 public class ConfigureRSSFeedDialog extends ShareDialog
 {
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
     @RenderWebElement

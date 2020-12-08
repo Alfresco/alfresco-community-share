@@ -28,25 +28,25 @@ import org.testng.annotations.Test;
 
 public class ConsumerFilesOnlyTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     UploadContent uploadContent;
 
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
+    //@Autowired
     EditInAlfrescoPage editInAlfrescoPage;
 
     @Autowired
     GoogleDocsCommon googleDocsCommon;
 
-    @Autowired
+    //@Autowired
     CreateContentPage createContent;
 
-    @Autowired
+   // @Autowired
     StartWorkflowPage startWorkflowPage;
 
     private String user = String.format("ConsumerUser%s", RandomData.getRandomAlphanumeric());
@@ -135,7 +135,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFile, ItemActions.DOWNLOAD));
 
         LOG.info("Step 2: Click download button");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.DOWNLOAD, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.DOWNLOAD);
         documentLibraryPage.acceptAlertIfDisplayed();
 
         LOG.info("Step 3: Choose 'Save File' option and click 'OK' and verify that the file has been downloaded to the right location");
@@ -152,7 +152,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFile, ItemActions.VIEW_IN_BROWSER), "View in browser is not available");
 
         LOG.info("Step 2: Click view in Browser");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.VIEW_IN_BROWSER, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.VIEW_IN_BROWSER);
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), testContent, "File content is not correct or file has not be opened in new window");
     }
 
@@ -223,7 +223,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 2: Mouse over lockedWordFile and check the availability of the View Original Document option");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(lockedWordFile, ItemActions.VIEW_ORIGINAL),
                 "View Original Document is not available");
-        documentLibraryPage.clickDocumentLibraryItemAction(lockedWordFile, ItemActions.VIEW_ORIGINAL, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(lockedWordFile, ItemActions.VIEW_ORIGINAL);
 
         LOG.info("Step 5: Check View Working Copy action availability");
         Assert.assertTrue(documentDetailsPage.isActionAvailable("View Working Copy"));
@@ -240,7 +240,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFileForWorkflow, ItemActions.START_WORKFLOW));
 
         LOG.info("Step 2: Click Start Workflow.");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFileForWorkflow, ItemActions.START_WORKFLOW, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(textFileForWorkflow, ItemActions.START_WORKFLOW);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "User is not redirected to the Start Workflow page");
     }
 
@@ -257,7 +257,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(locateTextFile, ItemActions.LOCATE_FILE));
 
         LOG.info("Step 3: Click Locate File");
-        documentLibraryPage.clickDocumentLibraryItemAction(locateTextFile, ItemActions.LOCATE_FILE, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(locateTextFile, ItemActions.LOCATE_FILE);
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents]", "Folder was not identified as beeing in Documents folder");
     }
 
@@ -324,7 +324,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 4: Login with admin account and check-in document");
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction("Untitled Document.docx", ItemActions.CHECK_IN_GOOGLE_DOC, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction("Untitled Document.docx", ItemActions.CHECK_IN_GOOGLE_DOC);
         cleanupAuthenticatedSession();
         LOG.info("Step 5: Login with user with consumer role and check available options");
         setupAuthenticatedSession(user, password);

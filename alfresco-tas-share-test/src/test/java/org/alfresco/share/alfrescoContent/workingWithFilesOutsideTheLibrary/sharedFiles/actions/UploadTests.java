@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -34,16 +35,12 @@ public class UploadTests extends ContextAwareWebTest
     private final String doc2 = random + "-OldFile-C7942.txt";
     private final String newDoc2 = random + "-NewFile-C7942.txt";
     private final String doc3 = "Doc-C13756-" + random;
-    @Autowired
+   // @Autowired
     private SharedFilesPage sharedFilesPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-    @Autowired
+    //@Autowired
     private UploadContent uploadContent;
-    @Autowired
-    private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -92,7 +89,7 @@ public class UploadTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), "contents", String.format("Contents of %s are wrong.", doc2));
         LOG.info("STEP2: Navigate to Shared Files page and click on upload new version");
         sharedFilesPage.navigate();
-        sharedFilesPage.clickDocumentLibraryItemAction(doc2, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
+        sharedFilesPage.clickDocumentLibraryItemAction(doc2, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         getBrowser().waitInSeconds(2);

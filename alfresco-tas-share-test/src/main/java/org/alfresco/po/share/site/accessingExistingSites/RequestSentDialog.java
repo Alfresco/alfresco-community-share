@@ -1,36 +1,26 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-/**
- * Created by Claudia Agache on 7/8/2016.
- */
-@PageObject
 public class RequestSentDialog extends ConfirmationDialog
 {
     @RenderWebElement
-    @FindBy (css = "div.dijitDialogTitleBar")
-    private WebElement dialogTitle;
+    private final By dialogTitle = By.cssSelector("div.dijitDialogTitleBar");
 
-    /**
-     * Obtain the title of Request Sent dialog
-     *
-     * @return the title
-     */
-    public String getDialogTitle()
+    public RequestSentDialog(ThreadLocal<WebBrowser> browser)
     {
-        return dialogTitle.getText();
+        super(browser);
     }
 
-    /**
-     * Click on the OK button
-     */
+    public String getDialogTitle()
+    {
+        return getElementText(dialogTitle);
+    }
+
     public void clickOKButton()
     {
-        browser.waitUntilElementVisible(By.cssSelector("span[widgetid*='alfresco_buttons_AlfButton'] span")).click();
+        getBrowser().waitUntilElementVisible(By.cssSelector("span[widgetid*='alfresco_buttons_AlfButton'] span")).click();
     }
 }

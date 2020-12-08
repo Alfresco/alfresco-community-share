@@ -1,46 +1,32 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-
-/**
- * @author Razvan.Dorobantu
- */
-@PageObject
 public class UploadContent extends SiteCommon<UploadContent>
 {
-
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
     private Environment env;
 
-    @FindBy (css = "button[id$='-fileUpload-button-button']")
-    private WebElement uploadButton;
+    private final By uploadButton = By.cssSelector("button[id$='-fileUpload-button-button']");
+    private final By fileInput = By.className("dnd-file-selection-button");
+    private final By uploadFilesToDialog = By.id("template_x002e_dnd-upload_x002e_documentlibrary_x0023_default-dialog_h");
 
-    @FindBy (className = "dnd-file-selection-button")
-    private WebElement fileInput;
-
-    // private By uploadFilesToDialog =
-    // By.cssSelector("div[id$='_default-dialog_c']");
-
-    private By uploadFilesToDialog = By.id("template_x002e_dnd-upload_x002e_documentlibrary_x0023_default-dialog_h");
+    public UploadContent(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     private static File newFile(String fileName, String contents)
     {
@@ -80,31 +66,33 @@ public class UploadContent extends SiteCommon<UploadContent>
     {
         if (env.getProperty("grid.enabled").equals("true"))
         {
-            ((RemoteWebDriver)(documentLibraryPage.getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
+            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
         // click Upload button
-        browser.waitUntilElementClickable(uploadButton);
-        uploadButton.click();
+        getBrowser().waitUntilElementClickable(uploadButton);
+        getBrowser().findElement(uploadButton).click();
         waitUntilNotificationMessageDisappears();
 
         // set the file to upload
         File fileToUpload = newFile(filePath, contentsOfFile);
         try
         {
-            fileInput.sendKeys(fileToUpload.getAbsolutePath());
-        } catch (IllegalArgumentException e)
+            getBrowser().findElement(fileInput).sendKeys(fileToUpload.getAbsolutePath());
+        }
+        catch (IllegalArgumentException e)
         {
             e.printStackTrace();
         }
-        browser.waitUntilElementDisappears(uploadFilesToDialog);
+        getBrowser().waitUntilElementDisappears(uploadFilesToDialog);
         // wait for the file to be visible
         String[] strPaths = filePath.split("\\\\");
         String fileName = strPaths[strPaths.length - 1];
         By selector = By.xpath("//a[contains(., '" + fileName + "')]");
         try
         {
-            browser.waitUntilElementIsDisplayedWithRetry(selector);
-        } catch (TimeoutException exception)
+            getBrowser().waitUntilElementIsDisplayedWithRetry(selector);
+        }
+        catch (TimeoutException exception)
         {
             exception.printStackTrace();
         }
@@ -119,33 +107,30 @@ public class UploadContent extends SiteCommon<UploadContent>
     {
         if (env.getProperty("grid.enabled").equals("true"))
         {
-            ((RemoteWebDriver)(documentLibraryPage.getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
+            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
         if (versionType.equals(Version.Major))
         {
-            browser.waitUntilElementClickable(By.cssSelector("input[id$='_default-majorVersion-radioButton']"),
-                3).click();
+            getBrowser().waitUntilElementClickable(By.cssSelector("input[id$='_default-majorVersion-radioButton']")).click();
         }
-        WebElement commentBox = browser
-            .waitUntilElementVisible(By.cssSelector("textarea[id$='_default-description-textarea']"));
+        WebElement commentBox = getBrowser().waitUntilElementVisible(By.cssSelector("textarea[id$='_default-description-textarea']"));
         Utils.clearAndType(commentBox, comments);
         File fileToUpload = newFile(filePath, "updated by upload new version");
         try
         {
-            fileInput.sendKeys(fileToUpload.getAbsolutePath());
-        } catch (IllegalArgumentException e)
+            getBrowser().findElement(fileInput).sendKeys(fileToUpload.getAbsolutePath());
+        }
+        catch (IllegalArgumentException e)
         {
             e.printStackTrace();
         }
-        WebElement submitButton = browser
-            .waitUntilElementVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
-        submitButton.click();
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+        getBrowser().waitUntilElementVisible(By.cssSelector("button[id$='_default-upload-button-button']")).click();
+        return (DocumentLibraryPage) new DocumentLibraryPage(browser).renderedPage();
     }
 
     public boolean isUploadFilesToDialogDisplayed()
     {
-        return browser.isElementDisplayed(uploadFilesToDialog);
+        return getBrowser().isElementDisplayed(uploadFilesToDialog);
     }
 
     public enum Version

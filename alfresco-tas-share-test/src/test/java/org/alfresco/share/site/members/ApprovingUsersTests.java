@@ -32,10 +32,10 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Autowired
     MenuNavigationBar menuNavigationBar;
 
-    @Autowired
+    //@Autowired
     SiteFinderPage siteFinderPage;
 
-    @Autowired
+    //@Autowired
     MyTasksPage myTasksPage;
 
     @Autowired
@@ -47,7 +47,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Autowired
     MySitesDashlet mySitesDashlet;
 
-    @Autowired
+   // @Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired
@@ -62,7 +62,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     UserModel contributorUser;
     UserModel consumerUser;
     SiteModel moderatedSite;
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
     private String userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String userTest = String.format("User2%s", RandomData.getRandomAlphanumeric());
@@ -164,7 +164,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         myTasksPage.clickEditTask(siteNameC2461);
 
         LOG.info("Step 6: Approve the task");
-        editTaskPage.approve("Approve", myTasksPage);
+        editTaskPage.approve("Approve");
         Assert.assertFalse(myTasksPage.checkTaskWasFound(siteNameC2461));
 
         LOG.info("Step 7: Click on 'Completed' task");
@@ -213,7 +213,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         myTasksDashlet.editTask(taskName);
 
         LOG.info("Step 6: Approve the task");
-        editTaskPage.approve("Approve", myTasksDashlet);
+        editTaskPage.approve("Approve");
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName));
 
         LOG.info("Step 7: Switch the filter to 'Completed tasks'");
@@ -256,7 +256,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         myTasksPage.clickEditTask(siteNameC2463);
 
         LOG.info("Step 6: Reject the task");
-        editTaskPage.reject("Reject", myTasksPage);
+        editTaskPage.reject("Reject");
         Assert.assertFalse(myTasksPage.checkTaskWasFound(siteNameC2463));
 
         LOG.info("Step 7: Click on 'Completed' task");
@@ -312,7 +312,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         myTasksDashlet.editTask(taskName);
 
         LOG.info("Step 6: Reject the task");
-        editTaskPage.reject("Reject", myTasksDashlet);
+        editTaskPage.reject("Reject");
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is present");
 
         LOG.info("Step 7: Switch the filter to 'Completed tasks'");

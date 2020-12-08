@@ -3,16 +3,17 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 import java.util.List;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 {
+    //@Autowired
+    private DocumentLibraryPage documentLibraryPage;
+
     @FindBy (css = "button[id*='cancel']")
     protected WebElement cancelButton;
 
@@ -35,10 +36,13 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
     @FindBy (css = "button[id*='form']")
     private List<WebElement> buttonsList;
 
-    private final By saveButton = By.xpath("//button[contains(text(), 'Save')]");
+    private By saveButton = By.cssSelector("button[id*='submit']");
 
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
+    public EditInAlfrescoPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+        documentLibraryPage = new DocumentLibraryPage(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -48,14 +52,14 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
     public DocumentLibraryPage clickButton(String buttonName)
     {
-        browser.findFirstElementWithValue(buttonsList, buttonName).click();
+        getBrowser().findFirstElementWithValue(buttonsList, buttonName).click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
     public DocumentLibraryPage clickSaveButton()
     {
         LOG.info("Click Save button");
-        browser.findElement(saveButton).click();
+        getBrowser().findElement(saveButton).click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
@@ -69,7 +73,8 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
         return this;
     }
 
-    private void typeName(String name) {
+    private void typeName(String name)
+    {
         LOG.info("Type name: {}", name);
         clearAndType(nameInput, name);
     }
@@ -80,12 +85,14 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
         clearAndType(contentTextarea, content);
     }
 
-    private void typeTitle(String title) {
+    private void typeTitle(String title)
+    {
         LOG.info("Type title: {}", title);
         clearAndType(titleInput, title);
     }
 
-    private void typeDescription(String description) {
+    private void typeDescription(String description)
+    {
         LOG.info("Type description: {}", description);
         clearAndType(descriptionTextarea, description);
     }

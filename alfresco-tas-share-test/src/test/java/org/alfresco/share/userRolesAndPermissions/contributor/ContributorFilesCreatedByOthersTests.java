@@ -1,5 +1,6 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
@@ -32,20 +33,20 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     private final String adminWordFile = String.format("WordFile%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "FileContent";
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
-    @Autowired
+    //@Autowired
     UploadContent uploadContent;
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     CreateContentPage create;
-    @Autowired
+   // @Autowired
     EditInAlfrescoPage editInAlfresco;
     @Autowired
     GoogleDocsCommon docs;
 
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
     @BeforeClass (alwaysRun = true)
@@ -78,7 +79,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1, 2: Mouse over the test file  from Document Library and click 'Download'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(adminFile, ItemActions.DOWNLOAD, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(adminFile, ItemActions.DOWNLOAD);
         documentLibraryPage.acceptAlertIfDisplayed();
         Assert.assertTrue(isFileInDirectory(adminFile, null), "The file was not found in the specified location");
     }
@@ -92,7 +93,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
         LOG.info("Step1: Mouse over testFile and check 'View in Browser' is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, ItemActions.VIEW_IN_BROWSER), "View in browser available");
         LOG.info("Step2: Click View in browser and verify the file is opened in a new browser window.");
-        documentLibraryPage.clickDocumentLibraryItemAction(adminFile, ItemActions.VIEW_IN_BROWSER, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(adminFile, ItemActions.VIEW_IN_BROWSER);
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
     }
 
@@ -188,7 +189,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS, docs);
+        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
         getBrowser().waitInSeconds(5);
         docs.clickOkButtonOnTheAuthPopup();
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Google Doc test content");
@@ -220,7 +221,7 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(lockedFileByAdmin, ItemActions.VIEW_ORIGINAL),
             "View Original Document' action available for Contributor user");
         LOG.info("Steps3: Click 'View Original Document' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(lockedFileByAdmin, ItemActions.VIEW_ORIGINAL, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(lockedFileByAdmin, ItemActions.VIEW_ORIGINAL);
         Assert.assertEquals(documentDetailsPage.getLockedMessage(), "This document is locked by Administrator.", "Document appears to be locked by admin user");
         Assert.assertTrue(documentDetailsPage.isActionAvailable("View Working Copy"));
         LOG.info("Steps3: Click 'View Working Copy' action");

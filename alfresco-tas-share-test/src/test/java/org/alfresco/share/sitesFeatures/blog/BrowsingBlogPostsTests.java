@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 public class BrowsingBlogPostsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     BlogPostListPage blogPage;
 
     private String user1 = String.format("C6001User1%s", RandomData.getRandomAlphanumeric());

@@ -1,5 +1,6 @@
 package org.alfresco.share.searching;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -32,13 +33,13 @@ import org.testng.annotations.Test;
  */
 public class SearchHighlightTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
     @Autowired
     EditPropertiesDialog editFilePropertiesDialog;
-    @Autowired
+    //@Autowired
     BlogPostListPage blogPage;
-    @Autowired
+    //@Autowired
     CreateBlogPostPage createBlogPost;
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName = "highlightSearch-" + uniqueIdentifier;
@@ -61,9 +62,9 @@ public class SearchHighlightTests extends ContextAwareWebTest
     String C42564file1 = "C42564file";
     String C42564file2 = "big C42564file";
     String C42549file = siteName;
-    @Autowired
+    //@Autowired
     private AdvancedSearchPage advancedSearchPage;
-    @Autowired
+    //@Autowired
     private SearchPage searchPage;
     private String blogPostTitle = "HighlightBlogTitle" + uniqueIdentifier;
 
@@ -87,7 +88,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, C42550testFilePath);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES);
         editFilePropertiesDialog.setTitle(docTitle);
         editFilePropertiesDialog.setDescription(docDescription);
         editFilePropertiesDialog.clickSave();
@@ -112,7 +113,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeName(docName);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isNameHighlighted(docName));
     }
@@ -127,7 +128,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeTitle(docTitle);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the title is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isTitleHighlighted(docTitle));
     }
@@ -143,7 +144,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeDescription(docDescription);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the description is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+       //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isDescriptionHighlighted(docDescription));
     }
@@ -158,7 +159,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(docContent);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the content is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isContentHighlighted(docContent));
     }
@@ -182,7 +183,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(blogPostTitle);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 7: Verify that the Blog is found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(blogPostTitle));
         assertTrue(searchPage.isNameHighlighted(blogPostTitle));
     }
@@ -197,7 +198,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("Page2");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the content is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42550testFile));
         assertTrue(searchPage.isContentHighlighted("Page2"));
         assertFalse(searchPage.isContentHighlighted("Page1"));
@@ -215,7 +216,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("name:" + docName);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isNameHighlighted(docName));
     }
@@ -230,7 +231,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("title:" + docTitle);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the title is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isTitleHighlighted(docTitle));
     }
@@ -245,7 +246,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("description:" + docDescription);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the description is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isDescriptionHighlighted(docDescription));
         LOG.info("Step 4: Type some text that is found in the file and click search.");
@@ -253,7 +254,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("TEXT:" + C42558file);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 5: Verify that the file is found and the text is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42558file));
         assertTrue(searchPage.isContentHighlighted(C42558file));
         assertTrue(searchPage.isNameHighlighted(C42558file));
@@ -269,7 +270,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("?" + "42560file");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42560file));
         assertTrue(searchPage.isNameHighlighted(C42560file));
         LOG.info("Step 4: Type the '*' wildcard followed by a part of the name of the file and click search.");
@@ -277,7 +278,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("*" + "42560");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 5: Verify that the files are found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42560file));
         assertTrue(searchPage.isResultFoundWithRetry(C42560file2));
         assertTrue(searchPage.isNameHighlighted("42560"));
@@ -286,7 +287,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("=" + "C42560file");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 7: Verify that the file is found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42560file));
         assertFalse(searchPage.isResultFoundWithRetry(C42560file2));
         assertTrue(searchPage.isNameHighlighted(C42560file));
@@ -295,7 +296,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42560file);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 9: Verify that the files are found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42560file));
         assertTrue(searchPage.isResultFoundWithRetry(C42560file2));
         assertTrue(searchPage.isNameHighlighted(C42560file));
@@ -311,7 +312,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("cm_name:" + docName);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the content is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isNameHighlighted(docName));
         LOG.info("Step 4: Type '@cm_name:' followed by the name of the file and click search.");
@@ -319,7 +320,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords("@cm_name:" + docName);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 5: Verify that the file is found and the content is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(docName));
         assertTrue(searchPage.isNameHighlighted(docName));
     }
@@ -335,7 +336,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42562SearchTerm + " AND " + C42562file1);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the content is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42562file1));
         assertTrue(searchPage.isNameHighlighted(C42562file1));
         LOG.info("Step 4: Type 'and' conjunction between 2 search terms and click search.");
@@ -343,7 +344,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42562SearchTerm + " and " + C42562file2);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the content is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42562file2));
         assertTrue(searchPage.isNameHighlighted(C42562file2));
         LOG.info("Step 5: Type 2 search terms and click search.");
@@ -351,7 +352,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42562file1 + " " + C42562SearchTerm);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 6: Verify that the file is found and the content is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42562file1));
         assertTrue(searchPage.isNameHighlighted(C42562file1));
     }
@@ -366,7 +367,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42562file1 + " OR " + C42562file2);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the files are found and the names are highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42562file1));
         assertTrue(searchPage.isResultFoundWithRetry(C42562file2));
         assertTrue(searchPage.isNameHighlighted(C42562file1));
@@ -376,7 +377,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42562file1 + " or " + C42562file2);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 5: Verify that the files are found and the names are highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42562file1));
         assertTrue(searchPage.isResultFoundWithRetry(C42562file2));
         assertTrue(searchPage.isNameHighlighted(C42562file1));
@@ -393,7 +394,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42564file1 + " NOT " + "big");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the title is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42564file1));
         assertFalse(searchPage.isResultFoundWithRetry(C42564file2));
         assertTrue(searchPage.isNameHighlighted(C42564file1));
@@ -402,7 +403,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42564file1 + " !" + "big");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the title is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42564file1));
         assertFalse(searchPage.isResultFoundWithRetry(C42564file2));
         assertTrue(searchPage.isNameHighlighted(C42564file1));
@@ -411,7 +412,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeKeywords(C42564file1 + " -" + "big");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 6: Verify that the file is found and the title is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42564file1));
         assertFalse(searchPage.isResultFoundWithRetry(C42564file2));
         assertTrue(searchPage.isNameHighlighted(C42564file1));
@@ -427,7 +428,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         advancedSearchPage.typeName(C42549file);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the name is highlighted.");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
         assertTrue(searchPage.isResultFoundWithRetry(C42549file));
         assertTrue(searchPage.isNameHighlighted(C42549file));
     }

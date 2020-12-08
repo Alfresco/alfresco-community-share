@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -25,11 +26,11 @@ public class ActionsUploadTests extends ContextAwareWebTest
 {
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "user1-" + random;
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
-    @Autowired
+    //@Autowired
     private UploadContent uploadContent;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     private String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
     private String testFilePath = testDataFolder + testFile;
@@ -89,7 +90,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to Shared folder from Repository page and click on upload new version");
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("Shared");
-        repositoryPage.clickDocumentLibraryItemAction(testFile2, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
+        repositoryPage.clickDocumentLibraryItemAction(testFile2, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         repositoryPage.renderedPage();

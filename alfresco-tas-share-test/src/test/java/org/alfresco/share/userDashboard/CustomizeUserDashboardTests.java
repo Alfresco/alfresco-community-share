@@ -5,22 +5,21 @@ import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.user.CustomizeUserDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * @author bogdan.bocancea
  */
-public class CustomizeUserDashboardTests extends ContextAwareWebTest
+public class CustomizeUserDashboardTests extends BaseTest
 {
-    @Autowired
     private CustomizeUserDashboardPage customizeUserDashboard;
 
     @Autowired
@@ -29,19 +28,20 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Autowired
     private MyActivitiesDashlet myActivitiesDashlet;
 
-    private UserModel user, changeLayoutUser;
+    private UserModel user;
 
-    @BeforeClass(alwaysRun = true)
-    public void setup()
+    @BeforeMethod(alwaysRun = true)
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
-        changeLayoutUser = dataUser.createRandomTestUser();
+
+        customizeUserDashboard = new CustomizeUserDashboardPage(browser);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        removeUserFromAlfresco(user,changeLayoutUser);
+        removeUserFromAlfresco(user);
     }
 
     @TestRail (id = "C2853")
@@ -63,7 +63,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
                 .assertDashletIsAddedInColumn(Dashlets.MY_SITES, 2)
             .reorderDashletsInColumn(Dashlets.MY_ACTIVITIES, Dashlets.MY_DOCUMENTS, 2, 2)
             .clickOk();
-        userDashboard.assertCustomizeUserDashboardIsDisplayed()
+        userDashboardPage.assertCustomizeUserDashboardIsDisplayed()
             .assertDashletIsAddedInPosition(Dashlets.MY_DOCUMENTS, 2, 1)
             .assertDashletIsAddedInPosition(Dashlets.MY_ACTIVITIES, 2, 2);
     }
@@ -72,7 +72,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void changeDashboardLayout()
     {
-        setupAuthenticatedSession(changeLayoutUser);
+        setupAuthenticatedSession(user);
         customizeUserDashboard.navigate()
             .assertCurrentLayoutIs(Layout.TWO_COLUMNS_WIDE_RIGHT)
             .clickChangeLayout()
@@ -90,7 +90,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
             .clickCancelNewLayout()
                 .assertCurrentLayoutIs(Layout.THREE_COLUMNS)
             .clickOk();
-        userDashboard.assertNumberOfDashletColumnsIs(3);
+        userDashboardPage.assertNumberOfDashletColumnsIs(3);
     }
 
     @TestRail (id = "C2857")

@@ -1,92 +1,59 @@
 package org.alfresco.po.share;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
-import org.alfresco.common.Language;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
-import ru.yandex.qatools.htmlelements.element.Image;
-import ru.yandex.qatools.htmlelements.element.TextBlock;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-@PageObject
 public class AIMSPage extends CommonLoginPage
 {
-
-    @FindBy(id = "username")
-    private WebElement usernameInput;
-
-    @FindBy(id = "password")
-    private WebElement passwordInput;
-
+    private final By usernameInput = By.id("username");
+    private final By passwordInput = By.id("password");
     @RenderWebElement
-    @FindBy(css = "input.submit")
-    private WebElement submit;
-
+    private final By submit = By.cssSelector("input.submit");
     @RenderWebElement
-    @FindBy(css = "img.logo")
-    private Image alfrescoLogo;
+    private final By alfrescoLogo = By.cssSelector("img.logo");
+    private final By errorLogin = By.cssSelector("div.alert-error span.message-text");
+    private final By copyright = By.cssSelector(".copyright");
 
-    @FindBy(css = "div.alert-error span.message-text")
-    private WebElement errorLogin;
-
-    @FindBy(css = ".copyright")
-    private TextBlock copyright;
-
-    @Autowired
-    protected Language language;
+    public AIMSPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public CommonLoginPage navigate()
     {
-        browser.navigate().to(properties.getShareUrl().toString());
+        getBrowser().navigate().to(properties.getShareUrl().toString());
         return (AIMSPage) renderedPage();
     }
 
-    /**
-     * Type user name
-     *
-     * @param userName
-     */
     public void typeUserName(String userName)
     {
-        usernameInput.clear();
-        usernameInput.sendKeys(userName);
+        clearAndType(getBrowser().findElement(usernameInput), userName);
     }
 
     public void autoCompleteUsername(String startCharsUser)
     {
         typeUserName(startCharsUser);
-        browser.waitInSeconds(1);
-        usernameInput.sendKeys(Keys.ARROW_DOWN);
-        usernameInput.sendKeys(Keys.TAB);
+        getBrowser().waitInSeconds(1);
+        WebElement userInput = getBrowser().findElement(usernameInput);
+        userInput.sendKeys(Keys.ARROW_DOWN);
+        userInput.sendKeys(Keys.TAB);
     }
 
-    /**
-     * Type password
-     *
-     * @param password
-     *            to be filled in
-     */
     public void typePassword(String password)
     {
-        passwordInput.clear();
-        passwordInput.sendKeys(password);
+        clearAndType(getBrowser().findElement(passwordInput), password);
     }
 
-    /**
-     * Click login button
-     */
     public void clickLogin()
     {
-        submit.click();
+        getBrowser().waitUntilElementClickable(submit).click();
     }
 
     public AIMSPage loginFailed(String username, String password)
@@ -97,62 +64,36 @@ public class AIMSPage extends CommonLoginPage
         return (AIMSPage) this.renderedPage();
     }
 
-    /**
-     * Get the error when the login fails
-     *
-     * @return String error message
-     */
     public String getAuthenticationError()
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(errorLogin);
-        return errorLogin.getText();
+        return getBrowser().waitUntilElementVisible(errorLogin).getText();
     }
 
-    /**
-     * Verify if the login error is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isAuthenticationErrorDisplayed()
     {
-        return browser.isElementDisplayed(errorLogin);
+        return getBrowser().isElementDisplayed(errorLogin);
     }
 
-    /**
-     * Verify if copyright is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isCopyrightDisplayed()
     {
-        return copyright.isDisplayed();
+        return getBrowser().isElementDisplayed(copyright);
     }
 
-    /**
-     * Verify if alfresco logo is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isLogoDisplayed()
     {
-        return alfrescoLogo.isDisplayed();
+        return getBrowser().isElementDisplayed(alfrescoLogo);
     }
 
-    /**
-     * Get the text from the copyright
-     *
-     * @return String copyright text
-     */
     public String getCopyRightText()
     {
-        return copyright.getText();
+        return getBrowser().findElement(copyright).getText();
     }
 
     @Override
     public CommonLoginPage assertLoginPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(usernameInput), "Username input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
     }
 
@@ -169,8 +110,8 @@ public class AIMSPage extends CommonLoginPage
     public CommonLoginPage assertAuthenticationErrorIsDisplayed()
     {
         LOG.info("Assert authentication error is displayed");
-        browser.waitUntilElementVisible(errorLogin);
-        Assert.assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
+        getBrowser().waitUntilElementVisible(errorLogin);
+        assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
         return this;
     }
 
@@ -178,29 +119,21 @@ public class AIMSPage extends CommonLoginPage
     public CommonLoginPage assertAuthenticationErrorMessageIsCorrect()
     {
         LOG.info("Assert authentication error message is correct");
-        Assert.assertEquals(getAuthenticationError(), language.translate("login.authError"), "Authentication error is correct");
+        assertEquals(getAuthenticationError(), language.translate("login.authError"), "Authentication error is correct");
         return this;
     }
 
-    /**
-     * Login on Share using login form
-     *
-     * @param userModel
-     *            to be filled in
-     */
     @Override
     public void login(UserModel userModel)
     {
         login(userModel.getUsername(), userModel.getPassword());
-
     }
 
     @Override
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {
         LOG.info("Assert Login Page Title is correct");
-        Assert.assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
+        assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
         return this;
     }
-
 }

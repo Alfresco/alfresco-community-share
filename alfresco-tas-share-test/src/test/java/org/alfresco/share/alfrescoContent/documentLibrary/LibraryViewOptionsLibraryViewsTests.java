@@ -24,9 +24,9 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     private final String folderName = "C6909 test folder";
     private final String docName1 = "testFile1";
     private final String docName2 = "testFile2";
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private TableView tableView;
 
     @BeforeClass (alwaysRun = true)

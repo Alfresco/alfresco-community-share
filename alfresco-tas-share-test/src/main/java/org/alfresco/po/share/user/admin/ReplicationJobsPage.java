@@ -1,19 +1,15 @@
 package org.alfresco.po.share.user.admin;
 
-import java.util.List;
-
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * @author Laura.Capsa
- */
-@PageObject
-public class ReplicationJobsPage extends AdminToolsPage
+import java.util.List;
+
+public class ReplicationJobsPage extends SharePage2<ReplicationJobsPage>
 {
     @Autowired
     CreateEditReplicationJobPage createEditReplicationJobPage;
@@ -30,6 +26,11 @@ public class ReplicationJobsPage extends AdminToolsPage
 
     @FindBy (css = "[id*='jobStatus']")
     private WebElement status;
+
+    public ReplicationJobsPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -48,12 +49,6 @@ public class ReplicationJobsPage extends AdminToolsPage
         runJobButton.click();
     }
 
-    /**
-     * Verify presence of job in "Jobs" section
-     *
-     * @param jobName name of the job to be checked
-     * @return true if job is displayed
-     */
     public boolean isJobDisplayedInList(String jobName)
     {
         for (WebElement aJobsList : jobsList)

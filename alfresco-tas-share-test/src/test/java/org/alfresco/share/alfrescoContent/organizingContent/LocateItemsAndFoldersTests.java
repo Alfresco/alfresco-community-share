@@ -1,40 +1,46 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.DocumentsFilter;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class LocateItemsAndFoldersTests extends ContextAwareWebTest
+public class LocateItemsAndFoldersTests extends BaseTest
 {
-    @Autowired
-    private DocumentLibraryPage2 documentLibraryPage2;
+    private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel user;
-    private SiteModel site;
+    private ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
-        restApi.authenticateUser(user);
-        setupAuthenticatedSession(user);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        site.set(dataSite.usingUser(user).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user);
+        getRestApi().authenticateUser(user);
+        setupAuthenticatedSession(user);
     }
 
     @Bug (id = "MNT-17556")
@@ -43,15 +49,15 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
     public void verifyLocateFile()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site).createFile(file).assertThat().existsInRepo();
+        getCmisApi().usingSite(site.get())
+            .createFile(file).assertThat().existsInRepo();
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
-                .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
+            .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
             .usingContent(file)
-                .clickLocate().assertDocumentsRootBreadcrumbIsDisplayed();
-        documentLibraryPage2.usingContent(file)
-            .assertContentIsDisplayed().assertContentIsHighlighted();
+            .clickLocate();
+        documentLibraryPage.usingContent(file).assertContentIsHighlighted();
     }
 
     @Bug (id = "MNT-17556")
@@ -60,15 +66,26 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
     public void verifyLocateFolderDetailedView() throws Exception
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFolder(folder).assertThat().existsInRepo();
-        restApi.withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
+        getCmisApi().usingSite(site.get()).createFolder(folder).assertThat().existsInRepo();
+        getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
-        documentLibraryPage2.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
-                .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
+            .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
             .usingContent(folder)
-                .clickLocate().assertDocumentsRootBreadcrumbIsDisplayed();
-        documentLibraryPage2.usingContent(folder)
-            .assertContentIsDisplayed().assertContentIsHighlighted();
+            .clickLocate();
+        documentLibraryPage.usingContent(folder).assertContentIsHighlighted();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void deleteSite()
+    {
+        deleteSites(site.get());
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanup()
+    {
+        removeUserFromAlfresco(user);
     }
 }

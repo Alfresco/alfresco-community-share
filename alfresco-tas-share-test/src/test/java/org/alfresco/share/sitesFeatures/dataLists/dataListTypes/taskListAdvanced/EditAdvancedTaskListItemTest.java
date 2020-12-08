@@ -1,5 +1,6 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvanced;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -28,10 +29,10 @@ import org.testng.annotations.Test;
  */
 public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     EditItemPopUp editItemPopUp;
 
     String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());

@@ -1,61 +1,50 @@
 package org.alfresco.po.share;
 
 import org.alfresco.utility.model.ContentModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.context.annotation.Primary;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-/**
- * Created by Claudia Agache on 8/9/2016.
- */
-@Primary
-@PageObject
-public class DeleteDialog extends ShareDialog
+public class DeleteDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    @FindBy (css = "#prompt .ft .button-group>span:nth-of-type(1) button")
-    public WebElement deleteButton;
-
+    public By deleteButton = By.cssSelector("#prompt .ft .button-group>span:nth-of-type(1) button");
     @RenderWebElement
-    @FindBy (id = "prompt_h")
-    private WebElement dialogHeader;
+    private final By dialogHeader = By.id("prompt_h");
+    private final By cancelButton = By.cssSelector("span[class*='default'] button");
+    private final By message = By.cssSelector("#prompt_h + div.bd");
+    private final By dialogBody = By.id("prompt_c");
 
-    @FindBy (css = "span[class*='default'] button")
-    private WebElement cancelButton;
-
-    @FindBy (css = "#prompt_h + div.bd")
-    private WebElement message;
-
-    private By dialogBody = By.id("prompt_c");
+    public DeleteDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getHeader()
     {
-        return dialogHeader.getText();
+        return getBrowser().findElement(dialogHeader).getText();
     }
 
     public DeleteDialog assertDeleteDialogHeaderEqualsTo(String expectedHeader)
     {
         LOG.info("Assert dialog header equals to {}", expectedHeader);
-        assertEquals(dialogHeader.getText(), expectedHeader, String.format("Dialog header is not equals to %s", expectedHeader));
+        assertEquals(getElementText(dialogHeader), expectedHeader, String.format("Dialog header is not equals to %s", expectedHeader));
         return this;
     }
 
     public String getMessage()
     {
-        return message.getText();
+        return getBrowser().findElement(message).getText();
     }
 
     public DeleteDialog assertConfirmDeleteMessageForContentEqualsTo(String deletedObject)
     {
         LOG.info("Assert confirm delete message is correct for content {}", deletedObject);
-        assertEquals(message.getText(), String.format(language.translate("confirmDeletion.message"), deletedObject),
-            "Delete confirm message is correct");
+        assertEquals(getElementText(message), String.format(language.translate("confirmDeletion.message"), deletedObject),
+                "Delete confirm message is correct");
         return this;
     }
 
@@ -67,51 +56,56 @@ public class DeleteDialog extends ShareDialog
     public DeleteDialog assertConfirmDeleteMessageEqualsTo(String expectedMessage)
     {
         LOG.info("Assert confirm delete message equals with expected {}", expectedMessage);
-        assertEquals(message.getText(), expectedMessage, String.format("Delete confirm message not equals to %s", expectedMessage));
+        assertEquals(getElementText(message), expectedMessage, String.format("Delete confirm message not equals to %s", expectedMessage));
         return this;
     }
 
     public void clickDelete()
     {
         LOG.info("Click Delete");
-        browser.waitUntilElementClickable(deleteButton).click();
+        getBrowser().waitUntilElementClickable(deleteButton).click();
         waitUntilNotificationMessageDisappears();
+        if(getBrowser().isElementDisplayed(MESSAGE_LOCATOR))
+        {
+            LOG.info("Wait for the second message");
+            waitUntilNotificationMessageDisappears();
+        }
     }
 
     public <T> SharePage clickDelete(SharePage page)
     {
         getBrowser().waitUntilElementClickable(deleteButton).click();
-        waitUntilMessageDisappears();
+        waitUntilNotificationMessageDisappears();
         return (SharePage) page.renderedPage();
     }
 
     public void clickCancel()
     {
-        browser.waitUntilElementClickable(cancelButton).click();
-        browser.waitUntilElementDisappears(dialogBody);
+        getBrowser().waitUntilElementClickable(cancelButton).click();
+        getBrowser().waitUntilElementDisappears(dialogBody);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return browser.isElementDisplayed(cancelButton);
+        return getBrowser().isElementDisplayed(cancelButton);
     }
 
     public boolean isDeleteButtonDisplayed()
     {
-        return browser.isElementDisplayed(deleteButton);
+        return getBrowser().isElementDisplayed(deleteButton);
     }
 
     public DeleteDialog assertDeleteButtonIsDisplayed()
     {
         LOG.info("Assert Delete button is displayed");
-        assertTrue(browser.isElementDisplayed(deleteButton), "Delete button is displayed.");
+        assertTrue(getBrowser().isElementDisplayed(deleteButton), "Delete button is displayed.");
         return this;
     }
 
     public DeleteDialog assertCancelButtonIsDisplayed()
     {
         LOG.info("Assert Cancel button is displayed");
-        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed.");
+        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is displayed.");
         return this;
     }
 }

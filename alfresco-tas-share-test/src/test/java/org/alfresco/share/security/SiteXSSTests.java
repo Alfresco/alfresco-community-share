@@ -18,14 +18,12 @@ import org.testng.annotations.Test;
 
 public class SiteXSSTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private CreateSiteDialog createSiteDialog;
 
-    @Autowired
+    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
-    @Autowired
-    private UserDashboardPage userDashboardPage;
 
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private String testUser = "TestUser_" + uniqueIdentifier;
@@ -78,7 +76,7 @@ public class SiteXSSTests extends ContextAwareWebTest
         String siteId = "test" + RandomData.getRandomAlphanumeric();
         String expectedRelativePath = "share/page/site/" + XSSName + "/dashboard";
 
-        userDashboardPage.navigate(testUser);
+        userDashboard.navigate(testUser);
 
         LOG.info("STEP 1: Navigate to the Sites drop-down menu and select Create site link;");
         createSiteDialog.navigateByMenuBar();
@@ -111,7 +109,7 @@ public class SiteXSSTests extends ContextAwareWebTest
     {
         String siteName = "test" + RandomData.getRandomAlphanumeric();
 
-        userDashboardPage.navigate(testUser);
+        userDashboard.navigate(testUser);
 
         LOG.info("STEP 1: Navigate to the Sites drop-down menu and select 'Create site' link;");
         createSiteDialog.navigateByMenuBar();

@@ -36,11 +36,11 @@ public class AddExistingTagTests extends ContextAwareWebTest
     private final String folderName = "folder-C7464-" + random;
     private final String tagName1 = "C7464-1" + random;
     private final String tagName2 = "C7464-2" + random;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)
@@ -71,7 +71,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
     public void addExistingTagFromEditPropertiesDialog()
     {
         LOG.info("STEP1: Hover over the content created in the preconditions. STEP2: Click \"Edit Properties\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_PROPERTIES, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileName), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 

@@ -1,5 +1,6 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventList;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -26,10 +27,10 @@ import org.testng.annotations.Test;
  */
 public class EditEventListItemTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     EditItemPopUp editItemPopUp;
 
     String random = RandomData.getRandomAlphanumeric();

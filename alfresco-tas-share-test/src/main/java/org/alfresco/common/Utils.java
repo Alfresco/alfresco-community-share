@@ -3,12 +3,18 @@ package org.alfresco.common;
 import static java.util.Arrays.asList;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.function.Supplier;
-
 import org.alfresco.utility.Utility;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +26,9 @@ public final class Utils
 {
     protected static final Logger LOG = LoggerFactory.getLogger(Utils.class);
 
-    private static String srcRoot = System.getProperty("user.dir") + File.separator;
-    private static String testDataFolder = srcRoot + "testdata" + File.separator;
+    public static String srcRoot = System.getProperty("user.dir") + File.separator;
+    public static String testDataFolder = srcRoot + "testdata" + File.separator;
+    public static File screenshotFolder = new File("./target/reports/screenshots");
 
     /**
      * Clear control
@@ -171,5 +178,40 @@ public final class Utils
             Utility.waitToLoopTime(1, String.format("Wait for '%s' to get downloaded", fileName));
         }
         return Files.exists(Paths.get(filePath));
+    }
+
+    /**
+     * Method to save screenshot
+     * @param browser browser
+     * @param testMethod test name
+     */
+    public static void saveScreenshot(WebBrowser browser, Method testMethod)
+    {
+        if(!screenshotFolder.exists())
+        {
+            LOG.info("Creating screenshot folder");
+            screenshotFolder.mkdir();
+        }
+
+        File screen = (browser).getScreenshotAs(OutputType.FILE);
+        try
+        {
+            if(testMethod != null)
+            {
+                LOG.info("Generating screenshot for test: {}, # {}",
+                    testMethod.getDeclaringClass().getSimpleName(), testMethod.getName());
+
+                Date date = new Date();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.hhmmss");
+
+                File destination = new File(String.format("%s%s%s_%s.png", screenshotFolder.getAbsolutePath(),
+                    File.separator, testMethod.getDeclaringClass().getSimpleName() + "#" + testMethod.getName(), simpleDateFormat.format(date)));
+                FileUtils.copyFile(screen, destination);
+            }
+        }
+        catch (IOException e)
+        {
+            LOG.error(String.format("Failed to copy screenshot %s", screen.getAbsolutePath()));
+        }
     }
 }

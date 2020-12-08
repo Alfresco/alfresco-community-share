@@ -1,38 +1,43 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.SelectMenuOptions;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class MultiSelectingContentTests extends ContextAwareWebTest
+public class MultiSelectingContentTests extends BaseTest
 {
-    @Autowired
-    private DocumentLibraryPage2 documentLibraryPage;
-
     private UserModel user;
     private SiteModel site;
 
+    private DocumentLibraryPage2 documentLibraryPage;
+
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
-        cmisApi.authenticateUser(user);
-        setupAuthenticatedSession(user);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        documentLibraryPage = new DocumentLibraryPage2(browser);
+        getCmisApi().authenticateUser(user);
+        setupAuthenticatedSession(user);
     }
 
     @TestRail (id = "C7546")
@@ -41,16 +46,16 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFile(testFile).createFolder(testFolder);
+        getCmisApi().usingSite(site).createFile(testFile).createFolder(testFolder);
 
         documentLibraryPage.navigate(site)
             .checkContent(testFolder)
-                .assertSelectedItemsMenuIsEnabled()
+            .assertSelectedItemsMenuIsEnabled()
             .checkContent(testFolder)
-                .assertSelectedItemsMenuIsDisabled()
+            .assertSelectedItemsMenuIsDisabled()
             .checkContent(testFile)
             .checkContent(testFolder)
-                .assertSelectedItemsMenuIsEnabled();
+            .assertSelectedItemsMenuIsEnabled();
     }
 
     @TestRail (id = "C7548")
@@ -60,7 +65,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         FileModel textFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site)
+        getCmisApi().usingSite(site)
             .createFolder(folder)
             .createFile(textFile)
             .createFile(xmlFile);
@@ -68,8 +73,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(site)
             .clickSelectMenu()
             .selectOptionFromSelectMenu(SelectMenuOptions.DOCUMENTS)
-                .assertContentsAreChecked(xmlFile, textFile)
-                .assertContentsAreNotChecked(folder)
+            .assertContentsAreChecked(xmlFile, textFile)
+            .assertContentsAreNotChecked(folder)
             .assertSelectedItemsMenuIsEnabled()
             .clickSelectedItems()
             .assertActionsInSelectedItemsMenuEqualTo(
@@ -82,8 +87,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
         documentLibraryPage.clickSelectMenu()
             .selectOptionFromSelectMenu(SelectMenuOptions.FOLDERS)
-                .assertContentsAreChecked(folder)
-                .assertContentsAreNotChecked(xmlFile, textFile)
+            .assertContentsAreChecked(folder)
+            .assertContentsAreNotChecked(xmlFile, textFile)
             .assertSelectedItemsMenuIsEnabled()
             .clickSelectedItems()
             .assertActionsInSelectedItemsMenuEqualTo(
@@ -95,8 +100,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
         documentLibraryPage.clickSelectMenu()
             .selectOptionFromSelectMenu(SelectMenuOptions.INVERT_SELECTION)
-                .assertContentsAreChecked(textFile, xmlFile)
-                .assertContentsAreNotChecked(folder);
+            .assertContentsAreChecked(textFile, xmlFile)
+            .assertContentsAreNotChecked(folder);
         documentLibraryPage.clickSelectMenu()
             .selectOptionFromSelectMenu(SelectMenuOptions.ALL)
             .assertContentsAreChecked(xmlFile, textFile, folder);
@@ -111,16 +116,16 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     {
         FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel file2 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(site)
+        getCmisApi().usingSite(site)
             .createFile(file1)
             .createFile(file2);
 
         documentLibraryPage.navigate(site)
             .checkContent(file1, file2)
-                .clickSelectedItems()
-                    .clickStartWorkflowFromSelectedItems()
-                    .selectWorkflowType(WorkflowType.NewTask)
-                    .assertItemsAreDisplayed(file1, file2);
+            .clickSelectedItems()
+            .clickStartWorkflowFromSelectedItems()
+            .selectWorkflowType(WorkflowType.NewTask)
+            .assertItemsAreDisplayed(file1, file2);
     }
 
     @TestRail (id = "C7554")
@@ -129,15 +134,22 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(site).createFile(testFile).createFolder(testFolder);
+        getCmisApi().usingSite(site).createFile(testFile).createFolder(testFolder);
 
         documentLibraryPage.navigate(site)
             .checkContent(testFolder, testFile)
             .clickSelectedItems()
             .clickDeleteFromSelectedItems()
-                .clickDelete();
+            .clickDelete();
 
         documentLibraryPage.usingContent(testFile).assertContentIsNotDisplayed();
         documentLibraryPage.usingContent(testFolder).assertContentIsNotDisplayed();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanup()
+    {
+        removeUserFromAlfresco(user);
+        deleteSites(site);
     }
 }

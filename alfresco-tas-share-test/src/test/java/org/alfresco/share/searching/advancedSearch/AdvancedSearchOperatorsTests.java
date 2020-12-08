@@ -26,16 +26,16 @@ import org.testng.annotations.Test;
  */
 public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
     @Autowired
     MyDocumentsDashlet myDocumentsDashlet;
 
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
 
-    @Autowired
+    //@Autowired
     UserDashboardPage userDashboardPage;
 
     private String user1 = String.format("user1%s", RandomData.getRandomAlphanumeric());

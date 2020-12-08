@@ -22,13 +22,13 @@ import static org.testng.Assert.assertTrue;
 
 public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActivitiesDashlet<T>>
 {
-    @Autowired
+    //@Autowired
     protected UserProfilePage userProfilePage;
 
-    @Autowired
+    //@Autowired
     protected SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     protected DocumentDetailsPage documentDetailsPage;
 
     @RenderWebElement

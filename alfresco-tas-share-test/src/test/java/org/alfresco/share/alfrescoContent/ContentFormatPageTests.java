@@ -20,13 +20,13 @@ import org.testng.annotations.Test;
  */
 public class ContentFormatPageTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
     CommentPage commentPage;
-    @Autowired
+    //@Autowired
     TinyMceEditor commentBox;
 
     private String userName = "user" + RandomData.getRandomAlphanumeric();

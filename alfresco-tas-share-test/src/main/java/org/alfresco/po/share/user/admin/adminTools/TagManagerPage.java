@@ -1,71 +1,42 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.alfresco.common.Wait.WAIT_30;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.DeleteDialog;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
-import java.util.List;
-
-/**
- * @author Laura.Capsa
- */
-@PageObject
-public class TagManagerPage extends AdminToolsPage
+public class TagManagerPage extends SharePage2<TagManagerPage>
 {
     private final By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
     private final By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
+    private final By tableTitle = By.cssSelector(".tags-List>.title");
+    private final By tableHead = By.cssSelector(".dashlet thead");
+    private final By nextLink = By.cssSelector("a[id*='next-link']");
+    private final By pagesList = By.cssSelector("div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page");
+    private final By currentPage = By.cssSelector("span[class*='current-page']");
+
+    @RenderWebElement
+    private final By searchInput = By.cssSelector("input[id$='search-text']");
+
+    @RenderWebElement
+    private final By searchButton = By.cssSelector(".search-button button");
+    private final By noFoundMessage = By.cssSelector("div[class='tags-list-info']");
 
     private String tagRow = "//b[text()='%s']/../../../../..";
 
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private EditTagDialog editTagDialog;
-
-    @FindBy (css = ".tags-List>.title")
-    private WebElement tableTitle;
-
-    @FindBy (css = "div[class='dashlet tags-List'] .yui-dt-message")
-    private WebElement loadingTagsMessage;
-
-    @FindBy (css = ".dashlet thead")
-    private WebElement tableHead;
-
-    @FindBy (css = "a[id*='next-link']")
-    private WebElement nextLink;
-
-    @FindBy (css = "span[id*='next-span']")
-    private WebElement nextLinkDisabled;
-
-    @FindBy (css = "a[id*='prev-link']")
-    private WebElement previousLink;
-
-    @FindBy (css = "span[id*='prev-span']")
-    private WebElement previousLinkDisabled;
-
-    @FindBy (css = "div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page")
-    private List<WebElement> pagesList;
-
-    @FindBy (css = "span[class*='current-page']")
-    private WebElement currentPage;
-
-    @RenderWebElement
-    @FindBy (css = "input[id*='search']")
-    private WebElement searchInput;
-
-    @RenderWebElement
-    @FindBy (css = "button[id*='search']")
-    private WebElement searchButton;
-
-    @FindBy (css = "div[class='tags-list-info']")
-    private WebElement noFoundMessage;
+    public TagManagerPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -73,54 +44,45 @@ public class TagManagerPage extends AdminToolsPage
         return "share/page/console/admin-console/tag-management";
     }
 
-    /**
-     * Click 'Edit Tag' icon for a tag
-     *
-     * @param tag to be edited
-     * @return the edit tag dialog
-     */
     public EditTagDialog clickEdit(String tag)
     {
         LOG.info(String.format("Click edit for tag: %s", tag));
         WebElement tagRow = getTagRow(tag);
-        browser.mouseOver(searchInput);
-        browser.mouseOver(tagRow);
-        browser.waitUntilElementVisible(editIconSelector);
-        browser.waitUntilElementVisible(tagRow.findElement(editIconSelector)).click();
-        return (EditTagDialog) editTagDialog.renderedPage();
+        getBrowser().mouseOver(getBrowser().findElement(searchInput));
+        getBrowser().mouseOver(tagRow);
+        WebElement editButton = getBrowser().waitUntilChildElementIsPresent(tagRow, editIconSelector);
+        editButton.click();
+
+        return (EditTagDialog) new EditTagDialog(browser).renderedPage();
     }
 
-    /**
-     * Click 'Delete Tag' icon for a tag
-     *
-     * @param tag to be deleted
-     * @return the delete tag dialog
-     */
     public DeleteDialog clickDelete(String tag)
     {
         LOG.info(String.format("Click delete for tag: %s", tag));
         WebElement tagRow = getTagRow(tag);
-        browser.mouseOver(searchInput);
-        browser.mouseOver(tagRow);
-        browser.waitUntilElementVisible(tagRow.findElement(deleteIconSelector)).click();
-        return (DeleteDialog) deleteDialog.renderedPage();
+        getBrowser().mouseOver(getBrowser().findElement(searchInput));
+        getBrowser().mouseOver(tagRow);
+        WebElement deleteButton = tagRow.findElement(deleteIconSelector);
+        getBrowser().waitUntilElementClickable(deleteButton).click();
+
+        return (DeleteDialog) new DeleteDialog(browser).renderedPage();
     }
 
     private WebElement getTagRow(String tagName)
     {
-        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(tagRow, tagName)), 1, WAIT_30);
+        return getBrowser().waitUntilElementVisible(By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
     public boolean isTagDisplayed(String tagName)
     {
-        return browser.isElementDisplayed(By.xpath(String.format(tagRow, tagName)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
     private TagManagerPage clickNextPage()
     {
-        if (!currentPage.getText().equals(Integer.toString(pagesList.size())))
+        if (!getElementText(currentPage).equals(Integer.toString(getBrowser().findElements(pagesList).size())))
         {
-            nextLink.click();
+            clickElement(nextLink);
         }
         return (TagManagerPage) this.renderedPage();
     }
@@ -128,82 +90,91 @@ public class TagManagerPage extends AdminToolsPage
     public TagManagerPage assertSearchButtonIsDisplayed()
     {
         LOG.info("Assert Search button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public TagManagerPage assertSearchInputFieldDisplayed()
     {
         LOG.info("Assert Search input is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(searchInput), "Search input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(searchInput), "Search input is displayed");
         return this;
     }
 
     public TagManagerPage assertTableTitleIsCorrect()
     {
         LOG.info(String.format("Assert tags table title is: %s", language.translate("tagManager.tableTitle")));
-        Assert.assertEquals(tableTitle.getText(), language.translate("tagManager.tableTitle"), "Table title");
+        assertEquals(getElementText(tableTitle), language.translate("tagManager.tableTitle"), "Table title");
         return this;
     }
 
     public TagManagerPage assertTableHeadersAreCorrect()
     {
         LOG.info("Assert tag table headers are correct");
-        Assert.assertEquals(tableHead.getText(), language.translate("tagManager.tableHead"), "Table headers");
+        assertEquals(getBrowser().waitUntilElementVisible(tableHead).getText(),
+            language.translate("tagManager.tableHead"), "Table headers");
         return this;
     }
 
-    /**
-     * Search by a specific tag name
-     *
-     * @param tagName - tag name
-     */
     public TagManagerPage searchTagWithRetry(String tagName)
     {
-        LOG.info(String.format("Search for tag: %s", tagName));
-        search(tagName);
+        searchTag(tagName);
         boolean found = isTagDisplayed(tagName);
         int retryCount = 0;
-        while(!found && retryCount < WAIT_30)
+        while(!found && retryCount < WAIT_30.getValue())
         {
             Utility.waitToLoopTime(1);
-            LOG.error(String.format("Wait for tag %s to be displayed - retry: %s", tagName, retryCount));
-            clickSearchAndWaitForTagTableToBeLoaded();
+            LOG.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCount);
+            searchTag(tagName);
             found = isTagDisplayed(tagName);
             retryCount++;
         }
         return this;
     }
 
-    private void clickSearchAndWaitForTagTableToBeLoaded()
+    private void clickSearch()
     {
-        browser.mouseOver(searchButton);
-        browser.clickJS(searchButton);
-        if(!browser.isElementDisplayed(noFoundMessage))
+        WebElement search = getBrowser().findElement(searchButton);
+        getBrowser().mouseOver(search);
+        try
         {
-            browser.waitUntilElementHasAttribute(loadingTagsMessage, "style", "display: none;");
+            getBrowser().waitUntilElementClickable(search).click();
+        }
+        catch (ElementClickInterceptedException e)
+        {
+            LOG.error("Failed to click Search button. Retry ");
+            getBrowser().clickJS(search);
         }
     }
 
-    public TagManagerPage search(String tagName)
+    public TagManagerPage searchTag(String tagName)
     {
-        browser.waitUntilElementVisible(searchInput);
-        clearAndType(searchInput, tagName);
-        clickSearchAndWaitForTagTableToBeLoaded();
-        return (TagManagerPage) this.renderedPage();
+        LOG.info("Search for tag {}", tagName);
+        WebElement input = getBrowser().waitUntilElementVisible(searchInput);
+        clearAndType(input, tagName);
+        clickSearch();
+        return this;
     }
 
     public TagManagerPage assertTagIsDisplayed(String tag)
     {
         LOG.info(String.format("Assert tag %s is displayed", tag));
-        Assert.assertTrue(isTagDisplayed(tag), String.format("Tag %s was found", tag));
+        assertTrue(isTagDisplayed(tag), String.format("Tag %s was found", tag));
         return this;
     }
 
     public TagManagerPage assertTagIsNotDisplayed(String tag)
     {
         LOG.info(String.format("Assert tag %s is NOT displayed", tag));
-        Assert.assertFalse(isTagDisplayed(tag), String.format("Tag %s was found", tag));
+        assertFalse(isTagDisplayed(tag), String.format("Tag %s was found", tag));
+        return this;
+    }
+
+    public TagManagerPage assertNoTagFoundMessageIsDisplayed()
+    {
+        LOG.info("Assert No tag found message is displayed");
+        getBrowser().waitUntilElementVisible(noFoundMessage);
+        assertTrue(getBrowser().isElementDisplayed(noFoundMessage), "No tag found message is not displayed");
         return this;
     }
 }

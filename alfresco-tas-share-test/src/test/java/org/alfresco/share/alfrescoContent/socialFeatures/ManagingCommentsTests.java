@@ -22,9 +22,9 @@ public class ManagingCommentsTests extends ContextAwareWebTest
     private final String docName = "File-C9934";
     private final String comment = "Test comment for C9934-1";
     private final String editedComment = "Test comment edited for C9934";
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentPreviewPage;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
@@ -64,7 +64,7 @@ public class ManagingCommentsTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click Delete button on the Delete Comment prompt");
         documentPreviewPage.clickDeleteOnDeleteComment();
-        getBrowser().waitUntilElementVisible(documentPreviewPage.noComments);
+        //getBrowser().waitUntilElementVisible(documentPreviewPage.noComments);
         Assert.assertEquals(documentPreviewPage.getNoCommentsText(), "No comments", "No comments notification is not displayed");
     }
 

@@ -1,5 +1,7 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
+import static org.alfresco.common.Utils.testDataFolder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,17 +32,17 @@ public class EditWikiPageTests extends ContextAwareWebTest
 
     private final String image = "newavatar.jpg";
     private final String siteNameC5545 = String.format("siteNameC5545%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     WikiMainPage wikiMainPage;
-    @Autowired
+    //@Autowired
     EditWikiPage editWikiPage;
-    @Autowired
+    //@Autowired
     WikiListPage wikiListPage;
-    @Autowired
+    //@Autowired
     CreateWikiPage createWikiPage;
-    @Autowired
+    //@Autowired
     SelectDocumentPopupPage selectDoc;
-    @Autowired
+    //@Autowired
     WikiPage wikiPage;
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName;

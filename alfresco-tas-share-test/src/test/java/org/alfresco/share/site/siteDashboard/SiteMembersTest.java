@@ -13,9 +13,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * @author Laura.Capsa
- */
 public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
 {
     private static final String EXPECTED_TITLE = "siteMembers.dashletTitle";
@@ -82,7 +79,7 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
 
         siteMembersDashlet
             .navigateToProfilePageOfGivenUser(userModel.getFirstName()
-                .concat(EMPTY_SPACE).concat(userModel.getLastName()))
+                    .concat(EMPTY_SPACE).concat(userModel.getLastName()))
             .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
     }
 
@@ -91,7 +88,8 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
     public void shouldDisplayAllCreatedUsersInSiteMembersPage()
     {
         ListUserWithRoles userRoles = dataUser
-            .addUsersWithRolesToSite(siteModel, UserRole.SiteCollaborator,
+            .addUsersWithRolesToSite(siteModel,
+                UserRole.SiteCollaborator,
                 UserRole.SiteConsumer,
                 UserRole.SiteContributor);
 

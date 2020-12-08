@@ -13,7 +13,6 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 
@@ -36,23 +35,21 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
     private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
-    @Autowired
-    AdminToolsPage adminToolsPage;
-    @Autowired
+    //@Autowired
     ModelManagerPage modelManagerPage;
-    @Autowired
+   // @Autowired
     CreateModelDialogPage createModelDialogPage;
-    @Autowired
+    //@Autowired
     ModelDetailsPage modelDetailsPage;
-    @Autowired
+    //@Autowired
     CreateCustomTypeDialog createCustomTypeDialog;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     private ChangeContentTypeDialog changeContentTypeDialog;
-    @Autowired
+    //@Autowired
     private EditPropertiesPage editPropertiesPage;
 
     @BeforeClass (alwaysRun = true)
@@ -90,7 +87,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Select 'Article' from 'New Type' dropdown and click 'Cancel' button");
         changeContentTypeDialog.selectOption("Smart Folder Template");
-        changeContentTypeDialog.clickButton("Cancel");
+        changeContentTypeDialog.clickCancelButton();
         ArrayList<String> propertiesList = new ArrayList<>(Arrays.asList("Template Name:", "Primary Image:", "Secondary Image:", "Related Articles:"));
         assertEquals(documentDetailsPage.checkPropertiesAreNotDisplayed(propertiesList), "Given list isn't displayed", " property displayed.");
 
@@ -108,7 +105,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 
         LOG.info("STEP1: Verify folder's Properties list from 'Folder Actions' section");
@@ -128,12 +125,10 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         documentDetailsPage.clickDocumentActionsOption("Change Type");
         assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
         assertTrue(changeContentTypeDialog.isDropdownMandatory(), "'New Type' dropdown is mandatory.");
-        assertTrue(changeContentTypeDialog.isButtonDisplayed("OK"), "'OK' button is displayed.");
-        assertTrue(changeContentTypeDialog.isButtonDisplayed("Cancel"), "'Cancel' button is displayed.");
 
         LOG.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("ws:website");
-        changeContentTypeDialog.clickButton("OK");
+        changeContentTypeDialog.clickOkButton();
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
 
@@ -175,7 +170,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
 
         LOG.info("STEP5: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("Smart Folder Template");
-        changeContentTypeDialog.clickButton("OK");
+        changeContentTypeDialog.clickOkButton();
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
 

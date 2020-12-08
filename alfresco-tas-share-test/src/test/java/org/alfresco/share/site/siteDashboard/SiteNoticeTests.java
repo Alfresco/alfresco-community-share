@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteNoticeDashlet;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -19,6 +20,9 @@ import org.testng.annotations.Test;
  */
 public class SiteNoticeTests extends AbstractSiteDashboardDashletsTests
 {
+    //@Autowired
+    SiteDashboardPage siteDashboardPage;
+
     private static final String EXPECTED_TITLE = "siteNoticeDashlet.title";
     private static final String EXPECTED_BALLOON_MESSAGE = "siteNoticeDashlet.helpBalloonMessage";
     private static final String TITLE = "title".concat(randomAlphabetic(3));

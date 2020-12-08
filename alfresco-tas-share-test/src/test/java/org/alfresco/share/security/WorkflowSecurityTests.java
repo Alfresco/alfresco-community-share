@@ -47,8 +47,6 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
         "<form id=\"test\" /><button form=\"test\" formaction=\"javascript:alert(1)\">X"
     };
     @Autowired
-    UserDashboardPage userDashboardPage;
-    @Autowired
     WorkflowService workflowService;
     @Autowired
     EditTaskPage editTaskPage;
@@ -56,13 +54,13 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     MyTasksDashlet myTasksDashlet;
     @Autowired
     TaskDetailsPage taskDetailsPage;
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
-    @Autowired
+    //@Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;
     @Autowired
     WorkflowDetailsPage workflowDetailsPage;
@@ -104,11 +102,11 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
             LOG.info("STEP2: Into Your \"Response\" - \"Comment\" enter each XSS attack from the list. XSS attack: " + xssString);
             editTaskPage.writeComment(xssString);
             LOG.info("STEP3: Click \"Save and Close\" button");
-            editTaskPage.clickOnSaveButton(userDashboardPage);
+            //editTaskPage.clickOnSaveButton(userDashboardPage);
             Assert.assertTrue(myTasksDashlet.isTaskPresent(taskMessage), "Task is not present in \"My task\" dashlet");
             myTasksDashlet.viewTask(taskMessage);
             Assert.assertEquals(taskDetailsPage.getComment(), xssString, "Comment was not saved.");
-            userDashboardPage.navigate(testUser);
+            userDashboard.navigate(testUser);
         }
     }
 
@@ -171,7 +169,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
 
             LOG.info("STEP 3: Click Reject button;");
             editTaskPage.clickRejectButton();
-            Assert.assertTrue(userDashboardPage.isNewAlfrescoLogoDisplayed(), "The User Dashboard page is not opened");
+            Assert.assertTrue(userDashboard.isNewAlfrescoLogoDisplayed(), "The User Dashboard page is not opened");
 
         }
 
@@ -189,7 +187,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
             Assert.assertTrue(editTaskPage.getEditTaskHeader().contains("Rejected"), "Edit Task page is not opened");
 
             LOG.info("STEP 7: Click Task Done button;");
-            editTaskPage.clickTaskDoneButton(workflowDetailsPage);
+            editTaskPage.clickTaskDoneButton();
             Assert.assertEquals(workflowDetailsPage.getRecentOutcome(), "Task Done", "Workflow Details page is not opened");
 
             workflowsIveStartedPage.navigate();
@@ -209,7 +207,6 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
         if (!myTasksDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.MY_TASKS))
         {
             userService.addDashlet(testUser, password, UserDashlet.MY_TASKS, DashletLayout.THREE_COLUMNS, 2, 2);
-            userDashboardPage.refresh();
         }
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "'My Tasks' dashlet is not displayed in user's dashboard.");
     }

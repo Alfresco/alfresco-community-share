@@ -1,48 +1,27 @@
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.site.members.AddSiteUsersPage;
-import org.alfresco.po.share.site.members.SiteMembersPage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Link;
 
-public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
+public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 {
-    public By waitPopup = By.cssSelector(".wait");
-
-    @FindBy (css = "img.alf-user-icon")
-    protected Button addUser;
-
-    @FindBy (css = "#HEADER_SITE_DASHBOARD a")
-    protected Link dashboard;
-
-    @FindBy (css = "#HEADER_SITE_DOCUMENTLIBRARY a")
-    protected Link documentLibrary;
-
-    @FindBy (css = "#HEADER_SITE_MEMBERS a")
-    protected Link members;
-
-    @FindBy (id = "HEADER_SITE_CONFIGURATION_DROPDOWN")
-    protected WebElement siteConfiguration;
-
-    @FindBy (css = "span[id='HEADER_MY_FILES_text'] a")
-    protected WebElement myFilesButton;
-
-    @FindBy (css = "span[id='HEADER_REPOSITORY_text'] a")
-    protected WebElement repositoryButton;
-    @FindBy (css = "#yui-gen48")
-    protected WebElement okErrorDialogButton;
-    private String currentSiteName;
-    @FindBy (css = "h1[id='HEADER_TITLE'] a.alfresco-navigation-_HtmlAnchorMixin")
-    private WebElement siteName;
-
+    protected By waitPopup = By.cssSelector(".wait");
+    protected By addUser = By.cssSelector("img.alf-user-icon");
+    protected By dashboard = By.cssSelector("#HEADER_SITE_DASHBOARD a");
+    protected By documentLibrary = By.cssSelector("#HEADER_SITE_DOCUMENTLIBRARY a");
+    protected By members = By.cssSelector("#HEADER_SITE_MEMBERS a");
+    protected By siteConfiguration = By.id("HEADER_SITE_CONFIGURATION_DROPDOWN");
+    protected By siteName = By.cssSelector("h1[id='HEADER_TITLE'] a.alfresco-navigation-_HtmlAnchorMixin");
     protected By configurationOptions = By.cssSelector("div[style*='visible'] tr[id^='HEADER']>td[id$='text']");
+
+    private String currentSiteName;
+
+    public SiteCommon(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getCurrentSiteName()
     {
@@ -56,81 +35,52 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 
     public void clickSiteConfiguration()
     {
-        siteConfiguration.click();
-        browser.waitUntilElementsVisible(configurationOptions);
+        getBrowser().findElement(siteConfiguration).click();
+        getBrowser().waitUntilElementsVisible(configurationOptions);
     }
 
     public boolean isWaitPopupDisplayed()
     {
-        return browser.isElementDisplayed(waitPopup);
+        return getBrowser().isElementDisplayed(waitPopup);
     }
 
-    public SiteMembersPage clickSiteMembers()
+    public void clickSiteMembers()
     {
-        while (isWaitPopupDisplayed() == true)
+        while (isWaitPopupDisplayed())
         {
-            browser.waitUntilElementDisappears(waitPopup);
+            getBrowser().waitUntilElementDisappears(waitPopup);
         }
-        members.click();
-        return new SiteMembersPage();
+        getBrowser().findElement(members).click();
     }
 
-    /**
-     * Check if Site Members link is displayed
-     *
-     * @return true if it is displayed or false if is not.
-     */
     public boolean isSiteMembersLinkDisplayed()
     {
-        return browser.isElementDisplayed(members);
+        return getBrowser().isElementDisplayed(members);
     }
 
-    /**
-     * Click on the Site Dashboard Link
-     *
-     * @return SiteDashboardPage
-     */
-    public SiteDashboardPage clickSiteDashboard()
+    public void clickSiteDashboard()
     {
-        dashboard.click();
-        return new SiteDashboardPage();
+        getBrowser().findElement(dashboard).click();
     }
 
-    /**
-     * Check if Site Dashboard link is displayed
-     *
-     * @return true if it is displayed or false if is not.
-     */
     public boolean isSiteDashboardLinkDisplayed()
     {
-        return browser.isElementDisplayed(dashboard);
+        return getBrowser().isElementDisplayed(dashboard);
     }
 
-    /**
-     * Click on the Document Library Link
-     *
-     * @return DocumentLibraryPage
-     */
-    public DocumentLibraryPage clickDocumentLibrary()
+    public void clickDocumentLibrary()
     {
-        documentLibrary.click();
-        return new DocumentLibraryPage();
+        getBrowser().findElement(documentLibrary).click();
     }
 
-    /**
-     * Check if Document Library link is displayed
-     *
-     * @return true if it is displayed or false if is not.
-     */
     public boolean isDocumentLibraryLinkDisplayed()
     {
-        return browser.isElementDisplayed(documentLibrary);
+        return getBrowser().isElementDisplayed(documentLibrary);
     }
 
-    public AddSiteUsersPage clickAddUsersIcon()
+    public void clickAddUsersIcon()
     {
-        addUser.click();
-        return new AddSiteUsersPage();
+        getBrowser().findElement(addUser).click();
     }
 
     public T navigate(String siteId)
@@ -145,39 +95,14 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
         return (T) navigate().renderedPage();
     }
 
-    /**
-     * Click on the My Files Link
-     *
-     * @return MyFilesPage
-     */
-    public MyFilesPage clickMyFilesLink()
+    public void navigateWithoutRender(SiteModel site)
     {
-        myFilesButton.click();
-        return new MyFilesPage();
-    }
-
-    /**
-     * Click on the Repository Link
-     *
-     * @return Repository
-     */
-    public RepositoryPage clickRepositoryLink()
-    {
-        repositoryButton.click();
-        return new RepositoryPage();
+        setCurrentSiteName(site.getId());
+        navigateWithoutRender();
     }
 
     public String getSiteName()
     {
-        return browser.waitUntilElementVisible(siteName).getText();
-    }
-
-    public void clickOkButtonFromErrorDialogIfDisplayed()
-    {
-        if (getBrowser().isElementDisplayed(okErrorDialogButton))
-        {
-            LOG.info("Click OK button from error dialog");
-            okErrorDialogButton.click();
-        }
+        return getBrowser().waitUntilElementVisible(siteName).getText();
     }
 }

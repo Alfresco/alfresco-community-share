@@ -27,17 +27,17 @@ import org.testng.annotations.Test;
  */
 public class FacetedSearchResultsPageTest extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     SearchManagerPage searchManagerPage;
-    @Autowired
+    //@Autowired
     UserProfilePage userProfilePage;
 
     private String userName = "user" + RandomData.getRandomAlphanumeric();
@@ -96,7 +96,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isResultFoundWithRetry(docName), docName + " is not displayed");
 
         LOG.info("Step 2: Click document name and check that correct document is opened on Document Details page");
-        searchPage.clickContentName(docName, documentDetailsPage);
+        searchPage.clickContentName(docName);
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Document title is not correct");
     }
 
@@ -108,7 +108,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isResultFoundWithRetry(folderName), folderName + " is not displayed");
 
         LOG.info("Step 2: Click folder name");
-        searchPage.clickContentName(folderName, documentLibraryPage);
+        searchPage.clickContentName(folderName);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString());
     }
 
@@ -200,7 +200,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
     {
         LOG.info("Step 1: Search for files then filter by mimeType, check that results are filtered correctly");
         toolbar.search("facetedSearch");
-        searchPage.selectFileTypeFilter("Microsoft Word", searchPage);
+        searchPage.selectFileTypeFilter("Microsoft Word");
         Assert.assertEquals(searchPage.getNumberOfResultsText().substring(0, 1), "2", "Results are not filtered correctly");
     }
 
@@ -223,7 +223,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         searchPage.clickGalleryView();
         Assert.assertTrue(searchPage.getGalleryViewResultsNumber() != 0, "No results are displayed");
         Assert.assertTrue(searchPage.isSearchResultsListInGalleryView(), "Gallery view is not the active view");
-        searchPage.openFileFromGalleryView("Project Overview.ppt", documentDetailsPage);
+        searchPage.openFileFromGalleryView("Project Overview.ppt");
         Assert.assertEquals(documentDetailsPage.getFileName(), "Project Overview.ppt");
     }
 
@@ -256,7 +256,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
         LOG.info("Step 1: Check that user that has been added to search administrators can access the Search Manager page from the Search Results page");
         toolbar.search("ipsum");
         Assert.assertTrue(searchPage.isConfigureSearchButtonDisplayed());
-        searchPage.clickConfigureButton(searchManagerPage);
+        searchPage.clickSearchManagerLink();
         Assert.assertTrue(getBrowser().getTitle().equals("Alfresco » Search Manager"));
     }
 
@@ -265,7 +265,7 @@ public class FacetedSearchResultsPageTest extends ContextAwareWebTest
     {
         LOG.info("Step 1: From the search page click on the modified by link");
         toolbar.search("ipsum");
-        searchPage.clickModifiedBy("Mike Jackson", userProfilePage);
+        searchPage.clickModifiedBy("Mike Jackson");
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User is not redirected to the User Profile page");
 //        Assert.assertEquals(userProfilePage.assertUsernameEquals(), "Mike Jackson", "User name not as expected");
     }

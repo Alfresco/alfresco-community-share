@@ -9,6 +9,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.searching.SearchPage;
+import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
@@ -19,6 +20,7 @@ import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -31,35 +33,35 @@ import org.testng.annotations.Test;
  */
 public class FacetedSearchTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
 
-    @Autowired
+   // @Autowired
     SearchPage searchPage;
 
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
+    //@Autowired
     StartWorkflowPage startWorkflowPage;
 
-    @Autowired
+    //@Autowired
     SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
 
-    @Autowired
+    //@Autowired
     SelectPopUpPage selectPopUpPage;
 
-    @Autowired
+   // @Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired
     MyTasksDashlet myTasksDashlet;
 
-    @Autowired
+    //@Autowired
     UserTrashcanPage userTrashcanPage;
 
-    @Autowired
-    CopyMoveUnzipToDialog copyMoveUnzipToDialog;
+    //@Autowired
+    SearchCopyMoveDialog copyMoveUnzipToDialog;
 
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName = "facetedTestUser-" + uniqueIdentifier;
@@ -208,10 +210,10 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Copy to...");
         LOG.info("STEP3: Copy the selected files to destination site.");
-        copyMoveUnzipToDialog.selectAllSitesDestination();
-        copyMoveUnzipToDialog.selectSite(siteForCopy);
-        copyMoveUnzipToDialog.clickDocumentLibrary();
-        copyMoveUnzipToDialog.clickButton("Copy");
+        //copyMoveUnzipToDialog.selectAllSitesDestination();
+        //copyMoveUnzipToDialog.selectSite(new SiteModel(siteForCopy));
+        //copyMoveUnzipToDialog.clickDocumentLibrary();
+        //copyMoveUnzipToDialog.clickCopyToButton();
         LOG.info("STEP7: Verify that the files have been copied");
         documentLibraryPage.navigate(siteForCopy);
         getBrowser().waitInSeconds(1);
@@ -230,10 +232,10 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Move to...");
         LOG.info("STEP3: Move the selected files to destination site.");
-        copyMoveUnzipToDialog.selectAllSitesDestination();
-        copyMoveUnzipToDialog.selectSite(siteForMove);
-        copyMoveUnzipToDialog.clickDocumentLibrary();
-        copyMoveUnzipToDialog.clickButton("Move");
+       // copyMoveUnzipToDialog.selectAllSitesDestination();
+        //copyMoveUnzipToDialog.selectSite(new SiteModel(siteForMove));
+        //copyMoveUnzipToDialog.clickDocumentLibrary();
+        ////copyMoveUnzipToDialog.clickButton("Move");
         LOG.info("STEP7: Verify that the files has been moved");
         documentLibraryPage.navigate(siteForMove);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docForMove));
@@ -262,7 +264,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         selectAssigneeToWorkflowPopUp.searchUser(userName);
         selectPopUpPage.clickAddIcon("FirstName LastName (" + userName + ")");
         selectAssigneeToWorkflowPopUp.clickOkButton();
-        startWorkflowPage.clickStartWorkflow(searchPage);
+        startWorkflowPage.clickStartWorkflow();
         userDashboardPage.navigate(userName);
         assertTrue(myTasksDashlet.isTaskPresent("FacetedWorkflowDescription"), "Task is not present in Active tasks");
         cleanupAuthenticatedSession();

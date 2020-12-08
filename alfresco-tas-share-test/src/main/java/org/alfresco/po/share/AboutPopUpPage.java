@@ -1,139 +1,78 @@
 package org.alfresco.po.share;
 
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.TextBlock;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 
 import static org.testng.Assert.*;
 
 /**
  * @author Bogdan.Bocancea
  */
-@PageObject
-public class AboutPopUpPage extends ShareDialog
+public class AboutPopUpPage extends BaseDialogComponent
 {
     private final String alfrescoUrl = "https://www.alfresco.com/";
 
     @RenderWebElement
-    @FindBy (css = ".about>.header:nth-child(1)")
-    protected WebElement shareVersion;
-
+    private final By shareVersion = By.cssSelector(".about>.header:nth-child(1)");
     @RenderWebElement
-    @FindBy (css = ".about>div:nth-child(2)")
-    protected TextBlock shareComponentsVersions;
+    private final By shareComponentsVersions = By.cssSelector(".about>div:nth-child(2)");
+    private final By alfrescoVersion = By.cssSelector(".about>.header:nth-child(3)");
+    private final By alfrescoBuildDetails = By.cssSelector(".about>div:nth-child(4)");
+    private final By licenseHolder = By.cssSelector(".about .licenseHolder");
+    private final By contributions = By.cssSelector(".contributions-bg");
+    private final By copyRight = By.cssSelector(".copy > span");
+    private final By alfrescoLink = By.cssSelector(".copy>a:nth-child(2)");
+    private final By legalAndLicenceLink = By.cssSelector(".copy>a:nth-child(3)");
 
-    @RenderWebElement
-    @FindBy (css = ".about>.header:nth-child(3)")
-    protected WebElement alfrescoVersion;
+    public AboutPopUpPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
-    @FindBy (css = ".about>div:nth-child(4)")
-    protected TextBlock alfrescoBuildDetails;
-
-    @RenderWebElement
-    @FindBy (css = ".about .licenseHolder")
-    protected WebElement licenseHolder;
-
-    @FindBy (css = ".contributions-bg")
-    protected WebElement contributions;
-
-    @FindBy (css = ".copy > span")
-    protected TextBlock copyRight;
-
-    @FindBy (css = ".copy>a:nth-child(2)")
-    protected WebElement alfrescoLink;
-
-    @FindBy (css = ".copy>a:nth-child(3)")
-    protected HtmlElement legalAndLicenceLink;
-
-    /**
-     * Get share versions
-     *
-     * @return String share version
-     */
     public String getShareVersion()
     {
-        browser.waitUntilElementVisible(shareVersion);
-        return shareVersion.getText();
+        return getBrowser().waitUntilElementVisible(shareVersion).getText();
     }
 
-    /**
-     * Get share components versions
-     *
-     * @return String share components versions (e.g. Aikau, Spring, Freemarker)
-     */
     public String getShareComponentsVersions()
     {
-        return shareComponentsVersions.getText();
+        return getBrowser().waitUntilElementVisible(shareComponentsVersions).getText();
     }
 
-    /**
-     * Get alfresco version
-     *
-     * @return String alfresco version
-     */
     public String getAlfrescoVersion()
     {
-        browser.waitUntilElementVisible(alfrescoVersion);
-        return alfrescoVersion.getText();
+        return getBrowser().waitUntilElementVisible(alfrescoVersion).getText();
     }
 
-    /**
-     * Get alfresco build details
-     *
-     * @return String alfresco build details
-     */
     public String getAlfrescoBuildDetails()
     {
-        return alfrescoBuildDetails.getText();
+        return getBrowser().findElement(alfrescoBuildDetails).getText();
     }
 
-    /**
-     * Get licence holder
-     *
-     * @return String license holder
-     */
     public String getLicenseHolder()
     {
-        return licenseHolder.getText();
+        return getBrowser().findElement(licenseHolder).getText();
     }
 
-    /**
-     * Verify if contributions section is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isContributionsDisplayed()
     {
-        return contributions.isDisplayed();
+        return getBrowser().isElementDisplayed(contributions);
     }
 
-    /**
-     * Get the copyrights details
-     *
-     * @return String get copyright details
-     */
     public String getCopyRight()
     {
-        return copyRight.getText();
+        return getBrowser().findElement(copyRight).getText();
     }
 
-    /**
-     * Click alfresco link
-     */
     public void clickAlfrescoLink()
     {
-        alfrescoLink.click();
+        getBrowser().waitUntilElementClickable(alfrescoLink).click();
     }
 
-    /**
-     * Click Legal and Licence link
-     */
     public void clickLegalAndLicenceLink()
     {
-        legalAndLicenceLink.click();
+        getBrowser().waitUntilElementClickable(legalAndLicenceLink).click();
     }
 
     public AboutPopUpPage assertClickAlfrescoLink()
@@ -150,19 +89,19 @@ public class AboutPopUpPage extends ShareDialog
     {
         clickLegalAndLicenceLink();
         getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains("https://www.alfresco.com/", 10);
+        getBrowser().waitUrlContains(alfrescoUrl, 10);
         assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
         getBrowser().closeWindowAndSwitchBack();
         return this;
     }
 
-    public AboutPopUpPage assertAlfrescoVersionIsDisplayed()
+    public AboutPopUpPage assertShareVersionIsDisplayed()
     {
         assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
         return this;
     }
 
-    public AboutPopUpPage assertShareVersionIsDisplayed()
+    public AboutPopUpPage assertAlfrescoVersionIsDisplayed()
     {
         assertEquals(getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
         return this;

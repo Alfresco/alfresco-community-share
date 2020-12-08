@@ -19,9 +19,9 @@ import org.testng.annotations.Test;
 
 public class DuplicateAListItemTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     protected EditItemPopUp editItemPopUp;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
     private String userName;
     private String siteName;

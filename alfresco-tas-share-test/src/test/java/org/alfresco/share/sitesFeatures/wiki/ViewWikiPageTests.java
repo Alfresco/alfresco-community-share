@@ -27,19 +27,19 @@ import org.testng.annotations.Test;
 
 public class ViewWikiPageTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WikiMainPage wikiMainPage;
 
-    @Autowired
+    //@Autowired
     EditWikiPage editWikiPage;
 
-    @Autowired
+    //@Autowired
     WikiDetailsPage wikiDetailsPage;
 
-    @Autowired
+   // @Autowired
     WikiListPage wikiListPage;
 
-    @Autowired
+    //@Autowired
     WikiPage wikiPage;
 
     @Autowired

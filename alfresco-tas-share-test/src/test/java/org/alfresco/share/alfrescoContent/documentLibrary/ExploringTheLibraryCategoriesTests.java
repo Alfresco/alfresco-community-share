@@ -18,9 +18,9 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
     private final String user = String.format("C6910User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C6910SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C6910SiteName%s", RandomData.getRandomAlphanumeric());
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentsFilters filters;
 
     @BeforeClass (alwaysRun = true)

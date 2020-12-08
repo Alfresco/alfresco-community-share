@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
  */
 public class LoginXSSTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private LoginPage loginPage;
 
 

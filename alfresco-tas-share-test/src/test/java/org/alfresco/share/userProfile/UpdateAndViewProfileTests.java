@@ -1,34 +1,40 @@
 package org.alfresco.share.userProfile;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UpdateAndViewProfileTests extends ContextAwareWebTest
+public class UpdateAndViewProfileTests extends BaseTest
 {
-    @Autowired
     private UserProfilePage userProfilePage;
-
-    @Autowired
     private EditUserProfilePage editUserPage;
 
     private UserModel user;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        userProfilePage = new UserProfilePage(browser);
+        editUserPage = new EditUserProfilePage(browser);
+
         setupAuthenticatedSession(user);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void cleanup()
     {
         removeUserFromAlfresco(user);
@@ -93,7 +99,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
         userProfilePage.navigate(user)
             .assertDefaultAvatarIsDisplayed()
             .clickEditProfile()
-            .uploadNewPhoto(testDataFolder + "newavatar.jpg")
+            .uploadNewPhoto(Utils.testDataFolder + "newavatar.jpg")
             .clickSave()
             .assertNewAvatarIsDisplayed()
             .clickEditProfile()

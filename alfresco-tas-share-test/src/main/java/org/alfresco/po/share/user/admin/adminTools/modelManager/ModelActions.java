@@ -1,5 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
+import static org.alfresco.common.Wait.WAIT_10;
+import static org.alfresco.common.Wait.WAIT_15;
+
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialog;
 import org.alfresco.rest.model.RestCustomTypeModel;
@@ -7,6 +10,7 @@ import org.alfresco.utility.model.CustomAspectModel;
 import org.alfresco.utility.model.CustomContentModel;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +43,8 @@ public class ModelActions
     private By actions = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']");
     private String modelRow = "//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='%s']/../../../..";
     private By nameValue = By.cssSelector("td[class*='nameColumn'] span[class='value']");
+    private By activeStatus = By.cssSelector("span[class^='status active']");
+    private By inactiveStatus = By.cssSelector("span[class='status alfresco-renderers-Property medium']");
 
     public ModelActions(CustomContentModel contentModel, ModelManagerPage modelManagerPage, EditModelDialog editModelDialog,
                         DeleteModelDialog deleteModelDialog, ModelDetailsPage modelDetailsPage)
@@ -72,8 +78,7 @@ public class ModelActions
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, 1, modelManagerPage.WAIT_5);
-        return getBrowser().findElement(modelRowLocator);
+        return getBrowser().waitWithRetryAndReturnWebElement(modelRowLocator, 1, WAIT_10.getValue());
     }
 
     private WebBrowser getBrowser()
@@ -138,7 +143,9 @@ public class ModelActions
     public ModelActions clickActions()
     {
         LOG.info("Click Actions");
-        getModelRow().findElement(actionsButton).click();
+        WebElement actionButton = getModelRow().findElement(actionsButton);
+        getBrowser().mouseOver(actionButton);
+        getBrowser().waitUntilElementClickable(actionButton).click();
         getBrowser().waitUntilElementsVisible(actions);
         return this;
     }
@@ -156,35 +163,59 @@ public class ModelActions
     public ModelActions activateModel()
     {
         LOG.info("Activate model");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.activate"), modelManagerPage);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.activate"));
+        modelManagerPage.waiUntilLoadingMessageDisappears();
+        waitForContentModelStatus(activeStatus);
         return this;
     }
 
     public ModelActions deactivateModel()
     {
         LOG.info("Activate model");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.deactivate"), modelManagerPage);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.deactivate"));
+        modelManagerPage.waiUntilLoadingMessageDisappears();
+        waitForContentModelStatus(inactiveStatus);
         return this;
+    }
+
+    private void waitForContentModelStatus(By modelStatus)
+    {
+        int i = 0;
+        while(i < WAIT_15.getValue())
+        {
+            try
+            {
+                getBrowser().waitUntilChildElementIsPresent(getModelRow(), modelStatus);
+                break;
+            }
+            catch (StaleElementReferenceException e)
+            {
+                LOG.error("Wait for custom model status to change");
+                i++;
+                continue;
+            }
+        }
     }
 
     public EditModelDialog clickEdit()
     {
         LOG.info("Click Edit");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.edit"), editModelDialog);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.edit"));
         return editModelDialog;
     }
 
     public DeleteModelDialog clickDelete()
     {
         LOG.info("Click Edit");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.delete"), deleteModelDialog);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.delete"));
         return deleteModelDialog;
     }
 
     public ModelActions exportModel()
     {
         LOG.info("Click Edit");
-        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.export"), modelManagerPage);
+        modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.export"));
+        modelManagerPage.waiUntilLoadingMessageDisappears();
         return this;
     }
 

@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class CreateEditReplicationJobPage extends SharePage<CreateEditReplicationJobPage>
 {
-    @Autowired
+    //@Autowired
     ReplicationJobsPage replicationJobsPage;
 
     @FindBy (css = ".form-manager")

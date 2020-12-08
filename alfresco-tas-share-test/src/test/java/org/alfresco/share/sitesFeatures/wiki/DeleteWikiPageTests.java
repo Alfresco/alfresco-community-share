@@ -26,16 +26,16 @@ import org.testng.annotations.Test;
 
 public class DeleteWikiPageTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WikiMainPage wikiMainPage;
 
-    @Autowired
+    //@Autowired
     DeleteDialog deleteWikiPagePopUp;
 
-    @Autowired
+    //@Autowired
     WikiListPage wikiListPage;
 
-    @Autowired
+    //@Autowired
     WikiPage wikiPage;
 
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
@@ -84,7 +84,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete' button");
-        deleteWikiPagePopUp.clickDelete(wikiListPage);
+        deleteWikiPagePopUp.clickDelete();
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
@@ -101,7 +101,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete' button");
-        deleteWikiPagePopUp.clickDelete(wikiListPage);
+        deleteWikiPagePopUp.clickDelete();
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
@@ -121,7 +121,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 3: Click 'Delete' button");
-        deleteWikiPagePopUp.clickDelete(wikiListPage);
+        deleteWikiPagePopUp.clickDelete();
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
@@ -141,7 +141,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete'");
-        deleteWikiPagePopUp.clickDelete(wikiListPage);
+        deleteWikiPagePopUp.clickDelete();
         Assert.assertEquals(wikiListPage.getWikiPageTitlesListSize(), 2, "Wiki page titles list size is: ");
         Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains("Page1") && wikiListPage.getWikiPageTitlesList().contains("Page3"),
             "Pages are not listed.");

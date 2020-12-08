@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 public class CreateDataListsTests extends ContextAwareWebTest
 {
 
-    @Autowired
+    //@Autowired
     private DataListsPage dataListsPage;
 
     @Autowired

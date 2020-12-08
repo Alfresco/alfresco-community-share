@@ -22,13 +22,13 @@ import org.testng.annotations.Test;
  */
 public class CreateNewTopicTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     TopicListPage topicListPage;
 
-    @Autowired
+    //@Autowired
     CreateNewTopicPage createNewTopicPage;
 
-    @Autowired
+   // @Autowired
     TopicViewPage topicViewPage;
 
     private String random = RandomData.getRandomAlphanumeric();

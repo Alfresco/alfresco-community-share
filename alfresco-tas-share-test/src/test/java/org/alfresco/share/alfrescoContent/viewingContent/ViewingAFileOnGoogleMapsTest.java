@@ -1,13 +1,9 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.ContentAspects;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
@@ -21,6 +17,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
 {
     private final String user = String.format("C5920User%s", RandomData.getRandomAlphanumeric());
@@ -30,11 +29,10 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final double longitude = 47.1585;
     private final double latitude = 27.6014;
-    @Autowired
-    PreviewFileActionsSection documentActions;
-    @Autowired
+
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private ContentAspects contentAspects;
@@ -79,7 +77,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
 
         LOG.info("Step 3: Click on View on Google Maps");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_ON_GOOGLE_MAPS, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_ON_GOOGLE_MAPS);
         Assert.assertTrue(documentLibraryPage.isFileOpenedInGoogleMaps(), "File is not opened in Google Maps");
         Assert.assertTrue(documentLibraryPage.isDocumentThumbnailDisplayedOnGoogleMaps(), "Document thumbnail is not displayed in Google Maps");
 

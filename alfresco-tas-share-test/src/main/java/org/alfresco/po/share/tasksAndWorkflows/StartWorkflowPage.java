@@ -1,126 +1,57 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.alfresco.common.Wait;
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertTrue;
-
-@PageObject
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    SelectPopUpPage selectPopUpPage;
-
-    @Autowired
-    UserDashboardPage userDashboardPage;
-
-    @Autowired
-    SelectAssigneePopUp selectAssigneePopUp;
-
-    @Autowired
-    SelectDocumentPopupPage selectDocumentPopupPage;
-
     @RenderWebElement
-    @FindBy (css = "button[id*='default-workflow-definition']")
-    private WebElement startWorkflowDropDown;
+    private final By startWorkflowDropDown = By.cssSelector("button[id*='default-workflow-definition']");
+    private final By workflowForm = By.cssSelector("div[class='form-fields']");
+    private final By selectedReviewerName = By.cssSelector("div[class*='itemtype']");
+    private final By workflowMenu = By.cssSelector("[id*=default-workflow-definition-menu] ul");
+    private final By dropdownOptions = By.cssSelector("[id*=default-workflow-definition-menu] li .title");
+    private final By workflowDescriptionTextarea = By.cssSelector("textarea[id*=workflowDescription]");
+    private final By workflowDueDate = By.cssSelector("input[id*='workflowDueDate-cntrl-date']");
+    private final By workflowDueDateInput = By.cssSelector("input[id$='workflowDueDate']");
+    private final By datePickerIcon = By.cssSelector(".datepicker-icon");
+    private final By chooseWorkflowDate = By.cssSelector("div[id*=workflowDueDate]");
+    private final By workflowPrioritiesList = By.cssSelector("[id*=workflowPriority] option");
+    private final By calendarToday = By.cssSelector("td.today>a");
+    private final By calendar = By.cssSelector("div[id$='workflowDueDate-cntrl']");
+    private final By submitWorkflow = By.cssSelector("button[id*='form-submit']");
+    private final By itemsList = By.cssSelector(".form-field h3 a");
+    private final By selectAssigneeButton = By.cssSelector("div[id$='assignee-cntrl-itemGroupActions'] button");
+    private final By selectAssigneesButton = By.cssSelector("div[id$='assignees-cntrl-itemGroupActions'] button");
+    private final By selectGroupButton = By.cssSelector("div[id$='groupAssignee-cntrl-itemGroupActions'] button");
+    private final By cancelStartWorkflow = By.cssSelector("[id*=form-cancel-button]");
+    private final By taskStatusList = By.cssSelector("[id*=default_prop_bpm_status] option");
+    private final By reassignButton = By.cssSelector("[id*=default-reassign-button]");
+    private final By addItemsButton = By.xpath("//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Add']");
+    private final By removeeAllItemsButton = By.xpath("//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Remove All']");
+    private final By sendEMailNotificationsCheckbox = By.cssSelector("input[id*='sendEMailNotifications'][type='checkbox']");
+    private final By itemsAreaRows = By.cssSelector("div[id$='packageItems-cntrl-currentValueDisplay'] .yui-dt-data>tr");
+    private final String attachedDocumentRow = "//a[text()='%s']/../../../..";
 
-    @FindBy (css = "div[class='form-fields']")
-    private WebElement workflowForm;
-
-    @FindBy (css = "div[class*='itemtype']")
-    private WebElement selectedReviewerName;
-
-    @FindBy (css = "[id*=default-workflow-definition-menu] ul")
-    private WebElement workflowMenu;
-
-    @FindAll (@FindBy (css = "[id*=default-workflow-definition-menu] li .title"))
-    private List<WebElement> dropdownOptions;
-
-    @FindBy (css = "textarea[id*=workflowDescription]")
-    private WebElement workflowDescriptionTextarea;
-
-    @FindBy (css = "input[id*='workflowDueDate-cntrl-date']")
-    private WebElement workflowDueDate;
-
-    @FindBy (css = "input[id$='workflowDueDate']")
-    private WebElement workflowDueDateInput;
-
-    @FindBy (css = ".datepicker-icon")
-    private WebElement datePickerIcon;
-
-    @FindBy (css = "div[id*=workflowDueDate]")
-    private WebElement chooseWorkflowDate;
-
-    @FindBy (css = "[id*=workflowPriority]")
-    private WebElement workflowPriority;
-
-    @FindAll (@FindBy (css = "[id*=workflowPriority] option"))
-    private List<WebElement> workflowPrioritiesList;
-
-    @FindBy (css = "td.today>a")
-    private WebElement calendarToday;
-
-    @FindBy (css = "div[id$='workflowDueDate-cntrl']")
-    private WebElement calendar;
-
-    @FindBy (css = "button[id*='form-submit']")
-    private WebElement submitWorkflow;
-
-    @FindBy (css = ".form-field h3 a")
-    private List<WebElement> itemsList;
-
-    @FindBy (css = "div[id$='assignee-cntrl-itemGroupActions'] button")
-    private WebElement selectAssigneeButton;
-
-    @FindBy (css = "div[id$='assignees-cntrl-itemGroupActions'] button")
-    private WebElement selectAssigneesButton;
-
-    @FindBy (css = "div[id$='groupAssignee-cntrl-itemGroupActions'] button")
-    private WebElement selectGroupButton;
-
-    @FindBy (css = "[id*=form-cancel-button]")
-    private WebElement cancelStartWorkflow;
-
-    @FindAll (@FindBy (css = "[id*=default_prop_bpm_status] option"))
-    private List<WebElement> taskStatusList;
-
-    @FindBy (css = "[id*=default-reassign-button]")
-    private WebElement reassignButton;
-
-    @FindBy (xpath = "//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Add']")
-    private WebElement addItemsButton;
-
-    @FindBy (xpath = "//div[contains(@id,'packageItems-cntrl-itemGroupActions')] //button[text()='Remove All']")
-    private WebElement removeeAllItemsButton;
-
-    @FindBy (css = "input[id*='sendEMailNotifications'][type='checkbox']")
-    private WebElement sendEMailNotificationsCheckbox;
-
-    private By workflowFormArea = By.cssSelector("div[id$='default-startWorkflowForm-alf-id0-form-fields']");
-    private By itemsAreaRows = By.cssSelector("div[id$='packageItems-cntrl-currentValueDisplay'] .yui-dt-data>tr");
-    private String attachedDocumentRow = "//a[text()='%s']/../../../..";
+    public StartWorkflowPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -130,44 +61,46 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public StartWorkflowPage assertStartWorkflowPageIsOpened()
     {
-        assertTrue(browser.isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
+        assertTrue(getBrowser().isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
         return this;
     }
 
     public String getSelectedReviewerName()
     {
-        return selectedReviewerName.getText();
+        return getElementText(selectedReviewerName);
     }
 
     public void selectAWorkflow(String workflow)
     {
         if (!isWorkflowMenuVisible())
         {
-            startWorkflowDropDown.click();
+            getBrowser().waitUntilElementClickable(startWorkflowDropDown).click();
         }
-        browser.waitUntilElementVisible(workflowMenu);
-        browser.selectOptionFromFilterOptionsList(workflow, dropdownOptions);
-        browser.waitUntilElementVisible(workflowFormArea);
+        getBrowser().waitUntilElementVisible(workflowMenu);
+        List<WebElement> options = getBrowser().findElements(dropdownOptions);
+        getBrowser().selectOptionFromFilterOptionsList(workflow, options);
+        getBrowser().waitUntilElementContainsText(startWorkflowDropDown, workflow);
     }
 
     public StartWorkflowPage selectWorkflowType(WorkflowType workflowType)
     {
         String workflowTypeValue = getWorkflowTypeFilterValue(workflowType);
         LOG.info("Select workflow type {}", workflowTypeValue);
-        browser.mouseOver(startWorkflowDropDown);
-        startWorkflowDropDown.click();
-        browser.waitUntilElementVisible(workflowMenu);
-        browser.selectOptionFromFilterOptionsList(workflowTypeValue, dropdownOptions);
-        browser.waitUntilElementContainsText(startWorkflowDropDown, workflowTypeValue);
+        getBrowser().mouseOver(getBrowser().findElement(startWorkflowDropDown));
+        getBrowser().findElement(startWorkflowDropDown).click();
+        getBrowser().waitUntilElementVisible(workflowMenu);
+        List<WebElement> options = getBrowser().findElements(dropdownOptions);
+        getBrowser().selectOptionFromFilterOptionsList(workflowTypeValue, options);
+        getBrowser().waitUntilElementContainsText(startWorkflowDropDown, workflowTypeValue);
 
         return this;
     }
 
     public void addWorkflowDescription(String workflowDescription)
     {
-        browser.waitUntilElementVisible(By.cssSelector("textarea[id*=workflowDescription]"));
-        workflowDescriptionTextarea.click();
-        workflowDescriptionTextarea.sendKeys(workflowDescription);
+        WebElement textArea = getBrowser().waitUntilElementVisible(workflowDescriptionTextarea);
+        textArea.click();
+        textArea.sendKeys(workflowDescription);
     }
 
     public void selectCurrentDateFromDatePicker()
@@ -175,16 +108,18 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         try
         {
 
-            if (!calendar.isDisplayed())
+            if (!getBrowser().isElementDisplayed(calendar))
             {
-                browser.waitUntilElementClickable(datePickerIcon).click();
+                getBrowser().waitUntilElementClickable(datePickerIcon).click();
             }
 
-            browser.waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: block");
-            browser.mouseOver(calendarToday);
-            calendarToday.click();
-            browser.waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: none");
-        } catch (Exception e)
+            getBrowser().waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: block");
+            WebElement calendarElement = getBrowser().findElement(calendarToday);
+            getBrowser().mouseOver(calendarElement);
+            calendarElement.click();
+            getBrowser().waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: none");
+        }
+        catch (Exception e)
         {
             LOG.info("Couldn't choose current date from Date Picker.");
         }
@@ -192,120 +127,102 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public void clickDatePickerIcon()
     {
-        browser.waitUntilElementClickable(datePickerIcon).click();
-        browser.waitUntilWebElementIsDisplayedWithRetry(calendar);
+        getBrowser().waitUntilElementClickable(datePickerIcon).click();
+        getBrowser().waitUntilElementVisible(calendar);
     }
 
     public boolean isCalendarDisplayed()
     {
-        return browser.waitUntilElementVisible(calendar).isDisplayed();
+        return getBrowser().waitUntilElementVisible(calendar).isDisplayed();
     }
 
     public String getWorkflowDueDateInputValue()
     {
-        return workflowDueDateInput.getAttribute("value");
+        return getBrowser().findElement(workflowDueDateInput).getAttribute("value");
     }
 
     public boolean isTodayDisplayed()
     {
-        return browser.isElementDisplayed(calendarToday);
+        return getBrowser().isElementDisplayed(calendarToday);
     }
 
     public String getWorkflowDueDate()
     {
-        return workflowDueDate.getAttribute("value");
+        return getBrowser().findElement(workflowDueDate).getAttribute("value");
     }
 
     public void selectWorkflowPriority(String priority)
     {
-        browser.selectOptionFromFilterOptionsList(priority, workflowPrioritiesList);
-        browser.waitUntilElementHasAttribute(browser.findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='" + priority + "']")), "selected", "true");
+        List<WebElement> priorities = getBrowser().findElements(workflowPrioritiesList);
+        getBrowser().selectOptionFromFilterOptionsList(priority, priorities);
+        getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='" + priority + "']")), "selected", "true");
     }
 
-    public HtmlPage clickStartWorkflow(HtmlPage page)
+    public void clickStartWorkflow()
     {
         //workaround for "MNT-17015"
 
-        getBrowser().waitUntilElementVisible(submitWorkflow);
+        WebElement submit = getBrowser().waitUntilElementVisible(submitWorkflow);
         getBrowser().waitUntilElementClickable(submitWorkflow);
 
-        browser.clickJS(submitWorkflow);
-        if (browser.isElementDisplayed(submitWorkflow))
-            browser.clickJS(submitWorkflow);
+        getBrowser().clickJS(submit);
+        if (getBrowser().isElementDisplayed(submitWorkflow))
+            getBrowser().clickJS(submit);
         if (isAlertPresent())
         {
-            browser.handleModalDialogAcceptingAlert();
+            getBrowser().handleModalDialogAcceptingAlert();
         }
         dismissErrorPopup();
-        if (browser.isElementDisplayed(submitWorkflow))
-            browser.clickJS(submitWorkflow);
-        return page.renderedPage();
+        if (getBrowser().isElementDisplayed(submit))
+            getBrowser().clickJS(submit);
     }
 
-    /**
-     * @return content items from Start Workflow form -> "Items" section
-     */
     public String getItemsList()
     {
         ArrayList<String> itemsTextList = new ArrayList<>();
-        for (WebElement anItemsList : itemsList)
+        for (WebElement anItemsList : getBrowser().findElements(itemsList))
         {
             itemsTextList.add(anItemsList.getText());
         }
         return itemsTextList.toString();
     }
 
-    /**
-     * Method that is clicking on Select Assignee button.
-     * Method used on workflow that requires MAX one assigned user as: New Task and Review And Approve (single reviewer).
-     *
-     * @return the popup from where user will be selected.
-     */
     public SelectPopUpPage clickOnSelectButtonSingleAssignee()
     {
-        WebElement selectElement = browser.waitUntilElementVisible(selectAssigneeButton);
-        browser.waitUntilElementClickable(selectElement).click();
-        return (SelectPopUpPage) selectPopUpPage.renderedPage();
+        WebElement selectElement = getBrowser().waitUntilElementVisible(selectAssigneeButton);
+        getBrowser().waitUntilElementClickable(selectElement).click();
+        return (SelectPopUpPage) new SelectPopUpPage(browser).renderedPage();
     }
 
-    /**
-     * Method that is clicking on Select Assignees button.
-     * Method used on workflow that requires MIN one assigned user as: Review And Approve (one or more reviewers).
-     *
-     * @return the popup from where users will be selected.
-     */
     public SelectPopUpPage clickOnSelectButtonMultipleAssignees()
     {
-        WebElement selectElement = browser.waitUntilElementVisible(selectAssigneesButton);
-        browser.waitUntilElementClickable(selectElement).click();
-        return (SelectPopUpPage) selectPopUpPage.renderedPage();
+        WebElement selectElement = getBrowser().waitUntilElementVisible(selectAssigneesButton);
+        getBrowser().waitUntilElementClickable(selectElement).click();
+        return (SelectPopUpPage) new SelectPopUpPage(browser).renderedPage();
     }
 
-    /**
-     * Method that is clicking on Select Assignee Group button.
-     * Method used on workflow that requires an assigned group as: Review And Approve (group review), Review and Approve (pooled review).
-     *
-     * @return the popup from where groups will be selected.
-     */
     public SelectPopUpPage clickGroupSelectButton()
     {
-        WebElement selectElement = browser.waitUntilElementVisible(selectGroupButton);
-        browser.waitUntilElementClickable(selectElement).click();
-        return (SelectPopUpPage) selectPopUpPage.renderedPage();
+        WebElement selectElement = getBrowser().waitUntilElementVisible(selectGroupButton);
+        getBrowser().waitUntilElementClickable(selectElement).click();
+        return (SelectPopUpPage) new SelectPopUpPage(browser).renderedPage();
     }
 
     public DocumentLibraryPage cancelStartWorkflow()
     {
         //workaround for "MNT-17015"
-        browser.clickJS(cancelStartWorkflow);
-        if (browser.isElementDisplayed(cancelStartWorkflow))
-            cancelStartWorkflow.click();
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+        getBrowser().clickJS(getBrowser().findElement(cancelStartWorkflow));
+        if (getBrowser().isElementDisplayed(cancelStartWorkflow))
+        {
+            getBrowser().findElement(cancelStartWorkflow).click();
+        }
+
+        return (DocumentLibraryPage) new DocumentLibraryPage(browser).renderedPage();
     }
 
     public void selectTaskStatus(String status)
     {
-        for (WebElement taskStatus : taskStatusList)
+        for (WebElement taskStatus : getBrowser().findElements(taskStatusList))
         {
             if (taskStatus.getAttribute("value").equals(status))
             {
@@ -318,27 +235,28 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     public UserDashboardPage saveAndClose()
     {
         getBrowser().waitUntilElementClickable(submitWorkflow).click();
-        return (UserDashboardPage) userDashboardPage.renderedPage();
+        return (UserDashboardPage) new UserDashboardPage(browser).renderedPage();
     }
 
     public SelectAssigneePopUp clickOnReassignButton()
     {
         getBrowser().waitUntilElementClickable(reassignButton).click();
-        return (SelectAssigneePopUp) selectAssigneePopUp.renderedPage();
+        return (SelectAssigneePopUp) new SelectAssigneePopUp(browser).renderedPage();
     }
 
     public boolean isWorkflowFormDisplayed()
     {
-        return browser.waitUntilElementVisible(workflowForm).isDisplayed();
+        return getBrowser().waitUntilElementVisible(workflowForm).isDisplayed();
     }
 
     public boolean isAlertPresent()
     {
         try
         {
-            browser.switchTo().alert();
+            getBrowser().switchTo().alert();
             return true;
-        } catch (NoAlertPresentException noAlertPresentException)
+        }
+        catch (NoAlertPresentException noAlertPresentException)
         {
             return false;
         }
@@ -346,67 +264,67 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     private void dismissErrorPopup()
     {
-        if (browser.isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
-            browser.waitUntilElementVisible(By.cssSelector("div#prompt button")).click();
+        if (getBrowser().isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
+            getBrowser().waitUntilElementVisible(By.cssSelector("div#prompt button")).click();
     }
 
     public boolean isStartWorkflowDropDownVisible()
     {
-        return browser.isElementDisplayed(startWorkflowDropDown);
+        return getBrowser().isElementDisplayed(startWorkflowDropDown);
     }
 
     public boolean isWorkflowMenuVisible()
     {
-        return browser.isElementDisplayed(workflowMenu);
+        return getBrowser().isElementDisplayed(workflowMenu);
     }
 
     public void clickStartWorkflowDropDown()
     {
-        startWorkflowDropDown.click();
+        getBrowser().findElement(startWorkflowDropDown).click();
     }
 
     public boolean isWorkflowFormVisible()
     {
-        return browser.isElementDisplayed(workflowForm);
+        return getBrowser().isElementDisplayed(workflowForm);
     }
 
     public void toggleSendEmailCheckBox(Boolean isChecked)
     {
-        if (!sendEMailNotificationsCheckbox.getAttribute("value").equalsIgnoreCase(isChecked.toString()))
+        if (!getBrowser().findElement(sendEMailNotificationsCheckbox).getAttribute("value").equalsIgnoreCase(isChecked.toString()))
         {
-            browser.waitUntilElementClickable(sendEMailNotificationsCheckbox).click();
+            getBrowser().waitUntilElementClickable(sendEMailNotificationsCheckbox).click();
         }
     }
 
     public String getSendEmailCheckBoxValue()
     {
-        return browser.findElement(By.cssSelector("input[id*='sendEMailNotifications'][type='hidden']")).getAttribute("value");
+        return getBrowser().findElement(By.cssSelector("input[id*='sendEMailNotifications'][type='hidden']")).getAttribute("value");
     }
 
     public void clickRemoveAllItemsButton()
     {
-        browser.waitUntilElementClickable(removeeAllItemsButton).click();
+        getBrowser().waitUntilElementClickable(removeeAllItemsButton).click();
         this.renderedPage();
     }
 
     public SelectDocumentPopupPage clickAddItemsButton()
     {
-        addItemsButton.click();
-        return (SelectDocumentPopupPage) selectDocumentPopupPage.renderedPage();
+        getBrowser().findElement(addItemsButton).click();
+        return (SelectDocumentPopupPage) new SelectDocumentPopupPage(browser).renderedPage();
     }
 
     private WebElement getItemRow(String itemName)
     {
-        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(attachedDocumentRow, itemName)),WAIT_1, WAIT_10);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(attachedDocumentRow, itemName)),Wait.WAIT_1.getValue(), Wait.WAIT_10.getValue());
     }
 
     public StartWorkflowPage assertItemsAreDisplayed(FileModel... files)
     {
-        browser.waitUntilElementVisible(itemsAreaRows);
+        getBrowser().waitUntilElementVisible(itemsAreaRows);
         for(FileModel file : files)
         {
             LOG.info("Assert file {} is displayed in items", file.getName());
-            assertTrue(browser.isElementDisplayed(By.xpath(String.format(attachedDocumentRow, file.getName()))),
+            assertTrue(getBrowser().isElementDisplayed(By.xpath(String.format(attachedDocumentRow, file.getName()))),
                 String.format("File %s is not displayed", file.getName()));
         }
         return this;

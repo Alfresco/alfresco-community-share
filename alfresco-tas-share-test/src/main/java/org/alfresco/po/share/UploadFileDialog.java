@@ -2,31 +2,28 @@ package org.alfresco.po.share;
 
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.FindBy;
 
 /**
  * @author bogdan.bocancea
  */
-@PageObject
-public class UploadFileDialog extends ShareDialog
+public class UploadFileDialog extends BaseDialogComponent
 {
-    private By dialogBody = By.cssSelector("div[id*='default-dialog_c'][style*='visibility: visible']");
-
-    @FindBy (css = "input.dnd-file-selection-button")
-    private WebElement uploadInput;
-
-    @FindBy (css = "[class*='fileupload-progressFailure']")
-    private WebElement uploadFailedTransformationMessage;
-
     @RenderWebElement
-    @FindBy (css = "div[id*='dnd-upload'] a[class*='close']")
-    private WebElement closeUploadDialogButton;
+    private final By dialogBody = By.cssSelector("div[id*='default-dialog_c'][style*='visibility: visible']");
+    private final By uploadInput = By.cssSelector("input.dnd-file-selection-button");
+    private final By uploadFailedTransformationMessage = By.cssSelector("[class*='fileupload-progressFailure']");
+    @RenderWebElement
+    private final By closeUploadDialogButton = By.cssSelector("div[id*='dnd-upload'] a[class*='close']");
+
+    public UploadFileDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public void uploadFile(FileModel file)
     {
@@ -35,38 +32,36 @@ public class UploadFileDialog extends ShareDialog
 
     public void uploadFile(String location)
     {
-        if (env.getProperty("grid.enabled").equals("true"))
+        if (properties.isGridEnabled())
         {
-            ((RemoteWebDriver) (browser.getWrappedDriver())).setFileDetector(new LocalFileDetector());
+            ((RemoteWebDriver) (getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
-        uploadInput.sendKeys(location);
+        getBrowser().findElement(uploadInput).sendKeys(location);
+        getBrowser().waitUntilElementDisappears(dialogBody);
     }
 
-    public <T> SharePage uploadFileAndRenderPage(String location, SharePage<T> page)
+    public <T> SharePage2 uploadFileAndRenderPage(String location, SharePage2<T> page)
     {
         LOG.info("Upload file from {} and render page", location);
         uploadFile(location);
-        browser.waitUntilElementDisappears(dialogBody);
+        getBrowser().waitUntilElementDisappears(dialogBody);
         
-        return (SharePage) page.renderedPage();
+        return (SharePage2) page.renderedPage();
     }
 
     public boolean isUploadFailedMessageDisplayed()
     {
-        return browser.isElementDisplayed(uploadFailedTransformationMessage);
+        return getBrowser().isElementDisplayed(uploadFailedTransformationMessage);
     }
 
-    /**
-     * Close dialog
-     */
     @Override
     public void clickClose()
     {
-        browser.waitUntilElementClickable(closeUploadDialogButton).click();
+        getBrowser().waitUntilElementClickable(closeUploadDialogButton).click();
     }
 
     public void waitForUploadDialogToDisappear()
     {
-        browser.waitUntilElementDisappears(dialogBody);
+        getBrowser().waitUntilElementDisappears(dialogBody);
     }
 }

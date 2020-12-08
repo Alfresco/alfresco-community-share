@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractUserDashboardDashletsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private CustomizeUserDashboardPage customizeUserDashboardPage;
 
     protected final String sampleRssFeed = "https://www.feedforall.com/sample.xml";

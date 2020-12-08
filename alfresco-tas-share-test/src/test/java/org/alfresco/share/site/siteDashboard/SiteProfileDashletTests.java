@@ -53,11 +53,10 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
 
         siteProfileDashlet
             .assertSiteManagerEquals(language.translate(MANAGER_LABEL),
-                userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())));
+                    userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())));
 
         siteProfileDashlet
-            .assertSiteVisibilityEquals(language.translate(VISIBILITY_LABEL),
-                siteModel.getVisibility().name());
+            .assertSiteVisibilityEquals(language.translate(VISIBILITY_LABEL), siteModel.getVisibility().name());
 
         siteProfileDashlet
             .clickOnHelpIcon(DashletHelpIcon.SITE_PROFILE)
@@ -70,10 +69,10 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplayUsernameInUserProfilePageWhenAccessedFromSiteProfileDashlet()
     {
-         siteProfileDashlet
-             .clickSiteManagerLink(
-                 userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())))
-             .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+        siteProfileDashlet
+            .clickSiteManagerLink(
+                userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())))
+            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
     }
 
     @AfterClass (alwaysRun = true)

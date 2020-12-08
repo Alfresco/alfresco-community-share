@@ -1,5 +1,6 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 
 import java.io.File;
@@ -17,9 +18,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 7/25/2016.
- */
 public class SiteFileTypeBreakdownDashletTests extends AbstractSiteDashboardDashletsTests
 {
     private static final String EXPECTED_EMPTY_MESSAGE = "siteFileContributorBreakdown.emptyMessage";

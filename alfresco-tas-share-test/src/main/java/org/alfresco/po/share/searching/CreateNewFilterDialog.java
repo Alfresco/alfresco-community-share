@@ -1,185 +1,126 @@
 package org.alfresco.po.share.searching;
 
-import java.util.List;
-
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import ru.yandex.qatools.htmlelements.element.CheckBox;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
-/**
- * Created by Claudia Agache on 8/16/2016.
- */
-@Primary
-@PageObject
-public class CreateNewFilterDialog extends ShareDialog
+import java.util.List;
+
+public class CreateNewFilterDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    @FindBy (className = "dijitDialogTitle")
-    protected WebElement dialogTitle;
-
-    @FindBy (css = "input[name='isEnabled']")
-    protected CheckBox showWithSearch;
-
-    @FindBy (id = "FORM_FACET_QNAME_CONTROL")
-    protected WebElement filterPropertyInput;
-
-    protected By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
-
-    @FindBy (css = "div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem")
-    protected List<WebElement> filterPropertyOptions;
-
-    @FindBy (css = "table#FORM_SORTBY_CONTROL  div.dijitButtonText")
-    protected WebElement sortByInput;
-
-    @FindBy (css = "table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner")
-    protected WebElement sortByArrow;
-
-    protected By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
-
-    @FindBy (css = "div#FORM_MAX_FILTERS input[role='spinbutton']")
-    protected TextInput noFilters;
-
-    @FindBy (css = "div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']")
-    protected TextInput minFilterLength;
-
-    @FindBy (css = "div#FORM_HIT_THRESHOLD input[role='spinbutton']")
-    protected TextInput minRequiredResults;
-
-    @FindBy (css = "div#FORM_SCOPE div.dijitButtonText")
-    protected WebElement filterAvailabilityInput;
-
-    @FindBy (css = "div#FORM_SCOPE input.dijitArrowButtonInner")
-    protected WebElement filterAvailabilityArrow;
-
-    protected By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
-
-    @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img")
-    protected WebElement sitesDoneEditingButton;
-
-    @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img")
-    protected WebElement sitesCancelEditingButton;
-
-    @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]")
-    protected WebElement sitesSiteNameArrow;
-
-    protected By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
-
-    @FindAll (@FindBy (css = "div.entries div.read-display"))
-    protected List<WebElement> currentSitesEntries;
-
+    private final By dialogTitle = By.className("dijitDialogTitle");
+    private final By showWithSearch = By.cssSelector("input[name='isEnabled']");
+    private final By filterPropertyInput = By.id("FORM_FACET_QNAME_CONTROL");
+    private final By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
+    private final By filterPropertyOptions = By.cssSelector("div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem");
+    private final By sortByInput = By.cssSelector("table#FORM_SORTBY_CONTROL  div.dijitButtonText");
+    private final By sortByArrow = By.cssSelector("table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner");
+    private final By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
+    private final By noFilters = By.cssSelector("div#FORM_MAX_FILTERS input[role='spinbutton']");
+    private final By minFilterLength = By.cssSelector("div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']");
+    private final By minRequiredResults = By.cssSelector("div#FORM_HIT_THRESHOLD input[role='spinbutton']");
+    private final By filterAvailabilityInput = By.cssSelector("div#FORM_SCOPE div.dijitButtonText");
+    private final By filterAvailabilityArrow = By.cssSelector("div#FORM_SCOPE input.dijitArrowButtonInner");
+    private final By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
+    private final By sitesDoneEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img");
+    private final By sitesCancelEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img");
+    private final By sitesSiteNameArrow = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]");
+    private final By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
+    private final By currentSitesEntries = By.cssSelector("div.entries div.read-display");
     @RenderWebElement
-    @FindBy (css = "span[id$='_OK']")
-    protected WebElement saveButton;
-
-    @FindBy (css = "span[id$='_CANCEL_label']")
-    protected WebElement cancelButton;
-
-    @FindBy (xpath = "//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']")
-    protected WebElement closeButton;
-
+    private final By saveButton = By.cssSelector("span[id$='_OK']");
+    private final By cancelButton = By.cssSelector("span[id$='_CANCEL_label']");
+    private final By closeButton = By.xpath("//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']");
     @RenderWebElement
-    @FindBy (css = "input[name='filterID']")
-    private WebElement filterIdInput;
-
+    private final By filterIdInput = By.cssSelector("input[name='filterID']");
     @RenderWebElement
-    @FindBy (css = "input[name='displayName']")
-    protected WebElement filterNameInput;
+    private final By filterNameInput = By.cssSelector( "input[name='displayName']");
+    private final By fieldIdDescription = By.cssSelector("#FORM_FILTER_ID div.description");
+    private final By fieldNameDescription = By.cssSelector("#FORM_DISPLAY_NAME div.description");
+    private final By fieldIdMandatory = By.cssSelector("#FORM_FILTER_ID .required");
+    private final By fieldNameMandatory = By.cssSelector("#FORM_DISPLAY_NAME .required");
+    private final By dropdownOptions = By.className("dijitMenuItemLabel");
+    private final By sitesAddButton = By.cssSelector("#FORM_SCOPED_SITES div.button.add>img");
 
-    @FindBy (css = "#FORM_FILTER_ID div.description")
-    private WebElement fieldIdDescription;
-
-    @FindBy (css = "#FORM_DISPLAY_NAME div.description")
-    private WebElement fieldNameDescription;
-
-    @FindBy (css = "#FORM_FILTER_ID .required")
-    private WebElement fieldIdMandatory;
-
-    @FindBy (css = "#FORM_DISPLAY_NAME .required")
-    private WebElement fieldNameMandatory;
-
-    protected By requiredMark = By.className("required");
-    protected By dropdownOptions = By.className("dijitMenuItemLabel");
-
-    @Autowired
-    private SearchManagerPage searchManagerPage;
-
-    @FindBy (css = "#FORM_SCOPED_SITES div.button.add>img")
-    private WebElement sitesAddButton;
+    public CreateNewFilterDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public Boolean isDialogDisplayed()
     {
-        return browser.isElementDisplayed(dialogTitle) && dialogTitle.getText().equals("Create New Filter");
+        return getBrowser().isElementDisplayed(dialogTitle);
+    }
+
+    public String getDialogTitle()
+    {
+        return getElementText(dialogTitle);
     }
 
     public String getFilterNameValue()
     {
-        return filterNameInput.getAttribute("value");
+        return getBrowser().findElement(filterNameInput).getAttribute("value");
     }
 
     public String getFilterIdDescription()
     {
-        return fieldIdDescription.getText();
+        return getElementText(fieldIdDescription);
     }
 
     public String getFilterNameDescription()
     {
-        return fieldNameDescription.getText();
+        return getElementText(fieldNameDescription);
     }
 
     public boolean isFilterIdMandatory()
     {
-        return browser.isElementDisplayed(fieldIdMandatory);
+        return getBrowser().isElementDisplayed(fieldIdMandatory);
     }
 
     public boolean isFilterNameMandatory()
     {
-        return browser.isElementDisplayed(fieldNameMandatory);
+        return getBrowser().isElementDisplayed(fieldNameMandatory);
     }
 
     public String getFilterProperty()
     {
-        return filterPropertyInput.getText();
+        return getElementText(filterPropertyInput);
     }
 
     public String getSortBy()
     {
-        return sortByInput.getText();
+        return getElementText(sortByInput);
     }
 
     public String getNoFilters()
     {
-        return noFilters.getText();
+        return getElementText(noFilters);
     }
 
     public String getMinimumFilterLength()
     {
-        return minFilterLength.getText();
+        return getElementText(minFilterLength);
     }
 
     public String getMinimumRequiredResults()
     {
-        return minRequiredResults.getText();
+        return getElementText(minRequiredResults);
     }
 
     public String getFilterAvailability()
     {
-        return filterAvailabilityInput.getText();
+        return getElementText(filterAvailabilityInput);
     }
 
     public String[] getCurrentSelectedSites()
     {
         int i = 0;
-        String[] currentSelectedSites = new String[currentSitesEntries.size()];
-        for (WebElement entry : currentSitesEntries)
+        List<WebElement> list = getBrowser().findElements(currentSitesEntries);
+        String[] currentSelectedSites = new String[list.size()];
+        for (WebElement entry : list)
         {
             currentSelectedSites[i] = entry.getText();
             i++;
@@ -187,217 +128,133 @@ public class CreateNewFilterDialog extends ShareDialog
         return currentSelectedSites;
     }
 
-    /**
-     * Select given option from Filter Availability dropdown
-     *
-     * @param option
-     */
     public void selectFromFilterAvailability(String option)
     {
-        filterAvailabilityArrow.click();
-        WebElement dropdown = browser.waitUntilElementVisible(filterAvailabilityDropdown);
-        browser.selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
+        getBrowser().findElement(filterAvailabilityArrow).click();
+        WebElement dropdown = getBrowser().waitUntilElementVisible(filterAvailabilityDropdown);
+        getBrowser().selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
     }
 
-    /**
-     * Select given option from Filter Property dropdown
-     *
-     * @param option
-     */
     public void selectFromFilterProperty(String option)
     {
-        filterPropertyInput.clear();
-        filterPropertyInput.sendKeys(option);
-        browser.waitUntilElementVisible(filterPropertyDropdown);
-        browser.selectOptionFromFilterOptionsList(option, filterPropertyOptions);
+        clearAndType(filterPropertyInput, option);
+        getBrowser().waitUntilElementVisible(filterPropertyDropdown);
+        getBrowser().selectOptionFromFilterOptionsList(option, getBrowser().findElements(filterPropertyOptions));
     }
 
-    /**
-     * Select given option from Sort By dropdown
-     *
-     * @param option
-     */
     public void selectFromSortBy(String option)
     {
-        sortByArrow.click();
-        WebElement dropdown = browser.waitUntilElementVisible(sortByDropdown);
-        browser.selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
+        getBrowser().findElement(sortByArrow).click();
+        WebElement dropdown = getBrowser().waitUntilElementVisible(sortByDropdown);
+        getBrowser().selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
     }
 
-    /**
-     * Type value in Filter Id field
-     *
-     * @param value
-     */
     public CreateNewFilterDialog typeFilterId(String value)
     {
-        filterIdInput.clear();
-        filterIdInput.sendKeys(value);
+        getBrowser().waitUntilElementVisible(filterIdInput);
+        clearAndType(filterIdInput, value);
         return this;
     }
 
-    /**
-     * Type value in Filter Name field
-     *
-     * @param value
-     */
     public CreateNewFilterDialog typeFilterName(String value)
     {
-        filterNameInput.clear();
-        filterNameInput.sendKeys(value);
+        getBrowser().waitUntilElementVisible(filterNameInput);
+        clearAndType(filterNameInput, value);
         return this;
     }
 
-    /**
-     * Type value in Number of Filters field
-     *
-     * @param value
-     */
     public void typeNumberOfFilters(String value)
     {
-        Utils.clearAndType(noFilters, value);
+        clearAndType(noFilters, value);
     }
 
-    /**
-     * Type value in Minimum Filter Length field
-     *
-     * @param value
-     */
     public void typeMinimumFilterLength(String value)
     {
-        Utils.clearAndType(minFilterLength, value);
+        clearAndType(minFilterLength, value);
     }
 
-    /**
-     * Type value in Minimum Required Results field
-     *
-     * @param value
-     */
     public void typeMinimumRequiredResults(String value)
     {
-        Utils.clearAndType(minRequiredResults, value);
+        clearAndType(minRequiredResults, value);
     }
 
-    /**
-     * Click on the Show With Search Results checkbox
-     */
     public void clickShowWithSearchResults()
     {
-        if (isShowWithSearchResultsChecked())
+        if (!isShowWithSearchResultsChecked())
         {
-            showWithSearch.deselect();
-        } else
-        {
-            showWithSearch.select();
+            getBrowser().findElement(showWithSearch).click();
         }
     }
 
     public boolean isShowWithSearchResultsChecked()
     {
-        return showWithSearch.isSelected();
+        return getBrowser().findElement(showWithSearch).isSelected();
     }
 
-    /**
-     * Click on Save button
-     *
-     * @return
-     */
     public SearchManagerPage clickSave()
     {
-        browser.waitUntilElementHasAttribute(saveButton, "aria-disabled", "false");
-        browser.waitUntilElementClickable(saveButton).click();
+        WebElement save = getBrowser().waitUntilElementVisible(saveButton);
+        getBrowser().waitUntilElementHasAttribute(save, "aria-disabled", "false");
+        getBrowser().mouseOver(save);
+        save.click();
+        SearchManagerPage searchManagerPage = new SearchManagerPage(browser);
         searchManagerPage.waitUntilNotificationMessageDisappears();
+
         return (SearchManagerPage) searchManagerPage.renderedPage();
     }
 
-    /**
-     * Click on Cancel button
-     *
-     * @return
-     */
     public SearchManagerPage clickCancel()
     {
-        cancelButton.click();
-        browser.waitInSeconds(2);
-        return (SearchManagerPage) searchManagerPage.renderedPage();
+        getBrowser().findElement(cancelButton).click();
+        return (SearchManagerPage) new SearchManagerPage(browser).renderedPage();
     }
 
-    /**
-     * Click on Close button
-     */
     public void clickClose()
     {
-        closeButton.click();
+        getBrowser().findElement(closeButton).click();
     }
 
-    /**
-     * Add site in 'Sites' section which appears after selecting 'Selected Sites' option from 'Filter Availability' dropdown
-     *
-     * @param siteName
-     */
     public void addSite(String siteName)
     {
-        sitesAddButton.click();
-        browser.waitUntilElementClickable(sitesSiteNameArrow, 30).click();
-        WebElement dropdown = browser.waitUntilElementVisible(sitesSiteNameDropdown);
-        browser.selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
-        sitesDoneEditingButton.click();
+        getBrowser().findElement(sitesAddButton).click();
+        getBrowser().waitUntilElementClickable(sitesSiteNameArrow, 30).click();
+        WebElement dropdown = getBrowser().waitUntilElementVisible(sitesSiteNameDropdown);
+        getBrowser().selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
+        getBrowser().findElement(sitesDoneEditingButton).click();
     }
 
-    /**
-     * Cancel Adding site in 'Sites' section which appears after selecting 'Selected Sites' option from 'Filter Availability' dropdown
-     *
-     * @param siteName
-     */
     public void cancelAddSite(String siteName)
     {
-        sitesAddButton.click();
-        browser.waitUntilElementClickable(sitesSiteNameArrow, 30).click();
-        WebElement dropdown = browser.waitUntilElementVisible(sitesSiteNameDropdown);
-        browser.selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
-        sitesCancelEditingButton.click();
+        getBrowser().findElement(sitesAddButton).click();
+        getBrowser().waitUntilElementClickable(sitesSiteNameArrow, 30).click();
+        WebElement dropdown = getBrowser().waitUntilElementVisible(sitesSiteNameDropdown);
+        getBrowser().selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
+        getBrowser().findElement(sitesCancelEditingButton).click();
     }
 
-    /**
-     * Edit current selected site siteNameToBeEdited by changing it with newSiteName
-     *
-     * @param siteNameToBeEdited
-     * @param newSiteName
-     */
     public void editSite(String siteNameToBeEdited, String newSiteName)
     {
-        WebElement siteElement = browser.findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
+        WebElement siteElement = getBrowser().findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
         siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button edit']")).click();
-        browser.waitUntilElementClickable(sitesSiteNameArrow, 30).click();
-        WebElement dropdown = browser.waitUntilElementVisible(sitesSiteNameDropdown);
-        browser.selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
-        sitesDoneEditingButton.click();
+        getBrowser().waitUntilElementClickable(sitesSiteNameArrow, 30).click();
+        WebElement dropdown = getBrowser().waitUntilElementVisible(sitesSiteNameDropdown);
+        getBrowser().selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
+        getBrowser().findElement(sitesDoneEditingButton).click();
     }
 
-    /**
-     * Change current selected site siteNameToBeEdited with newSiteName and then cancel the editing
-     *
-     * @param siteNameToBeEdited
-     * @param newSiteName
-     */
     public void cancelEditSite(String siteNameToBeEdited, String newSiteName)
     {
-        WebElement siteElement = browser.findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
+        WebElement siteElement = getBrowser().findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
         siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button edit']")).click();
-        browser.waitUntilElementClickable(sitesSiteNameArrow, 30).click();
-        WebElement dropdown = browser.waitUntilElementVisible(sitesSiteNameDropdown);
-        browser.selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
-        sitesCancelEditingButton.click();
+        getBrowser().waitUntilElementClickable(sitesSiteNameArrow, 30).click();
+        WebElement dropdown = getBrowser().waitUntilElementVisible(sitesSiteNameDropdown);
+        getBrowser().selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
+        getBrowser().findElement(sitesCancelEditingButton).click();
     }
 
-    /**
-     * Delete the specified site from current selected sites
-     *
-     * @param siteName
-     */
     public void deleteSite(String siteName)
     {
-        WebElement siteElement = browser.findFirstElementWithValue(currentSitesEntries, siteName);
+        WebElement siteElement = getBrowser().findFirstElementWithValue(currentSitesEntries, siteName);
         siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button delete']")).click();
     }
 }

@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
  */
 public class DownloadingContentTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private String userName = "user" + uniqueIdentifier;
@@ -53,7 +53,7 @@ public class DownloadingContentTests extends ContextAwareWebTest
     public void downloadFileFromAlfresco()
     {
         LOG.info("Step 1: Hover file and click 'Download' button");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.DOWNLOAD, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.DOWNLOAD);
         documentLibraryPage.acceptAlertIfDisplayed();
 
         LOG.info("Step 2: Choose 'Save File' option and click 'OK' and verify that the file has been downloaded to the right location");
@@ -65,7 +65,7 @@ public class DownloadingContentTests extends ContextAwareWebTest
     public void nonEmptyFolderDownloadAsZip()
     {
         LOG.info("Hover folder and click 'Download as Zip' button from Actions options");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.DOWNLOAD_AS_ZIP, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.DOWNLOAD_AS_ZIP);
         documentLibraryPage.acceptAlertIfDisplayed();
 
         LOG.info("Choose Save option, location for folder to be downloaded and click OK button and verify folder is displayed in specified location");

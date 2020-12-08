@@ -34,17 +34,17 @@ public class DeleteRuleTest extends ContextAwareWebTest
     private final String path = "Documents";
     private final String ruleName = "rule-C7254-" + random;
     private final String folderName = "Folder-C7254-" + random;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+   // @Autowired
     private ManageRulesPage manageRulesPage;
-    @Autowired
+    //@Autowired
     private EditRulesPage editRulesPage;
-    @Autowired
+    //@Autowired
     private RuleDetailsPage ruleDetailsPage;
-    @Autowired
+    //@Autowired
     private SelectDestinationDialog selectDestinationDialog;
-    @Autowired
+    //@Autowired
     private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
@@ -60,7 +60,7 @@ public class DeleteRuleTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES, manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
@@ -98,7 +98,7 @@ public class DeleteRuleTest extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), language.translate("documentLibrary.rules.delete.dialogMessage"), "Delete dialog=");
 
         LOG.info("STEP2: Click 'Delete' button from Delete dialog");
-        deleteDialog.clickDelete(manageRulesPage);
+        deleteDialog.clickDelete();
         assertEquals(manageRulesPage.getNoRulesText(), language.translate("documentLibrary.rules.noRules"), "Displayed rules=");
     }
 }

@@ -1,28 +1,18 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="User and Authentication Tests" preserve-order="true">
+<suite name="User and Authentication Tests" parallel="methods" thread-count="5">
    <listeners>
-      <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener"/>
    </listeners>
 
-   <test name="User Tests">
+   <test name="User and Authentication Tests">
       <groups>
          <run>
-           <include name="user"></include>
+            <include name="user"/>
+            <include name="auth"/>
          </run>
       </groups>
       <packages>
-         <package name="org.alfresco.share.*"></package>
-      </packages>
-   </test>
-
-   <test name="Authentication Tests">
-      <groups>
-         <run>
-            <include name="auth"></include>
-         </run>
-      </groups>
-      <packages>
-         <package name="org.alfresco.share.*"></package>
+         <package name="org.alfresco.share.*"/>
       </packages>
    </test>
 

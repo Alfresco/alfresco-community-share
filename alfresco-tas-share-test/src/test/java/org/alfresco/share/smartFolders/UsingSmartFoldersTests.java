@@ -1,5 +1,6 @@
 package org.alfresco.share.smartFolders;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -36,21 +37,21 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     private final String mainSmartFolder = "My content";
     private final String testFileName = "test.pdf";
     private final String newVersionFileName = "EditedTestFile8650.docx";
-    @Autowired
+    //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
     EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     EditPropertiesPage editPropertiesPage;
-    @Autowired
+    //@Autowired
     SmartFolders smartFolders;
-    @Autowired
+    //@Autowired
     UploadContent uploadContent;
     @Autowired
     GoogleDocsCommon googleDocs;
-    @Autowired
+    //@Autowired
     CreateContentPage createContent;
     private String folderName;
     private String testFilePath;
@@ -89,7 +90,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         contentAspects.addAspect(userName, password, siteName, folderName, CMISUtil.DocumentAspect.SYSTEM_SMART_FOLDER);
         LOG.info("Step1: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
         LOG.info("Step2: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
@@ -160,7 +161,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName("Office Documents");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
         LOG.info("Step9: Hover over the created file and click 'Upload new version'");
-        documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", ItemActions.UPLOAD_NEW_VERSION, uploadContent);
+        documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", ItemActions.UPLOAD_NEW_VERSION);
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
         getBrowser().waitInSeconds(2);
         LOG.info("Step10: Verify the document is updated and the version is increased");

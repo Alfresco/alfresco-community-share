@@ -1,14 +1,12 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -16,107 +14,49 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-/**
- * @author Razvan.Dorobantu
- */
-@PageObject
-public class GroupsPage extends AdminToolsPage
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+public class GroupsPage extends SharePage2<GroupsPage>
 {
-    private final RemoveUserFromGroupDialog removeUserFromGroupDialog;
-    private final DeleteGroupDialog deleteGroupDialog;
-    private final AddUserDialog addUserDialog;
-    private final AddGroupDialog addGroupDialog;
-
     @RenderWebElement
-    @FindBy (css = "label[for*='default-search-text']")
-    private WebElement sectionTitle;
-
+    private final By sectionTitle = By.cssSelector("label[for*='default-search-text']");
     @RenderWebElement
-    @FindBy (css = "input[id*='show-all']")
-    private WebElement showSystemGroupsCheckbox;
+    private final By searchInput = By.cssSelector("input[id*='default-search-text']");
+    private final By searchButton = By.cssSelector(".search-text button[id*='search']");
+    private final By browseButton = By.cssSelector("button[id*='browse']");
+    private final By searchBar = By.cssSelector("div[id*=default-search-bar-text]");
+    private final By breadcrumbList = By.cssSelector("div[id*='breadcrumb'] span[class*='groups'] span[class*='item-text']");
+    private final By newGroupPanelTitle = By.cssSelector("div[id*='create'] .title");
+    private final By identifierFieldLabel = By.cssSelector(".create-main .field-row:nth-of-type(2) .crud-label");
+    private final By displayNameFieldLabel = By.cssSelector(".create-main .field-row:nth-of-type(4) .crud-label");
+    private final By groupIdentifierInput = By.cssSelector("input[id*='create-shortname']");
+    private final By groupDisplayNameInput = By.cssSelector("input[id*='create-displayname']");
+    private final By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
+    private final By createGroupOKButton = By.cssSelector("button[id*='creategroup-ok']");
+    private final By cancelCreateGroupButton = By.cssSelector("button[id*='creategroup-cancel']");
+    private final By nextPageButton = By.cssSelector("a[class='yui-pg-next']");
+    private final By firstPageButton = By.cssSelector("a[class='yui-pg-first']");
+    private final By currentPage = By.cssSelector(".yui-pg-current");
+    private final By searchResultTable = By.cssSelector(".yui-dt-data > tr");
+    private final By groupBody = By.cssSelector(".yui-columnbrowser-column-body");
+    private final By createAndCreateAnotherGroupButton = By.cssSelector("button[id*='creategroup-another']");
+    private final By deleteGroupOKButton = By.cssSelector("button[id$='_default-remove-button-button']");
+    private final By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");private final By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
+    private final String groupRow = "//div[@class='yui-columnbrowser-column-body']//span[text()='%s']/..";
+    private final By deleteGroupButton = By.cssSelector(".groups-delete-button");
+    private final By updateGroupButton = By.cssSelector(".groups-update-button");
+    private final By searchShortName = By.cssSelector("td[headers$='shortName ']");
+    private final By searchResults = By.cssSelector(".yui-dt-data > tr");
+    private final By removeUser = By.cssSelector(".users-remove-button");
+    private final String columnGroupValues = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='label']";
+    private final String createSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='newgroup']";
+    private final String addSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='addgroup']";
+    private final String addUserGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='adduser']";
 
-    @RenderWebElement
-    @FindBy (css = "input[id*='default-search-text']")
-    private WebElement searchInput;
-
-    @RenderWebElement
-    @FindBy (css = ".search-text button[id*='search']")
-    private WebElement searchButton;
-
-    @RenderWebElement
-    @FindBy (css = "button[id*='browse']")
-    private WebElement browseButton;
-
-    @FindBy (css = "div[id*=default-search-bar-text]")
-    private WebElement searchBar;
-
-    @FindAll (@FindBy (css = "div[id*='breadcrumb'] span[class*='groups'] span[class*='item-text']"))
-    private List<WebElement> breadcrumbList;
-
-    @FindBy (css = ".yui-columnbrowser-item-selected")
-    private List<WebElement> selectedItemsList;
-
-    @FindBy (css = "div[id*='create'] .title")
-    private WebElement newGroupPanelTitle;
-
-    @FindBy (css = ".create-main .field-row:nth-of-type(2) .crud-label")
-    private WebElement identifierFieldLabel;
-
-    @FindBy (css = ".create-main .field-row:nth-of-type(4) .crud-label")
-    private WebElement displayNameFieldLabel;
-
-    @FindBy (css = "input[id*='create-shortname']")
-    private WebElement groupIdentifierInput;
-
-    @FindBy (css = "input[id*='create-displayname']")
-    private WebElement groupDisplayNameInput;
-
-    private By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
-
-    @FindBy (css = "button[id*='creategroup-ok']")
-    private WebElement createGroupOKButton;
-
-    @FindBy (css = "button[id*='creategroup-cancel']")
-    private WebElement cancelCreateGroupButton;
-
-    @FindBy (css = "a[class='yui-pg-next']")
-    private WebElement nextPageButton;
-
-    @FindBy (css = "a[class='yui-pg-first']")
-    private WebElement firstPageButton;
-
-    @FindBy (css = ".yui-pg-current")
-    private WebElement currentPage;
-
-    private By searchResultTable = By.cssSelector(".yui-dt-data > tr");
-    private By groupBody = By.cssSelector(".yui-columnbrowser-column-body");
-    private By groupBy = By.cssSelector("div.yui-columnbrowser-column-body span[class*=item-label]");
-    private By createAndCreateAnotherGroupButton = By.cssSelector("button[id*='creategroup-another']");
-    private By deleteGroupOKButton = By.cssSelector("button[id$='_default-remove-button-button']");
-    private By deleteGroupCancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
-    private By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
-    private By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
-    private By deleteMessage = By.cssSelector("div[id='message_c'");
-    private String groupRow = "//div[@class='yui-columnbrowser-column-body']//span[text()='%s']/..";
-    private By deleteGroupButton = By.cssSelector(".groups-delete-button");
-    private By updateGroupButton = By.cssSelector(".groups-update-button");
-    private By searchShortName = By.cssSelector("td[headers$='shortName ']");
-    private By searchResults = By.cssSelector(".yui-dt-data > tr");
-    private By removeUser = By.cssSelector(".users-remove-button");
-    private String columnGroupValues = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='label']";
-    private String createSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='newgroup']";
-    private String addSubGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='addgroup']";
-    private String addUserGroupButton = "ul[class*='carousel'] li:nth-of-type(%s) span[class*='adduser']";
-
-    public GroupsPage(AddUserDialog addUserDialog,
-                      DeleteGroupDialog deleteGroupDialog,
-                      RemoveUserFromGroupDialog removeUserFromGroupDialog,
-                      AddGroupDialog addGroupDialog)
+    public GroupsPage(ThreadLocal<WebBrowser> browser)
     {
-        this.addUserDialog = addUserDialog;
-        this.deleteGroupDialog = deleteGroupDialog;
-        this.removeUserFromGroupDialog = removeUserFromGroupDialog;
-        this.addGroupDialog = addGroupDialog;
+        super(browser);
     }
 
     @Override
@@ -127,7 +67,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertSectionTitleIsGroups()
     {
-        Assert.assertEquals(sectionTitle.getText(), language.translate("adminTools.groups.title"));
+        assertEquals(getBrowser().findElement(sectionTitle).getText(), language.translate("adminTools.groups.title"));
         return this;
     }
 
@@ -140,29 +80,25 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage clickBrowse()
     {
-        browser.waitUntilElementClickable(browseButton).click();
-        browser.waitUntilElementVisible(groupBody);
+        getBrowser().waitUntilElementClickable(browseButton).click();
+        getBrowser().waitUntilElementVisible(groupBody);
         return this;
     }
 
     public GroupsPage waitUntilSearchElementDisplayed()
     {
-        browser.waitUntilElementVisible(searchResultTable);
+        getBrowser().waitUntilElementVisible(searchResultTable);
         return this;
     }
 
-    /**
-     * @return List of breadcrumb path text items
-     */
-    public ArrayList<String> getBreadcrumb()
+    public List<String> getBreadcrumb()
     {
-        browser.waitUntilElementsVisible(breadcrumbList);
-        return breadcrumbList.stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
+        return getBrowser().waitUntilElementsVisible(breadcrumbList).stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public GroupsPage assertGroupIsInBreadcrumbPath(GroupModel groupModel)
     {
-        Assert.assertTrue(getBreadcrumb().contains(groupModel.getGroupIdentifier()),
+        assertTrue(getBreadcrumb().contains(groupModel.getGroupIdentifier()),
             String.format("Group %s was found in breadcrumb path", groupModel.getGroupIdentifier()));
         return this;
     }
@@ -170,32 +106,31 @@ public class GroupsPage extends AdminToolsPage
     public GroupsPage assertGroupIsFoundInSearch(GroupModel groupModel)
     {
         boolean found = false;
-        browser.waitUntilElementIsPresent(searchResultTable);
-        browser.waitUntilElementIsPresent(searchShortName);
-        List<WebElement> results = browser.waitUntilElementsVisible(searchResults);
+        getBrowser().waitUntilElementIsPresent(searchResultTable);
+        getBrowser().waitUntilElementIsPresent(searchShortName);
+        List<WebElement> results = getBrowser().waitUntilElementsVisible(searchResults);
         for(WebElement searchedGroup : results)
         {
-            browser.waitUntilElementIsPresent(searchResultTable);
-            browser.waitUntilElementIsPresent(searchShortName);
+            getBrowser().waitUntilElementIsPresent(searchResultTable);
+            getBrowser().waitUntilElementIsPresent(searchShortName);
             if(searchedGroup.findElement(searchShortName).getText().equals(groupModel.getGroupIdentifier()))
             {
                 found = true;
             }
         }
-        Assert.assertTrue(found, String.format("Group %s was found", groupModel.getGroupIdentifier()));
+        assertTrue(found, String.format("Group %s was found", groupModel.getGroupIdentifier()));
         return this;
     }
 
     public GroupsPage writeInSearchInput(String searchItem)
     {
-        searchInput.clear();
-        searchInput.sendKeys(searchItem);
+        clearAndType(searchInput, searchItem);
         return this;
     }
 
     public GroupsPage assertGroupIsDisplayed(GroupModel groupModel)
     {
-        Assert.assertTrue(browser.isElementDisplayed(getItemGroup(groupModel.getDisplayName())),
+        assertTrue(getBrowser().isElementDisplayed(getItemGroup(groupModel.getDisplayName())),
             String.format("Group %s was found", groupModel.getDisplayName()));
         return this;
     }
@@ -209,7 +144,7 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertUserIsNotDisplayed(UserModel userModel)
     {
-        browser.waitUntilElementDisappears(By.xpath(String.format(groupRow, getUserFormat(userModel))));
+        getBrowser().waitUntilElementDisappears(By.xpath(String.format(groupRow, getUserFormat(userModel))));
         Assert.assertFalse(isGroupDisplayed(getUserFormat(userModel)),
             String.format("User %s was found", userModel.getUsername()));
         return this;
@@ -217,7 +152,7 @@ public class GroupsPage extends AdminToolsPage
 
     private boolean isGroupDisplayed(String groupName)
     {
-        return browser.isElementDisplayed(By.xpath(String.format(groupRow, groupName)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(groupRow, groupName)));
     }
 
     public WebElement getItemGroup(String name)
@@ -227,10 +162,10 @@ public class GroupsPage extends AdminToolsPage
         while(!found)
         {
             LOG.info("Move to next group page");
-            if(browser.isElementDisplayed(nextPageButton))
+            if(getBrowser().isElementDisplayed(nextPageButton))
             {
-                nextPageButton.click();
-                browser.waitUntilElementContainsText(currentPage, String.format("( %s of ", pageCount));
+                getBrowser().findElement(nextPageButton).click();
+                getBrowser().waitUntilElementContainsText(getBrowser().findElement(currentPage), String.format("( %s of ", pageCount));
                 found = isGroupDisplayed(name);
                 pageCount++;
             }
@@ -239,14 +174,14 @@ public class GroupsPage extends AdminToolsPage
                 break;
             }
         }
-        return browser.waitUntilElementVisible(By.xpath(String.format(groupRow, name)));
+        return getBrowser().waitUntilElementVisible(By.xpath(String.format(groupRow, name)));
     }
 
     private void waitForColumnGroups(int column)
     {
         By columnElement = By.cssSelector(String.format(columnGroupValues, column));
-        browser.waitUntilElementIsPresent(columnElement);
-        browser.waitUntilElementsVisible(columnElement);
+        getBrowser().waitUntilElementIsPresent(columnElement);
+        getBrowser().waitUntilElementsVisible(columnElement);
     }
 
     public List<String> getColumnGroups(int column)
@@ -254,7 +189,7 @@ public class GroupsPage extends AdminToolsPage
         List<WebElement> values = new ArrayList<>();
         try
         {
-            values = browser.findElements(By.cssSelector(String.format(columnGroupValues, column)));
+            values = getBrowser().findElements(By.cssSelector(String.format(columnGroupValues, column)));
         }
         catch (NoSuchElementException e)
         {
@@ -265,8 +200,8 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage assertColumnContainsGroup(int columnNr, String groupName)
     {
-        browser.waitUntilElementVisible(By.cssSelector(String.format(columnGroupValues, columnNr)));
-        Assert.assertTrue(getColumnGroups(columnNr).contains(groupName),
+        getBrowser().waitUntilElementVisible(By.cssSelector(String.format(columnGroupValues, columnNr)));
+        assertTrue(getColumnGroups(columnNr).contains(groupName),
             String.format("Group %s was found in column %s", groupName, columnNr));
         return this;
     }
@@ -274,7 +209,7 @@ public class GroupsPage extends AdminToolsPage
     public GroupsPage assertColumnContainsUser(int columnNr, UserModel userModel)
     {
         waitForColumnGroups(columnNr);
-        Assert.assertTrue(getColumnGroups(columnNr).contains(getUserFormat(userModel)),
+        assertTrue(getColumnGroups(columnNr).contains(getUserFormat(userModel)),
             String.format("Group %s was found in column %s", userModel.getUsername(), columnNr));
         return this;
     }
@@ -286,16 +221,13 @@ public class GroupsPage extends AdminToolsPage
         return this;
     }
 
-    /**
-     * Click on any item from Groups page lists
-     *
-     * @param itemName to be clicked
-     */
     public GroupsPage selectGroup(String itemName)
     {
         LOG.info(String.format("Select group %s", itemName));
-        getItemGroup(itemName).click();
-        browser.waitUntilElementHasAttribute(browser.findElement
+        WebElement groupToClick = getItemGroup(itemName);
+        getBrowser().mouseOver(groupToClick);
+        groupToClick.click();
+        getBrowser().waitUntilElementHasAttribute(getBrowser().findElement
             (By.xpath(String.format(groupRow, itemName))), "class", "item-selected");
         return this;
     }
@@ -308,137 +240,121 @@ public class GroupsPage extends AdminToolsPage
 
     public GroupsPage clickCreateNewGroup(int column)
     {
-        browser.waitUntilElementVisible(By.cssSelector(String.format(createSubGroupButton, column))).click();
-        browser.waitUntilElementVisible(newGroupPanelTitle);
+        getBrowser().waitUntilElementVisible(By.cssSelector(String.format(createSubGroupButton, column))).click();
+        getBrowser().waitUntilElementVisible(newGroupPanelTitle);
         return this;
     }
 
     public AddGroupDialog clickAddGroup(int groupColumn)
     {
-        browser.waitUntilElementVisible(By.cssSelector(String.format(addSubGroupButton, groupColumn))).click();
-        return (AddGroupDialog) addGroupDialog.renderedPage();
+        getBrowser().waitUntilElementVisible(By.cssSelector(String.format(addSubGroupButton, groupColumn))).click();
+        return (AddGroupDialog) new AddGroupDialog(browser).renderedPage();
     }
 
     public GroupsPage assertAddUserButtonIsDisplayed(int groupColumn)
     {
-        WebElement addUser = browser.waitUntilElementVisible(By.cssSelector(String.format(addUserGroupButton, groupColumn)));
-        Assert.assertTrue(browser.isElementDisplayed(addUser), "Add user button is displayed");
+        WebElement addUser = getBrowser().waitUntilElementVisible(By.cssSelector(String.format(addUserGroupButton, groupColumn)));
+        assertTrue(getBrowser().isElementDisplayed(addUser), "Add user button is displayed");
         return this;
     }
 
     public AddUserDialog clickAddUser(int groupColumn)
     {
-        browser.waitUntilElementVisible(By.cssSelector(String.format(addUserGroupButton, groupColumn))).click();
-        return (AddUserDialog) addUserDialog.renderedPage();
+        getBrowser().waitUntilElementVisible(By.cssSelector(String.format(addUserGroupButton, groupColumn))).click();
+        return (AddUserDialog) new AddUserDialog(browser).renderedPage();
     }
 
-    /**
-     * Click 'Remove User' button from second column
-     *
-     * @param user to be removed
-     * @return 'Remove User' dialog
-     */
     public RemoveUserFromGroupDialog clickRemoveUser(UserModel user)
     {
         WebElement groupElement = mouseOverGroup(getUserFormat(user));
         WebElement remove = groupElement.findElement(removeUser);
-        browser.waitUntilElementVisible(remove);
-        browser.scrollToElement(remove);
-        browser.mouseOver(remove);
-        browser.waitUntilElementClickable(remove).click();
-        return (RemoveUserFromGroupDialog) removeUserFromGroupDialog.renderedPage();
+        getBrowser().waitUntilElementVisible(remove);
+        getBrowser().scrollToElement(remove);
+        getBrowser().mouseOver(remove);
+        getBrowser().waitUntilElementClickable(remove).click();
+
+        return (RemoveUserFromGroupDialog) new RemoveUserFromGroupDialog(browser).renderedPage();
     }
 
-    /**
-     * Click 'Delete Group' button
-     *
-     * @param groupName to be deleted
-     * @return 'Delete Group' dialog
-     */
     public DeleteGroupDialog clickDelete(String groupName)
     {
         WebElement groupElement = mouseOverGroup(groupName);
         WebElement delete = groupElement.findElement(deleteGroupButton);
-        browser.mouseOver(delete);
-        browser.waitUntilElementClickable(delete).click();
-        return (DeleteGroupDialog) deleteGroupDialog.renderedPage();
+        getBrowser().mouseOver(delete);
+        getBrowser().waitUntilElementClickable(delete).click();
+        return (DeleteGroupDialog) new DeleteGroupDialog(browser).renderedPage();
     }
 
     public GroupsPage assertNewGroupTitleIsDisplayed()
     {
-        Assert.assertEquals(browser.waitUntilElementVisible(newGroupPanelTitle).getText(),
+        assertEquals(getBrowser().waitUntilElementVisible(newGroupPanelTitle).getText(),
             language.translate("adminTools.groups.newGroupPanelTitle"), "New Group title is displayed");
         return this;
     }
 
     public GroupsPage assertIdentifierInputFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(groupIdentifierInput), "Identifier input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(groupIdentifierInput), "Identifier input is displayed");
         return this;
     }
 
     public void typeGroupIdentifier(String identifierName)
     {
-        browser.waitUntilElementVisible(groupIdentifierInput);
-        groupIdentifierInput.clear();
-        groupIdentifierInput.sendKeys(identifierName);
+        getBrowser().waitUntilElementVisible(groupIdentifierInput);
+        clearAndType(groupIdentifierInput, identifierName);
     }
 
     public GroupsPage assertDisplayNameInputFieldIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(groupDisplayNameInput), "Display Name input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(groupDisplayNameInput), "Display Name input is displayed");
         return this;
     }
 
     public GroupsPage assertGroupIdentifierFieldLabelIsCorrect()
     {
-        Assert.assertEquals(identifierFieldLabel.getText(), language.translate("adminTools.groups.newGroupProperties.identifier"));
+        assertEquals(getBrowser().findElement(identifierFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.identifier"));
         return this;
     }
 
     public GroupsPage assertDisplayNameFieldLabelIsCorrect()
     {
-        Assert.assertEquals(displayNameFieldLabel.getText(), language.translate("adminTools.groups.newGroupProperties.displayName"));
+        assertEquals(getBrowser().findElement(displayNameFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.displayName"));
         return this;
     }
 
     public void typeGroupDisplayName(String identifierName)
     {
-        groupDisplayNameInput.clear();
-        groupDisplayNameInput.sendKeys(identifierName);
-
+        clearAndType(groupDisplayNameInput, identifierName);
     }
 
     public GroupsPage assertCreateNewGroupButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createGroupOKButton), "Create group button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(createGroupOKButton), "Create group button is displayed");
         return this;
     }
 
     public void clickCreateGroupButton()
     {
-        browser.waitUntilElementVisible(createGroupOKButton);
-        browser.waitUntilElementClickable(createGroupOKButton).click();
+        getBrowser().waitUntilElementVisible(createGroupOKButton);
+        getBrowser().waitUntilElementClickable(createGroupOKButton).click();
         waitUntilNotificationMessageDisappears();
     }
 
     public GroupsPage assertCreateAndCreateAnotherGroupButtonDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(createAndCreateAnotherGroupButton),
-            "Create and create another button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(createAndCreateAnotherGroupButton), "Create and create another button is displayed");
         return this;
     }
 
     public GroupsPage assertCancelCreateNewGroupButtonDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(cancelCreateGroupButton),
-            "Create and create another button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(cancelCreateGroupButton), "Create and create another button is displayed");
         return this;
     }
 
     private void clickCancelCreateNewGroupButton()
     {
-        browser.waitUntilElementClickable(cancelCreateGroupButton, 5).click();
+        getBrowser().waitUntilElementClickable(cancelCreateGroupButton, 5).click();
     }
 
     public GroupsPage createGroup(GroupModel groupModel)
@@ -461,20 +377,21 @@ public class GroupsPage extends AdminToolsPage
     {
         WebElement groupElement = mouseOverGroup(groupModel.getDisplayName());
         WebElement delete = groupElement.findElement(deleteGroupButton);
-        browser.waitUntilElementVisible(delete);
-        browser.scrollToElement(delete);
-        browser.mouseOver(delete);
-        browser.waitUntilElementClickable(delete).click();
-        browser.waitUntilElementVisible(deleteGroupOKButton).click();
+        getBrowser().waitUntilElementVisible(delete);
+        getBrowser().scrollToElement(delete);
+        getBrowser().mouseOver(delete);
+        getBrowser().waitUntilElementClickable(delete).click();
+        getBrowser().waitUntilElementVisible(deleteGroupOKButton).click();
         waitUntilNotificationMessageDisappears();
+
         return this;
     }
 
     private WebElement mouseOverGroup(String groupName)
     {
         WebElement element = getItemGroup(groupName);
-        browser.scrollIntoView(element);
-        browser.mouseOver(element);
+        getBrowser().scrollIntoView(element);
+        getBrowser().mouseOver(element);
         return element;
     }
 
@@ -482,38 +399,36 @@ public class GroupsPage extends AdminToolsPage
     {
         WebElement groupElement = mouseOverGroup(group.getDisplayName());
         WebElement edit = groupElement.findElement(updateGroupButton);
-        browser.mouseOver(edit);
-        browser.waitUntilElementClickable(edit).click();
-        WebElement groupEditDisplayNameInputElement = browser.waitUntilElementVisible(groupEditDisplayNameInput);
+        getBrowser().mouseOver(edit);
+        getBrowser().waitUntilElementClickable(edit).click();
+        WebElement groupEditDisplayNameInputElement =  getBrowser().waitUntilElementVisible(groupEditDisplayNameInput);
         groupEditDisplayNameInputElement.clear();
         groupEditDisplayNameInputElement.sendKeys(newName);
-        browser.findElement(updateGroupOKButton).click();
+        getBrowser().findElement(updateGroupOKButton).click();
         waitUntilNotificationMessageDisappears();
-        if(browser.isElementDisplayed(firstPageButton))
+        if( getBrowser().isElementDisplayed(firstPageButton))
         {
-            firstPageButton.click();
+            getBrowser().findElement(firstPageButton).click();
         }
         return this;
     }
 
     public String getSearchBarText()
     {
-        return searchBar.getText();
+        return getBrowser().findElement(searchBar).getText();
     }
 
     public GroupsPage assertSearchBarTextIs(String searchKeyword, int results)
     {
-        Assert.assertEquals(searchBar.getText(), String.format(
+        assertEquals(getBrowser().findElement(searchBar).getText(), String.format(
             language.translate("adminTools.groups.searchResultHeader"), searchKeyword, results));
         return this;
     }
 
     public GroupsPage assertDeleteInfoMessageIsDisplayed(String group)
     {
-        browser.waitUntilElementVisible(deleteMessage);
-        Assert.assertEquals(browser.findElement(deleteMessage).getText(),
+        assertEquals(notificationMessageThread.get(),
             String.format(language.translate("adminTools.groups.deleteMessage"), group));
-        browser.waitUntilElementDisappears(deleteMessage);
         return this;
     }
 

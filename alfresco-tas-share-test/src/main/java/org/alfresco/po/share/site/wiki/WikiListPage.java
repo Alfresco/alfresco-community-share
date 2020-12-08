@@ -2,26 +2,23 @@ package org.alfresco.po.share.site.wiki;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
-    @Autowired
+    //@Autowired
     EditWikiPage editWikiPage;
 
-    @Autowired
+    //@Autowired
     WikiPage wikiPage;
 
-    @Autowired
+    //@Autowired
     WikiDetailsPage wikiDetailsPage;
 
     @RenderWebElement
@@ -57,15 +54,19 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     @FindBy (css = "span[class='myPages'] a")
     private WebElement myPagesFilter;
 
+    private final By editPage = By.cssSelector("div.editPage a");
+    private final By pageName = By.cssSelector("[class=pageTitle] a");
+    private final By deletePage = By.cssSelector(".deletePage a");
+    private final By missingWikiPage = By.cssSelector(".rich-content a");
+    private final By pageDetails = By.cssSelector("div.detailsPage a");
+    private final By wikiRowDetails = By.cssSelector("div[class='publishedDetails'] span");
+    private final By wikiPageContent = By.cssSelector("div[class='pageCopy rich-content']");
+    private final By wikiPageTags = By.cssSelector("div[class=pageTags] a");
 
-    private By editPage = By.cssSelector("div.editPage a");
-    private By pageName = By.cssSelector("[class=pageTitle] a");
-    private By deletePage = By.cssSelector(".deletePage a");
-    private By missingWikiPage = By.cssSelector(".rich-content a");
-    private By pageDetails = By.cssSelector("div.detailsPage a");
-    private By wikiRowDetails = By.cssSelector("div[class='publishedDetails'] span");
-    private By wikiPageContent = By.cssSelector("div[class='pageCopy rich-content']");
-    private By wikiPageTags = By.cssSelector("div[class=pageTags] a");
+    public WikiListPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     /**
      * This method returns the list of wiki page titles
@@ -91,8 +92,6 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public int getWikiPageTitlesListSize()
     {
-
-        browser.refresh();
         return getWikiPageTitlesList().size();
     }
 
@@ -104,7 +103,6 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public String noWikiPageDisplayed()
     {
-        browser.refresh();
         return noWikiPage.getText();
     }
 
@@ -116,7 +114,6 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public List<String> getTagsList()
     {
-        browser.refresh();
         List<String> tags = new ArrayList<>();
         for (WebElement tag : tagsList)
         {
@@ -127,7 +124,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public WebElement selectWikiDetailsRow(String wikiPage)
     {
-        return browser.findFirstElementWithValue(wikiPagesList, wikiPage);
+        return getBrowser().findFirstElementWithValue(wikiPagesList, wikiPage);
     }
 
     public EditWikiPage clickEdit(String wikiPage)
@@ -288,7 +285,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public void clickSpecificTag(String tagName)
     {
-        browser.findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
+        getBrowser().findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
     }
 
     /**
@@ -299,7 +296,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public boolean isWikiPageDisplayed(String wikiPageName)
     {
-        return browser.isElementDisplayed(browser.findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
+        return getBrowser().isElementDisplayed(getBrowser().findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
     }
 
     public void clickShowAllTags()
@@ -316,6 +313,4 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     {
         myPagesFilter.click();
     }
-
-
 }

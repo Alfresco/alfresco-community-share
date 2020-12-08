@@ -26,13 +26,13 @@ import org.testng.annotations.Test;
  */
 public class DeleteTopicTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     TopicListPage topicListPage;
 
-    @Autowired
+    //@Autowired
     DeleteDialog deleteDialog;
 
-    @Autowired
+    //@Autowired
     TopicViewPage topicViewPage;
 
     @Autowired
@@ -81,7 +81,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("discussions.deleteTopic.message"), topic1Title));
 
         LOG.info("STEP 2 - Click on 'Delete' button.");
-        deleteDialog.clickDelete(topicListPage);
+        deleteDialog.clickDelete();
         //assertEquals(notification.getDisplayedNotification(), language.translate("discussions.topicDeletedNotification"), "Topic deleted notification appears.");
         assertFalse(topicListPage.isTopicDisplayed(topic1Title), "Topic1 is deleted.");
     }
@@ -100,7 +100,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("discussions.deleteTopic.message"), topic2Title));
 
         LOG.info("STEP 2 - Click on 'Delete' button.");
-        deleteDialog.clickDelete(topicListPage);
+        deleteDialog.clickDelete();
 //        assertEquals(notification.getDisplayedNotification(), language.translate("discussions.topicDeletedNotification"), "Topic deleted notification appears.");
         assertFalse(topicListPage.isTopicDisplayed(topic2Title), "Topic2 is deleted.");
         assertFalse(topicListPage.isTagDisplayed(topicTag2), "tag1 is not displayed, the list of tags is empty.");

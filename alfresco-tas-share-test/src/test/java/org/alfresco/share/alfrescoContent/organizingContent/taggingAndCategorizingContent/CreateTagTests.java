@@ -33,11 +33,11 @@ public class CreateTagTests extends ContextAwareWebTest
     private final String folderName = "folderC10210-" + random;
     private final String fileTag = "tagC10209-" + random;
     private final String folderTag = "tagC10210-" + random;
-    @Autowired
+    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
-    @Autowired
+    //@Autowired
     private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)
@@ -70,7 +70,7 @@ public class CreateTagTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
 
         LOG.info("STEP1: Hover over the file name. STEP2: Click \"Edit Properties\" link");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_PROPERTIES, documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileName), "Displayed dialog=");
 
         LOG.info("STEP3: Click \"Select\" button");

@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 
 public class ViewingDataListsTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     private String userName;

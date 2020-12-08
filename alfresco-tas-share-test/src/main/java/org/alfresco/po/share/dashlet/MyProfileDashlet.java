@@ -21,7 +21,7 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     protected String helpIcon = "div[class='%s'] div[class='titleBarActionIcon help']";
     protected String dashletBar = "div[class='%s'] div[class='title']";
 
-    @Autowired
+    //@Autowired
     private UserProfilePage userProfilePage;
 
     private By viewFullProfile = By.cssSelector(".toolbar>div>span>span[class='first-child']>a");

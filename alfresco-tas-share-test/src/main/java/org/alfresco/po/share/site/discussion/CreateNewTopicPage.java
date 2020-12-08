@@ -2,22 +2,14 @@ package org.alfresco.po.share.site.discussion;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 
-/**
- * Created by Claudia Agache on 8/8/2016.
- */
-@Primary
-@PageObject
 public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 {
     @RenderWebElement
@@ -38,10 +30,15 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     @FindAll (@FindBy (css = "ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action"))
     protected List<WebElement> currentTagList;
     protected By topicContent = By.cssSelector("iframe[id*='discussions-createtopic_x0023_default-content']");
-    @Autowired
+   // @Autowired
     TopicListPage topicListPage;
-    @Autowired
+    //@Autowired
     private TopicViewPage topicViewPage;
+
+    public CreateNewTopicPage(ThreadLocal<WebBrowser> browser)
+    {
+      super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -73,12 +70,12 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void typeTopicContent(String content)
     {
-        browser.waitUntilElementVisible(topicContent);
-        browser.switchToFrame(browser.findElement(topicContent).getAttribute("id"));
-        WebElement editable = browser.switchTo().activeElement();
+        getBrowser().waitUntilElementVisible(topicContent);
+        getBrowser().switchToFrame(getBrowser().findElement(topicContent).getAttribute("id"));
+        WebElement editable = getBrowser().switchTo().activeElement();
         editable.clear();
         editable.sendKeys(content);
-        browser.switchToDefaultContent();
+        getBrowser().switchToDefaultContent();
     }
 
     /**
@@ -130,16 +127,15 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 
     public String getTopicTitle()
     {
-        browser.waitInSeconds(1);
         return topicTitle.getAttribute("value");
     }
 
     public String getTopicContent()
     {
-        browser.switchToFrame(browser.findElement(topicContent).getAttribute("id"));
-        WebElement editable = browser.switchTo().activeElement();
+        getBrowser().switchToFrame(getBrowser().findElement(topicContent).getAttribute("id"));
+        WebElement editable = getBrowser().switchTo().activeElement();
         String editableText = editable.getText();
-        browser.switchToDefaultContent();
+        getBrowser().switchToDefaultContent();
         return editableText;
     }
 
@@ -150,6 +146,6 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void removeTag(String tag)
     {
-        browser.findFirstElementWithValue(currentTagList, tag).click();
+        getBrowser().findFirstElementWithValue(currentTagList, tag).click();
     }
 }

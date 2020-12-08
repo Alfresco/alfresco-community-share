@@ -1,65 +1,59 @@
 package org.alfresco.share.adminTools;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
-import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.apache.commons.lang.RandomStringUtils;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * UI tests for Admin Tools > Tag Manager page
- */
-public class TagManagerTests extends ContextAwareWebTest
+public class TagManagerTests extends BaseTest
 {
-    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();
-    private final String updatedTag = "updated" + uniqueIdentifier;
-    private final String tag1 = "tag1" + uniqueIdentifier;
-    private final String tag2 = "tag2" + uniqueIdentifier;
-    private final String tag3 = "tag3" + uniqueIdentifier;
-    private SiteModel site;
-    private FileModel file;
-
-    @Autowired
     private TagManagerPage tagManagerPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupClass() throws Exception
-    {
-        site = dataSite.usingAdmin().createPublicRandomSite();
-        file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.authenticateUser(getAdminUser()).usingSite(site).createFile(file);
+    private final ThreadLocal<String> tag = new ThreadLocal<>();
+    private final ThreadLocal<FileModel> tagFile = new ThreadLocal<>();
 
-        restApi.authenticateUser(getAdminUser())
-            .withCoreAPI().usingResource(file).addTags(tag1, tag2, tag3);
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception
+    {
+        tagManagerPage = new TagManagerPage(browser);
+
+        tagFile.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
+        tag.set("tag" + RandomStringUtils.randomAlphabetic(4).toLowerCase());
+        getCmisApi().authenticateUser(getAdminUser()).usingShared().createFile(tagFile.get());
+        getRestApi().authenticateUser(getAdminUser())
+            .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
 
         setupAuthenticatedSession(getAdminUser());
-        tagManagerPage.navigate();
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @AfterMethod(alwaysRun = true)
+    public void cleanUp()
     {
-        dataSite.usingAdmin().deleteSite(site);
+        getCmisApi().authenticateUser(getAdminUser())
+            .usingResource(tagFile.get()).delete();
     }
 
     @TestRail (id = "C9383")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag() throws Exception
     {
-        tagManagerPage.searchTagWithRetry(tag1)
-            .clickEdit(tag1)
+        String updatedTag = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+        tagManagerPage.navigate();
+        tagManagerPage.searchTagWithRetry(tag.get())
+            .clickEdit(tag.get())
             .renameTag(updatedTag)
             .searchTagWithRetry(updatedTag)
             .assertTagIsDisplayed(updatedTag);
-        RestTagModelsCollection tags = restApi.withCoreAPI().usingResource(file).getNodeTags();
+        RestTagModelsCollection tags = getRestApi().withCoreAPI().usingResource(tagFile.get()).getNodeTags();
         tags.assertThat()
             .entriesListContains("tag", updatedTag);
     }
@@ -72,25 +66,28 @@ public class TagManagerTests extends ContextAwareWebTest
         tagManagerPage.assertSearchButtonIsDisplayed()
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
+            .searchTagWithRetry(tag.get())
             .assertTableHeadersAreCorrect()
-            .searchTagWithRetry(tag2)
-                .clickEdit(tag2)
-                    .assertRenameTagLabelIsCorrect()
-                    .assertOkButtonIsDisplayed()
-                    .assertCancelButtonIsDisplayed()
-                    .assertRequiredSymbolIsDisplayed();
+            .clickEdit(tag.get())
+            .assertRenameTagLabelIsCorrect()
+            .assertOkButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed()
+            .assertRequiredSymbolIsDisplayed();
     }
 
     @TestRail (id = "C9388")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteTag()
     {
-        tagManagerPage.searchTagWithRetry(tag3)
-            .clickDelete(tag3)
-                .assertConfirmDeleteMessageForContentEqualsTo(tag3)
-                .assertDeleteButtonIsDisplayed()
-                .assertCancelButtonIsDisplayed()
-                .clickDelete();
-        tagManagerPage.search(tag3).assertTagIsNotDisplayed(tag3);
+        tagManagerPage.navigate();
+        tagManagerPage.searchTagWithRetry(tag.get())
+            .clickDelete(tag.get())
+            .assertConfirmDeleteMessageForContentEqualsTo(tag.get())
+            .assertDeleteButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed()
+            .clickDelete();
+        tagManagerPage.assertNoTagFoundMessageIsDisplayed()
+            .searchTag(tag.get())
+            .assertTagIsNotDisplayed(tag.get());
     }
 }

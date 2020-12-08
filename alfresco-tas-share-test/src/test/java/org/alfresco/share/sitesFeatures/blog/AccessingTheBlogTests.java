@@ -24,13 +24,13 @@ import org.testng.annotations.Test;
 
 public class AccessingTheBlogTests extends ContextAwareWebTest
 {
-    @Autowired
+   // @Autowired
     CustomizeSitePage customizeSite;
 
-    @Autowired
+   // @Autowired
     SiteDashboardPage siteDashboard;
 
-    @Autowired
+    //@Autowired
     BlogPostListPage blogPage;
 
     private String user = String.format("C3155User%s", RandomData.getRandomAlphanumeric());

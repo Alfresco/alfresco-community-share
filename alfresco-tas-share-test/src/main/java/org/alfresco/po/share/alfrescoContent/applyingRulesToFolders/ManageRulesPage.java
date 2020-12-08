@@ -1,51 +1,39 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
-import java.util.List;
-
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * @author Laura.Capsa
- */
-@PageObject
 public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 {
-    @FindBy (css = "li.rules-list-item.selected.dnd-draggable")
-    public WebElement contentRule;
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    EditRulesPage editRulesPage;
-    @Autowired
-    SelectDestinationDialog selectDestinationDialog;
-    @RenderWebElement
-    @FindBy (css = ".rules-header .rules-title")
-    private WebElement title;
-    @FindBy (xpath = ".//*[contains(@class, 'dialog-options')]/*[1]")
-    private WebElement noRulesText;
-    @FindBy (css = ".dialog-option a[href*='rule-edit']")
-    private WebElement createRulesLink;
-    @FindBy (xpath = "(.//div[@class='dialog-option']/div)[1]")
-    private WebElement createRulesDescription;
-    @FindBy (css = "a[id*='linkToRuleSet']")
-    private WebElement linkToRuleSetLink;
-    @FindBy (xpath = "(.//div[@class='dialog-option']/div)[2]")
-    private WebElement linkToRuleSetDescription;
-    @RenderWebElement
-    @FindBy (css = "button[id*='inheritButton']")
-    private WebElement inheritButton;
-    @FindBy (css = "span.folder-link a")
-    private List<WebElement> breadcrumbList;
+    private DocumentLibraryPage documentLibraryPage;
+    private EditRulesPage editRulesPage;
 
-    private By inheritRulesMessage = By.cssSelector("#message .bd");
+    //@Autowired
+    SelectDestinationDialog selectDestinationDialog;
+
+    private final By contentRule = By.cssSelector("li.rules-list-item.selected.dnd-draggable");
+    @RenderWebElement
+    private final By title = By.cssSelector(".rules-header .rules-title");
+    private final By noRulesText = By.xpath(".//*[contains(@class, 'dialog-options')]/*[1]");
+    private final By createRulesLink = By.cssSelector(".dialog-option a[href*='rule-edit']");
+    private final By createRulesDescription = By.xpath("(.//div[@class='dialog-option']/div)[1]");
+    private final By linkToRuleSetLink = By.cssSelector("a[id*='linkToRuleSet']");
+    private final By linkToRuleSetDescription = By.xpath("(.//div[@class='dialog-option']/div)[2]");
+    @RenderWebElement
+    private final By inheritButton = By.cssSelector("button[id*='inheritButton']");
+    private final By breadcrumbList = By.cssSelector("span.folder-link a");
+    private final By inheritRulesMessage = By.cssSelector("#message .bd");
+
+    public ManageRulesPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+        documentLibraryPage = new DocumentLibraryPage(browser);
+        editRulesPage = new EditRulesPage(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -55,80 +43,80 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 
     public String getRuleTitle()
     {
-        return title.getText();
+        return getBrowser().findElement(title).getText();
     }
 
     public String getNoRulesText()
     {
-        if (browser.isElementDisplayed(noRulesText))
-            return noRulesText.getText();
+        if (getBrowser().isElementDisplayed(noRulesText))
+            return getBrowser().findElement(noRulesText).getText();
         return "'No rules defined for folder' header missing";
     }
 
     public String getCreateRulesDescription()
     {
-        if (browser.isElementDisplayed(createRulesDescription))
-            return createRulesDescription.getText();
+        if (getBrowser().isElementDisplayed(createRulesDescription))
+            return getBrowser().findElement(createRulesDescription).getText();
         return "Create Rules description isn't displayed.";
     }
 
     public String getCreateRulesLinkText()
     {
-        if (browser.isElementDisplayed(createRulesLink))
-            return createRulesLink.getText();
+        if (getBrowser().isElementDisplayed(createRulesLink))
+            return getBrowser().findElement(createRulesLink).getText();
         return "'Create Rules' link isn't displayed.";
     }
 
     public EditRulesPage clickCreateRules()
     {
-        createRulesLink.click();
+        getBrowser().findElement(createRulesLink).click();
         return (EditRulesPage) editRulesPage.renderedPage();
     }
 
     public String getLinkToRuleSetLinkText()
     {
-        if (browser.isElementDisplayed(linkToRuleSetLink))
-            return linkToRuleSetLink.getText();
+        if (getBrowser().isElementDisplayed(linkToRuleSetLink))
+            return getBrowser().findElement(linkToRuleSetLink).getText();
         return "'Link to Rule Set' Link isn't displayed.";
     }
 
     public String getLinkToRuleSetDescription()
     {
-        if (browser.isElementDisplayed(linkToRuleSetLink))
-            return linkToRuleSetDescription.getText();
+        if (getBrowser().isElementDisplayed(linkToRuleSetLink))
+            return getBrowser().findElement(linkToRuleSetDescription).getText();
         return "'Link to Rule Set' isn't displayed.";
     }
 
     public SelectDestinationDialog clickLinkToRuleSet()
     {
-        linkToRuleSetLink.click();
+        getBrowser().findElement(linkToRuleSetLink).click();
         return (SelectDestinationDialog) selectDestinationDialog.renderedPage();
     }
 
     public String getInheritButtonText()
     {
-        if (browser.isElementDisplayed(inheritButton))
-            return inheritButton.getText();
+        if (getBrowser().isElementDisplayed(inheritButton))
+            return getBrowser().findElement(inheritButton).getText();
         return "'Inherit Rules' button isn't displayed.";
     }
 
     public ManageRulesPage clickInheritButton()
     {
-        browser.waitUntilElementVisible(inheritButton).click();
-        browser.waitUntilElementVisible(inheritRulesMessage);
-        browser.waitUntilElementDisappears(inheritRulesMessage, 10);
+        getBrowser().waitUntilElementVisible(inheritButton).click();
+        getBrowser().waitUntilElementVisible(inheritRulesMessage);
+        getBrowser().waitUntilElementDisappears(inheritRulesMessage, 10);
 
         return (ManageRulesPage) this.renderedPage();
     }
 
     public boolean isContentRuleDisplayed()
     {
-        return browser.isElementDisplayed(contentRule);
+        return getBrowser().isElementDisplayed(contentRule);
     }
 
     public DocumentLibraryPage returnTo(String location)
     {
-        browser.findFirstElementWithValue(breadcrumbList, location).click();
+        getBrowser().findFirstElementWithValue(breadcrumbList, location).click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 }

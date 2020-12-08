@@ -2,18 +2,14 @@ package org.alfresco.share.site;
 
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.site.CreateSiteDialog;
-import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -23,22 +19,16 @@ import static org.testng.Assert.*;
 
 public class CreateSiteTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CreateSiteDialog createSiteDialog;
 
-    @Autowired
+    //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
-    UserDashboardPage userDashboardPage;
-
-    @Autowired
-    AdminToolsPage adminToolsPage;
-
-    @Autowired
+    //@Autowired
     SitesManagerPage sitesManagerPage;
 
-    @Autowired
+    //@Autowired
     private SiteFinderPage siteFinderPage;
 
     private UserModel user;
@@ -63,7 +53,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyItemsPresentOnForm()
     {
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
@@ -104,7 +94,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2104-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2104-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
@@ -135,7 +125,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     public void createSiteWithoutDescription()
     {
         String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
         createSiteDialog.navigateByMenuBar();
@@ -162,7 +152,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2105-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2105-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
@@ -193,7 +183,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2106-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2106-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
@@ -225,7 +215,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2107-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2107-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
         createSiteDialog.navigateByMenuBar();
@@ -256,7 +246,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2108-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2108-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
         createSiteDialog.navigateFromDashlet();
@@ -288,7 +278,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2109-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2109-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
         createSiteDialog.navigateFromDashlet();
@@ -320,7 +310,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2124-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2124-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
@@ -343,7 +333,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2125-%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description-C2125-%s", RandomData.getRandomAlphanumeric());
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
@@ -364,7 +354,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     {
         String siteName = String.format("siteC2130-%s", RandomData.getRandomAlphanumeric());
 
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
@@ -389,7 +379,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     public void verifyItemsPresentOnCreateSiteForm()
     {
         LOG.info("Precondition: User is logged into Share");
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
 
         LOG.info("Step 1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar().assertCreateSiteDialogIsDisplayed();
@@ -413,7 +403,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         Assert.assertTrue(createSiteDialog.isCloseXButtonDisplayed(), "Close button is not displayed");
 
         LOG.info("Step 5: Open the User DashBoard > Sites Dashlet > and click on \"Create Site\" and check that the same form is displayed");
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
         createSiteDialog.navigateFromDashlet().assertCreateSiteDialogIsDisplayed();
         Assert.assertTrue(createSiteDialog.isTypeLabelDisplayed(), "Type label is not displayed");
         Assert.assertEquals(createSiteDialog.getTypeLabelValue(), "Collaboration Site", "Collaboration Site is not the label displayed on Create Site Dialog");
@@ -443,7 +433,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         siteFinderPage.searchSiteWithRetry(site.getId());
         assertTrue(siteFinderPage.checkSiteWasFound(site.getId()), "Site " + site.getId() + " is displayed in search result section");
 
-        userDashboardPage.navigate(user);
+        userDashboard.navigate(user);
         createSiteDialog.navigateByMenuBar();
         createSiteDialog.typeInNameInput(site.getTitle());
         Assert.assertEquals(createSiteDialog.getNameFieldWarningMessage(), "This Name might be used by another site. You can use this Name anyway or enter a different one.",

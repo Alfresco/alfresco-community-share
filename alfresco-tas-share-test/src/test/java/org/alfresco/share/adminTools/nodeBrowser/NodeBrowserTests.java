@@ -1,8 +1,10 @@
 package org.alfresco.share.adminTools.nodeBrowser;
 
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage.SearchType;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
@@ -11,14 +13,14 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * UI tests for Admin Tools > Node browser page
- */
-public class NodeBrowserTests extends ContextAwareWebTest
+public class NodeBrowserTests extends BaseTest
 {
     @Autowired
+    private DataContent dataContent;
+
     private NodeBrowserPage nodeBrowserPage;
 
     private SiteModel site;
@@ -26,32 +28,29 @@ public class NodeBrowserTests extends ContextAwareWebTest
     private final String content = RandomStringUtils.randomAlphanumeric(10);
     private String cmisSearchTerm;
 
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        nodeBrowserPage = new NodeBrowserPage(browser);
+        setupAuthenticatedSession(dataUser.getAdminUser());
+    }
+
     @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    public void dataPrep()
     {
         site = dataSite.usingAdmin().createPublicRandomSite();
         file = FileModel.getRandomFileModel(FileType.XML, content);
 
-        cmisApi.authenticateUser(dataUser.getAdminUser()).usingSite(site)
-            .createFile(file);
+        dataContent.usingUser(getAdminUser()).usingSite(site).createContent(file);
         cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
-
-        setupAuthenticatedSession(dataUser.getAdminUser());
-        nodeBrowserPage.navigate();
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void afterClass()
-    {
-        dataSite.usingAdmin().deleteSite(site);
     }
 
     @TestRail (id = "C9309")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void luceneSearch()
     {
-        LOG.info("Step 1: Do a 'lucene' search.");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.LUCENE)
             .searchFor(content)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -62,8 +61,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void nodeRefSearch()
     {
-        LOG.info("Step 1: Do a 'nodeRef' search.");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.NODEREF)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.NODEREF)
             .searchFor("workspace://SpacesStore/" + file.getNodeRefWithoutVersion())
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -77,8 +76,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
         String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s",
             site.getId(), file.getName());
 
-        LOG.info("Step 1: Do a 'xpath' search.");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.XPATH)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.XPATH)
             .searchFor(xpathSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -89,8 +88,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void ftsAlfrescoSearch()
     {
-        LOG.info("Step 1: Do a 'fts-alfresco' search.");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.FTS_ALFRESCO)
             .searchFor("cm:name:" + file.getName())
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -101,8 +100,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisStrictSearch()
     {
-        LOG.info("Step 1: Do a 'cmis-strict' search.");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_STRICT)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.CMIS_STRICT)
             .searchFor(cmisSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -113,8 +112,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisAlfrescoSearch()
     {
-        LOG.info("Step 1: Do a 'cmis-alfresco' search.");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_ALFRESCO)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.CMIS_ALFRESCO)
             .searchFor(cmisSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site)
@@ -126,29 +125,35 @@ public class NodeBrowserTests extends ContextAwareWebTest
     public void checkNodeBrowserPage()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.assertSearchTypeIsSelected(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO)
+        nodeBrowserPage.assertSearchTypeIsSelected(SearchType.FTS_ALFRESCO)
             .assertStoreTypeIsSelected(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE)
             .assertAllColumnsAreDisplayed()
             .assertSearchButtonIsDisplayed();
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS })
     public void executeCustomNodeSearch()
     {
-        LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.STORE_ROOT)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.STORE_ROOT)
             .clickSearch()
             .assertReferenceContainsValue("workspace://SpacesStore/");
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS })
     public void getSearchResultsNoResults()
     {
-        LOG.info("Step 1: Navigate to Node Browser page and perform a search that will not return results");
-        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE)
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(SearchType.LUCENE)
             .searchFor(String.valueOf(System.currentTimeMillis()))
             .clickSearch()
             .assertNoItemsFoundIsDisplayed()
             .assertNoItemsFoundLabelIsCorrect();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void afterClass()
+    {
+        dataSite.usingAdmin().deleteSite(site);
     }
 }

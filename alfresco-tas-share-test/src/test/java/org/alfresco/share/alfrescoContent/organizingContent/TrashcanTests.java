@@ -1,30 +1,40 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class TrashcanTests extends ContextAwareWebTest
+public class TrashcanTests extends BaseTest
 {
-    @Autowired
-    private UserTrashcanPage userTrashcanPage;
-
-    private UserModel trashUser;
+    private UserModel trashUser, cleanUser;
     private SiteModel trashSite;
 
+    private UserTrashcanPage userTrashcanPage;
+
     @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         trashUser = dataUser.usingAdmin().createRandomTestUser();
+        cleanUser = dataUser.usingAdmin().createRandomTestUser();
         trashSite = dataSite.usingUser(trashUser).createPublicRandomSite();
+    }
 
-        cmisApi.authenticateUser(trashUser);
-        setupAuthenticatedSession(trashUser);
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        userTrashcanPage = new UserTrashcanPage(browser);
     }
 
     @TestRail (id = "C10506")
@@ -33,17 +43,18 @@ public class TrashcanTests extends ContextAwareWebTest
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(trashSite)
-            .createFolder(folderToDelete).createFile(file)
-                .and().assertThat().existsInRepo();
-        cmisApi.usingResource(file).delete()
+        getCmisApi().authenticateUser(cleanUser).usingShared()
+            .createFolder(folderToDelete).createFile(file);
+        getCmisApi().usingResource(file).delete()
             .and().usingResource(folderToDelete).deleteFolderTree();
+
+        setupAuthenticatedSession(cleanUser);
 
         userTrashcanPage.navigate(trashUser)
             .clickEmptyButton()
-                .assertDeleteDialogHeaderEqualsTo(language.translate("emptyTrashcan.title"))
-                .assertConfirmDeleteMessageEqualsTo(language.translate("emptyTrashcan.message"))
-                .clickDelete();
+            .assertDeleteDialogHeaderEqualsTo(language.translate("emptyTrashcan.title"))
+            .assertConfirmDeleteMessageEqualsTo(language.translate("emptyTrashcan.message"))
+            .clickDelete();
         userTrashcanPage.assertNoItemsExistMessageIsDisplayed()
             .assertNoItemsExistMessageEqualTo(language.translate("emptyTrashcan.noItems"));
     }
@@ -53,8 +64,10 @@ public class TrashcanTests extends ContextAwareWebTest
     public void verifyTrashcanDeleteFile()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(trashSite).createFile(file)
+        getCmisApi().authenticateUser(trashUser)
+            .usingSite(trashSite).createFile(file)
             .then().usingResource(file).delete();
+        setupAuthenticatedSession(trashUser);
 
         userTrashcanPage.navigate(trashUser)
             .clickDeleteButton(file)
@@ -67,9 +80,11 @@ public class TrashcanTests extends ContextAwareWebTest
     public void verifyTrashcanDeleteFolder()
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        cmisApi.usingSite(trashSite).createFolder(folder)
-            .then().usingResource(folder).delete();
+        getCmisApi().authenticateUser(trashUser)
+            .usingSite(trashSite).createFolder(folder)
+                .then().usingResource(folder).delete();
 
+        setupAuthenticatedSession(trashUser);
         userTrashcanPage.navigate(trashUser)
             .clickDeleteButton(folder)
             .clickDelete();
@@ -79,7 +94,7 @@ public class TrashcanTests extends ContextAwareWebTest
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(trashUser);
+        removeUserFromAlfresco(trashUser, cleanUser);
         deleteSites(trashSite);
     }
 }

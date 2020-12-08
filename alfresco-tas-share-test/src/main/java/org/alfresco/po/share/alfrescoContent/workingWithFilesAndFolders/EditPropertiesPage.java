@@ -2,48 +2,34 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * @author Laura.Capsa
- */
-@PageObject
 public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 {
-    @FindBy (css = "button[id*='yui-gen21-button']")
-    protected WebElement selectButtonForCustomSmartFolder;
-    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-help-icon']")
-    protected WebElement helpIconForRestrictableAspect;
-    @FindBy (css = "[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']")
-    protected WebElement helpMessageForRestrictableAspect;
-    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-entry']")
-    protected WebElement offlineExpiresafterInput;
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    SelectDialog selectDialog;
+    private SelectDialog selectDialog;
+
+    private final By selectButtonForCustomSmartFolder = By.cssSelector("button[id*='yui-gen21-button']");
+    private final By helpIconForRestrictableAspect = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-help-icon']");
+    private final By helpMessageForRestrictableAspect = By.cssSelector("[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']");
+    private final By offlineExpiresafterInput = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-entry']");
     @RenderWebElement
-    @FindAll (@FindBy (css = "button[id*='form']"))
-    private List<WebElement> buttonsList;
+    private final By buttonsList = By.cssSelector("button[id*='form']");
     @RenderWebElement
-    @FindAll (@FindBy (css = ".form-field>label"))
-    private List<WebElement> propertiesElements;
-    private By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
+    private final By propertiesElements = By.cssSelector(".form-field>label");
+    private final By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
+
+    public EditPropertiesPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -51,18 +37,12 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         return String.format("share/page/site/%s/edit-metadata?nodeRef=workspace://SpacesStore/", getCurrentSiteName());
     }
 
-    /**
-     * Verify displayed elements from 'Edit Properties' page form
-     *
-     * @param expectedPropertiesList list of expected properties to be checked
-     * @return displayed properties
-     */
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesList = new ArrayList<>();
         getBrowser().waitUntilElementsVisible(propertiesElements);
 
-        for (WebElement propertyElement : propertiesElements)
+        for (WebElement propertyElement : getBrowser().findElements(propertiesElements))
             if (propertyElement.getText().contains(":"))
                 propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
             else
@@ -71,17 +51,12 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         return DataUtil.areListsEquals(propertiesList, expectedPropertiesList);
     }
 
-    /**
-     * Verify a list of elements isn't displayed in 'Edit Properties' page form
-     *
-     * @param propertiesNotDisplayedList list of properties to be checked that aren't displayed
-     * @return first property from given list that is displayed
-     */
-    public String checkPropertiesAreNotDisplayed(ArrayList<String> propertiesNotDisplayedList)
+    public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
-        for (int i = 0; i < propertiesElements.size(); i++)
+        List<WebElement> elements = getBrowser().findElements(propertiesElements);
+        for (int i = 0; i < elements.size(); i++)
         {
-            String property = propertiesElements.get(i).getText();
+            String property = elements.get(i).getText();
             for (String aPropertiesNotDisplayedList : propertiesNotDisplayedList)
             {
                 if (property.equals(aPropertiesNotDisplayedList))
@@ -91,53 +66,42 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         return "Given list isn't displayed";
     }
 
-    /**
-     * Click on a submit form button
-     *
-     * @param buttonName to be clicked: Save, Cancel
-     */
     public DocumentDetailsPage clickButton(String buttonName)
     {
-        browser.findFirstElementWithExactValue(buttonsList, buttonName).click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+        getBrowser().findFirstElementWithValue(buttonsList, buttonName).click();
+        return (DocumentDetailsPage) new DocumentDetailsPage(browser).renderedPage();
     }
 
-    public DocumentLibraryPage clickButtonForFolder(String buttonName)
+    public void clickButtonForFolder(String buttonName)
     {
-        browser.selectOptionFromFilterOptionsList(buttonName, buttonsList);
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+        getBrowser().selectOptionFromFilterOptionsList(buttonName, getBrowser().findElements(buttonsList));
     }
 
     public void clickHelpIconForRestrictableAspect()
-
     {
-        helpIconForRestrictableAspect.click();
+       getBrowser().findElement(helpIconForRestrictableAspect).click();
     }
 
     public String getHelpMessageForRestrictableAspect()
     {
 
-        return helpMessageForRestrictableAspect.getText();
+        return getBrowser().findElement(helpMessageForRestrictableAspect).getText();
     }
 
     public void addOfflineExpiresAfterValue(String hours)
-
     {
-
-        offlineExpiresafterInput.sendKeys(hours);
+        clearAndType(getBrowser().findElement(offlineExpiresafterInput), hours);
     }
 
     public void selectSFTemplate(int index)
-
     {
-        Select selectByIndex = new Select(browser.findElement(selectorSF));
+        Select selectByIndex = new Select(getBrowser().findElement(selectorSF));
         selectByIndex.selectByIndex(index);
     }
 
     public boolean isButtonDisplayed(String buttonName)
-
     {
-        for (WebElement aButtonsList : buttonsList)
+        for (WebElement aButtonsList : getBrowser().findElements(buttonsList))
         {
             if (aButtonsList.getText().equals(buttonName))
                 return true;
@@ -148,7 +112,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     public SelectDialog clickSelectButtonForCustomSmartFolder()
     {
-        selectButtonForCustomSmartFolder.click();
+        getBrowser().findElement(selectButtonForCustomSmartFolder).click();
         return (SelectDialog) selectDialog.renderedPage();
     }
 }

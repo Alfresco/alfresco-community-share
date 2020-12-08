@@ -20,8 +20,6 @@ public class EditSiteDetailsDialog extends ShareDialog
 {
     @FindBy (css = "[class*='Close']")
     protected WebElement closeCreateSitePopup;
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] input[class$='InputInner']")
     private TextInput nameInput;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] label.label")
@@ -165,10 +163,9 @@ public class EditSiteDetailsDialog extends ShareDialog
         return browser.isElementDisplayed(saveButton);
     }
 
-    public SiteDashboardPage clickSaveButton()
+    public void clickSaveButton()
     {
         browser.waitUntilElementClickable(saveButton).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     public boolean isCancelButtonDisplayed()

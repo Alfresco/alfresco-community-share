@@ -1,17 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Admin and Authentication Tests" preserve-order="true">
+<suite name="Admin Tools Test Suite" parallel="methods" thread-count="5">
    <listeners>
-      <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener"/>
    </listeners>
 
    <test name="Admin Tools Tests">
       <groups>
          <run>
-           <include name="admin-tools"></include>
+            <include name="admin-tools"/>
          </run>
       </groups>
       <packages>
-         <package name="org.alfresco.share.adminTools.*"></package>
+         <package name="org.alfresco.share.adminTools.*"/>
       </packages>
    </test>
 

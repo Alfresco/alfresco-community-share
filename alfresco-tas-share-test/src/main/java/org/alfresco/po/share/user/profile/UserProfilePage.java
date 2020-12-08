@@ -1,88 +1,63 @@
 package org.alfresco.po.share.user.profile;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.po.share.SharePage;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author bogdan.bocancea
  */
-@PageObject
-public class UserProfilePage extends SharePage<UserProfilePage> implements AccessibleByMenuBar
+public class UserProfilePage extends SharePage2<UserProfilePage> implements AccessibleByMenuBar
 {
-
+    private String userName;
     private static final String EMPTY_SPACE = " ";
 
-    @Autowired
-    private EditUserProfilePage editUserProfilePage;
-
-    @FindBy (css = "button[id$='button-edit-button']")
-    private WebElement editProfile;
-
+    private final By editProfile = By.cssSelector("button[id$='button-edit-button']");
+    private final By infoLink = By.cssSelector("a[id$='default-profile-link']");
+    private final By headers = By.cssSelector("div[id$='readview'] .viewcolumn .header-bar");
+    private final By nameLabel = By.cssSelector(".namelabel");
+    private final By summary = By.cssSelector(".biorow>div");
+    private final By aboutUserDetails = By.cssSelector(".fieldlabel");
     @RenderWebElement
-    @FindBy (css = "a[id$='default-profile-link']")
-    private WebElement infoLink;
+    private final By sitesLink = By.cssSelector("a[id$='default-user-sites-link']");
+    private final By contentLink = By.cssSelector("a[id$='user-content-link']");
+    private final By followingLink = By.cssSelector("a[id$='following-link']");
+    private final By followersLink = By.cssSelector("a[id$='followers-link']");
+    private final By changePasswordLink = By.cssSelector("a[id$='change-password-link']");
+    private final By notificationLink = By.cssSelector("a[id$='user-notifications-link']");
+    private final By trashcanLink = By.cssSelector("a[id$='user-trashcan-link']");
+    private final By photo = By.cssSelector("div[id$='readview'] .photoimg");
+    private final By fieldValue = By.cssSelector(".fieldvalue");
+    private final String contactInfoDuplicateRow = "(//span[text()= '%s'])[1]/..";
+    private final String companyInfoDuplicateRow = "(//span[text()= '%s'])[2]/..";
+    private final String valueRow = "//span[@class='fieldlabelright' and text()='%s']/..";
 
-    @RenderWebElement
-    @FindAll (@FindBy (css = "div[id$='readview'] .viewcolumn .header-bar"))
-    private List<WebElement> headers;
+    public UserProfilePage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
-    @FindBy (css = ".namelabel")
-    private WebElement nameLabel;
+    public String getUserName()
+    {
+        return userName;
+    }
 
-    @FindBy (css = ".biorow>div")
-    private WebElement summary;
-
-    @FindAll (@FindBy (css = ".fieldlabel"))
-    private List<WebElement> aboutUserDetails;
-
-    @FindAll (@FindBy (css = ".viewcolumn .row"))
-    private List<WebElement> userInformation;
-
-    @RenderWebElement
-    @FindBy (css = "a[id$='default-user-sites-link']")
-    private WebElement sitesLink;
-
-    @RenderWebElement
-    @FindBy (css = "a[id$='user-content-link']")
-    private WebElement contentLink;
-
-    @FindBy (css = "a[id$='following-link']")
-    private WebElement followingLink;
-
-    @FindBy (css = "a[id$='followers-link']")
-    private WebElement followersLink;
-
-    @FindBy (css = "a[id$='change-password-link']")
-    private WebElement changePasswordLink;
-
-    @FindBy (css = "a[id$='user-notifications-link']")
-    private WebElement notificationLink;
-
-    @FindBy (css = "a[id$='user-trashcan-link']")
-    private WebElement trashcanLink;
-
-    @FindBy (css = "div[id$='readview'] .photoimg")
-    private WebElement photo;
-
-    private By fieldValue = By.cssSelector(".fieldvalue");
-    private String contactInfoDuplicateRow = "(//span[text()= '%s'])[1]/..";
-    private String companyInfoDuplicateRow = "(//span[text()= '%s'])[2]/..";
-    private String valueRow = "//span[@class='fieldlabelright' and text()='%s']/..";
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
 
     @Override
     public String getRelativePath()
@@ -105,128 +80,130 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     @Override
     public UserProfilePage navigateByMenuBar()
     {
-        toolbar.clickUserMenu().clickMyProfile();
-        return (UserProfilePage) renderedPage();
+        return (UserProfilePage) new Toolbar(browser).clickUserMenu().clickMyProfile().renderedPage();
     }
 
     public UserProfilePage assertUserProfilePageIsOpened()
     {
-        assertTrue(browser.isElementDisplayed(infoLink), "User profile page is opened");
+        getBrowser().waitUntilElementVisible(infoLink);
+        assertTrue(getBrowser().isElementDisplayed(infoLink), "User profile page is opened");
         return this;
     }
 
     public UserProfilePage assertInfoLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(infoLink), "Info link is displayed");
+        getBrowser().waitUntilElementVisible(infoLink);
+        assertTrue(getBrowser().isElementDisplayed(infoLink), "Info link is displayed");
         return this;
     }
 
     public UserProfilePage assertSitesLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(sitesLink), "Sites link is displayed");
+        getBrowser().waitUntilElementVisible(sitesLink);
+        assertTrue(getBrowser().isElementDisplayed(sitesLink), "Sites link is displayed");
         return this;
     }
 
     public UserProfilePage assertContentLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(contentLink), "Content link is displayed");
+        getBrowser().waitUntilElementVisible(contentLink);
+        assertTrue(getBrowser().isElementDisplayed(contentLink), "Content link is displayed");
         return this;
     }
 
     public UserProfilePage assertImFollowingLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(followingLink), "Following link is displayed");
+        getBrowser().waitUntilElementVisible(followingLink);
+        assertTrue(getBrowser().isElementDisplayed(followingLink), "Following link is displayed");
         return this;
     }
 
     public UserProfilePage assertFollowingMeLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(followersLink), "Following Me link is displayed");
+        getBrowser().waitUntilElementVisible(followersLink);
+        assertTrue(getBrowser().isElementDisplayed(followersLink), "Following Me link is displayed");
         return this;
     }
 
     public UserProfilePage assertChangePasswordLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(changePasswordLink), "Change password link is displayed");
+        getBrowser().waitUntilElementVisible(changePasswordLink);
+        assertTrue(getBrowser().isElementDisplayed(changePasswordLink), "Change password link is displayed");
         return this;
     }
 
     public UserProfilePage assertNotificationsLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(notificationLink), "Notifications link is displayed");
+        getBrowser().waitUntilElementVisible(notificationLink);
+        assertTrue(getBrowser().isElementDisplayed(notificationLink), "Notifications link is displayed");
         return this;
     }
 
     public UserProfilePage assertTrashcanLinkIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(trashcanLink), "Trashcan link is displayed");
+        getBrowser().waitUntilElementVisible(trashcanLink);
+        assertTrue(getBrowser().isElementDisplayed(trashcanLink), "Trashcan link is displayed");
         return this;
     }
 
-    /**
-     * Verify if About header is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isAboutHeaderDisplayed()
     {
-        return browser.isElementDisplayed(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
+        return getBrowser().isElementDisplayed(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
     }
 
     public UserProfilePage assertAboutHeaderIsDisplayed()
     {
-        Assert.assertNotNull(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.about")),
-            "About is displayed");
+        assertNotNull(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.about")),
+            "About is not displayed");
         return this;
     }
 
     public UserProfilePage assertContactInfoHeaderIsDisplayed()
     {
-        Assert.assertNotNull(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.contactInfo")),
-            "About is displayed");
+        assertNotNull(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.contactInfo")),
+            "Contact information header is not displayed");
         return this;
     }
 
     public UserProfilePage assertCompanyDetailsHeaderIsDisplayed()
     {
-        Assert.assertNotNull(browser.findFirstElementWithValue(headers, language.translate("adminTools.user.companyDetails")),
-            "About is displayed");
+        assertNotNull(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.companyDetails")),
+            "Company details is not displayed");
         return this;
     }
 
-    /**
-     * Click Edit Profile button
-     */
     public EditUserProfilePage clickEditProfile()
     {
         LOG.info("Click Edit Profile");
-        editProfile.click();
-        return (EditUserProfilePage) editUserProfilePage.renderedPage();
+        getBrowser().waitUntilElementVisible(editProfile).click();
+        return (EditUserProfilePage) new EditUserProfilePage(browser).renderedPage();
     }
 
     public UserProfilePage assertUsernameEquals(String firstName, String lastName)
     {
         LOG.info("Assert username equals: {}, {}", firstName, lastName);
-        assertEquals(nameLabel.getText(), firstName.concat(EMPTY_SPACE).concat(lastName),
-            String.format("Username not equals %s %s ", firstName, lastName));
+        assertEquals(getElementText(nameLabel), firstName.concat(EMPTY_SPACE).concat(lastName),
+                String.format("Username not equals %s %s ", firstName, lastName));
         return this;
     }
 
     public UserProfilePage assertSummaryIs(String summaryValue)
     {
         LOG.info(String.format("Assert summary value is: %s", summaryValue));
-        assertEquals(summary.getText(), summaryValue, "Summary is correct");
+        assertEquals(getElementText(summary), summaryValue, "Summary is correct");
         return this;
     }
 
     private List<String> getAboutUserInfo()
     {
-        return aboutUserDetails.stream().map(WebElement::getText).collect(Collectors.toList());
+        List<WebElement> aboutDetails = getBrowser().findElements(aboutUserDetails);
+        return aboutDetails.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public UserProfilePage assertAboutUserHasValues(String... values)
     {
         LOG.info("Assert values {} are displayed in About User section", Arrays.asList(values));
+        getBrowser().waitUntilElementVisible(aboutUserDetails);
         assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
         return this;
     }
@@ -240,7 +217,8 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     private UserProfilePage checkValue(String element, String label, String value)
     {
-        assertEquals(browser.findElement(By.xpath(String.format(element,
+
+        assertEquals(getBrowser().findElement(By.xpath(String.format(element,
             language.translate(label))))
             .findElement(fieldValue).getText(), value);
         return this;
@@ -303,14 +281,17 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     public UserProfilePage assertDefaultAvatarIsDisplayed()
     {
-        browser.waitUntilElementHasAttribute(photo, "src", "no-user-photo-64.png");
-        assertTrue(photo.getAttribute("src").contains("no-user-photo-64.png"));
+        LOG.info("Assert default avatar is displayed");
+        WebElement photoElement = getBrowser().findElement(photo);
+        getBrowser().waitUntilElementHasAttribute(photoElement, "src", "no-user-photo-64.png");
+        assertTrue(photoElement.getAttribute("src").contains("no-user-photo-64.png"));
         return this;
     }
 
     public UserProfilePage assertNewAvatarIsDisplayed()
     {
-        assertTrue(photo.getAttribute("src").contains("/content/thumbnails/avatar"));
+        LOG.info("Assert new avatar is displayed");
+        assertTrue(getBrowser().findElement(photo).getAttribute("src").contains("/content/thumbnails/avatar"));
         return this;
     }
 }

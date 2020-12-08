@@ -2,29 +2,27 @@ package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
 
-    @Autowired EditRulesPage editRulesPage;
+    EditRulesPage editRulesPage;
 
-    @Autowired
+    //@Autowired
     SelectDestinationDialog selectDestinationDialog;
 
-    private By mimetypeDropDown = By.cssSelector("div[id*=ruleConfigAction] select[title=Mimetype]");
+    private final By mimetypeDropDown = By.cssSelector("div[id*=ruleConfigAction] select[title=Mimetype]");
 
-    /**
-     * Method used to set `Transform And Copy Image/Content` rule for a folder
-     * @param mimetypeTransformation    the target transformation type
-     * @param targetSite                the site where is found the folder in which will copy the items
-     * @param targetFolder              the folder in which will copy the items
-     */
-    public void transformAndCopy(Mimetype mimetypeTransformation, String targetSite , String targetFolder){
-        Select performAction = new Select(browser.findElement(mimetypeDropDown));
+    public PerformActionRulePage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
+    public void transformAndCopy(Mimetype mimetypeTransformation, String targetSite , String targetFolder)
+    {
+        Select performAction = new Select(getBrowser().findElement(mimetypeDropDown));
         performAction.selectByValue(mimetypeTransformation.getValue());
         editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(targetSite);
@@ -35,10 +33,10 @@ public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
     }
 
     @Override
-    public String getRelativePath() {
+    public String getRelativePath()
+    {
         return null;
     }
-
 
     /**
      * Values of `Transform And Copy Image/Content` rule's dropdown mimetypes.
@@ -225,18 +223,20 @@ public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
         private String name;
         private String value;
 
-        Mimetype(String name, String value) {
+        Mimetype(String name, String value)
+        {
             this.name = name;
             this.value = value;
         }
 
-        public String getName() {
+        public String getName()
+        {
             return name;
         }
 
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
     }
-
 }

@@ -1,73 +1,42 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.FileInput;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-@PageObject
-public class UsersPage extends AdminToolsPage
+public class UsersPage extends SharePage2<UsersPage>
 {
-    @Autowired
-    private CreateUserPage createUsers;
-
-    @Autowired
-    private UploadResults uploadResults;
-
-    @Autowired
-    private UserProfileAdminToolsPage userProfileAdminToolsPage;
-
     @RenderWebElement
-    @FindBy (css = "button[id$='_default-newuser-button-button']")
-    private WebElement newUserButton;
-
+    private final By newUserButton = By.cssSelector("button[id$='_default-newuser-button-button']");
     @RenderWebElement
-    @FindBy (css = "button[id*='uploadusers']")
-    private WebElement uploadUsersButton;
+    private final By uploadUsersButton = By.cssSelector("button[id*='uploadusers']");
+    private final By userSearchInputField = By.cssSelector("input[id*='search-text']");
+    private final By searchButton = By.cssSelector("button[id*='search']");
+    private final By fileInput = By.cssSelector("input[id*='default-filedata-file']");
+    private final By uploadButton = By.cssSelector("#template_x002e_html-upload_x002e_console_x0023_default-upload-button-button");
+    private final By tableHeaderElements = By.cssSelector("div[class$='results'] table>thead>tr:nth-of-type(1) span");
+    private final By searchTextResult = By.cssSelector("div[id$='default-search-bar']");
 
-    @FindBy (css = "input[id*='search-text']")
-    private WebElement userSearchInputField;
+    private final String userRow = "//td[contains(@headers, 'userName')]//div[text()='%s']/../..";
 
-    @FindBy (css = "button[id*='search']")
-    private WebElement searchButton;
-
-    @FindBy (css = "input[id*='default-filedata-file']")
-    private FileInput fileInput;
-
-    @FindBy (css = "#template_x002e_html-upload_x002e_console_x0023_default-upload-button-button")
-    private WebElement uploadButton;
-
-    @FindAll (@FindBy (css = "div[class$='results'] table>thead>tr:nth-of-type(1) span"))
-    private List<WebElement> tableHeaderElements;
-
-    @FindBy (css = "div[id$='default-search-bar']")
-    private FileInput searchTextResult;
-
-    private String userRow = "//td[contains(@headers, 'userName')]//div[text()='%s']/../..";
+    public UsersPage(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     @Override
     public String getRelativePath()
@@ -78,10 +47,11 @@ public class UsersPage extends AdminToolsPage
     public CreateUserPage clickNewUserButton()
     {
         LOG.info("Click New User");
-        browser.waitUntilElementVisible(newUserButton);
-        browser.mouseOver(newUserButton);
-        newUserButton.click();
-        return (CreateUserPage) createUsers.renderedPage();
+        WebElement newUserElement = getBrowser().findElement(newUserButton);
+        getBrowser().waitUntilElementVisible(newUserElement);
+        getBrowser().mouseOver(newUserElement);
+        newUserElement.click();
+        return (CreateUserPage) new CreateUserPage(browser).renderedPage();
     }
 
     public UsersPage searchUserWithRetry(String user)
@@ -98,8 +68,9 @@ public class UsersPage extends AdminToolsPage
     private void typeUserAndClickSearch(String searchKeyword)
     {
         clearAndType(userSearchInputField, searchKeyword);
-        browser.mouseOver(searchButton);
-        searchButton.click();
+        WebElement search = getBrowser().findElement(searchButton);
+        getBrowser().mouseOver(search);
+        search.click();
     }
 
     private UsersPage searchUser(String searchKeyword, String userToWaitFor)
@@ -120,8 +91,8 @@ public class UsersPage extends AdminToolsPage
     public UsersPage assertSearchTextIsCorrect(String searchText, int results)
     {
         String expectedValue = String.format(language.translate("adminTools.user.search.text"), searchText, results);
-        browser.waitUntilElementContainsText(searchTextResult, expectedValue);
-        assertEquals(searchTextResult.getText(), expectedValue);
+        getBrowser().waitUntilElementContainsText(getBrowser().findElement(searchTextResult), expectedValue);
+        assertEquals(getBrowser().findElement(searchTextResult).getText(), expectedValue);
         return this;
     }
 
@@ -132,7 +103,7 @@ public class UsersPage extends AdminToolsPage
 
     public UsersPage assertSuccessfullyCreatedNewUserNotificationIsDisplayed()
     {
-        assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.users.createUserNotification"),
+        assertEquals(notificationMessageThread.get(), language.translate("adminTools.users.createUserNotification"),
             "Create user notification is displayed");
         return this;
     }
@@ -141,73 +112,68 @@ public class UsersPage extends AdminToolsPage
     {
         LOG.info(String.format("Search for user: %s", user));
         clearAndType(userSearchInputField, user);
-        browser.waitUntilElementClickable(searchButton).click();
+        getBrowser().waitUntilElementClickable(searchButton).click();
         return this;
     }
 
-    /**
-     * Method to check whether the user is found
-     *
-     * @param user String
-     * @return true if the user is found, else false
-     */
     public boolean isUserFound(String user)
     {
-        return browser.isElementDisplayed(By.xpath(String.format(userRow, user)));
+        return getBrowser().isElementDisplayed(By.xpath(String.format(userRow, user)));
     }
 
     public WebElement getUserRow(String userName)
     {
-        return browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15);
+        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15.getValue());
     }
 
     public UsersPage assertSearchInputIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(userSearchInputField), "Search input is displayed");
+        assertTrue(getBrowser().isElementDisplayed(userSearchInputField), "Search input is displayed");
         return this;
     }
 
     public UsersPage assertSearchButtonIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public UsersPage assertNewUserButtonIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(newUserButton), "New User button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(newUserButton), "New User button is displayed");
         return this;
     }
 
     public UsersPage assertImportUsersButtonIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
         return this;
     }
 
-    public UploadResults uploadUsers(String filePath)
+    public UploadUserResultsPage uploadUsers(String filePath)
     {
-        if (env.getProperty("grid.enabled").equals("true"))
+        if (tasProperties.getEnv().getProperty("grid.enabled").equals("true"))
         {
-            ((RemoteWebDriver)(browser.getWrappedDriver())).setFileDetector(new LocalFileDetector());
+            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
-        uploadUsersButton.click();
-        browser.waitUntilElementVisible(fileInput).sendKeys(filePath);
-        uploadButton.click();
-        return (UploadResults) uploadResults.renderedPage();
+        getBrowser().findElement(uploadUsersButton).click();
+        getBrowser().waitUntilElementVisible(fileInput).sendKeys(filePath);
+        getBrowser().findElement(uploadButton).click();
+
+        return (UploadUserResultsPage) new UploadUserResultsPage(browser).renderedPage();
     }
 
     public UsersPage assertDeleteUserNotificationIsDisplayed()
     {
         LOG.info("Assert delete user notification is displayed");
-        assertEquals(LAST_MODIFICATION_MESSAGE, language.translate("adminTools.user.deleteUser.notification"));
+        assertEquals(notificationMessageThread.get(), language.translate("adminTools.user.deleteUser.notification"));
         return this;
     }
 
     public UsersPage assertAllTableHeadersAreDisplayed()
     {
         LOG.info("Assert all table headers are displayed");
-        List<String> tableHeaders = browser.getTextFromElementList(tableHeaderElements);
+        List<String> tableHeaders = getBrowser().getTextFromElementList(getBrowser().findElements(tableHeaderElements));
         List<String> expectedTableHeaders = new ArrayList<>();
         expectedTableHeaders.add(language.translate("adminTools.user.table.name"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.userName"));
@@ -219,6 +185,7 @@ public class UsersPage extends AdminToolsPage
         expectedTableHeaders.add(language.translate("adminTools.user.table.deleted"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.action"));
         assertTrue(tableHeaders.containsAll(expectedTableHeaders), "All table headers are displayed");
+
         return this;
     }
 
@@ -289,7 +256,7 @@ public class UsersPage extends AdminToolsPage
         public UserProfileAdminToolsPage selectUserFullName()
         {
             getUserRow().findElement(userFullName).click();
-            return (UserProfileAdminToolsPage) userProfileAdminToolsPage.renderedPage();
+            return (UserProfileAdminToolsPage) new UserProfileAdminToolsPage(browser).renderedPage();
         }
 
         public UserRowAction assertUserDeleteIconIsDisplayed()

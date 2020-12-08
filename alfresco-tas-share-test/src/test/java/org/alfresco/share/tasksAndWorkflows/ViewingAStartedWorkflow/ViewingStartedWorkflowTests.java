@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
  */
 public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;
 
     @Autowired
@@ -30,7 +30,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     @Autowired
     WorkflowDetailsPage workflowDetailsPage;
 
-    @Autowired
+   // @Autowired
     MyTasksPage myTasksPage;
 
     @Autowired
@@ -276,7 +276,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on Task Done action.");
         myTasksPage.navigate();
         myTasksPage.clickEditTask(workflowName);
-        myTasksPage = editTaskPage.clickTaskDoneButton();
+        editTaskPage.clickTaskDoneButton();
         myTasksPage.clickCompletedTasks();
         Assert.assertTrue(myTasksPage.getStatusCompleted(workflowName).contains("Completed"));
 
@@ -290,7 +290,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         myTasksPage.clickOnTaskTitle(workflowName);
         myTasksPage.navigate();
         myTasksPage.clickEditTask(workflowName);
-        myTasksPage = editTaskPage.clickTaskDoneButton();
+        editTaskPage.clickTaskDoneButton();
         myTasksPage.clickCompletedTasks();
         Assert.assertTrue(myTasksPage.getStatusCompleted(workflowName).contains("Completed"));
 

@@ -32,13 +32,13 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     private final String group2 = String.format("aGroup2%s", RandomData.getRandomAlphanumeric());
     @Autowired
     MySitesDashlet mySitesDashlet;
-    @Autowired
+    //@Autowired
     AddSiteUsersPage addSiteUsers;
-    @Autowired
+    //@Autowired
     AddSiteGroupsPage addSiteGroups;
-    @Autowired
+    //@Autowired
     SiteGroupsPage siteGroups;
-    @Autowired
+   // @Autowired
     SiteUsersPage siteUsers;
     @Autowired
     Notification notification;

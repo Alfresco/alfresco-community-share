@@ -70,10 +70,10 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(siteModel);
         siteContentDashlet
             .clickSimpleViewIcon()
-                .usingDocument(fileModel)
-                    .assertFileIsDisplayed()
-                    .assertSiteEqualsTo(siteModel)
-                    .assertThumbnailIsDisplayed();
+            .usingDocument(fileModel)
+            .assertFileIsDisplayed()
+            .assertSiteEqualsTo(siteModel)
+            .assertThumbnailIsDisplayed();
     }
 
     @TestRail (id = "C588523")
@@ -86,9 +86,9 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(siteModel);
         siteContentDashlet.usingDocument(fileModel)
             .clickFileName()
-                .assertDocumentDetailsPageIsOpened()
-                .assertDocumentTitleEquals(fileModel)
-                .assertFileContentEquals(FILE_CONTENT);
+            .assertDocumentDetailsPageIsOpened()
+            .assertDocumentTitleEquals(fileModel)
+            .assertFileContentEquals(FILE_CONTENT);
     }
 
     @TestRail (id = "C5457")
@@ -99,16 +99,16 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
         fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         cmisApi.usingSite(siteModel).createFile(fileModel)
             .usingResource(fileModel).setContent(newContent)
-                .updateProperty("cm:description", DESCRIPTION);
+            .updateProperty("cm:description", DESCRIPTION);
 
         siteDashboardPage.navigate(siteModel);
         siteContentDashlet
             .clickDetailedViewButton()
             .usingDocument(fileModel)
-                .assertFileIsDisplayed()
-                .assertDescriptionEqualsTo(DESCRIPTION)
-                .assertFileVersionEqualsTo(1.1)
-                .assertFileSizeEqualsTo(EXPECTED_FILE_SIZE);
+            .assertFileIsDisplayed()
+            .assertDescriptionEqualsTo(DESCRIPTION)
+            .assertFileVersionEqualsTo(1.1)
+            .assertFileSizeEqualsTo(EXPECTED_FILE_SIZE);
     }
 
     @TestRail (id = "C588522")
@@ -122,10 +122,10 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
         siteContentDashlet
             .clickDetailedViewButton()
             .usingDocument(fileModel)
-                .clickLike()
-                    .assertUnlikeIsDisplayed()
-                    .assertNumberOfLikesEqualsTo(1)
-                .addToFavorite().assertRemoveFromFavoriteIsDisplayed();
+            .clickLike()
+            .assertUnlikeIsDisplayed()
+            .assertNumberOfLikesEqualsTo(1)
+            .addToFavorite().assertRemoveFromFavoriteIsDisplayed();
     }
 
     @TestRail (id = "C588521")
@@ -140,13 +140,13 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
             .clickDetailedViewButton()
             .usingDocument(fileModel)
             .clickLike().assertUnlikeIsDisplayed()
-                .assertUnlikeIsDisplayed()
-                .clickUnlike()
-                    .assertLikeIsDisplayed()
-                    .assertNumberOfLikesEqualsTo(0);
+            .assertUnlikeIsDisplayed()
+            .clickUnlike()
+            .assertLikeIsDisplayed()
+            .assertNumberOfLikesEqualsTo(0);
         siteContentDashlet.usingDocument(fileModel)
             .addToFavorite().assertRemoveFromFavoriteIsDisplayed()
-                .removeFromFavorite().assertAddToFavoriteIsDisplayed();
+            .removeFromFavorite().assertAddToFavoriteIsDisplayed();
     }
 
     @TestRail (id = "C5458")
@@ -159,9 +159,9 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(siteModel);
         siteContentDashlet
             .usingDocument(fileModel)
-                .clickCommentLink()
-                .assertDocumentDetailsPageIsOpened()
-                .assertCommentsAreaIsOpened();
+            .clickCommentLink()
+            .assertDocumentDetailsPageIsOpened()
+            .assertCommentsAreaIsOpened();
     }
 
     @AfterClass(alwaysRun = true)

@@ -28,9 +28,9 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private String user;
     private String myFilesPath;
-    @Autowired
+    //@Autowired
     private MyFilesPage myFilesPage;
-    @Autowired
+    //@Autowired
     private HeaderMenuBar headerMenuBar;
 
     @BeforeMethod (alwaysRun = true)

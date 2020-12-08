@@ -29,13 +29,13 @@ import org.testng.asserts.SoftAssert;
  */
 public class FacetedSearchShareTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     Toolbar toolbar;
-    @Autowired
+    //@Autowired
     SearchPage searchPage;
-    @Autowired
+    //@Autowired
     WikiPage wikiPage;
-    @Autowired
+    //@Autowired
     DataListsPage dataListsPage;
 
     SoftAssert softAssert = new SoftAssert();
@@ -167,7 +167,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         softAssert.assertTrue(searchPage.isNameHighlighted(wikiName), wikiName + " is not highlighted");
         softAssert.assertFalse(searchPage.isContentHighlighted(wikiContent), wikiContent + " is highlighted");
         LOG.info("Step 2: Click wiki name");
-        searchPage.clickContentName(wikiName, wikiPage);
+        searchPage.clickContentName(wikiName);
         softAssert.assertEquals(wikiPage.getPageTitle(), expectedWikiPageTitle, expectedWikiPageTitle + " is not displayed");
 
     }
@@ -211,7 +211,7 @@ public class FacetedSearchShareTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isNameHighlighted(listName), listName + " is not highlighted");
         Assert.assertFalse(searchPage.isDescriptionHighlighted(listDescription), listDescription + " is highlighted");
         LOG.info("Step 2: Select data list title and check user is redirected to the correct page");
-        searchPage.clickContentName(listName, dataListsPage);
+        searchPage.clickContentName(listName);
         Assert.assertEquals(dataListsPage.getPageTitle(), "Alfresco » Data Lists");
 //        Assert.assertTrue(dataListsPage.assertDataListTitleContains(listName));
     }

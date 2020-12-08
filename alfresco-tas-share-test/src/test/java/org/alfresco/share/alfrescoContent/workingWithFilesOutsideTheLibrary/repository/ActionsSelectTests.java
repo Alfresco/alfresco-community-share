@@ -24,11 +24,11 @@ public class ActionsSelectTests extends ContextAwareWebTest
     private final String fileContent = "8163 content";
     private final String path = "User Homes/" + user;
     private final String folderName = "C8164 Folder";
-    @Autowired
+    //@Autowired
     private RepositoryPage repositoryPage;
-    @Autowired
+    //@Autowired
     private HeaderMenuBar menuBar;
-    @Autowired
+   // @Autowired
     private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
     @BeforeClass (alwaysRun = true)

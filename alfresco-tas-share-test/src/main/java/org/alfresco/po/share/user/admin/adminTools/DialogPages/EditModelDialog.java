@@ -1,50 +1,31 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 
-/**
- * Created by Mirela Tifui on 11/29/2016.
- */
-@PageObject
-public class EditModelDialog extends ShareDialog
+import static org.testng.Assert.assertEquals;
+
+public class EditModelDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    @FindBy(id = "CMM_EDIT_MODEL_DIALOG_OK_label")
-    private WebElement saveButton;
-
-    @FindBy(id =  "CMM_EDIT_MODEL_DIALOG_CANCEL_label")
-    private WebElement cancelButton;
-
+    private final By saveButton = By.id("CMM_EDIT_MODEL_DIALOG_OK_label");
+    private final By cancelButton = By.id("CMM_EDIT_MODEL_DIALOG_CANCEL_label");
     @RenderWebElement
-    @FindBy(id = "CMM_EDIT_MODEL_DIALOG")
-    private WebElement editModelWindow;
-
+    private final By editModelWindow = By.id("CMM_EDIT_MODEL_DIALOG");
     @RenderWebElement
-    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='namespace']")
-    private WebElement namespaceField;
+    private final By namespaceField = By.cssSelector("div[id='CMM_EDIT_MODEL_DIALOG'] input[name='namespace']");
+    private final By prefixField = By.cssSelector("div[id='CMM_EDIT_MODEL_DIALOG'] input[name='prefix']");
+    private final By nameField = By.cssSelector("div[id='CMM_EDIT_MODEL_DIALOG'] input[name='name']");
+    private final By creatorField = By.cssSelector("div[id='CMM_EDIT_MODEL_DIALOG'] input[name='author']");
+    private final By descriptionField = By.cssSelector("div[id='CMM_EDIT_MODEL_DIALOG'] textarea[name='description']");
 
-    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='prefix']")
-    private WebElement prefixField;
-
-    @RenderWebElement
-    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='name']")
-    private WebElement nameField;
-
-    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='author']")
-    private WebElement creatorField;
-
-    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] textarea[name='description']")
-    private WebElement descriptionField;
-
-    @Autowired
-    private ModelManagerPage modelManagerPage;
+    public EditModelDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public EditModelDialog editNamespace(String nameSpace)
     {
@@ -54,7 +35,8 @@ public class EditModelDialog extends ShareDialog
 
     public EditModelDialog assertNamespaceIs(String expectedNamespace)
     {
-        Assert.assertEquals(namespaceField.getAttribute("value"), expectedNamespace, "Namespace text is correct");
+        assertEquals(getBrowser().findElement(namespaceField).getAttribute("value"),
+            expectedNamespace, "Namespace text is correct");
         return this;
     }
 
@@ -66,7 +48,8 @@ public class EditModelDialog extends ShareDialog
 
     public EditModelDialog assertPrefixIs(String expectedPrefix)
     {
-        Assert.assertEquals(prefixField.getAttribute("value"), expectedPrefix, "Prefix text is correct");
+        assertEquals(getBrowser().findElement(prefixField).getAttribute("value"),
+            expectedPrefix, "Prefix text is correct");
         return this;
     }
 
@@ -78,7 +61,8 @@ public class EditModelDialog extends ShareDialog
 
     public EditModelDialog assertCreatorIs(String expectedCreator)
     {
-        Assert.assertEquals(creatorField.getAttribute("value"), expectedCreator, "Creator text is correct");
+        assertEquals(getBrowser().findElement(creatorField).getAttribute("value"),
+            expectedCreator, "Creator text is correct");
         return this;
     }
 
@@ -90,20 +74,23 @@ public class EditModelDialog extends ShareDialog
 
     public EditModelDialog assertNameFieldIsDisabled()
     {
-        Assert.assertEquals(nameField.getAttribute("aria-disabled"), String.valueOf(true), "Name field is disabled");
+        assertEquals(getBrowser().findElement(nameField).getAttribute("aria-disabled"),
+            String.valueOf(true), "Name field is disabled");
         return this;
     }
 
     public ModelManagerPage clickSave()
     {
-        browser.waitUntilElementClickable(saveButton).click();
+        getBrowser().waitUntilElementClickable(saveButton).click();
+        ModelManagerPage modelManagerPage = new ModelManagerPage(browser);
         modelManagerPage.waiUntilLoadingMessageDisappears();
+
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 
     public ModelManagerPage clickCancel()
     {
-        browser.waitUntilElementClickable(cancelButton).click();
-        return (ModelManagerPage) modelManagerPage.renderedPage();
+        getBrowser().waitUntilElementClickable(cancelButton).click();
+        return (ModelManagerPage) new ModelManagerPage(browser).renderedPage();
     }
 }

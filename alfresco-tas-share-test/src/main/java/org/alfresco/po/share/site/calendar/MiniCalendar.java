@@ -1,19 +1,16 @@
 package org.alfresco.po.share.site.calendar;
 
 import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
 public class MiniCalendar extends SiteCommon<MiniCalendar>
 {
-    @Autowired
+    //@Autowired
     CalendarPage calendarPage;
 
     private By currentDayInMiniCalendar = By.xpath("//td[contains(@class, 'today')]");
@@ -33,6 +30,11 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
     @FindBy (css = "a.calnavright")
     private WebElement nextMonthButtonMiniCalendar;
 
+    public MiniCalendar(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
+
     @Override
     public String getRelativePath()
     {
@@ -45,7 +47,7 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
 
     public String getCurrentDayMiniCalendar()
     {
-        return browser.findElement(currentDayInMiniCalendar).getText();
+        return getBrowser().findElement(currentDayInMiniCalendar).getText();
     }
 
     /**
@@ -94,7 +96,7 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
 
     public String getSelectedDay()
     {
-        return browser.findElement(selectedDay).getText();
+        return getBrowser().findElement(selectedDay).getText();
     }
 
     /**
@@ -102,7 +104,7 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
      */
     public CalendarPage clickOnRandomDate()
     {
-        WebElement miniCalendar = browser.findElement(By.id("calendar_t"));
+        WebElement miniCalendar = getBrowser().findElement(By.id("calendar_t"));
         List<WebElement> columns = miniCalendar.findElements(By.cssSelector("a.selector"));
         String randomDate = CalendarUtility.generateRandomDateTime(columns.size());
         for (WebElement cell : columns)

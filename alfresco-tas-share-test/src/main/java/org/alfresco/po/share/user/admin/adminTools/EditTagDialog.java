@@ -1,87 +1,72 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-@PageObject
-public class EditTagDialog extends ShareDialog
+public class EditTagDialog extends BaseDialogComponent
 {
-    @Autowired
-    private TagManagerPage tagManagerPage;
-
     @RenderWebElement
-    @FindBy (css = "div[id*='edit-tag-dialogTitle']")
-    private WebElement dialogTitle;
-
-    @FindBy (css = "form[id*='edit-tag'] label")
-    private WebElement renameLabel;
-
-    @FindBy (css = "form[id*='edit-tag'] div[class='yui-u']")
-    private WebElement requiredSymbol;
-
+    private final By dialogTitle = By.cssSelector("div[id*='edit-tag-dialogTitle']");
+    private final By renameLabel = By.cssSelector("form[id*='edit-tag'] label");
+    private final By requiredSymbol = By.cssSelector("form[id*='edit-tag'] div[class='yui-u']");
     @RenderWebElement
-    @FindBy (css = "input[id*='edit-tag']")
-    private WebElement editTagInputField;
+    private final By editTagInputField = By.cssSelector("input[name='name']");
+    private final By okButton = By.cssSelector("button[id*='ok']");
+    private final By cancelButton = By.cssSelector("button[id*='tag-cancel']");
 
-    @RenderWebElement
-    @FindBy (css = "button[id*='ok']")
-    private WebElement okButton;
-
-    @FindBy (css = "button[id*='tag-cancel']")
-    private WebElement cancelButton;
+    public EditTagDialog(ThreadLocal<WebBrowser> browser)
+    {
+        super(browser);
+    }
 
     public String getDialogTitle()
     {
-        return dialogTitle.getText();
+        return getElementText(dialogTitle);
     }
 
     public EditTagDialog assertRenameTagLabelIsCorrect()
     {
         LOG.info("Assert Rename Tag label is correct");
-        assertEquals(renameLabel.getText(), language.translate("editTag.renameLabel"), "Rename label is");
+        assertEquals(getElementText(renameLabel), language.translate("editTag.renameLabel"), "Rename label is");
         return this;
     }
 
     public EditTagDialog assertRequiredSymbolIsDisplayed()
     {
         LOG.info("Assert required symbol is displayed");
-        assertEquals(requiredSymbol.getText(), " *", "Required symbol is displayed");
+        assertEquals(getElementText(requiredSymbol), " *", "Required symbol is displayed");
         return this;
     }
 
     public EditTagDialog assertOkButtonIsDisplayed()
     {
         LOG.info("Assert Ok button is displayed");
-        assertTrue(browser.isElementDisplayed(okButton), "Ok button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(okButton), "Ok button is displayed");
         return this;
     }
 
     public EditTagDialog assertCancelButtonIsDisplayed()
     {
         LOG.info("Assert Cancel button is displayed");
-        assertTrue(browser.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 
-    /**
-     * Type text in rename tag input field from Edit Tag dialog. Click 'Ok' button
-     *
-     * @param updatedTag new tag
-     */
     public TagManagerPage renameTag(String updatedTag)
     {
         LOG.info(String.format("Rename tag to: %s", updatedTag));
-        Utils.clearAndType(editTagInputField, updatedTag);
-        okButton.click();
-        tagManagerPage.waitUntilNotificationMessageDisappears();
-        return (TagManagerPage) tagManagerPage.renderedPage();
+        clearAndType(editTagInputField, updatedTag);
+        WebElement ok = getBrowser().waitUntilElementVisible(okButton);
+        getBrowser().mouseOver(ok);
+        getBrowser().waitUntilElementClickable(ok).click();
+        waitUntilNotificationMessageDisappears();
+
+        return (TagManagerPage) new TagManagerPage(browser).renderedPage();
     }
 }

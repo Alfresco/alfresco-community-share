@@ -1,9 +1,5 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.List;
 import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -14,9 +10,13 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
+
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/22/2016.
@@ -24,11 +24,11 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @PageObject
 public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
 {
-    @Autowired
-    private CreateLinkPage createLinkPage;
+    //@Autowired
+    CreateLinkPage createLinkPage;
 
-    @Autowired
-    private LinkDetailsViewPage linkDetailsViewPage;
+    //@Autowired
+    LinkDetailsViewPage linkDetailsViewPage;
 
     @RenderWebElement
     @FindBy (css = "div.dashlet.site-links")

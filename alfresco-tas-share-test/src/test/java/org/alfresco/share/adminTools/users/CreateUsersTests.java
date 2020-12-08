@@ -1,41 +1,35 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreateUsersTests extends ContextAwareWebTest
+public class CreateUsersTests extends BaseTest
 {
-    @Autowired
     private CreateUserPage createUsers;
-
-    @Autowired
     private UsersPage usersPage;
 
-    @BeforeClass(alwaysRun = true)
-    public void authenticate()
-    {
-        setupAuthenticatedSession(getAdminUser());
-    }
-
     @BeforeMethod (alwaysRun = true)
-    public void precondition()
+    public void beforeTest()
     {
-        usersPage.navigate();
+        createUsers = new CreateUserPage(browser);
+        usersPage = new UsersPage(browser);
+
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @TestRail (id = "C42597")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCreateUsersPage()
     {
-        LOG.info("Step1: Click 'New User' button.");
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .assertAllInputsFromInfoSectionAreDisplayed()
             .assertAllElementsFromAboutUserAreDisplayed()
@@ -47,6 +41,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browseCreateUserPage()
     {
+        usersPage.navigate();
         usersPage.clickNewUserButton().assertCreateUserPageIsOpened();
     }
 
@@ -55,8 +50,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void createUser()
     {
         UserModel user = UserModel.getRandomUserModel();
-
-        LOG.info("Step1: Click 'New User' button.");
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .clickCreate()
@@ -71,7 +65,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void createAndStartAnother()
     {
         UserModel user = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .clickCreateUserAndStartAnother();
@@ -87,7 +81,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void managePassword()
     {
         UserModel user = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .setFirstName(user.getFirstName())
             .setLastName(user.getLastName())
@@ -106,7 +100,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void addingUserToGroup()
     {
         UserModel user = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .addUserToGroup(ALFRESCO_ADMIN_GROUP)
@@ -128,7 +122,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void disableAccount()
     {
         UserModel userToDisable = UserModel.getRandomUserModel();
-
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(userToDisable)
             .checkDisableAccount()
@@ -145,6 +139,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void addQuotaToUser()
     {
         UserModel user = UserModel.getRandomUserModel();
+        usersPage.navigate();
         usersPage.clickNewUserButton()
             .typeMandatoryFields(user)
             .setQuota("17")

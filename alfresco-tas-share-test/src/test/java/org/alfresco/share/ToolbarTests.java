@@ -1,49 +1,52 @@
 package org.alfresco.share;
 
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ToolbarTests extends ContextAwareWebTest
+public class ToolbarTests extends BaseTest
 {
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-
-    @Autowired
     private SiteDashboardPage siteDashboardPage;
-
-    @Autowired
     private UserProfilePage userProfilePage;
 
-    private UserModel normalUser, adminUser;
+    private UserModel normalUser, adminUser, siteUser;
 
     @BeforeClass(alwaysRun = true)
-    public void authenticateAdminUser()
+    public void dataPrep()
     {
         normalUser = dataUser.usingAdmin().createRandomTestUser();
         adminUser = dataUser.createRandomTestUser();
-        dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
-        setupAuthenticatedSession(normalUser);
+        siteUser = dataUser.createRandomTestUser();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        siteDashboardPage = new SiteDashboardPage(browser);
+        userProfilePage = new UserProfilePage(browser);
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp()
     {
-        removeUserFromAlfresco(normalUser, adminUser);
+        removeUserFromAlfresco(normalUser, adminUser, siteUser);
     }
 
     @TestRail (id = "C2091, C8701")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyAlfrescoToolbarItemsWithNormalUser()
     {
+        setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.assertToolbarIsDisplayed()
             .assertHomeIsDisplayed()
             .assertMyFilesIsDisplayed()
@@ -62,24 +65,25 @@ public class ToolbarTests extends ContextAwareWebTest
                     .assertMySitesIsDisplayed()
                     .assertSiteFinderIsDisplayed()
                     .assertCreateSiteIsDisplayed()
-                    .assertFavoritesIsDisplayed()
-                .clickTasks()
-                    .assertMyTasksIsDisplayed()
-                    .assertWorkflowIStartedIsDisplayed()
-                .clickUserMenu()
-                    .assertUserDashboardIsDisplayed()
-                    .assertMyProfileIsDisplayed()
-                    .assertHelpIsDisplayed()
-                    .assertSetCurrentPageAsHomeIsDisplayed()
-                    .assertUseDashboardAsHomeIsDisplayed()
-                    .assertChangePasswordIsDisplayed()
-                    .assertLogoutIsDisplayed();
+                    .assertFavoritesIsDisplayed();
+        toolbar.clickTasks()
+            .assertMyTasksIsDisplayed()
+            .assertWorkflowIStartedIsDisplayed();
+        toolbar.clickUserMenu()
+            .assertUserDashboardIsDisplayed()
+            .assertMyProfileIsDisplayed()
+            .assertHelpIsDisplayed()
+            .assertSetCurrentPageAsHomeIsDisplayed()
+            .assertUseDashboardAsHomeIsDisplayed()
+            .assertChangePasswordIsDisplayed()
+            .assertLogoutIsDisplayed();
     }
 
     @TestRail (id = "C2862")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
     {
+        setupAuthenticatedSession(normalUser);
         userProfilePage.navigate(normalUser);
         toolbar.assertToolbarIsDisplayed();
     }
@@ -88,25 +92,22 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
-        try
-        {
-            setupAuthenticatedSession(adminUser);
-            toolbar.assertAdminToolsIsDisplayed()
-                .clickAdminTools().assertAdminToolsPageIsOpened();
-            dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
-            setupAuthenticatedSession(adminUser);
-            toolbar.assertAdminToolsIsNotDisplayed();
-        }
-        finally
-        {
-            setupAuthenticatedSession(normalUser);
-        }
+        dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
+        setupAuthenticatedSession(adminUser);
+        userDashboardPage.navigate(adminUser);
+        toolbar.assertAdminToolsIsDisplayed()
+            .clickAdminTools().assertAdminApplicationPageIsOpened();
+        dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
+        setupAuthenticatedSession(adminUser);
+        toolbar.assertAdminToolsIsNotDisplayed();
     }
 
     @TestRail (id = "C2864")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromTheUserMenu()
     {
+        setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.clickUserMenu().clickUserDashboard()
             .assertUserDashboardPageIsOpened();
 
@@ -115,7 +116,7 @@ public class ToolbarTests extends ContextAwareWebTest
 
         toolbar.clickUserMenu().clickHelp().assertHelpWillOpenDocumentationPage();
 
-            userProfilePage.navigate(normalUser);
+        userProfilePage.navigate(normalUser);
         toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         toolbar.clickHome();
         userProfilePage.renderedPage();
@@ -134,6 +135,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromTasksMenu()
     {
+        setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.clickTasks().clickMyTasks()
             .assertMyTasksPageIsOpened()
             .assertStartWorkflowIsDisplayed();
@@ -147,12 +150,13 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromSitesMenu()
     {
-        SiteModel site1 = dataSite.usingUser(normalUser).createPublicRandomSite();
-        SiteModel site2 = dataSite.usingUser(normalUser).createPublicRandomSite();
+        SiteModel site1 = dataSite.usingUser(siteUser).createPublicRandomSite();
+        SiteModel site2 = dataSite.usingUser(siteUser).createPublicRandomSite();
+        setupAuthenticatedSession(siteUser);
         siteDashboardPage.navigate(site1);
         siteDashboardPage.navigate(site2);
 
-        userDashboardPage.navigate(normalUser);
+        userDashboardPage.navigate(siteUser);
         toolbar.clickSites()
             .assertRecentSitesSectionIsDisplayed()
             .assertSiteIsInRecentSites(site1)
@@ -182,6 +186,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromAlfrescoToolbar()
     {
+        setupAuthenticatedSession(normalUser);
+        userDashboardPage.navigate(normalUser);
         toolbar.clickHome();
         userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
