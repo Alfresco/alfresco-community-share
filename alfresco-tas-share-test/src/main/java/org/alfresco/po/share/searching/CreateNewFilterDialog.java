@@ -194,7 +194,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         WebElement save = getBrowser().waitUntilElementVisible(saveButton);
         getBrowser().waitUntilElementHasAttribute(save, "aria-disabled", "false");
         getBrowser().mouseOver(save);
-        getBrowser().waitUntilElementClickable(save).click();
+        save.click();
         SearchManagerPage searchManagerPage = new SearchManagerPage(browser);
         searchManagerPage.waitUntilNotificationMessageDisappears();
 

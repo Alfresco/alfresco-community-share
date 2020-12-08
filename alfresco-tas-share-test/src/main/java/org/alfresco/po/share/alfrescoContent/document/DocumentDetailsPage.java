@@ -96,7 +96,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
     private final By propertiesList = By.cssSelector(".viewmode-label");
     private final By message = By.cssSelector("span[class='message']");
-    private final By changeTypeAction = By.cssSelector("#onActionChangeType > a");
+    private final By changeTypeAction = By.id("onActionChangeType");
     private final By unzipToAction = By.id("onActionUnzipTo");
 
     public DocumentDetailsPage(ThreadLocal<WebBrowser> browser)

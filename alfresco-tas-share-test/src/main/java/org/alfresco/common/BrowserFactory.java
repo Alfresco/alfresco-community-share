@@ -150,9 +150,12 @@ public class BrowserFactory implements FactoryBean<WebBrowser>
     private File getTestResourceFile(String filePath)
     {
         URL resource = Utility.class.getClassLoader().getResource(filePath);
-        if (resource == null) {
+        if (resource == null)
+        {
             throw new TestConfigurationException(String.format("[%s] file was not found in your main resources folder.", filePath));
-        } else {
+        }
+        else
+        {
             return new File(resource.getFile());
         }
     }
