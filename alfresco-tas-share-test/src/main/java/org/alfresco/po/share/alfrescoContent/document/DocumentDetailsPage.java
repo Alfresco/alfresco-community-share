@@ -703,6 +703,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public ChangeContentTypeDialog clickChangeType()
     {
         LOG.info("Click Change Type");
+        getBrowser().waitUntilElementVisible(changeTypeAction);
         getBrowser().waitUntilElementClickable(changeTypeAction).click();
         return (ChangeContentTypeDialog) new ChangeContentTypeDialog(browser).renderedPage();
     }
