@@ -8,9 +8,9 @@ import org.openqa.selenium.By;
 public abstract class ConfirmationDialog extends BaseDialogComponent
 {
     @RenderWebElement
-    protected By confirmDeletionButton = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM_label");
-    protected By dialogMessage = By.cssSelector("div.dialog-body");
-    protected By dialogCloseButton = By.cssSelector("span.dijitDialogCloseIcon");
+    private final By confirmDeletionButton = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM");
+    private final By dialogMessage = By.cssSelector("div.dialog-body");
+    private final By dialogCloseButton = By.cssSelector("span.dijitDialogCloseIcon");
 
     public ConfirmationDialog(ThreadLocal<WebBrowser> browser)
     {
