@@ -29,6 +29,8 @@ public final class Utils
     public static String srcRoot = System.getProperty("user.dir") + File.separator;
     public static String testDataFolder = srcRoot + "testdata" + File.separator;
     public static File screenshotFolder = new File("./target/reports/screenshots");
+    public static String styleAttribute = "style";
+    public static String styleDisplayNone = "display: none;";
 
     /**
      * Clear control

@@ -2,10 +2,9 @@ package org.alfresco.share;
 
 import static org.alfresco.common.Utils.saveScreenshot;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.BrowserFactory;
+import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.dataprep.UserService;
@@ -15,7 +14,6 @@ import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
-import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
@@ -36,6 +34,9 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 /**
  * This class represents a test template which should be inherit by each test class.
  * e.g. ToolbarTests extends BaseTest
@@ -50,6 +51,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 
     @Autowired
     private BrowserFactory browserFactory;
+
+    @Autowired
+    private EnvProperties properties;
 
     @Autowired
     protected DataUserAIS dataUser;
@@ -128,11 +132,17 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         LOG.info("Setup authenticated session for user {}", user.getUsername());
         browser.get().manage().deleteAllCookies();
-        loginPage.navigate();
+        // if identity-service is enabled do the login using the UI
+        if(dataAIS.isEnabled())
+        {
+            setupAuthenticatedSessionViaLoginPage(user);
+            return;
+        }
+        browser.get().get(properties.getShareUrl().toString());
         HttpState state = userService.login(user.getUsername(), user.getPassword());
         browser.get().manage().deleteAllCookies();
         Arrays.stream(state.getCookies()).forEach(cookie
-            -> browser.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
+                -> browser.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
     }
 
     public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)

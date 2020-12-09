@@ -118,11 +118,11 @@ public class SitesManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyUserAddedAndRemovedFromSiteAdminGroup()
     {
-        setupAuthenticatedSession(user);
+        setupAuthenticatedSessionViaLoginPage(user);
         userDashboardPage.navigate(user);
         toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
-        setupAuthenticatedSession(user);
+        setupAuthenticatedSessionViaLoginPage(user);
         toolbar.assertSitesManagerIsNotDisplayed();
     }
 

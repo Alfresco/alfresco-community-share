@@ -84,7 +84,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By okOnRevertPopup = By.cssSelector("#alfresco-revertVersion-instance-ok-button-button");
     private final By addCommentButton = By.cssSelector("span[class$='onAddCommentClick'] button");
     private final By commentsIframe = By.cssSelector("iframe[id$='default-add-content_ifr']");
-    private final By copyToAction = By.id("onActionCopyTo");
+    private final By copyToAction = By.cssSelector("#onActionCopyTo > a");
     private final By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
     private final By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
     private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
@@ -96,7 +96,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
     private final By propertiesList = By.cssSelector(".viewmode-label");
     private final By message = By.cssSelector("span[class='message']");
-    private final By changeTypeAction = By.id("onActionChangeType");
+    private final By changeTypeAction = By.cssSelector("#onActionChangeType > a");
     private final By unzipToAction = By.id("onActionUnzipTo");
 
     public DocumentDetailsPage(ThreadLocal<WebBrowser> browser)

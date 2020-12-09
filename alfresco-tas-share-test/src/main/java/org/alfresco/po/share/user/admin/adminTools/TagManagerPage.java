@@ -4,7 +4,10 @@ import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.alfresco.common.Utils.styleAttribute;
+import static org.alfresco.common.Utils.styleDisplayNone;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
@@ -30,8 +33,9 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
     @RenderWebElement
     private final By searchButton = By.cssSelector(".search-button button");
     private final By noFoundMessage = By.cssSelector("div[class='tags-list-info']");
+    private final By tabBodyMessage = By.cssSelector("div[id$='default-tags'] tbody[class='yui-dt-message']");
 
-    private String tagRow = "//b[text()='%s']/../../../../..";
+    private final String tagRow = "//b[text()='%s']/../../../../..";
 
     public TagManagerPage(ThreadLocal<WebBrowser> browser)
     {
@@ -126,6 +130,16 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
             Utility.waitToLoopTime(1);
             LOG.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCount);
             searchTag(tagName);
+            if(getBrowser().isElementDisplayed(noFoundMessage))
+            {
+                found = false;
+                retryCount++;
+                continue;
+            }
+            else
+            {
+                getBrowser().waitUntilElementHasAttribute(tabBodyMessage, styleAttribute, styleDisplayNone);
+            }
             found = isTagDisplayed(tagName);
             retryCount++;
         }
@@ -153,6 +167,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         WebElement input = getBrowser().waitUntilElementVisible(searchInput);
         clearAndType(input, tagName);
         clickSearch();
+
         return this;
     }
 
