@@ -1,13 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Content Tests" parallel="methods" thread-count="5">
    <listeners>
-      <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener"/>
    </listeners>
 
    <test name="Content Tests">
       <groups>
          <run>
-           <include name="content"></include>
+            <include name="content"/>
          </run>
       </groups>
       <classes>

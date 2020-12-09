@@ -1,5 +1,9 @@
 package org.alfresco.po.share.searching;
 
+import static org.alfresco.common.Wait.WAIT_5;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
@@ -7,9 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SearchManagerPage extends SharePage2<SearchManagerPage>
 {
@@ -52,7 +53,8 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     {
         try
         {
-            notificationMessageThread.set(getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, 5).getText());
+            notificationMessageThread.set(
+                getBrowser().waitUntilElementVisible(notificationMessageLocator, WAIT_5.getValue()).getText());
             getBrowser().waitUntilElementDisappears(notificationMessage);
         }
         catch (TimeoutException exception)

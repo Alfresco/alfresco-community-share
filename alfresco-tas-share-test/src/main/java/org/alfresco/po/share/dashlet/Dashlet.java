@@ -4,7 +4,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import java.util.concurrent.TimeUnit;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -161,7 +160,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
     {
         LOG.info("Close help balloon");
         browser.findElement(helpBalloonCloseButton).click();
-        browser.waitUntilElementDisappears(helpBalloonCloseButton, TimeUnit.SECONDS.toMillis(properties.getImplicitWait()));
+        browser.waitUntilElementDisappears(helpBalloonCloseButton);
         return (T) this;
     }
 

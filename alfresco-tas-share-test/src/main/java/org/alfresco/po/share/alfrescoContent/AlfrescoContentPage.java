@@ -43,16 +43,16 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     private final By selectedFilter = By.cssSelector(".filterLink .selected");
     private final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
     private final By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
-    private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
-    protected static String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
     protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
     private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
     private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
     private final By startWorkflowFromSelectedItems = By.cssSelector(".onActionAssignWorkflow");
     private final By deleteFromSelectedItems = By.cssSelector(".onActionDelete");
 
-    private String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
-    private String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
+    private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
+    private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
+    private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
+    private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
 
     public AlfrescoContentPage(ThreadLocal<WebBrowser> browser)
     {

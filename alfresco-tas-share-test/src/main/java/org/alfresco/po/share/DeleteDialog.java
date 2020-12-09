@@ -65,7 +65,7 @@ public class DeleteDialog extends BaseDialogComponent
         LOG.info("Click Delete");
         getBrowser().waitUntilElementClickable(deleteButton).click();
         waitUntilNotificationMessageDisappears();
-        if(getBrowser().isElementDisplayed(MESSAGE_LOCATOR))
+        if(getBrowser().isElementDisplayed(notificationMessageLocator))
         {
             LOG.info("Wait for the second message");
             waitUntilNotificationMessageDisappears();

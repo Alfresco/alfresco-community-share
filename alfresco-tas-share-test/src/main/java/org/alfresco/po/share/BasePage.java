@@ -42,8 +42,8 @@ public abstract class BasePage
 {
     protected final Logger LOG = LoggerFactory.getLogger(BasePage.class);
 
-    public static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
-    public final By MESSAGE_LOCATOR = By.cssSelector("div.bd span.message");
+    protected static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
+    protected final By notificationMessageLocator = By.cssSelector("div.bd span.message");
 
     public static TasProperties tasProperties;
     public static EnvProperties properties;
@@ -51,7 +51,7 @@ public abstract class BasePage
 
     protected ThreadLocal<WebBrowser> browser;
 
-    public BasePage(ThreadLocal<WebBrowser> browser)
+    protected BasePage(ThreadLocal<WebBrowser> browser)
     {
         if(properties == null)
         {
@@ -74,8 +74,8 @@ public abstract class BasePage
         try
         {
             notificationMessageThread.set(
-                getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, WAIT_5.getValue()).getText());
-            getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
+                getBrowser().waitUntilElementVisible(notificationMessageLocator, WAIT_5.getValue()).getText());
+            getBrowser().waitUntilElementDisappears(notificationMessageLocator);
         }
         catch (TimeoutException | StaleElementReferenceException exception)
         {

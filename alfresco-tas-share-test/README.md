@@ -16,7 +16,24 @@ $ mvn clean install -Dtest=SeleniumValidationTest
 ```
 > notice that you need to have a Firefox version installed and configured on your machine (or you can use the second option bellow: **containers**)
 
+## 1) How to run test suite in parallel?
+  
+### Execute an already created test suite.
+>  1.Open desired test suite.xml file and make sure you have specified parallel and thread-count attributes.
+>    e.g. <suite name="Admin Tools Test Suite" parallel="methods" thread-count="5">
+>    More info: https://testng.org/doc/documentation-main.html#parallel-suites
+>
+>  2.In terminal/command line type:
+>  $ mvn clean install -DsuiteXmlFiles=src/test/resources/test-suites/admin-tools-tests.xml
 
+### Create and execute a custom test suite.
+>  1.Make sure you have Create TestNG XML plugin installed.
+>  2.Right click in project root where you would like to create your test suite.
+>  3.Select Create TestNG XML.
+>  4.Click Reload All from disk from the IDE. 
+>  4.Customize your test suite.
+>  More info: https://testng.org/doc/documentation-main.html#testng-xml
+>  5.Follow steps from ### Execute an already created test suite.
 
 ## 2) How to run maven tests inside a docker container? (i.e Selenium RemoteWebDriver)
 

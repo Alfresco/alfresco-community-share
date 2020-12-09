@@ -40,6 +40,8 @@ import org.testng.annotations.BeforeMethod;
  * This class represents a test template which should be inherit by each test class.
  * e.g. ToolbarTests extends BaseTest
  * Only test class which will not use this template should be LoginTests.
+ *
+ * This class should only contain common members/methods which are used in each test class
  */
 @ContextConfiguration(classes = ShareTestContext.class)
 public abstract class BaseTest extends AbstractTestNGSpringContextTests

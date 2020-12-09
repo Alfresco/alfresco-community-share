@@ -1,5 +1,6 @@
 package org.alfresco.po.share;
 
+import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -35,7 +36,8 @@ public class LoginPage extends CommonLoginPage
     public CommonLoginPage navigate()
     {
         LOG.info("Navigate to Login Page");
-        getBrowser().navigate().to(properties.getShareUrl().toString());
+        getBrowser().get(properties.getShareUrl().toString());
+        getBrowser().waitUrlContains(properties.getShareUrl().toString(), WAIT_30.getValue());
         return (LoginPage) renderedPage();
     }
 

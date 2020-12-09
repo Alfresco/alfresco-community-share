@@ -41,6 +41,7 @@ public class ContentAction
     private final By renameCancelButton = By.cssSelector("form[class='insitu-edit']>a:nth-of-type(2)");
 
     private final String highlightContent = "yui-dt-highlighted";
+    private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
 
     public ContentAction(ContentModel contentModel,
                          AlfrescoContentPage contentPage,
@@ -78,8 +79,8 @@ public class ContentAction
 
     public ContentAction assertContentIsNotDisplayed()
     {
-        LOG.info("Assert is NOT displayed");
-        By content = By.xpath(String.format(alfrescoContentPage.contentRow, contentModel.getName()));
+        LOG.info("Assert content is not displayed");
+        By content = By.xpath(String.format(contentRow, contentModel.getName()));
         assertFalse(getBrowser().isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
