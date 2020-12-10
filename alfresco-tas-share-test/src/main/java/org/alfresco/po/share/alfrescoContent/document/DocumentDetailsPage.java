@@ -706,8 +706,14 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         WebElement changeTypeButton = getBrowser().waitUntilElementVisible(changeTypeAction);
         getBrowser().mouseOver(changeTypeButton);
         getBrowser().waitUntilElementClickable(changeTypeButton).click();
+        ChangeContentTypeDialog changeContentTypeDialog = new ChangeContentTypeDialog(browser);
+        if(!changeContentTypeDialog.isDialogDisplayed())
+        {
+            LOG.error("Retry click on change type button");
+            getBrowser().clickJS(changeTypeButton);
+        }
 
-        return (ChangeContentTypeDialog) new ChangeContentTypeDialog(browser).renderedPage();
+        return (ChangeContentTypeDialog) changeContentTypeDialog.renderedPage();
     }
 
     public CopyMoveUnzipToDialog clickUnzipTo()
