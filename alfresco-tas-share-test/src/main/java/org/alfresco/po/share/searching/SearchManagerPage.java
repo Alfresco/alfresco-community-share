@@ -54,7 +54,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
         try
         {
             notificationMessageThread.set(
-                getBrowser().waitUntilElementVisible(notificationMessageLocator, WAIT_5.getValue()).getText());
+                getBrowser().waitUntilElementVisible(notificationMessage, WAIT_5.getValue()).getText());
             getBrowser().waitUntilElementDisappears(notificationMessage);
         }
         catch (TimeoutException exception)
@@ -180,9 +180,11 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public SearchManagerPage deleteFilter(String filterId)
     {
+        LOG.info("Delete filter {}", filterId);
         clickDeleteFilter(filterId).clickOKButton();
         waitUntilNotificationMessageDisappears();
-        return this;
+
+        return (SearchManagerPage) renderedPage();
     }
 
     public SearchManagerPage editFilterName(String filterName, String newFilterName)
