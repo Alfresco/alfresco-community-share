@@ -71,7 +71,7 @@ public class ToolbarUserMenu extends BasePage
     public ToolbarUserMenu clickHelp()
     {
         LOG.info("Click Help");
-        getBrowser().findElement(help).click();
+        getBrowser().waitUntilElementClickable(help).click();
         return this;
     }
 
@@ -96,7 +96,7 @@ public class ToolbarUserMenu extends BasePage
     public void clickSetCurrentPageAsHome()
     {
         LOG.info("Click Set current page as home");
-        getBrowser().findElement(setCurrentPageAsHome).click();
+        getBrowser().waitUntilElementClickable(setCurrentPageAsHome).click();
         waitUntilNotificationMessageDisappears();
     }
 
@@ -110,7 +110,7 @@ public class ToolbarUserMenu extends BasePage
     public void clickSetDashBoardAsHome()
     {
         LOG.info("Click Set Dashboard as Home");
-        getBrowser().findElement(setDashBoardAsHome).click();
+        getBrowser().waitUntilElementClickable(setDashBoardAsHome).click();
         waitUntilNotificationMessageDisappears();
     }
 
@@ -124,7 +124,7 @@ public class ToolbarUserMenu extends BasePage
     public ChangePasswordPage clickChangePassword()
     {
         LOG.info("Click change password");
-        getBrowser().findElement(changePassword).click();
+        getBrowser().waitUntilElementClickable(changePassword).click();
         return (ChangePasswordPage) new ChangePasswordPage(browser).renderedPage();
     }
 
