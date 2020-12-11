@@ -37,7 +37,6 @@ public class LoginPage extends CommonLoginPage
     {
         LOG.info("Navigate to Login Page");
         getBrowser().get(properties.getShareUrl().toString());
-        getBrowser().waitUrlContains(properties.getShareUrl().toString(), WAIT_30.getValue());
         return (LoginPage) renderedPage();
     }
 
