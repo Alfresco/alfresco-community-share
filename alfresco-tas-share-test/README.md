@@ -24,7 +24,7 @@ $ mvn clean install -Dtest=SeleniumValidationTest
 >    More info: https://testng.org/doc/documentation-main.html#parallel-suites
 >
 >  2.In terminal/command line type:
->  $ mvn clean install -DsuiteXmlFiles=src/test/resources/test-suites/admin-tools-tests.xml
+>  $ mvn clean install -DsuiteXmlFile=src/test/resources/test-suites/admin-tools-tests.xml
 
 ### Create and execute a custom test suite.
 >  1.Make sure you have Create TestNG XML plugin installed.
