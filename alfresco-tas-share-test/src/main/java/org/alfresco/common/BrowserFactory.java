@@ -51,21 +51,7 @@ public class BrowserFactory implements FactoryBean<WebBrowser>
         {
             case FIREFOX:
                 setFirefoxDriverPathBasedOnOS();
-                if (SystemUtils.IS_OS_LINUX)
-                {
-                    Map<String, String> environment = new HashMap<>();
-                    environment.put("DISPLAY", ":" + properties.getDisplayXport());
-                    FirefoxOptions firefoxOptions = setFirefoxOptions(properties);
-
-                    FirefoxBinary firefoxBinary = new FirefoxBinary();
-                    firefoxOptions.setBinary(firefoxBinary);
-
-                    return new FirefoxDriver(new GeckoDriverService.Builder().withEnvironment(environment).build(), firefoxOptions);
-                }
-                else
-                {
-                    return new FirefoxDriver(setFirefoxOptions(properties));
-                }
+                return new FirefoxDriver(setFirefoxOptions(properties));
             case CHROME:
                 setChromeDriverPathBasedOnOS();
                 HashMap<String, Object> chromePreferences = new HashMap<>();

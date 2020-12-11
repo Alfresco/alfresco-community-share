@@ -248,7 +248,8 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
         String[] values = getBrowser().getTextFromElementList(items).toArray(new String[0]);
         Arrays.sort(values);
         Arrays.sort(actions);
-        assertEquals(values, actions, String.format("Actions not equals to %s", Arrays.asList(actions)));
+        assertTrue(Arrays.asList(values).containsAll(Arrays.asList(actions)),
+            String.format("Not all actions were found %s", Arrays.asList(actions)));
 
         return this;
     }

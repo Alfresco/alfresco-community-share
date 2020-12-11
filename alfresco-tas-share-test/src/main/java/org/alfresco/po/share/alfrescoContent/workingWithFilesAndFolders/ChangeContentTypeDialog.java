@@ -14,6 +14,7 @@ public class ChangeContentTypeDialog extends BaseDialogComponent
     private final By mandatory = By.cssSelector("form div[class='yui-u']");
     private final By okButton = By.cssSelector("button[id$='changeType-ok-button']");
     private final By cancelButton = By.cssSelector("button[id$='changeType-cancel-button']");
+    private final By dialogBody = By.cssSelector("div[id$='changeType-dialog']");
 
     public ChangeContentTypeDialog(ThreadLocal<WebBrowser> browser)
     {
@@ -23,6 +24,11 @@ public class ChangeContentTypeDialog extends BaseDialogComponent
     public String getDialogTitle()
     {
         return getElementText(dialogTitle);
+    }
+
+    public boolean isDialogDisplayed()
+    {
+        return getBrowser().isElementDisplayed(dialogBody);
     }
 
     public void clickOkButton()

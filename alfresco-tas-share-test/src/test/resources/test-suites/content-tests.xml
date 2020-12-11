@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Content Tests" parallel="methods" thread-count="5">
+<suite name="Content Tests" parallel="methods" thread-count="4">
    <listeners>
       <listener class-name="org.alfresco.utility.report.HtmlReportListener"/>
    </listeners>

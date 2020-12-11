@@ -4,6 +4,7 @@ import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
@@ -34,7 +35,9 @@ public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
 
     public void clickDeleteFromSitesManager()
     {
-        getBrowser().waitUntilElementClickable(confirmFromSitesManager).click();
+        WebElement confirmButton = getBrowser().waitUntilElementVisible(confirmFromSitesManager);
+        getBrowser().mouseOver(confirmButton);
+        getBrowser().waitUntilElementClickable(confirmButton).click();
         getBrowser().waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);
     }
 }
