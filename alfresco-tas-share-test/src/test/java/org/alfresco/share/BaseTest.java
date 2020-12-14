@@ -8,7 +8,7 @@ import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.LoginAimsPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -131,18 +131,18 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     public void setupAuthenticatedSession(UserModel user)
     {
         LOG.info("Setup authenticated session for user {}", user.getUsername());
-        browser.get().manage().deleteAllCookies();
-        // if identity-service is enabled do the login using the UI
-        if(dataAIS.isEnabled())
+        if(dataAIS.isEnabled()) // if identity-service is enabled do the login using the UI
         {
+            if(userDashboardPage.isAlfrescoLogoDisplayed())
+            {
+                toolbar.clickUserMenu().clickLogout();
+            }
             setupAuthenticatedSessionViaLoginPage(user);
-            return;
         }
-        browser.get().get(properties.getShareUrl().toString());
-        HttpState state = userService.login(user.getUsername(), user.getPassword());
-        browser.get().manage().deleteAllCookies();
-        Arrays.stream(state.getCookies()).forEach(cookie
-                -> browser.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
+        else
+        {
+            authenticateViaCookies(user);
+        }
     }
 
     public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
@@ -152,11 +152,21 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         userDashboardPage.waitForSharePageToLoad();
     }
 
+    private void authenticateViaCookies(UserModel user)
+    {
+        browser.get().manage().deleteAllCookies();
+        browser.get().get(properties.getShareUrl().toString());
+        HttpState state = userService.login(user.getUsername(), user.getPassword());
+        browser.get().manage().deleteAllCookies();
+        Arrays.stream(state.getCookies()).forEach(cookie
+            -> browser.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
+    }
+
     private CommonLoginPage getLoginPage()
     {
         if (dataAIS.isEnabled())
         {
-            return new AIMSPage(browser);
+            return new LoginAimsPage(browser);
         }
         return loginPage;
     }

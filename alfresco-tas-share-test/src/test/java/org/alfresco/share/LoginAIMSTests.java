@@ -1,58 +1,54 @@
 package org.alfresco.share;
 
+import org.alfresco.po.share.LoginAimsPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author bogdan.bocancea
- */
-public class LoginTests extends BaseTest
+public class LoginAIMSTests extends BaseTest
 {
+    private LoginAimsPage loginAimsPage;
+
     private final String password = "password";
     private String randomString = RandomData.getRandomAlphanumeric();
     private UserModel validUser;
     private final String[] specialUsers = {
-            randomString + "isaías",
-            randomString + "user.name",
-            randomString + "test3&test3",
-            randomString + "test5=test5" };
+        randomString + "isaías",
+        randomString + "user.name",
+        randomString + "test3&test3",
+        randomString + "test5=test5" };
     private List<UserModel> specialUserList = new ArrayList<>();
     private final UserModel specialPassUser = new UserModel("specialPassUser" + randomString, "abc@123");
-    private UserModel testUserC2084 = new UserModel("testUserC2084" + randomString, password);
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
+    public void dataPrep()
     {
         validUser = dataUser.usingAdmin().createRandomTestUser();
-        dataUser.createUser(testUserC2084);
         dataUser.createUser(specialPassUser);
         Arrays.stream(specialUsers).map(specialUser ->
-                dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));
+            dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(validUser, testUserC2084, specialPassUser);
-        specialUserList.forEach(specialUser -> {
-            removeUserFromAlfresco(specialUser);
-        });
+        loginAimsPage = new LoginAimsPage(browser);
     }
 
     @TestRail(id = "C2080")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginValidCredentials()
     {
-        loginPage.navigate()
+        loginAimsPage.navigate()
             .assertLoginPageIsOpened()
             .assertLoginPageTitleIsCorrect().login(validUser);
         userDashboardPage.renderedPage();
@@ -65,8 +61,8 @@ public class LoginTests extends BaseTest
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidCredentials()
     {
-        loginPage.navigate().login("fakeUser", "fakePassword");
-        loginPage
+        loginAimsPage.navigate().login("fakeUser", "fakePassword");
+        loginAimsPage
             .assertAuthenticationErrorIsDisplayed()
             .assertAuthenticationErrorMessageIsCorrect();
     }
@@ -75,8 +71,8 @@ public class LoginTests extends BaseTest
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidPassword()
     {
-        loginPage.navigate().login(validUser.getUsername(), "fakePassword");
-        loginPage
+        loginAimsPage.navigate().login(validUser.getUsername(), "fakePassword");
+        loginAimsPage
             .assertAuthenticationErrorIsDisplayed()
             .assertAuthenticationErrorMessageIsCorrect();
     }
@@ -86,26 +82,9 @@ public class LoginTests extends BaseTest
     public void invalidUserRedirectedToLoginPage()
     {
         userDashboardPage.navigateWithoutRender(validUser);
-        loginPage.renderedPage();
-        loginPage.assertLoginPageIsOpened().login("user123", "wrongpass");
-        loginPage.assertAuthenticationErrorIsDisplayed();
-    }
-
-    @TestRail(id = "C2084")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
-    public void loginAutoComplete()
-    {
-        loginPage.navigate().autoCompleteUsername(testUserC2084.getUsername());
-        loginPage.typePassword(password);
-        loginPage.clickLogin();
-        if (loginPage.isAuthenticationErrorDisplayed())
-        {
-            loginPage.autoCompleteUsername(testUserC2084.getUsername());
-            loginPage.typePassword(password);
-            loginPage.clickLogin();
-        }
-        userDashboardPage.renderedPage();
-        userDashboardPage.assertUserDashboardPageIsOpened();
+        loginAimsPage.renderedPage();
+        loginAimsPage.assertLoginPageIsOpened().login("user123", "wrongpass");
+        loginAimsPage.assertAuthenticationErrorIsDisplayed();
     }
 
     @TestRail(id = "C2085")
@@ -113,10 +92,10 @@ public class LoginTests extends BaseTest
     public void loginUserWithSpecialChar()
     {
         specialUserList.forEach(specialUser -> {
-            loginPage.navigate().login(specialUser);
+            loginAimsPage.navigate().login(specialUser);
             userDashboardPage.renderedPage();
             userDashboardPage.assertPageHeaderIsCorrect(specialUser);
-            browser.get().manage().deleteAllCookies();
+            toolbar.clickUserMenu().clickLogout();
         });
     }
 
@@ -124,9 +103,18 @@ public class LoginTests extends BaseTest
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginUserWithSpecialPassword()
     {
-        loginPage.navigate();
-        loginPage.login(specialPassUser);
+        loginAimsPage.navigate();
+        loginAimsPage.login(specialPassUser);
         userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        removeUserFromAlfresco(validUser, specialPassUser);
+        specialUserList.forEach(specialUser -> {
+            removeUserFromAlfresco(specialUser);
+        });
     }
 }

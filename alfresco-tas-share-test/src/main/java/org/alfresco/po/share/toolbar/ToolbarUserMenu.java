@@ -1,7 +1,6 @@
 package org.alfresco.po.share.toolbar;
 
-import org.alfresco.common.Wait;
-import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.LoginAimsPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.BasePage;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static org.alfresco.common.Wait.WAIT_10;
 import static org.testng.Assert.assertTrue;
@@ -117,6 +117,13 @@ public class ToolbarUserMenu extends BasePage
     public ToolbarUserMenu assertChangePasswordIsDisplayed()
     {
         LOG.info("Change Password link is displayed");
+        assertTrue(getBrowser().isElementDisplayed(changePassword), "Change Password is not displayed");
+        return this;
+    }
+
+    public ToolbarUserMenu assertChangePasswordIsNotDisplayed()
+    {
+        LOG.info("Change Password link is not displayed");
         assertTrue(getBrowser().isElementDisplayed(changePassword), "Change Password is displayed");
         return this;
     }
@@ -142,7 +149,7 @@ public class ToolbarUserMenu extends BasePage
         getBrowser().waitUntilElementClickable(logout).click();
         if (properties.isAimsEnabled())
         {
-            return (CommonLoginPage) new AIMSPage(browser).renderedPage();
+            return (CommonLoginPage) new LoginAimsPage(browser).renderedPage();
         }
         return (CommonLoginPage) new LoginPage(browser).renderedPage();
     }

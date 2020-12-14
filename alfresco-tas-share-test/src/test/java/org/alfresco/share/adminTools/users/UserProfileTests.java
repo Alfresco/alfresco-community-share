@@ -96,7 +96,7 @@ public class UserProfileTests extends BaseTest
         editUser.setFirstName(firstName);
         editUser.setLastName(lastName);
 
-       editUserPage.navigate(editUser)
+        editUserPage.navigate(editUser)
            .editFirstName(firstName)
            .editLastNameField(lastName)
            .editEmailField(email)
