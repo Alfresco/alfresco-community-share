@@ -45,7 +45,7 @@ public class LoginAIMSTests extends BaseTest
     }
 
     @TestRail(id = "C2080")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = TestGroup.SSO)
     public void loginValidCredentials()
     {
         loginAimsPage.navigate()
@@ -58,7 +58,7 @@ public class LoginAIMSTests extends BaseTest
     }
 
     @TestRail(id = "C2081")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = TestGroup.SSO)
     public void loginInvalidCredentials()
     {
         loginAimsPage.navigate().login("fakeUser", "fakePassword");
@@ -68,7 +68,7 @@ public class LoginAIMSTests extends BaseTest
     }
 
     @TestRail(id = "C2082")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = TestGroup.SSO)
     public void loginInvalidPassword()
     {
         loginAimsPage.navigate().login(validUser.getUsername(), "fakePassword");
@@ -78,7 +78,7 @@ public class LoginAIMSTests extends BaseTest
     }
 
     @TestRail(id = "C2083")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = TestGroup.SSO)
     public void invalidUserRedirectedToLoginPage()
     {
         userDashboardPage.navigateWithoutRender(validUser);
@@ -88,7 +88,7 @@ public class LoginAIMSTests extends BaseTest
     }
 
     @TestRail(id = "C2085")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = TestGroup.SSO)
     public void loginUserWithSpecialChar()
     {
         specialUserList.forEach(specialUser -> {
@@ -100,7 +100,7 @@ public class LoginAIMSTests extends BaseTest
     }
 
     @TestRail(id = "C2086")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = TestGroup.SSO)
     public void loginUserWithSpecialPassword()
     {
         loginAimsPage.navigate();
