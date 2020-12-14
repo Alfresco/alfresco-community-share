@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class AIMSPage extends CommonLoginPage
+public class LoginAimsPage extends CommonLoginPage
 {
     private final By usernameInput = By.id("username");
     private final By passwordInput = By.id("password");
@@ -21,15 +21,15 @@ public class AIMSPage extends CommonLoginPage
     private final By errorLogin = By.cssSelector("div.alert-error span.message-text");
     private final By copyright = By.cssSelector(".copyright");
 
-    public AIMSPage(ThreadLocal<WebBrowser> browser)
+    public LoginAimsPage(ThreadLocal<WebBrowser> browser)
     {
         super(browser);
     }
 
     public CommonLoginPage navigate()
     {
-        getBrowser().navigate().to(properties.getShareUrl().toString());
-        return (AIMSPage) renderedPage();
+        getBrowser().get(properties.getShareUrl().toString());
+        return (LoginAimsPage) renderedPage();
     }
 
     public void typeUserName(String userName)
@@ -54,14 +54,6 @@ public class AIMSPage extends CommonLoginPage
     public void clickLogin()
     {
         getBrowser().waitUntilElementClickable(submit).click();
-    }
-
-    public AIMSPage loginFailed(String username, String password)
-    {
-        typeUserName(username);
-        typePassword(password);
-        clickLogin();
-        return (AIMSPage) this.renderedPage();
     }
 
     public String getAuthenticationError()
@@ -119,7 +111,7 @@ public class AIMSPage extends CommonLoginPage
     public CommonLoginPage assertAuthenticationErrorMessageIsCorrect()
     {
         LOG.info("Assert authentication error message is correct");
-        assertEquals(getAuthenticationError(), language.translate("login.authError"), "Authentication error is correct");
+        assertEquals(getAuthenticationError(), language.translate("login.aims.authError"), "Authentication error is correct");
         return this;
     }
 
@@ -133,7 +125,7 @@ public class AIMSPage extends CommonLoginPage
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {
         LOG.info("Assert Login Page Title is correct");
-        assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
+        assertEquals(getPageTitle(), language.translate("login.aims.pageTitle"), "Login page title is correct");
         return this;
     }
 }

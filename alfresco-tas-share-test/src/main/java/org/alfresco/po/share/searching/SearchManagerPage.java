@@ -1,5 +1,6 @@
 package org.alfresco.po.share.searching;
 
+import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_5;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     private final By PARENT = By.xpath("..");
     @RenderWebElement
     private final By createNewFilter = By.id("CREATE_FACET_BUTTON_label");
-    private final  By filters = By.id("SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
+    private final By filters = By.id("SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
     private final By filterTableColumns = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label");
     private final By filterPropertyDropDownArrow = By.cssSelector("input.dijitReset.dijitInputField.dijitArrowButtonInner");
     private final By notificationMessage = By.cssSelector("div[class^='alfresco-notifications-AlfNotification']");
@@ -78,6 +79,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     private WebElement getFilterRowById(String filterId)
     {
+        getBrowser().waitUntilElementIsDisplayedWithRetry(filters, WAIT_1.getValue(), WAIT_5.getValue());
         return getBrowser().findFirstElementWithValue(filters, filterId);
     }
 

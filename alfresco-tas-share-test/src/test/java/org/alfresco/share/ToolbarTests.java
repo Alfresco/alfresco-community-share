@@ -75,8 +75,15 @@ public class ToolbarTests extends BaseTest
             .assertHelpIsDisplayed()
             .assertSetCurrentPageAsHomeIsDisplayed()
             .assertUseDashboardAsHomeIsDisplayed()
-            .assertChangePasswordIsDisplayed()
             .assertLogoutIsDisplayed();
+        if(dataAIS.isEnabled())
+        {
+            toolbar.clickUserMenu().assertChangePasswordIsNotDisplayed();
+        }
+        else
+        {
+            toolbar.clickUserMenu().assertChangePasswordIsDisplayed();
+        }
     }
 
     @TestRail (id = "C2862")
@@ -127,7 +134,11 @@ public class ToolbarTests extends BaseTest
         userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
 
-        toolbar.clickUserMenu().clickChangePassword().assertChangePasswordPageIsOpened();
+        if(!dataAIS.isEnabled())
+        {
+            toolbar.clickUserMenu().clickChangePassword().assertChangePasswordPageIsOpened();
+        }
+
         toolbar.clickUserMenu().clickLogout().assertLoginPageIsOpened();
     }
 

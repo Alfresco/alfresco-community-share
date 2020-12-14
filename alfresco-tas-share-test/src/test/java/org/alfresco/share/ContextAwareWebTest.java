@@ -7,7 +7,7 @@ import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.dataprep.*;
-import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.LoginAimsPage;
 import org.alfresco.po.share.CommonLoginPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -95,7 +95,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     private LoginPage loginPage; //todo: remove
 
     //@Autowired
-    private AIMSPage aimsPage;
+    private LoginAimsPage loginAimsPage;
 
     @Autowired
     protected DataContent dataContent;
@@ -210,7 +210,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     {
         if (dataAIS.isEnabled())
         {
-            return aimsPage;
+            return loginAimsPage;
         }
 
         return loginPage;

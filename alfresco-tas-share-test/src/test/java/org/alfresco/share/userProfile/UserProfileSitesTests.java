@@ -58,7 +58,7 @@ public class UserProfileSitesTests extends BaseTest
     }
 
     @TestRail (id = "C2309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, TestGroup.SSO })
     public void userWithNoSitesTest()
     {
         setupAuthenticatedSession(noSitesUser);
