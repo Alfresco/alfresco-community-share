@@ -22,6 +22,6 @@ public class LanguageConfiguration
                              @Value("${locale.language}") String language,
                              @Value("${locale.country}") String country)
     {
-        return new Language(languageResource, language,country);
+        return new Language(languageResource, language, country);
     }
 }

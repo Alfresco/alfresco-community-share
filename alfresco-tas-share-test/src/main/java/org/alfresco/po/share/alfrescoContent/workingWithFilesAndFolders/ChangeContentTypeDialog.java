@@ -1,57 +1,61 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 public class ChangeContentTypeDialog extends BaseDialogComponent
 {
     private final By dialogTitle = By.cssSelector("div[id*='changeType-dialogTitle']");
-    @RenderWebElement
     private final By typeDropdown = By.cssSelector("select[id*='changeType']");
     private final By mandatory = By.cssSelector("form div[class='yui-u']");
     private final By okButton = By.cssSelector("button[id$='changeType-ok-button']");
     private final By cancelButton = By.cssSelector("button[id$='changeType-cancel-button']");
     private final By dialogBody = By.cssSelector("div[id$='changeType-dialog']");
 
-    public ChangeContentTypeDialog(ThreadLocal<WebBrowser> browser)
+    public ChangeContentTypeDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getDialogTitle()
     {
-        return getElementText(dialogTitle);
+        return webElementInteraction.getElementText(dialogTitle);
     }
 
     public boolean isDialogDisplayed()
     {
-        return getBrowser().isElementDisplayed(dialogBody);
+        return webElementInteraction.isElementDisplayed(dialogBody);
     }
 
     public void clickOkButton()
     {
-        getBrowser().waitUntilElementClickable(okButton).click();
+        WebElement ok = webElementInteraction.waitUntilElementIsVisible(okButton);
+        webElementInteraction.mouseOver(ok);
+        webElementInteraction.clickElement(ok);
         waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancelButton()
     {
-        getBrowser().waitUntilElementClickable(cancelButton).click();
-        getBrowser().waitUntilElementDisappears(dialogTitle);
+        webElementInteraction.clickElement(cancelButton);
+        webElementInteraction.waitUntilElementDisappears(dialogTitle);
     }
 
     public ChangeContentTypeDialog selectOption(String optionName)
     {
-        Select dropdown = new Select(getBrowser().findElement(typeDropdown));
+        LOG.info("Select option {}", optionName);
+        webElementInteraction.waitInSeconds(1);
+        Select dropdown = new Select(webElementInteraction.waitUntilElementIsVisible(typeDropdown));
         dropdown.selectByVisibleText(optionName);
+
         return this;
     }
 
     public boolean isDropdownMandatory()
     {
-        return getBrowser().isElementDisplayed(mandatory);
+        return webElementInteraction.isElementDisplayed(mandatory);
     }
 }

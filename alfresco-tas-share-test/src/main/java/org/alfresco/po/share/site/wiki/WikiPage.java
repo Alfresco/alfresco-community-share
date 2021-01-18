@@ -2,24 +2,13 @@ package org.alfresco.po.share.site.wiki;
 
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 public class WikiPage extends SiteCommon<WikiPage>
 {
-    //@Autowired
-    WikiListPage wikiListPage;
-
-    //@Autowired
-    WikiDocumentDetailsPage docDetailsPage;
-
-    //@Autowired
-    WikiDetailsPage wikiDetailsPage;
-
-    @RenderWebElement
     @FindBy (css = "div.title-bar [id$=default-viewButtons]")
     private WebElement wikiPageTitle;
 
@@ -41,10 +30,9 @@ public class WikiPage extends SiteCommon<WikiPage>
     @FindBy (css = "a[href*='details']")
     private WebElement wikiPageDetailsLink;
 
-    public WikiPage(ThreadLocal<WebBrowser> browser)
+    public WikiPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
-        this.browser = browser;
+        super(webDriver);
     }
 
     /**
@@ -67,9 +55,9 @@ public class WikiPage extends SiteCommon<WikiPage>
     public WikiListPage clickOnWikiListLink()
     {
 
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(wikiPageListLink, 3);
+        webElementInteraction.waitUntilWebElementIsDisplayedWithRetry(wikiPageListLink, 3);
         wikiPageListLink.click();
-        return (WikiListPage) wikiListPage.renderedPage();
+        return new WikiListPage(webDriver);
     }
 
     public WikiDocumentDetailsPage clickOnDocLink(String docName)
@@ -79,7 +67,7 @@ public class WikiPage extends SiteCommon<WikiPage>
             if (docLink.getText().endsWith(docName))
                 docLink.click();
         }
-        return (WikiDocumentDetailsPage) docDetailsPage.renderedPage();
+        return new WikiDocumentDetailsPage(webDriver);
     }
 
     public boolean deleteWikiPage()
@@ -96,7 +84,7 @@ public class WikiPage extends SiteCommon<WikiPage>
     public WikiDetailsPage clickOnDetailsLink()
     {
         wikiPageDetailsLink.click();
-        return (WikiDetailsPage) wikiDetailsPage.renderedPage();
+        return new WikiDetailsPage(webDriver);
     }
 
     @Override

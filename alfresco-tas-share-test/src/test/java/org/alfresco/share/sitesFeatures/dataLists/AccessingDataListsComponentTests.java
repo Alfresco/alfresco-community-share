@@ -91,7 +91,6 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickCustomizeSite();
-        customizeSitePage.renderedPage();
         customizeSitePage.addPageToSite(SitePageType.DATA_LISTS);
         Assert.assertTrue(customizeSitePage.isPageAddedToCurrentPages(SitePageType.DATA_LISTS));
         LOG.info("Step 2: Rename 'Data Lists' feature");

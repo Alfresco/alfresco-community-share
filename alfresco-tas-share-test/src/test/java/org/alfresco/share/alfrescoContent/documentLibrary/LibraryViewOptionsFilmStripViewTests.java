@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -62,7 +61,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
 
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Options menu is not displayed");
         documentLibraryPage.clickOptionsButton();
-        assertTrue(documentLibraryPage.isviewOptionDisplayed("Filmstrip View"), "Film Strip view is not displayed");
+        assertTrue(documentLibraryPage.isViewOptionDisplayed("Filmstrip View"), "Film Strip view is not displayed");
     }
 
     @TestRail (id = "C2247")
@@ -74,7 +73,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
         LOG.info("Step 1: Check the Filmstrip view action presence in the Options menu.");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Options menu is not displayed");
         documentLibraryPage.clickOptionsButton();
-        assertTrue(documentLibraryPage.isviewOptionDisplayed("Filmstrip View"), "Filmstrip view is displayed");
+        assertTrue(documentLibraryPage.isViewOptionDisplayed("Filmstrip View"), "Filmstrip view is displayed");
 
         LOG.info("Step 2: Click on Filmstrip view action.");
         documentLibraryPage.clickOptionsButton();

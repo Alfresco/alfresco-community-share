@@ -1,22 +1,20 @@
 package org.alfresco.po.share.site.members;
 
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebDriver;
 
 public class SiteUsersPage extends SiteMembersPage
 {
-    private By addUsers = By.cssSelector("a[id*='invitePeople']");
-    private By searchBox = By.cssSelector(".search-term");
-    private String removeButton = "//button[contains(text(),'Remove')]";
-    @RenderWebElement
+    private final By addUsers = By.cssSelector("a[id*='invitePeople']");
+    private final By searchBox = By.cssSelector(".search-term");
+    private final String removeButton = "//button[contains(text(),'Remove')]";
+    public final String pattern = "//td[descendant::a[normalize-space(text())='";
     private By searchButton = By.cssSelector("button[id*='site-members']");
 
-    public SiteUsersPage(ThreadLocal<WebBrowser> browser)
+    public SiteUsersPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -27,24 +25,24 @@ public class SiteUsersPage extends SiteMembersPage
 
     public AddSiteUsersPage goToAddUsersPage()
     {
-        getBrowser().findElement(addUsers).click();
-        return (AddSiteUsersPage) new AddSiteUsersPage(browser).renderedPage();
+        webElementInteraction.clickElement(addUsers);
+        return new AddSiteUsersPage(webDriver);
     }
 
     public void clickSearch()
     {
-        getBrowser().findElement(searchButton).click();
+        webElementInteraction.findElement(searchButton).click();
     }
 
     public void searchForSiteMembers(String userName)
     {
-        clearAndType(getBrowser().findElement(searchBox), userName);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(searchBox), userName);
     }
 
     public boolean isRemoveButtonDisplayedForUser(String userName)
     {
-        return getBrowser().isElementDisplayed(
-            By.xpath("//td[descendant::a[normalize-space(text())='" + userName + "']]/../td[contains(@class,'uninvite')]" + removeButton));
+        return webElementInteraction.isElementDisplayed(
+            By.xpath(pattern + userName + "']]/../td[contains(@class,'uninvite')]" + removeButton));
     }
 
     public boolean isRemoveButtonEnabled(String name)
@@ -54,19 +52,19 @@ public class SiteUsersPage extends SiteMembersPage
 
     public void removeUser(String username)
     {
-        getBrowser().findElement(By.xpath(
-            "//td[descendant::a[normalize-space(text())='" + username + "']]/../td[contains(@class,'uninvite')]" + removeButton)).click();
+        webElementInteraction.findElement(By.xpath(
+            pattern + username + "']]/../td[contains(@class,'uninvite')]" + removeButton)).click();
     }
 
     public boolean isUserRoleNotChangeable(String role, String userName)
     {
-        return getBrowser().isElementDisplayed(By.xpath(
-            "//td[descendant::a[normalize-space(text())='" + userName + "']]/../td[contains(@class,'role')]/div/div[text()='" + role + "']"));
+        return webElementInteraction.isElementDisplayed(By.xpath(
+            pattern + userName + "']]/../td[contains(@class,'role')]/div/div[text()='" + role + "']"));
     }
 
     public UserProfilePage clickUser(String userName)
     {
-        getBrowser().findFirstDisplayedElement(By.xpath("//td//a[normalize-space(text())='" + userName + "']")).click();
-        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
+        webElementInteraction.findFirstDisplayedElement(By.xpath("//td//a[normalize-space(text())='" + userName + "']")).click();
+        return new UserProfilePage(webDriver);
     }
 }

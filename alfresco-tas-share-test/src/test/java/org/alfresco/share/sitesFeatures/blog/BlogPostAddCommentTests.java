@@ -13,7 +13,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -64,7 +63,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         LOG.info("Preconditions: ");
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6011, blogPostContentText, false, tags);
         blogPage.navigate(siteName);
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogPostTitleC6011));
         blogPage.clickReadBlogPost(blogPostTitleC6011);
 
         LOG.info("Step 1: Click Add comment button");

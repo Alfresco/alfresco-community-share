@@ -8,9 +8,8 @@ import java.util.List;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -18,20 +17,16 @@ import org.openqa.selenium.WebElement;
  */
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
-    private EditSiteDetailsDialog editSiteDetailsDialog;
-
     private final By siteHeaderTitle = By.cssSelector("#HEADER_TITLE a");
-    @RenderWebElement
     private final By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
-    @RenderWebElement
     private final By siteVisibility = By.cssSelector("div[id='HEADER_TITLE_VISIBILITY'] span");
     private final By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
     private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
     private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
-    public SiteDashboardPage(ThreadLocal<WebBrowser> browser)
+    public SiteDashboardPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -43,20 +38,20 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public SiteDashboardPage assertSiteDashboardPageIsOpened()
     {
         LOG.info("Assert site dashboard page is opened");
-        getBrowser().waitUntilElementVisible(siteVisibility);
-        assertTrue(getBrowser().isElementDisplayed(siteVisibility), "Site dashboard page is opened");
+        webElementInteraction.waitUntilElementIsVisible(siteVisibility);
+        assertTrue(webElementInteraction.isElementDisplayed(siteVisibility), "Site dashboard page is opened");
         return this;
     }
 
     public SiteDashboardPage assertSiteHeaderTitleIs(SiteModel expectedSite)
     {
-        assertEquals(getBrowser().findElement(siteHeaderTitle).getText(), expectedSite.getTitle(), "Site header title is correct");
+        assertEquals(webElementInteraction.getElementText(siteHeaderTitle), expectedSite.getTitle(), "Site header title is correct");
         return this;
     }
 
     public int getNumerOfColumns()
     {
-        String strCol = getBrowser().findElement(dashboardLayout).getAttribute("class");
+        String strCol = webElementInteraction.findElement(dashboardLayout).getAttribute("class");
         return Character.getNumericValue(strCol.charAt(strCol.length() - 1));
     }
 
@@ -72,36 +67,36 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            return getBrowser().isElementDisplayed(By.xpath(String.format(
+            return webElementInteraction.isElementDisplayed(By.xpath(String.format(
                 "//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
         }
-        return getBrowser().isElementDisplayed(By.xpath(String.format(
+        return webElementInteraction.isElementDisplayed(By.xpath(String.format(
             dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
     }
 
     public String getSiteVisibility()
     {
-        return getBrowser().waitUntilElementVisible(siteVisibility).getText();
+        return webElementInteraction.waitUntilElementIsVisible(siteVisibility).getText();
     }
 
     public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
     {
         LOG.info(String.format("Assert site visibility is: %s", visibility.toString()));
-        assertEquals(getBrowser().waitUntilElementVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
+        assertEquals(webElementInteraction.waitUntilElementIsVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
         return this;
     }
 
     public boolean isSiteVisibilityDisplayed()
     {
-        return getBrowser().isElementDisplayed(siteVisibility);
+        return webElementInteraction.isElementDisplayed(siteVisibility);
     }
 
     public boolean isOptionListedInSiteConfigurationDropDown(String option)
     {
         List<String> availableOptions = new ArrayList<>();
 
-        List<WebElement> siteConfigurationOptions = getBrowser().findElements(configurationOptions);
-        getBrowser().waitUntilElementsVisible(siteConfigurationOptions);
+        List<WebElement> siteConfigurationOptions = webElementInteraction.findElements(configurationOptions);
+        webElementInteraction.waitUntilElementsAreVisible(siteConfigurationOptions);
 
         for (WebElement siteConfigurationOption : siteConfigurationOptions)
         {
@@ -122,7 +117,8 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         {
             if (configurationOption.getOptionText().equals(option))
             {
-                getBrowser().waitUntilElementVisible(configurationOption.getOptionLocator()).click();
+                webElementInteraction.waitUntilElementIsVisible(configurationOption.getOptionLocator());
+                webElementInteraction.clickElement(configurationOption.getOptionLocator());
                 break;
             }
         }
@@ -130,12 +126,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public void clickCustomizeSite()
     {
-        getBrowser().waitUntilElementVisible(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator()).click();
+        webElementInteraction.waitUntilElementIsVisible(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator());
+        webElementInteraction.clickElement(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator());
     }
 
     public boolean isLinkDisplayedInMoreMenu(String link)
     {
-        List<WebElement> moreOptionsList = getBrowser().waitUntilElementsVisible(moreOptions);
+        List<WebElement> moreOptionsList = webElementInteraction.waitUntilElementsAreVisible(moreOptions);
         for (WebElement option : moreOptionsList)
         {
             if (option.getText().equals(link))
@@ -149,7 +146,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public void clickLinkFromMoreMenu(String link)
     {
         clickMoreLink();
-        List<WebElement> moreOptionsList = getBrowser().waitUntilElementsVisible(moreOptions);
+        List<WebElement> moreOptionsList = webElementInteraction.waitUntilElementsAreVisible(moreOptions);
         moreOptionsList.stream()
             .filter(option -> option.getText().equals(link))
             .findFirst().ifPresent(WebElement::click);
@@ -157,7 +154,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public boolean isPageAddedToDashboard(SitePageType page)
     {
-        if (getBrowser().isElementDisplayed(page.getDashboardLocator()) == true)
+        if (webElementInteraction.isElementDisplayed(page.getDashboardLocator()))
         {
             return true;
         }
@@ -166,7 +163,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
             if (isMoreLinkDisplayed())
             {
                 clickMoreLink();
-                return getBrowser().isElementDisplayed(page.getDashboardLocator());
+                return webElementInteraction.isElementDisplayed(page.getDashboardLocator());
             }
             return false;
         }
@@ -174,22 +171,23 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public void clickMoreLink()
     {
-        getBrowser().waitUntilElementVisible(morePagesDropDown).click();
+        webElementInteraction.waitUntilElementIsVisible(morePagesDropDown);
+        webElementInteraction.clickElement(morePagesDropDown);
     }
 
     public void clickLinkFromHeaderNavigationMenu(SitePageType page)
     {
-        getBrowser().findElement(page.getDashboardLocator()).findElement(By.cssSelector("a")).click();
+        webElementInteraction.findElement(page.getDashboardLocator()).findElement(By.cssSelector("a")).click();
     }
 
     public boolean isMoreLinkDisplayed()
     {
-        return getBrowser().isElementDisplayed(morePagesDropDown);
+        return webElementInteraction.isElementDisplayed(morePagesDropDown);
     }
 
     public String getPageDisplayName(SitePageType page)
     {
-        WebElement pageElem = getBrowser().findElement(By.cssSelector(page.getDashboardCssLocator()));
+        WebElement pageElem = webElementInteraction.findElement(By.cssSelector(page.getDashboardCssLocator()));
         return pageElem.findElement(By.cssSelector("span a")).getText();
     }
 
@@ -198,11 +196,11 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         navigate(siteId);
         clickSiteConfiguration();
         clickOptionInSiteConfigurationDropDown("Edit Site Details");
-        return (EditSiteDetailsDialog) editSiteDetailsDialog.renderedPage();
+        return new EditSiteDetailsDialog();
     }
 
     public boolean somethingWentWrongMessage()
     {
-        return getBrowser().isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
+        return webElementInteraction.isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
     }
 }

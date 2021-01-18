@@ -1,5 +1,13 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import static org.alfresco.common.Wait.*;
+import static org.alfresco.utility.Utility.waitToLoopTime;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.UploadFileDialog;
@@ -11,20 +19,13 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.alfresco.common.Wait.WAIT_30;
-import static org.testng.Assert.*;
 
 public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
 {
-    @RenderWebElement
+    private final By contentArea = By.cssSelector("div[class='documents yui-dt']");
     private final By createButton = By.cssSelector("button[id$='createContent-button-button']");
     private final By createOptionsArea = By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']");
     private final By createTextFileOption = By.cssSelector("span.text-file");
@@ -42,7 +43,6 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     private final By documentsFilter = By.cssSelector("a.filter-link");
     private final By selectedFilter = By.cssSelector(".filterLink .selected");
     private final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
-    private final By documentsRootBreadcrumb = By.cssSelector("div[class='crumb documentDroppable documentDroppableHighlights']");
     protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
     private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
     private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
@@ -54,57 +54,74 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
 
-    public AlfrescoContentPage(ThreadLocal<WebBrowser> browser)
+    protected AlfrescoContentPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
+    }
+
+    private void waitForContentPageToBeLoaded()
+    {
+        webElementInteraction.waitUntilElementIsVisible(contentArea);
     }
 
     public AlfrescoContentPage<T> clickCreate()
     {
         LOG.info("Click Create");
-        getBrowser().waitUntilElementClickable(createButton).click();
-        getBrowser().waitUntilElementVisible(createOptionsArea);
+        webElementInteraction.clickElement(createButton);
+        webElementInteraction.waitUntilElementIsVisible(createOptionsArea);
         return this;
     }
 
     public CreateContentPage clickTextPlain()
     {
         LOG.info("Click Plain Text...");
-        getBrowser().waitUntilElementVisible(createTextFileOption).click();
-        return (CreateContentPage) new CreateContentPage(browser).renderedPage();
+        webElementInteraction.clickElement(createTextFileOption);
+        return new CreateContentPage(webDriver);
     }
 
     public CreateContentPage clickXml()
     {
         LOG.info("Click XML...");
-        getBrowser().waitUntilElementVisible(createXmlFileOption).click();
-        return (CreateContentPage) new CreateContentPage(browser).renderedPage();
+        webElementInteraction.clickElement(createXmlFileOption);
+        return new CreateContentPage(webDriver);
     }
 
     public CreateContentPage clickHtml()
     {
         LOG.info("Click HTML...");
-        getBrowser().waitUntilElementVisible(createHtmlFileOption).click();
-        return (CreateContentPage) new CreateContentPage(browser).renderedPage();
+        webElementInteraction.clickElement(createHtmlFileOption);
+        return new CreateContentPage(webDriver);
     }
 
     public NewFolderDialog clickFolder()
     {
         LOG.info("Click Create Folder");
-        getBrowser().waitUntilElementVisible(createFolderOption).click();
-        return (NewFolderDialog) new NewFolderDialog(browser).renderedPage();
+        webElementInteraction.clickElement(createFolderOption);
+        return new NewFolderDialog(webDriver);
     }
 
     protected WebElement getContentRow(String contentName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(contentRow, contentName)), 1, WAIT_30.getValue());
+        By contentRowElement = By.xpath(String.format(contentRow, contentName));
+
+        int i = 0;
+        while(i < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(contentRowElement))
+        {
+            LOG.error("Wait for content {} to be displayed", contentName);
+            webElementInteraction.refresh();
+            waitToLoopTime(WAIT_1.getValue());
+            waitForContentPageToBeLoaded();
+            i++;
+        }
+        return webElementInteraction.waitUntilElementIsVisible(contentRowElement);
     }
 
     public AlfrescoContentPage<T> assertFolderIsDisplayedInFilter(FolderModel folder)
     {
         LOG.info("Assert folder {} is displayed in documents filter from left side", folder.getName());
-        WebElement folderLink = getBrowser().waitUntilElementVisible(By.xpath(String.format(folderInFilterElement, folder.getName())));
-        assertTrue(getBrowser().isElementDisplayed(folderLink),
+        WebElement folderLink = webElementInteraction.waitUntilElementIsVisible(
+            By.xpath(String.format(folderInFilterElement, folder.getName())));
+        assertTrue(webElementInteraction.isElementDisplayed(folderLink),
             String.format("Folder %s is displayed in filter", folder.getName()));
         return this;
     }
@@ -112,7 +129,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> waitForCurrentFolderBreadcrumb(String folderName)
     {
         LOG.info("Wait for folder breadcrumb {}", folderName);
-        getBrowser().waitUntilElementContainsText(currentBreadcrumb, folderName);
+        webElementInteraction.waitUntilElementContainsText(currentBreadcrumb, folderName);
         return this;
     }
 
@@ -123,26 +140,18 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
 
     public AlfrescoContentPage<T> assertFolderIsDisplayedInBreadcrumb(FolderModel folder)
     {
-        LOG.info(String.format("Assert folder %s is displayed in breadcrumb", folder.getName()));
+        LOG.info("Assert folder {} is displayed in breadcrumb ", folder.getName());
         By folderBreadcrumb = By.xpath(String.format(breadcrumb, folder.getName()));
-        getBrowser().waitUntilElementVisible(folderBreadcrumb);
-        assertTrue(getBrowser().isElementDisplayed(folderBreadcrumb),
+        WebElement folderElement = webElementInteraction.waitUntilElementIsVisible(folderBreadcrumb);
+        assertTrue(webElementInteraction.isElementDisplayed(folderElement),
             String.format("Folder %s is displayed in breadcrumb", folder.getName()));
-        return this;
-    }
-
-    public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsDisplayed()
-    {
-        LOG.info("Assert Documents root breadcrumb is displayed");
-        getBrowser().waitUntilElementVisible(documentsRootBreadcrumb);
-        assertTrue(getBrowser().isElementDisplayed(documentsRootBreadcrumb), "Documents root breadcrumb is displayed");
         return this;
     }
 
     public AlfrescoContentPage<T> clickFolderFromFilter(FolderModel folder)
     {
-        LOG.info("Click folder '%s' from filter {}", folder.getName());
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(folderInFilterElement, folder.getName()))).click();
+        LOG.info("Click folder {} from filter", folder.getName());
+        webElementInteraction.clickElement(By.xpath(String.format(folderInFilterElement, folder.getName())));
         waitForCurrentFolderBreadcrumb(folder);
         return this;
     }
@@ -150,43 +159,38 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> clickFolderFromBreadcrumb(String folderName)
     {
         LOG.info("Click folder {} from breadcrumb", folderName);
-        getBrowser().findElement(By.xpath(String.format(breadcrumb, folderName))).click();
+        webElementInteraction.clickElement(By.xpath(String.format(breadcrumb, folderName)));
         waitForCurrentFolderBreadcrumb(folderName);
 
         return this;
     }
 
-    public AlfrescoContentPage<T> clickFolderFromBreadcrumb(FolderModel folder)
-    {
-        return clickFolderFromBreadcrumb(folder.getName());
-    }
-
     public AlfrescoContentPage<T> clickFolderUpButton()
     {
         LOG.info("Click folder up button");
-        getBrowser().findElement(folderUp).click();
+        webElementInteraction.clickElement(folderUp);
         return this;
     }
 
     public AlfrescoContentPage<T> uploadContent(FileModel file)
     {
         LOG.info("Upload file {}", file.getName());
-        getBrowser().findElement(uploadButton).click();
-        UploadFileDialog uploadFileDialog = new UploadFileDialog(browser);
-        uploadFileDialog.renderedPage();
+        webElementInteraction.waitUntilElementIsVisible(uploadButton);
+        webElementInteraction.clickElement(uploadButton);
+        UploadFileDialog uploadFileDialog = new UploadFileDialog(webDriver);
         uploadFileDialog.uploadFile(file);
         uploadFileDialog.waitForUploadDialogToDisappear();
-
+        waitForContentPageToBeLoaded();
         return this;
     }
 
     public AlfrescoContentPage<T> createFileFromTemplate(FileModel templateFile)
     {
         LOG.info("Create new file from template {}", templateFile);
-        getBrowser().mouseOver(getBrowser().findElement(createButton));
-        getBrowser().mouseOver(getBrowser().findElement(createFileFromTemplate));
-        getBrowser().findElement(createFileFromTemplate).click();
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(templateName, templateFile.getName()))).click();
+        webElementInteraction.mouseOver(webElementInteraction.findElement(createButton));
+        webElementInteraction.mouseOver(webElementInteraction.findElement(createFileFromTemplate));
+        webElementInteraction.clickElement(createFileFromTemplate);
+        webElementInteraction.clickElement(By.xpath(String.format(templateName, templateFile.getName())));
         waitUntilNotificationMessageDisappears();
 
         return this;
@@ -194,13 +198,13 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
 
     public NewFolderDialog clickCreateFolderFromTemplate(String folderTemplateName)
     {
-        LOG.info(String.format("Create new folder from template %s", folderTemplateName));
-        getBrowser().mouseOver(getBrowser().findElement(createButton));
-        getBrowser().mouseOver(getBrowser().findElement(createFileFromTemplate));
-        getBrowser().findElement(createFolderFromTemplate).click();
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(templateName, folderTemplateName))).click();
+        LOG.info("Create new folder from template {}", folderTemplateName);
+        webElementInteraction.mouseOver(webElementInteraction.findElement(createButton));
+        webElementInteraction.mouseOver(webElementInteraction.findElement(createFileFromTemplate));
+        webElementInteraction.clickElement(createFolderFromTemplate);
+        webElementInteraction.clickElement(By.xpath(String.format(templateName, folderTemplateName)));
 
-        return (NewFolderDialog) new NewFolderDialog(browser).renderedPage();
+        return new NewFolderDialog(webDriver);
     }
 
     public NewFolderDialog clickCreateFolderFromTemplate(FolderModel folderTemplate)
@@ -210,10 +214,11 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
 
     public AlfrescoContentPage<T> checkContent(ContentModel... contentsToSelect)
     {
+        webElementInteraction.waitUntilElementIsVisible(selectCheckBox);
         for(ContentModel content : contentsToSelect)
         {
             LOG.info("Check content: {}", content.getName());
-            getContentRow(content.getName()).findElement(selectCheckBox).click();
+            webElementInteraction.clickElement( getContentRow(content.getName()).findElement(selectCheckBox));
         }
         return this;
     }
@@ -221,22 +226,22 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> assertSelectedItemsMenuIsEnabled()
     {
         LOG.info("Assert Selected Items is enabled");
-        assertTrue(getBrowser().findElement(selectedItemsLink).isEnabled(), "Selected Items is not enabled");
+        assertTrue(webElementInteraction.findElement(selectedItemsLink).isEnabled(), "Selected Items is not enabled");
         return this;
     }
 
     public AlfrescoContentPage<T> assertSelectedItemsMenuIsDisabled()
     {
         LOG.info("Assert Selected Items is enabled");
-        assertFalse(getBrowser().findElement(selectedItemsLink).isEnabled(), "Selected Items is not enabled");
+        assertFalse(webElementInteraction.findElement(selectedItemsLink).isEnabled(), "Selected Items is not enabled");
         return this;
     }
 
     public AlfrescoContentPage<T> clickSelectedItems()
     {
         LOG.info("Click Selected Items");
-        getBrowser().waitUntilElementClickable(selectedItemsLink).click();
-        getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(selectedItemsActions), "class", "visible");
+        webElementInteraction.clickElement(selectedItemsLink);
+        webElementInteraction.waitUntilElementHasAttribute(webElementInteraction.findElement(selectedItemsActions), "class", "visible");
 
         return this;
     }
@@ -244,8 +249,9 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> assertActionsInSelectedItemsMenuEqualTo(String... actions)
     {
         LOG.info("Assert available actions from selected items menu are {}", Arrays.asList(actions));
-        List<WebElement> items = getBrowser().findElements(selectedItemsActionNames);
-        String[] values = getBrowser().getTextFromElementList(items).toArray(new String[0]);
+        webElementInteraction.waitUntilElementsAreVisible(selectedItemsActionNames);
+        List<WebElement> items = webElementInteraction.findElements(selectedItemsActionNames);
+        String[] values = webElementInteraction.getTextFromElementList(items).toArray(new String[0]);
         Arrays.sort(values);
         Arrays.sort(actions);
         assertTrue(Arrays.asList(values).containsAll(Arrays.asList(actions)),
@@ -257,7 +263,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> clickSelectMenu()
     {
         LOG.info("Click Select menu");
-        getBrowser().findElement(selectMenu).click();
+        webElementInteraction.clickElement(selectMenu);
         return this;
     }
 
@@ -265,7 +271,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     {
         LOG.info("Select Document option from Select menu");
         By option = By.cssSelector(selectMenuOptions.getLocator());
-        getBrowser().waitUntilElementVisible(option).click();
+        webElementInteraction.clickElement(option);
         return this;
     }
 
@@ -294,37 +300,38 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public CopyMoveUnzipToDialog clickCopyToFromSelectedItems()
     {
         LOG.info("Click Copy To...");
-        getBrowser().waitUntilElementVisible(copyToFromSelectedItems).click();
-        return (CopyMoveUnzipToDialog) new CopyMoveUnzipToDialog(browser).renderedPage();
+        webElementInteraction.clickElement(copyToFromSelectedItems);
+        return new CopyMoveUnzipToDialog(webDriver);
     }
 
     public StartWorkflowPage clickStartWorkflowFromSelectedItems()
     {
-        LOG.info("Click Stat Workflow...");
-        getBrowser().waitUntilElementVisible(startWorkflowFromSelectedItems).click();
-        return (StartWorkflowPage) new StartWorkflowPage(browser).renderedPage();
+        LOG.info("Click Start Workflow...");
+        webElementInteraction.clickElement(startWorkflowFromSelectedItems);
+        return new StartWorkflowPage(webDriver);
     }
 
     public DeleteDialog clickDeleteFromSelectedItems()
     {
         LOG.info("Click Delete");
-        getBrowser().waitUntilElementVisible(deleteFromSelectedItems).click();
-        return (DeleteDialog) new DeleteDialog(browser).renderedPage();
+        webElementInteraction.clickElement(deleteFromSelectedItems);
+        return new DeleteDialog(webDriver);
     }
 
     public AlfrescoContentPage<T> selectFromDocumentsFilter(DocumentsFilter documentFilter)
     {
         LOG.info("Select document filter {}", documentFilter.toString());
-        List<WebElement> filters = getBrowser().findElements(documentsFilter);
-        getBrowser().findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)).click();
-        getBrowser().waitUntilElementVisible(selectedFilter);
+        webElementInteraction.waitUntilElementsAreVisible(documentsFilter);
+        List<WebElement> filters = webElementInteraction.findElements(documentsFilter);
+        webElementInteraction.findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)).click();
+        webElementInteraction.waitUntilElementIsVisible(selectedFilter);
         return this;
     }
 
     public AlfrescoContentPage<T> assertDocumentsFilterHeaderTitleEqualsTo(String expectedHeaderTitle)
     {
         LOG.info("Assert documents filter header title '{}' is displayed", expectedHeaderTitle);
-        assertEquals(getBrowser().waitUntilElementVisible(documentsFilterHeaderTitle).getText(), expectedHeaderTitle,
+        assertEquals(webElementInteraction.getElementText(documentsFilterHeaderTitle), expectedHeaderTitle,
             String.format("%s header title is not equals to", expectedHeaderTitle));
         return this;
     }
@@ -358,15 +365,18 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
         return filterValue;
     }
 
-    public ContentAction usingContent(ContentModel contentModel)
+    public ContentActionComponent usingContent(ContentModel contentModel)
     {
-        return new ContentAction(contentModel,
+        return new ContentActionComponent(
+            contentModel,
+            webElementInteraction,
             this,
-            new DocumentDetailsPage(browser),
-            new CopyMoveUnzipToDialog(browser),
-            new DeleteDialog(browser));
+            new DocumentDetailsPage(webDriver),
+            new CopyMoveUnzipToDialog(webDriver),
+            new DeleteDialog(webDriver));
     }
 
+    //todo: move into separate file
     public enum DocumentsFilter
     {
         ALL_DOCUMENTS,
@@ -377,6 +387,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
         FAVORITES
     }
 
+    //todo: move into separate file
     public enum SelectMenuOptions
     {
         DOCUMENTS(".selectDocuments"),

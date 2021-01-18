@@ -10,10 +10,7 @@ import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class CreatingFilesTests extends BaseTest
 {
@@ -22,7 +19,7 @@ public class CreatingFilesTests extends BaseTest
 
     private DocumentLibraryPage2 documentLibraryPage;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
@@ -32,15 +29,8 @@ public class CreatingFilesTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         setupAuthenticatedSession(testUser);
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(testUser);
-        deleteSites(testSite);
     }
 
     @TestRail (id = "C6976, C6986")
@@ -103,5 +93,12 @@ public class CreatingFilesTests extends BaseTest
                         .assertDocumentTitleEquals(xmlFile)
                         .assertFileContentEquals(FILE_CONTENT)
                         .assertPropertyValueEquals(language.translate("property.mimetype"), "XML");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(testUser);
+        deleteSitesIfNotNull(testSite);
     }
 }

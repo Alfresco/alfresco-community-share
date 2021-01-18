@@ -1,17 +1,17 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.browser.WebBrowser;
-
-import static org.testng.Assert.assertTrue;
+import org.openqa.selenium.WebDriver;
 
 public class SharedFilesPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
-    public SharedFilesPage(ThreadLocal<WebBrowser> browser)
+    public SharedFilesPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -24,13 +24,13 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
     @Override
     public SharedFilesPage navigateByMenuBar()
     {
-        return (SharedFilesPage) new Toolbar(browser).clickSharedFiles().renderedPage();
+        return new Toolbar(webDriver).clickSharedFiles();
     }
 
     public SharedFilesPage assertSharedFilesPageIsOpened()
     {
-        getBrowser().waitUrlContains(getRelativePath(), 30);
-        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
+        webElementInteraction.waitUrlContains(getRelativePath(), 30);
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
         return this;
     }
 }

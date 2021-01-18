@@ -1,91 +1,88 @@
 package org.alfresco.po.share;
 
-import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+
+import org.alfresco.utility.model.UserModel;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class LoginAimsPage extends CommonLoginPage
 {
     private final By usernameInput = By.id("username");
     private final By passwordInput = By.id("password");
-    @RenderWebElement
     private final By submit = By.cssSelector("input.submit");
-    @RenderWebElement
     private final By alfrescoLogo = By.cssSelector("img.logo");
     private final By errorLogin = By.cssSelector("div.alert-error span.message-text");
     private final By copyright = By.cssSelector(".copyright");
 
-    public LoginAimsPage(ThreadLocal<WebBrowser> browser)
+    public LoginAimsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public CommonLoginPage navigate()
     {
-        getBrowser().get(properties.getShareUrl().toString());
-        return (LoginAimsPage) renderedPage();
+        webElementInteraction.getUrl(defaultProperties.get().getShareUrl().toString());
+        return new LoginAimsPage(webDriver);
     }
 
     public void typeUserName(String userName)
     {
-        clearAndType(getBrowser().findElement(usernameInput), userName);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(usernameInput), userName);
     }
 
     public void autoCompleteUsername(String startCharsUser)
     {
         typeUserName(startCharsUser);
-        getBrowser().waitInSeconds(1);
-        WebElement userInput = getBrowser().findElement(usernameInput);
+        webElementInteraction.waitInSeconds(1);
+        WebElement userInput = webElementInteraction.findElement(usernameInput);
         userInput.sendKeys(Keys.ARROW_DOWN);
         userInput.sendKeys(Keys.TAB);
     }
 
     public void typePassword(String password)
     {
-        clearAndType(getBrowser().findElement(passwordInput), password);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(passwordInput), password);
     }
 
     public void clickLogin()
     {
-        getBrowser().waitUntilElementClickable(submit).click();
+        webElementInteraction.clickElement(submit);
     }
 
     public String getAuthenticationError()
     {
-        return getBrowser().waitUntilElementVisible(errorLogin).getText();
+        return webElementInteraction.waitUntilElementIsVisible(errorLogin).getText();
     }
 
     public boolean isAuthenticationErrorDisplayed()
     {
-        return getBrowser().isElementDisplayed(errorLogin);
+        return webElementInteraction.isElementDisplayed(errorLogin);
     }
 
     public boolean isCopyrightDisplayed()
     {
-        return getBrowser().isElementDisplayed(copyright);
+        return webElementInteraction.isElementDisplayed(copyright);
     }
 
     public boolean isLogoDisplayed()
     {
-        return getBrowser().isElementDisplayed(alfrescoLogo);
+        return webElementInteraction.isElementDisplayed(alfrescoLogo);
     }
 
     public String getCopyRightText()
     {
-        return getBrowser().findElement(copyright).getText();
+        return webElementInteraction.findElement(copyright).getText();
     }
 
     @Override
     public CommonLoginPage assertLoginPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
-        assertTrue(getBrowser().isElementDisplayed(usernameInput), "Username input is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
     }
 
@@ -102,7 +99,7 @@ public class LoginAimsPage extends CommonLoginPage
     public CommonLoginPage assertAuthenticationErrorIsDisplayed()
     {
         LOG.info("Assert authentication error is displayed");
-        getBrowser().waitUntilElementVisible(errorLogin);
+        webElementInteraction.waitUntilElementIsVisible(errorLogin);
         assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
         return this;
     }
@@ -125,7 +122,7 @@ public class LoginAimsPage extends CommonLoginPage
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {
         LOG.info("Assert Login Page Title is correct");
-        assertEquals(getPageTitle(), language.translate("login.aims.pageTitle"), "Login page title is correct");
+        assertEquals(webElementInteraction.getTitle(), language.translate("login.aims.pageTitle"), "Login page title is correct");
         return this;
     }
 }

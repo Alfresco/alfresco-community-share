@@ -11,10 +11,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class RenamingContentTests extends BaseTest
 {
@@ -23,7 +20,7 @@ public class RenamingContentTests extends BaseTest
 
     private DocumentLibraryPage2 documentLibraryPage;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
@@ -33,7 +30,7 @@ public class RenamingContentTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
@@ -89,10 +86,10 @@ public class RenamingContentTests extends BaseTest
         documentLibraryPage.usingContent(newFile).assertContentIsNotDisplayed();
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        deleteUsersIfNotNull(user);
+        deleteSitesIfNotNull(site);
     }
 }

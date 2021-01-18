@@ -11,10 +11,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class UploadingFilesTests extends BaseTest
 {
@@ -33,7 +30,7 @@ public class UploadingFilesTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         setupAuthenticatedSession(user);
     }
 
@@ -63,7 +60,7 @@ public class UploadingFilesTests extends BaseTest
     @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        deleteUsersIfNotNull(user);
+        deleteSitesIfNotNull(site);
     }
 }

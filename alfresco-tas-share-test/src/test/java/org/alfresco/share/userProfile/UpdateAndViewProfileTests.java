@@ -7,10 +7,7 @@ import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class UpdateAndViewProfileTests extends BaseTest
 {
@@ -28,16 +25,10 @@ public class UpdateAndViewProfileTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userProfilePage = new UserProfilePage(browser);
-        editUserPage = new EditUserProfilePage(browser);
+        userProfilePage = new UserProfilePage(webDriver);
+        editUserPage = new EditUserProfilePage(webDriver);
 
         setupAuthenticatedSession(user);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
     }
 
     @TestRail (id = "C2110")
@@ -106,5 +97,11 @@ public class UpdateAndViewProfileTests extends BaseTest
                 .clickUseDefaultPhoto()
                 .clickSave()
                 .assertDefaultAvatarIsDisplayed();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user);
     }
 }

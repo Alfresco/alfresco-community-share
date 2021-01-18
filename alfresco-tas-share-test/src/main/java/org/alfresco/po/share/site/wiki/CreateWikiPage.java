@@ -3,27 +3,18 @@ package org.alfresco.po.share.site.wiki;
 import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 {
-    //@Autowired
-    WikiPage wikiPage;
-
-   // @Autowired
-    WikiListPage wikiListPage;
-
-    @RenderWebElement
     @FindBy (css = "div.page-form-header h1")
     private WebElement pageHeader;
 
-    @RenderWebElement
     @FindBy (css = "[id$='default-title']")
     private WebElement wikiPageTitle;
 
@@ -44,9 +35,9 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     private final By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
-    public CreateWikiPage(ThreadLocal<WebBrowser> browser)
+    public CreateWikiPage(ThreadLocal<WebDriver> webDriver)
     {
-      super(browser);
+      super(webDriver);
     }
 
     /**
@@ -73,10 +64,10 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     public void typeWikiPageContent(String content)
     {
-        getBrowser().switchTo().frame(getBrowser().findElement(wikiPageContent));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(wikiPageContent));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.sendKeys(content);
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
     }
 
     /**
@@ -88,7 +79,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     public WikiPage saveWikiPage()
     {
         saveButton.click();
-        return (WikiPage) wikiPage.renderedPage();
+        return new WikiPage(webDriver);
     }
 
     /**
@@ -100,9 +91,9 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     public WikiListPage cancelWikiPageAndLeavePage()
     {
         cancelButton.click();
-        Alert confirmationBox = getBrowser().switchTo().alert();
+        Alert confirmationBox = webElementInteraction.switchTo().alert();
         confirmationBox.accept();
-        return (WikiListPage) wikiListPage.renderedPage();
+        return new WikiListPage(webDriver);
     }
 
 

@@ -53,10 +53,9 @@ public class BecomeContentOwnerDialog extends ShareDialog
      *
      * @param buttonName to be clicked
      */
-    public DocumentDetailsPage clickButton(String buttonName)
+    public void clickButton(String buttonName)
     {
         getButton(buttonName).click();
         browser.waitInSeconds(2);
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 }

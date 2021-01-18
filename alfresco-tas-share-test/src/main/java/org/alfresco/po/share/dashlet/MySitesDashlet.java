@@ -1,11 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -18,28 +21,18 @@ import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.List;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 @PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
-    //@Autowired
     private SiteDashboardPage siteDashboardPage;
-
-    //@Autowired
     private CreateSiteDialog createSiteDialog;
 
     @Autowired
     private DeleteSiteDialog deleteSiteDialog;
 
-    @RenderWebElement
     @FindBy (css = "div.dashlet.my-sites")
     protected HtmlElement dashletContainer;
 
-    @RenderWebElement
     @FindBy (css = "div[id$='default-sites']")
     protected HtmlElement sitesListContainer;
 
@@ -65,10 +58,10 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     protected WebElement defaultSiteEmptyText;
 
     private String siteRow = "//div[starts-with(@class,'dashlet my-sites')]//a[text()='%s']/../../../..";
-    private By siteTitleElement = By.cssSelector(".site-title a");
-    private By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
-    private By deleteButton = By.cssSelector("a[class^='delete-site']");
-    private By favoriteAction = By.cssSelector("a[class^='favourite-action']");
+    private final By siteTitleElement = By.cssSelector(".site-title a");
+    private final By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
+    private final By deleteButton = By.cssSelector("a[class^='delete-site']");
+    private final By favoriteAction = By.cssSelector("a[class^='favourite-action']");
 
     @Override
     public String getDashletTitle()
@@ -178,10 +171,9 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     /**
      * Click on Create Site button
      */
-    public CreateSiteDialog clickCreateSiteButton()
+    public void clickCreateSiteButton()
     {
         getBrowser().waitUntilElementClickable(createSiteLink).click();
-        return (CreateSiteDialog) createSiteDialog.renderedPage();
     }
 
     /**
@@ -253,15 +245,14 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      * @param siteName
      * @return SiteDashboardPage
      */
-    public SiteDashboardPage accessSite(String siteName)
+    public void accessSite(String siteName)
     {
         getSiteRow(siteName).findElement(siteTitleElement).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
-    public SiteDashboardPage accessSite(SiteModel site)
+    public void accessSite(SiteModel site)
     {
-        return accessSite(site.getTitle());
+        accessSite(site.getTitle());
     }
 
     public void hoverSite(String siteName)

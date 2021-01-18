@@ -2,33 +2,30 @@ package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
 
-    EditRulesPage editRulesPage;
-
-    //@Autowired
-    SelectDestinationDialog selectDestinationDialog;
+    private EditRulesPage editRulesPage;
+    private SelectDestinationDialog selectDestinationDialog;
 
     private final By mimetypeDropDown = By.cssSelector("div[id*=ruleConfigAction] select[title=Mimetype]");
 
-    public PerformActionRulePage(ThreadLocal<WebBrowser> browser)
+    public PerformActionRulePage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public void transformAndCopy(Mimetype mimetypeTransformation, String targetSite , String targetFolder)
     {
-        Select performAction = new Select(getBrowser().findElement(mimetypeDropDown));
+        Select performAction = new Select(webElementInteraction.findElement(mimetypeDropDown));
         performAction.selectByValue(mimetypeTransformation.getValue());
         editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(targetSite);
         selectDestinationDialog.clickPathFolder(targetFolder);
         selectDestinationDialog.clickOkButton();
-        editRulesPage.renderedPage();
         editRulesPage.clickCreateButton();
     }
 
@@ -41,6 +38,7 @@ public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
     /**
      * Values of `Transform And Copy Image/Content` rule's dropdown mimetypes.
      */
+    //todo: remove to separate file
     public enum Mimetype {
         VIDEO_3G("3G Video", "video/3gpp"),
         VIDEO_3G2("3G2 Video", "video/3gpp2"),

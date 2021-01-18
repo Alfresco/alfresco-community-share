@@ -2,7 +2,7 @@ package org.alfresco.po.share.site.wiki;
 
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,9 +15,9 @@ public class WikiDocumentDetailsPage extends SiteCommon<WikiDocumentDetailsPage>
     @FindBy (css = "default-previous-button")
     private WebElement previousButton;
 
-    public WikiDocumentDetailsPage(ThreadLocal<WebBrowser> browser)
+    public WikiDocumentDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override

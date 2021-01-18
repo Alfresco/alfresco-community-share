@@ -6,8 +6,8 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class SelectPopUpPage extends BaseDialogComponent
@@ -21,52 +21,52 @@ public class SelectPopUpPage extends BaseDialogComponent
     private final By addIcon = By.cssSelector(".yui-dialog[style*='visibility: visible'] [class*='addIcon']");
     private final By removeIcon = By.cssSelector("[class*='removeIcon']");
 
-    public SelectPopUpPage(ThreadLocal<WebBrowser> browser)
+    public SelectPopUpPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public WebElement selectDetailsRowResultList(String item)
     {
-        return getBrowser().findFirstElementWithValue(resultsList, item);
+        return webElementInteraction.findFirstElementWithValue(resultsList, item);
     }
 
     public WebElement selectDetailsRowSelectedList(String item)
     {
-        return getBrowser().findFirstElementWithValue(selectedList, item);
+        return webElementInteraction.findFirstElementWithValue(selectedList, item);
     }
 
     public void clickItem(String item)
     {
-        selectDetailsRowResultList(item).findElement(By.cssSelector("h3.item-name a")).click();
+        selectDetailsRowResultList(item).findElement(By.cssSelector("h3.item-name a"));
     }
 
     public void clickAddIcon(String item)
     {
-        getBrowser().waitUntilElementsVisible(resultsList);
-        selectDetailsRowResultList(item).findElement(addIcon).click();
+        webElementInteraction.waitUntilElementsAreVisible(resultsList);
+        webElementInteraction.clickElement(selectDetailsRowResultList(item).findElement(addIcon));
     }
 
     public boolean isStringPresentInSearchList(String toCheck)
     {
-        return DataUtil.isStringPresentInWebElementList(toCheck, getBrowser().findElements(resultsList));
+        return DataUtil.isStringPresentInWebElementList(toCheck, webElementInteraction.findElements(resultsList));
     }
 
     public boolean isStringPresentInSelectedList(String toCheck)
     {
-        return DataUtil.isStringPresentInWebElementList(toCheck, getBrowser().findElements(selectedList));
+        return DataUtil.isStringPresentInWebElementList(toCheck, webElementInteraction.findElements(selectedList));
     }
 
 
     public void clickRemoveIcon(String item)
     {
-        getBrowser().waitUntilElementsVisible(selectedList);
-        selectDetailsRowResultList(item).findElement(removeIcon).click();
+        webElementInteraction.waitUntilElementsAreVisible(selectedList);
+        webElementInteraction.clickElement(selectDetailsRowResultList(item).findElement(removeIcon));
     }
 
     public void clickOkButton()
     {
-        getBrowser().findElement(okButton).click();
+        webElementInteraction.clickElement(okButton);
     }
 
     public boolean isAddIconDisplayed(String item)
@@ -81,20 +81,20 @@ public class SelectPopUpPage extends BaseDialogComponent
 
     public void search(String searchText)
     {
-        clearAndType(searchInput, searchText);
-        getBrowser().waitUntilElementClickable(searchButton).click();
+        webElementInteraction.clearAndType(searchInput, searchText);
+        webElementInteraction.clickElement(searchButton);
         int counter = 0;
-        while (!getBrowser().isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
+        while (!webElementInteraction.isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
         {
             LOG.info("Search: {}", counter);
             Utility.waitToLoopTime(1);
-            getBrowser().findElement(searchButton).click();
+            webElementInteraction.clickElement(searchButton);
             counter++;
         }
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchButton);
+        return webElementInteraction.isElementDisplayed(searchButton);
     }
 }

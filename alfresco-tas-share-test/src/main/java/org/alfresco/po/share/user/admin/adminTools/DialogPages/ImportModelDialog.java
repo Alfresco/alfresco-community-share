@@ -1,74 +1,67 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
 
 public class ImportModelDialog extends BaseDialogComponent
 {
-    @RenderWebElement
-    private final By importModelWindow = By.id("CMM_IMPORT_DIALOG");
-    @RenderWebElement
-    private final By importButton = By.id("CMM_IMPORT_DIALOG_OK");
+    private final By importModelWindow = By.cssSelector("div[id='CMM_IMPORT_DIALOG']");
+    private final By importButton = By.cssSelector("span[id='CMM_IMPORT_DIALOG_OK']");
     private final By importModelTitle = By.cssSelector("div[class='dijitDialogTitleBar'] span[id ='CMM_IMPORT_DIALOG_title']");
-    private final By cancelButton = By.id("CMM_IMPORT_DIALOG_CANCEL_label");
+    private final By cancelButton = By.cssSelector("span[aria-labelledby='CMM_IMPORT_DIALOG_CANCEL_label']");
     private final By fileInput = By.cssSelector(".alfresco-html-FileInput");
 
-    public ImportModelDialog(ThreadLocal<WebBrowser> browser)
+    public ImportModelDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public ImportModelDialog assertImportModelDialogOpened()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(importModelWindow), "Import model dialog is opened");
+        assertTrue(webElementInteraction.isElementDisplayed(importModelWindow), "Import model dialog is opened");
         return this;
     }
 
     public ImportModelDialog assertImportModelTitleIsCorrect()
     {
-        Assert.assertEquals(getElementText(importModelTitle), language.translate("importModelDialog.title"));
+        assertEquals(webElementInteraction.getElementText(importModelTitle), language.translate("importModelDialog.title"));
         return this;
     }
 
     public ImportModelDialog assertBrowserButtonIsDisplayed()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(fileInput) , "Browse button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(fileInput) , "Browse button is not displayed");
         return this;
     }
 
     public ImportModelDialog assertImportButtonDisplayed()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(importButton), "Import button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(importButton), "Import button is not displayed");
         return this;
     }
 
     public ImportModelDialog assertCancelButtonDisplayed()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
 
     public ImportModelDialog importFile(String filePath)
     {
-        if (properties.getEnv().getProperty("grid.enabled").equals("true"))
-        {
-            ((RemoteWebDriver)getBrowser().getWrappedDriver()).setFileDetector(new LocalFileDetector());
-        }
-        getBrowser().findElement(fileInput).sendKeys(filePath);
+        webElementInteraction.clearAndType(fileInput, filePath);
         return this;
     }
 
     public ModelManagerPage clickImportButton()
     {
-        getBrowser().waitUntilElementClickable(importButton).click();
-        ModelManagerPage modelManagerPage = new ModelManagerPage(browser);
-        modelManagerPage.waiUntilLoadingMessageDisappears();
-        return (ModelManagerPage) modelManagerPage.renderedPage();
+        webElementInteraction.clickElement(importButton);
+        ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
+        modelManagerPage.waitUntilLoadingMessageDisappears();
+        return modelManagerPage;
     }
 }

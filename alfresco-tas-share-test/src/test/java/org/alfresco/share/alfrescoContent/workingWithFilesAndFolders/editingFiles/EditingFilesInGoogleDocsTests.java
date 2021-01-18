@@ -75,7 +75,6 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedInGoogleDocsTitle, editedInGoogleDocsContent);
 
         LOG.info("Step5: Verify the file is locked and Google Drive icon is displayed");
-        documentLibraryPage.renderedPage();
         Assert.assertTrue(googleDocsCommon.isLockedIconDisplayed(), "Locked icon displayed");
         Assert.assertTrue(googleDocsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked displayed");
         Assert.assertTrue(googleDocsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");

@@ -20,7 +20,7 @@ public class ImportUsersTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        usersPage = new UsersPage(browser);
+        usersPage = new UsersPage(webDriver);
         setupAuthenticatedSession(getAdminUser());
     }
 
@@ -34,6 +34,6 @@ public class ImportUsersTests extends BaseTest
         usersPage.uploadUsers(testDataFolder + "C9438.csv").clickGoBack()
             .searchUserWithRetry(importedUser)
                 .usingUser(importedUser).assertUserIsFound();
-        removeUserFromAlfresco(importedUser);
+        deleteUsersIfNotNull(importedUser);
     }
 }

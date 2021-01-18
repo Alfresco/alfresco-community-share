@@ -19,14 +19,11 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 {
-    @RenderWebElement
     @FindBy (css = "div[class*='notice-dashlet']")
     protected HtmlElement dashletContainer;
 
-    //@Autowired
-    TinyMceEditor tinyMceEditor;
-    //@Autowired
-    SiteDashboardPage siteDashboardPage;
+    private TinyMceEditor tinyMceEditor;
+    private SiteDashboardPage siteDashboardPage;
 
     @FindBy (css = "div[class*='notice-dashlet'] div[class*='edit']")
     private WebElement editIcon;
@@ -81,19 +78,17 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
         return this;
     }
 
-    public SiteDashboardPage clickDialogOkButton()
+    public void clickDialogOkButton()
     {
         LOG.info("Click dialog Ok button");
         browser.waitUntilElementVisible(dialogOkButton);
         browser.waitUntilElementClickable(dialogOkButton).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
-    public SiteDashboardPage clickDialogCancelButton()
+    public void clickDialogCancelButton()
     {
         LOG.info("Click Cancel button");
         browser.waitUntilElementVisible(dialogCancelButton);
         browser.waitUntilElementClickable(dialogCancelButton).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 }

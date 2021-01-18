@@ -1,39 +1,40 @@
 package org.alfresco.po.share;
 
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
 
 public class HideWelcomePanelDialog extends BaseDialogComponent
 {
     private final By okButton = By.cssSelector("span[class$='alf-primary-button']>span>button");
-    @RenderWebElement
     private final By panelText = By.cssSelector(".alf-confirmation-panel-text");
     private final By panelTextSettingsIcon = By.cssSelector(" #prompt p");
     private final By configIcon = By.cssSelector(" #prompt .alf-configure-icon");
     private final By startedPanelContainer = By.cssSelector("[id$=get-started-panel-container]");
 
-    public HideWelcomePanelDialog(ThreadLocal<WebBrowser> browser)
+    public HideWelcomePanelDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public void clickOK()
     {
         LOG.info("Click OK");
-        getBrowser().findElement(panelText).click();
-        getBrowser().waitUntilElementClickable(okButton).click();
-        getBrowser().waitUntilElementDisappears(startedPanelContainer, 10);
+        webElementInteraction.clickElement(panelText);
+        webElementInteraction.clickElement(okButton);
+        webElementInteraction.waitUntilElementDisappears(startedPanelContainer);
     }
 
     public HideWelcomePanelDialog assertHideWelcomePanelDialogContentIsCorrect()
     {
         LOG.info("Assert Hide welcome panel dialog content is correct");
-        Assert.assertEquals(getBrowser().findElement(panelText).getText(), language.translate("hideWelcomePanelDialog.message"),
+        assertEquals(webElementInteraction.findElement(panelText).getText(), language.translate("hideWelcomePanelDialog.message"),
                 "Dialog message is correct");
-        Assert.assertTrue(getBrowser().isElementDisplayed(configIcon), "Config icon is displayed");
-        Assert.assertEquals(getBrowser().findElement(panelTextSettingsIcon).getText(), language.translate("hideWelcomePanelDialog.selectSettingIcon"),
+
+       assertTrue(webElementInteraction.isElementDisplayed(configIcon), "Config icon is displayed");
+       assertEquals(webElementInteraction.findElement(panelTextSettingsIcon).getText(), language.translate("hideWelcomePanelDialog.selectSettingIcon"),
                 "Select setting icon message is correct");
 
         return this;

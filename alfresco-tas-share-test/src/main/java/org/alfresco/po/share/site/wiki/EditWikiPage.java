@@ -1,29 +1,18 @@
 package org.alfresco.po.share.site.wiki;
 
 import java.util.List;
-
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class EditWikiPage extends SiteCommon<EditWikiPage>
 {
-    //@Autowired
-    WikiMainPage wikiPage;
-
-    //@Autowired
-    SelectDocumentPopupPage selectDocPopUpPage;
-
-    @RenderWebElement
     @FindBy (css = "[id$=tag-input-field]")
     private WebElement tagInputField;
 
@@ -39,7 +28,6 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     @FindBy (css = "#tinymce")
     private WebElement editWikiLine;
 
-    @RenderWebElement
     @FindBy (css = "button[id$='default-save-button-button']")
     private WebElement saveButton;
 
@@ -65,9 +53,9 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     private final By removeTag = By.cssSelector("span.remove");
     private final String imageLink = "//img[contains(@title,'";
 
-    public EditWikiPage(ThreadLocal<WebBrowser> browser)
+    public EditWikiPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -81,12 +69,12 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage saveWikiContent(String content)
     {
-        getBrowser().switchTo().frame(getBrowser().waitUntilElementVisible(wikiPageContent));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.sendKeys(content);
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
         saveButton.click();
-        return (WikiMainPage) wikiPage.renderedPage();
+        return new WikiMainPage(webDriver);
     }
 
     /**
@@ -94,12 +82,12 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage cancelWikiContent(String content)
     {
-        getBrowser().switchTo().frame(getBrowser().waitUntilElementVisible(wikiPageContent));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.sendKeys(content);
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
         cancelButton.click();
-        return (WikiMainPage) wikiPage.renderedPage();
+        return new WikiMainPage(webDriver);
     }
 
     /**
@@ -108,10 +96,10 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     public void clearWikiPageContent()
     {
-        getBrowser().switchTo().frame(getBrowser().waitUntilElementVisible(wikiPageContent));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.clear();
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
     }
 
     /**
@@ -131,15 +119,15 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     public String getWikiPageContent()
     {
-        getBrowser().switchTo().frame(getBrowser().waitUntilElementVisible(wikiPageContent));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         return editable.getText();
     }
 
     public WebElement selectTagDetailsRow(String tagName)
     {
-        getBrowser().switchTo().defaultContent();
-        return getBrowser().findFirstElementWithValue(tagsList, tagName);
+        webElementInteraction.switchTo().defaultContent();
+        return webElementInteraction.findFirstElementWithValue(tagsList, tagName);
     }
 
     /**
@@ -147,7 +135,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public void removeTag(String tagName)
     {
-        Actions actions = new Actions(getBrowser());
+        Actions actions = new Actions(webDriver.get());
         actions.moveToElement(selectTagDetailsRow(tagName));
         actions.moveToElement(selectTagDetailsRow(tagName).findElement(removeTag));
         actions.click();
@@ -161,21 +149,20 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage clickOnSaveButton()
     {
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
         saveButton.click();
-        return (WikiMainPage) wikiPage.renderedPage();
+        return new WikiMainPage(webDriver);
     }
 
     public void clickInsertLibraryImage()
     {
-        this.renderedPage();
         insertLibraryImage.click();
     }
 
     public SelectDocumentPopupPage clickInsertDocumentLink()
     {
         insertDocumentImage.click();
-        return (SelectDocumentPopupPage) selectDocPopUpPage.renderedPage();
+        return new SelectDocumentPopupPage(webDriver);
     }
 
     /**
@@ -195,7 +182,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public boolean isImageDisplayed(String imageName)
     {
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
-        return getBrowser().isElementDisplayed(getBrowser().waitUntilElementVisible(By.xpath(image)));
+        return webElementInteraction.isElementDisplayed(webElementInteraction.waitUntilElementIsVisible(By.xpath(image)));
     }
 
     /**
@@ -205,14 +192,15 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public void clickOnImage(String imageName)
     {
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
-        getBrowser().waitUntilElementVisible(By.xpath(image)).click();
+        webElementInteraction.waitUntilElementIsVisible(By.xpath(image));
+        webElementInteraction.clickElement(By.xpath(image));
     }
 
     public String getIframeSourceCode()
     {
-        getBrowser().switchTo().defaultContent();
-        getBrowser().switchTo().frame(getBrowser().findElement(wikiPageContent));
-        getBrowser().switchTo().activeElement();
-        return getBrowser().getPageSource();
+        webElementInteraction.switchTo().defaultContent();
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(wikiPageContent));
+        webElementInteraction.switchTo().activeElement();
+        return webElementInteraction.getPageSource();
     }
 }

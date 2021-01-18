@@ -26,11 +26,6 @@ public enum SitePageType
         this.text = text;
     }
 
-    public By getCustomizeLocator()
-    {
-        return By.cssSelector(customizeLocator);
-    }
-
     public By getDashboardLocator()
     {
         return By.cssSelector(dashboardLocation);

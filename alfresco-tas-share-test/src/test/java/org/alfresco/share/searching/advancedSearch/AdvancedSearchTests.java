@@ -60,14 +60,14 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         advancedSearchPage.navigate();
         Assert.assertEquals(advancedSearchPage.getSelectedContentTypeOption(), "Content ▾", "Content is not the selected Look for option");
         advancedSearchPage.selectMimetype("text/xml");
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         softAssert.assertTrue(searchPage.isResultFoundWithRetry(xmlDoc), xmlDoc + " is not displayed");
         softAssert.assertFalse(searchPage.isResultFound(excelDoc), excelDoc + " is displayed");
         softAssert.assertFalse(searchPage.isResultFound(HTMLDoc), HTMLDoc + " is displayed");
         LOG.info("Step 2: Navigate to advanced search page and select Excel mimetype");
         advancedSearchPage.navigate();
         advancedSearchPage.selectMimetype("application/vnd.ms-excel");
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         softAssert.assertFalse(searchPage.isResultFound(xmlDoc), xmlDoc + " is displayed");
         softAssert.assertTrue(searchPage.isResultFound(excelDoc), excelDoc + " is not displayed");
         softAssert.assertFalse(searchPage.isResultFound(HTMLDoc), HTMLDoc + " is displayed");
@@ -81,12 +81,12 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         advancedSearchPage.navigate();
         softAssert.assertEquals(advancedSearchPage.getSelectedContentTypeOption(), "Content ▾", "Content is not the selected Look for option");
         advancedSearchPage.setFromDate("0/06/2017");
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         softAssert.assertEquals(searchPage.getNoSearchResultsText(), language.translate("searchPage.searchSuggestionNoSearchResuls"), "no search result suggestion not correct");
         LOG.info("Step 2: Navigate to Advanced Search page and input invalid to date");
         advancedSearchPage.navigate();
         advancedSearchPage.setToDate("25/06/0000");
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         softAssert.assertEquals(searchPage.getNoSearchResultsText(), language.translate("searchPage.searchSuggestionNoSearchResuls"), "no search result suggestion not correct");
         softAssert.assertAll();
     }
@@ -98,7 +98,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         advancedSearchPage.navigate();
         softAssert.assertEquals(advancedSearchPage.getSelectedContentTypeOption(), "Content ▾", "Content is not the selected Look for option");
         advancedSearchPage.typeName(textFile);
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         softAssert.assertFalse(searchPage.isAnyFolderReturnedInResults(), "Folder type is returned in results");
         softAssert.assertTrue(searchPage.isResultFound(textFile), textFile + " is not displayed in search results");
         softAssert.assertAll();
@@ -123,7 +123,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         advancedSearchPage.typeName(folderName);
         advancedSearchPage.typeDescription(description);
         advancedSearchPage.typeTitle(folderTitle);
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         Assert.assertTrue(searchPage.isResultFound(folderName), folderName + " is not displayed in search results");
     }
 
@@ -135,7 +135,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
         advancedSearchPage.typeKeywords(folderName);
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         softAssert.assertTrue(searchPage.isResultFound(folderName), folderName + " is not displayed in search results");
         softAssert.assertTrue(searchPage.isAnyFolderReturnedInResults(), "Folder type is not returned in results");
         softAssert.assertFalse(searchPage.isAnyFileReturnedInResults(), "File type is returned in results");

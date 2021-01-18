@@ -1,13 +1,16 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.utility.constants.UserRole;
-import org.alfresco.utility.model.*;
-import org.alfresco.utility.web.annotation.PageObject;
-
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+
+import org.alfresco.utility.constants.UserRole;
+import org.alfresco.utility.model.ContentModel;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.GroupModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.web.annotation.PageObject;
 
 @PageObject
 public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivitiesDashlet>
@@ -44,13 +47,11 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
         return this;
     }
 
-    public DocumentDetailsPage clickDocumentLinkForAddActivity(UserModel user, FileModel file)
+    public void clickDocumentLinkForAddActivity(UserModel user, FileModel file)
     {
         LOG.info("Click document link {} from create document activity", file.getName());
         getActivityRow(String.format(language.translate("siteActivities.document.createActivity"),
             user.getFirstName(), user.getLastName(), file.getName())).findElement(documentLinkLocator).click();
-
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     public SiteActivitiesDashlet assertCreatedLinkActivityIsDisplayed(UserModel user, ContentModel contentModel)

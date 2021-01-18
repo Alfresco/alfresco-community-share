@@ -14,7 +14,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -136,7 +135,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Test steps");
         LOG.info("Step 1: Select the draft post and click the Edit button");
         blogPage.clickAllFilter();
-        blogPage.selectBlogPostWithtitle(blogTitle);
+        blogPage.selectBlogPostWithTitle(blogTitle);
         blogPage.clickEditButton(blogTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
 
@@ -208,7 +207,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Test steps");
         LOG.info("Step 1: Select the draft post and click the Edit button");
         blogPage.clickAllFilter();
-        blogPage.selectBlogPostWithtitle(blogTitle);
+        blogPage.selectBlogPostWithTitle(blogTitle);
         blogPage.clickEditButton(blogTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
 

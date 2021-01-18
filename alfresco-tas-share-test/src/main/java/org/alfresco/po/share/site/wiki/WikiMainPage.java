@@ -3,37 +3,21 @@ package org.alfresco.po.share.site.wiki;
 import static org.testng.Assert.assertEquals;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
 
 public class WikiMainPage extends SiteCommon<WikiMainPage>
 {
-    //@Autowired
-    EditWikiPage editWikiPage;
-
-    //@Autowired
-    CreateWikiPage createWikiPage;
-
-    //@Autowired
-    WikiListPage wikiListPage;
-
-    //@Autowired
-    WikiDetailsPage wikiDetailsPage;
-
-    @RenderWebElement
     @FindBy (css = "div.new-page button[id$='default-create-button-button']")
     private Button newPageButton;
 
-    @RenderWebElement
     @FindBy (css = "button[id*='delete-button-button']")
     private WebElement deletePageButton;
 
-    @RenderWebElement
     @FindBy (xpath = "//a[text()='Wiki Page List']")
     private WebElement wikiPageListLink;
 
@@ -75,9 +59,9 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     private String imageLink = "//img[contains(@src,'";
 
-    public WikiMainPage(ThreadLocal<WebBrowser> browser)
+    public WikiMainPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     /**
@@ -88,7 +72,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     public EditWikiPage clickEditPageLink()
     {
         wikiEditPageLink.click();
-        return (EditWikiPage) editWikiPage.renderedPage();
+        return new EditWikiPage(webDriver);
     }
 
     public WikiMainPage assertWikiPageContentEquals(String expectedWikiContent)
@@ -108,7 +92,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     public CreateWikiPage clickWikiNewPage()
     {
         newPageButton.click();
-        return (CreateWikiPage) createWikiPage.renderedPage();
+        return new CreateWikiPage(webDriver);
     }
 
     /**
@@ -119,7 +103,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     public WikiListPage clickOnWikiListLink()
     {
         wikiPageListLink.click();
-        return (WikiListPage) wikiListPage.renderedPage();
+        return new WikiListPage(webDriver);
     }
 
     public boolean isImageDisplayed(String imageName)
@@ -127,7 +111,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
         String image1 = imageLink + imageName + "')]";
         String image = StringUtils.deleteWhitespace(image1);
-        return getBrowser().isElementDisplayed(By.xpath(image));
+        return webElementInteraction.isElementDisplayed(By.xpath(image));
     }
 
     public boolean clickOnRenameWikiMainPageButton()
@@ -140,7 +124,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
 
         LOG.info("Assert wiki main page title equals: {}", expectedWikiTitle);
-        getBrowser().waitUntilElementVisible(wikiMainPageTtitle);
+        webElementInteraction.waitUntilElementIsVisible(wikiMainPageTtitle);
         assertEquals(wikiMainPageTtitle.getText(), expectedWikiTitle,
             String.format("Wiki main page title not equals %s ", expectedWikiTitle));
         return this;
@@ -212,7 +196,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     public WikiDetailsPage clickOnDetailsPageLink()
     {
         wikiDetailsLink.click();
-        return (WikiDetailsPage) wikiDetailsPage.renderedPage();
+        return new WikiDetailsPage(webDriver);
     }
 
     @Override
@@ -220,5 +204,4 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
         return String.format("share/page/site/%s/wiki-page?title=Main_Page", getCurrentSiteName());
     }
-
 }

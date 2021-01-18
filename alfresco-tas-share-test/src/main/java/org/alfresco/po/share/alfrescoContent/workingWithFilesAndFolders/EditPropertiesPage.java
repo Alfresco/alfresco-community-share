@@ -6,9 +6,8 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -20,15 +19,13 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     private final By helpIconForRestrictableAspect = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-help-icon']");
     private final By helpMessageForRestrictableAspect = By.cssSelector("[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']");
     private final By offlineExpiresafterInput = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-entry']");
-    @RenderWebElement
     private final By buttonsList = By.cssSelector("button[id*='form']");
-    @RenderWebElement
     private final By propertiesElements = By.cssSelector(".form-field>label");
     private final By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
 
-    public EditPropertiesPage(ThreadLocal<WebBrowser> browser)
+    public EditPropertiesPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -40,9 +37,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesList = new ArrayList<>();
-        getBrowser().waitUntilElementsVisible(propertiesElements);
+        webElementInteraction.waitUntilElementsAreVisible(propertiesElements);
 
-        for (WebElement propertyElement : getBrowser().findElements(propertiesElements))
+        for (WebElement propertyElement : webElementInteraction.findElements(propertiesElements))
             if (propertyElement.getText().contains(":"))
                 propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
             else
@@ -53,7 +50,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
-        List<WebElement> elements = getBrowser().findElements(propertiesElements);
+        List<WebElement> elements = webElementInteraction.findElements(propertiesElements);
         for (int i = 0; i < elements.size(); i++)
         {
             String property = elements.get(i).getText();
@@ -68,51 +65,50 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     public DocumentDetailsPage clickButton(String buttonName)
     {
-        getBrowser().findFirstElementWithValue(buttonsList, buttonName).click();
-        return (DocumentDetailsPage) new DocumentDetailsPage(browser).renderedPage();
+        webElementInteraction.findFirstElementWithValue(buttonsList, buttonName).click();
+        return new DocumentDetailsPage(webDriver);
     }
 
     public void clickButtonForFolder(String buttonName)
     {
-        getBrowser().selectOptionFromFilterOptionsList(buttonName, getBrowser().findElements(buttonsList));
+        webElementInteraction.selectOptionFromFilterOptionsList(buttonName, webElementInteraction.findElements(buttonsList));
     }
 
     public void clickHelpIconForRestrictableAspect()
     {
-       getBrowser().findElement(helpIconForRestrictableAspect).click();
+       webElementInteraction.findElement(helpIconForRestrictableAspect).click();
     }
 
     public String getHelpMessageForRestrictableAspect()
     {
 
-        return getBrowser().findElement(helpMessageForRestrictableAspect).getText();
+        return webElementInteraction.findElement(helpMessageForRestrictableAspect).getText();
     }
 
     public void addOfflineExpiresAfterValue(String hours)
     {
-        clearAndType(getBrowser().findElement(offlineExpiresafterInput), hours);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(offlineExpiresafterInput), hours);
     }
 
     public void selectSFTemplate(int index)
     {
-        Select selectByIndex = new Select(getBrowser().findElement(selectorSF));
+        Select selectByIndex = new Select(webElementInteraction.findElement(selectorSF));
         selectByIndex.selectByIndex(index);
     }
 
     public boolean isButtonDisplayed(String buttonName)
     {
-        for (WebElement aButtonsList : getBrowser().findElements(buttonsList))
+        for (WebElement aButtonsList : webElementInteraction.findElements(buttonsList))
         {
             if (aButtonsList.getText().equals(buttonName))
                 return true;
         }
         return false;
-
     }
 
     public SelectDialog clickSelectButtonForCustomSmartFolder()
     {
-        getBrowser().findElement(selectButtonForCustomSmartFolder).click();
-        return (SelectDialog) selectDialog.renderedPage();
+        webElementInteraction.findElement(selectButtonForCustomSmartFolder).click();
+        return new SelectDialog(webDriver);
     }
 }

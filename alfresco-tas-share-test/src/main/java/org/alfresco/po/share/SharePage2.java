@@ -1,8 +1,8 @@
 package org.alfresco.po.share;
 
-import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_5;
 import static org.alfresco.utility.report.log.Step.STEP;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -11,28 +11,27 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import org.alfresco.utility.exception.PageRenderTimeException;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.util.UriUtils;
 
 public abstract class SharePage2<T> extends BasePage
 {
     private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
-    @RenderWebElement
-    private By body= By.id("Share");
     private final By pageHeader = By.id("HEADER_TITLE");
     private final By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
     private final By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
 
-    public SharePage2(ThreadLocal<WebBrowser> browser)
+    protected SharePage2(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     /**
@@ -56,7 +55,7 @@ public abstract class SharePage2<T> extends BasePage
         URI relativeURI = null;
         try
         {
-            relativeURI = properties.getShareUrl().toURI().resolve(getRelativePath());
+            relativeURI = defaultProperties.get().getShareUrl().toURI().resolve(getRelativePath());
             return relativeURI.toURL();
         }
         catch (URISyntaxException | MalformedURLException me)
@@ -70,58 +69,46 @@ public abstract class SharePage2<T> extends BasePage
      */
     public T navigate()
     {
-        STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
-        getBrowser().navigate().to(relativePathToURL());
+        LOG.info("Navigate to {}", relativePathToURL().getPath());
         try
         {
-            getBrowser().waitUntilElementVisible(body, WAIT_60.getValue());
-            return (T) renderedPage();
+            webDriver.get().get(relativePathToURL().toString());
+            return (T) this;
         }
-        catch (PageRenderTimeException | TimeoutException e)
+        catch (TimeoutException | NoSuchSessionException e)
         {
-            LOG.error("Navigation to {} failed. Error: {}", getRelativePath(), e.getMessage());
-            getBrowser().navigate().to(relativePathToURL());
-            return (T) renderedPage();
+            LOG.info("Navigation to {} failed. {}", getRelativePath(), e.getMessage());
+            webDriver.get().navigate().refresh();
+            waitForSharePageToLoad();
+            webDriver.get().get(relativePathToURL().toString());
+            return (T) this;
         }
     }
 
     public void navigateWithoutRender()
     {
         STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
-        getBrowser().navigate().to(relativePathToURL());
+        webElementInteraction.navigateTo(relativePathToURL().getPath());
     }
 
     public String getPageHeader()
     {
-        getBrowser().waitUntilElementVisible(pageHeader);
-        return getBrowser().findElement(pageHeader).getText();
+        return webElementInteraction.getElementText(pageHeader);
     }
 
     public AboutPopUpPage openAboutPage()
     {
-        getBrowser().findElement(alfrescoOneFooterLogo).click();
-        return (AboutPopUpPage) new AboutPopUpPage(browser).renderedPage();
+        webElementInteraction.clickElement(alfrescoOneFooterLogo);
+        return new AboutPopUpPage(webDriver);
     }
 
-    public String getCurrentUrl()
-    {
-        return getBrowser().getCurrentUrl();
-    }
-
-    public T assertLastNotificationMessageEquals(String expectedMessage)
-    {
-        LOG.info("Assert last notification message is: {}", expectedMessage);
-        assertEquals(notificationMessageThread.get(), expectedMessage, "Last notification message is not correct");
-        return (T) renderedPage();
-    }
-
-    public T waiUntilLoadingMessageDisappears()
+    public T waitUntilLoadingMessageDisappears()
     {
         LOG.info("Wait for loading message to disappear");
         try
         {
-            getBrowser().waitUntilElementVisible(loadingMessage,2);
-            getBrowser().waitUntilElementDisappears(loadingMessage);
+            webElementInteraction.waitUntilElementIsVisible(loadingMessage, WAIT_2.getValue());
+            webElementInteraction.waitUntilElementDisappears(loadingMessage, WAIT_5.getValue());
         }
         catch (TimeoutException e)
         {
@@ -132,26 +119,27 @@ public abstract class SharePage2<T> extends BasePage
 
     public boolean isAlfrescoLogoDisplayed()
     {
-        return getBrowser().isElementDisplayed(alfrescoOneFooterLogo);
+        return webElementInteraction.isElementDisplayed(alfrescoOneFooterLogo);
     }
 
     public T assertAlfrescoLogoIsDisplayedInPageFooter()
     {
-        assertTrue(getBrowser().isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
-        return (T) renderedPage();
+        assertTrue(webElementInteraction.isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
+        return (T) this;
     }
 
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
-        assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
-        return (T) renderedPage();
+        assertTrue(new WebDriverWait(webDriver.get(), defaultProperties.get().getExplicitWait())
+            .until(ExpectedConditions.titleIs(expectedTitle)), "Page title is correct");
+        return (T) this;
     }
 
     public T assertShareVersionWarningIsNotDisplayed()
     {
         LOG.info("Assert Share Version warning is not displayed");
-        assertFalse(getBrowser().isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
-        return (T) renderedPage();
+        assertFalse(webElementInteraction.isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
+        return (T) this;
     }
 
     /**
@@ -185,7 +173,7 @@ public abstract class SharePage2<T> extends BasePage
     {
         try
         {
-            Alert alert = getBrowser().switchTo().alert();
+            Alert alert = webElementInteraction.switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }
@@ -199,12 +187,13 @@ public abstract class SharePage2<T> extends BasePage
     {
         try
         {
-            getBrowser().waitUntilElementVisible(alfrescoOneFooterLogo, 60);
+            webElementInteraction.waitUntilElementIsVisible(alfrescoOneFooterLogo);
         }
         catch (TimeoutException e)
         {
-            getBrowser().refresh();
-            getBrowser().waitUntilElementVisible(alfrescoOneFooterLogo, 20);
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(WAIT_5.getValue());
+            webElementInteraction.waitUntilElementIsVisible(alfrescoOneFooterLogo);
         }
     }
 }

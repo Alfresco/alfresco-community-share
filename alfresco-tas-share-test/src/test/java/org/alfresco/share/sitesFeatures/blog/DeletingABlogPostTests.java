@@ -14,7 +14,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -92,7 +91,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Test steps");
         LOG.info("Step 1: Click Delete for draft blog post");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC5957));
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogPostTitleC5957));
         blogPage.clickDeleteButton(blogPostTitleC5957);
         Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5957 blog post title'?");
 

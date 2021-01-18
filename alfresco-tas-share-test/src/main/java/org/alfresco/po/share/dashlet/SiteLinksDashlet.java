@@ -76,18 +76,16 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
         return this;
     }
 
-    public LinkDetailsViewPage clickLinkDetailsButton(String linkName)
+    public void clickLinkDetailsButton(String linkName)
     {
         LOG.info("Click link details: {}", linkName);
         findLink(linkName).findElement(linkDetails).click();
-        return (LinkDetailsViewPage) linkDetailsViewPage.renderedPage();
     }
 
-    public CreateLinkPage clickCreateLinkButton()
+    public void clickCreateLinkButton()
     {
         LOG.info("Click Create Link button");
         createLink.click();
-        return (CreateLinkPage) createLinkPage.renderedPage();
     }
 
     public SiteLinksDashlet clickLinkByName(String linkName)

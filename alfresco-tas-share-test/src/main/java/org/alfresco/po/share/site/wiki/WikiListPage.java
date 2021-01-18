@@ -3,29 +3,17 @@ package org.alfresco.po.share.site.wiki;
 import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
-    //@Autowired
-    EditWikiPage editWikiPage;
-
-    //@Autowired
-    WikiPage wikiPage;
-
-    //@Autowired
-    WikiDetailsPage wikiDetailsPage;
-
-    @RenderWebElement
     @FindBy (css = "span.forwardLink>a")
     private WebElement mainPageLink;
 
-    @RenderWebElement
     @FindBy (css = "span.first-child button[id$=default-create-button-button]")
     private WebElement newPage;
 
@@ -35,7 +23,6 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     @FindAll (@FindBy (css = "div.pageTitle a"))
     private List<WebElement> wikiPagesTitleList;
 
-    @RenderWebElement
     @FindBy (css = "[id$=default-pagelist] div")
     private WebElement noWikiPage;
 
@@ -63,9 +50,9 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     private final By wikiPageContent = By.cssSelector("div[class='pageCopy rich-content']");
     private final By wikiPageTags = By.cssSelector("div[class=pageTags] a");
 
-    public WikiListPage(ThreadLocal<WebBrowser> browser)
+    public WikiListPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     /**
@@ -124,19 +111,19 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public WebElement selectWikiDetailsRow(String wikiPage)
     {
-        return getBrowser().findFirstElementWithValue(wikiPagesList, wikiPage);
+        return webElementInteraction.findFirstElementWithValue(wikiPagesList, wikiPage);
     }
 
     public EditWikiPage clickEdit(String wikiPage)
     {
         selectWikiDetailsRow(wikiPage).findElement(editPage).click();
-        return (EditWikiPage) editWikiPage.renderedPage();
+        return new EditWikiPage(webDriver);
     }
 
     public WikiPage clickPageName(String wikiPageTitle)
     {
         selectWikiDetailsRow(wikiPageTitle).findElement(pageName).click();
-        return (WikiPage) wikiPage.renderedPage();
+        return new WikiPage(webDriver);
     }
 
     public boolean clickDeletePage(String wikiPage)
@@ -250,7 +237,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     public WikiDetailsPage clickDetails(String wikiPage)
     {
         selectWikiDetailsRow(wikiPage).findElement(pageDetails).click();
-        return (WikiDetailsPage) wikiDetailsPage.renderedPage();
+        return new WikiDetailsPage(webDriver);
     }
 
     @Override
@@ -285,7 +272,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public void clickSpecificTag(String tagName)
     {
-        getBrowser().findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
+        webElementInteraction.findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
     }
 
     /**
@@ -296,7 +283,8 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public boolean isWikiPageDisplayed(String wikiPageName)
     {
-        return getBrowser().isElementDisplayed(getBrowser().findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
+        return webElementInteraction.isElementDisplayed(
+            webElementInteraction.findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
     }
 
     public void clickShowAllTags()

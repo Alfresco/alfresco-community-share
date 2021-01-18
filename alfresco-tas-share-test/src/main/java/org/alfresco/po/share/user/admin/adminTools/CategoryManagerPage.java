@@ -1,35 +1,36 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.Wait.WAIT_10;
-import static org.alfresco.common.Wait.WAIT_20;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
 
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 {
     private final By editCategoryNameInput = By.cssSelector(".insitu-edit input[type='text']");
     private final By editCategorySaveButton = By.cssSelector(".insitu-edit a:nth-of-type(1)");
-    private final By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible']");
-    private final By editCategoryButton = By.cssSelector("span.insitu-edit-category[style*='visibility: visible']");
-    private final By deleteCategoryButton = By.cssSelector("span.insitu-delete-category[style*='visibility: visible']");
-    private final String categoryLocator = "//span[contains(@id, 'labelel') and text()='%s']";
+    private final By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible; opacity: 1;");
+    private final By editCategoryButton = By.cssSelector("span.insitu-edit-category[style*='visibility: visible; opacity: 1;']");
+    private final By deleteCategoryButton = By.cssSelector("span.insitu-delete-category[style*='visibility: visible; opacity: 1;']");
+    private final String categoryLocator = "//td[@class='ygtvcell  ygtvcontent']//span[contains(@id, 'labelel') and text()='%s']";
 
-    public CategoryManagerPage(ThreadLocal<WebBrowser> browser)
+    public CategoryManagerPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     private WebElement category(String categoryLabel)
     {
-        By categoryBy = By.xpath(String.format(categoryLocator, categoryLabel));
-        return getBrowser().waitUntilElementVisible(categoryBy);
+        return webElementInteraction
+            .waitUntilElementIsVisible(By.xpath(String.format(categoryLocator, categoryLabel)));
     }
 
     @Override
@@ -40,10 +41,8 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 
     public AddCategoryDialog clickAddButton()
     {
-        WebElement addButton = getBrowser().waitUntilElementVisible(addCategoryButton);
-        getBrowser().mouseOver(addButton);
-        addButton.click();
-        return (AddCategoryDialog) new AddCategoryDialog(browser).renderedPage();
+        webElementInteraction.clickElement(addCategoryButton);
+        return new AddCategoryDialog(webDriver);
     }
 
     public CategoryManagerPage addCategory(String categoryName)
@@ -60,86 +59,102 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     public DeleteDialog clickDeleteButton(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-        WebElement deleteCat = getBrowser().waitUntilElementVisible(deleteCategoryButton);
-        getBrowser().mouseOver(deleteCat);
-        deleteCat.click();
-        return (DeleteDialog) new DeleteDialog(browser).renderedPage();
+        WebElement deleteCategoryElement = webElementInteraction.findElement(deleteCategoryButton);
+        webElementInteraction.mouseOver(deleteCategoryElement);
+        webElementInteraction.clickElement(deleteCategoryElement, 2000);
+        return new DeleteDialog(webDriver);
     }
 
     public CategoryManagerPage deleteCategory(String categoryName)
     {
         clickDeleteButton(categoryName).clickDelete();
-        return (CategoryManagerPage) this.renderedPage();
+        return this;
     }
 
     public void clickEditCategory(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-        WebElement ediCat = getBrowser().waitUntilElementVisible(editCategoryButton);
-        getBrowser().mouseOver(ediCat);
-        getBrowser().clickJS(ediCat);
+        WebElement editCategoryElement = webElementInteraction.findElement(editCategoryButton);
+        webElementInteraction.mouseOver(editCategoryElement);
+        webElementInteraction.clickElement(editCategoryElement);
     }
 
     public CategoryManagerPage editCategory(String categoryName, String newCategoryName)
     {
         clickEditCategory(categoryName);
-        if(!getBrowser().isElementDisplayed(editCategoryNameInput))
+        if(!webElementInteraction.isElementDisplayed(editCategoryNameInput))
         {
             LOG.info("Click Edit category again");
             clickEditCategory(categoryName);
         }
-        WebElement input = getBrowser().waitUntilElementVisible(editCategoryNameInput);
-        input.sendKeys(newCategoryName);
+        WebElement input = webElementInteraction.findElement(editCategoryNameInput);
+        webElementInteraction.clearAndType(input, newCategoryName);
 
-        WebElement saveBtn = getBrowser().waitUntilElementClickable(editCategorySaveButton);
-        getBrowser().mouseOver(saveBtn);
-        saveBtn.click();
+        WebElement saveButton = webElementInteraction.findElement(editCategorySaveButton);
+        webElementInteraction.clickElement(saveButton);
         waitUntilNotificationMessageDisappears();
-        return (CategoryManagerPage) this.renderedPage();
+        return this;
+    }
+
+    private void waitForCategory(String categoryName)
+    {
+        By category = By.xpath(String.format(categoryLocator, categoryName));
+        webElementInteraction.waitInSeconds(WAIT_2.getValue());
+
+        int i = 0;
+        while (i < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(category))
+        {
+            LOG.error("Wait for category {}", categoryName);
+            webElementInteraction.refresh();
+            waitToLoopTime(WAIT_2.getValue());
+            i++;
+        }
     }
 
     private void mouseOverOnCategory(String categoryName)
     {
-        WebElement category = getBrowser().waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(categoryLocator, categoryName)), 1, WAIT_20.getValue());
+        waitForCategory(categoryName);
+        WebElement category = webElementInteraction.findElement(By.xpath(String.format(categoryLocator, categoryName)));
         int i = 0;
-        while(i < WAIT_10.getValue())
+        while(i < WAIT_60.getValue())
         {
-            try
+            waitToLoopTime(WAIT_2.getValue());
+            if (webElementInteraction.isElementDisplayed(category))
             {
-                getBrowser().mouseOver(category);
+                webElementInteraction.mouseOver(category, 2000);
                 break;
             }
-            catch (StaleElementReferenceException e)
-            {
-                LOG.error("Retry mouse over on category. Error {}", e.getMessage());
-                i++;
-                getBrowser().mouseOver(category);
-            }
+            i++;
         }
-        getBrowser().waitUntilElementVisible(addCategoryButton);
     }
 
     public boolean isCategoryDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        getBrowser().waitUntilElementIsDisplayedWithRetry(category, 1, 20);
-        return getBrowser().isElementDisplayed(category);
+        waitForCategory(categoryName);
+        return webElementInteraction.isElementDisplayed(category);
     }
 
     public boolean isSubcategoryDisplayed(String parentCategory, String expectedSubCategory)
     {
         By category = By.xpath(String.format(categoryLocator, expectedSubCategory));
-        boolean isSubCatDisplayed = getBrowser().isElementDisplayed(category);
+        boolean isSubCatDisplayed = webElementInteraction.isElementDisplayed(category);
         int retryCount = 0;
-        while (retryCount < 30 && isSubCatDisplayed == false)
+        while (retryCount < WAIT_80.getValue() && !isSubCatDisplayed)
         {
-            boolean isExpanded = getBrowser().isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
+            boolean isExpanded = webElementInteraction.isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
             if (!isExpanded)
             {
-                category(parentCategory).findElement(By.xpath("../..//a[@class='ygtvspacer']")).click();
+                WebElement parent = category(parentCategory);
+                webElementInteraction.waitUntilChildElementIsPresent(parent, By.xpath("../..//a[@class='ygtvspacer']")).click();
+                webElementInteraction.waitInSeconds(WAIT_2.getValue());
             }
-            isSubCatDisplayed = getBrowser().isElementDisplayed(category);
+            isSubCatDisplayed = webElementInteraction.isElementDisplayed(category);
+            if(isSubCatDisplayed)
+            {
+                break;
+            }
+            waitToLoopTime(WAIT_2.getValue());
             navigate();
             retryCount++;
         }
@@ -151,16 +166,13 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         LOG.info("Assert category {} is not displayed", categoryName);
         By category = By.xpath(String.format(categoryLocator, categoryName));
         int i = 0;
-        while(i < WAIT_10.getValue())
+        while(i < WAIT_60.getValue() && webElementInteraction.isElementDisplayed(category))
         {
-            LOG.info("Wait until category {} is deleted", categoryName);
-            if(!getBrowser().isElementDisplayed(category))
-            {
-                break;
-            }
+            waitToLoopTime(WAIT_2.getValue());
+            webElementInteraction.refresh();
             i++;
         }
-        assertFalse(getBrowser().isElementDisplayed(category), String.format("Category %s is displayed", category));
+        assertFalse(webElementInteraction.isElementDisplayed(category), String.format("Category %s is displayed", category));
         return this;
     }
 }

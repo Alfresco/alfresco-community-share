@@ -80,7 +80,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         String newVersionFilePath = testDataFolder + newVersionFile;
         LOG.info("Precondition: Navigate to Shared folder from Repository page and upload a file");
         repositoryPage.navigate();
-        assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser");
+//        assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser");
         repositoryPage.clickFolderFromExplorerPanel("Shared");
         assertEquals(repositoryPage.getPageHeader(), "Repository Browser");
         uploadContent.uploadContent(testFilePath2);
@@ -93,7 +93,6 @@ public class ActionsUploadTests extends ContextAwareWebTest
         repositoryPage.clickDocumentLibraryItemAction(testFile2, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
-        repositoryPage.renderedPage();
         assertTrue(repositoryPage.isContentNameDisplayed(newVersionFile), String.format("File [%s] is displayed", newVersionFile));
         assertFalse(repositoryPage.isContentNameDisplayed(testFile), testFile2 + " is displayed.");
         LOG.info("STEP4: Click on the file and check the version and content are updated.");

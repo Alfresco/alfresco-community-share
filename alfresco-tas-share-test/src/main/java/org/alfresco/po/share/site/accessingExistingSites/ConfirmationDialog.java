@@ -1,45 +1,54 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public abstract class ConfirmationDialog extends BaseDialogComponent
 {
-    @RenderWebElement
+    private final By dialogBody = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG");
     private final By confirmDeletionButton = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM");
     private final By dialogMessage = By.cssSelector("div.dialog-body");
     private final By dialogCloseButton = By.cssSelector("span.dijitDialogCloseIcon");
 
-    public ConfirmationDialog(ThreadLocal<WebBrowser> browser)
+    protected ConfirmationDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getDialogMessage()
     {
-        return getBrowser().waitUntilElementVisible(dialogMessage).getText();
+        return webElementInteraction.getElementText(dialogMessage);
     }
 
     public void clickOKButton()
     {
-        getBrowser().waitUntilElementClickable(confirmDeletionButton).click();
+        LOG.info("Click OK button");
+        WebElement ok = webElementInteraction.waitUntilElementIsVisible(confirmDeletionButton);
+        webElementInteraction.mouseOver(ok);
+        webElementInteraction.clickElement(ok);
+        waitUntilNotificationMessageDisappears();
+        if(webElementInteraction.isElementDisplayed(dialogBody))
+        {
+            LOG.error("Failed to click Ok button. Retry click.");
+            webElementInteraction.clickJS(ok);
+        }
     }
 
     public boolean isOkButtonDisplayed()
     {
-        return getBrowser().waitUntilElementVisible(By.cssSelector("span[class$='dijitButtonContents']")).isDisplayed();
+        return webElementInteraction.waitUntilElementIsVisible(By.cssSelector("span[class$='dijitButtonContents']")).isDisplayed();
     }
 
     @Override
     public boolean isCloseButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(dialogCloseButton);
+        return webElementInteraction.isElementDisplayed(dialogCloseButton);
     }
 
     public void clickCloseButton()
     {
-        getBrowser().findElement(dialogCloseButton).click();
+        webElementInteraction.clickElement(dialogCloseButton);
     }
 }

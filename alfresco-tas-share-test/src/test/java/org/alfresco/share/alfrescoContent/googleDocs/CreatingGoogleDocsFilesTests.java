@@ -62,7 +62,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Edit the document in the Google Docs tab (enter some text).");
         googleDocs.switchToGoogleDocsWindowandAndEditContent(documentTitle, content);
-        documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Document"), "The file created with Google Docs present");
         Assert.assertEquals(documentLibraryPage.getInfoBannerText("Untitled Document"), "This document is locked by you.", "Document appears to be locked");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
@@ -91,7 +90,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Edit the document in the Google Docs tab (enter some text).");
         googleDocs.switchToGoogleSheetsWindowandAndEditContent(spreadsheetTitle, content);
-        documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Spreadsheet"), "The file created with Google Docs present");
         Assert.assertEquals(documentLibraryPage.getInfoBannerText("Untitled Spreadsheet"), "This document is locked by you.", "Document appears to be locked");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
@@ -119,7 +117,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Edit the document in the Google Docs tab (enter some text).");
         googleDocs.switchToGooglePresentationsAndEditContent(presentationTitle);
-        documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Presentation"), "The file created with Google Docs present");
         Assert.assertEquals(documentLibraryPage.getInfoBannerText("Untitled Presentation"), "This document is locked by you.", "Document appears to be locked");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");

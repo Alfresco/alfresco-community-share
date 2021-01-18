@@ -1,26 +1,21 @@
 package org.alfresco.po.share.searching;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.List;
-
-import static org.testng.Assert.assertTrue;
-
 public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implements AccessibleByMenuBar
 {
-    @RenderWebElement
     private final By keywordsSearchField = By.cssSelector("input[id$='default-search-text']");
-    @RenderWebElement
-    private final By searchButton1 = By.cssSelector("button[id$='_default-search-button-1-button']");
-    @RenderWebElement
-    private final By searchButton2 = By.cssSelector("button[id$='_default-search-button-2-button']");
+    private final By firstSearchButton = By.cssSelector("button[id$='_default-search-button-1-button']");
+    private final By secondSearchButton = By.cssSelector("button[id$='_default-search-button-2-button']");
     private final By lookForDropdownButton = By.cssSelector(".selected-form-button button");
     private final By lookForDropdownOptions = By.cssSelector(".selected-form-button .yuimenuitem");
     private final By nameInput = By.cssSelector("input[id$='prop_cm_name']");
@@ -36,9 +31,9 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
     private final By toDateInputField = By.cssSelector("input[id$='_default_0_prop_cm_modified-cntrl-date-to']");
     private final By titleBox = By.cssSelector("textarea[id$='_prop_cm_title']");
 
-    public AdvancedSearchPage(ThreadLocal<WebBrowser> browser)
+    public AdvancedSearchPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -50,57 +45,56 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
     @Override
     public AdvancedSearchPage navigateByMenuBar()
     {
-        return (AdvancedSearchPage) new Toolbar(browser).clickAdvancedSearch().renderedPage();
+        return new Toolbar(webDriver).clickAdvancedSearch();
     }
 
     public AdvancedSearchPage assertAdvancedSearchPageIsOpened()
     {
-        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Advanced Search page is opened");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Advanced Search page is opened");
         return this;
     }
 
     public boolean isKeywordsSearchFieldDisplayed()
     {
-        return getBrowser().isElementDisplayed(keywordsSearchField);
+        return webElementInteraction.isElementDisplayed(keywordsSearchField);
     }
 
-    //todo better name
-    public SearchPage click1stSearch()
+    public SearchPage clickFirstSearchButton()
     {
-        getBrowser().waitUntilElementClickable(searchButton1).click();
-        return (SearchPage) new SearchPage(browser).renderedPage();
+        webElementInteraction.clickElement(firstSearchButton);
+        return new SearchPage(webDriver);
     }
 
-    public SearchPage click2ndSearchButton()
+    public SearchPage clickSecondSearchButton()
     {
-        getBrowser().waitUntilElementClickable(searchButton2).click();
-        return (SearchPage) new SearchPage(browser).renderedPage();
+        webElementInteraction.clickElement(secondSearchButton);
+        return new SearchPage(webDriver);
     }
 
     public void typeKeywords(String keyword)
     {
-        clearAndType(getBrowser().findElement(keywordsSearchField), keyword);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(keywordsSearchField), keyword);
     }
 
     public boolean isTopSearchButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchButton1);
+        return webElementInteraction.isElementDisplayed(firstSearchButton);
     }
 
     public boolean isBottomSearchButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchButton2);
+        return webElementInteraction.isElementDisplayed(secondSearchButton);
     }
 
     public void clickOnLookForDropdown()
     {
-        getBrowser().waitUntilElementClickable(lookForDropdownButton).click();
+        webElementInteraction.clickElement(lookForDropdownButton);
     }
 
     public boolean isLookForDropdownOptionDisplayed(String label, String description)
     {
         boolean status = false;
-        List<WebElement> dropdownOptions = getBrowser().findElements(lookForDropdownOptions);
+        List<WebElement> dropdownOptions = webElementInteraction.findElements(lookForDropdownOptions);
         for (WebElement htmlElement : dropdownOptions)
         {
             if (htmlElement.findElement(lookForDropdownOptionLabel).getText().equals(label))
@@ -115,7 +109,7 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
 
     public void clickOnLookForDropdownOption(String label)
     {
-        List<WebElement> dropdownOptions = getBrowser().findElements(lookForDropdownOptions);
+        List<WebElement> dropdownOptions = webElementInteraction.findElements(lookForDropdownOptions);
         for (WebElement htmlElement : dropdownOptions)
         {
             if (htmlElement.findElement(lookForDropdownOptionLabel).getText().equals(label))
@@ -128,90 +122,85 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
 
     public boolean isKeywordsInputDisplayed()
     {
-        return getBrowser().isElementDisplayed(keywordsSearchField);
+        return webElementInteraction.isElementDisplayed(keywordsSearchField);
     }
 
     public boolean isNameInputDisplayed()
     {
-        return getBrowser().isElementDisplayed(nameInput);
+        return webElementInteraction.isElementDisplayed(nameInput);
     }
 
     public boolean isTitleTextareaDisplayed()
     {
-        return getBrowser().isElementDisplayed(titleTextarea);
+        return webElementInteraction.isElementDisplayed(titleTextarea);
     }
 
     public boolean isDescriptionTextareaDisplayed()
     {
-        return getBrowser().isElementDisplayed(descriptionTextarea);
+        return webElementInteraction.isElementDisplayed(descriptionTextarea);
     }
 
     public boolean isMimetypeDropDownDisplayed()
     {
-        return getBrowser().isElementDisplayed(mimetypeDropdown);
+        return webElementInteraction.isElementDisplayed(mimetypeDropdown);
     }
 
     public boolean isDateFromPickerDisplayed()
     {
-        return getBrowser().isElementDisplayed(dateFromPicker);
+        return webElementInteraction.isElementDisplayed(dateFromPicker);
     }
 
     public boolean isDateToPickerDisplayed()
     {
-        return getBrowser().isElementDisplayed(dateToPicker);
+        return webElementInteraction.isElementDisplayed(dateToPicker);
     }
 
     public boolean isModifierInputDisplayed()
     {
-        return getBrowser().isElementDisplayed(modifierInput);
+        return webElementInteraction.isElementDisplayed(modifierInput);
     }
 
     public void typeName(String name)
     {
-        clearAndType(getBrowser().findElement(nameInput), name);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(nameInput), name);
     }
 
     public void typeTitle(String title)
     {
-        clearAndType(getBrowser().findElement(titleTextarea), title);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(titleTextarea), title);
     }
 
     public void typeDescription(String description)
     {
-        clearAndType(getBrowser().findElement(descriptionTextarea), description);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(descriptionTextarea), description);
     }
 
     public void selectMimetype(String mimetype)
     {
-        Select mimeTypeSelect = new Select(getBrowser().findElement(mimetypeDropdown));
+        Select mimeTypeSelect = new Select(webElementInteraction.findElement(mimetypeDropdown));
         mimeTypeSelect.selectByValue(mimetype);
-    }
-
-    public void typeModifier(String modifier)
-    {
-        clearAndType(getBrowser().findElement(modifierInput), modifier);
     }
 
     public void setFromDate(String dateToBeSet)
     {
-        getBrowser().waitUntilElementVisible(fromDateInputField);
-        clearAndType(getBrowser().findElement(fromDateInputField), dateToBeSet);
+        webElementInteraction.waitUntilElementIsVisible(fromDateInputField);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(fromDateInputField), dateToBeSet);
     }
 
     public void setToDate(String dateToBeSet)
     {
-        getBrowser().waitUntilElementVisible(toDateInputField);
-        clearAndType(getBrowser().findElement(toDateInputField), dateToBeSet);
+        webElementInteraction.waitUntilElementIsVisible(toDateInputField);
+        webElementInteraction.clearAndType(toDateInputField, dateToBeSet);
     }
 
     public String getSelectedContentTypeOption()
     {
-        return getBrowser().findElement(lookForDropdownButton).getText();
+        return webElementInteraction.findElement(lookForDropdownButton).getText();
     }
 
     public void setTitle(String criteria)
     {
-        getBrowser().waitUntilElementVisible(titleBox);
-        clearAndType(getBrowser().findElement(titleBox), criteria);
+        webElementInteraction.waitUntilElementIsVisible(titleBox);
+        webElementInteraction.clearAndType(titleBox, criteria);
     }
 }

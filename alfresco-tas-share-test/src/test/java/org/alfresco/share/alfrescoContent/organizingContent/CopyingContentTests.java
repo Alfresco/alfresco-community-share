@@ -12,21 +12,18 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class CopyingContentTests extends BaseTest
 {
-    private FolderModel sharedFiles = new FolderModel("Shared Files");
-
     private DocumentLibraryPage2 documentLibraryPage;
 
     private UserModel testUser;
     private SiteModel testSite;
 
-    @BeforeClass (alwaysRun = true)
+    private final FolderModel SHARED_FILES = new FolderModel("Shared Files");
+
+    @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
         testUser = dataUser.usingAdmin().createRandomTestUser();
@@ -36,16 +33,9 @@ public class CopyingContentTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         getCmisApi().authenticateUser(testUser);
         setupAuthenticatedSession(testUser);
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(testUser);
-        deleteSites(testSite);
     }
 
     @TestRail (id = "C7377")
@@ -58,7 +48,7 @@ public class CopyingContentTests extends BaseTest
         documentLibraryPage.navigate(testSite)
             .usingContent(fileToCopy).clickCopyTo()
             .selectSharedFilesDestination()
-            .selectFolder(sharedFiles)
+            .selectFolder(SHARED_FILES)
             .clickCopyToButton();
         FileModel copiedFile = new FileModel(fileToCopy.getName());
         copiedFile.setCmisLocation(Utility.buildPath(getCmisApi().getSharedPath(), fileToCopy.getName()));
@@ -104,5 +94,12 @@ public class CopyingContentTests extends BaseTest
             .usingContent(subFile).assertContentIsDisplayed();
 
         dataSite.usingAdmin().deleteSite(siteDestination);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(testUser);
+        deleteSitesIfNotNull(testSite);
     }
 }

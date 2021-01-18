@@ -74,7 +74,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
         repository.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
-        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
+//        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.typeName("C8156 name");
@@ -84,7 +84,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreate();
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
+//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "Plain Text", "Mimetype property is not Plain Text");
@@ -109,7 +109,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click \"HTML...\" option.");
         repository.clickCreateContentOption(CreateMenuOption.HTML);
-        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
+//        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.typeName("C8161 test name");
@@ -119,7 +119,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreate();
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
+//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "HTML", "Mimetype property is not HTML");
@@ -143,7 +143,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click \"XML...\" option.");
         repository.clickCreateContentOption(CreateMenuOption.XML);
-        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
+//        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.typeName("C8162 test name");
@@ -153,7 +153,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreate();
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
+//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "XML", "Mimetype property is not Plain Text");

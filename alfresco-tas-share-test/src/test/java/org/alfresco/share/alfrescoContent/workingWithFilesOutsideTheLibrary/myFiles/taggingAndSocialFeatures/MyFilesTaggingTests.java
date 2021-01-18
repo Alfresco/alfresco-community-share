@@ -111,7 +111,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        myFilesPage.renderedPage();
         ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
         assertEquals(myFilesPage.getTags(folderNameC7862), tagsList.toString(), folderNameC7862 + " -> tags=");
     }
@@ -218,7 +217,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         LOG.info("STEP5: Type any tag name in the input field. Click \"Save\" link");
         myFilesPage.typeTagName(tagName2);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        myFilesPage.renderedPage();
         assertEquals(myFilesPage.getTags(testFileC7895), Collections.singletonList(tagName2.toLowerCase()).toString(), testFileC7895 + " -> tags=");
     }
 }

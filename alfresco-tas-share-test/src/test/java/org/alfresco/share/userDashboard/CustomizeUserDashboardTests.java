@@ -35,13 +35,13 @@ public class CustomizeUserDashboardTests extends BaseTest
     {
         user = dataUser.usingAdmin().createRandomTestUser();
 
-        customizeUserDashboard = new CustomizeUserDashboardPage(browser);
+        customizeUserDashboard = new CustomizeUserDashboardPage(webDriver);
     }
 
     @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        removeUserFromAlfresco(user);
+        deleteUsersIfNotNull(user);
     }
 
     @TestRail (id = "C2853")

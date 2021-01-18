@@ -11,10 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.function.Supplier;
 import org.alfresco.utility.Utility;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +30,6 @@ public final class Utils
     public static String srcRoot = System.getProperty("user.dir") + File.separator;
     public static String testDataFolder = srcRoot + "testdata" + File.separator;
     public static File screenshotFolder = new File("./target/reports/screenshots");
-    public static String styleAttribute = "style";
-    public static String styleDisplayNone = "display: none;";
 
     /**
      * Clear control
@@ -182,25 +181,36 @@ public final class Utils
         return Files.exists(Paths.get(filePath));
     }
 
+    public static boolean isFileInDirectory(File file)
+    {
+        int retry = 0;
+        while (retry <= Wait.WAIT_15.getValue() && !file.exists())
+        {
+            retry++;
+            Utility.waitToLoopTime(1, String.format("Wait for '%s' to get downloaded", file.getName()));
+        }
+        return file.exists();
+    }
+
     /**
      * Method to save screenshot
-     * @param browser browser
+     * @param webDriver browser
      * @param testMethod test name
      */
-    public static void saveScreenshot(WebBrowser browser, Method testMethod)
+    public static void saveScreenshot(ThreadLocal<WebDriver> webDriver, Method testMethod)
     {
         if(!screenshotFolder.exists())
         {
             LOG.info("Creating screenshot folder");
             screenshotFolder.mkdir();
         }
-
-        File screen = (browser).getScreenshotAs(OutputType.FILE);
+        TakesScreenshot screenshot = ((TakesScreenshot) webDriver.get());
+        File screen = screenshot.getScreenshotAs(OutputType.FILE);
         try
         {
             if(testMethod != null)
             {
-                LOG.info("Generating screenshot for test: {}, # {}",
+                LOG.info("Generating screenshot for test: {}, {}",
                     testMethod.getDeclaringClass().getSimpleName(), testMethod.getName());
 
                 Date date = new Date();

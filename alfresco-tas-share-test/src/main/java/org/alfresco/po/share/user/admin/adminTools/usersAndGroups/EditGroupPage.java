@@ -3,8 +3,8 @@ package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class EditGroupPage extends SharePage2<EditGroupPage>
 {
@@ -16,9 +16,9 @@ public class EditGroupPage extends SharePage2<EditGroupPage>
     private final By identifierField = By.cssSelector("span[id$='_default-update-shortname']");
     private final By pageTitle = By.cssSelector("div[id$='_default-update'] div.title");
 
-    public EditGroupPage(ThreadLocal<WebBrowser> browser)
+    public EditGroupPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -29,55 +29,55 @@ public class EditGroupPage extends SharePage2<EditGroupPage>
 
     public boolean isIdentifierFieldDisplayed()
     {
-        getBrowser().waitUntilElementVisible(identifierField);
-        return getBrowser().isElementDisplayed(identifierField);
+        webElementInteraction.waitUntilElementIsVisible(identifierField);
+        return webElementInteraction.isElementDisplayed(identifierField);
     }
 
     public String getIdentifierText()
     {
-        return getBrowser().waitUntilElementVisible(identifierField).getText();
+        return webElementInteraction.waitUntilElementIsVisible(identifierField).getText();
     }
 
     public boolean isDisplayNameInputFieldDisplayed()
     {
-        getBrowser().waitUntilElementVisible(displayNameInputField);
-        return getBrowser().isElementDisplayed(displayNameInputField);
+        webElementInteraction.waitUntilElementIsVisible(displayNameInputField);
+        return webElementInteraction.isElementDisplayed(displayNameInputField);
     }
 
     public void editDisplayName(String newDisplayName)
     {
-        getBrowser().waitUntilElementVisible(displayNameInputField);
-        clearAndType(displayNameInputField, newDisplayName);
+        webElementInteraction.waitUntilElementIsVisible(displayNameInputField);
+        webElementInteraction.clearAndType(displayNameInputField, newDisplayName);
     }
 
     public HtmlPage clickSaveChangesButton(HtmlPage page)
     {
-        getBrowser().waitUntilElementClickable(saveChangesButton, 5L);
-        getBrowser().findElement(saveChangesButton).click();
+        webElementInteraction.clickElement(saveChangesButton);
+        webElementInteraction.findElement(saveChangesButton).click();
         return page.renderedPage();
     }
 
     public HtmlPage clickCancelButton(HtmlPage page)
     {
-        getBrowser().waitUntilElementClickable(cancelButton, 5L);
-        getBrowser().findElement(cancelButton).click();
+        webElementInteraction.clickElement(cancelButton);
+        webElementInteraction.findElement(cancelButton).click();
         return page.renderedPage();
     }
 
     public String getEditGroupPageTitle()
     {
-        return getElementText(pageTitle);
+        return webElementInteraction.getElementText(pageTitle);
     }
 
     public boolean isSaveChangesButtonDisplayed()
     {
-        getBrowser().waitUntilElementVisible(saveChangesButton);
-        return getBrowser().isElementDisplayed(saveChangesButton);
+        webElementInteraction.waitUntilElementIsVisible(saveChangesButton);
+        return webElementInteraction.isElementDisplayed(saveChangesButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        getBrowser().waitUntilElementVisible(cancelButton);
-        return getBrowser().isElementDisplayed(cancelButton);
+        webElementInteraction.waitUntilElementIsVisible(cancelButton);
+        return webElementInteraction.isElementDisplayed(cancelButton);
     }
 }

@@ -1,13 +1,12 @@
 package org.alfresco.po.share.site.members;
 
-import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 {
@@ -22,9 +21,9 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
     private final By invitationUserRole = By.xpath("(//*[@class='attr-value'])[3]");
     private final By cancelButton = By.cssSelector("button");
 
-    public PendingInvitesPage(ThreadLocal<WebBrowser> browser)
+    public PendingInvitesPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -35,23 +34,23 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 
     private WebElement selectPendingInvitationRow(String firstName)
     {
-        return getBrowser().findFirstElementWithValue(pendingInvitesList, firstName);
+        return webElementInteraction.findFirstElementWithValue(pendingInvitesList, firstName);
     }
 
     public boolean isPendingInvitesListDisplayed()
     {
-        return getBrowser().isElementDisplayed(pendingInvitesList);
+        return webElementInteraction.isElementDisplayed(pendingInvitesList);
     }
 
     public void typeIntoSearchInput(String input)
     {
-        clearAndType(getBrowser().findElement(searchInput), input);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(searchInput), input);
     }
 
     public PendingInvitesPage clickSearchButton()
     {
-        getBrowser().findElement(searchButton).click();
-        return (PendingInvitesPage) this.renderedPage();
+        webElementInteraction.findElement(searchButton).click();
+        return new PendingInvitesPage(webDriver);
     }
 
     public boolean isPendingInvitationListed(String firstName)
@@ -68,17 +67,17 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 
     public boolean isSearchInputDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchInput);
+        return webElementInteraction.isElementDisplayed(searchInput);
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchButton);
+        return webElementInteraction.isElementDisplayed(searchButton);
     }
 
     public boolean isCancelButtonDisplayed(String firstName)
     {
-        return getBrowser().isElementDisplayed(selectPendingInvitationRow(firstName).findElement(cancelButton));
+        return webElementInteraction.isElementDisplayed(selectPendingInvitationRow(firstName).findElement(cancelButton));
     }
 
     public String getInvitationAvatarSource(String firstName)
@@ -104,7 +103,7 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
     public ArrayList<String> getPendingRequests()
     {
         ArrayList<String> pendingUsersText = new ArrayList<>();
-        List<WebElement> users = getBrowser().findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
+        List<WebElement> users = webElementInteraction.findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
         for (WebElement user : users)
         {
             pendingUsersText.add(user.getText());

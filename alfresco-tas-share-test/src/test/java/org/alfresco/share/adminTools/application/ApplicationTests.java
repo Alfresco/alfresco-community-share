@@ -16,7 +16,7 @@ public class ApplicationTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void beforeTest()
     {
-        applicationPage = new ApplicationPage(browser);
+        applicationPage = new ApplicationPage(webDriver);
         setupAuthenticatedSession(getAdminUser());
     }
 
@@ -28,7 +28,6 @@ public class ApplicationTests extends BaseTest
         applicationPage.uploadImage()
             .assertDefaultAlfrescoImageIsNotDisplayed()
             .resetImageToDefault()
-            .clickApply()
             .assertDefaultAlfrescoImageIsDisplayed();
     }
 
@@ -41,12 +40,13 @@ public class ApplicationTests extends BaseTest
         {
             applicationPage.selectTheme(Theme.YELLOW)
                 .assertThemeOptionIsSelected(Theme.YELLOW)
+                .clickApply()
                 .assertBodyContainsTheme(Theme.YELLOW);
         }
         finally
         {
             applicationPage.navigate();
-            applicationPage.selectTheme(Theme.LIGHT);
+            applicationPage.selectTheme(Theme.LIGHT).clickApply();
         }
     }
 

@@ -1,13 +1,13 @@
 package org.alfresco.po.share;
 
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 
 public abstract class CommonLoginPage extends BasePage
 {
-    public CommonLoginPage(ThreadLocal<WebBrowser> browser)
+    protected CommonLoginPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public abstract CommonLoginPage assertLoginPageIsOpened();

@@ -1,20 +1,18 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
-
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Mirela Tifui on 11/23/2017.
@@ -25,7 +23,6 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
     //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
-    @RenderWebElement
     @FindBy (css = "div[id$='_default-my-docs-dashlet']")
     private HtmlElement dashletContainer;
 
@@ -70,10 +67,9 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
         waitForDocumentToBeDisplayed(document).findElement(editedDocumentName).click();
     }
 
-    public SiteDashboardPage clickSite(FileModel document)
+    public void clickSite(FileModel document)
     {
         waitForDocumentToBeDisplayed(document).findElement(editDocumentSite).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     public boolean isDocumentDisplayedInDashlet(FileModel file)

@@ -1,28 +1,22 @@
+
 package org.alfresco.po.share;
 
 import static org.alfresco.common.Wait.WAIT_5;
 
-import org.alfresco.common.EnvProperties;
+import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
-import org.alfresco.utility.TasProperties;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.alfresco.utility.web.renderer.Renderer;
+import org.alfresco.common.WebElementInteraction;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * This class represents a template which should be inherit by each page object/component class.
@@ -42,118 +36,51 @@ public abstract class BasePage
 {
     protected final Logger LOG = LoggerFactory.getLogger(BasePage.class);
 
-    protected static ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
+    protected static final ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
+    public static final ThreadLocal<DefaultProperties> defaultProperties = new ThreadLocal<>();
+
+    public final Language language;
     protected final By notificationMessageLocator = By.cssSelector("div.bd span.message");
+    protected WebElementInteraction webElementInteraction;
+    public final ThreadLocal<WebDriver> webDriver;
 
-    public static TasProperties tasProperties;
-    public static EnvProperties properties;
-    public static Language language;
-
-    protected ThreadLocal<WebBrowser> browser;
-
-    protected BasePage(ThreadLocal<WebBrowser> browser)
+    protected BasePage(ThreadLocal<WebDriver> webDriver)
     {
-        if(properties == null)
+        if(defaultProperties.get() == null)
         {
+            @SuppressWarnings("resource")
             ApplicationContext context = new AnnotationConfigApplicationContext(ShareTestContext.class);
-            properties = context.getBean(EnvProperties.class);
-            tasProperties = context.getBean(TasProperties.class);
-            language = context.getBean(Language.class);
+            defaultProperties.set(context.getBean(DefaultProperties.class));
         }
-        this.browser = browser;
+
+        language = new Language("language/page_labels",
+            defaultProperties.get().getBrowserLanguage(),
+            defaultProperties.get().getBrowserLanguageCountry());
+
+        this.webDriver = webDriver;
+        waitUntilDomReadyStateIsComplete(webDriver);
+        webElementInteraction = new WebElementInteraction(webDriver, defaultProperties.get());
     }
 
-    //todo: access should be protected
-    public WebBrowser getBrowser()
+    private void waitUntilDomReadyStateIsComplete(ThreadLocal<WebDriver> webDriver)
     {
-        return browser.get();
+        new WebDriverWait(webDriver.get(), defaultProperties.get().getExplicitWait())
+            .until(driver -> ((JavascriptExecutor) webDriver.get())
+                .executeScript("return document.readyState").equals("complete"));
     }
 
-    public ThreadLocal<String>  waitUntilNotificationMessageDisappears()
+    public ThreadLocal<String> waitUntilNotificationMessageDisappears()
     {
         try
         {
-            notificationMessageThread.set(
-                getBrowser().waitUntilElementVisible(notificationMessageLocator, WAIT_5.getValue()).getText());
-            getBrowser().waitUntilElementDisappears(notificationMessageLocator);
+            notificationMessageThread.set(webElementInteraction.getElementText(
+                notificationMessageLocator, WAIT_5.getValue()));
+            webElementInteraction.waitUntilElementDisappears(notificationMessageLocator, WAIT_5.getValue());
         }
         catch (TimeoutException | StaleElementReferenceException exception)
         {
             LOG.info("Failed to get notification message {}", exception.getMessage());
         }
         return notificationMessageThread;
-    }
-
-    //todo: should be moved in WebBrowser class
-    public void clearAndType(WebElement webElement, String value)
-    {
-        webElement.clear();
-        webElement.sendKeys(value);
-    }
-
-    //todo: should be moved in WebBrowser class
-    public void clearAndType(By byElement, String value)
-    {
-        clearAndType(getBrowser().findElement(byElement), value);
-    }
-
-    //todo: should be moved in WebBrowser class
-    public void clickElement(By elementToClick)
-    {
-        getBrowser().waitUntilElementClickable(elementToClick).click();
-    }
-
-    //todo: should be moved in WebBrowser class
-    public String getElementText(By selector)
-    {
-        return getBrowser().waitUntilElementVisible(selector).getText();
-    }
-
-    public String getPageTitle()
-    {
-        return getBrowser().getTitle();
-    }
-
-    public BasePage renderedPage()
-    {
-        /*
-         * get the RenderWebElement annotation of all declared fields and
-         * render them based on the rules defined
-         */
-        List<Field> allFields = getAllDeclaredFields(Collections.synchronizedList(new ArrayList<>()), this.getClass());
-        for (Field field : allFields)
-        {
-            for (Annotation annotation : field.getAnnotationsByType(RenderWebElement.class))
-            {
-                RenderWebElement renderAnnotation = (RenderWebElement) annotation;
-                Renderer renderer = renderAnnotation.state().toInstance();
-
-                if(field.getType() == By.class)
-                {
-                    field.setAccessible(true);
-                    Object by = null;
-                    try
-                    {
-                        by = field.get(this);
-                    }
-                    catch (IllegalAccessException e)
-                    {
-                        LOG.error("Failed to get field {}", field.getName());
-                    }
-                    renderer.render(renderAnnotation, (By) by, getBrowser(), tasProperties);
-                }
-            }
-        }
-        return this;
-    }
-
-    private List<Field> getAllDeclaredFields(List<Field> fields, Class<?> type)
-    {
-        fields.addAll(Arrays.asList(type.getDeclaredFields()));
-        if (type.getSuperclass() != null)
-        {
-            fields = getAllDeclaredFields(fields, type.getSuperclass());
-        }
-        return fields;
     }
 }

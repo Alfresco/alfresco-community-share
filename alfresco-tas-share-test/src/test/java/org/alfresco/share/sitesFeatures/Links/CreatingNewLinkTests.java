@@ -202,7 +202,6 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Click Back in browser and then click 'Links List' link.");
         getBrowser().navigate().back();
-        linkPage.renderedPage();
         Assert.assertEquals(linkPage.getLinkTitle(), linkTitle, "Link not displayed in Liks list");
         siteService.delete(adminUser, adminPassword, siteName);
 

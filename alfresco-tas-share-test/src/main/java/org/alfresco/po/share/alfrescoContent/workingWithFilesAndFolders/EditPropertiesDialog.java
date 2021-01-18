@@ -1,17 +1,14 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import java.util.List;
-
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 
 /**
@@ -20,20 +17,13 @@ import ru.yandex.qatools.htmlelements.element.Button;
 @PageObject
 public class EditPropertiesDialog extends ShareDialog
 {
-    //@Autowired
-    SelectDialog selectDialog;
+    private SelectDialog selectDialog;
+    private EditPropertiesPage editPropertiesPage;
+    private DocumentLibraryPage documentLibraryPage;
 
-    //@Autowired
-    EditPropertiesPage editPropertiesPage;
-
-   // @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @RenderWebElement
     @FindBy (css = "div[id$='dialogTitle']")
     private WebElement dialogTitle;
 
-    @RenderWebElement
     @FindBy (css = "input[name='prop_cm_name']")
     private WebElement propertyName;
 
@@ -73,7 +63,6 @@ public class EditPropertiesDialog extends ShareDialog
     @FindAll (@FindBy (css = "div[id$='prop_cm_categories-cntrl-currentValueDisplay'] div"))
     private List<WebElement> selectedCategories;
 
-    @RenderWebElement
     @FindBy (css = "button[id$='form-submit-button']")
     private WebElement saveButton;
 
@@ -85,10 +74,9 @@ public class EditPropertiesDialog extends ShareDialog
         return dialogTitle.getText();
     }
 
-    public SelectDialog clickSelectCategories()
+    public void clickSelectCategories()
     {
         selectCategoriesButton.click();
-        return (SelectDialog) selectDialog.renderedPage();
     }
 
     public boolean isSelectTagsButtonDisplayed()
@@ -96,17 +84,15 @@ public class EditPropertiesDialog extends ShareDialog
         return browser.isElementDisplayed(selectTagsButton);
     }
 
-    public SelectDialog clickSelectTags()
+    public void clickSelectTags()
     {
         browser.waitUntilElementClickable(selectTagsButton).click();
-        return (SelectDialog) selectDialog.renderedPage();
     }
 
-    public DocumentLibraryPage clickSave()
+    public void clickSave()
     {
         browser.waitUntilElementClickable(saveButton).click();
         waitUntilMessageDisappears();
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
     public void clickCancel()
@@ -184,10 +170,9 @@ public class EditPropertiesDialog extends ShareDialog
         clickSave();
     }
 
-    public EditPropertiesPage clickAllPropertiesLink()
+    public void clickAllPropertiesLink()
     {
         browser.waitUntilElementVisible(allPropertiesButton);
         allPropertiesButton.click();
-        return (EditPropertiesPage) editPropertiesPage.renderedPage();
     }
 }

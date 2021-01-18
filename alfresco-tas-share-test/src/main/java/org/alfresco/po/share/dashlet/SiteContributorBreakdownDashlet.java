@@ -21,11 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBreakdownDashlet>
 {
+    private UserProfilePage userProfilePage;
     public By tooltipMessage = By.cssSelector("div[id^='tipsyPvBehavior']");
-    //@Autowired
-    UserProfilePage userProfilePage;
 
-    @RenderWebElement
     @FindBy (id = "DASHLET")
     private WebElement dashletContainer;
 
@@ -87,14 +85,12 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
         return optionsList;
     }
 
-    public UserProfilePage clickPieChartUsername()
+    public void clickPieChartUsername()
     {
         LOG.info("Click pie chart username");
         browser.scrollIntoView(browser.findElement(userLocator));
         browser.waitUntilElementClickable(userLocator);
         browser.findElement(userLocator).click();
-
-        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
     public SiteContributorBreakdownDashlet assertDropdownFilterEquals(List<String> expectedDropdownFilter)

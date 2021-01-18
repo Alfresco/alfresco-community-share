@@ -2,16 +2,26 @@ package org.alfresco.share.adminTools.modelManager;
 
 import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.alfresco.common.Utils.testDataFolder;
+import static org.alfresco.utility.data.RandomData.getRandomAlphanumeric;
 import static org.testng.Assert.assertTrue;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.rest.model.RestCustomModel;
 import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.CustomAspectModel;
+import org.alfresco.utility.model.CustomContentModel;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
@@ -19,21 +29,20 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class ModelManagerTests extends BaseTest
 {
     private final Logger LOG = LoggerFactory.getLogger(ModelManagerTests.class);
 
+    private final String ACTIVE = "ACTIVE";
+
     private ModelManagerPage modelManagerPage;
     private DocumentDetailsPage documentDetailsPage;
+    private CreateCustomTypeDialog createCustomTypeDialog;
 
     private UserModel user;
     private SiteModel site;
 
-    private static List<CustomContentModel> modelsToRemove = Collections.synchronizedList(new ArrayList<>());
+    private final List<CustomContentModel> modelsToRemove = new ArrayList<>();
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -45,54 +54,20 @@ public class ModelManagerTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void precondition()
     {
-        modelManagerPage = new ModelManagerPage(browser);
-        documentDetailsPage = new DocumentDetailsPage(browser);
-        getRestApi().authenticateUser(getAdminUser());
+        modelManagerPage = new ModelManagerPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        createCustomTypeDialog = new CreateCustomTypeDialog(webDriver);
+
         setupAuthenticatedSession(getAdminUser());
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void afterClass()
-    {
-        dataSite.usingUser(user).deleteSite(site);
-        userService.emptyTrashcan(user.getUsername(), user.getPassword());
-
-        removeUserFromAlfresco(user);
-        modelsToRemove.forEach(this::deleteCustomModel);
-    }
-
-    private void deleteCustomModel(CustomContentModel customContentModel)
-    {
-        getRestApi().authenticateUser(dataUser.getAdminUser());
-
-        RestCustomModel customModelToDelete = getRestApi().withPrivateAPI().usingCustomModel(customContentModel).getModel();
-        if(customModelToDelete != null)
-        {
-            if(customModelToDelete.getStatus().equals("ACTIVE"))
-            {
-                getRestApi().withPrivateAPI().usingCustomModel(customModelToDelete).deactivateModel();
-            }
-            getRestApi().withPrivateAPI().usingCustomModel(customModelToDelete).deleteModel();
-        }
-    }
-
-    @TestRail (id = "C9500")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void checkModelManagerPage()
-    {
-        modelManagerPage.navigate();
-        modelManagerPage.assertCreateModelButtonIsDisplayed()
-            .assertImportModelButtonIsDisplayed()
-            .assertAllColumnsAreDisplayed();
     }
 
     @TestRail (id = "C42565")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createModel()
     {
-        String name = String.format("C42565Name-%s", RandomData.getRandomAlphanumeric());
-        String nameSpace = String.format("C42565Namespace-%s", RandomData.getRandomAlphanumeric());
-        String prefix = String.format("C42565-%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42565Name-%s", getRandomAlphanumeric());
+        String nameSpace = String.format("C42565Namespace-%s", getRandomAlphanumeric());
+        String prefix = String.format("C42565-%s", getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, nameSpace, prefix);
         modelsToRemove.add(newModel);
 
@@ -114,7 +89,7 @@ public class ModelManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void activateModel()
     {
-        String name = String.format("C9516Model-%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9516Model-%s", getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, name, name);
         modelManagerPage.navigate();
         modelsToRemove.add(newModel);
@@ -132,13 +107,13 @@ public class ModelManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editModel()
     {
-        String name = String.format("C9517-%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9517-%s", getRandomAlphanumeric());
         CustomContentModel newModel = new CustomContentModel(name, name, name);
         createCustomModel(newModel);
 
-        String editedNamespace = String.format("C9517editedNamespace%s", RandomData.getRandomAlphanumeric());
-        String editedPrefix = String.format("C9517editedPrefix%s", RandomData.getRandomAlphanumeric());
-        String editedCreator = String.format("EditedCreator%s", RandomData.getRandomAlphanumeric());
+        String editedNamespace = String.format("C9517editedNamespace%s", getRandomAlphanumeric());
+        String editedPrefix = String.format("C9517editedPrefix%s", getRandomAlphanumeric());
+        String editedCreator = String.format("EditedCreator%s", getRandomAlphanumeric());
         modelsToRemove.add(new CustomContentModel(name));
 
         modelManagerPage.navigate();
@@ -166,7 +141,7 @@ public class ModelManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteModel()
     {
-        String name = String.format("C9518testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9518testModel%s", getRandomAlphanumeric());
         CustomContentModel modelToDelete = new CustomContentModel(name, name, name);
         createCustomModel(modelToDelete);
 
@@ -175,8 +150,6 @@ public class ModelManagerTests extends BaseTest
             .clickActions().clickDelete()
             .assertDeleteModelDialogIsDisplayed()
             .assertDeleteModelDialogTextIsCorrect(modelToDelete.getName())
-            .assertCancelButtonIsDisplayed()
-            .assertDeleteButtonIsDisplayed()
             .clickDelete();
         modelManagerPage.usingModel(modelToDelete).assertModelIsNotDisplayed();
     }
@@ -185,7 +158,7 @@ public class ModelManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deactivateModel()
     {
-        String name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9521testModel%s", getRandomAlphanumeric());
         CustomContentModel modelToDeactivate = new CustomContentModel(name, name, name);
         modelsToRemove.add(modelToDeactivate);
         createCustomModel(modelToDeactivate);
@@ -201,7 +174,9 @@ public class ModelManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void exportModel()
     {
-        String name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C9517testModel%s", getRandomAlphanumeric());
+        File exportedFile = new File(testDataFolder + File.separator + name.concat(".zip"));
+        exportedFile.deleteOnExit();
         CustomContentModel modelToExport = new CustomContentModel(name, name, name);
         createCustomModel(modelToExport);
         modelsToRemove.add(modelToExport);
@@ -209,7 +184,7 @@ public class ModelManagerTests extends BaseTest
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelToExport)
             .clickActions().exportModel();
-        assertTrue(isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
+        assertTrue(isFileInDirectory(exportedFile), "The file was not found in the specified location");
     }
 
     @TestRail (id = "C9509, C9511")
@@ -240,7 +215,7 @@ public class ModelManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createCustomType()
     {
-        String name = String.format("C42566testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42566testModel%s", getRandomAlphanumeric());
         CustomContentModel modelForCustomType = new CustomContentModel(name, name, name);
         RestCustomTypeModel newCustomType = new RestCustomTypeModel("TestCustomTypeName", "cm:content", "CustomTypeLabel");
         modelsToRemove.add(modelForCustomType);
@@ -249,16 +224,13 @@ public class ModelManagerTests extends BaseTest
         modelManagerPage.navigate();
         modelManagerPage.usingModel(modelForCustomType)
             .openCustomModel()
-            .assertCreateAspectButtonIsDisplayed()
-            .assertCreateCustomTypeButtonDisplayed()
-            .assertShowModelsButtonDisplayed()
             .clickCreateCustomType()
-            .assertCreateCustomTypeWindowDisplayed()
             .typeName(newCustomType.getName())
-            .typeDisplayLabel(newCustomType.getTitle())
-            .clickCreate();
+            .selectParentType("cm:content")
+            .typeDisplayLabel(newCustomType.getTitle());
+
+        createCustomTypeDialog.clickCreate();
         modelManagerPage.usingCustomType(modelForCustomType, newCustomType)
-            .assertCustomTypeIsDisplayed()
             .assertDisplayLabelIs(newCustomType.getTitle())
             .assertParentIs(newCustomType.getParentName())
             .assertLayoutIsNo();
@@ -268,7 +240,7 @@ public class ModelManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createAspect()
     {
-        String name = String.format("C42567testModel%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42567testModel%s", getRandomAlphanumeric());
         CustomContentModel modelForAspect = new CustomContentModel(name, name, name);
         CustomAspectModel newAspect = new CustomAspectModel("TestAspectName", "aspectNameLabel");
         modelsToRemove.add(modelForAspect);
@@ -303,8 +275,7 @@ public class ModelManagerTests extends BaseTest
         getCmisApi().authenticateUser(user)
             .usingSite(site).createFile(file).assertThat().existsInRepo();
 
-        modelManagerPage.navigate();
-        modelManagerPage.clickImportModel()
+        modelManagerPage.navigate().clickImportModel()
             .importFile(filePath)
             .clickImportButton();
         modelManagerPage.usingModel(importedModel).assertModelIsDisplayed()
@@ -333,5 +304,29 @@ public class ModelManagerTests extends BaseTest
             getRestApi().authenticateUser(getAdminUser())
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
         }
+    }
+
+    private void deleteCustomModel(CustomContentModel customContentModel)
+    {
+        getRestApi().authenticateUser(dataUser.getAdminUser());
+        RestCustomModel restCustomModel = getRestApi().withPrivateAPI().usingCustomModel(customContentModel).getModel();
+        if (restCustomModel != null)
+        {
+            if (restCustomModel.getStatus().equals(ACTIVE))
+            {
+                getRestApi().withPrivateAPI().usingCustomModel(restCustomModel).deactivateModel();
+            }
+            getRestApi().withPrivateAPI().usingCustomModel(restCustomModel).deleteModel();
+        }
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void afterClass()
+    {
+        dataSite.usingUser(user).deleteSite(site);
+        getUserService().emptyTrashcan(user.getUsername(), user.getPassword());
+
+        deleteUsersIfNotNull(user);
+        modelsToRemove.forEach(this::deleteCustomModel);
     }
 }

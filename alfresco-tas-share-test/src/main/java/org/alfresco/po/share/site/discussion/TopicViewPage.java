@@ -4,8 +4,8 @@ import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -85,9 +85,9 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private final By showHideReplies = By.className("showHideChildren");
     private final By replyTextArea = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
-    public TopicViewPage(ThreadLocal<WebBrowser> browser)
+    public TopicViewPage(ThreadLocal<WebDriver> webDriver)
     {
-      super(browser);
+      super(webDriver);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     private WebElement selectReply(String reply)
     {
-        return getBrowser().findFirstElementWithValue(repliesList, reply);
+        return webElementInteraction.findFirstElementWithValue(repliesList, reply);
     }
 
     /**
@@ -124,7 +124,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicReplyHeader()
     {
-        getBrowser().waitUntilElementVisible(addReplyHeader);
+        webElementInteraction.waitUntilElementIsVisible(addReplyHeader);
         return addReplyHeader.getText();
     }
 
@@ -209,7 +209,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public TopicViewPage clickReply()
     {
         topicElement.findElement(replyLink).click();
-        return (TopicViewPage) this.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -220,7 +220,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public EditTopicPage editTopic()
     {
         editLink.click();
-        return (EditTopicPage) editTopicPage.renderedPage();
+        return new EditTopicPage(webDriver);
     }
 
     /**
@@ -231,7 +231,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public DeleteDialog deleteTopic()
     {
         deleteLink.click();
-        return (DeleteDialog) deleteDialog.renderedPage();
+        return new DeleteDialog(webDriver);
     }
 
     /**
@@ -242,7 +242,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public TopicListPage clickDiscussionsTopicListLink()
     {
         discussionsTopicListLink.click();
-        return (TopicListPage) topicListPage.renderedPage();
+        return new TopicListPage(webDriver);
     }
 
     /**
@@ -254,7 +254,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public TopicViewPage replyToReply(String reply)
     {
         selectReply(reply).findElement(replyLink).click();
-        return (TopicViewPage) this.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -266,7 +266,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public TopicViewPage editReply(String reply)
     {
         selectReply(reply).findElement(editReplyLink).click();
-        return (TopicViewPage) this.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -275,11 +275,11 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     public void typeReply(String content)
     {
-        getBrowser().switchToFrame(getBrowser().waitUntilElementVisible(replyTextArea).getAttribute("id"));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchToFrame(webElementInteraction.waitUntilElementIsVisible(replyTextArea).getAttribute("id"));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.clear();
         editable.sendKeys(content);
-        getBrowser().switchToDefaultContent();
+        webElementInteraction.switchToDefaultContent();
     }
 
     /**
@@ -299,9 +299,9 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getReplyBoxContent()
     {
-        getBrowser().switchToFrame(getBrowser().findElement(replyTextArea).getAttribute("id"));
-        String editableText = getBrowser().switchTo().activeElement().getText();
-        getBrowser().switchToDefaultContent();
+        webElementInteraction.switchToFrame(webElementInteraction.findElement(replyTextArea).getAttribute("id"));
+        String editableText = webElementInteraction.switchTo().activeElement().getText();
+        webElementInteraction.switchToDefaultContent();
         return editableText;
     }
 
@@ -313,7 +313,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public TopicViewPage submitReply()
     {
         submitButton.click();
-        return (TopicViewPage) this.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -335,7 +335,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isReplyIndentedFromItsParent(String replyChild, String replyParent)
     {
-        return getBrowser().isElementDisplayed(selectReply(replyParent),
+        return webElementInteraction.isElementDisplayed(selectReply(replyParent),
             By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
     }
 
@@ -348,7 +348,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public TopicViewPage showHideReplies(String reply)
     {
         selectReply(reply).findElement(showHideReplies).click();
-        return (TopicViewPage) this.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -359,15 +359,15 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isReplyVisible(String reply)
     {
-        return getBrowser().isElementDisplayed(selectReply(reply));
+        return webElementInteraction.isElementDisplayed(selectReply(reply));
     }
 
     public InsertLinkPopUp selectOptionFromInsertMenu(String option)
     {
         insertMenuButton.click();
-        WebElement insertMenu = getBrowser().waitUntilElementVisible(replyBoxMenu);
-        getBrowser().findFirstElementWithValue(insertMenu.findElements(replyBoxMenuItem), option).click();
-        return (InsertLinkPopUp) new InsertLinkPopUp(browser).renderedPage();
+        WebElement insertMenu = webElementInteraction.waitUntilElementIsVisible(replyBoxMenu);
+        webElementInteraction.findFirstElementWithValue(insertMenu.findElements(replyBoxMenuItem), option).click();
+        return new InsertLinkPopUp(webDriver);
     }
 
     /**
@@ -390,7 +390,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isImageDisplayedInReply(String reply, String imageSource)
     {
-        return getBrowser().isElementDisplayed(selectReply(reply), By.cssSelector("img[src='" + imageSource + "']"));
+        return webElementInteraction.isElementDisplayed(selectReply(reply), By.cssSelector("img[src='" + imageSource + "']"));
     }
 
     /**

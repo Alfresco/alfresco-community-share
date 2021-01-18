@@ -18,6 +18,5 @@ public abstract class AbstractUserDashboardDashletsTests extends ContextAwareWeb
         customizeUserDashboardPage.navigate();
         customizeUserDashboardPage.addDashlet(dashlets, columnNumber);
         customizeUserDashboardPage.clickOk();
-        userDashboard.renderedPage();
     }
 }

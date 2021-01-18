@@ -1,50 +1,44 @@
 package org.alfresco.po.share;
 
-import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LoginPage extends CommonLoginPage
 {
-    @RenderWebElement
-    private By usernameInput = By.cssSelector("[id$='default-username']");
-    @RenderWebElement
-    private By passwordInput = By.cssSelector("[id$='default-password']");
-    @RenderWebElement
+    private final By usernameInput = By.cssSelector("[id$='default-username']");
+    private final By passwordInput = By.cssSelector("[id$='default-password']");
     private final By submit = By.cssSelector("button[id$='_default-submit-button']");
     private final By alfrescoLogo = By.cssSelector(".theme-company-logo");
     private final By copyright = By.cssSelector(".login-copy");
     private final By errorLogin = By.cssSelector(".error");
-    private final By newTrademark = By.cssSelector(".login-tagline");
     private final By bodyShare = By.id("Share");
     private final By productTagline = By.cssSelector(".product-tagline");
     private final By alfrescoShare = By.cssSelector(".product-name");
     private final By trademark = By.cssSelector(".theme-trademark");
 
-    public LoginPage(ThreadLocal<WebBrowser> browser)
+    public LoginPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public CommonLoginPage navigate()
     {
         LOG.info("Navigate to Login Page");
-        getBrowser().get(properties.getShareUrl().toString());
-        return (LoginPage) renderedPage();
+        webDriver.get().get(defaultProperties.get().getShareUrl().toString());
+        return new LoginPage(webDriver);
     }
 
     public CommonLoginPage assertLoginPageIsOpened()
     {
         LOG.info("Assert Login Page is displayed");
-        getBrowser().waitUntilElementVisible(usernameInput);
-        assertTrue(getBrowser().isElementDisplayed(usernameInput), "Username input is displayed");
+        webElementInteraction.waitUntilElementIsVisible(usernameInput);
+        assertTrue(webElementInteraction.isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
     }
 
@@ -55,30 +49,30 @@ public class LoginPage extends CommonLoginPage
      */
     public void typeUserName(String userName)
     {
-        getBrowser().waitUntilElementVisible(usernameInput);
-        WebElement userInput = getBrowser().findElement(usernameInput);
-        clearAndType(userInput, userName);
+        webElementInteraction.waitUntilElementIsVisible(usernameInput);
+        WebElement userInput = webElementInteraction.findElement(usernameInput);
+        webElementInteraction.clearAndType(userInput, userName);
     }
 
     public void autoCompleteUsername(String startCharsUser)
     {
-        LOG.info(String.format("Autocomplete user %s", startCharsUser));
+        LOG.info("Autocomplete user {}", startCharsUser);
         typeUserName(startCharsUser);
-        getBrowser().waitInSeconds(1);
-        WebElement userInput = getBrowser().findElement(usernameInput);
+        webElementInteraction.waitInSeconds(1);
+        WebElement userInput = webElementInteraction.findElement(usernameInput);
         userInput.sendKeys(Keys.ARROW_DOWN);
         userInput.sendKeys(Keys.TAB);
     }
 
     public void typePassword(String password)
     {
-        WebElement passwordElement = getBrowser().findElement(passwordInput);
-        clearAndType(passwordElement, password);
+        WebElement passwordElement = webElementInteraction.findElement(passwordInput);
+        webElementInteraction.clearAndType(passwordElement, password);
     }
 
     public void clickLogin()
     {
-        getBrowser().waitUntilElementClickable(submit).click();
+        webElementInteraction.clickElement(submit);
     }
 
     public void login(String username, String password)
@@ -96,13 +90,13 @@ public class LoginPage extends CommonLoginPage
 
     public String getAuthenticationError()
     {
-        return getBrowser().waitUntilElementVisible(errorLogin).getText();
+        return webElementInteraction.waitUntilElementIsVisible(errorLogin).getText();
     }
 
     public CommonLoginPage assertAuthenticationErrorIsDisplayed()
     {
         LOG.info("Assert authentication error is displayed");
-        getBrowser().waitUntilElementVisible(errorLogin);
+        webElementInteraction.waitUntilElementIsVisible(errorLogin);
         assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
         return this;
     }
@@ -116,56 +110,46 @@ public class LoginPage extends CommonLoginPage
 
     public boolean isAuthenticationErrorDisplayed()
     {
-        return getBrowser().isElementDisplayed(errorLogin);
-    }
-
-    public boolean isCopyrightDisplayed()
-    {
-        return getBrowser().findElement(copyright).isDisplayed();
-    }
-
-    public boolean isMakeBusinessFlowDisplayed()
-    {
-        return getBrowser().findElement(newTrademark).isDisplayed();
+        return webElementInteraction.isElementDisplayed(errorLogin);
     }
 
     public boolean isSimpleSmartDisplayed()
     {
-        return getBrowser().isElementDisplayed(trademark);
+        return webElementInteraction.isElementDisplayed(trademark);
     }
 
     public String[] getBackgroundColour()
     {
-        String colourBodyShare = getBrowser().findElement(bodyShare).getCssValue("background-color");
-        String colourProductTagline = getBrowser().findElement(productTagline).getCssValue("color");
+        String colourBodyShare = webElementInteraction.findElement(bodyShare).getCssValue("background-color");
+        String colourProductTagline = webElementInteraction.findElement(productTagline).getCssValue("color");
         return new String[] { colourBodyShare, colourProductTagline };
     }
 
     public String getAlfrescoShareColour()
     {
-        return getBrowser().findElement(alfrescoShare).getCssValue("color");
+        return webElementInteraction.findElement(alfrescoShare).getCssValue("color");
     }
 
     public String getCopyRightText()
     {
-        return getBrowser().findElement(copyright).getText();
+        return webElementInteraction.getElementText(copyright);
     }
 
     public String getSignInButtonColor()
     {
-        return getBrowser().findElement(submit).getCssValue("color");
+        return webElementInteraction.findElement(submit).getCssValue("color");
     }
 
     public boolean isLogoDisplayed()
     {
-        return getBrowser().isElementDisplayed(alfrescoLogo);
+        return webElementInteraction.isElementDisplayed(alfrescoLogo);
     }
     
     @Override
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {
         LOG.info("Assert Login Page Title is correct");
-        assertEquals(getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
+        assertEquals(webElementInteraction.getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
         return this;
     }
 }

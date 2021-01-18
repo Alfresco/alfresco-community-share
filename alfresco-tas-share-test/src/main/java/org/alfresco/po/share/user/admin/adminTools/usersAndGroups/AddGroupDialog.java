@@ -1,23 +1,19 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.model.GroupModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import org.alfresco.po.share.BaseDialogComponent;
+import org.alfresco.utility.model.GroupModel;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 public class AddGroupDialog extends BaseDialogComponent
 {
-    @RenderWebElement
     private final By dialogTitle = By.cssSelector("span[id*='grouppicker-title']");
-    @RenderWebElement
     private final By searchInputField = By.cssSelector("div[id*='search-groupfinder'] input");
     private final By searchButton = By.cssSelector("div[id*='search-groupfinder'] button[id*='search']");
     private final By searchResultsList = By.cssSelector(".itemname");
@@ -25,37 +21,37 @@ public class AddGroupDialog extends BaseDialogComponent
     private final By addButtonsList = By.cssSelector("td[class*='actions'] button");
     private final By closeButton = By.cssSelector("div[id*='default-grouppicker'] a[class='container-close']");
 
-    public AddGroupDialog(ThreadLocal<WebBrowser> browser)
+    public AddGroupDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public AddGroupDialog assertAddGroupDialogTitleIsCorrect()
     {
-        assertEquals(getBrowser().findElement(dialogTitle).getText(), language.translate("adminTools.groups.addGroupDialog.title"));
+        assertEquals(webElementInteraction.findElement(dialogTitle).getText(), language.translate("adminTools.groups.addGroupDialog.title"));
         return this;
     }
 
     public AddGroupDialog assertSearchInputIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(searchInputField), "Search input is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(searchInputField), "Search input is displayed");
         return this;
     }
 
     public AddGroupDialog assertSearchButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     private void fillInSearchInput(String textToSearch)
     {
-        clearAndType(searchInputField, textToSearch);
+        webElementInteraction.clearAndType(searchInputField, textToSearch);
     }
 
     private void clickSearchButton()
     {
-        getBrowser().findElement(searchButton).click();
+        webElementInteraction.clickElement(searchButton);
     }
 
     public AddGroupDialog searchGroup(String groupToSearch)
@@ -67,7 +63,7 @@ public class AddGroupDialog extends BaseDialogComponent
 
     private ArrayList<String> getSearchResultsName()
     {
-        return getBrowser().waitUntilElementsVisible(searchResultsList)
+        return webElementInteraction.waitUntilElementsAreVisible(searchResultsList)
             .stream()
             .map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));
@@ -89,7 +85,7 @@ public class AddGroupDialog extends BaseDialogComponent
 
     public ArrayList<String> getSearchResultsId()
     {
-        return getBrowser().waitUntilElementsVisible(searchResultsIdList)
+        return webElementInteraction.waitUntilElementsAreVisible(searchResultsIdList)
             .stream()
             .map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));
@@ -102,19 +98,15 @@ public class AddGroupDialog extends BaseDialogComponent
 
     public void addGroup(GroupModel groupModel)
     {
-        getBrowser().waitUntilElementsVisible(addButtonsList);
+        webElementInteraction.waitUntilElementsAreVisible(addButtonsList);
         int index = getItemIndexFromSearchResults(groupModel.getDisplayName());
-        getBrowser().findElements(addButtonsList).get(index).click();
-    }
-
-    public boolean isAddButtonDisplayed(String searchResult)
-    {
-        int index = getItemIndexFromSearchResults(searchResult);
-        return getBrowser().isElementDisplayed(getBrowser().findElements(addButtonsList).get(index));
+        WebElement button = webElementInteraction.findElements(addButtonsList).get(index);
+        webElementInteraction.mouseOver(button);
+        webElementInteraction.clickElement(button);
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(closeButton);
+        return webElementInteraction.isElementDisplayed(closeButton);
     }
 }

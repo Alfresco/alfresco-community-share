@@ -1,14 +1,14 @@
 package org.alfresco.po.share.user.profile;
 
+import static org.alfresco.common.Wait.WAIT_10;
+
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
  * @author bogdan.bocancea
@@ -17,9 +17,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
 {
     private String userName;
 
-    @RenderWebElement
     private final By firstNameInput = By.cssSelector("input[id$='input-firstName']");
-    @RenderWebElement
     private final By lastNameInput = By.cssSelector("input[id$='input-lastName']");
     private final By jobTitleInput = By.cssSelector("input[id$='input-jobtitle']");
     private final By locationInput = By.cssSelector("input[id$='input-location']");
@@ -41,13 +39,12 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     private final By avatar = By.cssSelector("div[id$='editview'] .photoimg");
     private final By useDefaultPhoto = By.cssSelector("button[id$='button-clearphoto-button']");
     private final By uploadPhoto = By.cssSelector("button[id$='default-button-upload-button']");
-    private final By imageInstructions = By.cssSelector(".phototxt");
     private final By cancel = By.cssSelector("button[id$='button-cancel-button']");
     private final By save = By.cssSelector("button[id$='button-save-button']");
 
-    public EditUserProfilePage(ThreadLocal<WebBrowser> browser)
+    public EditUserProfilePage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getUserName()
@@ -68,7 +65,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
 
     public EditUserProfilePage navigate(String userName)
     {
-        UserProfilePage userProfilePage = new UserProfilePage(browser);
+        UserProfilePage userProfilePage = new UserProfilePage(webDriver);
         userProfilePage.navigate(userName);
         return userProfilePage.clickEditProfile();
     }
@@ -81,11 +78,14 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     public EditUserProfilePage setAboutInformation(String firstName, String lastName, String jobTitle, String location, String summary)
     {
         LOG.info("Set About Information details");
-        clearAndType(getBrowser().findElement(firstNameInput), firstName);
-        clearAndType(getBrowser().findElement(lastNameInput), lastName);
-        clearAndType(getBrowser().findElement(jobTitleInput), jobTitle);
-        clearAndType(getBrowser().findElement(locationInput), location);
-        clearAndType(getBrowser().findElement(summaryInput), summary);
+        webElementInteraction.waitUntilElementIsVisible(firstNameInput);
+        webElementInteraction.clearAndType(firstNameInput, firstName);
+        webElementInteraction.clearAndType(lastNameInput, lastName);
+        webElementInteraction.clearAndType(jobTitleInput, jobTitle);
+        webElementInteraction.clearAndType(locationInput, location);
+        webElementInteraction.clearAndType(summaryInput, summary);
+        webElementInteraction.clearAndType(firstNameInput, firstName);
+
         return this;
     }
 
@@ -93,12 +93,13 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
                                       String skype, String im, String googleUserName)
     {
         LOG.info("Set Contact Information details");
-        clearAndType(getBrowser().findElement(telephoneInput), telephone);
-        clearAndType(getBrowser().findElement(mobileInput), mobile);
-        clearAndType(getBrowser().findElement(emailInput), email);
-        clearAndType(getBrowser().findElement(skypeInput), skype);
-        clearAndType(getBrowser().findElement(instantmsgInput), im);
-        clearAndType(getBrowser().findElement(googleUserNameInput), googleUserName);
+        webElementInteraction.clearAndType(telephoneInput, telephone);
+        webElementInteraction.clearAndType(mobileInput, mobile);
+        webElementInteraction.clearAndType(emailInput, email);
+        webElementInteraction.clearAndType(skypeInput, skype);
+        webElementInteraction.clearAndType(instantmsgInput, im);
+        webElementInteraction.clearAndType(googleUserNameInput, googleUserName);
+
         return this;
     }
 
@@ -106,21 +107,22 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
                                   String telephone, String fax, String email)
     {
         LOG.info("Set Company Information details");
-        clearAndType(getBrowser().findElement(companyNameInput), name);
-        clearAndType(getBrowser().findElement(companyAddress1Input), address1);
-        clearAndType(getBrowser().findElement(companyAddress2Input), address2);
-        clearAndType(getBrowser().findElement(companyAddress3Input), address3);
-        clearAndType(getBrowser().findElement(companyPostCodeInput), postCode);
-        clearAndType(getBrowser().findElement(companyTelephoneInput), telephone);
-        clearAndType(getBrowser().findElement(companyFaxInput), fax);
-        clearAndType(getBrowser().findElement(companyEmailInput), email);
+        webElementInteraction.clearAndType(companyNameInput, name);
+        webElementInteraction.clearAndType(companyAddress1Input, address1);
+        webElementInteraction.clearAndType(companyAddress2Input, address2);
+        webElementInteraction.clearAndType(companyAddress3Input, address3);
+        webElementInteraction.clearAndType(companyPostCodeInput, postCode);
+        webElementInteraction.clearAndType(companyTelephoneInput, telephone);
+        webElementInteraction.clearAndType(companyFaxInput, fax);
+        webElementInteraction.clearAndType(companyEmailInput, email);
+
         return this;
     }
 
     public EditUserProfilePage clickUseDefaultPhoto()
     {
-        getBrowser().waitUntilElementClickable(useDefaultPhoto).click();
-        getBrowser().waitUntilElementHasAttribute(getBrowser().findElement(avatar), "src", "no-user-photo-64.png");
+        webElementInteraction.clickElement(useDefaultPhoto);
+        webElementInteraction.waitUntilElementHasAttribute(webElementInteraction.findElement(avatar), "src", "no-user-photo-64.png");
         return this;
     }
 
@@ -132,38 +134,24 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
 
     public UploadFileDialog clickUpload()
     {
-        getBrowser().findElement(uploadPhoto).click();
-        return (UploadFileDialog) new UploadFileDialog(browser).renderedPage();
-    }
-
-    public String getPhotoInstructions()
-    {
-        String instructionValue = "";
-        List<WebElement> listInstructions = getBrowser().findElements(imageInstructions);
-        for (WebElement instruction : listInstructions)
-        {
-            instructionValue = instructionValue + instruction.getText() + "\n";
-        }
-        return instructionValue;
+        webElementInteraction.clickElement(uploadPhoto);
+        return new UploadFileDialog(webDriver);
     }
 
     public UserProfilePage clickCancel()
     {
-        getBrowser().findElement(cancel).click();
-        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
+        webElementInteraction.scrollToElement(webElementInteraction.findElement(cancel));
+        webElementInteraction.clickElement(cancel);
+        return new UserProfilePage(webDriver);
     }
 
     public UserProfilePage clickSave()
     {
         LOG.info("Click Save");
-        WebElement saveBtn = getBrowser().waitUntilElementVisible(save);
-        getBrowser().mouseOver(saveBtn);
-        saveBtn.click();
-        if(getBrowser().isElementDisplayed(saveBtn))
-        {
-            LOG.error("Failed to click save button. Retry");
-            saveBtn.click();
-        }
-        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
+        WebElement saveBtn = webElementInteraction.waitUntilElementIsVisible(save);
+        webElementInteraction.mouseOver(saveBtn);
+        webElementInteraction.clickJS(saveBtn);
+
+        return new UserProfilePage(webDriver);
     }
 }

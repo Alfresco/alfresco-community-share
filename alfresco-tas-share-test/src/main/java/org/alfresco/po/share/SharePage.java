@@ -1,22 +1,24 @@
 package org.alfresco.po.share;
 
-import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.renderer.ElementState;
-import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import static org.alfresco.utility.report.log.Step.STEP;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-import static org.alfresco.utility.report.log.Step.STEP;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
+import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.renderer.ElementState;
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 /**
  * handle common cases related to a share page
@@ -25,16 +27,12 @@ import static org.testng.Assert.assertFalse;
  */
 public abstract class SharePage<T> extends SharePageObject
 {
-    private static final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
+    private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     public String userName;
 
-    //@Autowired
-    AboutPopUpPage pop;
-
-    //@Autowired
+    private AboutPopUpPage pop;
     public Toolbar toolbar;
 
-    @RenderWebElement (state = ElementState.PAGE_LOADED)
     @FindBy (id = "Share")
     private WebElement body;
 
@@ -119,15 +117,6 @@ public abstract class SharePage<T> extends SharePageObject
     }
 
     /**
-     * Click Alfresco One footer logo and open {@link AboutPopUpPage .class}
-     */
-    public AboutPopUpPage openAboutPage()
-    {
-        alfrescoOneFooterLogo.click();
-        return (AboutPopUpPage) pop.renderedPage();
-    }
-
-    /**
      * Get the current url
      *
      * @return String url
@@ -135,13 +124,6 @@ public abstract class SharePage<T> extends SharePageObject
     public String getCurrentUrl()
     {
         return browser.getCurrentUrl();
-    }
-
-    public T assertLastNotificationMessageEquals(String expectedMessage)
-    {
-        LOG.info("Assert last notification message is: {}", expectedMessage);
-        assertEquals(LAST_MODIFICATION_MESSAGE, expectedMessage, "Last notification message is not correct");
-        return (T) renderedPage();
     }
 
     public T waiUntilLoadingMessageDisappears()
@@ -157,35 +139,6 @@ public abstract class SharePage<T> extends SharePageObject
             LOG.info("Timeout exception for loading message {}", e.getMessage());
         }
         return (T) this;
-    }
-
-    /**
-     * Verify if alfresco logo is displayed on the page footer
-     *
-     * @return true if displayed
-     */
-    public boolean isAlfrescoLogoDisplayed()
-    {
-        return browser.isElementDisplayed(alfrescoOneFooterLogo);
-    }
-
-    public T assertAlfrescoLogoIsDisplayedInPageFooter()
-    {
-        Assert.assertTrue(browser.isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
-        return (T) renderedPage();
-    }
-
-    public T assertBrowserPageTitleIs(String expectedTitle)
-    {
-        assertEquals(getPageTitle(), expectedTitle, "Page title is correct");
-        return (T) renderedPage();
-    }
-
-    public T assertShareVersionWarningIsNotDisplayed()
-    {
-        LOG.info("Assert Share Version warning is not displayed");
-        assertFalse(browser.isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
-        return (T) renderedPage();
     }
 
     /**

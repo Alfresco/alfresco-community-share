@@ -1,31 +1,25 @@
 package org.alfresco.po.share.site.link;
 
-import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Link;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.alfresco.po.share.site.SiteCommon;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import ru.yandex.qatools.htmlelements.element.Link;
 
 public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 {
-    //@Autowired
-    LinkPage linkPage;
+    private LinkPage linkPage;
+    private EditLinkPage editLinkPage;
 
-    //@Autowired
-    EditLinkPage editLinkPage;
-
-    @RenderWebElement
     @FindBy (css = "[class*=onAddCommentClick] button")
     private WebElement addCommentButton;
 
@@ -73,9 +67,9 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
-    public LinkDetailsViewPage(ThreadLocal<WebBrowser> browser)
+    public LinkDetailsViewPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -128,10 +122,9 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
         return this;
     }
 
-    public LinkPage clickOnLinksListLink()
+    public void clickOnLinksListLink()
     {
         linksListLink.click();
-        return (LinkPage) linkPage.renderedPage();
     }
 
     public List<String> getTagsList()
@@ -147,13 +140,13 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public void clickOnLinkURL(String linkURL)
     {
-        getBrowser().findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
+        webElementInteraction.findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
     }
 
     public EditLinkPage clickOnEditLink()
     {
         editLink.click();
-        return (EditLinkPage) editLinkPage.renderedPage();
+        return new EditLinkPage(webDriver);
     }
 
     public boolean clickOnDeleteLink()
@@ -165,25 +158,25 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public boolean clickOnAddCommentButton()
     {
         addCommentButton.click();
-        return getBrowser().findElement(commentContentIframe).isDisplayed();
+        return webElementInteraction.findElement(commentContentIframe).isDisplayed();
     }
 
     public void addComment(String comment)
     {
-        getBrowser().switchTo().frame(getBrowser().findElement(commentContentIframe));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(commentContentIframe));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
 
         editable.sendKeys(comment);
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
         submitCommentButton.click();
     }
 
     public void cancelAddComment(String comment)
     {
-        getBrowser().switchTo().frame(getBrowser().findElement(commentContentIframe));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(commentContentIframe));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.sendKeys(comment);
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
         cancelSubmitCommentButton.click();
     }
 
@@ -199,7 +192,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public WebElement selectCommentDetailsRow(String commentTitle)
     {
-        return getBrowser().findFirstElementWithValue(commentDetailsList, commentTitle);
+        return webElementInteraction.findFirstElementWithValue(commentDetailsList, commentTitle);
     }
 
     public String getCommentAuthor(String comment)
@@ -214,22 +207,24 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public boolean clickEditComment(String comment)
     {
-        getBrowser().mouseOver(getBrowser().findFirstElementWithValue(commentDetailsList, comment));
+        webElementInteraction.mouseOver(
+            webElementInteraction.findFirstElementWithValue(commentDetailsList, comment));
         selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=edit-comment]")).click();
-        return getBrowser().findElement(commentContentIframe).isDisplayed();
+        return webElementInteraction.findElement(commentContentIframe).isDisplayed();
     }
 
     public void clearCommentContent()
     {
-        getBrowser().switchTo().frame(getBrowser().findElement(commentContentIframe));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(commentContentIframe));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.clear();
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
     }
 
     public boolean clickDeleteCommentLink(String comment)
     {
-        getBrowser().mouseOver(getBrowser().findFirstElementWithValue(commentDetailsList, comment));
+        webElementInteraction.mouseOver(
+            webElementInteraction.findFirstElementWithValue(commentDetailsList, comment));
         selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=delete-comment]")).click();
         return deleteLinkPrompt.isDisplayed();
     }

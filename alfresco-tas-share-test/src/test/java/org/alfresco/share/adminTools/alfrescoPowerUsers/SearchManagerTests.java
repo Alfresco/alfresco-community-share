@@ -3,6 +3,7 @@ package org.alfresco.share.adminTools.alfrescoPowerUsers;
 import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 import static org.alfresco.share.TestUtils.ALFRESCO_SEARCH_ADMINISTRATORS;
 
+import org.alfresco.po.share.searching.SearchManagerPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -10,23 +11,31 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SearchManagerTests extends BaseTest
 {
-    private UserModel userAdmin, searchAdmin;
+    private SearchManagerPage searchManagerPage;
+
+    private UserModel userAdmin;
+
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod()
+    {
+        searchManagerPage = new SearchManagerPage(webDriver);
+    }
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userAdmin = dataUser.usingAdmin().createRandomTestUser();
-        searchAdmin = dataUser.createRandomTestUser();
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(userAdmin, searchAdmin);
+        deleteUsersIfNotNull(userAdmin);
     }
 
     @TestRail (id = "C8703")
@@ -50,9 +59,10 @@ public class SearchManagerTests extends BaseTest
     public void userHasSearchManagerRightsWhenAddedToSearchAdministratorsGroup()
     {
         String filterId = RandomData.getRandomAlphanumeric();
+        UserModel searchAdmin = dataUser.usingAdmin().createRandomTestUser();
 
         setupAuthenticatedSession(searchAdmin);
-        userDashboardPage.navigate(userAdmin);
+        userDashboardPage.navigate(searchAdmin);
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
         dataGroup.usingUser(searchAdmin).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
         setupAuthenticatedSession(searchAdmin);
@@ -64,9 +74,13 @@ public class SearchManagerTests extends BaseTest
                 .createNewFilter()
                     .typeFilterId(filterId)
                     .typeFilterName(filterId)
-                    .clickSave()
-                        .editFilterProperty(filterId, "audio:album (Album)")
-                        .assertFilterPropertyIs(filterId, "audio:album (Album)")
-                        .deleteFilter(filterId).assertFilterIsNotDisplayed(filterId);
+                    .clickSave();
+        searchManagerPage
+            .editFilterProperty(filterId, "audio:album (Album)")
+            .assertFilterPropertyIs(filterId, "audio:album (Album)")
+            .deleteFilter(filterId)
+            .assertFilterIsNotDisplayed(filterId);
+
+        dataUser.usingAdmin().deleteUser(searchAdmin);
     }
 }

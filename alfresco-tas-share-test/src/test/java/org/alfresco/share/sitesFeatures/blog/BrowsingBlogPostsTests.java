@@ -15,7 +15,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -158,10 +157,10 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertEquals(blogPage.getPageTitle(), "Blog Post List");
 
         LOG.info("Step 2: Check that only posts with tag1 are displayed");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Published), 6);
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser2Published), 6);
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Draft), 6);
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Published + "C6008"), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitleUser1Published), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitleUser2Published), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitleUser1Draft), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitleUser1Published + "C6008"), 6);
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published), blogTitleUser1Published);
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser2Published), blogTitleUser2Published);
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");

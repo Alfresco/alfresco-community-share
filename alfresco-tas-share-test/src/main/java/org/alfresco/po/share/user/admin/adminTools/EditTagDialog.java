@@ -1,72 +1,69 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import org.alfresco.po.share.BaseDialogComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 public class EditTagDialog extends BaseDialogComponent
 {
-    @RenderWebElement
     private final By dialogTitle = By.cssSelector("div[id*='edit-tag-dialogTitle']");
     private final By renameLabel = By.cssSelector("form[id*='edit-tag'] label");
     private final By requiredSymbol = By.cssSelector("form[id*='edit-tag'] div[class='yui-u']");
-    @RenderWebElement
     private final By editTagInputField = By.cssSelector("input[name='name']");
     private final By okButton = By.cssSelector("button[id*='ok']");
     private final By cancelButton = By.cssSelector("button[id*='tag-cancel']");
 
-    public EditTagDialog(ThreadLocal<WebBrowser> browser)
+    public EditTagDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getDialogTitle()
     {
-        return getElementText(dialogTitle);
+        return webElementInteraction.getElementText(dialogTitle);
     }
 
     public EditTagDialog assertRenameTagLabelIsCorrect()
     {
         LOG.info("Assert Rename Tag label is correct");
-        assertEquals(getElementText(renameLabel), language.translate("editTag.renameLabel"), "Rename label is");
+        assertEquals(webElementInteraction.getElementText(renameLabel), language.translate("editTag.renameLabel"), "Rename label is");
         return this;
     }
 
     public EditTagDialog assertRequiredSymbolIsDisplayed()
     {
         LOG.info("Assert required symbol is displayed");
-        assertEquals(getElementText(requiredSymbol), " *", "Required symbol is displayed");
+        assertEquals(webElementInteraction.getElementText(requiredSymbol), " *", "Required symbol is displayed");
         return this;
     }
 
     public EditTagDialog assertOkButtonIsDisplayed()
     {
         LOG.info("Assert Ok button is displayed");
-        assertTrue(getBrowser().isElementDisplayed(okButton), "Ok button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(okButton), "Ok button is displayed");
         return this;
     }
 
     public EditTagDialog assertCancelButtonIsDisplayed()
     {
         LOG.info("Assert Cancel button is displayed");
-        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 
     public TagManagerPage renameTag(String updatedTag)
     {
-        LOG.info(String.format("Rename tag to: %s", updatedTag));
-        clearAndType(editTagInputField, updatedTag);
-        WebElement ok = getBrowser().waitUntilElementVisible(okButton);
-        getBrowser().mouseOver(ok);
-        getBrowser().waitUntilElementClickable(ok).click();
+        LOG.info("Rename tag to {}", updatedTag);
+        webElementInteraction.clearAndType(editTagInputField, updatedTag);
+        WebElement ok = webElementInteraction.waitUntilElementIsVisible(okButton);
+        webElementInteraction.mouseOver(ok);
+        webElementInteraction.clickElement(ok);
         waitUntilNotificationMessageDisappears();
 
-        return (TagManagerPage) new TagManagerPage(browser).renderedPage();
+        return new TagManagerPage(webDriver);
     }
 }

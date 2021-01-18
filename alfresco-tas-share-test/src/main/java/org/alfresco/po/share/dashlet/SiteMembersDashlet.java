@@ -22,16 +22,11 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 {
     private static final String EMPTY_SPACE = " ";
 
-    @RenderWebElement
+    private UserProfilePage userProfilePage;
+    private SiteMembersPage siteMembersPage;
+
     @FindBy (css = "div[class*='colleagues']")
     protected WebElement dashletContainer;
-
-    //@Autowired
-    AddSiteUsersPage addSiteUsersPage;
-    //@Autowired
-    UserProfilePage userProfilePage;
-    //@Autowired
-    SiteMembersPage siteMembersPage;
 
     @FindBy (css = "a[href='add-users']")
     private WebElement addUsersLink;
@@ -48,7 +43,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     @FindAll (@FindBy (css = "div[class='body scrollableList'] div.person"))
     private List<WebElement> membersList;
 
-    private By memberRole = By.cssSelector("div.person>div");
+    private final By memberRole = By.cssSelector("div.person>div");
     private String usernameLocator = "//a[normalize-space()='%s']";
     private String userRoleLocator = "//div[@class='person']/div[normalize-space()='%s']";
 
@@ -143,16 +138,14 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
         return browser.findFirstElementWithValue(membersList, member).findElement(memberRole).getText();
     }
 
-    public UserProfilePage navigateToProfilePageOfGivenUser(String username)
+    public void navigateToProfilePageOfGivenUser(String username)
     {
         LOG.info("Navigate to profile page of given user: {}", username);
         browser.findElement(By.xpath(String.format(usernameLocator, username))).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
-    public SiteMembersPage clickAllMembersButton(String buttonText)
+    public void clickAllMembersButton(String buttonText)
     {
         allMembersButton(buttonText).click();
-        return (SiteMembersPage) siteMembersPage.renderedPage();
     }
 }

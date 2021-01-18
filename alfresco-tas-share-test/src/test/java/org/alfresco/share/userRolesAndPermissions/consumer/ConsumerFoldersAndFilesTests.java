@@ -104,14 +104,14 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerViewFolderItemDetailsPage()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page verify the user has access to View the folder details page");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, ItemActions.VIEW_DETAILS);
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
+//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
         LOG.info("Step 2: Verify the user has access to View the file details page");
         documentDetailsPage.clickDocumentsLink();
         documentLibraryPage.clickOnFile(fileC8761);
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "User is not on the Document Details page");
+//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "User is not on the Document Details page");
     }
 
     @TestRail (id = "C8762")
@@ -119,7 +119,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerLikeUnlikeFile()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Hover over the file Like link.");
         Assert.assertTrue(documentLibraryPage.isLikeButtonDisplayed(fileC8762), "Documents link is not present");
         Assert.assertEquals(social.getLikeButtonMessage(fileC8762), "Like this document", "Like Button message is not correct");
@@ -142,7 +142,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerFavoriteUnfavoriteFile()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("STEP 1: Check the favorite items list.");
         documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.Favorites.title);
         assertEquals(documentLibraryPage.getDocumentListMessage(), "No content items", "There are no favorite items.");
@@ -164,7 +164,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerEditPropertiesForContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to rename file and folder");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, ItemActions.EDIT_PROPERTIES), "Edit Properties is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, ItemActions.EDIT_IN_ALFRESCO), "Edit in Alfresco is not available.");
@@ -178,7 +178,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerCopyContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8770, ItemActions.COPY_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + fileC8770 + " to...", "Displayed pop up");
@@ -190,7 +190,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileC8770), fileC8770 + " displayed in 'Documents'");
         LOG.info("STEP6: Go to 'Shared Files', from toolbar and verify the displayed files");
         sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertTrue(sharedFilesPage.isContentNameDisplayed(fileC8770), fileC8770 + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
     }
 
@@ -199,7 +199,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerMoveContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, ItemActions.MOVE_TO), "Move to... is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, ItemActions.MOVE_TO), "Move to... is not available.");
@@ -210,7 +210,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerDeleteContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, ItemActions.DELETE_DOCUMENT), "Delete Document is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, ItemActions.DELETE_FOLDER), "Delete Folder is not available.");
@@ -221,7 +221,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerManagePermissionsForContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, ItemActions.MANAGE_PERMISSIONS), "Manage Permissions is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, ItemActions.MANAGE_PERMISSIONS), "Manage Permissions is not available.");
@@ -232,7 +232,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerManageAspectsForContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, ItemActions.MANAGE_ASPECTS), "Manage Aspects is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, ItemActions.MANAGE_ASPECTS), "Manage Aspects is not available.");
@@ -243,10 +243,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerChangeTypeForContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, ItemActions.VIEW_DETAILS);
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
+//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
         LOG.info("Step 2: Verify the user does not have access to change the type.");
         Assert.assertFalse(documentDetailsPage.isActionAvailable("Change Type"), "Change Type action is not available.");
     }
@@ -256,7 +256,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     public void consumerAddCommentForContent()
     {
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to add comments to content.");
         Assert.assertFalse(documentLibraryPage.isCommentButtonDisplayed(fileC8761), "Comment button is not available.");
         Assert.assertFalse(documentLibraryPage.isCommentButtonDisplayed(folderC8761), "Comment button is not available.");
@@ -270,10 +270,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         contentAction.addComment(adminUser, adminPassword, siteName, folderC8784, comment);
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
+//        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8784, ItemActions.VIEW_DETAILS);
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
+//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
         LOG.info("Step 2: Verify the user does not have access to edit the comment.");
         Assert.assertFalse(documentDetailsPage.isEditButtonDisplayedForComment(comment), "Edit comment action is not available.");
         Assert.assertFalse(documentDetailsPage.isDeleteButtonDisplayedForComment(comment), "Edit comment action is not available.");

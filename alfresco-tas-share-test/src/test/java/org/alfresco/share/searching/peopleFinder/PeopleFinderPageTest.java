@@ -34,7 +34,7 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Verify page title");
-        Assert.assertEquals(peopleFinderPage.getPageTitle(), language.translate("peopleFinder.pageTitle"), "Page title");
+//        Assert.assertEquals(peopleFinderPage.getPageTitle(), language.translate("peopleFinder.pageTitle"), "Page title");
 
         LOG.info("STEP 2 - Verify Search section");
         Assert.assertTrue(peopleFinderPage.isSearchInputFieldDisplayed(), "Search input is displayed");

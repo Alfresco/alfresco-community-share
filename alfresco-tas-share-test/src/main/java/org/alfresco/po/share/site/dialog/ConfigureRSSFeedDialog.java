@@ -1,13 +1,10 @@
 package org.alfresco.po.share.site.dialog;
 
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Select;
 
 /**
@@ -16,10 +13,6 @@ import ru.yandex.qatools.htmlelements.element.Select;
 @PageObject
 public class ConfigureRSSFeedDialog extends ShareDialog
 {
-    //@Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @RenderWebElement
     @FindBy (css = "div[id$='_default-configDialog-configDialog']")
     private WebElement editRssDialog;
 
@@ -38,11 +31,10 @@ public class ConfigureRSSFeedDialog extends ShareDialog
         urlInputField.sendKeys(Url);
     }
 
-    public SiteDashboardPage clickOkButton()
+    public void clickOkButton()
     {
         getBrowser().waitUntilElementClickable(okButton).click();
         getBrowser().waitUntilElementDisappears(By.cssSelector("div[id$='_default-configDialog-configDialog_c']"));
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     public void selectNumberOfItemsToDisplay(String selectValue)

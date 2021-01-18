@@ -3,26 +3,18 @@ package org.alfresco.po.share.dashlet;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.common.Utils;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 @PageObject
 public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 {
-    //@Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @RenderWebElement
     @FindBy (xpath = "//div[normalize-space(.) = 'Image Preview']")
     protected HtmlElement dashletContainer;
 
-    @RenderWebElement
     @FindBy (xpath = "//div[starts-with(@class,'dashlet resizable')] // div[@class='title']")
     private WebElement dashletTitle;
 
@@ -49,14 +41,12 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
         return this;
     }
 
-    public DocumentDetailsPage clickViewDetailsIcon(String imageName)
+    public void clickViewDetailsIcon(String imageName)
     {
         LOG.info("Click \"View details icon\"");
         WebElement viewDetailsAction = getImageThumbnail(imageName).findElement(viewDetailsIcon);
         browser.mouseOver(viewDetailsAction);
         browser.waitUntilElementVisible(viewDetailsAction).click();
-
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     public ImagePreviewDashlet clickDownloadIcon(String imageName)

@@ -1,6 +1,5 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -16,10 +15,9 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
@@ -31,7 +29,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     private final By noComments = By.cssSelector("div[id*='_default-comments-list'] td[class ='yui-dt-empty']");
     private final By documentTitle = By.cssSelector("div[class='node-info'] h1");
-    @RenderWebElement
     private final By docDetailsPageHeader = By.cssSelector(".node-header");
     private final By headerFileName = By.cssSelector(".node-header h1");
     private final By likeUnlikeAction = By.cssSelector("[class*=like-action]");
@@ -68,7 +65,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By editPropertiesLink = By.xpath("//a[contains(@title,'Edit Properties')]");
     private final By documentImage = By.xpath("//div[@class='previewer Image']/img");
     private final By commentsList = By.cssSelector("[id*=comment-container]");
-    @RenderWebElement
     private final By downloadButton = By.cssSelector("span[class$='onDownloadDocumentClick']");
     private final By deleteCommentButton = By.xpath("//span[@class='comment-actions']//a[@title = 'Delete Comment']"); //TODO: edit with css + others
     private final By editCommentButton = By.xpath("//span[@class='comment-actions']//a[@title = 'Edit Comment']");
@@ -97,11 +93,11 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By propertiesList = By.cssSelector(".viewmode-label");
     private final By message = By.cssSelector("span[class='message']");
     private final By changeTypeAction = By.cssSelector("#onActionChangeType > a");
-    private final By unzipToAction = By.id("onActionUnzipTo");
+    private final By unzipToAction = By.cssSelector("div[id='onActionUnzipTo'] a[class='action-link']");
 
-    public DocumentDetailsPage(ThreadLocal<WebBrowser> browser)
+    public DocumentDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public DocumentDetailsPage navigate(FileModel file)
@@ -127,17 +123,10 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return String.format("share/page/document-details?nodeRef=workspace://SpacesStore/%s", getCurrentFile().getNodeRefWithoutVersion());
     }
 
-    public DocumentDetailsPage assertDocumentDetailsPageIsOpened()
-    {
-        LOG.info("Assert Document Details page is opened");
-        assertTrue(getBrowser().isElementDisplayed(docDetailsPageHeader), "Document details page is opened");
-        return this;
-    }
-
     public DocumentDetailsPage assertDocumentTitleEquals(FileModel expectedFileTitle)
     {
         LOG.info("Assert file title equals: {}", expectedFileTitle.getName());
-        String text = getElementText(headerFileName);
+        String text = webElementInteraction.getElementText(headerFileName);
         String fileTitle = text.substring(BEGIN_INDEX,text.indexOf(VERSION_NUMBER));
         assertEquals(fileTitle, expectedFileTitle.getName(),
             String.format("Document title not equals %s", expectedFileTitle.getName()));
@@ -147,220 +136,199 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public boolean isDocumentFavourite()
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[class='node-social'] a.favourite-action-favourite.enabled"), 5);
-        return getBrowser().isElementDisplayed(By.cssSelector("div[class='node-social'] a.favourite-action-favourite.enabled"));
+        webElementInteraction.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[class='node-social'] a.favourite-action-favourite.enabled"), 5);
+        return webElementInteraction.isElementDisplayed(By.cssSelector("div[class='node-social'] a.favourite-action-favourite.enabled"));
     }
 
     public boolean isAddToFavoriteLinkDisplayed()
     {
-        return getBrowser().waitUntilElementsVisible(By.cssSelector("a[class$='favourite-document']")).get(0).getAttribute("title")
+        return webElementInteraction.waitUntilElementsAreVisible(By.cssSelector("a[class$='favourite-document']")).get(0).getAttribute("title")
                   .equals("Add document to favorites"); //TODO: update
-    }
-
-    public boolean isAddCommentBlockDisplayed()
-    {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(addCommentBlock);
-        return getBrowser().isElementDisplayed(addCommentBlock);
     }
 
     public void clickOnLikeUnlike()
     {
-        getBrowser().findElement(likeUnlikeAction).click();
+        webElementInteraction.waitUntilElementIsVisible(likeUnlikeAction);
+        webElementInteraction.clickElement(likeUnlikeAction);
     }
 
     public int getLikesNo()
     {
-        return Integer.parseInt(getElementText(likesCount));
-    }
-
-    public boolean isCommentBoxOpened()
-    {
-        return getBrowser().isElementDisplayed(By.xpath("//iframe[contains(@title,'Rich Text Area')]"));
-    }
-
-    public DocumentDetailsPage assertCommentsAreaIsOpened()
-    {
-        assertTrue(getBrowser().isElementDisplayed(commentsIframe), "Comments area is opened");
-        return this;
+        return Integer.parseInt(webElementInteraction.getElementText(likesCount));
     }
 
     public String getFileName()
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[class='node-info'] h1"));
-        return getElementText(documentTitle).replace(getFileVersion(), "");
+        webElementInteraction.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[class='node-info'] h1"));
+        return webElementInteraction.getElementText(documentTitle).replace(getFileVersion(), "");
     }
 
     public boolean isNewVersionAvailable(String version)
     {
-        List<WebElement> versionList = getBrowser().waitUntilElementsVisible(latestVersion);
-        return getBrowser().findFirstElementWithValue(versionList, version) != null;
+        List<WebElement> versionList = webElementInteraction.waitUntilElementsAreVisible(latestVersion);
+        return webElementInteraction.findFirstElementWithValue(versionList, version) != null;
     }
 
     public String getLockedMessage()
     {
-        return getElementText(lockedMessage);
+        return webElementInteraction.getElementText(lockedMessage);
     }
 
     public String getFileVersion()
     {
-        return getElementText(documentVersion);
+        return webElementInteraction.getElementText(documentVersion);
     }
 
     public String getItemModifier()
     {
-        return getElementText(itemModifier);
+        return webElementInteraction.getElementText(itemModifier);
     }
 
     public String getModifyDate()
     {
-        return getElementText(modifyDate);
+        return webElementInteraction.getElementText(modifyDate);
     }
 
     public void clickOnFavoriteUnfavoriteLink()
     {
-        getBrowser().findElement(favoriteUnfavoriteAction).click();
+        webElementInteraction.waitUntilElementIsVisible(favoriteUnfavoriteAction);
+        webElementInteraction.clickElement(favoriteUnfavoriteAction);
     }
 
     public String getFavoriteText()
     {
-        return getElementText(favoriteUnfavoriteAction);
+        return webElementInteraction.getElementText(favoriteUnfavoriteAction);
     }
 
     public boolean clickOnCommentDocument()
     {
-        getBrowser().findElement(commentDocument).click();
-        return getBrowser().isElementDisplayed(commentForm);
+        webElementInteraction.waitUntilElementIsVisible(commentDocument);
+        webElementInteraction.clickElement(commentDocument);
+        return webElementInteraction.isElementDisplayed(commentForm);
     }
 
     public DocumentDetailsPage addComment(String comment)
     {
         LOG.info("Add comment: {}", comment);
-        getBrowser().waitUntilElementClickable(commentContentIframe, WAIT_5.getValue()).click();
-        getBrowser().findElement(commentContentIframe).sendKeys(comment);
-        getBrowser().findElement(addCommentButtonSave).click();
-        getBrowser().waitUntilElementDisappears(message, WAIT_5.getValue());
+        webElementInteraction.waitUntilElementIsVisible(commentContentIframe);
+        webElementInteraction.clickElement(commentContentIframe);
+        webElementInteraction.findElement(commentContentIframe).sendKeys(comment);
+        webElementInteraction.clickElement(addCommentButtonSave);
+        webElementInteraction.waitUntilElementDisappears(message);
 
-        return (DocumentDetailsPage) renderedPage();
-    }
-
-    public DocumentDetailsPage assertAddedCommentEquals(String expectedComment)
-    {
-        LOG.info("Assert added comment equals: {}", expectedComment);
-        assertEquals(getCommentContent(expectedComment), expectedComment);
         return this;
     }
 
     public DocumentDetailsPage clickOkOnRevertPopup()
     {
-        getBrowser().findElement(okOnRevertPopup).click();
-        return (DocumentDetailsPage) this.renderedPage();
+        webElementInteraction.waitUntilElementIsVisible(okOnRevertPopup);
+        webElementInteraction.clickElement(okOnRevertPopup);
+        return this;
     }
 
     public String getCommentContent()
     {
-        return getBrowser().waitUntilElementVisible(commentContent).getText();
+        return webElementInteraction.getElementText(commentContent);
     }
 
     public boolean clickOnSharedLink()
     {
-        getBrowser().findElement(shareDocument).click();
-        return getBrowser().isElementDisplayed(sharePopUp);
-    }
-
-    public void clickOnEditGoogleDocs()
-    {
-        getBrowser().findElement(googleDocsEdit).click();
+        webElementInteraction.waitUntilElementIsVisible(shareDocument);
+        webElementInteraction.clickElement(shareDocument);
+        return webElementInteraction.isElementDisplayed(sharePopUp);
     }
 
     public void clickDownloadButton()
     {
-        getBrowser().findElement(downloadButton).click();
+        webElementInteraction.waitUntilElementIsVisible(downloadButton);
+        webElementInteraction.clickElement(downloadButton);
     }
 
     public String getMinimizeMaximizeText()
     {
-        return getElementText(maximizeButton);
+        return webElementInteraction.getElementText(maximizeButton);
     }
 
     public void clickOnMaximizeMinimizeButton()
     {
-        getBrowser().findElement(maximizeButton).click();
+        webElementInteraction.waitUntilElementIsVisible(maximizeButton);
+        webElementInteraction.clickElement(maximizeButton);
     }
 
     public void clickOnZoomInButton()
     {
-        getBrowser().findElement(zoomInButton).click();
+        webElementInteraction.waitUntilElementIsVisible(zoomInButton);
+        webElementInteraction.clickElement(zoomInButton);
     }
 
     public void clickOnZoomOutButton()
     {
-        getBrowser().findElement(zoomOutButton).click();
+        webElementInteraction.waitUntilElementIsVisible(zoomOutButton);
+        webElementInteraction.clickElement(zoomOutButton);
     }
 
     public String getScaleValue()
     {
-        return getBrowser().findElement(scaleButton).getText();
+        return webElementInteraction.getElementText(scaleButton);
     }
 
     public void clickOnNextButton()
     {
-        getBrowser().findElement(nextButton).click();
+        webElementInteraction.waitUntilElementIsVisible(nextButton);
+        webElementInteraction.clickElement(nextButton);
     }
 
     public void clickOnPreviousButton()
     {
-        getBrowser().findElement(previousButton).click();
+        webElementInteraction.waitUntilElementIsVisible(previousButton);
+        webElementInteraction.clickElement(previousButton);
     }
 
     public String getCurrentPageNo()
     {
-        return getBrowser().findElement(pageNumber).getAttribute("value");
+        return webElementInteraction.findElement(pageNumber).getAttribute("value");
     }
 
     public boolean isZoomInButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(zoomInButton);
+        return webElementInteraction.isElementDisplayed(zoomInButton);
     }
 
     public boolean isZoomOutButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(zoomOutButton);
-    }
-
-    public boolean isMaximizetButtonDisplayed()
-    {
-        return getBrowser().isElementDisplayed(maximizeButton);
+        return webElementInteraction.isElementDisplayed(zoomOutButton);
     }
 
     public boolean isNextPageButton()
     {
-        return getBrowser().isElementDisplayed(nextButton);
+        return webElementInteraction.isElementDisplayed(nextButton);
     }
 
     public boolean isPreviousPageButton()
     {
-        return getBrowser().isElementDisplayed(previousButton);
+        return webElementInteraction.isElementDisplayed(previousButton);
     }
 
     public boolean clickOnSearchButton()
     {
-        getBrowser().findElement(searchButton).click();
-        return getBrowser().isElementDisplayed(searchDialog);
+        webElementInteraction.waitUntilElementIsVisible(searchButton);
+        webElementInteraction.clickElement(searchButton);
+        return webElementInteraction.isElementDisplayed(searchDialog);
     }
 
     public boolean isDocDetailsPageHeaderDisplayed()
     {
-        return getBrowser().isElementDisplayed(docDetailsPageHeader);
+        return webElementInteraction.isElementDisplayed(docDetailsPageHeader);
     }
 
     public WebElement selectCommentDetailsRow(String comment)
     {
-        return getBrowser().findFirstElementWithValue(commentsList, comment);
+        return webElementInteraction.findFirstElementWithValue(commentsList, comment);
     }
 
     public void clickOnEditComment(String comment)
     {
-        Actions actions = new Actions(getBrowser());
+        Actions actions = new Actions(webDriver.get());
         actions.moveToElement(selectCommentDetailsRow(comment));
         actions.moveToElement(selectCommentDetailsRow(comment).findElement(editComment));
         actions.click();
@@ -374,42 +342,44 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public void modifyCommContent(String modification)
     {
-        getBrowser().switchTo().frame(getBrowser().findElement(commentContentIframe));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(commentContentIframe));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.sendKeys(modification);
-        getBrowser().switchToDefaultContent();
+        webElementInteraction.switchToDefaultContent();
     }
 
     public String getPageNoReport()
     {
-        return getElementText(pageReport);
+        return webElementInteraction.getElementText(pageReport);
     }
 
     public void clickOnNextPage()
     {
-        getBrowser().findElement(nextPage).click();
+        webElementInteraction.waitUntilElementIsVisible(nextPage);
+        webElementInteraction.clickElement(nextPage);
     }
 
     public void clickOnPreviousPage()
     {
-        getBrowser().findElement(previousPage).click();
+        webElementInteraction.waitUntilElementIsVisible(previousPage);
+        webElementInteraction.clickElement(previousPage);
     }
 
     public int getCommentsListSize()
     {
-        return getBrowser().findElements(commentsList).size();
+        return webElementInteraction.findElements(commentsList).size();
     }
 
     public void clickDocumentActionsOption(String optionName)
     {
-        List<WebElement> optionsList = getBrowser().waitUntilElementsVisible(documentActionsOptionsSelector);
-        getBrowser().selectOptionFromFilterOptionsList(optionName, optionsList);
+        List<WebElement> optionsList = webElementInteraction.waitUntilElementsAreVisible(documentActionsOptionsSelector);
+        webElementInteraction.selectOptionFromFilterOptionsList(optionName, optionsList);
     }
 
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesTextList = new ArrayList<>();
-        List<WebElement> properties = getBrowser().findElements(propertiesList);
+        List<WebElement> properties = webElementInteraction.waitUntilElementsAreVisible(propertiesList);
         for (WebElement property : properties)
         {
             propertiesTextList.add(property.getText().substring(0, property.getText().indexOf(":")));
@@ -426,7 +396,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
-        List<WebElement> properties = getBrowser().findElements(propertiesList);
+        List<WebElement> properties = webElementInteraction.findElements(propertiesList);
         for (int i = 0; i < properties.size(); i++)
         {
             String property = properties.get(i).getText();
@@ -441,7 +411,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public boolean isPropertyDisplayed(String propertyText)
     {
-        List<WebElement> properties = getBrowser().findElements(propertiesList);
+        List<WebElement> properties = webElementInteraction.findElements(propertiesList);
         for (WebElement aPropertiesList : properties)
         {
             if (aPropertiesList.getText().equals(propertyText))
@@ -452,12 +422,12 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public String getPropertyValue(String propertyName)
     {
-        List<WebElement> properties = getBrowser().findElements(propertiesList);
+        List<WebElement> properties = webElementInteraction.findElements(propertiesList);
         for (int i = 0; i < properties.size(); i++)
         {
             if (properties.get(i).getText().replace(":", "").equals(propertyName))
             {
-                return getBrowser().findElements(propertiesValuesList).get(i).getText();
+                return webElementInteraction.findElements(propertiesValuesList).get(i).getText();
             }
         }
         throw new PageOperationException(String.format("%s isn't displayed in Properties section!", propertyName));
@@ -473,139 +443,127 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public boolean isDocumentsLinkPresent()
     {
-        return getBrowser().isElementDisplayed(By.xpath("//span[@class = 'folder-link']//a"));
+        return webElementInteraction.isElementDisplayed(By.xpath("//span[@class = 'folder-link']//a"));
     }
 
     public void clickDocumentsLink()
     {
-        getBrowser().findElement(documentsLink).click();
+        webElementInteraction.clickElement(documentsLink);
     }
 
     public String isDocumentThumbnailDisplayed()
     {
-        return getBrowser().findElement(By.xpath("//img[@class = 'node-thumbnail']")).getAttribute("src");
+        return webElementInteraction.findElement(By.xpath("//img[@class = 'node-thumbnail']")).getAttribute("src");
     }
 
     public boolean isLikeButtonPresent()
     {
-        return getBrowser().isElementDisplayed(By.xpath("//span[@class= 'item item-separator item-social']//a[text()='Like']"));
+        return webElementInteraction.isElementDisplayed(By.xpath("//span[@class= 'item item-separator item-social']//a[text()='Like']"));
     }
 
     public boolean isDownloadButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(downloadButton);
+        return webElementInteraction.isElementDisplayed(downloadButton);
     }
 
     public boolean isFilePropertiesDetailsDisplayed()
     {
-        return getBrowser().isElementDisplayed(filePropertiesdetailsPanel);
+        return webElementInteraction.isElementDisplayed(filePropertiesdetailsPanel);
     }
 
     public boolean isFolderActionsPanelDisplayed()
     {
-        return getBrowser().isElementDisplayed(folderActionsPanel);
+        return webElementInteraction.isElementDisplayed(folderActionsPanel);
     }
 
     public boolean isSocialFeaturesActionsPanelDisplayed()
     {
-        return getBrowser().isElementDisplayed(socialFeaturesPanel);
+        return webElementInteraction.isElementDisplayed(socialFeaturesPanel);
     }
 
     public boolean isTagsFeaturePanelDisplayed()
     {
-        return getBrowser().isElementDisplayed(tagsFeaturePanel);
+        return webElementInteraction.isElementDisplayed(tagsFeaturePanel);
     }
 
     public void clickOnFolderFromBreadcrumbTrail()
     {
-        getBrowser().findElement(folderLinkFromBreadcrumbTrail).click();
+        webElementInteraction.waitUntilElementIsVisible(folderLinkFromBreadcrumbTrail);
+        webElementInteraction.clickElement(folderLinkFromBreadcrumbTrail);
     }
 
     public boolean isDeleteButtonDisplayedForComment(String comment)
     {
-        getBrowser().mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-        return getBrowser().isElementDisplayed(deleteCommentButton);
+        webElementInteraction.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
+        return webElementInteraction.isElementDisplayed(deleteCommentButton);
     }
 
     public boolean isEditButtonDisplayedForComment(String comment)
     {
-        getBrowser().mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-        return getBrowser().isElementDisplayed(editCommentButton);
+        webElementInteraction.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
+        return webElementInteraction.isElementDisplayed(editCommentButton);
     }
 
     public void clickDeleteComment(String comment)
     {
-        getBrowser().waitUntilElementVisible(commContent);
-        getBrowser().mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-        getBrowser().waitUntilElementClickable(deleteCommentButton).click();
+        webElementInteraction.waitUntilElementIsVisible(commContent);
+        webElementInteraction.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
+        webElementInteraction.clickElement(deleteCommentButton);
     }
 
     public void clickEditComment(String comment)
     {
-        getBrowser().mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-        getBrowser().findElement(editCommentButton).click();
-    }
-
-    public void clickDeleteComment(String comment, String comment2)
-    {
-        getBrowser().waitUntilElementVisible(commContent);
-        try
-        {
-            getBrowser().mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-        }
-        catch(Exception e)
-        {
-            getBrowser().mouseOver(selectCommentDetailsRow(comment2).findElement(commContent));
-        }
-        getBrowser().waitUntilElementClickable(deleteCommentButton).click();
+        webElementInteraction.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
+        webElementInteraction.clickElement(editCommentButton);
     }
 
     public void clickDeleteOnDeleteComment()
     {
-        getBrowser().findElement(deleteButtonOnPrompt).click();
+        webElementInteraction.waitUntilElementIsVisible(deleteButtonOnPrompt);
+        webElementInteraction.clickElement(deleteButtonOnPrompt);
     }
 
     public boolean isDeleteCommentPromptDisplayed()
     {
-        return getBrowser().isElementDisplayed(deleteCommentPrompt);
+        return webElementInteraction.isElementDisplayed(deleteCommentPrompt);
     }
 
     public String getNoCommentsText()
     {
-        return getElementText(noComments);
+        return webElementInteraction.getElementText(noComments);
     }
 
     public void editComment(String comment)
     {
-        TinyMceEditor tinyMceEditor = new TinyMceEditor(browser);
+        TinyMceEditor tinyMceEditor = new TinyMceEditor(webDriver);
         tinyMceEditor.setText(comment);
     }
 
     public boolean isEditCommentDisplayed()
     {
-        return getBrowser().isElementDisplayed(editCommentBoxTitle);
+        return webElementInteraction.isElementDisplayed(editCommentBoxTitle);
     }
 
     public void clickOnSaveButtonEditComment()
     {
-        getBrowser().findElement(saveButtonEditComment).click();
+        webElementInteraction.clickElement(saveButtonEditComment);
     }
 
     public AspectsForm clickManageAspects()
     {
-        getBrowser().findElement(manageAspectsButton).click();
-        return (AspectsForm) new AspectsForm(browser).renderedPage();
+        webElementInteraction.clickElement(manageAspectsButton);
+        return new AspectsForm(webDriver);
     }
 
     public EditPropertiesPage clickEditProperties()
     {
-        getBrowser().findElement(editPropertiesLink).click();
-        return (EditPropertiesPage) new EditPropertiesPage(browser).renderedPage();
+        webElementInteraction.clickElement(editPropertiesLink);
+        return new EditPropertiesPage(webDriver);
     }
 
     public String getContentText()
     {
-        return getBrowser().waitUntilElementVisible(contentText).getText().trim();
+        return webElementInteraction.getElementText(contentText).trim();
     }
 
     public DocumentDetailsPage assertFileContentEquals(String expectedContent)
@@ -618,7 +576,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public boolean isRestrictableValueUpdated(String hours)
     {
         String restrictable = "//span[contains(@class,'viewmode-value')] [contains(text(),'" + hours + "')]";
-        return getBrowser().isElementDisplayed(By.xpath(restrictable));
+        return webElementInteraction.isElementDisplayed(By.xpath(restrictable));
     }
 
     public boolean isAspectDisplayed(String aspectName)
@@ -626,100 +584,99 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         By aspectXPath = By.xpath(String.format("//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='%s']", aspectName));
         try
         {
-            getBrowser().waitUntilElementVisible(aspectXPath);
+            webElementInteraction.waitUntilElementIsVisible(aspectXPath);
         }
         catch (TimeoutException ex)
         {
-            return getBrowser().isElementDisplayed(aspectXPath);
+            return webElementInteraction.isElementDisplayed(aspectXPath);
         }
-        return getBrowser().isElementDisplayed(aspectXPath);
+        return webElementInteraction.isElementDisplayed(aspectXPath);
     }
 
     public boolean isAspectNotDisplayed(String aspectName)
     {
         By aspectXPath = By.xpath(String.format("//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='%s']", aspectName));
-        getBrowser().waitUntilElementDeletedFromDom(aspectXPath);
-        return getBrowser().isElementDisplayed(aspectXPath);
+        webElementInteraction.waitUntilElementDeletedFromDom(aspectXPath);
+        return webElementInteraction.isElementDisplayed(aspectXPath);
     }
 
     public boolean isActionAvailable(String actionName)
     {
-        List<WebElement> optionsList = getBrowser().waitUntilElementsVisible(documentActionsOptionsSelector);
-        return getBrowser().findFirstElementWithValue(optionsList, actionName) != null;
+        List<WebElement> optionsList = webElementInteraction.waitUntilElementsAreVisible(documentActionsOptionsSelector);
+        return webElementInteraction.findFirstElementWithValue(optionsList, actionName) != null;
     }
 
     public boolean isVersionAvailable(String version)
     {
-        List<WebElement> versionList = getBrowser().waitUntilElementsVisible(olderVersion);
-        return getBrowser().findFirstElementWithValue(versionList, version) != null;
+        List<WebElement> versionList = webElementInteraction.waitUntilElementsAreVisible(olderVersion);
+        return webElementInteraction.findFirstElementWithValue(versionList, version) != null;
     }
 
     public void clickDownloadPreviousVersion()
     {
-        getBrowser().waitUntilElementClickable(downloadPreviousVersion).click();
+        webElementInteraction.clickElement(downloadPreviousVersion);
         acceptAlertIfDisplayed();
     }
 
     public boolean isRevertButtonAvailable()
     {
-        return getBrowser().isElementDisplayed(revertButton);
+        return webElementInteraction.isElementDisplayed(revertButton);
     }
 
     public void clickRevertButton()
     {
-        getBrowser().waitUntilElementClickable(revertButton).click();
-        getBrowser().waitUntilElementVisible(okOnRevertPopup);
+        webElementInteraction.clickElement(revertButton);
+        webElementInteraction.waitUntilElementIsVisible(okOnRevertPopup);
     }
 
     public void addCommentToItem(String comment)
     {
-        getBrowser().switchTo().frame(getBrowser().waitUntilElementVisible(commentTextArea));
-        WebElement commentBody = getBrowser().findElement(By.id("tinymce"));
-        clearAndType(commentBody, comment);
-        getBrowser().switchTo().defaultContent();
-        getBrowser().waitUntilElementClickable(addCommentButtonSave).click();
+        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(commentTextArea));
+        WebElement commentBody = webElementInteraction.findElement(By.id("tinymce"));
+        webElementInteraction.clearAndType(commentBody, comment);
+        webElementInteraction.switchTo().defaultContent();
+        webElementInteraction.clickElement(addCommentButtonSave);
     }
 
     public void clickAddCommentButton()
     {
-        getBrowser().waitUntilElementClickable(addCommentButton).click();
-        getBrowser().waitUntilElementVisible(By.cssSelector("form[id$='_default-add-form']"), 5L);
+        webElementInteraction.clickElement(addCommentButton);
+        webElementInteraction.waitUntilElementIsVisible(By.cssSelector("form[id$='_default-add-form']"));
     }
 
     public void assertUploadedDocumentImageIsDisplayed()
     {
         LOG.info("Assert document image is displayed");
-        assertTrue(getBrowser().isElementDisplayed(documentImage), "Document image is not displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(documentImage), "Document image is not displayed");
     }
 
     public CopyMoveUnzipToDialog clickCopyTo()
     {
         LOG.info("Click Copy To...");
-        getBrowser().waitUntilElementClickable(copyToAction).click();
-        return (CopyMoveUnzipToDialog) new CopyMoveUnzipToDialog(browser).renderedPage();
+        webElementInteraction.clickElement(copyToAction);
+        return new CopyMoveUnzipToDialog(webDriver);
     }
 
 
     public ChangeContentTypeDialog clickChangeType()
     {
         LOG.info("Click Change Type");
-        WebElement changeTypeButton = getBrowser().waitUntilElementVisible(changeTypeAction);
-        getBrowser().mouseOver(changeTypeButton);
-        getBrowser().waitUntilElementClickable(changeTypeButton).click();
-        ChangeContentTypeDialog changeContentTypeDialog = new ChangeContentTypeDialog(browser);
+        WebElement changeTypeButton = webElementInteraction.waitUntilElementIsVisible(changeTypeAction);
+        webElementInteraction.mouseOver(changeTypeButton);
+        webElementInteraction.clickElement(changeTypeButton);
+        ChangeContentTypeDialog changeContentTypeDialog = new ChangeContentTypeDialog(webDriver);
         if(!changeContentTypeDialog.isDialogDisplayed())
         {
             LOG.error("Retry click on change type button");
-            getBrowser().clickJS(changeTypeButton);
+            webElementInteraction.clickJS(changeTypeButton);
         }
-
-        return (ChangeContentTypeDialog) changeContentTypeDialog.renderedPage();
+        return new ChangeContentTypeDialog(webDriver);
     }
 
     public CopyMoveUnzipToDialog clickUnzipTo()
     {
         LOG.info("Click Unzip To...");
-        getBrowser().waitUntilElementClickable(unzipToAction).click();
-        return (CopyMoveUnzipToDialog) new CopyMoveUnzipToDialog(browser).renderedPage();
+        webElementInteraction.clickElement(unzipToAction);
+        return new CopyMoveUnzipToDialog(webDriver);
     }
 }

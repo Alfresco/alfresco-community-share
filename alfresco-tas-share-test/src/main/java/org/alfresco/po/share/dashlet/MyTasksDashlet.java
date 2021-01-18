@@ -1,17 +1,16 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertTrue;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.alfresco.po.share.tasksAndWorkflows.*;
+import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
+import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -28,16 +27,9 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     @Autowired
     private EditTaskPage editTaskPage;
 
-    //@Autowired
-    private StartWorkflowPage startWorkflowPage;
-
-   // @Autowired
-    private MyTasksPage myTasksPage;
-
     @Autowired
     private ViewTaskPage viewTaskPage;
 
-    @RenderWebElement
     @FindBy (css = "div.dashlet.my-tasks")
     private WebElement dashletContainer;
 
@@ -91,7 +83,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet assertStartWorkflowIsDisplayed()
     {
         LOG.info("Assert Start Workflow is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(startWorkFlowLink), "Start workflow is displayed");
+        assertTrue(browser.isElementDisplayed(startWorkFlowLink), "Start workflow is displayed");
         return this;
     }
 
@@ -104,16 +96,15 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     /**
      * Click on Start Workflow link
      */
-    public StartWorkflowPage clickStartWorkFlow()
+    public void clickStartWorkFlow()
     {
         startWorkFlowLink.click();
-        return (StartWorkflowPage) startWorkflowPage.renderedPage();
     }
 
     public MyTasksDashlet assertActiveTasksButtonIsDisplayed()
     {
         LOG.info("Assert Active Tasks button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(activeTasksLink), "Active Tasks button is displayed");
+        assertTrue(browser.isElementDisplayed(activeTasksLink), "Active Tasks button is displayed");
         return this;
     }
 
@@ -121,16 +112,15 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      * Click on Active Tasks link
      */
 
-    public MyTasksPage clickActiveTasksLink()
+    public void clickActiveTasksLink()
     {
         activeTasksLink.click();
-        return (MyTasksPage) myTasksPage.renderedPage();
     }
 
     public MyTasksDashlet assertCompletedTasksButtonIsDisplayed()
     {
         LOG.info("Assert Completed Tasks button is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(completedTasksLink), "Completed Tasks button is displayed");
+        assertTrue(browser.isElementDisplayed(completedTasksLink), "Completed Tasks button is displayed");
         return this;
     }
 
@@ -138,16 +128,15 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      * Click on Completed Tasks link
      */
 
-    public MyTasksPage clickOnCompletedTasksLink()
+    public void clickOnCompletedTasksLink()
     {
         completedTasksLink.click();
-        return (MyTasksPage) myTasksPage.renderedPage();
     }
 
     public MyTasksDashlet assertFilterTasksIsDisplayed()
     {
         LOG.info("Assert Filter Tasks is displayed");
-        Assert.assertTrue(browser.isElementDisplayed(filterTaskButton), "Filter Tasks is displayed");
+        assertTrue(browser.isElementDisplayed(filterTaskButton), "Filter Tasks is displayed");
         return this;
     }
 
@@ -242,7 +231,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         LOG.info(String.format("Assert task %s has edit button", taskName));
         WebElement taskRow = getTaskRow(taskName);
         browser.mouseOver(taskRow.findElement(taskNames));
-        Assert.assertTrue(browser.isElementDisplayed(taskRow.findElement(editIcon)), "Edit icon is displayed");
+        assertTrue(browser.isElementDisplayed(taskRow.findElement(editIcon)), "Edit icon is displayed");
         return this;
     }
 
@@ -251,14 +240,14 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         LOG.info(String.format("Assert task %s has view button", taskName));
         WebElement taskRow = getTaskRow(taskName);
         browser.mouseOver(taskRow.findElement(taskNames));
-        Assert.assertTrue(browser.isElementDisplayed(taskRow.findElement(viewIcon)), "View icon is displayed");
+        assertTrue(browser.isElementDisplayed(taskRow.findElement(viewIcon)), "View icon is displayed");
         return this;
     }
 
     public MyTasksDashlet assertTaskIsDisplayed(String taskName)
     {
         LOG.info(String.format("Assert tasks %s is displayed", taskName));
-        Assert.assertTrue(browser.isElementDisplayed(getTaskRow(taskName)), String.format("Task %s is displayed", taskName));
+        assertTrue(browser.isElementDisplayed(getTaskRow(taskName)), String.format("Task %s is displayed", taskName));
         return this;
     }
 
@@ -316,7 +305,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
             filterTaskButton.click();
             browser.selectOptionFromFilterOptionsList(taskOption, dropDownTasksList);
 
-            Assert.assertTrue(filterTaskButton.getText().contains(taskOption), "Incorrect filter selected");
+            assertTrue(filterTaskButton.getText().contains(taskOption), "Incorrect filter selected");
 
             return (MyTasksDashlet) this.renderedPage();
         } catch (NoSuchElementException nse)

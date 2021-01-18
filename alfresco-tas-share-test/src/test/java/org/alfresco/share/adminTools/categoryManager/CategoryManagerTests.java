@@ -1,47 +1,25 @@
 package org.alfresco.share.adminTools.categoryManager;
 
-import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
-import org.alfresco.share.BaseTest;
-import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.util.stream.Stream;
-
 import static java.util.Arrays.asList;
 import static org.testng.Assert.assertTrue;
 
+import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
+import org.alfresco.share.BaseTest;
+import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
+import org.apache.commons.lang.RandomStringUtils;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 public class CategoryManagerTests extends BaseTest
 {
-    private final String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
-    private final String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());
-    private final String category9298 = String.format("categoryC9298%s", RandomData.getRandomAlphanumeric());
-    private final String categoryEdited = String.format("categoryEdited%s", RandomData.getRandomAlphanumeric());
-    private final String subCategoryName = String.format("testSubCategory%s", RandomData.getRandomAlphanumeric());
-
     private CategoryManagerPage categoryManagerPage;
-
-    @Autowired
-    private UserService userService;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        categoryManagerPage = new CategoryManagerPage(browser);
+        categoryManagerPage = new CategoryManagerPage(webDriver);
         setupAuthenticatedSessionViaLoginPage(dataUser.getAdminUser());
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void afterClassDeleteAddedCategories()
-    {
-        Stream.of(category9295, categoryEdited, subCategoryName).filter(categoryName
-            -> userService.categoryExists(getAdminUser().getUsername(), getAdminUser().getPassword(), categoryName)).forEach(categoryName
-            -> userService.deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), categoryName));
     }
 
     @TestRail (id = "C9294")
@@ -51,25 +29,29 @@ public class CategoryManagerTests extends BaseTest
         categoryManagerPage.navigate();
         asList("Category Root", "Languages", "Regions", "Software Document Classification", "Tags")
             .forEach(defaultCategory ->
-                assertTrue(categoryManagerPage.isCategoryDisplayed(defaultCategory), defaultCategory + " is displayed."));
+                assertTrue(categoryManagerPage.isCategoryDisplayed(defaultCategory), defaultCategory + " is not displayed."));
     }
 
     @TestRail (id = "C9295")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addNewCategory()
     {
+        String category9295 = RandomStringUtils.randomAlphabetic(4);
         categoryManagerPage.navigate();
         categoryManagerPage.addCategory(category9295);
 
-        assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
+        assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category is not displayed");
+        getUserService().deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9295);
     }
 
     @TestRail (id = "C9301")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteCategory()
     {
+        String category9301 = RandomStringUtils.randomAlphabetic(4);
+        getUserService().createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9301);
+
         categoryManagerPage.navigate();
-        userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9301);
         categoryManagerPage.deleteCategory(category9301)
             .assertCategoryIsNotDisplayed(category9301);
     }
@@ -78,19 +60,27 @@ public class CategoryManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
-        categoryManagerPage.navigate();
-        userService.createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9298);
-        categoryManagerPage.editCategory(category9298, categoryEdited);
-        assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));
+        String category9298 = RandomStringUtils.randomAlphabetic(4);
+        String categoryToEdit = RandomStringUtils.randomAlphabetic(4);
+        getUserService().createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9298);
+
+        categoryManagerPage.navigate()
+            .editCategory(category9298, categoryToEdit);
+        assertTrue(categoryManagerPage.isCategoryDisplayed(categoryToEdit));
         categoryManagerPage.assertCategoryIsNotDisplayed(category9298);
+
+        getUserService().deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), categoryToEdit);
     }
 
     @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void addAndOpenSubCategory()
     {
+        String subCategoryName = RandomStringUtils.randomAlphabetic(4);
         categoryManagerPage.navigate();
         categoryManagerPage.addSubCategory("Languages", subCategoryName);
         assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName),
             String.format("Subcategory %s is not displayed in the list", subCategoryName));
+
+        getUserService().deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), subCategoryName);
     }
 }

@@ -3,27 +3,17 @@ package org.alfresco.po.share.user.admin.adminTools.modelManager;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateAspectDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import static org.testng.Assert.assertTrue;
+import org.openqa.selenium.WebDriver;
 
 public class ModelDetailsPage extends SharePage2<ModelDetailsPage>
 {
-    @RenderWebElement
-    private final By createCustomTypeButton = By.cssSelector("span[class*='createTypeButton'] span");
-    @RenderWebElement
+    private final By createCustomTypeButton = By.xpath(".//span[contains(@class, 'createTypeButton')]/span/span[@style='user-select: none;']");
     private final By createAspectButton = By.cssSelector("span[class*='createPropertyGroupButton'] span");
-    private final By showModelsButton = By.cssSelector("span[class*='backButton '] span[id*='alfresco_buttons_AlfButton']");
-    private final By aspectList = By.cssSelector("div#PROPERTY_GROUPS_LIST tr[id^='alfresco_lists_views_layouts_Row']");
 
-    public ModelDetailsPage(ThreadLocal<WebBrowser> browser)
+    public ModelDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -32,39 +22,15 @@ public class ModelDetailsPage extends SharePage2<ModelDetailsPage>
         return null;
     }
 
-    public ModelDetailsPage assertCreateCustomTypeButtonDisplayed()
-    {
-        assertTrue(getBrowser().isElementDisplayed(createCustomTypeButton), "Create Custom Type button is displayed");
-        return this;
-    }
-
-    public String getAspectDetails(String aspectName)
-    {
-        List<WebElement> itemsList = getBrowser().waitUntilElementsVisible(aspectList);
-        return getBrowser().findFirstElementWithValue(itemsList, aspectName).getText();
-    }
-
-    public ModelDetailsPage assertCreateAspectButtonIsDisplayed()
-    {
-        assertTrue(getBrowser().isElementDisplayed(createAspectButton), "Create Aspect button is displayed");
-        return this;
-    }
-
-    public ModelDetailsPage assertShowModelsButtonDisplayed()
-    {
-        assertTrue(getBrowser().isElementDisplayed(showModelsButton), "Show models button is displayed");
-        return this;
-    }
-
     public CreateCustomTypeDialog clickCreateCustomType()
     {
-        getBrowser().findElement(createCustomTypeButton).click();
-        return (CreateCustomTypeDialog) new CreateCustomTypeDialog(browser).renderedPage();
+        webElementInteraction.clickElement(createCustomTypeButton);
+        return new CreateCustomTypeDialog(webDriver);
     }
 
     public CreateAspectDialog clickCreateAspect()
     {
-        getBrowser().findElement(createAspectButton).click();
-        return (CreateAspectDialog) new CreateAspectDialog(browser).renderedPage();
+        webElementInteraction.clickElement(createAspectButton);
+        return new CreateAspectDialog(webDriver);
     }
 }

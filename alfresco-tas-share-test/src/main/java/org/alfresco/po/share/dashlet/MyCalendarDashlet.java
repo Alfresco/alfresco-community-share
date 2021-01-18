@@ -2,19 +2,12 @@ package org.alfresco.po.share.dashlet;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.calendar.CalendarPage;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 /**
  * Created by Claudia Agache on 7/19/2016.
@@ -22,13 +15,6 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
 {
-    //@Autowired
-    private CalendarPage calendarPage;
-
-    //@Autowired
-    private SiteDashboardPage siteDashboardPage;
-
-    @RenderWebElement
     @FindBy (css = "div.dashlet.user-calendar")
     private WebElement dashletContainer;
 
@@ -94,16 +80,14 @@ public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
         return this;
     }
 
-    public CalendarPage selectEvent(String eventName)
+    public void selectEvent(String eventName)
     {
         findEvent(eventName).findElement(eventNameLink).click();
-        return (CalendarPage) calendarPage.renderedPage();
     }
 
-    public SiteDashboardPage selectSiteFromEvent(String eventName)
+    public void selectSiteFromEvent(String eventName)
     {
         findEvent(eventName).findElement(eventSiteLink).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 }
 

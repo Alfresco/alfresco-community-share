@@ -1,8 +1,8 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class LeaveSiteDialog extends ConfirmationDialog
 {
@@ -12,36 +12,36 @@ public class LeaveSiteDialog extends ConfirmationDialog
     private final By dialogCancelButton = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG'] span[class$='alfresco-buttons-AlfButton'] span[id^='alfresco_buttons_AlfButton']");
     private final By okButton = By.cssSelector(".footer span[class*='call-to-action'] span[role='button']");
 
-    public LeaveSiteDialog(ThreadLocal<WebBrowser> browser)
+    public LeaveSiteDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getDialogTitle()
     {
-        return getElementText(dialogTitle);
+        return webElementInteraction.getElementText(dialogTitle);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(dialogCancelButton);
+        return webElementInteraction.isElementDisplayed(dialogCancelButton);
     }
 
     public void clickCancelButton()
     {
-        getBrowser().findElement(dialogCancelButton).click();
-        getBrowser().waitUntilElementDisappears(By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']"));
+        webElementInteraction.findElement(dialogCancelButton).click();
+        webElementInteraction.waitUntilElementDisappears(By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']"));
     }
 
     public boolean isLeaveSiteDialogDisplayed()
     {
-        return getBrowser().isElementDisplayed(dialogContainer);
+        return webElementInteraction.isElementDisplayed(dialogContainer);
     }
 
 
     public void clickOKButton()
     {
-        getBrowser().findElement(okButton).click();
+        webElementInteraction.findElement(okButton).click();
         waitUntilNotificationMessageDisappears();
     }
 }

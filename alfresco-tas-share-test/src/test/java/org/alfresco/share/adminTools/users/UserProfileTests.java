@@ -1,5 +1,7 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
+
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
@@ -13,26 +15,18 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
-
 public class UserProfileTests extends BaseTest
 {
     private UsersPage usersPage;
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
     private EditUserPage editUserPage;
 
-    private static UserModel browseUser, deleteUser, enableUser, removeGroupUser, addUserToGroup;
+    private UserModel browseUser;
+    private UserModel deleteUser;
+    private UserModel enableUser;
+    private UserModel removeGroupUser;
+    private UserModel addUserToGroup;
     private GroupModel c9423Group;
-
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
-    {
-        usersPage = new UsersPage(browser);
-        userProfileAdminToolsPage = new UserProfileAdminToolsPage(browser);
-        editUserPage = new EditUserPage(browser);
-
-        setupAuthenticatedSession(getAdminUser());
-    }
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()
@@ -44,6 +38,16 @@ public class UserProfileTests extends BaseTest
         addUserToGroup = dataUser.createRandomTestUser();
 
         c9423Group = dataGroup.usingAdmin().createRandomGroup();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
+    {
+        usersPage = new UsersPage(webDriver);
+        userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
+        editUserPage = new EditUserPage(webDriver);
+
+        setupAuthenticatedSession(getAdminUser());
     }
 
     @TestRail (id = "C9415")
@@ -141,7 +145,7 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteAuthorizedUser()
     {
-        userService.login(deleteUser.getUsername(), deleteUser.getPassword());
+        getUserService().login(deleteUser.getUsername(), deleteUser.getPassword());
         userProfileAdminToolsPage.navigate(deleteUser)
             .clickDelete()
             .assertDeleteUserDialogIsOpened()
@@ -161,7 +165,7 @@ public class UserProfileTests extends BaseTest
             .editQuota("50")
             .clickSaveChanges()
                 .assertQuotaIs("50 GB");
-        browser.get().manage().deleteAllCookies();
+        webDriver.get().manage().deleteAllCookies();
     }
 
     @TestRail (id = "C9426")
@@ -192,10 +196,10 @@ public class UserProfileTests extends BaseTest
                     .assertGroupIsNotDisplayed(ALFRESCO_ADMIN_GROUP.getGroupIdentifier());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void cleanUp()
     {
-        removeUserFromAlfresco(browseUser, enableUser, removeGroupUser, addUserToGroup);
+        deleteUsersIfNotNull(browseUser, enableUser, removeGroupUser, addUserToGroup);
         dataGroup.deleteGroup(c9423Group);
     }
 }

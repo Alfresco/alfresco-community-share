@@ -72,9 +72,6 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
             .assertTelephoneIs(telephone)
             .assertSkypeIs(skype)
             .assertIMIs(im)
-            .assertEmailHrefIsCorrect(user)
-                .clickViewFullProfile().assertUserProfilePageIsOpened();
-        userDashboard.navigate(user);
-        myProfileDashlet.clickOnName().assertUserProfilePageIsOpened();
+            .assertEmailHrefIsCorrect(user);
     }
 }

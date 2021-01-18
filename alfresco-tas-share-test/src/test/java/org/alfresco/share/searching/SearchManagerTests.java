@@ -143,7 +143,7 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Open 'Advanced Search' page and click 'Search' button.");
         advancedSearchPage.navigate();
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         searchPage.assertSearchManagerButtonIsDisplayed();
 
         LOG.info("Step 2: Click on 'Search Manager' link.");
@@ -186,7 +186,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("STEP 5: Open 'Advanced Search' page. Enter 'testFile' on 'Keywords' input field and click 'Search' button.");
         advancedSearchPage.navigate();
         advancedSearchPage.typeKeywords(documentName);
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
 
         LOG.info("STEP 6: Verify the new created filter.");
         assertTrue(searchPage.isFilterTypePresent(filterName), "The new filter ('Site') is displayed on 'Search Results' page, on 'Filter by' section");
@@ -821,7 +821,6 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEquals(searchManagerPage.getFilterPosition(filterId2), filterId2Position, "Filter " + filterId2 + " should be on a different row!");
 
         LOG.info("STEP 4: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
-        toolbar.renderedPage();
         toolbar.search(documentName);
         if (result)
         {

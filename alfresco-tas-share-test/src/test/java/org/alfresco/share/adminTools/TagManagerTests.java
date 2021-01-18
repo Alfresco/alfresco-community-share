@@ -24,7 +24,7 @@ public class TagManagerTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception
     {
-        tagManagerPage = new TagManagerPage(browser);
+        tagManagerPage = new TagManagerPage(webDriver);
 
         tagFile.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
         tag.set("tag" + RandomStringUtils.randomAlphabetic(4).toLowerCase());
@@ -67,7 +67,7 @@ public class TagManagerTests extends BaseTest
             .assertSearchInputFieldDisplayed()
             .assertTableTitleIsCorrect()
             .searchTagWithRetry(tag.get())
-            .assertTableHeadersAreCorrect()
+            .assertTableHeadersEqual(language.translate("tagManager.tableHead"))
             .clickEdit(tag.get())
             .assertRenameTagLabelIsCorrect()
             .assertOkButtonIsDisplayed()
@@ -87,7 +87,7 @@ public class TagManagerTests extends BaseTest
             .assertCancelButtonIsDisplayed()
             .clickDelete();
         tagManagerPage.assertNoTagFoundMessageIsDisplayed()
-            .searchTag(tag.get())
+            .typeInSearch(tag.get()).clickSearch()
             .assertTagIsNotDisplayed(tag.get());
     }
 }

@@ -1,21 +1,17 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.alfresco.utility.web.common.Parameter;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
 
 public class RepositoryPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
-    public RepositoryPage(ThreadLocal<WebBrowser> browser)
+    public RepositoryPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -28,12 +24,12 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     @Override
     public RepositoryPage navigateByMenuBar()
     {
-        return (RepositoryPage) new Toolbar(browser).clickRepository().renderedPage();
+        return new Toolbar(webDriver).clickRepository();
     }
 
     public RepositoryPage assertRepositoryPageIsOpened()
     {
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Repository page is opened");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Repository page is opened");
         return this;
     }
 }

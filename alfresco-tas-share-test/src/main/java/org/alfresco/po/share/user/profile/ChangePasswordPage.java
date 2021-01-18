@@ -1,15 +1,14 @@
 package org.alfresco.po.share.user.profile;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author bogdan.bocancea
@@ -18,9 +17,7 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
 {
     private String userName;
 
-    @RenderWebElement
     private final By oldPasswordInput = By.cssSelector("input[id$='default-oldpassword']");
-    @RenderWebElement
     private final By newPassword = By.cssSelector("input[id$='default-newpassword1']");
     private final By confirmNewPassword = By.cssSelector("input[id$='default-newpassword2']");
     private final By okButton = By.cssSelector("button[id$='default-button-ok-button']");
@@ -28,9 +25,9 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
     private final By errorPromptMessage = By.cssSelector("#prompt .bd");
     private final By errorPromptOKButton = By.cssSelector("#prompt button");
 
-    public ChangePasswordPage(ThreadLocal<WebBrowser> browser)
+    public ChangePasswordPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getUserName()
@@ -58,40 +55,36 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
     @Override
     public ChangePasswordPage navigateByMenuBar()
     {
-        return (ChangePasswordPage) new Toolbar(browser).clickUserMenu().clickChangePassword().renderedPage();
+        return new Toolbar(webDriver).clickUserMenu().clickChangePassword();
     }
 
     public ChangePasswordPage typeOldPassword(String oldPasswordText)
     {
-        clearAndType(getBrowser().findElement(oldPasswordInput), oldPasswordText);
+        webElementInteraction.clearAndType(oldPasswordInput, oldPasswordText);
         return this;
     }
 
     public ChangePasswordPage typeNewPassword(String newPasswordText)
     {
-        clearAndType(getBrowser().findElement(newPassword), newPasswordText);
+        webElementInteraction.clearAndType(newPassword, newPasswordText);
         return this;
     }
 
     public ChangePasswordPage typeConfirmNewPassword(String confirmNewPasswordText)
     {
-        clearAndType(getBrowser().findElement(confirmNewPassword), confirmNewPasswordText);
+        webElementInteraction.clearAndType(confirmNewPassword, confirmNewPasswordText);
         return this;
     }
 
     public void clickOkButton()
     {
-        getBrowser().waitUntilElementClickable(okButton).click();
-    }
-
-    public boolean isOldPasswordInputDisplayed()
-    {
-        return getBrowser().isElementDisplayed(oldPasswordInput);
+//        webElementInteraction.waitUntilElementIsVisible(okButton);
+        webElementInteraction.clickElement(okButton);
     }
 
     public ChangePasswordPage assertChangePasswordPageIsOpened()
     {
-        assertTrue(getBrowser().getCurrentUrl().contains("change-password"), "Change password page is opened");
+        assertTrue(webElementInteraction.getCurrentUrl().contains("change-password"), "Change password page is opened");
         return this;
     }
 
@@ -101,7 +94,7 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
         typeNewPassword(newPassword);
         typeConfirmNewPassword(newPassword);
         clickOkButton();
-        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
+        return new UserProfilePage(webDriver);
     }
 
     public ChangePasswordPage changePasswordAndExpectError(String oldPassword, String newPassword, String confirmPassword)
@@ -110,10 +103,11 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
         typeNewPassword(newPassword);
         typeConfirmNewPassword(confirmPassword);
         clickOkButton();
-        getBrowser().waitUntilElementVisible(errorPrompt);
-        assertEquals(getBrowser().findElement(errorPromptMessage).getText(), language.translate("changeUserPassword.errorPrompt.message"),
+        webElementInteraction.waitUntilElementIsVisible(errorPrompt);
+        assertEquals(webElementInteraction.getElementText(errorPromptMessage),
+            language.translate("changeUserPassword.errorPrompt.message"),
             "Error prompt message is correct");
-        getBrowser().waitUntilElementClickable(errorPromptOKButton).click();
+        webElementInteraction.clickElement(errorPromptOKButton);
         return this;
     }
 }

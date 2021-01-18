@@ -1,15 +1,16 @@
 package org.alfresco.share;
 
-import static org.alfresco.common.Utils.saveScreenshot;
-
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import org.alfresco.cmis.CmisWrapper;
-import org.alfresco.common.BrowserFactory;
-import org.alfresco.common.EnvProperties;
+import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
+import org.alfresco.common.ScreenshotHelper;
 import org.alfresco.common.ShareTestContext;
+import org.alfresco.common.WebDriverFactory;
 import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.LoginAimsPage;
 import org.alfresco.po.share.CommonLoginPage;
+import org.alfresco.po.share.LoginAimsPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -18,13 +19,12 @@ import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
 import org.alfresco.utility.data.auth.DataAIS;
-import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.httpclient.HttpState;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +33,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * This class represents a test template which should be inherit by each test class.
@@ -49,11 +46,13 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
     private final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
-    @Autowired
-    private BrowserFactory browserFactory;
+    private ScreenshotHelper screenshotHelper;
 
     @Autowired
-    private EnvProperties properties;
+    private WebDriverFactory webDriverFactory;
+
+    @Autowired
+    private DefaultProperties defaultProperties;
 
     @Autowired
     protected DataUserAIS dataUser;
@@ -70,29 +69,30 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     @Autowired
     protected Language language;
 
-    @Autowired
-    protected UserService userService;
-
-    protected ThreadLocal<WebBrowser> browser = new ThreadLocal<>();
-    private ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
-    private ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
+    protected final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
+    private final ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
+    private final ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
+    private final ThreadLocal<UserService> userService = new ThreadLocal<>();
+    private final ThreadLocal<DataSite> dataSiteThread = new ThreadLocal<>();
 
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
     protected Toolbar toolbar;
 
     @BeforeMethod(alwaysRun = true)
-    public void beforeEachTest(Method method)
+    public void beforeEachTest()
     {
-        LOG.info("STARTED TEST: {}", method.getName());
-        browser.set(browserFactory.createBrowser());
+        webDriver.set(webDriverFactory.createWebDriver());
 
         cmisApi.set(applicationContext.getBean(CmisWrapper.class));
         restApi.set(applicationContext.getBean(RestWrapper.class));
+        userService.set(applicationContext.getBean(UserService.class));
+        dataSiteThread.set(applicationContext.getBean(DataSite.class));
+//        screenshotHelper = new ScreenshotHelper(webDriver);
 
-        loginPage = new LoginPage(browser);
-        userDashboardPage = new UserDashboardPage(browser);
-        toolbar = new Toolbar(browser);
+        loginPage = new LoginPage(webDriver);
+        userDashboardPage = new UserDashboardPage(webDriver);
+        toolbar = new Toolbar(webDriver);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -102,29 +102,30 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
             result.isSuccess() ? "PASSED" : "FAILED");
         if(!result.isSuccess())
         {
-            saveScreenshot(browser.get(), method);
+            LOG.warn("TEST FAILED {}", method);
+            //screenshotHelper.captureAndSaveScreenshot(webDriver, method);
         }
-        closeBrowser();
+        closeWebDriver();
     }
 
-    private void closeBrowser()
+    private void closeWebDriver()
     {
         try
         {
-            LOG.info("Close browser..");
-            browser.get().quit();
+            if (webDriver.get() != null)
+            {
+                LOG.info("Close webdriver..");
+                webDriver.get().quit();
+            }
         }
         catch (NoSuchSessionException noSuchSessionException)
         {
-            LOG.info("Browser is not closed: {}", noSuchSessionException.getMessage());
+            LOG.info("Webdriver is not closed: {}", noSuchSessionException.getMessage());
         }
         finally
         {
-            if (browser.get() != null)
-            {
-                LOG.info("Finally close browser..");
-                browser.get().quit();
-            }
+            LOG.info("Finally close webdriver..");
+            webDriver.get().quit();
         }
     }
 
@@ -147,26 +148,35 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 
     public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
     {
-        browser.get().manage().deleteAllCookies();
+        deleteAllCookiesIfNotNull();
         getLoginPage().navigate().login(userModel);
         userDashboardPage.waitForSharePageToLoad();
     }
 
     private void authenticateViaCookies(UserModel user)
     {
-        browser.get().manage().deleteAllCookies();
-        browser.get().get(properties.getShareUrl().toString());
-        HttpState state = userService.login(user.getUsername(), user.getPassword());
-        browser.get().manage().deleteAllCookies();
+        deleteAllCookiesIfNotNull();
+        webDriver.get().get(defaultProperties.getShareUrl().toString());
+        HttpState state = getUserService().login(user.getUsername(), user.getPassword());
+        deleteAllCookiesIfNotNull();
         Arrays.stream(state.getCookies()).forEach(cookie
-            -> browser.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
+            -> webDriver.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
+    }
+
+    protected void deleteAllCookiesIfNotNull()
+    {
+        if (webDriver.get().manage().getCookies() != null)
+        {
+            LOG.info("Delete all cookies");
+            webDriver.get().manage().deleteAllCookies();
+        }
     }
 
     private CommonLoginPage getLoginPage()
     {
         if (dataAIS.isEnabled())
         {
-            return new LoginAimsPage(browser);
+            return new LoginAimsPage(webDriver);
         }
         return loginPage;
     }
@@ -186,25 +196,28 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         return restApi.get();
     }
 
-    public void removeUserFromAlfresco(UserModel... users)
+    public UserService getUserService()
+    {
+        return userService.get();
+    }
+
+    public DataSite getDataSite()
+    {
+        return dataSiteThread.get();
+    }
+
+    public void deleteUsersIfNotNull(UserModel... users)
     {
         for (UserModel userModel : users)
         {
             if (userModel != null)
             {
-                try
-                {
-                    dataUser.usingAdmin().deleteUser(userModel);
-                }
-                catch (DataPreparationException e)
-                {
-                    LOG.error("Failed to delete user {}.", userModel.getUsername());
-                }
+                dataUser.usingAdmin().deleteUser(userModel);
             }
         }
     }
 
-    public void deleteSites(SiteModel... sites)
+    public void deleteSitesIfNotNull(SiteModel... sites)
     {
         for (SiteModel siteModel : sites)
         {

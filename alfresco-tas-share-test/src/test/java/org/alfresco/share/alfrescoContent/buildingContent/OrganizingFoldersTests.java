@@ -8,10 +8,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class OrganizingFoldersTests extends BaseTest
 {
@@ -20,8 +17,8 @@ public class OrganizingFoldersTests extends BaseTest
     private UserModel user;
     private SiteModel site;
 
-    @BeforeClass (alwaysRun = true)
-    public void dataPrep()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
@@ -30,15 +27,8 @@ public class OrganizingFoldersTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         setupAuthenticatedSession(user);
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
     }
 
     @TestRail (id = "C6276, C6277")
@@ -83,15 +73,15 @@ public class OrganizingFoldersTests extends BaseTest
         FolderModel parentFolder = FolderModel.getRandomFolderModel();
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
-        getCmisApi().authenticateUser(user).usingSite(site).createFolder(parentFolder)
-            .usingResource(parentFolder).createFolder(subFolder);
+        getCmisApi().authenticateUser(user)
+            .usingSite(site).createFolder(parentFolder)
+                .usingResource(parentFolder).createFolder(subFolder);
 
-        documentLibraryPage.navigate(site)
-            .assertFolderIsDisplayedInFilter(parentFolder)
+        documentLibraryPage.navigate(site).usingContent(parentFolder).assertContentIsDisplayed();
+        documentLibraryPage.assertFolderIsDisplayedInFilter(parentFolder)
             .clickFolderFromFilter(parentFolder)
-            .assertFolderIsDisplayedInFilter(subFolder)
-                .clickFolderFromFilter(parentFolder)
                 .assertFolderIsDisplayedInBreadcrumb(parentFolder)
+                .assertFolderIsDisplayedInFilter(subFolder)
                     .usingContent(subFolder).assertContentIsDisplayed();
         documentLibraryPage.clickFolderFromFilter(subFolder)
             .assertFolderIsDisplayedInBreadcrumb(parentFolder)
@@ -100,5 +90,12 @@ public class OrganizingFoldersTests extends BaseTest
                     .assertFolderIsDisplayedInBreadcrumb(parentFolder)
                 .clickFolderFromBreadcrumb(language.translate("documentLibrary.breadcrumb.select.documents"))
                     .usingContent(parentFolder).assertContentIsDisplayed();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void afterMethod()
+    {
+        deleteUsersIfNotNull(user);
+        deleteSitesIfNotNull(site);
     }
 }

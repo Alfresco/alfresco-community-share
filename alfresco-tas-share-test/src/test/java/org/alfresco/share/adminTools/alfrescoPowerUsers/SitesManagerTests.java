@@ -1,6 +1,5 @@
 package org.alfresco.share.adminTools.alfrescoPowerUsers;
 
-import static java.util.Arrays.asList;
 import static org.alfresco.share.TestUtils.ALFRESCO_SITE_ADMINISTRATORS;
 
 import org.alfresco.dataprep.SiteService.Visibility;
@@ -13,141 +12,160 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class SitesManagerTests extends BaseTest
 {
-    private UserModel user, siteAdmin;
-    private SiteModel site1, site2, site3, site4, site5, site6;
-    private final String siteDescription = "Site Description";
+    private UserModel siteAdmin;
+    private final ThreadLocal<SiteModel> testSite = new ThreadLocal<>();
 
     private SitesManagerPage sitesManagerPage;
     private SiteDashboardPage siteDashboardPage;
     private SystemErrorPage systemErrorPage;
 
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
-    {
-        siteDashboardPage = new SiteDashboardPage(browser);
-        sitesManagerPage = new SitesManagerPage(browser);
-        systemErrorPage = new SystemErrorPage(browser);
-    }
-
     @BeforeClass (alwaysRun = true)
     public void dataPrep()
     {
-        user = dataUser.createRandomTestUser();
         siteAdmin = dataUser.createRandomTestUser();
-
         dataGroup.usingUser(siteAdmin).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
-        dataGroup.usingUser(user).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
-        site1 = new SiteModel(RandomData.getRandomName("siteModerated"));
-        site1.setDescription(siteDescription);
-        site1.setVisibility(Visibility.MODERATED);
-        dataSite.usingUser(siteAdmin).createSite(site1);
-        site2 = dataSite.usingUser(siteAdmin).createModeratedRandomSite();
-        site3 = dataSite.usingUser(siteAdmin).createPrivateRandomSite();
-        site4 = dataSite.usingUser(siteAdmin).createPublicRandomSite();
-        site5 = dataSite.usingUser(siteAdmin).createPublicRandomSite();
-        site6 = dataSite.usingAdmin().createPublicRandomSite();
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        removeUserFromAlfresco(user, siteAdmin);
-        asList(site1, site2, site3, site4, site5, site6)
-            .forEach(site -> dataSite.usingAdmin().deleteSite(site));
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        sitesManagerPage = new SitesManagerPage(webDriver);
+        systemErrorPage = new SystemErrorPage(webDriver);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanUp()
+    {
+        deleteSitesIfNotNull(testSite.get());
     }
 
     @TestRail (id = "C8674")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifySiteManagerPage()
     {
-        setupAuthenticatedSession(siteAdmin);
+        String siteDescription = "Site Description";
+        SiteModel site = new SiteModel(RandomData.getRandomName("siteModerated"));
+        site.setDescription(siteDescription);
+        site.setVisibility(Visibility.MODERATED);
+        testSite.set(site);
+        getDataSite().usingUser(siteAdmin).createSite(testSite.get());
+
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
         sitesManagerPage.navigate()
             .assertSiteManagerPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("adminTools.sitesManager.browser.pageTitle"))
             .assertTableHasAllColumns()
-            .usingSite(site1)
-                .assertSiteDescriptionIs(siteDescription)
-                .assertSiteVisibilityEquals(Visibility.MODERATED)
-                .assertSiteManagerIsYes();
+            .usingSite(testSite.get())
+            .assertSiteDescriptionIs(siteDescription)
+            .assertSiteVisibilityEquals(Visibility.MODERATED)
+            .assertSiteManagerIsYes();
+
+        getDataSite().usingUser(siteAdmin).deleteSite(site);
     }
 
     @TestRail (id = "C8675")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToPublic()
     {
-        setupAuthenticatedSession(siteAdmin);
-        sitesManagerPage.navigate().usingSite(site2)
+        testSite.set(getDataSite().usingUser(siteAdmin).createModeratedRandomSite());
+
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
+        sitesManagerPage.navigate().usingSite(testSite.get())
             .changeSiteVisibility(Visibility.PUBLIC)
-            .assertSuccessIndicatorIsDisplayed()
-            .assertSiteVisibilityEquals(Visibility.PUBLIC);
-        siteDashboardPage.navigate(site2).assertSiteVisibilityIs(Visibility.PUBLIC);
+            .assertSiteVisibilityEquals(Visibility.PUBLIC)
+            .assertSuccessIndicatorIsDisplayed();
+        siteDashboardPage.navigate(testSite.get()).assertSiteVisibilityIs(Visibility.PUBLIC);
+        getDataSite().usingUser(siteAdmin).deleteSite(testSite.get());
     }
 
     @TestRail (id = "C8676")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToModerated()
     {
-        setupAuthenticatedSession(siteAdmin);
-        sitesManagerPage.navigate().usingSite(site3)
+        testSite.set(getDataSite().usingUser(siteAdmin).createPrivateRandomSite());
+
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
+        sitesManagerPage.navigate().usingSite(testSite.get())
             .changeSiteVisibility(Visibility.MODERATED)
-            .assertSuccessIndicatorIsDisplayed()
-            .assertSiteVisibilityEquals(Visibility.MODERATED);
-        siteDashboardPage.navigate(site3).assertSiteVisibilityIs(Visibility.MODERATED);
+            .assertSiteVisibilityEquals(Visibility.MODERATED)
+            .assertSuccessIndicatorIsDisplayed();
+        siteDashboardPage.navigate(testSite.get()).assertSiteVisibilityIs(Visibility.MODERATED);
+        getDataSite().usingUser(siteAdmin).deleteSite(testSite.get());
     }
 
     @TestRail (id = "C8680")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateSiteVisibilityToPrivate()
     {
-        setupAuthenticatedSession(siteAdmin);
-        sitesManagerPage.navigate().usingSite(site4)
+        testSite.set(getDataSite().usingUser(siteAdmin).createPublicRandomSite());
+
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
+        sitesManagerPage.navigate().usingSite(testSite.get())
             .changeSiteVisibility(Visibility.PRIVATE)
-            .assertSuccessIndicatorIsDisplayed()
-            .assertSiteVisibilityEquals(Visibility.PRIVATE);
-        siteDashboardPage.navigate(site4).assertSiteVisibilityIs(Visibility.PRIVATE);
+            .assertSiteVisibilityEquals(Visibility.PRIVATE)
+            .assertSuccessIndicatorIsDisplayed();
+        siteDashboardPage.navigate(testSite.get()).assertSiteVisibilityIs(Visibility.PRIVATE);
+        getDataSite().usingUser(siteAdmin).deleteSite(testSite.get());
     }
 
     @TestRail (id = "C8683, C8682, C2868")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyUserAddedAndRemovedFromSiteAdminGroup()
     {
+        UserModel user = dataUser.usingAdmin().createRandomTestUser();
+        dataGroup.usingUser(user).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
+
         setupAuthenticatedSessionViaLoginPage(user);
         userDashboardPage.navigate(user);
         toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
         setupAuthenticatedSessionViaLoginPage(user);
         toolbar.assertSitesManagerIsNotDisplayed();
+
+        dataUser.usingAdmin().deleteUser(user);
     }
 
     @TestRail (id = "C8689")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void siteAdminBecomeSitesManager()
     {
-        setupAuthenticatedSession(siteAdmin);
+        testSite.set(getDataSite().usingAdmin().createPublicRandomSite());
+
+        setupAuthenticatedSessionViaLoginPage(siteAdmin);
         sitesManagerPage.navigate()
-            .usingSite(site6).becomeSiteManager().assertSiteManagerIsYes();
+            .usingSite(testSite.get())
+            .becomeSiteManager()
+            .assertSiteManagerIsYes();
+
+        getDataSite().usingUser(siteAdmin).deleteSite(testSite.get());
     }
 
     @TestRail (id = "C8696")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSiteAsSiteAdmin()
     {
+        testSite.set(getDataSite().usingUser(siteAdmin).createPublicRandomSite());
+
         setupAuthenticatedSessionViaLoginPage(siteAdmin);
-        sitesManagerPage.navigate().usingSite(site5)
+        sitesManagerPage.navigate().usingSite(testSite.get())
             .clickDelete()
-            .assertConfirmMessageFromSiteManagerIsCorrect(site5.getTitle())
+            .assertConfirmMessageFromSiteManagerIsCorrect(testSite.get().getTitle())
             .clickDeleteFromSitesManager();
-        sitesManagerPage.waiUntilLoadingMessageDisappears()
-            .usingSite(site5).assertSiteIsNotDisplayed();
-        siteDashboardPage.navigateWithoutRender(site5);
-        systemErrorPage.renderedPage();
+        sitesManagerPage.waitUntilLoadingMessageDisappears()
+            .navigate()
+            .usingSite(testSite.get()).assertSiteIsNotDisplayed();
+        siteDashboardPage.navigate(testSite.get());
         systemErrorPage.assertSomethingIsWrongWithThePageMessageIsDisplayed();
+    }
+
+    @AfterClass (alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(siteAdmin);
     }
 }

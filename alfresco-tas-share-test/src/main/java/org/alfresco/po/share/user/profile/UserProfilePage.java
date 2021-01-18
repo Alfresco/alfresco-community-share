@@ -1,9 +1,5 @@
 package org.alfresco.po.share.user.profile;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +7,12 @@ import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import static org.alfresco.po.share.SharePageObject.WAIT_10;
+import static org.testng.Assert.*;
 
 /**
  * @author bogdan.bocancea
@@ -22,15 +20,12 @@ import org.openqa.selenium.WebElement;
 public class UserProfilePage extends SharePage2<UserProfilePage> implements AccessibleByMenuBar
 {
     private String userName;
-    private static final String EMPTY_SPACE = " ";
 
     private final By editProfile = By.cssSelector("button[id$='button-edit-button']");
     private final By infoLink = By.cssSelector("a[id$='default-profile-link']");
     private final By headers = By.cssSelector("div[id$='readview'] .viewcolumn .header-bar");
-    private final By nameLabel = By.cssSelector(".namelabel");
     private final By summary = By.cssSelector(".biorow>div");
     private final By aboutUserDetails = By.cssSelector(".fieldlabel");
-    @RenderWebElement
     private final By sitesLink = By.cssSelector("a[id$='default-user-sites-link']");
     private final By contentLink = By.cssSelector("a[id$='user-content-link']");
     private final By followingLink = By.cssSelector("a[id$='following-link']");
@@ -44,9 +39,9 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     private final String companyInfoDuplicateRow = "(//span[text()= '%s'])[2]/..";
     private final String valueRow = "//span[@class='fieldlabelright' and text()='%s']/..";
 
-    public UserProfilePage(ThreadLocal<WebBrowser> browser)
+    public UserProfilePage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getUserName()
@@ -80,94 +75,98 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     @Override
     public UserProfilePage navigateByMenuBar()
     {
-        return (UserProfilePage) new Toolbar(browser).clickUserMenu().clickMyProfile().renderedPage();
+        return new Toolbar(webDriver).clickUserMenu().clickMyProfile();
     }
 
     public UserProfilePage assertUserProfilePageIsOpened()
     {
-        getBrowser().waitUntilElementVisible(infoLink);
-        assertTrue(getBrowser().isElementDisplayed(infoLink), "User profile page is opened");
+        webElementInteraction.waitUrlContains("/profile", WAIT_10);
+        assertTrue(webElementInteraction.getCurrentUrl().contains("/profile"), "User profile page is opened");
         return this;
     }
 
     public UserProfilePage assertInfoLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(infoLink);
-        assertTrue(getBrowser().isElementDisplayed(infoLink), "Info link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(infoLink);
+        assertTrue(webElementInteraction.isElementDisplayed(infoLink), "Info link is displayed");
         return this;
     }
 
     public UserProfilePage assertSitesLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(sitesLink);
-        assertTrue(getBrowser().isElementDisplayed(sitesLink), "Sites link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(sitesLink);
+        assertTrue(webElementInteraction.isElementDisplayed(sitesLink), "Sites link is displayed");
         return this;
     }
 
     public UserProfilePage assertContentLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(contentLink);
-        assertTrue(getBrowser().isElementDisplayed(contentLink), "Content link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(contentLink);
+        assertTrue(webElementInteraction.isElementDisplayed(contentLink), "Content link is displayed");
         return this;
     }
 
     public UserProfilePage assertImFollowingLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(followingLink);
-        assertTrue(getBrowser().isElementDisplayed(followingLink), "Following link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(followingLink);
+        assertTrue(webElementInteraction.isElementDisplayed(followingLink), "Following link is displayed");
         return this;
     }
 
     public UserProfilePage assertFollowingMeLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(followersLink);
-        assertTrue(getBrowser().isElementDisplayed(followersLink), "Following Me link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(followersLink);
+        assertTrue(webElementInteraction.isElementDisplayed(followersLink), "Following Me link is displayed");
         return this;
     }
 
     public UserProfilePage assertChangePasswordLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(changePasswordLink);
-        assertTrue(getBrowser().isElementDisplayed(changePasswordLink), "Change password link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(changePasswordLink);
+        assertTrue(webElementInteraction.isElementDisplayed(changePasswordLink), "Change password link is displayed");
         return this;
     }
 
     public UserProfilePage assertNotificationsLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(notificationLink);
-        assertTrue(getBrowser().isElementDisplayed(notificationLink), "Notifications link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(notificationLink);
+        assertTrue(webElementInteraction.isElementDisplayed(notificationLink), "Notifications link is displayed");
         return this;
     }
 
     public UserProfilePage assertTrashcanLinkIsDisplayed()
     {
-        getBrowser().waitUntilElementVisible(trashcanLink);
-        assertTrue(getBrowser().isElementDisplayed(trashcanLink), "Trashcan link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(trashcanLink);
+        assertTrue(webElementInteraction.isElementDisplayed(trashcanLink), "Trashcan link is displayed");
         return this;
     }
 
     public boolean isAboutHeaderDisplayed()
     {
-        return getBrowser().isElementDisplayed(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
+        return webElementInteraction.isElementDisplayed(
+            webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
     }
 
+    //todo: refactor
     public UserProfilePage assertAboutHeaderIsDisplayed()
     {
-        assertNotNull(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.about")),
+        assertNotNull(webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.about")),
             "About is not displayed");
         return this;
     }
 
+    //todo: refactor
     public UserProfilePage assertContactInfoHeaderIsDisplayed()
     {
-        assertNotNull(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.contactInfo")),
+        assertNotNull(webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.contactInfo")),
             "Contact information header is not displayed");
         return this;
     }
 
+    //todo: refactor
     public UserProfilePage assertCompanyDetailsHeaderIsDisplayed()
     {
-        assertNotNull(getBrowser().findFirstElementWithValue(headers, language.translate("adminTools.user.companyDetails")),
+        assertNotNull(webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.companyDetails")),
             "Company details is not displayed");
         return this;
     }
@@ -175,35 +174,26 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public EditUserProfilePage clickEditProfile()
     {
         LOG.info("Click Edit Profile");
-        getBrowser().waitUntilElementVisible(editProfile).click();
-        return (EditUserProfilePage) new EditUserProfilePage(browser).renderedPage();
-    }
-
-    public UserProfilePage assertUsernameEquals(String firstName, String lastName)
-    {
-        LOG.info("Assert username equals: {}, {}", firstName, lastName);
-        assertEquals(getElementText(nameLabel), firstName.concat(EMPTY_SPACE).concat(lastName),
-                String.format("Username not equals %s %s ", firstName, lastName));
-        return this;
+        webElementInteraction.clickElement(editProfile);
+        return new EditUserProfilePage(webDriver);
     }
 
     public UserProfilePage assertSummaryIs(String summaryValue)
     {
-        LOG.info(String.format("Assert summary value is: %s", summaryValue));
-        assertEquals(getElementText(summary), summaryValue, "Summary is correct");
+        LOG.info("Assert summary value is: {}", summaryValue);
+        assertEquals(webElementInteraction.getElementText(summary), summaryValue, "Summary is correct");
         return this;
     }
 
     private List<String> getAboutUserInfo()
     {
-        List<WebElement> aboutDetails = getBrowser().findElements(aboutUserDetails);
+        List<WebElement> aboutDetails = webElementInteraction.waitUntilElementsAreVisible(aboutUserDetails);
         return aboutDetails.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public UserProfilePage assertAboutUserHasValues(String... values)
     {
         LOG.info("Assert values {} are displayed in About User section", Arrays.asList(values));
-        getBrowser().waitUntilElementVisible(aboutUserDetails);
         assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
         return this;
     }
@@ -211,14 +201,13 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public UserProfilePage assertUserInfoIsEmpty()
     {
         LOG.info("Assert About user has no values");
-        assertTrue(getAboutUserInfo().isEmpty(), "User info has no values");
+        assertFalse(webElementInteraction.isElementDisplayed(aboutUserDetails), "About user info is displayed");
         return this;
     }
 
     private UserProfilePage checkValue(String element, String label, String value)
     {
-
-        assertEquals(getBrowser().findElement(By.xpath(String.format(element,
+        assertEquals(webElementInteraction.findElement(By.xpath(String.format(element,
             language.translate(label))))
             .findElement(fieldValue).getText(), value);
         return this;
@@ -282,8 +271,8 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public UserProfilePage assertDefaultAvatarIsDisplayed()
     {
         LOG.info("Assert default avatar is displayed");
-        WebElement photoElement = getBrowser().findElement(photo);
-        getBrowser().waitUntilElementHasAttribute(photoElement, "src", "no-user-photo-64.png");
+        WebElement photoElement = webElementInteraction.waitUntilElementIsVisible(photo);
+        webElementInteraction.waitUntilElementHasAttribute(photoElement, "src", "no-user-photo-64.png");
         assertTrue(photoElement.getAttribute("src").contains("no-user-photo-64.png"));
         return this;
     }
@@ -291,7 +280,8 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public UserProfilePage assertNewAvatarIsDisplayed()
     {
         LOG.info("Assert new avatar is displayed");
-        assertTrue(getBrowser().findElement(photo).getAttribute("src").contains("/content/thumbnails/avatar"));
+        assertTrue(webElementInteraction.waitUntilElementIsVisible(photo)
+            .getAttribute("src").contains("/content/thumbnails/avatar"));
         return this;
     }
 }

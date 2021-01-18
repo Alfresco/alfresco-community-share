@@ -1,30 +1,47 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import static org.alfresco.common.Wait.WAIT_10;
+import static org.alfresco.utility.Utility.waitToLoopTime;
+
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class AddCategoryDialog extends BaseDialogComponent
 {
-    @RenderWebElement
     private final By addCategoryNameInput = By.cssSelector("div[id*=userInput] input[id*=alf-id]");
     private final By addCategoryNameOKButton = By.cssSelector("div[id*=userInput] span.button-group span.default button");
 
-    public AddCategoryDialog(ThreadLocal<WebBrowser> browser)
+    public AddCategoryDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public CategoryManagerPage addCategory(String categoryName)
     {
-        clearAndType(addCategoryNameInput, categoryName);
-        WebElement addButton = getBrowser().waitUntilElementVisible(addCategoryNameOKButton);
-        getBrowser().mouseOver(addButton);
-        getBrowser().waitUntilElementClickable(addButton).click();
+        webElementInteraction.clearAndType(addCategoryNameInput, categoryName);
+        WebElement addButton = webElementInteraction.waitUntilElementIsVisible(addCategoryNameOKButton);
+        webElementInteraction.mouseOver(addButton);
+        webElementInteraction.clickElement(addButton, 2000);
         waitUntilNotificationMessageDisappears();
-        return (CategoryManagerPage) new CategoryManagerPage(browser).renderedPage();
+        return new CategoryManagerPage(webDriver);
+    }
+
+    //todo: temporary workaround when CRUD operations on category return 500 status code
+    private void refreshPageAndClickIfUnableToPerformCrudActionsOnCategory(String categoryName)
+    {
+        int counter = 0;
+        while (webElementInteraction.getElementText(notificationMessageLocator).contains("Category could not be added.") && counter < WAIT_10.getValue())
+        {
+            LOG.error("500 status code is returned when tried to delete/edit category");
+            waitToLoopTime(1);
+            webElementInteraction.clearAndType(addCategoryNameInput, categoryName);
+            WebElement addButton = webElementInteraction.waitUntilElementIsVisible(addCategoryNameOKButton);
+            webElementInteraction.mouseOver(addButton);
+            webElementInteraction.clickElement(addButton, 2000);
+            counter++;
+        }
     }
 }

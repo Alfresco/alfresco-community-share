@@ -1,19 +1,16 @@
 package org.alfresco.po.share.site.blog;
 
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class EditBlogPostPage extends CreateBlogPostPage
 {
     public By editBlogPageTitle = By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']");
-    //@Autowired
-    BlogPostViewPage blogPostViewPage;
 
-    public EditBlogPostPage(ThreadLocal<WebBrowser> browser)
+    public EditBlogPostPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     /**
@@ -24,7 +21,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     public void editTitle(String editedTitle)
     {
-        getBrowser().waitUntilElementVisible(titleField);
+        webElementInteraction.waitUntilElementIsVisible(titleField);
         titleField.clear();
         titleField.sendKeys(editedTitle);
     }
@@ -37,11 +34,11 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     public void sendBlogPostTextInput(String blogPostContentText)
     {
-        getBrowser().switchTo().frame(getBrowser().findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
-        WebElement element = getBrowser().findElement(By.id("tinymce"));
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
+        WebElement element = webElementInteraction.findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogPostContentText);
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
     }
 
     /**
@@ -50,7 +47,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
     public BlogPostViewPage clickUpdateButton()
     {
         saveAsDraftButton.click();
-        return (BlogPostViewPage) blogPostViewPage.renderedPage();
+        return new BlogPostViewPage(webDriver);
     }
 
     /**
@@ -60,7 +57,6 @@ public class EditBlogPostPage extends CreateBlogPostPage
      */
     public String getEditBlogPostPageTitle()
     {
-        return getBrowser().findElement(editBlogPageTitle).getText();
+        return webElementInteraction.findElement(editBlogPageTitle).getText();
     }
-
 }

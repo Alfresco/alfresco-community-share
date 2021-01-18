@@ -41,7 +41,7 @@ public class LoginAIMSTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        loginAimsPage = new LoginAimsPage(browser);
+        loginAimsPage = new LoginAimsPage(webDriver);
     }
 
     @TestRail(id = "C2080")
@@ -51,7 +51,6 @@ public class LoginAIMSTests extends BaseTest
         loginAimsPage.navigate()
             .assertLoginPageIsOpened()
             .assertLoginPageTitleIsCorrect().login(validUser);
-        userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened()
             .assertUserDashboardPageTitleIsCorrect()
             .assertPageHeaderIsCorrect(validUser);
@@ -82,7 +81,6 @@ public class LoginAIMSTests extends BaseTest
     public void invalidUserRedirectedToLoginPage()
     {
         userDashboardPage.navigateWithoutRender(validUser);
-        loginAimsPage.renderedPage();
         loginAimsPage.assertLoginPageIsOpened().login("user123", "wrongpass");
         loginAimsPage.assertAuthenticationErrorIsDisplayed();
     }
@@ -93,7 +91,6 @@ public class LoginAIMSTests extends BaseTest
     {
         specialUserList.forEach(specialUser -> {
             loginAimsPage.navigate().login(specialUser);
-            userDashboardPage.renderedPage();
             userDashboardPage.assertPageHeaderIsCorrect(specialUser);
             toolbar.clickUserMenu().clickLogout();
         });
@@ -105,16 +102,15 @@ public class LoginAIMSTests extends BaseTest
     {
         loginAimsPage.navigate();
         loginAimsPage.login(specialPassUser);
-        userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(validUser, specialPassUser);
+        deleteUsersIfNotNull(validUser, specialPassUser);
         specialUserList.forEach(specialUser -> {
-            removeUserFromAlfresco(specialUser);
+            deleteUsersIfNotNull(specialUser);
         });
     }
 }

@@ -11,19 +11,17 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class TrashcanTests extends BaseTest
 {
-    private UserModel trashUser, cleanUser;
+    private UserModel trashUser;
+    private UserModel cleanUser;
     private SiteModel trashSite;
 
     private UserTrashcanPage userTrashcanPage;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
         trashUser = dataUser.usingAdmin().createRandomTestUser();
@@ -34,7 +32,7 @@ public class TrashcanTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userTrashcanPage = new UserTrashcanPage(browser);
+        userTrashcanPage = new UserTrashcanPage(webDriver);
     }
 
     @TestRail (id = "C10506")
@@ -91,10 +89,10 @@ public class TrashcanTests extends BaseTest
         userTrashcanPage.assertContentIsNotDisplayed(folder);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(trashUser, cleanUser);
-        deleteSites(trashSite);
+        deleteUsersIfNotNull(trashUser, cleanUser);
+        deleteSitesIfNotNull(trashSite);
     }
 }

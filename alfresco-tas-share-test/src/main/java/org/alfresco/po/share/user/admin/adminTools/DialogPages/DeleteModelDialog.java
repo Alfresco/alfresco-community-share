@@ -1,33 +1,28 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import org.alfresco.po.share.BaseDialogComponent;
+import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
 public class DeleteModelDialog extends BaseDialogComponent
 {
-    private final By deleteModelDialogTitle = By.id("CMM_DELETE_MODEL_DIALOG_title");
-    @RenderWebElement
-    private final By deleteModelDialog = By.id("CMM_DELETE_MODEL_DIALOG");
-    @RenderWebElement
-    private final By deleteButton = By.cssSelector("#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(1) span[role='button']");
-    @RenderWebElement
-    private final By cancelButton = By.cssSelector("#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(2) span[role='button']");
+    private final By deleteModelDialogLocator = By.cssSelector("div[id='CMM_DELETE_MODEL_DIALOG']");
+    private final By deleteButton = By.xpath(".//span[normalize-space()='Delete']");
+    private final By cancelButton = By.xpath(".//span[normalize-space()='Cancel']");
     private final By deleteModelDialogText = By.xpath("//div[@id='CMM_DELETE_MODEL_DIALOG']//div[@class='dialog-body']");
 
-    public DeleteModelDialog(ThreadLocal<WebBrowser> browser)
+    public DeleteModelDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getDeleteModelDialogText()
     {
-        return getElementText(deleteModelDialogText);
+        return webElementInteraction.getElementText(deleteModelDialogText);
     }
 
     public DeleteModelDialog assertDeleteModelDialogTextIsCorrect(String modelName)
@@ -36,40 +31,25 @@ public class DeleteModelDialog extends BaseDialogComponent
         return this;
     }
 
-    public boolean isDeleteModelDialogDisplayed()
-    {
-        return getBrowser().isElementDisplayed(deleteModelDialog);
-    }
-
     public DeleteModelDialog assertDeleteModelDialogIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(deleteModelDialog), "Delete model dialog is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(deleteModelDialogLocator), "Delete model dialog is displayed");
         return this;
-    }
-
-    public String getDeleteModelDialogTitle()
-    {
-        return getElementText(deleteModelDialogTitle);
     }
 
     public ModelManagerPage clickDelete()
     {
-        getBrowser().waitUntilElementClickable(deleteButton).click();
-        getBrowser().waitUntilElementDisappears(deleteModelDialog);
-        ModelManagerPage modelManagerPage = new ModelManagerPage(browser);
-        modelManagerPage.waiUntilLoadingMessageDisappears();
-        return (ModelManagerPage) modelManagerPage.renderedPage();
-    }
-
-    public DeleteModelDialog assertDeleteButtonIsDisplayed()
-    {
-        assertTrue(getBrowser().isElementDisplayed(deleteButton), "Delete button is displayed");
-        return this;
+        webElementInteraction.waitUntilElementIsVisible(deleteButton);
+        webElementInteraction.clickElement(deleteButton);
+        webElementInteraction.waitUntilElementDisappears(deleteModelDialogLocator);
+        ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
+        modelManagerPage.waitUntilLoadingMessageDisappears();
+        return new ModelManagerPage(webDriver);
     }
 
     public DeleteModelDialog assertCancelButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 }

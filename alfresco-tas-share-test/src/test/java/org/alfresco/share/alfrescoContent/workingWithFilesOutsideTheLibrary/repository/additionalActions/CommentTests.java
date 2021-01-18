@@ -61,7 +61,6 @@ public class CommentTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Add comment");
         socialFeatures.clickCommentLink(fileNameC8305);
-        documentDetails.renderedPage();
         documentDetails.addComment(comment);
         Assert.assertEquals(documentDetails.getCommentContent(), comment, "Comment text is not correct");
 
@@ -87,7 +86,6 @@ public class CommentTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Add comment");
         socialFeatures.clickCommentLink(folderNameC8306);
-        documentDetails.renderedPage();
         documentDetails.addComment(comment);
         Assert.assertEquals(documentDetails.getCommentContent(), comment, "Comment text is not correct");
 

@@ -1,39 +1,38 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
 
 public class DeleteUserDialogPage extends BaseDialogComponent
 {
-    @RenderWebElement
     private final By deleteUserWindow = By.id("deleteDialog_c");
     private final By deleteUserText = By.cssSelector("div[id='deleteDialog_c'] div.yui-u");
-    @RenderWebElement
-    private final By deleteUserButton = By.cssSelector("#yui-gen0 button");
+    private final By deleteUserButton = By.cssSelector(".button-group>span:nth-of-type(1) button");
 
-    public DeleteUserDialogPage(ThreadLocal<WebBrowser> browser)
+    public DeleteUserDialogPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public DeleteUserDialogPage assertDeleteUserDialogIsOpened()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(deleteUserWindow), "Delete user dialog is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(deleteUserWindow), "Delete user dialog is displayed");
         return this;
     }
 
     public void clickDelete()
     {
-        getBrowser().waitUntilElementClickable(deleteUserButton).click();
+        webElementInteraction.clickElement(deleteUserButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public DeleteUserDialogPage assertDeleteUserDialogTextIsCorrect()
     {
-        Assert.assertEquals(getElementText(deleteUserText), language.translate("deleteUser.dialog"));
+        assertEquals(webElementInteraction.getElementText(deleteUserText), language.translate("deleteUser.dialog"));
         return this;
     }
 }

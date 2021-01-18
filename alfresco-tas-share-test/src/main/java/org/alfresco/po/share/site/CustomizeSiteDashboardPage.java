@@ -2,7 +2,7 @@ package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.DashboardCustomization;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author bogdan.bocancea
@@ -11,9 +11,9 @@ public class CustomizeSiteDashboardPage<T> extends DashboardCustomization<Custom
 {
     private String currentSiteName;
 
-    public CustomizeSiteDashboardPage(ThreadLocal<WebBrowser> browser)
+    public CustomizeSiteDashboardPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getCurrentSiteName()
@@ -35,12 +35,12 @@ public class CustomizeSiteDashboardPage<T> extends DashboardCustomization<Custom
     public CustomizeSiteDashboardPage navigate(String siteId)
     {
         setCurrentSiteName(siteId);
-        return (CustomizeSiteDashboardPage) renderedPage();
+        return this;
     }
 
     public T navigate(SiteModel site)
     {
         setCurrentSiteName(site.getId());
-        return (T) navigate().renderedPage();
+        return (T) navigate();
     }
 }

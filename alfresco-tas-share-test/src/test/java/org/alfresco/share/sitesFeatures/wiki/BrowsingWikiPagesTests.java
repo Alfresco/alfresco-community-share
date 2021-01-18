@@ -195,7 +195,6 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         } catch (NoSuchElementException e)
         {
             getBrowser().refresh();
-            wikiListPage.renderedPage();
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle1), "Wiki 'U1Page1' is displayed");
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle2), "Wiki 'U1Page2' is displayed");
         }

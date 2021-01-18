@@ -8,37 +8,26 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class ToolbarTests extends BaseTest
 {
     private SiteDashboardPage siteDashboardPage;
     private UserProfilePage userProfilePage;
 
-    private UserModel normalUser, adminUser, siteUser;
+    private UserModel normalUser;
 
     @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
         normalUser = dataUser.usingAdmin().createRandomTestUser();
-        adminUser = dataUser.createRandomTestUser();
-        siteUser = dataUser.createRandomTestUser();
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        siteDashboardPage = new SiteDashboardPage(browser);
-        userProfilePage = new UserProfilePage(browser);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanUp()
-    {
-        removeUserFromAlfresco(normalUser, adminUser, siteUser);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        userProfilePage = new UserProfilePage(webDriver);
     }
 
     @TestRail (id = "C2091, C8701")
@@ -50,7 +39,6 @@ public class ToolbarTests extends BaseTest
         toolbar.assertToolbarIsDisplayed()
             .assertHomeIsDisplayed()
             .assertMyFilesIsDisplayed()
-            .assertSharedFilesIsDisplayed()
             .assertSitesIsDisplayed()
             .assertTasksIsDisplayed()
             .assertPeopleIsDisplayed()
@@ -66,9 +54,11 @@ public class ToolbarTests extends BaseTest
                     .assertSiteFinderIsDisplayed()
                     .assertCreateSiteIsDisplayed()
                     .assertFavoritesIsDisplayed();
+        toolbar.closeMenu();
         toolbar.clickTasks()
             .assertMyTasksIsDisplayed()
             .assertWorkflowIStartedIsDisplayed();
+        toolbar.closeMenu();
         toolbar.clickUserMenu()
             .assertUserDashboardIsDisplayed()
             .assertMyProfileIsDisplayed()
@@ -99,14 +89,19 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
+        UserModel adminUser = dataUser.createRandomTestUser();
         dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
-        setupAuthenticatedSession(adminUser);
+
+        setupAuthenticatedSessionViaLoginPage(adminUser);
         userDashboardPage.navigate(adminUser);
         toolbar.assertAdminToolsIsDisplayed()
             .clickAdminTools().assertAdminApplicationPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
-        setupAuthenticatedSession(adminUser);
+
+        setupAuthenticatedSessionViaLoginPage(adminUser);
         toolbar.assertAdminToolsIsNotDisplayed();
+
+        dataUser.usingAdmin().deleteUser(adminUser);
     }
 
     @TestRail (id = "C2864")
@@ -126,19 +121,16 @@ public class ToolbarTests extends BaseTest
         userProfilePage.navigate(normalUser);
         toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         toolbar.clickHome();
-        userProfilePage.renderedPage();
         userProfilePage.assertUserProfilePageIsOpened();
 
         toolbar.clickUserMenu().clickSetDashBoardAsHome();
         toolbar.clickHome();
-        userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
 
         if(!dataAIS.isEnabled())
         {
             toolbar.clickUserMenu().clickChangePassword().assertChangePasswordPageIsOpened();
         }
-
         toolbar.clickUserMenu().clickLogout().assertLoginPageIsOpened();
     }
 
@@ -161,36 +153,39 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromSitesMenu()
     {
-        SiteModel site1 = dataSite.usingUser(siteUser).createPublicRandomSite();
-        SiteModel site2 = dataSite.usingUser(siteUser).createPublicRandomSite();
+        UserModel siteUser = dataUser.createRandomTestUser();
+
+        SiteModel firstSite = dataSite.usingUser(siteUser).createPublicRandomSite();
+        SiteModel secondSite = dataSite.usingUser(siteUser).createPublicRandomSite();
         setupAuthenticatedSession(siteUser);
-        siteDashboardPage.navigate(site1);
-        siteDashboardPage.navigate(site2);
+        siteDashboardPage.navigate(firstSite);
+        siteDashboardPage.navigate(secondSite);
 
         userDashboardPage.navigate(siteUser);
         toolbar.clickSites()
             .assertRecentSitesSectionIsDisplayed()
-            .assertSiteIsInRecentSites(site1)
-            .assertSiteIsInRecentSites(site2)
-                .clickRecentSite(site1).assertSiteDashboardPageIsOpened();
+            .assertSiteIsInRecentSites(firstSite)
+            .assertSiteIsInRecentSites(secondSite)
+                .clickRecentSite(firstSite).assertSiteDashboardPageIsOpened();
 
-        toolbar.clickSites().clickMySites().assertSiteIsDisplayed(site1)
-            .assertSiteIsDisplayed(site2);
+        toolbar.clickSites().clickMySites().assertSiteIsDisplayed(firstSite)
+            .assertSiteIsDisplayed(secondSite);
         toolbar.clickSites().clickSiteFinder().assertSiteFinderPageIsOpened();
 
         toolbar.clickSites().clickCreateSite()
             .assertCreateSiteDialogIsDisplayed().clickCloseXButton();
 
-        toolbar.clickSites().assertSiteIsFavorite(site1).assertSiteIsFavorite(site2);
-        toolbar.clickSites().clickFavoriteSite(site1).assertSiteDashboardPageIsOpened();
+        toolbar.clickSites().assertSiteIsFavorite(firstSite).assertSiteIsFavorite(secondSite);
+        toolbar.clickSites().clickFavoriteSite(firstSite).assertSiteDashboardPageIsOpened();
         toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsDisplayed();
 
         toolbar.clickSites().clickRemoveCurrentSiteFromFavorites();
         toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsNotDisplayed();
         toolbar.clickSites().assertAddCurrentSiteToFavoritesDisplayed();
 
-        dataSite.usingAdmin().deleteSite(site1);
-        dataSite.usingAdmin().deleteSite(site2);
+        dataSite.usingAdmin().deleteSite(firstSite);
+        dataSite.usingAdmin().deleteSite(secondSite);
+        dataUser.usingAdmin().deleteUser(siteUser);
     }
 
     @TestRail (id = "C2867")
@@ -200,7 +195,6 @@ public class ToolbarTests extends BaseTest
         setupAuthenticatedSession(normalUser);
         userDashboardPage.navigate(normalUser);
         toolbar.clickHome();
-        userDashboardPage.renderedPage();
         userDashboardPage.assertUserDashboardPageIsOpened();
 
         toolbar.clickMyFiles().assertMyFilesPageIsOpened();
@@ -208,5 +202,11 @@ public class ToolbarTests extends BaseTest
         toolbar.clickPeople().assertPeopleFinderPageIsOpened();
         toolbar.clickRepository().assertRepositoryPageIsOpened();
         toolbar.clickAdvancedSearch().assertAdvancedSearchPageIsOpened();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp()
+    {
+        deleteUsersIfNotNull(normalUser);
     }
 }

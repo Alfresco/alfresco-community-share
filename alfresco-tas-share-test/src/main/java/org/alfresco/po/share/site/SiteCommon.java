@@ -2,8 +2,8 @@ package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 {
@@ -18,9 +18,9 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 
     private String currentSiteName;
 
-    public SiteCommon(ThreadLocal<WebBrowser> browser)
+    protected SiteCommon(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getCurrentSiteName()
@@ -35,64 +35,69 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 
     public void clickSiteConfiguration()
     {
-        getBrowser().findElement(siteConfiguration).click();
-        getBrowser().waitUntilElementsVisible(configurationOptions);
+        webElementInteraction.waitUntilElementIsVisible(siteConfiguration);
+        webElementInteraction.clickElement(siteConfiguration);
+        webElementInteraction.waitUntilElementsAreVisible(configurationOptions);
     }
 
     public boolean isWaitPopupDisplayed()
     {
-        return getBrowser().isElementDisplayed(waitPopup);
+        return webElementInteraction.isElementDisplayed(waitPopup);
     }
 
     public void clickSiteMembers()
     {
         while (isWaitPopupDisplayed())
         {
-            getBrowser().waitUntilElementDisappears(waitPopup);
+            webElementInteraction.waitUntilElementDisappears(waitPopup);
         }
-        getBrowser().findElement(members).click();
+        webElementInteraction.waitUntilElementIsVisible(members);
+        webElementInteraction.clickElement(members);
     }
 
     public boolean isSiteMembersLinkDisplayed()
     {
-        return getBrowser().isElementDisplayed(members);
+        return webElementInteraction.isElementDisplayed(members);
     }
 
     public void clickSiteDashboard()
     {
-        getBrowser().findElement(dashboard).click();
+        webElementInteraction.waitUntilElementIsVisible(dashboard);
+        webElementInteraction.clickElement(dashboard);
     }
 
     public boolean isSiteDashboardLinkDisplayed()
     {
-        return getBrowser().isElementDisplayed(dashboard);
+        return webElementInteraction.isElementDisplayed(dashboard);
     }
 
     public void clickDocumentLibrary()
     {
-        getBrowser().findElement(documentLibrary).click();
+        webElementInteraction.waitUntilElementIsVisible(documentLibrary);
+        webElementInteraction.clickElement(documentLibrary);
     }
 
     public boolean isDocumentLibraryLinkDisplayed()
     {
-        return getBrowser().isElementDisplayed(documentLibrary);
+        return webElementInteraction.isElementDisplayed(documentLibrary);
     }
 
     public void clickAddUsersIcon()
     {
-        getBrowser().findElement(addUser).click();
+        webElementInteraction.waitUntilElementIsVisible(addUser);
+        webElementInteraction.clickElement(addUser);
     }
 
     public T navigate(String siteId)
     {
         setCurrentSiteName(siteId);
-        return (T) navigate().renderedPage();
+        return (T) navigate();
     }
 
     public T navigate(SiteModel site)
     {
         setCurrentSiteName(site.getId());
-        return (T) navigate().renderedPage();
+        return (T) navigate();
     }
 
     public void navigateWithoutRender(SiteModel site)
@@ -103,6 +108,6 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 
     public String getSiteName()
     {
-        return getBrowser().waitUntilElementVisible(siteName).getText();
+        return webElementInteraction.getElementText(siteName);
     }
 }

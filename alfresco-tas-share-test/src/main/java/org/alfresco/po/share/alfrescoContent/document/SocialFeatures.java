@@ -1,21 +1,20 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class SocialFeatures extends DocumentLibraryPage
 {
     //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
-    public By facebookHomeLink = By.id("homelink");
-    public By googlePlusEmailField = By.id("Email");
-    public By quickShareWindow = By.cssSelector("div.yuimenu.quickshare-action-menu.yui-module.yui-overlay.visible");
-    public By enabledLikeButton = By.cssSelector("a[class ='like-action enabled']");
+    public final By facebookHomeLink = By.id("homelink");
+    public final By googlePlusEmailField = By.id("Email");
+    public final By quickShareWindow = By.cssSelector("div.yuimenu.quickshare-action-menu.yui-module.yui-overlay.visible");
+    public final By enabledLikeButton = By.cssSelector("a[class ='like-action enabled']");
     protected String user = "alfresco.cloud@gmail.com";
     protected String password = "alfresco123!";
     protected String gEmail = "test.alfresco5@gmail.com";
@@ -56,9 +55,9 @@ public class SocialFeatures extends DocumentLibraryPage
     private By shareButton = By.cssSelector("a.quickshare-action");
     private By likesCount = By.cssSelector("span.likes-count");
 
-    public SocialFeatures(ThreadLocal<WebBrowser> browser)
+    public SocialFeatures(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -82,12 +81,12 @@ public class SocialFeatures extends DocumentLibraryPage
     public void clickLikeButton(String fileName)
     {
         selectDocumentLibraryItemRow(fileName).findElement(likeButton).click();
-        getBrowser().waitUntilElementVisible(enabledLikeButton);
+        webElementInteraction.waitUntilElementIsVisible(enabledLikeButton);
     }
 
     public boolean isLikeButtonEnabled(String fileName)
     {
-        return getBrowser().isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabledLikeButton);
+        return webElementInteraction.isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabledLikeButton);
     }
 
     public String getLikeButtonEnabledText(String fileName)
@@ -103,7 +102,7 @@ public class SocialFeatures extends DocumentLibraryPage
     public DocumentDetailsPage clickCommentLink(String contentName)
     {
         selectDocumentLibraryItemRow(contentName).findElement(commentLinkSelector).click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+        return new DocumentDetailsPage(webDriver);
     }
 
     public int getNumberOfComments(String contentName)
@@ -118,7 +117,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isShareButtonDisplayed(String contentName)
     {
-        return getBrowser().isElementDisplayed(selectDocumentLibraryItemRow(contentName), shareButton);
+        return webElementInteraction.isElementDisplayed(selectDocumentLibraryItemRow(contentName), shareButton);
     }
 
     public void clickShareButton(String contentName)
@@ -128,12 +127,12 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isQuickshareWindowDisplayed()
     {
-        return getBrowser().isElementDisplayed(quickShareWindow);
+        return webElementInteraction.isElementDisplayed(quickShareWindow);
     }
 
     public boolean isPublicLinkDisplayed()
     {
-        return getBrowser().isElementDisplayed(publicLinkViewButton);
+        return webElementInteraction.isElementDisplayed(publicLinkViewButton);
     }
 
     public void clickShareWithFacebook()
@@ -143,19 +142,19 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public String getFacebookWindowTitle()
     {
-        return getBrowser().findElement(By.id("homelink")).getText();
+        return webElementInteraction.findElement(By.id("homelink")).getText();
     }
 
     public void loginFacebook()
     {
-        getBrowser().findElement(By.id("email")).sendKeys(user);
-        getBrowser().findElement(By.id("pass")).sendKeys(password);
-        getBrowser().findElement(By.id("loginbutton")).click();
+        webElementInteraction.findElement(By.id("email")).sendKeys(user);
+        webElementInteraction.findElement(By.id("pass")).sendKeys(password);
+        webElementInteraction.findElement(By.id("loginbutton")).click();
     }
 
     public boolean isShareLinkDisplayedOnFacebook()
     {
-        return getBrowser().isElementDisplayed(By.xpath("//div[@class='mbs _6m6 _2cnj _5s6c']"));
+        return webElementInteraction.isElementDisplayed(By.xpath("//div[@class='mbs _6m6 _2cnj _5s6c']"));
     }
 
     public void clickTwitterIcon()
@@ -165,12 +164,12 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public String getTwitterPageTitle()
     {
-        return getBrowser().findElement(By.cssSelector("h2.action-information")).getText();
+        return webElementInteraction.findElement(By.cssSelector("h2.action-information")).getText();
     }
 
     public String getTwitterShareLink()
     {
-        String link = getBrowser().findElement(By.id("status")).getText();
+        String link = webElementInteraction.findElement(By.id("status")).getText();
         link = link.substring(0, link.lastIndexOf('/'));
         return link;
     }
@@ -189,10 +188,10 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public void loginToGoogleAccount()
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(googlePlusEmailField, 3);
+        webElementInteraction.waitUntilElementIsDisplayedWithRetry(googlePlusEmailField, 3);
         googleEmail.sendKeys(gEmail);
         nextButton.click();
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(googlePassword, 3);
+        webElementInteraction.waitUntilWebElementIsDisplayedWithRetry(googlePassword, 3);
         googlePassword.sendKeys(gPassword);
         signInButton.click();
     }
@@ -204,12 +203,12 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean checkShareButtonAvailability()
     {
-        return getBrowser().isElementDisplayed(shareButton);
+        return webElementInteraction.isElementDisplayed(shareButton);
     }
 
     public boolean isPublicLinkInputFieldDisplayed()
     {
-        return getBrowser().isElementDisplayed(publicLinkInputField);
+        return webElementInteraction.isElementDisplayed(publicLinkInputField);
     }
 
     public void clickPublicLinkViewButton()
@@ -219,14 +218,14 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isLoginButtonOnSharedFilePage()
     {
-        getBrowser().waitUntilElementVisible(loginButtonOnSharedFilePage);
-        return getBrowser().isElementDisplayed(loginButtonOnSharedFilePage);
+        webElementInteraction.waitUntilElementIsVisible(loginButtonOnSharedFilePage);
+        return webElementInteraction.isElementDisplayed(loginButtonOnSharedFilePage);
     }
 
     public boolean isDocumentDetailsButtonOnSharedFilePageDisplayed()
     {
-        getBrowser().waitUntilElementVisible(documentDetailsButtonOnSharedFilePage);
-        return getBrowser().isElementDisplayed(documentDetailsButtonOnSharedFilePage);
+        webElementInteraction.waitUntilElementIsVisible(documentDetailsButtonOnSharedFilePage);
+        return webElementInteraction.isElementDisplayed(documentDetailsButtonOnSharedFilePage);
     }
 
     public void clickLoginButtonOnSharedFilePage()
@@ -237,7 +236,7 @@ public class SocialFeatures extends DocumentLibraryPage
     public DocumentDetailsPage clickDocumentDetailsButtonOnSharedFilePage()
     {
         documentDetailsButtonOnSharedFilePage.click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+        return new DocumentDetailsPage(webDriver);
     }
 
     public String getContentTextFromSharedFilePage()
@@ -247,7 +246,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isShareUrlDisplayed()
     {
-        getBrowser().waitUntilElementVisible(sharedUrl);
-        return getBrowser().isElementDisplayed(sharedUrl);
+        webElementInteraction.waitUntilElementIsVisible(sharedUrl);
+        return webElementInteraction.isElementDisplayed(sharedUrl);
     }
 }

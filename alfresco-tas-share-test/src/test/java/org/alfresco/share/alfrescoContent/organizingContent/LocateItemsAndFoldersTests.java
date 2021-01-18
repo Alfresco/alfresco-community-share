@@ -6,40 +6,31 @@ import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.DocumentsFilter
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.FileType;
-import org.alfresco.utility.model.FolderModel;
-import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.*;
 import org.alfresco.utility.report.Bug;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class LocateItemsAndFoldersTests extends BaseTest
 {
+    private UserModel user;
+    private SiteModel site;
+
     private DocumentLibraryPage2 documentLibraryPage;
 
-    private UserModel user;
-    private ThreadLocal<SiteModel> site = new ThreadLocal<>();
-
-    @BeforeClass (alwaysRun = true)
-    public void dataPrep()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
+        site = dataSite.usingUser(user).createPublicRandomSite();
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
-        site.set(dataSite.usingUser(user).createPublicRandomSite());
-
         getCmisApi().authenticateUser(user);
         getRestApi().authenticateUser(user);
+
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         setupAuthenticatedSession(user);
     }
 
@@ -49,11 +40,12 @@ public class LocateItemsAndFoldersTests extends BaseTest
     public void verifyLocateFile()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(site.get())
+        getCmisApi().usingSite(site)
             .createFile(file).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(site.get())
-            .selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
+        documentLibraryPage.navigate(site)
+            .usingContent(file).assertContentIsDisplayed();
+        documentLibraryPage.selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
             .usingContent(file)
             .clickLocate();
@@ -66,26 +58,22 @@ public class LocateItemsAndFoldersTests extends BaseTest
     public void verifyLocateFolderDetailedView() throws Exception
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site.get()).createFolder(folder).assertThat().existsInRepo();
+        getCmisApi().usingSite(site).createFolder(folder).assertThat().existsInRepo();
         getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
-        documentLibraryPage.navigate(site.get())
-            .selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
+        documentLibraryPage.navigate(site)
+            .usingContent(folder).assertContentIsDisplayed();
+        documentLibraryPage.selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
             .usingContent(folder)
             .clickLocate();
         documentLibraryPage.usingContent(folder).assertContentIsHighlighted();
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void deleteSite()
+    @AfterClass(alwaysRun = true)
+    public void afterMethod()
     {
-        deleteSites(site.get());
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
+        deleteUsersIfNotNull(user);
+        deleteSitesIfNotNull(site);
     }
 }

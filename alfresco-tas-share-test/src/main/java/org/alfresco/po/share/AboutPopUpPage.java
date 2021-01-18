@@ -1,10 +1,12 @@
 package org.alfresco.po.share;
 
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
+import static org.alfresco.common.Wait.WAIT_10;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
-import static org.testng.Assert.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author Bogdan.Bocancea
@@ -13,85 +15,73 @@ public class AboutPopUpPage extends BaseDialogComponent
 {
     private final String alfrescoUrl = "https://www.alfresco.com/";
 
-    @RenderWebElement
     private final By shareVersion = By.cssSelector(".about>.header:nth-child(1)");
-    @RenderWebElement
-    private final By shareComponentsVersions = By.cssSelector(".about>div:nth-child(2)");
     private final By alfrescoVersion = By.cssSelector(".about>.header:nth-child(3)");
-    private final By alfrescoBuildDetails = By.cssSelector(".about>div:nth-child(4)");
     private final By licenseHolder = By.cssSelector(".about .licenseHolder");
     private final By contributions = By.cssSelector(".contributions-bg");
     private final By copyRight = By.cssSelector(".copy > span");
     private final By alfrescoLink = By.cssSelector(".copy>a:nth-child(2)");
     private final By legalAndLicenceLink = By.cssSelector(".copy>a:nth-child(3)");
 
-    public AboutPopUpPage(ThreadLocal<WebBrowser> browser)
+    public AboutPopUpPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getShareVersion()
     {
-        return getBrowser().waitUntilElementVisible(shareVersion).getText();
-    }
-
-    public String getShareComponentsVersions()
-    {
-        return getBrowser().waitUntilElementVisible(shareComponentsVersions).getText();
+        return webElementInteraction.getElementText(shareVersion);
     }
 
     public String getAlfrescoVersion()
     {
-        return getBrowser().waitUntilElementVisible(alfrescoVersion).getText();
-    }
-
-    public String getAlfrescoBuildDetails()
-    {
-        return getBrowser().findElement(alfrescoBuildDetails).getText();
+        return webElementInteraction.getElementText(alfrescoVersion);
     }
 
     public String getLicenseHolder()
     {
-        return getBrowser().findElement(licenseHolder).getText();
+        return webElementInteraction.getElementText(licenseHolder);
     }
 
     public boolean isContributionsDisplayed()
     {
-        return getBrowser().isElementDisplayed(contributions);
+        return webElementInteraction.isElementDisplayed(contributions);
     }
 
     public String getCopyRight()
     {
-        return getBrowser().findElement(copyRight).getText();
+        return webElementInteraction.getElementText(copyRight);
     }
 
     public void clickAlfrescoLink()
     {
-        getBrowser().waitUntilElementClickable(alfrescoLink).click();
+        webElementInteraction.waitUntilElementIsVisible(alfrescoLink);
+        webElementInteraction.clickElement(alfrescoLink);
     }
 
     public void clickLegalAndLicenceLink()
     {
-        getBrowser().waitUntilElementClickable(legalAndLicenceLink).click();
+        webElementInteraction.waitUntilElementIsVisible(legalAndLicenceLink);
+        webElementInteraction.clickElement(legalAndLicenceLink);
     }
 
     public AboutPopUpPage assertClickAlfrescoLink()
     {
         clickAlfrescoLink();
-        getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains(alfrescoUrl, 10);
-        assertEquals(getBrowser().getCurrentUrl(), alfrescoUrl, "Displayed URL=");
-        getBrowser().closeWindowAndSwitchBack();
+        webElementInteraction.switchWindow(1);
+        webElementInteraction.waitUrlContains(alfrescoUrl, 10);
+        assertEquals(webElementInteraction.getCurrentUrl(), alfrescoUrl, "Displayed URL=");
+        webElementInteraction.closeWindowAndSwitchBack();
         return this;
     }
 
     public AboutPopUpPage assertClickLegalAndLicenseLink()
     {
         clickLegalAndLicenceLink();
-        getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains(alfrescoUrl, 10);
-        assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
-        getBrowser().closeWindowAndSwitchBack();
+        webElementInteraction.switchWindow(1);
+        webElementInteraction.waitUrlContains(alfrescoUrl, WAIT_10.getValue());
+        assertEquals(webElementInteraction.getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
+        webElementInteraction.closeWindowAndSwitchBack();
         return this;
     }
 

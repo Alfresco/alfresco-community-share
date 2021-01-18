@@ -1,33 +1,31 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.utility.Utility.waitToLoopTime;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
 import org.alfresco.po.share.SharePage2;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 public class EditUserPage extends SharePage2<EditUserPage>
 {
     private String userName;
 
-    @RenderWebElement
     private final By searchGroupButton = By.cssSelector("button[id$='_default-update-groupfinder-group-search-button-button']");
     private final By useDefaultButton = By.cssSelector("button[id$='_default-updateuser-clearphoto-button-button']");
-    @RenderWebElement
     private final By saveChangesButton = By.cssSelector("button[id$='_default-updateuser-save-button-button']");
     private final By cancelButton = By.cssSelector("button[id$='_default-updateuser-cancel-button-button']");
     private final By userNameInEditUserPageTitle = By.cssSelector("span[id$='_default-update-title']");
     private final By userProfileHeaderList = By.cssSelector("form[id$='_default-update-form'] div.header-bar");
-    @RenderWebElement
     private final By firstNameField = By.cssSelector("input[id$='_default-update-firstname']");
     private final By lastNameField = By.cssSelector("input[id$='_default-update-lastname']");
     private final By emailField = By.cssSelector("input[id$='_default-update-email']");
@@ -41,9 +39,9 @@ public class EditUserPage extends SharePage2<EditUserPage>
     private final String genericAddToGroupButton = "//h3[@class='itemname' and text()='%s']/../../..//button";
     private final String genericRemoveButton = "//div[contains(@id, 'default-update-groups')]//span[text()= '%s']";
 
-    public EditUserPage(ThreadLocal<WebBrowser> browser)
+    public EditUserPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getUserName()
@@ -72,7 +70,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
         catch (TimeoutException | PageRenderTimeException e)
         {
             LOG.error("Retry navigate to Edit User Page");
-            UserProfileAdminToolsPage userProfileAdminToolsPage = new UserProfileAdminToolsPage(browser);
+            UserProfileAdminToolsPage userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
             userProfileAdminToolsPage.navigate(userName);
             userProfileAdminToolsPage.clickEditUser();
             return this;
@@ -86,39 +84,39 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage assertSearchGroupButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(searchGroupButton), "Search group button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(searchGroupButton), "Search group button is displayed");
         return this;
     }
 
     public EditUserPage assertUseDefaultButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(useDefaultButton), "Use default button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(useDefaultButton), "Use default button is displayed");
         return this;
     }
 
     public EditUserPage assertSaveChangesButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(saveChangesButton), "Save button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(saveChangesButton), "Save button is displayed");
         return this;
     }
 
     public EditUserPage assertCancelButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 
     public EditUserPage assertUserFullNameIsDisplayedInTitle(UserModel user)
     {
         LOG.info("Assert User full name is displayed in title: {} {}", user.getFirstName(), user.getLastName());
-        assertEquals(getBrowser().waitUntilElementVisible(userNameInEditUserPageTitle).getText(),
+        assertEquals(webElementInteraction.waitUntilElementIsVisible(userNameInEditUserPageTitle).getText(),
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
 
     public EditUserPage assertAllSectionsAreDisplayed()
     {
-        List<String> sectionTexts = getBrowser().getTextFromElementList(getBrowser().findElements(userProfileHeaderList));
+        List<String> sectionTexts = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(userProfileHeaderList));
         assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.info")),
             "Info section is displayed");
         assertTrue(sectionTexts.contains(language.translate("adminTools.user.edit.aboutUser")),
@@ -130,60 +128,62 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage assertFirstNameFieldIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(firstNameField), "First Name field is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(firstNameField), "First Name field is displayed");
         return this;
     }
 
     public EditUserPage editFirstName(String firstName)
     {
-        WebElement firstNameElement = getBrowser().waitUntilElementVisible(firstNameField);
-        clearAndType(firstNameElement, firstName);
+        WebElement firstNameElement = webElementInteraction.waitUntilElementIsVisible(firstNameField);
+        webElementInteraction.clearAndType(firstNameElement, firstName);
         return this;
     }
 
     public EditUserPage assertLastNameFieldIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(lastNameField), "Last Name field is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(lastNameField), "Last Name field is displayed");
         return this;
     }
 
     public EditUserPage editLastNameField(String lastName)
     {
-        WebElement lastNameElement = getBrowser().waitUntilElementVisible(lastNameField);
-        clearAndType(lastNameElement, lastName);
+        WebElement lastNameElement = webElementInteraction.waitUntilElementIsVisible(lastNameField);
+        webElementInteraction.clearAndType(lastNameElement, lastName);
         return this;
     }
 
     public EditUserPage assertEmailFieldIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(emailField), "Email field is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(emailField), "Email field is displayed");
         return this;
     }
 
     public EditUserPage editEmailField(String email)
     {
-        WebElement emailElement = getBrowser().waitUntilElementVisible(emailField);
-        clearAndType(emailElement, email);
+        WebElement emailElement = webElementInteraction.waitUntilElementIsVisible(emailField);
+        webElementInteraction.clearAndType(emailElement, email);
         return this;
     }
 
     public EditUserPage assertGroupSearchFieldIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(groupsInputField), "Group search field is displayed");
+        webElementInteraction.waitUntilElementIsVisible(groupsInputField);
+        assertTrue(webElementInteraction.isElementDisplayed(groupsInputField), "Group search field is displayed");
         return this;
     }
 
     public EditUserPage searchGroupWithRetry(GroupModel group)
     {
-        WebElement inputElement = getBrowser().waitUntilElementVisible(groupsInputField);
-        clearAndType(inputElement, group.getGroupIdentifier());
-        getBrowser().waitUntilElementClickable(searchGroupButton).click();
+        WebElement inputElement = webElementInteraction.waitUntilElementIsVisible(groupsInputField);
+        webElementInteraction.clearAndType(inputElement, group.getGroupIdentifier());
+        webElementInteraction.clickElement(searchGroupButton);
+
         int counter = 0;
         boolean found = isGroupInSearchResults(group.getGroupIdentifier());
-        while (!found && counter <= 5)
+        while (!found && counter <= WAIT_60.getValue())
         {
-            Utility.waitToLoopTime(1, String.format("Wait for group to be displayed: %s", group.getGroupIdentifier()));
-            clickElement(searchGroupButton);
+            waitToLoopTime(2, String.format("Wait for group to be displayed: %s", group.getGroupIdentifier()));
+            webElementInteraction.clickElement(searchGroupButton);
             found = isGroupInSearchResults(group.getGroupIdentifier());
             counter++;
         }
@@ -192,116 +192,110 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage assertQuotaFieldIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(quotaField), "Quota field is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(quotaField), "Quota field is displayed");
         return this;
     }
 
     public EditUserPage editQuota(String quota)
     {
-        clearAndType(quotaField, quota);
+        webElementInteraction.clearAndType(quotaField, quota);
         return this;
     }
 
     public EditUserPage assertNewPasswordFieldIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(newPasswordField), "New password field is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(newPasswordField), "New password field is displayed");
         return this;
-    }
-
-    public void editNewPassword(String newPassword)
-    {
-        clearAndType(newPasswordField, newPassword);
     }
 
     public EditUserPage assertVerifyPasswordFieldIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(verifyPasswordField), "Verify password field is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(verifyPasswordField), "Verify password field is displayed");
         return this;
-    }
-
-    public void editVerifyPasswordFieldDisplayed(String verifyPassword)
-    {
-        clearAndType(verifyPasswordField, verifyPassword);
     }
 
     public EditUserPage assertDisableAccountIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(disableAccount), "Disable account is displayed");
+        webElementInteraction.waitUntilElementIsVisible(disableAccount);
+        assertTrue(webElementInteraction.isElementDisplayed(disableAccount), "Disable account is displayed");
         return this;
     }
 
     public EditUserPage selectDisabledAccount()
     {
-        WebElement disableCheck = getBrowser().waitUntilElementVisible(disableAccount);
-        getBrowser().scrollToElement(disableCheck);
-        getBrowser().mouseOver(disableCheck);
-        disableCheck.click();
+        WebElement disableCheck = webElementInteraction.waitUntilElementIsVisible(disableAccount);
+        webElementInteraction.scrollToElement(disableCheck);
+        webElementInteraction.mouseOver(disableCheck);
+        webElementInteraction.clickElement(disableCheck);
         if(!disableCheck.isSelected())
         {
             LOG.info("Retry select disable account");
-            disableCheck.click();
+            webElementInteraction.clickElement(disableCheck);
         }
         return this;
     }
 
     public EditUserPage selectEnableAccount()
     {
-        WebElement disableCheck = getBrowser().waitUntilElementVisible(disableAccount);
-        getBrowser().scrollToElement(disableCheck);
-        getBrowser().mouseOver(disableCheck);
-        disableCheck.click();
+        WebElement disableCheck = webElementInteraction.waitUntilElementIsVisible(disableAccount);
+        webElementInteraction.scrollToElement(disableCheck);
+        webElementInteraction.mouseOver(disableCheck);
+        webElementInteraction.clickElement(disableCheck);
         if(disableCheck.isSelected())
         {
             LOG.info("Retry select enable account");
-            disableCheck.click();
+            webElementInteraction.clickElement(disableCheck);
         }
         return this;
     }
 
     public EditUserPage assertPhotoIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(photoField), "Photo is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(photoField), "Photo is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage clickSaveChanges()
     {
-        getBrowser().waitUntilElementClickable(saveChangesButton).click();
+        webElementInteraction.clickElement(saveChangesButton);
         waitUntilNotificationMessageDisappears();
 
-        return (UserProfileAdminToolsPage) new UserProfileAdminToolsPage(browser).renderedPage();
+        return new UserProfileAdminToolsPage(webDriver);
     }
 
     public EditUserPage addGroup(GroupModel group)
     {
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier()))).click();
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier())));
+        webElementInteraction.clickElement(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier())));
+        webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier())));
         return this;
     }
 
     public EditUserPage assertGroupIsAdded(GroupModel group)
     {
-        assertTrue(getBrowser().isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
+        webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier())));
+        assertTrue(webElementInteraction.isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
             String.format("Group %s was added", group.getGroupIdentifier()));
         return this;
     }
 
     public EditUserPage assertGroupIsNotAdded(GroupModel group)
     {
-        assertFalse(getBrowser().isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
+        assertFalse(
+            webElementInteraction.isElementDisplayed(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))),
             String.format("Group %s was added", group.getGroupIdentifier()));
         return this;
     }
 
     public EditUserPage removeGroup(GroupModel group)
     {
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier()))).click();
+        webElementInteraction.clickElement(By.xpath(String.format(genericRemoveButton, group.getGroupIdentifier())));
         return this;
     }
 
     private boolean isGroupInSearchResults(String groupName)
     {
-        return getBrowser().findElements(groupSearchResults)
+        webElementInteraction.waitUntilElementsAreVisible(groupSearchResults);
+        return webElementInteraction.findElements(groupSearchResults)
             .stream()
             .anyMatch(groupNameItem -> groupNameItem.getText()
             .equalsIgnoreCase(groupName));
@@ -309,15 +303,19 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage assertGroupIsFound(GroupModel group)
     {
-        LOG.info(String.format("Assert group %s is found", group.getGroupIdentifier()));
-        assertTrue(isGroupInSearchResults(group.getGroupIdentifier()), String.format("Group %s was found", group.getGroupIdentifier()));
+        LOG.info("Assert group is found: {}", group.getGroupIdentifier());
+        webElementInteraction.waitUntilElementsAreVisible(groupSearchResults);
+        assertTrue(isGroupInSearchResults(group.getGroupIdentifier()),
+            String.format("Group %s was found", group.getGroupIdentifier()));
+
         return this;
     }
 
     public EditUserPage assertAddButtonIsDisplayedForGroup(GroupModel group)
     {
-        LOG.info(String.format("Assert add group button is found for group %s", group.getGroupIdentifier()));
-        assertTrue(getBrowser().isElementDisplayed(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier()))),
+        LOG.info("Assert add group button is found for group: {}", group.getGroupIdentifier());
+        webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier())));
+        assertTrue(webElementInteraction.isElementDisplayed(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier()))),
             String.format("Add button is displayed for group: %s", group.getGroupIdentifier()));
         return this;
     }

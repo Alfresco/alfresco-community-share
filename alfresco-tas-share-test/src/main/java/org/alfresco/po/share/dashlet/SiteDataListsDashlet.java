@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 {
-    @RenderWebElement
     @FindBy (css = "div.dashlet.site-data-lists")
     protected WebElement dashletContainer;
 
@@ -60,7 +59,6 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     private final String dataListRow = "//a[text()='%s']/..";
     private final String listItemDescriptionLocator = "//div[text()='%s']";
 
-    //@Autowired
     private DataListsPage dataListsPage;
 
     @Autowired
@@ -139,12 +137,10 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return (newListDialogTitle.getText().equals("New List"));
     }
 
-    public DataListsPage clickListItemByTitle(String itemTitle)
+    public void clickListItemByTitle(String itemTitle)
     {
         LOG.info("Click list item with title: {}", itemTitle);
         getDataListRow(itemTitle).findElement(By.cssSelector("a")).click();
-
-        return (DataListsPage) dataListsPage.renderedPage();
     }
 
     public void clickOnListLink(String listDescription)

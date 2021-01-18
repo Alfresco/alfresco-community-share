@@ -110,7 +110,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         LOG.info("Step 1: Navigate to advanced search page and search for document by document name, check that name is highlighted in search results");
         advancedSearchPage.navigate();
         advancedSearchPage.typeName(docName);
-        advancedSearchPage.click2ndSearchButton();
+        advancedSearchPage.clickSecondSearchButton();
         Assert.assertTrue(searchPage.isResultFoundWithRetry(docName));
         Assert.assertTrue(searchPage.isNameHighlighted(docName), docName + " is not highlighted");
     }
@@ -132,7 +132,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
         advancedSearchPage.typeName(folderName);
-        advancedSearchPage.click1stSearch();
+        advancedSearchPage.clickFirstSearchButton();
         Assert.assertTrue(searchPage.isResultFoundWithRetry(folderName));
         Assert.assertTrue(searchPage.isNameHighlighted(folderName), folderName + " is not highlighted");
     }
@@ -154,7 +154,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
         advancedSearchPage.setTitle(folderTitle);
-        advancedSearchPage.click2ndSearchButton();
+        advancedSearchPage.clickSecondSearchButton();
         Assert.assertTrue(searchPage.isResultFoundWithRetry(folderName));
         Assert.assertTrue(searchPage.isTitleHighlighted(folderTitle), folderTitle + " is not highlighted");
     }
@@ -165,7 +165,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         LOG.info("Step 1: On the advanced search, search by file title and check that file is returned in search results and that the file title is highlighted");
         advancedSearchPage.navigateByMenuBar();
         advancedSearchPage.typeTitle(fileTitle);
-        advancedSearchPage.click2ndSearchButton();
+        advancedSearchPage.clickSecondSearchButton();
         Assert.assertTrue(searchPage.isResultFoundWithRetry(docName));
         Assert.assertTrue(searchPage.isTitleHighlighted(fileTitle), fileTitle + " is not highlighted");
     }
@@ -194,7 +194,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         LOG.info("Step 1: Navigate to advanced search page, search for file description, check that file description is highlighted in search results");
         advancedSearchPage.navigateByMenuBar();
         advancedSearchPage.typeDescription(fileDescription);
-        advancedSearchPage.click2ndSearchButton();
+        advancedSearchPage.clickSecondSearchButton();
         Assert.assertTrue(searchPage.isResultFoundWithRetry(docName));
         Assert.assertTrue(searchPage.isDescriptionHighlighted(fileDescription), fileDescription + " is not highlighted");
     }
@@ -216,7 +216,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
         advancedSearchPage.typeDescription(description);
-        advancedSearchPage.click2ndSearchButton();
+        advancedSearchPage.clickSecondSearchButton();
         Assert.assertTrue(searchPage.isResultFoundWithRetry(folderName));
         Assert.assertTrue(searchPage.isDescriptionHighlighted(description), description + " is not highlighted");
     }

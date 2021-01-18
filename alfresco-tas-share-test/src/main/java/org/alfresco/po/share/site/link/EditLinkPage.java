@@ -3,15 +3,13 @@ package org.alfresco.po.share.site.link;
 import java.util.List;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Link;
@@ -19,21 +17,12 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 
 public class EditLinkPage extends SiteCommon<EditLinkPage>
 {
-    //@Autowired
-    LinkDetailsViewPage linkDetailsViewPage;
-
-    //@Autowired
-    LinkPage linkPage;
-
-    @RenderWebElement
     @FindBy (css = "[id*=default-ok-button]")
     private Button updateButton;
 
-    @RenderWebElement
     @FindBy (css = "[id*=default-title]")
     private TextInput linkTitle;
 
-    @RenderWebElement
     @FindBy (css = "[id*=default-url]")
     private TextInput linkURL;
 
@@ -62,9 +51,9 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
 
     private final By removeTag = By.cssSelector("span.remove");
 
-    public EditLinkPage(ThreadLocal<WebBrowser> browser)
+    public EditLinkPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -96,16 +85,15 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
         linkInternal.select();
     }
 
-    public LinkDetailsViewPage clickOnUpdateButton()
+    public void clickOnUpdateButton()
     {
         updateButton.click();
-        return (LinkDetailsViewPage) linkDetailsViewPage.renderedPage();
     }
 
     public WebElement selectTagDetailsRow(String tagName)
     {
-        getBrowser().switchTo().defaultContent();
-        return getBrowser().findFirstElementWithValue(tagsList, tagName);
+        webElementInteraction.switchTo().defaultContent();
+        return webElementInteraction.findFirstElementWithValue(tagsList, tagName);
     }
 
     /**
@@ -113,7 +101,7 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
      */
     public void removeTag(String tagName)
     {
-        Actions actions = new Actions(getBrowser());
+        Actions actions = new Actions(webDriver.get());
         actions.moveToElement(selectTagDetailsRow(tagName));
         actions.moveToElement(selectTagDetailsRow(tagName).findElement(removeTag));
         actions.click();
@@ -125,9 +113,8 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
         linkInternal.deselect();
     }
 
-    public LinkPage clickOnCancelButton()
+    public void clickOnCancelButton()
     {
         cancelButton.click();
-        return (LinkPage) linkPage.renderedPage();
     }
 }

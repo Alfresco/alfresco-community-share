@@ -103,7 +103,6 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on 'Groups' link");
         siteUsersPage.openSiteGroupsPage();
-        siteGroupsPage.renderedPage();
         siteGroupsPage.typeSearchGroup(testGroup.getDisplayName());
         siteGroupsPage.clickSearch();
         assertTrue(siteGroupsPage.isASiteMember(testGroup.getDisplayName()), "Expected group '" + testGroup.getDisplayName() + "' is not present on the page.");
@@ -113,7 +112,6 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
         siteGroupsPage.openSiteUsersPage();
-        siteUsersPage.renderedPage();
         assertTrue(siteUsersPage.isASiteMember(testUser.getFirstName() + " " + testUser.getLastName()));
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Consumer ▾", testUser.getUsername() + " has role in " + testGroup.getDisplayName());
 

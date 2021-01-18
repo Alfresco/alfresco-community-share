@@ -1,39 +1,35 @@
 package org.alfresco.po.share.user.profile;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 {
     private String userName;
 
-    @RenderWebElement
     private final By searchInput = By.cssSelector("input[id$='default-search-text']");
-    @RenderWebElement
     private final By searchButton = By.cssSelector("button[id$='search-button-button']");
     private final By emptyButton = By.cssSelector("button[id*='empty']");
     private final By itemsNameList = By.cssSelector(".yui-dt-liner > .name");
-    private final By deletionTimestampSelector = By.cssSelector(".yui-dt-liner div:nth-child(2)");
-    private final By locationBeforeDeletionSelector = By.cssSelector(".yui-dt-liner div:nth-child(3)");
     private final By recoverButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(1) button");
     private final By deleteButtonSelector = By.cssSelector("td[headers$='th-actions ']>div>span>span:nth-of-type(2) button");
     private final By emptyTrashcanMessageSelector = By.cssSelector(".yui-dt-empty div");
     private final By itemRowsList = By.cssSelector(".yui-dt-data tr");
 
-    public UserTrashcanPage(ThreadLocal<WebBrowser> browser)
+    public UserTrashcanPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getUserName()
@@ -66,20 +62,22 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public List<WebElement> search(String searchTerm)
     {
-        clearAndType(searchInput, searchTerm);
+        webElementInteraction.clearAndType(searchInput, searchTerm);
         clickSearch();
-        return getBrowser().findElements(itemsNameList);
+        webElementInteraction.waitUntilElementsAreVisible(itemsNameList);
+        return webElementInteraction.findElements(itemsNameList);
     }
 
     public void clickSearch()
     {
-        getBrowser().findElement(searchButton).click();
+//        webElementInteraction.waitUntilElementIsVisible(searchButton);
+        webElementInteraction.clickElement(searchButton);
     }
 
     public String getItemsNamesList()
     {
         ArrayList<String> itemsNameTextList = new ArrayList<>();
-        for (WebElement anItemsNameList : getBrowser().findElements(itemsNameList))
+        for (WebElement anItemsNameList : webElementInteraction.findElements(itemsNameList))
         {
             itemsNameTextList.add(anItemsNameList.getText());
         }
@@ -88,12 +86,12 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     private WebElement getItemRow(String item)
     {
-        return getBrowser().findFirstElementWithValue(itemRowsList, item);
+        return webElementInteraction.findFirstElementWithValue(itemRowsList, item);
     }
 
     private boolean findRow(String itemName)
     {
-        List<WebElement> trashRows = getBrowser().findElements(itemRowsList);
+        List<WebElement> trashRows = webElementInteraction.findElements(itemRowsList);
         return trashRows.stream().anyMatch(row -> row.getText().equals(itemName));
     }
 
@@ -113,7 +111,8 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
     public UserTrashcanPage clickRecoverButton(String itemName)
     {
         LOG.info("Click Recover button for item {}", itemName);
-        getItemRow(itemName).findElement(recoverButtonSelector).click();
+//        webElementInteraction.waitUntilElementIsVisible(getItemRow(itemName).findElement(recoverButtonSelector));
+        webElementInteraction.clickElement(getItemRow(itemName).findElement(recoverButtonSelector));
         waitUntilNotificationMessageDisappears();
 
         return this;
@@ -127,9 +126,10 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
     public DeleteDialog clickDeleteButton(String itemName)
     {
         LOG.info("Click Recover button for item {}", itemName);
-        getItemRow(itemName).findElement(deleteButtonSelector).click();
+//        webElementInteraction.waitUntilElementIsVisible(getItemRow(itemName).findElement(deleteButtonSelector));
+        webElementInteraction.clickElement(getItemRow(itemName).findElement(deleteButtonSelector));
 
-        return (DeleteDialog) new DeleteDialog(browser).renderedPage();
+        return new DeleteDialog(webDriver);
     }
 
     public DeleteDialog clickDeleteButton(ContentModel content)
@@ -139,23 +139,23 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public DeleteDialog clickEmptyButton()
     {
-        getBrowser().waitUntilElementClickable(emptyButton).click();
-        return (DeleteDialog) new DeleteDialog(browser).renderedPage();
+//        webElementInteraction.waitUntilElementIsVisible(emptyButton);
+        webElementInteraction.clickElement(emptyButton);
+        return new DeleteDialog(webDriver);
     }
 
     public UserTrashcanPage assertNoItemsExistMessageIsDisplayed()
     {
         LOG.info("Assert No Items Exist message is displayed");
-        WebElement emptyMessage = getBrowser().waitUntilElementVisible(emptyTrashcanMessageSelector);
-        assertTrue(getBrowser().isElementDisplayed(emptyMessage), "Empty items message is not displayed");
+        WebElement emptyMessage = webElementInteraction.waitUntilElementIsVisible(emptyTrashcanMessageSelector);
+        assertTrue(webElementInteraction.isElementDisplayed(emptyMessage), "Empty items message is not displayed");
         return this;
     }
 
     public UserTrashcanPage assertNoItemsExistMessageEqualTo(String expectedMessage)
     {
         LOG.info("Assert No Items Exist message is correct");
-        WebElement emptyMessage = getBrowser().waitUntilElementVisible(emptyTrashcanMessageSelector);
-        assertEquals(emptyMessage.getText(), expectedMessage, String.format("No items exist message not equal to %s", expectedMessage));
+        assertEquals(webElementInteraction.getElementText(emptyTrashcanMessageSelector), expectedMessage, String.format("No items exist message not equal to %s", expectedMessage));
         return this;
     }
 }

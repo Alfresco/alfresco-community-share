@@ -15,11 +15,9 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 {
-    @RenderWebElement
     @FindBy (css = "div.dashlet.site-profile")
     protected HtmlElement dashletContainer;
 
-    @RenderWebElement
     @FindBy (css = ".msg.dashlet-padding>h2")
     private WebElement welcomeMessage;
 
@@ -67,10 +65,9 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
         return this;
     }
 
-    public UserProfilePage clickSiteManagerLink(String managerLinkName)
+    public void clickSiteManagerLink(String managerLinkName)
     {
         browser.findElement(By.xpath(String.format(managerLinkLocator, managerLinkName))).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
     public SiteProfileDashlet assertSiteVisibilityEquals(String expectedSiteVisibilityLabel,String expectedSiteVisibilityValue)

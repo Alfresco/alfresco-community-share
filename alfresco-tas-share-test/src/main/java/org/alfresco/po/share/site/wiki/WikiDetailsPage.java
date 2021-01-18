@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -14,14 +13,9 @@ import org.testng.Assert;
 
 public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 {
-    //@Autowired
-    ViewWikiPage viewWikiPage;
-
-    @RenderWebElement
     @FindBy (css = "a[href*='edit']")
     private WebElement wikiEditPageLink;
 
-    @RenderWebElement
     @FindBy (css = "a[href*='view']")
     private WebElement wikiViewPageLink;
 
@@ -40,7 +34,6 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     @FindAll (@FindBy (css = "div.bd ul.first-of-type li a"))
     private List<WebElement> dropDownVersionsList;
 
-    @RenderWebElement
     @FindBy (css = "[id$=default-selectVersion-button-button]")
     private WebElement selectVersionButton;
 
@@ -59,9 +52,9 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     @FindBy (css = "[class=bd] span")
     private WebElement revertNotification;
 
-    public WikiDetailsPage(ThreadLocal<WebBrowser> browser)
+    public WikiDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -107,13 +100,13 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
         try
         {
             selectVersionButton.click();
-            getBrowser().selectOptionFromFilterOptionsList(version, dropDownVersionsList);
+            webElementInteraction.selectOptionFromFilterOptionsList(version, dropDownVersionsList);
             Assert.assertTrue(selectVersionButton.getText().contains(version), "Incorrect filter selected");
 
-            return (WikiDetailsPage) this.renderedPage();
+            return new WikiDetailsPage(webDriver);
         } catch (NoSuchElementException nse)
         {
-            LOG.error("Option not present" + nse.getMessage());
+            LOG.info("Option not present {}", nse.getMessage());
             throw new PageOperationException(version + " option not present.");
         }
     }
@@ -131,7 +124,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 
     public WebElement selectVersionDetails(String version)
     {
-        return getBrowser().findFirstElementWithValue(versionsList, version);
+        return webElementInteraction.findFirstElementWithValue(versionsList, version);
     }
 
     public void clickOnVersion(String version)
@@ -153,6 +146,6 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     public ViewWikiPage clickOnViewPageLink()
     {
         wikiViewPageLink.click();
-        return (ViewWikiPage) viewWikiPage.renderedPage();
+        return new ViewWikiPage(webDriver);
     }
 }

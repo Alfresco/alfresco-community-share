@@ -2,15 +2,15 @@ package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 
 public class DocumentLibraryPage2 extends AlfrescoContentPage<DocumentLibraryPage2>
 {
     private String siteId;
 
-    public DocumentLibraryPage2(ThreadLocal<WebBrowser> browser)
+    public DocumentLibraryPage2(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getSiteId()
@@ -29,14 +29,9 @@ public class DocumentLibraryPage2 extends AlfrescoContentPage<DocumentLibraryPag
         return String.format("share/page/site/%s/documentlibrary", getSiteId());
     }
 
-    public DocumentLibraryPage2 navigate(String siteId)
-    {
-        setSiteId(siteId);
-        return (DocumentLibraryPage2) navigate().renderedPage();
-    }
-
     public DocumentLibraryPage2 navigate(SiteModel site)
     {
-        return navigate(site.getId());
+        setSiteId(site.getId());
+        return (DocumentLibraryPage2) navigate();
     }
 }

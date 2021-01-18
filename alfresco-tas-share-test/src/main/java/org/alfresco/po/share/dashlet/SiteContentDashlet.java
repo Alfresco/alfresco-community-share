@@ -1,28 +1,29 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 @PageObject
 public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 {
+    private DocumentDetailsPage documentDetailsPage;
+
     @FindAll (@FindBy (css = ".yuimenuitemlabel.yuimenuitemlabel"))
     protected List<WebElement> filters;
 
-    @RenderWebElement
     @FindBy (css = "div.dashlet.docsummary")
     private WebElement dashletContainer;
 
@@ -38,8 +39,6 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     private final By emptyMessage = By.cssSelector("div[id$='default-documents'] .empty");
     protected String documentRow = "//div[starts-with(@class, 'dashlet docsummary')]//a[text()='%s']/../../../..";
 
-    //@Autowired
-    private DocumentDetailsPage documentDetailsPage;
 
     @Override
     protected String getDashletTitle()
@@ -173,11 +172,10 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
             return this;
         }
 
-        public DocumentDetailsPage clickFileName()
+        public void clickFileName()
         {
             LOG.info("Click file name");
             getFileRow().findElement(fileNameLocator).click();
-            return (DocumentDetailsPage) documentDetailsPage.renderedPage();
         }
 
         public ManageSiteContent assertDescriptionEqualsTo(String expectedDescription)
@@ -285,10 +283,9 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
             return this;
         }
 
-        public DocumentDetailsPage clickCommentLink()
+        public void clickCommentLink()
         {
             getFileRow().findElement(commentLink).click();
-            return (DocumentDetailsPage) documentDetailsPage.renderedPage();
         }
     }
 }

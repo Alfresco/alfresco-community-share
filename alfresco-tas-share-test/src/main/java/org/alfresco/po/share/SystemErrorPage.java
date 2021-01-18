@@ -1,29 +1,28 @@
 package org.alfresco.po.share;
 
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import static org.testng.Assert.assertTrue;
+
 import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
 
 public class SystemErrorPage extends BasePage
 {
-    @RenderWebElement
     private final By errorHeader = By.cssSelector(".alf-error-header");
 
-    public SystemErrorPage(ThreadLocal<WebBrowser> browser)
+    public SystemErrorPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getErrorHeader()
     {
-        return getBrowser().waitUntilElementVisible(errorHeader).getText();
+        return webElementInteraction.getElementText(errorHeader);
     }
 
     public SystemErrorPage assertSomethingIsWrongWithThePageMessageIsDisplayed()
     {
         LOG.info("Assert Something is wrong with the page message is displayed");
-        Assert.assertTrue(getErrorHeader().contains(language.translate("systemError.header")));
+        assertTrue(getErrorHeader().contains(language.translate("systemError.header")));
         return this;
     }
 }

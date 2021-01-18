@@ -4,14 +4,11 @@ import static org.alfresco.common.DataUtil.isEnumContainedByList;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class CreateDataListDialog extends ShareDialog
@@ -28,11 +25,9 @@ public class CreateDataListDialog extends ShareDialog
     @FindBy (css = "textarea[id$='newList_prop_cm_description']")
     protected WebElement descriptionField;
 
-    @RenderWebElement
     @FindBy (css = "button[id$='form-submit-button']")
     protected WebElement saveButton;
 
-    @RenderWebElement
     @FindBy (css = "button[id$='form-cancel-button']")
     protected WebElement cancelButton;
 
@@ -230,21 +225,20 @@ public class CreateDataListDialog extends ShareDialog
         return browser.isElementDisplayed(cancelButton);
     }
 
-    public DataListsPage clickSaveButton()
+    public void clickSaveButton()
     {
         LOG.info("Click \"Save\" button");
         saveButton.click();
         waitUntilMessageDisappears();
-        return (DataListsPage) dataListsPage.renderedPage();
     }
 
-    public DataListsPage clickCancelButton()
+    public void clickCancelButton()
     {
         LOG.info("Click \"Cancel\" button");
         cancelButton.click();
-        return (DataListsPage) dataListsPage.renderedPage();
     }
 
+    //todo: move into separate file
     public enum DataListTypes
     {
         ContactList("Contact List", "Contacts list including first name, last name, full name, email, job title, phone (office), phone (mobile)."),

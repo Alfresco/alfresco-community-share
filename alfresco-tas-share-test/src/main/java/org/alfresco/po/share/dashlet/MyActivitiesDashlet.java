@@ -1,13 +1,15 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.utility.model.*;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.testng.Assert;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+
+import org.alfresco.utility.model.ContentModel;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.testng.Assert;
 
 /**
  * My activities dashlet page object, holds all elements of the HTML page relating to
@@ -95,18 +97,16 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
         return this;
     }
 
-    public UserProfilePage clickUserFromAddedDocumentActivity(UserModel user, FileModel file, SiteModel site)
+    public void clickUserFromAddedDocumentActivity(UserModel user, FileModel file, SiteModel site)
     {
         getActivityRow(String.format(language.translate("activitiesDashlet.document.createActivity"),
             user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(userLinkLocator).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
-    public DocumentDetailsPage clickDocumentLinkForAddActivity(UserModel user, FileModel file, SiteModel site)
+    public void clickDocumentLinkForAddActivity(UserModel user, FileModel file, SiteModel site)
     {
         getActivityRow(String.format(language.translate("activitiesDashlet.document.createActivity"),
             user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(documentLinkLocator).click();
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     public MyActivitiesDashlet assertEmptyDashletMessageEquals()

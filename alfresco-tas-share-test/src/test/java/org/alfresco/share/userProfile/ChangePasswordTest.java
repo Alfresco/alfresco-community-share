@@ -5,61 +5,55 @@ import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.*;
-
-import static org.alfresco.share.TestUtils.PASSWORD;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class ChangePasswordTest extends BaseTest
 {
-    private UserModel user, changeUser;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private ChangePasswordPage changePasswordPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        changeUser = dataUser.usingAdmin().createRandomTestUser();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        changePasswordPage = new ChangePasswordPage(browser);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        changePasswordPage = new ChangePasswordPage(webDriver);
     }
 
     @TestRail (id = "C2226")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void changeUserPassword()
     {
-        setupAuthenticatedSession(user);
-        String newPassword = user.getPassword() + "--new";
-        changePasswordPage.navigate(user)
+        setupAuthenticatedSession(user.get());
+        String newPassword = user.get().getPassword() + "--new";
+        changePasswordPage.navigate(user.get())
             .assertChangePasswordPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("changeUserPassword.browser.pageTitle"))
-            .changePassword(PASSWORD, newPassword)
+            .changePassword("password", newPassword)
             .assertUserProfilePageIsOpened();
-        user.setPassword(newPassword);
-        setupAuthenticatedSession(user);
-        userDashboardPage.navigate(user).assertUserDashboardPageIsOpened();
+        user.get().setPassword(newPassword);
+        setupAuthenticatedSession(user.get());
+        userDashboardPage.navigate(user.get()).assertUserDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2227, 2229")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void incorrectOldOrNewPasswordTests()
     {
-        setupAuthenticatedSession(changeUser);
-        changePasswordPage.navigate(user)
-            .changePasswordAndExpectError(user.getPassword() + "-invalid",
-                    user.getPassword() + "-1",
-                    user.getPassword() + "-1")
-            .changePasswordAndExpectError(user.getPassword(),
-                    user.getPassword() + "-1",
-                    user.getPassword() + "2");
+        setupAuthenticatedSession(user.get());
+        changePasswordPage.navigate(user.get())
+            .changePasswordAndExpectError(user.get().getPassword() + "-invalid",
+                    user.get().getPassword() + "-1",
+                    user.get().getPassword() + "-1")
+            .changePasswordAndExpectError(user.get().getPassword(),
+                    user.get().getPassword() + "-1",
+                    user.get().getPassword() + "2");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(user, changeUser);
+        deleteUsersIfNotNull(user.get());
     }
 }

@@ -1,8 +1,8 @@
 package org.alfresco.po.share.alfrescoContent;
 
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -20,30 +20,29 @@ public class SelectDestinationDialog extends BaseDialogComponent
     private final By documentLibraryPath = By.cssSelector("div.dijitTreeNodeContainer span[id^='alfresco_navigation_PathTree']");
     private final By linkButton = By.cssSelector("button[id$='_default-rulesPicker-ok-button']");
 
-    public SelectDestinationDialog(ThreadLocal<WebBrowser> browser)
+    public SelectDestinationDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
-        this.browser = browser;
+        super(webDriver);
     }
 
     public void clickOkButton()
     {
-        getBrowser().waitUntilElementClickable(okButton).click();
+        webElementInteraction.clickElement(okButton);
     }
 
     public void clickLinkButton()
     {
-        getBrowser().waitUntilElementClickable(linkButton, 3).click();
+        webElementInteraction.clickElement(linkButton);
     }
 
     public void clickCancelButton()
     {
-        getBrowser().findElement(cancelButton).click();
+        webElementInteraction.clickElement(cancelButton);
     }
 
     public void clickDestinationButton(String buttonText)
     {
-        List<WebElement> list = getBrowser().findElements(destinationList);
+        List<WebElement> list = webElementInteraction.findElements(destinationList);
         for (WebElement aDestinationList : list)
         {
             if (aDestinationList.getText().equals(buttonText))
@@ -53,27 +52,14 @@ public class SelectDestinationDialog extends BaseDialogComponent
 
     public void clickSite(String siteName)
     {
-        getBrowser().findFirstElementWithValue(siteList, siteName).click();
-    }
-
-    public boolean isSiteDisplayedInSiteSection(String siteName)
-    {
-        List<WebElement> list = getBrowser().findElements(siteList);
-        for (WebElement aSiteList : list)
-        {
-            if (aSiteList.getText().equals(siteName))
-            {
-                return true;
-            }
-        }
-        return false;
+        webElementInteraction.findFirstElementWithValue(siteList, siteName).click();
     }
 
     public String getPathList()
     {
-        getBrowser().waitUntilElementsVisible(By.cssSelector(".path .ygtvlabel"));
+        webElementInteraction.waitUntilElementsAreVisible(By.cssSelector(".path .ygtvlabel"));
         ArrayList<String> pathText = new ArrayList<>();
-        List<WebElement> list = getBrowser().findElements(pathList);
+        List<WebElement> list = webElementInteraction.findElements(pathList);
         for (WebElement aPathList : list)
         {
             pathText.add(aPathList.getText());
@@ -83,14 +69,14 @@ public class SelectDestinationDialog extends BaseDialogComponent
 
     public String getPathFirstItem()
     {
-        getBrowser().waitUntilElementsVisible(By.cssSelector(".path table[class*='ygtv-expanded'] .ygtvlabel"));
-        return getBrowser().findElement(By.cssSelector(".path table[class*='ygtv-expanded'] .ygtvlabel")).getText();
+        webElementInteraction.waitUntilElementsAreVisible(By.cssSelector(".path table[class*='ygtv-expanded'] .ygtvlabel"));
+        return webElementInteraction.findElement(By.cssSelector(".path table[class*='ygtv-expanded'] .ygtvlabel")).getText();
     }
 
     public void clickPathFolder(String folderName)
     {
-        getBrowser().waitUntilElementsVisible(By.cssSelector(".path .ygtvlabel"));
-        List<WebElement> list = getBrowser().findElements(pathList);
+        webElementInteraction.waitUntilElementsAreVisible(By.cssSelector(".path .ygtvlabel"));
+        List<WebElement> list = webElementInteraction.findElements(pathList);
         for (WebElement aPathList : list)
         {
             if (aPathList.getText().equals(folderName))
@@ -100,18 +86,12 @@ public class SelectDestinationDialog extends BaseDialogComponent
 
     public String getDialogTitle()
     {
-        return getElementText(dialogTitle);
-    }
-
-    public void clickDocumentLibrary()
-    {
-        getBrowser().waitUntilElementVisible(documentLibraryPath).click();
-        getBrowser().waitInSeconds(1);
+        return webElementInteraction.getElementText(dialogTitle);
     }
 
     public void selectSite(String siteName)
     {
-        getBrowser().waitUntilElementsVisible(By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']"));
-        getBrowser().findFirstElementWithValue(sitesListCopyFilesTo, siteName).click();
+        webElementInteraction.waitUntilElementsAreVisible(By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']"));
+        webElementInteraction.findFirstElementWithValue(sitesListCopyFilesTo, siteName).click();
     }
 }

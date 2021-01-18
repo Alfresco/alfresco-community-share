@@ -58,7 +58,7 @@ public class UploadTests extends ContextAwareWebTest
         String testFilePath = testDataFolder + doc1;
         LOG.info("Precondition: Navigate to Shared Files page.");
         sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         LOG.info("STEP1: Upload a file.");
         uploadContent.uploadContent(testFilePath);
         assertTrue(sharedFilesPage.isContentNameDisplayed(doc1), String.format("File [%s] is displayed", doc1));
@@ -67,7 +67,7 @@ public class UploadTests extends ContextAwareWebTest
         setupAuthenticatedSession(user2, password);
         LOG.info("STEP3: Navigate to Shared Files page");
         sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertTrue(sharedFilesPage.isContentNameDisplayed(doc1), String.format("File [%s] is displayed", doc1));
         cleanupAuthenticatedSession();
     }
@@ -82,7 +82,7 @@ public class UploadTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         LOG.info("Precondition: Navigate to Shared Files page and upload a file");
         sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
+//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
         uploadContent.uploadContent(testFilePath);
         LOG.info("STEP1: Click on the file and check content");
         sharedFilesPage.clickOnFile(doc2);

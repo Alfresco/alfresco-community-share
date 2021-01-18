@@ -1,13 +1,12 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
-import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 {
@@ -24,7 +23,7 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     private final By runRulesOptions = By.cssSelector(".rules-actions .yuimenuitemlabel");
     private final String buttonSelector = "button[id*='%s']";
 
-    public RuleDetailsPage(ThreadLocal<WebBrowser> browser)
+    public RuleDetailsPage(ThreadLocal<WebDriver> browser)
     {
         super(browser);
         editRulesPage = new EditRulesPage(browser);
@@ -38,17 +37,17 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 
     public String getRuleTitle()
     {
-        return getBrowser().findElement(ruleTitle).getText();
+        return webElementInteraction.getElementText(ruleTitle);
     }
 
     public String getRuleDescription()
     {
-        return getBrowser().findElement(ruleDescription).getText();
+        return webElementInteraction.getElementText(ruleDescription);
     }
 
     public List<String> getDetailsList()
     {
-        List<WebElement> descriptionDetailsList = getBrowser().waitUntilElementsVisible(detailsSelector);
+        List<WebElement> descriptionDetailsList = webElementInteraction.waitUntilElementsAreVisible(detailsSelector);
         ArrayList<String> descriptionDetailsText = new ArrayList<>();
         if (!descriptionDetailsList.isEmpty())
             for (WebElement aDescriptionDetailsList : descriptionDetailsList)
@@ -62,23 +61,23 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 
     public String getWhenCondition()
     {
-        return getBrowser().findElement(whenCondition).getText();
+        return webElementInteraction.findElement(whenCondition).getText();
     }
 
     public String getIfAllCriteriaCondition()
     {
-        return getBrowser().findElement(ifAllCriteriaCondition).getText();
+        return webElementInteraction.findElement(ifAllCriteriaCondition).getText();
     }
 
     public String getPerformAction()
     {
-        return getBrowser().findElement(performAction).getText();
+        return webElementInteraction.findElement(performAction).getText();
     }
 
     public List<String> getDisplayedRules()
     {
         ArrayList<String> rulesTextList = new ArrayList<>();
-        List<WebElement> list = getBrowser().findElements(rulesList);
+        List<WebElement> list = webElementInteraction.findElements(rulesList);
         if (!list.isEmpty())
             for (WebElement aRulesList : list)
             {
@@ -94,13 +93,12 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 
     public void clickButton(String buttonId)
     {
-        getBrowser().waitUntilElementClickable(By.cssSelector(String.format(buttonSelector, buttonId))).click();
+        webElementInteraction.clickElement(By.cssSelector(String.format(buttonSelector, buttonId)));
     }
 
     public void clickEditButton()
     {
         clickButton("edit");
-        editRulesPage.renderedPage();
     }
 
     public void clickUnlinkButton()
@@ -115,6 +113,6 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 
     public void clickOnRunRulesOption(int indexOfOption)
     {
-        getBrowser().findElements(runRulesOptions).get(indexOfOption).click();
+        webElementInteraction.findElements(runRulesOptions).get(indexOfOption);
     }
 }

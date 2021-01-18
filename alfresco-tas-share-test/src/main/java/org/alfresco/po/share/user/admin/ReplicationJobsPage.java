@@ -1,18 +1,17 @@
 package org.alfresco.po.share.user.admin;
 
+import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 public class ReplicationJobsPage extends SharePage2<ReplicationJobsPage>
 {
     @Autowired
-    CreateEditReplicationJobPage createEditReplicationJobPage;
+    private CreateEditReplicationJobPage createEditReplicationJobPage;
 
     @RenderWebElement
     @FindBy (css = "a[id*='create']")
@@ -27,9 +26,9 @@ public class ReplicationJobsPage extends SharePage2<ReplicationJobsPage>
     @FindBy (css = "[id*='jobStatus']")
     private WebElement status;
 
-    public ReplicationJobsPage(ThreadLocal<WebBrowser> browser)
+    public ReplicationJobsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override

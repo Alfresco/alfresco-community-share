@@ -1,28 +1,22 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage2;
-import org.alfresco.utility.Utility;
-import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Assert;
+import static org.alfresco.common.Wait.WAIT_15;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.alfresco.common.Wait.WAIT_15;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.alfresco.po.share.SharePage2;
+import org.alfresco.utility.Utility;
+import org.alfresco.utility.model.UserModel;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class UsersPage extends SharePage2<UsersPage>
 {
-    @RenderWebElement
     private final By newUserButton = By.cssSelector("button[id$='_default-newuser-button-button']");
-    @RenderWebElement
     private final By uploadUsersButton = By.cssSelector("button[id*='uploadusers']");
     private final By userSearchInputField = By.cssSelector("input[id*='search-text']");
     private final By searchButton = By.cssSelector("button[id*='search']");
@@ -33,9 +27,9 @@ public class UsersPage extends SharePage2<UsersPage>
 
     private final String userRow = "//td[contains(@headers, 'userName')]//div[text()='%s']/../..";
 
-    public UsersPage(ThreadLocal<WebBrowser> browser)
+    public UsersPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -47,16 +41,14 @@ public class UsersPage extends SharePage2<UsersPage>
     public CreateUserPage clickNewUserButton()
     {
         LOG.info("Click New User");
-        WebElement newUserElement = getBrowser().findElement(newUserButton);
-        getBrowser().waitUntilElementVisible(newUserElement);
-        getBrowser().mouseOver(newUserElement);
-        newUserElement.click();
-        return (CreateUserPage) new CreateUserPage(browser).renderedPage();
+        WebElement newUserElement = webElementInteraction.waitUntilElementIsVisible(newUserButton,3000);
+        webElementInteraction.clickElement(newUserElement);
+        return new CreateUserPage(webDriver);
     }
 
     public UsersPage searchUserWithRetry(String user)
     {
-        LOG.info(String.format("Search for user with retry: %s", user));
+        LOG.info("Search user: {}", user);
         return searchUser(user, user);
     }
 
@@ -67,10 +59,10 @@ public class UsersPage extends SharePage2<UsersPage>
 
     private void typeUserAndClickSearch(String searchKeyword)
     {
-        clearAndType(userSearchInputField, searchKeyword);
-        WebElement search = getBrowser().findElement(searchButton);
-        getBrowser().mouseOver(search);
-        search.click();
+        webElementInteraction.clearAndType(userSearchInputField, searchKeyword);
+        WebElement search = webElementInteraction.findElement(searchButton);
+        webElementInteraction.mouseOver(search);
+        webElementInteraction.clickElement(search);
     }
 
     private UsersPage searchUser(String searchKeyword, String userToWaitFor)
@@ -91,8 +83,8 @@ public class UsersPage extends SharePage2<UsersPage>
     public UsersPage assertSearchTextIsCorrect(String searchText, int results)
     {
         String expectedValue = String.format(language.translate("adminTools.user.search.text"), searchText, results);
-        getBrowser().waitUntilElementContainsText(getBrowser().findElement(searchTextResult), expectedValue);
-        assertEquals(getBrowser().findElement(searchTextResult).getText(), expectedValue);
+        webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(searchTextResult), expectedValue);
+        assertEquals(webElementInteraction.findElement(searchTextResult).getText(), expectedValue);
         return this;
     }
 
@@ -110,57 +102,55 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public UsersPage searchUser(String user)
     {
-        LOG.info(String.format("Search for user: %s", user));
-        clearAndType(userSearchInputField, user);
-        getBrowser().waitUntilElementClickable(searchButton).click();
+        LOG.info("Search for user: {}", user);
+        webElementInteraction.clearAndType(userSearchInputField, user);
+        webElementInteraction.clickElement(searchButton);
         return this;
     }
 
     public boolean isUserFound(String user)
     {
-        return getBrowser().isElementDisplayed(By.xpath(String.format(userRow, user)));
+        return webElementInteraction.isElementDisplayed(By.xpath(String.format(userRow, user)));
     }
 
     public WebElement getUserRow(String userName)
     {
-        return getBrowser().waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15.getValue());
+        return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15.getValue());
     }
 
     public UsersPage assertSearchInputIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(userSearchInputField), "Search input is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(userSearchInputField), "Search input is displayed");
         return this;
     }
 
     public UsersPage assertSearchButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public UsersPage assertNewUserButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(newUserButton), "New User button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(newUserButton), "New User button is displayed");
         return this;
     }
 
     public UsersPage assertImportUsersButtonIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
         return this;
     }
 
     public UploadUserResultsPage uploadUsers(String filePath)
     {
-        if (tasProperties.getEnv().getProperty("grid.enabled").equals("true"))
-        {
-            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
-        }
-        getBrowser().findElement(uploadUsersButton).click();
-        getBrowser().waitUntilElementVisible(fileInput).sendKeys(filePath);
-        getBrowser().findElement(uploadButton).click();
-
-        return (UploadUserResultsPage) new UploadUserResultsPage(browser).renderedPage();
+        webElementInteraction.waitUntilElementIsVisible(uploadUsersButton);
+        webElementInteraction.clickElement(uploadUsersButton);
+        waitUntilNotificationMessageDisappears();
+        webElementInteraction.clearAndType(fileInput, filePath);
+        webElementInteraction.clickElement(uploadButton);
+        waitUntilNotificationMessageDisappears();
+        return new UploadUserResultsPage(webDriver);
     }
 
     public UsersPage assertDeleteUserNotificationIsDisplayed()
@@ -173,7 +163,7 @@ public class UsersPage extends SharePage2<UsersPage>
     public UsersPage assertAllTableHeadersAreDisplayed()
     {
         LOG.info("Assert all table headers are displayed");
-        List<String> tableHeaders = getBrowser().getTextFromElementList(getBrowser().findElements(tableHeaderElements));
+        List<String> tableHeaders = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(tableHeaderElements));
         List<String> expectedTableHeaders = new ArrayList<>();
         expectedTableHeaders.add(language.translate("adminTools.user.table.name"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.userName"));
@@ -194,6 +184,7 @@ public class UsersPage extends SharePage2<UsersPage>
         return new UserRowAction(user, this);
     }
 
+    //todo: move into separate file
     public class UserRowAction
     {
         private UsersPage usersPage;
@@ -213,11 +204,6 @@ public class UsersPage extends SharePage2<UsersPage>
             userName = user.getUsername();
         }
 
-        public WebBrowser getBrowser()
-        {
-            return usersPage.getBrowser();
-        }
-
         public WebElement getUserRow()
         {
             return usersPage.getUserRow(user.getUsername());
@@ -225,29 +211,29 @@ public class UsersPage extends SharePage2<UsersPage>
 
         public UserRowAction assertUserIsDisabled()
         {
-            LOG.info(String.format("Assert user %s is disabled", user.getUsername()));
-            assertTrue(getBrowser().isElementDisplayed(getUserRow().findElement(userDisableIcon)),
+            LOG.info("Assert user {} is disabled", user.getUsername());
+            assertTrue(webElementInteraction.isElementDisplayed(getUserRow().findElement(userDisableIcon)),
                 "User disabled icon is displayed");
             return this;
         }
 
         public UserRowAction assertUserIsFound()
         {
-            LOG.info(String.format("Assert user %s is found", userName));
+            LOG.info("Assert user {} is found", userName);
             assertTrue(usersPage.isUserFound(userName), String.format("User %s was found", userName));
             return this;
         }
 
         public UserRowAction assertUserIsNotFound()
         {
-            LOG.info(String.format("Assert user %s is found", userName));
-            Assert.assertFalse(usersPage.isUserFound(userName), String.format("User %s was found", userName));
+            LOG.info("Assert user {} is found", userName);
+            assertFalse(usersPage.isUserFound(userName), String.format("User %s was found", userName));
             return this;
         }
 
         public UserRowAction assertQuotaIs(String expectedValue)
         {
-            LOG.info(String.format("Assert quota value is: %s", expectedValue));
+            LOG.info("Assert quota value is: {}", expectedValue);
             assertEquals(getUserRow().findElement(quotaElement).getText(), expectedValue,
                 "Quota value is displayed");
             return this;
@@ -255,13 +241,13 @@ public class UsersPage extends SharePage2<UsersPage>
 
         public UserProfileAdminToolsPage selectUserFullName()
         {
-            getUserRow().findElement(userFullName).click();
-            return (UserProfileAdminToolsPage) new UserProfileAdminToolsPage(browser).renderedPage();
+            webElementInteraction.clickElement(getUserRow().findElement(userFullName));
+            return new UserProfileAdminToolsPage(webDriver);
         }
 
         public UserRowAction assertUserDeleteIconIsDisplayed()
         {
-            assertTrue(getBrowser().isElementDisplayed(getUserRow().findElement(userDeletedIcon)),
+            assertTrue(webElementInteraction.isElementDisplayed(getUserRow().findElement(userDeletedIcon)),
                 "User delete icon is displayed");
             return this;
         }

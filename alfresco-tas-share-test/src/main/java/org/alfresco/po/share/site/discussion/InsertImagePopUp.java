@@ -1,8 +1,7 @@
 package org.alfresco.po.share.site.discussion;
 
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -13,11 +12,9 @@ public class InsertImagePopUp extends BaseDialogComponent
 {
     private TopicViewPage topicViewPage;
 
-    @RenderWebElement
     @FindBy (className = "mce-title")
     private WebElement popupTitle;
 
-    @RenderWebElement
     @FindBy (xpath = "//button[text()='Ok']")
     private Button okButton;
 
@@ -42,20 +39,19 @@ public class InsertImagePopUp extends BaseDialogComponent
     @FindBy (xpath = "//div[@role='checkbox' and descendant-or-self::*[text()='Constrain proportions']]")
     private CheckBox constrainProportionsCheckbox;
 
-    public InsertImagePopUp(ThreadLocal<WebBrowser> browser)
+    public InsertImagePopUp(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
-        topicViewPage = new TopicViewPage(browser);
+        super(webDriver);
+        topicViewPage = new TopicViewPage(webDriver);
     }
 
-    public TopicViewPage insertImage(String source, String description)
+    public void insertImage(String source, String description)
     {
         sourceInput.clear();
         sourceInput.sendKeys(source);
         imageDescriptionInput.clear();
         imageDescriptionInput.sendKeys(description);
         okButton.click();
-        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     public String getPopupTitle()

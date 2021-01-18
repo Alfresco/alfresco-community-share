@@ -1,13 +1,11 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
 
+import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 {
@@ -25,9 +23,9 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     private final By selectedItemsOptionsSelector = By.cssSelector("div[id*='selectedItems'] span");
 
-    public HeaderMenuBar(ThreadLocal<WebBrowser> browser)
+    public HeaderMenuBar(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -39,27 +37,27 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public boolean isSelectButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(selectMenu);
+        return webElementInteraction.isElementDisplayed(selectMenu);
     }
 
     public void clickSelectMenu()
     {
-        getBrowser().waitUntilElementClickable(selectMenu, 40).click();
+        webElementInteraction.clickElement(selectMenu);
     }
 
     public void clickSelectOption(String optionText)
     {
-        getBrowser().selectOptionFromFilterOptionsList(optionText, selectOptionsList);
+        webElementInteraction.selectOptionFromFilterOptionsList(optionText, selectOptionsList);
     }
 
     public boolean isSelectedItemsMenuEnabled()
     {
-        return !getBrowser().isElementDisplayed(selectedItemsMenuDisabled);
+        return !webElementInteraction.isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public boolean isSelectItemsMenuDisplayedDisabled()
     {
-        return getBrowser().isElementDisplayed(selectedItemsMenuDisabled);
+        return webElementInteraction.isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public void clickSelectedItemsMenu()
@@ -69,25 +67,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public void clickSelectedItemsOption(String optionText)
     {
-        List<WebElement> selectedItemsOptionsList = getBrowser().findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
-        getBrowser().selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
-    }
-
-    public String verifySelectedItemsValues(ArrayList<String> expectedList)
-    {
-        List<WebElement> selectedItemsOptionsList = getBrowser().findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
-        for (String anExpectedList : expectedList)
-        {
-            int k = 0;
-            for (WebElement aSelectedItemsOptionsList : selectedItemsOptionsList)
-            {
-                String optionText = aSelectedItemsOptionsList.getText();
-                if (anExpectedList.equals(optionText))
-                    k++;
-            }
-            if (k != 1)
-                return "'" + anExpectedList + "' not displayed";
-        }
-        return expectedList.toString();
+        List<WebElement> selectedItemsOptionsList = webElementInteraction.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
+        webElementInteraction.selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
     }
 }

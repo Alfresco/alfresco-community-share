@@ -1,17 +1,17 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LinkedToRuleSetPage extends SiteCommon<LinkedToRuleSetPage>
 {
     private String buttonSelector = "button[id*='%s']";
 
-    public LinkedToRuleSetPage(ThreadLocal<WebBrowser> browser)
+    public LinkedToRuleSetPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class LinkedToRuleSetPage extends SiteCommon<LinkedToRuleSetPage>
 
     public void clickButton(String buttonId)
     {
-        WebElement button = getBrowser().waitUntilElementClickable(By.cssSelector(String.format(buttonSelector, buttonId)), 40);
-        button.click();
+        WebElement button = webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(buttonSelector, buttonId)));
+        webElementInteraction.clickElement(button);
     }
 }

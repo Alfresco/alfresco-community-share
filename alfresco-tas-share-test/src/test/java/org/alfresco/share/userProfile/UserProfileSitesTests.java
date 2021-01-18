@@ -7,8 +7,7 @@ import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,53 +15,47 @@ public class UserProfileSitesTests extends BaseTest
 {
     private UserSitesListPage userSitesPage;
 
-    private UserModel user, invitedUser, noSitesUser;
-    private SiteModel inviteSite, publicSite, notInvitedSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userSitesPage = new UserSitesListPage(browser);
-    }
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        invitedUser = dataUser.createRandomTestUser();
-        noSitesUser = dataUser.createRandomTestUser();
-
-        inviteSite = dataSite.usingUser(user).createPrivateRandomSite();
-        notInvitedSite = dataSite.usingUser(user).createPublicRandomSite();
-        publicSite = dataSite.usingUser(invitedUser).createPublicRandomSite();
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void tearDown()
-    {
-        deleteSites(inviteSite, notInvitedSite, publicSite);
-        removeUserFromAlfresco(user, invitedUser, noSitesUser);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        userSitesPage = new UserSitesListPage(webDriver);
     }
 
     @TestRail (id = "C2154")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void viewSitesWhereUserHasMembershipTest()
     {
-        dataUser.usingUser(user).addUserToSite(invitedUser, inviteSite, UserRole.SiteConsumer);
+        UserModel invitedUser = dataUser.usingAdmin().createRandomTestUser();
+        SiteModel inviteSite = dataSite.usingUser(user.get()).createPrivateRandomSite();
+        SiteModel notInvitedSite = dataSite.usingUser(user.get()).createPublicRandomSite();
+        SiteModel publicSite = dataSite.usingUser(invitedUser).createPublicRandomSite();
+        dataUser.usingUser(user.get()).addUserToSite(invitedUser, inviteSite, UserRole.SiteConsumer);
+
         setupAuthenticatedSession(invitedUser);
         userSitesPage.navigate(invitedUser)
             .assertSiteIsDisplayed(inviteSite)
             .assertSiteIsDisplayed(publicSite)
             .assertSiteIsNotDisplayed(notInvitedSite)
                 .clickSite(publicSite).assertSiteDashboardPageIsOpened();
+
+        deleteSitesIfNotNull(inviteSite, notInvitedSite, publicSite);
     }
 
     @TestRail (id = "C2309")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER, TestGroup.SSO })
     public void userWithNoSitesTest()
     {
-        setupAuthenticatedSession(noSitesUser);
-        userSitesPage.navigate(noSitesUser)
+        setupAuthenticatedSession(user.get());
+        userSitesPage.navigate(user.get())
             .assertUserHasNoSitesMessageIsDisplayed();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void tearDown()
+    {
+        deleteUsersIfNotNull(user.get());
     }
 }

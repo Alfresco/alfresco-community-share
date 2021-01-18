@@ -9,8 +9,6 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.alfresco.share.TestUtils.PASSWORD;
-
 public class UserToolTests extends BaseTest
 {
     private UsersPage usersPage;
@@ -18,7 +16,7 @@ public class UserToolTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        usersPage = new UsersPage(browser);
+        usersPage = new UsersPage(webDriver);
         setupAuthenticatedSession(getAdminUser());
     }
 
@@ -39,8 +37,8 @@ public class UserToolTests extends BaseTest
     public void verifySearch()
     {
         String identifier = RandomData.getRandomAlphanumeric();
-        UserModel user1 = new UserModel(identifier + "C9392User1", PASSWORD);
-        UserModel user2 = new UserModel(identifier + "C9392User2", PASSWORD);
+        UserModel user1 = new UserModel(identifier + "C9392User1", "password");
+        UserModel user2 = new UserModel(identifier + "C9392User2", "password");
         dataUser.usingAdmin().createUser(user1);
         dataUser.usingAdmin().createUser(user2);
 
@@ -55,6 +53,6 @@ public class UserToolTests extends BaseTest
             .usingUser(user1).assertUserIsFound();
         usersPage.usingUser(user2).assertUserIsNotFound();
 
-        removeUserFromAlfresco(user1, user2);
+        deleteUsersIfNotNull(user1, user2);
     }
 }

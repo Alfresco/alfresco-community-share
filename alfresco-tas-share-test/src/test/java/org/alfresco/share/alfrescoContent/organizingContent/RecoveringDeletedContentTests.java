@@ -12,15 +12,12 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class RecoveringDeletedContentTests extends BaseTest
 {
     private UserModel trashcanUser;
-    private SiteModel trashcanSite;
+    private ThreadLocal<SiteModel> trashcanSite = new ThreadLocal<>();
 
     private UserTrashcanPage userTrashcanPage;
     private DocumentLibraryPage2 documentLibraryPage;
@@ -29,14 +26,16 @@ public class RecoveringDeletedContentTests extends BaseTest
     public void dataPrep()
     {
         trashcanUser = dataUser.usingAdmin().createRandomTestUser();
-        trashcanSite = dataSite.usingUser(trashcanUser).createPublicRandomSite();
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
-        userTrashcanPage = new UserTrashcanPage(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
+        userTrashcanPage = new UserTrashcanPage(webDriver);
+
+        trashcanSite.set(dataSite.usingUser(trashcanUser).createPublicRandomSite());
+
         getCmisApi().authenticateUser(trashcanUser);
         setupAuthenticatedSession(trashcanUser);
     }
@@ -46,12 +45,12 @@ public class RecoveringDeletedContentTests extends BaseTest
     public void verifyRecoverDeletedDocument()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(trashcanSite).createFile(file)
+        getCmisApi().usingSite(trashcanSite.get()).createFile(file)
             .then().usingResource(file).delete();
 
         userTrashcanPage.navigate(trashcanUser)
             .clickRecoverButton(file);
-        documentLibraryPage.navigate(trashcanSite)
+        documentLibraryPage.navigate(trashcanSite.get())
             .usingContent(file).assertContentIsDisplayed();
     }
 
@@ -61,23 +60,23 @@ public class RecoveringDeletedContentTests extends BaseTest
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        getCmisApi().usingSite(trashcanSite).createFolder(folderToDelete)
+        getCmisApi().usingSite(trashcanSite.get()).createFolder(folderToDelete)
             .then().usingResource(folderToDelete).createFile(subFile)
                 .and().usingResource(folderToDelete).deleteFolderTree();
 
         userTrashcanPage.navigate(trashcanUser)
             .clickRecoverButton(folderToDelete);
 
-        documentLibraryPage.navigate(trashcanSite)
+        documentLibraryPage.navigate(trashcanSite.get())
             .usingContent(folderToDelete).assertContentIsDisplayed()
             .selectFolder()
             .usingContent(subFile).assertContentIsDisplayed();
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp()
+    public void afterMethod()
     {
-        removeUserFromAlfresco(trashcanUser);
-        deleteSites(trashcanSite);
+        deleteUsersIfNotNull(trashcanUser);
+        deleteSitesIfNotNull(trashcanSite.get());
     }
 }

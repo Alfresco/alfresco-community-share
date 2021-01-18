@@ -13,10 +13,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class MultiSelectingContentTests extends BaseTest
 {
@@ -25,7 +22,7 @@ public class MultiSelectingContentTests extends BaseTest
 
     private DocumentLibraryPage2 documentLibraryPage;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
@@ -35,7 +32,7 @@ public class MultiSelectingContentTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
     }
@@ -114,18 +111,18 @@ public class MultiSelectingContentTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifySelectMultipleDocumentsAndStartWorkflow()
     {
-        FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        FileModel file2 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        FileModel firstFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        FileModel secondFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().usingSite(site)
-            .createFile(file1)
-            .createFile(file2);
+            .createFile(firstFile)
+            .createFile(secondFile);
 
         documentLibraryPage.navigate(site)
-            .checkContent(file1, file2)
+            .checkContent(firstFile, secondFile)
             .clickSelectedItems()
             .clickStartWorkflowFromSelectedItems()
             .selectWorkflowType(WorkflowType.NewTask)
-            .assertItemsAreDisplayed(file1, file2);
+            .assertItemsAreDisplayed(firstFile, secondFile);
     }
 
     @TestRail (id = "C7554")
@@ -146,10 +143,10 @@ public class MultiSelectingContentTests extends BaseTest
         documentLibraryPage.usingContent(testFolder).assertContentIsNotDisplayed();
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        deleteUsersIfNotNull(user);
+        deleteSitesIfNotNull(site);
     }
 }

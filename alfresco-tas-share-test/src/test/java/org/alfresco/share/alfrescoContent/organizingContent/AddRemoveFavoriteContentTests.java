@@ -11,10 +11,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class AddRemoveFavoriteContentTests extends BaseTest
 {
@@ -23,8 +20,8 @@ public class AddRemoveFavoriteContentTests extends BaseTest
 
     private DocumentLibraryPage2 documentLibraryPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void dataPrep()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
         site = dataSite.usingUser(user).createPublicRandomSite();
@@ -33,10 +30,8 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
-        getCmisApi().authenticateUser(user);
-        getRestApi().authenticateUser(user);
         setupAuthenticatedSession(user);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
     }
 
     @TestRail (id = "C7501")
@@ -44,7 +39,8 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void verifyAddFileToFavorites()
     {
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        getCmisApi().usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user)
+            .usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(site)
             .usingContent(favoriteFile)
@@ -58,7 +54,8 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void favoriteFolder()
     {
         FolderModel favoriteFolder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site).createFolder(favoriteFolder).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user)
+            .usingSite(site).createFolder(favoriteFolder).assertThat().existsInRepo();
 
         documentLibraryPage.navigate(site)
             .usingContent(favoriteFolder)
@@ -72,8 +69,10 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void removeFavoriteForFile() throws Exception
     {
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        getCmisApi().usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
-        getRestApi().withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
+        getCmisApi().authenticateUser(user)
+            .usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
+        getRestApi().authenticateUser(user)
+            .withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
 
         documentLibraryPage.navigate(site)
             .usingContent(favoriteFile)
@@ -87,8 +86,10 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void removeFavoriteForFolder() throws Exception
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site).createFolder(folder).assertThat().existsInRepo();
-        getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
+        getCmisApi().authenticateUser(user)
+            .usingSite(site).createFolder(folder).assertThat().existsInRepo();
+        getRestApi().authenticateUser(user)
+            .withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
         documentLibraryPage.navigate(site)
             .usingContent(folder)
@@ -97,10 +98,10 @@ public class AddRemoveFavoriteContentTests extends BaseTest
                 .assertAddToFavoritesIsDisplayed();
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @AfterClass(alwaysRun = true)
+    public void cleanUp()
     {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
+        deleteUsersIfNotNull(user);
+        deleteSitesIfNotNull(site);
     }
 }

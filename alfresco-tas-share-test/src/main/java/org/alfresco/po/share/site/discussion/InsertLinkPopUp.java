@@ -1,9 +1,8 @@
 package org.alfresco.po.share.site.discussion;
 
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -16,11 +15,9 @@ public class InsertLinkPopUp extends BaseDialogComponent
 {
     private TopicViewPage topicViewPage;
 
-    @RenderWebElement
     @FindBy (className = "mce-title")
     private WebElement popupTitle;
 
-    @RenderWebElement
     @FindBy (xpath = "//button[text()='Ok']")
     private Button okButton;
 
@@ -48,23 +45,22 @@ public class InsertLinkPopUp extends BaseDialogComponent
     private final By targetMenu = By.cssSelector("#mce-modal-block+div");
     private final By targetMenuItem = By.className("mce-text");
 
-    public InsertLinkPopUp(ThreadLocal<WebBrowser> browser)
+    public InsertLinkPopUp(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
-        topicViewPage = new TopicViewPage(browser);
+        super(webDriver);
+        topicViewPage = new TopicViewPage(webDriver);
     }
 
-    public TopicViewPage insertLink(String url, String text, String title, String target)
+    public void insertLink(String url, String text, String title, String target)
     {
         urlInput.sendKeys(url);
         textToDisplayInput.clear();
         textToDisplayInput.sendKeys(text);
         titleInput.sendKeys(title);
         targetButton.click();
-        WebElement menu = getBrowser().waitUntilElementVisible(targetMenu);
-        getBrowser().findFirstElementWithValue(menu.findElements(targetMenuItem), target).click();
+        WebElement menu = webElementInteraction.waitUntilElementIsVisible(targetMenu);
+        webElementInteraction.findFirstElementWithValue(menu.findElements(targetMenuItem), target).click();
         okButton.click();
-        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     public String getPopupTitle()
@@ -74,7 +70,7 @@ public class InsertLinkPopUp extends BaseDialogComponent
 
     public boolean isTextPresent(String text)
     {
-        getBrowser().waitUntilElementContainsText(insertLinkPopup, text);
+        webElementInteraction.waitUntilElementContainsText(insertLinkPopup, text);
         return insertLinkPopup.getText().contains(text);
     }
 }

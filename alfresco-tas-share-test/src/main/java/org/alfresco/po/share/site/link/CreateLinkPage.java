@@ -1,8 +1,9 @@
 package org.alfresco.po.share.site.link;
 
+import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -11,29 +12,21 @@ import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
-import java.util.List;
-
 /**
  * Created by Claudia Agache on 7/22/2016.
  */
 public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 {
-    //@Autowired
-    LinkDetailsViewPage linkDetailsViewPage;
-
-    //@Autowired
-    LinkPage linkPage;
+    private LinkDetailsViewPage linkDetailsViewPage;
+    private LinkPage linkPage;
 
 
-    @RenderWebElement
     @FindBy (css = "button[id$='links-linkedit_x0023_default-ok-button']")
     private Button saveButton;
 
-    @RenderWebElement
     @FindBy (css = "input[id$='links-linkedit_x0023_default-title']")
     private TextInput linkTitle;
 
-    @RenderWebElement
     @FindBy (css = "input[id$='links-linkedit_x0023_default-url']")
     private TextInput linkURL;
 
@@ -61,9 +54,9 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     @FindBy (css = "[id*=default-load-popular-tags-link]")
     private Button choosePopularTags;
 
-    public CreateLinkPage(ThreadLocal<WebBrowser> browser)
+    public CreateLinkPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -75,26 +68,26 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     public LinkDetailsViewPage clickSaveButton()
     {
         saveButton.click();
-        return (LinkDetailsViewPage) linkDetailsViewPage.renderedPage();
+        return new LinkDetailsViewPage(webDriver);
     }
 
     public CreateLinkPage typeLinkTitle(String title)
     {
         LOG.info("Clear and type link title: {}", title);
-        clearAndType(linkTitle, title);
+        webElementInteraction.clearAndType(linkTitle, title);
         return this;
     }
 
     public CreateLinkPage typeLinkUrl(String url)
     {
         LOG.info("Clear and type link url: {}", url);
-        clearAndType(linkURL, url);
+        webElementInteraction.clearAndType(linkURL, url);
         return this;
     }
 
     public boolean isLinkDescriptionDisplayed()
     {
-        return getBrowser().isElementDisplayed(linkDescription);
+        return webElementInteraction.isElementDisplayed(linkDescription);
     }
 
     public String getLinkDescription()
@@ -105,7 +98,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     public CreateLinkPage typeLinkDescription(String description)
     {
         LOG.info("Clear and type link description");
-        clearAndType(linkDescription, description);
+        webElementInteraction.clearAndType(linkDescription, description);
         return this;
     }
 
@@ -122,7 +115,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     public CreateLinkPage addTag(String tag)
     {
         LOG.info("Add tag: {}", tag);
-        clearAndType(linkTag, tag);
+        webElementInteraction.clearAndType(linkTag, tag);
         addTagButton.click();
 
         return this;
@@ -131,6 +124,6 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     public LinkPage clickCancelButton()
     {
         cancelButton.click();
-        return (LinkPage) linkPage.renderedPage();
+        return new LinkPage(webDriver);
     }
 }

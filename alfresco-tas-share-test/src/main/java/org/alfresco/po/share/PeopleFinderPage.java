@@ -1,20 +1,17 @@
 package org.alfresco.po.share;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static org.testng.Assert.assertTrue;
 
 public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements AccessibleByMenuBar
 {
     private final By searchResultsList = By.cssSelector("tbody[class='yui-dt-data'] tr");
-
-    @RenderWebElement
     private final By searchInputField = By.cssSelector("input[id$='default-search-text']");
     private final By searchButton = By.cssSelector("button[id$='default-search-button-button']");
     private final By searchHelpMessage = By.cssSelector("[id*='default-help']");
@@ -22,9 +19,9 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
     private final By noResults = By.cssSelector(".yui-dt-empty");
     private final By avatar = By.cssSelector(".avatar");
 
-    public PeopleFinderPage(ThreadLocal<WebBrowser> browser)
+    public PeopleFinderPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -37,36 +34,28 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
     @Override
     public PeopleFinderPage navigateByMenuBar()
     {
-        return (PeopleFinderPage) new Toolbar(browser).clickPeople().renderedPage();
+        return new Toolbar(webDriver).clickPeople();
     }
 
     public PeopleFinderPage assertPeopleFinderPageIsOpened()
     {
-        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "People finder page is opened");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "People finder page is opened");
         return this;
     }
 
     public void typeSearchInput(String searchInput)
     {
-        clearAndType(getBrowser().findElement(searchInputField), searchInput);
+        webElementInteraction.clearAndType(webElementInteraction.findElement(searchInputField), searchInput);
     }
 
     public void clickSearch()
     {
-        getBrowser().waitUntilElementClickable(searchButton).click();
+        webElementInteraction.clickElement(searchButton);
     }
 
     public void clickSearchAndWaitForResults()
     {
-        getBrowser().waitUntilElementClickable(searchButton).click(); //TODO redo method search and wait for results
-        /*int i = 0;
-
-        while ((searchResultsList.size() == 0 || browser.isElementDisplayed(noResults.getWrappedElement())) && i < 5)
-        {
-            searchButton.click();
-            browser.waitInSeconds(5);
-            i++;
-        }*/
+        webElementInteraction.clickElement(searchButton); //TODO redo method search and wait for results
     }
 
     public void search(String searchInput)
@@ -77,47 +66,47 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public String getNoResultsText()
     {
-        return getBrowser().findElement(noResults).getText();
+        return webElementInteraction.findElement(noResults).getText();
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchButton);
+        return webElementInteraction.isElementDisplayed(searchButton);
     }
 
     public boolean isSearchInputFieldDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchInputField);
+        return webElementInteraction.isElementDisplayed(searchInputField);
     }
 
     public String getSearchInputFieldValue()
     {
-        return getBrowser().findElement(searchInputField).getAttribute("value").trim();
+        return webElementInteraction.findElement(searchInputField).getAttribute("value").trim();
     }
 
     public String getSearchInputFieldPlaceholder()
     {
-        return getBrowser().findElement(searchInputField).getAttribute("placeholder").trim();
+        return webElementInteraction.findElement(searchInputField).getAttribute("placeholder").trim();
     }
 
     public boolean isHelpMessageDisplayed()
     {
-        return getBrowser().isElementDisplayed(searchHelpMessage);
+        return webElementInteraction.isElementDisplayed(searchHelpMessage);
     }
 
     public String getSearchHelpMessage()
     {
-        return getBrowser().findElement(searchHelpMessage).getText();
+        return webElementInteraction.findElement(searchHelpMessage).getText();
     }
 
     public String getSearchResultsInfo()
     {
-        return getBrowser().findElement(searchResultsInfo).getText();
+        return webElementInteraction.findElement(searchResultsInfo).getText();
     }
 
     public WebElement selectUser(String username)
     {
-        return getBrowser().findFirstElementWithValue(searchResultsList, username);
+        return webElementInteraction.findFirstElementWithValue(searchResultsList, username);
     }
 
     public boolean isUserDisplayed(String username)
@@ -127,22 +116,22 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public boolean isUserAvatarDisplayed(String username)
     {
-        return getBrowser().isElementDisplayed(selectUser(username).findElement(avatar));
+        return webElementInteraction.isElementDisplayed(selectUser(username).findElement(avatar));
     }
 
     public UserProfilePage clickUserLink(String username)
     {
-        selectUser(username).findElement(By.cssSelector("a")).click();
-        return (UserProfilePage) new UserProfilePage(browser).renderedPage();
+        selectUser(username).findElement(By.cssSelector("a"));
+        return new UserProfilePage(webDriver);
     }
 
     public boolean isFollowButtonDisplayed(String username)
     {
-        return getBrowser().isElementDisplayed(selectUser(username).findElement(By.cssSelector("button")));
+        return webElementInteraction.isElementDisplayed(selectUser(username).findElement(By.cssSelector("button")));
     }
 
     public int getNumberOfSearchResults()
     {
-        return getBrowser().findElements(searchResultsList).size();
+        return webElementInteraction.findElements(searchResultsList).size();
     }
 }

@@ -42,10 +42,8 @@ public class LoginTests extends BaseTest
     @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(validUser, testUserC2084, specialPassUser);
-        specialUserList.forEach(specialUser -> {
-            removeUserFromAlfresco(specialUser);
-        });
+        deleteUsersIfNotNull(validUser, testUserC2084, specialPassUser);
+        specialUserList.forEach(this::deleteUsersIfNotNull);
     }
 
     @TestRail(id = "C2080")
@@ -55,7 +53,7 @@ public class LoginTests extends BaseTest
         loginPage.navigate()
             .assertLoginPageIsOpened()
             .assertLoginPageTitleIsCorrect().login(validUser);
-        userDashboardPage.renderedPage();
+        
         userDashboardPage.assertUserDashboardPageIsOpened()
             .assertUserDashboardPageTitleIsCorrect()
             .assertPageHeaderIsCorrect(validUser);
@@ -85,8 +83,7 @@ public class LoginTests extends BaseTest
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void invalidUserRedirectedToLoginPage()
     {
-        userDashboardPage.navigateWithoutRender(validUser);
-        loginPage.renderedPage();
+        userDashboardPage.navigate(validUser);
         loginPage.assertLoginPageIsOpened().login("user123", "wrongpass");
         loginPage.assertAuthenticationErrorIsDisplayed();
     }
@@ -104,7 +101,7 @@ public class LoginTests extends BaseTest
             loginPage.typePassword(password);
             loginPage.clickLogin();
         }
-        userDashboardPage.renderedPage();
+        
         userDashboardPage.assertUserDashboardPageIsOpened();
     }
 
@@ -114,9 +111,9 @@ public class LoginTests extends BaseTest
     {
         specialUserList.forEach(specialUser -> {
             loginPage.navigate().login(specialUser);
-            userDashboardPage.renderedPage();
+            
             userDashboardPage.assertPageHeaderIsCorrect(specialUser);
-            browser.get().manage().deleteAllCookies();
+            deleteAllCookiesIfNotNull();
         });
     }
 
@@ -126,7 +123,7 @@ public class LoginTests extends BaseTest
     {
         loginPage.navigate();
         loginPage.login(specialPassUser);
-        userDashboardPage.renderedPage();
+        
         userDashboardPage.assertUserDashboardPageIsOpened();
     }
 }

@@ -1,28 +1,26 @@
 package org.alfresco.po.share.searching;
 
 import org.alfresco.po.share.site.accessingExistingSites.ConfirmationDialog;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class ConfirmDeletionDialog extends ConfirmationDialog
 {
     private final By dialogNoButton = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CANCEL_label");
-    @RenderWebElement
     private final By dialogTitle = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title");
 
-    public ConfirmDeletionDialog(ThreadLocal<WebBrowser> browser)
+    public ConfirmDeletionDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getDialogTitle()
     {
-        return getElementText(dialogTitle);
+        return webElementInteraction.getElementText(dialogTitle);
     }
 
     public void clickNoButton()
     {
-        getBrowser().findElement(dialogNoButton).click();
+        webElementInteraction.clickElement(dialogNoButton);
     }
 }

@@ -1,46 +1,28 @@
 package org.alfresco.po.share.site.discussion;
 
+import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.List;
-
 public class TopicListPage extends SiteCommon<TopicListPage>
 {
-    //@Autowired
-    TopicViewPage topicViewPage;
-
-    //@Autowired
-    DeleteDialog deleteDialog;
-
-   // @Autowired
-    EditTopicPage editTopicPage;
-
-   // @Autowired
-    private CreateNewTopicPage createNewTopicPage;
-
-    @RenderWebElement
     @FindBy (css = ".topiclist")
     private WebElement discussionsContainer;
 
     @FindBy (css = "div.new-topic button[id$='default-create-button-button']")
     private Button newTopicButton;
 
-    @RenderWebElement
     @FindBy (css = "button[id*='discussions-topiclist_x0023_default-simpleView-button']")
     private WebElement viewButton;
 
-    @RenderWebElement
     @FindBy (className = "listTitle")
     private WebElement listTitle;
 
@@ -76,9 +58,9 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     private final By editTopic = By.cssSelector(".onEditTopic a");
     private final By deleteTopic = By.cssSelector(".onDeleteTopic a");
 
-    public TopicListPage(ThreadLocal<WebBrowser> browser)
+    public TopicListPage(ThreadLocal<WebDriver> webDriver)
     {
-      super(browser);
+      super(webDriver);
     }
 
     @Override
@@ -95,7 +77,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public CreateNewTopicPage clickNewTopicButton()
     {
         newTopicButton.click();
-        return (CreateNewTopicPage) createNewTopicPage.renderedPage();
+        return new CreateNewTopicPage(webDriver);
     }
 
     /**
@@ -106,7 +88,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     private WebElement getTopicElement(String topicTitle)
     {
-        return getBrowser().findFirstElementWithValue(topicsList, topicTitle);
+        return webElementInteraction.findFirstElementWithValue(topicsList, topicTitle);
     }
 
     /**
@@ -117,7 +99,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public boolean isTopicDisplayed(String topicTitle)
     {
-        return getBrowser().isElementDisplayed(getTopicElement(topicTitle));
+        return webElementInteraction.isElementDisplayed(getTopicElement(topicTitle));
     }
 
     /**
@@ -129,7 +111,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public TopicViewPage clickTopicTitle(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(title).click();
-        return (TopicViewPage) topicViewPage.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -196,7 +178,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public TopicViewPage readTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(readTopic).click();
-        return (TopicViewPage) topicViewPage.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -208,7 +190,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public TopicViewPage viewTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(viewTopic).click();
-        return (TopicViewPage) topicViewPage.renderedPage();
+        return new TopicViewPage(webDriver);
     }
 
     /**
@@ -220,7 +202,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public EditTopicPage editTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(editTopic).click();
-        return (EditTopicPage) editTopicPage.renderedPage();
+        return new EditTopicPage(webDriver);
     }
 
     /**
@@ -232,7 +214,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public DeleteDialog deleteTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(deleteTopic).click();
-        return (DeleteDialog) deleteDialog.renderedPage();
+        return new DeleteDialog(webDriver);
     }
 
     /**
@@ -246,12 +228,12 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         viewButton.click();
         if (viewButtonText.equals("Simple View"))
         {
-            getBrowser().waitUntilElementVisible(By.cssSelector(".node.topic.simple"));
+            webElementInteraction.waitUntilElementIsVisible(By.cssSelector(".node.topic.simple"));
         } else
         {
-            getBrowser().waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
+            webElementInteraction.waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
         }
-        return (TopicListPage) this.renderedPage();
+        return new TopicListPage(webDriver);
 
     }
 
@@ -263,7 +245,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public boolean isTagDisplayed(String tagName)
     {
-        return getBrowser().findFirstElementWithValue(tagsList, tagName) != null;
+        return webElementInteraction.findFirstElementWithValue(tagsList, tagName) != null;
     }
 
     /**
@@ -274,7 +256,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public String getTagAssociatedTopicsNo(String tagName)
     {
-        String tagElement = getBrowser().findFirstElementWithValue(tagsList, tagName).findElement(By.xpath("..")).getText();
+        String tagElement = webElementInteraction.findFirstElementWithValue(tagsList, tagName).findElement(By.xpath("..")).getText();
         return tagElement.substring(tagElement.indexOf("("));
     }
 
@@ -286,15 +268,15 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public TopicListPage clickTag(String tagName)
     {
-        getBrowser().findFirstElementWithValue(tagsList, tagName).click();
-        return (TopicListPage) this.renderedPage();
+        webElementInteraction.findFirstElementWithValue(tagsList, tagName).click();
+        return new TopicListPage(webDriver);
     }
 
     public boolean isTopicContentDisplayed(String topic)
     {
         try
         {
-            return getBrowser().isElementDisplayed(getTopicElement(topic), topicContent);
+            return webElementInteraction.isElementDisplayed(getTopicElement(topic), topicContent);
         }
         catch (NoSuchElementException se)
         {
@@ -306,7 +288,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-           return getBrowser().isElementDisplayed(getTopicElement(topic), topicReplies);
+           return webElementInteraction.isElementDisplayed(getTopicElement(topic), topicReplies);
         }
         catch (NoSuchElementException se)
         {
@@ -318,7 +300,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-            return getBrowser().isElementDisplayed(getTopicElement(topic), topicTags);
+            return webElementInteraction.isElementDisplayed(getTopicElement(topic), topicTags);
         }
         catch (NoSuchElementException se)
         {
@@ -330,7 +312,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-            return getBrowser().isElementDisplayed(getTopicElement(topic), readTopic);
+            return webElementInteraction.isElementDisplayed(getTopicElement(topic), readTopic);
         }
         catch (NoSuchElementException se)
         {
@@ -374,6 +356,6 @@ public class TopicListPage extends SiteCommon<TopicListPage>
                 newTopics.click();
                 break;
         }
-        return (TopicListPage) this.renderedPage();
+        return new TopicListPage(webDriver);
     }
 }

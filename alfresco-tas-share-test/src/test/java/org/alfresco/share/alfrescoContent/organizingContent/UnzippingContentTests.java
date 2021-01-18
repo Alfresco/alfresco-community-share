@@ -2,19 +2,19 @@ package org.alfresco.share.alfrescoContent.organizingContent;
 
 import static org.alfresco.common.Utils.testDataFolder;
 
+import java.io.File;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.DataContent;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.io.File;
+import org.testng.annotations.*;
 
 public class UnzippingContentTests extends BaseTest
 {
@@ -33,7 +33,7 @@ public class UnzippingContentTests extends BaseTest
     private UserModel user;
     private SiteModel site;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
         user = dataUser.usingAdmin().createRandomTestUser();
@@ -43,16 +43,9 @@ public class UnzippingContentTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         getCmisApi().authenticateUser(user);
         setupAuthenticatedSession(user);
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
-        deleteSites(site);
     }
 
     @TestRail (id = "C7409")
@@ -99,7 +92,7 @@ public class UnzippingContentTests extends BaseTest
     }
 
     @TestRail (id = "C202869")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
     public void verifyCancelUnzipAcpFile()
     {
         FileModel acpFileModel = dataContent.usingUser(user)
@@ -115,5 +108,12 @@ public class UnzippingContentTests extends BaseTest
         FolderModel unzipFolder = new FolderModel(FilenameUtils.getBaseName(acpFileModel.getName()));
         documentLibraryPage.navigate(site)
             .usingContent(unzipFolder).assertContentIsNotDisplayed();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user);
+        deleteSitesIfNotNull(site);
     }
 }

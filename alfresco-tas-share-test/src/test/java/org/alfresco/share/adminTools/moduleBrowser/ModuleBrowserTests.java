@@ -19,7 +19,7 @@ public class ModuleBrowserTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        moduleBrowserPage = new ModuleBrowserPage(browser);
+        moduleBrowserPage = new ModuleBrowserPage(webDriver);
 
         setupAuthenticatedSession(getAdminUser());
     }
@@ -38,7 +38,7 @@ public class ModuleBrowserTests extends BaseTest
         setupAuthenticatedSession(user);
         userDashboardPage.navigate(user);
         toolbar.assertAdminToolsIsNotDisplayed();
-        browser.get().manage().deleteAllCookies();
+        webDriver.get().manage().deleteAllCookies();
     }
 
     @TestRail (id = "C9499")
@@ -53,6 +53,6 @@ public class ModuleBrowserTests extends BaseTest
     @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        removeUserFromAlfresco(user);
+        deleteUsersIfNotNull(user);
     }
 }

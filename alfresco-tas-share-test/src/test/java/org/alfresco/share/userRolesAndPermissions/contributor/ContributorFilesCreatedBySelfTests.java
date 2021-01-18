@@ -121,7 +121,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Step1: On the Document Library Page click on 'Upload' button.");
         uploadContent.uploadContent(testFilePath);
         LOG.info("Step2: Verify the file is successfully uploaded.");
-        documentLibraryPage.renderedPage();
+        
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), String.format("The file [%s] is not present", fileName));
     }
 
@@ -140,7 +140,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
-        documentLibraryPage.renderedPage();
+        
         LOG.info("Steps4: Click on the file and check the content is updated.");
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
@@ -190,7 +190,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.EDIT_OFFLINE), "Edit Offline available for Contributor user");
         LOG.info("Steps2: Click 'Edit Offline' action.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_OFFLINE);
-        documentLibraryPage.renderedPage();
+        
         LOG.info("Steps3: Check the file is locked for offline editing.");
         Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
         LOG.info("Steps4,5: Upload a new version for the locked document");
@@ -228,7 +228,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         docs.clickOkButtonOnTheAuthPopup();
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Edited");
         LOG.info("Steps3: Check the test file's status in Document Library.");
-        documentLibraryPage.renderedPage();
+        
         assertTrue(docs.isLockedIconDisplayed(), "Locked icon displayed");
         Assert.assertEquals(documentLibraryPage.getInfoBannerText("uploadedDoc.docx"), "This document is locked by you.", "Document appears to be locked");
         assertTrue(docs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
@@ -245,7 +245,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed("GDTitle"), "Document appears to be unlocked");
         LOG.info("Steps8: testFile name.");
         documentLibraryPage.clickOnFile("GDTitle");
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
+//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
         LOG.info("Steps9: Verify the file content is correct");
         Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"), "File preview correctly displayed");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/GDTitle.docx", deletePath));
@@ -267,7 +267,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
             "Cancel Editing action available for Contributor user");
         LOG.info("Steps3: Click 'Cancel Editing' action and check whether the lock is removed for the test file");
         documentLibraryPage.clickDocumentLibraryItemAction(lockedByMe, ItemActions.CANCEL_EDITING);
-        documentLibraryPage.renderedPage();
+        
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(lockedByMe), "Document appears to be locked");
     }
 
@@ -307,7 +307,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.START_WORKFLOW);
         LOG.info("Steps3: From the Select Workflow drop-down select New Task Workflow.");
         startWorkflowPage.selectAWorkflow("New Task");
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
+//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
     }
 
     @TestRail (id = "C8935")

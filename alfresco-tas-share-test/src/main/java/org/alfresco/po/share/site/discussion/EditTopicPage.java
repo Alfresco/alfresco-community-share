@@ -1,16 +1,15 @@
 package org.alfresco.po.share.site.discussion;
 
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created by Claudia Agache on 8/9/2016.
  */
 public class EditTopicPage extends CreateNewTopicPage
 {
-    public EditTopicPage(ThreadLocal<WebBrowser> browser)
+    public EditTopicPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     /**

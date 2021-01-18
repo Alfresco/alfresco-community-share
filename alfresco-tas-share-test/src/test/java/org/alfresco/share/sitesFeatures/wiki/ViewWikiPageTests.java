@@ -153,7 +153,6 @@ public class ViewWikiPageTests extends ContextAwareWebTest
 
         // TODO : Check that notification appears after revert is performed
 
-        wikiDetailsPage.renderedPage();
         Assert.assertTrue(wikiDetailsPage.getVersionsList().contains("Version 1.2"), "New version 1.2 appears in Version History.");
         Assert.assertTrue(wikiDetailsPage.getLinkedPagesList().contains("Page2"), "Page is not displayed!");
 

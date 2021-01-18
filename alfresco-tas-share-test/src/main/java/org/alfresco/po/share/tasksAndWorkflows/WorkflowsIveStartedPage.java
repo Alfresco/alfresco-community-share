@@ -1,18 +1,15 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.po.share.SharePage2;
-import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.testng.Assert.assertTrue;
+import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.po.share.toolbar.Toolbar;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage> implements AccessibleByMenuBar
 {
@@ -28,9 +25,7 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
     private final By deleteWorkflowLink = By.cssSelector("div[class*='workflow-delete-link'] a");
     private final By deleteWorkflowYesButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='Yes']");
     private final By deleteWorkflowNoButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='No']");
-    @RenderWebElement
     private final By startWorkflow = By.cssSelector("[id$='default-startWorkflow-button-button']");
-    @RenderWebElement
     private final By workflowsFilter = By.cssSelector("div[id*='_all-filter'] div h2");
     private final By dueFilter = By.cssSelector("div[id*='_due-filter'] div h2");
     private final By startedFilter = By.cssSelector("div[id*='_started-filter'] div h2");
@@ -38,15 +33,15 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
     private final By workflowTypeFilter = By.cssSelector("div[id*='_workflow-type-filter'] div h2");
     private final By activeWorkflows = By.cssSelector("div[class*='workflow-list-bar'] div h2");
 
-    public WorkflowsIveStartedPage(ThreadLocal<WebBrowser> browser)
+    public WorkflowsIveStartedPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
     public WorkflowsIveStartedPage navigateByMenuBar()
     {
-        return (WorkflowsIveStartedPage) new Toolbar(browser).clickTasks().clickWorkflowsIStarted().renderedPage();
+        return new Toolbar(webDriver).clickTasks().clickWorkflowsIStarted();
     }
 
     @Override
@@ -58,20 +53,20 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
     public WorkflowsIveStartedPage assertWorkflowIStartedPageIsOpened()
     {
         LOG.info("Assert Workflow I've Started page is opened");
-        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Workflow I've started page is opened");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Workflow I've started page is opened");
         return this;
     }
 
     public WorkflowsIveStartedPage assertStartWorkflowIsDisplayed()
     {
-        assertTrue(getBrowser().isElementDisplayed(startWorkflow), "Start workflow button is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(startWorkflow), "Start workflow button is displayed");
         return this;
     }
 
     public List<String> getActiveWorkflows()
     {
         List<String> allWorkflowsNames = new ArrayList<>();
-        List<WebElement> workflows = getBrowser().findElements(By.cssSelector("div[id$='_default-workflows'] tr[class*='yui-dt-rec']"));
+        List<WebElement> workflows = webElementInteraction.findElements(By.cssSelector("div[id$='_default-workflows'] tr[class*='yui-dt-rec']"));
         for (WebElement specificTask : workflows)
         {
             String title = specificTask.findElement(By.cssSelector("h3 a")).getText();
@@ -82,48 +77,50 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
 
     public WebElement selectWorkflow(String workflowName)
     {
-        return getBrowser().findFirstElementWithValue(workflowRowList, workflowName);
+        return webElementInteraction.findFirstElementWithValue(workflowRowList, workflowName);
     }
 
     public WorkflowsIveStartedPage clickCancelWorkflow(String workflowName, boolean areYouSure)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
-        getBrowser().mouseOver(selectedTask);
-        getBrowser().waitUntilElementVisible(cancelWorkflowLink);
+        webElementInteraction.mouseOver(selectedTask);
+        webElementInteraction.waitUntilElementIsVisible(cancelWorkflowLink);
         selectedTask.findElement(cancelWorkflowLink).click();
         if (areYouSure)
         {
-            getBrowser().findElement(cancelWorkflowYesButton).click();
-        } else getBrowser().findElement(cancelWorkflowNoButton).click();
-        getBrowser().refresh();
-        return (WorkflowsIveStartedPage) this.renderedPage();
+            webElementInteraction.findElement(cancelWorkflowYesButton).click();
+        }
+        else {
+            webElementInteraction.findElement(cancelWorkflowNoButton).click();
+        }
+        webElementInteraction.refresh();
+        return this;
     }
 
     public void clickCompletedFilter()
     {
-        getBrowser().findElement(completedFilter).click();
-        this.renderedPage();
+        webElementInteraction.findElement(completedFilter).click();
         //TODO change with label from language file
-        getBrowser().waitUntilElementContainsText(getBrowser().findElement(activeWorkflows), "Completed Workflows");
+        webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(activeWorkflows), "Completed Workflows");
     }
 
     public WorkflowsIveStartedPage clickDeleteWorkflow(String workflowName, boolean areYouSure)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
-        getBrowser().mouseOver(selectedTask);
+        webElementInteraction.mouseOver(selectedTask);
         selectedTask.findElement(deleteWorkflowLink).click();
         if (areYouSure)
         {
-            getBrowser().waitUntilElementVisible(deleteWorkflowYesButton).click();
-        } else getBrowser().findElement(deleteWorkflowNoButton).click();
-        getBrowser().refresh();
-        return (WorkflowsIveStartedPage) this.renderedPage();
+            webElementInteraction.waitUntilElementIsVisible(deleteWorkflowYesButton).click();
+        } else webElementInteraction.findElement(deleteWorkflowNoButton).click();
+        webElementInteraction.refresh();
+        return this;
     }
 
     public WorkflowDetailsPage clickViewHistory(String workflowName)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
-        getBrowser().mouseOver(selectedTask);
+        webElementInteraction.mouseOver(selectedTask);
         selectedTask.findElement(viewHistoryLink).click();
         return (WorkflowDetailsPage) workflowDetailsPage.renderedPage();
     }
@@ -131,51 +128,51 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
     public boolean isViewHistoryOptionDisplayed(String workflowName)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
-        getBrowser().mouseOver(selectedTask);
+        webElementInteraction.mouseOver(selectedTask);
         return selectedTask.findElement(viewHistoryLink).isDisplayed();
     }
 
     public boolean isCancelWorkflowOptionDisplayed(String workflowName)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
-        getBrowser().mouseOver(selectedTask);
+        webElementInteraction.mouseOver(selectedTask);
         return selectedTask.findElement(cancelWorkflowLink).isDisplayed();
     }
 
     public boolean isWorkflowsFilterDisplayed()
     {
-        return getBrowser().isElementDisplayed(workflowsFilter);
+        return webElementInteraction.isElementDisplayed(workflowsFilter);
     }
 
     public boolean isDueFilterDisplayed()
     {
-        return getBrowser().isElementDisplayed(dueFilter);
+        return webElementInteraction.isElementDisplayed(dueFilter);
     }
 
     public boolean isStartedFilterDisplayed()
     {
-        return getBrowser().isElementDisplayed(startedFilter);
+        return webElementInteraction.isElementDisplayed(startedFilter);
     }
 
     public boolean isPriorityFilterDisplayed()
     {
-        return getBrowser().isElementDisplayed(priorityFilter);
+        return webElementInteraction.isElementDisplayed(priorityFilter);
     }
 
     public boolean isWorkflowTypeFilterDisplayed()
     {
-        return getBrowser().isElementDisplayed(workflowTypeFilter);
+        return webElementInteraction.isElementDisplayed(workflowTypeFilter);
     }
 
     public boolean isActiveWorkflowsBarDisplayed()
     {
-        return getBrowser().isElementDisplayed(activeWorkflows);
+        return webElementInteraction.isElementDisplayed(activeWorkflows);
     }
 
     public WorkflowDetailsPage clickOnWorkflowTitle(String workflowName)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
-        getBrowser().mouseOver(selectedTask);
+        webElementInteraction.mouseOver(selectedTask);
         selectedTask.findElement(workflowTitle).click();
         return (WorkflowDetailsPage) workflowDetailsPage.renderedPage();
     }

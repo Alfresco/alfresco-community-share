@@ -55,7 +55,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFile, "some content");
         myFilesPage.navigate();
-        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
+//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Delete Document' link");
@@ -77,7 +77,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         contentService.createFolderInRepository(user, password, folderName, myFilesPath);
         myFilesPage.navigate();
-        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
+//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over the folder. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");

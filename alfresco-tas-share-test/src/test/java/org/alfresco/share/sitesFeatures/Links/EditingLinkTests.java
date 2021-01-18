@@ -214,7 +214,6 @@ public class EditingLinkTests extends ContextAwareWebTest
         LOG.info("STEP 3: Go back in browser and click 'Edit' button for 'Google' link.");
 
         getBrowser().navigate().back();
-        linkPage.renderedPage();
         linkPage.clickEditLink(linkTitle);
 
         LOG.info("STEP 4: Enter a new title, URL, description, check 'Internal' checkbox and click on 'Update' button");

@@ -16,7 +16,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -103,7 +102,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
          */
         LOG.info("Step 1: Open Site's dashboard and click on Blog link.");
         blogPage.navigate(siteName);
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitle1), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitle1), 6);
         Assert.assertTrue(blogPage.isBlogPostDisplayed(blogTitle1));
         Assert.assertTrue(blogPage.isBlogPostDisplayed(blogTitle));
 

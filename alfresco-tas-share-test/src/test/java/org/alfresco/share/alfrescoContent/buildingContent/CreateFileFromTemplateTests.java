@@ -3,8 +3,16 @@ package org.alfresco.share.alfrescoContent.buildingContent;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
-import org.testng.annotations.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class CreateFileFromTemplateTests extends BaseTest
 {
@@ -29,7 +37,7 @@ public class CreateFileFromTemplateTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage = new DocumentLibraryPage2(browser);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
         getCmisApi().authenticateUser(getAdminUser());
         setupAuthenticatedSession(testUser);
     }
@@ -48,10 +56,10 @@ public class CreateFileFromTemplateTests extends BaseTest
         getCmisApi().usingResource(templateFile).delete();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        removeUserFromAlfresco(testUser);
-        deleteSites(testSite);
+        deleteUsersIfNotNull(testUser);
+        deleteSitesIfNotNull(testSite);
     }
 }

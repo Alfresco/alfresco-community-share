@@ -35,7 +35,11 @@ $ mvn clean install -Dtest=SeleniumValidationTest
 >  More info: https://testng.org/doc/documentation-main.html#testng-xml
 >  5.Follow steps from ### Execute an already created test suite.
 
-## 2) How to run maven tests inside a docker container? (i.e Selenium RemoteWebDriver)
+
+## 2) How to run single test?
+> mvn -Dtest=ToolbarTests#verifyAlfrescoToolbarItemsWithNormalUser test
+
+## 3) How to run maven tests inside a docker container? (i.e Selenium RemoteWebDriver)
 
 > inside `acs` folder you will find a [docker-compose.yml](./acs/docker-compose.yml) file that will spin up:
 * alfresco

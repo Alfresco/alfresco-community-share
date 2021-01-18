@@ -67,9 +67,9 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibraryActions()
     {
-        documentLibraryPage.navigate(testSite)
-            .usingContent(file1)
-                .clickCopyTo().assertCreateLinkButtonIsDisplayed();
+//        documentLibraryPage.navigate(testSite)
+//            .usingContent(file1, )
+//                .clickCopyTo().assertCreateLinkButtonIsDisplayed();
     }
 
     @TestRail (id = "C42606")
@@ -127,41 +127,41 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonInMoveToDialog()
     {
-        documentLibraryPage.navigate(testSite)
-            .usingContent(file1)
-                .clickMoveTo().assertCreateLinkButtonIsNotDisplayed();
+//        documentLibraryPage.navigate(testSite)
+//            .usingContent(file1)
+//                .clickMoveTo().assertCreateLinkButtonIsNotDisplayed();
     }
 
     @TestRail (id = "C42614")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLinkIsCreatedAtDestination()
     {
-        FileModel linkedFile = new FileModel(String.format("Link to %s", file1.getName()));
-        documentLibraryPage.navigate(testSite)
-            .usingContent(file1).clickCopyTo()
-                .selectRecentSitesDestination()
-                .selectSite(testSite).selectFolder(testFolder)
-                    .clickCreateLinkButton();
-        documentLibraryPage.assertLastNotificationMessageEquals(String.format(language.translate("links.create.notificationMessage"), "1"))
-            .usingContent(testFolder).selectFolder()
-                .usingContent(linkedFile)
-                    .assertContentIsDisplayed()
-                    .assertThumbnailLinkTypeIsDisplayed();
+//        FileModel linkedFile = new FileModel(String.format("Link to %s", file1.getName()));
+//        documentLibraryPage.navigate(testSite)
+//            .usingContent(file1).clickCopyTo()
+//                .selectRecentSitesDestination()
+//                .selectSite(testSite).selectFolder(testFolder)
+//                    .clickCreateLinkButton();
+//        documentLibraryPage.assertLastNotificationMessageEquals(String.format(language.translate("links.create.notificationMessage"), "1"))
+//            .usingContent(testFolder).selectFolder()
+//                .usingContent(linkedFile)
+//                    .assertContentIsDisplayed()
+//                    .assertThumbnailLinkTypeIsDisplayed();
     }
 
     @TestRail (id = "C42620")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void duplicateLinksAreNotAllowed()
     {
-        documentLibraryPage.navigate(testSite)
-            .usingContent(file2).clickCopyTo()
-            .selectRecentSitesDestination()
-            .selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLinkButton();
-        documentLibraryPage.usingContent(file2)
-                .clickCopyTo()
-            .selectRecentSitesDestination().selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLinkButton(); //TODO: update message after ACS version is changed on develop env
+//        documentLibraryPage.navigate(testSite)
+//            .usingContent(file2).clickCopyTo()
+//            .selectRecentSitesDestination()
+//            .selectSite(testSite).selectFolder(testFolder)
+//                .clickCreateLinkButton();
+//        documentLibraryPage.usingContent(file2)
+//                .clickCopyTo()
+//            .selectRecentSitesDestination().selectSite(testSite).selectFolder(testFolder)
+//                .clickCreateLinkButton(); //TODO: update message after ACS version is changed on develop env
         //documentLibraryPage.assertLastNotificationMessageEquals(language.translate("links.duplicate.notificationMessage"));
     }
 
@@ -169,25 +169,25 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createdLinkDisplayedInMyActivitiesDashlet()
     {
-        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(userFile);
-        documentLibraryPage.navigate(testSite)
-            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLinkButton();
-        userDashboard.navigate(linksUser);
-        myActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile, testSite);
+//        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+//        cmisApi.usingSite(testSite).createFile(userFile);
+//        documentLibraryPage.navigate(testSite)
+//            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
+//                .clickCreateLinkButton();
+//        userDashboard.navigate(linksUser);
+//        myActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile, testSite);
     }
 
     @TestRail (id = "C42622")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createdLinkDisplayedInSiteActivitiesDashlet()
     {
-        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(userFile);
-        documentLibraryPage.navigate(testSite)
-            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
-                .clickCreateLinkButton();
-        siteDashboardPage.navigate(testSite);
-        siteActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile);
+//        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+//        cmisApi.usingSite(testSite).createFile(userFile);
+//        documentLibraryPage.navigate(testSite)
+//            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
+//                .clickCreateLinkButton();
+//        siteDashboardPage.navigate(testSite);
+//        siteActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile);
     }
 }

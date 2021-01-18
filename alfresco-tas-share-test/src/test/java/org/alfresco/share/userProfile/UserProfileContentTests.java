@@ -20,7 +20,7 @@ public class UserProfileContentTests extends BaseTest
     {
         userNoContent = dataUser.usingAdmin().createRandomTestUser();
 
-        userContentPage = new UserContentPage(browser);
+        userContentPage = new UserContentPage(webDriver);
     }
 
     @TestRail (id = "C2552")
@@ -40,6 +40,6 @@ public class UserProfileContentTests extends BaseTest
     @AfterMethod(alwaysRun = true)
     public void tearDown()
     {
-        removeUserFromAlfresco(userNoContent);
+        deleteUsersIfNotNull(userNoContent);
     }
 }

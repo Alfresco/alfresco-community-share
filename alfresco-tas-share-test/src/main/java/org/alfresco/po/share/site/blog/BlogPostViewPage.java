@@ -4,32 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
-    public By commentText = By.cssSelector("div[class ='comment-content'] p");
+    
+    public final By commentText = By.cssSelector("div[class ='comment-content'] p");
     @FindBy (xpath = "//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']")
     public WebElement noCommentsText;
-    //@Autowired
-    CreateBlogPostPage createBlogPostPage;
-    //@Autowired
-    BlogPostListPage blogPostListPage;
-    //@Autowired
-    EditBlogPostPage editBlogPostPage;
-    //@Autowired
-    DeleteDialog deleteDialog;
-    //@Autowired
-    BlogPromptWindow blogPromptWindow;
-    @RenderWebElement
+
     @FindBy (css = "div[id*='_blog-postview'] div.nodeTitle>a")
     private WebElement blogPostTitle;
-    //@RenderWebElement
+
     @FindBy (css = "div[id*='_blog-postview'] div.content")
     private WebElement blogPostContent;
     @FindBy (css = ".published .nodeAttrValue>a")
@@ -52,9 +42,9 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     private By editCommentButton = By.xpath("//a[@title='Edit Comment']");
     private By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
 
-    public BlogPostViewPage(ThreadLocal<WebBrowser> browser)
+    public BlogPostViewPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -112,7 +102,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     public BlogPostListPage clickBlogPostListButton()
     {
         blogPostListButton.click();
-        return (BlogPostListPage) blogPostListPage.renderedPage();
+        return new BlogPostListPage(webDriver);
     }
 
     /**
@@ -121,7 +111,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     public CreateBlogPostPage clickNewPostButton()
     {
         newPostButton.click();
-        return (CreateBlogPostPage) createBlogPostPage.renderedPage();
+        return new CreateBlogPostPage(webDriver);
     }
 
     /**
@@ -130,7 +120,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     public EditBlogPostPage clickEditButton()
     {
         editButton.click();
-        return (EditBlogPostPage) editBlogPostPage.renderedPage();
+        return new EditBlogPostPage(webDriver);
     }
 
     /**
@@ -139,9 +129,9 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     public DeleteDialog clickDeleteButton()
     {
-        getBrowser().waitUntilElementVisible(deleteButton);
-        getBrowser().waitUntilElementClickable(deleteButton).click();
-        return (DeleteDialog) deleteDialog.renderedPage();
+        webElementInteraction.waitUntilElementIsVisible(deleteButton);
+        webElementInteraction.clickElement(deleteButton);
+        return new DeleteDialog(webDriver);
     }
 
     /**
@@ -151,12 +141,12 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     public BlogPromptWindow clickAddCommentButton()
     {
         addCommentButton.click();
-        return (BlogPromptWindow) blogPromptWindow.renderedPage();
+        return new BlogPromptWindow(webDriver);
     }
 
     private WebElement selectComment(String user)
     {
-        return getBrowser().findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
+        return webElementInteraction.findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
     }
 
     /**
@@ -198,8 +188,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
      */
     public void clickEditComment(String user)
     {
-        getBrowser().mouseOver(selectComment(user));
-        getBrowser().findElement(editCommentButton).click();
+        webElementInteraction.mouseOver(selectComment(user));
+        webElementInteraction.clickElement(editCommentButton);
     }
 
     /**
@@ -207,9 +197,9 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
      */
     public DeleteDialog clickDeleteComment(String user)
     {
-        getBrowser().mouseOver(selectComment(user));
-        getBrowser().findElement(deleteCommentButton).click();
-        return (DeleteDialog) deleteDialog.renderedPage();
+        webElementInteraction.mouseOver(selectComment(user));
+        webElementInteraction.clickElement(deleteCommentButton);
+        return new DeleteDialog(webDriver);
     }
 
     /**

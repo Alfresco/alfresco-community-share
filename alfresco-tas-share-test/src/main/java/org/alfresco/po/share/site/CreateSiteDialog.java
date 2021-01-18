@@ -1,25 +1,22 @@
 package org.alfresco.po.share.site;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 public class CreateSiteDialog extends BaseDialogComponent
 {
     private Toolbar toolbar;
-    private SiteDashboardPage siteDashboardPage;
 
-    @RenderWebElement
     private final By siteIDInput = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] div[class*='InputField'] input");
     private final By siteIdDescription = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] div.description");
     private final By nameMandatory = By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] span[class='requirementIndicator required']");
     private final By siteIDMandatory = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span[class='requirementIndicator required']");
-    @RenderWebElement
     private final By createSiteDialog = By.id("CREATE_SITE_DIALOG");
     private final By createButton = By.id("CREATE_SITE_DIALOG_OK");
     private final By cancelButton = By.id("CREATE_SITE_DIALOG_CANCEL_label");
@@ -47,129 +44,127 @@ public class CreateSiteDialog extends BaseDialogComponent
 
     private MySitesDashlet mySitesDashlet;
 
-    public  CreateSiteDialog(ThreadLocal<WebBrowser> browser)
+    public  CreateSiteDialog(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
-        toolbar = new Toolbar(browser);
-        siteDashboardPage = new SiteDashboardPage(browser);
+        super(webDriver);
+        toolbar = new Toolbar(webDriver);
     }
 
     public CreateSiteDialog navigateByMenuBar()
     {
         toolbar.clickSites().clickCreateSite();
-        return (CreateSiteDialog) renderedPage();
+        return new CreateSiteDialog(webDriver);
     }
 
-    public CreateSiteDialog navigateFromDashlet()
+    public void navigateFromDashlet()
     {
         mySitesDashlet.clickCreateSiteButton();
-        return (CreateSiteDialog) renderedPage();
     }
 
     public boolean isSiteIDInputFieldDisplayed()
     {
-        return getBrowser().isElementDisplayed(siteIDInput);
+        return webElementInteraction.isElementDisplayed(siteIDInput);
     }
 
     public String getSiteIdInputText()
     {
-        return getBrowser().findElement(siteIDInput).getAttribute("value");
+        return webElementInteraction.findElement(siteIDInput).getAttribute("value");
     }
 
     public String getSiteIDFieldLabel()
     {
-        return getBrowser().findElement(siteIDLabel).getText();
+        return webElementInteraction.findElement(siteIDLabel).getText();
     }
 
     public String getSiteIDDescriptionText()
     {
-        return getBrowser().findElement(siteIdDescription).getText();
+        return webElementInteraction.findElement(siteIdDescription).getText();
     }
 
     public void clearSiteIdInput()
     {
-        getBrowser().findElement(siteIDInput).clear();
+        webElementInteraction.findElement(siteIDInput).clear();
     }
 
     public boolean isSiteIdInputEmpty()
     {
-        return getBrowser().findElement(siteIDInput).getText().isEmpty();
+        return webElementInteraction.findElement(siteIDInput).getText().isEmpty();
     }
 
     public String getUrlErrorMessage()
     {
-        getBrowser().waitUntilElementVisible(urlErrorMessage);
-        return getBrowser().findFirstDisplayedElement(urlErrorMessage).getText();
+        webElementInteraction.waitUntilElementIsVisible(urlErrorMessage);
+        return webElementInteraction.findFirstDisplayedElement(urlErrorMessage).getText();
     }
 
     public boolean isTitleMandatory()
     {
-        return getBrowser().findElement(nameMandatory).getText().contains("*");
+        return webElementInteraction.findElement(nameMandatory).getText().contains("*");
     }
 
     public boolean isSiteIDMandatory()
     {
-        return getBrowser().findElement(siteIDMandatory).getText().contains("*");
+        return webElementInteraction.findElement(siteIDMandatory).getText().contains("*");
     }
 
     public boolean isNameInputFieldDisplayed()
     {
-        return getBrowser().isElementDisplayed(nameInputField);
+        return webElementInteraction.isElementDisplayed(nameInputField);
     }
 
     public String getNameFieldLabel()
     {
-        return getBrowser().waitUntilElementVisible(nameFieldLabel).getText();
+        return webElementInteraction.waitUntilElementIsVisible(nameFieldLabel).getText();
     }
 
     public boolean isDescriptionInputFieldDisplayed()
     {
-        return getBrowser().isElementDisplayed(descriptionInputField);
+        return webElementInteraction.isElementDisplayed(descriptionInputField);
     }
 
     public String getDescriptionLabel()
     {
-        return getBrowser().waitUntilElementVisible(descriptionLabel).getText();
+        return webElementInteraction.waitUntilElementIsVisible(descriptionLabel).getText();
     }
 
     public String getVisibilityLabel()
     {
-        return getBrowser().waitUntilElementVisible(visibilityLabel).getText();
+        return webElementInteraction.waitUntilElementIsVisible(visibilityLabel).getText();
     }
 
     public String getPublicVisibilityButtonState()
     {
-        return getBrowser().findElement(publicVisibilityRadioButton).getAttribute("value").trim();
+        return webElementInteraction.findElement(publicVisibilityRadioButton).getAttribute("value").trim();
     }
 
     public String isModeratedVisibilityButtonDisplayed()
     {
-        return getBrowser().findElement(moderatedVisibilityButton).getAttribute("value").trim();
+        return webElementInteraction.findElement(moderatedVisibilityButton).getAttribute("value").trim();
     }
 
     public String isPrivateVisibilityButtonDisplayed()
     {
-        return getBrowser().findElement(privateVisibilityButton).getAttribute("value").trim();
+        return webElementInteraction.findElement(privateVisibilityButton).getAttribute("value").trim();
     }
 
     public String getPublicVisibilityDescription()
     {
-        return getBrowser().waitUntilElementVisible(publicVisibilityDescription).getText();
+        return webElementInteraction.getElementText(publicVisibilityDescription);
     }
 
     public String getModeratedVisibilityDescription()
     {
-        return getBrowser().waitUntilElementVisible(moderatedVisibilityDescription).getText();
+        return webElementInteraction.getElementText(moderatedVisibilityDescription);
     }
 
     public String getPrivateVisibilityDescription()
     {
-        return getBrowser().waitUntilElementVisible(privateVisibilityDescription).getText();
+        return webElementInteraction.getElementText(privateVisibilityDescription);
     }
 
     public boolean isCreateButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(createButton);
+        return webElementInteraction.isElementDisplayed(createButton);
     }
 
     /**
@@ -180,126 +175,118 @@ public class CreateSiteDialog extends BaseDialogComponent
      */
     public String getCreateButtonState()
     {
-        return getBrowser().waitUntilElementVisible(createButtonState).getAttribute("aria-disabled");
+        return webElementInteraction.waitUntilElementIsVisible(createButtonState).getAttribute("aria-disabled");
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(cancelButton);
+        return webElementInteraction.isElementDisplayed(cancelButton);
     }
 
     public CreateSiteDialog typeInNameInput(String siteName)
     {
-        getBrowser().waitUntilElementClickable(nameInputField);
-        clearAndType(getBrowser().findElement(nameInputField), siteName);
+        webElementInteraction.clearAndType(nameInputField, siteName);
         return this;
     }
 
     public CreateSiteDialog typeInDescription(String siteDescription)
     {
-        getBrowser().waitUntilElementVisible(descriptionInputField);
-        clearAndType(getBrowser().findElement(descriptionInputField), siteDescription);
+        webElementInteraction.waitUntilElementIsVisible(descriptionInputField);
+        webElementInteraction.clearAndType(descriptionInputField, siteDescription);
         return this;
     }
 
     public CreateSiteDialog typeInSiteID(String siteID)
     {
-        WebElement idInput = getBrowser().waitUntilElementVisible(siteIDInput);
+        WebElement idInput = webElementInteraction.waitUntilElementIsVisible(siteIDInput);
         idInput.clear();
-        idInput.click();
+        webElementInteraction.clickElement(idInput);
         idInput.sendKeys(siteID);
         return this;
     }
 
-    public String getTitleInputText(String text)
-    {
-        WebElement nameInput = getBrowser().findElement(nameInputField);
-        getBrowser().waitUntilElementContainsText(nameInput, text);
-        return nameInput.getText();
-    }
-
     public String getNameInputText()
     {
-        return getBrowser().findElement(nameInputField).getAttribute("value");
+        return webElementInteraction.findElement(nameInputField).getAttribute("value");
     }
 
     public String getDescriptionInputText()
     {
-        return getBrowser().findElement(descriptionInputField).getAttribute("value");
+        return webElementInteraction.findElement(descriptionInputField).getAttribute("value");
     }
 
     public void selectPublicVisibility()
     {
-        getBrowser().findElement(publicVisibilityRadioButton).click();
+        webElementInteraction.clickElement(publicVisibilityRadioButton);
     }
 
     public void selectModeratedVisibility()
     {
-        getBrowser().findElement(moderatedVisibilityButton).click();
+        webElementInteraction.clickElement(moderatedVisibilityButton);
     }
 
     public void selectPrivateVisibility()
     {
-        getBrowser().findElement(privateVisibilityButton).click();
+        webElementInteraction.clickElement(privateVisibilityButton);
     }
 
     public boolean isPublicVisibilityRadioButtonChecked()
     {
-        return getBrowser().isElementDisplayed(publicVisibilityRadioButtonChecked);
+        return webElementInteraction.isElementDisplayed(publicVisibilityRadioButtonChecked);
     }
 
     public boolean isModeratedVisibilityRadioButtonChecked()
     {
-        return getBrowser().isElementDisplayed(moderatedVisibilityRadioButtonChecked);
+        return webElementInteraction.isElementDisplayed(moderatedVisibilityRadioButtonChecked);
     }
 
     public boolean isPrivateVisibilityRadioButtonChecked()
     {
-        return getBrowser().isElementDisplayed(privateVisibilityRadioButtonChecked);
+        return webElementInteraction.isElementDisplayed(privateVisibilityRadioButtonChecked);
     }
 
     public SiteDashboardPage clickCreateButton()
     {
-        WebElement create = getBrowser().findElement(createButton);
-        getBrowser().waitUntilElementHasAttribute(create,"aria-disabled", "false");
-        getBrowser().waitUntilElementClickable(create).click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
+        WebElement create = webElementInteraction.findElement(createButton);
+        webElementInteraction.waitUntilElementHasAttribute(create,"aria-disabled", "false");
+        webElementInteraction.clickElement(create);
+        return new SiteDashboardPage(webDriver);
     }
 
     public void clickCancelButton()
     {
-        getBrowser().findElement(cancelButton).click();
+        webElementInteraction.clickElement(cancelButton);
     }
 
     public void clickCloseXButton()
     {
-        getBrowser().findElement(closeXButton).click();
-        getBrowser().waitUntilElementDisappears(createSiteDialog);
+        webElementInteraction.clickElement(closeXButton);
+        webElementInteraction.waitUntilElementDisappears(createSiteDialog);
     }
 
     public boolean isCloseXButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(closeXButton);
+        return webElementInteraction.isElementDisplayed(closeXButton);
     }
 
     public CreateSiteDialog assertCreateSiteDialogIsDisplayed()
     {
-        Assert.assertTrue(getBrowser().isElementDisplayed(createSiteDialog), "Create site dialog is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(createSiteDialog), "Create site dialog is displayed");
         return this;
     }
 
     public boolean isTypeLabelDisplayed()
     {
-        return getBrowser().isElementDisplayed(typeLabel);
+        return webElementInteraction.isElementDisplayed(typeLabel);
     }
 
     public String getTypeLabelValue()
     {
-        return getBrowser().waitUntilElementVisible(typeLabelValue).getText();
+        return webElementInteraction.waitUntilElementIsVisible(typeLabelValue).getText();
     }
 
     public String getNameFieldWarningMessage()
     {
-        return getBrowser().waitUntilElementVisible(nameFieldWarningMessage).getText();
+        return webElementInteraction.waitUntilElementIsVisible(nameFieldWarningMessage).getText();
     }
 }

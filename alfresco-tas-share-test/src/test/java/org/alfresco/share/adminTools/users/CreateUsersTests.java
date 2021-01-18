@@ -8,6 +8,7 @@ import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,8 +20,8 @@ public class CreateUsersTests extends BaseTest
     @BeforeMethod (alwaysRun = true)
     public void beforeTest()
     {
-        createUsers = new CreateUserPage(browser);
-        usersPage = new UsersPage(browser);
+        createUsers = new CreateUserPage(webDriver);
+        usersPage = new UsersPage(webDriver);
 
         setupAuthenticatedSession(getAdminUser());
     }
@@ -57,7 +58,6 @@ public class CreateUsersTests extends BaseTest
                 .assertSuccessfullyCreatedNewUserNotificationIsDisplayed()
                 .searchUserWithRetry(user.getUsername())
                     .usingUser(user).assertUserIsFound();
-        removeUserFromAlfresco(user);
     }
 
     @TestRail (id = "C9401")
@@ -73,7 +73,6 @@ public class CreateUsersTests extends BaseTest
             .clickCancel()
             .searchUserWithRetry(user.getUsername())
                 .usingUser(user).assertUserIsFound();
-        removeUserFromAlfresco(user);
     }
 
     @TestRail (id = "C9405")
@@ -113,8 +112,6 @@ public class CreateUsersTests extends BaseTest
             .usingUser(user)
             .selectUserFullName()
                 .assertGroupsAreDisplayed(ALFRESCO_ADMIN_GROUP.getGroupIdentifier());
-
-        removeUserFromAlfresco(user);
     }
 
     @TestRail (id = "C9407")
@@ -131,7 +128,6 @@ public class CreateUsersTests extends BaseTest
                 .usingUser(userToDisable)
                     .assertUserIsFound()
                     .assertUserIsDisabled();
-        removeUserFromAlfresco(userToDisable);
     }
 
     @TestRail (id = "C9408")
@@ -146,6 +142,11 @@ public class CreateUsersTests extends BaseTest
             .clickCreate()
             .searchUserWithRetry(user)
                 .usingUser(user).assertUserIsFound().assertQuotaIs("17 GB");
-        removeUserFromAlfresco(user);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void afterEachTest()
+    {
+        deleteUsersIfNotNull();
     }
 }

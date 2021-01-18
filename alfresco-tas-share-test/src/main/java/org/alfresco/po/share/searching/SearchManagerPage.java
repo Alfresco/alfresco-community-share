@@ -1,46 +1,46 @@
 package org.alfresco.po.share.searching;
 
-import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_5;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.SharePage2;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 public class SearchManagerPage extends SharePage2<SearchManagerPage>
 {
-    private final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
-    private final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");
-    private final By FILTER_REORDER_DOWN = By.cssSelector("td:nth-of-type(1) span.down>img");
-    private final By FILTER_ID = By.cssSelector("td:nth-of-type(2) span.inner");
-    private final By FILTER_NAME = By.cssSelector("td:nth-of-type(3) span.inlineEditValue");
-    private final By FILTER_PROPERTY = By.cssSelector("td[id^='SEARCH_CONFIG_FACET_QNAME_CELL_ITEM']");
-    private final By FILTER_TYPE = By.cssSelector("td:nth-of-type(5) span.inlineEditValue");
-    private final By FILTER_SHOW = By.cssSelector("td:nth-of-type(6) span.inlineEditValue");
-    private final By FILTER_AVAILABILITY = By.cssSelector("td:nth-of-type(8)");
-    private final By FILTER_DELETE_IMAGE = By.cssSelector("td[id^='SEARCH_CONFIG_ACTIONS_CELL_ITEM'] > span");
-    private final By EDIT_ICON = By.cssSelector("img.editIcon");
-    private final By EDIT_INPUT = By.cssSelector("input.dijitInputInner");
-    private final By EDIT_SAVE = By.cssSelector("span[class*='alfresco-buttons-AlfButton confirmationButton'] span");
-    private final By EDIT_CANCEL = By.cssSelector("span[class*='alfresco-buttons-AlfButton cancelButton']");
-    private final By PARENT = By.xpath("..");
-    @RenderWebElement
-    private final By createNewFilter = By.id("CREATE_FACET_BUTTON_label");
-    private final By filters = By.id("SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
+    private final By filterTable = By.id("SEARCH_CONFIG_FACET_LIST_VIEW");
+    private final By filterRows = By.id("SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
+    private final By filterReorderUp = By.cssSelector("td:nth-of-type(1) span.up>img");
+    private final By filterReorderDown = By.cssSelector("td:nth-of-type(1) span.down>img");
+    private final By filterId = By.cssSelector("td:nth-of-type(2) span.inner");
+    private final By filterName = By.cssSelector("td:nth-of-type(3) span.inlineEditValue");
+    private final By filterProperty = By.cssSelector("td[id^='SEARCH_CONFIG_FACET_QNAME_CELL_ITEM']");
+    private final By filterShow = By.cssSelector("td:nth-of-type(6) span.inlineEditValue");
+    private final By filterAvailability = By.cssSelector("td:nth-of-type(8)");
+    private final By filterDeleteImage = By.cssSelector("td[id^='SEARCH_CONFIG_ACTIONS_CELL_ITEM'] > span");
+    private final By editIcon = By.cssSelector("img.editIcon");
+    private final By editInput = By.cssSelector("input.dijitInputInner");
+    private final By editSave = By.cssSelector("span[class*='alfresco-buttons-AlfButton confirmationButton'] span");
+    private final By editCancel = By.cssSelector("span[class*='alfresco-buttons-AlfButton cancelButton']");
+    private final By parent = By.xpath("..");
+    private final By createNewFilter = By.cssSelector("span[aria-labelledby='CREATE_FACET_BUTTON_label']");
+    private final By filters = By.cssSelector("tr[id='SEARCH_CONFIG_FACET_LIST_VIEW_ROW']");
     private final By filterTableColumns = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label");
     private final By filterPropertyDropDownArrow = By.cssSelector("input.dijitReset.dijitInputField.dijitArrowButtonInner");
     private final By notificationMessage = By.cssSelector("div[class^='alfresco-notifications-AlfNotification']");
-    private final String filterProperty = "//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='%s']";
+    private final String filterPropertyPath = "//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='%s']";
+    private final String filterRow = "//span[text()='%s']/../../../..";
 
-    public SearchManagerPage(ThreadLocal<WebBrowser> browser)
+    public SearchManagerPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -54,9 +54,8 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     {
         try
         {
-            notificationMessageThread.set(
-                getBrowser().waitUntilElementVisible(notificationMessage, WAIT_5.getValue()).getText());
-            getBrowser().waitUntilElementDisappears(notificationMessage);
+            notificationMessageThread.set(webElementInteraction.getElementText(notificationMessage, WAIT_5.getValue()));
+            webElementInteraction.waitUntilElementDisappears(notificationMessage);
         }
         catch (TimeoutException exception)
         {
@@ -68,32 +67,26 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     public SearchManagerPage assertSearchManagerPageIsOpened()
     {
         LOG.info("Assert Search Manager page is opened");
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
         return this;
     }
 
     private WebElement selectFilterProperty(String filterPropertyText)
     {
-        return getBrowser().waitUntilElementVisible(By.xpath(String.format(filterProperty, filterPropertyText)));
+        return webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(
+            filterPropertyPath, filterPropertyText)));
     }
 
     private WebElement getFilterRowById(String filterId)
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(filters, WAIT_1.getValue(), WAIT_5.getValue());
-        return getBrowser().findFirstElementWithValue(filters, filterId);
-    }
-
-    public SearchManagerPage assertFilterIsDisplayed(String filterId)
-    {
-        LOG.info(String.format("Assert filter %s is displayed", filterId));
-        Assert.assertNotNull(getFilterRowById(filterId), String.format("Filter %s is displayed", filterId));
-        return this;
+        return webElementInteraction.findFirstElementWithValue(filterRows, filterId);
     }
 
     public SearchManagerPage assertFilterIsNotDisplayed(String filterId)
     {
-        LOG.info(String.format("Assert filter %s is NOT displayed", filterId));
-        Assert.assertNull(getFilterRowById(filterId), String.format("Filter %s is displayed", filterId));
+        LOG.info("Assert filter {} is not displayed", filterId);
+        By filter = By.xpath(String.format(filterRow, filterId));
+        assertFalse(webElementInteraction.isElementDisplayed(filter), String.format("Filter %s is displayed", filterId));
         return this;
     }
 
@@ -105,7 +98,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     public List<String> getFiltersTableColumns()
     {
         List<String> columnsTitle = new ArrayList<>();
-        for (WebElement column : getBrowser().findElements(filterTableColumns))
+        for (WebElement column : webElementInteraction.findElements(filterTableColumns))
         {
             if (!column.getText().isEmpty())
             {
@@ -117,144 +110,141 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public boolean isCreateNewFilterDisplayed()
     {
-        return getBrowser().isElementDisplayed(createNewFilter);
+        return webElementInteraction.isElementDisplayed(createNewFilter);
     }
 
     public boolean isFilterAvailable(String filter)
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(FILTER_ROWS);
-        return getBrowser().findFirstElementWithValue(filters, filter) != null;
+        webElementInteraction.waitUntilElementIsDisplayedWithRetry(filterRows);
+        return webElementInteraction.findFirstElementWithValue(filters, filter) != null;
     }
 
     public CreateNewFilterDialog createNewFilter()
     {
-        getBrowser().findElement(createNewFilter).click();
-        return (CreateNewFilterDialog) new CreateNewFilterDialog(browser).renderedPage();
+        webElementInteraction.clickElement(createNewFilter);
+        return new CreateNewFilterDialog(webDriver);
     }
 
     public CreateNewFilterDialog clickFilterId(String filterId)
     {
-        getBrowser().findFirstElementWithValue(FILTER_ID, filterId).click();
-        return (CreateNewFilterDialog) new CreateNewFilterDialog(browser).renderedPage();
+        webElementInteraction.waitUntilElementIsVisible(this.filterId);
+        webElementInteraction.findFirstElementWithValue(this.filterId, filterId).click();
+        return new CreateNewFilterDialog(webDriver);
     }
 
     public String getFilterName(String filterId)
     {
-        return getFilterRowById(filterId).findElement(FILTER_NAME).getText();
+        return getFilterRowById(filterId).findElement(filterName).getText();
     }
 
     public String getFilterProperty(String filterId)
     {
-        return getFilterRowById(filterId).findElement(FILTER_PROPERTY).getText();
+        return getFilterRowById(filterId).findElement(filterProperty).getText();
     }
 
     public SearchManagerPage assertFilterPropertyIs(String filterId, String expectedProperty)
     {
-        Assert.assertEquals(getFilterProperty(filterId), expectedProperty, String.format("Filter property '%s' is set", expectedProperty));
+        assertEquals(getFilterProperty(filterId), expectedProperty, String.format("Filter property '%s' is set", expectedProperty));
         return this;
-    }
-
-    public String getFilterType(String filterId)
-    {
-        return getFilterRowById(filterId).findElement(FILTER_TYPE).getText();
     }
 
     public String getShowWithSearchResults(String filterId)
     {
-        return getFilterRowById(filterId).findElement(FILTER_SHOW).getText();
+        return getFilterRowById(filterId).findElement(filterShow).getText();
     }
 
     public String getFilterAvailability(String filterId)
     {
-        return getFilterRowById(filterId).findElement(FILTER_AVAILABILITY).getText();
+        return getFilterRowById(filterId).findElement(filterAvailability).getText();
     }
 
     public boolean isFilterDeletable(String filterId)
     {
-        return getFilterRowById(filterId).findElements(FILTER_DELETE_IMAGE).size() != 0;
+        return !getFilterRowById(filterId).findElements(filterDeleteImage).isEmpty();
     }
 
     public ConfirmDeletionDialog clickDeleteFilter(String filterId)
     {
-        getFilterRowById(filterId).findElement(FILTER_DELETE_IMAGE).click();
-        return (ConfirmDeletionDialog) new ConfirmDeletionDialog(browser).renderedPage();
+        webElementInteraction.clickElement(getFilterRowById(filterId).findElement(filterDeleteImage));
+        return new ConfirmDeletionDialog(webDriver);
     }
 
     public SearchManagerPage deleteFilter(String filterId)
     {
         LOG.info("Delete filter {}", filterId);
         clickDeleteFilter(filterId).clickOKButton();
-        waitUntilNotificationMessageDisappears();
+        webElementInteraction.waitUntilElementIsVisible(filterTable);
 
-        return (SearchManagerPage) renderedPage();
+        return this;
     }
 
     public SearchManagerPage editFilterName(String filterName, String newFilterName)
     {
-        WebElement filter = getBrowser().findFirstElementWithValue(FILTER_NAME, filterName);
-        WebElement filterParent = filter.findElement(PARENT);
-        getBrowser().mouseOver(filter);
-        filterParent.findElement(EDIT_ICON).click();
-        filterParent.findElement(EDIT_INPUT).clear();
-        filterParent.findElement(EDIT_INPUT).sendKeys(newFilterName);
-        filterParent.findElement(EDIT_SAVE).click();
-        return (SearchManagerPage) this.renderedPage();
+        WebElement filter = webElementInteraction.findFirstElementWithValue(this.filterName, filterName);
+        WebElement filterParent = filter.findElement(parent);
+        webElementInteraction.mouseOver(filter);
+        webElementInteraction.clickElement(filterParent.findElement(editIcon));
+        filterParent.findElement(editInput).clear();
+        filterParent.findElement(editInput).sendKeys(newFilterName);
+        webElementInteraction.clickElement(filterParent.findElement(editSave));
+        return this;
     }
 
     public SearchManagerPage editFilterProperty(String filterId, String newFilterProperty)
     {
         WebElement filterRow = getFilterRowById(filterId);
-        WebElement filterProp = filterRow.findElement(FILTER_PROPERTY);
-        WebElement editIcon = filterProp.findElement(EDIT_ICON);
-        getBrowser().mouseOver(editIcon);
-        getBrowser().waitUntilElementClickable(editIcon).click();
-        getBrowser().waitUntilElementVisible(filterPropertyDropDownArrow).click();
-        selectFilterProperty(newFilterProperty).click();
-        WebElement saveBtn = filterRow.findElement(EDIT_SAVE);
-        getBrowser().waitUntilElementClickable(saveBtn).click();
+        WebElement filterProp = filterRow.findElement(filterProperty);
+        webElementInteraction.mouseOver(filterProp);
+        WebElement editIconElement = filterProp.findElement(editIcon);
+        webElementInteraction.mouseOver(editIconElement);
+        webElementInteraction.clickElement(editIconElement);
+        webElementInteraction.clickElement(filterPropertyDropDownArrow);
+        webElementInteraction.clickElement(selectFilterProperty(newFilterProperty));
+        WebElement saveBtn = filterRow.findElement(editSave);
+        webElementInteraction.clickElement(saveBtn);
         waitUntilNotificationMessageDisappears();
-        getBrowser().waitUntilElementContainsText(filterProp, newFilterProperty);
+        webElementInteraction.waitUntilElementContainsText(filterProp, newFilterProperty);
 
         return this;
     }
 
     public SearchManagerPage cancelEditFilterName(String filterName, String newFilterName)
     {
-        WebElement filter = getBrowser().findFirstElementWithValue(FILTER_NAME, filterName);
-        WebElement filterParent = filter.findElement(PARENT);
-        getBrowser().mouseOver(filter);
-        filterParent.findElement(EDIT_ICON).click();
-        filterParent.findElement(EDIT_INPUT).clear();
-        filterParent.findElement(EDIT_INPUT).sendKeys(newFilterName);
-        filterParent.findElement(EDIT_CANCEL).click();
+        WebElement filter = webElementInteraction.findFirstElementWithValue(this.filterName, filterName);
+        WebElement filterParent = filter.findElement(parent);
+        webElementInteraction.mouseOver(filter);
+        webElementInteraction.clickElement(filterParent.findElement(editIcon));
+        filterParent.findElement(editInput).clear();
+        filterParent.findElement(editInput).sendKeys(newFilterName);
+        webElementInteraction.clickElement(filterParent.findElement(editCancel));
 
-        return (SearchManagerPage) this.renderedPage();
+        return this;
     }
 
     public String getUpTooltipForFilter(String filterId)
     {
-        return getFilterRowById(filterId).findElement(FILTER_REORDER_UP).getAttribute("title");
+        return getFilterRowById(filterId).findElement(filterReorderUp).getAttribute("title");
     }
 
     public String getDownTooltipForFilter(String filterId)
     {
-        return getFilterRowById(filterId).findElement(FILTER_REORDER_DOWN).getAttribute("title");
+        return getFilterRowById(filterId).findElement(filterReorderDown).getAttribute("title");
     }
 
     public SearchManagerPage moveFilterUp(String filterId)
     {
-        getFilterRowById(filterId).findElement(FILTER_REORDER_UP).click();
-        return (SearchManagerPage) this.renderedPage();
+        getFilterRowById(filterId).findElement(filterReorderUp);
+        return this;
     }
 
     public SearchManagerPage moveFilterDown(String filterId)
     {
-        getFilterRowById(filterId).findElement(FILTER_REORDER_DOWN).click();
-        return (SearchManagerPage) this.renderedPage();
+        webElementInteraction.clickElement(getFilterRowById(filterId).findElement(filterReorderDown));
+        return this;
     }
 
     public int getFilterPosition(String filterId)
     {
-        return getBrowser().findFirstElementWithValue(FILTER_ID, filterId).findElements(By.xpath("ancestor::tr/preceding-sibling::*")).size() + 1;
+        return webElementInteraction.findFirstElementWithValue(this.filterId, filterId).findElements(By.xpath("ancestor::tr/preceding-sibling::*")).size() + 1;
     }
 }

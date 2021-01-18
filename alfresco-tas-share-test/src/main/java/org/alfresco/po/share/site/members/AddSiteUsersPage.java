@@ -1,22 +1,16 @@
 package org.alfresco.po.share.site.members;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 {
-    @RenderWebElement
     private final By searchForUsersBox = By.cssSelector("div[class='finder-wrapper']");
-    @RenderWebElement
     private final By invitationListBox = By.cssSelector( "div[class='invitationlist']");
-    @RenderWebElement
     private final By addedUsersBox = By.cssSelector("div[class='added-users-list']");
-    private final By instructionsBar = By.cssSelector("div[class='instructions-bar']");
-    private final By siteGroups = By.cssSelector("a[id*='site-groups-link']");
     private final By addedUsersRows = By.cssSelector("div[class='added-users-list'] tbody[class='yui-dt-data'] tr");
     private final By addUsersButton = By.cssSelector("[id*='default-invite-button-button']");
     private final By externalUserFirstNameInput = By.cssSelector("[id*='default-firstname']");
@@ -39,9 +33,9 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     private final By userRoleValue = By.cssSelector(".detail");
     private final By panelMessage = By.cssSelector(".yui-dt-message .yui-dt-liner");
 
-    public AddSiteUsersPage(ThreadLocal<WebBrowser> browser)
+    public AddSiteUsersPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     @Override
@@ -50,38 +44,31 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
         return String.format("share/page/site/%s/add-users", getCurrentSiteName());
     }
 
-    public SiteGroupsPage openGroupsPage()
-    {
-        getBrowser().findElement(siteGroups).click();
-        return (SiteGroupsPage) new SiteGroupsPage(browser).renderedPage();
-    }
-
     public AddSiteUsersPage searchForUser(String user)
     {
-        WebElement searchBox = getBrowser().findElement(searchForUsersBox);
-        searchBox.findElement(searchBoxInput).clear();
-        searchBox.findElement(searchBoxInput).sendKeys(user);
-        searchBox.findElement(By.cssSelector("button")).click();
+        WebElement searchBox = webElementInteraction.findElement(searchForUsersBox);
+        webElementInteraction.clearAndType(searchBox, user);
+        webElementInteraction.clickElement(searchBox.findElement(By.cssSelector("button")));
 
         int attempt = 0;
         //clicking 5 times on Search button because sometimes it returns incorrect "No users found"
-        while (!user.isEmpty() && getBrowser().findElements(searchResultsRows).size() == 0 && attempt < 5)
+        while (!user.isEmpty() && webElementInteraction.findElements(searchResultsRows).isEmpty() && attempt < 5)
         {
-            searchBox.findElement(By.cssSelector("button")).click();
+            webElementInteraction.clickElement(searchBox.findElement(By.cssSelector("button")));
             attempt++;
-            getBrowser().waitInSeconds(1);
+            webElementInteraction.waitInSeconds(1);
         }
-        return (AddSiteUsersPage) this.renderedPage();
+        return this;
     }
 
     public WebElement selectUser(String username)
     {
-        return getBrowser().findFirstElementWithValue(searchResultsRows, username);
+        return webElementInteraction.findFirstElementWithValue(searchResultsRows, username);
     }
 
     public boolean isUserDisplayedInSearchResults(String user)
     {
-        return getBrowser().findElements(searchResultsRows).size() != 0 && selectUser(user) != null;
+        return !webElementInteraction.findElements(searchResultsRows).isEmpty() && selectUser(user) != null;
     }
 
     public boolean isSelectUserButtonEnabled(String username)
@@ -91,13 +78,13 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     public void clickSelectUserButton(String username)
     {
-        selectUser(username).findElement(By.cssSelector("button")).click();
-        getBrowser().waitUntilElementsVisible(setUserRoleRows);
+        selectUser(username).findElement(By.cssSelector("button"));
+        webElementInteraction.waitUntilElementsAreVisible(setUserRoleRows);
     }
 
     private void selectRoleFromDropDown(String role)
     {
-        for (WebElement dropDownOption : getBrowser().findElements(dropDownOptionsList))
+        for (WebElement dropDownOption : webElementInteraction.findElements(dropDownOptionsList))
         {
             if (dropDownOption.getText().equals(role))
             {
@@ -109,158 +96,158 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     public void setAllRolesTo(String role)
     {
-        getBrowser().findElement(setAllRolesToButton).click();
+        webElementInteraction.findElement(setAllRolesToButton);
         selectRoleFromDropDown(role);
     }
 
     public void setUserRole(String userName, String role)
     {
-        getBrowser().findFirstElementWithValue(setUserRoleRows, userName).findElement(selectRoleButton).click();
+        webElementInteraction.findFirstElementWithValue(setUserRoleRows, userName).findElement(selectRoleButton);
         selectRoleFromDropDown(role);
     }
 
     public String getUserRole(String userName)
     {
-        getBrowser().waitUntilElementsVisible(setUserRoleRows);
-        return getBrowser().findFirstElementWithValue(setUserRoleRows, userName).findElement(selectRoleButton).getText();
+        webElementInteraction.waitUntilElementsAreVisible(setUserRoleRows);
+        return webElementInteraction.findFirstElementWithValue(setUserRoleRows, userName).findElement(selectRoleButton).getText();
     }
 
     public void removeUser(String userName)
     {
-        getBrowser().findFirstElementWithValue(setUserRoleRows, userName).findElement(removeButton).click();
+        webElementInteraction.findFirstElementWithValue(setUserRoleRows, userName).findElement(removeButton);
     }
 
     public void clickAddUsers()
     {
-        while (isWaitPopupDisplayed() == true)
+        while (isWaitPopupDisplayed())
         {
-            getBrowser().waitUntilElementDisappears(waitPopup);
+            webElementInteraction.waitUntilElementDisappears(waitPopup);
         }
-        getBrowser().findElement(addUsersButton).click();
+        webElementInteraction.findElement(addUsersButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public String getAddedUsersTally()
     {
         waitUntilNotificationMessageDisappears();
-        getBrowser().waitUntilElementIsVisibleWithRetry(addedUsersTally, 10);
-        return getBrowser().findElement(addedUsersBox).findElement(addedUsersTally).getText();
+        webElementInteraction.waitUntilElementIsVisibleWithRetry(addedUsersTally, 10);
+        return webElementInteraction.findElement(addedUsersBox).findElement(addedUsersTally).getText();
     }
 
     public AddSiteUsersPage assertTotalUserAddedIs(int nrOfUsers)
     {
         String value = language.translate("addUsersPage.addedUsersTally") + nrOfUsers;
-        getBrowser().waitUntilElementContainsText(getBrowser().findElement(addedUsersTally), value);
-        Assert.assertEquals(getBrowser().findElement(addedUsersTally).getText(), value, "Total added user is correct");
+        webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(addedUsersTally), value);
+        Assert.assertEquals(webElementInteraction.findElement(addedUsersTally).getText(), value, "Total added user is correct");
         return this;
     }
 
     public boolean isUserAddedToSite(String userName)
     {
-        getBrowser().waitUntilElementsVisible(addedUsersRows);
-        return getBrowser().findFirstElementWithValue(addedUsersRows, userName) != null;
+        webElementInteraction.waitUntilElementsAreVisible(addedUsersRows);
+        return webElementInteraction.findFirstElementWithValue(addedUsersRows, userName) != null;
     }
 
     public String getUserRoleValue(String userName)
     {
-        return getBrowser().findFirstElementWithValue(addedUsersRows, userName).findElement(userRoleValue).getText();
+        return webElementInteraction.findFirstElementWithValue(addedUsersRows, userName).findElement(userRoleValue).getText();
     }
 
     public void addExternalUser(String firstName, String lastName, String email)
     {
-        getBrowser().findElement(externalUserFirstNameInput).sendKeys(firstName);
-        getBrowser().findElement(externalUserLastNameInput).sendKeys(lastName);
-        getBrowser().findElement(externalUserEmailInput).sendKeys(email);
-        getBrowser().findElement(externalUserAddButton).click();
+        webElementInteraction.findElement(externalUserFirstNameInput).sendKeys(firstName);
+        webElementInteraction.findElement(externalUserLastNameInput).sendKeys(lastName);
+        webElementInteraction.findElement(externalUserEmailInput).sendKeys(email);
+        webElementInteraction.findElement(externalUserAddButton);
     }
 
     public boolean isSearchForUsersPanelDisplayed()
     {
-        return getBrowser().findElement(searchForUsersBox).isDisplayed();
+        return webElementInteraction.findElement(searchForUsersBox).isDisplayed();
     }
 
     public boolean isSearchBoxInputDisplayed()
     {
-        return getBrowser().findElement(searchForUsersBox).findElement(searchBoxInput).isDisplayed();
+        return webElementInteraction.findElement(searchForUsersBox).findElement(searchBoxInput).isDisplayed();
     }
 
     public boolean isSearchButtonEnabled()
     {
-        return getBrowser().findElement(searchForUsersBox).findElement(By.cssSelector("button")).isEnabled();
+        return webElementInteraction.findElement(searchForUsersBox).findElement(By.cssSelector("button")).isEnabled();
     }
 
     public String getSearchForUsersPanelMessage()
     {
-        return getBrowser().findElement(searchForUsersBox).findElement(panelMessage).getText();
+        return webElementInteraction.findElement(searchForUsersBox).findElement(panelMessage).getText();
     }
 
     public boolean isSetUserRolePanelDisplayed()
     {
-        return getBrowser().isElementDisplayed(invitationListBox);
+        return webElementInteraction.isElementDisplayed(invitationListBox);
     }
 
     public boolean isSetAllRolesToButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(setAllRolesToButton);
+        return webElementInteraction.isElementDisplayed(setAllRolesToButton);
     }
 
     public boolean isInfoIconDisplayed()
     {
-        return getBrowser().isElementDisplayed(infoIcon);
+        return webElementInteraction.isElementDisplayed(infoIcon);
     }
 
     public String getSetUserRolePanelMessage()
     {
-        return getBrowser().findElement(invitationListBox).findElement(panelMessage).getText();
+        return webElementInteraction.findElement(invitationListBox).findElement(panelMessage).getText();
     }
 
     public boolean isAddUsersToSitePanelDisplayed()
     {
-        return getBrowser().isElementDisplayed(addedUsersBox);
+        return webElementInteraction.isElementDisplayed(addedUsersBox);
     }
 
     public boolean isAddUsersButtonEnabled()
     {
-        return getBrowser().findElement(addUsersButton).isEnabled();
+        return webElementInteraction.findElement(addUsersButton).isEnabled();
     }
 
     public String getAddUsersToSitePanelMessage()
     {
-        return getBrowser().findElement(addedUsersBox).findElement(panelMessage).getText();
+        return webElementInteraction.findElement(addedUsersBox).findElement(panelMessage).getText();
     }
 
     public boolean isAddExternalUsersPanelDisplayed()
     {
-        return getBrowser().isElementDisplayed(externalUserFirstNameInput) &&
-            getBrowser().isElementDisplayed(externalUserLastNameInput) &&
-            getBrowser().isElementDisplayed(externalUserEmailInput) &&
-            getBrowser().isElementDisplayed(externalUserAddButton);
+        return webElementInteraction.isElementDisplayed(externalUserFirstNameInput) &&
+            webElementInteraction.isElementDisplayed(externalUserLastNameInput) &&
+            webElementInteraction.isElementDisplayed(externalUserEmailInput) &&
+            webElementInteraction.isElementDisplayed(externalUserAddButton);
     }
 
     public void clickInfoIcon()
     {
-        getBrowser().findElement(infoIcon).click();
-        getBrowser().waitUntilElementVisible(infoBalloon);
+        webElementInteraction.findElement(infoIcon);
+        webElementInteraction.waitUntilElementIsVisible(infoBalloon);
     }
 
     public boolean isInfoBalloonDisplayed()
     {
-        return getBrowser().findElements(infoBalloon).size() != 0;
+        return !webElementInteraction.findElements(infoBalloon).isEmpty();
     }
 
     public String getInfoBalloonText()
     {
-        return getBrowser().findElement(infoBalloonText).getText();
+        return webElementInteraction.findElement(infoBalloonText).getText();
     }
 
     public void closeInfoBalloon()
     {
-        getBrowser().findElement(infoBalloonCloseButton).click();
-        getBrowser().waitUntilElementDisappears(infoBalloon, 30);
+        webElementInteraction.clickElement(infoBalloonCloseButton);
+        webElementInteraction.waitUntilElementDisappears(infoBalloon);
     }
 
     public void clickSeeMoreLink()
     {
-        getBrowser().findElement(seeMoreLink).click();
+        webElementInteraction.clickElement(seeMoreLink);
     }
 }

@@ -1,8 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -38,14 +38,14 @@ public class TableView extends SiteCommon<TableView>
     @FindBy (css = "th[id*='-th-actions']")
     private WebElement actionsColumnTitle;
 
-    public TableView(ThreadLocal<WebBrowser> browser)
+    public TableView(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     private WebElement findItemInTableInTableView(String contentName)
     {
-        return getBrowser()
+        return webElementInteraction
             .findElement(By.xpath("//table[contains(@id,'yuievtautoid')]//tbody[@class ='yui-dt-data']//td[contains(@class, 'yui-dt-col-name')]//a[text()='"
                 + contentName + "']"));
     }
@@ -59,7 +59,7 @@ public class TableView extends SiteCommon<TableView>
 
     public boolean isTableViewDisplayed()
     {
-        return getBrowser().isElementDisplayed(tableInTableView);
+        return webElementInteraction.isElementDisplayed(tableInTableView);
     }
 
     public String getContentNameTableView(String contentName)
@@ -69,56 +69,56 @@ public class TableView extends SiteCommon<TableView>
 
     public boolean isSelectedColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(selectedColumnTitle);
+        return webElementInteraction.isElementDisplayed(selectedColumnTitle);
     }
 
     public boolean isStatusColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(statusColumnTitle);
+        return webElementInteraction.isElementDisplayed(statusColumnTitle);
     }
 
     public boolean isThumbnailColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(thumbnailColumnTitle);
+        return webElementInteraction.isElementDisplayed(thumbnailColumnTitle);
     }
 
     public boolean isNameColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(nameColumnTitle);
+        return webElementInteraction.isElementDisplayed(nameColumnTitle);
     }
 
     public boolean isTitleColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(titleColumnTitle);
+        return webElementInteraction.isElementDisplayed(titleColumnTitle);
     }
 
     public boolean isDescriptionColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(descriptionColumnTitle);
+        return webElementInteraction.isElementDisplayed(descriptionColumnTitle);
     }
 
     public boolean isCreatorColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(creatorColumnTitle);
+        return webElementInteraction.isElementDisplayed(creatorColumnTitle);
     }
 
     public boolean isCreatedColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(createdColumnTitle);
+        return webElementInteraction.isElementDisplayed(createdColumnTitle);
     }
 
     public boolean isModifierColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(modifierColumnTitle);
+        return webElementInteraction.isElementDisplayed(modifierColumnTitle);
     }
 
     public boolean isModifiedColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(modifiedColumnTitle);
+        return webElementInteraction.isElementDisplayed(modifiedColumnTitle);
     }
 
     public boolean isActionsColumnDisplayed()
     {
-        return getBrowser().isElementDisplayed(actionsColumnTitle);
+        return webElementInteraction.isElementDisplayed(actionsColumnTitle);
     }
 }

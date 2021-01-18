@@ -1,15 +1,13 @@
 package org.alfresco.po.share.site.blog;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 {
-    @RenderWebElement
     @FindBy (css = "input[id*='_default-title']")
     protected WebElement titleField;
     @FindBy (css = "button[id$='_default-publish-button-button']")
@@ -18,10 +16,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     protected WebElement saveAsDraftButton;
     @FindBy (css = "button[id$='_default-cancel-button-button']")
     protected WebElement cancelButton;
-    //@Autowired
-    BlogPostViewPage blogPostViewPage;
     private By pageTitle = By.xpath("//div[@id ='bd']//div[@class = 'page-form-header']//h1");
-    @RenderWebElement
     @FindBy (xpath = "//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']")
     private WebElement frame;
     @FindBy (xpath = "//div[@class = 'taglibrary']//input")
@@ -29,14 +24,14 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     @FindBy (xpath = "//div[@class = 'taglibrary']//span[@class = 'yui-button yui-push-button']//button[text()='Add']")
     private WebElement addTagButton;
 
-    public CreateBlogPostPage(ThreadLocal<WebBrowser> browser)
+    public CreateBlogPostPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public WebElement findTag(String Tag)
     {
-        return getBrowser().findElement(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
+        return webElementInteraction.findElement(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
     }
 
     @Override
@@ -50,7 +45,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public String getPageTitle()
     {
-        return getBrowser().findElement(pageTitle).getText();
+        return webElementInteraction.findElement(pageTitle).getText();
     }
 
     /**
@@ -70,10 +65,10 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void sendBlogPostTextInput(String blogPostContentText)
     {
-        getBrowser().switchTo().frame(getBrowser().findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
-        WebElement element = getBrowser().findElement(By.id("tinymce"));
+        webElementInteraction.switchTo().frame(webElementInteraction.findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
+        WebElement element = webElementInteraction.findElement(By.id("tinymce"));
         element.sendKeys(blogPostContentText);
-        getBrowser().switchTo().defaultContent();
+        webElementInteraction.switchTo().defaultContent();
     }
 
     /**
@@ -101,8 +96,8 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void clickDeleteTag(String Tag)
     {
-        getBrowser().mouseOver(findTag(Tag));
-        getBrowser().findElement(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']")).click();
+        webElementInteraction.mouseOver(findTag(Tag));
+        webElementInteraction.findElement(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']")).click();
     }
 
     /**
@@ -124,7 +119,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public boolean isTagPresent(String Tag)
     {
-        return getBrowser().isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
+        return webElementInteraction.isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
     }
 
     /**
@@ -135,8 +130,8 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public boolean isDeleteButtonAvailable(String Tag)
     {
-        getBrowser().mouseOver(findTag(Tag));
-        return getBrowser().isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']"));
+        webElementInteraction.mouseOver(findTag(Tag));
+        return webElementInteraction.isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']"));
     }
 
     /**
@@ -145,7 +140,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     public BlogPostViewPage clickPublishInternally()
     {
         publishInternallyButton.click();
-        return (BlogPostViewPage) blogPostViewPage.renderedPage();
+        return new BlogPostViewPage(webDriver);
     }
 
     /**
@@ -153,7 +148,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void clickCancelButton()
     {
-        getBrowser().waitUntilElementClickable(cancelButton).click();
+        webElementInteraction.clickElement(cancelButton);
     }
 
     /**
@@ -162,6 +157,6 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     public BlogPostViewPage clickSaveAsDraftButton()
     {
         saveAsDraftButton.click();
-        return (BlogPostViewPage) blogPostViewPage.renderedPage();
+        return new BlogPostViewPage(webDriver);
     }
 }

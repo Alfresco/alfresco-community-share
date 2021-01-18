@@ -8,7 +8,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -62,13 +61,13 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         LOG.info("Step 1: Check the View options available");
         Assert.assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Options menu is not displayed");
         documentLibraryPage.clickOptionsButton();
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Simple View"), "Simple View option is not available under options");
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Detailed View"), "Detailed View option is not available under options");
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Gallery View"), "Gallery View option is not available under options");
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Filmstrip View"), "Filmstrip View option is not available under options");
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Table View"), "Table View option is not available under options");
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Audio View"), "Audio View option is not available under options");
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Media View"), "Media View option is not available under options");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Simple View"), "Simple View option is not available under options");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Detailed View"), "Detailed View option is not available under options");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Gallery View"), "Gallery View option is not available under options");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Filmstrip View"), "Filmstrip View option is not available under options");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Table View"), "Table View option is not available under options");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Audio View"), "Audio View option is not available under options");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Media View"), "Media View option is not available under options");
 
     }
 

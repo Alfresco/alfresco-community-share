@@ -45,13 +45,11 @@ public class SettingHomePageTest extends ContextAwareWebTest
         userProfilePage.navigate(user);
         toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         toolbar.clickHome();
-        userProfilePage.renderedPage();
         userProfilePage.assertUserProfilePageIsOpened();
 
         peopleFinderPage.navigate();
         toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         toolbar.clickHome();
-        peopleFinderPage.renderedPage();
         peopleFinderPage.assertPeopleFinderPageIsOpened();
     }
 
@@ -62,11 +60,10 @@ public class SettingHomePageTest extends ContextAwareWebTest
         sharedFilesPage.navigate();
         toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         toolbar.clickHome();
-        sharedFilesPage.renderedPage();
         sharedFilesPage.assertSharedFilesPageIsOpened();
         toolbar.clickUserMenu().clickSetDashBoardAsHome();
         toolbar.clickHome();
-        userDashboard.renderedPage();
+        
         userDashboard.assertUserDashboardPageIsOpened();
     }
 }

@@ -121,10 +121,9 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
         return this;
     }
 
-    public CalendarPage clickEvent(String eventTitle)
+    public void clickEvent(String eventTitle)
     {
         LOG.info("Click event with title: {}", eventTitle);
         browser.findFirstElementWithValue(siteEventsNameList, eventTitle).click();
-        return (CalendarPage) calendarPage.renderedPage();
     }
 }

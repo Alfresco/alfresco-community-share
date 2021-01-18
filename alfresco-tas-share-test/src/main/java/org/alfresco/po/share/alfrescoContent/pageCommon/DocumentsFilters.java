@@ -3,10 +3,10 @@ package org.alfresco.po.share.alfrescoContent.pageCommon;
 import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -55,9 +55,9 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
     @FindAll (@FindBy (css = ".filter .tag-link"))
     private List<WebElement> tagsFromFilter;
 
-    public DocumentsFilters(ThreadLocal<WebBrowser> browser)
+    public DocumentsFilters(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     /**
@@ -75,12 +75,12 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     private WebElement selectCategoriesFilter(String filterName)
     {
-        return getBrowser().findElement(By.xpath("//div[@class ='category']//div[@class ='ygtvchildren']//span[text() = '" + filterName + "']"));
+        return webElementInteraction.findElement(By.xpath("//div[@class ='category']//div[@class ='ygtvchildren']//span[text() = '" + filterName + "']"));
     }
 
     private WebElement selectTagByTagName(String tagName)
     {
-        return getBrowser().findElement(By.xpath("//span[@class ='tag']//a[text()='" + tagName + "']/.."));
+        return webElementInteraction.findElement(By.xpath("//span[@class ='tag']//a[text()='" + tagName + "']/.."));
     }
 
     @Override
@@ -201,14 +201,14 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
         try
         {
-            List<WebElement> tags = getBrowser().waitUntilElementsVisible(By.cssSelector(".filter .tag-link"));
+            List<WebElement> tags = webElementInteraction.waitUntilElementsAreVisible(By.cssSelector(".filter .tag-link"));
 
             for (WebElement tag : tags)
             {
                 if (tag.getText().equals(tagName))
                 {
                     tag.click();
-                    getBrowser().waitUntilElementContainsText(headerAfterFilter, tagName);
+                    webElementInteraction.waitUntilElementContainsText(headerAfterFilter, tagName);
                     break;
                 }
             }
@@ -217,8 +217,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
             while (counter < 3)
             {
                 counter++;
-                getBrowser().refresh();
-                renderedPage();
+                webElementInteraction.refresh();
                 clickSidebarTag(tagName);
             }
         }
@@ -226,7 +225,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean areTagsPresent()
     {
-        return getBrowser().isElementDisplayed(By.cssSelector("span[class ='tag']"));
+        return webElementInteraction.isElementDisplayed(By.cssSelector("span[class ='tag']"));
     }
 
     public String getSidebarTag(String tagName)

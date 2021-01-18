@@ -1,34 +1,33 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import static org.alfresco.common.Utils.testDataFolder;
+import static org.alfresco.common.Wait.WAIT_3;
+import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.UploadFileDialog;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
+
+import java.util.List;
 
 public class ApplicationPage extends SharePage2<ApplicationPage>
 {
-    @RenderWebElement
     private final By themeDropdown = By.cssSelector("select#console-options-theme-menu");
-    private final By applyButton = By.cssSelector("div.apply button[id$='_default-apply-button-button']");
-    private final By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
+    private final By applyButton = By.cssSelector("button[id$='default-apply-button-button']");
+    private final By applyButtonAfterHover = By.cssSelector("div.apply span[class*='submit-button-hover']");
+    private final By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/app-logo-48.png')]");
     private final By mainText = By.cssSelector( ".info");
-    @RenderWebElement
-    private final By resetButton = By.cssSelector("button[id$='reset-button-button']");
+    private final By resetButton = By.cssSelector("button[id$='default-reset-button-button']");
     private final By uploadButton = By.cssSelector("form[id*=admin-console] button[id*=upload-button-button]");
     private final String bodyTheme = "//body[@id = 'Share' and contains(@class, 'skin-%s')]";
 
-    public ApplicationPage(ThreadLocal<WebBrowser> browser)
+    public ApplicationPage(ThreadLocal<WebDriver> webdriver)
     {
-        super(browser);
+        super(webdriver);
     }
 
     @Override
@@ -40,86 +39,108 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public ApplicationPage assertAdminApplicationPageIsOpened()
     {
         LOG.info("Assert Application Admin Tools page is opened");
-        assertTrue(getBrowser().getCurrentUrl().contains(getRelativePath()), "Application page is not opened");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Application page is not opened");
         return this;
     }
 
     public UploadFileDialog clickUpload()
     {
-        getBrowser().waitUntilElementVisible(uploadButton).click();
-        return (UploadFileDialog) new UploadFileDialog(browser).renderedPage();
+        webElementInteraction.clickElement(uploadButton);
+        return new UploadFileDialog(webDriver);
     }
 
     public ApplicationPage clickApply()
     {
         LOG.info("Click Apply button");
-        WebElement apply = getBrowser().waitUntilElementVisible(applyButton);
-        getBrowser().mouseOver(apply);
-        getBrowser().waitUntilElementClickable(apply).click();
+        try
+        {
+            WebElement apply = webElementInteraction.waitUntilElementIsVisible(applyButton);
+            webElementInteraction.mouseOver(apply, 3000);
+            webElementInteraction.clickElement(applyButtonAfterHover, 3000);
+            if (defaultProperties.get().getBrowserName().equals("chrome"))
+            {
+                webElementInteraction.waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
+            }
+        }
+        catch (StaleElementReferenceException | NoSuchElementException staleElementReferenceException)
+        {
+            LOG.info("Apply button is not attached to DOM");
+            webElementInteraction.waitInSeconds(WAIT_3.getValue());
+            webElementInteraction
+                .mouseOverViaJavascript(webElementInteraction.findElement(applyButton));
+            webElementInteraction.clickElement(applyButtonAfterHover, 3000);
+            webElementInteraction.waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
+        }
         return this;
     }
 
     public ApplicationPage assertDefaultAlfrescoImageIsNotDisplayed()
     {
         LOG.info("Assert default Alfresco image is not displayed");
-        assertFalse(getBrowser().isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is displayed");
+        assertFalse(webElementInteraction.isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is displayed");
         return this;
     }
 
     public ApplicationPage uploadImage()
     {
         String testFilePath = testDataFolder + "alfrescoLogo.png";
-        clickUpload().uploadFileAndRenderPage(testFilePath, this);
-        return clickApply();
+        clickUpload().uploadFile(testFilePath, this);
+        return this;
     }
 
     public ApplicationPage assertDefaultAlfrescoImageIsDisplayed()
     {
         LOG.info("Assert default Alfresco image is displayed");
-        getBrowser().waitUntilElementVisible(defaultAlfrescoImage);
-        assertTrue(getBrowser().isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is not displayed");
-        return this;
-    }
+        assertTrue(webElementInteraction.isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is not displayed");
 
-    public boolean isAlfrescoDefaultImageDisplayed()
-    {
-        return getBrowser().isElementDisplayed(defaultAlfrescoImage);
+        return this;
     }
 
     public ApplicationPage resetImageToDefault()
     {
         LOG.info("Reset image to default");
-        WebElement reset = getBrowser().waitUntilElementVisible(resetButton);
-        getBrowser().clickJS(reset);
-        getBrowser().waitUntilElementVisible(defaultAlfrescoImage);
+        webElementInteraction.waitUntilElementIsVisibleWithRetry(resetButton, WAIT_30.getValue());
+        try
+        {
+            webElementInteraction.clickElement(resetButton);
+        }
+        catch (StaleElementReferenceException e)
+        {
+            navigate();
+            webElementInteraction.clickElement(resetButton);
+        }
+        if(!webElementInteraction.isElementDisplayed(defaultAlfrescoImage))
+        {
+            LOG.error("Failed to click Reset button");
+            webElementInteraction.clickElement(resetButton);
+        }
         return this;
     }
 
     public ApplicationPage selectTheme(Theme theme)
     {
         LOG.info("Select theme: {}", theme.name);
-        WebElement themeElement = getBrowser().waitUntilElementVisible(themeDropdown);
-        getBrowser().mouseOver(themeElement);
+        WebElement themeElement = webElementInteraction.waitUntilElementIsVisible(themeDropdown);
+        webElementInteraction.mouseOver(themeElement);
+        webElementInteraction.waitUntilElementIsVisible(themeElement);
         Select themeOptions = new Select(themeElement);
         themeOptions.selectByValue(theme.getSelectValue());
-        clickApply();
-        getBrowser().waitUntilElementVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
 
         return this;
     }
 
     public boolean isThemeOptionSelected(Theme theme)
     {
-        Select themeOptions = new Select(getBrowser().findElement(themeDropdown));
+        Select themeOptions = new Select(webElementInteraction.findElement(themeDropdown));
         List<WebElement> options = themeOptions.getOptions();
         return options.stream().anyMatch(value ->
-            value.getAttribute("value").contains(theme.getSelectValue()) && value.isSelected());
+                value.getAttribute("value").contains(theme.getSelectValue()) && value.isSelected());
     }
 
     public boolean doesBodyContainTheme(Theme theme)
     {
-        By themeToBeFound = By.xpath(String.format(bodyTheme, theme.getSelectValue()));
-        return getBrowser().isElementDisplayed(themeToBeFound);
+        WebElement appliedTheme = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
+        return webElementInteraction.isElementDisplayed(appliedTheme);
     }
 
     public ApplicationPage assertThemeOptionIsSelected(Theme theme)
@@ -138,6 +159,6 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public String checkText()
     {
-        return getBrowser().findElement(mainText).getText();
+        return webElementInteraction.getElementText(mainText);
     }
 }

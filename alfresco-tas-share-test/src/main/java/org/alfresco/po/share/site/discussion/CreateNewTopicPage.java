@@ -3,24 +3,20 @@ package org.alfresco.po.share.site.discussion;
 import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 {
-    @RenderWebElement
     @FindBy (css = ".page-form-header>h1")
     protected WebElement pageHeader;
-    @RenderWebElement
     @FindBy (css = "button[id$='discussions-createtopic_x0023_default-submit-button']")
     protected WebElement saveButton;
     @FindBy (css = "button[id$='discussions-createtopic_x0023_default-cancel-button']")
     protected WebElement cancelButton;
-    @RenderWebElement
     @FindBy (css = "input[id$='discussions-createtopic_x0023_default-title']")
     protected WebElement topicTitle;
     @FindBy (css = "input[id$='discussions-createtopic_x0023_default-tag-input-field']")
@@ -30,14 +26,13 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     @FindAll (@FindBy (css = "ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action"))
     protected List<WebElement> currentTagList;
     protected By topicContent = By.cssSelector("iframe[id*='discussions-createtopic_x0023_default-content']");
-   // @Autowired
-    TopicListPage topicListPage;
-    //@Autowired
+
+    private TopicListPage topicListPage;
     private TopicViewPage topicViewPage;
 
-    public CreateNewTopicPage(ThreadLocal<WebBrowser> browser)
+    public CreateNewTopicPage(ThreadLocal<WebDriver> webDriver)
     {
-      super(browser);
+      super(webDriver);
     }
 
     @Override
@@ -70,12 +65,12 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void typeTopicContent(String content)
     {
-        getBrowser().waitUntilElementVisible(topicContent);
-        getBrowser().switchToFrame(getBrowser().findElement(topicContent).getAttribute("id"));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.waitUntilElementIsVisible(topicContent);
+        webElementInteraction.switchToFrame(webElementInteraction.findElement(topicContent).getAttribute("id"));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         editable.clear();
         editable.sendKeys(content);
-        getBrowser().switchToDefaultContent();
+        webElementInteraction.switchToDefaultContent();
     }
 
     /**
@@ -83,10 +78,9 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      *
      * @return wiki page
      */
-    public TopicViewPage clickSaveButton()
+    public void clickSaveButton()
     {
         saveButton.click();
-        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     /**
@@ -94,10 +88,9 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      *
      * @return wiki pages list
      */
-    public TopicListPage clickCancelButton()
+    public void clickCancelButton()
     {
         cancelButton.click();
-        return (TopicListPage) topicListPage.renderedPage();
     }
 
     /**
@@ -132,10 +125,10 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 
     public String getTopicContent()
     {
-        getBrowser().switchToFrame(getBrowser().findElement(topicContent).getAttribute("id"));
-        WebElement editable = getBrowser().switchTo().activeElement();
+        webElementInteraction.switchToFrame(webElementInteraction.findElement(topicContent).getAttribute("id"));
+        WebElement editable = webElementInteraction.switchTo().activeElement();
         String editableText = editable.getText();
-        getBrowser().switchToDefaultContent();
+        webElementInteraction.switchToDefaultContent();
         return editableText;
     }
 
@@ -146,6 +139,6 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void removeTag(String tag)
     {
-        getBrowser().findFirstElementWithValue(currentTagList, tag).click();
+        webElementInteraction.findFirstElementWithValue(currentTagList, tag).click();
     }
 }

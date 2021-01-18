@@ -1,9 +1,9 @@
 package org.alfresco.po.share.TinyMce;
 
 import org.alfresco.po.share.BasePage;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class TinyMceEditor extends BasePage
@@ -37,9 +37,9 @@ public class TinyMceEditor extends BasePage
     private String frameId = null;
     private FormatType formatType;
 
-    public TinyMceEditor(ThreadLocal<WebBrowser> browser)
+    public TinyMceEditor(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public String getFrameId()
@@ -127,7 +127,7 @@ public class TinyMceEditor extends BasePage
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", txt);
-            getBrowser().executeJavaScript(setCommentJs);
+            webElementInteraction.executeJavaScript(setCommentJs);
         } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error("Element : " + txt + " is not present", noSuchElementExp);
@@ -138,82 +138,33 @@ public class TinyMceEditor extends BasePage
     {
         setFormatType(formatType);
         selectTextFromEditor();
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
+        clickElementOnRichTextFormatter(webElementInteraction.findElement(textElements()));
     }
 
     public void clickColorCode(TinyMceColourCode colourCode)
     {
         selectTextFromEditor();
         setFormatType(FormatType.COLOR);
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
-        WebElement colour = getBrowser().findElement(By.cssSelector(colourCode.getForeColourLocator()));
+        clickElementOnRichTextFormatter(webElementInteraction.findElement(textElements()));
+        WebElement colour = webElementInteraction.findElement(By.cssSelector(colourCode.getForeColourLocator()));
         clickElementOnRichTextFormatter(colour);
     }
 
-    public void clickBackgroundColorCode(TinyMceColourCode bgColourCode)
-    {
-        selectTextFromEditor();
-        setFormatType(FormatType.BACK_GROUND_COLOR);
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
-        WebElement bgColour = getBrowser().findElement(By.cssSelector(bgColourCode.getBgColourLocator()));
-        clickElementOnRichTextFormatter(bgColour);
-    }
-
-    public void clickUndo()
-    {
-        setFormatType(FormatType.UNDO);
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
-    }
-
-    public void clickEdit()
-    {
-        setFormatType(FormatType.EDIT);
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
-    }
-
-    public void clickFormat()
-    {
-        setFormatType(FormatType.FORMAT);
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
-    }
-
-    public void clickRedo()
-    {
-        setFormatType(FormatType.REDO);
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
-    }
-
     /**
-     * Click to remove formatting from text.
+     * @author Michael Suzuki Changed to use tinymce directly as its faster to edit with tinymce object instead of using the ui.
+     * The script below will select every thing inside the editing pane.
      */
-    public void removeFormatting()
-    {
-        try
-        {
-            getBrowser().findElement(CSS_REMOVE_FORMAT).click();
-        }
-        catch (NoSuchElementException noSuchElementExp)
-        {
-            LOG.error("Element :" + CSS_REMOVE_FORMAT + " does not exist", noSuchElementExp);
-        }
-    }
-
     public void selectTextFromEditor()
     {
-        // This select all in the edit pane
-        /**
-         * @author Michael Suzuki Changed to use tinymce directly as its faster to edit with tinymce object instead of using the ui.
-         * The script below will select every thing inside the editing pane.
-         */
-        getBrowser().executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
+        webElementInteraction.executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
     }
 
     protected void clickElementOnRichTextFormatter(WebElement element)
     {
         try
         {
-            getBrowser().switchToDefaultContent();
-            element.click();
+            webElementInteraction.switchToDefaultContent();
+            webElementInteraction.clickElement(element);
 
         } catch (NoSuchElementException noSuchElementExp)
         {
@@ -225,9 +176,9 @@ public class TinyMceEditor extends BasePage
     {
         try
         {
-            getBrowser().switchToFrame(getFrameId());
-            String text = getBrowser().findElement(By.cssSelector(TINYMCE_CONTENT)).getText();
-            getBrowser().switchToDefaultContent();
+            webElementInteraction.switchToFrame(getFrameId());
+            String text = webElementInteraction.findElement(By.cssSelector(TINYMCE_CONTENT)).getText();
+            webElementInteraction.switchToDefaultContent();
             return text;
         }
         catch (NoSuchElementException noSuchElementExp)
@@ -239,7 +190,7 @@ public class TinyMceEditor extends BasePage
 
     public void setText(String text)
     {
-        getBrowser().clickJS(getBrowser().findElement(iFrame));
+        webElementInteraction.clickJS(webElementInteraction.findElement(iFrame));
 
         if (text == null)
         {
@@ -247,22 +198,9 @@ public class TinyMceEditor extends BasePage
         }
 
         String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-        getBrowser().executeJavaScript(setCommentJs);
+        webElementInteraction.executeJavaScript(setCommentJs);
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
-        getBrowser().executeJavaScript(setCommentJs);
-    }
-
-    public void clickTextFormatterWithOutSelectingText(FormatType formatType)
-    {
-        setFormatType(formatType);
-        clickElementOnRichTextFormatter(getBrowser().findElement(textElements()));
-    }
-
-
-    public void clearAll()
-    {
-        String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-        getBrowser().executeJavaScript(setCommentJs);
+        webElementInteraction.executeJavaScript(setCommentJs);
     }
 
     public enum FormatType

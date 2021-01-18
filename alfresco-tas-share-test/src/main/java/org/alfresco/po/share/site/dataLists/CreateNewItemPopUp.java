@@ -1,19 +1,16 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.List;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.List;
-
 public class CreateNewItemPopUp extends BaseDialogComponent
 {
-    @RenderWebElement
     private final By saveButton = By.cssSelector("button[id$='submit-button']");
     private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
     protected final String fieldLocator = "div[class*='form-field'] [id*='%s']";
@@ -22,26 +19,23 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     private final String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
     private final By selectAttachmentButton = By.cssSelector("div[id*='attachments-cntrl-itemGroupActions'] button");
 
-    //@Autowired
-    DataListsPage dataListsPage;
 
-    public CreateNewItemPopUp(ThreadLocal<WebBrowser> browser)
+    public CreateNewItemPopUp(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
+        super(webDriver);
     }
 
     public void addContent(String field, String content)
     {
-        WebElement fieldElement = getBrowser().waitUntilElementVisible(By.cssSelector(String.format(fieldLocator, field)));
+        WebElement fieldElement = webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(fieldLocator, field)));
         fieldElement.clear();
         fieldElement.sendKeys(content);
     }
 
     public void removeAttachments(String filename)
     {
-        getBrowser().findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
-        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(browser);
-        selectDocumentPopupPage.renderedPage();
+        webElementInteraction.clickElement(By.cssSelector(selectAttachmentButtonLocator));
+        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
         selectDocumentPopupPage.clickRemoveIcon(filename);
         selectDocumentPopupPage.clickOkButton();
     }
@@ -50,8 +44,8 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (folderName != null)
         {
-            getBrowser().findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
-            SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(browser);
+            webElementInteraction.clickElement(By.cssSelector(selectAttachmentButtonLocator));
+            SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
             selectDocumentPopupPage.clickItem(folderName);
             selectDocumentPopupPage.clickAddIcon(fileName);
             selectDocumentPopupPage.clickOkButton();
@@ -65,9 +59,8 @@ public class CreateNewItemPopUp extends BaseDialogComponent
      */
     public void addAttachmentFromDocumentLibrary(String fileName)
     {
-        getBrowser().findElement(By.cssSelector(selectAttachmentButtonLocator)).click();
-        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(browser);
-        selectDocumentPopupPage.renderedPage();
+        webElementInteraction.clickElement(By.cssSelector(selectAttachmentButtonLocator));
+        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
         selectDocumentPopupPage.clickAddIcon(fileName);
         selectDocumentPopupPage.clickOkButton();
     }
@@ -76,9 +69,8 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (userName != null)
         {
-            getBrowser().findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
-            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(browser);
-            selectPopUpPage.renderedPage();
+            webElementInteraction.clickElement(By.cssSelector(selectAssignedToButtonLocator));
+            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(webDriver);
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
             selectPopUpPage.clickOkButton();
@@ -89,9 +81,8 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (userName != null)
         {
-            getBrowser().findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
-            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(browser);
-            selectPopUpPage.renderedPage();
+            webElementInteraction.clickElement(By.cssSelector(selectAssignedToButtonLocator));
+            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(webDriver);
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
             selectPopUpPage.clickOkButton();
@@ -102,9 +93,8 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (userName != null)
         {
-            getBrowser().findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
-            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(browser);
-            selectPopUpPage.renderedPage();
+            webElementInteraction.clickElement(By.cssSelector(selectAssignedToButtonLocator));
+            SelectPopUpPage selectPopUpPage = new SelectPopUpPage(webDriver);
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
             selectPopUpPage.clickOkButton();
@@ -115,28 +105,25 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (item != null)
         {
-            getBrowser().waitUntilElementsVisible(By.cssSelector("option"));
-            Select dropdown = new Select(getBrowser().findElement(By.cssSelector(String.format(dropDownLocator, dropDownList))));
+            webElementInteraction.waitUntilElementsAreVisible(By.cssSelector("option"));
+            Select dropdown = new Select(webElementInteraction.findElement(By.cssSelector(String.format(dropDownLocator, dropDownList))));
             dropdown.selectByValue(item);
         }
     }
 
-    public DataListsPage clickCancel()
+    public void clickCancel()
     {
-        getBrowser().waitUntilElementClickable(cancelButton).click();
-        return (DataListsPage) dataListsPage.renderedPage();
+        webElementInteraction.clickElement(cancelButton);
     }
 
-    public DataListsPage clickSave()
+    public void clickSave()
     {
-        getBrowser().waitUntilElementClickable(saveButton).click();
-        return (DataListsPage) dataListsPage.renderedPage();
+        webElementInteraction.clickElement(saveButton);
     }
 
-    public DataListsPage clickCloseButton()
+    public void clickCloseButton()
     {
-        getBrowser().waitUntilElementClickable(closeButton).click();
-        return (DataListsPage) dataListsPage.renderedPage();
+        webElementInteraction.clickElement(closeButton);
     }
 
     public void fillCreateNewContactItem(List<String> fieldsValue)
@@ -300,11 +287,11 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 
         for (Enum<E> enumValue : enumData.getEnumConstants())
         {
-            WebElement formField = getBrowser().findElement(By.cssSelector(String.format(webElement, enumValue)));
+            WebElement formField = webElementInteraction.findElement(By.cssSelector(String.format(webElement, enumValue)));
 
-            areAllFieldsDisplayed = areAllFieldsDisplayed && getBrowser().isElementDisplayed(formField);
+            areAllFieldsDisplayed = areAllFieldsDisplayed && webElementInteraction.isElementDisplayed(formField);
 
-            if (!getBrowser().isElementDisplayed(formField))
+            if (!webElementInteraction.isElementDisplayed(formField))
             {
                 System.out.println("The field '" + enumValue.name() + "' is not present in 'New Item' popup.");
             }
@@ -350,7 +337,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 
         for (Enum<E> enumValue : enumData.getEnumConstants())
         {
-            String fieldText = getBrowser().findElement(By.cssSelector(String.format(webElement, enumValue))).getAttribute("value");
+            String fieldText = webElementInteraction.findElement(By.cssSelector(String.format(webElement, enumValue))).getAttribute("value");
 
             areFieldsFilled = areFieldsFilled && fieldText.equals(searchedText);
 
@@ -393,7 +380,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
      */
     public boolean isSelectAttachmentButtonLocatorDisplayed()
     {
-        return getBrowser().isElementDisplayed(selectAttachmentButton);
+        return webElementInteraction.isElementDisplayed(selectAttachmentButton);
     }
 
     /**
@@ -403,7 +390,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
      */
     public boolean isSaveButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(saveButton);
+        return webElementInteraction.isElementDisplayed(saveButton);
     }
 
     /**
@@ -413,7 +400,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
      */
     public boolean isCancelButtonDisplayed()
     {
-        return getBrowser().isElementDisplayed(cancelButton);
+        return webElementInteraction.isElementDisplayed(cancelButton);
     }
 
 

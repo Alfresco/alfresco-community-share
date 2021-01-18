@@ -18,24 +18,18 @@ import org.testng.annotations.Test;
 public class SubgroupsTests extends BaseTest
 {
     private GroupModel parentGroup;
-    private UserModel userToAdd, userToRemove;
-
     private GroupsPage groupsPage;
 
     @BeforeClass (alwaysRun = true)
     public void dataPrep()
     {
-        userToAdd = dataUser.usingAdmin().createRandomTestUser();
-        userToRemove = dataUser.usingAdmin().createRandomTestUser();
-
         parentGroup = dataGroup.usingAdmin().createRandomGroup();
-        dataGroup.usingUser(userToRemove).addUserToGroup(parentGroup);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        groupsPage = new GroupsPage(browser);
+        groupsPage = new GroupsPage(webDriver);
         setupAuthenticatedSession(getAdminUser());
         groupsPage.navigate();
     }
@@ -90,6 +84,7 @@ public class SubgroupsTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUser()
     {
+        UserModel userToAdd = dataUser.usingAdmin().createRandomTestUser();
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())
             .clickBrowse()
             .selectGroup(parentGroup)
@@ -103,12 +98,17 @@ public class SubgroupsTests extends BaseTest
                 .assertAddButtonIsDisplayedForUser(userToAdd)
                 .addUser(userToAdd);
         groupsPage.assertColumnContainsUser(2, userToAdd);
+
+        dataUser.usingAdmin().deleteUser(userToAdd);
     }
 
     @TestRail (id = "C9490")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeUser()
     {
+        UserModel userToRemove = dataUser.usingAdmin().createRandomTestUser();
+        dataGroup.usingUser(userToRemove).addUserToGroup(parentGroup);
+
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())
             .clickBrowse()
             .selectGroup(parentGroup)
@@ -119,12 +119,13 @@ public class SubgroupsTests extends BaseTest
                 .assertNoButtonIsDisplayed()
                 .clickYes();
         groupsPage.assertUserIsNotDisplayed(userToRemove);
+
+        dataUser.usingAdmin().deleteUser(userToRemove);
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanupRemoveGroups()
     {
         dataGroup.usingAdmin().deleteGroup(parentGroup);
-        removeUserFromAlfresco(userToAdd, userToRemove);
     }
 }

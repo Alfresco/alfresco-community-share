@@ -404,7 +404,8 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 5: Open the User DashBoard > Sites Dashlet > and click on \"Create Site\" and check that the same form is displayed");
         userDashboard.navigate(user);
-        createSiteDialog.navigateFromDashlet().assertCreateSiteDialogIsDisplayed();
+        createSiteDialog.navigateFromDashlet();
+        createSiteDialog.assertCreateSiteDialogIsDisplayed();
         Assert.assertTrue(createSiteDialog.isTypeLabelDisplayed(), "Type label is not displayed");
         Assert.assertEquals(createSiteDialog.getTypeLabelValue(), "Collaboration Site", "Collaboration Site is not the label displayed on Create Site Dialog");
         Assert.assertEquals(createSiteDialog.getNameFieldLabel(), "Name", "The Name label is not displayed");

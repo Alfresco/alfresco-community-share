@@ -10,7 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Laura.Capsa
@@ -179,9 +178,8 @@ public class CreateEditReplicationJobPage extends SharePage<CreateEditReplicatio
         return enabledCheckbox.isSelected();
     }
 
-    public ReplicationJobsPage clickCreateJobButton()
+    public void clickCreateJobButton()
     {
         creatJobButton.click();
-        return (ReplicationJobsPage) replicationJobsPage.renderedPage();
     }
 }

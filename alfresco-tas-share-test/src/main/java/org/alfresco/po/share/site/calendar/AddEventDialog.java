@@ -2,7 +2,6 @@ package org.alfresco.po.share.site.calendar;
 
 import java.util.List;
 
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -23,14 +22,12 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 @PageObject
 public class AddEventDialog extends ShareDialog
 {
-    @RenderWebElement
     @FindBy (id = "eventEditPanel-dialog_h")
     protected WebElement dialogHeader;
-    //@Autowired
     CalendarPage calendarPage;
     @Autowired
     CalendarPicker calendarPicker;
-    @RenderWebElement
+
     @FindBy (id = "eventEditPanel-ok-button")
     private WebElement saveButton;
 
@@ -279,12 +276,11 @@ public class AddEventDialog extends ShareDialog
      *
      * @return CalendarPage
      */
-    public CalendarPage clickSaveButton()
+    public void clickSaveButton()
     {
         getBrowser().waitUntilElementVisible(saveButton);
         getBrowser().waitUntilElementClickable(saveButton).click();
         browser.refresh();
-        return (CalendarPage) calendarPage.renderedPage();
     }
 
     public void clickSave()
@@ -298,10 +294,9 @@ public class AddEventDialog extends ShareDialog
      *
      * @return CalendarPage
      */
-    public CalendarPage clickCancelButton()
+    public void clickCancelButton()
     {
         cancelButton.click();
-        return (CalendarPage) calendarPage.renderedPage();
     }
 
     /**

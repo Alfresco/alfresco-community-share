@@ -9,7 +9,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
@@ -210,7 +209,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         return browser.isElementDisplayed(googleDriveIcon);
     }
 
-    public DocumentLibraryPage checkInGoogleDoc(String file)
+    public GoogleDocsCommon checkInGoogleDoc(String file)
     {
         String fileLocator = "//a[contains(text(), '" + file + "')]";
 
@@ -221,7 +220,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         checkInGoogleDoc.click();
 
         browser.waitUntilWebElementIsDisplayedWithRetry(fileLink);
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+        return this;
     }
 
     public boolean isVersionInformationPopupDisplayed() throws Exception

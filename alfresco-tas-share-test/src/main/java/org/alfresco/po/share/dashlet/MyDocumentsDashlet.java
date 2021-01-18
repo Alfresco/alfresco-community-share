@@ -1,24 +1,23 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-
-import java.util.List;
 
 @PageObject
 public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 {
-    @RenderWebElement
     @FindBy (css = "div.dashlet.my-documents")
     protected WebElement dashletContainer;
 
@@ -40,7 +39,6 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     @FindBy (css = "div[id$='default-simpleDetailed'] span:nth-of-type(2) button")
     private WebElement detailedViewButton;
 
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     protected String documentRow = "//div[starts-with(@class,'dashlet my-documents')]//a[text()='%s']/../../../..";
@@ -86,7 +84,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet assertSelectedFilterIs(DocumentsFilter filter)
     {
-        Assert.assertEquals(filterButton.getText().substring(0, filterButton.getText().length() - 2),
+        assertEquals(filterButton.getText().substring(0, filterButton.getText().length() - 2),
             getFilterValue(filter), "Selected filter is correct");
         return this;
     }
@@ -132,7 +130,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet assertNrOfDisplayedDocumentsIs(int nrOfDocs)
     {
-        Assert.assertTrue(isNumberOfDocumentsDisplayed(nrOfDocs), "Nr of displayed documents is correct");
+        assertTrue(isNumberOfDocumentsDisplayed(nrOfDocs), "Nr of displayed documents is correct");
         return this;
     }
 
@@ -186,7 +184,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument assertFileIsDisplayed()
         {
-            Assert.assertTrue(getBrowser().isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
+            assertTrue(getBrowser().isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
             return this;
         }
 
@@ -199,33 +197,33 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument assertSmallIconThumbnailIsDisplayed()
         {
-            Assert.assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(smallIconThumbnail)),
+            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(smallIconThumbnail)),
                 "Small icon thumbnail is displayed");
             return this;
         }
 
         public ManagerMyDocument assertCommentLinkIsDisplayed()
         {
-            Assert.assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(commentLink)), "Comment link is displayed");
+            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(commentLink)), "Comment link is displayed");
             return this;
         }
 
         public ManagerMyDocument assertLikeIsDisplayed()
         {
-            Assert.assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(likeAction)), "Like is displayed");
+            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(likeAction)), "Like is displayed");
             return this;
         }
 
         public ManagerMyDocument assertUnlikeIsDisplayed()
         {
-            Assert.assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is displayed");
+            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is displayed");
             return this;
         }
 
         public ManagerMyDocument assertNumberOfLikesIs(int nrOfLikes)
         {
             int likes = Integer.parseInt(getFileRow().findElement(likesCount).getText());
-            Assert.assertEquals(likes, nrOfLikes, "Number of likes is correct");
+            assertEquals(likes, nrOfLikes, "Number of likes is correct");
             return this;
         }
 
@@ -247,14 +245,14 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument assertAddToFavoriteIsDisplayed()
         {
-            Assert.assertTrue(browser.isElementDisplayed(getFileRow().findElement(favoriteAction)),
+            assertTrue(browser.isElementDisplayed(getFileRow().findElement(favoriteAction)),
                 "Favorite action is displayed");
             return this;
         }
 
         public ManagerMyDocument assertRemoveFromFavoriteIsDisplayed()
         {
-            Assert.assertTrue(browser.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
+            assertTrue(browser.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
                 "Remove from favorite is displayed");
             return this;
         }
@@ -275,7 +273,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument assertNoDescriptionIsDisplayed()
         {
-            Assert.assertEquals(getFileRow().findElement(descriptionElement).getText(),
+            assertEquals(getFileRow().findElement(descriptionElement).getText(),
                 myDocumentsDashlet.language.translate("myDocumentsDashlet.noDescription"));
             return this;
         }
@@ -286,33 +284,30 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             WebElement docName = row.findElement(documentNameLink);
             getBrowser().mouseOver(docName);
             getBrowser().waitUntilElementHasAttribute(row, "class", "highlighted");
-            Assert.assertEquals(row.findElement(versionElement).getText(), String.valueOf(version),
+            assertEquals(row.findElement(versionElement).getText(), String.valueOf(version),
                 "Document version is correct");
             return this;
         }
 
         public ManagerMyDocument assertThumbnailIsDisplayed()
         {
-            Assert.assertTrue(browser.isElementDisplayed(getFileRow().findElement(thumbnail)), "Thumbnail is displayed");
+            assertTrue(browser.isElementDisplayed(getFileRow().findElement(thumbnail)), "Thumbnail is displayed");
             return this;
         }
 
-        public DocumentDetailsPage selectDocument()
+        public void selectDocument()
         {
             getFileRow().findElement(documentNameLink).click();
-            return (DocumentDetailsPage) documentDetailsPage.renderedPage();
         }
 
-        public DocumentDetailsPage clickThumbnail()
+        public void clickThumbnail()
         {
             getFileRow().findElement(thumbnail).click();
-            return (DocumentDetailsPage) documentDetailsPage.renderedPage();
         }
 
-        public DocumentDetailsPage addComment()
+        public void addComment()
         {
             getFileRow().findElement(commentLink).click();
-            return (DocumentDetailsPage) documentDetailsPage.renderedPage();
         }
     }
 }

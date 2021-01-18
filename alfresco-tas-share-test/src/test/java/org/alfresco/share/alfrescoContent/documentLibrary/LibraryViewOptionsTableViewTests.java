@@ -8,7 +8,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -60,7 +59,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
 
         Assert.assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Options menu is not displayed");
         documentLibraryPage.clickOptionsButton();
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Table View"), "Table view is not displayed");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Table View"), "Table view is not displayed");
     }
 
     @TestRail (id = "C2267")
@@ -74,7 +73,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
 
         Assert.assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Options menu is not displayed");
         documentLibraryPage.clickOptionsButton();
-        Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Table View"), "Table view is not displayed");
+        Assert.assertTrue(documentLibraryPage.isViewOptionDisplayed("Table View"), "Table view is not displayed");
 
         LOG.info("Step 2: Click on Table view action.");
         documentLibraryPage.clickOptionsButton();

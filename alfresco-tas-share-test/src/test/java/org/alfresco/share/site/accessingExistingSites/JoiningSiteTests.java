@@ -208,7 +208,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Request to Join' button.");
 
         siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join");
-        requestSentDialog.renderedPage();
         assertEquals(requestSentDialog.getDialogTitle(), "Request Sent", "'Request Sent' pop-up is displayed.");
         assertEquals(requestSentDialog.getDialogMessage(), dialogMessage, "'Request Sent' pop-up has the expected message.");
 

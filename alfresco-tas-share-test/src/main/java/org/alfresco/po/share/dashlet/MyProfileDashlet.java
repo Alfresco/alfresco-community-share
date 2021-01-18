@@ -1,37 +1,34 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 @PageObject
 public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 {
-    @RenderWebElement
     @FindBy (css = "div[class='dashlet']")
     protected HtmlElement dashletContainer;
 
     protected String helpIcon = "div[class='%s'] div[class='titleBarActionIcon help']";
     protected String dashletBar = "div[class='%s'] div[class='title']";
 
-    //@Autowired
     private UserProfilePage userProfilePage;
 
-    private By viewFullProfile = By.cssSelector(".toolbar>div>span>span[class='first-child']>a");
-    private By avatar = By.cssSelector(".photo>img");
-    private By name = By.cssSelector(".namelabel>a");
-    private By jobTitle = By.cssSelector(".titlelabel");
-    private By email = By.cssSelector(".fieldvalue>a");
-    private By telephone = By.xpath("(//div[@class='fieldvalue'])[2]");
-    private By skype = By.xpath("(//div[@class='fieldvalue'])[3]");
-    private By im = By.xpath("(//div[@class='fieldvalue'])[4]");
+    private final By viewFullProfile = By.cssSelector(".toolbar>div>span>span[class='first-child']>a");
+    private final By avatar = By.cssSelector(".photo>img");
+    private final By name = By.cssSelector(".namelabel>a");
+    private final By jobTitle = By.cssSelector(".titlelabel");
+    private final By email = By.cssSelector(".fieldvalue>a");
+    private final By telephone = By.xpath("(//div[@class='fieldvalue'])[2]");
+    private final By skype = By.xpath("(//div[@class='fieldvalue'])[3]");
+    private final By im = By.xpath("(//div[@class='fieldvalue'])[4]");
 
     @Override
     public String getDashletTitle()
@@ -42,32 +39,30 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 
     public MyProfileDashlet assertViewFullProfileButtonIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(dashletContainer, viewFullProfile), "View full profile is displayed");
+        assertTrue(browser.isElementDisplayed(dashletContainer, viewFullProfile), "View full profile is displayed");
         return this;
     }
 
-    public UserProfilePage clickViewFullProfile()
+    public void clickViewFullProfile()
     {
         dashletContainer.findElement(viewFullProfile).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
     public MyProfileDashlet assertAvatarIsDisplayed()
     {
-        Assert.assertTrue(browser.isElementDisplayed(dashletContainer, avatar), "Avatar is displayed");
+        assertTrue(browser.isElementDisplayed(dashletContainer, avatar), "Avatar is displayed");
         return this;
     }
 
     public MyProfileDashlet assertNameIsEnabled()
     {
-        Assert.assertTrue(dashletContainer.findElement(name).isEnabled(), "Name is enabled");
+        assertTrue(dashletContainer.findElement(name).isEnabled(), "Name is enabled");
         return this;
     }
 
-    public UserProfilePage clickOnName()
+    public void clickOnName()
     {
         dashletContainer.findElement(name).click();
-        return (UserProfilePage) userProfilePage.renderedPage();
     }
 
     public MyProfileDashlet assertNameIs(String fullName)
@@ -84,7 +79,7 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 
     public MyProfileDashlet assertEmailIsEnabled()
     {
-        Assert.assertTrue(dashletContainer.findElement(email).isEnabled(), "Email is enabled");
+        assertTrue(dashletContainer.findElement(email).isEnabled(), "Email is enabled");
         return this;
     }
 

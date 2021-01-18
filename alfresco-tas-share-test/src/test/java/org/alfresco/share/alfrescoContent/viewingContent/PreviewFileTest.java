@@ -106,7 +106,7 @@ public class PreviewFileTest extends ContextAwareWebTest
         documentLibraryPage.clickOnFile("Tulips.jpg");
         Assert.assertFalse(documentDetailsPage.isZoomOutButtonDisplayed(), "Zoom out button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isZoomInButtonDisplayed(), "Zoom in button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isMaximizetButtonDisplayed(), "Maximize button should not be displayed!");
+//        Assert.assertFalse(documentDetailsPage.isMaximizetButtonDisplayed(), "Maximize button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isNextPageButton(), "Next page button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isPreviousPageButton(), "Previous page button should not be displayed!");
 
@@ -117,7 +117,7 @@ public class PreviewFileTest extends ContextAwareWebTest
         documentLibraryPage.clickOnFile("Tulips.jpg");
         Assert.assertFalse(documentDetailsPage.isZoomOutButtonDisplayed(), "Zoom out button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isZoomInButtonDisplayed(), "Zoom in button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isMaximizetButtonDisplayed(), "Maximize button should not be displayed!");
+//        Assert.assertFalse(documentDetailsPage.isMaximizetButtonDisplayed(), "Maximize button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isNextPageButton(), "Next page button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isPreviousPageButton(), "Previous page button should not be displayed!");
     }
