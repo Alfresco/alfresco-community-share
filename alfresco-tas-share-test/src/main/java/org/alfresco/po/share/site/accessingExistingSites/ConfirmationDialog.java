@@ -32,7 +32,7 @@ public abstract class ConfirmationDialog extends BaseDialogComponent
         if(webElementInteraction.isElementDisplayed(dialogBody))
         {
             LOG.error("Failed to click Ok button. Retry click.");
-            webElementInteraction.clickJS(ok);
+            webElementInteraction.clickElement(ok);
         }
     }
 
