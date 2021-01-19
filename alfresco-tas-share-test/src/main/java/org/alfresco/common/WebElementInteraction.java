@@ -2,6 +2,7 @@ package org.alfresco.common;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -987,7 +988,7 @@ public class WebElementInteraction
     public List<WebElement> findDisplayedElementsFromLocator(By selector)
     {
         List<WebElement> elementList = getWebDriver().findElements(selector);
-        List<WebElement> displayedElementList = new ArrayList<>();
+        List<WebElement> displayedElementList = Collections.synchronizedList(new ArrayList<>());
         for (WebElement elementSelected : elementList)
         {
             if (elementSelected.isDisplayed())

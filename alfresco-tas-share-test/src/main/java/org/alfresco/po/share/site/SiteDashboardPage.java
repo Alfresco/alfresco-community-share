@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
@@ -93,7 +94,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public boolean isOptionListedInSiteConfigurationDropDown(String option)
     {
-        List<String> availableOptions = new ArrayList<>();
+        List<String> availableOptions = Collections.synchronizedList(new ArrayList<>());
 
         List<WebElement> siteConfigurationOptions = webElementInteraction.findElements(configurationOptions);
         webElementInteraction.waitUntilElementsAreVisible(siteConfigurationOptions);

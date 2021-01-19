@@ -6,6 +6,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
@@ -164,7 +165,7 @@ public class UsersPage extends SharePage2<UsersPage>
     {
         LOG.info("Assert all table headers are displayed");
         List<String> tableHeaders = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(tableHeaderElements));
-        List<String> expectedTableHeaders = new ArrayList<>();
+        List<String> expectedTableHeaders = Collections.synchronizedList(new ArrayList<>());
         expectedTableHeaders.add(language.translate("adminTools.user.table.name"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.userName"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.jobTitle"));

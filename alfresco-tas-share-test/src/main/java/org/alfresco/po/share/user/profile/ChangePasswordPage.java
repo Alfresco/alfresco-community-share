@@ -78,7 +78,6 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
 
     public void clickOkButton()
     {
-//        webElementInteraction.waitUntilElementIsVisible(okButton);
         webElementInteraction.clickElement(okButton);
     }
 

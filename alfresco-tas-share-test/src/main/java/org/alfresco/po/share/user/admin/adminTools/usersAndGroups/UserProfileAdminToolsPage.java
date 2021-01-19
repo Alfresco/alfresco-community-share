@@ -4,8 +4,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
@@ -110,9 +110,9 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
 
     public UserProfileAdminToolsPage assertAllInfoAreDisplayedInSections()
     {
-        LOG.info("Assert all filds are displayed in each section");
+        LOG.info("Assert all fields are displayed in each section");
         List<String> sectionTexts = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(infoFromSections));
-        List<String> expectedInfo = new ArrayList<>();
+        List<String> expectedInfo = Collections.synchronizedList(sectionTexts);
         expectedInfo.add(language.translate("adminTools.user.email"));
         expectedInfo.add(language.translate("adminTools.user.telephone"));
         expectedInfo.add(language.translate("adminTools.user.mobile"));

@@ -5,6 +5,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -184,7 +185,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public List<String> getColumnGroups(int column)
     {
-        List<WebElement> values = new ArrayList<>();
+        List<WebElement> values = Collections.synchronizedList(new ArrayList<>());
         try
         {
             values = webElementInteraction.findElements(By.cssSelector(String.format(columnGroupValues, column)));

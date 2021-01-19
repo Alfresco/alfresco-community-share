@@ -3,6 +3,7 @@ package org.alfresco.po.share.site.members;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
@@ -14,7 +15,6 @@ import org.openqa.selenium.WebElement;
 
 public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 {
-    protected final By groupFinderWrapper = By.cssSelector("div[class='finder-wrapper']");
     protected final By defaultSearchText = By.cssSelector("div[class='title'] label");
     protected final By groupSearchBox = By.cssSelector("input[id*='group-finder']");
     protected final By groupSearchButton = By.cssSelector("button[id*='group-search-button']");
@@ -117,7 +117,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     public List<String> getRolesFromFilter()
     {
         webElementInteraction.clickElement(setAllRolesToButton);
-        List<String> roles = new ArrayList<>();
+        List<String> roles = Collections.synchronizedList(new ArrayList<>());
         for (WebElement allRolesFilterOption : webElementInteraction.findElements(allRolesFilterOptions))
         {
             roles.add(allRolesFilterOption.getText());
@@ -140,21 +140,6 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
             }
         }
         return isValid;
-    }
-
-    public AddSiteGroupsPage setAllGroupRoles(String roleOption)
-    {
-        try
-        {
-            webElementInteraction.clickElement(setAllRolesToButton);
-            webElementInteraction.selectOptionFromFilterOptionsList(roleOption, webElementInteraction.findElements(allRolesFilterOptions));
-            return new AddSiteGroupsPage(webDriver);
-        } catch (NoSuchElementException nse)
-        {
-            LOG.error("Set role option not present {}", nse.getMessage());
-            throw new PageOperationException(roleOption + " option not present.");
-        }
-
     }
 
     public AddSiteGroupsPage setGroupRole(String groupName, String roleOption)
@@ -200,12 +185,6 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
         setGroupRole(group, role);
         addGroups();
-    }
-
-    public AddSiteGroupsPage clickAddGroupsButton()
-    {
-        webElementInteraction.clickElement(addGroupsButton);
-        return this;
     }
 
     //todo: create it in a single Enum file
