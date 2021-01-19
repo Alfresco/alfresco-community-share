@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 public class CreateNewFilterDialog extends BaseDialogComponent
 {
+    private final By dialogBody = By.cssSelector("div[class^='alfresco-dialog-AlfDialog handleOverflow']");
     private final By dialogTitle = By.className("dijitDialogTitle");
     private final By showWithSearch = By.cssSelector("input[name='isEnabled']");
     private final By filterPropertyInput = By.id("FORM_FACET_QNAME_CONTROL");
@@ -28,7 +29,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
     private final By sitesSiteNameArrow = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]");
     private final By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
     private final By currentSitesEntries = By.cssSelector("div.entries div.read-display");
-    private final By saveButton = By.cssSelector("span[id$='_OK']");
+    private final By saveButton = By.cssSelector("span[class*='confirmationButton']");
     private final By cancelButton = By.cssSelector("span[id$='_CANCEL_label']");
     private final By closeButton = By.xpath("//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']");
     private final By filterIdInput = By.cssSelector("input[name='filterID']");
@@ -168,8 +169,13 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         webElementInteraction.clickElement(save);
         SearchManagerPage searchManagerPage = new SearchManagerPage(webDriver);
         searchManagerPage.waitUntilNotificationMessageDisappears();
-
-        return new SearchManagerPage(webDriver);
+        if(webElementInteraction.isElementDisplayed(dialogBody))
+        {
+            LOG.error("Failed to click Save button");
+            webElementInteraction.clickElement(save);
+            searchManagerPage.waitUntilNotificationMessageDisappears();
+        }
+        return searchManagerPage;
     }
 
     public SearchManagerPage clickCancel()
