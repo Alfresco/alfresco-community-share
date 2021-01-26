@@ -46,11 +46,11 @@ public class WebDriverFactory
         switch (properties.getBrowserName().toLowerCase())
         {
             case FIREFOX:
-                firefoxdriver().driverVersion(properties.getCurrentWebDriverVersion()).setup();
+                firefoxdriver().setup();
                 return new FirefoxDriver(setFirefoxBrowserOptions(properties));
 
             case CHROME:
-                chromedriver().driverVersion(properties.getCurrentWebDriverVersion()).setup();
+                chromedriver().setup();
                 return new ChromeDriver(setChromeBrowserOptions(properties));
             default:
                 throw new UnrecognizedBrowser(properties.getBrowserName());

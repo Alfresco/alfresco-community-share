@@ -186,8 +186,7 @@ public class WebElementInteraction
             }
         }
     }
-//ma auzi?
-    // cred ca trebuie restartat IDE?
+
     public WebElement findElement(By locator)
     {
         try
@@ -214,12 +213,11 @@ public class WebElementInteraction
             }
             catch (TimeoutException timeoutException)
             {
-                LOG.info(String
-                    .format("Unable to find element %s in the given seconds %d ", locator,
+                throw new NoSuchElementException(
+                    String.format("Unable to find element %s in the given seconds %d ", locator,
                         defaultProperties.getExplicitWait()), timeoutException.getCause());
             }
         }
-        return getWebDriver().findElement(locator);///? ma gandeam sa scoateam throw, dar cand va intra pe return, si elem nu va fi, va arunca NoSuchElemen
     }
 
     public void waitUntilElementHasAttribute(WebElement element, String attribute, String value)
@@ -595,7 +593,6 @@ public class WebElementInteraction
         }
         catch (TimeoutException | StaleElementReferenceException | NoSuchElementException exception)
         {
-
             try
             {
                 LOG.error("Text {} is not present in element {}", text, element);

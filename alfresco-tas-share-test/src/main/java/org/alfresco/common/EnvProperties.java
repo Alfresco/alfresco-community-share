@@ -85,9 +85,6 @@ public class EnvProperties
     @Value("${browser.headless}")
     private boolean browserHeadless;
 
-    @Value("${webDriver.version}")
-    private String webDriverVersion;
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
     {
@@ -246,11 +243,6 @@ public class EnvProperties
     public boolean isBrowserHeadless()
     {
         return browserHeadless;
-    }
-
-    public String getCurrentWebDriverVersion()
-    {
-        return webDriverVersion;
     }
 }
 

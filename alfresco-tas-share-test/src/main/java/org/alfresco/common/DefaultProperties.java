@@ -171,9 +171,6 @@ public class DefaultProperties
     @Value("${browser.headless}")
     private boolean browserHeadless;
 
-    @Value("${webDriver.version}")
-    private String webDriverVersion;
-
     @Value ("${browser.name}")
     private String browserName;
 
@@ -717,11 +714,6 @@ public class DefaultProperties
     public boolean isBrowserHeadless()
     {
         return browserHeadless;
-    }
-
-    public String getCurrentWebDriverVersion()
-    {
-        return webDriverVersion;
     }
 
     public String getBrowserName()
