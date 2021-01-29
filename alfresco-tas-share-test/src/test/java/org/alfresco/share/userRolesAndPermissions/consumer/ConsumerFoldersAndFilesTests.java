@@ -18,7 +18,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -294,7 +293,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         LOG.info("Step 1: Change the current role to 'Consumer'");
         siteUsersPage.navigate(site8865);
-        assertTrue(siteUsersPage.isASiteMember(user8865 + " " + user8865));
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user8865 + " " + user8865));
         assertEquals(siteUsersPage.getRole(user8865), "Collaborator ▾", user8865 + " has role=");
         siteUsersPage.changeRoleForMember("Consumer", user8865);
         assertEquals(siteUsersPage.getRole(user8865), "Consumer ▾", user8865 + " has role=");

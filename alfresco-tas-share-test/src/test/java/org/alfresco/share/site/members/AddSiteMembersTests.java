@@ -13,7 +13,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -205,8 +204,8 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Click on 'Site Members' link on the site navigation.");
         addSiteUsersPage.clickSiteMembers();
-        assertTrue(siteMembersPage.isASiteMember(manager2Name), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Manager", manager2Name), "Added user has 'Manager' role.");
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(manager2Name), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Manager", manager2Name), "Added user has 'Manager' role.");
         assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(manager2Name), "'Remove' button is available for " + userManager2);
     }
 
@@ -236,8 +235,8 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Click on 'Site Members' link on the site navigation.");
         addSiteUsersPage.clickSiteMembers();
-        assertTrue(siteMembersPage.isASiteMember(collaboratorName), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Collaborator", collaboratorName), "Added user has 'Collaborator' role.");
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(collaboratorName), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Collaborator", collaboratorName), "Added user has 'Collaborator' role.");
         assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(collaboratorName), "'Remove' button is available for " + userCollaborator);
     }
 
@@ -267,9 +266,9 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Click on 'Site Members' link on the site navigation.");
         addSiteUsersPage.clickSiteMembers();
-        assertTrue(siteMembersPage.isASiteMember(contributorName), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Contributor", contributorName), "Added user has 'Contributor' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(contributorName), "'Remove' button is available for " + userContributor);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(contributorName), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Contributor", contributorName), "Added user has 'Contributor' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(contributorName), "'Remove' button is available for " + userContributor);
     }
 
     @TestRail (id = "2411")
@@ -299,8 +298,8 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Click on 'Site Members' link on the site navigation.");
         addSiteUsersPage.clickSiteMembers();
-        assertTrue(siteMembersPage.isASiteMember(consumerName), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Consumer", consumerName), "Added user has 'Consumer' role.");
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(consumerName), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Consumer", consumerName), "Added user has 'Consumer' role.");
         assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(consumerName), "'Remove' button is available for " + userConsumer);
     }
 
@@ -350,15 +349,15 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 10: Click on 'Site Members' link on the site navigation.");
         addSiteUsersPage.clickSiteMembers();
-        assertTrue(siteMembersPage.isASiteMember(sameRoleUserA + " " + sameRoleUserA), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Collaborator", sameRoleUserA + " " + sameRoleUserA), "Added user has 'Collaborator' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(sameRoleUserA + " " + sameRoleUserA), "'Remove' button is available for " + sameRoleUserA);
-        assertTrue(siteMembersPage.isASiteMember(sameRoleUserB + " " + sameRoleUserB), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Collaborator", sameRoleUserB + " " + sameRoleUserB), "Added user has 'Collaborator' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(sameRoleUserB + " " + sameRoleUserB), "'Remove' button is available for " + sameRoleUserB);
-        assertTrue(siteMembersPage.isASiteMember(sameRoleUserC + " " + sameRoleUserC), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Collaborator", sameRoleUserC + " " + sameRoleUserC), "Added user has 'Collaborator' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(sameRoleUserC + " " + sameRoleUserC), "'Remove' button is available for " + sameRoleUserC);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(sameRoleUserA + " " + sameRoleUserA), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Collaborator", sameRoleUserA + " " + sameRoleUserA), "Added user has 'Collaborator' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(sameRoleUserA + " " + sameRoleUserA), "'Remove' button is available for " + sameRoleUserA);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(sameRoleUserB + " " + sameRoleUserB), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Collaborator", sameRoleUserB + " " + sameRoleUserB), "Added user has 'Collaborator' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(sameRoleUserB + " " + sameRoleUserB), "'Remove' button is available for " + sameRoleUserB);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(sameRoleUserC + " " + sameRoleUserC), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Collaborator", sameRoleUserC + " " + sameRoleUserC), "Added user has 'Collaborator' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(sameRoleUserC + " " + sameRoleUserC), "'Remove' button is available for " + sameRoleUserC);
     }
 
     @TestRail (id = "2829")
@@ -433,18 +432,18 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 11: Click on 'Site Members' link on the site navigation.");
         addSiteUsersPage.clickSiteMembers();
-        assertTrue(siteMembersPage.isASiteMember(differentRoleUserA + " " + differentRoleUserA), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Manager", differentRoleUserA + " " + differentRoleUserA), "Added user has 'Manager' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserA + " " + differentRoleUserA), "'Remove' button is available for " + differentRoleUserA);
-        assertTrue(siteMembersPage.isASiteMember(differentRoleUserB + " " + differentRoleUserB), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Collaborator", differentRoleUserB + " " + differentRoleUserB), "Added user has 'Collaborator' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserB + " " + differentRoleUserB), "'Remove' button is available for " + differentRoleUserB);
-        assertTrue(siteMembersPage.isASiteMember(differentRoleUserC + " " + differentRoleUserC), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Contributor", differentRoleUserC + " " + differentRoleUserC), "Added user has 'Contributor' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserC + " " + differentRoleUserC), "'Remove' button is available for " + differentRoleUserC);
-        assertTrue(siteMembersPage.isASiteMember(differentRoleUserD + " " + differentRoleUserD), "Added user is displayed in the site members list");
-        assertTrue(siteMembersPage.isRoleSelected("Consumer", differentRoleUserD + " " + differentRoleUserD), "Added user has 'Consumer' role.");
-        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserD + " " + differentRoleUserD), "'Remove' button is available for " + differentRoleUserD);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(differentRoleUserA + " " + differentRoleUserA), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Manager", differentRoleUserA + " " + differentRoleUserA), "Added user has 'Manager' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserA + " " + differentRoleUserA), "'Remove' button is available for " + differentRoleUserA);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(differentRoleUserB + " " + differentRoleUserB), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Collaborator", differentRoleUserB + " " + differentRoleUserB), "Added user has 'Collaborator' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserB + " " + differentRoleUserB), "'Remove' button is available for " + differentRoleUserB);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(differentRoleUserC + " " + differentRoleUserC), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Contributor", differentRoleUserC + " " + differentRoleUserC), "Added user has 'Contributor' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserC + " " + differentRoleUserC), "'Remove' button is available for " + differentRoleUserC);
+//        assertTrue(siteMembersPage.assertSiteMemberNameEqualsTo(differentRoleUserD + " " + differentRoleUserD), "Added user is displayed in the site members list");
+//        assertTrue(siteMembersPage.assertSelectedRoleEqualsTo("Consumer", differentRoleUserD + " " + differentRoleUserD), "Added user has 'Consumer' role.");
+//        assertTrue(siteMembersPage.isRemoveButtonEnabledForMember(differentRoleUserD + " " + differentRoleUserD), "'Remove' button is available for " + differentRoleUserD);
     }
 
     @TestRail (id = "2414")

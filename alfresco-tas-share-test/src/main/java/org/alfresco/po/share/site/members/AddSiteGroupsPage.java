@@ -1,13 +1,11 @@
 package org.alfresco.po.share.site.members;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.exception.PageOperationException;
-import org.apache.commons.lang3.EnumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -15,19 +13,21 @@ import org.openqa.selenium.WebElement;
 
 public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 {
-    protected final By defaultSearchText = By.cssSelector("div[class='title'] label");
-    protected final By groupSearchBox = By.cssSelector("input[id*='group-finder']");
-    protected final By groupSearchButton = By.cssSelector("button[id*='group-search-button']");
-    protected final By groupsListTitle = By.cssSelector("div[class*='grouplistWrapper'] div[class*='title']");
-    protected final By setRolesButton = By.cssSelector("button[id*='selectallroles']");
-    protected final By addGroupsButton = By.cssSelector("button[id*='default-add-button']");
-    protected final By backToSiteGroups = By.cssSelector("span[id*='backTo'] a");
-    protected final By groupResultsList = By.cssSelector("div[id*='default-results'] tbody[class='yui-dt-data'] tr");
-    protected final By groupInvitedList = By.cssSelector("div[id*='inviteelist'] tbody[class='yui-dt-data'] tr");
-    protected final By allRolesFilterOptions = By.cssSelector("li[class*='yuimenuitem']");
-    protected final By setAllRolesToButton = By.cssSelector("div[id*='invitationBar'] button");
-    protected final By roleOptions = By.cssSelector("div[id*='inviteelist'] div.yui-menu-button-menu.visible a.yuimenuitemlabel");
+    private final String OPEN_PARENTHESIS = " (";
+    private final String NEW_LINE = "\n";
+    private final int BEGIN_INDEX = 0;
+
+    private final By groupSearchBox = By.cssSelector("input[id*='group-finder']");
+    private final By groupSearchButton = By.cssSelector("button[id*='group-search-button']");
+    private final By addGroupsButton = By.cssSelector("button[id*='default-add-button']");
+    private final By backToSiteGroups = By.cssSelector("span[id*='backTo'] a");
+    private final By groupResultsList = By.cssSelector("div[id*='default-results'] tbody[class='yui-dt-data'] tr");
+    private final By groupInvitedList = By.cssSelector("div[id*='inviteelist'] tbody[class='yui-dt-data'] tr");
+    private final By allRolesFilterOptions = By.cssSelector("li[class*='yuimenuitem']");
+    private final By setAllRolesToButton = By.cssSelector("div[id*='invitationBar'] button");
+    private final By roleOptions = By.cssSelector("div[id*='inviteelist'] div.yui-menu-button-menu.visible a.yuimenuitemlabel");
     private final By searchResultsText = By.cssSelector("div[id*='default-results'] td[class='yui-dt-empty']");
+    private final By addButton = By.cssSelector("button");
 
     public AddSiteGroupsPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -40,48 +40,13 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         return String.format("share/page/site/%s/add-groups", getCurrentSiteName());
     }
 
-    public String getDefaultSearchText()
-    {
-        return webElementInteraction.findElement(defaultSearchText).getText();
-    }
-
-    public String getGroupsListTitle()
-    {
-        return webElementInteraction.findElement(groupsListTitle).getText();
-    }
-
-    public boolean isGroupSearchBoxDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(groupSearchBox);
-    }
-
-    public boolean isGroupSearchButtonDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(groupSearchButton);
-    }
-
-    public boolean isSetRolesButtonDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(setRolesButton);
-    }
-
-    public boolean isAddGroupsButtonEnabled()
-    {
-        return webElementInteraction.findElement(addGroupsButton).isEnabled();
-    }
-
-    public boolean isGoBackToSiteGroupsDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(backToSiteGroups);
-    }
-
     public SiteGroupsPage goBackToSiteGroupsPage()
     {
         webElementInteraction.clickElement(backToSiteGroups);
         return new SiteGroupsPage(webDriver);
     }
 
-    public AddSiteGroupsPage searchForGroup(String groupName)
+    public AddSiteGroupsPage searchGroupByName(String groupName)
     {
         webElementInteraction.clearAndType(groupSearchBox, groupName);
         webElementInteraction.clickElement(groupSearchButton);
@@ -89,35 +54,28 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         return new AddSiteGroupsPage(webDriver);
     }
 
-    public WebElement selectGroupInSearchResults(String group)
+    private WebElement getGroupFromSearchResults(String group)
     {
         return webElementInteraction.findFirstElementWithValue(groupResultsList, group);
     }
 
-    public WebElement selectGroupInInvitedList(String group)
+    private WebElement getGroupFromInvitedList(String groupName)
     {
-        return webElementInteraction.findFirstElementWithValue(groupInvitedList, group);
+        return webElementInteraction.findFirstElementWithValue(groupInvitedList, groupName);
     }
 
-    public boolean isGroupReturned(String groupName)
+    public AddSiteGroupsPage addGroupWithName(String groupName)
     {
-        return webElementInteraction.isElementDisplayed(selectGroupInSearchResults(groupName));
+        LOG.info("Add group with name {}", groupName);
+        webElementInteraction.clickElement(getGroupFromSearchResults(groupName).findElement(addButton));
+        return this;
     }
 
-    public void addGroup(String groupName)
-    {
-        webElementInteraction.clickElement(selectGroupInSearchResults(groupName).findElement(By.cssSelector("button")));
-    }
-
-    public boolean isGroupInvited(String groupName)
-    {
-        return webElementInteraction.isElementDisplayed(selectGroupInInvitedList(groupName));
-    }
-
-    public List<String> getRolesFromFilter()
+    private List<String> getFilterRolesFromDropdown()
     {
         webElementInteraction.clickElement(setAllRolesToButton);
         List<String> roles = Collections.synchronizedList(new ArrayList<>());
+
         for (WebElement allRolesFilterOption : webElementInteraction.findElements(allRolesFilterOptions))
         {
             roles.add(allRolesFilterOption.getText());
@@ -126,35 +84,57 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         return roles;
     }
 
-    public boolean isRoleFilterValid()
+    public AddSiteGroupsPage assertNotificationMessageEqualsTo(String expectedMessage)
     {
-        List<String> roles = getRolesFromFilter();
-        boolean isValid = true;
-        for (String role : roles)
-        {
-            EnumUtils.getEnumList(GroupRoles.class);
-            if (!EnumUtils.isValidEnum(GroupRoles.class, role))
-            {
-                isValid = false;
-                break;
-            }
-        }
-        return isValid;
+        LOG.info("Assert notification message equals {}", expectedMessage);
+        assertEquals(waitUntilNotificationMessageDisappears().get(), expectedMessage,
+            String.format("Notification message not equals %s ", expectedMessage));
+        return this;
+    }
+
+    public AddSiteGroupsPage assertGroupNameEquals(String groupName)
+    {
+        String formattedGroup = getGroupFromSearchResults(groupName).getText()
+            .substring(BEGIN_INDEX, getGroupFromSearchResults(groupName).getText().indexOf(NEW_LINE));
+
+        assertEquals(formattedGroup, groupName,
+            String.format("Group name not equals %s ", groupName));
+        return this;
+    }
+
+    public AddSiteGroupsPage assertInvitedGroupNameEqualsTo(String expectedGroupName)
+    {
+        String formattedGroupName = getGroupFromInvitedList(expectedGroupName).getText()
+            .substring(BEGIN_INDEX,
+                getGroupFromInvitedList(expectedGroupName).getText().indexOf(OPEN_PARENTHESIS));
+
+        assertEquals(formattedGroupName, expectedGroupName);
+        return this;
+    }
+
+    public AddSiteGroupsPage assertFilterRolesEqualTo(List<String> expectedFilterRoles)
+    {
+        LOG.info("Assert filter roles equal to: {}", expectedFilterRoles);
+        List<String> actualFilterRoles = getFilterRolesFromDropdown();
+
+        assertEquals(actualFilterRoles, expectedFilterRoles,
+            String.format("Filter drop down roles not equal %s", expectedFilterRoles));
+        return this;
     }
 
     public AddSiteGroupsPage setGroupRole(String groupName, String roleOption)
     {
         try
         {
-            webElementInteraction.clickElement(selectGroupInInvitedList(groupName).findElement(By.cssSelector("button")));
+            webElementInteraction.clickElement(getGroupFromInvitedList(groupName).findElement(addButton));
             List<WebElement> groupRoleOptions = webElementInteraction.waitUntilElementsAreVisible(roleOptions);
             webElementInteraction.selectOptionFromFilterOptionsList(roleOption, groupRoleOptions);
             return this;
         }
         catch (NoSuchElementException nse)
         {
-            LOG.error("Set role option not present" + nse.getMessage());
-            throw new PageOperationException(roleOption + " option not present.");
+            LOG.error("Set role option not present {}", nse.getMessage());
+            throw new NoSuchElementException(roleOption + " option not present.");
         }
     }
 
@@ -162,34 +142,26 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         webElementInteraction.waitUntilElementIsVisible(addGroupsButton);
         webElementInteraction.clickElement(addGroupsButton);
+        waitUntilNotificationMessageDisappears();
         return this;
     }
 
-    public String getSearchText()
+    public AddSiteGroupsPage assertNoGroupsFoundLabelEqualsTo(String expectedLabel)
     {
-        return webElementInteraction.findElement(searchResultsText).getText();
-    }
-
-    public String getSearchBoxContent()
-    {
-        return webElementInteraction.findElement(groupSearchBox).getAttribute("value");
+        waitUntilNotificationMessageDisappears();
+        assertEquals(webElementInteraction.getElementText(searchResultsText), expectedLabel);
+        return this;
     }
 
     public void addGroupWorkflow(String group, String role)
     {
-        searchForGroup(group);
-        assertTrue(isGroupReturned(group), "Group was not returned");
+        searchGroupByName(group);
+        assertGroupNameEquals(group);
 
-        addGroup(group);
-        assertTrue(isGroupInvited(group), "Group is not on invited list");
+        addGroupWithName(group);
+        assertInvitedGroupNameEqualsTo(group);
 
         setGroupRole(group, role);
         addGroups();
-    }
-
-    //todo: create it in a single Enum file
-    public enum GroupRoles
-    {
-        Manager, Collaborator, Contributor, Consumer
     }
 }

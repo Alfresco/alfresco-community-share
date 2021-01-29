@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.members;
 
+import static org.testng.Assert.assertFalse;
+
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,9 +10,12 @@ public class SiteUsersPage extends SiteMembersPage
 {
     private final By addUsers = By.cssSelector("a[id*='invitePeople']");
     private final By searchBox = By.cssSelector(".search-term");
-    private final String removeButton = "//button[contains(text(),'Remove')]";
-    public final String pattern = "//td[descendant::a[normalize-space(text())='";
-    private By searchButton = By.cssSelector("button[id*='site-members']");
+    private final By searchButton = By.cssSelector("button[id*='site-members']");
+    private final By removeButton = By.cssSelector("td[class*='uninvite'] button");
+
+    private final String unInviteButtonPath = "td[class*='uninvite'] button";
+    private final String removeButtonPath = "//button[contains(text(),'Remove')]";
+    private final String pattern = "//td[descendant::a[normalize-space(text())='";
 
     public SiteUsersPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -42,18 +47,22 @@ public class SiteUsersPage extends SiteMembersPage
     public boolean isRemoveButtonDisplayedForUser(String userName)
     {
         return webElementInteraction.isElementDisplayed(
-            By.xpath(pattern + userName + "']]/../td[contains(@class,'uninvite')]" + removeButton));
+            By.xpath(pattern.concat(userName).concat(unInviteButtonPath).concat(removeButtonPath)));
     }
 
-    public boolean isRemoveButtonEnabled(String name)
+    public SiteUsersPage assertRemoveButtonIsDisabledForUser(String userName)
     {
-        return selectMember(name).findElement(By.cssSelector("td[class*='uninvite'] button")).isEnabled();
+        LOG.info("Assert user {} remove button is disabled", userName);
+        assertFalse(getMemberName(userName).findElement(removeButton).isEnabled(),
+            "Remove button is enabled");
+        return this;
     }
 
-    public void removeUser(String username)
+    public void clickRemoveUser(String userName)
     {
-        webElementInteraction.findElement(By.xpath(
-            pattern + username + "']]/../td[contains(@class,'uninvite')]" + removeButton)).click();
+        LOG.info("Click remove user");
+        webElementInteraction.clickElement(By.xpath(
+            pattern.concat(userName).concat(unInviteButtonPath).concat(removeButtonPath)));
     }
 
     public boolean isUserRoleNotChangeable(String role, String userName)

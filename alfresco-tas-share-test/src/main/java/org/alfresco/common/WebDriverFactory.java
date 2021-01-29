@@ -32,7 +32,7 @@ public class WebDriverFactory
 
     public WebDriver createWebDriver()
     {
-        webDriver.set(createWebDriverBasedOnOS(properties));
+        webDriver.set(createWebDriverBasedOnBrowserName(properties));
 
         if (properties.getBrowserName().equalsIgnoreCase(FIREFOX) && !properties.isBrowserHeadless())
         {
@@ -41,7 +41,7 @@ public class WebDriverFactory
         return webDriver.get();
     }
 
-    private WebDriver createWebDriverBasedOnOS(DefaultProperties properties)
+    private WebDriver createWebDriverBasedOnBrowserName(DefaultProperties properties)
     {
         switch (properties.getBrowserName().toLowerCase())
         {

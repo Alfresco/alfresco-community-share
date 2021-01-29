@@ -21,11 +21,8 @@ import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-@PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
-    private SiteDashboardPage siteDashboardPage;
-    private CreateSiteDialog createSiteDialog;
 
     @Autowired
     private DeleteSiteDialog deleteSiteDialog;

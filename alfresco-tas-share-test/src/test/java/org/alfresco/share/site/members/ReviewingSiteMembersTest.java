@@ -9,7 +9,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -62,18 +61,18 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
 
         LOG.info("STEP2: Check that all site members are displayed.",
             "Expected Result: '" + user1 + "' with 'Manager' role and 'Remove' button is displayed");
-        assertTrue(siteUsersPage.isASiteMember(user1 + " " + user1), "Expected user '" + user1 + "' is present on the page.");
-        assertTrue(siteUsersPage.isRoleSelected("Manager", user1), "User '" + user1 + "' is expected to have 'Collaborator' role.");
-        assertTrue(siteUsersPage.isRemoveButtonEnabled(user1), "User '" + user1 + "' is expected to have 'Remove' button.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user1 + " " + user1), "Expected user '" + user1 + "' is present on the page.");
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Manager", user1), "User '" + user1 + "' is expected to have 'Collaborator' role.");
+//        assertTrue(siteUsersPage.isRemoveButtonEnabled(user1), "User '" + user1 + "' is expected to have 'Remove' button.");
         LOG.info("STEP2:Verify listed members.", "Expected Result: '" + user2 + "' with 'Collaborator' role and 'Remove' button is displayed");
-        assertTrue(siteUsersPage.isASiteMember(user2 + " " + user2), "Expected user '" + user2 + "' is present on the page.");
-        assertTrue(siteUsersPage.isRoleSelected("Collaborator", user2), "User '" + user1 + "' is expected to have 'Collaborator' role.");
-        assertTrue(siteUsersPage.isRemoveButtonEnabled(user2), "User '" + user1 + "' is expected to have 'Remove' button.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2 + " " + user2), "Expected user '" + user2 + "' is present on the page.");
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Collaborator", user2), "User '" + user1 + "' is expected to have 'Collaborator' role.");
+//        assertTrue(siteUsersPage.isRemoveButtonEnabled(user2), "User '" + user1 + "' is expected to have 'Remove' button.");
 
         LOG.info("STEP2:Verify listed members.", "Expected Result: '" + user3 + "' with 'Collaborator' role and 'Remove' button is displayed");
-        assertTrue(siteUsersPage.isASiteMember(user3 + " " + user3), "Expected user '" + user3 + "' is present on the page.");
-        assertTrue(siteUsersPage.isRoleSelected("Collaborator", user3), "User '" + user3 + "' is expected to have 'Collaborator' role.");
-        assertTrue(siteUsersPage.isRemoveButtonEnabled(user3), "User '" + user3 + "' is expected to have 'Remove' button.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user3 + " " + user3), "Expected user '" + user3 + "' is present on the page.");
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Collaborator", user3), "User '" + user3 + "' is expected to have 'Collaborator' role.");
+//        assertTrue(siteUsersPage.isRemoveButtonEnabled(user3), "User '" + user3 + "' is expected to have 'Remove' button.");
 
         LOG.info("STEP3: Click on any user from the list (e.g.: 'testUser2')");
         siteUsersPage.clickUser(user2 + " " + user2);
@@ -93,17 +92,17 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
 
         LOG.info("STEP 2:Check that all site members are displayed.",
             "Expected Result: '" + user1 + "' with 'Manager' role and 'Remove' button is displayed");
-        assertTrue(siteUsersPage.isASiteMember(user1 + " " + user1), "Expected user '" + user1 + "' is present on the page.");
-        assertTrue(siteUsersPage.isRoleSelected("Manager", user1), "User '" + user1 + "' is expected to have 'Collaborator' role.");
-        assertTrue(siteUsersPage.isRemoveButtonEnabled(user1), "User '" + user1 + "' is expected to have 'Remove' button.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user1 + " " + user1), "Expected user '" + user1 + "' is present on the page.");
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Manager", user1), "User '" + user1 + "' is expected to have 'Collaborator' role.");
+//        assertTrue(siteUsersPage.isRemoveButtonEnabled(user1), "User '" + user1 + "' is expected to have 'Remove' button.");
         LOG.info("STEP 2:Verify listed members.", "Expected Result: '" + user2 + "' with 'Collaborator' role and 'Remove' button is displayed");
-        assertTrue(siteUsersPage.isASiteMember(user2 + " " + user2), "Expected user '" + user2 + "' is present on the page.");
-        assertTrue(siteUsersPage.isRoleSelected("Collaborator", user2), "User '" + user1 + "' is expected to have 'Collaborator' role.");
-        assertTrue(siteUsersPage.isRemoveButtonEnabled(user2), "User '" + user1 + "' is expected to have 'Remove' button.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2 + " " + user2), "Expected user '" + user2 + "' is present on the page.");
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Collaborator", user2), "User '" + user1 + "' is expected to have 'Collaborator' role.");
+//        assertTrue(siteUsersPage.isRemoveButtonEnabled(user2), "User '" + user1 + "' is expected to have 'Remove' button.");
         LOG.info("STEP 2:Verify listed members.", "Expected Result: '" + user3 + "' with 'Collaborator' role and 'Remove' button is displayed");
-        assertTrue(siteUsersPage.isASiteMember(user3 + " " + user3), "Expected user '" + user3 + "' is present on the page.");
-        assertTrue(siteUsersPage.isRoleSelected("Collaborator", user3), "User '" + user3 + "' is expected to have 'Collaborator' role.");
-        assertTrue(siteUsersPage.isRemoveButtonEnabled(user3), "User '" + user3 + "' is expected to have 'Remove' button.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user3 + " " + user3), "Expected user '" + user3 + "' is present on the page.");
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Collaborator", user3), "User '" + user3 + "' is expected to have 'Collaborator' role.");
+//        assertTrue(siteUsersPage.isRemoveButtonEnabled(user3), "User '" + user3 + "' is expected to have 'Remove' button.");
 
         LOG.info("STEP 3: Click on any user from the list (e.g.: 'testUser2')");
         siteUsersPage.clickUser(user2 + " " + user2);
@@ -123,9 +122,9 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
 
         LOG.info("Only: '" + user2 + "' is displayed");
         siteUsersPage.waitSiteMemberToDisappear(user1);
-        assertFalse(siteUsersPage.isASiteMember(user1 + " " + user1), "Member '" + user1 + "' is not expected to be present on the page.");
-        assertTrue(siteUsersPage.isASiteMember(user2 + " " + user2), "Expected member '" + user2 + "' is present on the page.");
-        assertFalse(siteUsersPage.isASiteMember(user3 + " " + user3), "Member '" + user3 + "' is not expected to be present on the page.");
+//        assertFalse(siteUsersPage.assertSiteMemberNameEqualsTo(user1 + " " + user1), "Member '" + user1 + "' is not expected to be present on the page.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2 + " " + user2), "Expected member '" + user2 + "' is present on the page.");
+//        assertFalse(siteUsersPage.assertSiteMemberNameEqualsTo(user3 + " " + user3), "Member '" + user3 + "' is not expected to be present on the page.");
 
         LOG.info("STEP 3: Click on  'testUser2'.");
         siteUsersPage.clickUser(user2 + " " + user2);
