@@ -72,10 +72,7 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
 
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get())
-                .createFile(file1).createFile(file2).createFile(file3)
-                    .then().usingResource(file1)
-                        .checkOut()
-                            .assertThat().documentIsCheckedOut();
+                .createFile(file1).createFile(file2).createFile(file3);
         getRestApi().authenticateUser(user.get())
             .withCoreAPI().usingAuthUser().addFileToFavorites(file2);
 
@@ -84,9 +81,12 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
             .usingDocument(file1).assertFileIsDisplayed();
         myDocumentsDashlet.usingDocument(file2).assertFileIsDisplayed();
         myDocumentsDashlet.usingDocument(file3).assertFileIsDisplayed();
+
+        getCmisApi().usingResource(file1).checkOut().assertThat().documentIsCheckedOut();
+        userDashboardPage.navigate(user.get());
         myDocumentsDashlet.filter(DocumentsFilter.EDITING)
-            .assertNrOfDisplayedDocumentsIs(1)
-                .usingDocument(file1).assertFileIsDisplayed();
+            .usingDocument(file1).assertFileIsDisplayed();
+        myDocumentsDashlet.assertNrOfDisplayedDocumentsIs(1);
         myDocumentsDashlet.usingDocument(file2).assertFileIsNotDisplayed();
         myDocumentsDashlet.usingDocument(file3).assertFileIsNotDisplayed();
 
