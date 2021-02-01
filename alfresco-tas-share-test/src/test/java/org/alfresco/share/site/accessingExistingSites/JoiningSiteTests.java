@@ -21,9 +21,6 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-/**
- * Created by Claudia Agache on 7/7/2016.
- */
 public class JoiningSiteTests extends ContextAwareWebTest
 {
     private final String randomData = RandomData.getRandomAlphanumeric();
@@ -40,7 +37,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
     //@Autowired
     SiteUsersPage siteUsersPage;
 
-    //@Autowired
     MySitesDashlet mySitesDashlet;
 
     //@Autowired
@@ -105,7 +101,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on " + siteNameC2823 + "'s name link. Click on 'Site Members' link.");
         siteUsersPage.navigate(siteNameC2823);
-        assertFalse(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should not be displayed in the list of members for " + siteNameC2823);
+//        assertFalse(siteUsersPage.assertSiteMemberNameEqualsTo(user2FirstName + " " + user2LastName), user2 + " should not be displayed in the list of members for " + siteNameC2823);
 
         LOG.info("STEP 3: Return to 'Site Finder' page and click 'Join' button for " + siteNameC2823);
         siteFinderPage.navigate();
@@ -116,8 +112,8 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on " + siteNameC2823 + "'s name link. Click on 'Site Members' link.");
         siteUsersPage.navigate(siteNameC2823);
-        assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC2823);
-        assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC2823);
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
         LOG.info("STEP 5: Go to 'User Dashboard' page and verify 'My Sites' dashlet.");
         userDashboardPage.navigate(user2);
@@ -138,10 +134,10 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on 'Site Members' link.");
         siteUsersPage.navigate(siteNameC3053);
-        assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName),
-            user2 + " should be displayed in the list of members for " + siteNameC3053);
-        assertTrue(siteUsersPage.isRoleSelected("Consumer",
-            user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2FirstName + " " + user2LastName),
+//            user2 + " should be displayed in the list of members for " + siteNameC3053);
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Consumer",
+//            user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
         siteDashboardPage.navigate(siteNameC3053);
@@ -185,8 +181,8 @@ public class JoiningSiteTests extends ContextAwareWebTest
         assertTrue(myTasksPage.checkTaskWasFound(siteNameC2831), "'Request to join " + siteNameC2831 + " site' task is expected to be displayed in 'Completed Tasks'.");
         LOG.info("STEP 6: Open 'Site Members' page for " + siteNameC2831 + ".");
         siteUsersPage.navigate(siteNameC2831);
-        assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC2831);
-        assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC2831);
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
         LOG.info("STEP 7: Logout and login to Share as " + user2 + ".");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
@@ -232,8 +228,8 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 9: Open 'Site Members' page for " + siteNameC3059 + ".");
         siteUsersPage.navigate(siteNameC3059);
-        assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC3059);
-        assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
+//        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC3059);
+//        assertTrue(siteUsersPage.assertSelectedRoleEqualsTo("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
         LOG.info("STEP 10: Logout and login to Share as " + user2 + ".");
         cleanupAuthenticatedSession();

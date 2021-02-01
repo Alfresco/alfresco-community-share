@@ -4,7 +4,6 @@ import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 

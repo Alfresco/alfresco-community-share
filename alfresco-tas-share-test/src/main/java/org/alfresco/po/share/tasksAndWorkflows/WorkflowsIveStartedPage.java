@@ -3,6 +3,7 @@ package org.alfresco.po.share.tasksAndWorkflows;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -65,7 +66,7 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
 
     public List<String> getActiveWorkflows()
     {
-        List<String> allWorkflowsNames = new ArrayList<>();
+        List<String> allWorkflowsNames = Collections.synchronizedList(new ArrayList<>());
         List<WebElement> workflows = webElementInteraction.findElements(By.cssSelector("div[id$='_default-workflows'] tr[class*='yui-dt-rec']"));
         for (WebElement specificTask : workflows)
         {

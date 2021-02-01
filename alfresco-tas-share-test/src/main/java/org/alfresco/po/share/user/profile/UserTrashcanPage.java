@@ -5,6 +5,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
@@ -70,13 +71,12 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public void clickSearch()
     {
-//        webElementInteraction.waitUntilElementIsVisible(searchButton);
         webElementInteraction.clickElement(searchButton);
     }
 
     public String getItemsNamesList()
     {
-        ArrayList<String> itemsNameTextList = new ArrayList<>();
+        List<String> itemsNameTextList = Collections.synchronizedList(new ArrayList<>());
         for (WebElement anItemsNameList : webElementInteraction.findElements(itemsNameList))
         {
             itemsNameTextList.add(anItemsNameList.getText());

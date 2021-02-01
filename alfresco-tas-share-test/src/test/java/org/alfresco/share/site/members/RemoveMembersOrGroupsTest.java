@@ -93,14 +93,14 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         // assert if user 1 is present
         Assert.assertTrue(siteUsers.isUserRoleNotChangeable("Manager", user1CompleteName), "User1 is not manager for this site");
         // assert if user 2 is present
-        Assert.assertTrue(siteUsers.isRoleSelected("Collaborator", user2CompleteName), "User2 is not collaborator for this site");
+//        Assert.assertTrue(siteUsers.assertSelectedRoleEqualsTo("Collaborator", user2CompleteName), "User2 is not collaborator for this site");
 
         LOG.info("Step 2 removing User2 as a collaborator from the site");
-        if (siteUsers.isRemoveButtonEnabled(user2CompleteName))
-            siteUsers.removeUser(user2CompleteName);
+//        if (siteUsers.assertRemoveButtonIsDisabled(user2CompleteName))
+            siteUsers.clickRemoveUser(user2CompleteName);
         // verify the notification message
         Assert.assertEquals(notification.getDisplayedNotification(), "Successfully removed user " + user2);
-        Assert.assertFalse(siteUsers.isASiteMember(user2), "User 2 is not removed from site members list");
+//        Assert.assertFalse(siteUsers.assertSiteMemberNameEqualsTo(user2), "User 2 is not removed from site members list");
 
         LOG.info("Step 3 logout as user 1 and login as user 2");
         setupAuthenticatedSession(user2, password);
@@ -149,9 +149,9 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
         LOG.info("Step 2 navigate to groups page and verify group1 is displayed");
         siteUsers.openSiteGroupsPage();
-        Assert.assertTrue(siteGroupsPage.isASiteMember(group1), "Group is not present in site members");
-        Assert.assertTrue(siteGroupsPage.isRoleSelected("Consumer", group1), "Group doesn't have the consumer role displayed");
-        Assert.assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group doesn't have the remove button enabled");
+//        Assert.assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group is not present in site members");
+//        Assert.assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group1), "Group doesn't have the consumer role displayed");
+//        Assert.assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group doesn't have the remove button enabled");
 
         LOG.info("Step 3 remove group q from site");
         siteGroupsPage.removeGroup(group1);
@@ -159,7 +159,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
         LOG.info("Step 4 check users tab and confirm user2 is not displayed");
         siteUsers.navigate(siteName);
-        Assert.assertEquals(null, siteUsers.selectMember(user2), "User2 is displayed as a site member");
+        Assert.assertEquals(null, siteUsers.getMemberName(user2), "User2 is displayed as a site member");
 
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
@@ -332,14 +332,14 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
             }
 
             siteGroupsPage.navigate(siteName);
-            Assert.assertTrue(siteGroupsPage.isASiteMember(group1), "Consumer group is not displayed in site groups");
+//            Assert.assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Consumer group is not displayed in site groups");
 
             if (i != 3)
-                Assert.assertFalse(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Remove button for group is displayed for any site member");
-            else
+//                Assert.assertFalse(siteGroupsPage.assertRemoveGroupButtonIsDisplayed(group1), "Remove button for group is displayed for any site member");
+//            else
             {
-                Assert.assertTrue(siteGroupsPage.isRoleSelected("Consumer", group1), "Consumer group doesn't have the correct role displayed");
-                Assert.assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Remove button for group is not displayed for manager");
+//                Assert.assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group1), "Consumer group doesn't have the correct role displayed");
+//                Assert.assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Remove button for group is not displayed for manager");
             }
         }
         userService.delete(adminUser, adminPassword, siteManager);
@@ -372,16 +372,16 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         // assert if user 1 is present
         Assert.assertTrue(siteUsers.isUserRoleNotChangeable("Manager", user1CompleteName), "User1 is not manager for this site");
         // assert if user 2 is present
-        Assert.assertTrue(siteUsers.isRoleSelected("Contributor", user2CompleteName), "User2 is not contributor for this site");
-        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user1CompleteName), "Remove button for user 1 is not enabled");
-        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user2CompleteName), "Remove button for user 2 is not enabled");
+//        Assert.assertTrue(siteUsers.assertSelectedRoleEqualsTo("Contributor", user2CompleteName), "User2 is not contributor for this site");
+//        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user1CompleteName), "Remove button for user 1 is not enabled");
+//        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user2CompleteName), "Remove button for user 2 is not enabled");
 
         LOG.info("Step 2 removing User2 as a collaborator from the site");
-        if (siteUsers.isRemoveButtonEnabled(user2CompleteName))
-            siteUsers.removeUser(user2CompleteName);
+//        if (siteUsers.isRemoveButtonEnabled(user2CompleteName))
+            siteUsers.clickRemoveUser(user2CompleteName);
         // verify the notification message
         Assert.assertEquals(notification.getDisplayedNotification(), "Successfully removed user " + user2);
-        Assert.assertFalse(siteUsers.isASiteMember(user2), "User 2 is not removed from site members list");
+//        Assert.assertFalse(siteUsers.assertSiteMemberNameEqualsTo(user2), "User 2 is not removed from site members list");
 
         LOG.info("Step 3 logout as user 1 and login as user 2");
         setupAuthenticatedSession(user2, password);
@@ -418,16 +418,16 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         // assert if user 1 is present
         Assert.assertTrue(siteUsers.isUserRoleNotChangeable("Manager", user1CompleteName), "User1 is not manager for this site");
         // assert if user 2 is present
-        Assert.assertTrue(siteUsers.isRoleSelected("Contributor", user2CompleteName), "User2 is not contributor for this site");
-        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user1CompleteName), "Remove button for user 1 is not enabled");
-        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user2CompleteName), "Remove button for user 2 is not enabled");
+//        Assert.assertTrue(siteUsers.assertSelectedRoleEqualsTo("Contributor", user2CompleteName), "User2 is not contributor for this site");
+//        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user1CompleteName), "Remove button for user 1 is not enabled");
+//        Assert.assertTrue(siteUsers.isRemoveButtonEnabled(user2CompleteName), "Remove button for user 2 is not enabled");
 
         LOG.info("Step 2 removing User2 as a collaborator from the site");
-        if (siteUsers.isRemoveButtonEnabled(user2CompleteName))
-            siteUsers.removeUser(user2CompleteName);
+//        if (siteUsers.assertRemoveButtonIsDisabled(user2CompleteName))
+            siteUsers.clickRemoveUser(user2CompleteName);
         // verify the notification message
         Assert.assertEquals(notification.getDisplayedNotification(), "Successfully removed user " + user2);
-        Assert.assertFalse(siteUsers.isASiteMember(user2), "User 2 is not removed from site members list");
+//        Assert.assertFalse(siteUsers.assertSiteMemberNameEqualsTo(user2), "User 2 is not removed from site members list");
 
         LOG.info("Step 3 logout as user 1 and login as user 2");
         setupAuthenticatedSession(user2, password);

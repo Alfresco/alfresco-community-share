@@ -7,6 +7,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
@@ -42,7 +43,7 @@ public class ModelManagerTests extends BaseTest
     private UserModel user;
     private SiteModel site;
 
-    private final List<CustomContentModel> modelsToRemove = new ArrayList<>();
+    private final List<CustomContentModel> modelsToRemove = Collections.synchronizedList(new ArrayList<>());
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

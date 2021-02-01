@@ -8,7 +8,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertFalse;
@@ -159,7 +158,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Site Members' link.");
         siteUsers.navigate(siteName);
 
-        assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
+//        assertTrue(siteUsers.assertSelectedRoleEqualsTo("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
 
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
@@ -228,7 +227,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         sitesManager.usingSite(siteName).clickSiteName();
 
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
-        assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
+//        assertTrue(siteUsers.assertSelectedRoleEqualsTo("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
@@ -297,7 +296,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
             .clickSiteName();
 
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
-        assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
+//        assertTrue(siteUsers.assertSelectedRoleEqualsTo("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
 
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);

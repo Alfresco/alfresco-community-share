@@ -1,5 +1,6 @@
 package org.alfresco.share;
 
+import java.util.Collections;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -25,7 +26,7 @@ public class LoginTests extends BaseTest
             randomString + "user.name",
             randomString + "test3&test3",
             randomString + "test5=test5" };
-    private List<UserModel> specialUserList = new ArrayList<>();
+    private List<UserModel> specialUserList = Collections.synchronizedList(new ArrayList<>());
     private final UserModel specialPassUser = new UserModel("specialPassUser" + randomString, "abc@123");
     private UserModel testUserC2084 = new UserModel("testUserC2084" + randomString, password);
 

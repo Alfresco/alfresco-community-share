@@ -10,6 +10,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.alfresco.dataprep.SiteService.Visibility;
@@ -93,12 +94,12 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
     public SitesManagerPage assertTableHasAllColumns()
     {
-        ArrayList<String> expectedTableHeader = new ArrayList<>(Arrays.asList
+        List<String> expectedTableHeader = Collections.synchronizedList(new ArrayList<>(Arrays.asList
             (language.translate("adminTools.siteManager.siteName"),
              language.translate("adminTools.siteManager.siteDescription"),
              language.translate("adminTools.siteManager.visibility"),
              language.translate("adminTools.siteManager.imASiteManager"),
-             language.translate("adminTools.siteManager.actions")));
+             language.translate("adminTools.siteManager.actions"))));
         List<WebElement> tableList = webElementInteraction.waitUntilElementsAreVisible(tableHeadList);
         ArrayList<String> tableHeaderText = tableList.stream().map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));

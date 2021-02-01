@@ -32,7 +32,7 @@ public class WebDriverFactory
 
     public WebDriver createWebDriver()
     {
-        webDriver.set(createWebDriverBasedOnOS(properties));
+        webDriver.set(createWebDriverBasedOnBrowserName(properties));
 
         if (properties.getBrowserName().equalsIgnoreCase(FIREFOX) && !properties.isBrowserHeadless())
         {
@@ -41,16 +41,16 @@ public class WebDriverFactory
         return webDriver.get();
     }
 
-    private WebDriver createWebDriverBasedOnOS(DefaultProperties properties)
+    private WebDriver createWebDriverBasedOnBrowserName(DefaultProperties properties)
     {
         switch (properties.getBrowserName().toLowerCase())
         {
             case FIREFOX:
-                firefoxdriver().driverVersion(properties.getCurrentWebDriverVersion()).setup();
+                firefoxdriver().setup();
                 return new FirefoxDriver(setFirefoxBrowserOptions(properties));
 
             case CHROME:
-                chromedriver().driverVersion(properties.getCurrentWebDriverVersion()).setup();
+                chromedriver().setup();
                 return new ChromeDriver(setChromeBrowserOptions(properties));
             default:
                 throw new UnrecognizedBrowser(properties.getBrowserName());

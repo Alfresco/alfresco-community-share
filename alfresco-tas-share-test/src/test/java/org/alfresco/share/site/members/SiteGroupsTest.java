@@ -68,37 +68,37 @@ public class SiteGroupsTest extends ContextAwareWebTest
         siteGroupsPage.navigate(siteName);
 
         LOG.info("Expected Result: '" + group1 + "' with 'Collaborator' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group1), "Group '" + group1 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
 
         LOG.info("Expected Result: '" + group2 + "' with 'Contributor' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group2), "Group '" + group2 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
 
         LOG.info("Expected Result: '" + group3 + "' with 'Consumer' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group3), "Group '" + group3 + "' is not present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is not present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
 
         LOG.info("Click on 'Search' button leaving the search box empty.");
         siteGroupsPage.clickSearch();
 
         LOG.info("Expected Result: '" + group1 + "' with 'Collaborator' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group1), "Group '" + group1 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
 
         LOG.info("Expected Result: '" + group2 + "' with 'Contributor' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group2), "Group '" + group2 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
 
         LOG.info("Expected Result: '" + group3 + "' with 'Consumer' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group3), "Group '" + group3 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
     }
 
     @TestRail (id = "C2820")
@@ -109,23 +109,23 @@ public class SiteGroupsTest extends ContextAwareWebTest
         siteGroupsPage.navigate(siteName);
 
         LOG.info("Enter 'test' string in the search box and click 'Search' button.");
-        siteGroupsPage.typeSearchGroup("test");
+        siteGroupsPage.searchGroupByName("test");
         siteGroupsPage.clickSearch();
 
         LOG.info("Expected Result: '" + group1 + "' with 'Collaborator' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group1), "Group '" + group1 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
 
         LOG.info("Expected Result: '" + group2 + "' with 'Contributor' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group2), "Group '" + group2 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
 
         LOG.info("Expected Result: '" + group3 + "' with 'Consumer' role and 'Remove' button is displayed");
-        assertTrue(siteGroupsPage.isASiteMember(group3), "Group '" + group3 + "' is present on the page.");
-        assertTrue(siteGroupsPage.isRoleSelected("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
-        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is present on the page.");
+//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
+//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
     }
 
     @TestRail (id = "C2821")
@@ -136,13 +136,13 @@ public class SiteGroupsTest extends ContextAwareWebTest
         siteGroupsPage.navigate(siteName);
 
         LOG.info("Enter '" + group2 + "' string in the search box and click 'Search' button.");
-        siteGroupsPage.typeSearchGroup(group2);
+        siteGroupsPage.searchGroupByName(group2);
         siteGroupsPage.clickSearch();
 
         LOG.info("Only: '" + group2 + "' is displayed");
-        assertFalse(siteGroupsPage.isASiteMember(group1), "Group '" + group1 + "' is not expected to be present on the page.");
-        assertTrue(siteGroupsPage.isASiteMember(group2), "Group '" + group2 + "' is present on the page.");
-        assertFalse(siteGroupsPage.isASiteMember(group3), "Group '" + group3 + "' is not expected to be present on the page.");
+//        assertFalse(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is not expected to be present on the page.");
+//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
+//        assertFalse(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is not expected to be present on the page.");
     }
 
 }

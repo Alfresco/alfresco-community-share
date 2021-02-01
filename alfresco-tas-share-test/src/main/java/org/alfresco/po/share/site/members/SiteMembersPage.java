@@ -1,6 +1,10 @@
 package org.alfresco.po.share.site.members;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.model.UserModel;
@@ -10,7 +14,10 @@ import org.openqa.selenium.WebElement;
 
 public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 {
-    private final By namesList = By.cssSelector("td+td>div.yui-dt-liner>h3");
+    private final int BEGIN_INDEX = 0;
+    private final String EMPTY_SPACE = " ";
+
+    private final By listNameLocator = By.cssSelector("td+td>div.yui-dt-liner>h3");
     private final By siteUsers = By.cssSelector("a[id*='site-members-link']");
     private final By siteGroups = By.cssSelector("a[id*='site-groups-link']");
     private final By pendingInvites = By.cssSelector("a[id*='pending-invites-link']");
@@ -32,19 +39,25 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return String.format("share/page/site/%s/site-members", getCurrentSiteName());
     }
 
-    public boolean isRoleSelected(String role, String name)
+    public SiteMembersPage assertSelectedRoleEqualsTo(String expectedRole, String groupName)
     {
-        return selectMember(name).findElement(currentRole).getText().contains(role);
+        String actualFormattedRole = getMemberName(groupName).findElement(currentRole).getText()
+            .substring(BEGIN_INDEX, getMemberName(groupName).findElement(currentRole).getText()
+                .indexOf(EMPTY_SPACE));
+
+        assertEquals(actualFormattedRole, expectedRole,
+            String.format("Selected roles not equals with expected %s ", expectedRole));
+         return this;
     }
 
     public String getRole(String name)
     {
-        return selectMember(name).findElement(currentRole).getText();
+        return getMemberName(name).findElement(currentRole).getText();
     }
 
     public boolean isRemoveButtonEnabledForMember(String name)
     {
-        return selectMember(name).findElement(removeButton).isEnabled();
+        return getMemberName(name).findElement(removeButton).isEnabled();
     }
 
     /**
@@ -55,7 +68,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
      */
     public boolean isRoleButtonDisplayed(String name)
     {
-        return webElementInteraction.isElementDisplayed(selectMember(name), currentRoleButton);
+        return webElementInteraction.isElementDisplayed(getMemberName(name), currentRoleButton);
     }
 
     public SiteGroupsPage openSiteGroupsPage()
@@ -72,23 +85,26 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     public List<String> getSiteMembersList()
     {
-        webElementInteraction.waitUntilElementsAreVisible(namesList);
-        List<String> names = new ArrayList<>();
-        for (WebElement aNamesList : webElementInteraction.findElements(namesList))
+        webElementInteraction.waitUntilElementsAreVisible(listNameLocator);
+        List<String> names = Collections.synchronizedList(new ArrayList<>());
+        for (WebElement listName : webElementInteraction.findElements(listNameLocator))
         {
-            names.add(aNamesList.getText());
+            names.add(listName.getText());
         }
         return names;
     }
 
-    public boolean isASiteMember(String name)
+    public SiteMembersPage assertSiteGroupNameEqualsTo(String expectedSiteMemberName)
     {
-        return getSiteMembersList().stream().anyMatch(member -> member.equals(name));
+        LOG.info("Assert site member name equals to: {}", expectedSiteMemberName);
+        assertTrue(getSiteMembersList().stream().anyMatch(member -> member.equals(expectedSiteMemberName)),
+            String.format("Site member name not equals %s ", expectedSiteMemberName));
+        return this;
     }
 
-    public boolean isSiteMember(UserModel userModel)
+    public SiteMembersPage isSiteMember(UserModel userModel)
     {
-        return isASiteMember(userModel.getFirstName() + " " + userModel.getLastName());
+        return assertSiteGroupNameEqualsTo(userModel.getFirstName() + " " + userModel.getLastName());
     }
 
     public void waitSiteMemberToDisappear(String siteMember)
@@ -97,14 +113,14 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
             webElementInteraction.findElement(By.cssSelector(String.format(memberName, siteMember))));
     }
 
-    public WebElement selectMember(String name)
+    public WebElement getMemberName(String name)
     {
         return webElementInteraction.findFirstElementWithValue(siteMemberRow, name);
     }
 
     public void changeRoleForMember(String newRole, String userName)
     {
-        webElementInteraction.clickElement(selectMember(userName).findElement(currentRoleButton));
+        webElementInteraction.clickElement(getMemberName(userName).findElement(currentRoleButton));
         webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
         webElementInteraction.selectOptionFromFilterOptionsList(newRole, webElementInteraction.findElements(dropDownOptionsList));
         waitUntilNotificationMessageDisappears();
