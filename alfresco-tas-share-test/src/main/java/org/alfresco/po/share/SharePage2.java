@@ -89,8 +89,8 @@ public abstract class SharePage2<T> extends BasePage
 
     public void navigateWithoutRender()
     {
-        STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
-        webElementInteraction.navigateTo(relativePathToURL().getPath());
+        STEP(String.format("Navigate to: %s",relativePathToURL().toString()));
+        webElementInteraction.navigateTo(relativePathToURL().toString());
     }
 
     public String getPageHeader()

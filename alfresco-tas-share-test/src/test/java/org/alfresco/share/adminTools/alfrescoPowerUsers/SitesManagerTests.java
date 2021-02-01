@@ -33,13 +33,6 @@ public class SitesManagerTests extends BaseTest
         systemErrorPage = new SystemErrorPage(webDriver);
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void cleanUp()
-    {
-        deleteUsersIfNotNull(siteAdmin.get());
-        deleteSitesIfNotNull(testSite.get());
-    }
-
     @TestRail (id = "C8674")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifySiteManagerPage()
@@ -147,7 +140,7 @@ public class SitesManagerTests extends BaseTest
     {
         testSite.set(getDataSite().usingUser(siteAdmin.get()).createPublicRandomSite());
 
-        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
+        setupAuthenticatedSession(siteAdmin.get());
         sitesManagerPage.navigate().usingSite(testSite.get())
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(testSite.get().getTitle())
@@ -155,7 +148,14 @@ public class SitesManagerTests extends BaseTest
         sitesManagerPage.waitUntilLoadingMessageDisappears()
             .navigate()
             .usingSite(testSite.get()).assertSiteIsNotDisplayed();
-        siteDashboardPage.navigate(testSite.get());
+        siteDashboardPage.navigateWithoutRender(testSite.get());
         systemErrorPage.assertSomethingIsWrongWithThePageMessageIsDisplayed();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanUp()
+    {
+        deleteUsersIfNotNull(siteAdmin.get());
+        deleteSitesIfNotNull(testSite.get());
     }
 }
