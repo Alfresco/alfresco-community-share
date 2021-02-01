@@ -91,6 +91,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         webElementInteraction.waitUntilElementClickable(filterButton).click();
         List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(filterOptions);
         webElementInteraction.selectOptionFromFilterOptionsList(getFilterValue(filter), options);
+        webElementInteraction.waitInSeconds(1);
         return this;
     }
 
