@@ -14,11 +14,10 @@ import org.testng.annotations.Test;
 
 public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
-    private DataWorkflow dataWorkflow;
 
     private MyTasksDashlet myTasksDashlet;
 
+    private ThreadLocal<DataWorkflow> dataWorkflow = new ThreadLocal<>();
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
@@ -26,6 +25,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
     public void setupTest()
     {
         myTasksDashlet = new MyTasksDashlet(webDriver);
+        dataWorkflow.set(applicationContext.getBean(DataWorkflow.class));
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
@@ -39,7 +39,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFile(file).assertThat().existsInRepo();
-        TaskModel taskModel = dataWorkflow.usingUser(user.get())
+        TaskModel taskModel = dataWorkflow.get().usingUser(user.get())
             .usingSite(site.get()).usingResource(file).createNewTaskAndAssignTo(user.get());
 
         userDashboardPage.navigate(user.get());
@@ -84,7 +84,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
         GroupModel testGroup = dataGroup.usingAdmin().createRandomGroup();
         UserModel user2 = getDataUser().usingAdmin().createRandomTestUser();
 
-        dataWorkflow.usingUser(user.get())
+        dataWorkflow.get().usingUser(user.get())
             .usingSite(site.get()).usingResource(file)
                 .createGroupReviewTaskAndAssignTo(testGroup);
         dataGroup.usingUser(user2).addUserToGroup(testGroup);
