@@ -33,15 +33,14 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
 
     private WikiDashlet wikiDashlet;
     private WikiMainPage wikiMainPage;
-
-    @Autowired
-    private DataWiki dataWiki;
+    private ThreadLocal<DataWiki> dataWiki = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         wikiDashlet = new WikiDashlet(webDriver);
         wikiMainPage = new WikiMainPage(webDriver);
+        dataWiki.set(applicationContext.getBean(DataWiki.class));
 
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
@@ -71,7 +70,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void checkDisplayNoWikiPageWhenCancelDashletConfiguration()
     {
-        WikiModel wikiModel = dataWiki.usingUser(user.get()).usingSite(site.get()).createRandomWiki();
+        WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
         siteDashboardPage.navigate(site.get());
         wikiDashlet.clickOnConfigureDashletIcon()
             .assertDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
@@ -87,7 +86,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedWikiPageWhenSaveDashletConfiguration()
     {
-        WikiModel wikiModel = dataWiki.usingUser(user.get()).usingSite(site.get()).createRandomWiki();
+        WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
         siteDashboardPage.navigate(site.get());
         wikiDashlet.clickOnConfigureDashletIcon()
             .assertDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
@@ -105,7 +104,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedWikiInWikiPageDetailsWhenAccessedFromDashletTitle()
     {
-        WikiModel wikiModel = dataWiki.usingUser(user.get()).usingSite(site.get()).createRandomWiki();
+        WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
         siteDashboardPage.navigate(site.get());
         wikiDashlet.clickOnConfigureDashletIcon()
             .clickDialogDropdown()

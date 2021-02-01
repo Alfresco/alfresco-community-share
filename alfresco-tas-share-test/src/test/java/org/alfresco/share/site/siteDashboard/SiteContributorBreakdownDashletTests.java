@@ -63,7 +63,7 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
     @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUserFullNameInUserProfilePageWhenClickedFromPieChart()
     {
-       FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFile(fileModel);
 

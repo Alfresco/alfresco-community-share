@@ -48,7 +48,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void deleteSiteThenCancel()
     {
-        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         userDashboardPage.navigate(user.get());
         mySitesDashlet.assertSiteIsDisplayed(site.get());
@@ -65,7 +65,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void deleteSite()
     {
-        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         userDashboardPage.navigate(user.get());
         mySitesDashlet.assertSiteIsDisplayed(site.get())
@@ -78,7 +78,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void filterSites()
     {
-        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         SiteModel secondSite = getDataSite().usingUser(user.get()).createPublicRandomSite();
 
         userDashboardPage.navigate(user.get());

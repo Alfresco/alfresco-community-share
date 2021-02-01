@@ -16,7 +16,6 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
 {
     private static final String EXPECTED_DIALOG_TITLE = "Enter Feed URL:";
     private static final String RSS_FEED_URL = "https://www.feedforall.com/sample.xml";
-    private static final String EXPECTED_DASHLET_TITLE_BEFORE_CONFIGURATION = "rssAddonsFeedDashlet.title";
     private static final String EXPECTED_DASHLET_TITLE_AFTER_CONFIGURATION = "rssAddonsFeedDashlet.title.afterConfig";
     private static final String NUMBER_OF_ITEMS_DISPLAYED = "5";
     private static final String EXPECTED_URL = "feedforall.com";
@@ -47,8 +46,6 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(site.get());
         rssFeedDashlet
             .assertFeedListIsEmpty()
-            .assertDashletTitleEquals(language.translate(
-                EXPECTED_DASHLET_TITLE_BEFORE_CONFIGURATION).concat(" can't be read"))
             .clickOnHelpIcon(DashletHelpIcon.RSS_FEED)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()

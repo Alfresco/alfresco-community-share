@@ -57,7 +57,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertActiveTasksTitleIsDisplayed()
     {
         LOG.info("Assert Active tasks title is displayed");
-        assertEquals(webElementInteraction.findElement(taskbarTitle).getText(), language.translate("myTasksPage.active.title"));
+        assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.active.title"));
         return this;
     }
 

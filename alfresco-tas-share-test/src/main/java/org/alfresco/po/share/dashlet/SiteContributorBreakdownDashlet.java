@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_40;
+import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 
 public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBreakdownDashlet>
@@ -34,7 +33,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public SiteContributorBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {
         LOG.info("Assert pie chart size equals: {}", expectedPieChartSize);
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(pieChartLocator, WAIT_1.getValue(), WAIT_40.getValue());
+        webElementInteraction.waitUntilElementIsDisplayedWithRetry(pieChartLocator, WAIT_2.getValue(), WAIT_40.getValue());
         assertEquals(webElementInteraction.waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize);
         return this;
     }

@@ -65,7 +65,6 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
     @Test(groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySearchResultsWhenDashletConfigurationIsSaved()
     {
-        siteDashboardPage.navigate(site.get());
         FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi()
             .authenticateUser(user.get())
@@ -73,6 +72,8 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
             .createFile(fileModel)
             .assertThat()
             .existsInRepo();
+
+        siteDashboardPage.navigate(site.get());
         savedSearchDashlet
             .configureDashlet()
             .setTitleField(DIALOG_TITLE_INPUT_VALUE)

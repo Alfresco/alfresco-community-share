@@ -75,12 +75,10 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
     {
         siteDashboardPage.navigate(site.get());
         siteLinksDashlet.clickCreateLinkButton();
-
         createLinkPage
             .typeLinkTitle(LINK_NAME)
             .typeLinkUrl(LINK_URL)
             .typeLinkDescription(LINK_DESCRIPTION)
-            .addTag(LINK_TAG)
             .clickSaveButton();
 
         linkDetailsViewPage
