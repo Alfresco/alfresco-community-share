@@ -33,7 +33,7 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2141")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkMyProfileDashlet()
     {
         String jobTitle = String.format("jobTitle%s", RandomData.getRandomAlphanumeric());

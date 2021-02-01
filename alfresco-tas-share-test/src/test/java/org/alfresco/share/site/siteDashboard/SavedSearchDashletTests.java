@@ -41,7 +41,7 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2787")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkNotDisplayResultsWhenDashletConfigurationIsCancelled()
     {
         siteDashboardPage.navigate(site.get());
@@ -62,7 +62,7 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588500")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySearchResultsWhenDashletConfigurationIsSaved()
     {
         FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

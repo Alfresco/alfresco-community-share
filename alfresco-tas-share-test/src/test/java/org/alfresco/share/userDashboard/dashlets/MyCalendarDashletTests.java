@@ -33,7 +33,7 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
         setupAuthenticatedSession(user.get());
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkMyCalendarDashletWithNoEvents()
     {
         userDashboardPage.navigate(user.get());
@@ -46,7 +46,7 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
             .assertBalloonMessageIsNotDisplayed();
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD }, priority = 2)
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD }, priority = 2)
     public void checkEventsAreDisplayed()
     {
         SiteModel site = getDataSite().usingUser(user.get()).createPublicRandomSite();

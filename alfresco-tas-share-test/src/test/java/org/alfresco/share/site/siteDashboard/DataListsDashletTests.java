@@ -48,7 +48,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenSiteDataListsIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -64,7 +64,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5569")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySiteDataListsDashletWhenTwoListsItemsAreCreated()
     {
         dataListsService.get().createDataList(user.get().getUsername(), user.get().getPassword(),
@@ -82,7 +82,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayInListsCreatedDataList()
     {
         String dataListTitle = getRandomAlphanumeric();
@@ -101,7 +101,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayEmptyListsWhenCancelDataListCreation()
     {
         siteDashboardPage.navigate(site.get());
@@ -111,7 +111,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5571")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void verifySiteDataListsDashletUserWithConsumerRole()
     {
         dataListsService.get().createDataList(user.get().getUsername(), user.get().getPassword(),

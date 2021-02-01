@@ -38,7 +38,7 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2423, C2424")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void siteSearchDashletWithNoResultsTest()
     {
         userDashboardPage.navigate(user.get());

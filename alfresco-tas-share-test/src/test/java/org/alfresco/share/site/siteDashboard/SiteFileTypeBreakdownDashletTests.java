@@ -54,7 +54,7 @@ public class SiteFileTypeBreakdownDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail (id = "C5783")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkSpecificMessageWhenSiteFileTypeBreakdownDashletIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -63,7 +63,7 @@ public class SiteFileTypeBreakdownDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail (id = "C5785")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedFilesInPieChart()
     {
         File imageToUploadWithJpgExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(JPG)));

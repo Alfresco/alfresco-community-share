@@ -43,7 +43,7 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
     }
 
     @TestRail (id = "C202732")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkSpecificMessageWhenSiteContributorBreakdownDashletIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -60,7 +60,7 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
 }
 
     @TestRail (id = "C202304")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUserFullNameInUserProfilePageWhenClickedFromPieChart()
     {
         FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

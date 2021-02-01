@@ -56,7 +56,7 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5414")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplayImagePreviewDashletWithNoImage()
     {
         siteDashboardPage.navigate(site.get());
@@ -69,10 +69,9 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5422")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUploadedImagesInImagePreviewDashlet()
     {
-        siteDashboardPage.navigate(site.get());
         imageToUploadWithJpgExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(JPG)));
         dataContent.get()
             .usingUser(user.get())
@@ -94,6 +93,7 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
             .usingSite(site.get())
             .uploadDocument(imageToUploadWithPngExtension);
 
+        siteDashboardPage.navigate(site.get());
         imagePreviewDashlet
             .assertImagePreviewIsDisplayed(NEW_AVATAR_IMAGE.concat(JPG))
             .assertImagePreviewIsDisplayed(NEW_AVATAR_IMAGE.concat(BMP))
@@ -102,7 +102,7 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5421")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUploadedImageInDocumentDetailsPage()
     {
         siteDashboardPage.navigate(site.get());
@@ -121,7 +121,7 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588494")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDownloadImageFilePreview()
     {
         siteDashboardPage.navigate(site.get());

@@ -24,7 +24,7 @@ public class MyMeetingWorkspacesTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2772")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void meetingWorkspacesDashlet()
     {
         userDashboardPage.navigate(user.get());

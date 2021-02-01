@@ -57,7 +57,7 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5525")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkSpecificMessageWhenSiteLinksDashletIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -70,7 +70,7 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5534")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedLinkInSiteLinksDashlet()
     {
         siteDashboardPage.navigate(site.get());
@@ -93,7 +93,7 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588528")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldOpenNewBrowserTabWhenNavigateToCreatedLink()
     {
         siteDashboardPage.navigate(site.get());
@@ -112,7 +112,7 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5804")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayLinkDetailsInLinkDetailsViewPageWhenDetailsButtonIsClicked()
     {
         siteDashboardPage.navigate(site.get());

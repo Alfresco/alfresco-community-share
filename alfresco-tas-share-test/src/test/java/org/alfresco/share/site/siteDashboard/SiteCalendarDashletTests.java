@@ -60,7 +60,7 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5492")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenNoUpcomingEvents()
     {
         siteDashboardPage.navigate(site.get());
@@ -74,7 +74,7 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5499")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayEventWithPredefinedTimeInterval()
     {
         DateTime startDate = DateTime.now();
@@ -103,7 +103,7 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588502")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayAllDayEventInCalendar()
     {
         sitePagesService

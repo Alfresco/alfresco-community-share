@@ -50,7 +50,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5428")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenWikiDashletIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -67,7 +67,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588833")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplayNoWikiPageWhenCancelDashletConfiguration()
     {
         WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
@@ -83,7 +83,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588834")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedWikiPageWhenSaveDashletConfiguration()
     {
         WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
@@ -101,7 +101,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588835")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedWikiInWikiPageDetailsWhenAccessedFromDashletTitle()
     {
         WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();

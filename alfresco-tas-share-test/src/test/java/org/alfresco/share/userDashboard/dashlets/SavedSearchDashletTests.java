@@ -38,7 +38,7 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2427")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkSavedSearchDashlet()
     {
         userDashboardPage.navigate(user.get());
@@ -61,7 +61,7 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
                 .clickClose();
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkResultsWithRandomString()
     {
         userDashboardPage.navigate(user.get());
@@ -73,7 +73,7 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
             .assertNoResultsFoundMessageEquals(language.translate(EXPECTED_NO_RESULTS_FOUND_MESSAGE));
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkValidSavedSearchResult()
     {
         FileModel searchFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

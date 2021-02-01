@@ -38,7 +38,7 @@ public class MyDiscussionsDashletTests extends AbstractUserDashboardDashletsTest
     }
 
     @TestRail (id = "C2774")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD  })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD  })
     public void checkMyDiscussionsDashlet()
     {
         userDashboardPage.navigate(user.get());

@@ -44,7 +44,7 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2775")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenNoSearchResultsReturned()
     {
         siteDashboardPage.navigate(site.get());
@@ -64,7 +64,7 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2424")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySearchResult()
     {
         FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
@@ -78,7 +78,7 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588829")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayFileNameInDocumentDetailsPageWhenAccessedFromSiteSearchDashlet()
     {
         FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

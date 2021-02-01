@@ -31,7 +31,7 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2143")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void webViewDashlet()
     {
         userDashboardPage.navigate(user.get());

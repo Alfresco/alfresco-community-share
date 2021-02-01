@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertTrue;
 
@@ -30,7 +31,7 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
     private WebElement getImageThumbnail(String imageName)
     {
         return webElementInteraction.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(imageLink, imageName)), 1, WAIT_60.getValue());
+            By.xpath(String.format(imageLink, imageName)), WAIT_2.getValue(), WAIT_60.getValue());
     }
 
     public ImagePreviewDashlet assertImagePreviewIsDisplayed(String imageName)

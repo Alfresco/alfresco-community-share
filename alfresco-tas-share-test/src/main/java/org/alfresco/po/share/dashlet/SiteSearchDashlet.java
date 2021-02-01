@@ -1,8 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +59,7 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     {
         LOG.info("Click file link name: {}", fileLinkName);
         WebElement fileLink = webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
-            siteSearchRow, fileLinkName)), WAIT_1.getValue(), WAIT_60.getValue());
+            siteSearchRow, fileLinkName)), WAIT_2.getValue(), WAIT_60.getValue());
         webElementInteraction.scrollToElement(fileLink);
         webElementInteraction.clickElement(fileLink);
 

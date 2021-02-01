@@ -42,7 +42,7 @@ public class MyDiscussionsDashletTests extends AbstractSiteDashboardDashletsTest
     }
 
     @TestRail (id = "C2791")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySpecificMessageWhenMyDiscussionDashletHasNoTopics()
     {
         siteDashboardPage.navigate(site.get());

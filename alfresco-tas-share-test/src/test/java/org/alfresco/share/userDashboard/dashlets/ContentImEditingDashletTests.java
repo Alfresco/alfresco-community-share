@@ -28,7 +28,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
         setupAuthenticatedSession(user.get());
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkContentImEditingTests()
     {
         userDashboardPage.navigate(user.get())
@@ -42,14 +42,14 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
             .assertAllHeadersAreDisplayed();
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkDocumentIsDisplayedWhenEdited()
     {
-        SiteModel site = dataSite.usingUser(user.get()).createPublicRandomSite();
+        SiteModel site = getDataSite().usingUser(user.get()).createPublicRandomSite();
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site).createFile(testFile)
-            .usingResource(testFile).checkOut().assertThat().documentIsCheckedOut();
+                .usingResource(testFile).checkOut().assertThat().documentIsCheckedOut();
 
         userDashboardPage.navigate(user.get());
         contentImEditingDashlet.assertDocumentIsDisplayed(testFile)

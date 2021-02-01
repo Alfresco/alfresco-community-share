@@ -39,7 +39,7 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2811")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySiteProfileDashletDetails()
     {
         siteDashboardPage.navigate(site.get());
@@ -67,7 +67,7 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588828")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUsernameInUserProfilePageWhenAccessedFromSiteProfileDashlet()
     {
         siteDashboardPage.navigate(site.get());

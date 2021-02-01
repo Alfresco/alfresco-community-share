@@ -40,7 +40,7 @@ public class SiteNoticeTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5556")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkSpecificMessageWhenSiteNoticeDashletIsNotConfigured()
     {
         siteDashboardPage.navigate(site.get());
@@ -54,7 +54,7 @@ public class SiteNoticeTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5558")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldSuccessFullyConfigureSiteNoticeDashlet()
     {
         siteDashboardPage.navigate(site.get());
@@ -72,7 +72,7 @@ public class SiteNoticeTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5559")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldCancelSiteNoticeDashletConfiguration()
     {
         siteDashboardPage.navigate(site.get());
