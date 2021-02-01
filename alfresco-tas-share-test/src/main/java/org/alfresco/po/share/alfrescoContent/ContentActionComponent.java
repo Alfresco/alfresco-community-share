@@ -39,6 +39,7 @@ public class ContentActionComponent
     private final By renameInput = By.cssSelector("form[class='insitu-edit']>input");
     private final By renameSaveButton = By.cssSelector("form[class='insitu-edit']>a:nth-of-type(1)");
     private final By renameCancelButton = By.cssSelector("form[class='insitu-edit']>a:nth-of-type(2)");
+    private final By linkThumbnail = By.cssSelector(".thumbnail .link");
 
     private final String highlightContent = "yui-dt-highlighted";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
