@@ -1,64 +1,59 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.alfresco.po.share.BaseDialogComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-@PageObject
-public class EditListDetailsPopUp extends ShareDialog
+public class EditListDetailsPopUp extends BaseDialogComponent
 {
-    @FindBy (css = "input[id$='editList_prop_cm_title']")
-    protected WebElement titleField;
-    @FindBy (css = "textarea[id$='editList_prop_cm_description']")
-    protected WebElement descriptionField;
-    @FindBy (css = "button[id$='editList-form-submit-button']")
-    protected WebElement saveButton;
-    @FindBy (css = "button[id$='editList-form-cancel-button']")
-    protected WebElement cancelButton;
-    @FindBy (css = "div[id$='editList-dialog'] a")
-    protected WebElement closeButton;
+    private final By titleField = By.cssSelector("input[id$='editList_prop_cm_title']");
+    private final By descriptionField = By.cssSelector("textarea[id$='editList_prop_cm_description']");
+    private final By saveButton = By.cssSelector("button[id$='editList-form-submit-button']");
+    private final By cancelButton = By.cssSelector("button[id$='editList-form-cancel-button']");
+    private final By closeButton = By.cssSelector("div[id$='editList-dialog'] a");
+
+    protected EditListDetailsPopUp(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     public void modifyTitle(String newTitle)
     {
-        titleField.clear();
-        titleField.sendKeys(newTitle);
+        webElementInteraction.clearAndType(titleField, newTitle);
     }
 
     public void modifyDescription(String newDescription)
     {
-        descriptionField.clear();
-        descriptionField.sendKeys(newDescription);
+        webElementInteraction.clearAndType(descriptionField, newDescription);
     }
 
     public void clickSaveButton()
     {
-        saveButton.click();
+        webElementInteraction.clickElement(saveButton);
     }
 
     public void clickCancelButton()
     {
-        cancelButton.click();
+        webElementInteraction.clickElement(cancelButton);
     }
 
     public void clickCloseButton()
     {
-        closeButton.click();
+        webElementInteraction.clickElement(closeButton);
     }
 
     public boolean isSaveButtonDisplayed()
     {
-        return browser.isElementDisplayed(saveButton);
+        return webElementInteraction.isElementDisplayed(saveButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return browser.isElementDisplayed(cancelButton);
+        return webElementInteraction.isElementDisplayed(cancelButton);
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return browser.isElementDisplayed(closeButton);
+        return webElementInteraction.isElementDisplayed(closeButton);
     }
-
 }

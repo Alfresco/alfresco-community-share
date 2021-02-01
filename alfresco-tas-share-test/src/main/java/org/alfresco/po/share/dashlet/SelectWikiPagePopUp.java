@@ -1,56 +1,58 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.testng.Assert.assertEquals;
-
-import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
-@PageObject
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
 {
-    @FindBy (css = "div[style*='cursor: move']")
-    private WebElement selectWikiPage;
+    private final By selectWikiPageText = By.cssSelector("div[class$='yui-u']");
+    private final By selectAPageDropDown = By.cssSelector("select[name='wikipage']");
 
-    @FindBy (css = "div[class$='yui-u']")
-    private WebElement selectWikiPageText;
-
-    @FindBy (css = "select[name='wikipage']")
-    private WebElement selectAPageDropDown;
+    protected SelectWikiPagePopUp(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     public SelectWikiPagePopUp assertDialogBodyMessageEquals(String expectedDialogBodyMessage)
     {
         LOG.info("Assert dialog body message equals: {}", expectedDialogBodyMessage);
-        assertEquals(selectWikiPageText.getText(), expectedDialogBodyMessage,
+        assertEquals(webElementInteraction.getElementText(selectWikiPageText), expectedDialogBodyMessage,
             String.format("Dialog body message not equals %s ", expectedDialogBodyMessage));
 
         return this;
     }
 
-    /**
-     * Method to check if the Select a Page drop-down is displayed on the Select Wiki Page form.
-     *
-     * @return true if select a page drop down is found on the Select a Wiki pafe form
-     */
     public boolean isSelectAPageDropDownDisplayed()
     {
-        return selectAPageDropDown.isDisplayed();
+        return webElementInteraction.isElementDisplayed(selectAPageDropDown);
     }
 
-    /**
-     * Method to select the Wiki Page situated at the given position from the Select a Page drop down.
-     */
     public void selectWikiPageFromList(int position)
     {
-        selectAPageDropDown.findElement(By.xpath("option[" + position + "]")).click();
+        webElementInteraction.waitUntilElementIsVisible(selectAPageDropDown)
+            .findElement(By.xpath("option[" + position + "]")).click();
     }
 
     public SelectWikiPagePopUp assertDropdownOptionEquals(String expectedDropdownOption)
     {
         LOG.info("Assert dropdown option equals: {}", expectedDropdownOption);
-        assertEquals(selectAPageDropDown.getText(), expectedDropdownOption,
-            String.format("Drop down option not equals %s ", expectedDropdownOption));
+        List<String> wikiNames = Collections.synchronizedList(new ArrayList<>());
+        Select wikiSelect = new Select(webElementInteraction.waitUntilElementIsVisible(selectAPageDropDown));
+        for(WebElement wiki : wikiSelect.getOptions())
+        {
+            wikiNames.add(wiki.getText());
+        }
+        assertTrue(wikiNames.contains(expectedDropdownOption),
+            String.format("Drop down option doesn't contain %s ", expectedDropdownOption));
 
         return this;
     }
@@ -58,7 +60,7 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
     public SelectWikiPagePopUp clickDialogDropdown()
     {
         LOG.info("Click dialog dropdown");
-        selectAPageDropDown.click();
+        webElementInteraction.clickElement(selectAPageDropDown);
         return this;
     }
 }

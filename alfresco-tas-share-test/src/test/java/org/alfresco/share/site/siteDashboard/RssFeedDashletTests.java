@@ -1,16 +1,15 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
+
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
@@ -23,32 +22,33 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String EXPECTED_URL = "feedforall.com";
     private static final String EXPECTED_HELP_BALLOON_MESSAGE = "rssFeedDashlet.helpBalloonMessage";
     private static final int SECOND_LINK = 1;
-    private static final int EXPECTED_EMPTY_LIST_SIZE = 0;
 
-    private UserModel userModel;
-    private SiteModel siteModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private RssFeedDashlet rssFeedDashlet;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        rssFeedDashlet = new RssFeedDashlet(webDriver);
 
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.RSS_FEED, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.RSS_FEED, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenRssFeedListIsEmpty()
     {
+        siteDashboardPage.navigate(site.get());
         rssFeedDashlet
+            .assertFeedListIsEmpty()
             .assertDashletTitleEquals(language.translate(
                 EXPECTED_DASHLET_TITLE_BEFORE_CONFIGURATION).concat(" can't be read"))
-            .assertListSizeEquals(EXPECTED_EMPTY_LIST_SIZE)
             .clickOnHelpIcon(DashletHelpIcon.RSS_FEED)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
@@ -56,10 +56,10 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2795")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldConfigureRSSFeedDashlet()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         rssFeedDashlet.configureDashlet()
             .assertDialogTitleEquals(EXPECTED_DIALOG_TITLE)
             .setUrlValue(RSS_FEED_URL)
@@ -72,15 +72,15 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
             .clickOnHelpIcon(DashletHelpIcon.RSS_FEED)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
-            .assertHelpBalloonIsNotDisplayed()
+            .assertBalloonMessageIsNotDisplayed()
             .clickOnRssLink(SECOND_LINK)
             .assertRssFeedLinkIsOpenedInNewBrowserTab(EXPECTED_URL);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

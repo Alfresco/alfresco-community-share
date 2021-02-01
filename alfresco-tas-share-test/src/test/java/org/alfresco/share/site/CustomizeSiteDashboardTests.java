@@ -222,7 +222,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 1, 2), "Site Content dashlet is not in column 1");
 
         customizeSite.navigate(siteName);
-        customizeSite.reorderDashletsInColumn(Dashlets.SITE_MEMBERS, Dashlets.SITE_CONTENT, 1, 2);
+        //customizeSite.reorderDashletsInColumn(Dashlets.SITE_MEMBERS, Dashlets.SITE_CONTENT, 1, 2);TODO: use moveDashletDownInColumn
         customizeSite.clickOk();
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 1, 1), "Site Content dashlet is not in column 1 first position");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 2), "Site Members dashlet is not in column 2 first position");

@@ -13,7 +13,7 @@ public class TinyMceEditor extends BasePage
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
 
     private final By CSS_STR_FORE_COLOUR = By.cssSelector("div[aria-label^='Text'] button[class$='mce-open']");
-    private final By iFrame = By.cssSelector("iframe[id*='content_ifr']");
+    private final By iFrame = By.cssSelector("div[class^='mce-tinymce'] iframe");
     private final By CSS_REMOVE_FORMAT = By.cssSelector("i.mce-i-removeformat");
     private final By CSS_STR_BOLD = By.cssSelector("i[class$='mce-i-bold']");
     private final By CSS_STR_ITALIC = By.cssSelector("i[class$='mce-i-italic']");

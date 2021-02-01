@@ -5,6 +5,7 @@ import static org.alfresco.common.Wait.WAIT_5;
 import static org.alfresco.utility.report.log.Step.STEP;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -73,6 +74,7 @@ public abstract class SharePage2<T> extends BasePage
         try
         {
             webDriver.get().get(relativePathToURL().toString());
+            waitForSharePageToLoad();
             return (T) this;
         }
         catch (TimeoutException | NoSuchSessionException e)
@@ -100,6 +102,13 @@ public abstract class SharePage2<T> extends BasePage
     {
         webElementInteraction.clickElement(alfrescoOneFooterLogo);
         return new AboutPopUpPage(webDriver);
+    }
+
+    public T assertLastNotificationMessageEquals(String expectedMessage)
+    {
+        LOG.info("Assert last notification message is: {}", expectedMessage);
+        assertEquals(notificationMessageThread.get(), expectedMessage, "Last notification message is not correct");
+        return (T) this;
     }
 
     public T waitUntilLoadingMessageDisappears()

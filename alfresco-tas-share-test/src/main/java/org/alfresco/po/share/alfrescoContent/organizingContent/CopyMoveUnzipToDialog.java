@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.organizingContent;
 
 import static org.alfresco.common.Wait.WAIT_10;
 import static org.alfresco.common.Wait.WAIT_15;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.NoSuchElementException;
@@ -156,7 +157,15 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
     public CopyMoveUnzipToDialog assertCreateLinkButtonIsDisplayed()
     {
         LOG.info("Assert Create Link button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        webElementInteraction.waitUntilElementIsVisible(createLinkButton);
+        assertTrue(webElementInteraction.isElementDisplayed(createLinkButton), "Create link button is not displayed");
+        return this;
+    }
+
+    public CopyMoveUnzipToDialog assertCreateLinkButtonIsNotDisplayed()
+    {
+        LOG.info("Assert Create Link button is not displayed");
+        assertFalse(webElementInteraction.isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 

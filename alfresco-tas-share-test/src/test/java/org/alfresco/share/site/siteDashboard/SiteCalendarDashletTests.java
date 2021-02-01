@@ -1,29 +1,28 @@
 package org.alfresco.share.site.siteDashboard;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
-import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-/**
- * Created by Claudia Agache on 7/21/2016.
- */
 public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
 {
+    @Autowired
+    private SitePagesService sitePagesService;
+
     private static final String EXPECTED_DASHLET_TITLE = "siteCalendarDashlet.title";
     private static final String EXPECTED_HELP_BALLOON_MESSAGE = "siteCalendarDashlet.helpBalloonMessage";
     private static final String EXPECTED_NO_EVENTS_MESSAGE = "siteCalendarDashlet.noEvents.message";
@@ -40,33 +39,31 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String UNDEFINED_TAG = "";
     private static final int ONE_ALL_DAY_EVENT = 1;
 
-    private DateTime today = new DateTime();
-    private DateTime tomorrow = today.plusDays(1);
+    private final DateTime today = new DateTime();
+    private final DateTime tomorrow = today.plusDays(1);
 
-    private UserModel userModel;
-    private SiteModel siteModel;
-
-    @Autowired
     private SiteCalendarDashlet siteCalendarDashlet;
 
-    //@Autowired
-    private CalendarPage calendarPage;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
+        siteCalendarDashlet = new SiteCalendarDashlet(webDriver);
 
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        addDashlet(siteModel, Dashlets.SITE_CALENDAR, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.SITE_CALENDAR, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C5492")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenNoUpcomingEvents()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteCalendarDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .assertNoUpcomingEventsMessageEquals(language.translate(EXPECTED_NO_EVENTS_MESSAGE))
@@ -77,7 +74,7 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5499")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayEventWithPredefinedTimeInterval()
     {
         DateTime startDate = DateTime.now();
@@ -87,32 +84,31 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
         String startTimeHour = LocalDateTime.now().format(formatter);
         String endTimeHour = LocalDateTime.now().plusHours(2).format(formatter);
 
-        sitePagesService
-            .addCalendarEvent(userModel.getUsername(),
-                userModel.getPassword(), siteModel.getId(),
-                FIRST_EVENT_TITLE, FIRST_EVENT_LOCATION,
-                FIRST_EVENT_DESCRIPTION,
-                startDate.toDate(), endDate.toDate(),
-                startTimeHour.concat(DASH), endTimeHour, false, TAG);
+        sitePagesService.addCalendarEvent(
+            user.get().getUsername(), user.get().getPassword(),
+            site.get().getId(),
+            FIRST_EVENT_TITLE, FIRST_EVENT_LOCATION,
+            FIRST_EVENT_DESCRIPTION,
+            startDate.toDate(), endDate.toDate(),
+            startTimeHour.concat(DASH), endTimeHour, false, TAG);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteCalendarDashlet
             .assertEventListTitleEquals(FIRST_EVENT_TITLE)
             .assertEventStartDateEquals(FIRST_EVENT_TITLE, today.toString("EEEE, d MMMM, yyyy"))
             .assertEventTimeEquals(startTimeHour.concat(DASH).concat(endTimeHour), FIRST_EVENT_TITLE)
-            .clickEvent(FIRST_EVENT_TITLE);
-        calendarPage
-            .assertCalendarHeaderEquals(today.toString("EE, dd, MMMM yyyy"))
-            .assertCalendarEventTitleEquals(FIRST_EVENT_TITLE);
+            .clickEvent(FIRST_EVENT_TITLE)
+                .assertCalendarHeaderEquals(today.toString("EE, dd, MMMM yyyy"))
+                .assertCalendarEventTitleEquals(FIRST_EVENT_TITLE);
     }
 
     @TestRail (id = "C588502")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayAllDayEventInCalendar()
     {
         sitePagesService
-            .addCalendarEvent(userModel.getUsername(),
-                userModel.getPassword(), siteModel.getId(),
+            .addCalendarEvent(user.get().getUsername(),
+                    user.get().getPassword(), site.get().getId(),
                 SECOND_EVENT_TITLE, SECOND_EVENT_LOCATION,
                 SECOND_EVENT_DESCRIPTION,
                 tomorrow.toDate(),
@@ -120,22 +116,20 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
                 START_TIME_UNDEFINED, END_TIME_UNDEFINED,
                 true, UNDEFINED_TAG);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteCalendarDashlet
             .assertEventListTitleEquals(SECOND_EVENT_TITLE)
             .assertEventStartDateEquals(SECOND_EVENT_TITLE, tomorrow.toString("EEEE, d MMMM, yyyy"))
-            .clickEvent(SECOND_EVENT_TITLE);
-
-        calendarPage
-            .assertCalendarHeaderEquals(tomorrow.toString("EE, dd, MMMM yyyy"))
-            .assertCalendarEventTitleEquals(SECOND_EVENT_TITLE)
-            .assertAllDayEventListSizeEquals(ONE_ALL_DAY_EVENT);
+            .clickEvent(SECOND_EVENT_TITLE)
+                .assertCalendarHeaderEquals(tomorrow.toString("EE, dd, MMMM yyyy"))
+                .assertCalendarEventTitleEquals(SECOND_EVENT_TITLE)
+                .assertAllDayEventListSizeEquals(ONE_ALL_DAY_EVENT);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-       removeUserFromAlfresco(userModel);
-       deleteSites(siteModel);
+       deleteUsersIfNotNull(user.get());
+       deleteSitesIfNotNull(site.get());
     }
 }

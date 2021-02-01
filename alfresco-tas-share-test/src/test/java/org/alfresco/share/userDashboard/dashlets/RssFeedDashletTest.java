@@ -1,40 +1,37 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
+    private final String sampleRssFeed = "https://www.feedforall.com/sample.xml";
+    private final String sampleRssFeedTitle = "feedforall.com";
     private RssFeedDashlet rssFeedDashlet;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
-    private UserModel user;
-
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(user);
-        addDashlet(Dashlets.RSS_FEED, 1);
-    }
+        rssFeedDashlet = new RssFeedDashlet(webDriver);
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        addDashlet(user.get(), DashboardCustomization.UserDashlet.RSS_FEED, 1, 3);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2162")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void verifyNewsFeedDashlet()
     {
+        userDashboardPage.navigate(user.get());
         rssFeedDashlet.configureDashlet()
             .assertDialogTitleEquals(language.translate("rssFeedDashlet.configureDialogTitle"))
                 .setUrlValue(sampleRssFeed)
@@ -46,5 +43,11 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
         rssFeedDashlet.assertDashletTitleContains("FeedForAll Sample Feed")
             .clickOnRssLink(1)
             .assertRssFeedLinkIsOpenedInNewBrowserTab(sampleRssFeedTitle);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
     }
 }

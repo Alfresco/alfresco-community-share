@@ -1,7 +1,6 @@
 package org.alfresco.po.share.searching;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -133,7 +132,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     protected WebElement getContentRowResult(ContentModel content)
     {
-        List<WebElement> searchResults = webElementInteraction.findElements(searchResultRows);
+        List<WebElement> searchResults = webElementInteraction.waitUntilElementsAreVisible(searchResultRows);
         for(WebElement row : searchResults)
         {
             if(row.findElement(contentName).getText().equals(content.getName()))
@@ -150,9 +149,9 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         int counter = 0;
         while (counter <= WAIT_80.getValue() && !isContentDisplayed(contentToFind))
         {
-            waitToLoopTime(WAIT_2.getValue());
             setSearchExpression(contentToFind.getName());
             clickSearchButton();
+            waitToLoopTime(WAIT_2.getValue());
             counter++;
         }
         return this;
@@ -161,12 +160,25 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchPage searchWithKeywordAndWaitForContents(String searchExpression, ContentModel... contentModels)
     {
         int counter = 0;
-        while(counter <= WAIT_80.getValue() && webElementInteraction.isElementDisplayed(noResults))
+        boolean allFound = false;
+        while(!allFound && counter <= WAIT_60.getValue())
         {
-            waitToLoopTime(WAIT_2.getValue());
             setSearchExpression(searchExpression);
             clickSearchButton();
-            counter++;
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            if(webElementInteraction.isElementDisplayed(noResults))
+            {
+                counter++;
+                continue;
+            }
+            if(webElementInteraction.findElements(searchResultRows).size() < contentModels.length)
+            {
+                counter++;
+            }
+            else
+            {
+                allFound = true;
+            }
         }
         return this;
     }

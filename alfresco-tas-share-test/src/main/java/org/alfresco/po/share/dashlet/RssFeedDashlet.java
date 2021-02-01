@@ -1,40 +1,28 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.List;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@PageObject
+import static org.testng.Assert.*;
+
 public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 {
-    @Autowired
-    private EnterFeedURLPopUp enterFeedURLPopUp;
+    private final By dashletContainer = By.cssSelector("div.dashlet.rssfeed");
+    private final By feedsList = By.cssSelector("div.headline h4 a");
+    private final By titleBarActions = By.cssSelector("div[class^='dashlet rssfeed'] .titleBarActions");
+    private final By dashletTitleBar = By.cssSelector("div[class^='dashlet rssfeed'] .title");
+    private final By configureDashletButton = By.cssSelector("div[class^='dashlet rssfeed'] div[class='titleBarActionIcon edit']");
 
-    @RenderWebElement
-    @FindBy (css = "div.dashlet.rssfeed")
-    private WebElement dashletContainer;
-
-    @FindAll (@FindBy (css = "div.headline h4 a"))
-    private List<WebElement> feedsList;
-
-    @FindBy (css = "div[class^='dashlet rssfeed'] .titleBarActions")
-    private WebElement titleBarActions;
-
-    @FindBy (css = "div[class^='dashlet rssfeed'] div[class='titleBarActionIcon edit']")
-    private WebElement configureDashletButton;
+    public RssFeedDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public RssFeedDashlet assertDashletTitleContains(String expectedTitle)
@@ -47,25 +35,27 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 
     public boolean isConfigureDashletIconDisplayed()
     {
-        browser.mouseOver(titleBarActions);
-        browser.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
-        return browser.isElementDisplayed(configureDashletButton);
+        WebElement titleBar = webElementInteraction.waitUntilElementIsVisible(titleBarActions);
+        webElementInteraction.mouseOver(titleBar);
+        webElementInteraction.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
+        return webElementInteraction.isElementDisplayed(configureDashletButton);
     }
 
     public EnterFeedURLPopUp configureDashlet()
     {
         LOG.info("Configure dashlet");
-        browser.mouseOver(titleBarActions);
-        browser.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
-        configureDashletButton.click();
+        webElementInteraction.mouseOver(dashletTitleBar);
+        webElementInteraction.mouseOver(titleBarActions);
+        webElementInteraction.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
+        webElementInteraction.clickElement(configureDashletButton);
 
-        return (EnterFeedURLPopUp) enterFeedURLPopUp.renderedPage();
+        return new EnterFeedURLPopUp(webDriver);
     }
 
     public RssFeedDashlet clickOnRssLink(int position)
     {
         LOG.info("Click on rss link found at position: {}", position);
-        browser.waitUntilElementsVisible(feedsList).get(position).click();
+        webElementInteraction.waitUntilElementsAreVisible(feedsList).get(position).click();
 
         return this;
     }
@@ -73,35 +63,35 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public RssFeedDashlet assertRssFeedLinkIsOpenedInNewBrowserTab(String expectedUrlTitle)
     {
         LOG.info("Assert RSS Feed window is opened");
-        int tabs = browser.getWindowHandles().size();
+        int tabs = webElementInteraction.getWindowHandles().size();
         int retry = 0;
         while(tabs != 2 && retry < 15)
         {
             LOG.error("Wait for RSS tab to open");
-            tabs = browser.getWindowHandles().size();
+            tabs = webElementInteraction.getWindowHandles().size();
             retry++;
         }
-        getBrowser().switchWindow(1);
-        getBrowser().waitUrlContains(expectedUrlTitle, 20);
-        assertTrue(getBrowser().getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
-        getBrowser().closeWindowAndSwitchBack();
+        webElementInteraction.switchWindow(1);
+        webElementInteraction.waitUrlContains(expectedUrlTitle, 20);
+        assertTrue(webElementInteraction.getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
+        webElementInteraction.closeWindowAndSwitchBack();
+
         return this;
     }
 
     public RssFeedDashlet assertListSizeEquals(int expectedListSize)
     {
         LOG.info("Assert list size equals: {}", expectedListSize);
-        browser.refresh();
-        assertEquals(feedsList.size(), expectedListSize,
+        assertEquals(webElementInteraction.waitUntilElementsAreVisible(feedsList).size(), expectedListSize,
             String.format("List size not equals %d ", expectedListSize));
 
         return this;
     }
 
-    public RssFeedDashlet assertHelpBalloonIsNotDisplayed()
+    public RssFeedDashlet assertFeedListIsEmpty()
     {
-        LOG.info("Assert help balloon is not displayed");
-        assertFalse(isHelpBalloonDisplayed(), "Help balloon is displayed");
+        LOG.info("Assert feed list is empty");
+        assertFalse(webElementInteraction.isElementDisplayed(feedsList),"Feed list is not empty");
         return this;
     }
 }

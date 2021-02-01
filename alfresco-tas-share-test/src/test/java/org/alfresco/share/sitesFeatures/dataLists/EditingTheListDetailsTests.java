@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -23,10 +22,10 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     //@Autowired
     DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     CreateDataListDialog createDataListDialog;
 
-    @Autowired
+    //@Autowired
     EditListDetailsPopUp editListDetailsPopUp;
 
     private String userName;

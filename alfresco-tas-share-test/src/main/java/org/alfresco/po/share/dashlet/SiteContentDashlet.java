@@ -3,59 +3,50 @@ package org.alfresco.po.share.dashlet;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_60;
 
-import java.util.List;
+import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 
-@PageObject
 public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 {
-    private DocumentDetailsPage documentDetailsPage;
-
-    @FindAll (@FindBy (css = ".yuimenuitemlabel.yuimenuitemlabel"))
-    protected List<WebElement> filters;
-
-    @FindBy (css = "div.dashlet.docsummary")
-    private WebElement dashletContainer;
-
-    @FindBy (css = "div.dashlet.docsummary span[class$='first-child'] [title='Simple View']")
-    private WebElement simpleViewIcon;
-
-    @FindBy (css = " div.dashlet.docsummary span[class$='first-child'] [title='Detailed View']")
-    private WebElement detailedViewIcon;
-
-    @FindBy (css = "[id$='default-filters']")
-    private WebElement defaultFilterButton;
-
+    private final By filters = By.cssSelector("div[class^='dashlet docsummary'] .yuimenuitemlabel");
+    private final By dashletContainer = By.cssSelector("div.dashlet.docsummary");
+    private final By simpleViewIcon = By.cssSelector("div.dashlet.docsummary span[class$='first-child'] [title='Simple View']");
+    private final By detailedViewIcon = By.cssSelector("div.dashlet.docsummary span[class$='first-child'] [title='Detailed View']");
+    private final By defaultFilterButton = By.cssSelector("[id$='default-filters']");
     private final By emptyMessage = By.cssSelector("div[id$='default-documents'] .empty");
     protected String documentRow = "//div[starts-with(@class, 'dashlet docsummary')]//a[text()='%s']/../../../..";
 
+    public SiteContentDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     protected String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+            .findElement(dashletTitle));
     }
 
     protected WebElement getDocumentRow(String documentName)
     {
-        return browser.waitWithRetryAndReturnWebElement
-            (By.xpath(String.format(documentRow, documentName)), WAIT_1, RETRY_TIMES);
+        return webElementInteraction.waitWithRetryAndReturnWebElement(
+            By.xpath(String.format(documentRow, documentName)), WAIT_1.getValue(), WAIT_60.getValue());
     }
 
     public SiteContentDashlet assertEmptySiteContentMessageIsCorrect()
     {
         LOG.info("Assert empty site content message is correct");
-        assertEquals(getBrowser().findElement(emptyMessage).getText(), language.translate("siteContentDashlet.emptyList"),
+        assertEquals(webElementInteraction.getElementText(emptyMessage), language.translate("siteContentDashlet.emptyList"),
         "Empty list site content dashlet message is not correct");
 
         return this;
@@ -64,21 +55,21 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public SiteContentDashlet clickSimpleViewIcon()
     {
         LOG.info("Click simple view icon");
-        simpleViewIcon.click();
+        webElementInteraction.clickElement(simpleViewIcon);
         return this;
     }
 
     public SiteContentDashlet openFilterDropdown()
     {
         LOG.info("Open filter dropdown");
-        defaultFilterButton.click();
+        webElementInteraction.clickElement(defaultFilterButton);
         return this;
     }
 
     public SiteContentDashlet assertFilterLabelEquals(String expectedFilterLabel)
     {
         LOG.info("Assert filter label equals: {}", expectedFilterLabel);
-        WebElement dropdownFilterLabel = browser.findFirstElementWithValue(filters, expectedFilterLabel);
+        WebElement dropdownFilterLabel = webElementInteraction.findFirstElementWithValue(filters, expectedFilterLabel);
         assertEquals(dropdownFilterLabel.getText(), expectedFilterLabel,
             String.format("Filter label not equals %s ", expectedFilterLabel));
 
@@ -88,7 +79,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public SiteContentDashlet assertDetailedViewIconIsDisplayed()
     {
         LOG.info("Assert detailed view icon is displayed");
-        assertTrue(browser.isElementDisplayed(detailedViewIcon), "Detailed view icon is not displayed");
+        webElementInteraction.waitUntilElementIsVisible(detailedViewIcon);
+        assertTrue(webElementInteraction.isElementDisplayed(detailedViewIcon), "Detailed view icon is not displayed");
 
         return this;
     }
@@ -96,18 +88,22 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public SiteContentDashlet clickDetailedViewButton()
     {
         LOG.info("Click detailed view button");
-        browser.waitUntilElementVisible(detailedViewIcon).click();
+        webElementInteraction.clickElement(detailedViewIcon);
         return this;
     }
 
     public ManageSiteContent usingDocument(FileModel file)
     {
-        return new ManageSiteContent(this, documentDetailsPage, file);
+        return new ManageSiteContent(this,
+            webElementInteraction,
+            new DocumentDetailsPage(webDriver),
+            file);
     }
 
     public class ManageSiteContent
     {
         private SiteContentDashlet siteContentDashlet;
+        private WebElementInteraction webElementInteraction;
         private DocumentDetailsPage documentDetailsPage;
         private FileModel file;
 
@@ -124,18 +120,17 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         private By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite0 enabled']");
         private By commentLink = By.cssSelector("a.comment");
 
-        public ManageSiteContent(SiteContentDashlet siteContentDashlet, DocumentDetailsPage documentDetailsPage, FileModel file)
+        public ManageSiteContent(SiteContentDashlet siteContentDashlet,
+                                 WebElementInteraction webElementInteraction,
+                                 DocumentDetailsPage documentDetailsPage,
+                                 FileModel file)
         {
             this.siteContentDashlet = siteContentDashlet;
+            this.webElementInteraction = webElementInteraction;
             this.documentDetailsPage = documentDetailsPage;
             this.file = file;
 
             LOG.info(String.format("Using file: %s in Site Content dashlet", file.getName()));
-        }
-
-        private WebBrowser getBrowser()
-        {
-            return siteContentDashlet.getBrowser();
         }
 
         public WebElement getFileRow()
@@ -145,13 +140,13 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
         public ManageSiteContent assertFileIsDisplayed()
         {
-            assertTrue(getBrowser().isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
             return this;
         }
 
         public ManageSiteContent assertFileIsNotDisplayed()
         {
-            assertFalse(getBrowser().isElementDisplayed(
+            assertFalse(webElementInteraction.isElementDisplayed(
                 By.xpath(String.format(siteContentDashlet.documentRow, file.getName()))));
             return this;
         }
@@ -167,15 +162,17 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         public ManageSiteContent assertThumbnailIsDisplayed()
         {
             LOG.info("Assert thumbnail is displayed");
-            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(thumbnail)),
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(thumbnail)),
                 "Thumbnail is not displayed");
             return this;
         }
 
-        public void clickFileName()
+        public DocumentDetailsPage clickFileName()
         {
             LOG.info("Click file name");
             getFileRow().findElement(fileNameLocator).click();
+
+            return new DocumentDetailsPage(webDriver);
         }
 
         public ManageSiteContent assertDescriptionEqualsTo(String expectedDescription)
@@ -189,8 +186,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         public ManageSiteContent assertFileVersionEqualsTo(double expectedVersion)
         {
             LOG.info("Assert file version equals to {}", expectedVersion);
-            getBrowser().mouseOver(getFileRow().findElement(fileNameLocator));
-            getBrowser().waitUntilChildElementIsPresent(getFileRow(), documentVersion);
+            webElementInteraction.mouseOver(getFileRow().findElement(fileNameLocator));
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), documentVersion);
             assertEquals(Double.valueOf(getFileRow().findElement(documentVersion).getText()), expectedVersion,
                 "File version is not correct");
             return this;
@@ -207,14 +204,14 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         public ManageSiteContent assertLikeIsDisplayed()
         {
             LOG.info("Assert like is displayed");
-            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(likeAction)), "Like is not displayed");
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(likeAction)), "Like is not displayed");
             return this;
         }
 
         public ManageSiteContent assertUnlikeIsDisplayed()
         {
             LOG.info("Assert unlike is displayed");
-            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is not displayed");
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is not displayed");
             return this;
         }
 
@@ -238,23 +235,23 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
             {
                 likeBtn = getFileRow().findElement(likeAction);
             }
-            browser.clickJS(likeBtn);
-            browser.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
+            webElementInteraction.clickJS(likeBtn);
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
             return this;
         }
 
         public ManageSiteContent clickUnlike()
         {
             LOG.info("Click unlike");
-            browser.clickJS(getFileRow().findElement(unlikeAction));
-            browser.waitUntilChildElementIsPresent(getFileRow(), likeAction);
+            webElementInteraction.clickJS(getFileRow().findElement(unlikeAction));
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), likeAction);
             return this;
         }
 
         public ManageSiteContent assertAddToFavoriteIsDisplayed()
         {
             LOG.info("Assert add to favorite is displayed");
-            assertTrue(browser.isElementDisplayed(getFileRow().findElement(favoriteAction)),
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(favoriteAction)),
                 "Favorite action is not displayed");
             return this;
         }
@@ -262,7 +259,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         public ManageSiteContent assertRemoveFromFavoriteIsDisplayed()
         {
             LOG.info("Assert remove from favorite is displayed");
-            assertTrue(browser.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
             "Remove from favorite is not displayed");
             return this;
         }
@@ -270,22 +267,23 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         public ManageSiteContent addToFavorite()
         {
             LOG.info("Add file to favorite");
-            browser.clickJS(getFileRow().findElement(favoriteAction));
-            browser.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
+            webElementInteraction.clickJS(getFileRow().findElement(favoriteAction));
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
             return this;
         }
 
         public ManageSiteContent removeFromFavorite()
         {
             LOG.info("Remove file from favorite");
-            browser.clickJS(getFileRow().findElement(removeFromFavorite));
-            browser.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
+            webElementInteraction.clickJS(getFileRow().findElement(removeFromFavorite));
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
             return this;
         }
 
-        public void clickCommentLink()
+        public DocumentDetailsPage clickCommentLink()
         {
             getFileRow().findElement(commentLink).click();
+            return new DocumentDetailsPage(webDriver);
         }
     }
 }

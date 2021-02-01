@@ -59,10 +59,10 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     //@Autowired
     SelectPopUpPage selectPopUpPage;
 
-    @Autowired
+    //@Autowired
     MyTasksDashlet myTasksDashlet;
 
-    @Autowired
+    //@Autowired
     EditTaskPage editTaskPage;
 
     //@Autowired
@@ -339,7 +339,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent(workflowMessage),
             "'" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
         myTasksDashlet.clickTaskName(workflowMessage);
-        Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
+        //Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 10: Verify items list.");
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(docName),

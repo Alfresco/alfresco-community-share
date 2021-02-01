@@ -1,29 +1,20 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.po.share.SharePage2;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Link;
 
-@PageObject
-public class ViewTaskPage extends SharePage<ViewTaskPage>
+public class ViewTaskPage extends SharePage2<ViewTaskPage>
 {
-    @Autowired
-    WorkflowDetailsPage workflowDetailsPage;
+    private final By workflowDetailsLink = By.cssSelector("a[href*='workflow-details']");
+    private final By taskDetails = By.cssSelector("div[class$='task-details-header'] h1");
+    private final By inviteTaskDetails = By.cssSelector("div[class='invite-task-title'] span");
 
-    @RenderWebElement
-    @FindBy (css = "a[href*='workflow-details']")
-    private WebElement workflowDetailsLink;
-
-    @FindBy (css = "div[class$='task-details-header'] h1")
-    private WebElement taskDetails;
-
-    @FindBy (css = "div[class='invite-task-title'] span")
-    private WebElement inviteTaskDetails;
+    public ViewTaskPage(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getRelativePath()
@@ -34,25 +25,25 @@ public class ViewTaskPage extends SharePage<ViewTaskPage>
     public ViewTaskPage assertViewTaskPageIsOpened()
     {
         LOG.info("Assert View task page is opened");
-        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "View task page is opened");
-        Assert.assertTrue(browser.isElementDisplayed(workflowDetailsLink), "Workflow details link is displayed");
+        webElementInteraction.waitUntilElementIsVisible(workflowDetailsLink);
+        Assert.assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "View task page is opened");
+        Assert.assertTrue(webElementInteraction.isElementDisplayed(workflowDetailsLink), "Workflow details link is displayed");
         return this;
     }
 
     public String getRequestDetails()
     {
-        return taskDetails.getText();
+        return webElementInteraction.getElementText(taskDetails);
     }
 
     public String getInviteTaskTitle()
     {
-        return inviteTaskDetails.getText();
+        return webElementInteraction.getElementText(inviteTaskDetails);
     }
 
     public WorkflowDetailsPage clickWorkflowDetailsLink()
     {
-        workflowDetailsLink.click();
-        return (WorkflowDetailsPage) workflowDetailsPage.renderedPage();
+        webElementInteraction.clickElement(workflowDetailsLink);
+        return new WorkflowDetailsPage(webDriver);
     }
-
 }

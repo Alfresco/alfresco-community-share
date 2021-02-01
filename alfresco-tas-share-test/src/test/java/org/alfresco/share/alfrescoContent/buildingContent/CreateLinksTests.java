@@ -6,78 +6,62 @@ import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.share.BaseTest;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-public class CreateLinksTests extends ContextAwareWebTest
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
+public class CreateLinksTests extends BaseTest
 {
-    private String randomName = RandomStringUtils.randomAlphanumeric(5);
-    private UserModel linksUser;
-    private SiteModel testSite;
-    private FileModel file1;
-    private FileModel file2;
-    private FolderModel testFolder;
-
-    //@Autowired
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    private final ThreadLocal<FileModel> file = new ThreadLocal<>();
     private DocumentLibraryPage2 documentLibraryPage;
-
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
     private MyActivitiesDashlet myActivitiesDashlet;
-
-    @Autowired
     private SiteActivitiesDashlet siteActivitiesDashlet;
-
-   // @Autowired
     private SearchPage searchPage;
-
-    //@Autowired
     private SiteDashboardPage siteDashboardPage;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        linksUser = dataUser.usingAdmin().createRandomTestUser();
-        testSite = dataSite.usingUser(linksUser).createPublicRandomSite();
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        myActivitiesDashlet = new MyActivitiesDashlet(webDriver);
+        siteActivitiesDashlet = new SiteActivitiesDashlet(webDriver);
+        searchPage = new SearchPage(webDriver);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
 
-        file1 = new FileModel(randomName + "-file1.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
-        file2 = new FileModel(randomName + "-file2.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
-        testFolder = FolderModel.getRandomFolderModel();
-        cmisApi.authenticateUser(linksUser).usingSite(testSite)
-            .createFile(file1).createFile(file2).createFolder(testFolder);
-        setupAuthenticatedSession(linksUser);
-    }
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(linksUser);
-        deleteSites(testSite);
+        file.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get()).createFile(file.get());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C42605")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibraryActions()
     {
-//        documentLibraryPage.navigate(testSite)
-//            .usingContent(file1, )
-//                .clickCopyTo().assertCreateLinkButtonIsDisplayed();
+        documentLibraryPage.navigate(site.get())
+            .usingContent(file.get())
+                .clickCopyTo().assertCreateLinkButtonIsDisplayed();
     }
 
     @TestRail (id = "C42606")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibrarySelectedItemsSingleItem()
     {
-        documentLibraryPage.navigate(testSite)
-            .checkContent(file1)
+        documentLibraryPage.navigate(site.get())
+            .checkContent(file.get())
                 .clickSelectedItems().clickCopyToFromSelectedItems()
                     .assertCreateLinkButtonIsDisplayed();
     }
@@ -86,8 +70,15 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibrarySelectedItemsMultipleItems()
     {
-        documentLibraryPage.navigate(testSite)
-            .checkContent(file1, file2, testFolder)
+        FileModel file2 = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
+        FolderModel folder = FolderModel.getRandomFolderModel();
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get())
+                .createFile(file2)
+                .createFolder(folder);
+
+        documentLibraryPage.navigate(site.get())
+            .checkContent(file.get(), file2, folder)
                 .clickSelectedItems().clickCopyToFromSelectedItems()
                     .assertCreateLinkButtonIsDisplayed();
     }
@@ -96,7 +87,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocumentDetailsActions()
     {
-        documentDetailsPage.navigate(file1)
+        documentDetailsPage.navigate(file.get())
             .clickCopyTo().assertCreateLinkButtonIsDisplayed();
     }
 
@@ -104,8 +95,8 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromSearchResultsActions()
     {
-        searchPage.navigate().searchForContentWithRetry(file1)
-            .usingContent(file1).assertIsDisplayed()
+        searchPage.navigate().searchForContentWithRetry(file.get())
+            .usingContent(file.get()).assertIsDisplayed()
                 .clickActions().clickCopyTo()
                     .assertCreateLinkButtonIsDisplayed().assertCreateLinkButtonIsDisabled();
     }
@@ -114,6 +105,13 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromSearchResultsMultipleItemsSelected()
     {
+        String randomName = RandomStringUtils.randomAlphanumeric(5);
+        FileModel file1 = new FileModel(randomName + "-file1.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
+        FileModel file2 = new FileModel(randomName + "-file2.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get())
+                .createFile(file1).createFile(file2);
+
         searchPage.navigate()
             .searchWithKeywordAndWaitForContents(randomName, file1, file2);
         searchPage.usingContent(file1).assertIsDisplayed();
@@ -127,67 +125,77 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonInMoveToDialog()
     {
-//        documentLibraryPage.navigate(testSite)
-//            .usingContent(file1)
-//                .clickMoveTo().assertCreateLinkButtonIsNotDisplayed();
+        documentLibraryPage.navigate(site.get())
+            .usingContent(file.get())
+                .clickMoveTo().assertCreateLinkButtonIsNotDisplayed();
     }
 
     @TestRail (id = "C42614")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLinkIsCreatedAtDestination()
     {
-//        FileModel linkedFile = new FileModel(String.format("Link to %s", file1.getName()));
-//        documentLibraryPage.navigate(testSite)
-//            .usingContent(file1).clickCopyTo()
-//                .selectRecentSitesDestination()
-//                .selectSite(testSite).selectFolder(testFolder)
-//                    .clickCreateLinkButton();
-//        documentLibraryPage.assertLastNotificationMessageEquals(String.format(language.translate("links.create.notificationMessage"), "1"))
-//            .usingContent(testFolder).selectFolder()
-//                .usingContent(linkedFile)
-//                    .assertContentIsDisplayed()
-//                    .assertThumbnailLinkTypeIsDisplayed();
+        FileModel linkedFile = new FileModel(String.format("Link to %s", file.get().getName()));
+        FolderModel folder = FolderModel.getRandomFolderModel();
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get()).createFolder(folder);
+
+        documentLibraryPage.navigate(site.get())
+            .usingContent(file.get()).clickCopyTo()
+                .selectRecentSitesDestination()
+                .selectSite(site.get()).selectFolder(folder)
+                    .clickCreateLinkButton();
+        documentLibraryPage.assertLastNotificationMessageEquals(String.format(language.translate("links.create.notificationMessage"), "1"))
+            .usingContent(folder).selectFolder()
+                .usingContent(linkedFile)
+                    .assertContentIsDisplayed()
+                    .assertThumbnailLinkTypeIsDisplayed();
     }
 
     @TestRail (id = "C42620")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void duplicateLinksAreNotAllowed()
     {
-//        documentLibraryPage.navigate(testSite)
-//            .usingContent(file2).clickCopyTo()
-//            .selectRecentSitesDestination()
-//            .selectSite(testSite).selectFolder(testFolder)
-//                .clickCreateLinkButton();
-//        documentLibraryPage.usingContent(file2)
-//                .clickCopyTo()
-//            .selectRecentSitesDestination().selectSite(testSite).selectFolder(testFolder)
-//                .clickCreateLinkButton(); //TODO: update message after ACS version is changed on develop env
-        //documentLibraryPage.assertLastNotificationMessageEquals(language.translate("links.duplicate.notificationMessage"));
+        FolderModel folder = FolderModel.getRandomFolderModel();
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get()).createFolder(folder);
+
+        documentLibraryPage.navigate(site.get())
+            .usingContent(file.get()).clickCopyTo()
+            .selectRecentSitesDestination()
+            .selectSite(site.get()).selectFolder(folder)
+                .clickCreateLinkButton();
+        documentLibraryPage.usingContent(file.get())
+                .clickCopyTo()
+            .selectRecentSitesDestination().selectSite(site.get()).selectFolder(folder)
+                .clickCreateLinkButton();
+        documentLibraryPage.assertLastNotificationMessageEquals(language.translate("links.duplicate.notificationMessage"));
     }
 
     @TestRail (id = "C42621")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createdLinkDisplayedInMyActivitiesDashlet()
     {
-//        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-//        cmisApi.usingSite(testSite).createFile(userFile);
-//        documentLibraryPage.navigate(testSite)
-//            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
-//                .clickCreateLinkButton();
-//        userDashboard.navigate(linksUser);
-//        myActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile, testSite);
+        documentLibraryPage.navigate(site.get())
+            .usingContent(file.get())
+                .clickCopyTo().selectSite(site.get())
+                .clickCreateLinkButton();
+        userDashboardPage.navigate(user.get());
+        myActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(user.get(), file.get(), site.get());
     }
 
     @TestRail (id = "C42622")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createdLinkDisplayedInSiteActivitiesDashlet()
     {
-//        FileModel userFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-//        cmisApi.usingSite(testSite).createFile(userFile);
-//        documentLibraryPage.navigate(testSite)
-//            .usingContent(userFile).clickCopyTo().selectSite(testSite).selectFolder(testFolder)
-//                .clickCreateLinkButton();
-//        siteDashboardPage.navigate(testSite);
-//        siteActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(linksUser, userFile);
+        documentLibraryPage.navigate(site.get())
+            .usingContent(file.get()).clickCopyTo().selectSite(site.get())
+                .clickCreateLinkButton();
+        siteDashboardPage.navigate(site.get());
+        siteActivitiesDashlet.assertCreatedLinkActivityIsDisplayed(user.get(), file.get());
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

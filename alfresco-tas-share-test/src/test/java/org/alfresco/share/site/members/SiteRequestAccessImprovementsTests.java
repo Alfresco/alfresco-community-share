@@ -47,7 +47,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     private PendingInvitesPage pendingInvitesPage;
    // @Autowired
     private MyTasksPage myTasksPage;
-    @Autowired
+    //@Autowired
     private EditTaskPage editTaskPage;
     private String userName2, userName3, user2, group, task;
 

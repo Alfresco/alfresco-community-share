@@ -27,10 +27,10 @@ public class DeletingADataListTests extends ContextAwareWebTest
     @Autowired
     DataListsService dataLists;
 
-    @Autowired
+    //@Autowired
     CreateDataListDialog createDataListDialog;
 
-    @Autowired
+    //@Autowired
     DeleteListPopUp deleteListPopUp;
 
     private String userName;

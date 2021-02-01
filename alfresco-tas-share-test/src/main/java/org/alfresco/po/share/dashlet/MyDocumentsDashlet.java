@@ -1,65 +1,61 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_60;
+
+import org.alfresco.common.WebElementInteraction;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.utility.model.FileModel;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
+import java.util.List;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import java.util.List;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
-
-@PageObject
 public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 {
-    @FindBy (css = "div.dashlet.my-documents")
-    protected WebElement dashletContainer;
+    private final By dashletContainer = By.cssSelector("div.dashlet.my-documents");
+    private final By filterOptions = By.cssSelector("div[class*='my-documents'] div.bd ul li");
+    private final By filterButton = By.cssSelector("div[class*='my-documents'] button[id$='default-filters-button']");
+    private final By simpleViewButton = By.cssSelector("div[id$='default-simpleDetailed'] span:nth-of-type(1) button");
+    private final By detailedViewButtonSpan = By.cssSelector("span[class*='detailed-view']");
+    private final By detailedViewButton = By.cssSelector("span[class*='detailed-view'] button");
+    private final By documentNameLink = By.cssSelector("h3.filename > a");
+    private final By documentsArea = By.cssSelector("div[id$='default-documents'] .yui-dt-data");
 
-    @FindAll (@FindBy (css = "div[id$='default-documents'] tr[class*='yui-dt-rec']"))
-    protected List<WebElement> documentRowList;
+    private final String documentRow = "//div[starts-with(@class,'dashlet my-documents')]//a[text()='%s']/../../../..";
+    private final String buttonChecked = "yui-radio-button-checked";
 
-    @FindAll (@FindBy (css = "div[class*='my-documents'] div.bd ul li"))
-    protected List<WebElement> filterOptions;
-
-    @FindBy (css = "div[class*='my-documents'] button[id$='default-filters-button']")
-    protected WebElement filterButton;
-
-    @FindBy (css = "div[class*='my-documents'] div[class*='empty']")
-    protected WebElement defaultDocumentsText;
-
-    @FindBy (css = "div[id$='default-simpleDetailed'] span:nth-of-type(1) button")
-    private WebElement simpleViewButton;
-
-    @FindBy (css = "div[id$='default-simpleDetailed'] span:nth-of-type(2) button")
-    private WebElement detailedViewButton;
-
-    private DocumentDetailsPage documentDetailsPage;
-
-    protected String documentRow = "//div[starts-with(@class,'dashlet my-documents')]//a[text()='%s']/../../../..";
-    private By documentNameLink = By.cssSelector("h3.filename > a");
+    public MyDocumentsDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
-    }
-
-    @Override
-    public String getRelativePath()
-    {
-        return super.getRelativePath();
+        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public WebElement getDocumentRow(String documentName)
     {
-        return browser.waitWithRetryAndReturnWebElement
-            (By.xpath(String.format(documentRow, documentName)), 1, WAIT_30);
+        By docLocator = By.xpath(String.format(documentRow, documentName));
+        boolean found = webElementInteraction.isElementDisplayed(docLocator);
+        int i = 0;
+        while (i < WAIT_60.getValue() && !found)
+        {
+            i++;
+            LOG.info("Wait for document {} to be displayed in My Documents dashlet", documentName);
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(1);
+            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+            found = webElementInteraction.isElementDisplayed(docLocator);
+        }
+        return webElementInteraction.waitUntilElementIsVisible(docLocator);
     }
 
     private String getFilterValue(DocumentsFilter filter)
@@ -84,45 +80,48 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet assertSelectedFilterIs(DocumentsFilter filter)
     {
-        assertEquals(filterButton.getText().substring(0, filterButton.getText().length() - 2),
+        String filterText = webElementInteraction.getElementText(filterButton);
+        assertEquals(filterText.substring(0, filterText.length() - 2),
             getFilterValue(filter), "Selected filter is correct");
         return this;
     }
 
     public MyDocumentsDashlet filter(DocumentsFilter filter)
     {
-        browser.waitUntilElementClickable(filterButton).click();
-        browser.selectOptionFromFilterOptionsList(getFilterValue(filter), filterOptions);
+        webElementInteraction.waitUntilElementClickable(filterButton).click();
+        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(filterOptions);
+        webElementInteraction.selectOptionFromFilterOptionsList(getFilterValue(filter), options);
         return this;
     }
 
     public MyDocumentsDashlet selectDetailedView()
     {
-        detailedViewButton.click();
+        LOG.info("Select Detailed View");
+        webElementInteraction.clickElement(detailedViewButton);
+        webElementInteraction.waitUntilElementHasAttribute(detailedViewButtonSpan, "class", buttonChecked);
+
         return this;
     }
 
     public MyDocumentsDashlet selectSimpleView()
     {
-        simpleViewButton.click();
+        LOG.info("Select Simple View");
+        webElementInteraction.clickElement(simpleViewButton);
+        webElementInteraction.waitUntilElementIsVisible(documentsArea);
         return this;
     }
 
-    /**
-     * Check that expected number of documents are listed
-     *
-     * @param noOfDocs
-     * @return
-     */
     public boolean isNumberOfDocumentsDisplayed(int noOfDocs)
     {
-        boolean bool = dashletContainer.findElements(By.cssSelector("h3.filename > a")).size() == noOfDocs;
+        webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+        boolean bool = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+            .findElements(documentNameLink).size() == noOfDocs;
         int i = 0;
         while (!bool && i < 5)
         {
-            browser.refresh();
-            renderedPage();
-            bool = dashletContainer.findElements(By.cssSelector("h3.filename > a")).size() == noOfDocs;
+            webElementInteraction.refresh();
+            bool = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+                .findElements(documentNameLink).size() == noOfDocs;
             i++;
         }
         return bool;
@@ -136,7 +135,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public ManagerMyDocument usingDocument(FileModel file)
     {
-        return new ManagerMyDocument(this, documentDetailsPage, file);
+        return new ManagerMyDocument(this, webElementInteraction, file);
     }
 
     public enum DocumentsFilter
@@ -148,33 +147,30 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public class ManagerMyDocument
     {
-        private MyDocumentsDashlet myDocumentsDashlet;
-        private DocumentDetailsPage documentDetailsPage;
-        private FileModel file;
+        private final MyDocumentsDashlet myDocumentsDashlet;
+        private final WebElementInteraction webElementInteraction;
+        private final FileModel file;
 
-        private By documentNameLink = By.cssSelector("h3.filename > a");
-        private By smallIconThumbnail = By.cssSelector("td[headers$='thumbnail '] .icon32");
-        private By commentLink = By.cssSelector(".comment");
-        private By likeAction = By.cssSelector("a[class='like-action like4']");
-        private By unlikeAction = By.cssSelector("a[class='like-action like4 enabled']");
-        private By likesCount = By.cssSelector(".likes-count");
-        private By favoriteAction = By.cssSelector("a[class^='favourite-action']");
-        private By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite3 enabled']");
-        private By descriptionElement = By.cssSelector(".faded");
-        private By versionElement = By.cssSelector(".document-version");
-        private By thumbnail = By.cssSelector("td[headers$='thumbnail '] a");
+        private final By documentNameLink = By.cssSelector("h3.filename > a");
+        private final By smallIconThumbnail = By.cssSelector("td[headers$='thumbnail '] .icon32");
+        private final By commentLink = By.cssSelector(".comment");
+        private final By likeAction = By.cssSelector("a[class='like-action like4']");
+        private final By unlikeAction = By.cssSelector("a[class='like-action like4 enabled']");
+        private final By likesCount = By.cssSelector(".likes-count");
+        private final By favoriteAction = By.cssSelector("a[class^='favourite-action']");
+        private final By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite3 enabled']");
+        private final By descriptionElement = By.cssSelector(".faded");
+        private final By versionElement = By.cssSelector(".document-version");
+        private final By thumbnail = By.cssSelector("td[headers$='thumbnail '] a");
 
-        public ManagerMyDocument(MyDocumentsDashlet myDocumentsDashlet, DocumentDetailsPage documentDetailsPage, FileModel file)
+        public ManagerMyDocument(MyDocumentsDashlet myDocumentsDashlet,
+                                 WebElementInteraction webElementInteraction,
+                                 FileModel file)
         {
             this.myDocumentsDashlet = myDocumentsDashlet;
-            this.documentDetailsPage = documentDetailsPage;
+            this.webElementInteraction = webElementInteraction;
             this.file = file;
             LOG.info(String.format("Using file: %s in My Documents dashlet", file.getName()));
-        }
-
-        private WebBrowser getBrowser()
-        {
-            return myDocumentsDashlet.getBrowser();
         }
 
         public WebElement getFileRow()
@@ -184,39 +180,40 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument assertFileIsDisplayed()
         {
-            assertTrue(getBrowser().isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
             return this;
         }
 
         public ManagerMyDocument assertFileIsNotDisplayed()
         {
-            Assert.assertFalse(getBrowser().isElementDisplayed(
+            Assert.assertFalse(webElementInteraction.isElementDisplayed(
                 By.xpath(String.format(myDocumentsDashlet.documentRow, file.getName()))));
             return this;
         }
 
         public ManagerMyDocument assertSmallIconThumbnailIsDisplayed()
         {
-            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(smallIconThumbnail)),
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(smallIconThumbnail)),
                 "Small icon thumbnail is displayed");
             return this;
         }
 
         public ManagerMyDocument assertCommentLinkIsDisplayed()
         {
-            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(commentLink)), "Comment link is displayed");
+            webElementInteraction.waitUntilElementIsVisible(commentLink);
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(commentLink)), "Comment link is displayed");
             return this;
         }
 
         public ManagerMyDocument assertLikeIsDisplayed()
         {
-            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(likeAction)), "Like is displayed");
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(likeAction)), "Like is displayed");
             return this;
         }
 
         public ManagerMyDocument assertUnlikeIsDisplayed()
         {
-            assertTrue(getBrowser().isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is displayed");
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is displayed");
             return this;
         }
 
@@ -238,36 +235,36 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             {
                 likeBtn = getFileRow().findElement(likeAction);
             }
-            browser.clickJS(likeBtn);
-            browser.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
+            webElementInteraction.clickJS(likeBtn);
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
             return this;
         }
 
         public ManagerMyDocument assertAddToFavoriteIsDisplayed()
         {
-            assertTrue(browser.isElementDisplayed(getFileRow().findElement(favoriteAction)),
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(favoriteAction)),
                 "Favorite action is displayed");
             return this;
         }
 
         public ManagerMyDocument assertRemoveFromFavoriteIsDisplayed()
         {
-            assertTrue(browser.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
                 "Remove from favorite is displayed");
             return this;
         }
 
         public ManagerMyDocument addToFavorite()
         {
-            browser.clickJS(getFileRow().findElement(favoriteAction));
-            browser.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
+            webElementInteraction.clickJS(getFileRow().findElement(favoriteAction));
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
             return this;
         }
 
         public ManagerMyDocument removeFromFavorite()
         {
-            browser.clickJS(getFileRow().findElement(removeFromFavorite));
-            browser.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
+            webElementInteraction.clickJS(getFileRow().findElement(removeFromFavorite));
+            webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
             return this;
         }
 
@@ -282,8 +279,8 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         {
             WebElement row = getFileRow();
             WebElement docName = row.findElement(documentNameLink);
-            getBrowser().mouseOver(docName);
-            getBrowser().waitUntilElementHasAttribute(row, "class", "highlighted");
+            webElementInteraction.mouseOver(docName);
+            webElementInteraction.waitUntilElementHasAttribute(row, "class", "highlighted");
             assertEquals(row.findElement(versionElement).getText(), String.valueOf(version),
                 "Document version is correct");
             return this;
@@ -291,23 +288,27 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         public ManagerMyDocument assertThumbnailIsDisplayed()
         {
-            assertTrue(browser.isElementDisplayed(getFileRow().findElement(thumbnail)), "Thumbnail is displayed");
+            LOG.info("Assert thumbnail is displayed");
+            assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(thumbnail)), "Thumbnail is displayed");
             return this;
         }
 
-        public void selectDocument()
+        public DocumentDetailsPage selectDocument()
         {
             getFileRow().findElement(documentNameLink).click();
+            return new DocumentDetailsPage(webDriver);
         }
 
-        public void clickThumbnail()
+        public DocumentDetailsPage clickThumbnail()
         {
             getFileRow().findElement(thumbnail).click();
+            return new DocumentDetailsPage(webDriver);
         }
 
-        public void addComment()
+        public DocumentDetailsPage addComment()
         {
             getFileRow().findElement(commentLink).click();
+            return new DocumentDetailsPage(webDriver);
         }
     }
 }

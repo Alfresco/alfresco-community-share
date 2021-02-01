@@ -219,6 +219,13 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return this;
     }
 
+    public DocumentDetailsPage assertCommentsAreaIsOpened()
+    {
+        webElementInteraction.waitUntilElementIsVisible(commentsIframe);
+        assertTrue(webElementInteraction.isElementDisplayed(commentsIframe), "Comments area is opened");
+        return this;
+    }
+
     public DocumentDetailsPage clickOkOnRevertPopup()
     {
         webElementInteraction.waitUntilElementIsVisible(okOnRevertPopup);

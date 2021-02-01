@@ -1,77 +1,62 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.CheckBox;
-import ru.yandex.qatools.htmlelements.element.Select;
-import ru.yandex.qatools.htmlelements.element.TextInput;
+import org.openqa.selenium.support.ui.Select;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-/**
- * Created by Claudia Agache on 7/7/2016.
- */
-@PageObject
 public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 {
-    @RenderWebElement
-    @FindBy (css = "input[name='url']")
-    private TextInput urlField;
+    private final By urlField = By.cssSelector("input[name='url']");
+    private final By newWindowCheckbox = By.cssSelector("input[id$='default-configDialog-new_window']");
+    private final By numberOfItems = By.cssSelector("select[id$='default-configDialog-limit']");
+    private final By enterFeedURLPopUp = By.cssSelector("div[class^='config-feed']");
+    private final By urlErrorMessage = By.cssSelector("input[id$='default-configDialog-url'][alf-validation-msg*='error']");
+    private final By okButton = By.cssSelector("button[id$='configDialog-ok-button']");
 
-    @FindBy (css = "input[id$='default-configDialog-new_window']")
-    private CheckBox newWindowCheckbox;
-
-    @FindBy (css = "select[id$='default-configDialog-limit']")
-    private Select numberOfItems;
-
-    @FindBy (css = "div[class^='config-feed']")
-    private WebElement enterFeedURLPopUp;
-
-    @FindBy (css = "input[id$='default-configDialog-url'][alf-validation-msg*='error']")
-    private WebElement urlErrorMessage;
-
-    @FindBy (css = "button[id$='configDialog-ok-button']")
-    private WebElement okButton;
+    protected EnterFeedURLPopUp(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     public EnterFeedURLPopUp setUrlValue(String url)
     {
         LOG.info("Set url value: {}", url);
-        urlField.clear();
-        urlField.sendKeys(url);
-
+        webElementInteraction.clearAndType(urlField, url);
         return this;
     }
 
     public EnterFeedURLPopUp selectNumberOfItemsToDisplay(String dropDownValue)
     {
         LOG.info("Select number of item to display from drop-down: {}", dropDownValue);
-        numberOfItems.selectByValue(dropDownValue);
-
+        WebElement itemsSelect = webElementInteraction.waitUntilElementIsVisible(numberOfItems);
+        Select items = new Select(itemsSelect);
+        items.selectByValue(dropDownValue);
         return this;
     }
 
     public EnterFeedURLPopUp selectNumberOfItemsToDisplay(int dropDownValue)
     {
-        LOG.info("Select number of items to display: {}", dropDownValue);
-        numberOfItems.selectByValue(String.valueOf(dropDownValue));
-
+        selectNumberOfItemsToDisplay(String.valueOf(dropDownValue));
         return this;
     }
 
     public EnterFeedURLPopUp selectOpenLinksInNewWindowCheckboxFromDialog()
     {
         LOG.info("Select open links in new window checkbox from dialog");
-        newWindowCheckbox.select();
+        webElementInteraction.clickElement(newWindowCheckbox);
 
         return this;
     }
 
     public EnterFeedURLPopUp assertNumberOfItemsToDisplayFromDropDownIs(String expectedNumberOfItems)
     {
-        assertEquals(numberOfItems.getFirstSelectedOption().getText(), expectedNumberOfItems,
+        WebElement itemsSelect = webElementInteraction.waitUntilElementIsVisible(numberOfItems);
+        Select items = new Select(itemsSelect);
+        assertEquals(items.getFirstSelectedOption().getText(), expectedNumberOfItems,
             "Number of items to be displayed from drop down not equals with expected");
 
         return this;
@@ -80,28 +65,18 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
     public EnterFeedURLPopUp assertNewWindowIsChecked()
     {
         LOG.info("Assert new window is checked");
-        assertTrue(newWindowCheckbox.isSelected(), "New window checkbox is not checked");
-
+        assertTrue(webElementInteraction.waitUntilElementIsVisible(newWindowCheckbox).isSelected(),
+            "New window checkbox is not checked");
         return this;
     }
 
-    /**
-     * Verify presence of "Enter Feed URL" popup in the page.
-     *
-     * @return true if displayed
-     */
     public boolean isEnterFeedURLPopUpDisplayed()
     {
-        return browser.waitUntilElementVisible(enterFeedURLPopUp).isDisplayed();
+        return webElementInteraction.waitUntilElementIsVisible(enterFeedURLPopUp).isDisplayed();
     }
 
-    /**
-     * Verify presence of error message when "URL" field is populated with invalid characters
-     *
-     * @return true if displayed
-     */
     public boolean isUrlErrorMessageDisplayed()
     {
-        return urlErrorMessage.isDisplayed();
+        return webElementInteraction.isElementDisplayed(urlErrorMessage);
     }
 }

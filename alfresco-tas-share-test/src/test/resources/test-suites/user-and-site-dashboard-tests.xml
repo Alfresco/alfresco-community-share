@@ -1,17 +1,19 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="User Dashboard Tests" preserve-order="true">
+<suite name="User Dashboard Tests" parallel="classes" thread-count="3">
    <listeners>
       <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
    </listeners>
 
-   <test name="User Dashboard Tests">
+   <test name="User and Site Dashboard Tests">
       <groups>
          <run>
-           <include name="user-dashboard"></include>
+            <include name="user-dashboard"></include>
+            <include name="site-dashboard"></include>
          </run>
       </groups>
       <packages>
          <package name="org.alfresco.share.userDashboard.*"></package>
+         <package name="org.alfresco.share.site.siteDashboard.*"></package>
       </packages>
    </test>
 

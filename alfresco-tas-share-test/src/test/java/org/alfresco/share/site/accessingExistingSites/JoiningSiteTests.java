@@ -40,13 +40,13 @@ public class JoiningSiteTests extends ContextAwareWebTest
     //@Autowired
     SiteUsersPage siteUsersPage;
 
-    @Autowired
+    //@Autowired
     MySitesDashlet mySitesDashlet;
 
     //@Autowired
     MyTasksPage myTasksPage;
 
-    @Autowired
+    //@Autowired
     EditTaskPage editTaskPage;
 
     //@Autowired

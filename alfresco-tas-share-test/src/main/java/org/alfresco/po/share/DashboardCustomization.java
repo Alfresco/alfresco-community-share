@@ -10,12 +10,8 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.exception.PageOperationException;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 
 /**
@@ -32,7 +28,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     private final By layoutSection = By.cssSelector(".customise-layout");
     private final By dashletsSection = By.cssSelector(".customise-dashlets");
     private final By currentLayout = By.cssSelector("span[id$='_default-currentLayoutDescription-span']");
-    @RenderWebElement
     private final By changeLayout = By.cssSelector("button[id$='_default-change-button-button']");
     private final By oneColumn = By.cssSelector("button[id$='dashboard-1-column-button']");
     private final By twoColumn_left = By.cssSelector( "button[id$='2-columns-wide-left-button']");
@@ -45,7 +40,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     private final By okButton = By.cssSelector("button[id$='save-button-button']");
     private final By addDashlets = By.cssSelector("button[id$='addDashlets-button-button']");
     private final By availableColumns = By.cssSelector("div[id$='default-wrapper-div']");
-    @RenderWebElement
     private final By trashcan = By.cssSelector(".trashcan");
     private final By oneColumnLayout = By.cssSelector("li[id$='layout-li-dashboard-1-column']");
     private final By threeColumnsLayout = By.cssSelector("li[id$='layout-li-dashboard-3-columns']");
@@ -182,7 +176,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     {
         LOG.info("Click OK");
         webElementInteraction.clickElement(okButton);
-        waitUntilNotificationMessageDisappears();
     }
 
     public T addDashlet(Dashlets dashlet, int columnNumber)
@@ -228,7 +221,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
                     By.cssSelector(String.format(targetColumn, columnNumber)));
                 if(!dashlet.getDashletName().equals(Dashlets.CONTENT_I_AM_EDITING.getDashletName()))
                 {
-                    ((JavascriptExecutor) webElementInteraction).executeScript("window.scrollBy(0,500)");
+                    webElementInteraction.executeJavaScript("window.scrollBy(0,500)");
                 }
                 try
                 {
@@ -464,24 +457,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         return (T) this;
     }
 
-    public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column)
-    {
-        List<WebElement> dashlets = getDashlets(dashletToMove, dashletToReplace, column);
-        dashlets.get(0).click();
-        webElementInteraction.waitUntilElementHasAttribute(dashlets.get(0), "class", "dnd-focused");
-        return dashlets;
-    }
-
-    private List<WebElement> getDashlets(Dashlets dashletToMove, Dashlets dashletToReplace, int column)
-    {
-        List<WebElement> elements = new ArrayList<>();
-        WebElement dashToMove = getDashletToMove(dashletToMove, column);
-        WebElement dashToReplace = getDashletToReplace(dashletToReplace, column);
-        elements.add(dashToMove);
-        elements.add(dashToReplace);
-        return elements;
-    }
-
     private WebElement getDashletToMove(Dashlets dashletToMove, int fromColumn)
     {
         WebElement dashToMove;
@@ -489,25 +464,12 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         {
             dashToMove = webElementInteraction.waitUntilElementIsVisible(
                 By.xpath(String.format(addedDashlet, fromColumn, dashletToMove.getDashletName())));
-        } catch (NoSuchElementException ns)
+        }
+        catch (NoSuchElementException ns)
         {
             throw new PageOperationException(dashletToMove.getDashletName() + " not found in column " + fromColumn);
         }
         return dashToMove;
-    }
-
-    private WebElement getDashletToReplace(Dashlets dashletToReplace, int column)
-    {
-        WebElement dashToReplace;
-        try
-        {
-            dashToReplace = webElementInteraction.waitUntilElementIsVisible(
-                By.xpath(String.format(addedDashlet, column, dashletToReplace.getDashletName())));
-        } catch (NoSuchElementException ns)
-        {
-            throw new PageOperationException(dashletToReplace.getDashletName() + " not found in column " + column);
-        }
-        return dashToReplace;
     }
 
     private void isNumberOfDashletsExcedeedInColumn(int toColumn)
@@ -531,16 +493,14 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         }
     }
 
-    public T reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column, int columnPositionToCheck)
+    public T moveDashletDownInColumn(Dashlets dashletToMove, int column)
     {
-        List<WebElement> dashlets = reorderDashletsInColumn(dashletToMove, dashletToReplace, column);
-        dashlets.get(1).click();
-        webElementInteraction.dragAndDrop(dashlets.get(0), dashlets.get(1));
-        if(!isDashletInPositionInColumn(dashletToMove, column, columnPositionToCheck))
-        {
-            LOG.info("Retry reorder dashlet");
-            webElementInteraction.dragAndDrop(dashlets.get(0), dashlets.get(1));
-        }
+        WebElement dashlet = getDashletToMove(dashletToMove, column);
+        webElementInteraction.clickElement(dashlet);
+        webElementInteraction.waitUntilElementHasAttribute(dashlet, "class", "dnd-focused");
+        Actions action = new Actions(webDriver.get());
+        action.sendKeys(Keys.ARROW_DOWN).build().perform();
+
         return (T) this;
     }
 }

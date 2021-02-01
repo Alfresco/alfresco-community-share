@@ -38,19 +38,19 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     //@Autowired
     MyTasksPage myTasksPage;
 
-    @Autowired
+    //@Autowired
     EditTaskPage editTaskPage;
 
-    @Autowired
+    //@Autowired
     ViewTaskPage viewTaskPage;
 
-    @Autowired
+    //@Autowired
     MySitesDashlet mySitesDashlet;
 
    // @Autowired
     UserDashboardPage userDashboardPage;
 
-    @Autowired
+    //@Autowired
     MyTasksDashlet myTasksDashlet;
     @Autowired
     DataUser dataUser;

@@ -4,72 +4,43 @@ import static org.alfresco.common.DataUtil.isEnumContainedByList;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
+
+import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-@PageObject
-public class CreateDataListDialog extends ShareDialog
+public class CreateDataListDialog extends BaseDialogComponent
 {
-    protected static By balloon = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='text']");
-    protected static By balloonCloseButton = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='closeButton']");
+    private final By balloon = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='text']");
+    private final By typesOfList = By.cssSelector("div[id$='itemTypesContainer'] a");
+    private final By titleField = By.cssSelector("input[id$='newList_prop_cm_title']");
+    private final By descriptionField = By.cssSelector("textarea[id$='newList_prop_cm_description']");
+    private final By saveButton = By.cssSelector("button[id$='form-submit-button']");
+    private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
+    private final By newListPopup = By.cssSelector("div[id$='newList-dialog']");
+    private final By titleLabel = By.cssSelector("label[for*='default-newList'][for$='title']");
+    private final By titleMandatoryIndicator = By.cssSelector("label[for*='default-newList'][for$='title'] span[class='mandatory-indicator']");
+    private final By descriptionLabel = By.cssSelector("label[for*='default-newList'][for$='description']");
+    private final By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
 
-    @FindBy (css = "div[id$='itemTypesContainer'] a")
-    protected List<WebElement> typesOfList;
-
-    @FindBy (css = "input[id$='newList_prop_cm_title']")
-    protected WebElement titleField;
-
-    @FindBy (css = "textarea[id$='newList_prop_cm_description']")
-    protected WebElement descriptionField;
-
-    @FindBy (css = "button[id$='form-submit-button']")
-    protected WebElement saveButton;
-
-    @FindBy (css = "button[id$='form-cancel-button']")
-    protected WebElement cancelButton;
-
-    @FindBy (css = "div[id$='newList-dialog']")
-    private WebElement newListPopup;
-
-    @FindBy (css = "label[for*='default-newList'][for$='title']")
-    private WebElement titleLabel;
-
-    @FindBy (css = "label[for*='default-newList'][for$='title'] span[class='mandatory-indicator']")
-    private WebElement titleMandatoryIndicator;
-
-    @FindBy (css = "label[for*='default-newList'][for$='description']")
-    private WebElement descriptionLabel;
-
-    protected By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
     private String typeOfListDescription = "//div[contains(@id, 'itemTypesContainer')]//a[text()='Contact List']//ancestor::*//div[contains(@id, 'itemTypesContainer')]//span";
 
-    //@Autowired
-    private DataListsPage dataListsPage;
-    /**
-     * This method is checking if all the elements that should be in 'New List' popup are actually displayed.
-     * Checking if all the elements from the enum list exists in getValuesFromElements() list method.
-     *
-     * @return - true if all the elements from the enum are displayed in 'New List' popup.
-     * - false if there is at least one element missing.
-     */
+    public CreateDataListDialog(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
+
     public boolean isDataListComplete()
     {
         return isEnumContainedByList(DataListTypes.class, getValuesFromElements());
     }
 
-    /**
-     * Get a list of 'Data List' type names from New List popup.
-     *
-     * @return list of strings.
-     */
     private List<String> getValuesFromElements()
     {
         List<String> typesOfListString = new ArrayList<>();
 
-        for (WebElement item : typesOfList)
+        for (WebElement item : webElementInteraction.waitUntilElementsAreVisible(typesOfList))
         {
             typesOfListString.add(item.getText());
         }
@@ -77,168 +48,112 @@ public class CreateDataListDialog extends ShareDialog
         return typesOfListString;
     }
 
-    /**
-     * Verify presence of "New List" popup.
-     *
-     * @return true if displayed or false if is not.
-     */
     public boolean isNewListPopupDisplayed()
     {
-        return browser.isElementDisplayed(newListPopup);
+        return webElementInteraction.isElementDisplayed(newListPopup);
     }
 
-    /**
-     * Get the description for a specific list type.
-     *
-     * @param listType - the data list type from DataListTypes enum, which description is wanted. (eg. getTypeOfListDescription(DataListTypes.ContactList) => to get 'Contact List' description)
-     * @return String list type description.
-     */
     public String getTypeOfListDescription(DataListTypes listType)
     {
-        return browser.waitUntilElementVisible(By.xpath(String.format(typeOfListDescription, listType.toString()))).getText();
+        return webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(typeOfListDescription,
+                listType.toString()))).getText();
     }
 
-    /**
-     * Get the text of 'Title' label.
-     *
-     * @return String 'Title' label.
-     */
     public String getTitleLabelText()
     {
-        return browser.waitUntilElementVisible(titleLabel).getText();
+        return webElementInteraction.waitUntilElementIsVisible(titleLabel).getText();
     }
 
-    /**
-     * Verify presence of 'Title' Mandatory Indicator "*".
-     *
-     * @return true if displayed or false if is not.
-     */
     public boolean isTitleMandatoryIndicatorDisplayed()
     {
-        return browser.isElementDisplayed(titleMandatoryIndicator);
+        return webElementInteraction.isElementDisplayed(titleMandatoryIndicator);
     }
 
-    /**
-     * Verify presence of "Title" Input Field.
-     *
-     * @return true if displayed or false if is not.
-     */
     public boolean isTitleFieldDisplayed()
     {
-        return browser.isElementDisplayed(titleField);
+        return webElementInteraction.isElementDisplayed(titleField);
     }
 
-    /**
-     * Get the text of 'Description' label.
-     *
-     * @return String 'Description' label.
-     */
     public String getDescriptionLabelText()
     {
-        return browser.waitUntilElementVisible(descriptionLabel).getText();
+        return webElementInteraction.waitUntilElementIsVisible(descriptionLabel).getText();
     }
 
-    /**
-     * Verify presence of "Description" input field.
-     *
-     * @return true if displayed or false if is not.
-     */
     public boolean isDescriptionFieldDisplayed()
     {
-        return browser.isElementDisplayed(descriptionField);
+        return webElementInteraction.isElementDisplayed(descriptionField);
     }
 
     public CreateDataListDialog selectType(String type)
     {
-        browser.findFirstElementWithValue(typesOfList, type).click();
+        webElementInteraction.findFirstElementWithValue(typesOfList, type).click();
         return this;
     }
 
     public boolean isExpectedTypeSelected(String expectedType)
     {
-        return browser.findElement(typeSelected).getText().equals(expectedType);
+        return webElementInteraction.findElement(typeSelected).getText().equals(expectedType);
     }
 
     public CreateDataListDialog typeTitle(String title)
     {
         LOG.info("Clear and type title: {}", title);
-        titleField.clear();
-        titleField.sendKeys(title);
+        webElementInteraction.clearAndType(titleField, title);
         return this;
     }
 
-    /**
-     * Get the text from the 'Title' Field.
-     *
-     * @return String 'Title' field text.
-     */
     public String getTitleValue()
     {
-        return titleField.getAttribute("value");
+        return webElementInteraction.findElement(titleField).getAttribute("value");
     }
 
     public CreateDataListDialog typeDescription(String description)
     {
         LOG.info("Clear and type description: {}", description);
-        descriptionField.clear();
-        descriptionField.sendKeys(description);
+        webElementInteraction.clearAndType(descriptionField, description);
         return this;
     }
 
-    /**
-     * Get the text from the 'Description' TextArea.
-     *
-     * @return String 'Description' input text.
-     */
     public String getDescriptionValue()
     {
-        return titleField.getAttribute("value");
+        return webElementInteraction.waitUntilElementIsVisible(titleField).getAttribute("value");
     }
 
     public String getInvalidDataListBalloonMessage()
     {
-        return browser.findElement(balloon).getText();
+        return webElementInteraction.getElementText(balloon);
     }
 
     public String invalidTitleBalloonMessage()
     {
-        return titleField.getAttribute("title");
+        return webElementInteraction.waitUntilElementIsVisible(titleField).getAttribute("title");
     }
 
-    /**
-     * Verify presence of "Save" button.
-     *
-     * @return true if displayed.
-     */
     public boolean isSaveButtonDisplayed()
     {
-        return browser.isElementDisplayed(saveButton);
+        return webElementInteraction.isElementDisplayed(saveButton);
     }
 
-    /**
-     * Verify presence of "Cancel" button.
-     *
-     * @return true if displayed or false if is not.
-     */
     public boolean isCancelButtonDisplayed()
     {
-        return browser.isElementDisplayed(cancelButton);
+        return webElementInteraction.isElementDisplayed(cancelButton);
     }
 
     public void clickSaveButton()
     {
-        LOG.info("Click \"Save\" button");
-        saveButton.click();
-        waitUntilMessageDisappears();
+        LOG.info("Click Save button");
+        webElementInteraction.clickElement(saveButton);
+        waitUntilNotificationMessageDisappears();
     }
 
-    public void clickCancelButton()
+    public DataListsPage clickCancelButton()
     {
-        LOG.info("Click \"Cancel\" button");
-        cancelButton.click();
+        LOG.info("Click Cancel button");
+        webElementInteraction.clickElement(cancelButton);
+
+        return new DataListsPage(webDriver);
     }
 
-    //todo: move into separate file
     public enum DataListTypes
     {
         ContactList("Contact List", "Contacts list including first name, last name, full name, email, job title, phone (office), phone (mobile)."),

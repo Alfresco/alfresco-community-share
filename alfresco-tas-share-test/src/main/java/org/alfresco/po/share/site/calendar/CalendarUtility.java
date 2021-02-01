@@ -110,8 +110,7 @@ public class CalendarUtility
      *
      * @return
      */
-
-    public Date tomorrow()
+    public static Date tomorrow()
     {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, +1);

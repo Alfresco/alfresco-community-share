@@ -13,7 +13,6 @@ import org.openqa.selenium.WebDriver;
  */
 public class CustomizeUserDashboardPage extends DashboardCustomization<CustomizeUserDashboardPage>
 {
-    @RenderWebElement
     private final By showOnDashboardRadio = By.cssSelector( "input[id$='welcomePanelEnabled']");
     private final By hideFromDashboardRadio = By.cssSelector("input[id$='welcomePanelDisabled']");
 

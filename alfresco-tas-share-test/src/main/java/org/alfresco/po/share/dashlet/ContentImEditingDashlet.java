@@ -1,64 +1,58 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.alfresco.common.Wait.WAIT_60;
+import static org.testng.Assert.*;
 
-import java.util.List;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-/**
- * Created by Mirela Tifui on 11/23/2017.
- */
-@PageObject
+import java.util.List;
+
 public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
 {
-    //@Autowired
-    private SiteDashboardPage siteDashboardPage;
-
-    @FindBy (css = "div[id$='_default-my-docs-dashlet']")
-    private HtmlElement dashletContainer;
-
-    @FindBy (css = "div[id$='_default-my-docs-dashlet'] div[class='titleBarActionIcon help']")
-    private WebElement helpIcon;
-
-    @FindAll (@FindBy (css = "div.hdr h3"))
-    private List<WebElement> dashletContentHeaders;
+    private final By dashletContainer = By.cssSelector("div[id$='_default-my-docs-dashlet']");
+    private final By helpIcon = By.cssSelector("div[id$='_default-my-docs-dashlet'] div[class='titleBarActionIcon help']");
+    private final By titleBar = By.cssSelector("div[id$='_default-my-docs-dashlet'] .title");
+    private final By dashletContentHeaders = By.cssSelector( "div.hdr h3");
+    private final By editedDocumentName = By.cssSelector("h4 > a");
+    private final By editDocumentSite = By.cssSelector("a[class$='site-link']");
 
     private String editedDocumentRow = "//div[@class='detail-list-item']//a[text()='%s']/../../..";
-    private By editedDocumentName = By.cssSelector("h4 > a");
-    private By editDocumentSite = By.cssSelector("a[class$='site-link']");
+
+    public ContentImEditingDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public ContentImEditingDashlet clickHelpIcon()
     {
-        helpIcon.click();
+        webElementInteraction.mouseOver(titleBar);
+        webElementInteraction.clickElement(helpIcon);
         return this;
     }
 
     public ContentImEditingDashlet assertAllHeadersAreDisplayed()
     {
-        getBrowser().waitUntilElementsVisible(dashletContentHeaders);
-        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        LOG.info("Assert all headers are displayed for Content I'm editing dashlet");
+        List<WebElement> headers = webElementInteraction.waitUntilElementsAreVisible(dashletContentHeaders);
+        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.documents")));
-        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.blogPosts")));
-        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.wikiPages")));
-        assertNotNull(browser.findFirstElementWithExactValue(dashletContentHeaders,
+        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.forumPosts")));
+
         return this;
     }
 
@@ -67,29 +61,31 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
         waitForDocumentToBeDisplayed(document).findElement(editedDocumentName).click();
     }
 
-    public void clickSite(FileModel document)
+    public SiteDashboardPage clickSite(FileModel document)
     {
         waitForDocumentToBeDisplayed(document).findElement(editDocumentSite).click();
+        return new SiteDashboardPage(webDriver);
     }
 
-    public boolean isDocumentDisplayedInDashlet(FileModel file)
+    private boolean isDocumentDisplayedInDashlet(FileModel file)
     {
-        return browser.isElementDisplayed(By.xpath(String.format(editedDocumentRow, file.getName())));
+        return webElementInteraction.isElementDisplayed(By.xpath(String.format(editedDocumentRow, file.getName())));
     }
 
-    public WebElement waitForDocumentToBeDisplayed(FileModel file)
+    private WebElement waitForDocumentToBeDisplayed(FileModel file)
     {
         boolean found = isDocumentDisplayedInDashlet(file);
         int i = 0;
-        while(i < WAIT_60 && !found)
+        while(i < WAIT_60.getValue() && !found)
         {
             i++;
             LOG.error("Wait for document {} to be displayed: {}", file.getName(), i);
-            browser.refresh();
-            renderedPage();
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(1);
+            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
             found = isDocumentDisplayedInDashlet(file);
         }
-        return browser.findElement(By.xpath(String.format(editedDocumentRow, file.getName())));
+        return webElementInteraction.findElement(By.xpath(String.format(editedDocumentRow, file.getName())));
     }
 
     public ContentImEditingDashlet assertDocumentIsDisplayed(FileModel file)

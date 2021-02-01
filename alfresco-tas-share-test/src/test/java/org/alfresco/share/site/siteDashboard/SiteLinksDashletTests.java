@@ -1,13 +1,14 @@
 package org.alfresco.share.site.siteDashboard;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteLinksDashlet;
 import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
@@ -16,13 +17,10 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 7/22/2016.
- */
 public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
 {
     private static final String EXPECTED_EMPTY_MESSAGE = "siteLinksDashlet.noLinks";
@@ -34,51 +32,48 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
 
     private final DateFormat dateFormat = new SimpleDateFormat("EE d MMM yyyy");
 
-    private UserModel userModel;
-    private SiteModel siteModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private SiteLinksDashlet siteLinksDashlet;
-
-    //@Autowired
     private CreateLinkPage createLinkPage;
-
-   // @Autowired
     private LinkDetailsViewPage linkDetailsViewPage;
 
     @Autowired
     private SitePagesService sitePagesService;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        siteLinksDashlet = new SiteLinksDashlet(webDriver);
+        linkDetailsViewPage = new LinkDetailsViewPage(webDriver);
+        createLinkPage = new CreateLinkPage(webDriver);
 
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_LINKS, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.SITE_LINKS, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C5525")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void checkSpecificMessageWhenSiteLinksDashletIsEmpty()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteLinksDashlet
             .assertDashletEmptyMessageEquals(language.translate(EXPECTED_EMPTY_MESSAGE))
             .clickOnHelpIcon(DashletHelpIcon.SITE_LINKS)
-            .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE));
-
-        siteLinksDashlet
+            .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();
     }
 
     @TestRail (id = "C5534")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedLinkInSiteLinksDashlet()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteLinksDashlet.clickCreateLinkButton();
 
         createLinkPage
@@ -93,58 +88,58 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
             .assertLinkUrlEquals(LINK_URL)
             .assertLinkDescriptionEquals(LINK_DESCRIPTION)
             .assertLinkCreationDateContains(dateFormat)
-            .assertCreatedByLabelEqualsFullUserName(userModel.getFirstName(), userModel.getLastName());
+            .assertCreatedByLabelEqualsFullUserName(user.get().getFirstName(), user.get().getLastName());
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteLinksDashlet.assertDashletLinkNameEquals(LINK_NAME);
     }
 
     @TestRail (id = "C588528")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldOpenNewBrowserTabWhenNavigateToCreatedLink()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         sitePagesService
             .createLink(
-                userModel.getUsername(),
-                userModel.getPassword(),
-                siteModel.getTitle(),
+                user.get().getUsername(),
+                user.get().getPassword(),
+                site.get().getTitle(),
                 LINK_NAME, LINK_URL, LINK_DESCRIPTION,
                 false, Collections.singletonList(LINK_TAG));
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteLinksDashlet
             .clickLinkByName(LINK_NAME)
             .assertUrlContains(LINK_NAME);
     }
 
     @TestRail (id = "C5804")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayLinkDetailsInLinkDetailsViewPageWhenDetailsButtonIsClicked()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         sitePagesService
             .createLink(
-                userModel.getUsername(),
-                userModel.getPassword(),
-                siteModel.getTitle(),
+                user.get().getUsername(),
+                user.get().getPassword(),
+                site.get().getTitle(),
                 LINK_NAME, LINK_URL, LINK_DESCRIPTION,
                 false, Collections.singletonList(LINK_TAG));
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteLinksDashlet.clickLinkDetailsButton(LINK_NAME);
         linkDetailsViewPage
             .assertLinkTitleEquals(LINK_NAME)
             .assertLinkUrlEquals(LINK_URL)
             .assertLinkDescriptionEquals(LINK_DESCRIPTION)
             .assertLinkCreationDateContains(dateFormat)
-            .assertCreatedByLabelEqualsFullUserName(userModel.getFirstName(), userModel.getLastName());
+            .assertCreatedByLabelEqualsFullUserName(user.get().getFirstName(), user.get().getLastName());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

@@ -1,35 +1,28 @@
 package org.alfresco.share.userDashboard;
 
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-public class WelcomePanelTests extends ContextAwareWebTest
+public class WelcomePanelTests extends BaseTest
 {
-    private UserModel testUser;
+    private ThreadLocal<UserModel> testUser = new ThreadLocal<>();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        testUser = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(testUser);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(testUser);
+        testUser.set(dataUser.usingAdmin().createRandomTestUser());
+        setupAuthenticatedSession(testUser.get());
+        userDashboardPage.navigate(testUser.get());
     }
 
     @TestRail (id = "C202855")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkWelcomePanel()
     {
-        userDashboard.assertWelcomePanelIsDisplayed()
+        userDashboardPage.assertWelcomePanelIsDisplayed()
             .assertWelcomePanelMessageIsCorrect()
             .assertHideWelcomePanelButtonIsDisplayed()
             .assertAlfrescoDocumentationPageIsOpenedFromWelcomePanel();
@@ -39,20 +32,26 @@ public class WelcomePanelTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void hideAndRestoreWelcomePanel()
     {
-        userDashboard.clickHideWelcomePanel()
+        userDashboardPage.clickHideWelcomePanel()
             .assertHideWelcomePanelDialogContentIsCorrect()
             .clickOK();
-        userDashboard.assertWelcomePanelIsNotDisplayed()
+        userDashboardPage.assertWelcomePanelIsNotDisplayed()
             .clickCustomizeUserDashboard()
             .assertShowOnDashboardIsNotSelected()
             .assertHideFromDashboardIsSelected()
             .selectShowGetStartedPanelOnDashboard()
             .clickOk();
-        userDashboard.assertWelcomePanelIsDisplayed()
+        userDashboardPage.assertWelcomePanelIsDisplayed()
             .clickCustomizeUserDashboard()
             .assertShowOnDashboardIsSelected()
             .selectHideStartedPanelFromDashboard()
             .clickOk();
-        userDashboard.assertWelcomePanelIsNotDisplayed();
+        userDashboardPage.assertWelcomePanelIsNotDisplayed();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(testUser.get());
     }
 }

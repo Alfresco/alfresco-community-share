@@ -8,9 +8,8 @@ import org.alfresco.utility.data.DataUser.ListUserWithRoles;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
@@ -26,27 +25,27 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
     private static final String ALL_MEMBERS = "All Members";
     private static final String EMPTY_SPACE = " ";
 
-    private UserModel userModel;
-    private SiteModel siteModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private SiteMembersDashlet siteMembersDashlet;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        siteMembersDashlet = new SiteMembersDashlet(webDriver);
 
-        setupAuthenticatedSession(userModel);
-        siteDashboardPage.navigate(siteModel);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2799")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void checkDisplayCreatedUserInSiteMembersDashlet()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteMembersDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
             .clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_MEMBERS)
@@ -59,61 +58,62 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
             .assertAllMembersLinkTextEquals(language.translate(EXPECTED_ALL_MEMBERS_LINK_TEXT))
             .assertPaginationTextEquals(language.translate(EXPECTED_DASHLET_PAGINATION))
             .assertMembersListMessageEquals(language.translate(EXPECTED_MEMBERS_LIST_MESSAGE))
-            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName())
+            .assertUsernameEquals(user.get().getFirstName(), user.get().getLastName())
             .assertUserRoleEquals(language.translate(EXPECTED_MANAGER_ROLE));
     }
 
     @TestRail(id = "C588529")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUsernameInUserProfilePageWhenAccessedFromSiteMembersDashlet()
     {
-        ListUserWithRoles userRoles = dataUser.addUsersWithRolesToSite(siteModel, UserRole.SiteCollaborator);
-        userModel = userRoles.getOneUserWithRole(UserRole.SiteCollaborator);
+        ListUserWithRoles userRoles = getDataUser().addUsersWithRolesToSite(site.get(), UserRole.SiteCollaborator);
+        UserModel collaborator = userRoles.getOneUserWithRole(UserRole.SiteCollaborator);
 
-        siteDashboardPage.navigate(siteModel);
-        siteMembersDashlet.renderedPage();
+        siteDashboardPage.navigate(site.get());
 
         siteMembersDashlet
-            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName())
+            .assertUsernameEquals(collaborator.getFirstName(), collaborator.getLastName())
             .assertUserRoleEquals(language.translate(EXPECTED_COLLABORATOR_ROLE));
 
         siteMembersDashlet
-            .navigateToProfilePageOfGivenUser(userModel.getFirstName()
-                    .concat(EMPTY_SPACE).concat(userModel.getLastName()));
-//            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+            .clickUser(collaborator.getFirstName().concat(EMPTY_SPACE).concat(collaborator.getLastName()))
+                .assertUserProfilePageIsOpened();
+
+        getDataUser().usingAdmin().deleteUser(collaborator);
     }
 
     @TestRail(id = "C588530")
     @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
     public void shouldDisplayAllCreatedUsersInSiteMembersPage()
     {
-        ListUserWithRoles userRoles = dataUser
-            .addUsersWithRolesToSite(siteModel,
+        ListUserWithRoles userRoles = getDataUser()
+            .addUsersWithRolesToSite(site.get(),
                 UserRole.SiteCollaborator,
                 UserRole.SiteConsumer,
                 UserRole.SiteContributor);
 
-        siteDashboardPage.navigate(siteModel);
-        siteMembersDashlet.renderedPage();
+        siteDashboardPage.navigate(site.get());
         siteMembersDashlet.clickAllMembersButton(ALL_MEMBERS);
 
-        userModel = userRoles.getOneUserWithRole(UserRole.SiteCollaborator);
+        UserModel collaborator = userRoles.getOneUserWithRole(UserRole.SiteCollaborator);
         siteMembersDashlet
-            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+            .assertUsernameEquals(collaborator.getFirstName(), collaborator.getLastName());
 
-        userModel = userRoles.getOneUserWithRole(UserRole.SiteConsumer);
+        UserModel consumer = userRoles.getOneUserWithRole(UserRole.SiteConsumer);
         siteMembersDashlet
-            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+            .assertUsernameEquals(consumer.getFirstName(), consumer.getLastName());
 
-        userModel = userRoles.getOneUserWithRole(UserRole.SiteContributor);
+        UserModel contributor = userRoles.getOneUserWithRole(UserRole.SiteContributor);
         siteMembersDashlet
-            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+            .assertUsernameEquals(contributor.getFirstName(), contributor.getLastName());
+
+        deleteUsersIfNotNull(collaborator, consumer, contributor);
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

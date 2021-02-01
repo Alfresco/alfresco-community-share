@@ -8,35 +8,31 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
     private MySitesDashlet mySitesDashlet;
 
-    private UserModel user;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @BeforeClass(alwaysRun = true)
-    public void setupUser()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(user);
-    }
+        mySitesDashlet = new MySitesDashlet(webDriver);
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2095")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkNoSitesCreated()
     {
+        userDashboardPage.navigate(user.get());
         mySitesDashlet.assertDashletTitleEquals(language.translate("mySitesDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_SITES)
                 .assertBalloonMessageIsDisplayed()
@@ -52,71 +48,79 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void deleteSiteThenCancel()
     {
-        SiteModel deleteSite = dataSite.usingUser(user).createPublicRandomSite();
-        userDashboard.navigate(user);
-        mySitesDashlet.assertSiteIsDisplayed(deleteSite);
+        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
 
-        mySitesDashlet.clickDelete(deleteSite)
-            .clickCancel();
-        mySitesDashlet.assertSiteIsDisplayed(deleteSite)
-            .clickDelete(deleteSite)
+        userDashboardPage.navigate(user.get());
+        mySitesDashlet.assertSiteIsDisplayed(site.get());
+
+        mySitesDashlet.clickDelete(site.get()).clickCancel();
+        mySitesDashlet.assertSiteIsDisplayed(site.get())
+            .clickDelete(site.get())
                 .clickDelete()
                     .clickNo();
-        mySitesDashlet.assertSiteIsDisplayed(deleteSite);
-        dataSite.usingUser(user).deleteSite(deleteSite);
+        mySitesDashlet.assertSiteIsDisplayed(site.get());
     }
 
     @TestRail (id = "C2097")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void deleteSite()
     {
-        SiteModel deleteSite = dataSite.usingUser(user).createPublicRandomSite();
-        userDashboard.navigate(user);
-        mySitesDashlet.assertSiteIsDisplayed(deleteSite)
-            .clickDelete(deleteSite)
+        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+
+        userDashboardPage.navigate(user.get());
+        mySitesDashlet.assertSiteIsDisplayed(site.get())
+            .clickDelete(site.get())
                 .clickDelete().clickYes();
-        mySitesDashlet.assertSiteIsNotDisplayed(deleteSite);
+        mySitesDashlet.assertSiteIsNotDisplayed(site.get());
     }
 
     @TestRail (id = "C2100")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void filterSites()
     {
-        SiteModel site1 = dataSite.usingUser(user).createPublicRandomSite();
-        SiteModel site2 = dataSite.usingUser(user).createPublicRandomSite();
+        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+        SiteModel secondSite = getDataSite().usingUser(user.get()).createPublicRandomSite();
 
-        userDashboard.navigate(user);
-        mySitesDashlet.assertSiteIsDisplayed(site1).clickFavorite(site1);
-        userDashboard.navigate(user);
+        userDashboardPage.navigate(user.get());
+        mySitesDashlet.assertSiteIsDisplayed(site.get()).clickFavorite(site.get());
+        mySitesDashlet.accessSite(secondSite).assertSiteDashboardPageIsOpened();
 
+        userDashboardPage.navigate(user.get());
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.RECENT)
-            .assertSiteIsNotDisplayed(site1)
-            .assertSiteIsDisplayed(site2);
+            .assertSiteIsNotDisplayed(site.get())
+            .assertSiteIsDisplayed(secondSite);
 
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.MY_FAVORITES)
-            .assertSiteIsDisplayed(site2)
-            .assertSiteIsNotDisplayed(site1);
+            .assertSiteIsDisplayed(secondSite)
+            .assertSiteIsNotDisplayed(site.get());
 
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.ALL)
-            .assertSiteIsDisplayed(site1)
-            .assertSiteIsDisplayed(site2);
+            .assertSiteIsDisplayed(site.get())
+            .assertSiteIsDisplayed(secondSite);
 
-        deleteSites(site1, site2);
+        deleteSitesIfNotNull(secondSite);
     }
 
     @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
     public void createSiteFromSiteDashlet()
     {
         SiteModel site = new SiteModel(RandomData.getRandomName("site"));
-        userDashboard.navigate(user);
-        mySitesDashlet.clickCreateSiteButton();
-//        mySitesDashlet
-//            .assertCreateSiteDialogIsDisplayed()
-//                .typeInNameInput(site.getTitle())
-//                .typeInSiteID(site.getId())
-//                .typeInDescription(site.getDescription())
-//                .clickCreateButton()
-//                    .assertSiteDashboardPageIsOpened().assertSiteHeaderTitleIs(site);
-        deleteSites(site);
+        userDashboardPage.navigate(user.get());
+        mySitesDashlet.clickCreateSiteButton()
+            .assertCreateSiteDialogIsDisplayed()
+                .typeInNameInput(site.getTitle())
+                .typeInSiteID(site.getId())
+                .typeInDescription(site.getDescription())
+                .clickCreateButton()
+                    .assertSiteDashboardPageIsOpened().assertSiteHeaderTitleIs(site);
+
+        deleteSitesIfNotNull(site);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

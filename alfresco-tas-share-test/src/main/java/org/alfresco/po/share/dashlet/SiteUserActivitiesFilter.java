@@ -3,9 +3,7 @@ package org.alfresco.po.share.dashlet;
 /**
  * Contains options for Site User Activities filter
  *
- * @author Cristina.Axinte
  */
-
 public enum SiteUserActivitiesFilter
 {
     MY_ACTIVITIES("My activities"),

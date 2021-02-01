@@ -19,7 +19,6 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     private final String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
     private final By selectAttachmentButton = By.cssSelector("div[id*='attachments-cntrl-itemGroupActions'] button");
 
-
     public CreateNewItemPopUp(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);

@@ -1,54 +1,48 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.DataWorkflow;
 import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
 {
     @Autowired
+    private DataWorkflow dataWorkflow;
+
     private MyTasksDashlet myTasksDashlet;
 
-    private UserModel addUserAfterWorkflow, taskUser;
-    private TaskModel taskModel;
-    private GroupModel testGroup;
-    private SiteModel site;
-    private FileModel file;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        addUserAfterWorkflow = dataUser.usingAdmin().createRandomTestUser();
-        taskUser = dataUser.createRandomTestUser();
-        site = dataSite.usingUser(taskUser).createPublicRandomSite();
-        file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.authenticateUser(taskUser).usingSite(site).createFile(file);
-        taskModel = dataWorkflow.usingUser(taskUser)
-            .usingSite(site).usingResource(file).createNewTaskAndAssignTo(taskUser);
+        myTasksDashlet = new MyTasksDashlet(webDriver);
 
-        testGroup = dataGroup.usingAdmin().createRandomGroup();
-        dataGroup.usingUser(taskUser).addUserToGroup(testGroup);
-
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(addUserAfterWorkflow, taskUser);
-        dataGroup.usingAdmin().deleteGroup(testGroup);
-        dataSite.usingAdmin().deleteSite(site);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2122")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkMyTasksDashlet()
     {
-        setupAuthenticatedSession(taskUser);
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(file).assertThat().existsInRepo();
+        TaskModel taskModel = dataWorkflow.usingUser(user.get())
+            .usingSite(site.get()).usingResource(file).createNewTaskAndAssignTo(user.get());
+
+        userDashboardPage.navigate(user.get());
         myTasksDashlet.assertDashletTitleEquals(language.translate("myTasksDashlet.title"))
             .clickOnHelpIcon(DashletHelpIcon.MY_TASKS)
             .assertBalloonMessageIsDisplayed()
@@ -63,22 +57,22 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
                 .assertTaskIsNotStartedYet(taskModel.getMessage())
                 .assertDueDateIsCorrect(taskModel.getMessage(), taskModel.getDueDate())
                 .assertTasksNavigationIs(1, 1)
-                .clickStartWorkFlow();
-//                    .assertStartWorkflowPageIsOpened();
+                .clickStartWorkFlow()
+                    .assertStartWorkflowPageIsOpened();
 
-        userDashboard.navigate(taskUser);
-//        myTasksDashlet.clickActiveTasksLink().assertActiveTasksTitleIsDisplayed();
+        userDashboardPage.navigate(user.get());
+        myTasksDashlet.clickActiveTasksLink().assertActiveTasksTitleIsDisplayed();
 
-        userDashboard.navigate(taskUser);
-//        myTasksDashlet.clickOnCompletedTasksLink().assertCompletedTasksTitleIsDisplayed();
+        userDashboardPage.navigate(user.get());
+        myTasksDashlet.clickOnCompletedTasksLink().assertCompletedTasksTitleIsDisplayed();
 
-        userDashboard.navigate(taskUser);
+        userDashboardPage.navigate(user.get());
         myTasksDashlet.clickTaskName(taskModel.getMessage()).assertEditTaskPageIsOpened();
 
-        userDashboard.navigate(taskUser);
+        userDashboardPage.navigate(user.get());
         myTasksDashlet.editTask(taskModel.getMessage()).assertEditTaskPageIsOpened();
 
-        userDashboard.navigate(taskUser);
+        userDashboardPage.navigate(user.get());
         myTasksDashlet.viewTask(taskModel.getMessage()).assertViewTaskPageIsOpened();
     }
 
@@ -86,13 +80,25 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void userAddedAfterWorkflowStarts()
     {
-        dataWorkflow.usingUser(taskUser).usingSite(site).usingResource(file)
-            .createGroupReviewTaskAndAssignTo(testGroup);
-        dataGroup.usingUser(addUserAfterWorkflow).addUserToGroup(testGroup);
-        setupAuthenticatedSession(addUserAfterWorkflow);
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        GroupModel testGroup = dataGroup.usingAdmin().createRandomGroup();
+        UserModel user2 = getDataUser().usingAdmin().createRandomTestUser();
 
-        LOG.info("STEP 4: Verify user's 'My task' dashlet;");
-        userDashboard.navigate(addUserAfterWorkflow);
+        dataWorkflow.usingUser(user.get())
+            .usingSite(site.get()).usingResource(file)
+                .createGroupReviewTaskAndAssignTo(testGroup);
+        dataGroup.usingUser(user2).addUserToGroup(testGroup);
+
+        userDashboardPage.navigate(user2);
         myTasksDashlet.assertEmptyDashletMessageIsCorrect();
+
+        dataGroup.usingAdmin().deleteGroup(testGroup);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

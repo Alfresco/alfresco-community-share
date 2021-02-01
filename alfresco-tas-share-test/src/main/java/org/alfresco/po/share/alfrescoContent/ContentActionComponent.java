@@ -299,4 +299,14 @@ public class ContentActionComponent
 
         return this;
     }
+
+    public ContentActionComponent assertThumbnailLinkTypeIsDisplayed()
+    {
+        LOG.info("Assert thumbnail link type is displayed");
+        webElementInteraction.waitUntilElementIsVisible(linkThumbnail);
+        assertTrue(webElementInteraction.isElementDisplayed(getContentRow().findElement(linkThumbnail)),
+                String.format("Content %s doesn't have thumbnail link type", contentModel.getName()));
+
+        return this;
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.alfresco.po.share.site.members;
 
 import static org.testng.Assert.assertTrue;

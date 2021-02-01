@@ -27,64 +27,26 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @Autowired
     EventInformationDialog eventInformationDialog;
 
-    //@Autowired
-    DeleteDialog deleteDialog;
-
     @Autowired
     EditEventDialog editEventDialog;
 
-    @FindBy (css = "button[id$='default-addEvent-button-button']")
-    private Button addEventButton;
-
-    @FindBy (css = "div[id$='defaultView']")
-    private WebElement calendarContainer;
-
-    @FindBy (xpath = "//span[@class='fc-header-title']/h2 | //h2[@id='calTitle']")
-    private WebElement calendarHeader;
-
-    @FindBy (css = "button[id$='_default-day-button']")
-    private WebElement dayButton;
-
-    @FindBy (css = "button[id$='_default-week-button']")
-    private WebElement weekButton;
-
-    @FindBy (css = "button[id$='_default-month-button']")
-    private WebElement monthButton;
-
-    @FindBy (css = "button[id$='_default-agenda-button']")
-    private WebElement agendaButton;
-
-    @FindBy (css = "button[id$='_default-prev-button-button']")
-    private WebElement previousButton;
-
-    @FindBy (css = "button[id$='_default-next-button-button']")
-    private WebElement nextButton;
-
-    @FindBy (css = "button[id$='_default-today-button-button']")
-    private WebElement todayButton;
-
-    // Tags
-    @FindBy (css = "div.filter.tags")
-    private WebElement tagsFilter;
-
-    @FindBy (css = "a[rel='-all-']")
-    private Table showAllItems;
-
-    @FindAll (@FindBy (css = ".tag-link"))
-    private List<WebElement> tags;
-
-    @FindBy (xpath = "//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]")
-    private WebElement today;
-
-    @FindAll (@FindBy (css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
-    private List<WebElement> agendaEventsName;
-
-    @FindBy (css = "a.addEvent")
-    private Link agendaAddEvent;
-
-    @FindBy (id = "calendar_t")
-    private WebElement miniCalendar;
-
+    private final By addEventButton = By.cssSelector("button[id$='default-addEvent-button-button']");
+    private final By calendarContainer = By.cssSelector("div[id$='defaultView']");
+    private final By calendarHeader = By.xpath("//span[@class='fc-header-title']/h2 | //h2[@id='calTitle']");
+    private final By dayButton = By.cssSelector("button[id$='_default-day-button']");
+    private final By weekButton = By.cssSelector("button[id$='_default-week-button']");
+    private final By monthButton = By.cssSelector("button[id$='_default-month-button']");
+    private final By agendaButton = By.cssSelector("button[id$='_default-agenda-button']");
+    private final By previousButton = By.cssSelector("button[id$='_default-prev-button-button']");
+    private final By nextButton = By.cssSelector("button[id$='_default-next-button-button']");
+    private final By todayButton = By.cssSelector("button[id$='_default-today-button-button']");
+    private final By tagsFilter = By.cssSelector("div.filter.tags");
+    private final By showAllItems = By.cssSelector("a[rel='-all-']");
+    private final By tags = By.cssSelector(".tag-link");
+    private final By today = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]");
+    private final By agendaEventsName = By.cssSelector(".yui-dt-data .yui-dt-col-name .yui-dt-liner");
+    private final By agendaAddEvent = By.cssSelector("a.addEvent");
+    private final By miniCalendar = By.id("calendar_t");
     private final By selectedView = By.cssSelector("span.yui-button-checked");
     private final By calendarView = By.id("yui-history-field");
     private final By deleteIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'deleteAction']");
@@ -175,7 +137,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
                 LOG.info("Click event title: {}", eventTitle);
                 webElementInteraction.mouseOver(getEventTitleFromCalendar(eventTitle));
                 getEventTitleFromCalendar(eventTitle);
-            } else
+            }
+            else
             {
                 throw new NoSuchElementException("Unable to locate expected event.");
             }
@@ -199,14 +162,14 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public boolean isShowAllItemsLinkDisplayed()
     {
         LOG.info("Check is show all items link displayed");
-        return showAllItems.isDisplayed();
+        return webElementInteraction.isElementDisplayed(showAllItems);
     }
 
     public CalendarPage clickDayButton()
     {
         LOG.info("Click day button");
-        dayButton.click();
-        return new CalendarPage(webDriver);
+        webElementInteraction.clickElement(dayButton);
+        return this;
     }
 
     public CalendarPage clickWeekButton()
@@ -218,16 +181,15 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     public CalendarPage clickMonthButton()
     {
-        monthButton.click();
-        return new CalendarPage(webDriver);
+        webElementInteraction.clickElement(monthButton);
+        return this;
     }
 
     public CalendarPage clickAgendaButton()
     {
         LOG.info("Click agenda button");
-        agendaButton.click();
-
-        return new CalendarPage(webDriver);
+        webElementInteraction.clickElement(agendaButton);
+        return this;
     }
 
     public boolean isEventPresentInAgenda(String eventName)
@@ -246,7 +208,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public AddEventDialog clickTodayInCalendar()
     {
         LOG.info("Click today in calendar");
-        today.click();
+        webElementInteraction.clickElement(today);
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
@@ -267,7 +229,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public AddEventDialog clickAddEventToThisCalendar()
     {
         LOG.info("Click add event to this calendar");
-        agendaAddEvent.click();
+        webElementInteraction.clickElement(agendaAddEvent);
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
@@ -286,7 +248,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public String getCalendarHeader()
     {
         LOG.info("Get calendar header text");
-        return calendarHeader.getText();
+        return webElementInteraction.getElementText(calendarHeader);
     }
 
     public CalendarPage assertCalendarHeaderEquals(String expectedCalendarHeader)
@@ -327,29 +289,27 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickOnNextButton()
     {
         LOG.info("Get next button state");
-        nextButton.click();
-
-        return new CalendarPage(webDriver);
+        webElementInteraction.clickElement(nextButton);
+        return this;
     }
 
     public CalendarPage clickOnPreviousButton()
     {
         LOG.info("Click previous button");
-        previousButton.click();
-
-        return new CalendarPage(webDriver);
+        webElementInteraction.clickElement(previousButton);
+        return this;
     }
 
     public String getNextButtonState()
     {
         LOG.info("Get next button state");
-        return webElementInteraction.findElement(By.cssSelector("button[id$='_default-next-button-button']")).getAttribute("disabled");
+        return webElementInteraction.waitUntilElementIsVisible(nextButton).getAttribute("disabled");
     }
 
     public String getTodayButtonState()
     {
         LOG.info("Get today button state");
-        return webElementInteraction.findElement(By.cssSelector("button[id$='_default-today-button-button']")).getAttribute("disabled");
+        return webElementInteraction.waitUntilElementIsVisible(todayButton).getAttribute("disabled");
     }
 
     public DeleteDialog clickDeleteIcon(String eventName)
@@ -385,7 +345,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public boolean isTodayHighlightedInCalendar()
     {
         LOG.info("Check is today highlighted in calendar");
-        return today.getAttribute("class").contains("fc-state-highlight");
+        return webElementInteraction.waitUntilElementIsVisible(today)
+            .getAttribute("class").contains("fc-state-highlight");
     }
 
     public CalendarPage clickShowAllItems()
@@ -398,7 +359,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickTodayButton()
     {
         LOG.info("Click today button");
-        todayButton.click();
-        return new CalendarPage(webDriver);
+        webElementInteraction.clickElement(todayButton);
+        return this;
     }
 }

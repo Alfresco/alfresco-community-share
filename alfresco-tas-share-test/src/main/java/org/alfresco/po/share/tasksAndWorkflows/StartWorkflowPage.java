@@ -1,6 +1,7 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
 import static org.testng.Assert.assertTrue;
+import static org.alfresco.common.Wait.WAIT_10;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,6 @@ import org.openqa.selenium.WebElement;
 
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 {
-    //todo: check better locator
     private final By startWorkflowDropDown = By.cssSelector("button[id*='default-workflow-definition']");
     private final By workflowForm = By.cssSelector("div[class='form-fields']");
     private final By selectedReviewerName = By.cssSelector("div[class*='itemtype']");
@@ -45,6 +45,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     private final By sendEMailNotificationsCheckbox = By.cssSelector("input[id*='sendEMailNotifications'][type='checkbox']");
     private final By itemsAreaRows = By.cssSelector("div[id$='packageItems-cntrl-currentValueDisplay'] .yui-dt-data>tr");
     private final String attachedDocumentRow = "//a[text()='%s']/../../../..";
+    private final String startWorkflowUrl = "start-workflow";
 
     public StartWorkflowPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -59,7 +60,9 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public StartWorkflowPage assertStartWorkflowPageIsOpened()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(startWorkflowDropDown), "Start workflow dropdown is not displayed");
+        LOG.info("Assert Start Workflow page is opened");
+        webElementInteraction.waitUrlContains("start-workflow", WAIT_10.getValue());
+        assertTrue(webElementInteraction.getCurrentUrl().contains(startWorkflowUrl), "Start workflow page is not displayed");
         return this;
     }
 

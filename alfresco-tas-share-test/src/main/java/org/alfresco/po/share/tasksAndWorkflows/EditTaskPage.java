@@ -1,72 +1,44 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import org.alfresco.po.share.SharePage2;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
+import static org.testng.Assert.assertTrue;
 
-@PageObject
-public class EditTaskPage extends SharePage<EditTaskPage>
+public class EditTaskPage extends SharePage2<EditTaskPage>
 {
-    //@Autowired
-    MyTasksPage myTasksPage;
-
-    @RenderWebElement
-    @FindBy (css = "div.task-edit-header h1")
-    private WebElement taskEditHeader;
-
-    @RenderWebElement
-    @FindBy (css = "textarea[id$='bpm_comment']")
-    private WebElement commentTextArea;
-
-    @FindBy (css = "button[id$='approve-button']")
-    private WebElement approveButton;
-
-    @FindBy (css = "button[id$='reject-button']")
-    private WebElement rejectButton;
-
-    @FindBy (css = "div.form-field div.viewmode-field span[data-datatype$='text']")
-    private WebElement message;
-
-    @FindBy (css = "div.form-field div.viewmode-field span[id$='_prop_taskOwner'] a")
-    private WebElement owner;
-
-    @FindBy (xpath = "//span[@class = 'viewmode-label' and text() = 'Identifier:']")
-    private WebElement identifier;
-
-    @FindBy (xpath = "//span[contains(@class,'viewmode-value') and not(@data-datatype) and not(@id)]")
-    private WebElement priority;
-
-    @FindBy (xpath = "//span[@class = 'viewmode-label' and text() = 'Due:']")
-    private WebElement dueDate;
-
-    @FindBy (css = "button[id*='claim']")
-    private WebElement claimButton;
-
-    @FindBy (css = "button[id*='release-button']")
-    private WebElement releaseToPoolButton;
-
-    @FindBy (css = "button[id$='Next-button']")
-    private WebElement taskDoneButton;
-
-    @FindBy (css = ".form-field h3 a")
-    private List<WebElement> itemsList;
-
-    private By statusDropdown = By.cssSelector("select[title = 'Status']");
-    private By saveButton = By.cssSelector("button[id$='form-submit-button']");
-    private By reassignButton = By.cssSelector("button[id$='reassign-button']");
-    private By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
-    private By addItemsButton = By.cssSelector("div[id$='itemGroupActions'] button");
+    private final By taskEditHeader = By.cssSelector( "div.task-edit-header h1");
+    private final By commentTextArea = By.cssSelector("textarea[id$='bpm_comment']");
+    private final By approveButton = By.cssSelector("button[id$='approve-button']");
+    private final By rejectButton = By.cssSelector("button[id$='reject-button']");
+    private final By message = By.cssSelector("div.form-field div.viewmode-field span[data-datatype$='text']");
+    private final By owner = By.cssSelector("div.form-field div.viewmode-field span[id$='_prop_taskOwner'] a");
+    private final By identifier = By.xpath("//span[@class = 'viewmode-label' and text() = 'Identifier:']");
+    private final By priority = By.xpath("//span[contains(@class,'viewmode-value') and not(@data-datatype) and not(@id)]");
+    private final By dueDate = By.xpath("//span[@class = 'viewmode-label' and text() = 'Due:']");
+    private final By claimButton = By.cssSelector("button[id*='claim']");
+    private final By releaseToPoolButton = By.cssSelector("button[id*='release-button']");
+    private final By taskDoneButton = By.cssSelector("button[id$='Next-button']");
+    private final By itemsList = By.cssSelector(".form-field h3 a");
+    private final By statusDropdown = By.cssSelector("select[title = 'Status']");
+    private final By saveButton = By.cssSelector("button[id$='form-submit-button']");
+    private final By reassignButton = By.cssSelector("button[id$='reassign-button']");
+    private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
+    private final By addItemsButton = By.cssSelector("div[id$='itemGroupActions'] button");
 
     private String outcomeApprove;
     private String outcomeReject;
+
+    public EditTaskPage(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getRelativePath()
@@ -77,29 +49,30 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     public EditTaskPage assertEditTaskPageIsOpened()
     {
         LOG.info("Assert Edit Task page is opened");
-        Assert.assertTrue(browser.isElementDisplayed(taskEditHeader), "Edit task header is displayed");
-        Assert.assertTrue(browser.getCurrentUrl().contains(getRelativePath()), "Edit Task page is opened");
+        webElementInteraction.waitUntilElementIsVisible(taskEditHeader);
+        assertTrue(webElementInteraction.isElementDisplayed(taskEditHeader), "Edit task header is displayed");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Edit Task page is opened");
         return this;
     }
 
     public void approve(String comment)
     {
         this.outcomeApprove = "Approved";
-        commentTextArea.sendKeys(comment);
-        approveButton.click();
+        webElementInteraction.clearAndType(commentTextArea, comment);
+        webElementInteraction.clickElement(approveButton);
     }
 
     public void reject(String comment)
     {
-        getBrowser().waitUntilElementVisible(commentTextArea);
-        commentTextArea.sendKeys(comment);
-        getBrowser().waitUntilElementVisible(rejectButton);
-        getBrowser().waitUntilElementClickable(rejectButton).click();
+        webElementInteraction.waitUntilElementIsVisible(commentTextArea);
+        webElementInteraction.clearAndType(commentTextArea, comment);
+        webElementInteraction.waitUntilElementIsVisible(rejectButton);
+        clickRejectButton();
     }
 
     public void clickRejectButton()
     {
-        rejectButton.click();
+        webElementInteraction.clickElement(rejectButton);
     }
 
     public String getOutcomeApproveText()
@@ -114,86 +87,84 @@ public class EditTaskPage extends SharePage<EditTaskPage>
 
     public String getEditTaskHeader()
     {
-        return taskEditHeader.getText();
+        return webElementInteraction.getElementText(taskEditHeader);
     }
 
     public String getComment()
     {
-        return commentTextArea.getText();
+        return webElementInteraction.getElementText(commentTextArea);
     }
 
     public String getMessage()
     {
-        return message.getText();
+        return webElementInteraction.getElementText(message);
     }
 
     public String getOwner()
     {
-        return owner.getText();
+        return webElementInteraction.getElementText(owner);
     }
 
     public String getPriority()
     {
-        return priority.getText();
+        return webElementInteraction.getElementText(priority);
     }
 
     public boolean isIdentifierPresent()
     {
-        return browser.isElementDisplayed(identifier);
+        return webElementInteraction.isElementDisplayed(identifier);
     }
 
     public boolean isDueDatePresent()
     {
-        return browser.isElementDisplayed(dueDate);
+        return webElementInteraction.isElementDisplayed(dueDate);
     }
 
     public boolean isSaveButtonPresent()
     {
-        return browser.isElementDisplayed(saveButton);
+        return webElementInteraction.isElementDisplayed(saveButton);
     }
 
     public boolean isCancelButtonPresent()
     {
-        return browser.isElementDisplayed(cancelButton);
+        return webElementInteraction.isElementDisplayed(cancelButton);
     }
 
     public boolean isTaskDoneButtonPresent()
     {
-        return browser.isElementDisplayed(taskDoneButton);
+        return webElementInteraction.isElementDisplayed(taskDoneButton);
     }
 
     public boolean isReassignButtonPresent()
     {
-        return browser.isElementDisplayed(reassignButton);
+        return webElementInteraction.isElementDisplayed(reassignButton);
     }
 
     public boolean isAddItemsButtonPresent()
     {
-        return browser.isElementDisplayed(addItemsButton);
+        return webElementInteraction.isElementDisplayed(addItemsButton);
     }
 
     public void selectStatus(TaskStatus status)
     {
-        Select select = new Select(browser.findElement(statusDropdown));
-        browser.waitUntilElementVisible(statusDropdown);
+        Select select = new Select(webElementInteraction.findElement(statusDropdown));
+        webElementInteraction.waitUntilElementIsVisible(statusDropdown);
         select.selectByValue(status.getStatus());
     }
 
     public void writeComment(String comment)
     {
-        commentTextArea.clear();
-        commentTextArea.sendKeys(comment);
+        webElementInteraction.clearAndType(commentTextArea, comment);
     }
 
     public void clickOnSaveButton()
     {
-        browser.findElement(saveButton).click();
+        webElementInteraction.clickElement(saveButton);
     }
 
     public boolean isStatusOptionPresent(TaskStatus status)
     {
-        Select select = new Select(browser.findElement(statusDropdown));
-        browser.waitInSeconds(2);
+        Select select = new Select(webElementInteraction.findElement(statusDropdown));
         List<WebElement> options = select.getOptions();
         for (WebElement value : options)
             if (value.getAttribute("value").contains(status.getStatus()))
@@ -203,8 +174,7 @@ public class EditTaskPage extends SharePage<EditTaskPage>
 
     public boolean isStatusOptionSelected(TaskStatus status)
     {
-        Select select = new Select(browser.findElement(statusDropdown));
-        browser.waitInSeconds(2);
+        Select select = new Select(webElementInteraction.findElement(statusDropdown));
         List<WebElement> options = select.getOptions();
         for (WebElement value : options)
             if (value.getAttribute("value").contains(status.getStatus()) && value.isSelected())
@@ -214,31 +184,28 @@ public class EditTaskPage extends SharePage<EditTaskPage>
 
     public EditTaskPage clickClaimButton()
     {
-        browser.waitUntilElementVisible(claimButton).click();
-        this.renderedPage();
-        waiUntilLoadingMessageDisappears();
-        browser.waitUntilWebElementIsDisplayedWithRetry(releaseToPoolButton);
-        return (EditTaskPage) this.renderedPage();
+        webElementInteraction.waitUntilElementIsVisible(claimButton).click();
+        waitUntilNotificationMessageDisappears();
+        return this;
     }
 
     public EditTaskPage clickReleaseToPoolButton()
     {
-        releaseToPoolButton.click();
-        this.renderedPage();
-        browser.waitUntilWebElementIsDisplayedWithRetry(claimButton);
-        return (EditTaskPage) this.renderedPage();
+        webElementInteraction.clickElement(releaseToPoolButton);
+        webElementInteraction.waitUntilElementIsVisible(claimButton);
+        return this;
     }
 
     public void clickTaskDoneButton()
     {
-        browser.waitUntilElementVisible(taskDoneButton);
-        taskDoneButton.click();
+        webElementInteraction.clickElement(taskDoneButton);
     }
 
     public String getItemsList()
     {
         ArrayList<String> itemsTextList = new ArrayList<>();
-        for (WebElement anItemsList : itemsList)
+        List<WebElement> items = webElementInteraction.waitUntilElementsAreVisible(itemsList);
+        for (WebElement anItemsList : items)
         {
             itemsTextList.add(anItemsList.getText());
         }

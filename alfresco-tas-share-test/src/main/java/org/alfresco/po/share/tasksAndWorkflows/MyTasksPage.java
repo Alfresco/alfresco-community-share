@@ -12,10 +12,6 @@ import org.openqa.selenium.WebElement;
 
 public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleByMenuBar
 {
-    private EditTaskPage editTaskPage;
-    private ViewTaskPage viewTaskPage;
-    private WorkflowDetailsPage workflowDetailsPage;
-
     private final String completeTaskName = "Request to join %s site";
     private final String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
     private final String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
@@ -89,7 +85,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
         WebElement editAction = selectedTask.findElement(editTaskLink);
         webElementInteraction.mouseOver(editAction);
         webElementInteraction.clickElement(editAction);
-        return (EditTaskPage) editTaskPage.renderedPage();
+        return new EditTaskPage(webDriver);
     }
 
     public void clickCompletedTasks()
@@ -102,7 +98,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     {
         webElementInteraction.mouseOver(selectTask(taskName));
         webElementInteraction.clickElement(selectTask(String.format(completeTaskName, taskName)).findElement(viewTaskLink));
-        return (ViewTaskPage) viewTaskPage.renderedPage();
+        return new ViewTaskPage(webDriver);
     }
 
     public boolean isStartWorkflowDisplayed()
@@ -133,7 +129,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
         WebElement selectedTask = selectTask(taskName);
         webElementInteraction.mouseOver(selectedTask);
         webElementInteraction.clickElement(selectedTask.findElement(viewWorkflowLink));
-        return (WorkflowDetailsPage) workflowDetailsPage.renderedPage();
+        return new WorkflowDetailsPage(webDriver);
     }
 
     public boolean isEditTaskOptionDisplayed(String taskName)
@@ -187,7 +183,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
         WebElement selectedTask = selectTask(taskName);
         webElementInteraction.mouseOver(selectedTask);
         webElementInteraction.clickElement(selectedTask.findElement(taskTitle));
-        return (EditTaskPage) editTaskPage.renderedPage();
+        return new EditTaskPage(webDriver);
     }
 
     public String getStatus(String workflowName)

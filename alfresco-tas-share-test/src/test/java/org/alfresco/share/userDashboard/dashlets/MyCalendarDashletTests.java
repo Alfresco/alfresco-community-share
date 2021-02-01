@@ -3,49 +3,40 @@ package org.alfresco.share.userDashboard.dashlets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.dashlet.Dashlet;
-import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyCalendarDashlet;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
     private MyCalendarDashlet myCalendarDashlet;
 
     @Autowired
-    private CalendarUtility calendarUtility;
+    private SitePagesService sitePagesService;
 
-    private UserModel user;
-    private SiteModel site;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-        setupAuthenticatedSession(user);
-        addDashlet(Dashlets.MY_CALENDAR, 1);
+        myCalendarDashlet = new MyCalendarDashlet(webDriver);
+
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_CALENDAR, 1, 3);
+        setupAuthenticatedSession(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
-        dataSite.usingAdmin().deleteSite(site);
-    }
-
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD }, priority = 1)
+    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
     public void checkMyCalendarDashletWithNoEvents()
     {
-        userDashboard.navigate(user);
+        userDashboardPage.navigate(user.get());
         myCalendarDashlet.assertDashletTitleEquals(language.translate("myCalendarDashlet.title"))
             .assertNoUpcomingEventsIsDisplayed()
             .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_CALENDAR)
@@ -58,25 +49,34 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD }, priority = 2)
     public void checkEventsAreDisplayed()
     {
-        Date startDate = calendarUtility.tomorrow();
-        Date endDate = calendarUtility.tomorrow();
+        SiteModel site = getDataSite().usingUser(user.get()).createPublicRandomSite();
+
+        Date startDate = CalendarUtility.tomorrow();
+        Date endDate = CalendarUtility.tomorrow();
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM, yyyy");
         String eventTitle = "test event";
         String eventLocation = "location";
         String eventDescription = "description";
-        sitePagesService.addCalendarEvent(user.getUsername(), user.getPassword(), site.getId(),
+
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), site.getId(),
             eventTitle, eventLocation, eventDescription, startDate, endDate,
             "", "", false, "tag1");
 
-        userDashboard.navigate(user);
+        userDashboardPage.navigate(user.get());
         myCalendarDashlet.assertEventIsDisplayed(eventTitle)
             .assertEventTimeIs(eventTitle, formatter.format(startDate) + " 12:00 PM - 1:00 PM")
-            .selectEvent(eventTitle);
-//                .assertCalendarPageIsOpened();
+            .selectEvent(eventTitle)
+                .assertCalendarEventTitleEquals(eventTitle);
 
-        userDashboard.navigate(user);
-        myCalendarDashlet.selectSiteFromEvent(eventTitle);
-//            .assertSiteDashboardPageIsOpened()
-//            .assertSiteHeaderTitleIs(site);
+        userDashboardPage.navigate(user.get());
+        myCalendarDashlet.selectSiteFromEvent(eventTitle)
+            .assertSiteDashboardPageIsOpened()
+            .assertSiteHeaderTitleIs(site);
+    }
+
+    @AfterMethod (alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
     }
 }
