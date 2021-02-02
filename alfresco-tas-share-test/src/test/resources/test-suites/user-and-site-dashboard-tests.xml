@@ -9,6 +9,7 @@
          <run>
             <include name="user-dashboard"></include>
             <include name="site-dashboard"></include>
+            <exclude name="regression"></exclude>
          </run>
       </groups>
       <packages>
