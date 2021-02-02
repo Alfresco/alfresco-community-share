@@ -1,8 +1,8 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.po.enums.DashletHelpIcon;
+import org.alfresco.po.enums.SitesFilter;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
-import org.alfresco.po.share.dashlet.MySitesDashlet.SitesFilter;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;

@@ -1,5 +1,11 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_20;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.po.enums.SitesFilter;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -9,11 +15,6 @@ import org.openqa.selenium.*;
 import org.testng.Assert;
 
 import java.util.List;
-
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_20;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
@@ -28,7 +29,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     private final By deleteButton = By.cssSelector("a[class^='delete-site']");
     private final By favoriteAction = By.cssSelector("a[class^='favourite-action']");
 
-    private String siteRow = "//div[starts-with(@class,'dashlet my-sites')]//a[text()='%s']/../../../..";
+    private final String siteRow = "//div[starts-with(@class,'dashlet my-sites')]//a[text()='%s']/../../../..";
 
     public MySitesDashlet(ThreadLocal<WebDriver> webDriver)
     {
@@ -211,12 +212,5 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public boolean isDeleteButtonDisplayed()
     {
         return webElementInteraction.isElementDisplayed(deleteButton);
-    }
-
-    public enum SitesFilter
-    {
-        ALL,
-        MY_FAVORITES,
-        RECENT
     }
 }

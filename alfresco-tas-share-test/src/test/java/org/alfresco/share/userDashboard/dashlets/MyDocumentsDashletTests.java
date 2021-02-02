@@ -2,8 +2,8 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.po.enums.DocumentsFilter;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
-import org.alfresco.po.share.dashlet.MyDocumentsDashlet.DocumentsFilter;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
