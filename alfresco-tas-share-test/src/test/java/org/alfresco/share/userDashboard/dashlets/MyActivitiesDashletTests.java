@@ -2,6 +2,7 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.po.enums.ActivitiesFilter;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.testrail.TestRail;
@@ -108,13 +109,13 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
                 .usingSite(testSite.get()).createFile(collaboratorFile).assertThat().existsInRepo();
 
         userDashboardPage.navigate(user.get());
-        myActivitiesDashlet.selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.MY_ACTIVITIES)
+        myActivitiesDashlet.selectActivityFilter(ActivitiesFilter.MY_ACTIVITIES)
             .assertAddDocumentActivityIsDisplayed(user.get(), managerFile, testSite.get())
             .assertAddDocumentActivityIsNotDisplayedForUser(invitedUser, collaboratorFile, testSite.get())
-                .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
+                .selectActivityFilter(ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
                     .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite.get())
                     .assertAddDocumentActivityIsNotDisplayedForUser(user.get(), managerFile, testSite.get())
-                .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ACTIVITIES)
+                .selectActivityFilter(ActivitiesFilter.EVERYONE_ACTIVITIES)
                     .assertAddDocumentActivityIsDisplayed(user.get(), managerFile, testSite.get())
                     .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite.get());
     }

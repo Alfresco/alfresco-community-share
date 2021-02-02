@@ -9,6 +9,9 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.alfresco.po.enums.ActivitiesDaysRangeFilter;
+import org.alfresco.po.enums.ActivitiesFilter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -233,21 +236,5 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         webElementInteraction.waitInSeconds(WAIT_1.getValue());
 
         return (T) this;
-    }
-
-    public enum ActivitiesFilter
-    {
-        MY_ACTIVITIES,
-        EVERYONE_ELSE_ACTIVITIES,
-        EVERYONE_ACTIVITIES,
-        IM_FOLLOWING
-    }
-
-    public enum ActivitiesDaysRangeFilter
-    {
-        TODAY,
-        SEVEN_DAYS,
-        FOURTEEN_DAYS,
-        TWENTY_EIGHT_DAYS
     }
 }
