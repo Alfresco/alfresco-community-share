@@ -10,7 +10,11 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.exception.PageOperationException;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 
@@ -19,12 +23,11 @@ import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
  */
 public abstract class DashboardCustomization<T> extends SharePage2<DashboardCustomization<T>>
 {
-    private final int columns = 4;
-    private final int maxDashletsInColumn = 5;
+    private final int COLUMNS = 4;
+    private final int MAX_DASHLETS_IN_COLUMN = 5;
 
     private final By availableDashlets = By.cssSelector("ul.availableList>li.availableDashlet>span");
 
-    private final By subTitle = By.cssSelector(".sub-title");
     private final By layoutSection = By.cssSelector(".customise-layout");
     private final By dashletsSection = By.cssSelector(".customise-dashlets");
     private final By currentLayout = By.cssSelector("span[id$='_default-currentLayoutDescription-span']");
@@ -34,8 +37,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     private final By twoColumn_right = By.cssSelector("button[id$='2-columns-wide-right-button']");
     private final By threeColumn = By.cssSelector("button[id$='3-columns-button']");
     private final By fourColumn = By.cssSelector("button[id$='dashboard-4-columns-button']");
-    private final By newLayoutInstructions = By.cssSelector(".layouts .text");
-    private final By dashletsInstructions = By.cssSelector(".instructions .text");
     private final By cancelNewLayout = By.cssSelector(".layouts .buttons button[id$='default-cancel-button-button']");
     private final By okButton = By.cssSelector("button[id$='save-button-button']");
     private final By addDashlets = By.cssSelector("button[id$='addDashlets-button-button']");
@@ -49,13 +50,13 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     private final By closeAddDashlets = By.cssSelector(".closeLink");
     private final By availableDashletList = By.cssSelector(".availableList");
     private final By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
-    private final String dashletInAddedColumn = "ul[id$='default-column-ul-%s'] > li:nth-child(%s)";
+
     private final String availableDashlet = "li[class='availableDashlet dnd-draggable'] div[title^='%s']";
     private final String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private final String targetColumn = "ul[id$='default-column-ul-%d']";
     private final String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
 
-    public DashboardCustomization(ThreadLocal<WebDriver> webDriver)
+    protected DashboardCustomization(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
@@ -73,11 +74,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         {
             this.description = description;
         }
-    }
-
-    public String getSubTitle()
-    {
-        return webElementInteraction.getElementText(subTitle);
     }
 
     public String getCurrentLayout()
@@ -108,7 +104,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
             default:
                 break;
         }
-        LOG.info(String.format("Assert current layout is: %s", layoutLabel));
+        LOG.info("Assert current layout is {}", layoutLabel);
         assertEquals(webElementInteraction.getElementText(currentLayout), layoutLabel, "Layout label is correct");
         return (T) this;
     }
@@ -121,19 +117,9 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         return (T) this;
     }
 
-    public String getNewLayoutInstructions()
-    {
-        return webElementInteraction.getElementText(newLayoutInstructions);
-    }
-
-    public String getDashletsInstructions()
-    {
-        return webElementInteraction.getElementText(dashletsInstructions);
-    }
-
     public T selectLayout(Layout layout)
     {
-        LOG.info(String.format("Select layout %s", layout.description));
+        LOG.info("Select layout {}", layout.description);
         switch (layout)
         {
             case ONE_COLUMN:
@@ -180,7 +166,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T addDashlet(Dashlets dashlet, int columnNumber)
     {
-        if (columnNumber < 1 || columnNumber > columns)
+        if (columnNumber < 1 || columnNumber > COLUMNS)
         {
             throw new IllegalArgumentException("Column number should be between 1 and 4");
         }
@@ -215,7 +201,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
             {
 
             }
-            if (existingDashletsInColumn.size() < maxDashletsInColumn)
+            if (existingDashletsInColumn.size() < MAX_DASHLETS_IN_COLUMN)
             {
                 WebElement target = webElementInteraction.waitUntilElementIsVisible(
                     By.cssSelector(String.format(targetColumn, columnNumber)));
@@ -304,13 +290,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         assertFalse(isDashletAddedInColumn(dashlet, columnNumber), String.format(
             "Dashlet %s is added in column %s", dashlet.getDashletName(), columnNumber));
         return (T) this;
-    }
-
-    public boolean isDashletInPositionInColumn(Dashlets dashlet, int columnNumber, int columnPosition)
-    {
-        WebElement dashletElement = webElementInteraction.findElement(By.cssSelector
-            (String.format(dashletInAddedColumn, columnNumber, columnPosition)));
-        return dashletElement.getText().equals(dashlet.getDashletName());
     }
 
     public T removeDashlet(Dashlets dashlet, int columnNumber)
@@ -424,11 +403,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         return (T) this;
     }
 
-    public boolean isAvailableDashletListDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(availableDashletList);
-    }
-
     public T assertAvailableDashletsSectionIsDisplayed()
     {
         LOG.info("Assert available dashlet section is displayed");
@@ -470,14 +444,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
             throw new PageOperationException(dashletToMove.getDashletName() + " not found in column " + fromColumn);
         }
         return dashToMove;
-    }
-
-    private void isNumberOfDashletsExcedeedInColumn(int toColumn)
-    {
-        if (webElementInteraction.findElements(By.cssSelector(String.format(dashletsInColumn, toColumn))).size() > 5)
-        {
-            throw new PageOperationException("Exceeded the number of dashlets in given column.");
-        }
     }
 
     private void dragAndDropDashlet(WebElement dashletToMove, WebElement target)
