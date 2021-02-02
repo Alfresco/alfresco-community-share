@@ -8,32 +8,22 @@ import org.openqa.selenium.WebElement;
 
 public class TinyMceEditor extends BasePage
 {
-    public String FRAME_ID = "";
-    public String TINYMCE_CONTENT = "body[id$='tinymce']";
-    private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
-
     private final By CSS_STR_FORE_COLOUR = By.cssSelector("div[aria-label^='Text'] button[class$='mce-open']");
     private final By iFrame = By.cssSelector("div[class^='mce-tinymce'] iframe");
-    private final By CSS_REMOVE_FORMAT = By.cssSelector("i.mce-i-removeformat");
     private final By CSS_STR_BOLD = By.cssSelector("i[class$='mce-i-bold']");
     private final By CSS_STR_ITALIC = By.cssSelector("i[class$='mce-i-italic']");
     private final By CSS_STR_UNDER_LINED = By.cssSelector("i[class$='mce-i-underline']");
     private final By CSS_STR_BULLETS = By.cssSelector("i[class$='mce-i-bullist']");
     private final By CSS_STR_NUMBERS = By.cssSelector("i[class$='mce-i-numlist']");
-    private final By CSS_STR_BOLD_FMT_TXT = By.cssSelector("#tinymce>p>b");
-    private final By CSS_STR_ITALIC_FMT_TXT = By.cssSelector("#tinymce>p>i");
-    private final By CSS_STR_UNDER_LINED_FMT_TXT = By.cssSelector("#tinymce>p>u");
-    private final By CSS_STR_BULLET_FMT_TXT = By.cssSelector("#tinymce>ul>li");
-    private final By CSS_STR_NUMBER_FMT_TXT = By.cssSelector("#tinymce>ol>li");
-    private final By CSS_STR_TEXT_TAG = By.cssSelector("#tinymce>p");
-    private final By CSS_COLOR_FONT = By.cssSelector("#tinymce>p>font");
     private final By CSS_EDIT = By.cssSelector("button[id$='mce_43-open']");
     private final By CSS_FORMAT = By.cssSelector("button[id$='mce_46-open']");
     private final By CSS_UNDO = By.cssSelector("i[class$='mce-i-undo']");
     private final By CSS_REDO = By.cssSelector("i[class$='mce-i-redo']");
-    private final By CSS_BULLET_TEXT = By.cssSelector("#tinymce>ul>li");
     private final By CSS_BOLD_EDIT = By.cssSelector("DIV[class='comments-list']>DIV[class='comment-form'] i[class$='mce-i-bold']");
     private final By CSS_STR_BACK_GROUND_COLOUR = By.cssSelector("div[aria-label*='Background'] button[class='mce-open']");
+
+    public String TINYMCE_CONTENT = "body[id$='tinymce']";
+    private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
     private String frameId = null;
     private FormatType formatType;
 
@@ -94,29 +84,6 @@ public class TinyMceEditor extends BasePage
         }
     }
 
-    public By getCSSOfText(FormatType formatType)
-    {
-        switch (formatType)
-        {
-            case BOLD_FMT_TXT:
-                return CSS_STR_BOLD_FMT_TXT;
-            case ITALIC_FMT_TXT:
-                return CSS_STR_ITALIC_FMT_TXT;
-            case UNDER_LINED_FMT_TXT:
-                return CSS_STR_UNDER_LINED_FMT_TXT;
-            case BULLET_FMT_TXT:
-                return CSS_STR_BULLET_FMT_TXT;
-            case NUMBER_FMT_TXT:
-                return CSS_STR_NUMBER_FMT_TXT;
-            case COLOR_FONT:
-                return CSS_COLOR_FONT;
-            case BULLET_TEXT:
-                return CSS_BULLET_TEXT;
-            default:
-                return CSS_STR_TEXT_TAG;
-        }
-    }
-
     public void setTinyMce(String frameId)
     {
         setFrameId(frameId);
@@ -139,15 +106,6 @@ public class TinyMceEditor extends BasePage
         setFormatType(formatType);
         selectTextFromEditor();
         clickElementOnRichTextFormatter(webElementInteraction.findElement(textElements()));
-    }
-
-    public void clickColorCode(TinyMceColourCode colourCode)
-    {
-        selectTextFromEditor();
-        setFormatType(FormatType.COLOR);
-        clickElementOnRichTextFormatter(webElementInteraction.findElement(textElements()));
-        WebElement colour = webElementInteraction.findElement(By.cssSelector(colourCode.getForeColourLocator()));
-        clickElementOnRichTextFormatter(colour);
     }
 
     /**

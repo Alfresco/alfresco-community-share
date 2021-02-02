@@ -2,10 +2,9 @@ package org.alfresco.po.share;
 
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_5;
-import static org.alfresco.utility.report.log.Step.STEP;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -89,7 +88,7 @@ public abstract class SharePage2<T> extends BasePage
 
     public void navigateWithoutRender()
     {
-        STEP(String.format("Navigate to: %s",relativePathToURL().toString()));
+        LOG.info("Navigate to: {}",relativePathToURL().toString());
         webElementInteraction.navigateTo(relativePathToURL().toString());
     }
 
