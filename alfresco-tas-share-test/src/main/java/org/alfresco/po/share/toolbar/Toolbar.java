@@ -232,6 +232,7 @@ public class Toolbar extends BasePage
 
     public void searchInToolbar(String searchTerm)
     {
+        webElementInteraction.waitUntilElementIsVisible(searchBoxInput);
         webElementInteraction.clearAndType(searchBoxInput, searchTerm);
     }
 

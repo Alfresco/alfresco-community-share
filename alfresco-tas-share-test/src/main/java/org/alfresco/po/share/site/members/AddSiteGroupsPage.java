@@ -85,14 +85,6 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         return roles;
     }
 
-    public AddSiteGroupsPage assertNotificationMessageEqualsTo(String expectedMessage)
-    {
-        LOG.info("Assert notification message equals {}", expectedMessage);
-        assertEquals(waitUntilNotificationMessageDisappears().get(), expectedMessage,
-            String.format("Notification message not equals %s ", expectedMessage));
-        return this;
-    }
-
     public AddSiteGroupsPage assertGroupNameEquals(String groupName)
     {
         String formattedGroup = getGroupFromSearchResults(groupName).getText()
