@@ -22,7 +22,7 @@ public class TinyMceEditor extends BasePage
     private final By CSS_BOLD_EDIT = By.cssSelector("DIV[class='comments-list']>DIV[class='comment-form'] i[class$='mce-i-bold']");
     private final By CSS_STR_BACK_GROUND_COLOUR = By.cssSelector("div[aria-label*='Background'] button[class='mce-open']");
 
-    public String TINYMCE_CONTENT = "body[id$='tinymce']";
+    private String TINYMCE_CONTENT = "body[id$='tinymce']";
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
     private String frameId = null;
     private FormatType formatType;

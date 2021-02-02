@@ -35,7 +35,6 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
     private final String siteToSelect = "//h4[text()='%s']";
     private final String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
     private final String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";
-
     private final String destinationChecked = "yui-radio-button-checked";
 
     public CopyMoveUnzipToDialog(ThreadLocal<WebDriver> webDriver)
@@ -98,8 +97,8 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     private void waitForDocumentsPathAndClick()
     {
-        int i = 0;
-        while(i < WAIT_10.getValue())
+        int retryCounter = 0;
+        while(retryCounter < WAIT_10.getValue())
         {
             try
             {
@@ -110,7 +109,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
             }
             catch (StaleElementReferenceException | ElementNotInteractableException exception)
             {
-                i++;
+                retryCounter++;
                 Utility.waitToLoopTime(1,"Wait for Documents link to be clickable");
             }
         }
