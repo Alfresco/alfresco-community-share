@@ -4,8 +4,8 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.DataListTypes;
 import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
-import org.alfresco.po.share.site.dataLists.CreateDataListDialog.DataListTypes;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -25,7 +25,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     //@Autowired
     private DataListsPage dataListsPage;
 
-    @Autowired
+    //@Autowired
     private CreateDataListDialog createDataListDialog;
 
     @Autowired
@@ -76,8 +76,8 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
-        createDataListDialog.isExpectedTypeSelected(DataListTypes.ContactList.title);
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
+        createDataListDialog.isExpectedTypeSelected(DataListTypes.CONTACT_LIST.title);
 
         LOG.info("Step 3: Provide an input for Title.");
         createDataListDialog.typeTitle(dataListName);
@@ -118,7 +118,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
 
         LOG.info("Step 3: Provide an input for Description.");
         createDataListDialog.typeDescription("Description");
@@ -138,7 +138,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
 
         LOG.info("Step 3: Provide an input for Title.");
         createDataListDialog.typeTitle(dataListName);
@@ -160,7 +160,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListDialog.typeTitle(dataListName);
@@ -179,7 +179,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListDialog.typeTitle(dataListName);
@@ -202,7 +202,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListDialog.typeTitle(dataListName);
@@ -225,7 +225,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListDialog.typeTitle(dataListName);

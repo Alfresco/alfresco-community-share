@@ -9,12 +9,11 @@ import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.enums.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.enums.DataListTypes;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
 import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
-import org.alfresco.po.share.site.dataLists.CreateDataListDialog.DataListTypes;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.NewItemPopupForm;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -32,7 +31,7 @@ import org.testng.annotations.Test;
 
 public class DataListXSSTests extends ContextAwareWebTest
 {
-    @Autowired
+    //@Autowired
     CreateNewItemPopUp createNewItemPopUp;
 
     @Autowired
@@ -44,13 +43,13 @@ public class DataListXSSTests extends ContextAwareWebTest
     @Autowired
     MeetingAgendaListSelectedContent meetingAgendaListSelectedContent;
 
-    @Autowired
+    //@Autowired
     SiteDataListsDashlet siteDataListsDashlet;
 
     //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     CreateDataListDialog createDataListDialog;
 
     //@Autowired
@@ -112,7 +111,7 @@ public class DataListXSSTests extends ContextAwareWebTest
         Assert.assertTrue(createDataListDialog.isDataListComplete(), "One or more list types from 'Data List' is missing.");
 
         LOG.info("Step 1.2 => Check if Contact list contains the right description");
-        Assert.assertEquals(createDataListDialog.getTypeOfListDescription(DataListTypes.ContactList), DataListTypes.ContactList.description, "'Contact List' description is not correct.");
+        Assert.assertEquals(createDataListDialog.getTypeOfListDescription(DataListTypes.CONTACT_LIST), DataListTypes.CONTACT_LIST.description, "'Contact List' description is not correct.");
 
         LOG.info("Step 1.3 => Check if there are following controls: Title (mandatory) field, Description text area, Submit button (disable till Title is not filled, Cancel button available.");
         Assert.assertTrue(createDataListDialog.getTitleLabelText().contains("Title:"), "'Title input' label is not 'Title:'.");
@@ -126,8 +125,8 @@ public class DataListXSSTests extends ContextAwareWebTest
         Assert.assertTrue(createDataListDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");
 
         LOG.info("STEP 2: Select the 'Contact list' type;");
-        createDataListDialog.selectType(DataListTypes.ContactList.title);
-        Assert.assertTrue(createDataListDialog.isExpectedTypeSelected(DataListTypes.ContactList.title), "'" + DataListTypes.ContactList.title + "' is not highlighted.");
+        createDataListDialog.selectType(DataListTypes.CONTACT_LIST.title);
+        Assert.assertTrue(createDataListDialog.isExpectedTypeSelected(DataListTypes.CONTACT_LIST.title), "'" + DataListTypes.CONTACT_LIST.title + "' is not highlighted.");
 
         LOG.info("STEP 3: Enter XSS string '" + XSSString + "' into 'Title' (mandatory) field.");
         createDataListDialog.typeTitle(XSSString);

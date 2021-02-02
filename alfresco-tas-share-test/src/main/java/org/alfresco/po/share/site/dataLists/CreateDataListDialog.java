@@ -5,6 +5,7 @@ import static org.alfresco.common.DataUtil.isEnumContainedByList;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.enums.DataListTypes;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -152,33 +153,5 @@ public class CreateDataListDialog extends BaseDialogComponent
         webElementInteraction.clickElement(cancelButton);
 
         return new DataListsPage(webDriver);
-    }
-
-    public enum DataListTypes
-    {
-        ContactList("Contact List", "Contacts list including first name, last name, full name, email, job title, phone (office), phone (mobile)."),
-        EventAgenda("Event Agenda", "Manage event agenda items including session names, presenters, start and end times."),
-        EventList("Event List", "Events list including title, description, location, start and end date/time."),
-        IssueList("Issue List", "Issues list including ID, status, priority, description, due data, comments, assign to, related issues."),
-        LocationList("Location List", "Locations/Addresses list"),
-        MeetingAgenda("Meeting Agenda", "Manage meeting agenda items including description, owner, allocated time."),
-        TaskListAdvanced("Task List (Advanced)", "Advanced tasks list including title, description, start and end dates, priority, status, comments, assignees and attachments."),
-        TaskListSimple("Task List (Simple)", "Simple tasks list including title, description, due date, priority, status, comments."),
-        ToDoList("To Do List", "A simple to do list with optional assignee.");
-
-        public final String title;
-        public final String description;
-
-        DataListTypes(String title, String description)
-        {
-            this.title = title;
-            this.description = description;
-        }
-
-        @Override
-        public String toString()
-        {
-            return this.title;
-        }
     }
 }

@@ -6,8 +6,8 @@ import static org.alfresco.utility.data.RandomData.getRandomAlphanumeric;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.enums.DashletHelpIcon;
+import org.alfresco.po.enums.DataListTypes;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
-import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
@@ -88,7 +88,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         String dataListDescription = getRandomAlphanumeric();
         siteDashboardPage.navigate(site.get());
         siteDataListsDashlet.clickOnCreateDataListLink()
-            .selectType(CreateDataListDialog.DataListTypes.ContactList.title)
+            .selectType(DataListTypes.CONTACT_LIST.title)
             .typeTitle(dataListTitle)
             .typeDescription(dataListDescription)
             .clickSaveButton();
