@@ -142,16 +142,6 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         return webElementInteraction.findElement(workflowDueDateInput).getAttribute("value");
     }
 
-    public boolean isTodayDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(calendarToday);
-    }
-
-    public String getWorkflowDueDate()
-    {
-        return webElementInteraction.findElement(workflowDueDate).getAttribute("value");
-    }
-
     public void selectWorkflowPriority(String priority)
     {
         List<WebElement> priorities = webElementInteraction.findElements(workflowPrioritiesList);

@@ -12,26 +12,20 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Link;
-import ru.yandex.qatools.htmlelements.element.Table;
 
 public class CalendarPage extends SiteCommon<CalendarPage>
 {
     @Autowired
-    AddEventDialog addEventDialog;
+    private AddEventDialog addEventDialog;
 
     @Autowired
-    EventInformationDialog eventInformationDialog;
+    private EventInformationDialog eventInformationDialog;
 
     @Autowired
-    EditEventDialog editEventDialog;
+    private EditEventDialog editEventDialog;
 
     private final By addEventButton = By.cssSelector("button[id$='default-addEvent-button-button']");
-    private final By calendarContainer = By.cssSelector("div[id$='defaultView']");
     private final By calendarHeader = By.xpath("//span[@class='fc-header-title']/h2 | //h2[@id='calTitle']");
     private final By dayButton = By.cssSelector("button[id$='_default-day-button']");
     private final By weekButton = By.cssSelector("button[id$='_default-week-button']");
@@ -40,13 +34,11 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private final By previousButton = By.cssSelector("button[id$='_default-prev-button-button']");
     private final By nextButton = By.cssSelector("button[id$='_default-next-button-button']");
     private final By todayButton = By.cssSelector("button[id$='_default-today-button-button']");
-    private final By tagsFilter = By.cssSelector("div.filter.tags");
     private final By showAllItems = By.cssSelector("a[rel='-all-']");
     private final By tags = By.cssSelector(".tag-link");
     private final By today = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]");
     private final By agendaEventsName = By.cssSelector(".yui-dt-data .yui-dt-col-name .yui-dt-liner");
     private final By agendaAddEvent = By.cssSelector("a.addEvent");
-    private final By miniCalendar = By.id("calendar_t");
     private final By selectedView = By.cssSelector("span.yui-button-checked");
     private final By calendarView = By.id("yui-history-field");
     private final By deleteIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'deleteAction']");

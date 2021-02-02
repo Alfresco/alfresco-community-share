@@ -1,13 +1,13 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_60;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.common.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_60;
-import static org.testng.Assert.assertTrue;
 
 public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 {
@@ -58,11 +58,10 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
         return this;
     }
 
-    public ImagePreviewDashlet assertDownloadedDocumentExists(String fileName, String extension)
+    public void assertDownloadedDocumentExists(String fileName, String extension)
     {
         LOG.info("Assert document exists in directory");
         assertTrue(Utils.isFileInDirectory(fileName, extension), "Document not exists in directory");
 
-        return this;
     }
 }

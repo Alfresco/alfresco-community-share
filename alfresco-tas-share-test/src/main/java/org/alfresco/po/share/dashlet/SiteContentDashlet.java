@@ -1,10 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
 
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;

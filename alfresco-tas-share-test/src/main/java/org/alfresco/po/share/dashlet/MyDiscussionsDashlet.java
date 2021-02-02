@@ -1,13 +1,12 @@
 package org.alfresco.po.share.dashlet;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.testng.Assert.assertEquals;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 {

@@ -1,16 +1,17 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_60;
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
-import static org.testng.Assert.assertEquals;
-
 public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 {
+    private  final int BEGIN_INDEX = 0;
     private final By dashletContainer = By.cssSelector("div.dashlet.calendar");
     private final By siteEventsNameList = By.cssSelector("div.dashlet.calendar .detail-list-item span>a");
     private final By dashletMessage = By.cssSelector("div.dashlet.calendar .dashlet-padding>h3");
@@ -80,7 +81,7 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     {
         LOG.info("Get event time without title: {}", eventTime);
         String eventTimeAndTitle = waitUntilEventTimeIsDisplayed(eventTime).getText();
-        return eventTimeAndTitle.substring(0, eventTimeAndTitle.indexOf(eventTitle)).trim();
+        return eventTimeAndTitle.substring(BEGIN_INDEX, eventTimeAndTitle.indexOf(eventTitle)).trim();
     }
 
     public String getEventStartDate(String eventTitle)

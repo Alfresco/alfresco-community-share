@@ -1,6 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -12,12 +13,13 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.util.List;
 
 public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesDashlet>
 {
+    private final String CREATE_ACTIVITY = "activitiesDashlet.document.createActivity";
+
     public MyActivitiesDashlet(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -27,7 +29,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     {
         LOG.info("Assert add document activity is displayed for document {}", file.getName());
         assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
-            String.format(language.translate("activitiesDashlet.document.createActivity"),
+            String.format(language.translate(CREATE_ACTIVITY),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))),
                 "Add document activity is not displayed");
         return this;
@@ -37,10 +39,10 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     {
         LOG.info("Assert add document activity for {} is not displayed for user {}",file.getName(), user.getUsername());
         List<WebElement> rows = webElementInteraction.waitUntilElementsAreVisible(activityRows); // TODO check it with no activities
-        Assert.assertFalse(webElementInteraction.getTextFromElementList(rows).contains(
-            String.format(language.translate("activitiesDashlet.document.createActivity"),
+        assertFalse(webElementInteraction.getTextFromElementList(rows).contains(
+            String.format(language.translate(CREATE_ACTIVITY),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())),
-                    String.format("Add document activity is displayed for user", user.getUsername()));
+                    String.format("Add document activity is displayed for user %s ", user.getUsername()));
         return this;
     }
 
@@ -51,16 +53,6 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
             String.format(language.translate("activitiesDashlet.document.updateActivity"),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))),
                 "Update document activity is not displayed");
-        return this;
-    }
-
-    public MyActivitiesDashlet assertPreviewedDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
-    {
-        LOG.info("Assert preview document activity is displayed for document {}", file.getName());
-        assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
-            String.format(language.translate("activitiesDashlet.document.previewedActivity"),
-                user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))),
-                "Preview document activity is not displayed");
         return this;
     }
 
@@ -106,16 +98,9 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
 
     public UserProfilePage clickUserFromAddedDocumentActivity(UserModel user, FileModel file, SiteModel site)
     {
-        getActivityRow(String.format(language.translate("activitiesDashlet.document.createActivity"),
+        getActivityRow(String.format(language.translate(CREATE_ACTIVITY),
             user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(userLinkLocator).click();
         return new UserProfilePage(webDriver);
-    }
-
-    public DocumentDetailsPage clickDocumentLinkForAddActivity(UserModel user, FileModel file, SiteModel site)
-    {
-        getActivityRow(String.format(language.translate("activitiesDashlet.document.createActivity"),
-            user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(documentLinkLocator).click();
-        return new DocumentDetailsPage(webDriver);
     }
 
     public MyActivitiesDashlet assertEmptyDashletMessageEquals()

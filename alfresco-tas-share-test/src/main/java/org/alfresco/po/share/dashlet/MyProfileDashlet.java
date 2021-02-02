@@ -6,13 +6,9 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 {
@@ -26,9 +22,7 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     private final By email = By.cssSelector(".fieldvalue>a");
     private final By telephone = By.xpath("(//div[@class='fieldvalue'])[2]");
     private final By skype = By.xpath("(//div[@class='fieldvalue'])[3]");
-    private final By im = By.xpath("(//div[@class='fieldvalue'])[4]");
-
-    protected String dashletBar = "div[class='%s'] div[class='title']";
+    private final By instantMessage = By.xpath("(//div[@class='fieldvalue'])[4]");
 
     public MyProfileDashlet(ThreadLocal<WebDriver> webDriver)
     {
@@ -65,11 +59,6 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
         return this;
     }
 
-    public void clickViewFullProfile()
-    {
-        webElementInteraction.clickElement(getMyProfileDashletContainer().findElement(viewFullProfile));
-    }
-
     public MyProfileDashlet assertAvatarIsDisplayed()
     {
         assertTrue(webElementInteraction.isElementDisplayed(getMyProfileDashletContainer().findElement(avatar)), "Avatar is displayed");
@@ -80,11 +69,6 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     {
         assertTrue(getMyProfileDashletContainer().findElement(name).isEnabled(), "Name is enabled");
         return this;
-    }
-
-    public void clickOnName()
-    {
-        webElementInteraction.clickElement(getMyProfileDashletContainer().findElement(name));
     }
 
     public MyProfileDashlet assertNameIs(String fullName)
@@ -130,9 +114,10 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
         return this;
     }
 
-    public MyProfileDashlet assertIMIs(String expectedIM)
+    public MyProfileDashlet assertInstantMessagesEqualTo(String expectedInstantMessage)
     {
-        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(im)), expectedIM);
+        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(
+            instantMessage)), expectedInstantMessage);
         return this;
     }
 }

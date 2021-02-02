@@ -1,10 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.testng.Assert.assertEquals;
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_60;
+import static org.testng.Assert.assertEquals;
 
-import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -41,11 +40,6 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
             .findElement(dashletTitle));
     }
 
-    public String getEmptyMembersListMessage()
-    {
-        return webElementInteraction.getElementText(emptyMembersListMessage);
-    }
-
     public SiteMembersDashlet assertMembersListMessageEquals(String expectedMembersListMessage)
     {
         LOG.info("Assert members list message equals: {}", expectedMembersListMessage);
@@ -53,11 +47,6 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
             String.format("Members list message not equals %s ", expectedMembersListMessage));
 
         return this;
-    }
-
-    public boolean isAddUsersLinkDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(addUsersLink);
     }
 
     public SiteMembersDashlet assertAddUsersLinkTextEquals(String expectedAddUsersLinkText)

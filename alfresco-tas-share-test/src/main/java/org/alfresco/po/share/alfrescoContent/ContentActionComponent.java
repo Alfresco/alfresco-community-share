@@ -1,5 +1,10 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import static org.alfresco.common.Wait.WAIT_15;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -10,9 +15,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.alfresco.common.Wait.WAIT_15;
-import static org.testng.Assert.*;
 
 public class ContentActionComponent
 {

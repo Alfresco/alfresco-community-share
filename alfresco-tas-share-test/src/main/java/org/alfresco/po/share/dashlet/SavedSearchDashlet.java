@@ -15,8 +15,6 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     private final By titleBarActions = By.cssSelector("div.dashlet.savedsearch div[class$='titleBarActions']");
     private final By titleBar = By.cssSelector("div.dashlet.savedsearch .title");
     private final By dashletContainer = By.cssSelector("div.dashlet.savedsearch");
-    private final By resultsText = By.cssSelector("div[id$='_default-search-results'] tbody div");
-    private final By searchResults = By.cssSelector("div[id$='_default-search-results'] table");
     private final By inFolderLocation = By.cssSelector(".details");
 
     private String searchRow = "//div[starts-with(@class,'dashlet savedsearch')]//a[text()='%s']/../../../..";

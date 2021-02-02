@@ -1,5 +1,11 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_10;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
@@ -7,16 +13,6 @@ import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.alfresco.common.Wait.WAIT_10;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 {
@@ -27,7 +23,6 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     private final By completedTasksLink = By.cssSelector("div[class='toolbar flat-button'] a[href$='filter=workflows|completed']");
     private final By filterTaskButton = By.cssSelector("div.dashlet.my-tasks button[id$='default-filters-button']");
     private final By quantityOfTasks = By.cssSelector("span[id*=page-report]");
-    private final By taskRowList = By.cssSelector("div.dashlet.my-tasks [class=yui-dt-data] tr");
     private final By tasksNameList = By.cssSelector("div.dashlet.my-tasks [class=yui-dt-data] tr td[class*='title'] a");
     private final By emptyDashletMessage = By.cssSelector("div[class^='dashlet my-tasks'] .empty");
     private final By editIcon = By.cssSelector(".edit-task");
@@ -145,62 +140,54 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public ViewTaskPage viewTask(String taskName)
     {
-        LOG.info(String.format("Edit task %s", taskName));
-        WebElement taskRow = getTaskRow(taskName);
+        LOG.info("Edit task {}", taskName);
+        WebElement taskRowElement = getTaskRow(taskName);
         webElementInteraction.mouseOver(activeTasksLink);
-        webElementInteraction.mouseOver(taskRow.findElement(taskNames));
-        webElementInteraction.waitUntilElementHasAttribute(taskRow, "class", "highlighted");
-        taskRow.findElement(viewIcon).click();
+        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
+        webElementInteraction.waitUntilElementHasAttribute(taskRowElement, "class", "highlighted");
+        taskRowElement.findElement(viewIcon).click();
         return new ViewTaskPage(webDriver);
     }
 
     public EditTaskPage editTask(String taskName)
     {
-        LOG.info(String.format("Edit task %s", taskName));
-        WebElement taskRow = getTaskRow(taskName);
+        LOG.info("Edit task {}", taskName);
+        WebElement taskRowElement = getTaskRow(taskName);
         webElementInteraction.mouseOver(activeTasksLink);
-        webElementInteraction.mouseOver(taskRow.findElement(taskNames));
-        webElementInteraction.waitUntilElementHasAttribute(taskRow, "class", "highlighted");
-        taskRow.findElement(editIcon).click();
+        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
+        webElementInteraction.waitUntilElementHasAttribute(taskRowElement, "class", "highlighted");
+        taskRowElement.findElement(editIcon).click();
         return new EditTaskPage(webDriver);
     }
 
     public MyTasksDashlet assertEditIsDisplayedForTask(String taskName)
     {
-        LOG.info(String.format("Assert task %s has edit button", taskName));
-        WebElement taskRow = getTaskRow(taskName);
-        webElementInteraction.mouseOver(taskRow.findElement(taskNames));
-        assertTrue(webElementInteraction.isElementDisplayed(taskRow.findElement(editIcon)), "Edit icon is displayed");
+        LOG.info("Assert task {} has edit button", taskName);
+        WebElement taskRowElement = getTaskRow(taskName);
+        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
+        assertTrue(webElementInteraction.isElementDisplayed(taskRowElement.findElement(editIcon)), "Edit icon is displayed");
         return this;
     }
 
     public MyTasksDashlet assertViewIsDisplayedForTask(String taskName)
     {
-        LOG.info(String.format("Assert task %s has view button", taskName));
-        WebElement taskRow = getTaskRow(taskName);
-        webElementInteraction.mouseOver(taskRow.findElement(taskNames));
-        assertTrue(webElementInteraction.isElementDisplayed(taskRow.findElement(viewIcon)), "View icon is displayed");
+        LOG.info("Assert task {} has view button", taskName);
+        WebElement taskRowElement = getTaskRow(taskName);
+        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
+        assertTrue(webElementInteraction.isElementDisplayed(taskRowElement.findElement(viewIcon)), "View icon is displayed");
         return this;
     }
 
     public MyTasksDashlet assertTaskIsDisplayed(String taskName)
     {
-        LOG.info(String.format("Assert tasks %s is displayed", taskName));
+        LOG.info("Assert tasks {} is displayed", taskName);
         assertTrue(webElementInteraction.isElementDisplayed(getTaskRow(taskName)), String.format("Task %s is displayed", taskName));
-        return this;
-    }
-
-    public MyTasksDashlet assertTaskIsNotDisplayed(String taskName)
-    {
-        LOG.info(String.format("Assert tasks %s is displayed", taskName));
-        Assert.assertFalse(webElementInteraction.isElementDisplayed(By.xpath(String.format(taskRow, taskName))),
-            String.format("Task %s is displayed", taskName));
         return this;
     }
 
     public MyTasksDashlet assertTaskIsNotStartedYet(String taskName)
     {
-        LOG.info(String.format("Assert task %s is not started yet", taskName));
+        LOG.info("Assert task {} is not started yet", taskName);
         assertEquals(getTaskRow(taskName).findElement(taskTypeAndStatus).getText(),
             language.translate("myTasksDashlet.notStartedYet"));
         return this;
@@ -210,23 +197,9 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     {
         SimpleDateFormat dt = new SimpleDateFormat("dd MMMM, YYYY");
         String actualDate = getTaskRow(taskName).findElement(taskDueDate).getText();
-        LOG.info(String.format("Assert task due date is: %s", expectedDate));
+        LOG.info("Assert task due date is: {}", expectedDate);
         assertEquals(actualDate, dt.format(expectedDate));
         return this;
-    }
-
-    public List<String> getTaskDueDateList()
-    {
-        List<String> taskTypeAndStatusList = new ArrayList<>();
-        List<WebElement> taskList = webElementInteraction.waitUntilElementsAreVisible(taskRowList);
-        for (WebElement taskRow : taskList)
-        {
-            if (taskRow.findElements(taskDueDate).size() > 0)
-            {
-                taskTypeAndStatusList.add(taskRow.findElements(taskDueDate).get(0).getText());
-            }
-        }
-        return taskTypeAndStatusList;
     }
 
     public MyTasksDashlet selectOptionFromTaskFilters(String taskOption)

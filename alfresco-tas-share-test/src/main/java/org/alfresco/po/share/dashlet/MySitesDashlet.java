@@ -2,19 +2,22 @@ package org.alfresco.po.share.dashlet;
 
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_20;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
 import org.alfresco.po.enums.SitesFilter;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.web.common.Parameter;
-import org.openqa.selenium.*;
-import org.testng.Assert;
-
-import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
@@ -180,14 +183,14 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public MySitesDashlet assertSelectedFilterIs(SitesFilter filter)
     {
         String value = webElementInteraction.getElementText(sitesFilterButton);
-        Assert.assertEquals(value.substring(0, value.length() - 2),
+        assertEquals(value.substring(0, value.length() - 2),
                 getFilterValue(filter), "Selected filter is correct");
         return this;
     }
 
     public MySitesDashlet assertEmptySitesMessageIsDisplayed()
     {
-        Assert.assertEquals(webElementInteraction.getElementText(defaultSiteEmptyText), language.translate("mySitesDashlet.noSites"));
+        assertEquals(webElementInteraction.getElementText(defaultSiteEmptyText), language.translate("mySitesDashlet.noSites"));
         return this;
     }
 

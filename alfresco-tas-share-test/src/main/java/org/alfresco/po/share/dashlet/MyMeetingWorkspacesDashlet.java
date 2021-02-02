@@ -1,11 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.utility.web.annotation.RenderWebElement;
+import static org.testng.Assert.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashlet>
 {
@@ -24,7 +22,7 @@ public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashl
 
     public MyMeetingWorkspacesDashlet assertNoMeetingWorkspacesMessageIsDisplayed()
     {
-        Assert.assertEquals(webElementInteraction.getElementText(defaultDashletMessage),
+        assertEquals(webElementInteraction.getElementText(defaultDashletMessage),
             language.translate("myMeetingWorkspacesDashlet.noMeeting"));
         return this;
     }

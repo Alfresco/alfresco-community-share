@@ -1,14 +1,19 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.utility.constants.UserRole;
-import org.alfresco.utility.model.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import java.util.List;
-
-import static org.testng.Assert.*;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.utility.constants.UserRole;
+import org.alfresco.utility.model.ContentModel;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.GroupModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.UserModel;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivitiesDashlet>
 {

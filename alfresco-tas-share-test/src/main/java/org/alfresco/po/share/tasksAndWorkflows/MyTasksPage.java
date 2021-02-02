@@ -12,23 +12,22 @@ import org.openqa.selenium.WebElement;
 
 public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleByMenuBar
 {
-    private final String completeTaskName = "Request to join %s site";
-    private final String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
-    private final String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
-
     private final By taskRowList = By.cssSelector("div[id$='default-tasks'] tr[class*='yui-dt-rec']");
     private final By editTaskLink = By.cssSelector("div[class*='task-edit'] a");
     private final By viewTaskLink = By.cssSelector("div[class*='task-view'] a");
     private final By viewWorkflowLink = By.cssSelector("div[class*='workflow-view'] a");
     private final By taskTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
     private final By taskbarTitle = By.cssSelector("h2[id$='default-filterTitle']");
-    private final By tasksBody = By.cssSelector(".alfresco-datatable.tasks");
     private final By completedTasksButton = By.cssSelector("a[rel='completed']");
     private final By startWorkflow = By.cssSelector("[id$='default-startWorkflow-button-button']");
     private final By tasksFilter = By.cssSelector("div[id*='_all-filter'] div h2");
     private final By dueFilter = By.cssSelector("div[id*='_due-filter'] div h2");
     private final By priorityFilter = By.cssSelector( "div[id*='_priority-filter'] div h2");
     private final By assigneeFilter = By.cssSelector("div[id*='_assignee-filter'] div h2");
+
+    private final String completeTaskName = "Request to join %s site";
+    private final String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
+    private final String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
 
     public MyTasksPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -99,11 +98,6 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
         webElementInteraction.mouseOver(selectTask(taskName));
         webElementInteraction.clickElement(selectTask(String.format(completeTaskName, taskName)).findElement(viewTaskLink));
         return new ViewTaskPage(webDriver);
-    }
-
-    public boolean isStartWorkflowDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(startWorkflow);
     }
 
     public MyTasksPage assertStartWorkflowIsDisplayed()

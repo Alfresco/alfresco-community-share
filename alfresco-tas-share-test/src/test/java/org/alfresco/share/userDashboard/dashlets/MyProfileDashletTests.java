@@ -61,7 +61,7 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
             .assertEmailIs(user.get().getEmailAddress())
             .assertTelephoneIs(telephone)
             .assertSkypeIs(skype)
-            .assertIMIs(im)
+            .assertInstantMessagesEqualTo(im)
             .assertEmailHrefIsCorrect(user.get());
     }
 

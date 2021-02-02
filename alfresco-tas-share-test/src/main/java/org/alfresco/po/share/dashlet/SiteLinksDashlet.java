@@ -4,23 +4,9 @@ import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.po.share.site.link.CreateLinkPage;
-import org.alfresco.po.share.site.link.LinkDetailsViewPage;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.Link;
-
-import java.util.List;
-
-
 
 public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
 {
@@ -29,6 +15,7 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
     private final By siteLinksList = By.cssSelector("div.dashlet.site-links .link>a");
     private final By emptyDashletMessage = By.cssSelector("div.dashlet.site-links .detail-list-item span");
     private final By linkDetails = By.xpath("../following-sibling::*[@class = 'actions']/a");
+
     private final String linkNameLocator = "//div[@class='link']//a[text()='%s']";
 
     public SiteLinksDashlet(ThreadLocal<WebDriver> webDriver)

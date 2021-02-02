@@ -48,7 +48,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
     private final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
-    private ScreenshotHelper screenshotHelper;
+//    private ScreenshotHelper screenshotHelper;
 
     @Autowired
     private WebDriverFactory webDriverFactory;
@@ -92,7 +92,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         userService.set(applicationContext.getBean(UserService.class));
         dataSiteThread.set(applicationContext.getBean(DataSite.class));
         dataUserThread.set(applicationContext.getBean(DataUserAIS.class));
-        screenshotHelper = new ScreenshotHelper(webDriver);
+//        screenshotHelper = new ScreenshotHelper(webDriver);
 
         loginPage = new LoginPage(webDriver);
         userDashboardPage = new UserDashboardPage(webDriver);
@@ -107,7 +107,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         if(!result.isSuccess())
         {
             LOG.warn("TEST FAILED {}", method);
-            screenshotHelper.captureAndSaveScreenshot(webDriver, method);
+//            screenshotHelper.captureAndSaveScreenshot(webDriver, method);
         }
         closeWebDriver();
     }

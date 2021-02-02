@@ -1,21 +1,20 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 {
     private final By urlField = By.cssSelector("input[name='url']");
     private final By newWindowCheckbox = By.cssSelector("input[id$='default-configDialog-new_window']");
     private final By numberOfItems = By.cssSelector("select[id$='default-configDialog-limit']");
-    private final By enterFeedURLPopUp = By.cssSelector("div[class^='config-feed']");
+    private final By enterFeedURLPopUpLocator = By.cssSelector("div[class^='config-feed']");
     private final By urlErrorMessage = By.cssSelector("input[id$='default-configDialog-url'][alf-validation-msg*='error']");
-    private final By okButton = By.cssSelector("button[id$='configDialog-ok-button']");
 
     protected EnterFeedURLPopUp(ThreadLocal<WebDriver> webDriver)
     {
@@ -72,7 +71,7 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 
     public boolean isEnterFeedURLPopUpDisplayed()
     {
-        return webElementInteraction.waitUntilElementIsVisible(enterFeedURLPopUp).isDisplayed();
+        return webElementInteraction.waitUntilElementIsVisible(enterFeedURLPopUpLocator).isDisplayed();
     }
 
     public boolean isUrlErrorMessageDisplayed()

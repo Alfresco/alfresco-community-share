@@ -1,16 +1,15 @@
 package org.alfresco.po.share.dashlet;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
 {
@@ -29,17 +28,6 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
             String.format("Dialog body message not equals %s ", expectedDialogBodyMessage));
 
         return this;
-    }
-
-    public boolean isSelectAPageDropDownDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(selectAPageDropDown);
-    }
-
-    public void selectWikiPageFromList(int position)
-    {
-        webElementInteraction.waitUntilElementIsVisible(selectAPageDropDown)
-            .findElement(By.xpath("option[" + position + "]")).click();
     }
 
     public SelectWikiPagePopUp assertDropdownOptionEquals(String expectedDropdownOption)

@@ -1,10 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import static org.testng.Assert.assertEquals;
 
 public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 {

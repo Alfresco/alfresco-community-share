@@ -1,7 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
 import org.alfresco.common.WebElementInteraction;
-import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
@@ -17,6 +16,7 @@ import static org.testng.Assert.assertTrue;
 public class MyDocumentDashletComponent
 {
     private final Logger LOG = LoggerFactory.getLogger(MyDocumentDashletComponent.class);
+
     private final MyDocumentsDashlet myDocumentsDashlet;
     private final WebElementInteraction webElementInteraction;
     private final DocumentDetailsPage documentDetailsPage;
@@ -43,7 +43,7 @@ public class MyDocumentDashletComponent
         this.documentDetailsPage = documentDetailsPage;
         this.webElementInteraction = webElementInteraction;
         this.file = file;
-        LOG.info(String.format("Using file: %s in My Documents dashlet", file.getName()));
+        LOG.info("Using file: {} in My Documents dashlet", file.getName());
     }
 
     public WebElement getFileRow()

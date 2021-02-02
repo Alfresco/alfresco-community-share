@@ -1,11 +1,11 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public abstract class DashletPopUp<T> extends BasePage
 {

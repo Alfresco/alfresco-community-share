@@ -24,7 +24,7 @@ public abstract class Dashlet<T> extends BasePage
     private String helpIcon = "div[class*='%s'] div[class='titleBarActionIcon help']";
     private String resizeDashlet = "//div[text()='%s']/../div[@class='yui-resize-handle yui-resize-handle-b']/div";
 
-    public Dashlet(ThreadLocal<WebDriver> webDriver)
+    protected Dashlet(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
@@ -96,9 +96,9 @@ public abstract class Dashlet<T> extends BasePage
     public T assertDashletIsExpandable()
     {
         LOG.info("Assert dashlet is expandable");
-        By dashlet = By.xpath(String.format(resizeDashlet, this.getDashletTitle()));
-        webElementInteraction.waitUntilElementIsVisible(dashlet);
-        assertTrue(webElementInteraction.isElementDisplayed(dashlet),
+        By dashletElement = By.xpath(String.format(resizeDashlet, this.getDashletTitle()));
+        webElementInteraction.waitUntilElementIsVisible(dashletElement);
+        assertTrue(webElementInteraction.isElementDisplayed(dashletElement),
             String.format("Dashlet %s is expandable", this.getDashletTitle()));
         return (T) this;
     }
@@ -138,7 +138,7 @@ public abstract class Dashlet<T> extends BasePage
         String val = dashletContainer.getCssValue("height").replace("px", "");
         try
         {
-            return Integer.valueOf(val);
+            return Integer.parseInt(val);
         }
         catch (NumberFormatException nf)
         {

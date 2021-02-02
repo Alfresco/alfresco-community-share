@@ -14,7 +14,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 {
     public Content currentContent = new NoListItemSelectedContent();
     private final By dataListsSection = By.cssSelector("div.datalists div.filter");
-    private final By dataListsBody = By.className("datagrid");
     private final By newListButton = By.cssSelector("button[id*='newListButton']");
     private final By editListButton = By.cssSelector(".filter-link>.edit");
     private final By editButtonDisabled = By.cssSelector("span[class='edit-disabled']");
@@ -32,7 +31,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private final By newItemButton = By.cssSelector("div[class$='new-row'] span span button[id$='_default-newRowButton-button']");
     private final By newListSaveButton = By.cssSelector(".bdft button[id*='submit-button']");
     private final By newListCancelButton = By.cssSelector(".bdft button[id*='cancel-button']");
-    private final By listType = By.cssSelector(".item-types div");
     private final By listMessage = By.cssSelector(".select-list-message");
     private final By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
 
@@ -58,14 +56,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return this;
     }
 
-    public DataListsPage assertNoDataListSelectedMessageIsDisplayed()
-    {
-        LOG.info("Assert no data list selected message is displayed");
-        assertEquals(webElementInteraction.getElementText(listMessage), language.translate("dataListPage.noListSelected.message"),
-            "No list message is not displayed");
-        return this;
-    }
-
     public DataListsPage assertEmptyListMessageEquals(String emptyMessageExpected)
     {
         LOG.info("Assert empty list message equals: {}", emptyMessageExpected);
@@ -78,20 +68,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public boolean isExpectedListSelected(String expectedList)
     {
         return webElementInteraction.findElement(listSelected).getText().equals(expectedList);
-    }
-
-    public DataListsPage assertDataListContentIsDisplayed()
-    {
-        LOG.info("Assert data list content is displayed");
-        assertTrue(currentContent.isDataListContentDisplayed(), "Data list content is not displayed");
-        return this;
-    }
-
-    public DataListsPage assertNewListDialogIsNotDisplayed()
-    {
-        LOG.info("Assert new list dialog is not displayed");
-        assertFalse(webElementInteraction.isElementDisplayed(newListDialogTitle), "New list dialog is displayed");
-        return this;
     }
 
     public DataListsPage clickOnCreateDataListLink()
@@ -123,47 +99,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return this;
     }
 
-    public DataListsPage assertDialogInputDescriptionEquals(String expectedDialogInputDescription)
-    {
-        LOG.info("Assert list dialog input description equals with: {}", expectedDialogInputDescription);
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(listDescriptionTextAreaInput)
-            .getAttribute("value"), expectedDialogInputDescription, String.format(
-                "List dialog input description not equals with %s ", expectedDialogInputDescription));
-        return this;
-    }
-
-    public DataListsPage clickDialogSaveButton()
-    {
-        LOG.info("Click save button from new list dialog");
-        webElementInteraction.clickElement(newListSaveButton);
-        return this;
-    }
-
-    public DataListsPage clickDialogCancelButton()
-    {
-        LOG.info("Click cancel button from new list dialog");
-        webElementInteraction.clickElement(newListCancelButton);
-        return this;
-    }
-
-    public DataListsPage assertDialogInputTitleEquals(String expectedDialogInputTitle)
-    {
-        LOG.info("Assert list dialog input title equals with: {}", expectedDialogInputTitle);
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(listTitleTextInput)
-            .getAttribute("value"), expectedDialogInputTitle, String.format(
-                "List dialog input title not equals with %s ", expectedDialogInputTitle));
-        return this;
-    }
-
-    public DataListsPage assertDataListLinkDescriptionEquals(String expectedListDescription)
-    {
-        LOG.info("Assert data list link description equals: {}", expectedListDescription);
-        WebElement linkLocator = webElementInteraction.waitUntilElementIsVisible(By.xpath(listLinkLocator));
-        assertEquals(linkLocator.getText(), expectedListDescription,
-            String.format("List link description not equals %s", linkLocator.getText()));
-        return this;
-    }
-
     public List<String> getListsItemsTitle()
     {
         webElementInteraction.waitUntilElementIsVisible(listWithCreatedLists);
@@ -190,49 +125,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return webElementInteraction.isElementDisplayed(noListDisplayed);
     }
 
-    public DataListsPage assertNewListButtonIsDisplayed()
-    {
-        LOG.info("Assert new list button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(newListButton), "New list button is not displayed");
-        return this;
-    }
-
-    public DataListsPage assertSelectItemsButtonIsDisplayed()
-    {
-        LOG.info("Assert select items button is displayed");
-        assertTrue(currentContent.isSelectItemsButtonDisplayed(), "Select items button is not displayed");
-        return this;
-    }
-
-    public DataListsPage assertSelectButtonIsDisplayed()
-    {
-        LOG.info("Assert select button is displayed");
-        assertTrue(currentContent.isSelectButtonDisplayed(), "Select button is not displayed");
-        return this;
-    }
-
-    public DataListsPage assertSelectAllButtonOptionIsDisplayed()
-    {
-        LOG.info("Assert select all button option is displayed");
-        assertTrue(currentContent.isSelectAllButtonOptionDisplayed(), "Select all button option is not displayed");
-        return this;
-    }
-
-    public DataListsPage assertSelectNoneButtonOptionIsDisplayed()
-    {
-        LOG.info("Assert select none button option is displayed");
-        assertTrue(currentContent.isSelectNoneButtonOptionDisplayed(), "Select none button option is not displayed");
-        return this;
-    }
-
-    public DataListsPage assertInvertSelectionButtonOptionIsEnabled()
-    {
-        LOG.info("Assert invert selection button option is enabled");
-        assertTrue(currentContent.isInvertSelectionButtonOptionEnabled(),
-            "Invert selection button option is disabled");
-        return this;
-    }
-
     public boolean isNewItemButtonDisplayed()
     {
         return webElementInteraction.isElementDisplayed(newItemButton);
@@ -248,8 +140,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         {
             e.printStackTrace();
         }
-        //todo: test
-//        currentContent.setBrowser(getWebDriver());
         return this;
     }
 
@@ -360,11 +250,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         assertEquals( actualTitle.getText(), itemTitle, String.format("Data list item title not equals %s: ", itemTitle));
 
         return this;
-    }
-
-    public boolean isListWithCreatedListsDisplayed()
-    {
-        return webElementInteraction.isElementDisplayed(listWithCreatedLists);
     }
 
     public EditItemPopUp clickEditButtonForListItem()

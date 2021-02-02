@@ -12,9 +12,8 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
     private final By wikiDashletTitle = By.cssSelector("div.dashlet.wiki [class$='title']");
     private final By configureDashlet = By.cssSelector("div.dashlet.wiki [class$='edit']");
     private final By wikiDashletText = By.cssSelector("div.dashlet.wiki [class$='body scrollablePanel']");
-    private final String dashletLinkTitleLocator = "//a[contains(text(),'%s')]";
 
-    private final String UNDERLINE_REPLACEMENT = "\\_";
+    private final String dashletLinkTitleLocator = "//a[contains(text(),'%s')]";
 
     public WikiDashlet(ThreadLocal<WebDriver> webDriver)
     {

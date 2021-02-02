@@ -1,13 +1,8 @@
 package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class DeleteSiteDialog extends BaseDialogComponent
 {

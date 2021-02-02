@@ -14,6 +14,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     private final By dashletContainer = By.cssSelector("div.dashlet.site-profile");
     private final By welcomeMessage = By.cssSelector(".msg.dashlet-padding>h2");
     private final By siteProfileRowLocator = By.cssSelector("div[class='msg dashlet-padding'] > p");
+
     private final String managerLinkLocator = "//div[@class='msg dashlet-padding']//a[text()='%s']";
 
     public SiteProfileDashlet(ThreadLocal<WebDriver> webDriver)

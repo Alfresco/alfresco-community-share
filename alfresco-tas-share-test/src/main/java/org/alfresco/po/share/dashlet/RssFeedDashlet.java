@@ -1,13 +1,16 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_20;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import static org.testng.Assert.*;
 
 public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 {
+    private final int SECOND_TAB = 1;
     private final By dashletContainer = By.cssSelector("div.dashlet.rssfeed");
     private final By feedsList = By.cssSelector("div.headline h4 a");
     private final By titleBarActions = By.cssSelector("div[class^='dashlet rssfeed'] .titleBarActions");
@@ -31,14 +34,6 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         assertTrue(getDashletTitle().contains(expectedTitle), "Rss feed dashlet title is not correct");
 
         return this;
-    }
-
-    public boolean isConfigureDashletIconDisplayed()
-    {
-        WebElement titleBar = webElementInteraction.waitUntilElementIsVisible(titleBarActions);
-        webElementInteraction.mouseOver(titleBar);
-        webElementInteraction.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
-        return webElementInteraction.isElementDisplayed(configureDashletButton);
     }
 
     public EnterFeedURLPopUp configureDashlet()
@@ -65,14 +60,14 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
         LOG.info("Assert RSS Feed window is opened");
         int tabs = webElementInteraction.getWindowHandles().size();
         int retry = 0;
-        while(tabs != 2 && retry < 15)
+        while(tabs != 2 && retry < WAIT_20.getValue())
         {
             LOG.error("Wait for RSS tab to open");
             tabs = webElementInteraction.getWindowHandles().size();
             retry++;
         }
-        webElementInteraction.switchWindow(1);
-        webElementInteraction.waitUrlContains(expectedUrlTitle, 20);
+        webElementInteraction.switchWindow(SECOND_TAB);
+        webElementInteraction.waitUrlContains(expectedUrlTitle, WAIT_20.getValue());
         assertTrue(webElementInteraction.getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
         webElementInteraction.closeWindowAndSwitchBack();
 

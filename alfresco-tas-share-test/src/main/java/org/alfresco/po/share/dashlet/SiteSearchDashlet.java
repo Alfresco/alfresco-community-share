@@ -19,6 +19,7 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     private final By noResultsMessage = By.cssSelector("div.sitesearch .yui-dt-empty>div");
     private final By filterOption = By.cssSelector("div.sitesearch div.bd ul.first-of-type li a");
     private final By filterButton = By.cssSelector("button[id$='default-resultSize-button']");
+
     private final String siteSearchRow = "//h3[@class='itemname']//a[normalize-space()='%s']";
 
     public SiteSearchDashlet(ThreadLocal<WebDriver> webDriver)

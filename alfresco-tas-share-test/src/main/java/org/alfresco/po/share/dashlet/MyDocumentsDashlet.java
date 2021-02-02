@@ -4,14 +4,13 @@ import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
 import org.alfresco.po.enums.DocumentsFilter;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 {
@@ -112,17 +111,17 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public boolean isNumberOfDocumentsDisplayed(int noOfDocs)
     {
         webElementInteraction.waitUntilElementIsVisible(dashletContainer);
-        boolean bool = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        boolean isDashletContainerVisible = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
             .findElements(documentNameLink).size() == noOfDocs;
-        int i = 0;
-        while (!bool && i < 5)
+        int retryCount = 0;
+        while (!isDashletContainerVisible && retryCount < 5)
         {
             webElementInteraction.refresh();
-            bool = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+            isDashletContainerVisible = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
                 .findElements(documentNameLink).size() == noOfDocs;
-            i++;
+            retryCount++;
         }
-        return bool;
+        return isDashletContainerVisible;
     }
 
     public MyDocumentsDashlet assertNrOfDisplayedDocumentsIs(int nrOfDocs)

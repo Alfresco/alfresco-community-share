@@ -1,17 +1,17 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_40;
+import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.alfresco.common.Wait.*;
-import static org.testng.Assert.assertEquals;
+import org.alfresco.po.share.user.profile.UserProfilePage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBreakdownDashlet>
 {

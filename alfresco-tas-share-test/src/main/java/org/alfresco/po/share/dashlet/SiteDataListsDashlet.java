@@ -14,21 +14,10 @@ import org.openqa.selenium.WebElement;
 public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.site-data-lists");
-    private final By siteDataListsItems = By.cssSelector(".site-data-lists .detail-list-item");
-    private final By dataListsLinks = By.cssSelector(".site-data-lists .body a");
-    private final By dataListTitle = By.cssSelector(".datagrid-meta h2");
-    private final By newListDialogTitle = By.cssSelector(".hd");
-    private final By listType = By.cssSelector(".item-types div");
-    private final By listTitleTextInput = By.cssSelector("input[name$='prop_cm_title']");
-    private final By listDescriptionTextAreaInput = By.cssSelector("textarea[title$='Content Description']");
-    private final By newListSaveButton = By.cssSelector(".bdft button[id*='submit-button']");
-    private final By newListCancelButton = By.cssSelector(".bdft button[id*='cancel-button']");
-    private final By detailListItem = By.cssSelector(".detail-list-item.first-item");
     private final By message = By.cssSelector(".dashlet-padding>h3");
-    private By descriptionElement = By.cssSelector(".description");
-
+    private final By descriptionElement = By.cssSelector(".description");
     private final By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
-    private final String listLinkLocator = "//a[@title='%s']";
+
     private final String dataListRow = "//a[text()='%s']/..";
     private final String listItemDescriptionLocator = "//div[text()='%s']";
 
@@ -68,19 +57,6 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         return this;
     }
 
-    public int getNumberOfSiteDataListsItemsDisplayed()
-    {
-        int numberOfListItemsDisplayed = 0;
-        for (WebElement siteDataListsItem : webElementInteraction.waitUntilElementsAreVisible(siteDataListsItems))
-        {
-            if (siteDataListsItem.isDisplayed())
-            {
-                numberOfListItemsDisplayed = numberOfListItemsDisplayed + 1;
-            }
-        }
-        return numberOfListItemsDisplayed;
-    }
-
     public SiteDataListsDashlet assertDataListItemTitleIsDisplayed(String expectedDataListItemTitle)
     {
         LOG.info("Assert data list item title is displayed: {}", expectedDataListItemTitle);
@@ -95,20 +71,6 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         LOG.info("Click list item with title: {}", itemTitle);
         getDataListRow(itemTitle).findElement(By.cssSelector("a")).click();
         return new DataListsPage(webDriver);
-    }
-
-    public void clickOnListLink(String listDescription)
-    {
-        By linkLocator = By.cssSelector(String.format(listLinkLocator, listDescription));
-        WebElement listLinkTitle = webElementInteraction.findElement(linkLocator);
-        listLinkTitle.click();
-    }
-
-    public SiteDataListsDashlet assertNewListDialogSaveButtonIsDisplayed()
-    {
-        LOG.info("Assert new list dialog \"Save\" button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(newListSaveButton), "New list dialog \"Save\" button is not displayed");
-        return this;
     }
 
     public SiteDataListsDashlet assertDataListItemDescriptionEquals(String dataListTitle, String expectedItemDescription)
