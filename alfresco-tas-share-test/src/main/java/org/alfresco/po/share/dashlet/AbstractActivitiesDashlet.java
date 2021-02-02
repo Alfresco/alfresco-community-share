@@ -1,19 +1,21 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.utility.Utility;
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.utility.Utility.waitToLoopTime;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.alfresco.common.Wait.WAIT_60;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActivitiesDashlet<T>>
 {
+    private final int SECOND_TAB = 1;
     private final By dashletContainer = By.cssSelector("div.dashlet.activities");
     private final By activitiesDashletTitle = By.cssSelector("div.dashlet.activities div.title");
     private final By myActivitiesButton = By.cssSelector("button[id$='default-user-button']");
@@ -26,9 +28,8 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     protected final By userLinkLocator = By.cssSelector("a:nth-of-type(1)");
     protected final By documentLinkLocator = By.cssSelector("a[class*='item-link']");
     protected final By activitiesEmptyList = By.cssSelector("div[id$='default-activityList'] .empty");
-    private final By activityList = By.cssSelector("div[id$='default-activityList']");
 
-    public AbstractActivitiesDashlet(ThreadLocal<WebDriver> webDriver)
+    protected AbstractActivitiesDashlet(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
@@ -49,7 +50,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         while(!activities.contains(expectedActivity) && retry < WAIT_60.getValue())
         {
             retry++;
-            Utility.waitToLoopTime(1, String.format("Wait for activity '%s' to be displayed", expectedActivity));
+            waitToLoopTime(WAIT_1.getValue(), String.format("Wait for activity '%s' to be displayed", expectedActivity));
             webElementInteraction.refresh();
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
             rows = webElementInteraction.findElements(activityRows);
@@ -60,14 +61,14 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     private void waitForActivitiesToLoad()
     {
-        int i = 0;
-        while(i < WAIT_60.getValue() && webElementInteraction.isElementDisplayed(activitiesEmptyList))
+        int retryCount = 0;
+        while(retryCount < WAIT_60.getValue() && webElementInteraction.isElementDisplayed(activitiesEmptyList))
         {
             LOG.info("Wait for activity rows to be displayed");
             webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(1);
+            webElementInteraction.waitInSeconds(WAIT_1.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
-            i++;
+            retryCount++;
         }
     }
 
@@ -121,15 +122,15 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertSelectedActivityFilterContains(String expectedFilter)
     {
-        LOG.info(String.format("Assert filter '%s' is selected", expectedFilter));
+        LOG.info("Assert filter {} is selected", expectedFilter);
         assertTrue(webElementInteraction.getElementText(myActivitiesButton).contains(expectedFilter),
-            String.format("Expected filter is %s", expectedFilter));
+            String.format("Expected filter is %s ", expectedFilter));
         return (T) this;
     }
 
     public T assertSelectedHistoryOptionContains(String expectedValue)
     {
-        LOG.info(String.format("Assert history filter '%s' is selected", expectedValue));
+        LOG.info("Assert history filter {} is selected", expectedValue);
         assertTrue(webElementInteraction.getElementText(daysRangeButton).contains(expectedValue),
             String.format("Expected history filter is %s", expectedValue));
         return (T) this;
@@ -137,7 +138,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertSelectedItemFilterContains(String expectedFilter)
     {
-        LOG.info(String.format("Assert item filter '%s' is selected", expectedFilter));
+        LOG.info("Assert item filter {} is selected", expectedFilter);
         assertTrue(webElementInteraction.getElementText(defaultActivitiesButton)
             .contains(expectedFilter), String.format("Expected item filter is %s", expectedFilter));
         return (T) this;
@@ -158,8 +159,8 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         LOG.info("Assert Rss Feed contains url {}", url);
         webElementInteraction.mouseOver(activitiesDashletTitle);
         webElementInteraction.clickElement(rssFeedButton);
-        webElementInteraction.switchWindow(1);
-        webElementInteraction.waitUrlContains(url, 5);
+        webElementInteraction.switchWindow(SECOND_TAB);
+        webElementInteraction.waitUrlContains(url, WAIT_5.getValue());
         assertTrue(webElementInteraction.getCurrentUrl().contains(url), "Rss Feed is not opened with the correct url");
         webElementInteraction.closeWindowAndSwitchBack();
 
@@ -218,7 +219,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         webElementInteraction.clickElement(myActivitiesButton);
         List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
         webElementInteraction.selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), options);
-        webElementInteraction.waitInSeconds(1);
+        webElementInteraction.waitInSeconds(WAIT_1.getValue());
 
         return (T) this;
     }
@@ -229,7 +230,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         webElementInteraction.clickElement(daysRangeButton);
         List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
         webElementInteraction.selectOptionFromFilterOptionsList(getActivitiesDaysRangeFilter(noDaysOption), options);
-        webElementInteraction.waitInSeconds(1);
+        webElementInteraction.waitInSeconds(WAIT_1.getValue());
 
         return (T) this;
     }
