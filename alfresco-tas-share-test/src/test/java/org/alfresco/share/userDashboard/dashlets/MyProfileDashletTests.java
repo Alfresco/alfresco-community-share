@@ -1,7 +1,7 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyProfileDashlet;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.testrail.TestRail;

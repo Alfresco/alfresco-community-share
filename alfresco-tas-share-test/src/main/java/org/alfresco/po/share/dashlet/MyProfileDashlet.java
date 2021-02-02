@@ -3,6 +3,7 @@ package org.alfresco.po.share.dashlet;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;

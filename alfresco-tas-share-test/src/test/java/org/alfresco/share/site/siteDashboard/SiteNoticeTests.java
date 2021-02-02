@@ -3,8 +3,7 @@ package org.alfresco.share.site.siteDashboard;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
-import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteNoticeDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
@@ -46,7 +45,7 @@ public class SiteNoticeTests extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(site.get());
         siteNoticeDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
-            .clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_NOTICE)
+            .clickOnHelpIcon(DashletHelpIcon.SITE_NOTICE)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_BALLOON_MESSAGE))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed()

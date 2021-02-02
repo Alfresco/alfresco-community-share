@@ -1,5 +1,6 @@
 package org.alfresco.po.share.TinyMce;
 
+import org.alfresco.po.enums.FormatType;
 import org.alfresco.po.share.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -159,29 +160,5 @@ public class TinyMceEditor extends BasePage
         webElementInteraction.executeJavaScript(setCommentJs);
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
         webElementInteraction.executeJavaScript(setCommentJs);
-    }
-
-    public enum FormatType
-    {
-        BOLD,
-        ITALIC,
-        UNDERLINED,
-        NUMBER,
-        BULLET,
-        BOLD_FMT_TXT,
-        ITALIC_FMT_TXT,
-        UNDER_LINED_FMT_TXT,
-        BULLET_FMT_TXT,
-        NUMBER_FMT_TXT,
-        COLOR,
-        FORMAT,
-        EDIT,
-        UNDO,
-        REDO,
-        DEFAULT,
-        COLOR_FONT,
-        BULLET_TEXT,
-        BOLD_EDIT,
-        BACK_GROUND_COLOR
     }
 }

@@ -3,8 +3,8 @@ package org.alfresco.share.site.siteDashboard;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import static org.alfresco.common.Utils.testDataFolder;
 
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.ImagePreviewDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.DataContent;

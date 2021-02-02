@@ -5,7 +5,7 @@ import static org.alfresco.utility.data.RandomData.getRandomAlphanumeric;
 
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.testrail.TestRail;
@@ -13,7 +13,6 @@ import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

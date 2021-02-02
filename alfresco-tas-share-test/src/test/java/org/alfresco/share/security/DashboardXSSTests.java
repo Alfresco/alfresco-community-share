@@ -7,12 +7,11 @@ import org.alfresco.common.DataProviderClass;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.ConfigureWebViewDashletPopUp;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.WebViewDashlet;
 import org.alfresco.po.share.site.EditSiteDetailsDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -29,9 +28,9 @@ public class DashboardXSSTests extends ContextAwareWebTest
     SiteDashboardPage siteDashboardPage;
     @Autowired
     EditSiteDetailsDialog editSiteDetailsDialog;
-    @Autowired
+    //@Autowired
     private WebViewDashlet webViewDashlet;
-    @Autowired
+   // @Autowired
     private ConfigureWebViewDashletPopUp configureWebViewDashletPopUp;
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private String testUser = String.format("TestUser_" + uniqueIdentifier);

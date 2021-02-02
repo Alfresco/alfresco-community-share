@@ -4,7 +4,7 @@ import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
-import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
@@ -49,7 +49,7 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
                 .assertDetailedViewIconIsDisplayed();
 
         siteContentDashlet
-            .clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_CONTENT)
+            .clickOnHelpIcon(DashletHelpIcon.SITE_CONTENT)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();

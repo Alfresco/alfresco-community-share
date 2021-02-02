@@ -1,6 +1,6 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteMembersDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
@@ -48,7 +48,7 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(site.get());
         siteMembersDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
-            .clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_MEMBERS)
+            .clickOnHelpIcon(DashletHelpIcon.SITE_MEMBERS)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_BALLOON_MESSAGE))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();

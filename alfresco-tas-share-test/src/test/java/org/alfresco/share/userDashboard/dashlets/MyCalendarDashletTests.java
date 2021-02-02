@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
-import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyCalendarDashlet;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.utility.model.SiteModel;
@@ -39,7 +39,7 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
         userDashboardPage.navigate(user.get());
         myCalendarDashlet.assertDashletTitleEquals(language.translate("myCalendarDashlet.title"))
             .assertNoUpcomingEventsIsDisplayed()
-            .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_CALENDAR)
+            .clickOnHelpIcon(DashletHelpIcon.MY_CALENDAR)
             .assertBalloonMessageIsDisplayed()
             .assertHelpBalloonMessageEquals(language.translate("myCalendarDashlet.HelpBalloonText"))
             .closeHelpBalloon()

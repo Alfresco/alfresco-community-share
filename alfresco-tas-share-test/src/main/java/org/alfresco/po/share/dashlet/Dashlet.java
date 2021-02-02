@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -159,39 +160,5 @@ public abstract class Dashlet<T> extends BasePage
         int number3 = Integer.parseInt(numbers[2]);
         hex = String.format("#%02x%02x%02x", number1, number2, number3);
         return hex;
-    }
-
-    public enum DashletHelpIcon
-    {
-        MY_SITES("my-sites"),
-        MY_TASKS("my-tasks"),
-        MY_ACTIVITIES("activities"),
-        MY_DOCUMENTS("my-documents"),
-        MY_PROFILE("dashlet"),
-        MY_DOC_WORKSPACES("my-workspaces"),
-        MY_CALENDAR("user-calendar"),
-        RSS_FEED("rssfeed"),
-        WEB_VIEW("webview"),
-        SAVED_SEARCH("savedsearch"),
-        SITE_SEARCH("sitesearch"),
-        MY_DISCUSSIONS("forumsummary"),
-        MY_MEETING_WORKSPACES("my-meeting-workspaces"),
-        SITE_PROFILE("site-profile"),
-        SITE_CALENDAR("calendar"),
-        SITE_LINKS("site-links"),
-        SITE_CONTENT("docsummary"),
-        WIKI("wiki"),
-        SITE_ACTIVITIES("activities"),
-        SITE_MEMBERS("colleagues"),
-        DATA_LISTS("site-data-lists"),
-        SITE_NOTICE("notice-dashlet"),
-        CONTENT_IM_EDITING("content-im-editing"),
-        IMAGE_PREVIEW("dashlet resizable yui-resize");
-        public final String name;
-
-        DashletHelpIcon(String name)
-        {
-            this.name = name;
-        }
     }
 }

@@ -12,6 +12,7 @@ import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.WorkflowService;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.dashlet.Dashlet;
@@ -660,7 +661,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
      */
     private void addMyTaskDashletToDashboard()
     {
-        if (!myTasksDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.MY_TASKS))
+        if (!myTasksDashlet.isDashletDisplayed(DashletHelpIcon.MY_TASKS))
         {
             userService.addDashlet(testUser, password, UserDashlet.MY_TASKS, DashletLayout.THREE_COLUMNS, 3, 1);
         }

@@ -1,18 +1,15 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.dashlet.ConfigureWebViewDashletPopUp;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
-import org.alfresco.po.share.dashlet.SiteSearchDashlet;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.WebViewDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
 {

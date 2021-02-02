@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 
 import org.alfresco.dataprep.SitePagesService;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteLinksDashlet;
 import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;

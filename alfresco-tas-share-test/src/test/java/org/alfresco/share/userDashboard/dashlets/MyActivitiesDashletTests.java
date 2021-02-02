@@ -3,7 +3,7 @@ package org.alfresco.share.userDashboard.dashlets;
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
 import org.alfresco.po.enums.ActivitiesFilter;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;

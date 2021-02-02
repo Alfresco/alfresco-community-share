@@ -4,7 +4,7 @@ import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
 import org.alfresco.po.enums.ActivitiesDaysRangeFilter;
 import org.alfresco.po.enums.ActivitiesFilter;
-import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
@@ -37,7 +37,7 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
         siteActivitiesDashlet
             .assertEmptyDashletMessageEquals()
             .assertRssFeedButtonIsDisplayed().assertDashletTitleEquals(language.translate("siteActivities.title"))
-            .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_ACTIVITIES)
+            .clickOnHelpIcon(DashletHelpIcon.MY_ACTIVITIES)
                 .assertBalloonMessageIsDisplayed()
                 .assertHelpBalloonMessageEquals(language.translate("siteActivities.help"))
                 .closeHelpBalloon()

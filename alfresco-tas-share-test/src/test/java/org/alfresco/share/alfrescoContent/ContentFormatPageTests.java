@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent;
 
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.FormatType;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.CommentPage;
@@ -57,7 +58,7 @@ public class ContentFormatPageTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFile(documentName);
         documentDetailsPage.clickAddCommentButton();
         commentBox.addContent(text);
-        commentBox.clickTextFormatter(TinyMceEditor.FormatType.BOLD);
+        commentBox.clickTextFormatter(FormatType.BOLD);
         Assert.assertTrue(commentPage.isBoldButtonPressed(), "Bold button is not pressed");
         //Assert.assertEquals(commentBox.getBoldContent(), text, text +" is not bold");
     }

@@ -2,7 +2,7 @@ package org.alfresco.share.site.siteDashboard;
 
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteProfileDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;

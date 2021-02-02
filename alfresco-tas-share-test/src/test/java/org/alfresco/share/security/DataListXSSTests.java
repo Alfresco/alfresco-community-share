@@ -8,6 +8,7 @@ import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -267,7 +268,7 @@ public class DataListXSSTests extends ContextAwareWebTest
      */
     private void addSiteDataListDashletToSiteDashboard()
     {
-        if (!siteDataListsDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.DATA_LISTS))
+        if (!siteDataListsDashlet.isDashletDisplayed(DashletHelpIcon.DATA_LISTS))
         {
             siteService.addDashlet(testUser, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.THREE_COLUMNS, 3, 1);
         }

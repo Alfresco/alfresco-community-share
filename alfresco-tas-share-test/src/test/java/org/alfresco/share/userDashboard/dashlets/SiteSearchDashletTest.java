@@ -1,7 +1,7 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
