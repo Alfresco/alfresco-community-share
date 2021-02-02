@@ -2,9 +2,9 @@ package org.alfresco.share.site.siteDashboard;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
-import org.alfresco.po.share.dashlet.AbstractActivitiesDashlet.ActivitiesDaysRangeFilter;
+import org.alfresco.po.enums.ActivitiesDaysRangeFilter;
+import org.alfresco.po.enums.ActivitiesFilter;
 import org.alfresco.po.share.dashlet.Dashlet;
-import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
@@ -140,13 +140,13 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
                 .usingSite(site.get()).createFile(collaboratorFile).assertThat().existsInRepo();
 
         siteDashboardPage.navigate(site.get());
-        siteActivitiesDashlet.selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.MY_ACTIVITIES)
+        siteActivitiesDashlet.selectActivityFilter(ActivitiesFilter.MY_ACTIVITIES)
             .assertAddDocumentActivityIsDisplayed(user.get(), managerFile)
             .assertAddDocumentActivityIsNotDisplayedForUser(invitedUser, collaboratorFile)
-            .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
+            .selectActivityFilter(ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
                 .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile)
                 .assertAddDocumentActivityIsNotDisplayedForUser(user.get(), managerFile)
-            .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ACTIVITIES)
+            .selectActivityFilter(ActivitiesFilter.EVERYONE_ACTIVITIES)
                 .assertAddDocumentActivityIsDisplayed(user.get(), managerFile)
                 .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile);
     }

@@ -8,13 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import org.alfresco.po.enums.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.exception.PageOperationException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 
@@ -50,30 +48,15 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     private final By closeAddDashlets = By.cssSelector(".closeLink");
     private final By availableDashletList = By.cssSelector(".availableList");
     private final By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
-
+    private final String dashletInAddedColumn = "ul[id$='default-column-ul-%s'] > li:nth-child(%s)";
     private final String availableDashlet = "li[class='availableDashlet dnd-draggable'] div[title^='%s']";
     private final String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private final String targetColumn = "ul[id$='default-column-ul-%d']";
     private final String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
 
-    protected DashboardCustomization(ThreadLocal<WebDriver> webDriver)
+    public DashboardCustomization(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
-    }
-
-    public enum Layout
-    {
-        ONE_COLUMN("One column"),
-        TWO_COLUMNS_WIDE_LEFT("Two columns: wide left, narrow right"),
-        TWO_COLUMNS_WIDE_RIGHT("Two columns: narrow left, wide right"),
-        THREE_COLUMNS("Three columns: wide centre"),
-        FOUR_COLUMNS("Four columns");
-        public final String description;
-
-        Layout(String description)
-        {
-            this.description = description;
-        }
     }
 
     public String getCurrentLayout()
@@ -104,7 +87,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
             default:
                 break;
         }
-        LOG.info("Assert current layout is {}", layoutLabel);
+        LOG.info("Assert current layout is: {}", layoutLabel);
         assertEquals(webElementInteraction.getElementText(currentLayout), layoutLabel, "Layout label is correct");
         return (T) this;
     }
@@ -419,7 +402,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T moveAddedDashletInColumn(Dashlets addedDashlet, int fromColumn, int toColumn)
     {
-        LOG.info(String.format("Move dashlet %s from column %s to %s", addedDashlet.getDashletName(), fromColumn, toColumn));
+        LOG.info("Move dashlet %s from column {} to {}", addedDashlet.getDashletName(), fromColumn, toColumn);
         WebElement dashToMove = getDashletToMove(addedDashlet, fromColumn);
         webElementInteraction.clickElement(dashToMove);
         webElementInteraction.waitUntilElementHasAttribute(dashToMove, "class", "dnd-focused");
