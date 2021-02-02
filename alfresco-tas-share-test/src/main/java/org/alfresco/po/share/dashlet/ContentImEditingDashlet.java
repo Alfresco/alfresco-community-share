@@ -1,5 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.*;
 
@@ -75,13 +76,13 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
     private WebElement waitForDocumentToBeDisplayed(FileModel file)
     {
         boolean found = isDocumentDisplayedInDashlet(file);
-        int i = 0;
-        while(i < WAIT_60.getValue() && !found)
+        int retryCount = 0;
+        while(retryCount < WAIT_60.getValue() && !found)
         {
-            i++;
-            LOG.error("Wait for document {} to be displayed: {}", file.getName(), i);
+            retryCount++;
+            LOG.error("Wait for document {} to be displayed: {}", file.getName(), retryCount);
             webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(1);
+            webElementInteraction.waitInSeconds(WAIT_1.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
             found = isDocumentDisplayedInDashlet(file);
         }
@@ -94,14 +95,6 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
         waitForDocumentToBeDisplayed(file);
         assertTrue(isDocumentDisplayedInDashlet(file),
             String.format("File %s is not displayed in content I'm editing dashlet", file.getName()));
-        return this;
-    }
-
-    public ContentImEditingDashlet assertDocumentIsNotDisplayed(FileModel file)
-    {
-        LOG.info("Assert document {} is noy displayed", file.getName());
-        assertFalse(isDocumentDisplayedInDashlet(file),
-            String.format("File %s is displayed in content I'm editing dashlet", file.getName()));
         return this;
     }
 }
