@@ -35,13 +35,6 @@ public class ConfigureSavedSearchDashletDialog extends DashletPopUp<ConfigureSav
         return this;
     }
 
-    public void setSearchLimitField(String searchLimit)
-    {
-        WebElement select = webElementInteraction.waitUntilElementIsVisible(searchLimitElement);
-        Select limits = new Select(select);
-        limits.selectByValue(searchLimit);
-    }
-
     public ConfigureSavedSearchDashletDialog assertSearchTermFieldIsDisplayed()
     {
         webElementInteraction.waitUntilElementIsVisible(searchTermField);

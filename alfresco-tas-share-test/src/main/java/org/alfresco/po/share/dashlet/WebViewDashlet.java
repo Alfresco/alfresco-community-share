@@ -1,10 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class WebViewDashlet extends Dashlet<WebViewDashlet>
 {
@@ -39,15 +39,6 @@ public class WebViewDashlet extends Dashlet<WebViewDashlet>
         webElementInteraction.clickElement(configureDashletIcon);
 
         return new ConfigureWebViewDashletPopUp(webDriver);
-    }
-
-    public WebViewDashlet configureWebViewDashlet(String linkTitle, String url)
-    {
-        ConfigureWebViewDashletPopUp configureWebViewDashletPopUp = new ConfigureWebViewDashletPopUp(webDriver);
-        configureWebViewDashletPopUp.setLinkTitleField(linkTitle);
-        configureWebViewDashletPopUp.setUrlField(url);
-        configureWebViewDashletPopUp.clickOk();
-        return this;
     }
 
     public WebViewDashlet assertConfigureDashletIconDisplayed()
