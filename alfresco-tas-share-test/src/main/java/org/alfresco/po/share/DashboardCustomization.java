@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import org.alfresco.po.enums.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.exception.PageOperationException;
 import org.openqa.selenium.*;
@@ -58,21 +60,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     public DashboardCustomization(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
-    }
-
-    public enum Layout
-    {
-        ONE_COLUMN("One column"),
-        TWO_COLUMNS_WIDE_LEFT("Two columns: wide left, narrow right"),
-        TWO_COLUMNS_WIDE_RIGHT("Two columns: narrow left, wide right"),
-        THREE_COLUMNS("Three columns: wide centre"),
-        FOUR_COLUMNS("Four columns");
-        public final String description;
-
-        Layout(String description)
-        {
-            this.description = description;
-        }
     }
 
     public String getSubTitle()

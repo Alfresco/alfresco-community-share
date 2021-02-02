@@ -2,7 +2,7 @@ package org.alfresco.share.userDashboard;
 
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.po.share.DashboardCustomization.Layout;
+import org.alfresco.po.enums.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
