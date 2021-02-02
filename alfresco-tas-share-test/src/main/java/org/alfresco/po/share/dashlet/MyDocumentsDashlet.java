@@ -1,5 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -47,7 +48,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             i++;
             LOG.info("Wait for document {} to be displayed in My Documents dashlet", documentName);
             webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(1);
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
             found = webElementInteraction.isElementDisplayed(docLocator);
         }

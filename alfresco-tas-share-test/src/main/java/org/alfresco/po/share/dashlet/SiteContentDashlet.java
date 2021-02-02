@@ -1,9 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -37,7 +36,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     protected WebElement getDocumentRow(String documentName)
     {
         return webElementInteraction.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(documentRow, documentName)), WAIT_1.getValue(), WAIT_60.getValue());
+            By.xpath(String.format(documentRow, documentName)), WAIT_2.getValue(), WAIT_60.getValue());
     }
 
     public SiteContentDashlet assertEmptySiteContentMessageIsCorrect()
