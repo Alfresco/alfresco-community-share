@@ -1,41 +1,33 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyMeetingWorkspacesDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class MyMeetingWorkspacesTests extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
     private MyMeetingWorkspacesDashlet myMeetingWorkspacesDashlet;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
-    private UserModel user;
-
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(user);
-        addDashlet(Dashlets.MY_MEETING_WORKSPACES, 1);
-    }
+        myMeetingWorkspacesDashlet = new MyMeetingWorkspacesDashlet(webDriver);
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_MEETING_WORKSPACES, 1, 3);
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2772")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void meetingWorkspacesDashlet()
     {
+        userDashboardPage.navigate(user.get());
         myMeetingWorkspacesDashlet.assertDashletTitleEquals(language.translate("myMeetingWorkspacesDashlet.title"))
             .assertNoMeetingWorkspacesMessageIsDisplayed()
             .clickOnHelpIcon(DashletHelpIcon.MY_MEETING_WORKSPACES)
@@ -43,5 +35,11 @@ public class MyMeetingWorkspacesTests extends AbstractUserDashboardDashletsTests
             .assertHelpBalloonMessageEquals(language.translate("myMeetingWorkspacesDashlet.helpBalloonMessage"))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
     }
 }

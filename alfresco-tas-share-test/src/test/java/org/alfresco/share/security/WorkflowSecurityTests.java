@@ -7,6 +7,7 @@ import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.dataprep.WorkflowService;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.SelectPopUpPage;
@@ -48,11 +49,11 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     };
     @Autowired
     WorkflowService workflowService;
-    @Autowired
+    //@Autowired
     EditTaskPage editTaskPage;
-    @Autowired
+    //@Autowired
     MyTasksDashlet myTasksDashlet;
-    @Autowired
+    //@Autowired
     TaskDetailsPage taskDetailsPage;
     //@Autowired
     UserProfilePage userProfilePage;
@@ -62,7 +63,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     SelectPopUpPage selectPopUpPage;
     //@Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;
-    @Autowired
+    //@Autowired
     WorkflowDetailsPage workflowDetailsPage;
     String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     String testUser2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
@@ -204,7 +205,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
 
     private void addMyTaskDashletToDashboard(String testUser)
     {
-        if (!myTasksDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.MY_TASKS))
+        if (!myTasksDashlet.isDashletDisplayed(DashletHelpIcon.MY_TASKS))
         {
             userService.addDashlet(testUser, password, UserDashlet.MY_TASKS, DashletLayout.THREE_COLUMNS, 2, 2);
         }

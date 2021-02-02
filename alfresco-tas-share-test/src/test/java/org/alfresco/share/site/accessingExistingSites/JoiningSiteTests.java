@@ -21,9 +21,6 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-/**
- * Created by Claudia Agache on 7/7/2016.
- */
 public class JoiningSiteTests extends ContextAwareWebTest
 {
     private final String randomData = RandomData.getRandomAlphanumeric();
@@ -40,13 +37,12 @@ public class JoiningSiteTests extends ContextAwareWebTest
     //@Autowired
     SiteUsersPage siteUsersPage;
 
-//    @Autowired
     MySitesDashlet mySitesDashlet;
 
     //@Autowired
     MyTasksPage myTasksPage;
 
-    @Autowired
+    //@Autowired
     EditTaskPage editTaskPage;
 
     //@Autowired

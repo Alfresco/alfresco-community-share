@@ -1,43 +1,43 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.po.share.dashlet.AbstractActivitiesDashlet.ActivitiesDaysRangeFilter;
-import org.alfresco.po.share.dashlet.Dashlet;
-import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
+import org.alfresco.po.enums.ActivitiesDaysRangeFilter;
+import org.alfresco.po.enums.ActivitiesFilter;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
 {
-    @Autowired
     private SiteActivitiesDashlet siteActivitiesDashlet;
 
-    private UserModel testUser;
-    private SiteModel testSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
-    public void testSetup()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        testUser = dataUser.usingAdmin().createRandomTestUser();
-        testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-        cmisApi.authenticateUser(testUser);
-        setupAuthenticatedSession(testUser);
+        siteActivitiesDashlet = new SiteActivitiesDashlet(webDriver);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2803")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void checkSiteActivitiesDashletWithNoActivities()
     {
-        siteDashboardPage.navigate(testSite);
+        siteDashboardPage.navigate(site.get());
         siteActivitiesDashlet
             .assertEmptyDashletMessageEquals()
             .assertRssFeedButtonIsDisplayed().assertDashletTitleEquals(language.translate("siteActivities.title"))
-            .clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_ACTIVITIES)
+            .clickOnHelpIcon(DashletHelpIcon.MY_ACTIVITIES)
                 .assertBalloonMessageIsDisplayed()
                 .assertHelpBalloonMessageEquals(language.translate("siteActivities.help"))
                 .closeHelpBalloon()
@@ -46,119 +46,115 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
             .assertItemsFilterHasAllOptions()
             .assertSelectedItemFilterContains(language.translate("activitiesDashlet.filter.allItems"))
             .assertHistoryFilterHasAllOptions()
-            .assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last7days"));
+            .assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last7days"))
+            .assertRssFeedContainsExpectedUrForSiteActivity(site.get());
     }
 
     @TestRail (id = "C2809")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void verifyDateRangeFilter()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(file).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(file).assertThat().existsInRepo();
 
-        siteDashboardPage.navigate(testSite);
+        siteDashboardPage.navigate(site.get());
         siteActivitiesDashlet
             .assertSelectedHistoryOptionContains(language.translate("activitiesDashlet.filter.last7days"))
-            .assertAddDocumentActivityIsDisplayed(testUser, file)
+            .assertAddDocumentActivityIsDisplayed(user.get(), file)
             .selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter.TODAY)
-                .assertAddDocumentActivityIsDisplayed(testUser, file)
+                .assertAddDocumentActivityIsDisplayed(user.get(), file)
             .selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter.FOURTEEN_DAYS)
-                .assertAddDocumentActivityIsDisplayed(testUser, file)
+                .assertAddDocumentActivityIsDisplayed(user.get(), file)
             .selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter.TWENTY_EIGHT_DAYS)
-                .assertAddDocumentActivityIsDisplayed(testUser, file);
+                .assertAddDocumentActivityIsDisplayed(user.get(), file);
     }
 
     @TestRail (id = "C12833, C12834")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void verifyGroupAddActivityIsDisplayed()
     {
         GroupModel groupToAdd = dataGroup.usingAdmin().createRandomGroup();
-        dataGroup.usingUser(testUser).addGroupToSite(groupToAdd, testSite, UserRole.SiteCollaborator);
+        dataGroup.usingUser(user.get())
+            .addGroupToSite(groupToAdd, site.get(), UserRole.SiteCollaborator);
 
-        siteDashboardPage.navigate(testSite);
-        siteActivitiesDashlet.assertAddGroupToSiteWithRoleActivityIsDisplayed(groupToAdd, testSite, UserRole.SiteCollaborator);
+        siteDashboardPage.navigate(site.get());
+        siteActivitiesDashlet.assertAddGroupToSiteWithRoleActivityIsDisplayed(groupToAdd, site.get(), UserRole.SiteCollaborator);
 
         dataGroup.usingAdmin().deleteGroup(groupToAdd);
     }
 
     @TestRail (id = "C12835")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void verifyUpdateGroupRoleActivityIsDisplayed()
     {
         GroupModel groupToUpdate = dataGroup.usingAdmin().createRandomGroup();
-        dataGroup.usingUser(testUser).addGroupToSite(groupToUpdate, testSite, UserRole.SiteCollaborator);
-        dataGroup.usingUser(testUser).updateGroupRole(groupToUpdate, testSite, UserRole.SiteManager);
+        dataGroup.usingUser(user.get()).addGroupToSite(groupToUpdate, site.get(), UserRole.SiteCollaborator);
+        dataGroup.usingUser(user.get()).updateGroupRole(groupToUpdate, site.get(), UserRole.SiteManager);
 
-        siteDashboardPage.navigate(testSite);
+        siteDashboardPage.navigate(site.get());
         siteActivitiesDashlet.assertUpdateGroupRoleActivityIsDisplayed(groupToUpdate, UserRole.SiteManager);
 
         dataGroup.usingAdmin().deleteGroup(groupToUpdate);
     }
 
     @TestRail (id = "C12838")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void verifyRemoveGroupFromSiteActivityIsDisplayed()
     {
         GroupModel groupToRemove = dataGroup.usingAdmin().createRandomGroup();
-        dataGroup.usingUser(testUser).addGroupToSite(groupToRemove, testSite, UserRole.SiteCollaborator);
-        dataGroup.usingUser(testUser).removeGroupFromSite(groupToRemove, testSite);
+        dataGroup.usingUser(user.get()).addGroupToSite(groupToRemove, site.get(), UserRole.SiteCollaborator);
+        dataGroup.usingUser(user.get()).removeGroupFromSite(groupToRemove, site.get());
 
-        siteDashboardPage.navigate(testSite);
-        siteActivitiesDashlet.assertRemoveGroupFromSiteActivityIsDisplayed(groupToRemove, testSite);
+        siteDashboardPage.navigate(site.get());
+        siteActivitiesDashlet.assertRemoveGroupFromSiteActivityIsDisplayed(groupToRemove, site.get());
 
         dataGroup.usingAdmin().deleteGroup(groupToRemove);
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void verifyDocumentLinkFromAddActivity()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.usingSite(testSite).createFile(file).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(file).assertThat().existsInRepo();
 
-        siteDashboardPage.navigate(testSite);
+        siteDashboardPage.navigate(site.get());
         siteActivitiesDashlet
-            .assertAddDocumentActivityIsDisplayed(testUser, file);
-//            .clickDocumentLinkForAddActivity(testUser, file)
-//                .assertDocumentDetailsPageIsOpened()
-//                .assertDocumentTitleEquals(file);
+            .assertAddDocumentActivityIsDisplayed(user.get(), file)
+            .clickDocumentLinkForAddActivity(user.get(), file)
+                .assertDocumentTitleEquals(file);
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void verifyRSSFeedSiteActivitiesDashlet()
-    {
-        siteDashboardPage.navigate(testSite);
-        siteActivitiesDashlet.assertRssFeedContainsExpectedUrForSiteActivity(testSite);
-    }
-
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void verifyUserFilter()
     {
         UserModel invitedUser = dataUser.usingAdmin().createRandomTestUser();
-        dataUser.usingUser(testUser).addUserToSite(invitedUser, testSite, UserRole.SiteCollaborator);
+        dataUser.usingUser(user.get()).addUserToSite(invitedUser, site.get(), UserRole.SiteCollaborator);
 
         FileModel managerFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel collaboratorFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.authenticateUser(testUser).usingSite(testSite)
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get())
             .createFile(managerFile).assertThat().existsInRepo()
             .authenticateUser(invitedUser)
-                .usingSite(testSite).createFile(collaboratorFile).assertThat().existsInRepo();
+                .usingSite(site.get()).createFile(collaboratorFile).assertThat().existsInRepo();
 
-        siteDashboardPage.navigate(testSite);
-        siteActivitiesDashlet.selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.MY_ACTIVITIES)
-            .assertAddDocumentActivityIsDisplayed(testUser, managerFile)
+        siteDashboardPage.navigate(site.get());
+        siteActivitiesDashlet.selectActivityFilter(ActivitiesFilter.MY_ACTIVITIES)
+            .assertAddDocumentActivityIsDisplayed(user.get(), managerFile)
             .assertAddDocumentActivityIsNotDisplayedForUser(invitedUser, collaboratorFile)
-            .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
+            .selectActivityFilter(ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
                 .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile)
-                .assertAddDocumentActivityIsNotDisplayedForUser(testUser, managerFile)
-            .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ACTIVITIES)
-                .assertAddDocumentActivityIsDisplayed(testUser, managerFile)
+                .assertAddDocumentActivityIsNotDisplayedForUser(user.get(), managerFile)
+            .selectActivityFilter(ActivitiesFilter.EVERYONE_ACTIVITIES)
+                .assertAddDocumentActivityIsDisplayed(user.get(), managerFile)
                 .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        removeUserFromAlfresco(testUser);
-        deleteSites(testSite);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

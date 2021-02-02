@@ -2,7 +2,7 @@ package org.alfresco.po.share;
 
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_5;
-import static org.alfresco.utility.report.log.Step.STEP;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -73,6 +73,7 @@ public abstract class SharePage2<T> extends BasePage
         try
         {
             webDriver.get().get(relativePathToURL().toString());
+            waitForSharePageToLoad();
             return (T) this;
         }
         catch (TimeoutException | NoSuchSessionException e)
@@ -87,8 +88,8 @@ public abstract class SharePage2<T> extends BasePage
 
     public void navigateWithoutRender()
     {
-        STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
-        webElementInteraction.navigateTo(relativePathToURL().getPath());
+        LOG.info("Navigate to: {}",relativePathToURL().toString());
+        webElementInteraction.navigateTo(relativePathToURL().toString());
     }
 
     public String getPageHeader()
@@ -100,6 +101,13 @@ public abstract class SharePage2<T> extends BasePage
     {
         webElementInteraction.clickElement(alfrescoOneFooterLogo);
         return new AboutPopUpPage(webDriver);
+    }
+
+    public T assertLastNotificationMessageEquals(String expectedMessage)
+    {
+        LOG.info("Assert last notification message is: {}", expectedMessage);
+        assertEquals(notificationMessageThread.get(), expectedMessage, "Last notification message is not correct");
+        return (T) this;
     }
 
     public T waitUntilLoadingMessageDisappears()

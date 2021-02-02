@@ -1,3 +1,4 @@
+
 package org.alfresco.po.share.site.members;
 
 import static org.testng.Assert.assertEquals;
@@ -82,14 +83,6 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         }
         webElementInteraction.clickElement(setAllRolesToButton);
         return roles;
-    }
-
-    public AddSiteGroupsPage assertNotificationMessageEqualsTo(String expectedMessage)
-    {
-        LOG.info("Assert notification message equals {}", expectedMessage);
-        assertEquals(waitUntilNotificationMessageDisappears().get(), expectedMessage,
-            String.format("Notification message not equals %s ", expectedMessage));
-        return this;
     }
 
     public AddSiteGroupsPage assertGroupNameEquals(String groupName)

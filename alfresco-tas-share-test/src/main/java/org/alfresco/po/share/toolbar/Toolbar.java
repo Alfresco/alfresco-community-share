@@ -232,6 +232,7 @@ public class Toolbar extends BasePage
 
     public void searchInToolbar(String searchTerm)
     {
+        webElementInteraction.waitUntilElementIsVisible(searchBoxInput);
         webElementInteraction.clearAndType(searchBoxInput, searchTerm);
     }
 
@@ -261,12 +262,12 @@ public class Toolbar extends BasePage
 
     public boolean isResultDisplayedInLiveSearch(String query)
     {
-        int j = 0;
-        while (!webElementInteraction.isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && j < 4)
+        int retryCounter = 0;
+        while (!webElementInteraction.isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && retryCounter < 4)
         {
             webElementInteraction.refresh();
-            this.searchInToolbar(query);
-            j++;
+            searchInToolbar(query);
+            retryCounter++;
         }
         webElementInteraction.waitUntilElementsAreVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
         webElementInteraction.waitUntilElementsAreVisible(By.cssSelector("div.alf-livesearch-item>a"));

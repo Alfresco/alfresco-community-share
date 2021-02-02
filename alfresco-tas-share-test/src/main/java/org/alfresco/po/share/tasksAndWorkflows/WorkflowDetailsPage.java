@@ -1,73 +1,31 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.po.share.SharePage2;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openqa.selenium.WebDriver;
 
-/**
- * @author Razvan.Dorobantu
- */
-@PageObject
-public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
+public class WorkflowDetailsPage extends SharePage2<WorkflowDetailsPage>
 {
-    @Autowired
-    TaskDetailsPage taskDetailsPage;
-
-    @Autowired
-    EditTaskPage editTaskPage;
-
-    @RenderWebElement
-    @FindBy (css = "div[class$='workflow-details-header'] h1")
-    private WebElement workflowDetailsHeader;
-
-    @RenderWebElement
-    @FindBy (css = "div[id*='workflow-details'].form-fields")
-    private WebElement workflowDetailsBody;
-
-    @FindBy (css = "span[id$='_default-startedBy'] a")
-    private WebElement startedByUser;
-
-    @FindBy (css = "tbody.yui-dt-data tr td[class$='yui-dt-col-owner'] div a")
-    private WebElement assignedToUser;
-
-    @FindBy (css = "span[id$='_default-due']")
-    private WebElement dueDate;
-
-    @RenderWebElement
-    @FindBy (css = "span[id$='_default-priority']")
-    private WebElement priority;
-
-    @RenderWebElement
-    @FindBy (css = "span[id$='_default-message']")
-    private WebElement message;
-
-    @RenderWebElement
-    @FindBy (css = "span[id$='default-status']")
-    private WebElement status;
-
-    @FindBy (css = "div[id*='workflowHistory']")
-    private WebElement historyBlock;
-
-    @FindBy (css = "a[class='task-edit']")
-    private WebElement editTaskButton;
-
-    @FindBy (css = "span[id$='recentTaskOutcome']")
-    private WebElement recentOutcome;
-
-    @FindBy (css = "div[id$='recentTaskOwnersComment']")
-    private WebElement recentTaskComment;
+    private final By workflowDetailsHeader = By.cssSelector("div[class$='workflow-details-header'] h1");
+    private final By startedByUser = By.cssSelector("span[id$='_default-startedBy'] a");
+    private final By assignedToUser = By.cssSelector("tbody.yui-dt-data tr td[class$='yui-dt-col-owner'] div a");
+    private final By dueDate = By.cssSelector("span[id$='_default-due']");
+    private final By priority = By.cssSelector("span[id$='_default-priority']");
+    private final By message = By.cssSelector("span[id$='_default-message']");
+    private final By status = By.cssSelector("span[id$='default-status']");
+    private final By historyBlock = By.cssSelector("div[id*='workflowHistory']");
+    private final By editTaskButton = By.cssSelector("a[class='task-edit']");
+    private final By recentOutcome = By.cssSelector("span[id$='recentTaskOutcome']");
+    private final By recentTaskComment = By.cssSelector("div[id$='recentTaskOwnersComment']");
+    private final By taskDetailsButton = By.cssSelector("a.task-details");
 
     private String historyOutcome = "//td[contains(@class, 'col-owner')]//a[text()='%s']//ancestor::tr//td[contains(@class, 'col-state')]//div";
-
     private String historyComment = "//td[contains(@class, 'col-owner')]//a[text()='%s']//ancestor::tr//td[contains(@class, 'col-properties')]//div";
 
-    private By taskDetailsButton = By.cssSelector("a.task-details");
-
+    public WorkflowDetailsPage(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getRelativePath()
@@ -77,89 +35,73 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
 
     public String getWorkflowDetailsHeader()
     {
-        return workflowDetailsHeader.getText();
+        return webElementInteraction.getElementText(workflowDetailsHeader);
     }
 
     public String getStartedByUser()
     {
-        return startedByUser.getText();
+        return webElementInteraction.getElementText(startedByUser);
     }
 
     public String getAssignedToUser()
     {
-        int counter = 1;
-        int retryCount = 5;
-        String user = "";
-        while (counter <= retryCount)
-        {
-            try
-            {
-                user = assignedToUser.getText();
-                break;
-            } catch (NoSuchElementException e)
-            {
-                browser.refresh();
-                counter++;
-                browser.waitInSeconds(5);
-            }
-        }
-        return user;
+        return webElementInteraction.getElementText(assignedToUser);
     }
 
     public String getDueDate()
     {
-        return dueDate.getText();
+        return webElementInteraction.getElementText(dueDate);
     }
 
     public String getPriority()
     {
-        return priority.getText();
+        return webElementInteraction.getElementText(priority);
     }
 
     public String getMessage()
     {
-        return message.getText();
+        return webElementInteraction.getElementText(message);
     }
 
     public String getStatus()
     {
-        return status.getText();
+        return webElementInteraction.getElementText(status);
     }
 
     public String getRecentOutcome()
     {
-        return recentOutcome.getText();
+        return webElementInteraction.getElementText(recentOutcome);
     }
 
     public String getRecentComment()
     {
-        return recentTaskComment.getText();
+        return webElementInteraction.getElementText(recentTaskComment);
     }
 
     public TaskDetailsPage clickTaskDetailsButton()
     {
-        browser.findElement(taskDetailsButton).click();
-        return (TaskDetailsPage) taskDetailsPage.renderedPage();
+        webElementInteraction.clickElement(taskDetailsButton);
+        return new TaskDetailsPage(webDriver);
     }
 
     public EditTaskPage clickEditTaskButton()
     {
-        browser.waitUntilElementVisible(editTaskButton).click();
-        return (EditTaskPage) editTaskPage.renderedPage();
+        webElementInteraction.clickElement(editTaskButton);
+        return new EditTaskPage(webDriver);
     }
 
     public boolean isHistoryBlockPresent()
     {
-        return browser.isElementDisplayed(historyBlock);
+        return webElementInteraction.isElementDisplayed(historyBlock);
     }
 
     public String getHistoryOutcome(String completedByUser)
     {
-        return browser.findElement(By.xpath(String.format(historyOutcome, completedByUser))).getText();
+        return webElementInteraction.findElement(By.xpath(String.format(historyOutcome, completedByUser))).getText();
     }
 
     public String getHistoryComment(String completedByUser)
     {
-        return browser.findElement(By.xpath(String.format(historyComment, completedByUser))).getText();
+        return webElementInteraction.findElement(By.xpath(String.format(historyComment, completedByUser))).getText();
     }
 }

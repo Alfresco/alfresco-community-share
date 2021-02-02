@@ -1,20 +1,16 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SavedSearchDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.FileType;
-import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
@@ -27,27 +23,28 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String EXPECTED_DIALOG_TITLE = "savedSearchDashlet.config.title";
     private static final String FOLDER_LINK_PATH = "/";
 
-    private UserModel userModel;
-    private SiteModel siteModel;
-    private FileModel fileModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private SavedSearchDashlet savedSearchDashlet;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
+        savedSearchDashlet = new SavedSearchDashlet(webDriver);
 
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        addDashlet(siteModel, Dashlets.SAVED_SEARCH, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.SAVED_SEARCH, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2787")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkNotDisplayResultsWhenDashletConfigurationIsCancelled()
     {
+        siteDashboardPage.navigate(site.get());
         savedSearchDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE));
         savedSearchDashlet
@@ -65,16 +62,18 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588500")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySearchResultsWhenDashletConfigurationIsSaved()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi
-            .authenticateUser(userModel)
-            .usingSite(siteModel)
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi()
+            .authenticateUser(user.get())
+            .usingSite(site.get())
             .createFile(fileModel)
             .assertThat()
             .existsInRepo();
+
+        siteDashboardPage.navigate(site.get());
         savedSearchDashlet
             .configureDashlet()
             .setTitleField(DIALOG_TITLE_INPUT_VALUE)
@@ -86,10 +85,10 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
                 String.format(language.translate(EXPECTED_FOLDER_LABEL), FOLDER_LINK_PATH));
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

@@ -43,8 +43,8 @@ public class AddSiteGroupsTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.usingAdmin().createRandomTestUser());
-        siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
+        userModel.set(getDataUser().usingAdmin().createRandomTestUser());
+        siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
         groupModel.set(dataGroup.usingAdmin().createRandomGroup());
 
         setupAuthenticatedSession(userModel.get());
@@ -185,7 +185,7 @@ public class AddSiteGroupsTest extends BaseTest
         addSiteGroupsPage
             .navigate(siteModel.get())
             .searchGroupByName(EMPTY_INPUT)
-            .assertNotificationMessageEqualsTo(language.translate(EXPECTED_NOTIFICATION_MESSAGE));
+            .assertLastNotificationMessageEquals(language.translate(EXPECTED_NOTIFICATION_MESSAGE));
     }
 
     @TestRail (id = "C2785")
@@ -195,7 +195,8 @@ public class AddSiteGroupsTest extends BaseTest
         addSiteGroupsPage
             .navigate(siteModel.get())
             .searchGroupByName(NON_EXISTING_GROUP)
-            .assertNoGroupsFoundLabelEqualsTo(language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
+            .waitUntilLoadingMessageDisappears();
+        addSiteGroupsPage.assertNoGroupsFoundLabelEqualsTo(language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
     }
 
     @TestRail (id = "C2786")
@@ -240,7 +241,7 @@ public class AddSiteGroupsTest extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
     public void shouldGroupMembersBeAddedToUsersList()
     {
-        UserModel userToAddInGroup = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userToAddInGroup = getDataUser().usingAdmin().createRandomTestUser();
         dataGroup.usingUser(userToAddInGroup).addUserToGroup(groupModel.get());
 
         addSiteGroupsPage
@@ -248,7 +249,7 @@ public class AddSiteGroupsTest extends BaseTest
             .addGroupWorkflow(groupModel.get().getDisplayName(), MANAGER.getValue());
 
         addSiteGroupsPage
-            .assertNotificationMessageEqualsTo(EXPECTED_ONE_GROUPS_ADDED_0_FAILURES);
+            .assertLastNotificationMessageEquals(language.translate(EXPECTED_ONE_GROUPS_ADDED_0_FAILURES));
 
         siteUsersPage.navigate(siteModel.get());
 

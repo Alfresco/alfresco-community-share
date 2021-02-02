@@ -1,52 +1,49 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
+
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDashletsTests
 {
     private static final String EXPECTED_DIALOG_TITLE = "Enter Feed URL:";
-    private static final String EXPECTED_DASHLET_TITLE = "rssAlfrescoAddonsFeedDashlet.title";
     private static final String RSS_FEED_URL = "https://www.feedforall.com/sample.xml";
     private static final String NUMBER_OF_ITEMS_DISPLAYED = "5";
     private static final String EXPECTED_URL = "feedforall.com";
     private static final String EXPECTED_HELP_BALLOON_MESSAGE = "rssAddonsFeedDashlet.helpBalloonMessage";
     private static final int SECOND_LINK = 1;
-    private static final int EXPECTED_LIST_EMPTY_SIZE = 0;
 
-    private UserModel userModel;
-    private SiteModel siteModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private RssFeedDashlet rssFeedDashlet;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
+        rssFeedDashlet = new RssFeedDashlet(webDriver);
 
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        addDashlet(siteModel, Dashlets.ALFRESCO_ADDONS_RSS_FEED, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.ADDONS_RSS_FEED, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenAlfrescoAddonsRssFeedListIsEmpty()
     {
+        siteDashboardPage.navigate(site.get());
         rssFeedDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.RSS_FEED)
-            .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
-            .assertListSizeEquals(EXPECTED_LIST_EMPTY_SIZE)
+            .assertFeedListIsEmpty()
             .clickOnHelpIcon(DashletHelpIcon.RSS_FEED)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
@@ -54,12 +51,11 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail(id = "C2793")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @Test(groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldConfigureAlfrescoAddonsRssFeedDashlet()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         rssFeedDashlet
-            .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .configureDashlet()
             .assertDialogTitleEquals(EXPECTED_DIALOG_TITLE)
             .setUrlValue(RSS_FEED_URL)
@@ -71,15 +67,15 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
             .clickOnHelpIcon(DashletHelpIcon.RSS_FEED)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
-            .assertHelpBalloonIsNotDisplayed()
+            .assertBalloonMessageIsNotDisplayed()
             .clickOnRssLink(SECOND_LINK)
             .assertRssFeedLinkIsOpenedInNewBrowserTab(EXPECTED_URL);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

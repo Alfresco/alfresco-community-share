@@ -11,6 +11,7 @@ import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 /**
@@ -99,7 +100,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage assertNumberOfDashletColumnsIs(int columnsNumber)
     {
         LOG.info("Assert dashboard has {} columns", columnsNumber);
-        String strCol = webElementInteraction.findElement(dashboardLayout).getAttribute("class");
+        String strCol = webElementInteraction.waitUntilElementIsVisible(dashboardLayout).getAttribute("class");
         assertEquals(Character.getNumericValue(strCol.charAt(strCol.length() - 1)), columnsNumber);
         return this;
     }
@@ -116,9 +117,13 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            return webElementInteraction.isElementDisplayed(By.xpath(String.format(webViewDashletLocation, column, locationInColumn)));
+            WebElement webView = webElementInteraction.waitUntilElementIsVisible(
+                By.xpath(String.format(webViewDashletLocation, column, locationInColumn)));
+            return webElementInteraction.isElementDisplayed(webView);
         }
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(dashletOnDashboard, dashlet.getDashletName(), column, locationInColumn)));
+        WebElement dashletToCheck = webElementInteraction.waitUntilElementIsVisible(
+            By.xpath(String.format(dashletOnDashboard, dashlet.getDashletName(), column, locationInColumn)));
+        return webElementInteraction.isElementDisplayed(dashletToCheck);
     }
 
     public UserDashboardPage assertDashletIsAddedInPosition(Dashlets dashlet, int column, int locationInColumn)
@@ -151,13 +156,14 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     {
         LOG.info("Assert User Dashboard header title is correct");
         assertEquals(getPageHeader(), String.format(language.translate("userDashboard.headerTitle"),
-            userModel.getFirstName(), userModel.getLastName()));
+                userModel.getFirstName(), userModel.getLastName()));
         return this;
     }
 
     public UserDashboardPage assertWelcomePanelIsDisplayed()
     {
         LOG.info("Assert Welcome panel is displayed");
+        webElementInteraction.waitUntilElementIsVisible(welcomePanel);
         assertTrue(webElementInteraction.isElementDisplayed(welcomePanel), "Welcome panel is displayed");
         return this;
     }
@@ -172,14 +178,15 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage assertWelcomePanelMessageIsCorrect()
     {
         LOG.info("Assert Welcome panel message is correct");
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(welcomePanelInfo).getText(), language.translate("userDashboard.welcomeMessage"),
-            "Welcome panel message is correct");
+        assertEquals(webElementInteraction.getElementText(welcomePanelInfo), language.translate("userDashboard.welcomeMessage"),
+                "Welcome panel message is correct");
         return this;
     }
 
     public UserDashboardPage assertHideWelcomePanelButtonIsDisplayed()
     {
         LOG.info("Assert Hide welcome panel button is displayed");
+        webElementInteraction.waitUntilElementIsVisible(welcomePanelHideButton);
         assertTrue(webElementInteraction.isElementDisplayed(welcomePanelHideButton), "Hide button is displayed");
         return this;
     }

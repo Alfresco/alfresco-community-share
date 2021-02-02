@@ -1,54 +1,27 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openqa.selenium.WebDriver;
 
-/**
- * @author Razvan.Dorobantu
- */
-@PageObject
-public class TaskDetailsPage extends SharePage<TaskDetailsPage>
+public class TaskDetailsPage extends SharePage2<TaskDetailsPage>
 {
-    @Autowired
-    EditTaskPage editTaskPage;
+    private final By taskDetailsHeader = By.cssSelector("div[class$='task-details-header'] h1");
+    private final By taskDetailsBody = By.cssSelector("div[id*='task-details'].form-fields");
+    private final By owner = By.cssSelector("span[id$='_default_prop_taskOwner'] a");
+    private final By dueDate = By.xpath("//span[text() = 'Due:']/../span[@class = 'viewmode-value']");
+    private final By priority = By.xpath("//span[text() = 'Priority:']/../span[@class = 'viewmode-value']");
+    private final By message = By.xpath("//span[text() = 'Message:']/../span[@class = 'viewmode-value']");
+    private final By status = By.xpath("//span[text() = 'Status:']/../span[@class = 'viewmode-value']");
+    private final By comment = By.xpath("//span[text() = 'Comment:']/../span[@class = 'viewmode-value']");
+    private final By workflowDetailsButton = By.cssSelector("div.links a");
+    private final By editButton = By.cssSelector("button[id$='default-edit-button']");
 
-    @Autowired
-    WorkflowDetailsPage workflowDetailsPage;
-
-    @RenderWebElement
-    @FindBy (css = "div[class$='task-details-header'] h1")
-    private WebElement taskDetailsHeader;
-
-    @RenderWebElement
-    @FindBy (css = "div[id*='task-details'].form-fields")
-    private WebElement taskDetailsBody;
-
-    @FindBy (css = "span[id$='_default_prop_taskOwner'] a")
-    private WebElement owner;
-
-    @FindBy (xpath = "//span[text() = 'Due:']/../span[@class = 'viewmode-value']")
-    private WebElement dueDate;
-
-    @FindBy (xpath = "//span[text() = 'Priority:']/../span[@class = 'viewmode-value']")
-    private WebElement priority;
-
-    @FindBy (xpath = "//span[text() = 'Message:']/../span[@class = 'viewmode-value']")
-    private WebElement message;
-
-    @FindBy (xpath = "//span[text() = 'Status:']/../span[@class = 'viewmode-value']")
-    private WebElement status;
-
-    @FindBy (xpath = "//span[text() = 'Comment:']/../span[@class = 'viewmode-value']")
-    private WebElement comment;
-
-    private By workflowDetailsButton = By.cssSelector("div.links a");
-    private By editButton = By.cssSelector("button[id$='default-edit-button']");
+    public TaskDetailsPage(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getRelativePath()
@@ -58,28 +31,28 @@ public class TaskDetailsPage extends SharePage<TaskDetailsPage>
 
     public String getTaskDetailsHeader()
     {
-        return taskDetailsHeader.getText();
+        return webElementInteraction.getElementText(taskDetailsHeader);
     }
 
     public String getStatus()
     {
-        return status.getText();
+        return webElementInteraction.getElementText(status);
     }
 
     public String getComment()
     {
-        return comment.getText();
+        return webElementInteraction.getElementText(comment);
     }
 
-    public HtmlPage clickWorkflowDetailsButton()
+    public WorkflowDetailsPage clickWorkflowDetailsButton()
     {
-        browser.findElement(workflowDetailsButton).click();
-        return workflowDetailsPage.renderedPage();
+        webElementInteraction.clickElement(workflowDetailsButton);
+        return new WorkflowDetailsPage(webDriver);
     }
 
     public EditTaskPage clickEditButton()
     {
-        browser.findElement(editButton).click();
-        return (EditTaskPage) editTaskPage.renderedPage();
+        webElementInteraction.clickElement(editButton);
+        return new EditTaskPage(webDriver);
     }
 }

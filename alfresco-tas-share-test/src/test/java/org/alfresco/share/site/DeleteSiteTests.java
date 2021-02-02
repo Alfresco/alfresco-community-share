@@ -38,7 +38,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     //@Autowired
     SiteFinderPage siteFinderPage;
 
-    @Autowired
+    //@Autowired
     DeleteSiteDialog deleteSiteDialog;
 
     //@Autowired
@@ -47,7 +47,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     //@Autowired
     SystemErrorPage systemErrorPage;
 
-    @Autowired
+    //@Autowired
     MySitesDashlet mySitesDashlet;
 
     //@Autowired
@@ -225,7 +225,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
-        softAssert.assertEquals(mySitesDashlet.isDeleteButtonDisplayed(siteNameUserCanNotDelete), false, "Delete button isn't displayed.");
+        softAssert.assertEquals(mySitesDashlet.isDeleteButtonDisplayed(), false, "Delete button isn't displayed.");
         softAssert.assertAll();
         cleanupAuthenticatedSession();
     }
@@ -251,7 +251,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
         userDashboard.navigateByMenuBar();
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
-        softAssert.assertEquals(mySitesDashlet.isDeleteButtonDisplayed(siteNameUserCanNotDelete), false, "Delete button isn't displayed.");
+        softAssert.assertEquals(mySitesDashlet.isDeleteButtonDisplayed(), false, "Delete button isn't displayed.");
         softAssert.assertAll();
         cleanupAuthenticatedSession();
     }
@@ -277,7 +277,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
         userDashboard.navigate(userC2283);
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
-        assertEquals(mySitesDashlet.isDeleteButtonDisplayed(siteNameUserCanNotDelete), false, "Delete button isn't displayed.");
+        assertEquals(mySitesDashlet.isDeleteButtonDisplayed(), false, "Delete button isn't displayed.");
         softAssert.assertAll();
         cleanupAuthenticatedSession();
     }

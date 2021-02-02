@@ -1,43 +1,39 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
+import org.alfresco.po.enums.ActivitiesFilter;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
     private MyActivitiesDashlet myActivitiesDashlet;
 
-    private UserModel user, invitedUser;
-    private SiteModel testSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> testSite = new ThreadLocal<>();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        invitedUser = dataUser.createRandomTestUser();
-        testSite = dataSite.usingUser(user).createPublicRandomSite();
-        setupAuthenticatedSession(user);
-    }
+        myActivitiesDashlet = new MyActivitiesDashlet(webDriver);
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
-        dataSite.usingAdmin().deleteSite(testSite);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        testSite.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2111")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 1)
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkActivitiesDashletWithNoActivities()
     {
+        userDashboardPage.navigate(user.get());
         myActivitiesDashlet
             .assertEmptyDashletMessageEquals()
             .assertRssFeedButtonIsDisplayed().assertDashletTitleEquals(language.translate("myActivitiesDashlet.title"))
@@ -54,76 +50,80 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2112")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 2)
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkCreateDocumentAndFolderActivity()
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        cmisApi.authenticateUser(user).usingSite(testSite)
+        getCmisApi().authenticateUser(user.get()).usingSite(testSite.get())
             .createFolder(testFolder).assertThat().existsInRepo()
             .createFile(testFile).assertThat().existsInRepo();
-        userDashboard.navigate(user);
-        myActivitiesDashlet.assertAddDocumentActivityIsDisplayed(user, testFile, testSite)
-            .assertAddedFolderActivityIsDisplayed(user, testFolder, testSite)
-            .clickUserFromAddedDocumentActivity(user, testFile, testSite);
-//                .assertUserProfilePageIsOpened();
-        userDashboard.navigate(user);
-        myActivitiesDashlet.clickDocumentLinkForAddActivity(user, testFile, testSite);
-//            .assertDocumentDetailsPageIsOpened()
-//            .assertDocumentTitleEquals(testFile);
-        userDashboard.navigate(user);
-        myActivitiesDashlet.assertPreviewedDocumentActivityIsDisplayed(user, testFile, testSite);
+
+        userDashboardPage.navigate(user.get());
+        myActivitiesDashlet.assertAddDocumentActivityIsDisplayed(user.get(), testFile, testSite.get())
+            .assertAddedFolderActivityIsDisplayed(user.get(), testFolder, testSite.get())
+            .clickUserFromAddedDocumentActivity(user.get(), testFile, testSite.get())
+                .assertUserProfilePageIsOpened();
     }
 
-
     @TestRail (id = "C2113")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 3)
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkUpdateDocumentActivity()
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.authenticateUser(user).usingSite(testSite)
+        getCmisApi().authenticateUser(user.get()).usingSite(testSite.get())
             .createFile(testFile).update("new content");
-        userDashboard.navigate(user);
-        myActivitiesDashlet.assertAddDocumentActivityIsDisplayed(user, testFile, testSite)
-            .assertUpdateDocumentActivityIsDisplayed(user, testFile, testSite);
+        userDashboardPage.navigate(user.get());
+        myActivitiesDashlet.assertAddDocumentActivityIsDisplayed(user.get(), testFile, testSite.get())
+            .assertUpdateDocumentActivityIsDisplayed(user.get(), testFile, testSite.get());
     }
 
     @TestRail (id = "C2114")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 4)
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkDeleteDocumentActivity()
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        cmisApi.authenticateUser(user).usingSite(testSite)
+        getCmisApi().authenticateUser(user.get()).usingSite(testSite.get())
             .createFile(testFile).assertThat().existsInRepo()
             .createFolder(testFolder).assertThat().existsInRepo()
                 .usingResource(testFile).delete().assertThat().doesNotExistInRepo()
                 .usingResource(testFolder).deleteFolderTree().assertThat().doesNotExistInRepo();
-        myActivitiesDashlet.assertDeleteDocumentActivityIsDisplayed(user, testFile, testSite)
-            .assertDeletedFolderActivityIsDisplayed(user, testFolder, testSite);
+        userDashboardPage.navigate(user.get());
+        myActivitiesDashlet.assertDeleteDocumentActivityIsDisplayed(user.get(), testFile, testSite.get())
+            .assertDeletedFolderActivityIsDisplayed(user.get(), testFolder, testSite.get());
     }
 
     @TestRail (id = "C2117")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 5)
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkUsersFilter()
     {
-        dataUser.usingUser(user).addUserToSite(invitedUser, testSite, UserRole.SiteCollaborator);
+        UserModel invitedUser = getDataUser().usingAdmin().createRandomTestUser();
+        getDataUser().usingUser(user.get()).addUserToSite(invitedUser, testSite.get(), UserRole.SiteCollaborator);
 
         FileModel managerFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel collaboratorFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        cmisApi.authenticateUser(user).usingSite(testSite)
+        getCmisApi().authenticateUser(user.get()).usingSite(testSite.get())
             .createFile(managerFile).assertThat().existsInRepo()
             .authenticateUser(invitedUser)
-                .usingSite(testSite).createFile(collaboratorFile).assertThat().existsInRepo();
+                .usingSite(testSite.get()).createFile(collaboratorFile).assertThat().existsInRepo();
 
-        myActivitiesDashlet.selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.MY_ACTIVITIES)
-            .assertAddDocumentActivityIsDisplayed(user, managerFile, testSite)
-            .assertAddDocumentActivityIsNotDisplayedForUser(invitedUser, collaboratorFile, testSite)
-                .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
-                    .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite)
-                    .assertAddDocumentActivityIsNotDisplayedForUser(user, managerFile, testSite)
-                .selectActivityFilter(MyActivitiesDashlet.ActivitiesFilter.EVERYONE_ACTIVITIES)
-                    .assertAddDocumentActivityIsDisplayed(user, managerFile, testSite)
-                    .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite);
+        userDashboardPage.navigate(user.get());
+        myActivitiesDashlet.selectActivityFilter(ActivitiesFilter.MY_ACTIVITIES)
+            .assertAddDocumentActivityIsDisplayed(user.get(), managerFile, testSite.get())
+            .assertAddDocumentActivityIsNotDisplayedForUser(invitedUser, collaboratorFile, testSite.get())
+                .selectActivityFilter(ActivitiesFilter.EVERYONE_ELSE_ACTIVITIES)
+                    .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite.get())
+                    .assertAddDocumentActivityIsNotDisplayedForUser(user.get(), managerFile, testSite.get())
+                .selectActivityFilter(ActivitiesFilter.EVERYONE_ACTIVITIES)
+                    .assertAddDocumentActivityIsDisplayed(user.get(), managerFile, testSite.get())
+                    .assertAddDocumentActivityIsDisplayed(invitedUser, collaboratorFile, testSite.get());
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
+        dataSite.usingAdmin().deleteSite(testSite.get());
     }
 }

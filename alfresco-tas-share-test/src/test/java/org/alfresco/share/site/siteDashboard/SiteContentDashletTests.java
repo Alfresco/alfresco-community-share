@@ -1,16 +1,14 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.po.share.dashlet.Dashlet;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+import static org.alfresco.utility.model.FileModel.getRandomFileModel;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import static org.alfresco.utility.model.FileModel.getRandomFileModel;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import org.testng.annotations.*;
 
 public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
 {
@@ -21,87 +19,86 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String DESCRIPTION = "Edited description ".concat(randomAlphabetic(3));
     private static final String EXPECTED_FILE_SIZE = "11 bytes";
 
-    private UserModel userModel;
-    private SiteModel siteModel;
-    private FileModel fileModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private SiteContentDashlet siteContentDashlet;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        cmisApi.authenticateUser(userModel);
+        siteContentDashlet = new SiteContentDashlet(webDriver);
 
-        setupAuthenticatedSession(userModel);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C5413")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void checkSpecificMessageWhenSiteContentListIsEmpty()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContentDashlet
-            .assertEmptySiteContentMessageIsCorrect();
-
-        siteContentDashlet
+            .assertEmptySiteContentMessageIsCorrect()
             .openFilterDropdown()
-            .assertFilterLabelEquals(language.translate(I_VE_RECENTLY_MODIFIED))
-            .assertFilterLabelEquals(language.translate(I_M_EDITING))
-            .assertFilterLabelEquals(language.translate(MY_FAVORITES))
-            .assertDetailedViewIconIsDisplayed();
+                .assertFilterLabelEquals(language.translate(I_VE_RECENTLY_MODIFIED))
+                .assertFilterLabelEquals(language.translate(I_M_EDITING))
+                .assertFilterLabelEquals(language.translate(MY_FAVORITES))
+                .assertDetailedViewIconIsDisplayed();
 
         siteContentDashlet
-            .clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_CONTENT)
+            .clickOnHelpIcon(DashletHelpIcon.SITE_CONTENT)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();
     }
 
     @TestRail (id = "C5425")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedFileInSiteContentDashlet()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContentDashlet
             .clickSimpleViewIcon()
             .usingDocument(fileModel)
-            .assertFileIsDisplayed()
-            .assertSiteEqualsTo(siteModel)
-            .assertThumbnailIsDisplayed();
+                .assertFileIsDisplayed()
+                .assertSiteEqualsTo(site.get())
+                .assertThumbnailIsDisplayed();
     }
 
     @TestRail (id = "C588523")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedFileInDocumentDetailsPage()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContentDashlet.usingDocument(fileModel)
-            .clickFileName();
-//            .assertDocumentDetailsPageIsOpened()
-//            .assertDocumentTitleEquals(fileModel)
-//            .assertFileContentEquals(FILE_CONTENT);
+            .clickFileName()
+                .assertDocumentTitleEquals(fileModel)
+                .assertFileContentEquals(FILE_CONTENT);
     }
 
     @TestRail (id = "C5457")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayEditedFileInSiteContentDashlet()
     {
         String newContent = "new content";
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel)
-            .usingResource(fileModel).setContent(newContent)
-            .updateProperty("cm:description", DESCRIPTION);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileModel)
+                .usingResource(fileModel).setContent(newContent)
+                    .updateProperty("cm:description", DESCRIPTION);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContentDashlet
             .clickDetailedViewButton()
             .usingDocument(fileModel)
@@ -112,13 +109,14 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588522")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldLikeAndAddFileToFavorite()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContentDashlet
             .clickDetailedViewButton()
             .usingDocument(fileModel)
@@ -129,13 +127,14 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588521")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldUnlikeAndRemoveFileFromFavorite()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContentDashlet
             .clickDetailedViewButton()
             .usingDocument(fileModel)
@@ -150,24 +149,24 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5458")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void shouldAddCommentOnListItem()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContentDashlet
             .usingDocument(fileModel)
-            .clickCommentLink();
-//            .assertDocumentDetailsPageIsOpened()
-//            .assertCommentsAreaIsOpened();
+            .clickCommentLink()
+                .assertCommentsAreaIsOpened();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

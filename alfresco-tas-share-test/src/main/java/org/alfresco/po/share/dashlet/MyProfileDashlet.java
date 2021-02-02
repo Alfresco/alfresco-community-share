@@ -1,26 +1,20 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-@PageObject
 public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 {
-    @FindBy (css = "div[class='dashlet']")
-    protected HtmlElement dashletContainer;
-
-    protected String helpIcon = "div[class='%s'] div[class='titleBarActionIcon help']";
-    protected String dashletBar = "div[class='%s'] div[class='title']";
-
-    private UserProfilePage userProfilePage;
-
+    private final By dashletContainer = By.cssSelector("div[class='dashlet']");
+    private final By helpIconMyProfile = By.cssSelector("div[class='dashlet'] div[class='titleBarActionIcon help']");
+    private final By toolbarMyProfile = By.cssSelector("div[class='dashlet'] .title");
     private final By viewFullProfile = By.cssSelector(".toolbar>div>span>span[class='first-child']>a");
     private final By avatar = By.cssSelector(".photo>img");
     private final By name = By.cssSelector(".namelabel>a");
@@ -28,94 +22,102 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     private final By email = By.cssSelector(".fieldvalue>a");
     private final By telephone = By.xpath("(//div[@class='fieldvalue'])[2]");
     private final By skype = By.xpath("(//div[@class='fieldvalue'])[3]");
-    private final By im = By.xpath("(//div[@class='fieldvalue'])[4]");
+    private final By instantMessage = By.xpath("(//div[@class='fieldvalue'])[4]");
+
+    public MyProfileDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        browser.waitUntilElementVisible(dashletContainer);
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+            .findElement(dashletTitle));
+    }
+
+    @Override
+    public MyProfileDashlet clickOnHelpIcon(DashletHelpIcon dashlet)
+    {
+        LOG.info("Click Help Icon");
+        webElementInteraction.mouseOver(toolbarMyProfile);
+        WebElement helpMyProfile = webElementInteraction.waitUntilElementIsVisible(helpIconMyProfile);
+        webElementInteraction.mouseOver(helpMyProfile);
+        webElementInteraction.clickElement(helpMyProfile);
+        return this;
+    }
+
+    private WebElement getMyProfileDashletContainer()
+    {
+        return webElementInteraction.waitUntilElementIsVisible(dashletContainer);
     }
 
     public MyProfileDashlet assertViewFullProfileButtonIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(dashletContainer, viewFullProfile), "View full profile is displayed");
+        WebElement fullProfile = webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(viewFullProfile);
+        assertTrue(webElementInteraction.isElementDisplayed(fullProfile), "View full profile is displayed");
         return this;
-    }
-
-    public void clickViewFullProfile()
-    {
-        dashletContainer.findElement(viewFullProfile).click();
     }
 
     public MyProfileDashlet assertAvatarIsDisplayed()
     {
-        assertTrue(browser.isElementDisplayed(dashletContainer, avatar), "Avatar is displayed");
+        assertTrue(webElementInteraction.isElementDisplayed(getMyProfileDashletContainer().findElement(avatar)), "Avatar is displayed");
         return this;
     }
 
     public MyProfileDashlet assertNameIsEnabled()
     {
-        assertTrue(dashletContainer.findElement(name).isEnabled(), "Name is enabled");
+        assertTrue(getMyProfileDashletContainer().findElement(name).isEnabled(), "Name is enabled");
         return this;
-    }
-
-    public void clickOnName()
-    {
-        dashletContainer.findElement(name).click();
     }
 
     public MyProfileDashlet assertNameIs(String fullName)
     {
-        Assert.assertEquals(dashletContainer.findElement(name).getText(), fullName);
+        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(name)), fullName);
         return this;
     }
 
     public MyProfileDashlet assertJobTitleIs(String job)
     {
-        Assert.assertEquals(dashletContainer.findElement(jobTitle).getText(), job);
+        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(jobTitle)), job);
         return this;
     }
 
     public MyProfileDashlet assertEmailIsEnabled()
     {
-        assertTrue(dashletContainer.findElement(email).isEnabled(), "Email is enabled");
+        assertTrue(getMyProfileDashletContainer().findElement(email).isEnabled(), "Email is enabled");
         return this;
     }
 
     public MyProfileDashlet assertEmailHrefIsCorrect(UserModel user)
     {
-        Assert.assertEquals(dashletContainer.findElement(email).getAttribute("href"),
+        assertEquals(getMyProfileDashletContainer().findElement(email).getAttribute("href"),
             String.format("mailto:%s", user.getEmailAddress()));
         return this;
     }
 
-    public String getEmail()
-    {
-        return dashletContainer.findElement(email).getText();
-    }
-
     public MyProfileDashlet assertEmailIs(String expectedEmail)
     {
-        Assert.assertEquals(dashletContainer.findElement(email).getText(), expectedEmail);
+        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(email)), expectedEmail);
         return this;
     }
 
     public MyProfileDashlet assertTelephoneIs(String expectedTelephone)
     {
-        Assert.assertEquals(dashletContainer.findElement(telephone).getText(), expectedTelephone);
+        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(telephone)), expectedTelephone);
         return this;
     }
 
     public MyProfileDashlet assertSkypeIs(String expectedSkype)
     {
-        Assert.assertEquals(dashletContainer.findElement(skype).getText(), expectedSkype);
+        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(skype)), expectedSkype);
         return this;
     }
 
-    public MyProfileDashlet assertIMIs(String expectedIM)
+    public MyProfileDashlet assertInstantMessagesEqualTo(String expectedInstantMessage)
     {
-        Assert.assertEquals(dashletContainer.findElement(im).getText(), expectedIM);
+        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(
+            instantMessage)), expectedInstantMessage);
         return this;
     }
 }

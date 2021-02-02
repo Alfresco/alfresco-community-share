@@ -1,9 +1,10 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
 import java.util.Arrays;
-import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContributorBreakdownDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.FileModel;
@@ -11,10 +12,7 @@ import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardDashletsTests
 {
@@ -27,29 +25,28 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
     private static final String EXPECTED_EMPTY_MESSAGE = "siteContributorBreakdown.DashletEmptyMessage";
     private static final int EXPECTED_PIE_CHART_SIZE = 1;
 
-    private UserModel userModel;
-    private SiteModel siteModel;
-    private FileModel fileModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private SiteContributorBreakdownDashlet siteContributorBreakdownDashlet;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
-        cmisApi.authenticateUser(userModel);
+        siteContributorBreakdownDashlet = new SiteContributorBreakdownDashlet(webDriver);
 
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        addDashlet(siteModel, Dashlets.SITE_CONTRIBUTOR_BREAKDOWN, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.SITE_CONTRIB_BREAKDOWN, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C202732")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkSpecificMessageWhenSiteContributorBreakdownDashletIsEmpty()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContributorBreakdownDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .assertDashletEmptyMessageEquals(language.translate(EXPECTED_EMPTY_MESSAGE))
@@ -63,23 +60,24 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
 }
 
     @TestRail (id = "C202304")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUserFullNameInUserProfilePageWhenClickedFromPieChart()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteContributorBreakdownDashlet
             .assertPieChartSizeEquals(EXPECTED_PIE_CHART_SIZE)
-            .clickPieChartUsername();
-//            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+            .clickPieChartUsername()
+                .assertUserProfilePageIsOpened();
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

@@ -1,30 +1,29 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
+import static org.testng.Assert.assertEquals;
 
-@PageObject
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
 public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashlet>
 {
-    @FindBy (css = "div.dashlet-padding h3")
-    private WebElement defaultDashletMessage;
+    private final By defaultDashletMessage = By.cssSelector("div.dashlet-padding h3");
+    private final By dashletContainer = By.cssSelector("div.dashlet.my-meeting-workspaces");
 
-    @RenderWebElement
-    @FindBy (css = "div.dashlet.my-meeting-workspaces")
-    protected WebElement dashletContainer;
+    public MyMeetingWorkspacesDashlet(ThreadLocal<WebDriver> webDriver) {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public MyMeetingWorkspacesDashlet assertNoMeetingWorkspacesMessageIsDisplayed()
     {
-        Assert.assertEquals(defaultDashletMessage.getText(), language.translate("myMeetingWorkspacesDashlet.noMeeting"));
+        assertEquals(webElementInteraction.getElementText(defaultDashletMessage),
+            language.translate("myMeetingWorkspacesDashlet.noMeeting"));
         return this;
     }
 }

@@ -2,6 +2,7 @@ package org.alfresco.share;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
@@ -19,6 +20,7 @@ import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUserAIS;
 import org.alfresco.utility.data.auth.DataAIS;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.apache.commons.httpclient.HttpState;
@@ -46,7 +48,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
     private final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
-    private ScreenshotHelper screenshotHelper;
+//    private ScreenshotHelper screenshotHelper;
 
     @Autowired
     private WebDriverFactory webDriverFactory;
@@ -74,6 +76,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     private final ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
     private final ThreadLocal<UserService> userService = new ThreadLocal<>();
     private final ThreadLocal<DataSite> dataSiteThread = new ThreadLocal<>();
+    private final ThreadLocal<DataUserAIS> dataUserThread = new ThreadLocal<>();
 
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
@@ -88,6 +91,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         restApi.set(applicationContext.getBean(RestWrapper.class));
         userService.set(applicationContext.getBean(UserService.class));
         dataSiteThread.set(applicationContext.getBean(DataSite.class));
+        dataUserThread.set(applicationContext.getBean(DataUserAIS.class));
 //        screenshotHelper = new ScreenshotHelper(webDriver);
 
         loginPage = new LoginPage(webDriver);
@@ -103,7 +107,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         if(!result.isSuccess())
         {
             LOG.warn("TEST FAILED {}", method);
-            //screenshotHelper.captureAndSaveScreenshot(webDriver, method);
+//            screenshotHelper.captureAndSaveScreenshot(webDriver, method);
         }
         closeWebDriver();
     }
@@ -129,7 +133,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    public void setupAuthenticatedSession(UserModel user)
+    public synchronized void setupAuthenticatedSession(UserModel user)
     {
         LOG.info("Setup authenticated session for user {}", user.getUsername());
         if(dataAIS.isEnabled()) // if identity-service is enabled do the login using the UI
@@ -155,12 +159,13 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 
     private void authenticateViaCookies(UserModel user)
     {
-        deleteAllCookiesIfNotNull();
         webDriver.get().get(defaultProperties.getShareUrl().toString());
         HttpState state = getUserService().login(user.getUsername(), user.getPassword());
         deleteAllCookiesIfNotNull();
-        Arrays.stream(state.getCookies()).forEach(cookie
-            -> webDriver.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue())));
+        Arrays.stream(state.getCookies()).forEach(cookie -> {
+            cookie.setPath("/share");
+            webDriver.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue(), cookie.getPath()));
+        });
     }
 
     protected void deleteAllCookiesIfNotNull()
@@ -206,13 +211,25 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         return dataSiteThread.get();
     }
 
+    public DataUserAIS getDataUser()
+    {
+        return dataUserThread.get();
+    }
+
     public void deleteUsersIfNotNull(UserModel... users)
     {
         for (UserModel userModel : users)
         {
             if (userModel != null)
             {
-                dataUser.usingAdmin().deleteUser(userModel);
+                try
+                {
+                    dataUser.usingAdmin().deleteUser(userModel);
+                }
+                catch (DataPreparationException e)
+                {
+                    LOG.error("Failed to delete user {}", userModel.getUsername());
+                }
             }
         }
     }

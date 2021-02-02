@@ -14,12 +14,12 @@ public class UpdateAndViewProfileTests extends BaseTest
     private UserProfilePage userProfilePage;
     private EditUserProfilePage editUserPage;
 
-    private UserModel user;
+    private ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
+
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -28,14 +28,15 @@ public class UpdateAndViewProfileTests extends BaseTest
         userProfilePage = new UserProfilePage(webDriver);
         editUserPage = new EditUserProfilePage(webDriver);
 
-        setupAuthenticatedSession(user);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2110")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void checkUserProfilePage()
     {
-        userProfilePage.navigate(user)
+        userProfilePage.navigate(user.get())
             .assertAboutHeaderIsDisplayed()
             .assertCompanyDetailsHeaderIsDisplayed()
             .assertContactInfoHeaderIsDisplayed()
@@ -58,7 +59,7 @@ public class UpdateAndViewProfileTests extends BaseTest
             "0233", "0749", "john.show", "House Stark",
             "North", "8765", "8989", "0021", "stark@got.com" };
 
-        editUserPage.navigate(user)
+        editUserPage.navigate(user.get())
             .setAboutInformation(userDetails[0], "", userDetails[2],  userDetails[3],  userDetails[4])
             .clickCancel()
             .assertUserInfoIsEmpty()
@@ -87,7 +88,7 @@ public class UpdateAndViewProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewPhoto()
     {
-        userProfilePage.navigate(user)
+        userProfilePage.navigate(user.get())
             .assertDefaultAvatarIsDisplayed()
             .clickEditProfile()
             .uploadNewPhoto(Utils.testDataFolder + "newavatar.jpg")
@@ -99,9 +100,9 @@ public class UpdateAndViewProfileTests extends BaseTest
                 .assertDefaultAvatarIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(user);
+        deleteUsersIfNotNull(user.get());
     }
 }

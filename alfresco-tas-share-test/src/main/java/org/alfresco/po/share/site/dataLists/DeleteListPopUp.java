@@ -1,26 +1,30 @@
 package org.alfresco.po.share.site.dataLists;
 
+import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@PageObject
-public class DeleteListPopUp extends ShareDialog
+public class DeleteListPopUp extends BaseDialogComponent
 {
-    @FindBy (css = "span[class='button-group'] span[class*='primary-button'] button")
-    protected WebElement deleteButton;
-    @FindBy (css = "span[class='button-group'] span[class*='default'] span button")
-    protected WebElement cancelButton;
+    private final By deleteButton = By.cssSelector("span[class='button-group'] span[class*='primary-button'] button");
+    private final By cancelButton = By.cssSelector("span[class='button-group'] span[class*='default'] span button");
+
+    protected DeleteListPopUp(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     public void clickDeleteButton()
     {
-        deleteButton.click();
+        webElementInteraction.clickElement(deleteButton);
     }
 
     public void clickCancelButton()
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(cancelButton, 20);
-        cancelButton.click();
+        webElementInteraction.clickElement(cancelButton);
     }
 }

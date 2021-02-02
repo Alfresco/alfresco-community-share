@@ -123,7 +123,7 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
         WebElement selectedTask = selectWorkflow(workflowName);
         webElementInteraction.mouseOver(selectedTask);
         selectedTask.findElement(viewHistoryLink).click();
-        return (WorkflowDetailsPage) workflowDetailsPage.renderedPage();
+        return new WorkflowDetailsPage(webDriver);
     }
 
     public boolean isViewHistoryOptionDisplayed(String workflowName)
@@ -175,6 +175,6 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
         WebElement selectedTask = selectWorkflow(workflowName);
         webElementInteraction.mouseOver(selectedTask);
         selectedTask.findElement(workflowTitle).click();
-        return (WorkflowDetailsPage) workflowDetailsPage.renderedPage();
+        return new WorkflowDetailsPage(webDriver);
     }
 }

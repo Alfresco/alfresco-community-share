@@ -1,8 +1,8 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
-import org.alfresco.po.share.dashlet.SelectWikiPagePopUp;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
+
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.WikiDashlet;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.testrail.TestRail;
@@ -11,7 +11,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.WikiModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,37 +27,32 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String EMPTY_SPACE_REPLACEMENT = " ";
     private static final String DASH = " - ";
 
-    private UserModel userModel;
-    private SiteModel siteModel;
-    private WikiModel wikiModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private WikiDashlet wikiDashlet;
-
-    @Autowired
-    private SelectWikiPagePopUp selectWikiPage;
-
-    //@Autowired
     private WikiMainPage wikiMainPage;
-
-    @Autowired
-    private DataWiki dataWiki;
+    private ThreadLocal<DataWiki> dataWiki = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        wikiDashlet = new WikiDashlet(webDriver);
+        wikiMainPage = new WikiMainPage(webDriver);
+        dataWiki.set(applicationContext.getBean(DataWiki.class));
 
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.WIKI, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.WIKI, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C5428")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenWikiDashletIsEmpty()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         wikiDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
             .assertWikiDashletEmptyMessageEquals(language.translate(EXPECTED_EMPTY_MESSAGE))
@@ -67,39 +61,33 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
             .closeHelpBalloon()
             .assertBalloonMessageIsNotDisplayed();
 
-        wikiDashlet.clickOnConfigureDashletIcon();
-        selectWikiPage
-            .assertDialogBodyMessageEquals(language.translate(EXPECTED_DIALOG_EMPTY_BODY_MESSAGE));
-        selectWikiPage.clickClose();
+        wikiDashlet.clickOnConfigureDashletIcon()
+            .assertDialogBodyMessageEquals(language.translate(EXPECTED_DIALOG_EMPTY_BODY_MESSAGE)).clickClose();
     }
 
     @TestRail (id = "C588833")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplayNoWikiPageWhenCancelDashletConfiguration()
     {
-        wikiModel = dataWiki.usingSite(siteModel).createRandomWiki();
-        siteDashboardPage.navigate(siteModel);
-        wikiDashlet.clickOnConfigureDashletIcon();
-
-        selectWikiPage
+        WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
+        siteDashboardPage.navigate(site.get());
+        wikiDashlet.clickOnConfigureDashletIcon()
             .assertDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
             .clickDialogDropdown()
             .assertDropdownOptionEquals(wikiModel.getTitle())
             .clickCancelButton();
 
-            wikiDashlet
-                .assertWikiDashletMessageEquals(language.translate(EXPECTED_EMPTY_MESSAGE));
+        wikiDashlet
+            .assertWikiDashletMessageEquals(language.translate(EXPECTED_EMPTY_MESSAGE));
     }
 
     @TestRail (id = "C588834")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedWikiPageWhenSaveDashletConfiguration()
     {
-        wikiModel = dataWiki.usingSite(siteModel).createRandomWiki();
-        siteDashboardPage.navigate(siteModel);
-        wikiDashlet.clickOnConfigureDashletIcon();
-
-        selectWikiPage
+        WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
+        siteDashboardPage.navigate(site.get());
+        wikiDashlet.clickOnConfigureDashletIcon()
             .assertDialogTitleEquals(language.translate(EXPECTED_DIALOG_TITLE))
             .clickDialogDropdown()
             .assertDropdownOptionEquals(wikiModel.getTitle())
@@ -112,14 +100,12 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588835")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayCreatedWikiInWikiPageDetailsWhenAccessedFromDashletTitle()
     {
-        wikiModel = dataWiki.usingSite(siteModel).createRandomWiki();
-        siteDashboardPage.navigate(siteModel);
-        wikiDashlet.clickOnConfigureDashletIcon();
-
-        selectWikiPage
+        WikiModel wikiModel = dataWiki.get().usingUser(user.get()).usingSite(site.get()).createRandomWiki();
+        siteDashboardPage.navigate(site.get());
+        wikiDashlet.clickOnConfigureDashletIcon()
             .clickDialogDropdown()
             .clickOk();
 
@@ -136,7 +122,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
     @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

@@ -13,12 +13,12 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 {
     private final By saveButton = By.cssSelector("button[id$='submit-button']");
     private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
+
     protected final String fieldLocator = "div[class*='form-field'] [id*='%s']";
     private final String dropDownLocator = "select[id*='%s']";
     private final String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
     private final String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
     private final By selectAttachmentButton = By.cssSelector("div[id*='attachments-cntrl-itemGroupActions'] button");
-
 
     public CreateNewItemPopUp(ThreadLocal<WebDriver> webDriver)
     {
@@ -30,14 +30,6 @@ public class CreateNewItemPopUp extends BaseDialogComponent
         WebElement fieldElement = webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(fieldLocator, field)));
         fieldElement.clear();
         fieldElement.sendKeys(content);
-    }
-
-    public void removeAttachments(String filename)
-    {
-        webElementInteraction.clickElement(By.cssSelector(selectAttachmentButtonLocator));
-        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
-        selectDocumentPopupPage.clickRemoveIcon(filename);
-        selectDocumentPopupPage.clickOkButton();
     }
 
     public void addAttachments(String folderName, String fileName)
@@ -52,11 +44,6 @@ public class CreateNewItemPopUp extends BaseDialogComponent
         }
     }
 
-    /**
-     * Select document from 'Select' pop up -> 'Document Library' folder
-     *
-     * @param fileName to be added
-     */
     public void addAttachmentFromDocumentLibrary(String fileName)
     {
         webElementInteraction.clickElement(By.cssSelector(selectAttachmentButtonLocator));
@@ -290,11 +277,6 @@ public class CreateNewItemPopUp extends BaseDialogComponent
             WebElement formField = webElementInteraction.findElement(By.cssSelector(String.format(webElement, enumValue)));
 
             areAllFieldsDisplayed = areAllFieldsDisplayed && webElementInteraction.isElementDisplayed(formField);
-
-            if (!webElementInteraction.isElementDisplayed(formField))
-            {
-                System.out.println("The field '" + enumValue.name() + "' is not present in 'New Item' popup.");
-            }
         }
         return areAllFieldsDisplayed;
     }

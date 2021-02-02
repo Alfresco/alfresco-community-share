@@ -1,15 +1,15 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
+
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteProfileDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
@@ -21,42 +21,43 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String EXPECTED_BALLOON_MESSAGE = "siteProfileDashlet.helpBalloonMessage";
     private static final String EMPTY_SPACE = " ";
 
-    private UserModel userModel;
-    private SiteModel siteModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private SiteProfileDashlet siteProfileDashlet;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
+        siteProfileDashlet = new SiteProfileDashlet(webDriver);
 
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_PROFILE, 1);
-        siteDashboardPage.navigate(siteModel);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.SITE_PROFILE, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2811")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySiteProfileDashletDetails()
     {
+        siteDashboardPage.navigate(site.get());
         siteProfileDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
             .assertSiteWelcomeMessageEquals(
-                language.translate(WELCOME_TO).concat(siteModel.getId()));
+                language.translate(WELCOME_TO).concat(site.get().getId()));
 
         siteProfileDashlet
             .assertSiteDescriptionEquals(
-                siteModel.getTitle().concat(siteModel.getVisibility().name()));
+                site.get().getTitle().concat(site.get().getVisibility().name()));
 
         siteProfileDashlet
             .assertSiteManagerEquals(language.translate(MANAGER_LABEL),
-                    userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())));
+                user.get().getFirstName().concat(EMPTY_SPACE.concat(user.get().getLastName())));
 
         siteProfileDashlet
-            .assertSiteVisibilityEquals(language.translate(VISIBILITY_LABEL), siteModel.getVisibility().name());
+            .assertSiteVisibilityEquals(language.translate(VISIBILITY_LABEL), site.get().getVisibility().name());
 
         siteProfileDashlet
             .clickOnHelpIcon(DashletHelpIcon.SITE_PROFILE)
@@ -66,19 +67,20 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588828")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayUsernameInUserProfilePageWhenAccessedFromSiteProfileDashlet()
     {
+        siteDashboardPage.navigate(site.get());
         siteProfileDashlet
             .clickSiteManagerLink(
-                userModel.getFirstName().concat(EMPTY_SPACE.concat(userModel.getLastName())));
-//            .assertUsernameEquals(userModel.getFirstName(), userModel.getLastName());
+                user.get().getFirstName().concat(EMPTY_SPACE.concat(user.get().getLastName())))
+                    .assertUserProfilePageIsOpened();
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

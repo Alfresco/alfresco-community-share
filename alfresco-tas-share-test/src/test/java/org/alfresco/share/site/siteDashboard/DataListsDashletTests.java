@@ -1,20 +1,20 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import static org.alfresco.utility.data.RandomData.getRandomAlphanumeric;
 
+import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.po.enums.DashletHelpIcon;
+import org.alfresco.po.enums.DataListTypes;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
-import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
@@ -27,25 +27,30 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     private final String EXPECTED_HELP_BALLOON_MESSAGE = "siteDataList.helpBalloonMessage";;
     private final String TO_DO_LIST_NAME = String.format("C5569%s", getRandomAlphanumeric());
 
-    private UserModel userModel;
-    private SiteModel siteModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    private ThreadLocal<DataListsService> dataListsService = new ThreadLocal<>();
 
-    @Autowired
     public SiteDataListsDashlet siteDataListsDashlet;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_DATA_LISTS, 1);
+        siteDataListsDashlet = new SiteDataListsDashlet(webDriver);
+        dataListsService.set(applicationContext.getBean(DataListsService.class));
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.SITE_DATA_LIST, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenSiteDataListsIsEmpty()
     {
+        siteDashboardPage.navigate(site.get());
         siteDataListsDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
@@ -58,36 +63,36 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5569")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySiteDataListsDashletWhenTwoListsItemsAreCreated()
     {
-        dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
-            siteModel.getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, LIST_ITEM_DESCRIPTION);
-        dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
-            siteModel.getId(), DataList.TODO_LIST, TO_DO_LIST_NAME, LIST_ITEM_DESCRIPTION);
+        dataListsService.get().createDataList(user.get().getUsername(), user.get().getPassword(),
+            site.get().getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, LIST_ITEM_DESCRIPTION);
+        dataListsService.get().createDataList(user.get().getUsername(), user.get().getPassword(),
+            site.get().getId(), DataList.TODO_LIST, TO_DO_LIST_NAME, LIST_ITEM_DESCRIPTION);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteDataListsDashlet
             .assertDataListItemTitleIsDisplayed(LIST_ITEM_TITLE)
             .assertDataListItemTitleIsDisplayed(TO_DO_LIST_NAME)
-            .clickListItemByTitle(LIST_ITEM_TITLE);
-//            .assertDataListPageIsOpened()
-//            .assertDataListItemTitleEquals(LIST_ITEM_TITLE);
+            .clickListItemByTitle(LIST_ITEM_TITLE)
+                .assertDataListPageIsOpened()
+                .assertDataListItemTitleEquals(LIST_ITEM_TITLE);
     }
 
     @TestRail (id = "C5570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayInListsCreatedDataList()
     {
         String dataListTitle = getRandomAlphanumeric();
         String dataListDescription = getRandomAlphanumeric();
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteDataListsDashlet.clickOnCreateDataListLink()
-            .selectType(CreateDataListDialog.DataListTypes.ContactList.title)
+            .selectType(DataListTypes.CONTACT_LIST.title)
             .typeTitle(dataListTitle)
             .typeDescription(dataListDescription)
             .clickSaveButton();
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
 
         siteDataListsDashlet
             .assertDataListItemTitleIsDisplayed(dataListTitle)
@@ -95,28 +100,27 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayEmptyListsWhenCancelDataListCreation()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteDataListsDashlet.clickOnCreateDataListLink()
-            .clickCancelButton();
-//            .assertEmptyListMessageEquals(language.translate(EXPECTED_EMPTY_DATA_LIST_MESSAGE));
+            .clickCancelButton()
+                .assertEmptyListMessageEquals(language.translate(EXPECTED_EMPTY_DATA_LIST_MESSAGE));
     }
 
-    // TODO: To be moved in permission package
     @TestRail (id = "C5571")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void verifySiteDataListsDashletUserWithConsumerRole()
     {
-        dataListsService.createDataList(userModel.getUsername(), userModel.getPassword(),
-            siteModel.getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, LIST_ITEM_DESCRIPTION);
+        dataListsService.get().createDataList(user.get().getUsername(), user.get().getPassword(),
+            site.get().getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, LIST_ITEM_DESCRIPTION);
 
         UserModel siteConsumer = dataUser.usingAdmin().createRandomTestUser();
-        dataUser.usingUser(userModel).addUserToSite(siteConsumer, siteModel, UserRole.SiteConsumer);
+        getDataUser().usingUser(user.get()).addUserToSite(siteConsumer, site.get(), UserRole.SiteConsumer);
         setupAuthenticatedSession(siteConsumer);
 
-        siteDashboardPage.navigate(siteModel.getId());
+        siteDashboardPage.navigate(site.get());
         siteDataListsDashlet
             .assertDashletHelpIconIsDisplayed(DashletHelpIcon.DATA_LISTS)
             .assertDataListItemTitleIsDisplayed(LIST_ITEM_TITLE)
@@ -124,15 +128,15 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
             .assertDashletTitleEquals(language.translate(EXPECTED_DASHLET_TITLE))
             .clickOnHelpIcon(DashletHelpIcon.DATA_LISTS)
             .assertHelpBalloonMessageEquals(language.translate(EXPECTED_HELP_BALLOON_MESSAGE))
-            .clickListItemByTitle(LIST_ITEM_TITLE);
-//            .assertDataListPageIsOpened()
-//            .assertDataListItemTitleEquals(LIST_ITEM_TITLE);
+            .clickListItemByTitle(LIST_ITEM_TITLE)
+                .assertDataListPageIsOpened()
+                .assertDataListItemTitleEquals(LIST_ITEM_TITLE);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        deleteSites(siteModel);
-        removeUserFromAlfresco(userModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

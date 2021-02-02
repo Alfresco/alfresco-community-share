@@ -5,30 +5,29 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.common.DataProviderClass;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
-import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.EnterFeedURLPopUp;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.po.share.user.CustomizeUserDashboardPage;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 
 public class DashletXSSTests extends ContextAwareWebTest
 {
     //@Autowired
     private CustomizeUserDashboardPage customizeUserDashboardPage;
 
-    @Autowired
+    //@Autowired
     private RssFeedDashlet rssFeedDashlet;
 
-    @Autowired
+    //@Autowired
     private EnterFeedURLPopUp enterFeedURLPopUp;
 
     private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
@@ -80,10 +79,10 @@ public class DashletXSSTests extends ContextAwareWebTest
      */
     private void addRssFeedDashletToDashboard()
     {
-        if (!rssFeedDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.RSS_FEED))
+        if (!rssFeedDashlet.isDashletDisplayed(DashletHelpIcon.RSS_FEED))
         {
             userService.addDashlet(testUser, password, UserDashlet.RSS_FEED, DashletLayout.THREE_COLUMNS, 3, 1);
         }
-        Assert.assertTrue(rssFeedDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.RSS_FEED), "'RSS Feed' ('Alfresco Blog') dashlet is not displayed in user's dashboard.");
+        Assert.assertTrue(rssFeedDashlet.isDashletDisplayed(DashletHelpIcon.RSS_FEED), "'RSS Feed' ('Alfresco Blog') dashlet is not displayed in user's dashboard.");
     }
 }

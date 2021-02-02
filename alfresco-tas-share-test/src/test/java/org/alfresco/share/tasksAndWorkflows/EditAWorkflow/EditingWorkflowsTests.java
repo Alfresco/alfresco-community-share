@@ -28,16 +28,16 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     @Autowired
     WorkflowService workflow;
 
-    @Autowired
+    //@Autowired
     WorkflowDetailsPage workflowDetailsPage;
 
-    @Autowired
+    //@Autowired
     TaskDetailsPage taskDetailsPage;
 
    // @Autowired
     MyTasksPage myTasksPage;
 
-    @Autowired
+    //@Autowired
     EditTaskPage editTaskPage;
 
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());

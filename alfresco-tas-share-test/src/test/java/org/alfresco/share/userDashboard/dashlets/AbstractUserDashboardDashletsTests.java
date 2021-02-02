@@ -1,22 +1,20 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.po.share.dashlet.Dashlets;
-import org.alfresco.po.share.user.CustomizeUserDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.alfresco.dataprep.DashboardCustomization.UserDashlet;
+import static org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 
-public abstract class AbstractUserDashboardDashletsTests extends ContextAwareWebTest
+import org.alfresco.share.BaseTest;
+import org.alfresco.utility.model.UserModel;
+
+public abstract class AbstractUserDashboardDashletsTests extends BaseTest
 {
-    //@Autowired
-    private CustomizeUserDashboardPage customizeUserDashboardPage;
-
-    protected final String sampleRssFeed = "https://www.feedforall.com/sample.xml";
-    protected final String sampleRssFeedTitle = "feedforall.com";
-
-    protected void addDashlet(Dashlets dashlets, int columnNumber)
+    protected void addDashlet(UserModel userModel, UserDashlet dashlet, int columnNumber, int position)
     {
-        customizeUserDashboardPage.navigate();
-        customizeUserDashboardPage.addDashlet(dashlets, columnNumber);
-        customizeUserDashboardPage.clickOk();
+        getUserService().addDashlet(userModel.getUsername(),
+            userModel.getPassword(),
+            dashlet,
+            DashletLayout.TWO_COLUMNS_WIDE_RIGHT,
+            columnNumber,
+            position);
     }
 }

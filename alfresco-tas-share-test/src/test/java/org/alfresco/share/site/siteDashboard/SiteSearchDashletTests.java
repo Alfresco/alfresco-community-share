@@ -1,22 +1,17 @@
 package org.alfresco.share.site.siteDashboard;
 
 import static java.util.Arrays.asList;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.FileType;
-import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
@@ -31,32 +26,28 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     private static final String EXPECTED_50 = "50";
     private static final String EXPECTED_100 = "100";
 
-    private UserModel userModel;
-    private SiteModel siteModel;
-    private FileModel fileModel;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @Autowired
     private SiteSearchDashlet siteSearchDashlet;
 
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel = dataUser.usingAdmin().createRandomTestUser();
-        siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        cmisApi.authenticateUser(userModel);
+        siteSearchDashlet = new SiteSearchDashlet(webDriver);
 
-        setupAuthenticatedSession(userModel);
-        addDashlet(siteModel, Dashlets.SITE_SEARCH, 1);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        addDashlet(user.get(), site.get(), SiteDashlet.SITE_SEARCH, 1, 2);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2775")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void checkDisplaySpecificMessageWhenNoSearchResultsReturned()
     {
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteSearchDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
             .clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH)
@@ -73,13 +64,13 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2424")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplaySearchResult()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteSearchDashlet
             .typeInSearch(fileModel.getName())
             .clickSearchButton()
@@ -87,26 +78,24 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588829")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
     public void shouldDisplayFileNameInDocumentDetailsPageWhenAccessedFromSiteSearchDashlet()
     {
-        fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.usingSite(siteModel).createFile(fileModel);
+        FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get()).createFile(fileModel);
 
-        siteDashboardPage.navigate(siteModel);
+        siteDashboardPage.navigate(site.get());
         siteSearchDashlet
             .typeInSearch(fileModel.getName())
             .clickSearchButton()
-            .clickFileLinkName(fileModel.getName());
-
-        documentDetailsPage
-            .assertDocumentTitleEquals(fileModel);
+            .clickFileLinkName(fileModel.getName())
+                .assertDocumentTitleEquals(fileModel);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(userModel);
-        deleteSites(siteModel);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

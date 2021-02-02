@@ -1,18 +1,17 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import static java.util.Arrays.asList;
-
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static java.util.Arrays.asList;
 
 public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
 {
@@ -24,29 +23,25 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
     private static final String EXPECTED_TITLE = "siteSearchDashlet.title";
     private static final String EXPECTED_BALLOON_MESSAGE = "siteSearchDashlet.balloonMessage";
 
-    private UserModel user;
-
-    @Autowired
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private SiteSearchDashlet siteSearchDashlet;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(user);
-        addDashlet(Dashlets.SITE_SEARCH, 1);
-    }
+        siteSearchDashlet = new SiteSearchDashlet(webDriver);
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        addDashlet(user.get(), DashboardCustomization.UserDashlet.SITE_SEARCH, 1, 3);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2423, C2424")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
-    public void siteSearchDashletTest()
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
+    public void siteSearchDashletWithNoResultsTest()
     {
+        userDashboardPage.navigate(user.get());
         siteSearchDashlet.assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
             .clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH)
             .assertBalloonMessageIsDisplayed()
@@ -59,5 +54,11 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
                 .clickSearchButton()
             .assertNoResultsFoundMessageEquals(
                 language.translate(EXPECTED_NO_RESULTS_FOUND_MESSAGE));
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
     }
 }

@@ -1,7 +1,7 @@
 package org.alfresco.share.site;
 
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.DashboardCustomization.Layout;
+import org.alfresco.po.enums.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.site.CustomizeSiteDashboardPage;
@@ -12,7 +12,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -27,7 +26,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     //@Autowired
     SiteDashboardPage siteDashboard;
 
-    @Autowired
+    //@Autowired
     SiteContentDashlet siteContentDashlet;
 
     @TestRail (id = "C2198")
@@ -222,7 +221,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 1, 2), "Site Content dashlet is not in column 1");
 
         customizeSite.navigate(siteName);
-        customizeSite.reorderDashletsInColumn(Dashlets.SITE_MEMBERS, Dashlets.SITE_CONTENT, 1, 2);
+        //customizeSite.reorderDashletsInColumn(Dashlets.SITE_MEMBERS, Dashlets.SITE_CONTENT, 1, 2);TODO: use moveDashletDownInColumn
         customizeSite.clickOk();
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 1, 1), "Site Content dashlet is not in column 1 first position");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 2), "Site Members dashlet is not in column 2 first position");

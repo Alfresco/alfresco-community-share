@@ -11,8 +11,6 @@ import org.openqa.selenium.WebElement;
 
 public class CreateSiteDialog extends BaseDialogComponent
 {
-    private Toolbar toolbar;
-
     private final By siteIDInput = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] div[class*='InputField'] input");
     private final By siteIdDescription = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] div.description");
     private final By nameMandatory = By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] span[class='requirementIndicator required']");
@@ -42,23 +40,20 @@ public class CreateSiteDialog extends BaseDialogComponent
     private final By urlErrorMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span.validation-message");
     private final By createButtonState = By.cssSelector("span[aria-labelledby='CREATE_SITE_DIALOG_OK_label']");
 
-    private MySitesDashlet mySitesDashlet;
-
     public  CreateSiteDialog(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
-        toolbar = new Toolbar(webDriver);
     }
 
     public CreateSiteDialog navigateByMenuBar()
     {
-        toolbar.clickSites().clickCreateSite();
+        new Toolbar(webDriver).clickSites().clickCreateSite();
         return new CreateSiteDialog(webDriver);
     }
 
     public void navigateFromDashlet()
     {
-        mySitesDashlet.clickCreateSiteButton();
+        new MySitesDashlet(webDriver).clickCreateSiteButton();
     }
 
     public boolean isSiteIDInputFieldDisplayed()
@@ -247,7 +242,7 @@ public class CreateSiteDialog extends BaseDialogComponent
 
     public SiteDashboardPage clickCreateButton()
     {
-        WebElement create = webElementInteraction.findElement(createButton);
+        WebElement create = webElementInteraction.waitUntilElementIsVisible(createButton);
         webElementInteraction.waitUntilElementHasAttribute(create,"aria-disabled", "false");
         webElementInteraction.clickElement(create);
         return new SiteDashboardPage(webDriver);
@@ -271,6 +266,7 @@ public class CreateSiteDialog extends BaseDialogComponent
 
     public CreateSiteDialog assertCreateSiteDialogIsDisplayed()
     {
+        webElementInteraction.waitUntilElementIsVisible(createSiteDialog);
         assertTrue(webElementInteraction.isElementDisplayed(createSiteDialog), "Create site dialog is displayed");
         return this;
     }

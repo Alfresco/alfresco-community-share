@@ -1,61 +1,52 @@
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.alfresco.po.share.BaseDialogComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-@PageObject
-public class DeleteSiteDialog extends ShareDialog
+public class DeleteSiteDialog extends BaseDialogComponent
 {
-    @RenderWebElement
-    @FindBy (css = "span[class*='primary-button'] button")
-    private WebElement delete;
+    private final By delete = By.cssSelector("span[class*='primary-button'] button");
+    private final By cancel = By.cssSelector("span[class*='default'] button");
+    private final By deleteSiteConfirmMessage = By.cssSelector("div[class='bd']");
+    private final By yes = By.cssSelector(".button-group > span:nth-of-type(1) button");
+    private final By no = By.cssSelector(".button-group > span:nth-of-type(2) button");
 
-    @RenderWebElement
-    @FindBy (css = "span[class*='default'] button")
-    private WebElement cancel;
-
-    @FindBy (css = "div[class='bd']")
-    private WebElement deleteSiteConfirmMessage;
-
-    @FindBy (css = ".button-group > span:nth-of-type(1) button")
-    private WebElement yes;
-
-    @FindBy (css = ".button-group > span:nth-of-type(2) button")
-    private WebElement no;
+    public DeleteSiteDialog(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     public boolean isPopupDisplayed()
     {
-        browser.waitUntilElementClickable(delete, 50);
-        return browser.isElementDisplayed(delete);
+        webElementInteraction.waitUntilElementIsVisible(delete);
+        return webElementInteraction.isElementDisplayed(delete);
     }
 
     public DeleteSiteDialog clickDelete()
     {
-        browser.waitUntilElementVisible(delete).click();
+        webElementInteraction.clickElement(delete);
         return this;
     }
 
     public void clickCancel()
     {
-        cancel.click();
+        webElementInteraction.clickElement(cancel);
     }
 
     public String getConfirmMessage()
     {
-        return deleteSiteConfirmMessage.getText();
+        return webElementInteraction.getElementText(deleteSiteConfirmMessage);
     }
 
     public void clickYes()
     {
-        getBrowser().waitUntilElementVisible(yes).click();
-        waitUntilMessageDisappears();
+        webElementInteraction.clickElement(yes);
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickNo()
     {
-        no.click();
+        webElementInteraction.clickElement(no);
     }
 }

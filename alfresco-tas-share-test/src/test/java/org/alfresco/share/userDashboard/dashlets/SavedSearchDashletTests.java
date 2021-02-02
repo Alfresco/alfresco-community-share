@@ -1,7 +1,9 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SavedSearchDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -9,9 +11,8 @@ import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
@@ -22,23 +23,25 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
     private static final String EXPECTED_BALLOON_MESSAGE = "savedSearchDashlet.balloonMessage";
     private static final String EXPECTED_DIALOG_CONFIG_TITLE = "savedSearchDashlet.config.title";
 
-    private UserModel user;
-
-    @Autowired
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private SavedSearchDashlet savedSearchDashlet;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(user);
-        addDashlet(Dashlets.SAVED_SEARCH, 1);
+        savedSearchDashlet = new SavedSearchDashlet(webDriver);
+
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        addDashlet(user.get(), DashboardCustomization.UserDashlet.SAVED_SEARCH, 1, 3);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2427")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, priority = 1)
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkSavedSearchDashlet()
     {
+        userDashboardPage.navigate(user.get());
         savedSearchDashlet.assertDashletTitleEquals(language.translate("savedSearchDashlet.title"))
             .assertNoResultsFoundMessageEquals(language.translate(EXPECTED_NO_RESULTS_FOUND_MESSAGE))
             .assertConfigureDashletButtonIsDisplayed()
@@ -58,9 +61,10 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
                 .clickClose();
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.USER_DASHBOARD }, priority = 2)
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkResultsWithRandomString()
     {
+        userDashboardPage.navigate(user.get());
         savedSearchDashlet.configureDashlet()
             .setSearchTermField(RandomData.getRandomAlphanumeric())
             .setTitleField(RandomData.getRandomAlphanumeric())
@@ -69,11 +73,13 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
             .assertNoResultsFoundMessageEquals(language.translate(EXPECTED_NO_RESULTS_FOUND_MESSAGE));
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.USER_DASHBOARD }, priority = 3)
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void checkValidSavedSearchResult()
     {
         FileModel searchFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        cmisApi.authenticateUser(user).usingShared().createFile(searchFile).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user.get())
+            .usingShared().createFile(searchFile).assertThat().existsInRepo();
+        userDashboardPage.navigate(user.get());
         savedSearchDashlet.configureDashlet()
             .setTitleField(DIALOG_TITLE_INPUT_VALUE)
             .setSearchTermField(searchFile.getName())
@@ -82,9 +88,9 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
             .assertInFolderPathEquals(searchFile.getName(), EXPECTED_FOLDER_PATH);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        removeUserFromAlfresco(user);
+        deleteUsersIfNotNull(user.get());
     }
 }

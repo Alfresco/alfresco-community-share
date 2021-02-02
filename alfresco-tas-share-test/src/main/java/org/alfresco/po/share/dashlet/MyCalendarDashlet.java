@@ -1,46 +1,41 @@
 package org.alfresco.po.share.dashlet;
 
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.site.calendar.CalendarPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import java.util.List;
 import java.util.NoSuchElementException;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
-/**
- * Created by Claudia Agache on 7/19/2016.
- */
-@PageObject
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
 {
-    @FindBy (css = "div.dashlet.user-calendar")
-    private WebElement dashletContainer;
+    private final By dashletContainer = By.cssSelector("div.dashlet.user-calendar");
+    private final By userEventsList = By.cssSelector("td.yui-dt-col-event div.detail");
+    private final By emptyDashletText = By.cssSelector("div[id$='_default-events'] tbody.yui-dt-message div");
+    private final By eventTimeLine = By.cssSelector("div:nth-of-type(1)");
+    private final By eventNameLink = By.cssSelector("h4 a");
+    private final By eventSiteLink = By.cssSelector("a[class*='theme-link']");
 
-    @FindAll (@FindBy (css = "td.yui-dt-col-event div.detail"))
-    private List<WebElement> userEventsList;
-
-    @FindAll (@FindBy (css = "td.yui-dt-col-event div.detail a[class*='theme-link']"))
-    private List<WebElement> eventSiteLocationList;
-
-    @FindBy (css = "div[id$='_default-events'] tbody.yui-dt-message div")
-    private WebElement emptyDashletText;
-
-    private By eventTimeLine = By.cssSelector("div:nth-of-type(1)");
-    private By eventNameLink = By.cssSelector("h4 a");
-    private By eventSiteLink = By.cssSelector("a[class*='theme-link']");
+    public MyCalendarDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     private WebElement findEvent(String eventName)
     {
-        browser.waitUntilElementsVisible(userEventsList);
-        for(WebElement event : userEventsList)
+        List<WebElement> events = webElementInteraction.waitUntilElementsAreVisible(userEventsList);
+        for(WebElement event : events)
         {
             if(event.findElement(eventNameLink).getText().equals(eventName))
             {
@@ -50,44 +45,40 @@ public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
         throw new NoSuchElementException(String.format("Event %s was not found", eventName));
     }
 
-    /**
-     * Check if the specific event is displayed in My Calendar Dashlet
-     *
-     * @param eventName
-     * @return true if it is displayed in My Calendar Dashlet
-     */
     public boolean isEventPresentInList(String eventName)
     {
-        return browser.isElementDisplayed(findEvent(eventName));
+        return webElementInteraction.isElementDisplayed(findEvent(eventName));
     }
 
     public MyCalendarDashlet assertEventIsDisplayed(String eventName)
     {
-        Assert.assertTrue(isEventPresentInList(eventName), String.format("Event %s is displayed", eventName));
+        assertTrue(isEventPresentInList(eventName), String.format("Event %s is displayed", eventName));
         return this;
     }
 
     public MyCalendarDashlet assertEventTimeIs(String eventName, String eventTime)
     {
-        Assert.assertEquals(findEvent(eventName).findElement(eventTimeLine).getText(), eventTime, "Event time is correct");
+        assertEquals(findEvent(eventName).findElement(eventTimeLine).getText(), eventTime, "Event time is correct");
         return this;
     }
 
     public MyCalendarDashlet assertNoUpcomingEventsIsDisplayed()
     {
-        Assert.assertEquals(browser.waitUntilElementVisible(emptyDashletText).getText(),
+        assertEquals(webElementInteraction.getElementText(emptyDashletText),
             language.translate("myCalendarDashlet.EmptyDashletText"), "No upcoming events is displayed");
         return this;
     }
 
-    public void selectEvent(String eventName)
+    public CalendarPage selectEvent(String eventName)
     {
         findEvent(eventName).findElement(eventNameLink).click();
+        return new CalendarPage(webDriver);
     }
 
-    public void selectSiteFromEvent(String eventName)
+    public SiteDashboardPage selectSiteFromEvent(String eventName)
     {
         findEvent(eventName).findElement(eventSiteLink).click();
+        return new SiteDashboardPage(webDriver);
     }
 }
 

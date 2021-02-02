@@ -1,58 +1,22 @@
 package org.alfresco.po.share.site.link;
 
-import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.CheckBox;
-import ru.yandex.qatools.htmlelements.element.Link;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
-/**
- * Created by Claudia Agache on 7/22/2016.
- */
 public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 {
-    private LinkDetailsViewPage linkDetailsViewPage;
-    private LinkPage linkPage;
-
-
-    @FindBy (css = "button[id$='links-linkedit_x0023_default-ok-button']")
-    private Button saveButton;
-
-    @FindBy (css = "input[id$='links-linkedit_x0023_default-title']")
-    private TextInput linkTitle;
-
-    @FindBy (css = "input[id$='links-linkedit_x0023_default-url']")
-    private TextInput linkURL;
-
-    @FindBy (css = "textarea[id$='links-linkedit_x0023_default-description']")
-    private WebElement linkDescription;
-
-    @FindBy (css = "input[id$='default-internal']")
-    private CheckBox linkInternal;
-
-    @FindBy (css = "input[id$='links-linkedit_x0023_default-tag-input-field']")
-    private TextInput linkTag;
-
-    @FindBy (css = "button[id*='links-linkedit_x0023_default-add-tag-button']")
-    private Button addTagButton;
-
-    @FindAll (@FindBy (css = "ul[id$='links-linkedit_x0023_default-current-tags'] .taglibrary-action>span"))
-    private List<WebElement> currentTagList;
-
-    @FindBy (css = "a[id$='links-linkedit_x0023_default-load-popular-tags-link']")
-    private Link popularTagsLink;
-
-    @FindBy (css = "button[id$='links-linkedit_x0023_default-cancel-button']")
-    private Button cancelButton;
-
-    @FindBy (css = "[id*=default-load-popular-tags-link]")
-    private Button choosePopularTags;
+    private final By saveButton = By.cssSelector("button[id$='links-linkedit_x0023_default-ok-button']");
+    private final By linkTitle = By.cssSelector("input[id$='links-linkedit_x0023_default-title']");
+    private final By linkURL = By.cssSelector("input[id$='links-linkedit_x0023_default-url']");
+    private final By linkDescription = By.cssSelector("textarea[id$='links-linkedit_x0023_default-description']");
+    private final By linkInternal = By.cssSelector("input[id$='default-internal']");
+    private final By linkTag = By.cssSelector("input[id$='links-linkedit_x0023_default-tag-input-field']");
+    private final By addTagButton = By.cssSelector("button[id*='links-linkedit_x0023_default-add-tag-button']");
+    private final By currentTagList = By.cssSelector("ul[id$='links-linkedit_x0023_default-current-tags'] .taglibrary-action>span");
+    private final By popularTagsLink = By.cssSelector("a[id$='links-linkedit_x0023_default-load-popular-tags-link']");
+    private final By cancelButton = By.cssSelector("button[id$='links-linkedit_x0023_default-cancel-button']");
+    private final By choosePopularTags = By.cssSelector("[id*=default-load-popular-tags-link]");
 
     public CreateLinkPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -67,7 +31,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public LinkDetailsViewPage clickSaveButton()
     {
-        saveButton.click();
+        webElementInteraction.clickElement(saveButton);
         return new LinkDetailsViewPage(webDriver);
     }
 
@@ -92,7 +56,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public String getLinkDescription()
     {
-        return linkDescription.getText();
+        return webElementInteraction.getElementText(linkDescription);
     }
 
     public CreateLinkPage typeLinkDescription(String description)
@@ -104,26 +68,25 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public boolean isLinkInternalChecked()
     {
-        return linkInternal.isSelected();
+        return webElementInteraction.waitUntilElementIsVisible(linkInternal).isSelected();
     }
 
     public void checkLinkInternal()
     {
-        linkInternal.select();
+        webElementInteraction.clickElement(linkInternal);
     }
 
     public CreateLinkPage addTag(String tag)
     {
         LOG.info("Add tag: {}", tag);
         webElementInteraction.clearAndType(linkTag, tag);
-        addTagButton.click();
-
+        webElementInteraction.clickElement(addTagButton);
         return this;
     }
 
     public LinkPage clickCancelButton()
     {
-        cancelButton.click();
+        webElementInteraction.clickElement(cancelButton);
         return new LinkPage(webDriver);
     }
 }

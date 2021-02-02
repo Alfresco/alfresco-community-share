@@ -29,10 +29,10 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
    // @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
 
-    @Autowired
+   // @Autowired
     SiteContributorBreakdownDashlet siteContributorBreackdownDashlet;
 
     private String user = String.format("user2233-%s", RandomData.getRandomAlphanumeric());
@@ -183,7 +183,6 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
 
         LOG.info("Step 1&2: Verify the content of \"Contributor Breakdown\" dashlet.");
 
-        siteContributorBreackdownDashlet.renderedPage();
 //        Assert.assertEquals(siteContributorBreackdownDashlet.assertPieChartSizeEquals(), 4, "There are not 4 different sections in the pie chart");
         Map<String, String> fileDetails = siteContributorBreackdownDashlet.getPieChartSliceTooltip();
         assertTrue(fileDetails.containsKey(user3C2234), user3C2234 + " contribution is not displayed");

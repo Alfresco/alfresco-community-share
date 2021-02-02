@@ -49,8 +49,7 @@ public class SearchResultContentAction extends BasePage
         LOG.info("Click Actions");
         WebElement contentElement = getContentRow();
         webElementInteraction.mouseOver(contentElement);
-        webElementInteraction.mouseOver(contentElement.findElement(actionsButton));
-        webElementInteraction.clickElement(contentElement);
+        webElementInteraction.clickElement(contentElement.findElement(actionsButton));
         return this;
     }
 

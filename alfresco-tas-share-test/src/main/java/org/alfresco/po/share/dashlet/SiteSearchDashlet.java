@@ -1,47 +1,42 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-@PageObject
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
 {
-    @RenderWebElement
-    @FindBy (css = "div.dashlet.sitesearch")
-    private WebElement dashletContainer;
-
-    @RenderWebElement
-    @FindBy (css = "input[id$=default-search-text]")
-    private WebElement searchField;
-
-    @FindBy (css = "button[id$=default-search-button]")
-    private WebElement searchButton;
-
-    @FindBy (css = "button[id$='default-resultSize-button']")
-    private WebElement filterButton;
-
-    @FindBy (css = "div.sitesearch .yui-dt-empty>div")
-    private WebElement noResultsMessage;
-
+    private final By dashletContainer = By.cssSelector("div.dashlet.sitesearch");
+    private final By searchField = By.cssSelector("input[id$=default-search-text]");
+    private final By searchButton = By.cssSelector("button[id$=default-search-button]");
+    private final By noResultsMessage = By.cssSelector("div.sitesearch .yui-dt-empty>div");
     private final By filterOption = By.cssSelector("div.sitesearch div.bd ul.first-of-type li a");
+    private final By filterButton = By.cssSelector("button[id$='default-resultSize-button']");
+
     private final String siteSearchRow = "//h3[@class='itemname']//a[normalize-space()='%s']";
+
+    public SiteSearchDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+            .findElement(dashletTitle));
     }
 
     private List<String> getDropDownValues()
     {
-        List<WebElement> options = browser.waitUntilElementsVisible(filterOption);
+        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(filterOption);
         return options.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
@@ -57,36 +52,34 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public SiteSearchDashlet clickSearchButton()
     {
         LOG.info("Click Search button");
-        searchButton.click();
+        webElementInteraction.clickElement(searchButton);
         return this;
     }
 
-    public SiteSearchDashlet clickFileLinkName(String fileLinkName)
+    public DocumentDetailsPage clickFileLinkName(String fileLinkName)
     {
         LOG.info("Click file link name: {}", fileLinkName);
-        browser.waitWithRetryAndReturnWebElement(By.xpath(String.format(siteSearchRow, fileLinkName)), WAIT_1, RETRY_TIMES);
-        browser.scrollToElement(browser.findElement(By.xpath(String.format(siteSearchRow, fileLinkName))));
-        browser.findElement(By.xpath(String.format(siteSearchRow, fileLinkName))).click();
+        WebElement fileLink = webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
+            siteSearchRow, fileLinkName)), WAIT_2.getValue(), WAIT_60.getValue());
+        webElementInteraction.scrollToElement(fileLink);
+        webElementInteraction.clickElement(fileLink);
 
-        return this;
+        return new DocumentDetailsPage(webDriver);
     }
 
     public SiteSearchDashlet typeInSearch(String inputText)
     {
         LOG.info("Type in search field: {}", inputText);
-        searchField.clear();
-        searchField.sendKeys(inputText);
+        webElementInteraction.clearAndType(searchField, inputText);
         return this;
     }
 
     public SiteSearchDashlet assertReturnedSearchResultEquals(String expectedSearchResult)
     {
         LOG.info("Assert returned search results equals: {}", expectedSearchResult);
-        browser.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(siteSearchRow, expectedSearchResult)), WAIT_1, RETRY_TIMES);
-        assertEquals(
-            browser.findElement(By.xpath(String.format(siteSearchRow, expectedSearchResult)))
-                .getText(), expectedSearchResult, String.format("Returned search result not equals %s ", expectedSearchResult));
+        WebElement result = webElementInteraction.waitWithRetryAndReturnWebElement(
+            By.xpath(String.format(siteSearchRow, expectedSearchResult)), WAIT_1.getValue(), WAIT_60.getValue());
+        assertEquals(webElementInteraction.getElementText(result), expectedSearchResult, String.format("Returned search result not equals %s ", expectedSearchResult));
 
         return this;
     }
@@ -94,16 +87,17 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public SiteSearchDashlet assertNoResultsFoundMessageEquals(String expectedSearchMessage)
     {
         LOG.info("Assert no results found message equals: {}", expectedSearchMessage);
-        browser.waitUntilElementVisible(noResultsMessage);
-        assertEquals(noResultsMessage.getText(), expectedSearchMessage,
+        webElementInteraction.waitUntilElementIsVisible(noResultsMessage);
+        assertEquals(webElementInteraction.getElementText(noResultsMessage), expectedSearchMessage,
             String.format("No results found message not equals %s ", expectedSearchMessage));
 
         return this;
     }
 
-    public SiteSearchDashlet openSearchFilterDropdown() {
+    public SiteSearchDashlet openSearchFilterDropdown()
+    {
         LOG.info("Open search filter dropdown");
-        filterButton.click();
+        webElementInteraction.clickElement(filterButton);
         return this;
     }
 }

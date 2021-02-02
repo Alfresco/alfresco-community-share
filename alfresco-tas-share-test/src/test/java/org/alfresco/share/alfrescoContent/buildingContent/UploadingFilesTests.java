@@ -15,31 +15,28 @@ import org.testng.annotations.*;
 
 public class UploadingFilesTests extends BaseTest
 {
-    private UserModel user;
-    private SiteModel site;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        setupAuthenticatedSession(user);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C6970")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void uploadFileInSite()
     {
-        documentLibraryPage.navigate(site);
         FileModel uploadFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+
+        documentLibraryPage.navigate(site.get());
         documentLibraryPage.uploadContent(uploadFile)
             .usingContent(uploadFile).assertContentIsDisplayed();
     }
@@ -50,17 +47,18 @@ public class UploadingFilesTests extends BaseTest
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
         FileModel fileToUpload = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        getCmisApi().authenticateUser(user).usingSite(site).createFolder(folder);
-        documentLibraryPage.navigate(site)
+
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get()).createFolder(folder);
+        documentLibraryPage.navigate(site.get())
             .usingContent(folder).selectFolder()
                 .uploadContent(fileToUpload);
         documentLibraryPage.usingContent(fileToUpload).assertContentIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(site);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

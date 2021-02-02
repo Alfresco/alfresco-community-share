@@ -84,7 +84,7 @@ public class LoginTests extends BaseTest
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void invalidUserRedirectedToLoginPage()
     {
-        userDashboardPage.navigate(validUser);
+        userDashboardPage.navigateWithoutRender(validUser);
         loginPage.assertLoginPageIsOpened().login("user123", "wrongpass");
         loginPage.assertAuthenticationErrorIsDisplayed();
     }

@@ -1,5 +1,10 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import static org.alfresco.common.Wait.WAIT_15;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -10,9 +15,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.alfresco.common.Wait.WAIT_15;
-import static org.testng.Assert.*;
 
 public class ContentActionComponent
 {
@@ -39,6 +41,7 @@ public class ContentActionComponent
     private final By renameInput = By.cssSelector("form[class='insitu-edit']>input");
     private final By renameSaveButton = By.cssSelector("form[class='insitu-edit']>a:nth-of-type(1)");
     private final By renameCancelButton = By.cssSelector("form[class='insitu-edit']>a:nth-of-type(2)");
+    private final By linkThumbnail = By.cssSelector(".thumbnail .link");
 
     private final String highlightContent = "yui-dt-highlighted";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
@@ -296,6 +299,16 @@ public class ContentActionComponent
         WebElement input = getContentRow().findElement(renameInput);
         webElementInteraction.clickElement(getContentRow().findElement(renameCancelButton));
         webElementInteraction.waitUntilElementDisappears(input);
+
+        return this;
+    }
+
+    public ContentActionComponent assertThumbnailLinkTypeIsDisplayed()
+    {
+        LOG.info("Assert thumbnail link type is displayed");
+        webElementInteraction.waitUntilElementIsVisible(linkThumbnail);
+        assertTrue(webElementInteraction.isElementDisplayed(getContentRow().findElement(linkThumbnail)),
+                String.format("Content %s doesn't have thumbnail link type", contentModel.getName()));
 
         return this;
     }

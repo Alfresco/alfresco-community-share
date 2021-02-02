@@ -2,42 +2,38 @@ package org.alfresco.po.share.dashlet;
 
 import static org.testng.Assert.assertEquals;
 
-import java.util.List;
 import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-@PageObject
+import java.util.List;
+
 public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 {
-    @FindBy (css = "div.dashlet.site-profile")
-    protected HtmlElement dashletContainer;
-
-    @FindBy (css = ".msg.dashlet-padding>h2")
-    private WebElement welcomeMessage;
-
+    private final By dashletContainer = By.cssSelector("div.dashlet.site-profile");
+    private final By welcomeMessage = By.cssSelector(".msg.dashlet-padding>h2");
     private final By siteProfileRowLocator = By.cssSelector("div[class='msg dashlet-padding'] > p");
+
     private final String managerLinkLocator = "//div[@class='msg dashlet-padding']//a[text()='%s']";
 
-   // @Autowired
-    private UserProfilePage userProfilePage;
+    public SiteProfileDashlet(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     @Override
     public String getDashletTitle()
     {
-        return dashletContainer.findElement(dashletTitle).getText();
+        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+            .findElement(dashletTitle));
     }
 
     public SiteProfileDashlet assertSiteWelcomeMessageEquals(String expectedWelcomeMessage)
     {
         LOG.info("Assert welcome message equals: {}", expectedWelcomeMessage);
-        assertEquals(welcomeMessage.getText(), expectedWelcomeMessage,
-                String.format("Welcome message not equals %s ", expectedWelcomeMessage));
+        assertEquals(webElementInteraction.getElementText(welcomeMessage), expectedWelcomeMessage,
+            String.format("Welcome message not equals %s ", expectedWelcomeMessage));
 
         return this;
     }
@@ -65,9 +61,10 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
         return this;
     }
 
-    public void clickSiteManagerLink(String managerLinkName)
+    public UserProfilePage clickSiteManagerLink(String managerLinkName)
     {
-        browser.findElement(By.xpath(String.format(managerLinkLocator, managerLinkName))).click();
+        webElementInteraction.clickElement(By.xpath(String.format(managerLinkLocator, managerLinkName)));
+        return new UserProfilePage(webDriver);
     }
 
     public SiteProfileDashlet assertSiteVisibilityEquals(String expectedSiteVisibilityLabel,String expectedSiteVisibilityValue)
@@ -86,8 +83,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     private WebElement getSiteProfileRow(String searchedSiteLabel)
     {
-        List<WebElement> siteProfileRows = browser.findElements(siteProfileRowLocator);
-
+        List<WebElement> siteProfileRows = webElementInteraction.waitUntilElementsAreVisible(siteProfileRowLocator);
         for (WebElement currentRow : siteProfileRows)
         {
             if (currentRow.getText().equalsIgnoreCase(searchedSiteLabel))

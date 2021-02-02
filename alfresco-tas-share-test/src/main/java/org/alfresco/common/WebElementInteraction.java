@@ -48,6 +48,11 @@ public class WebElementInteraction
         return webDriver.get();
     }
 
+    public void mouseOver(By locator)
+    {
+        mouseOver(waitUntilElementIsVisible(locator));
+    }
+
     public void mouseOver(WebElement element)
     {
         setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis());

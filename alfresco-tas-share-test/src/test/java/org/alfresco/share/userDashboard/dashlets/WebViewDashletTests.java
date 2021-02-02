@@ -1,47 +1,37 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.po.share.dashlet.ConfigureWebViewDashletPopUp;
-import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
-import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.WebViewDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
 {
-    @Autowired
     private WebViewDashlet webViewDashlet;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
-    @Autowired
-    ConfigureWebViewDashletPopUp configureWebViewPopUp;
-
-    private UserModel user;
-
-    @BeforeClass (alwaysRun = true)
-    public void setup() throws DataPreparationException
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(user);
-        addDashlet(Dashlets.WEB_VIEW, 1);
-    }
+        webViewDashlet = new WebViewDashlet(webDriver);
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        removeUserFromAlfresco(user);
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        addDashlet(user.get(), DashboardCustomization.UserDashlet.WEB_VIEW, 1, 3);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C2143")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void webViewDashlet()
     {
+        userDashboardPage.navigate(user.get());
         webViewDashlet.assertDashletTitleEquals(language.translate("webViewDashlet.title"))
             .assertNoWebPageMessageIsDisplayed()
             .assertConfigureDashletIconDisplayed()
@@ -59,5 +49,11 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
                     .assertUrlFieldEmptyValidationMessageIsCorrect()
                     .setUrlField(RandomData.getRandomAlphanumeric())
                     .assertInvalidUrlFieldValidationMessageIsCorrect();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
     }
 }
