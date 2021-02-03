@@ -5,12 +5,14 @@ import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.site-data-lists");
@@ -35,21 +37,21 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 
     private WebElement getDataListRow(String dataListTitle)
     {
-        LOG.info("Get data list row: {}", dataListTitle);
+        log.info("Get data list row: {}", dataListTitle);
         return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
             dataListTitle)), WAIT_1.getValue(), WAIT_60.getValue());
     }
 
     public CreateDataListDialog clickOnCreateDataListLink()
     {
-        LOG.info("Click New List button");
+        log.info("Click New List button");
         webElementInteraction.findElement(createDataListLinkLocator).click();
         return new CreateDataListDialog(webDriver);
     }
 
     public SiteDataListsDashlet assertCreateDataListLinkDisplayed()
     {
-        LOG.info("Assert create data list link displayed");
+        log.info("Assert create data list link displayed");
         webElementInteraction.waitUntilElementIsVisible(createDataListLinkLocator);
         assertTrue(webElementInteraction.isElementDisplayed(createDataListLinkLocator),
             "Create data list link is not displayed");
@@ -59,7 +61,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 
     public SiteDataListsDashlet assertDataListItemTitleIsDisplayed(String expectedDataListItemTitle)
     {
-        LOG.info("Assert data list item title is displayed: {}", expectedDataListItemTitle);
+        log.info("Assert data list item title is displayed: {}", expectedDataListItemTitle);
         assertTrue(webElementInteraction.isElementDisplayed(getDataListRow(expectedDataListItemTitle)),
             String.format("Data list %s is not displayed", expectedDataListItemTitle));
 
@@ -68,14 +70,14 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 
     public DataListsPage clickListItemByTitle(String itemTitle)
     {
-        LOG.info("Click list item with title: {}", itemTitle);
+        log.info("Click list item with title: {}", itemTitle);
         getDataListRow(itemTitle).findElement(By.cssSelector("a")).click();
         return new DataListsPage(webDriver);
     }
 
     public SiteDataListsDashlet assertDataListItemDescriptionEquals(String dataListTitle, String expectedItemDescription)
     {
-        LOG.info("Assert dashlet data list item description equals: {}", expectedItemDescription);
+        log.info("Assert dashlet data list item description equals: {}", expectedItemDescription);
         assertEquals(getDataListRow(dataListTitle).findElement(descriptionElement).getText(),
             expectedItemDescription, String.format("Site data list item description %s not equals expected",
                 listItemDescriptionLocator));
@@ -85,7 +87,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 
     public SiteDataListsDashlet assertEmptyListMessageEquals(String emptyMessageExpected)
     {
-        LOG.info("Assert empty list message equals: {}", emptyMessageExpected);
+        log.info("Assert empty list message equals: {}", emptyMessageExpected);
         assertEquals(webElementInteraction.getElementText(message), emptyMessageExpected,
             String.format("Empty list message not equals %s ", emptyMessageExpected));
 

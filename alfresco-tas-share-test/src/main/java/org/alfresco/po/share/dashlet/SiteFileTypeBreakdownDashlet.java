@@ -3,9 +3,11 @@ package org.alfresco.po.share.dashlet;
 import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownDashlet>
 {
     private final By dashletContainer = By.id("DASHLET");
@@ -34,7 +36,7 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
 
     public SiteFileTypeBreakdownDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
-        LOG.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
+        log.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
         assertEquals(webElementInteraction.getElementText(dashletEmptyMessage), expectedEmptyMessage,
             String.format("Empty message not equals %s ", expectedEmptyMessage));
 
@@ -43,7 +45,7 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
 
     public SiteFileTypeBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {
-        LOG.info("Assert pie chart size equals: {}", expectedPieChartSize);
+        log.info("Assert pie chart size equals: {}", expectedPieChartSize);
         webElementInteraction.waitWithRetryAndReturnWebElement(pieChartSlices, WAIT_2.getValue(), WAIT_60.getValue());
         assertEquals(webElementInteraction.waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize,
             String.format("Pie chart size not equals %d ", expectedPieChartSize));
@@ -52,7 +54,7 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
 
     public SiteFileTypeBreakdownDashlet assertPieChartTooltipTextEquals(String expectedTooltipText,String pieChartIndex)
     {
-        LOG.info("Assert pie chart tooltip text equals: {}", expectedTooltipText);
+        log.info("Assert pie chart tooltip text equals: {}", expectedTooltipText);
         String formattedCssSelector = pieChartSlice.concat("(").concat(pieChartIndex).concat(")");
         webElementInteraction.scrollToElement(webElementInteraction.findElement(By.cssSelector(formattedCssSelector)));
         webElementInteraction.mouseOverViaJavascript(webElementInteraction.findElement(By.cssSelector(formattedCssSelector)));
@@ -64,14 +66,14 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
 
     private String getAttributeValueWithoutHtmlTags()
     {
-        LOG.info("Get original title attribute without html tags");
+        log.info("Get original title attribute without html tags");
         return webElementInteraction.waitUntilElementIsVisible(sliceTooltip)
             .getAttribute(ORIGINAL_TITLE_ATTRIBUTE).replaceAll(REMOVE_HTML_TAGS, EMPTY);
     }
 
     public SiteFileTypeBreakdownDashlet assertPieChartFileTypeNameEquals(String expectedFileTypeName)
     {
-        LOG.info("Assert pie chart file type name equals: {}", expectedFileTypeName);
+        log.info("Assert pie chart file type name equals: {}", expectedFileTypeName);
         assertEquals(webElementInteraction.findElement(By.xpath(String.format(fileTypeNameLocator, expectedFileTypeName))).getText(),
             expectedFileTypeName, String.format("Pie chart file type name not equals %s", expectedFileTypeName));
 

@@ -6,12 +6,14 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 {
     private final int BEGIN_INDEX = 0;
@@ -96,7 +98,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     public SiteMembersPage assertSiteGroupNameEqualsTo(String expectedSiteMemberName)
     {
-        LOG.info("Assert site member name equals to: {}", expectedSiteMemberName);
+        log.info("Assert site member name equals to: {}", expectedSiteMemberName);
         assertTrue(getSiteMembersList().stream().anyMatch(member -> member.equals(expectedSiteMemberName)),
             String.format("Site member name not equals %s ", expectedSiteMemberName));
         return this;

@@ -3,6 +3,7 @@ package org.alfresco.po.share.user.admin.adminTools.modelManager;
 import static org.alfresco.common.Wait.WAIT_2;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialog;
@@ -17,6 +18,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class ModelManagerPage extends SharePage2<ModelManagerPage>
 {
     private final By actions = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']");
@@ -45,7 +47,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
         }
         catch(TimeoutException | PageRenderTimeException  e)
         {
-            LOG.error("Reload Custom Model page");
+            log.error("Reload Custom Model page");
             return super.navigate();
         }
     }
@@ -63,7 +65,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
 
     public ModelManagerPage createModel(String name, String nameSpace, String prefix)
     {
-        LOG.info("Create new model: {}", name);
+        log.info("Create new model: {}", name);
         CreateModelDialogPage createModelDialogPage = clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
         createModelDialogPage.sendPrefixText(prefix);

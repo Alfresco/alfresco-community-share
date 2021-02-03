@@ -2,11 +2,13 @@ package org.alfresco.po.share.searching;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class CreateNewFilterDialog extends BaseDialogComponent
 {
     private final By dialogBody = By.cssSelector("div[class^='alfresco-dialog-AlfDialog handleOverflow']");
@@ -171,7 +173,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         searchManagerPage.waitUntilNotificationMessageDisappears();
         if(webElementInteraction.isElementDisplayed(dialogBody))
         {
-            LOG.error("Failed to click Save button");
+            log.error("Failed to click Save button");
             webElementInteraction.clickElement(save);
             searchManagerPage.waitUntilNotificationMessageDisappears();
         }

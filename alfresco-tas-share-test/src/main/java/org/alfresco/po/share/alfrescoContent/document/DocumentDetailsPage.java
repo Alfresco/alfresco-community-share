@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
@@ -21,6 +22,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+@Slf4j
 public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 {
     private FileModel currentFile;
@@ -102,7 +104,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage navigate(FileModel file)
     {
-        LOG.info("Navigate to document details of file: {}", file.getCmisLocation());
+        log.info("Navigate to document details of file: {}", file.getCmisLocation());
         setCurrentFileModel(file);
         return navigate();
     }
@@ -125,7 +127,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertDocumentTitleEquals(FileModel expectedFileTitle)
     {
-        LOG.info("Assert file title equals: {}", expectedFileTitle.getName());
+        log.info("Assert file title equals: {}", expectedFileTitle.getName());
         String text = webElementInteraction.getElementText(headerFileName);
         String fileTitle = text.substring(BEGIN_INDEX,text.indexOf(VERSION_NUMBER));
         assertEquals(fileTitle, expectedFileTitle.getName(),
@@ -209,7 +211,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage addComment(String comment)
     {
-        LOG.info("Add comment: {}", comment);
+        log.info("Add comment: {}", comment);
         webElementInteraction.waitUntilElementIsVisible(commentContentIframe);
         webElementInteraction.clickElement(commentContentIframe);
         webElementInteraction.findElement(commentContentIframe).sendKeys(comment);
@@ -396,7 +398,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertPropertiesAreDisplayed(String... properties)
     {
-        LOG.info("Assert properties are displayed {}", Arrays.asList(properties));
+        log.info("Assert properties are displayed {}", Arrays.asList(properties));
         assertTrue(arePropertiesDisplayed(properties), "Not all properties are displayed");
         return this;
     }
@@ -442,7 +444,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertPropertyValueEquals(String propertyName, String expectedValue)
     {
-        LOG.info("Assert property {} has value {}", propertyName, expectedValue);
+        log.info("Assert property {} has value {}", propertyName, expectedValue);
         assertEquals(getPropertyValue(propertyName), expectedValue,
             String.format("Property %s has the expected value", propertyName));
         return this;
@@ -575,7 +577,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertFileContentEquals(String expectedContent)
     {
-        LOG.info("Assert file has content {}", expectedContent);
+        log.info("Assert file has content {}", expectedContent);
         assertEquals(getContentText(), expectedContent, "File content is correct");
         return this;
     }
@@ -653,13 +655,13 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public void assertUploadedDocumentImageIsDisplayed()
     {
-        LOG.info("Assert document image is displayed");
+        log.info("Assert document image is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(documentImage), "Document image is not displayed");
     }
 
     public CopyMoveUnzipToDialog clickCopyTo()
     {
-        LOG.info("Click Copy To...");
+        log.info("Click Copy To...");
         webElementInteraction.clickElement(copyToAction);
         return new CopyMoveUnzipToDialog(webDriver);
     }
@@ -667,14 +669,14 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public ChangeContentTypeDialog clickChangeType()
     {
-        LOG.info("Click Change Type");
+        log.info("Click Change Type");
         WebElement changeTypeButton = webElementInteraction.waitUntilElementIsVisible(changeTypeAction);
         webElementInteraction.mouseOver(changeTypeButton);
         webElementInteraction.clickElement(changeTypeButton);
         ChangeContentTypeDialog changeContentTypeDialog = new ChangeContentTypeDialog(webDriver);
         if(!changeContentTypeDialog.isDialogDisplayed())
         {
-            LOG.error("Retry click on change type button");
+            log.error("Retry click on change type button");
             webElementInteraction.clickJS(changeTypeButton);
         }
         return new ChangeContentTypeDialog(webDriver);
@@ -682,7 +684,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public CopyMoveUnzipToDialog clickUnzipTo()
     {
-        LOG.info("Click Unzip To...");
+        log.info("Click Unzip To...");
         webElementInteraction.clickElement(unzipToAction);
         return new CopyMoveUnzipToDialog(webDriver);
     }

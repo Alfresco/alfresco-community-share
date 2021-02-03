@@ -1,30 +1,31 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_20;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.SitesFilter;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.my-sites");
     private final By sitesLinksList = By.cssSelector("h3.site-title > a");
     private final By sitesFilterButton = By.cssSelector("div[class*='my-sites'] div span span button");
-    private final By myfavoritesOptions = By.cssSelector("div[class*='my-sites'] div.bd ul li");
+    private final By myFavoritesOptions = By.cssSelector("div[class*='my-sites'] div.bd ul li");
     private final By createSiteLink = By.cssSelector("a[id$='createSite-button']");
     private final By defaultSiteEmptyText = By.cssSelector("div[class^='dashlet my-sites'] div[class*='empty']");
     private final By siteTitleElement = By.cssSelector(".site-title a");
@@ -49,12 +50,12 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     private WebElement getSiteRow(String siteName)
     {
         return webElementInteraction.waitWithRetryAndReturnWebElement(
-                By.xpath(String.format(siteRow, siteName)), WAIT_1.getValue(), WAIT_20.getValue());
+                By.xpath(String.format(siteRow, siteName)), WAIT_2.getValue(), WAIT_60.getValue());
     }
 
     public MySitesDashlet assertSiteIsDisplayed(SiteModel siteModel)
     {
-        LOG.info("Assert site {} is  displayed", siteModel.getTitle());
+        log.info("Assert site {} is  displayed", siteModel.getTitle());
         assertTrue(webElementInteraction.isElementDisplayed(getSiteRow(siteModel.getTitle())),
                 String.format("Site %s is not displayed", siteModel.getTitle()));
         return this;
@@ -62,7 +63,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertSiteIsNotDisplayed(SiteModel site)
     {
-        LOG.info("Assert site {} is not displayed", site.getTitle());
+        log.info("Assert site {} is not displayed", site.getTitle());
         By siteElement = By.xpath(String.format(siteRow, site.getTitle()));
         webElementInteraction.waitUntilElementDisappears(siteElement);
         assertFalse(webElementInteraction.isElementDisplayed(siteElement), String.format("Site %s is displayed", site.getTitle()));
@@ -82,17 +83,16 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public boolean isSiteFavorite(String siteName)
     {
-        Parameter.checkIsMandotary("Site name", siteName);
         selectSiteDetailsRow(siteName);
         return webElementInteraction.isElementDisplayed(favoriteEnabled);
     }
 
     public DeleteSiteDialog clickDelete(String siteName)
     {
-        WebElement siteRow = getSiteRow(siteName);
+        WebElement siteRowElement = getSiteRow(siteName);
         webElementInteraction.mouseOver(createSiteLink);
-        webElementInteraction.mouseOver(siteRow.findElement(siteTitleElement));
-        webElementInteraction.clickElement(siteRow.findElement(deleteButton));
+        webElementInteraction.mouseOver(siteRowElement.findElement(siteTitleElement));
+        webElementInteraction.clickElement(siteRowElement.findElement(deleteButton));
         return new DeleteSiteDialog(webDriver);
     }
 
@@ -105,7 +105,8 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     {
         webElementInteraction.waitUntilElementIsVisible(sitesFilterButton);
         webElementInteraction.clickElement(sitesFilterButton);
-        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(myfavoritesOptions);
+
+        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(myFavoritesOptions);
         webElementInteraction.selectOptionFromFilterOptionsList(getFilterValue(sitesFilter), options);
         return this;
 
@@ -147,7 +148,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
             }
         } catch (TimeoutException | NoSuchElementException e)
         {
-            LOG.error("Time out while finding site", e);
+            log.error("Time out while finding site", e);
             return false;
         }
         return false;
@@ -207,9 +208,8 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public void hoverSite(String siteName)
     {
-        Parameter.checkIsMandotary("Site name", siteName);
-        WebElement siteRow = selectSiteDetailsRow(siteName);
-        webElementInteraction.mouseOver(siteRow);
+        WebElement siteRowElement = selectSiteDetailsRow(siteName);
+        webElementInteraction.mouseOver(siteRowElement);
     }
 
     public boolean isDeleteButtonDisplayed()

@@ -7,6 +7,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.GroupModel;
@@ -16,6 +17,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class EditUserPage extends SharePage2<EditUserPage>
 {
     private String userName;
@@ -69,7 +71,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
         }
         catch (TimeoutException | PageRenderTimeException e)
         {
-            LOG.error("Retry navigate to Edit User Page");
+            log.error("Retry navigate to Edit User Page");
             UserProfileAdminToolsPage userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
             userProfileAdminToolsPage.navigate(userName);
             userProfileAdminToolsPage.clickEditUser();
@@ -108,7 +110,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage assertUserFullNameIsDisplayedInTitle(UserModel user)
     {
-        LOG.info("Assert User full name is displayed in title: {} {}", user.getFirstName(), user.getLastName());
+        log.info("Assert User full name is displayed in title: {} {}", user.getFirstName(), user.getLastName());
         assertEquals(webElementInteraction.waitUntilElementIsVisible(userNameInEditUserPageTitle).getText(),
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
@@ -229,7 +231,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
         webElementInteraction.clickElement(disableCheck);
         if(!disableCheck.isSelected())
         {
-            LOG.info("Retry select disable account");
+            log.info("Retry select disable account");
             webElementInteraction.clickElement(disableCheck);
         }
         return this;
@@ -243,7 +245,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
         webElementInteraction.clickElement(disableCheck);
         if(disableCheck.isSelected())
         {
-            LOG.info("Retry select enable account");
+            log.info("Retry select enable account");
             webElementInteraction.clickElement(disableCheck);
         }
         return this;
@@ -303,7 +305,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage assertGroupIsFound(GroupModel group)
     {
-        LOG.info("Assert group is found: {}", group.getGroupIdentifier());
+        log.info("Assert group is found: {}", group.getGroupIdentifier());
         webElementInteraction.waitUntilElementsAreVisible(groupSearchResults);
         assertTrue(isGroupInSearchResults(group.getGroupIdentifier()),
             String.format("Group %s was found", group.getGroupIdentifier()));
@@ -313,7 +315,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage assertAddButtonIsDisplayedForGroup(GroupModel group)
     {
-        LOG.info("Assert add group button is found for group: {}", group.getGroupIdentifier());
+        log.info("Assert add group button is found for group: {}", group.getGroupIdentifier());
         webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier())));
         assertTrue(webElementInteraction.isElementDisplayed(By.xpath(String.format(genericAddToGroupButton, group.getGroupIdentifier()))),
             String.format("Add button is displayed for group: %s", group.getGroupIdentifier()));

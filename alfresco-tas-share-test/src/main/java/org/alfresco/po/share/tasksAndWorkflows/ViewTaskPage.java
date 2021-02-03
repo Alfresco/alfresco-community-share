@@ -1,10 +1,13 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import static org.testng.Assert.assertTrue;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
+@Slf4j
 public class ViewTaskPage extends SharePage2<ViewTaskPage>
 {
     private final By workflowDetailsLink = By.cssSelector("a[href*='workflow-details']");
@@ -24,10 +27,10 @@ public class ViewTaskPage extends SharePage2<ViewTaskPage>
 
     public ViewTaskPage assertViewTaskPageIsOpened()
     {
-        LOG.info("Assert View task page is opened");
+        log.info("Assert View task page is opened");
         webElementInteraction.waitUntilElementIsVisible(workflowDetailsLink);
-        Assert.assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "View task page is opened");
-        Assert.assertTrue(webElementInteraction.isElementDisplayed(workflowDetailsLink), "Workflow details link is displayed");
+        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "View task page is opened");
+        assertTrue(webElementInteraction.isElementDisplayed(workflowDetailsLink), "Workflow details link is displayed");
         return this;
     }
 

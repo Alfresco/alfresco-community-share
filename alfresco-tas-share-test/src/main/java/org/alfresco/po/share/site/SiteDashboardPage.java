@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.model.SiteModel;
@@ -16,6 +17,7 @@ import org.openqa.selenium.WebElement;
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
     private final By siteHeaderTitle = By.cssSelector("#HEADER_TITLE a");
@@ -38,7 +40,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public SiteDashboardPage assertSiteDashboardPageIsOpened()
     {
-        LOG.info("Assert site dashboard page is opened");
+        log.info("Assert site dashboard page is opened");
         webElementInteraction.waitUntilElementIsVisible(siteVisibility);
         assertTrue(webElementInteraction.isElementDisplayed(siteVisibility), "Site dashboard page is opened");
         return this;
@@ -82,7 +84,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
     {
-        LOG.info(String.format("Assert site visibility is: %s", visibility.toString()));
+        log.info(String.format("Assert site visibility is: %s", visibility.toString()));
         assertEquals(webElementInteraction.waitUntilElementIsVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
         return this;
     }
@@ -107,7 +109,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
                 return true;
             }
         }
-        LOG.info("Available options are: " + availableOptions.toString());
+        log.info("Available options are: " + availableOptions.toString());
         return false;
     }
 

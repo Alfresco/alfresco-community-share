@@ -7,12 +7,14 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SearchManagerPage extends SharePage2<SearchManagerPage>
 {
     private final By filterTable = By.id("SEARCH_CONFIG_FACET_LIST_VIEW");
@@ -66,7 +68,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public SearchManagerPage assertSearchManagerPageIsOpened()
     {
-        LOG.info("Assert Search Manager page is opened");
+        log.info("Assert Search Manager page is opened");
         assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
         return this;
     }
@@ -84,7 +86,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public SearchManagerPage assertFilterIsNotDisplayed(String filterId)
     {
-        LOG.info("Assert filter {} is not displayed", filterId);
+        log.info("Assert filter {} is not displayed", filterId);
         By filter = By.xpath(String.format(filterRow, filterId));
         assertFalse(webElementInteraction.isElementDisplayed(filter), String.format("Filter %s is displayed", filterId));
         return this;
@@ -171,7 +173,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public SearchManagerPage deleteFilter(String filterId)
     {
-        LOG.info("Delete filter {}", filterId);
+        log.info("Delete filter {}", filterId);
         clickDeleteFilter(filterId).clickOKButton();
         webElementInteraction.waitUntilElementIsVisible(filterTable);
 

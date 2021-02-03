@@ -3,11 +3,13 @@ package org.alfresco.po.share.dashlet;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+@Slf4j
 public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 {
     private final By urlField = By.cssSelector("input[name='url']");
@@ -23,14 +25,14 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 
     public EnterFeedURLPopUp setUrlValue(String url)
     {
-        LOG.info("Set url value: {}", url);
+        log.info("Set url value: {}", url);
         webElementInteraction.clearAndType(urlField, url);
         return this;
     }
 
     public EnterFeedURLPopUp selectNumberOfItemsToDisplay(String dropDownValue)
     {
-        LOG.info("Select number of item to display from drop-down: {}", dropDownValue);
+        log.info("Select number of item to display from drop-down: {}", dropDownValue);
         WebElement itemsSelect = webElementInteraction.waitUntilElementIsVisible(numberOfItems);
         Select items = new Select(itemsSelect);
         items.selectByValue(dropDownValue);
@@ -45,7 +47,7 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 
     public EnterFeedURLPopUp selectOpenLinksInNewWindowCheckboxFromDialog()
     {
-        LOG.info("Select open links in new window checkbox from dialog");
+        log.info("Select open links in new window checkbox from dialog");
         webElementInteraction.clickElement(newWindowCheckbox);
 
         return this;
@@ -63,7 +65,7 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
 
     public EnterFeedURLPopUp assertNewWindowIsChecked()
     {
-        LOG.info("Assert new window is checked");
+        log.info("Assert new window is checked");
         assertTrue(webElementInteraction.waitUntilElementIsVisible(newWindowCheckbox).isSelected(),
             "New window checkbox is not checked");
         return this;

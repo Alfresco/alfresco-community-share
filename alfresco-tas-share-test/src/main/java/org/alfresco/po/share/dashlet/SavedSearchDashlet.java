@@ -4,10 +4,12 @@ import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 {
     private final By defaultDashletMessage = By.cssSelector("div.dashlet.savedsearch td div[class$='yui-dt-liner']");
@@ -33,7 +35,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 
     public SavedSearchDashlet assertNoResultsFoundMessageEquals(String expectedNoResultsFoundMessage)
     {
-        LOG.info("Assert No results found message equals: {}", expectedNoResultsFoundMessage);
+        log.info("Assert No results found message equals: {}", expectedNoResultsFoundMessage);
         webElementInteraction.waitUntilElementContainsText(defaultDashletMessage, expectedNoResultsFoundMessage);
         assertEquals(webElementInteraction.getElementText(defaultDashletMessage), expectedNoResultsFoundMessage, String
             .format("No results found message not equals %s ", expectedNoResultsFoundMessage));
@@ -43,7 +45,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 
     public SavedSearchDashlet assertConfigureDashletButtonIsDisplayed()
     {
-        LOG.info("Assert configure dashlet button is displayed");
+        log.info("Assert configure dashlet button is displayed");
         webElementInteraction.mouseOver(titleBar);
         webElementInteraction.mouseOver(titleBarActions);
         assertTrue(webElementInteraction.isElementDisplayed(configureDashletIcon),
@@ -54,7 +56,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 
     public ConfigureSavedSearchDashletDialog configureDashlet()
     {
-        LOG.info("Configure dashlet");
+        log.info("Configure dashlet");
         webElementInteraction.mouseOver(titleBar);
         webElementInteraction.mouseOver(titleBarActions);
         webElementInteraction.clickElement(configureDashletIcon);
@@ -69,7 +71,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 
     public SavedSearchDashlet assertFileIsDisplayed(String fileName)
     {
-        LOG.info("Assert file is found in saved search dashlet: {}", fileName);
+        log.info("Assert file is found in saved search dashlet: {}", fileName);
         assertTrue(webElementInteraction.isElementDisplayed(getSearchRow(fileName)),
             String.format("File %s was not found", fileName));
 
@@ -78,7 +80,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 
     public SavedSearchDashlet assertInFolderPathEquals(String fileName, String folderPath)
     {
-        LOG.info("Assert In Folder path equals: {}", folderPath);
+        log.info("Assert In Folder path equals: {}", folderPath);
         assertEquals(getSearchRow(fileName).findElement(inFolderLocation).getText(), folderPath,
             String.format("In Folder path not equals :%s ", folderPath));
 

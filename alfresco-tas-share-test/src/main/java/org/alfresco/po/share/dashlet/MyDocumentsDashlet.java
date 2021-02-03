@@ -6,6 +6,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.DocumentsFilter;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
@@ -13,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.my-documents");
@@ -42,11 +44,11 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     {
         By docLocator = By.xpath(String.format(documentRow, documentName));
         boolean found = webElementInteraction.isElementDisplayed(docLocator);
-        int i = 0;
-        while (i < WAIT_60.getValue() && !found)
+        int retryCount = 0;
+        while (retryCount < WAIT_60.getValue() && !found)
         {
-            i++;
-            LOG.info("Wait for document {} to be displayed in My Documents dashlet", documentName);
+            retryCount++;
+            log.error("Wait for document {} to be displayed in My Documents dashlet", documentName);
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
@@ -94,7 +96,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet selectDetailedView()
     {
-        LOG.info("Select Detailed View");
+        log.info("Select Detailed View");
         webElementInteraction.clickElement(detailedViewButton);
         webElementInteraction.waitUntilElementHasAttribute(detailedViewButtonSpan, "class", buttonChecked);
 
@@ -103,7 +105,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet selectSimpleView()
     {
-        LOG.info("Select Simple View");
+        log.info("Select Simple View");
         webElementInteraction.clickElement(simpleViewButton);
         webElementInteraction.waitUntilElementIsVisible(documentsArea);
         return this;

@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
@@ -12,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 {
     private final String userRowLocator = "//div[contains(@id, 'default-directPermissions')]//td//div[contains(text(), '%s')]/../..";
@@ -105,7 +107,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
                 break;
             } else
             {
-                LOG.info("Wait for element after refresh: " + counter);
+                log.info("Wait for element after refresh: " + counter);
                 webElementInteraction.refresh();
                 counter++;
             }

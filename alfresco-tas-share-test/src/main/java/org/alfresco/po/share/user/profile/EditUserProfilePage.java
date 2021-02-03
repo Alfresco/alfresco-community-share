@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.model.UserModel;
@@ -12,6 +13,7 @@ import static org.alfresco.common.Wait.*;
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
 {
     private String userName;
@@ -76,7 +78,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
 
     public EditUserProfilePage setAboutInformation(String firstName, String lastName, String jobTitle, String location, String summary)
     {
-        LOG.info("Set About Information details");
+        log.info("Set About Information details");
         webElementInteraction.waitUntilElementIsVisible(firstNameInput);
         webElementInteraction.clearAndType(firstNameInput, firstName);
         webElementInteraction.clearAndType(lastNameInput, lastName);
@@ -91,7 +93,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     public EditUserProfilePage setContactInformation(String telephone, String mobile, String email,
                                       String skype, String im, String googleUserName)
     {
-        LOG.info("Set Contact Information details");
+        log.info("Set Contact Information details");
         webElementInteraction.clearAndType(telephoneInput, telephone);
         webElementInteraction.clearAndType(mobileInput, mobile);
         webElementInteraction.clearAndType(emailInput, email);
@@ -105,7 +107,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     public EditUserProfilePage setCompanyDetails(String name, String address1, String address2, String address3, String postCode,
                                   String telephone, String fax, String email)
     {
-        LOG.info("Set Company Information details");
+        log.info("Set Company Information details");
         webElementInteraction.clearAndType(companyNameInput, name);
         webElementInteraction.clearAndType(companyAddress1Input, address1);
         webElementInteraction.clearAndType(companyAddress2Input, address2);
@@ -146,7 +148,7 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
 
     public UserProfilePage clickSave()
     {
-        LOG.info("Click Save");
+        log.info("Click Save");
         WebElement saveBtn = webElementInteraction.waitUntilElementIsVisible(save);
         webElementInteraction.mouseOver(saveBtn);
         webElementInteraction.clickJS(saveBtn);

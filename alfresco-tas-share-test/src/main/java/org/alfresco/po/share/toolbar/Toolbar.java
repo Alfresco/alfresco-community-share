@@ -4,6 +4,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.PeopleFinderPage;
@@ -18,6 +19,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class Toolbar extends BasePage
 {
     private final By toolbarLocator = By.cssSelector("div[id='SHARE_HEADER']");
@@ -46,14 +48,14 @@ public class Toolbar extends BasePage
 
     public Toolbar assertToolbarIsDisplayed()
     {
-        LOG.info("Assert toolbar is displayed");
+        log.info("Assert toolbar is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(toolbarLocator), "Toolbar is displayed");
         return this;
     }
 
     public ToolbarSitesMenu clickSites()
     {
-        LOG.info("Click Sites");
+        log.info("Click Sites");
         webElementInteraction.clickElement(sitesLink);
         ToolbarSitesMenu toolbarSitesMenu = new ToolbarSitesMenu(webDriver);
         toolbarSitesMenu.waitForMySitesMenuToBeOpened();
@@ -62,7 +64,7 @@ public class Toolbar extends BasePage
 
     public Toolbar assertHomeIsDisplayed()
     {
-        LOG.info("Assert Home is displayed");
+        log.info("Assert Home is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(homeLink), "Home is displayed");
         return this;
     }
@@ -74,126 +76,126 @@ public class Toolbar extends BasePage
 
     public Toolbar assertMyFilesIsDisplayed()
     {
-        LOG.info("Assert My Files is displayed");
+        log.info("Assert My Files is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(myFilesLink), "My Files is displayed");
         return this;
     }
 
     public MyFilesPage clickMyFiles()
     {
-        LOG.info("Click My Files");
+        log.info("Click My Files");
         webElementInteraction.clickElement(myFilesLink);
         return new MyFilesPage(webDriver);
     }
 
     public SharedFilesPage clickSharedFiles()
     {
-        LOG.info("Click Shared Files");
+        log.info("Click Shared Files");
         webElementInteraction.clickElement(sharedFilesLink);
         return new SharedFilesPage(webDriver);
     }
 
     public Toolbar assertSitesIsDisplayed()
     {
-        LOG.info("Assert Shared Files is displayed");
+        log.info("Assert Shared Files is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(sitesLink), "Sites is displayed");
         return this;
     }
 
     public Toolbar assertTasksIsDisplayed()
     {
-        LOG.info("Assert Shared Files is displayed");
+        log.info("Assert Shared Files is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(tasksLink), "Tasks is displayed");
         return this;
     }
 
     public ToolbarTasksMenu clickTasks()
     {
-        LOG.info("Click Tasks");
+        log.info("Click Tasks");
         webElementInteraction.clickElement(tasksLink);
         return new ToolbarTasksMenu(webDriver);
     }
 
     public Toolbar assertPeopleIsDisplayed()
     {
-        LOG.info("Assert People is displayed");
+        log.info("Assert People is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(peopleLink), "People is displayed");
         return this;
     }
 
     public PeopleFinderPage clickPeople()
     {
-        LOG.info("Click People");
+        log.info("Click People");
         webElementInteraction.clickElement(peopleLink);
         return new PeopleFinderPage(webDriver);
     }
 
     public Toolbar assertRepositoryIsDisplayed()
     {
-        LOG.info("Assert Repository is displayed");
+        log.info("Assert Repository is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(repositoryLink), "Repository is displayed");
         return this;
     }
 
     public RepositoryPage clickRepository()
     {
-        LOG.info("Click Repository");
+        log.info("Click Repository");
         webElementInteraction.clickElement(repositoryLink);
         return new RepositoryPage(webDriver);
     }
 
     public Toolbar assertSitesManagerIsDisplayed()
     {
-        LOG.info("Assert Sites Manager is displayed");
+        log.info("Assert Sites Manager is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(sitesManagerLink), "Sites Manager link is displayed");
         return this;
     }
 
     public Toolbar assertSitesManagerIsNotDisplayed()
     {
-        LOG.info("Assert Sites Manager is NOT displayed");
+        log.info("Assert Sites Manager is NOT displayed");
         assertFalse(webElementInteraction.isElementDisplayed(sitesManagerLink), "Sites Manager link is displayed");
         return this;
     }
 
     public SitesManagerPage clickSitesManager()
     {
-        LOG.info("Click Sites Manager");
+        log.info("Click Sites Manager");
         webElementInteraction.clickElement(sitesManagerLink);
         return new SitesManagerPage(webDriver);
     }
 
     public Toolbar assertAdminToolsIsDisplayed()
     {
-        LOG.info("Assert Admin Tools link is displayed");
+        log.info("Assert Admin Tools link is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(adminToolsLink), "Admin tools link is displayed");
         return this;
     }
 
     public Toolbar assertAdminToolsIsNotDisplayed()
     {
-        LOG.info("Assert Admin Tools link is not displayed");
+        log.info("Assert Admin Tools link is not displayed");
         assertFalse(webElementInteraction.isElementDisplayed(adminToolsLink), "Admin tools link is displayed");
         return this;
     }
 
     public ApplicationPage clickAdminTools()
     {
-        LOG.info("Click Admin Tools");
+        log.info("Click Admin Tools");
         webElementInteraction.clickElement(adminToolsLink);
         return new ApplicationPage(webDriver);
     }
 
     public Toolbar assertUserMenuIsDisplayed()
     {
-        LOG.info("Assert User Menu link is displayed");
+        log.info("Assert User Menu link is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(userMenuLink), "User Menu link is displayed");
         return this;
     }
 
     public ToolbarUserMenu clickUserMenu()
     {
-        LOG.info("Click User menu");
+        log.info("Click User menu");
         webElementInteraction.clickElement(userMenuLink);
         return new ToolbarUserMenu(webDriver);
     }
@@ -205,14 +207,14 @@ public class Toolbar extends BasePage
 
     public Toolbar assertSearchInputIsDisplayed()
     {
-        LOG.info("Assert User Menu link is displayed");
+        log.info("Assert User Menu link is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(searchBoxInput), "Search input is displayed");
         return this;
     }
 
     public Toolbar assertSearchIconIsDisplayed()
     {
-        LOG.info("Assert Search icon is displayed");
+        log.info("Assert Search icon is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(searchIcon), "Search icon is displayed");
         return this;
     }
@@ -224,7 +226,7 @@ public class Toolbar extends BasePage
 
     public AdvancedSearchPage clickAdvancedSearch()
     {
-        LOG.info("Click Advanced Search page");
+        log.info("Click Advanced Search page");
         webElementInteraction.clickElement(searchIcon);
         webElementInteraction.clickElement(advancedSearchLink);
         return new AdvancedSearchPage(webDriver);
@@ -300,7 +302,7 @@ public class Toolbar extends BasePage
 
     public void closeMenu()
     {
-        LOG.info("Closing opened menu");
+        log.info("Closing opened menu");
         webElementInteraction.clickElement(bodyLocator);
     }
 }

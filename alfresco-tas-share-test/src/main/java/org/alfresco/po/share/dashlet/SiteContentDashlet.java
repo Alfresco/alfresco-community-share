@@ -5,12 +5,14 @@ import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 {
     private final By filters = By.cssSelector("div[class^='dashlet docsummary'] .yuimenuitemlabel");
@@ -41,7 +43,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public SiteContentDashlet assertEmptySiteContentMessageIsCorrect()
     {
-        LOG.info("Assert empty site content message is correct");
+        log.info("Assert empty site content message is correct");
         assertEquals(webElementInteraction.getElementText(emptyMessage), language.translate("siteContentDashlet.emptyList"),
         "Empty list site content dashlet message is not correct");
 
@@ -50,21 +52,21 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public SiteContentDashlet clickSimpleViewIcon()
     {
-        LOG.info("Click simple view icon");
+        log.info("Click simple view icon");
         webElementInteraction.clickElement(simpleViewIcon);
         return this;
     }
 
     public SiteContentDashlet openFilterDropdown()
     {
-        LOG.info("Open filter dropdown");
+        log.info("Open filter dropdown");
         webElementInteraction.clickElement(defaultFilterButton);
         return this;
     }
 
     public SiteContentDashlet assertFilterLabelEquals(String expectedFilterLabel)
     {
-        LOG.info("Assert filter label equals: {}", expectedFilterLabel);
+        log.info("Assert filter label equals: {}", expectedFilterLabel);
         WebElement dropdownFilterLabel = webElementInteraction.findFirstElementWithValue(filters, expectedFilterLabel);
         assertEquals(dropdownFilterLabel.getText(), expectedFilterLabel,
             String.format("Filter label not equals %s ", expectedFilterLabel));
@@ -74,7 +76,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public SiteContentDashlet assertDetailedViewIconIsDisplayed()
     {
-        LOG.info("Assert detailed view icon is displayed");
+        log.info("Assert detailed view icon is displayed");
         webElementInteraction.waitUntilElementIsVisible(detailedViewIcon);
         assertTrue(webElementInteraction.isElementDisplayed(detailedViewIcon), "Detailed view icon is not displayed");
 
@@ -83,7 +85,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public SiteContentDashlet clickDetailedViewButton()
     {
-        LOG.info("Click detailed view button");
+        log.info("Click detailed view button");
         webElementInteraction.clickElement(detailedViewIcon);
         return this;
     }

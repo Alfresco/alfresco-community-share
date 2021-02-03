@@ -4,11 +4,13 @@ import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 {
     private final By dashletContainer = By.xpath("//div[normalize-space(.) = 'Image Preview']");
@@ -36,14 +38,14 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 
     public ImagePreviewDashlet assertImagePreviewIsDisplayed(String imageName)
     {
-        LOG.info("Assert image name is: {}", imageName);
+        log.info("Assert image name is: {}", imageName);
         assertTrue(webElementInteraction.isElementDisplayed(getImageThumbnail(imageName)));
         return this;
     }
 
     public void clickViewDetailsIcon(String imageName)
     {
-        LOG.info("Click View details icon");
+        log.info("Click View details icon");
         WebElement viewDetailsAction = getImageThumbnail(imageName).findElement(viewDetailsIcon);
         webElementInteraction.mouseOver(viewDetailsAction);
         webElementInteraction.clickElement(viewDetailsAction);
@@ -51,7 +53,7 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 
     public ImagePreviewDashlet clickDownloadIcon(String imageName)
     {
-        LOG.info("Click download icon from image preview dashlet: {}", imageName);
+        log.info("Click download icon from image preview dashlet: {}", imageName);
         WebElement downloadAction = getImageThumbnail(imageName).findElement(downloadIcon);
         webElementInteraction.mouseOver(downloadAction);
         webElementInteraction.clickElement(downloadAction);
@@ -60,7 +62,7 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 
     public void assertDownloadedDocumentExists(String fileName, String extension)
     {
-        LOG.info("Assert document exists in directory");
+        log.info("Assert document exists in directory");
         assertTrue(Utils.isFileInDirectory(fileName, extension), "Document not exists in directory");
 
     }

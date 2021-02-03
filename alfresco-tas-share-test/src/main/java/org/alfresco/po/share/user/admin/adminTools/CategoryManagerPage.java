@@ -6,6 +6,7 @@ import static org.alfresco.common.Wait.WAIT_80;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.AddCategoryDialog;
@@ -13,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 {
     private final By editCategoryNameInput = By.cssSelector(".insitu-edit input[type='text']");
@@ -84,7 +86,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         clickEditCategory(categoryName);
         if(!webElementInteraction.isElementDisplayed(editCategoryNameInput))
         {
-            LOG.info("Click Edit category again");
+            log.info("Click Edit category again");
             clickEditCategory(categoryName);
         }
         WebElement input = webElementInteraction.findElement(editCategoryNameInput);
@@ -104,7 +106,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         int i = 0;
         while (i < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(category))
         {
-            LOG.error("Wait for category {}", categoryName);
+            log.error("Wait for category {}", categoryName);
             webElementInteraction.refresh();
             waitToLoopTime(WAIT_2.getValue());
             i++;
@@ -163,7 +165,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 
     public CategoryManagerPage assertCategoryIsNotDisplayed(String categoryName)
     {
-        LOG.info("Assert category {} is not displayed", categoryName);
+        log.info("Assert category {} is not displayed", categoryName);
         By category = By.xpath(String.format(categoryLocator, categoryName));
         int i = 0;
         while(i < WAIT_60.getValue() && webElementInteraction.isElementDisplayed(category))

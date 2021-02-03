@@ -3,12 +3,14 @@ package org.alfresco.po.share;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class LoginPage extends CommonLoginPage
 {
     private final By usernameInput = By.cssSelector("[id$='default-username']");
@@ -29,14 +31,14 @@ public class LoginPage extends CommonLoginPage
 
     public CommonLoginPage navigate()
     {
-        LOG.info("Navigate to Login Page");
+        log.info("Navigate to Login Page");
         webDriver.get().get(defaultProperties.get().getShareUrl().toString());
         return new LoginPage(webDriver);
     }
 
     public CommonLoginPage assertLoginPageIsOpened()
     {
-        LOG.info("Assert Login Page is displayed");
+        log.info("Assert Login Page is displayed");
         webElementInteraction.waitUntilElementIsVisible(usernameInput);
         assertTrue(webElementInteraction.isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
@@ -56,7 +58,7 @@ public class LoginPage extends CommonLoginPage
 
     public void autoCompleteUsername(String startCharsUser)
     {
-        LOG.info("Autocomplete user {}", startCharsUser);
+        log.info("Autocomplete user {}", startCharsUser);
         typeUserName(startCharsUser);
         webElementInteraction.waitInSeconds(1);
         WebElement userInput = webElementInteraction.findElement(usernameInput);
@@ -77,7 +79,7 @@ public class LoginPage extends CommonLoginPage
 
     public void login(String username, String password)
     {
-        LOG.info("Login with user: {}", username);
+        log.info("Login with user: {}", username);
         typeUserName(username);
         typePassword(password);
         clickLogin();
@@ -95,7 +97,7 @@ public class LoginPage extends CommonLoginPage
 
     public CommonLoginPage assertAuthenticationErrorIsDisplayed()
     {
-        LOG.info("Assert authentication error is displayed");
+        log.info("Assert authentication error is displayed");
         webElementInteraction.waitUntilElementIsVisible(errorLogin);
         assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
         return this;
@@ -103,7 +105,7 @@ public class LoginPage extends CommonLoginPage
 
     public CommonLoginPage assertAuthenticationErrorMessageIsCorrect()
     {
-        LOG.info("Assert authentication error message is correct");
+        log.info("Assert authentication error message is correct");
         assertEquals(getAuthenticationError(), language.translate("login.authError"), "Authentication error is correct");
         return this;
     }
@@ -148,7 +150,7 @@ public class LoginPage extends CommonLoginPage
     @Override
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {
-        LOG.info("Assert Login Page Title is correct");
+        log.info("Assert Login Page Title is correct");
         assertEquals(webElementInteraction.getPageTitle(), language.translate("login.pageTitle"), "Login page title is correct");
         return this;
     }

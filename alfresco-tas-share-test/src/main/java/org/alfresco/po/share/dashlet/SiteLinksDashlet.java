@@ -4,10 +4,12 @@ import static org.alfresco.common.Wait.WAIT_15;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.site-links");
@@ -32,7 +34,7 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
 
     public SiteLinksDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
-        LOG.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
+        log.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
         assertEquals(webElementInteraction.getElementText(emptyDashletMessage), expectedEmptyMessage,
             String.format("Empty message not equals %s", expectedEmptyMessage));
 
@@ -46,7 +48,7 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
 
     public SiteLinksDashlet assertDashletLinkNameEquals(String expectedLinkName)
     {
-        LOG.info("Assert dashlet link name equals: {}", expectedLinkName);
+        log.info("Assert dashlet link name equals: {}", expectedLinkName);
         String actualLinkName = webElementInteraction.getElementText(By.xpath(String.format(linkNameLocator, expectedLinkName)));
         assertEquals(actualLinkName, expectedLinkName,
             String.format("Link name not equals %s ", expectedLinkName));
@@ -56,26 +58,26 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
 
     public void clickLinkDetailsButton(String linkName)
     {
-        LOG.info("Click link details: {}", linkName);
+        log.info("Click link details: {}", linkName);
         findLink(linkName).findElement(linkDetails).click();
     }
 
     public void clickCreateLinkButton()
     {
-        LOG.info("Click Create Link button");
+        log.info("Click Create Link button");
         webElementInteraction.clickElement(createLink);
     }
 
     public SiteLinksDashlet clickLinkByName(String linkName)
     {
-        LOG.info("Click link with name: {}", linkName);
+        log.info("Click link with name: {}", linkName);
         webElementInteraction.clickElement(By.xpath(String.format(linkNameLocator, linkName)));
         return this;
     }
 
     public SiteLinksDashlet assertUrlContains(String expectedUrl)
     {
-        LOG.info("Assert url contains: {}", expectedUrl);
+        log.info("Assert url contains: {}", expectedUrl);
         webElementInteraction.switchWindow(1);
         webElementInteraction.waitUrlContains(expectedUrl, WAIT_15.getValue());
         assertTrue(webElementInteraction.getCurrentUrl().contains(expectedUrl),

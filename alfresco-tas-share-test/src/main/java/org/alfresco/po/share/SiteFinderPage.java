@@ -3,6 +3,7 @@ package org.alfresco.po.share;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -14,6 +15,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteFinderPage extends SharePage2<SiteFinderPage> implements AccessibleByMenuBar
 {
     private final By siteRowList = By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']");
@@ -82,9 +84,9 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
             {
                 searchSite(siteName);
                 if (selectSite(siteName) == null)
-                    LOG.info("site was not was found");
+                    log.info("site was not was found");
                 else
-                    LOG.info(selectSite(siteName).toString() + " was found");
+                    log.info(selectSite(siteName).toString() + " was found");
             }
             return selectSite(siteName) != null;
         } catch (TimeoutException e)
@@ -95,7 +97,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
                 webElementInteraction.refresh();
                 webElementInteraction.findElement(searchButton);
                 webElementInteraction.waitUntilElementIsVisibleWithRetry(By.cssSelector("div[id$='_default-sites'] tr[class^='yui-dt-rec']"), 3);
-                LOG.info("Site not found ", e.getMessage());
+                log.info("Site not found ", e.getMessage());
                 return selectSite(siteName) != null;
             }
         }

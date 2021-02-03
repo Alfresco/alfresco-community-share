@@ -1,5 +1,6 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
+@Slf4j
 public class EditTaskPage extends SharePage2<EditTaskPage>
 {
     private final By taskEditHeader = By.cssSelector( "div.task-edit-header h1");
@@ -48,7 +50,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
 
     public EditTaskPage assertEditTaskPageIsOpened()
     {
-        LOG.info("Assert Edit Task page is opened");
+        log.info("Assert Edit Task page is opened");
         webElementInteraction.waitUntilElementIsVisible(taskEditHeader);
         assertTrue(webElementInteraction.isElementDisplayed(taskEditHeader), "Edit task header is displayed");
         assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Edit Task page is opened");

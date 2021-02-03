@@ -2,19 +2,19 @@ package org.alfresco.po.share.site;
 
 import static org.alfresco.common.Wait.WAIT_15;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.Utility;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SelectPopUpPage extends BaseDialogComponent
 {
     private final By resultsList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr");
     private final By selectedList = By.cssSelector(".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] [class$='dt-data'] tr");
-    @RenderWebElement
     private final By okButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] [id$='cntrl-ok-button']");
     private final By searchInput = By.cssSelector(".yui-dialog[style*='visibility: visible'] input[id*='cntrl-picker-searchText']");
     private final By searchButton = By.cssSelector(".yui-dialog[style*='visibility: visible'] button[id$='searchButton-button']");
@@ -86,7 +86,7 @@ public class SelectPopUpPage extends BaseDialogComponent
         int counter = 0;
         while (!webElementInteraction.isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
         {
-            LOG.info("Search: {}", counter);
+            log.info("Search: {}", counter);
             Utility.waitToLoopTime(1);
             webElementInteraction.clickElement(searchButton);
             counter++;

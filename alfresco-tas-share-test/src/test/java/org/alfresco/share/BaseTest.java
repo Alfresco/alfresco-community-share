@@ -2,7 +2,7 @@ package org.alfresco.share;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
@@ -27,8 +27,6 @@ import org.apache.commons.httpclient.HttpState;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -44,10 +42,9 @@ import org.testng.annotations.BeforeMethod;
  * This class should only contain common members/methods which are used in each test class
  */
 @ContextConfiguration(classes = ShareTestContext.class)
+@Slf4j
 public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
-    private final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
-
 //    private ScreenshotHelper screenshotHelper;
 
     @Autowired
@@ -102,12 +99,12 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     @AfterMethod(alwaysRun = true)
     public void afterEachTest(Method method, ITestResult result)
     {
-        LOG.info("FINISHED TEST: {}, {}, {}", method.getDeclaringClass().getSimpleName(), method.getName(),
+        log.info("FINISHED TEST: {}, {}, {}", method.getDeclaringClass().getSimpleName(), method.getName(),
             result.isSuccess() ? "PASSED" : "FAILED");
         if(!result.isSuccess())
         {
-            LOG.warn("TEST FAILED {}", method);
-//            screenshotHelper.captureAndSaveScreenshot(webDriver, method);
+            log.warn("TEST FAILED {}", method);
+            //screenshotHelper.captureAndSaveScreenshot(webDriver, method);
         }
         closeWebDriver();
     }
@@ -118,24 +115,24 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         {
             if (webDriver.get() != null)
             {
-                LOG.info("Close webdriver..");
+                log.info("Close webdriver..");
                 webDriver.get().quit();
             }
         }
         catch (NoSuchSessionException noSuchSessionException)
         {
-            LOG.info("Webdriver is not closed: {}", noSuchSessionException.getMessage());
+            log.error("Webdriver is not closed: {}", noSuchSessionException.getMessage());
         }
         finally
         {
-            LOG.info("Finally close webdriver..");
+            log.info("Finally close webdriver..");
             webDriver.get().quit();
         }
     }
 
     public synchronized void setupAuthenticatedSession(UserModel user)
     {
-        LOG.info("Setup authenticated session for user {}", user.getUsername());
+        log.info("Setup authenticated session for user {}", user.getUsername());
         if(dataAIS.isEnabled()) // if identity-service is enabled do the login using the UI
         {
             if(userDashboardPage.isAlfrescoLogoDisplayed())
@@ -172,7 +169,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         if (webDriver.get().manage().getCookies() != null)
         {
-            LOG.info("Delete all cookies");
+            log.info("Delete all cookies");
             webDriver.get().manage().deleteAllCookies();
         }
     }
@@ -228,7 +225,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
                 }
                 catch (DataPreparationException e)
                 {
-                    LOG.error("Failed to delete user {}", userModel.getUsername());
+                    log.error("Failed to delete user {}", userModel.getUsername());
                 }
             }
         }

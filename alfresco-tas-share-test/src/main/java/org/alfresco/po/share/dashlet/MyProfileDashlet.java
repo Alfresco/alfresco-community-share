@@ -3,13 +3,14 @@ package org.alfresco.po.share.dashlet;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.DashletHelpIcon;
-import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 {
     private final By dashletContainer = By.cssSelector("div[class='dashlet']");
@@ -39,7 +40,7 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     @Override
     public MyProfileDashlet clickOnHelpIcon(DashletHelpIcon dashlet)
     {
-        LOG.info("Click Help Icon");
+        log.info("Click Help Icon");
         webElementInteraction.mouseOver(toolbarMyProfile);
         WebElement helpMyProfile = webElementInteraction.waitUntilElementIsVisible(helpIconMyProfile);
         webElementInteraction.mouseOver(helpMyProfile);

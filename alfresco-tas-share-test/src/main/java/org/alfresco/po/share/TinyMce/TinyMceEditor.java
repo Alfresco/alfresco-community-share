@@ -1,5 +1,6 @@
 package org.alfresco.po.share.TinyMce;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.FormatType;
 import org.alfresco.po.share.BasePage;
 import org.openqa.selenium.By;
@@ -7,6 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class TinyMceEditor extends BasePage
 {
     private final By CSS_STR_FORE_COLOUR = By.cssSelector("div[aria-label^='Text'] button[class$='mce-open']");
@@ -98,7 +100,7 @@ public class TinyMceEditor extends BasePage
             webElementInteraction.executeJavaScript(setCommentJs);
         } catch (NoSuchElementException noSuchElementExp)
         {
-            LOG.error("Element : " + txt + " is not present", noSuchElementExp);
+            log.error("Element : " + txt + " is not present", noSuchElementExp);
         }
     }
 
@@ -127,7 +129,7 @@ public class TinyMceEditor extends BasePage
 
         } catch (NoSuchElementException noSuchElementExp)
         {
-            LOG.error("Element :" + element + " does not exist", noSuchElementExp);
+            log.error("Element :" + element + " does not exist", noSuchElementExp);
         }
     }
 
@@ -142,7 +144,7 @@ public class TinyMceEditor extends BasePage
         }
         catch (NoSuchElementException noSuchElementExp)
         {
-            LOG.error("Element : does not exist", noSuchElementExp);
+            log.error("Element : does not exist", noSuchElementExp);
             return "";
         }
     }

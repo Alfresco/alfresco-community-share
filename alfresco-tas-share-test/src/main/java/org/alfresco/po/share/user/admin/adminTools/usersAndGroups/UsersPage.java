@@ -8,6 +8,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.UserModel;
@@ -15,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class UsersPage extends SharePage2<UsersPage>
 {
     private final By newUserButton = By.cssSelector("button[id$='_default-newuser-button-button']");
@@ -41,7 +43,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public CreateUserPage clickNewUserButton()
     {
-        LOG.info("Click New User");
+        log.info("Click New User");
         WebElement newUserElement = webElementInteraction.waitUntilElementIsVisible(newUserButton,3000);
         webElementInteraction.clickElement(newUserElement);
         return new CreateUserPage(webDriver);
@@ -49,7 +51,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public UsersPage searchUserWithRetry(String user)
     {
-        LOG.info("Search user: {}", user);
+        log.info("Search user: {}", user);
         return searchUser(user, user);
     }
 
@@ -103,7 +105,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public UsersPage searchUser(String user)
     {
-        LOG.info("Search for user: {}", user);
+        log.info("Search for user: {}", user);
         webElementInteraction.clearAndType(userSearchInputField, user);
         webElementInteraction.clickElement(searchButton);
         return this;
@@ -156,14 +158,14 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public UsersPage assertDeleteUserNotificationIsDisplayed()
     {
-        LOG.info("Assert delete user notification is displayed");
+        log.info("Assert delete user notification is displayed");
         assertEquals(notificationMessageThread.get(), language.translate("adminTools.user.deleteUser.notification"));
         return this;
     }
 
     public UsersPage assertAllTableHeadersAreDisplayed()
     {
-        LOG.info("Assert all table headers are displayed");
+        log.info("Assert all table headers are displayed");
         List<String> tableHeaders = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(tableHeaderElements));
         List<String> expectedTableHeaders = Collections.synchronizedList(new ArrayList<>());
         expectedTableHeaders.add(language.translate("adminTools.user.table.name"));
@@ -212,7 +214,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
         public UserRowAction assertUserIsDisabled()
         {
-            LOG.info("Assert user {} is disabled", user.getUsername());
+            log.info("Assert user {} is disabled", user.getUsername());
             assertTrue(webElementInteraction.isElementDisplayed(getUserRow().findElement(userDisableIcon)),
                 "User disabled icon is displayed");
             return this;
@@ -220,21 +222,21 @@ public class UsersPage extends SharePage2<UsersPage>
 
         public UserRowAction assertUserIsFound()
         {
-            LOG.info("Assert user {} is found", userName);
+            log.info("Assert user {} is found", userName);
             assertTrue(usersPage.isUserFound(userName), String.format("User %s was found", userName));
             return this;
         }
 
         public UserRowAction assertUserIsNotFound()
         {
-            LOG.info("Assert user {} is found", userName);
+            log.info("Assert user {} is found", userName);
             assertFalse(usersPage.isUserFound(userName), String.format("User %s was found", userName));
             return this;
         }
 
         public UserRowAction assertQuotaIs(String expectedValue)
         {
-            LOG.info("Assert quota value is: {}", expectedValue);
+            log.info("Assert quota value is: {}", expectedValue);
             assertEquals(getUserRow().findElement(quotaElement).getText(), expectedValue,
                 "Quota value is displayed");
             return this;

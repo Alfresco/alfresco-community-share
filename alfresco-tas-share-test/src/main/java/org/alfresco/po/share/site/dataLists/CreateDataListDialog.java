@@ -4,13 +4,14 @@ import static org.alfresco.common.DataUtil.isEnumContainedByList;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.DataListTypes;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class CreateDataListDialog extends BaseDialogComponent
 {
     private final By balloon = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='text']");
@@ -98,7 +99,7 @@ public class CreateDataListDialog extends BaseDialogComponent
 
     public CreateDataListDialog typeTitle(String title)
     {
-        LOG.info("Clear and type title: {}", title);
+        log.info("Clear and type title: {}", title);
         webElementInteraction.clearAndType(titleField, title);
         return this;
     }
@@ -110,7 +111,7 @@ public class CreateDataListDialog extends BaseDialogComponent
 
     public CreateDataListDialog typeDescription(String description)
     {
-        LOG.info("Clear and type description: {}", description);
+        log.info("Clear and type description: {}", description);
         webElementInteraction.clearAndType(descriptionField, description);
         return this;
     }
@@ -142,14 +143,14 @@ public class CreateDataListDialog extends BaseDialogComponent
 
     public void clickSaveButton()
     {
-        LOG.info("Click Save button");
+        log.info("Click Save button");
         webElementInteraction.clickElement(saveButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public DataListsPage clickCancelButton()
     {
-        LOG.info("Click Cancel button");
+        log.info("Click Cancel button");
         webElementInteraction.clickElement(cancelButton);
 
         return new DataListsPage(webDriver);

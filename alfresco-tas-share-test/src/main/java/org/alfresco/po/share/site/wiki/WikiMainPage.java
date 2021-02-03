@@ -1,12 +1,14 @@
 package org.alfresco.po.share.site.wiki;
 
+import static org.testng.Assert.assertEquals;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import static org.testng.Assert.assertEquals;
-
+@Slf4j
 public class WikiMainPage extends SiteCommon<WikiMainPage>
 {
     private final By newPageButton = By.cssSelector("div.new-page button[id$='default-create-button-button']");
@@ -45,7 +47,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public WikiMainPage assertWikiPageContentEquals(String expectedWikiContent)
     {
-        LOG.info("Assert wiki page content equals: {}", expectedWikiContent);
+        log.info("Assert wiki page content equals: {}", expectedWikiContent);
         assertEquals(webElementInteraction.getElementText(wikiPageContent), expectedWikiContent,
             String.format("Wiki content not equals %s ", expectedWikiContent));
 
@@ -80,7 +82,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public WikiMainPage assertWikiMainPageTitleEquals(String expectedWikiTitle)
     {
-        LOG.info("Assert wiki main page title equals: {}", expectedWikiTitle);
+        log.info("Assert wiki main page title equals: {}", expectedWikiTitle);
         assertEquals(webElementInteraction.getElementText(wikiMainPageTtitle), expectedWikiTitle,
             String.format("Wiki main page title not equals %s ", expectedWikiTitle));
         return this;

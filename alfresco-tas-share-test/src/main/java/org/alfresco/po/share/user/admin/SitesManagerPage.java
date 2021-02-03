@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -26,6 +27,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SitesManagerPage extends SharePage2<SitesManagerPage> implements AccessibleByMenuBar
 {
     private final By tableHeadList = By.cssSelector("thead .label");
@@ -53,7 +55,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         int i = 0;
         while(i < WAIT_5.getValue() && webElementInteraction.isElementDisplayed(dataFailure))
         {
-            LOG.error("Data error is displayed. Retry navigate to Site Manager page {}", i);
+            log.error("Data error is displayed. Retry navigate to Site Manager page {}", i);
             webElementInteraction.refresh();
             waitToLoopTime(WAIT_2.getValue());
             i++;
@@ -87,7 +89,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
     public SitesManagerPage assertSiteManagerPageIsOpened()
     {
-        LOG.info("Assert Site Manager page is opened");
+        log.info("Assert Site Manager page is opened");
         assertTrue(webElementInteraction.getCurrentUrl().contains("manage-sites"), "Site Manager page is opened");
         return this;
     }
@@ -113,7 +115,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         {
             if(webElementInteraction.isElementDisplayed(dataFailure))
             {
-                LOG.error("Data error is displayed. Refresh Site Manager page");
+                log.error("Data error is displayed. Refresh Site Manager page");
                 webElementInteraction.refresh();
                 webElementInteraction.waitInSeconds(WAIT_2.getValue());
                 waitForSitesTableHeaderToBeDisplayed();
@@ -189,7 +191,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             this.siteName = siteName;
             this.deleteSiteDialog = deleteSiteDialog;
 
-            LOG.info("Using site: {}", siteName);
+            log.info("Using site: {}", siteName);
         }
 
         public WebElement getSiteRow()
@@ -199,7 +201,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction assertSiteIsNotDisplayed()
         {
-            LOG.info("Assert site is not displayed");
+            log.info("Assert site is not displayed");
             assertNull(getSiteRow(), String.format("Site %s is displayed", siteName));
             return this;
         }
@@ -213,7 +215,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction becomeSiteManager()
         {
-            LOG.info("Become site manager");
+            log.info("Become site manager");
             clickActionsButton();
             webElementInteraction.waitUntilElementsAreVisible(dropdownOptionsList);
             WebElement becomeBtn = webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
@@ -225,7 +227,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             webElementInteraction.waitUntilChildElementIsPresent(siteRow, siteRowSiteManager);
             if(siteRow.findElement(siteRowSiteManager).getText().equals(language.translate("adminTools.siteManager.no")))
             {
-                LOG.error("Retry action Become Site Manager");
+                log.error("Retry action Become Site Manager");
                 clickActionsButton();
                 webElementInteraction.waitUntilElementIsVisible(becomeBtn);
                 webElementInteraction.clickElement(becomeBtn);
@@ -235,7 +237,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction assertSiteManagerIsYes()
         {
-            LOG.info("Assert I'm site manager is set to Yes");
+            log.info("Assert I'm site manager is set to Yes");
             assertEquals(getSiteRow().findElement(siteRowSiteManager).getText(),
                 language.translate("adminTools.siteManager.yes"),"Is site manager");
             return this;
@@ -243,7 +245,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction assertSiteManagerIsNo()
         {
-            LOG.info("Assert I'm site manager is set to No");
+            log.info("Assert I'm site manager is set to No");
             assertEquals(getSiteRow().findElement(siteRowSiteManager).getText(),
                 language.translate("adminTools.siteManager.no"),"Is site manager");
             return this;
@@ -251,7 +253,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public SiteManagerDeleteSiteDialog clickDelete()
         {
-            LOG.info("Click Delete");
+            log.info("Click Delete");
             clickActionsButton();
             webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.deleteSite")).click();
@@ -260,7 +262,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction deleteSite()
         {
-            LOG.info("Delete site");
+            log.info("Delete site");
             clickDelete();
             deleteSiteDialog.clickDeleteFromSitesManager();
             webElementInteraction.waitUntilElementDisappears(getSiteRow());
@@ -269,7 +271,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction changeSiteVisibility(Visibility visibility)
         {
-            LOG.info("Change site visibility to {}", visibility.toString());
+            log.info("Change site visibility to {}", visibility.toString());
             WebElement siteRow = getSiteRow();
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
@@ -287,7 +289,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction assertSiteVisibilityEquals(Visibility visibility)
         {
-            LOG.info("Assert site visibility is: {}", visibility.toString());
+            log.info("Assert site visibility is: {}", visibility.toString());
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
             assertEquals(getSiteRow().findElement(siteRowVisibility).getText(), visibilityValue,
@@ -297,21 +299,21 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction assertSuccessIndicatorIsDisplayed()
         {
-            LOG.info("Assert success indicator is displayed");
+            log.info("Assert success indicator is displayed");
             assertTrue(webElementInteraction.isElementDisplayed(getSiteRow().findElement(successIndicator)), "Success indicator is displayed");
             return this;
         }
 
         public ManagerSiteAction assertSiteDescriptionIs(String expectedValue)
         {
-            LOG.info(String.format("Assert site description is %s", expectedValue));
+            log.info(String.format("Assert site description is %s", expectedValue));
             assertEquals(getSiteRow().findElement(siteRowDescription).getText(), expectedValue, "Site description is correct");
             return this;
         }
 
         public ManagerSiteAction assertBecomeManagerOptionIsAvailable()
         {
-            LOG.info("Assert Become site manager option is available");
+            log.info("Assert Become site manager option is available");
             webElementInteraction.clickElement(getSiteRow().findElement(siteRowActionsButton));
             assertTrue(webElementInteraction.isElementDisplayed(webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"))));
@@ -320,7 +322,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction assertBecomeManagerOptionIsNotAvailable()
         {
-            LOG.info("Assert Become site manager option is NOT available");
+            log.info("Assert Become site manager option is NOT available");
             webElementInteraction.clickElement(getSiteRow().findElement(siteRowActionsButton));
             assertFalse(webElementInteraction.isElementDisplayed( webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.becomeSiteManager"))));
@@ -329,7 +331,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction assertDeleteSiteOptionIsAvailable()
         {
-            LOG.info("Assert Delete Site option is available");
+            log.info("Assert Delete Site option is available");
             webElementInteraction.clickElement(getSiteRow().findElement(siteRowActionsButton));
             assertTrue(webElementInteraction.isElementDisplayed(webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
                 sitesManagerPage.language.translate("sitesManager.deleteSite"))));
@@ -338,7 +340,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public SiteUsersPage clickSiteName()
         {
-            LOG.info("Click Site Name");
+            log.info("Click Site Name");
             webElementInteraction.clickElement(getSiteRow().findElement(siteRowName));
             return new SiteUsersPage(webDriver);
         }

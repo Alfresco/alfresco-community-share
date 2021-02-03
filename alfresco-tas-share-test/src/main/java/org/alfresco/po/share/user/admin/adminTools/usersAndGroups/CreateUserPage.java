@@ -5,6 +5,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
@@ -13,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+@Slf4j
 public class CreateUserPage extends SharePage2<CreateUserPage>
 {
     private final By searchForGroupsMessage = By.cssSelector(".create-main .yui-dt-empty div");
@@ -53,7 +55,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertAllInputsFromInfoSectionAreDisplayed()
     {
-        LOG.info("Assert all input fields from Info Section are displayed");
+        log.info("Assert all input fields from Info Section are displayed");
         webElementInteraction.waitUntilElementIsVisible(firstNameInputField);
         assertTrue(webElementInteraction.isElementDisplayed(firstNameInputField), "First name is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(lastNameInputField), "Last name is displayed");
@@ -64,7 +66,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertAllElementsFromAboutUserAreDisplayed()
     {
-        LOG.info("Assert all elements from About User are displayed");
+        log.info("Assert all elements from About User are displayed");
         webElementInteraction.waitUntilElementIsVisible(usernameInputField);
         assertTrue(webElementInteraction.isElementDisplayed(usernameInputField), "User name is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(passwordInputField), "Password is displayed");
@@ -80,7 +82,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertAllButtonsAreDisplayed()
     {
-        LOG.info("Assert all buttons are displayed");
+        log.info("Assert all buttons are displayed");
         webElementInteraction.waitUntilElementIsVisible(createUserButton);
         assertTrue(webElementInteraction.isElementDisplayed(createUserButton), "Create button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(createUserAndStartAnotherButton),
@@ -158,7 +160,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage removeGroup(GroupModel group)
     {
-        LOG.info("Remove group {}", group.getGroupIdentifier());
+        log.info("Remove group {}", group.getGroupIdentifier());
         WebElement groupToRemove = webElementInteraction.findElement(By.xpath(String.format(addedGroup, group.getGroupIdentifier())));
         webElementInteraction.clickElement(groupToRemove);
         webElementInteraction.waitUntilElementDisappears(groupToRemove);
@@ -167,7 +169,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertGroupIsAdded(GroupModel group)
     {
-        LOG.info("Assert group {} is added", group.getGroupIdentifier());
+        log.info("Assert group {} is added", group.getGroupIdentifier());
         assertTrue(webElementInteraction.isElementDisplayed(By.xpath(String.format(addedGroup, group.getGroupIdentifier()))),
             String.format("Group %s is added", group.getGroupIdentifier()));
         return this;
@@ -175,7 +177,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertGroupIsNotAdded(GroupModel group)
     {
-        LOG.info("Assert group {} is not added", group.getGroupIdentifier());
+        log.info("Assert group {} is not added", group.getGroupIdentifier());
         assertFalse(webElementInteraction.isElementDisplayed(By.xpath(String.format(addedGroup, group.getGroupIdentifier()))),
             String.format("Group %s is added", group.getGroupIdentifier()));
         return this;
@@ -183,7 +185,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public UsersPage clickCreate()
     {
-        LOG.info("Click Create");
+        log.info("Click Create");
         WebElement createButton = webElementInteraction.waitUntilElementIsVisible(createUserButton);
         webElementInteraction.mouseOver(createButton);
         webElementInteraction.clickElement(createButton);
@@ -200,7 +202,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage clickCreateUserAndStartAnother()
     {
-        LOG.info("Click Create User And Start Another");
+        log.info("Click Create User And Start Another");
         webElementInteraction.clickElement(createUserAndStartAnotherButton);
         waitUntilNotificationMessageDisappears();
         return this;
@@ -214,7 +216,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertAllFieldsAreEmpty()
     {
-        LOG.info("Assert all input fields are empty");
+        log.info("Assert all input fields are empty");
         assertTrue(webElementInteraction.findElement(firstNameInputField).getAttribute("value").isEmpty(), "First Name field is empty");
         assertTrue(webElementInteraction.findElement(lastNameInputField).getAttribute("value").isEmpty(), "Last Name field is empty");
         assertTrue(webElementInteraction.findElement(emailInputField).getAttribute("value").isEmpty(), "Email field is empty");

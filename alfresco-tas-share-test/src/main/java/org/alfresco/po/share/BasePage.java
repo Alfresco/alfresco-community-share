@@ -3,6 +3,7 @@ package org.alfresco.po.share;
 
 import static org.alfresco.common.Wait.WAIT_5;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
@@ -13,8 +14,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -32,10 +31,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * In the base pages/components class we will store only common members/methods which are in each child classes.
  */
+@Slf4j
 public abstract class BasePage
 {
-    protected final Logger LOG = LoggerFactory.getLogger(BasePage.class);
-
     protected static final ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
     public static final ThreadLocal<DefaultProperties> defaultProperties = new ThreadLocal<>();
 
@@ -79,7 +77,7 @@ public abstract class BasePage
         }
         catch (TimeoutException | StaleElementReferenceException exception)
         {
-            LOG.info("Failed to get notification message {}", exception.getMessage());
+            log.info("Failed to get notification message {}", exception.getMessage());
         }
         return notificationMessageThread;
     }

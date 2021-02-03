@@ -1,5 +1,6 @@
 package org.alfresco.po.share;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public class UploadFileDialog extends BaseDialogComponent
 {
     private final By dialogBody = By.cssSelector("div[id*='default-dialog_c'][style*='visibility: visible']");
@@ -34,7 +36,7 @@ public class UploadFileDialog extends BaseDialogComponent
 
     public <T> T uploadFile(String location, SharePage2<T> page)
     {
-        LOG.info("Upload file from {}", location);
+        log.info("Upload file from {}", location);
         uploadFile(location);
         webElementInteraction.waitUntilElementDisappears(dialogBody);
         

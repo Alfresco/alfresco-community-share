@@ -2,6 +2,7 @@ package org.alfresco.po.share.site;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.Theme;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -14,6 +15,7 @@ import ru.yandex.qatools.htmlelements.element.Button;
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 {
 
@@ -173,7 +175,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         boolean added = isPageAddedToCurrentPages(page);
         while (i < retry && !added)
         {
-            LOG.info(String.format("Retry add page - %s", i));
+            log.info(String.format("Retry add page - %s", i));
             webElementInteraction.dragAndDrop(pageElem, currentSitePagesArea);
             added = isPageAddedToCurrentPages(page);
             i++;

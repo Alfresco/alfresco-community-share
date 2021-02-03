@@ -8,24 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.exception.PageOperationException;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public abstract class DashboardCustomization<T> extends SharePage2<DashboardCustomization<T>>
 {
     private final int COLUMNS = 4;
     private final int MAX_DASHLETS_IN_COLUMN = 5;
 
     private final By availableDashlets = By.cssSelector("ul.availableList>li.availableDashlet>span");
-
     private final By layoutSection = By.cssSelector(".customise-layout");
     private final By dashletsSection = By.cssSelector(".customise-dashlets");
     private final By currentLayout = By.cssSelector("span[id$='_default-currentLayoutDescription-span']");
@@ -48,13 +52,13 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     private final By closeAddDashlets = By.cssSelector(".closeLink");
     private final By availableDashletList = By.cssSelector(".availableList");
     private final By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
-    private final String dashletInAddedColumn = "ul[id$='default-column-ul-%s'] > li:nth-child(%s)";
+
     private final String availableDashlet = "li[class='availableDashlet dnd-draggable'] div[title^='%s']";
     private final String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private final String targetColumn = "ul[id$='default-column-ul-%d']";
     private final String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/..";
 
-    public DashboardCustomization(ThreadLocal<WebDriver> webDriver)
+    protected DashboardCustomization(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
@@ -87,14 +91,14 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
             default:
                 break;
         }
-        LOG.info("Assert current layout is: {}", layoutLabel);
+        log.info(String.format("Assert current layout is: %s", layoutLabel));
         assertEquals(webElementInteraction.getElementText(currentLayout), layoutLabel, "Layout label is correct");
         return (T) this;
     }
 
     public T clickChangeLayout()
     {
-        LOG.info("Click Change Layout");
+        log.info("Click Change Layout");
         webElementInteraction.clickElement(changeLayout);
         webElementInteraction.waitUntilElementIsVisible(selectNewLayout);
         return (T) this;
@@ -102,7 +106,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T selectLayout(Layout layout)
     {
-        LOG.info("Select layout {}", layout.description);
+        log.info(String.format("Select layout %s", layout.description));
         switch (layout)
         {
             case ONE_COLUMN:
@@ -135,7 +139,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T clickAddDashlet()
     {
-        LOG.info("Click Add Dashlet");
+        log.info("Click Add Dashlet");
         webElementInteraction.clickElement(addDashlets);
         webElementInteraction.waitUntilElementIsVisible(availableDashletList);
         return (T) this;
@@ -143,7 +147,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public void clickOk()
     {
-        LOG.info("Click OK");
+        log.info("Click OK");
         webElementInteraction.clickElement(okButton);
     }
 
@@ -198,7 +202,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
                 }
                 catch (MoveTargetOutOfBoundsException e)
                 {
-                    LOG.error(String.format("Failed to add dashlet %s. Will retry...", dashlet.getDashletName()));
+                    log.error(String.format("Failed to add dashlet %s. Will retry...", dashlet.getDashletName()));
                     retryAddDashlet(dashlet, webDashlet, target, columnNumber);
                 }
             }
@@ -221,7 +225,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         boolean added = isDashletAddedInColumn(dashlet, columnNr);
         while (i < retry && !added)
         {
-            LOG.error("Retry add dashlet {}", i);
+            log.error("Retry add dashlet {}", i);
             dragAndDropDashlet(webDashlet, target);
             added = isDashletAddedInColumn(dashlet, columnNr);
             i++;
@@ -260,7 +264,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertDashletIsAddedInColumn(Dashlets dashlet, int columnNumber)
     {
-        LOG.info("Assert dashlet is added in column: {}, {}", dashlet.getDashletName(), columnNumber);
+        log.info("Assert dashlet is added in column: {}, {}", dashlet.getDashletName(), columnNumber);
         assertTrue(isDashletAddedInColumn(dashlet, columnNumber), String.format(
             "Dashlet %s is added in column %s", dashlet.getDashletName(), columnNumber));
 
@@ -269,7 +273,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertDashletIsNotAddedInColumn(Dashlets dashlet, int columnNumber)
     {
-        LOG.info("Assert dashlet is not added in column {}, {}", dashlet.getDashletName(), columnNumber);
+        log.info("Assert dashlet is not added in column {}, {}", dashlet.getDashletName(), columnNumber);
         assertFalse(isDashletAddedInColumn(dashlet, columnNumber), String.format(
             "Dashlet %s is added in column %s", dashlet.getDashletName(), columnNumber));
         return (T) this;
@@ -277,7 +281,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T removeDashlet(Dashlets dashlet, int columnNumber)
     {
-        LOG.info("Remove dashlet from column {}, {}", dashlet.getDashletName(), columnNumber);
+        log.info("Remove dashlet from column {}, {}", dashlet.getDashletName(), columnNumber);
         WebElement dash = webElementInteraction.waitUntilElementIsVisible(
             By.xpath(String.format(addedDashlet, columnNumber, dashlet.getDashletName())));
         if (dash != null)
@@ -299,7 +303,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertOneColumnLayoutIsDisplayed()
     {
-        LOG.info("Assert One column layout is displayed");
+        log.info("Assert One column layout is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(oneColumnLayout), "One column layout is displayed");
         return (T) this;
     }
@@ -311,7 +315,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertThreeColumnsLayoutIsDisplayed()
     {
-        LOG.info("Assert Three Columns Layout is displayed");
+        log.info("Assert Three Columns Layout is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(threeColumnsLayout), "Three Columns Layout is displayed");
         return (T) this;
     }
@@ -323,7 +327,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertFourColumnsLayoutIsDisplayed()
     {
-        LOG.info("Assert Four Columns Layout is displayed");
+        log.info("Assert Four Columns Layout is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(fourColumnsLayout), "Four Columns Layout is displayed");
         return (T) this;
     }
@@ -335,7 +339,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertTwoColumnsLayoutWideRightIsDisplayed()
     {
-        LOG.info("Assert Two Columns Layout Wide Right is displayed");
+        log.info("Assert Two Columns Layout Wide Right is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(twoColumnsWideRightLayout), "Two Columns Layout Wide right is displayed");
         return (T) this;
     }
@@ -347,7 +351,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertTwoColumnsLayoutWideLeftIsDisplayed()
     {
-        LOG.info("Assert Two Columns Layout Wide Left is displayed");
+        log.info("Assert Two Columns Layout Wide Left is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(twoColumnsWideLeftLayout), "Two Columns Layout Wide Left is displayed");
         return (T) this;
     }
@@ -359,7 +363,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T assertChangeLayoutButtonIsDisplayed()
     {
-        LOG.info("Assert change layout button is displayed");
+        log.info("Assert change layout button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(changeLayout), "Change layout button is displayed");
         return (T) this;
     }
@@ -381,28 +385,28 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
 
     public T clickCloseAvailabeDashlets()
     {
-        LOG.info("Close available dashlets");
+        log.info("Close available dashlets");
         webElementInteraction.clickElement(closeAddDashlets);
         return (T) this;
     }
 
     public T assertAvailableDashletsSectionIsDisplayed()
     {
-        LOG.info("Assert available dashlet section is displayed");
+        log.info("Assert available dashlet section is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(availableDashletList), "Available dashlets section is displayed");
         return (T) this;
     }
 
     public T assertAvailableDashletsSectionIsNotDisplayed()
     {
-        LOG.info("Assert available dashlet section is NOT displayed");
+        log.info("Assert available dashlet section is NOT displayed");
         assertFalse(webElementInteraction.isElementDisplayed(availableDashletList), "Available dashlets section is displayed");
         return (T) this;
     }
 
     public T moveAddedDashletInColumn(Dashlets addedDashlet, int fromColumn, int toColumn)
     {
-        LOG.info("Move dashlet %s from column {} to {}", addedDashlet.getDashletName(), fromColumn, toColumn);
+        log.info(String.format("Move dashlet %s from column %s to %s", addedDashlet.getDashletName(), fromColumn, toColumn));
         WebElement dashToMove = getDashletToMove(addedDashlet, fromColumn);
         webElementInteraction.clickElement(dashToMove);
         webElementInteraction.waitUntilElementHasAttribute(dashToMove, "class", "dnd-focused");
@@ -437,7 +441,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
         }
         catch (MoveTargetOutOfBoundsException e)
         {
-            LOG.info("Retry drag&drop dashlet");
+            log.info("Retry drag&drop dashlet");
             webElementInteraction.dragAndDrop(dashletToMove, target);
         }
     }

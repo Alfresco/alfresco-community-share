@@ -2,11 +2,13 @@ package org.alfresco.po.share.site;
 
 import static org.testng.Assert.assertEquals;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
 {
     private final By deleteSiteConfirmFromSitesManager = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body");
@@ -38,7 +40,7 @@ public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
         webElementInteraction.clickElement(confirmButton);
         if(webElementInteraction.isElementDisplayed(deleteSiteWindow))
         {
-            LOG.error("Retry click confirm delete button");
+            log.error("Retry click confirm delete button");
             webElementInteraction.clickElement(confirmButton);
         }
         webElementInteraction.waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);

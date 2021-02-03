@@ -1,6 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.openqa.selenium.By;
@@ -8,10 +9,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SelectDialog extends BaseDialogComponent
 {
-    private EditPropertiesDialog editPropertiesDialog;
-
     private final By dialogTitle = By.cssSelector("div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']");
     private final By tagInputField = By.cssSelector("input.create-new-input");
     private final By createNewIcon = By.cssSelector(".createNewIcon");
@@ -56,7 +56,7 @@ public class SelectDialog extends BaseDialogComponent
             }
             catch (NoSuchElementException noSuchElementExp)
             {
-                LOG.error("Add icon for item: " + item + " is not present.", noSuchElementExp);
+                log.error("Add icon for item: " + item + " is not present.", noSuchElementExp);
             }
         }
     }
@@ -71,7 +71,7 @@ public class SelectDialog extends BaseDialogComponent
                 webElementInteraction.findElement(selectedItem).findElement(removeIcon).click();
             } catch (NoSuchElementException noSuchElementExp)
             {
-                LOG.error("Remove icon for item: " + item + " is not present.", noSuchElementExp);
+                log.error("Remove icon for item: " + item + " is not present.", noSuchElementExp);
             }
         }
     }
@@ -94,7 +94,7 @@ public class SelectDialog extends BaseDialogComponent
     public EditPropertiesDialog clickOk()
     {
         webElementInteraction.clickElement(okButton);
-        return (EditPropertiesDialog) editPropertiesDialog.renderedPage();
+        return new EditPropertiesDialog();
     }
 
     public void clickCancel()

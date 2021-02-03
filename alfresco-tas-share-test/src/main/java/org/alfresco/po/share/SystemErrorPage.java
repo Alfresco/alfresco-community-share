@@ -2,9 +2,11 @@ package org.alfresco.po.share;
 
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class SystemErrorPage extends BasePage
 {
     private final By errorHeader = By.cssSelector(".alf-error-header");
@@ -21,7 +23,7 @@ public class SystemErrorPage extends BasePage
 
     public SystemErrorPage assertSomethingIsWrongWithThePageMessageIsDisplayed()
     {
-        LOG.info("Assert Something is wrong with the page message is displayed");
+        log.info("Assert Something is wrong with the page message is displayed");
         assertTrue(getErrorHeader().contains(language.translate("systemError.header")));
         return this;
     }

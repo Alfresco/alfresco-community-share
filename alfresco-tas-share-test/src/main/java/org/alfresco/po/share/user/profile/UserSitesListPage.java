@@ -5,6 +5,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -17,6 +18,7 @@ import org.openqa.selenium.WebElement;
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public class UserSitesListPage extends SharePage2<UserSitesListPage> implements AccessibleByMenuBar
 {
     private String userName;
@@ -76,21 +78,21 @@ public class UserSitesListPage extends SharePage2<UserSitesListPage> implements 
 
     public UserSitesListPage assertSiteIsDisplayed(SiteModel site)
     {
-        LOG.info("Assert site {} is displayed", site.getId());
+        log.info("Assert site {} is displayed", site.getId());
         assertTrue(webElementInteraction.isElementDisplayed(getSiteRow(site)), String.format("Site %s is displayed", site.getId()));
         return this;
     }
 
     public UserSitesListPage assertSiteIsNotDisplayed(SiteModel site)
     {
-        LOG.info("Assert site {} is not displayed", site.getId());
+        log.info("Assert site {} is not displayed", site.getId());
         assertNull(getSiteRow(site), String.format("Site %s is displayed", site.getId()));
         return this;
     }
 
     public SiteDashboardPage clickSite(SiteModel site)
     {
-        LOG.info("Click site {}", site.getId());
+        log.info("Click site {}", site.getId());
 //        webElementInteraction.waitUntilElementIsVisible(getSiteRow(site).findElement(siteNameLocator));
         webElementInteraction.clickElement(getSiteRow(site).findElement(siteNameLocator));
         return new SiteDashboardPage(webDriver);
@@ -98,7 +100,7 @@ public class UserSitesListPage extends SharePage2<UserSitesListPage> implements 
 
     public UserSitesListPage assertUserHasNoSitesMessageIsDisplayed()
     {
-        LOG.info("Assert User is not a member of any sites");
+        log.info("Assert User is not a member of any sites");
         assertEquals(webElementInteraction.waitUntilElementIsVisible(noSitesMessage).getText(), language.translate("user.sitesList.noSitesMessage"),
             "User is not a member of any sites is displayed");
         return this;

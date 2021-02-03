@@ -3,10 +3,12 @@ package org.alfresco.po.share.dashlet;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public abstract class DashletPopUp<T> extends BasePage
 {
     private final By closeButton = By.cssSelector("a.container-close");
@@ -22,7 +24,7 @@ public abstract class DashletPopUp<T> extends BasePage
 
     public void clickOk()
     {
-        LOG.info("Click OK from dialog");
+        log.info("Click OK from dialog");
         webElementInteraction.clickElement(okButton);
         webElementInteraction.waitUntilElementDisappears(dialogContainer);
     }
@@ -64,7 +66,7 @@ public abstract class DashletPopUp<T> extends BasePage
 
     public T assertDialogTitleEquals(String expectedDialogTitle)
     {
-        LOG.info("Assert dialog title equals: {}", expectedDialogTitle);
+        log.info("Assert dialog title equals: {}", expectedDialogTitle);
         assertEquals(webElementInteraction.getElementText(dialogTitle), expectedDialogTitle,
             String.format("Dialog title not equals %s ", expectedDialogTitle));
 

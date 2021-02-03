@@ -10,12 +10,14 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.ActivitiesDaysRangeFilter;
 import org.alfresco.po.enums.ActivitiesFilter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActivitiesDashlet<T>>
 {
     private final int SECOND_TAB = 1;
@@ -67,7 +69,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
         int retryCount = 0;
         while(retryCount < WAIT_60.getValue() && webElementInteraction.isElementDisplayed(activitiesEmptyList))
         {
-            LOG.info("Wait for activity rows to be displayed");
+            log.info("Wait for activity rows to be displayed");
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_1.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
@@ -77,7 +79,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertActivitiesFilterHasAllOptions()
     {
-        LOG.info("Assert all options are displayed in Activities filter");
+        log.info("Assert all options are displayed in Activities filter");
         List<String> expectedUserActivities = Arrays.asList(language.translate("activitiesDashlet.filter.mine"),
             language.translate("activitiesDashlet.filter.everyoneElse"),
             language.translate("activitiesDashlet.filter.everyone"),
@@ -92,7 +94,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertItemsFilterHasAllOptions()
     {
-        LOG.info("Assert all options are displayed in Items filter");
+        log.info("Assert all options are displayed in Items filter");
         List<String> expectedUserActivities = Arrays.asList(
             language.translate("activitiesDashlet.filter.allItems"),
             language.translate("activitiesDashlet.filter.comments"),
@@ -108,7 +110,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertHistoryFilterHasAllOptions()
     {
-        LOG.info("Assert all options are displayed in History filter");
+        log.info("Assert all options are displayed in History filter");
         List<String> expectedUserActivities = Arrays.asList(
             language.translate("activitiesDashlet.filter.today"),
             language.translate("activitiesDashlet.filter.last7days"),
@@ -125,7 +127,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertSelectedActivityFilterContains(String expectedFilter)
     {
-        LOG.info("Assert filter {} is selected", expectedFilter);
+        log.info("Assert filter {} is selected", expectedFilter);
         assertTrue(webElementInteraction.getElementText(myActivitiesButton).contains(expectedFilter),
             String.format("Expected filter is %s ", expectedFilter));
         return (T) this;
@@ -133,7 +135,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertSelectedHistoryOptionContains(String expectedValue)
     {
-        LOG.info("Assert history filter {} is selected", expectedValue);
+        log.info("Assert history filter {} is selected", expectedValue);
         assertTrue(webElementInteraction.getElementText(daysRangeButton).contains(expectedValue),
             String.format("Expected history filter is %s", expectedValue));
         return (T) this;
@@ -141,7 +143,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertSelectedItemFilterContains(String expectedFilter)
     {
-        LOG.info("Assert item filter {} is selected", expectedFilter);
+        log.info("Assert item filter {} is selected", expectedFilter);
         assertTrue(webElementInteraction.getElementText(defaultActivitiesButton)
             .contains(expectedFilter), String.format("Expected item filter is %s", expectedFilter));
         return (T) this;
@@ -149,7 +151,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T assertRssFeedButtonIsDisplayed()
     {
-        LOG.info("Assert Rss Feed button is displayed");
+        log.info("Assert Rss Feed button is displayed");
         webElementInteraction.mouseOver(activitiesDashletTitle);
         webElementInteraction.mouseOver(myActivitiesButton);
         assertTrue(webElementInteraction.isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
@@ -159,7 +161,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     protected T assertRssFeedContainsExpectedUrl(String url)
     {
-        LOG.info("Assert Rss Feed contains url {}", url);
+        log.info("Assert Rss Feed contains url {}", url);
         webElementInteraction.mouseOver(activitiesDashletTitle);
         webElementInteraction.clickElement(rssFeedButton);
         webElementInteraction.switchWindow(SECOND_TAB);
@@ -218,7 +220,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T selectActivityFilter(ActivitiesFilter activitiesFilter)
     {
-        LOG.info("Select activity filter {}", activitiesFilter.toString());
+        log.info("Select activity filter {}", activitiesFilter.toString());
         webElementInteraction.clickElement(myActivitiesButton);
         List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
         webElementInteraction.selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), options);
@@ -229,7 +231,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
 
     public T selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter noDaysOption)
     {
-        LOG.info("Select history filter {}", noDaysOption.toString());
+        log.info("Select history filter {}", noDaysOption.toString());
         webElementInteraction.clickElement(daysRangeButton);
         List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
         webElementInteraction.selectOptionFromFilterOptionsList(getActivitiesDaysRangeFilter(noDaysOption), options);

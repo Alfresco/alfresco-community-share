@@ -1,6 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 {
     @FindBy (css = "button[id*='cancel']")
@@ -52,7 +54,7 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
     public DocumentLibraryPage clickSaveButton()
     {
-        LOG.info("Click Save button");
+        log.info("Click Save button");
         webElementInteraction.clickElement(saveButton);
         return new DocumentLibraryPage(webDriver);
     }
@@ -69,25 +71,25 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
     private void typeName(String name)
     {
-        LOG.info("Type name: {}", name);
+        log.info("Type name: {}", name);
         webElementInteraction.clearAndType(nameInput, name);
     }
 
     public void typeContent(String content)
     {
-        LOG.info("Type content: {}", content);
+        log.info("Type content: {}", content);
         webElementInteraction.clearAndType(contentTextarea, content);
     }
 
     private void typeTitle(String title)
     {
-        LOG.info("Type title: {}", title);
+        log.info("Type title: {}", title);
         webElementInteraction.clearAndType(titleInput, title);
     }
 
     private void typeDescription(String description)
     {
-        LOG.info("Type description: {}", description);
+        log.info("Type description: {}", description);
         webElementInteraction.clearAndType(descriptionTextarea, description);
     }
 }

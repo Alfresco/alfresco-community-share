@@ -2,6 +2,7 @@ package org.alfresco.po.share.site.wiki;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+@Slf4j
 public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 {
     @FindBy (css = "a[href*='edit']")
@@ -106,7 +108,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
             return new WikiDetailsPage(webDriver);
         } catch (NoSuchElementException nse)
         {
-            LOG.info("Option not present {}", nse.getMessage());
+            log.info("Option not present {}", nse.getMessage());
             throw new PageOperationException(version + " option not present.");
         }
     }

@@ -4,6 +4,7 @@ import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.*;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
@@ -12,6 +13,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Slf4j
 public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
 {
     private final By dashletContainer = By.cssSelector("div[id$='_default-my-docs-dashlet']");
@@ -43,7 +45,7 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
 
     public ContentImEditingDashlet assertAllHeadersAreDisplayed()
     {
-        LOG.info("Assert all headers are displayed for Content I'm editing dashlet");
+        log.info("Assert all headers are displayed for Content I'm editing dashlet");
         List<WebElement> headers = webElementInteraction.waitUntilElementsAreVisible(dashletContentHeaders);
         assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.documents")));
@@ -80,7 +82,7 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
         while(retryCount < WAIT_60.getValue() && !found)
         {
             retryCount++;
-            LOG.error("Wait for document {} to be displayed: {}", file.getName(), retryCount);
+            log.error("Wait for document {} to be displayed: {}", file.getName(), retryCount);
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_1.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
@@ -91,7 +93,7 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
 
     public ContentImEditingDashlet assertDocumentIsDisplayed(FileModel file)
     {
-        LOG.info("Assert document {} is displayed", file.getName());
+        log.info("Assert document {} is displayed", file.getName());
         waitForDocumentToBeDisplayed(file);
         assertTrue(isDocumentDisplayedInDashlet(file),
             String.format("File %s is not displayed in content I'm editing dashlet", file.getName()));

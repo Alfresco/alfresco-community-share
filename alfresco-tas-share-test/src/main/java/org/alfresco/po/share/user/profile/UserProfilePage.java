@@ -3,6 +3,7 @@ package org.alfresco.po.share.user.profile;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -17,6 +18,7 @@ import static org.testng.Assert.*;
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public class UserProfilePage extends SharePage2<UserProfilePage> implements AccessibleByMenuBar
 {
     private String userName;
@@ -173,14 +175,14 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public EditUserProfilePage clickEditProfile()
     {
-        LOG.info("Click Edit Profile");
+        log.info("Click Edit Profile");
         webElementInteraction.clickElement(editProfile);
         return new EditUserProfilePage(webDriver);
     }
 
     public UserProfilePage assertSummaryIs(String summaryValue)
     {
-        LOG.info("Assert summary value is: {}", summaryValue);
+        log.info("Assert summary value is: {}", summaryValue);
         assertEquals(webElementInteraction.getElementText(summary), summaryValue, "Summary is correct");
         return this;
     }
@@ -193,14 +195,14 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertAboutUserHasValues(String... values)
     {
-        LOG.info("Assert values {} are displayed in About User section", Arrays.asList(values));
+        log.info("Assert values {} are displayed in About User section", Arrays.asList(values));
         assertTrue(getAboutUserInfo().containsAll(Arrays.asList(values)), "All values are displayed in About section");
         return this;
     }
 
     public UserProfilePage assertUserInfoIsEmpty()
     {
-        LOG.info("Assert About user has no values");
+        log.info("Assert About user has no values");
         assertFalse(webElementInteraction.isElementDisplayed(aboutUserDetails), "About user info is displayed");
         return this;
     }
@@ -270,7 +272,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertDefaultAvatarIsDisplayed()
     {
-        LOG.info("Assert default avatar is displayed");
+        log.info("Assert default avatar is displayed");
         WebElement photoElement = webElementInteraction.waitUntilElementIsVisible(photo);
         webElementInteraction.waitUntilElementHasAttribute(photoElement, "src", "no-user-photo-64.png");
         assertTrue(photoElement.getAttribute("src").contains("no-user-photo-64.png"));
@@ -279,7 +281,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertNewAvatarIsDisplayed()
     {
-        LOG.info("Assert new avatar is displayed");
+        log.info("Assert new avatar is displayed");
         assertTrue(webElementInteraction.waitUntilElementIsVisible(photo)
             .getAttribute("src").contains("/content/thumbnails/avatar"));
         return this;

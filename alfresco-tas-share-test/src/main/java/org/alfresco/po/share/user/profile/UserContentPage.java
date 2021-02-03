@@ -3,23 +3,22 @@ package org.alfresco.po.share.user.profile;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
  * @author bogdan.bocancea
  */
+@Slf4j
 public class UserContentPage extends SharePage2<UserContentPage>
 {
     private String userName;
 
-    @RenderWebElement
     private final By recentlyAddedLabel = By.cssSelector(".viewcolumn>div:nth-child(1)");
     private final By noAddedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(1)");
-    @RenderWebElement
     private final By recentlyModfiedLabel = By.cssSelector(".viewcolumn>div:nth-child(3)");
     private final By noModifiedContentMessage = By.cssSelector(".profile > div > p:nth-of-type(2)");
 
@@ -53,7 +52,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
 
     public UserContentPage assertRecentlyAddedLabelIsDisplayed()
     {
-        LOG.info("Assert Recently Added Label is displayed");
+        log.info("Assert Recently Added Label is displayed");
         webElementInteraction.waitUntilElementIsVisible(recentlyAddedLabel);
         assertTrue(webElementInteraction.isElementDisplayed(recentlyAddedLabel), "Recently Added Label is displayed");
         return this;
@@ -61,7 +60,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
 
     public UserContentPage assertNoAddedContentMessageIsDisplayed()
     {
-        LOG.info("No content added message is displayed");
+        log.info("No content added message is displayed");
         webElementInteraction.waitUntilElementIsVisible(noAddedContentMessage);
         assertTrue(webElementInteraction.isElementDisplayed(noAddedContentMessage), "No content added message is displayed");
         return this;
@@ -69,7 +68,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
 
     public UserContentPage assertRecentlyModifiedLabelIsDisplayed()
     {
-        LOG.info("Assert Recently Modified Label is displayed");
+        log.info("Assert Recently Modified Label is displayed");
         webElementInteraction.waitUntilElementIsVisible(recentlyModfiedLabel);
         assertTrue(webElementInteraction.isElementDisplayed(recentlyModfiedLabel), "Recently Modified Label is displayed");
         return this;
@@ -77,7 +76,7 @@ public class UserContentPage extends SharePage2<UserContentPage>
 
     public UserContentPage assertNoModifiedContentMessageIsDisplayed()
     {
-        LOG.info("No modified content message is displayed");
+        log.info("No modified content message is displayed");
         webElementInteraction.waitUntilElementIsVisible(noAddedContentMessage);
         assertTrue(webElementInteraction.isElementDisplayed(noAddedContentMessage), "No modified content message is displayed");
         return this;

@@ -2,14 +2,15 @@ package org.alfresco.po.share.site.dataLists;
 
 import static org.testng.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Slf4j
 public class DataListsPage extends SiteCommon<DataListsPage>
 {
     public Content currentContent = new NoListItemSelectedContent();
@@ -51,50 +52,37 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public DataListsPage assertDataListPageIsOpened()
     {
-        LOG.info("Assert data list page is opened");
+        log.info("Assert data list page is opened");
         assertTrue(webElementInteraction.getCurrentUrl().contains("data-lists"), "Data List page is not opened");
         return this;
     }
 
     public DataListsPage assertEmptyListMessageEquals(String emptyMessageExpected)
     {
-        LOG.info("Assert empty list message equals: {}", emptyMessageExpected);
+        log.info("Assert empty list message equals: {}", emptyMessageExpected);
         assertEquals(webElementInteraction.getElementText(listMessage), emptyMessageExpected,
             String.format("Empty list message not equals %s ", emptyMessageExpected));
 
         return this;
     }
 
-    public boolean isExpectedListSelected(String expectedList)
-    {
-        return webElementInteraction.findElement(listSelected).getText().equals(expectedList);
-    }
-
     public DataListsPage clickOnCreateDataListLink()
     {
-        LOG.info("Click New List button");
+        log.info("Click New List button");
         webElementInteraction.findElement(createDataListLinkLocator).click();
-        return this;
-    }
-
-    public DataListsPage assertNewListDialogTitleEquals(String expectedDialogTitle)
-    {
-        LOG.info("Assert \"New List\" dialog title is: {}", expectedDialogTitle);
-        assertEquals(webElementInteraction.getElementText(newListDialogTitle), expectedDialogTitle,
-            String.format("Dialog title not equals %s", expectedDialogTitle));
         return this;
     }
 
     public DataListsPage setTitle(String title)
     {
-        LOG.info("Set title value: {}", title);
+        log.info("Set title value: {}", title);
         webElementInteraction.clearAndType(listTitleTextInput, title);
         return this;
     }
 
     public DataListsPage setDescription(String description)
     {
-        LOG.info("Set description value: {}", description);
+        log.info("Set description value: {}", description);
         webElementInteraction.clearAndType(listDescriptionTextAreaInput, description);
         return this;
     }
@@ -245,7 +233,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public DataListsPage assertDataListItemTitleEquals(String itemTitle)
     {
-        LOG.info("Assert data list item title equals: {}", itemTitle);
+        log.info("Assert data list item title equals: {}", itemTitle);
         WebElement actualTitle = webElementInteraction.findElement(By.xpath(String.format(listItemTitleLocator, itemTitle)));
         assertEquals( actualTitle.getText(), itemTitle, String.format("Data list item title not equals %s: ", itemTitle));
 

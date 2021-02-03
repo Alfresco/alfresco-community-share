@@ -9,6 +9,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
@@ -16,6 +17,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class AddUserDialog extends BaseDialogComponent
 {
     protected String searchedUsername = "a[href$='%s/profile']";
@@ -67,7 +69,7 @@ public class AddUserDialog extends BaseDialogComponent
         }
         catch (TimeoutException e)
         {
-            LOG.info("Timeout for searching. Continue...");
+            log.error("Timeout for searching. Continue...");
         }
     }
 

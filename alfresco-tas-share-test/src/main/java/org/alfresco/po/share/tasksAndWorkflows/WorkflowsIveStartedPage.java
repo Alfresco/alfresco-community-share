@@ -5,6 +5,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -12,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage> implements AccessibleByMenuBar
 {
     private WorkflowDetailsPage workflowDetailsPage;
@@ -53,7 +55,7 @@ public class WorkflowsIveStartedPage extends SharePage2<WorkflowsIveStartedPage>
 
     public WorkflowsIveStartedPage assertWorkflowIStartedPageIsOpened()
     {
-        LOG.info("Assert Workflow I've Started page is opened");
+        log.info("Assert Workflow I've Started page is opened");
         assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Workflow I've started page is opened");
         return this;
     }

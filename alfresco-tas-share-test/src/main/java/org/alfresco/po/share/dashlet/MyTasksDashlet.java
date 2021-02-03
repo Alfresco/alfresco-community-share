@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
@@ -14,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.my-tasks");
@@ -55,28 +57,28 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public MyTasksDashlet assertStartWorkflowIsDisplayed()
     {
-        LOG.info("Assert Start Workflow is displayed");
+        log.info("Assert Start Workflow is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(startWorkFlowLink), "Start workflow is displayed");
         return this;
     }
 
     public MyTasksDashlet assertEmptyDashletMessageIsCorrect()
     {
-        LOG.info("Assert My Task dashlet has correct empty message");
+        log.info("Assert My Task dashlet has correct empty message");
         assertEquals(webElementInteraction.getElementText(emptyDashletMessage), language.translate("myTasksDashlet.empty"));
         return this;
     }
 
     public StartWorkflowPage clickStartWorkFlow()
     {
-        LOG.info("Click Start Workflow");
+        log.info("Click Start Workflow");
         webElementInteraction.clickElement(startWorkFlowLink);
         return new StartWorkflowPage(webDriver);
     }
 
     public MyTasksDashlet assertActiveTasksButtonIsDisplayed()
     {
-        LOG.info("Assert Active Tasks button is displayed");
+        log.info("Assert Active Tasks button is displayed");
         webElementInteraction.waitUntilElementIsVisible(activeTasksLink);
         assertTrue(webElementInteraction.isElementDisplayed(activeTasksLink), "Active Tasks button is displayed");
         return this;
@@ -90,7 +92,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public MyTasksDashlet assertCompletedTasksButtonIsDisplayed()
     {
-        LOG.info("Assert Completed Tasks button is displayed");
+        log.info("Assert Completed Tasks button is displayed");
         webElementInteraction.waitUntilElementIsVisible(completedTasksLink);
         assertTrue(webElementInteraction.isElementDisplayed(completedTasksLink), "Completed Tasks button is displayed");
         return this;
@@ -104,7 +106,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public MyTasksDashlet assertFilterTasksIsDisplayed()
     {
-        LOG.info("Assert Filter Tasks is displayed");
+        log.info("Assert Filter Tasks is displayed");
         webElementInteraction.waitUntilElementIsVisible(filterTaskButton);
         assertTrue(webElementInteraction.isElementDisplayed(filterTaskButton), "Filter Tasks is displayed");
         return this;
@@ -140,7 +142,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public ViewTaskPage viewTask(String taskName)
     {
-        LOG.info("Edit task {}", taskName);
+        log.info("Edit task {}", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
         webElementInteraction.mouseOver(activeTasksLink);
         webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
@@ -151,7 +153,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public EditTaskPage editTask(String taskName)
     {
-        LOG.info("Edit task {}", taskName);
+        log.info("Edit task {}", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
         webElementInteraction.mouseOver(activeTasksLink);
         webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
@@ -162,7 +164,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public MyTasksDashlet assertEditIsDisplayedForTask(String taskName)
     {
-        LOG.info("Assert task {} has edit button", taskName);
+        log.info("Assert task {} has edit button", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
         webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
         assertTrue(webElementInteraction.isElementDisplayed(taskRowElement.findElement(editIcon)), "Edit icon is displayed");
@@ -171,7 +173,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public MyTasksDashlet assertViewIsDisplayedForTask(String taskName)
     {
-        LOG.info("Assert task {} has view button", taskName);
+        log.info("Assert task {} has view button", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
         webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
         assertTrue(webElementInteraction.isElementDisplayed(taskRowElement.findElement(viewIcon)), "View icon is displayed");
@@ -180,14 +182,14 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public MyTasksDashlet assertTaskIsDisplayed(String taskName)
     {
-        LOG.info("Assert tasks {} is displayed", taskName);
+        log.info("Assert tasks {} is displayed", taskName);
         assertTrue(webElementInteraction.isElementDisplayed(getTaskRow(taskName)), String.format("Task %s is displayed", taskName));
         return this;
     }
 
     public MyTasksDashlet assertTaskIsNotStartedYet(String taskName)
     {
-        LOG.info("Assert task {} is not started yet", taskName);
+        log.info("Assert task {} is not started yet", taskName);
         assertEquals(getTaskRow(taskName).findElement(taskTypeAndStatus).getText(),
             language.translate("myTasksDashlet.notStartedYet"));
         return this;
@@ -197,7 +199,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     {
         SimpleDateFormat dt = new SimpleDateFormat("dd MMMM, YYYY");
         String actualDate = getTaskRow(taskName).findElement(taskDueDate).getText();
-        LOG.info("Assert task due date is: {}", expectedDate);
+        log.info("Assert task due date is: {}", expectedDate);
         assertEquals(actualDate, dt.format(expectedDate));
         return this;
     }

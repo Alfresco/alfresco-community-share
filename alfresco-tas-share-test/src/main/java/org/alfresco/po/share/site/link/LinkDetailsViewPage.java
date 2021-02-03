@@ -7,11 +7,13 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 {
     private final By addCommentButton = By.cssSelector("[class*=onAddCommentClick] button");
@@ -44,7 +46,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public LinkDetailsViewPage assertLinkTitleEquals(String expectedLinkTitle)
     {
-        LOG.info("Assert link title equals: {}", expectedLinkTitle);
+        log.info("Assert link title equals: {}", expectedLinkTitle);
         assertEquals(webElementInteraction.getElementText(linkTitle), expectedLinkTitle,
             String.format("Link title not equals %s ", expectedLinkTitle));
 
@@ -53,7 +55,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public LinkDetailsViewPage assertLinkUrlEquals(String expectedLinkUrl)
     {
-        LOG.info("Assert link url equals: {}", expectedLinkUrl);
+        log.info("Assert link url equals: {}", expectedLinkUrl);
         assertEquals(webElementInteraction.getElementText(linkURL), expectedLinkUrl,
             String.format("Link url not equals %s ", expectedLinkUrl));
         return this;
@@ -61,7 +63,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public LinkDetailsViewPage assertLinkCreationDateContains(DateFormat dateFormat)
     {
-        LOG.info("Assert link creation date contains: {}", dateFormat);
+        log.info("Assert link creation date contains: {}", dateFormat);
         assertTrue(webElementInteraction.getElementText(creationDate).contains(dateFormat.format(new Date())),
             String.format("Link creation date not contains %s", dateFormat));
 
@@ -70,7 +72,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public LinkDetailsViewPage assertCreatedByLabelEqualsFullUserName(String firstName, String lastName)
     {
-        LOG.info("Assert created by label equals full username: {}", firstName, lastName);
+        log.info("Assert created by label equals full username: {}", firstName, lastName);
         assertEquals(webElementInteraction.getElementText(createdBy), firstName.concat(" " + lastName),
                 String.format("Full username not equals %s and %s ", firstName, lastName));
 
@@ -79,7 +81,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public LinkDetailsViewPage assertLinkDescriptionEquals(String expectedLinkDescription)
     {
-        LOG.info("Assert link description equals: {}", expectedLinkDescription);
+        log.info("Assert link description equals: {}", expectedLinkDescription);
         assertEquals(webElementInteraction.getElementText(description), expectedLinkDescription,
             String.format("Link description not equals %s ", expectedLinkDescription));
 

@@ -7,6 +7,7 @@ import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.SiteModel;
@@ -14,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 {
     private final By searchInput = By.cssSelector("div.search-text textarea");
@@ -120,7 +122,8 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
         while (retry < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(fileRow))
         {
-            LOG.error("Wait until content {} is found", contentName);
+            
+            log.error("Wait until content {} is found", contentName);
             webElementInteraction.refresh();
             waitToLoopTime(WAIT_3.getValue());
             retry++;
@@ -135,7 +138,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     public NodeBrowserPage assertParentIs(String file, String parent)
     {
-        LOG.info("Assert parent for {} is {}", file, parent);
+        log.info("Assert parent for {} is {}", file, parent);
         assertTrue(getParentFor(file).contains(parent), String.format("Parent result for %s is wrong.", file));
         return this;
     }
@@ -152,7 +155,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     public NodeBrowserPage assertReferenceForFileIsCorrect(FileModel file)
     {
-        LOG.info("Assert reference for file {} is correct ", file.getName());
+        log.info("Assert reference for file {} is correct ", file.getName());
         assertTrue(getReferenceFor(file.getName()).contains(file.getNodeRefWithoutVersion()),
             "Reference is correct");
         return this;
@@ -160,7 +163,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     public NodeBrowserPage assertReferenceContainsValue(String reference)
     {
-        LOG.info("Assert reference %s is displayed in results");
+        log.info("Assert reference %s is displayed in results");
         WebElement referenceRow = webElementInteraction.waitUntilElementIsVisible(referenceRows);
         webElementInteraction.waitUntilElementContainsText(referenceRow, reference);
         assertTrue(referenceRow.getText().contains(reference));

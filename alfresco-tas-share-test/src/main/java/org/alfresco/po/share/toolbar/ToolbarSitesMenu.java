@@ -5,6 +5,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.site.CreateSiteDialog;
@@ -15,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class ToolbarSitesMenu extends BasePage
 {
     private final By recentSitesSection = By.xpath("//tr[starts-with(@id,'HEADER_SITES_MENU_RECENT')]/../../../../div[@class='alf-menu-group-title']");
@@ -42,7 +44,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertRecentSitesSectionIsDisplayed()
     {
-        LOG.info("Assert Recent Sites section is displayed");
+        log.info("Assert Recent Sites section is displayed");
         webElementInteraction.waitUntilElementIsVisible(recentSitesSection);
         assertTrue(webElementInteraction.isElementDisplayed(recentSitesSection), "Recent sites section is displayed");
         return this;
@@ -50,14 +52,14 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertRecentSitesSectionIsNotDisplayed()
     {
-        LOG.info("Assert Recent Sites section is NOT displayed");
+        log.info("Assert Recent Sites section is NOT displayed");
         assertFalse(webElementInteraction.isElementDisplayed(recentSitesSection), "Recent sites section is displayed");
         return this;
     }
 
     public SiteDashboardPage clickRecentSite(String siteName)
     {
-        LOG.info("Click recent site {}", siteName);
+        log.info("Click recent site {}", siteName);
         List<WebElement> sites = webElementInteraction.findElements(recentSitesRowList);
         webElementInteraction.findFirstElementWithValue(sites, siteName).click();
         return new SiteDashboardPage(webDriver);
@@ -70,7 +72,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertSiteIsInRecentSites(String siteName)
     {
-        LOG.info("Assert site %s is displayed in recent sites: {}", siteName);
+        log.info("Assert site %s is displayed in recent sites: {}", siteName);
         List<WebElement> recentSites = webElementInteraction.findElements(recentSitesRowList);
         assertNotNull(webElementInteraction.findFirstElementWithValue(recentSites, siteName),
             String.format("Assert site %s is found in Recent Sites section", siteName));
@@ -84,7 +86,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertUsefulSectionIsDisplayed()
     {
-        LOG.info("Assert Useful section is displayed");
+        log.info("Assert Useful section is displayed");
         webElementInteraction.waitUntilElementIsVisible(usefulSection);
         assertTrue(webElementInteraction.isElementDisplayed(usefulSection), "Useful section is displayed");
         return this;
@@ -92,7 +94,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertMySitesIsDisplayed()
     {
-        LOG.info("Assert My Sites link is displayed");
+        log.info("Assert My Sites link is displayed");
         webElementInteraction.waitUntilElementIsVisible(mySites);
         assertTrue(webElementInteraction.isElementDisplayed(mySites), "My Sites link is not displayed");
         return this;
@@ -100,7 +102,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public UserSitesListPage clickMySites()
     {
-        LOG.info("Click My Sites");
+        log.info("Click My Sites");
         webElementInteraction.waitUntilElementsAreVisible(mySites);
         webElementInteraction.clickElement(mySites);
         return new UserSitesListPage(webDriver);
@@ -108,14 +110,14 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertSiteFinderIsDisplayed()
     {
-        LOG.info("Assert Site Finder link is displayed");
+        log.info("Assert Site Finder link is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(siteFinder), "Site Finder is displayed");
         return this;
     }
 
     public SiteFinderPage clickSiteFinder()
     {
-        LOG.info("Click Site Finder");
+        log.info("Click Site Finder");
         webElementInteraction.waitUntilElementIsVisible(siteFinder);
         webElementInteraction.clickElement(siteFinder);
         return new SiteFinderPage(webDriver);
@@ -123,14 +125,14 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertCreateSiteIsDisplayed()
     {
-        LOG.info("Assert Create Site is displayed");
+        log.info("Assert Create Site is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(createSite), "Create Site is displayed");
         return this;
     }
 
     public CreateSiteDialog clickCreateSite()
     {
-        LOG.info("Click Create Site");
+        log.info("Click Create Site");
         webElementInteraction.waitUntilElementIsVisible(createSite);
         webElementInteraction.clickElement(createSite);
         return new CreateSiteDialog(webDriver);
@@ -138,14 +140,14 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertFavoritesIsDisplayed()
     {
-        LOG.info("Assert Favorites link is displayed");
+        log.info("Assert Favorites link is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(favorites), "Favorites is displayed");
         return this;
     }
 
     public ToolbarSitesMenu assertAddCurrentSiteToFavoritesDisplayed()
     {
-        LOG.info("Assert Add current site to favorites is displayed");
+        log.info("Assert Add current site to favorites is displayed");
         webElementInteraction.waitUntilElementIsVisible(addCurrentSiteToFavorites);
         assertTrue(webElementInteraction.isElementDisplayed(addCurrentSiteToFavorites), "Favorites is displayed");
         return this;
@@ -153,7 +155,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertRemoveCurrentSiteFromFavoritesIsDisplayed()
     {
-        LOG.info("Assert Remove Current Site from Favorites is displayed");
+        log.info("Assert Remove Current Site from Favorites is displayed");
         webElementInteraction.waitUntilElementIsVisible(removeCurrentSiteFromFavorites);
         assertTrue(webElementInteraction.isElementDisplayed(removeCurrentSiteFromFavorites), "Remove current site from favorites is displayed");
         return this;
@@ -161,20 +163,20 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertRemoveCurrentSiteFromFavoritesIsNotDisplayed()
     {
-        LOG.info("Assert Remove Current Site from Favorites is NOT displayed");
+        log.info("Assert Remove Current Site from Favorites is NOT displayed");
         assertFalse(webElementInteraction.isElementDisplayed(removeCurrentSiteFromFavorites), "Remove current site from favorites is displayed");
         return this;
     }
 
     public void clickAddCurrentSiteToFavorites()
     {
-        LOG.info("Click Add current site to favorites");
+        log.info("Click Add current site to favorites");
         webElementInteraction.clickElement(addCurrentSiteToFavorites);
     }
 
     public void clickRemoveCurrentSiteFromFavorites()
     {
-        LOG.info("Click Remove current site from favorites");
+        log.info("Click Remove current site from favorites");
         WebElement remove = webElementInteraction.waitUntilElementIsVisible(removeCurrentSiteFromFavorites);
         webElementInteraction.clickElement(remove);
         webElementInteraction.waitUntilElementDisappears(removeCurrentSiteFromFavorites);
@@ -195,7 +197,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertSiteIsFavorite(String siteName)
     {
-        LOG.info("Assert site is found in favorites :{}", siteName);
+        log.info("Assert site is found in favorites :{}", siteName);
         assertTrue(isSiteFavorite(siteName), String.format("Site %s is found in favorites", siteName));
         return this;
     }
@@ -207,7 +209,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public ToolbarSitesMenu assertSiteIsNotFavorite(String siteName)
     {
-        LOG.info("Assert site is not found in favorites: {}", siteName);
+        log.info("Assert site is not found in favorites: {}", siteName);
         assertFalse(isSiteFavorite(siteName),
             String.format("Site %s is found in favorites", siteName));
         return this;
@@ -215,7 +217,7 @@ public class ToolbarSitesMenu extends BasePage
 
     public SiteDashboardPage clickFavoriteSite(String siteName)
     {
-        LOG.info("Select site %s from favorites: {}", siteName);
+        log.info("Select site %s from favorites: {}", siteName);
         webElementInteraction.waitUntilElementIsVisible(favorites);
         webElementInteraction.clickElement(favorites);
         webElementInteraction.waitUntilElementIsVisible(favoriteDropDown);

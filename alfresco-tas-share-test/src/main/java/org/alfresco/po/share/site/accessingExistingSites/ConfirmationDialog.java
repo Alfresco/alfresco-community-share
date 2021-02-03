@@ -1,10 +1,12 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public abstract class ConfirmationDialog extends BaseDialogComponent
 {
     private final By dialogBody = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG");
@@ -24,14 +26,14 @@ public abstract class ConfirmationDialog extends BaseDialogComponent
 
     public void clickOKButton()
     {
-        LOG.info("Click OK button");
+        log.info("Click OK button");
         WebElement ok = webElementInteraction.waitUntilElementIsVisible(confirmDeletionButton);
         webElementInteraction.mouseOver(ok);
         webElementInteraction.clickElement(ok);
         waitUntilNotificationMessageDisappears();
         if(webElementInteraction.isElementDisplayed(dialogBody))
         {
-            LOG.error("Failed to click Ok button. Retry click.");
+            log.error("Failed to click Ok button. Retry click.");
             webElementInteraction.clickElement(ok);
         }
     }

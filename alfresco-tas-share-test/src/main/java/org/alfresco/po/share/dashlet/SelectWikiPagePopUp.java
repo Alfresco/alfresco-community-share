@@ -6,11 +6,13 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+@Slf4j
 public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
 {
     private final By selectWikiPageText = By.cssSelector("div[class$='yui-u']");
@@ -23,7 +25,7 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
 
     public SelectWikiPagePopUp assertDialogBodyMessageEquals(String expectedDialogBodyMessage)
     {
-        LOG.info("Assert dialog body message equals: {}", expectedDialogBodyMessage);
+        log.info("Assert dialog body message equals: {}", expectedDialogBodyMessage);
         assertEquals(webElementInteraction.getElementText(selectWikiPageText), expectedDialogBodyMessage,
             String.format("Dialog body message not equals %s ", expectedDialogBodyMessage));
 
@@ -32,7 +34,7 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
 
     public SelectWikiPagePopUp assertDropdownOptionEquals(String expectedDropdownOption)
     {
-        LOG.info("Assert dropdown option equals: {}", expectedDropdownOption);
+        log.info("Assert dropdown option equals: {}", expectedDropdownOption);
         List<String> wikiNames = Collections.synchronizedList(new ArrayList<>());
         Select wikiSelect = new Select(webElementInteraction.waitUntilElementIsVisible(selectAPageDropDown));
         for(WebElement wiki : wikiSelect.getOptions())
@@ -47,7 +49,7 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
 
     public SelectWikiPagePopUp clickDialogDropdown()
     {
-        LOG.info("Click dialog dropdown");
+        log.info("Click dialog dropdown");
         webElementInteraction.clickElement(selectAPageDropDown);
         return this;
     }

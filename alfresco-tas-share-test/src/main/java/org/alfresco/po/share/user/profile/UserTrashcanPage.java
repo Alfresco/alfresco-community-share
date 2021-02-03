@@ -7,6 +7,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.ContentModel;
@@ -15,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 {
     private String userName;
@@ -97,7 +99,7 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public UserTrashcanPage assertContentIsNotDisplayed(String contentName)
     {
-        LOG.info("Assert content {} is not displayed", contentName);
+        log.info("Assert content {} is not displayed", contentName);
         assertFalse(findRow(contentName), String.format("Content %s is displayed", contentName));
         return this;
     }
@@ -110,8 +112,7 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public UserTrashcanPage clickRecoverButton(String itemName)
     {
-        LOG.info("Click Recover button for item {}", itemName);
-//        webElementInteraction.waitUntilElementIsVisible(getItemRow(itemName).findElement(recoverButtonSelector));
+        log.info("Click Recover button for item {}", itemName);
         webElementInteraction.clickElement(getItemRow(itemName).findElement(recoverButtonSelector));
         waitUntilNotificationMessageDisappears();
 
@@ -125,8 +126,7 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public DeleteDialog clickDeleteButton(String itemName)
     {
-        LOG.info("Click Recover button for item {}", itemName);
-//        webElementInteraction.waitUntilElementIsVisible(getItemRow(itemName).findElement(deleteButtonSelector));
+        log.info("Click Recover button for item {}", itemName);
         webElementInteraction.clickElement(getItemRow(itemName).findElement(deleteButtonSelector));
 
         return new DeleteDialog(webDriver);
@@ -139,14 +139,13 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public DeleteDialog clickEmptyButton()
     {
-//        webElementInteraction.waitUntilElementIsVisible(emptyButton);
         webElementInteraction.clickElement(emptyButton);
         return new DeleteDialog(webDriver);
     }
 
     public UserTrashcanPage assertNoItemsExistMessageIsDisplayed()
     {
-        LOG.info("Assert No Items Exist message is displayed");
+        log.info("Assert No Items Exist message is displayed");
         WebElement emptyMessage = webElementInteraction.waitUntilElementIsVisible(emptyTrashcanMessageSelector);
         assertTrue(webElementInteraction.isElementDisplayed(emptyMessage), "Empty items message is not displayed");
         return this;
@@ -154,7 +153,7 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public UserTrashcanPage assertNoItemsExistMessageEqualTo(String expectedMessage)
     {
-        LOG.info("Assert No Items Exist message is correct");
+        log.info("Assert No Items Exist message is correct");
         assertEquals(webElementInteraction.getElementText(emptyTrashcanMessageSelector), expectedMessage, String.format("No items exist message not equal to %s", expectedMessage));
         return this;
     }

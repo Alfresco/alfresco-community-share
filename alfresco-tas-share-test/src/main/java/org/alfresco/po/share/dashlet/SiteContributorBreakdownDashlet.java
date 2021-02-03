@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBreakdownDashlet>
 {
     private final By dashletContainer = By.id("DASHLET");
@@ -32,7 +34,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
 
     public SiteContributorBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {
-        LOG.info("Assert pie chart size equals: {}", expectedPieChartSize);
+        log.info("Assert pie chart size equals: {}", expectedPieChartSize);
         webElementInteraction.waitUntilElementIsDisplayedWithRetry(pieChartLocator, WAIT_2.getValue(), WAIT_40.getValue());
         assertEquals(webElementInteraction.waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize);
         return this;
@@ -63,7 +65,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
         List<String> optionsList = new ArrayList<>();
         for (WebElement option : webElementInteraction.waitUntilElementsAreVisible(optionsListLocator))
         {
-            LOG.info("Add option to list: {}", option.getText());
+            log.info("Add option to list: {}", option.getText());
             optionsList.add(option.getText());
         }
         return optionsList;
@@ -71,7 +73,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
 
     public UserProfilePage clickPieChartUsername()
     {
-        LOG.info("Click pie chart username");
+        log.info("Click pie chart username");
         webElementInteraction.scrollIntoView(webElementInteraction.waitUntilElementIsVisible(userLocator));
         webElementInteraction.clickElement(userLocator);
 
@@ -80,7 +82,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
 
     public SiteContributorBreakdownDashlet assertDropdownFilterEquals(List<String> expectedDropdownFilter)
     {
-        LOG.info("Assert dropdown filter equals: {}", expectedDropdownFilter);
+        log.info("Assert dropdown filter equals: {}", expectedDropdownFilter);
         List<String> actualDropDownOptions = addOptionsToList();
         assertEquals(actualDropDownOptions, expectedDropdownFilter,
             String.format("Dropdown filter not equals %s", expectedDropdownFilter));
@@ -90,7 +92,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
 
     public SiteContributorBreakdownDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
-        LOG.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
+        log.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
         webElementInteraction.waitUntilElementIsPresent(dashletEmptyMessageLocator);
         assertEquals(webElementInteraction.getElementText(dashletEmptyMessageLocator), expectedEmptyMessage);
         return this;
@@ -98,7 +100,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
 
     public SiteContributorBreakdownDashlet openFilterDropDown()
     {
-        LOG.info("Open filters dropdown");
+        log.info("Open filters dropdown");
         webElementInteraction.clickElement(dropDownLocator);
         return this;
     }

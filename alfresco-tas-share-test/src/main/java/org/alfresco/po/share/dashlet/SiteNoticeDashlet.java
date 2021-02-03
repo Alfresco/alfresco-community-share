@@ -2,10 +2,12 @@ package org.alfresco.po.share.dashlet;
 
 import static org.testng.Assert.assertEquals;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 {
     private final By dashletContainer = By.cssSelector("div[class*='notice-dashlet']");
@@ -30,7 +32,7 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     public SiteNoticeDashlet openConfigurationDialog()
     {
-        LOG.info("Open configuration dialog");
+        log.info("Open configuration dialog");
         webElementInteraction.mouseOver(titleBar);
         webElementInteraction.clickElement(editIcon);
         return this;
@@ -38,14 +40,14 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     public SiteNoticeDashlet setSiteNoticeDashletTitle(String title)
     {
-        LOG.info("Set site notice dashlet title: {}", title);
+        log.info("Set site notice dashlet title: {}", title);
         webElementInteraction.clearAndType(titleInput, title);
         return this;
     }
 
     public SiteNoticeDashlet assertSiteNoticeMessageEquals(String expectedNoticeMessage)
     {
-        LOG.info("Assert site notice message equals: {}", expectedNoticeMessage);
+        log.info("Assert site notice message equals: {}", expectedNoticeMessage);
         String actualNoticeMessage = webElementInteraction.getElementText(noticeMessageLocator);
         assertEquals(actualNoticeMessage, expectedNoticeMessage,
             String.format("Notice message not equals %s ", expectedNoticeMessage));
@@ -55,7 +57,7 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     public SiteNoticeDashlet setSiteNoticeDashletDocumentText(String documentText)
     {
-        LOG.info("Set site notice dashlet document text: {}", documentText);
+        log.info("Set site notice dashlet document text: {}", documentText);
         TinyMceEditor tinyMceEditor = new TinyMceEditor(webDriver);
         tinyMceEditor.setText(documentText);
         tinyMceEditor.selectTextFromEditor();
@@ -65,7 +67,7 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     public void clickDialogOkButton()
     {
-        LOG.info("Click dialog Ok button");
+        log.info("Click dialog Ok button");
         webElementInteraction.waitUntilElementIsVisible(dialogOkButton);
         webElementInteraction.clickElement(dialogOkButton);
         webElementInteraction.waitUntilElementDisappears(dialogOkButton);
@@ -73,7 +75,7 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     public void clickDialogCancelButton()
     {
-        LOG.info("Click Cancel button");
+        log.info("Click Cancel button");
         webElementInteraction.waitUntilElementIsVisible(dialogCancelButton);
         webElementInteraction.clickElement(dialogCancelButton);
     }

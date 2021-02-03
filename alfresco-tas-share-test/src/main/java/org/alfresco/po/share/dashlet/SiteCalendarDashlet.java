@@ -4,14 +4,17 @@ import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertEquals;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 {
-    private  final int BEGIN_INDEX = 0;
+    private final int BEGIN_INDEX = 0;
+    
     private final By dashletContainer = By.cssSelector("div.dashlet.calendar");
     private final By siteEventsNameList = By.cssSelector("div.dashlet.calendar .detail-list-item span>a");
     private final By dashletMessage = By.cssSelector("div.dashlet.calendar .dashlet-padding>h3");
@@ -34,27 +37,27 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 
     private WebElement findEventByTitle(String eventTitle)
     {
-        LOG.info("Find event by title: {}", eventTitle);
+        log.info("Find event by title: {}", eventTitle);
         return webElementInteraction.findFirstElementWithValue(siteEventsNameList, eventTitle);
     }
 
     private WebElement waitUntilEventTitleLinkIsDisplayed(String eventLinkTitle)
     {
-        LOG.info("Wait until event title link is displayed: {}", eventLinkTitle);
+        log.info("Wait until event title link is displayed: {}", eventLinkTitle);
         return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
             eventTitleLinkLocator, eventLinkTitle)), WAIT_1.getValue(), WAIT_60.getValue());
     }
 
     private WebElement waitUntilEventTimeIsDisplayed(String eventTime)
     {
-        LOG.info("Wait until event time is displayed: {}", eventTime);
+        log.info("Wait until event time is displayed: {}", eventTime);
         return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
             eventTimeLocator, eventTime)), WAIT_1.getValue(), WAIT_60.getValue());
     }
 
     public SiteCalendarDashlet assertEventListTitleEquals(String expectedEventTitleLink)
     {
-        LOG.info("Assert event list title equals: {}", expectedEventTitleLink);
+        log.info("Assert event list title equals: {}", expectedEventTitleLink);
         assertEquals(waitUntilEventTitleLinkIsDisplayed(expectedEventTitleLink).getText(), expectedEventTitleLink,
             String.format("Event list title not equals %s ", expectedEventTitleLink));
 
@@ -63,13 +66,13 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 
     public String getEventDetails(String eventTitle)
     {
-        LOG.info("Get event title: {}", eventTitle);
+        log.info("Get event title: {}", eventTitle);
         return findEventByTitle(eventTitle).findElement(By.xpath("..")).getText();
     }
 
     public SiteCalendarDashlet assertEventTimeEquals(String expectedEventTime, String eventTitle)
     {
-        LOG.info("Assert event time equals: {}", expectedEventTime);
+        log.info("Assert event time equals: {}", expectedEventTime);
         String eventTime = getEventTimeWithoutTitle(expectedEventTime, eventTitle);
         assertEquals(eventTime, expectedEventTime,
             String.format("Event time not equals %s ", expectedEventTime));
@@ -79,20 +82,20 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 
     private String getEventTimeWithoutTitle(String eventTime, String eventTitle)
     {
-        LOG.info("Get event time without title: {}", eventTime);
+        log.info("Get event time without title: {}", eventTime);
         String eventTimeAndTitle = waitUntilEventTimeIsDisplayed(eventTime).getText();
         return eventTimeAndTitle.substring(BEGIN_INDEX, eventTimeAndTitle.indexOf(eventTitle)).trim();
     }
 
     public String getEventStartDate(String eventTitle)
     {
-        LOG.info("Get event start date: {}", eventTitle);
+        log.info("Get event start date: {}", eventTitle);
         return findEventByTitle(eventTitle).findElement(eventStartDate).getText();
     }
 
     public SiteCalendarDashlet assertEventStartDateEquals(String eventTitle, String eventStartDate)
     {
-        LOG.info("Assert event date equals: {}", eventStartDate);
+        log.info("Assert event date equals: {}", eventStartDate);
         assertEquals(getEventStartDate(eventTitle), eventStartDate,
             String.format("Event start date not equals %s", eventStartDate));
 
@@ -101,7 +104,7 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 
     public SiteCalendarDashlet assertNoUpcomingEventsMessageEquals(String expectedNoEventsMessage)
     {
-        LOG.info("Assert no upcoming events message equals: {}", expectedNoEventsMessage);
+        log.info("Assert no upcoming events message equals: {}", expectedNoEventsMessage);
         assertEquals(webElementInteraction.getElementText(dashletMessage), expectedNoEventsMessage,
             String.format("No events message not equals %s ", expectedNoEventsMessage));
 
@@ -110,7 +113,7 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 
     public CalendarPage clickEvent(String eventTitle)
     {
-        LOG.info("Click event with title: {}", eventTitle);
+        log.info("Click event with title: {}", eventTitle);
         webElementInteraction.findFirstElementWithValue(siteEventsNameList, eventTitle).click();
 
         return new CalendarPage(webDriver);

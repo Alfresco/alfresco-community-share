@@ -6,6 +6,7 @@ import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.UploadFileDialog;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
+@Slf4j
 public class ApplicationPage extends SharePage2<ApplicationPage>
 {
     private final By themeDropdown = By.cssSelector("select#console-options-theme-menu");
@@ -38,7 +40,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage assertAdminApplicationPageIsOpened()
     {
-        LOG.info("Assert Application Admin Tools page is opened");
+        log.info("Assert Application Admin Tools page is opened");
         assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Application page is not opened");
         return this;
     }
@@ -51,7 +53,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage clickApply()
     {
-        LOG.info("Click Apply button");
+        log.info("Click Apply button");
         try
         {
             WebElement apply = webElementInteraction.waitUntilElementIsVisible(applyButton);
@@ -64,7 +66,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
         }
         catch (StaleElementReferenceException | NoSuchElementException staleElementReferenceException)
         {
-            LOG.info("Apply button is not attached to DOM");
+            log.info("Apply button is not attached to DOM");
             webElementInteraction.waitInSeconds(WAIT_3.getValue());
             webElementInteraction
                 .mouseOverViaJavascript(webElementInteraction.findElement(applyButton));
@@ -76,7 +78,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage assertDefaultAlfrescoImageIsNotDisplayed()
     {
-        LOG.info("Assert default Alfresco image is not displayed");
+        log.info("Assert default Alfresco image is not displayed");
         assertFalse(webElementInteraction.isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is displayed");
         return this;
     }
@@ -90,7 +92,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage assertDefaultAlfrescoImageIsDisplayed()
     {
-        LOG.info("Assert default Alfresco image is displayed");
+        log.info("Assert default Alfresco image is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is not displayed");
 
         return this;
@@ -98,7 +100,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage resetImageToDefault()
     {
-        LOG.info("Reset image to default");
+        log.info("Reset image to default");
         webElementInteraction.waitUntilElementIsVisibleWithRetry(resetButton, WAIT_30.getValue());
         try
         {
@@ -111,7 +113,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
         }
         if(!webElementInteraction.isElementDisplayed(defaultAlfrescoImage))
         {
-            LOG.error("Failed to click Reset button");
+            log.error("Failed to click Reset button");
             webElementInteraction.clickElement(resetButton);
         }
         return this;
@@ -119,7 +121,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage selectTheme(Theme theme)
     {
-        LOG.info("Select theme: {}", theme.name);
+        log.info("Select theme: {}", theme.name);
         WebElement themeElement = webElementInteraction.waitUntilElementIsVisible(themeDropdown);
         webElementInteraction.mouseOver(themeElement);
         webElementInteraction.waitUntilElementIsVisible(themeElement);
@@ -145,14 +147,14 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public ApplicationPage assertThemeOptionIsSelected(Theme theme)
     {
-        LOG.info("Assert theme option selected is {}", theme.name);
+        log.info("Assert theme option selected is {}", theme.name);
         assertTrue(isThemeOptionSelected(theme), "Theme is selected");
         return this;
     }
 
     public ApplicationPage assertBodyContainsTheme(Theme theme)
     {
-        LOG.info("Assert share body contains theme {}", theme.name);
+        log.info("Assert share body contains theme {}", theme.name);
         assertTrue(doesBodyContainTheme(theme), "New theme is applied");
         return this;
     }

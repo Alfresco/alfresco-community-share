@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
@@ -16,6 +17,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class GroupsPage extends SharePage2<GroupsPage>
 {
     private final By sectionTitle = By.cssSelector("label[for*='default-search-text']");
@@ -160,7 +162,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
         int pageCount = 2;
         while(!found)
         {
-            LOG.info("Move to next group page");
+            log.info("Move to next group page");
             if(webElementInteraction.isElementDisplayed(nextPageButton))
             {
                 webElementInteraction.clickElement(nextPageButton);
@@ -192,7 +194,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
         }
         catch (NoSuchElementException e)
         {
-            LOG.info(String.format("No values found in column %s", column));
+            log.info(String.format("No values found in column %s", column));
         }
         return values.stream().map(WebElement::getText).collect(Collectors.toList());
     }
@@ -222,7 +224,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage selectGroup(String itemName)
     {
-        LOG.info("Select group: {}", itemName);
+        log.info("Select group: {}", itemName);
         WebElement groupToClick = getItemGroup(itemName);
         webElementInteraction.mouseOver(groupToClick);
         webElementInteraction.clickElement(groupToClick);

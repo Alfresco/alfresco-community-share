@@ -3,11 +3,13 @@ package org.alfresco.po.share.user.admin.adminTools;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class EditTagDialog extends BaseDialogComponent
 {
     private final By dialogTitle = By.cssSelector("div[id*='edit-tag-dialogTitle']");
@@ -29,35 +31,35 @@ public class EditTagDialog extends BaseDialogComponent
 
     public EditTagDialog assertRenameTagLabelIsCorrect()
     {
-        LOG.info("Assert Rename Tag label is correct");
+        log.info("Assert Rename Tag label is correct");
         assertEquals(webElementInteraction.getElementText(renameLabel), language.translate("editTag.renameLabel"), "Rename label is");
         return this;
     }
 
     public EditTagDialog assertRequiredSymbolIsDisplayed()
     {
-        LOG.info("Assert required symbol is displayed");
+        log.info("Assert required symbol is displayed");
         assertEquals(webElementInteraction.getElementText(requiredSymbol), " *", "Required symbol is displayed");
         return this;
     }
 
     public EditTagDialog assertOkButtonIsDisplayed()
     {
-        LOG.info("Assert Ok button is displayed");
+        log.info("Assert Ok button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(okButton), "Ok button is displayed");
         return this;
     }
 
     public EditTagDialog assertCancelButtonIsDisplayed()
     {
-        LOG.info("Assert Cancel button is displayed");
+        log.info("Assert Cancel button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 
     public TagManagerPage renameTag(String updatedTag)
     {
-        LOG.info("Rename tag to {}", updatedTag);
+        log.info("Rename tag to {}", updatedTag);
         webElementInteraction.clearAndType(editTagInputField, updatedTag);
         WebElement ok = webElementInteraction.waitUntilElementIsVisible(okButton);
         webElementInteraction.mouseOver(ok);

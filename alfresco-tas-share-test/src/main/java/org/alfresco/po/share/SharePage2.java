@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -22,6 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.util.UriUtils;
 
+@Slf4j
 public abstract class SharePage2<T> extends BasePage
 {
     private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
@@ -69,7 +71,7 @@ public abstract class SharePage2<T> extends BasePage
      */
     public T navigate()
     {
-        LOG.info("Navigate to {}", relativePathToURL().getPath());
+        log.info("Navigate to {}", relativePathToURL().getPath());
         try
         {
             webDriver.get().get(relativePathToURL().toString());
@@ -78,7 +80,7 @@ public abstract class SharePage2<T> extends BasePage
         }
         catch (TimeoutException | NoSuchSessionException e)
         {
-            LOG.info("Navigation to {} failed. {}", getRelativePath(), e.getMessage());
+            log.info("Navigation to {} failed. {}", getRelativePath(), e.getMessage());
             webDriver.get().navigate().refresh();
             waitForSharePageToLoad();
             webDriver.get().get(relativePathToURL().toString());
@@ -88,7 +90,7 @@ public abstract class SharePage2<T> extends BasePage
 
     public void navigateWithoutRender()
     {
-        LOG.info("Navigate to: {}",relativePathToURL().toString());
+        log.info("Navigate without render {}", relativePathToURL().getPath());
         webElementInteraction.navigateTo(relativePathToURL().toString());
     }
 
@@ -105,14 +107,14 @@ public abstract class SharePage2<T> extends BasePage
 
     public T assertLastNotificationMessageEquals(String expectedMessage)
     {
-        LOG.info("Assert last notification message is: {}", expectedMessage);
+        log.info("Assert last notification message is: {}", expectedMessage);
         assertEquals(notificationMessageThread.get(), expectedMessage, "Last notification message is not correct");
         return (T) this;
     }
 
     public T waitUntilLoadingMessageDisappears()
     {
-        LOG.info("Wait for loading message to disappear");
+        log.info("Wait for loading message to disappear");
         try
         {
             webElementInteraction.waitUntilElementIsVisible(loadingMessage, WAIT_2.getValue());
@@ -120,7 +122,7 @@ public abstract class SharePage2<T> extends BasePage
         }
         catch (TimeoutException e)
         {
-            LOG.info("Timeout exception for loading message {}", e.getMessage());
+            log.info("Timeout exception for loading message {}", e.getMessage());
         }
         return (T) this;
     }
@@ -145,7 +147,7 @@ public abstract class SharePage2<T> extends BasePage
 
     public T assertShareVersionWarningIsNotDisplayed()
     {
-        LOG.info("Assert Share Version warning is not displayed");
+        log.info("Assert Share Version warning is not displayed");
         assertFalse(webElementInteraction.isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
         return (T) this;
     }
@@ -182,7 +184,7 @@ public abstract class SharePage2<T> extends BasePage
         try
         {
             Alert alert = webElementInteraction.switchTo().alert();
-            LOG.info(alert.getText());
+            log.info(alert.getText());
             alert.accept();
         }
         catch (NoAlertPresentException noAlertPresentException)

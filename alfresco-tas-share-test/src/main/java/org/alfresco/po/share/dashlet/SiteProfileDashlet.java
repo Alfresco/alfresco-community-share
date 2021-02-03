@@ -2,6 +2,7 @@ package org.alfresco.po.share.dashlet;
 
 import static org.testng.Assert.assertEquals;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Slf4j
 public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.site-profile");
@@ -31,7 +33,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     public SiteProfileDashlet assertSiteWelcomeMessageEquals(String expectedWelcomeMessage)
     {
-        LOG.info("Assert welcome message equals: {}", expectedWelcomeMessage);
+        log.info("Assert welcome message equals: {}", expectedWelcomeMessage);
         assertEquals(webElementInteraction.getElementText(welcomeMessage), expectedWelcomeMessage,
             String.format("Welcome message not equals %s ", expectedWelcomeMessage));
 
@@ -40,7 +42,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     public SiteProfileDashlet assertSiteDescriptionEquals(String expectedSiteDescription)
     {
-        LOG.info("Assert site description equals: {}", expectedSiteDescription);
+        log.info("Assert site description equals: {}", expectedSiteDescription);
         String actualSiteDescription = getSiteProfileRow(expectedSiteDescription).getText();
         assertEquals(actualSiteDescription, expectedSiteDescription,
                 String.format("Site description not equals %s ", expectedSiteDescription));
@@ -50,7 +52,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     public SiteProfileDashlet assertSiteManagerEquals(String expectedSiteManagerLabel,String expectedSiteManagerValue)
     {
-        LOG.info("Assert site manager equals: {}", expectedSiteManagerValue);
+        log.info("Assert site manager equals: {}", expectedSiteManagerValue);
         String actualSiteManager = getSiteProfileRow(
                 expectedSiteManagerLabel.concat(expectedSiteManagerValue)).getText();
 
@@ -69,7 +71,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     public SiteProfileDashlet assertSiteVisibilityEquals(String expectedSiteVisibilityLabel,String expectedSiteVisibilityValue)
     {
-        LOG.info("Assert site visibility equals: {}", expectedSiteVisibilityValue);
+        log.info("Assert site visibility equals: {}", expectedSiteVisibilityValue);
         String actualSiteManager = getSiteProfileRow(
                 expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)).getText();
 

@@ -3,10 +3,12 @@ package org.alfresco.po.share.site.members;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteGroupsPage extends SiteMembersPage
 {
     private final By addGroups = By.cssSelector("a[id*='addGroups']");
@@ -30,20 +32,20 @@ public class SiteGroupsPage extends SiteMembersPage
 
     public SiteGroupsPage searchGroupByName(String groupName)
     {
-        LOG.info("Search group by name {}", groupName);
+        log.info("Search group by name {}", groupName);
         webElementInteraction.clearAndType(searchGroupField, groupName);
         return this;
     }
 
     public void clickSearch()
     {
-        LOG.info("Click search button");
+        log.info("Click search button");
         webElementInteraction.clickElement(searchButton);
     }
 
     public SiteGroupsPage assertRemoveGroupButtonIsDisplayed(String groupName)
     {
-        LOG.info("Assert remove group {} button is displayed", groupName);
+        log.info("Assert remove group {} button is displayed", groupName);
         By removeButton = By.cssSelector(groupPath.concat(groupName).concat(removeButtonPath));
 
         assertTrue(webElementInteraction.isElementDisplayed(removeButton),
@@ -59,7 +61,7 @@ public class SiteGroupsPage extends SiteMembersPage
 
     public SiteGroupsPage assertAddGroupsButtonIsNotDisplayed()
     {
-        LOG.info("Assert Add Groups button is not displayed");
+        log.info("Assert Add Groups button is not displayed");
         assertFalse(webElementInteraction.isElementDisplayed(addGroups),
             "Add Groups button is displayed");
         return this;

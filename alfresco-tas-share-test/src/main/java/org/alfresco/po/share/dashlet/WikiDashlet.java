@@ -2,9 +2,11 @@ package org.alfresco.po.share.dashlet;
 
 import static org.testng.Assert.assertEquals;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class WikiDashlet extends Dashlet<WikiDashlet>
 {
     private final By dashletContainer = By.cssSelector("div.dashlet.wiki");
@@ -29,7 +31,7 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
 
     public WikiDashlet assertWikiDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
-        LOG.info("Assert wiki dashlet empty message equals: {}", expectedEmptyMessage);
+        log.info("Assert wiki dashlet empty message equals: {}", expectedEmptyMessage);
         assertEquals(webElementInteraction.getElementText(defaultDashletMessage), expectedEmptyMessage,
             String.format("Empty message not equals %s ", expectedEmptyMessage));
 
@@ -45,14 +47,14 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
 
     public WikiDashlet assertWikiDashletMessageEquals(String expectedWikiDashletMessage)
     {
-        LOG.info("Assert wiki dashlet message equals: {}", expectedWikiDashletMessage);
+        log.info("Assert wiki dashlet message equals: {}", expectedWikiDashletMessage);
         assertEquals(webElementInteraction.getElementText(wikiDashletText), expectedWikiDashletMessage);
         return this;
     }
 
     public WikiDashlet clickDashletLinkTitle(String wikiDashletLinkTitle)
     {
-        LOG.info("Click dashlet link title: {}", wikiDashletLinkTitle);
+        log.info("Click dashlet link title: {}", wikiDashletLinkTitle);
         webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(dashletLinkTitleLocator, wikiDashletLinkTitle))).click();
 
         return this;

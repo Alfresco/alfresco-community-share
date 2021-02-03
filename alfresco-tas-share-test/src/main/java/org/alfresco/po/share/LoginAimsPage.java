@@ -3,12 +3,14 @@ package org.alfresco.po.share;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class LoginAimsPage extends CommonLoginPage
 {
     private final By usernameInput = By.id("username");
@@ -81,7 +83,7 @@ public class LoginAimsPage extends CommonLoginPage
     @Override
     public CommonLoginPage assertLoginPageIsOpened()
     {
-        LOG.info("Assert Login Page is displayed");
+        log.info("Assert Login Page is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
     }
@@ -89,7 +91,7 @@ public class LoginAimsPage extends CommonLoginPage
     @Override
     public void login(String username, String password)
     {
-        LOG.info(String.format("Login with user: %s and password: %s", username, password));
+        log.info(String.format("Login with user: %s and password: %s", username, password));
         typeUserName(username);
         typePassword(password);
         clickLogin();
@@ -98,7 +100,7 @@ public class LoginAimsPage extends CommonLoginPage
     @Override
     public CommonLoginPage assertAuthenticationErrorIsDisplayed()
     {
-        LOG.info("Assert authentication error is displayed");
+        log.info("Assert authentication error is displayed");
         webElementInteraction.waitUntilElementIsVisible(errorLogin);
         assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
         return this;
@@ -107,7 +109,7 @@ public class LoginAimsPage extends CommonLoginPage
     @Override
     public CommonLoginPage assertAuthenticationErrorMessageIsCorrect()
     {
-        LOG.info("Assert authentication error message is correct");
+        log.info("Assert authentication error message is correct");
         assertEquals(getAuthenticationError(), language.translate("login.aims.authError"), "Authentication error is correct");
         return this;
     }
@@ -121,7 +123,7 @@ public class LoginAimsPage extends CommonLoginPage
     @Override
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {
-        LOG.info("Assert Login Page Title is correct");
+        log.info("Assert Login Page Title is correct");
         assertEquals(webElementInteraction.getTitle(), language.translate("login.aims.pageTitle"), "Login page title is correct");
         return this;
     }

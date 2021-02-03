@@ -3,6 +3,7 @@ package org.alfresco.po.share.tasksAndWorkflows;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -10,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleByMenuBar
 {
     private final By taskRowList = By.cssSelector("div[id$='default-tasks'] tr[class*='yui-dt-rec']");
@@ -55,14 +57,15 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     public MyTasksPage assertActiveTasksTitleIsDisplayed()
     {
-        LOG.info("Assert Active tasks title is displayed");
+        log.info("Assert Active tasks title is displayed");
+        assertEquals(webElementInteraction.findElement(taskbarTitle).getText(), language.translate("myTasksPage.active.title"));
         assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.active.title"));
         return this;
     }
 
     public MyTasksPage assertCompletedTasksTitleIsDisplayed()
     {
-        LOG.info("Assert Completed tasks title is displayed");
+        log.info("Assert Completed tasks title is displayed");
         assertEquals(webElementInteraction.findElement(taskbarTitle).getText(), language.translate("myTasksPage.completed.title"));
         return this;
     }

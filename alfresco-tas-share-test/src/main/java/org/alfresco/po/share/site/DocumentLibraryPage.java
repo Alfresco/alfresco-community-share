@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.UploadFileDialog;
@@ -31,6 +32,7 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Slf4j
 public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO to be deleted
 {
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver)
@@ -179,7 +181,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         for (CreateMenuOption option : CreateMenuOption.values()) {
             if (!webElementInteraction.isElementDisplayed(option.getLocator()))
             {
-                LOG.info("Create menu option: %s was not found", option.name() );
+                log.info("Create menu option: %s was not found", option.name() );
                 return false;
             }
         }
@@ -272,7 +274,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             int minItemOnPage = Integer.parseInt(values[0]);
             return maxItemOnPage - minItemOnPage + 1;
         }
-        LOG.info("Item count could not be determined. Assuming 0 items on this page.");
+        log.info("Item count could not be determined. Assuming 0 items on this page.");
         return 0;
     }
 
@@ -293,7 +295,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             catch (NoSuchElementException e)
             {
                 // This can happen because this method is called while the page is rendering.
-                LOG.debug("BrowseList still rendering - item count is not yet displayed");
+                log.debug("BrowseList still rendering - item count is not yet displayed");
             }
             return (itemCount == rows.size());
         };
@@ -379,7 +381,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentLibraryPage uploadNewImage(String imagePath)
     {
-        LOG.info("Upload image to path: {}", imagePath);
+        log.info("Upload image to path: {}", imagePath);
         return (DocumentLibraryPage) clickUpload().uploadFile(imagePath, this);
     }
 
@@ -656,7 +658,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         {
             if (webElementInteraction.findFirstElementWithValue(availableActions, action) != null)
             {
-                LOG.info(String.format("Action '%s' is available!", action));
+                log.info(String.format("Action '%s' is available!", action));
                 return false;
             }
         }
@@ -998,7 +1000,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
                 return webElementInteraction.isElementDisplayed(noTags);
             } catch (TimeoutException | NoSuchElementException e)
             {
-                LOG.error("Action not found:" + e);
+                log.error("Action not found:" + e);
             }
             counter++;
             webElementInteraction.refresh();
@@ -1326,7 +1328,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             return webElementInteraction.isElementDisplayed(webElement);
         } catch (NoSuchElementException ex)
         {
-            LOG.info("Element not found " + ex.getMessage());
+            log.info("Element not found " + ex.getMessage());
             return false;
         }
     }

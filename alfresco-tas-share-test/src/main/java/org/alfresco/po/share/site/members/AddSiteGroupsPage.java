@@ -6,12 +6,14 @@ import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 {
     private final String OPEN_PARENTHESIS = " (";
@@ -67,7 +69,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage addGroupWithName(String groupName)
     {
-        LOG.info("Add group with name {}", groupName);
+        log.info("Add group with name {}", groupName);
         webElementInteraction.clickElement(getGroupFromSearchResults(groupName).findElement(addButton));
         return this;
     }
@@ -83,6 +85,14 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         }
         webElementInteraction.clickElement(setAllRolesToButton);
         return roles;
+    }
+
+    public AddSiteGroupsPage assertNotificationMessageEqualsTo(String expectedMessage)
+    {
+        log.info("Assert notification message equals {}", expectedMessage);
+        assertEquals(waitUntilNotificationMessageDisappears().get(), expectedMessage,
+            String.format("Notification message not equals %s ", expectedMessage));
+        return this;
     }
 
     public AddSiteGroupsPage assertGroupNameEquals(String groupName)
@@ -107,7 +117,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage assertFilterRolesEqualTo(List<String> expectedFilterRoles)
     {
-        LOG.info("Assert filter roles equal to: {}", expectedFilterRoles);
+        log.info("Assert filter roles equal to: {}", expectedFilterRoles);
         List<String> actualFilterRoles = getFilterRolesFromDropdown();
 
         assertEquals(actualFilterRoles, expectedFilterRoles,
@@ -126,7 +136,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         }
         catch (NoSuchElementException nse)
         {
-            LOG.error("Set role option not present {}", nse.getMessage());
+            log.error("Set role option not present {}", nse.getMessage());
             throw new NoSuchElementException(roleOption + " option not present.");
         }
     }

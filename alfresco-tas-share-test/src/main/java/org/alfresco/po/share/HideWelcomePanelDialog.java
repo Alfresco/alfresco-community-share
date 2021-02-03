@@ -3,9 +3,11 @@ package org.alfresco.po.share;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class HideWelcomePanelDialog extends BaseDialogComponent
 {
     private final By okButton = By.cssSelector("span[class$='alf-primary-button']>span>button");
@@ -21,7 +23,7 @@ public class HideWelcomePanelDialog extends BaseDialogComponent
 
     public void clickOK()
     {
-        LOG.info("Click OK");
+        log.info("Click OK");
         webElementInteraction.clickElement(panelText);
         webElementInteraction.clickElement(okButton);
         webElementInteraction.waitUntilElementDisappears(startedPanelContainer);
@@ -29,7 +31,7 @@ public class HideWelcomePanelDialog extends BaseDialogComponent
 
     public HideWelcomePanelDialog assertHideWelcomePanelDialogContentIsCorrect()
     {
-        LOG.info("Assert Hide welcome panel dialog content is correct");
+        log.info("Assert Hide welcome panel dialog content is correct");
         assertEquals(webElementInteraction.findElement(panelText).getText(), language.translate("hideWelcomePanelDialog.message"),
                 "Dialog message is correct");
 

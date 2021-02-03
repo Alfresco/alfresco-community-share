@@ -1,11 +1,13 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+@Slf4j
 public class ChangeContentTypeDialog extends BaseDialogComponent
 {
     private final By dialogTitle = By.cssSelector("div[id*='changeType-dialogTitle']");
@@ -46,7 +48,7 @@ public class ChangeContentTypeDialog extends BaseDialogComponent
 
     public ChangeContentTypeDialog selectOption(String optionName)
     {
-        LOG.info("Select option {}", optionName);
+        log.info("Select option {}", optionName);
         webElementInteraction.waitInSeconds(1);
         Select dropdown = new Select(webElementInteraction.waitUntilElementIsVisible(typeDropdown));
         dropdown.selectByVisibleText(optionName);

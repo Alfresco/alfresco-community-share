@@ -5,11 +5,13 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.model.GroupModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class DeleteGroupDialog extends BaseDialogComponent
 {
     private final By dialogHeader = By.cssSelector("div[id*='deletegroupdialog_h']");
@@ -29,14 +31,14 @@ public class DeleteGroupDialog extends BaseDialogComponent
 
     public DeleteGroupDialog assertDialogHeaderIsCorrect()
     {
-        LOG.info("Assert Delete Group dialog has the correct header");
+        log.info("Assert Delete Group dialog has the correct header");
         assertEquals(webElementInteraction.getElementText(dialogHeader), language.translate("adminTools.groups.deleteGroup.header"));
         return this;
     }
 
     public DeleteGroupDialog assertDialogMessageIsCorrect(String groupName)
     {
-        LOG.info("Assert Delete group dialog message is correct");
+        log.info("Assert Delete group dialog message is correct");
         assertEquals(webElementInteraction.findElement(multiparentMessage).getText(),
             String.format(language.translate("adminTools.groups.deleteGroup.multiparentMessage"), groupName));
         return this;
@@ -44,7 +46,7 @@ public class DeleteGroupDialog extends BaseDialogComponent
 
     public DeleteGroupDialog assertParentsAre(String... parentGroups)
     {
-        LOG.info(String.format("Assert parents are: %s", Arrays.asList(parentGroups)));
+        log.info(String.format("Assert parents are: %s", Arrays.asList(parentGroups)));
         String[] values = Arrays.asList(webElementInteraction.getElementText(parent).split(", ")).toArray(new String[0]);
         Arrays.sort(values);
         Arrays.sort(parentGroups);
@@ -54,28 +56,28 @@ public class DeleteGroupDialog extends BaseDialogComponent
 
     public DeleteGroupDialog assertRemoveRadioButtonIsDisplayed()
     {
-        LOG.info("Assert remove radio button is displayed");
+        log.info("Assert remove radio button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(removeRadioButton), "Remove radio button is displayed");
         return this;
     }
 
     public DeleteGroupDialog assertDeleteRadioButtonIsDisplayed()
     {
-        LOG.info("Assert delete radio button is displayed");
+        log.info("Assert delete radio button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(deleteRadioButton), "Delete radio button is displayed");
         return this;
     }
 
     public DeleteGroupDialog assertDeleteButtonIsDisplayed()
     {
-        LOG.info("Assert Delete button is displayed");
+        log.info("Assert Delete button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(deleteButton), "Delete button is displayed");
         return this;
     }
 
     public DeleteGroupDialog assertCancelButtonIsDisplayed()
     {
-        LOG.info("Assert Cancel button is displayed");
+        log.info("Assert Cancel button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
@@ -87,7 +89,7 @@ public class DeleteGroupDialog extends BaseDialogComponent
 
     public DeleteGroupDialog assertJustDeleteGroupLabelIsCorrect(String groupToDelete, String parentGroup)
     {
-        LOG.info("Assert just delete sub group from parent label is correct");
+        log.info("Assert just delete sub group from parent label is correct");
         assertEquals(webElementInteraction.findElement(removeRow).getText(),
             String.format(language.translate("adminTools.groups.deleteGroup.removeRow"), groupToDelete, parentGroup));
         return this;
@@ -95,7 +97,7 @@ public class DeleteGroupDialog extends BaseDialogComponent
 
     public DeleteGroupDialog assertRemoveGroupFromAllLabelIsCorrect(String group)
     {
-        LOG.info("Assert remove group from all label is correct");
+        log.info("Assert remove group from all label is correct");
         assertEquals(webElementInteraction.findElement(deleteRow).getText(), String.format(language.translate("adminTools.groups.deleteGroup.deleteRow"), group));
         return this;
     }
@@ -119,14 +121,14 @@ public class DeleteGroupDialog extends BaseDialogComponent
 
     public DeleteGroupDialog assertRemoveRadioButtonIsSelected()
     {
-        LOG.info("Assert Remove radio button is selected");
+        log.info("Assert Remove radio button is selected");
         assertTrue(webElementInteraction.findElement(removeRadioButton).isSelected(), "Remove radio button is selected");
         return this;
     }
 
     public DeleteGroupDialog assertDeleteRadioButtonIsNotSelected()
     {
-        LOG.info("Assert delete radio button is not selected");
+        log.info("Assert delete radio button is not selected");
         assertFalse(webElementInteraction.findElement(deleteRadioButton).isSelected(), "Delete radio button is selected");
         return this;
     }

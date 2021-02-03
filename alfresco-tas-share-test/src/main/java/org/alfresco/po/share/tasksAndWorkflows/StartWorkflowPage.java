@@ -5,6 +5,7 @@ import static org.alfresco.common.Wait.WAIT_10;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
@@ -17,6 +18,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 {
     private final By startWorkflowDropDown = By.cssSelector("button[id*='default-workflow-definition']");
@@ -25,7 +27,6 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     private final By workflowMenu = By.cssSelector("[id*=default-workflow-definition-menu] ul");
     private final By dropdownOptions = By.cssSelector("[id*=default-workflow-definition-menu] li .title");
     private final By workflowDescriptionTextarea = By.cssSelector("textarea[id*=workflowDescription]");
-    private final By workflowDueDate = By.cssSelector("input[id*='workflowDueDate-cntrl-date']");
     private final By workflowDueDateInput = By.cssSelector("input[id$='workflowDueDate']");
     private final By datePickerIcon = By.cssSelector(".datepicker-icon");
     private final By chooseWorkflowDate = By.cssSelector("div[id*=workflowDueDate]");
@@ -60,7 +61,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public StartWorkflowPage assertStartWorkflowPageIsOpened()
     {
-        LOG.info("Assert Start Workflow page is opened");
+        log.info("Assert Start Workflow page is opened");
         webElementInteraction.waitUrlContains("start-workflow", WAIT_10.getValue());
         assertTrue(webElementInteraction.getCurrentUrl().contains(startWorkflowUrl), "Start workflow page is not displayed");
         return this;
@@ -85,7 +86,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public StartWorkflowPage selectWorkflowType(WorkflowType workflowType)
     {
-        LOG.info("Select workflow type {}", workflowType);
+        log.info("Select workflow type {}", workflowType);
         String workflowTypeValue = getWorkflowTypeFilterValue(workflowType);
         webElementInteraction.mouseOver(webElementInteraction.findElement(startWorkflowDropDown));
         webElementInteraction.waitUntilElementIsVisible(startWorkflowDropDown);
@@ -122,7 +123,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         }
         catch (Exception e)
         {
-            LOG.info("Couldn't choose current date from Date Picker.");
+            log.error("Couldn't choose current date from Date Picker.");
         }
     }
 
@@ -308,7 +309,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         webElementInteraction.waitUntilElementsAreVisible(itemsAreaRows);
         for(FileModel file : files)
         {
-            LOG.info("Assert file {} is displayed in items", file.getName());
+            log.info("Assert file {} is displayed in items", file.getName());
             assertTrue(webElementInteraction
                     .isElementDisplayed(By.xpath(String.format(attachedDocumentRow, file.getName()))),
                 String.format("File %s is not displayed", file.getName()));

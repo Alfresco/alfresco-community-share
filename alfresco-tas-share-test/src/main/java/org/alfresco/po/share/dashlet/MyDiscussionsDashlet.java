@@ -4,10 +4,12 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 {
     private final By defaultDashletMessage = By.cssSelector("div.dashlet.forumsummary td div[class$='yui-dt-liner']");
@@ -29,7 +31,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 
     public MyDiscussionsDashlet assertNoTopicsMessageEquals(String expectedMessage)
     {
-        LOG.info("Assert No topics message equals:{}", expectedMessage);
+        log.info("Assert No topics message equals:{}", expectedMessage);
         assertEquals(webElementInteraction.getElementText(defaultDashletMessage), expectedMessage,
             String.format("No topics message not equals %s", expectedMessage));
 
@@ -60,7 +62,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 
     public MyDiscussionsDashlet assertMyTopicsDropdownOptionsEqual(List<String> myTopicsDropDownOptions)
     {
-        LOG.info("Assert My Topics drop down options equal: {}",myTopicsDropDownOptions);
+        log.info("Assert My Topics drop down options equal: {}",myTopicsDropDownOptions);
         clickOnTopicButton();
         List<WebElement> dropdownOptions = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
         List<String> actualDropDownOptions = webElementInteraction.getTextFromElementList(dropdownOptions);
@@ -72,7 +74,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 
     public MyDiscussionsDashlet assertHistoryDropdownOptionsEqual(List<String> historyDropDownOptions)
     {
-        LOG.info("Assert History drop down options equal: {}", historyDropDownOptions);
+        log.info("Assert History drop down options equal: {}", historyDropDownOptions);
         clickHistoryButton();
         List<String> actualDropDownOptions = getCurrentOptions();
         assertEquals(actualDropDownOptions, historyDropDownOptions,

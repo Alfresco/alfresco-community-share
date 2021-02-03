@@ -2,10 +2,12 @@ package org.alfresco.po.share.site.members;
 
 import static org.testng.Assert.assertFalse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class SiteUsersPage extends SiteMembersPage
 {
     private final By addUsers = By.cssSelector("a[id*='invitePeople']");
@@ -52,7 +54,7 @@ public class SiteUsersPage extends SiteMembersPage
 
     public SiteUsersPage assertRemoveButtonIsDisabledForUser(String userName)
     {
-        LOG.info("Assert user {} remove button is disabled", userName);
+        log.info("Assert user {} remove button is disabled", userName);
         assertFalse(getMemberName(userName).findElement(removeButton).isEnabled(),
             "Remove button is enabled");
         return this;
@@ -60,7 +62,7 @@ public class SiteUsersPage extends SiteMembersPage
 
     public void clickRemoveUser(String userName)
     {
-        LOG.info("Click remove user");
+        log.info("Click remove user");
         webElementInteraction.clickElement(By.xpath(
             pattern.concat(userName).concat(unInviteButtonPath).concat(removeButtonPath)));
     }

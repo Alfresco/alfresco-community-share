@@ -6,6 +6,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.NoSuchElementException;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FolderModel;
@@ -17,6 +18,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class CopyMoveUnzipToDialog extends BaseDialogComponent
 {
     private final By createLinkButton = By.cssSelector("button[id$='_default-copyMoveTo-link-button']");
@@ -49,7 +51,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public CopyMoveUnzipToDialog selectRecentSitesDestination()
     {
-        LOG.info("Select Recent Sites");
+        log.info("Select Recent Sites");
         webElementInteraction.clickElement(recentSitesDestination);
         webElementInteraction.waitUntilElementIsVisible(sitePickerArea);
         return this;
@@ -57,7 +59,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public CopyMoveUnzipToDialog selectSharedFilesDestination()
     {
-        LOG.info("Select Shared Files destination");
+        log.info("Select Shared Files destination");
         WebElement shared = webElementInteraction.waitUntilElementIsVisible(sharedFilesDestination);
         webElementInteraction.mouseOver(shared);
         webElementInteraction.clickElement(shared);
@@ -68,7 +70,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public CopyMoveUnzipToDialog selectMyFilesDestination()
     {
-        LOG.info("Select My Files destination");
+        log.info("Select My Files destination");
         webElementInteraction.clickElement(myFilesDestination);
         webElementInteraction.waitUntilElementIsVisible(folderPathsArea);
         return this;
@@ -76,7 +78,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public CopyMoveUnzipToDialog selectAllSitesDestination()
     {
-        LOG.info("Select Shared Files destination");
+        log.info("Select Shared Files destination");
         webElementInteraction.clickElement(allSitesDestination);
         webElementInteraction.waitUntilElementIsVisible(sitePickerArea);
         return this;
@@ -84,7 +86,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public CopyMoveUnzipToDialog selectSite(SiteModel site)
     {
-        LOG.info("Select site {}", site.getTitle());
+        log.info("Select site {}", site.getTitle());
         WebElement sitePicker = webElementInteraction.waitUntilElementIsVisible(sitePickerArea);
         WebElement siteElement = webElementInteraction.waitUntilChildElementIsPresent(sitePicker, By.xpath(String.format(siteToSelect, site.getTitle())));
         webElementInteraction.clickElement(siteElement);
@@ -117,7 +119,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public CopyMoveUnzipToDialog selectFolder(FolderModel folderToSelect)
     {
-        LOG.info("Select folder {}", folderToSelect.getName());
+        log.info("Select folder {}", folderToSelect.getName());
         By folderRow = By.xpath(String.format(folderElementToSelectRow, folderToSelect.getName()));
         By folder = By.xpath(String.format(folderElementToSelect, folderToSelect.getName()));
         webElementInteraction.waitUntilElementIsVisible(folderPathsArea);
@@ -141,21 +143,21 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
             catch (ElementClickInterceptedException | StaleElementReferenceException | NoSuchElementException e)
             {
                 retry++;
-                LOG.info("Retry select folder - {}", retry);
+                log.info("Retry select folder - {}", retry);
             }
         }
     }
 
     public void clickCreateLinkButton()
     {
-        LOG.info("Click Create Link button");
+        log.info("Click Create Link button");
         webElementInteraction.clickElement(createLinkButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public CopyMoveUnzipToDialog assertCreateLinkButtonIsDisplayed()
     {
-        LOG.info("Assert Create Link button is displayed");
+        log.info("Assert Create Link button is displayed");
         webElementInteraction.waitUntilElementIsVisible(createLinkButton);
         assertTrue(webElementInteraction.isElementDisplayed(createLinkButton), "Create link button is not displayed");
         return this;
@@ -163,14 +165,14 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public CopyMoveUnzipToDialog assertCreateLinkButtonIsNotDisplayed()
     {
-        LOG.info("Assert Create Link button is not displayed");
+        log.info("Assert Create Link button is not displayed");
         assertFalse(webElementInteraction.isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 
     public void clickUnzipButton()
     {
-        LOG.info("Click Unzip To button");
+        log.info("Click Unzip To button");
         webElementInteraction.clickElement(unzipCopyMoveButton);
         webElementInteraction.waitUntilElementDisappears(dialogBody);
         waitUntilNotificationMessageDisappears();
@@ -178,7 +180,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public void clickCopyToButton()
     {
-        LOG.info("Click Copy To button");
+        log.info("Click Copy To button");
         webElementInteraction.clickElement(unzipCopyMoveButton);
         webElementInteraction.waitUntilElementDisappears(dialogBody);
         waitUntilNotificationMessageDisappears();
@@ -186,14 +188,14 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
 
     public void clickCancelButton()
     {
-        LOG.info("Click Cancel button");
+        log.info("Click Cancel button");
         webElementInteraction.clickElement(cancelButton);
         webElementInteraction.waitUntilElementDisappears(dialogBody);
     }
 
     public void clickMoveButton()
     {
-        LOG.info("Click Move button");
+        log.info("Click Move button");
         webElementInteraction.clickElement(unzipCopyMoveButton);
         webElementInteraction.waitUntilElementDisappears(dialogBody);
         waitUntilNotificationMessageDisappears();

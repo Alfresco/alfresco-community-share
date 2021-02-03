@@ -5,6 +5,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.ContentModel;
@@ -15,6 +16,7 @@ import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivitiesDashlet>
 {
     private final String siteRssFeed = "share/feedservice/components/dashlets/activities/list?format=atomfeed&mode=site&site=%s";
@@ -26,7 +28,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public SiteActivitiesDashlet assertEmptyDashletMessageEquals()
     {
-        LOG.info("Assert site activities dashlet message is correct when there are no activities");
+        log.info("Assert site activities dashlet message is correct when there are no activities");
         assertEquals(webElementInteraction.getElementText(activitiesEmptyList), language.translate("siteActivities.noActivities.message"),
             "Empty dashlet message is not correct");
 
@@ -35,7 +37,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public SiteActivitiesDashlet assertAddDocumentActivityIsDisplayed(UserModel user, FileModel file)
     {
-        LOG.info("Assert add document activity is displayed for document {}", file.getName());
+        log.info("Assert add document activity is displayed for document {}", file.getName());
         assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
             String.format(language.translate("siteActivities.document.createActivity"),
                     user.getFirstName(), user.getLastName(), file.getName()))),
@@ -46,7 +48,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public SiteActivitiesDashlet assertAddDocumentActivityIsNotDisplayedForUser(UserModel user, FileModel file)
     {
-        LOG.info("Assert add document activity for {} is not displayed for user {}", file.getName(), user.getUsername());
+        log.info("Assert add document activity for {} is not displayed for user {}", file.getName(), user.getUsername());
         List<WebElement> rows = webElementInteraction.findElements(activityRows);
         assertFalse(webElementInteraction.getTextFromElementList(rows).contains(
             String.format(language.translate("siteActivities.document.createActivity"),
@@ -57,7 +59,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public DocumentDetailsPage clickDocumentLinkForAddActivity(UserModel user, FileModel file)
     {
-        LOG.info("Click document link {} from create document activity", file.getName());
+        log.info("Click document link {} from create document activity", file.getName());
         getActivityRow(String.format(language.translate("siteActivities.document.createActivity"),
             user.getFirstName(), user.getLastName(), file.getName())).findElement(documentLinkLocator).click();
 
@@ -66,7 +68,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public SiteActivitiesDashlet assertCreatedLinkActivityIsDisplayed(UserModel user, ContentModel contentModel)
     {
-        LOG.info("Assert create link activity is displayed for content {}}", contentModel.getName());
+        log.info("Assert create link activity is displayed for content {}}", contentModel.getName());
         assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
             String.format(language.translate("siteActivities.link.createActivity"),
                 user.getFirstName(), user.getLastName(), contentModel.getName()))),
@@ -77,7 +79,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public SiteActivitiesDashlet assertAddGroupToSiteWithRoleActivityIsDisplayed(GroupModel groupModel, SiteModel siteModel, UserRole role)
     {
-        LOG.info("Assert add group activity is displayed for group {} with role {}", groupModel.getDisplayName(), role.toString());
+        log.info("Assert add group activity is displayed for group {} with role {}", groupModel.getDisplayName(), role.toString());
         assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
             String.format(language.translate("siteActivities.group.addActivity"),
                 groupModel.getDisplayName(), siteModel.getTitle(), role.toString().replace("Site", "")))),
@@ -88,7 +90,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public SiteActivitiesDashlet assertUpdateGroupRoleActivityIsDisplayed(GroupModel groupModel, UserRole role)
     {
-        LOG.info("Assert update group role activity is displayed for group {} with role {}", groupModel.getDisplayName(), role.toString());
+        log.info("Assert update group role activity is displayed for group {} with role {}", groupModel.getDisplayName(), role.toString());
         assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
             String.format(language.translate("siteActivities.group.updateRoleActivity"),
                 groupModel.getDisplayName(), role.toString().replace("Site", "")))),
@@ -99,7 +101,7 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
 
     public SiteActivitiesDashlet assertRemoveGroupFromSiteActivityIsDisplayed(GroupModel groupModel, SiteModel site)
     {
-        LOG.info("Assert remove group from site activity is displayed for group {}", groupModel.getDisplayName());
+        log.info("Assert remove group from site activity is displayed for group {}", groupModel.getDisplayName());
         assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
             String.format(language.translate("siteActivities.group.removeGroupFromSite"),
                 groupModel.getDisplayName(), site.getTitle()))), "Remove group activity is not displayed");

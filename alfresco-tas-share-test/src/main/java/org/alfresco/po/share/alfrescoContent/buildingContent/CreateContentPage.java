@@ -2,12 +2,14 @@ package org.alfresco.po.share.alfrescoContent.buildingContent;
 
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class CreateContentPage extends SharePage2<CreateContentPage>
 {
     private final By nameField = By.cssSelector("input[name='prop_cm_name']");
@@ -31,21 +33,21 @@ public class CreateContentPage extends SharePage2<CreateContentPage>
 
     public CreateContentPage assertCreateContentPageIsOpened()
     {
-        LOG.info("Assert Content page is opened");
+        log.info("Assert Content page is opened");
         assertTrue(webElementInteraction.getCurrentUrl().contains("create-content"), "Create content page is not opened");
         return this;
     }
 
     public CreateContentPage assertNameInputHasMandatoryMarker()
     {
-        LOG.info("Assert Name input has mandatory marker");
+        log.info("Assert Name input has mandatory marker");
         assertTrue(webElementInteraction.isElementDisplayed(nameInputIsMandatoryMarker), "Name input is not mandatory");
         return this;
     }
 
     public CreateContentPage assertCancelButtonIsDisplayed()
     {
-        LOG.info("Assert Cancel button is displayed");
+        log.info("Assert Cancel button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
@@ -89,7 +91,7 @@ public class CreateContentPage extends SharePage2<CreateContentPage>
 
     public CreateContentPage sendInputForHTMLContent(String inputHTMLContent)
     {
-        LOG.info("Send input for HTML file types");
+        log.info("Send input for HTML file types");
         TinyMceEditor tinyMceEditor = new TinyMceEditor(webDriver);
         tinyMceEditor.setText(inputHTMLContent);
         webElementInteraction.focusOnWebElement(webElementInteraction.findElement(nameField));

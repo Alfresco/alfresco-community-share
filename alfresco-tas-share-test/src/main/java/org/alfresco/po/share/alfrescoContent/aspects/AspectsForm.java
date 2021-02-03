@@ -1,17 +1,17 @@
 package org.alfresco.po.share.alfrescoContent.aspects;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class AspectsForm extends BaseDialogComponent
 {
-    @RenderWebElement
     private final By aspectsFormTitle = By.cssSelector("[id$='default-aspects-title']");
     private final By availableToAddPanel = By.cssSelector("[id$='default-aspects-left']");
     private final By closeButton = By.cssSelector(".container-close");
@@ -117,7 +117,7 @@ public class AspectsForm extends BaseDialogComponent
         }
         catch (NoSuchElementException noSuchElementExp)
         {
-            LOG.error("Add icon for item: " + aspectName + " is not present.", noSuchElementExp);
+            log.error("Add icon for item: " + aspectName + " is not present.", noSuchElementExp);
         }
     }
 
@@ -130,7 +130,7 @@ public class AspectsForm extends BaseDialogComponent
             selectedAspect.findElement(removeButtonsList).click();
         } catch (NoSuchElementException noSuchElementExp)
         {
-            LOG.error("Remove icon for item: " + aspectName + " is not present.", noSuchElementExp);
+            log.error("Remove icon for item: " + aspectName + " is not present.", noSuchElementExp);
         }
     }
 

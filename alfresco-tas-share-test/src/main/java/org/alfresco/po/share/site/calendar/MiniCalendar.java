@@ -1,12 +1,14 @@
 package org.alfresco.po.share.site.calendar;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class MiniCalendar extends SiteCommon<MiniCalendar>
 {
     private CalendarPage calendarPage;
@@ -81,7 +83,7 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
             if (cell.getText().equals(randomDate))
             {
                 cell.click();
-                LOG.info("Clicked on day: {} in mini-calendar", randomDate);
+                log.info("Clicked on day: {} in mini-calendar", randomDate);
                 break;
             }
         }

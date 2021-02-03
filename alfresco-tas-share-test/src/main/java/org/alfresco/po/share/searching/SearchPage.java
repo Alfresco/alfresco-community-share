@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
@@ -17,6 +18,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
 {
     private final By searchResultRows = By.id("FCTSRCH_SEARCH_RESULT");
@@ -145,7 +147,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public SearchPage searchForContentWithRetry(ContentModel contentToFind)
     {
-        LOG.info("Search for content: {}", contentToFind);
+        log.info("Search for content: {}", contentToFind);
         int counter = 0;
         while (counter <= WAIT_80.getValue() && !isContentDisplayed(contentToFind))
         {
@@ -426,14 +428,14 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public SearchPage assertSearchManagerButtonIsDisplayed()
     {
-        LOG.info("Assert search manager button is displayed");
+        log.info("Assert search manager button is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(searchManager), "Search manager is displayed");
         return this;
     }
 
     public SearchPage assertSearchManagerButtonIsNotDisplayed()
     {
-        LOG.info("Assert search manager button is NOT displayed");
+        log.info("Assert search manager button is NOT displayed");
         assertFalse(webElementInteraction.isElementDisplayed(searchManager), "Search manager is displayed");
         return this;
     }
@@ -485,7 +487,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             int i;
             for (i = 0; i < checkBoxElements.size(); i++)
             {
-                LOG.info("Position {} ", i);
+                log.info("Position {} ", i);
                 checkBoxElements.get(i).click();
                 webElementInteraction.findDisplayedElementsFromLocator(checkboxSelector);
             }
@@ -717,8 +719,8 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             sortedList.add(item.getText());
         }
         Collections.sort(sortedList);
-        LOG.info("Actual list: {}", resultsListText);
-        LOG.info("Sorted list: {}", sortedList);
+        log.info("Actual list: {}", resultsListText);
+        log.info("Sorted list: {}", sortedList);
 
         status = resultsListText.equals(sortedList);
         return status;
@@ -733,7 +735,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             availableOptions.add(option.getText());
         }
 
-        LOG.info("Available options are: {}", availableOptions);
+        log.info("Available options are: {}", availableOptions);
 
         return availableOptions;
     }
@@ -794,7 +796,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         for(ContentModel content : contentModels)
         {
-            LOG.info("Check content: {}", content.getName());
+            log.info("Check content: {}", content.getName());
             webElementInteraction.clickElement(getContentRowResult(content).findElement(contentCheckBox));
         }
         return this;
@@ -802,14 +804,14 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public SearchPage clickSelectedItems()
     {
-        LOG.info("Click Selected Items...");
+        log.info("Click Selected Items...");
         webElementInteraction.clickElement(selectedItemsMenu);
         return this;
     }
 
     public SearchCopyMoveDialog clickCopyToForSelectedItems()
     {
-        LOG.info("Click Copy to... from Selected Items");
+        log.info("Click Copy to... from Selected Items");
         webElementInteraction.clickElement(copyToAction);
         return new SearchCopyMoveDialog(webDriver);
     }
