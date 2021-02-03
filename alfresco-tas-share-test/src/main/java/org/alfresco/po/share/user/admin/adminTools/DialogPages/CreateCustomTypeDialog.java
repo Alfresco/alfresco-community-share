@@ -12,7 +12,7 @@ public class CreateCustomTypeDialog extends BaseDialogComponent
     private final By cancelButton = By.id("CMM_CREATE_TYPE_DIALOG_CANCEL_label");
     private final By nameField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']");
     private final By displayLabelField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='title']");
-    private final By parentTypeElement = By.cssSelector(".dijitSelectLabel");
+    private final By parentTypeArrow = By.cssSelector("td[class$='dijitArrowButtonContainer'] > input");
     private final By parentTypeElements = By.cssSelector("table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']");
 
     public CreateCustomTypeDialog(ThreadLocal<WebDriver> webDriver)
@@ -30,7 +30,8 @@ public class CreateCustomTypeDialog extends BaseDialogComponent
 
     public CreateCustomTypeDialog selectParentType(String parentType)
     {
-        webElementInteraction.clickElement(parentTypeElement, 1000);
+        webElementInteraction.waitUntilElementIsVisible(parentTypeArrow);
+        webElementInteraction.clickElement(parentTypeArrow);
         for (WebElement type : webElementInteraction.findElements(parentTypeElements))
         {
             if (type.getAttribute("aria-label").equals(parentType))
