@@ -144,6 +144,8 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         int retryCount = 0;
         while (retryCount < WAIT_80.getValue() && !isSubCatDisplayed)
         {
+            navigate();
+            waitToLoopTime(WAIT_2.getValue());
             boolean isExpanded = webElementInteraction.isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
             if (!isExpanded)
             {
@@ -156,8 +158,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
             {
                 break;
             }
-            waitToLoopTime(WAIT_2.getValue());
-            navigate();
+
             retryCount++;
         }
         return isSubCatDisplayed;
