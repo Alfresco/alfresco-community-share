@@ -155,6 +155,7 @@ public class WebElementInteraction
     public void refresh()
     {
         getWebDriver().navigate().refresh();
+        waitUntilDomReadyStateIsComplete();
     }
 
     public WebElement findElement(WebElement webElement)
@@ -1226,6 +1227,13 @@ public class WebElementInteraction
     public String getPageTitle()
     {
         return getWebDriver().getTitle();
+    }
+
+    public void waitUntilDomReadyStateIsComplete()
+    {
+        new WebDriverWait(webDriver.get(), defaultProperties.getExplicitWait())
+                .until(driver -> ((JavascriptExecutor) webDriver.get())
+                        .executeScript("return document.readyState").equals("complete"));
     }
 
     private FluentWait<WebDriver> setWaitingTime(long timeOutInSeconds, long pollingTimeInMillis)

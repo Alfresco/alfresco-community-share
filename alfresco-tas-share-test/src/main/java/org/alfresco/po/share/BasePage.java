@@ -56,16 +56,10 @@ public abstract class BasePage
             defaultProperties.get().getBrowserLanguageCountry());
 
         this.webDriver = webDriver;
-        waitUntilDomReadyStateIsComplete(webDriver);
         webElementInteraction = new WebElementInteraction(webDriver, defaultProperties.get());
+        webElementInteraction.waitUntilDomReadyStateIsComplete();
     }
 
-    private void waitUntilDomReadyStateIsComplete(ThreadLocal<WebDriver> webDriver)
-    {
-        new WebDriverWait(webDriver.get(), defaultProperties.get().getExplicitWait())
-            .until(driver -> ((JavascriptExecutor) webDriver.get())
-                .executeScript("return document.readyState").equals("complete"));
-    }
 
     public ThreadLocal<String> waitUntilNotificationMessageDisappears()
     {
