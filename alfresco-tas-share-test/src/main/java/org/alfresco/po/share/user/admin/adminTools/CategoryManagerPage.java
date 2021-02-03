@@ -101,7 +101,6 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     private void waitForCategory(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        webElementInteraction.waitInSeconds(WAIT_2.getValue());
 
         int i = 0;
         while (i < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(category))

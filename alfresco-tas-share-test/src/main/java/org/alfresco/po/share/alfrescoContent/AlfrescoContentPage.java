@@ -323,8 +323,7 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> selectFromDocumentsFilter(DocumentsFilter documentFilter)
     {
         log.info("Select document filter {}", documentFilter.toString());
-        webElementInteraction.waitUntilElementsAreVisible(documentsFilter);
-        List<WebElement> filters = webElementInteraction.findElements(documentsFilter);
+        List<WebElement> filters = webElementInteraction.waitUntilElementsAreVisible(documentsFilter);
         webElementInteraction.findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)).click();
         webElementInteraction.waitUntilElementIsVisible(selectedFilter);
         return this;
