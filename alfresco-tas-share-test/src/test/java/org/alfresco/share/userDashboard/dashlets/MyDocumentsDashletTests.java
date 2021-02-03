@@ -68,11 +68,10 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
     {
         FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel file2 = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        FileModel file3 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
 
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get())
-                .createFile(file1).createFile(file2).createFile(file3);
+                .createFile(file1).createFile(file2);
         getRestApi().authenticateUser(user.get())
             .withCoreAPI().usingAuthUser().addFileToFavorites(file2);
 
@@ -80,7 +79,6 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
         myDocumentsDashlet.assertSelectedFilterIs(DocumentsFilter.RECENTLY_MODIFIED)
             .usingDocument(file1).assertFileIsDisplayed();
         myDocumentsDashlet.usingDocument(file2).assertFileIsDisplayed();
-        myDocumentsDashlet.usingDocument(file3).assertFileIsDisplayed();
 
         getCmisApi().usingResource(file1).checkOut().assertThat().documentIsCheckedOut();
         userDashboardPage.navigate(user.get());
@@ -88,12 +86,10 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
             .usingDocument(file1).assertFileIsDisplayed();
         myDocumentsDashlet.assertNrOfDisplayedDocumentsIs(1);
         myDocumentsDashlet.usingDocument(file2).assertFileIsNotDisplayed();
-        myDocumentsDashlet.usingDocument(file3).assertFileIsNotDisplayed();
 
         myDocumentsDashlet.filter(DocumentsFilter.MY_FAVORITES)
             .usingDocument(file2).assertFileIsDisplayed();
         myDocumentsDashlet.usingDocument(file1).assertFileIsNotDisplayed();
-        myDocumentsDashlet.usingDocument(file3).assertFileIsNotDisplayed();
     }
 
     @AfterMethod(alwaysRun = true)
