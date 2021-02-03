@@ -120,7 +120,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
                 webElementInteraction.waitInSeconds(WAIT_2.getValue());
                 waitForSitesTableHeaderToBeDisplayed();
             }
-            List<WebElement> siteList = webElementInteraction.findElements(siteRowsElements);
+            List<WebElement> siteList = webElementInteraction.waitUntilElementsAreVisible(siteRowsElements);
             for (WebElement siteRow : siteList)
             {
                 if (webElementInteraction.getElementText(siteRow).contains(siteName))
@@ -219,7 +219,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             clickActionsButton();
             webElementInteraction.waitUntilElementsAreVisible(dropdownOptionsList);
             WebElement becomeBtn = webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
-                    sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
+                sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
             webElementInteraction.mouseOver(becomeBtn);
             webElementInteraction.clickElement(becomeBtn);
             sitesManagerPage.waitUntilLoadingMessageDisappears();
@@ -228,6 +228,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             if(siteRow.findElement(siteRowSiteManager).getText().equals(language.translate("adminTools.siteManager.no")))
             {
                 log.error("Retry action Become Site Manager");
+                navigate();
                 clickActionsButton();
                 webElementInteraction.waitUntilElementIsVisible(becomeBtn);
                 webElementInteraction.clickElement(becomeBtn);
