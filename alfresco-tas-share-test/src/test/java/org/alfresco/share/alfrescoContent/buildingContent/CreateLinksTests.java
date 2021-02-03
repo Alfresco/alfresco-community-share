@@ -113,7 +113,7 @@ public class CreateLinksTests extends BaseTest
                 .createFile(file1).createFile(file2);
 
         searchPage.navigate()
-            .searchWithKeywordAndWaitForContents(randomName, file1, file2);
+            .searchWithKeywordAndWaitForContents(randomName.concat("*"), file1, file2);
         searchPage.usingContent(file1).assertIsDisplayed();
         searchPage.usingContent(file2).assertIsDisplayed();
         searchPage.checkContent(file1, file2)

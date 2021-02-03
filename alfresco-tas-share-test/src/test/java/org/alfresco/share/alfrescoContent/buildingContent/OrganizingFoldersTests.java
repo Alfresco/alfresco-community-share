@@ -14,21 +14,18 @@ public class OrganizingFoldersTests extends BaseTest
 {
     private DocumentLibraryPage2 documentLibraryPage;
 
-    private UserModel user;
-    private SiteModel site;
-
-    @BeforeClass(alwaysRun = true)
-    public void createUser()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-    }
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        setupAuthenticatedSession(user);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C6276, C6277")
@@ -37,7 +34,7 @@ public class OrganizingFoldersTests extends BaseTest
     {
         String randomFolder = RandomData.getRandomFolder();
         FolderModel testFolder = new FolderModel(randomFolder, randomFolder, randomFolder);
-        documentLibraryPage.navigate(site);
+        documentLibraryPage.navigate(site.get());
         documentLibraryPage.clickCreate().clickFolder()
             .assertDialogTitleEquals(language.translate("newFolderDialog.title"))
             .assertNameInputIsDisplayed()
@@ -59,7 +56,7 @@ public class OrganizingFoldersTests extends BaseTest
     public void cancelCreatingFolder()
     {
         FolderModel cancelFolder = FolderModel.getRandomFolderModel();
-        documentLibraryPage.navigate(site);
+        documentLibraryPage.navigate(site.get());
         documentLibraryPage.clickCreate().clickFolder()
             .typeName(cancelFolder.getName())
             .clickCancel();
@@ -73,11 +70,12 @@ public class OrganizingFoldersTests extends BaseTest
         FolderModel parentFolder = FolderModel.getRandomFolderModel();
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
-        getCmisApi().authenticateUser(user)
-            .usingSite(site).createFolder(parentFolder)
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFolder(parentFolder)
                 .usingResource(parentFolder).createFolder(subFolder);
 
-        documentLibraryPage.navigate(site).usingContent(parentFolder).assertContentIsDisplayed();
+        documentLibraryPage.navigate(site.get())
+            .usingContent(parentFolder).assertContentIsDisplayed();
         documentLibraryPage.assertFolderIsDisplayedInFilter(parentFolder)
             .clickFolderFromFilter(parentFolder)
                 .assertFolderIsDisplayedInBreadcrumb(parentFolder)
@@ -92,10 +90,10 @@ public class OrganizingFoldersTests extends BaseTest
                     .usingContent(parentFolder).assertContentIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void afterMethod()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(site);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

@@ -17,24 +17,20 @@ import org.testng.annotations.*;
 
 public class MultiSelectingContentTests extends BaseTest
 {
-    private UserModel user;
-    private SiteModel site;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        getCmisApi().authenticateUser(user);
-        setupAuthenticatedSession(user);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7546")
@@ -43,9 +39,9 @@ public class MultiSelectingContentTests extends BaseTest
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site).createFile(testFile).createFolder(testFolder);
+        getCmisApi().usingSite(site.get()).createFile(testFile).createFolder(testFolder);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .checkContent(testFolder)
             .assertSelectedItemsMenuIsEnabled()
             .checkContent(testFolder)
@@ -62,12 +58,12 @@ public class MultiSelectingContentTests extends BaseTest
         FileModel textFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
         FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site)
+        getCmisApi().usingSite(site.get())
             .createFolder(folder)
             .createFile(textFile)
             .createFile(xmlFile);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .clickSelectMenu()
             .selectOptionFromSelectMenu(SelectMenuOptions.DOCUMENTS)
             .assertContentsAreChecked(xmlFile, textFile)
@@ -113,11 +109,11 @@ public class MultiSelectingContentTests extends BaseTest
     {
         FileModel firstFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel secondFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(site)
+        getCmisApi().usingSite(site.get())
             .createFile(firstFile)
             .createFile(secondFile);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .checkContent(firstFile, secondFile)
             .clickSelectedItems()
             .clickStartWorkflowFromSelectedItems()
@@ -131,9 +127,9 @@ public class MultiSelectingContentTests extends BaseTest
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FolderModel testFolder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site).createFile(testFile).createFolder(testFolder);
+        getCmisApi().usingSite(site.get()).createFile(testFile).createFolder(testFolder);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .checkContent(testFolder, testFile)
             .clickSelectedItems()
             .clickDeleteFromSelectedItems()
@@ -143,10 +139,10 @@ public class MultiSelectingContentTests extends BaseTest
         documentLibraryPage.usingContent(testFolder).assertContentIsNotDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(site);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

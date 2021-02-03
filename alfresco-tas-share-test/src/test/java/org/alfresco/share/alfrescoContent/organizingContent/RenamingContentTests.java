@@ -15,24 +15,20 @@ import org.testng.annotations.*;
 
 public class RenamingContentTests extends BaseTest
 {
-    private UserModel user;
-    private SiteModel site;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        getCmisApi().authenticateUser(user);
-        setupAuthenticatedSession(user);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7419")
@@ -41,9 +37,9 @@ public class RenamingContentTests extends BaseTest
     {
         FileModel fileToRename = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
-        getCmisApi().usingSite(site).createFile(fileToRename);
+        getCmisApi().usingSite(site.get()).createFile(fileToRename);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(fileToRename)
             .clickRenameIcon()
             .typeNewName(newFile.getName())
@@ -58,9 +54,9 @@ public class RenamingContentTests extends BaseTest
     {
         FolderModel folderToRename = FolderModel.getRandomFolderModel();
         FolderModel newFolder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site).createFolder(folderToRename);
+        getCmisApi().usingSite(site.get()).createFolder(folderToRename);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(folderToRename)
             .clickRenameIcon()
             .typeNewName(newFolder.getName())
@@ -75,9 +71,9 @@ public class RenamingContentTests extends BaseTest
     {
         FileModel fileToRename = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel newFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "");
-        getCmisApi().usingSite(site).createFile(fileToRename);
+        getCmisApi().usingSite(site.get()).createFile(fileToRename);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(fileToRename)
             .clickRenameIcon()
             .typeNewName(newFile.getName())
@@ -86,10 +82,10 @@ public class RenamingContentTests extends BaseTest
         documentLibraryPage.usingContent(newFile).assertContentIsNotDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(site);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

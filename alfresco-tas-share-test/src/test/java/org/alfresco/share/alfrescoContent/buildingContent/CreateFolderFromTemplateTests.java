@@ -15,27 +15,25 @@ public class CreateFolderFromTemplateTests extends BaseTest
 {
     private DocumentLibraryPage2 documentLibraryPage;
 
-    private UserModel testUser;
-    private SiteModel testSite;
-    private FolderModel parentTemplateFolder = new FolderModel("Software Engineering Project");
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        testUser = dataUser.usingAdmin().createRandomTestUser();
-        testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-
-        parentTemplateFolder.setCmisLocation(Utility.buildPath(
-            Utility.buildPath(String.format("/Sites/%s/documentLibrary", testSite.getId())),
-            parentTemplateFolder.getName()));
-    }
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    private final ThreadLocal<FolderModel> parentTemplateFolder = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        getCmisApi().authenticateUser(testUser);
-        setupAuthenticatedSession(testUser);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+        setupAuthenticatedSession(user.get());
+
+        parentTemplateFolder.set(new FolderModel("Software Engineering Project"));
+        parentTemplateFolder.get().setCmisLocation(Utility.buildPath(
+            Utility.buildPath(String.format("/Sites/%s/documentLibrary", site.get().getId())),
+            parentTemplateFolder.get().getName()));
+
     }
 
     @TestRail (id = "C6292")
@@ -43,15 +41,15 @@ public class CreateFolderFromTemplateTests extends BaseTest
     public void createFolderFromTemplate()
     {
         FolderModel discussions = new FolderModel("Discussions");
-        discussions.setCmisLocation(Utility.buildPath(parentTemplateFolder.getCmisLocation(), discussions.getName()));
+        discussions.setCmisLocation(Utility.buildPath(parentTemplateFolder.get().getCmisLocation(), discussions.getName()));
         FolderModel documentation = new FolderModel("Documentation");
-        documentation.setCmisLocation(Utility.buildPath(parentTemplateFolder.getCmisLocation(), documentation.getName()));
+        documentation.setCmisLocation(Utility.buildPath(parentTemplateFolder.get().getCmisLocation(), documentation.getName()));
         FolderModel presentations = new FolderModel("Presentations");
-        presentations.setCmisLocation(Utility.buildPath(parentTemplateFolder.getCmisLocation(), presentations.getName()));
+        presentations.setCmisLocation(Utility.buildPath(parentTemplateFolder.get().getCmisLocation(), presentations.getName()));
         FolderModel qualityAssurance = new FolderModel("Quality Assurance");
-        qualityAssurance.setCmisLocation(Utility.buildPath(parentTemplateFolder.getCmisLocation(), qualityAssurance.getName()));
+        qualityAssurance.setCmisLocation(Utility.buildPath(parentTemplateFolder.get().getCmisLocation(), qualityAssurance.getName()));
         FolderModel uiDesign = new FolderModel("UI Design");
-        uiDesign.setCmisLocation(Utility.buildPath(parentTemplateFolder.getCmisLocation(), uiDesign.getName()));
+        uiDesign.setCmisLocation(Utility.buildPath(parentTemplateFolder.get().getCmisLocation(), uiDesign.getName()));
 
         FolderModel drafts = new FolderModel("Drafts");
         drafts.setCmisLocation(Utility.buildPath(documentation.getCmisLocation(), drafts.getName()));
@@ -64,10 +62,10 @@ public class CreateFolderFromTemplateTests extends BaseTest
         FileModel systemOverview = new FileModel("system-overview.html");
         systemOverview.setCmisLocation(Utility.buildPath(samples.getCmisLocation(), systemOverview.getName()));
 
-        documentLibraryPage.navigate(testSite)
-            .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder)
+        documentLibraryPage.navigate(site.get())
+            .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder.get())
                 .clickSave();
-        documentLibraryPage.usingContent(parentTemplateFolder).assertContentIsDisplayed();
+        documentLibraryPage.usingContent(parentTemplateFolder.get()).assertContentIsDisplayed();
         getCmisApi().usingResource(discussions).assertThat().existsInRepo()
             .usingResource(documentation).assertThat().existsInRepo()
             .usingResource(presentations).assertThat().existsInRepo()
@@ -84,10 +82,10 @@ public class CreateFolderFromTemplateTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelCreatingFolderFromTemplate()
     {
-        documentLibraryPage.navigate(testSite)
-            .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder)
+        documentLibraryPage.navigate(site.get())
+            .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder.get())
             .clickCancel();
-        documentLibraryPage.usingContent(parentTemplateFolder).assertContentIsNotDisplayed();
+        documentLibraryPage.usingContent(parentTemplateFolder.get()).assertContentIsNotDisplayed();
     }
 
     @TestRail (id = "C8139")
@@ -96,8 +94,8 @@ public class CreateFolderFromTemplateTests extends BaseTest
     {
         String illegalCharacters = "\'* \" < > \\ / . ? : |'";
         FolderModel validWildcardsFolder = new FolderModel("!@$%^&().-=+;,");
-        documentLibraryPage.navigate(testSite)
-            .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder)
+        documentLibraryPage.navigate(site.get())
+            .clickCreate().clickCreateFolderFromTemplate(parentTemplateFolder.get())
                 .typeName(illegalCharacters).assertNameInputIsInvalid()
                     .assertNameInputContainsIllegalCharactersMessageIsDisplayed()
                 .typeName("AName.").assertNameInputIsInvalid()
@@ -105,10 +103,10 @@ public class CreateFolderFromTemplateTests extends BaseTest
         documentLibraryPage.usingContent(validWildcardsFolder).assertContentIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(testUser);
-        deleteSitesIfNotNull(testSite);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

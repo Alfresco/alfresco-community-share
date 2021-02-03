@@ -110,8 +110,7 @@ public class ContentActionComponent
     public ContentActionComponent assertContentIsHighlighted()
     {
         By contentRowElement = By.xpath(String.format(contentRow, contentModel.getName()));
-        webElementInteraction.waitUntilElementIsPresent(contentRowElement);
-        WebElement content = webElementInteraction.waitUntilElementIsVisible(contentRowElement);
+        WebElement content = webElementInteraction.waitUntilElementIsPresent(contentRowElement);
         assertTrue(content.getAttribute("class").contains(highlightContent), "Content is not highlighted");
         return this;
     }

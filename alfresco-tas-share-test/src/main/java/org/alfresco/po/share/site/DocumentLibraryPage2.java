@@ -29,7 +29,7 @@ public class DocumentLibraryPage2 extends AlfrescoContentPage<DocumentLibraryPag
         return String.format("share/page/site/%s/documentlibrary", getSiteId());
     }
 
-    public DocumentLibraryPage2 navigate(SiteModel site)
+    public synchronized DocumentLibraryPage2 navigate(SiteModel site)
     {
         setSiteId(site.getId());
         return (DocumentLibraryPage2) navigate();

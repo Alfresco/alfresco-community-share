@@ -14,23 +14,20 @@ import org.testng.annotations.*;
 
 public class CreatingFilesTests extends BaseTest
 {
-    private UserModel testUser;
-    private SiteModel testSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        testUser = dataUser.usingAdmin().createRandomTestUser();
-        testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        setupAuthenticatedSession(testUser);
+
+        user.set(dataUser.usingAdmin().createRandomTestUser());
+        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C6976, C6986")
@@ -38,7 +35,7 @@ public class CreatingFilesTests extends BaseTest
     public void createPlainTextFile()
     {
         FileModel txtFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .clickCreate().clickTextPlain()
                 .assertCreateContentPageIsOpened()
                 .assertBrowserPageTitleIs(language.translate("createContentPage.browserTitle"))
@@ -60,7 +57,7 @@ public class CreatingFilesTests extends BaseTest
     public void createHTMLFile()
     {
         FileModel htmlFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .clickCreate().clickHtml()
                 .assertCreateContentPageIsOpened()
                 .assertBrowserPageTitleIs(language.translate("createContentPage.browserTitle"))
@@ -80,7 +77,7 @@ public class CreatingFilesTests extends BaseTest
     public void createXMLFile()
     {
         FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .clickCreate().clickXml()
                 .assertCreateContentPageIsOpened()
                 .assertBrowserPageTitleIs(language.translate("createContentPage.browserTitle"))
@@ -95,10 +92,10 @@ public class CreatingFilesTests extends BaseTest
                         .assertPropertyValueEquals(language.translate("property.mimetype"), "XML");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(testUser);
-        deleteSitesIfNotNull(testSite);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

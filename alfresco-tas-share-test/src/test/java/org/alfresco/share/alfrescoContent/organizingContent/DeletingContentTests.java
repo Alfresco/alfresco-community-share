@@ -15,24 +15,21 @@ import org.testng.annotations.*;
 
 public class DeletingContentTests extends BaseTest
 {
-    private UserModel user;
-    private SiteModel testSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        testSite = dataSite.usingUser(user).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        getCmisApi().authenticateUser(user);
-        setupAuthenticatedSession(user);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C9544")
@@ -41,11 +38,11 @@ public class DeletingContentTests extends BaseTest
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
         FileModel fileToDelete = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(testSite).createFolder(folder)
+        getCmisApi().usingSite(site.get()).createFolder(folder)
             .then().usingResource(folder)
                 .createFile(fileToDelete).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .usingContent(folder).selectFolder()
                 .usingContent(fileToDelete)
                 .clickDelete()
@@ -63,9 +60,9 @@ public class DeletingContentTests extends BaseTest
         FileModel subFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
         FolderModel subFolder = FolderModel.getRandomFolderModel();
 
-        getCmisApi().usingSite(testSite).createFolder(folderToDelete)
+        getCmisApi().usingSite(site.get()).createFolder(folderToDelete)
             .usingResource(folderToDelete).createFolder(subFolder).createFile(subFile);
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .usingContent(folderToDelete)
             .clickDelete()
             .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteFolder"))
@@ -83,18 +80,18 @@ public class DeletingContentTests extends BaseTest
     public void cancelDeletingFolder()
     {
         FolderModel folderToCancel = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(testSite).createFolder(folderToCancel);
+        getCmisApi().usingSite(site.get()).createFolder(folderToCancel);
 
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .usingContent(folderToCancel)
             .clickDelete().clickCancel();
         documentLibraryPage.usingContent(folderToCancel).assertContentIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(testSite);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

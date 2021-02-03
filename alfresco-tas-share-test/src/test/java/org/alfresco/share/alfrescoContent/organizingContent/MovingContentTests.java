@@ -15,24 +15,20 @@ import org.testng.annotations.*;
 
 public class MovingContentTests extends BaseTest
 {
-    private UserModel user;
-    private SiteModel site;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        getCmisApi().authenticateUser(user);
-        setupAuthenticatedSession(user);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7345")
@@ -41,13 +37,13 @@ public class MovingContentTests extends BaseTest
     {
         FolderModel destination = FolderModel.getRandomFolderModel();
         FileModel fileToMove = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(site).createFile(fileToMove).createFolder(destination);
+        getCmisApi().usingSite(site.get()).createFile(fileToMove).createFolder(destination);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(fileToMove)
             .clickMoveTo()
             .selectRecentSitesDestination()
-            .selectSite(site)
+            .selectSite(site.get())
             .selectFolder(destination)
             .clickMoveButton();
 
@@ -63,15 +59,15 @@ public class MovingContentTests extends BaseTest
         FolderModel destination = FolderModel.getRandomFolderModel();
         FolderModel folderToMove = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(site)
+        getCmisApi().usingSite(site.get())
             .createFolder(destination)
             .createFolder(folderToMove)
                 .then().usingResource(folderToMove).createFile(subFile);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(folderToMove).clickMoveTo()
             .selectRecentSitesDestination()
-            .selectSite(site)
+            .selectSite(site.get())
             .selectFolder(destination)
             .clickMoveButton();
         documentLibraryPage.usingContent(folderToMove).assertContentIsNotDisplayed();
@@ -83,10 +79,10 @@ public class MovingContentTests extends BaseTest
             .assertContentIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(site);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

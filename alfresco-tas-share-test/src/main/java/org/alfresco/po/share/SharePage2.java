@@ -71,7 +71,7 @@ public abstract class SharePage2<T> extends BasePage
      */
     public T navigate()
     {
-        log.info("Navigate to {}", relativePathToURL().getPath());
+        log.info("Navigate to {}", relativePathToURL().toString());
         try
         {
             webDriver.get().get(relativePathToURL().toString());
