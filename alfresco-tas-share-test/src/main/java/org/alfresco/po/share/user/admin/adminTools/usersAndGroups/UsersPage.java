@@ -62,6 +62,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
     private void typeUserAndClickSearch(String searchKeyword)
     {
+        webElementInteraction.waitUntilElementIsVisible(userSearchInputField);
         webElementInteraction.clearAndType(userSearchInputField, searchKeyword);
         WebElement search = webElementInteraction.findElement(searchButton);
         webElementInteraction.mouseOver(search);
