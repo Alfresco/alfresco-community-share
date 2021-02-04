@@ -297,6 +297,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", locator);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(),
                         defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -322,6 +323,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", locator);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
@@ -346,6 +348,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", locator);
+                refresh();
                 return setWaitingTime(timeoutInSeconds, defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
@@ -371,6 +374,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", element);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOf(element));
             }
@@ -395,6 +399,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", element);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOf(element));
             }
