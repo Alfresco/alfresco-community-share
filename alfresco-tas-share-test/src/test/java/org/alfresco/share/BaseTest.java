@@ -45,7 +45,7 @@ import org.testng.annotations.BeforeMethod;
 @Slf4j
 public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
-//    private ScreenshotHelper screenshotHelper;
+    //private ScreenshotHelper screenshotHelper;
 
     @Autowired
     private WebDriverFactory webDriverFactory;
@@ -89,7 +89,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         userService.set(applicationContext.getBean(UserService.class));
         dataSiteThread.set(applicationContext.getBean(DataSite.class));
         dataUserThread.set(applicationContext.getBean(DataUserAIS.class));
-//        screenshotHelper = new ScreenshotHelper(webDriver);
+        //screenshotHelper = new ScreenshotHelper(webDriver);
 
         loginPage = new LoginPage(webDriver);
         userDashboardPage = new UserDashboardPage(webDriver);
@@ -226,6 +226,10 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
                 catch (DataPreparationException e)
                 {
                     log.error("Failed to delete user {}", userModel.getUsername());
+                }
+                catch (RuntimeException e)
+                {
+                    log.error("User {} does not exist", userModel.getUsername());
                 }
             }
         }

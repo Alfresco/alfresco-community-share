@@ -152,7 +152,8 @@ public class ModelManagerTests extends BaseTest
             .assertDeleteModelDialogIsDisplayed()
             .assertDeleteModelDialogTextIsCorrect(modelToDelete.getName())
             .clickDelete();
-        modelManagerPage.usingModel(modelToDelete).assertModelIsNotDisplayed();
+        modelManagerPage.navigate()
+            .usingModel(modelToDelete).assertModelIsNotDisplayed();
     }
 
     @TestRail (id = "C9521")
