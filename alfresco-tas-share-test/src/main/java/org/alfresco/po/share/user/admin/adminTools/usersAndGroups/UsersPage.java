@@ -150,10 +150,9 @@ public class UsersPage extends SharePage2<UsersPage>
     {
         webElementInteraction.waitUntilElementIsVisible(uploadUsersButton);
         webElementInteraction.clickElement(uploadUsersButton);
-        waitUntilNotificationMessageDisappears();
+        webElementInteraction.waitUntilElementIsVisible(fileInput);
         webElementInteraction.clearAndType(fileInput, filePath);
         webElementInteraction.clickElement(uploadButton);
-        waitUntilNotificationMessageDisappears();
         return new UploadUserResultsPage(webDriver);
     }
 
