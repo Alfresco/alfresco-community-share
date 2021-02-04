@@ -82,7 +82,6 @@ public class ContentActionComponent
     {
         LOG.info("Assert content is not displayed");
         By content = By.xpath(String.format(contentRow, contentModel.getName()));
-        webElementInteraction.waitUntilElementDisappears(content);
         assertFalse(webElementInteraction.isElementDisplayed(content), String.format("Content '%s' is displayed", contentModel.getName()));
         return this;
     }
