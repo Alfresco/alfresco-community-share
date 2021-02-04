@@ -123,15 +123,15 @@ public class SitesManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void siteAdminBecomeSitesManager()
     {
-        testSite.set(getDataSite().usingAdmin().createPublicRandomSite());
+        SiteModel adminSite = getDataSite().usingAdmin().createPublicRandomSite();
 
         setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
         sitesManagerPage.navigate()
-            .usingSite(testSite.get())
+            .usingSite(adminSite)
             .becomeSiteManager()
             .assertSiteManagerIsYes();
 
-        getDataSite().usingUser(siteAdmin.get()).deleteSite(testSite.get());
+        getDataSite().usingAdmin().deleteSite(adminSite);
     }
 
     @TestRail (id = "C8696")
