@@ -1,7 +1,6 @@
 package org.alfresco.po.share;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -117,7 +116,7 @@ public abstract class SharePage2<T> extends BasePage
         log.info("Wait for loading message to disappear");
         try
         {
-            webElementInteraction.waitUntilElementIsVisible(loadingMessage, WAIT_2.getValue());
+            webElementInteraction.waitUntilElementIsVisible(loadingMessage, WAIT_3.getValue());
             webElementInteraction.waitUntilElementDisappears(loadingMessage, WAIT_5.getValue());
         }
         catch (TimeoutException e)

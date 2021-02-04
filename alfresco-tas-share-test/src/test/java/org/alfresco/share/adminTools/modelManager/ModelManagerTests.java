@@ -228,13 +228,11 @@ public class ModelManagerTests extends BaseTest
             .openCustomModel()
             .clickCreateCustomType()
             .typeName(newCustomType.getName())
-            .selectParentType("cm:content")
             .typeDisplayLabel(newCustomType.getTitle());
 
         createCustomTypeDialog.clickCreate();
         modelManagerPage.usingCustomType(modelForCustomType, newCustomType)
             .assertDisplayLabelIs(newCustomType.getTitle())
-            .assertParentIs(newCustomType.getParentName())
             .assertLayoutIsNo();
     }
 

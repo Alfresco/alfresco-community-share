@@ -1,7 +1,6 @@
 package org.alfresco.po.share.user.admin;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -96,6 +95,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
     public SitesManagerPage assertTableHasAllColumns()
     {
+        waitForSiteRowsWithRetry();waitForSitesTableHeaderToBeDisplayed();
         List<String> expectedTableHeader = Collections.synchronizedList(new ArrayList<>(Arrays.asList
             (language.translate("adminTools.siteManager.siteName"),
              language.translate("adminTools.siteManager.siteDescription"),
@@ -120,7 +120,8 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
                 webElementInteraction.waitInSeconds(WAIT_2.getValue());
                 waitForSitesTableHeaderToBeDisplayed();
             }
-            List<WebElement> siteList = webElementInteraction.waitUntilElementsAreVisible(siteRowsElements);
+            waitForSiteRowsWithRetry();
+            List<WebElement> siteList = webElementInteraction.findElements(siteRowsElements);
             for (WebElement siteRow : siteList)
             {
                 if (webElementInteraction.getElementText(siteRow).contains(siteName))
@@ -141,6 +142,19 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return null;
     }
 
+    private void waitForSiteRowsWithRetry()
+    {
+        int retryCount = 0;
+        while (retryCount < WAIT_10.getValue() && !webElementInteraction.isElementDisplayed(siteRowsElements))
+        {
+            log.error("Wait for site rows to be displayed");
+            navigate();
+            webElementInteraction.waitInSeconds(WAIT_1.getValue());
+            waitUntilLoadingMessageDisappears();
+            retryCount++;
+        }
+    }
+
     private boolean hasNextPage()
     {
         return webElementInteraction.waitUntilElementIsVisible(nextPageButton)
@@ -153,6 +167,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         {
             webElementInteraction.clickElement(nextPageButton);
             waitUntilLoadingMessageDisappears();
+            webElementInteraction.waitUntilElementsAreVisible(siteRowsElements);
         }
     }
 

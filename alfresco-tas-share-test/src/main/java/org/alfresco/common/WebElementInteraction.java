@@ -494,6 +494,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Elements located by {} are not visible", locator);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
             }

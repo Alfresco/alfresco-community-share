@@ -13,6 +13,7 @@ import org.alfresco.po.share.UploadFileDialog;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 
+import java.sql.Time;
 import java.util.List;
 
 @Slf4j
@@ -36,6 +37,21 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public String getRelativePath()
     {
         return "share/page/console/admin-console/application";
+    }
+
+    public ApplicationPage navigate()
+    {
+        super.navigate();
+        try
+        {
+            webElementInteraction.waitUntilElementIsVisible(uploadButton);
+        }
+        catch (TimeoutException e)
+        {
+            log.error("Failed to navigate to Application Page");
+            super.navigate();
+        }
+        return this;
     }
 
     public ApplicationPage assertAdminApplicationPageIsOpened()

@@ -1,5 +1,6 @@
 package org.alfresco.po.share.searching;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -69,6 +70,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     public SearchManagerPage assertSearchManagerPageIsOpened()
     {
         log.info("Assert Search Manager page is opened");
+        webElementInteraction.waitUrlContains(getRelativePath(), WAIT_10.getValue());
         assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
         return this;
     }
@@ -123,6 +125,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public CreateNewFilterDialog createNewFilter()
     {
+        webElementInteraction.waitUntilElementIsVisible(createNewFilter);
         webElementInteraction.clickElement(createNewFilter);
         return new CreateNewFilterDialog(webDriver);
     }

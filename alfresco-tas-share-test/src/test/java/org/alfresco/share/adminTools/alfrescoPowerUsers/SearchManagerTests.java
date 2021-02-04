@@ -31,7 +31,7 @@ public class SearchManagerTests extends BaseTest
         setupAuthenticatedSession(userAdmin.get());
         userDashboardPage.navigate(userAdmin.get());
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
-        dataGroup.usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_ADMIN_GROUP);
+        getDataGroup().usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_ADMIN_GROUP);
         setupAuthenticatedSession(userAdmin.get());
         userDashboardPage.navigate(userAdmin.get());
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
@@ -45,16 +45,10 @@ public class SearchManagerTests extends BaseTest
     public void userHasSearchManagerRightsWhenAddedToSearchAdministratorsGroup()
     {
         String filterId = RandomData.getRandomAlphanumeric();
+        getDataGroup().usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
 
-        setupAuthenticatedSession(userAdmin.get());
-        userDashboardPage.navigate(userAdmin.get());
-        toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
-        dataGroup.usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
-
-        setupAuthenticatedSession(userAdmin.get());
-        userDashboardPage.navigate(userAdmin.get());
+        setupAuthenticatedSessionViaLoginPage(userAdmin.get());
         searchManagerPage.navigate()
-            .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))
             .assertSearchManagerPageIsOpened()
             .createNewFilter()
                 .typeFilterId(filterId)

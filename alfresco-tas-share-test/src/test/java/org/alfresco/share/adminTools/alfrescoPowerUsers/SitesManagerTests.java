@@ -27,7 +27,8 @@ public class SitesManagerTests extends BaseTest
     public void setupTest()
     {
         siteAdmin.set(getDataUser().createRandomTestUser());
-        dataGroup.usingUser(siteAdmin.get()).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
+        getDataGroup().usingUser(siteAdmin.get()).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
+
         siteDashboardPage = new SiteDashboardPage(webDriver);
         sitesManagerPage = new SitesManagerPage(webDriver);
         systemErrorPage = new SystemErrorPage(webDriver);

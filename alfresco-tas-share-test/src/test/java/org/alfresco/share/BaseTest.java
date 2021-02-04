@@ -74,6 +74,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     private final ThreadLocal<UserService> userService = new ThreadLocal<>();
     private final ThreadLocal<DataSite> dataSiteThread = new ThreadLocal<>();
     private final ThreadLocal<DataUserAIS> dataUserThread = new ThreadLocal<>();
+    private final ThreadLocal<DataGroup> dataGroupThread = new ThreadLocal<>();
 
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
@@ -89,6 +90,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         userService.set(applicationContext.getBean(UserService.class));
         dataSiteThread.set(applicationContext.getBean(DataSite.class));
         dataUserThread.set(applicationContext.getBean(DataUserAIS.class));
+        dataGroupThread.set(applicationContext.getBean(DataGroup.class));
         //screenshotHelper = new ScreenshotHelper(webDriver);
 
         loginPage = new LoginPage(webDriver);
@@ -211,6 +213,11 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     public DataUserAIS getDataUser()
     {
         return dataUserThread.get();
+    }
+
+    public DataGroup getDataGroup()
+    {
+        return dataGroupThread.get();
     }
 
     public void deleteUsersIfNotNull(UserModel... users)
