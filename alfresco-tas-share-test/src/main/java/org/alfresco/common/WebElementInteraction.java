@@ -736,7 +736,8 @@ public class WebElementInteraction
 
     public void waitUntilElementDeletedFromDom(By locator, long timeOutInSeconds, long pollingTimeInMillis)
     {
-        try {
+        try
+        {
             setWaitingTime(timeOutInSeconds, pollingTimeInMillis)
                 .until(ExpectedConditions.stalenessOf(getWebDriver().findElement(locator)));
         }
@@ -748,7 +749,8 @@ public class WebElementInteraction
                 setWaitingTime(timeOutInSeconds, pollingTimeInMillis)
                     .until(ExpectedConditions.stalenessOf(getWebDriver().findElement(locator)));
             }
-            catch (NoSuchElementException | StaleElementReferenceException exception) {
+            catch (NoSuchElementException | StaleElementReferenceException exception)
+            {
                 throw new TimeoutException(String
                     .format("Element %s was still attached to DOM in the given seconds %d ",
                         locator, timeOutInSeconds), exception.getCause());
@@ -763,19 +765,9 @@ public class WebElementInteraction
             setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                 .until(ExpectedConditions.invisibilityOfElementLocated(locator));
         }
-        catch (StaleElementReferenceException staleElementReferenceException)
+        catch (StaleElementReferenceException | TimeoutException exception )
         {
-            log.error("Element is visible {}", locator);
-            try
-            {
-                setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
-                    .until(ExpectedConditions.invisibilityOfElementLocated(locator));
-            }
-            catch (TimeoutException timeoutException) {
-                throw new TimeoutException(String
-                    .format("Element %s was not invisible in the given seconds %d ", locator,
-                        defaultProperties.getExplicitWait()), timeoutException.getCause());
-            }
+            log.error("Element is still visible {}", locator);
         }
     }
 
