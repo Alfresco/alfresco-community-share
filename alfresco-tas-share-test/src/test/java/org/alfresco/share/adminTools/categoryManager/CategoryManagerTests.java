@@ -26,7 +26,7 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9294")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void verifyCategoryManagerPage()
     {
         categoryManagerPage.navigate();
@@ -36,7 +36,7 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9295")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void addNewCategory()
     {
         String category9295 = RandomStringUtils.randomAlphabetic(4);
@@ -48,7 +48,7 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9301")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void deleteCategory()
     {
         String category9301 = RandomStringUtils.randomAlphabetic(4);
@@ -60,7 +60,7 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9298")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
         String category9298 = RandomStringUtils.randomAlphabetic(4);
@@ -75,7 +75,7 @@ public class CategoryManagerTests extends BaseTest
         getUserService().deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), categoryToEdit);
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void addAndOpenSubCategory()
     {
         String subCategoryName = RandomStringUtils.randomAlphabetic(4);
