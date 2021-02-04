@@ -62,13 +62,13 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
         return new UserDashboardPage(webDriver);
     }
 
-    public UserDashboardPage navigate(String userName)
+    public synchronized UserDashboardPage navigate(String userName)
     {
         setUserName(userName);
         return navigate();
     }
 
-    public UserDashboardPage navigate(UserModel userModel)
+    public synchronized UserDashboardPage navigate(UserModel userModel)
     {
         return navigate(userModel.getUsername());
     }
