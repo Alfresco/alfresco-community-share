@@ -13,17 +13,15 @@ import org.testng.annotations.*;
 public class LocateItemsAndFoldersTests extends BaseTest
 {
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
-    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    private ThreadLocal<DocumentLibraryPage2> documentLibraryPage = new ThreadLocal<>();
+    private DocumentLibraryPage2 documentLibraryPage;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        documentLibraryPage.set(new DocumentLibraryPage2(webDriver));
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
 
         user.set(getDataUser().usingAdmin().createRandomTestUser());
-        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());
         getRestApi().authenticateUser(user.get());
 
@@ -35,17 +33,20 @@ public class LocateItemsAndFoldersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLocateFile()
     {
+        SiteModel site = getDataSite().usingUser(user.get()).createPublicRandomSite();
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().usingSite(site.get())
+        getCmisApi().usingSite(site)
             .createFile(file).assertThat().existsInRepo();
 
-        documentLibraryPage.get().navigate(site.get())
+        documentLibraryPage.navigate(site)
             .usingContent(file).assertContentIsDisplayed();
-        documentLibraryPage.get().selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
+        documentLibraryPage.selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
             .usingContent(file)
             .clickLocate();
-        documentLibraryPage.get().usingContent(file).assertContentIsHighlighted();
+        documentLibraryPage.usingContent(file).assertContentIsHighlighted();
+
+        getDataSite().usingAdmin().deleteSite(site);
     }
 
     @Bug (id = "MNT-17556")
@@ -53,23 +54,26 @@ public class LocateItemsAndFoldersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLocateFolderDetailedView() throws Exception
     {
+        SiteModel site = getDataSite().usingUser(user.get()).createPublicRandomSite();
+
         FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site.get()).createFolder(folder).assertThat().existsInRepo();
+        getCmisApi().usingSite(site).createFolder(folder).assertThat().existsInRepo();
         getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
-        documentLibraryPage.get().navigate(site.get())
+        documentLibraryPage.navigate(site)
             .usingContent(folder).assertContentIsDisplayed();
-        documentLibraryPage.get().selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
+        documentLibraryPage.selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
             .usingContent(folder)
             .clickLocate();
-        documentLibraryPage.get().usingContent(folder).assertContentIsHighlighted();
+        documentLibraryPage.usingContent(folder).assertContentIsHighlighted();
+
+        getDataSite().usingAdmin().deleteSite(site);
     }
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod()
     {
         deleteUsersIfNotNull(user.get());
-        deleteSitesIfNotNull(site.get());
     }
 }
