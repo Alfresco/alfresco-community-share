@@ -53,14 +53,13 @@ public class SearchManagerTests extends BaseTest
 
         setupAuthenticatedSession(userAdmin.get());
         userDashboardPage.navigate(userAdmin.get());
-        toolbar.search("test").assertSearchManagerButtonIsDisplayed()
-            .clickSearchManagerLink()
-                .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))
-                .assertSearchManagerPageIsOpened()
-                .createNewFilter()
-                    .typeFilterId(filterId)
-                    .typeFilterName(filterId)
-                    .clickSave();
+        searchManagerPage.navigate()
+            .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))
+            .assertSearchManagerPageIsOpened()
+            .createNewFilter()
+                .typeFilterId(filterId)
+                .typeFilterName(filterId)
+                .clickSave();
         searchManagerPage
             .editFilterProperty(filterId, "audio:album (Album)")
             .assertFilterPropertyIs(filterId, "audio:album (Album)")
