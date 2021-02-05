@@ -67,7 +67,8 @@ public class EditUserPage extends SharePage2<EditUserPage>
         setUserName(userName);
         try
         {
-            return navigate();
+            super.navigate();
+            webElementInteraction.waitUntilElementIsVisible(saveChangesButton);
         }
         catch (TimeoutException | PageRenderTimeException e)
         {
@@ -75,8 +76,8 @@ public class EditUserPage extends SharePage2<EditUserPage>
             UserProfileAdminToolsPage userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
             userProfileAdminToolsPage.navigate(userName);
             userProfileAdminToolsPage.clickEditUser();
-            return this;
         }
+        return this;
     }
 
     public synchronized EditUserPage navigate(UserModel user)
