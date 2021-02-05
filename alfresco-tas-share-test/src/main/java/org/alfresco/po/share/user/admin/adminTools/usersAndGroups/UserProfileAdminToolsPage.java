@@ -55,7 +55,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
         return "share/page/console/admin-console/users#state=panel%3Dview%26userid%3D" + getUserName() + "%26search%3D";
     }
 
-    public UserProfileAdminToolsPage navigate(String userName)
+    public synchronized UserProfileAdminToolsPage navigate(String userName)
     {
         setUserName(userName);
         super.navigate();
@@ -71,7 +71,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
         return this;
     }
 
-    public UserProfileAdminToolsPage navigate(UserModel user)
+    public synchronized UserProfileAdminToolsPage navigate(UserModel user)
     {
         return navigate(user.getUsername());
     }
