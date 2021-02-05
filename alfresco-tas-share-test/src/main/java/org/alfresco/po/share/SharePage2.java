@@ -68,21 +68,21 @@ public abstract class SharePage2<T> extends BasePage
     /**
      * Navigate directly to relative path of the object based on {@link #getRelativePath()} constructed
      */
-    public T navigate()
+    public synchronized T navigate()
     {
         log.info("Navigate to {}", relativePathToURL().toString());
         try
         {
-            webDriver.get().get(relativePathToURL().toString());
+            webElementInteraction.getUrl(relativePathToURL().toString());
             waitForSharePageToLoad();
             return (T) this;
         }
         catch (TimeoutException | NoSuchSessionException e)
         {
             log.info("Navigation to {} failed. {}", getRelativePath(), e.getMessage());
-            webDriver.get().navigate().refresh();
+            webElementInteraction.refresh();
             waitForSharePageToLoad();
-            webDriver.get().get(relativePathToURL().toString());
+            webElementInteraction.getUrl(relativePathToURL().toString());
             return (T) this;
         }
     }

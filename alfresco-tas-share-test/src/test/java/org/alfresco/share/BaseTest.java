@@ -132,7 +132,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    public void setupAuthenticatedSession(UserModel user)
+    public synchronized void setupAuthenticatedSession(UserModel user)
     {
         log.info("Setup authenticated session for user {}", user.getUsername());
         if(dataAIS.isEnabled()) // if identity-service is enabled do the login using the UI
@@ -149,7 +149,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
+    public synchronized void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
     {
         deleteAllCookiesIfNotNull();
         getLoginPage().navigate().login(userModel);
