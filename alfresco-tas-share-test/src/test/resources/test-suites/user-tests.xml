@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="User and Authentication Tests" parallel="classes" thread-count="3">
+<suite name="User and Authentication Tests" parallel="classes" thread-count="4">
    <listeners>
       <listener class-name="org.alfresco.utility.report.HtmlReportListener"/>
    </listeners>
