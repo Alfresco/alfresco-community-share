@@ -1,7 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -112,19 +111,11 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         clickSearch();
 
         int retryCounter = 0;
-        while(!isTagDisplayed(tagName) && retryCounter < WAIT_80.getValue())
+        while(!isTagDisplayed(tagName) && retryCounter < WAIT_60.getValue())
         {
-            log.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCounter);
+            log.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCounter);;
+            clickSearch();
             waitToLoopTime(WAIT_2.getValue());
-            if(webElementInteraction.isElementDisplayed(noTagFoundMessage))
-            {
-                clickSearch();
-            }
-            else
-            {
-                webElementInteraction.waitUntilElementHasAttribute(tabBodyMessage, styleAttribute, styleDisplayNone);
-                break;
-            }
             retryCounter++;
         }
         return this;
