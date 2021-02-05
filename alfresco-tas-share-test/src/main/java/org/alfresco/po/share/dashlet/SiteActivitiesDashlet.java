@@ -60,8 +60,10 @@ public class SiteActivitiesDashlet extends AbstractActivitiesDashlet<SiteActivit
     public DocumentDetailsPage clickDocumentLinkForAddActivity(UserModel user, FileModel file)
     {
         log.info("Click document link {} from create document activity", file.getName());
-        getActivityRow(String.format(language.translate("siteActivities.document.createActivity"),
-            user.getFirstName(), user.getLastName(), file.getName())).findElement(documentLinkLocator).click();
+        webElementInteraction.clickElement(getActivityRow(String
+            .format(language.translate("siteActivities.document.createActivity"),
+                user.getFirstName(), user.getLastName(), file.getName()))
+            .findElement(documentLinkLocator));
 
         return new DocumentDetailsPage(webDriver);
     }

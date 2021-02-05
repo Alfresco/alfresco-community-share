@@ -55,7 +55,7 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public void clickSearchAndWaitForResults()
     {
-        webElementInteraction.clickElement(searchButton); //TODO redo method search and wait for results
+        webElementInteraction.clickElement(searchButton);
     }
 
     public void search(String searchInput)
@@ -66,7 +66,7 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public String getNoResultsText()
     {
-        return webElementInteraction.findElement(noResults).getText();
+        return webElementInteraction.getElementText(noResults);
     }
 
     public boolean isSearchButtonDisplayed()
@@ -96,12 +96,12 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public String getSearchHelpMessage()
     {
-        return webElementInteraction.findElement(searchHelpMessage).getText();
+        return webElementInteraction.getElementText(searchHelpMessage);
     }
 
     public String getSearchResultsInfo()
     {
-        return webElementInteraction.findElement(searchResultsInfo).getText();
+        return webElementInteraction.getElementText(searchResultsInfo);
     }
 
     public WebElement selectUser(String username)

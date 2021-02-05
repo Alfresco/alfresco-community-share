@@ -22,6 +22,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     private final By paginationSection = By.cssSelector("div[class*='colleagues'] div[class*='paginator']");
     private final By membersList = By.cssSelector("div[class='body scrollableList'] div.person");
     private final By memberRole = By.cssSelector("div.person>div");
+
     private String usernameLocator = "//a[normalize-space()='%s']";
     private String userRoleLocator = "//div[@class='person']/div[normalize-space()='%s']";
 

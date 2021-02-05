@@ -1,22 +1,20 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
+@Slf4j
 public class MyDocumentDashletComponent
 {
-    private final Logger LOG = LoggerFactory.getLogger(MyDocumentDashletComponent.class);
-
     private final MyDocumentsDashlet myDocumentsDashlet;
     private final WebElementInteraction webElementInteraction;
     private final DocumentDetailsPage documentDetailsPage;
@@ -43,10 +41,10 @@ public class MyDocumentDashletComponent
         this.documentDetailsPage = documentDetailsPage;
         this.webElementInteraction = webElementInteraction;
         this.file = file;
-        LOG.info("Using file: {} in My Documents dashlet", file.getName());
+        log.info("Using file: {} in My Documents dashlet", file.getName());
     }
 
-    public WebElement getFileRow()
+    private WebElement getFileRow()
     {
         return myDocumentsDashlet.getDocumentRow(file.getName());
     }
@@ -59,7 +57,7 @@ public class MyDocumentDashletComponent
 
     public MyDocumentDashletComponent assertFileIsNotDisplayed()
     {
-        Assert.assertFalse(webElementInteraction.isElementDisplayed(
+        assertFalse(webElementInteraction.isElementDisplayed(
                 By.xpath(String.format(myDocumentsDashlet.documentRow, file.getName()))));
         return this;
     }
@@ -108,7 +106,7 @@ public class MyDocumentDashletComponent
         {
             likeBtn = getFileRow().findElement(likeAction);
         }
-        webElementInteraction.clickJS(likeBtn);
+        webElementInteraction.clickElement(likeBtn);
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
         return this;
     }
@@ -129,22 +127,23 @@ public class MyDocumentDashletComponent
 
     public MyDocumentDashletComponent addToFavorite()
     {
-        webElementInteraction.clickJS(getFileRow().findElement(favoriteAction));
+        webElementInteraction.clickElement(getFileRow().findElement(favoriteAction));
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
         return this;
     }
 
     public MyDocumentDashletComponent removeFromFavorite()
     {
-        webElementInteraction.clickJS(getFileRow().findElement(removeFromFavorite));
+        webElementInteraction.clickElement(getFileRow().findElement(removeFromFavorite));
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
         return this;
     }
 
     public MyDocumentDashletComponent assertNoDescriptionIsDisplayed()
     {
-        assertEquals(getFileRow().findElement(descriptionElement).getText(),
-                myDocumentsDashlet.language.translate("myDocumentsDashlet.noDescription"));
+        assertEquals(
+            webElementInteraction.getElementText(getFileRow().findElement(descriptionElement)),
+            myDocumentsDashlet.language.translate("myDocumentsDashlet.noDescription"));
         return this;
     }
 
@@ -154,33 +153,34 @@ public class MyDocumentDashletComponent
         WebElement docName = row.findElement(documentNameLink);
         webElementInteraction.mouseOver(docName);
         webElementInteraction.waitUntilElementHasAttribute(row, "class", "highlighted");
-        assertEquals(row.findElement(versionElement).getText(), String.valueOf(version),
-                "Document version is correct");
+
+        assertEquals(webElementInteraction.getElementText(row.findElement(versionElement)),
+            String.valueOf(version), "Document version is correct");
         return this;
     }
 
     public MyDocumentDashletComponent assertThumbnailIsDisplayed()
     {
-        LOG.info("Assert thumbnail is displayed");
+        log.info("Assert thumbnail is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(thumbnail)), "Thumbnail is displayed");
         return this;
     }
 
     public DocumentDetailsPage selectDocument()
     {
-        getFileRow().findElement(documentNameLink).click();
+        webElementInteraction.clickElement(getFileRow().findElement(documentNameLink));
         return documentDetailsPage;
     }
 
     public DocumentDetailsPage clickThumbnail()
     {
-        getFileRow().findElement(thumbnail).click();
+        webElementInteraction.clickElement(getFileRow().findElement(thumbnail));
         return documentDetailsPage;
     }
 
     public DocumentDetailsPage addComment()
     {
-        getFileRow().findElement(commentLink).click();
+        webElementInteraction.clickElement(getFileRow().findElement(commentLink));
         return documentDetailsPage;
     }
 }

@@ -1,5 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
@@ -7,32 +11,27 @@ import org.alfresco.utility.model.SiteModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import static org.testng.Assert.*;
-import static org.testng.Assert.assertTrue;
-
+@Slf4j
 public class SiteContentDashletComponent
 {
-    private final Logger LOG = LoggerFactory.getLogger(SiteContentDashletComponent.class);
     private SiteContentDashlet siteContentDashlet;
     private WebElementInteraction webElementInteraction;
     private DocumentDetailsPage documentDetailsPage;
     private FileModel file;
 
-    private By siteLocator = By.cssSelector(".detail span a");
-    private By thumbnail = By.cssSelector("td[headers$='thumbnail '] a");
-    private By fileNameLocator = By.cssSelector(".filename>a");
-    private By description = By.cssSelector(".detail:nth-of-type(2) > span");
-    private By documentVersion = By.cssSelector(".document-version");
-    private By fileSize = By.cssSelector(".detail:nth-of-type(1)>span:nth-of-type(2)");
-    private By likeAction = By.cssSelector("a[class='like-action like1']");
-    private By unlikeAction = By.cssSelector("a[class='like-action like1 enabled']");
-    private By likesCount = By.cssSelector(".likes-count");
-    private By favoriteAction = By.cssSelector("a[class^='favourite-action']");
-    private By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite0 enabled']");
-    private By commentLink = By.cssSelector("a.comment");
+    private final By siteLocator = By.cssSelector(".detail span a");
+    private final By thumbnail = By.cssSelector("td[headers$='thumbnail '] a");
+    private final By fileNameLocator = By.cssSelector(".filename>a");
+    private final By description = By.cssSelector(".detail:nth-of-type(2) > span");
+    private final By documentVersion = By.cssSelector(".document-version");
+    private final By fileSize = By.cssSelector(".detail:nth-of-type(1)>span:nth-of-type(2)");
+    private final By likeAction = By.cssSelector("a[class='like-action like1']");
+    private final By unlikeAction = By.cssSelector("a[class='like-action like1 enabled']");
+    private final By likesCount = By.cssSelector(".likes-count");
+    private final By favoriteAction = By.cssSelector("a[class^='favourite-action']");
+    private final By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite0 enabled']");
+    private final By commentLink = By.cssSelector("a.comment");
 
     public SiteContentDashletComponent(SiteContentDashlet siteContentDashlet,
                                        WebElementInteraction webElementInteraction,
@@ -44,7 +43,7 @@ public class SiteContentDashletComponent
         this.documentDetailsPage = documentDetailsPage;
         this.file = file;
 
-        LOG.info(String.format("Using file: %s in Site Content dashlet", file.getName()));
+        log.info(String.format("Using file: %s in Site Content dashlet", file.getName()));
     }
 
     public WebElement getFileRow()
@@ -60,15 +59,15 @@ public class SiteContentDashletComponent
 
     public SiteContentDashletComponent assertSiteEqualsTo(SiteModel site)
     {
-        LOG.info("Assert site equals to {}", site.getTitle());
-        assertEquals(getFileRow().findElement(siteLocator).getText(), site.getTitle(),
-                String.format("Site %s is not displayed", site.getTitle()));
+        log.info("Assert site equals to {}", site.getTitle());
+        assertEquals(webElementInteraction.getElementText(getFileRow().findElement(siteLocator)),
+            site.getTitle(), String.format("Site %s is not displayed", site.getTitle()));
         return this;
     }
 
     public SiteContentDashletComponent assertThumbnailIsDisplayed()
     {
-        LOG.info("Assert thumbnail is displayed");
+        log.info("Assert thumbnail is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(thumbnail)),
                 "Thumbnail is not displayed");
         return this;
@@ -76,63 +75,65 @@ public class SiteContentDashletComponent
 
     public DocumentDetailsPage clickFileName()
     {
-        LOG.info("Click file name");
-        getFileRow().findElement(fileNameLocator).click();
+        log.info("Click file name");
+        webElementInteraction.clickElement(getFileRow().findElement(fileNameLocator));
 
         return documentDetailsPage;
     }
 
     public SiteContentDashletComponent assertDescriptionEqualsTo(String expectedDescription)
     {
-        LOG.info("Assert expected description equals to {}", expectedDescription);
-        assertEquals(getFileRow().findElement(description).getText(), expectedDescription,
-                "File description is not correct");
+        log.info("Assert expected description equals to {}", expectedDescription);
+        assertEquals(webElementInteraction.getElementText(getFileRow().findElement(description)),
+            expectedDescription, "File description is not correct");
         return this;
     }
 
     public SiteContentDashletComponent assertFileVersionEqualsTo(double expectedVersion)
     {
-        LOG.info("Assert file version equals to {}", expectedVersion);
+        log.info("Assert file version equals to {}", expectedVersion);
         webElementInteraction.mouseOver(getFileRow().findElement(fileNameLocator));
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), documentVersion);
-        assertEquals(Double.valueOf(getFileRow().findElement(documentVersion).getText()), expectedVersion,
-                "File version is not correct");
+
+        assertEquals(Double.valueOf(
+            webElementInteraction.getElementText(getFileRow().findElement(documentVersion))),
+            expectedVersion, "File version is not correct");
         return this;
     }
 
     public SiteContentDashletComponent assertFileSizeEqualsTo(String expectedFileSize)
     {
-        LOG.info("Assert file size equals to {}", expectedFileSize);
-        assertEquals(getFileRow().findElement(fileSize).getText(), expectedFileSize,
+        log.info("Assert file size equals to {}", expectedFileSize);
+        assertEquals(webElementInteraction.getElementText(getFileRow().findElement(fileSize)), expectedFileSize,
                 "File size is not correct");
         return this;
     }
 
     public SiteContentDashletComponent assertLikeIsDisplayed()
     {
-        LOG.info("Assert like is displayed");
+        log.info("Assert like is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(likeAction)), "Like is not displayed");
         return this;
     }
 
     public SiteContentDashletComponent assertUnlikeIsDisplayed()
     {
-        LOG.info("Assert unlike is displayed");
+        log.info("Assert unlike is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is not displayed");
         return this;
     }
 
     public SiteContentDashletComponent assertNumberOfLikesEqualsTo(int nrOfLikes)
     {
-        LOG.info("Assert number of likes equals to {}", nrOfLikes);
-        int likes = Integer.parseInt(getFileRow().findElement(likesCount).getText());
+        log.info("Assert number of likes equals to {}", nrOfLikes);
+        int likes = Integer.parseInt(webElementInteraction.getElementText(getFileRow().findElement(likesCount)));
         assertEquals(likes, nrOfLikes, "Number of likes is correct");
         return this;
     }
 
     public SiteContentDashletComponent clickLike()
     {
-        LOG.info("Click like");
+        log.info("Click like");
         WebElement likeBtn;
         try
         {
@@ -142,22 +143,22 @@ public class SiteContentDashletComponent
         {
             likeBtn = getFileRow().findElement(likeAction);
         }
-        webElementInteraction.clickJS(likeBtn);
+        webElementInteraction.clickElement(likeBtn);
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
         return this;
     }
 
     public SiteContentDashletComponent clickUnlike()
     {
-        LOG.info("Click unlike");
-        webElementInteraction.clickJS(getFileRow().findElement(unlikeAction));
+        log.info("Click unlike");
+        webElementInteraction.clickElement(getFileRow().findElement(unlikeAction));
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), likeAction);
         return this;
     }
 
     public SiteContentDashletComponent assertAddToFavoriteIsDisplayed()
     {
-        LOG.info("Assert add to favorite is displayed");
+        log.info("Assert add to favorite is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(favoriteAction)),
                 "Favorite action is not displayed");
         return this;
@@ -165,7 +166,7 @@ public class SiteContentDashletComponent
 
     public SiteContentDashletComponent assertRemoveFromFavoriteIsDisplayed()
     {
-        LOG.info("Assert remove from favorite is displayed");
+        log.info("Assert remove from favorite is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
                 "Remove from favorite is not displayed");
         return this;
@@ -173,23 +174,23 @@ public class SiteContentDashletComponent
 
     public SiteContentDashletComponent addToFavorite()
     {
-        LOG.info("Add file to favorite");
-        webElementInteraction.clickJS(getFileRow().findElement(favoriteAction));
+        log.info("Add file to favorite");
+        webElementInteraction.clickElement(getFileRow().findElement(favoriteAction));
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
         return this;
     }
 
     public SiteContentDashletComponent removeFromFavorite()
     {
-        LOG.info("Remove file from favorite");
-        webElementInteraction.clickJS(getFileRow().findElement(removeFromFavorite));
+        log.info("Remove file from favorite");
+        webElementInteraction.clickElement(getFileRow().findElement(removeFromFavorite));
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
         return this;
     }
 
     public DocumentDetailsPage clickCommentLink()
     {
-        getFileRow().findElement(commentLink).click();
+        webElementInteraction.clickElement(getFileRow().findElement(commentLink));
         return documentDetailsPage;
     }
 }

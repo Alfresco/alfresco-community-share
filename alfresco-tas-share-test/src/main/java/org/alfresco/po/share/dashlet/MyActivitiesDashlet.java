@@ -98,8 +98,9 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
 
     public UserProfilePage clickUserFromAddedDocumentActivity(UserModel user, FileModel file, SiteModel site)
     {
-        getActivityRow(String.format(language.translate(CREATE_ACTIVITY),
-            user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(userLinkLocator).click();
+        webElementInteraction.clickElement(getActivityRow(String
+            .format(language.translate(CREATE_ACTIVITY), user.getFirstName(), user.getLastName(),
+                file.getName(), site.getTitle())).findElement(userLinkLocator));
         return new UserProfilePage(webDriver);
     }
 

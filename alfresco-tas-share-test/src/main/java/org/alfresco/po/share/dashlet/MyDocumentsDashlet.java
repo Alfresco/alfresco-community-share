@@ -1,5 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_80;
 import static org.testng.Assert.assertEquals;
@@ -85,10 +86,10 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet filter(DocumentsFilter filter)
     {
-        webElementInteraction.waitUntilElementClickable(filterButton).click();
+        webElementInteraction.clickElement(filterButton);
         List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(filterOptions);
         webElementInteraction.selectOptionFromFilterOptionsList(getFilterValue(filter), options);
-        webElementInteraction.waitInSeconds(1);
+        webElementInteraction.waitInSeconds(WAIT_1.getValue());
         return this;
     }
 
@@ -98,14 +99,6 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         webElementInteraction.clickElement(detailedViewButton);
         webElementInteraction.waitUntilElementHasAttribute(detailedViewButtonSpan, "class", buttonChecked);
 
-        return this;
-    }
-
-    public MyDocumentsDashlet selectSimpleView()
-    {
-        log.info("Select Simple View");
-        webElementInteraction.clickElement(simpleViewButton);
-        webElementInteraction.waitUntilElementIsVisible(documentsArea);
         return this;
     }
 
