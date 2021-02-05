@@ -37,6 +37,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     private final By trashcanLink = By.cssSelector("a[id$='user-trashcan-link']");
     private final By photo = By.cssSelector("div[id$='readview'] .photoimg");
     private final By fieldValue = By.cssSelector(".fieldvalue");
+
     private final String contactInfoDuplicateRow = "(//span[text()= '%s'])[1]/..";
     private final String companyInfoDuplicateRow = "(//span[text()= '%s'])[2]/..";
     private final String valueRow = "//span[@class='fieldlabelright' and text()='%s']/..";
