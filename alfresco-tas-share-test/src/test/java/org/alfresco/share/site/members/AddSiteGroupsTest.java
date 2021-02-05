@@ -78,7 +78,7 @@ public class AddSiteGroupsTest extends BaseTest
             .goBackToSiteGroupsPage();
 
         siteGroupsPage
-            .assertSiteGroupNameEqualsTo(groupModel.get().getDisplayName())
+            .assertSiteMemberNameEqualsTo(groupModel.get().getDisplayName())
             .assertSelectedRoleEqualsTo(MANAGER.getValue(), groupModel.get().getDisplayName());
 
         siteGroupsPage
@@ -109,7 +109,7 @@ public class AddSiteGroupsTest extends BaseTest
             .goBackToSiteGroupsPage();
 
         siteGroupsPage
-            .assertSiteGroupNameEqualsTo(groupModel.get().getDisplayName())
+            .assertSiteMemberNameEqualsTo(groupModel.get().getDisplayName())
             .assertSelectedRoleEqualsTo(COLLABORATOR.getValue(), groupModel.get().getDisplayName());
 
         siteGroupsPage
@@ -140,7 +140,7 @@ public class AddSiteGroupsTest extends BaseTest
             .goBackToSiteGroupsPage();
 
         siteGroupsPage
-            .assertSiteGroupNameEqualsTo(groupModel.get().getDisplayName())
+            .assertSiteMemberNameEqualsTo(groupModel.get().getDisplayName())
             .assertSelectedRoleEqualsTo(CONTRIBUTOR.getValue(), groupModel.get().getDisplayName());
 
         siteGroupsPage
@@ -171,7 +171,7 @@ public class AddSiteGroupsTest extends BaseTest
             .goBackToSiteGroupsPage();
 
         siteGroupsPage
-            .assertSiteGroupNameEqualsTo(groupModel.get().getDisplayName())
+            .assertSiteMemberNameEqualsTo(groupModel.get().getDisplayName())
             .assertSelectedRoleEqualsTo(CONSUMER.getValue(), groupModel.get().getDisplayName());
 
         siteGroupsPage
@@ -254,7 +254,7 @@ public class AddSiteGroupsTest extends BaseTest
         siteUsersPage.navigate(siteModel.get());
 
         siteGroupsPage.searchGroupByName(userToAddInGroup.getUsername());
-        siteGroupsPage.assertSiteGroupNameEqualsTo(userToAddInGroup.getFirstName()
+        siteGroupsPage.assertSiteMemberNameEqualsTo(userToAddInGroup.getFirstName()
             .concat(EMPTY_SPACE).concat(userToAddInGroup.getLastName()));
 
         siteUsersPage.assertRemoveButtonIsDisabledForUser(userToAddInGroup.getUsername());

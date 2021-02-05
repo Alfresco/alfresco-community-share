@@ -51,7 +51,6 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
         {
             webElementInteraction.waitUntilElementDisappears(waitPopup);
         }
-        webElementInteraction.waitUntilElementIsVisible(members);
         webElementInteraction.clickElement(members);
     }
 
