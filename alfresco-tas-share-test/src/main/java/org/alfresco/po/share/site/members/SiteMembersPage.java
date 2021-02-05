@@ -57,9 +57,10 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return getMemberName(name).findElement(currentRole).getText();
     }
 
-    public boolean isRemoveButtonEnabledForMember(String name)
+    public SiteMembersPage assertSiteMemberRemoveButtonIsEnabled(String name)
     {
-        return getMemberName(name).findElement(removeButton).isEnabled();
+        assertTrue(getMemberName(name).findElement(removeButton).isEnabled(), "Remove button is not enabled");
+        return this;
     }
 
     /**
@@ -96,17 +97,12 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return names;
     }
 
-    public SiteMembersPage assertSiteGroupNameEqualsTo(String expectedSiteMemberName)
+    public SiteMembersPage assertSiteMemberNameEqualsTo(String expectedSiteMemberName)
     {
         log.info("Assert site member name equals to: {}", expectedSiteMemberName);
         assertTrue(getSiteMembersList().stream().anyMatch(member -> member.equals(expectedSiteMemberName)),
             String.format("Site member name not equals %s ", expectedSiteMemberName));
         return this;
-    }
-
-    public SiteMembersPage isSiteMember(UserModel userModel)
-    {
-        return assertSiteGroupNameEqualsTo(userModel.getFirstName() + " " + userModel.getLastName());
     }
 
     public void waitSiteMemberToDisappear(String siteMember)

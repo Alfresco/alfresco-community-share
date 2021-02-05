@@ -26,7 +26,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -829,7 +828,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         String foldername3 = "Backup";
         contentService.createFolder(userName, password, folderName, siteName);
         addSiteUsersPage.navigate(siteName);
-        addSiteUsersPage.searchForUser(userName2);
+        addSiteUsersPage.searchUserWithName(userName2);
         addSiteUsersPage.clickSelectUserButton(userName2);
         addSiteUsersPage.setUserRole(userName2, "Manager");
         addSiteUsersPage.clickAddUsers();
