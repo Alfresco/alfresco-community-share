@@ -9,11 +9,9 @@ import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.WebElementInteraction;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -56,16 +54,10 @@ public abstract class BasePage
             defaultProperties.get().getBrowserLanguageCountry());
 
         this.webDriver = webDriver;
-        waitUntilDomReadyStateIsComplete(webDriver);
         webElementInteraction = new WebElementInteraction(webDriver, defaultProperties.get());
+        webElementInteraction.waitUntilDomReadyStateIsComplete();
     }
 
-    private void waitUntilDomReadyStateIsComplete(ThreadLocal<WebDriver> webDriver)
-    {
-        new WebDriverWait(webDriver.get(), defaultProperties.get().getExplicitWait())
-            .until(driver -> ((JavascriptExecutor) webDriver.get())
-                .executeScript("return document.readyState").equals("complete"));
-    }
 
     public ThreadLocal<String> waitUntilNotificationMessageDisappears()
     {

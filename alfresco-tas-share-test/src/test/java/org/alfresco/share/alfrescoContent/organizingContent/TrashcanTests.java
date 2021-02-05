@@ -15,24 +15,20 @@ import org.testng.annotations.*;
 
 public class TrashcanTests extends BaseTest
 {
-    private UserModel trashUser;
-    private UserModel cleanUser;
-    private SiteModel trashSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private UserTrashcanPage userTrashcanPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        trashUser = dataUser.usingAdmin().createRandomTestUser();
-        cleanUser = dataUser.usingAdmin().createRandomTestUser();
-        trashSite = dataSite.usingUser(trashUser).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         userTrashcanPage = new UserTrashcanPage(webDriver);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C10506")
@@ -41,14 +37,12 @@ public class TrashcanTests extends BaseTest
     {
         FolderModel folderToDelete = FolderModel.getRandomFolderModel();
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        getCmisApi().authenticateUser(cleanUser).usingShared()
+        getCmisApi().authenticateUser(user.get()).usingShared()
             .createFolder(folderToDelete).createFile(file);
         getCmisApi().usingResource(file).delete()
             .and().usingResource(folderToDelete).deleteFolderTree();
 
-        setupAuthenticatedSession(cleanUser);
-
-        userTrashcanPage.navigate(trashUser)
+        userTrashcanPage.navigate(user.get())
             .clickEmptyButton()
             .assertDeleteDialogHeaderEqualsTo(language.translate("emptyTrashcan.title"))
             .assertConfirmDeleteMessageEqualsTo(language.translate("emptyTrashcan.message"))
@@ -62,12 +56,11 @@ public class TrashcanTests extends BaseTest
     public void verifyTrashcanDeleteFile()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        getCmisApi().authenticateUser(trashUser)
-            .usingSite(trashSite).createFile(file)
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(file)
             .then().usingResource(file).delete();
-        setupAuthenticatedSession(trashUser);
 
-        userTrashcanPage.navigate(trashUser)
+        userTrashcanPage.navigate(user.get())
             .clickDeleteButton(file)
             .clickDelete();
         userTrashcanPage.assertContentIsNotDisplayed(file);
@@ -78,21 +71,20 @@ public class TrashcanTests extends BaseTest
     public void verifyTrashcanDeleteFolder()
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().authenticateUser(trashUser)
-            .usingSite(trashSite).createFolder(folder)
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFolder(folder)
                 .then().usingResource(folder).delete();
 
-        setupAuthenticatedSession(trashUser);
-        userTrashcanPage.navigate(trashUser)
+        userTrashcanPage.navigate(user.get())
             .clickDeleteButton(folder)
             .clickDelete();
         userTrashcanPage.assertContentIsNotDisplayed(folder);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(trashUser, cleanUser);
-        deleteSitesIfNotNull(trashSite);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

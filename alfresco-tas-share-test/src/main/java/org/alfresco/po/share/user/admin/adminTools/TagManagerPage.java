@@ -1,7 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -79,6 +78,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
     public TagManagerPage assertSearchButtonIsDisplayed()
     {
         log.info("Assert Search button is displayed");
+        webElementInteraction.waitUntilElementIsVisible(searchButton);
         assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
@@ -109,23 +109,13 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
     {
         typeInSearch(tagName);
         clickSearch();
-        webElementInteraction.waitInSeconds(WAIT_2.getValue());
 
-        boolean isTagFound = isTagDisplayed(tagName);
         int retryCounter = 0;
-        while(!isTagFound && retryCounter < WAIT_80.getValue())
+        while(!isTagDisplayed(tagName) && retryCounter < WAIT_60.getValue())
         {
-            log.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCounter);
+            log.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCounter);;
+            clickSearch();
             waitToLoopTime(WAIT_2.getValue());
-            if(webElementInteraction.isElementDisplayed(noTagFoundMessage))
-            {
-                clickSearch();
-            }
-            else
-            {
-                webElementInteraction.waitUntilElementHasAttribute(tabBodyMessage, styleAttribute, styleDisplayNone);
-                break;
-            }
             retryCounter++;
         }
         return this;

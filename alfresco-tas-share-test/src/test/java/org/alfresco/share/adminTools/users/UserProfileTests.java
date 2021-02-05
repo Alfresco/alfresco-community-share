@@ -10,10 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class UserProfileTests extends BaseTest
 {
@@ -21,28 +18,13 @@ public class UserProfileTests extends BaseTest
     private UserProfileAdminToolsPage userProfileAdminToolsPage;
     private EditUserPage editUserPage;
 
-    private UserModel browseUser;
-    private UserModel deleteUser;
-    private UserModel enableUser;
-    private UserModel removeGroupUser;
-    private UserModel addUserToGroup;
-    private GroupModel c9423Group;
-
-    @BeforeClass (alwaysRun = true)
-    public void dataPrep()
-    {
-        browseUser = dataUser.usingAdmin().createRandomTestUser();
-        deleteUser = dataUser.createRandomTestUser();
-        enableUser = dataUser.createRandomTestUser();
-        removeGroupUser = dataUser.createRandomTestUser();
-        addUserToGroup = dataUser.createRandomTestUser();
-
-        c9423Group = dataGroup.usingAdmin().createRandomGroup();
-    }
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+
         usersPage = new UsersPage(webDriver);
         userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
         editUserPage = new EditUserPage(webDriver);
@@ -54,14 +36,14 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browseUserProfilePage()
     {
-        userProfileAdminToolsPage.navigate(browseUser)
-            .assertUserIsDisplayedInTitle(browseUser)
+        userProfileAdminToolsPage.navigate(user.get())
+            .assertUserIsDisplayedInTitle(user.get())
             .assertEditUserButtonIsDisplayed()
             .assertDeleteUserButtonIsDisplayed()
             .assertGoBackButtonIsDisplayed()
             .assertAllSectionsAreDisplayed()
             .assertUserPhotoIsDisplayed()
-            .assertUserFullNameIsDisplayedInAboutSection(browseUser)
+            .assertUserFullNameIsDisplayedInAboutSection(user.get())
             .assertAllInfoAreDisplayedInSections();
     }
 
@@ -69,9 +51,9 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browseEditUserAdminPage()
     {
-        userProfileAdminToolsPage.navigate(browseUser)
+        userProfileAdminToolsPage.navigate(user.get())
             .clickEditUser()
-                .assertUserFullNameIsDisplayedInTitle(browseUser)
+                .assertUserFullNameIsDisplayedInTitle(user.get())
                 .assertAllSectionsAreDisplayed()
                 .assertSaveChangesButtonIsDisplayed()
                 .assertCancelButtonIsDisplayed()
@@ -113,7 +95,8 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUserToGroup()
     {
-        editUserPage.navigate(addUserToGroup)
+        GroupModel c9423Group = dataGroup.usingAdmin().createRandomGroup();
+        editUserPage.navigate(user.get())
             .searchGroupWithRetry(c9423Group)
                 .assertGroupIsFound(c9423Group)
                 .assertAddButtonIsDisplayedForGroup(c9423Group)
@@ -145,15 +128,15 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteAuthorizedUser()
     {
-        getUserService().login(deleteUser.getUsername(), deleteUser.getPassword());
-        userProfileAdminToolsPage.navigate(deleteUser)
+        getUserService().login(user.get().getUsername(), user.get().getPassword());
+        userProfileAdminToolsPage.navigate(user.get())
             .clickDelete()
             .assertDeleteUserDialogIsOpened()
             .assertDeleteUserDialogTextIsCorrect()
             .clickDelete();
         usersPage.assertDeleteUserNotificationIsDisplayed();
-        usersPage.navigate().searchUser(deleteUser.getUsername())
-            .usingUser(deleteUser).assertUserDeleteIconIsDisplayed()
+        usersPage.navigate().searchUser(user.get().getUsername())
+            .usingUser(user.get()).assertUserDeleteIconIsDisplayed()
                 .assertDeletedIsDisplayed();
     }
 
@@ -161,7 +144,7 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void updateUserQuota()
     {
-        editUserPage.navigate(browseUser)
+        editUserPage.navigate(user.get())
             .editQuota("50")
             .clickSaveChanges()
                 .assertQuotaIs("50 GB");
@@ -172,7 +155,7 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void enablingAccount()
     {
-        editUserPage.navigate(enableUser)
+        editUserPage.navigate(user.get())
             .selectDisabledAccount()
             .clickSaveChanges()
                 .assertAccountStatusIsDisabled()
@@ -186,7 +169,7 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeGroupFromUserProfile()
     {
-        editUserPage.navigate(removeGroupUser)
+        editUserPage.navigate(user.get())
             .searchGroupWithRetry(ALFRESCO_ADMIN_GROUP)
             .addGroup(ALFRESCO_ADMIN_GROUP)
             .clickSaveChanges()
@@ -196,10 +179,9 @@ public class UserProfileTests extends BaseTest
                     .assertGroupIsNotDisplayed(ALFRESCO_ADMIN_GROUP.getGroupIdentifier());
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        deleteUsersIfNotNull(browseUser, enableUser, removeGroupUser, addUserToGroup);
-        dataGroup.deleteGroup(c9423Group);
+        deleteUsersIfNotNull(user.get());
     }
 }

@@ -3,14 +3,17 @@ package org.alfresco.share.adminTools.categoryManager;
 import static java.util.Arrays.asList;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 public class CategoryManagerTests extends BaseTest
 {
     private CategoryManagerPage categoryManagerPage;
@@ -23,7 +26,7 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9294")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void verifyCategoryManagerPage()
     {
         categoryManagerPage.navigate();
@@ -33,7 +36,7 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9295")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void addNewCategory()
     {
         String category9295 = RandomStringUtils.randomAlphabetic(4);
@@ -45,11 +48,11 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9301")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void deleteCategory()
     {
         String category9301 = RandomStringUtils.randomAlphabetic(4);
-        getUserService().createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9301);
+        createCategory(category9301);
 
         categoryManagerPage.navigate();
         categoryManagerPage.deleteCategory(category9301)
@@ -57,12 +60,12 @@ public class CategoryManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9298")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
         String category9298 = RandomStringUtils.randomAlphabetic(4);
         String categoryToEdit = RandomStringUtils.randomAlphabetic(4);
-        getUserService().createRootCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), category9298);
+        createCategory(category9298);
 
         categoryManagerPage.navigate()
             .editCategory(category9298, categoryToEdit);
@@ -72,7 +75,7 @@ public class CategoryManagerTests extends BaseTest
         getUserService().deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), categoryToEdit);
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
     public void addAndOpenSubCategory()
     {
         String subCategoryName = RandomStringUtils.randomAlphabetic(4);
@@ -82,5 +85,18 @@ public class CategoryManagerTests extends BaseTest
             String.format("Subcategory %s is not displayed in the list", subCategoryName));
 
         getUserService().deleteCategory(getAdminUser().getUsername(), getAdminUser().getPassword(), subCategoryName);
+    }
+
+    private void createCategory(String category)
+    {
+        boolean created = getUserService().createRootCategory(
+            getAdminUser().getUsername(), getAdminUser().getPassword(), category);
+        if(!created)
+        {
+            log.error("Retry create category {}", category);
+            Utility.waitToLoopTime(2);
+            getUserService().createRootCategory(
+                getAdminUser().getUsername(), getAdminUser().getPassword(), category);
+        }
     }
 }

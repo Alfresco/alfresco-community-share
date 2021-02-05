@@ -1,5 +1,7 @@
 package org.alfresco.share.adminTools.nodeBrowser;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage.SearchType;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage.StoreType;
@@ -17,8 +19,6 @@ public class NodeBrowserTests extends BaseTest
     private NodeBrowserPage nodeBrowserPage;
 
     private ThreadLocal<SiteModel> site = new ThreadLocal<>();
-    private ThreadLocal<FileModel> file = new ThreadLocal<>();
-    private final String content = RandomStringUtils.randomAlphanumeric(10);
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -26,9 +26,6 @@ public class NodeBrowserTests extends BaseTest
         nodeBrowserPage = new NodeBrowserPage(webDriver);
 
         site.set(dataSite.usingAdmin().createPublicRandomSite());
-        file.set(FileModel.getRandomFileModel(FileType.XML, content));
-        getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file.get());
-
         setupAuthenticatedSession(dataUser.getAdminUser());
     }
 
@@ -36,77 +33,95 @@ public class NodeBrowserTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void luceneSearch()
     {
+        String content = RandomStringUtils.randomAlphanumeric(10);
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, content);
+        getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
+
         nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(SearchType.LUCENE)
             .searchFor(content)
             .clickSearch()
-            .assertParentForFileIsSite(file.get(), site.get())
-            .assertReferenceForFileIsCorrect(file.get());
+            .assertParentForFileIsSite(file, site.get())
+            .assertReferenceForFileIsCorrect(file);
     }
 
     @TestRail (id = "C9307")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void nodeRefSearch()
     {
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
+
         nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(SearchType.NODEREF)
-            .searchFor("workspace://SpacesStore/" + file.get().getNodeRefWithoutVersion())
+            .searchFor("workspace://SpacesStore/" + file.getNodeRefWithoutVersion())
             .clickSearch()
-            .assertParentForFileIsSite(file.get(), site.get())
-            .assertReferenceForFileIsCorrect(file.get());
+            .assertParentForFileIsSite(file, site.get())
+            .assertReferenceForFileIsCorrect(file);
     }
 
     @TestRail (id = "C9308")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void xpathSearch()
     {
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
         String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s",
-            site.get().getId(), file.get().getName());
+            site.get().getId(), file.getName());
 
         nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(SearchType.XPATH)
             .searchFor(xpathSearchTerm)
             .clickSearch()
-            .assertParentForFileIsSite(file.get(), site.get())
-            .assertReferenceForFileIsCorrect(file.get());
+            .assertParentForFileIsSite(file, site.get())
+            .assertReferenceForFileIsCorrect(file);
     }
 
     @TestRail (id = "C9310")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void ftsAlfrescoSearch()
     {
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
+
         nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(SearchType.FTS_ALFRESCO)
-            .searchFor("cm:name:" + file.get().getName())
+            .searchFor("cm:name:" + file.getName())
             .clickSearch()
-            .assertParentForFileIsSite(file.get(), site.get())
-            .assertReferenceForFileIsCorrect(file.get());
+            .assertParentForFileIsSite(file, site.get())
+            .assertReferenceForFileIsCorrect(file);
     }
 
     @TestRail (id = "C9311")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisStrictSearch()
     {
-        String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.get().getName());
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
+        String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
+
         nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(SearchType.CMIS_STRICT)
             .searchFor(cmisSearchTerm)
             .clickSearch()
-            .assertParentForFileIsSite(file.get(), site.get())
-            .assertReferenceForFileIsCorrect(file.get());
+            .assertParentForFileIsSite(file, site.get())
+            .assertReferenceForFileIsCorrect(file);
     }
 
     @TestRail (id = "C9312")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisAlfrescoSearch()
     {
-        String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.get().getName());
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
+        String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
+
         nodeBrowserPage.navigate();
         nodeBrowserPage.selectSearchType(SearchType.CMIS_ALFRESCO)
             .searchFor(cmisSearchTerm)
             .clickSearch()
-            .assertParentForFileIsSite(file.get(), site.get())
-            .assertReferenceForFileIsCorrect(file.get());
+            .assertParentForFileIsSite(file, site.get())
+            .assertReferenceForFileIsCorrect(file);
     }
 
     @TestRail (id = "C9306")
@@ -142,6 +157,6 @@ public class NodeBrowserTests extends BaseTest
     @AfterMethod(alwaysRun = true)
     public void afterMethod()
     {
-        dataSite.usingAdmin().deleteSite(site.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

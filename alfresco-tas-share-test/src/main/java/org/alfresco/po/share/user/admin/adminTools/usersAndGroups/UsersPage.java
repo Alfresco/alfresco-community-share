@@ -62,6 +62,7 @@ public class UsersPage extends SharePage2<UsersPage>
 
     private void typeUserAndClickSearch(String searchKeyword)
     {
+        webElementInteraction.waitUntilElementIsVisible(userSearchInputField);
         webElementInteraction.clearAndType(userSearchInputField, searchKeyword);
         WebElement search = webElementInteraction.findElement(searchButton);
         webElementInteraction.mouseOver(search);
@@ -149,10 +150,9 @@ public class UsersPage extends SharePage2<UsersPage>
     {
         webElementInteraction.waitUntilElementIsVisible(uploadUsersButton);
         webElementInteraction.clickElement(uploadUsersButton);
-        waitUntilNotificationMessageDisappears();
+        webElementInteraction.waitUntilElementIsVisible(fileInput);
         webElementInteraction.clearAndType(fileInput, filePath);
         webElementInteraction.clickElement(uploadButton);
-        waitUntilNotificationMessageDisappears();
         return new UploadUserResultsPage(webDriver);
     }
 

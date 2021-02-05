@@ -1,8 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.Wait.WAIT_3;
-import static org.alfresco.common.Wait.WAIT_5;
-import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -120,12 +118,12 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         By fileRow = By.xpath(String.format(fileNameRow, contentName));
         int retry = 0;
 
-        while (retry < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(fileRow))
+        while (retry < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(fileRow))
         {
             
             log.error("Wait until content {} is found", contentName);
             webElementInteraction.refresh();
-            waitToLoopTime(WAIT_3.getValue());
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
             retry++;
         }
         return webElementInteraction.waitUntilElementIsVisible(fileRow);

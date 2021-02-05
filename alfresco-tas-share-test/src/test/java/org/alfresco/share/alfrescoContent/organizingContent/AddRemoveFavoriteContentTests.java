@@ -15,23 +15,19 @@ import org.testng.annotations.*;
 
 public class AddRemoveFavoriteContentTests extends BaseTest
 {
-    private UserModel user;
-    private SiteModel site;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void createUser()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        setupAuthenticatedSession(user);
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7501")
@@ -39,10 +35,10 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void verifyAddFileToFavorites()
     {
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        getCmisApi().authenticateUser(user)
-            .usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(favoriteFile).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(favoriteFile)
                 .assertAddFileToFavoritesTooltipEqualsWithExpected()
                 .addToFavorites()
@@ -54,10 +50,10 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void favoriteFolder()
     {
         FolderModel favoriteFolder = FolderModel.getRandomFolderModel();
-        getCmisApi().authenticateUser(user)
-            .usingSite(site).createFolder(favoriteFolder).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFolder(favoriteFolder).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(favoriteFolder)
                 .assertAddFolderToFavoritesTooltipEqualsWithExpected()
                 .addToFavorites()
@@ -69,12 +65,12 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void removeFavoriteForFile() throws Exception
     {
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
-        getCmisApi().authenticateUser(user)
-            .usingSite(site).createFile(favoriteFile).assertThat().existsInRepo();
-        getRestApi().authenticateUser(user)
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(favoriteFile).assertThat().existsInRepo();
+        getRestApi().authenticateUser(user.get())
             .withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(favoriteFile)
                 .assertRemoveFileFromFavoritesTooltipEqualsWithExpected()
                 .removeFromFavorites()
@@ -86,22 +82,22 @@ public class AddRemoveFavoriteContentTests extends BaseTest
     public void removeFavoriteForFolder() throws Exception
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
-        getCmisApi().authenticateUser(user)
-            .usingSite(site).createFolder(folder).assertThat().existsInRepo();
-        getRestApi().authenticateUser(user)
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFolder(folder).assertThat().existsInRepo();
+        getRestApi().authenticateUser(user.get())
             .withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
-        documentLibraryPage.navigate(site)
+        documentLibraryPage.navigate(site.get())
             .usingContent(folder)
                 .assertRemoveFolderFromFavoritesTooltipEqualsWithExpected()
                 .removeFromFavorites()
                 .assertAddToFavoritesIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(site);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

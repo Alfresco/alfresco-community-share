@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
@@ -7,14 +9,17 @@ import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.BaseTest;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.*;
-
-import static org.alfresco.share.TestUtils.FILE_CONTENT;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class CreateLinksTests extends BaseTest
 {
@@ -113,7 +118,7 @@ public class CreateLinksTests extends BaseTest
                 .createFile(file1).createFile(file2);
 
         searchPage.navigate()
-            .searchWithKeywordAndWaitForContents(randomName, file1, file2);
+            .searchWithKeywordAndWaitForContents(randomName.concat("*"), file1, file2);
         searchPage.usingContent(file1).assertIsDisplayed();
         searchPage.usingContent(file2).assertIsDisplayed();
         searchPage.checkContent(file1, file2)

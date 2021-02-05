@@ -1,5 +1,6 @@
 package org.alfresco.po.share.searching;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -37,6 +38,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     private final By filterTableColumns = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label");
     private final By filterPropertyDropDownArrow = By.cssSelector("input.dijitReset.dijitInputField.dijitArrowButtonInner");
     private final By notificationMessage = By.cssSelector("div[class^='alfresco-notifications-AlfNotification']");
+
     private final String filterPropertyPath = "//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='%s']";
     private final String filterRow = "//span[text()='%s']/../../../..";
 
@@ -69,6 +71,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     public SearchManagerPage assertSearchManagerPageIsOpened()
     {
         log.info("Assert Search Manager page is opened");
+        webElementInteraction.waitUrlContains(getRelativePath(), WAIT_10.getValue());
         assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
         return this;
     }
@@ -123,6 +126,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public CreateNewFilterDialog createNewFilter()
     {
+        webElementInteraction.waitUntilElementIsVisible(createNewFilter);
         webElementInteraction.clickElement(createNewFilter);
         return new CreateNewFilterDialog(webDriver);
     }

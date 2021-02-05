@@ -1,7 +1,6 @@
 package org.alfresco.po.share;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -69,21 +68,21 @@ public abstract class SharePage2<T> extends BasePage
     /**
      * Navigate directly to relative path of the object based on {@link #getRelativePath()} constructed
      */
-    public T navigate()
+    public synchronized T navigate()
     {
-        log.info("Navigate to {}", relativePathToURL().getPath());
+        log.info("Navigate to {}", relativePathToURL().toString());
         try
         {
-            webDriver.get().get(relativePathToURL().toString());
+            webElementInteraction.getUrl(relativePathToURL().toString());
             waitForSharePageToLoad();
             return (T) this;
         }
         catch (TimeoutException | NoSuchSessionException e)
         {
             log.info("Navigation to {} failed. {}", getRelativePath(), e.getMessage());
-            webDriver.get().navigate().refresh();
+            webElementInteraction.refresh();
             waitForSharePageToLoad();
-            webDriver.get().get(relativePathToURL().toString());
+            webElementInteraction.getUrl(relativePathToURL().toString());
             return (T) this;
         }
     }
@@ -117,7 +116,7 @@ public abstract class SharePage2<T> extends BasePage
         log.info("Wait for loading message to disappear");
         try
         {
-            webElementInteraction.waitUntilElementIsVisible(loadingMessage, WAIT_2.getValue());
+            webElementInteraction.waitUntilElementIsVisible(loadingMessage, WAIT_3.getValue());
             webElementInteraction.waitUntilElementDisappears(loadingMessage, WAIT_5.getValue());
         }
         catch (TimeoutException e)

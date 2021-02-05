@@ -12,6 +12,7 @@ import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -54,13 +55,23 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
         return "share/page/console/admin-console/users#state=panel%3Dview%26userid%3D" + getUserName() + "%26search%3D";
     }
 
-    public UserProfileAdminToolsPage navigate(String userName)
+    public synchronized UserProfileAdminToolsPage navigate(String userName)
     {
         setUserName(userName);
-        return navigate();
+        super.navigate();
+        try
+        {
+            webElementInteraction.waitUntilElementIsVisible(editUserButton);
+        }
+        catch (TimeoutException e)
+        {
+            log.error("Retry navigate to user profile admin page");
+            super.navigate();
+        }
+        return this;
     }
 
-    public UserProfileAdminToolsPage navigate(UserModel user)
+    public synchronized UserProfileAdminToolsPage navigate(UserModel user)
     {
         return navigate(user.getUsername());
     }

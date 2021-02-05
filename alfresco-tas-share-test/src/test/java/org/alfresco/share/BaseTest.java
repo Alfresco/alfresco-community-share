@@ -45,7 +45,7 @@ import org.testng.annotations.BeforeMethod;
 @Slf4j
 public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
-//    private ScreenshotHelper screenshotHelper;
+    //private ScreenshotHelper screenshotHelper;
 
     @Autowired
     private WebDriverFactory webDriverFactory;
@@ -74,6 +74,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     private final ThreadLocal<UserService> userService = new ThreadLocal<>();
     private final ThreadLocal<DataSite> dataSiteThread = new ThreadLocal<>();
     private final ThreadLocal<DataUserAIS> dataUserThread = new ThreadLocal<>();
+    private final ThreadLocal<DataGroup> dataGroupThread = new ThreadLocal<>();
 
     protected LoginPage loginPage;
     protected UserDashboardPage userDashboardPage;
@@ -89,7 +90,8 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         userService.set(applicationContext.getBean(UserService.class));
         dataSiteThread.set(applicationContext.getBean(DataSite.class));
         dataUserThread.set(applicationContext.getBean(DataUserAIS.class));
-//        screenshotHelper = new ScreenshotHelper(webDriver);
+        dataGroupThread.set(applicationContext.getBean(DataGroup.class));
+        //screenshotHelper = new ScreenshotHelper(webDriver);
 
         loginPage = new LoginPage(webDriver);
         userDashboardPage = new UserDashboardPage(webDriver);
@@ -147,7 +149,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    public void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
+    public synchronized void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
     {
         deleteAllCookiesIfNotNull();
         getLoginPage().navigate().login(userModel);
@@ -213,6 +215,11 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         return dataUserThread.get();
     }
 
+    public DataGroup getDataGroup()
+    {
+        return dataGroupThread.get();
+    }
+
     public void deleteUsersIfNotNull(UserModel... users)
     {
         for (UserModel userModel : users)
@@ -226,6 +233,10 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
                 catch (DataPreparationException e)
                 {
                     log.error("Failed to delete user {}", userModel.getUsername());
+                }
+                catch (RuntimeException e)
+                {
+                    log.error("User {} does not exist", userModel.getUsername());
                 }
             }
         }

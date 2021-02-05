@@ -152,7 +152,8 @@ public class ModelManagerTests extends BaseTest
             .assertDeleteModelDialogIsDisplayed()
             .assertDeleteModelDialogTextIsCorrect(modelToDelete.getName())
             .clickDelete();
-        modelManagerPage.usingModel(modelToDelete).assertModelIsNotDisplayed();
+        modelManagerPage.navigate()
+            .usingModel(modelToDelete).assertModelIsNotDisplayed();
     }
 
     @TestRail (id = "C9521")
@@ -227,13 +228,11 @@ public class ModelManagerTests extends BaseTest
             .openCustomModel()
             .clickCreateCustomType()
             .typeName(newCustomType.getName())
-            .selectParentType("cm:content")
             .typeDisplayLabel(newCustomType.getTitle());
 
         createCustomTypeDialog.clickCreate();
         modelManagerPage.usingCustomType(modelForCustomType, newCustomType)
             .assertDisplayLabelIs(newCustomType.getTitle())
-            .assertParentIs(newCustomType.getParentName())
             .assertLayoutIsNo();
     }
 

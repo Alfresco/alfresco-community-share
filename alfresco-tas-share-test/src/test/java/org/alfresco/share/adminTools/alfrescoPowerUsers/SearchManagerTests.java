@@ -9,45 +9,31 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class SearchManagerTests extends BaseTest
 {
     private SearchManagerPage searchManagerPage;
 
-    private UserModel userAdmin;
+    private ThreadLocal<UserModel> userAdmin = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod()
     {
         searchManagerPage = new SearchManagerPage(webDriver);
-    }
-
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userAdmin = dataUser.usingAdmin().createRandomTestUser();
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        deleteUsersIfNotNull(userAdmin);
+        userAdmin.set(getDataUser().usingAdmin().createRandomTestUser());
     }
 
     @TestRail (id = "C8703")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void userHasSearchManagerRightsWhenAddedToAdminGroup()
     {
-        setupAuthenticatedSession(userAdmin);
-        userDashboardPage.navigate(userAdmin);
+        setupAuthenticatedSession(userAdmin.get());
+        userDashboardPage.navigate(userAdmin.get());
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
-        dataGroup.usingUser(userAdmin).addUserToGroup(ALFRESCO_ADMIN_GROUP);
-        setupAuthenticatedSession(userAdmin);
-        userDashboardPage.navigate(userAdmin);
+        getDataGroup().usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_ADMIN_GROUP);
+        setupAuthenticatedSession(userAdmin.get());
+        userDashboardPage.navigate(userAdmin.get());
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
             .clickSearchManagerLink()
                 .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))
@@ -59,28 +45,25 @@ public class SearchManagerTests extends BaseTest
     public void userHasSearchManagerRightsWhenAddedToSearchAdministratorsGroup()
     {
         String filterId = RandomData.getRandomAlphanumeric();
-        UserModel searchAdmin = dataUser.usingAdmin().createRandomTestUser();
+        getDataGroup().usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
 
-        setupAuthenticatedSession(searchAdmin);
-        userDashboardPage.navigate(searchAdmin);
-        toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
-        dataGroup.usingUser(searchAdmin).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
-        setupAuthenticatedSession(searchAdmin);
-        userDashboardPage.navigate(userAdmin);
-        toolbar.search("test").assertSearchManagerButtonIsDisplayed()
-            .clickSearchManagerLink()
-                .assertBrowserPageTitleIs(language.translate("searchManager.browser.pageTitle"))
-                .assertSearchManagerPageIsOpened()
-                .createNewFilter()
-                    .typeFilterId(filterId)
-                    .typeFilterName(filterId)
-                    .clickSave();
+        setupAuthenticatedSessionViaLoginPage(userAdmin.get());
+        searchManagerPage.navigate()
+            .assertSearchManagerPageIsOpened()
+            .createNewFilter()
+                .typeFilterId(filterId)
+                .typeFilterName(filterId)
+                .clickSave();
         searchManagerPage
             .editFilterProperty(filterId, "audio:album (Album)")
             .assertFilterPropertyIs(filterId, "audio:album (Album)")
             .deleteFilter(filterId)
             .assertFilterIsNotDisplayed(filterId);
+    }
 
-        dataUser.usingAdmin().deleteUser(searchAdmin);
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(userAdmin.get());
     }
 }

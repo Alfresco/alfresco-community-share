@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -29,7 +30,7 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
 
     public SharedFilesPage assertSharedFilesPageIsOpened()
     {
-        webElementInteraction.waitUrlContains(getRelativePath(), 30);
+        webElementInteraction.waitUrlContains(getRelativePath(), WAIT_30.getValue());
         assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
         return this;
     }

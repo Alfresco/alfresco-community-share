@@ -114,7 +114,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet clickFavorite(String siteName)
     {
-        getSiteRow(siteName).findElement(favoriteAction).click();
+        webElementInteraction.clickElement(getSiteRow(siteName).findElement(favoriteAction));
         return this;
     }
 
@@ -197,7 +197,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public void accessSite(String siteName)
     {
-        getSiteRow(siteName).findElement(siteTitleElement).click();
+        webElementInteraction.clickElement(getSiteRow(siteName).findElement(siteTitleElement));
     }
 
     public SiteDashboardPage accessSite(SiteModel site)

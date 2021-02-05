@@ -38,7 +38,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertAddDocumentActivityIsNotDisplayedForUser(UserModel user, FileModel file, SiteModel site)
     {
         log.info("Assert add document activity for {} is not displayed for user {}",file.getName(), user.getUsername());
-        List<WebElement> rows = webElementInteraction.waitUntilElementsAreVisible(activityRows); // TODO check it with no activities
+        List<WebElement> rows = webElementInteraction.waitUntilElementsAreVisible(activityRows);
         assertFalse(webElementInteraction.getTextFromElementList(rows).contains(
             String.format(language.translate(CREATE_ACTIVITY),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())),
@@ -98,8 +98,9 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
 
     public UserProfilePage clickUserFromAddedDocumentActivity(UserModel user, FileModel file, SiteModel site)
     {
-        getActivityRow(String.format(language.translate(CREATE_ACTIVITY),
-            user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())).findElement(userLinkLocator).click();
+        webElementInteraction.clickElement(getActivityRow(String
+            .format(language.translate(CREATE_ACTIVITY), user.getFirstName(), user.getLastName(),
+                file.getName(), site.getTitle())).findElement(userLinkLocator));
         return new UserProfilePage(webDriver);
     }
 

@@ -818,6 +818,6 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public SearchResultContentAction usingContent(ContentModel contentModel)
     {
-        return new SearchResultContentAction(webDriver, contentModel, this, new SearchCopyMoveDialog(webDriver));
+        return new SearchResultContentAction(webDriver, contentModel, this);
     }
 }

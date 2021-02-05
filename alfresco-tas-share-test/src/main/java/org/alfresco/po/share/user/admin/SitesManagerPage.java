@@ -1,7 +1,6 @@
 package org.alfresco.po.share.user.admin;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -96,6 +95,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
     public SitesManagerPage assertTableHasAllColumns()
     {
+        waitForSiteRowsWithRetry();waitForSitesTableHeaderToBeDisplayed();
         List<String> expectedTableHeader = Collections.synchronizedList(new ArrayList<>(Arrays.asList
             (language.translate("adminTools.siteManager.siteName"),
              language.translate("adminTools.siteManager.siteDescription"),
@@ -120,6 +120,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
                 webElementInteraction.waitInSeconds(WAIT_2.getValue());
                 waitForSitesTableHeaderToBeDisplayed();
             }
+            waitForSiteRowsWithRetry();
             List<WebElement> siteList = webElementInteraction.findElements(siteRowsElements);
             for (WebElement siteRow : siteList)
             {
@@ -141,6 +142,19 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return null;
     }
 
+    private void waitForSiteRowsWithRetry()
+    {
+        int retryCount = 0;
+        while (retryCount < WAIT_10.getValue() && !webElementInteraction.isElementDisplayed(siteRowsElements))
+        {
+            log.error("Wait for site rows to be displayed");
+            navigate();
+            webElementInteraction.waitInSeconds(WAIT_1.getValue());
+            waitUntilLoadingMessageDisappears();
+            retryCount++;
+        }
+    }
+
     private boolean hasNextPage()
     {
         return webElementInteraction.waitUntilElementIsVisible(nextPageButton)
@@ -153,6 +167,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         {
             webElementInteraction.clickElement(nextPageButton);
             waitUntilLoadingMessageDisappears();
+            webElementInteraction.waitUntilElementsAreVisible(siteRowsElements);
         }
     }
 
@@ -219,7 +234,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             clickActionsButton();
             webElementInteraction.waitUntilElementsAreVisible(dropdownOptionsList);
             WebElement becomeBtn = webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
-                    sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
+                sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
             webElementInteraction.mouseOver(becomeBtn);
             webElementInteraction.clickElement(becomeBtn);
             sitesManagerPage.waitUntilLoadingMessageDisappears();
@@ -228,6 +243,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             if(siteRow.findElement(siteRowSiteManager).getText().equals(language.translate("adminTools.siteManager.no")))
             {
                 log.error("Retry action Become Site Manager");
+                navigate();
                 clickActionsButton();
                 webElementInteraction.waitUntilElementIsVisible(becomeBtn);
                 webElementInteraction.clickElement(becomeBtn);

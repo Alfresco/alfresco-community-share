@@ -171,11 +171,13 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         webElementInteraction.clickElement(save);
         SearchManagerPage searchManagerPage = new SearchManagerPage(webDriver);
         searchManagerPage.waitUntilNotificationMessageDisappears();
+        log.error("MESSAGE SEARCH {}", notificationMessageThread.get());
         if(webElementInteraction.isElementDisplayed(dialogBody))
         {
             log.error("Failed to click Save button");
             webElementInteraction.clickElement(save);
             searchManagerPage.waitUntilNotificationMessageDisappears();
+            log.error("MESSAGE SEARCH {}", notificationMessageThread.get());
         }
         return searchManagerPage;
     }

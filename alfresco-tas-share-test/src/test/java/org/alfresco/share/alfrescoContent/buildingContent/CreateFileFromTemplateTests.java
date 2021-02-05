@@ -20,35 +20,30 @@ public class CreateFileFromTemplateTests extends BaseTest
 
     private DocumentLibraryPage2 documentLibraryPage;
 
-    private UserModel testUser;
-    private SiteModel testSite;
-    private FolderModel nodeTemplates = new FolderModel("Node Templates");
-    private FileModel templateFile;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        nodeTemplates.setCmisLocation("/Data Dictionary/Node Templates");
-
-        testUser = dataUser.usingAdmin().createRandomTestUser();
-        testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-    }
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(getAdminUser());
-        setupAuthenticatedSession(testUser);
+
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7000")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFileFromTemplate()
     {
-        templateFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, templateContent);
+        FolderModel nodeTemplates = new FolderModel("Node Templates");
+        nodeTemplates.setCmisLocation("/Data Dictionary/Node Templates");
+        FileModel templateFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, templateContent);
         getCmisApi().usingResource(nodeTemplates).createFile(templateFile);
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .clickCreate().createFileFromTemplate(templateFile)
                 .usingContent(templateFile).assertContentIsDisplayed()
                     .selectFile().assertFileContentEquals(templateContent);
@@ -59,7 +54,7 @@ public class CreateFileFromTemplateTests extends BaseTest
     @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(testUser);
-        deleteSitesIfNotNull(testSite);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

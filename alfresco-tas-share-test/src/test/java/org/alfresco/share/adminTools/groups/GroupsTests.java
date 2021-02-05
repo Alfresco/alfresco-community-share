@@ -99,7 +99,9 @@ public class GroupsTests extends BaseTest
                 .assertDeleteInfoMessageIsDisplayed(c9473SubGroup);
 
         groupsPage.clickBrowse().selectGroup(c9473ParentGroup1)
-            .assertColumnDoesNotContainsGroup(2, c9473SubGroup)
+            .assertColumnDoesNotContainsGroup(2, c9473SubGroup);
+
+        groupsPage.clickBrowse()
             .selectGroup(c9473ParentGroup2)
                 .assertColumnContainsGroup(2, c9473SubGroup)
                 .clickDelete(c9473SubGroup)

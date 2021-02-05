@@ -1,8 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_60;
-import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
 
@@ -22,11 +20,27 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     private final By addCategoryButton = By.cssSelector("span[class*=insitu-add][style*='visibility: visible; opacity: 1;");
     private final By editCategoryButton = By.cssSelector("span.insitu-edit-category[style*='visibility: visible; opacity: 1;']");
     private final By deleteCategoryButton = By.cssSelector("span.insitu-delete-category[style*='visibility: visible; opacity: 1;']");
+    private final By childrenCategories = By.id("ygtvc1");
+
     private final String categoryLocator = "//td[@class='ygtvcell  ygtvcontent']//span[contains(@id, 'labelel') and text()='%s']";
 
     public CategoryManagerPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
+    }
+
+    public CategoryManagerPage navigate()
+    {
+        super.navigate();
+        int retryCount = 0;
+        while(retryCount < WAIT_15.getValue() && !webElementInteraction.isElementDisplayed(childrenCategories))
+        {
+            log.error("Failed to load Category manager page");
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            retryCount++;
+        }
+        return this;
     }
 
     private WebElement category(String categoryLabel)
@@ -101,7 +115,6 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     private void waitForCategory(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        webElementInteraction.waitInSeconds(WAIT_2.getValue());
 
         int i = 0;
         while (i < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(category))
@@ -144,6 +157,8 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         int retryCount = 0;
         while (retryCount < WAIT_80.getValue() && !isSubCatDisplayed)
         {
+            navigate();
+            waitToLoopTime(WAIT_2.getValue());
             boolean isExpanded = webElementInteraction.isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
             if (!isExpanded)
             {
@@ -156,8 +171,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
             {
                 break;
             }
-            waitToLoopTime(WAIT_2.getValue());
-            navigate();
+
             retryCount++;
         }
         return isSubCatDisplayed;

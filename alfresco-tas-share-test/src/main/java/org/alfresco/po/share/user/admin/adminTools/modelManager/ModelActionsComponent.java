@@ -1,8 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_60;
-import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -195,7 +193,7 @@ public class ModelActionsComponent
     private void waitForContentModelStatus(By modelStatus)
     {
         int i = 0;
-        while(i < WAIT_80.getValue())
+        while(i < WAIT_15.getValue())
         {
             try
             {

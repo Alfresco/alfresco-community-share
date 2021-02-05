@@ -82,6 +82,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
     public GroupsPage clickBrowse()
     {
         webElementInteraction.clickElement(browseButton);
+        webElementInteraction.waitUntilElementIsVisible(groupBody);
         return this;
     }
 

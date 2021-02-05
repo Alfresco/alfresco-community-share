@@ -16,17 +16,11 @@ import org.testng.annotations.*;
 
 public class RecoveringDeletedContentTests extends BaseTest
 {
-    private UserModel trashcanUser;
-    private ThreadLocal<SiteModel> trashcanSite = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> trashcanSite = new ThreadLocal<>();
 
     private UserTrashcanPage userTrashcanPage;
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        trashcanUser = dataUser.usingAdmin().createRandomTestUser();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -34,10 +28,11 @@ public class RecoveringDeletedContentTests extends BaseTest
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
         userTrashcanPage = new UserTrashcanPage(webDriver);
 
-        trashcanSite.set(dataSite.usingUser(trashcanUser).createPublicRandomSite());
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        trashcanSite.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-        getCmisApi().authenticateUser(trashcanUser);
-        setupAuthenticatedSession(trashcanUser);
+        getCmisApi().authenticateUser(user.get());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7570")
@@ -48,7 +43,7 @@ public class RecoveringDeletedContentTests extends BaseTest
         getCmisApi().usingSite(trashcanSite.get()).createFile(file)
             .then().usingResource(file).delete();
 
-        userTrashcanPage.navigate(trashcanUser)
+        userTrashcanPage.navigate(user.get())
             .clickRecoverButton(file);
         documentLibraryPage.navigate(trashcanSite.get())
             .usingContent(file).assertContentIsDisplayed();
@@ -64,7 +59,7 @@ public class RecoveringDeletedContentTests extends BaseTest
             .then().usingResource(folderToDelete).createFile(subFile)
                 .and().usingResource(folderToDelete).deleteFolderTree();
 
-        userTrashcanPage.navigate(trashcanUser)
+        userTrashcanPage.navigate(user.get())
             .clickRecoverButton(folderToDelete);
 
         documentLibraryPage.navigate(trashcanSite.get())
@@ -73,10 +68,10 @@ public class RecoveringDeletedContentTests extends BaseTest
             .usingContent(subFile).assertContentIsDisplayed();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void afterMethod()
     {
-        deleteUsersIfNotNull(trashcanUser);
+        deleteUsersIfNotNull(user.get());
         deleteSitesIfNotNull(trashcanSite.get());
     }
 }

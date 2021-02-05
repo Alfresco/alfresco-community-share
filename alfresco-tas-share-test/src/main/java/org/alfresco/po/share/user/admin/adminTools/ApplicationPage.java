@@ -38,6 +38,21 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
         return "share/page/console/admin-console/application";
     }
 
+    public ApplicationPage navigate()
+    {
+        super.navigate();
+        try
+        {
+            webElementInteraction.waitUntilElementIsVisible(uploadButton);
+        }
+        catch (TimeoutException e)
+        {
+            log.error("Failed to navigate to Application Page");
+            super.navigate();
+        }
+        return this;
+    }
+
     public ApplicationPage assertAdminApplicationPageIsOpened()
     {
         log.info("Assert Application Admin Tools page is opened");

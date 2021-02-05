@@ -155,6 +155,7 @@ public class WebElementInteraction
     public void refresh()
     {
         getWebDriver().navigate().refresh();
+        waitUntilDomReadyStateIsComplete();
     }
 
     public WebElement findElement(WebElement webElement)
@@ -296,6 +297,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", locator);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(),
                         defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -321,6 +323,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", locator);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
@@ -345,6 +348,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", locator);
+                refresh();
                 return setWaitingTime(timeoutInSeconds, defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
@@ -370,6 +374,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", element);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOf(element));
             }
@@ -394,6 +399,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Element {} is not visible", element);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOf(element));
             }
@@ -488,6 +494,7 @@ public class WebElementInteraction
             try
             {
                 log.error("Elements located by {} are not visible", locator);
+                refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
             }
@@ -729,7 +736,8 @@ public class WebElementInteraction
 
     public void waitUntilElementDeletedFromDom(By locator, long timeOutInSeconds, long pollingTimeInMillis)
     {
-        try {
+        try
+        {
             setWaitingTime(timeOutInSeconds, pollingTimeInMillis)
                 .until(ExpectedConditions.stalenessOf(getWebDriver().findElement(locator)));
         }
@@ -741,7 +749,8 @@ public class WebElementInteraction
                 setWaitingTime(timeOutInSeconds, pollingTimeInMillis)
                     .until(ExpectedConditions.stalenessOf(getWebDriver().findElement(locator)));
             }
-            catch (NoSuchElementException | StaleElementReferenceException exception) {
+            catch (NoSuchElementException | StaleElementReferenceException exception)
+            {
                 throw new TimeoutException(String
                     .format("Element %s was still attached to DOM in the given seconds %d ",
                         locator, timeOutInSeconds), exception.getCause());
@@ -756,19 +765,9 @@ public class WebElementInteraction
             setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                 .until(ExpectedConditions.invisibilityOfElementLocated(locator));
         }
-        catch (StaleElementReferenceException staleElementReferenceException)
+        catch (StaleElementReferenceException | TimeoutException exception )
         {
-            log.error("Element is visible {}", locator);
-            try
-            {
-                setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
-                    .until(ExpectedConditions.invisibilityOfElementLocated(locator));
-            }
-            catch (TimeoutException timeoutException) {
-                throw new TimeoutException(String
-                    .format("Element %s was not invisible in the given seconds %d ", locator,
-                        defaultProperties.getExplicitWait()), timeoutException.getCause());
-            }
+            log.error("Element is still visible {}", locator);
         }
     }
 
@@ -1226,6 +1225,13 @@ public class WebElementInteraction
     public String getPageTitle()
     {
         return getWebDriver().getTitle();
+    }
+
+    public void waitUntilDomReadyStateIsComplete()
+    {
+        new WebDriverWait(webDriver.get(), defaultProperties.getExplicitWait())
+                .until(driver -> ((JavascriptExecutor) webDriver.get())
+                        .executeScript("return document.readyState").equals("complete"));
     }
 
     private FluentWait<WebDriver> setWaitingTime(long timeOutInSeconds, long pollingTimeInMillis)

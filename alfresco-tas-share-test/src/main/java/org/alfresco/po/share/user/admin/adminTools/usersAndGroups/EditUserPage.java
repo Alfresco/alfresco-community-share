@@ -62,12 +62,13 @@ public class EditUserPage extends SharePage2<EditUserPage>
         return "share/page/console/admin-console/users#state=panel%3Dupdate%26userid%3D" + getUserName() + "%26search%3D";
     }
 
-    public EditUserPage navigate(String userName)
+    public synchronized EditUserPage navigate(String userName)
     {
         setUserName(userName);
         try
         {
-            return navigate();
+            super.navigate();
+            webElementInteraction.waitUntilElementIsVisible(saveChangesButton);
         }
         catch (TimeoutException | PageRenderTimeException e)
         {
@@ -75,11 +76,11 @@ public class EditUserPage extends SharePage2<EditUserPage>
             UserProfileAdminToolsPage userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
             userProfileAdminToolsPage.navigate(userName);
             userProfileAdminToolsPage.clickEditUser();
-            return this;
         }
+        return this;
     }
 
-    public EditUserPage navigate(UserModel user)
+    public synchronized EditUserPage navigate(UserModel user)
     {
         return navigate(user.getUsername());
     }
@@ -200,6 +201,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
 
     public EditUserPage editQuota(String quota)
     {
+        webElementInteraction.waitUntilElementIsVisible(quotaField);
         webElementInteraction.clearAndType(quotaField, quota);
         return this;
     }

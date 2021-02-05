@@ -114,7 +114,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public EditTaskPage clickTaskName(String taskName)
     {
-        getTaskRow(taskName).findElement(taskNames).click();
+        webElementInteraction.clickElement(getTaskRow(taskName).findElement(taskNames));
         return new EditTaskPage(webDriver);
     }
 
@@ -147,7 +147,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         webElementInteraction.mouseOver(activeTasksLink);
         webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
         webElementInteraction.waitUntilElementHasAttribute(taskRowElement, "class", "highlighted");
-        taskRowElement.findElement(viewIcon).click();
+        webElementInteraction.clickElement(taskRowElement.findElement(viewIcon));
         return new ViewTaskPage(webDriver);
     }
 
@@ -158,7 +158,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         webElementInteraction.mouseOver(activeTasksLink);
         webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
         webElementInteraction.waitUntilElementHasAttribute(taskRowElement, "class", "highlighted");
-        taskRowElement.findElement(editIcon).click();
+        webElementInteraction.clickElement(taskRowElement.findElement(editIcon));
         return new EditTaskPage(webDriver);
     }
 

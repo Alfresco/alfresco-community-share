@@ -12,26 +12,20 @@ import org.testng.annotations.*;
 
 public class LocateItemsAndFoldersTests extends BaseTest
 {
-    private UserModel user;
-    private SiteModel site;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     private DocumentLibraryPage2 documentLibraryPage;
-
-    @BeforeClass(alwaysRun = true)
-    public void createUser()
-    {
-        user = dataUser.usingAdmin().createRandomTestUser();
-        site = dataSite.usingUser(user).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        getCmisApi().authenticateUser(user);
-        getRestApi().authenticateUser(user);
-
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        setupAuthenticatedSession(user);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(user.get());
+        getRestApi().authenticateUser(user.get());
+
+        setupAuthenticatedSession(user.get());
     }
 
     @Bug (id = "MNT-17556")
@@ -39,6 +33,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLocateFile()
     {
+        SiteModel site = getDataSite().usingUser(user.get()).createPublicRandomSite();
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().usingSite(site)
             .createFile(file).assertThat().existsInRepo();
@@ -50,6 +45,8 @@ public class LocateItemsAndFoldersTests extends BaseTest
             .usingContent(file)
             .clickLocate();
         documentLibraryPage.usingContent(file).assertContentIsHighlighted();
+
+        getDataSite().usingAdmin().deleteSite(site);
     }
 
     @Bug (id = "MNT-17556")
@@ -57,6 +54,8 @@ public class LocateItemsAndFoldersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLocateFolderDetailedView() throws Exception
     {
+        SiteModel site = getDataSite().usingUser(user.get()).createPublicRandomSite();
+
         FolderModel folder = FolderModel.getRandomFolderModel();
         getCmisApi().usingSite(site).createFolder(folder).assertThat().existsInRepo();
         getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
@@ -68,12 +67,13 @@ public class LocateItemsAndFoldersTests extends BaseTest
             .usingContent(folder)
             .clickLocate();
         documentLibraryPage.usingContent(folder).assertContentIsHighlighted();
+
+        getDataSite().usingAdmin().deleteSite(site);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void afterMethod()
     {
-        deleteUsersIfNotNull(user);
-        deleteSitesIfNotNull(site);
+        deleteUsersIfNotNull(user.get());
     }
 }

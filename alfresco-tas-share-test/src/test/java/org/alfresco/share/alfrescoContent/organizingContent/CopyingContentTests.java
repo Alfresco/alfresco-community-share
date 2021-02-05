@@ -18,24 +18,20 @@ public class CopyingContentTests extends BaseTest
 {
     private DocumentLibraryPage2 documentLibraryPage;
 
-    private UserModel testUser;
-    private SiteModel testSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     private final FolderModel SHARED_FILES = new FolderModel("Shared Files");
-
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        testUser = dataUser.usingAdmin().createRandomTestUser();
-        testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
-        getCmisApi().authenticateUser(testUser);
-        setupAuthenticatedSession(testUser);
+        getCmisApi().authenticateUser(user.get());
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7377")
@@ -43,9 +39,9 @@ public class CopyingContentTests extends BaseTest
     public void checkCopyFileToSharedFiles()
     {
         FileModel fileToCopy = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        getCmisApi().usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
+        getCmisApi().usingSite(site.get()).createFile(fileToCopy).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .usingContent(fileToCopy).clickCopyTo()
             .selectSharedFilesDestination()
             .selectFolder(SHARED_FILES)
@@ -61,9 +57,9 @@ public class CopyingContentTests extends BaseTest
     public void checkCancelCopyFileToSharedFiles()
     {
         FileModel fileToCopy = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
-        getCmisApi().usingSite(testSite).createFile(fileToCopy).assertThat().existsInRepo();
+        getCmisApi().usingSite(site.get()).createFile(fileToCopy).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .usingContent(fileToCopy).clickCopyTo()
             .selectSharedFilesDestination()
             .clickCancelButton();
@@ -77,13 +73,13 @@ public class CopyingContentTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkCopyFolderToPublicSite()
     {
-        SiteModel siteDestination = dataSite.usingUser(testUser).createPublicRandomSite();
+        SiteModel siteDestination = getDataSite().usingUser(user.get()).createPublicRandomSite();
         FolderModel folderToCopy = FolderModel.getRandomFolderModel();
         FileModel subFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
 
-        getCmisApi().usingSite(testSite).createFolder(folderToCopy)
+        getCmisApi().usingSite(site.get()).createFolder(folderToCopy)
             .usingResource(folderToCopy).createFile(subFile);
-        documentLibraryPage.navigate(testSite)
+        documentLibraryPage.navigate(site.get())
             .usingContent(folderToCopy).clickCopyTo()
             .selectAllSitesDestination()
             .selectSite(siteDestination).clickCopyToButton();
@@ -96,10 +92,10 @@ public class CopyingContentTests extends BaseTest
         dataSite.usingAdmin().deleteSite(siteDestination);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        deleteUsersIfNotNull(testUser);
-        deleteSitesIfNotNull(testSite);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

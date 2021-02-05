@@ -14,10 +14,7 @@ import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.ApplicationPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 @Slf4j
 public class Toolbar extends BasePage
@@ -235,7 +232,16 @@ public class Toolbar extends BasePage
     public void searchInToolbar(String searchTerm)
     {
         webElementInteraction.waitUntilElementIsVisible(searchBoxInput);
-        webElementInteraction.clearAndType(searchBoxInput, searchTerm);
+        try
+        {
+            webElementInteraction.clearAndType(searchBoxInput, searchTerm);
+        }
+        catch (ElementNotInteractableException e)
+        {
+            log.error("Failed to type in search input");
+            webElementInteraction.refresh();
+            webElementInteraction.clearAndType(searchBoxInput, searchTerm);
+        }
     }
 
     public SearchPage search(String searchTerm)
@@ -259,7 +265,7 @@ public class Toolbar extends BasePage
 
     public boolean isLiveSearchResultsListDisplayed()
     {
-        return  webElementInteraction.findElements(searchResultsInToolbar).isEmpty();
+        return webElementInteraction.findElements(searchResultsInToolbar).isEmpty();
     }
 
     public boolean isResultDisplayedInLiveSearch(String query)

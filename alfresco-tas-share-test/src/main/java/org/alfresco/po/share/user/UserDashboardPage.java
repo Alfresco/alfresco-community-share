@@ -31,6 +31,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     private final By welcomePanelInfo = By.cssSelector( ".welcome-info");
     private final By welcomePanelHideButton = By.cssSelector("button[id$='_default-hide-button-button']");
     private final By welcomePanelInfoGetStarted = By.cssSelector(".welcome-info h1");
+
     private final String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
     private final String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
 
@@ -62,13 +63,13 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
         return new UserDashboardPage(webDriver);
     }
 
-    public UserDashboardPage navigate(String userName)
+    public synchronized UserDashboardPage navigate(String userName)
     {
         setUserName(userName);
         return navigate();
     }
 
-    public UserDashboardPage navigate(UserModel userModel)
+    public synchronized UserDashboardPage navigate(UserModel userModel)
     {
         return navigate(userModel.getUsername());
     }
