@@ -38,6 +38,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     private final By filterTableColumns = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label");
     private final By filterPropertyDropDownArrow = By.cssSelector("input.dijitReset.dijitInputField.dijitArrowButtonInner");
     private final By notificationMessage = By.cssSelector("div[class^='alfresco-notifications-AlfNotification']");
+
     private final String filterPropertyPath = "//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='%s']";
     private final String filterRow = "//span[text()='%s']/../../../..";
 

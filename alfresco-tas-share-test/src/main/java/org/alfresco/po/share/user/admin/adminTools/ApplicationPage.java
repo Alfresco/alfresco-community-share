@@ -13,7 +13,6 @@ import org.alfresco.po.share.UploadFileDialog;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 
-import java.sql.Time;
 import java.util.List;
 
 @Slf4j
