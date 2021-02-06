@@ -67,8 +67,8 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage assertSectionTitleEquals(String expectedSectionTitle)
     {
-        webElementInteraction.waitUntilElementIsVisible(sectionTitle, 3000);
-        assertEquals(webElementInteraction.findElement(sectionTitle).getText(),
+        webElementInteraction.waitUntilElementIsVisible(sectionTitle);
+        assertEquals(webElementInteraction.getElementText(sectionTitle),
             expectedSectionTitle, String.format("Section title not equals %s ", expectedSectionTitle));
         return this;
     }
@@ -88,7 +88,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage waitUntilSearchElementDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(searchResultTable, 3000);
+        webElementInteraction.waitUntilElementIsVisible(searchResultTable);
         return this;
     }
 

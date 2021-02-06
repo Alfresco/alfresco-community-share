@@ -44,7 +44,7 @@ public class UsersPage extends SharePage2<UsersPage>
     public CreateUserPage clickNewUserButton()
     {
         log.info("Click New User");
-        WebElement newUserElement = webElementInteraction.waitUntilElementIsVisible(newUserButton,3000);
+        WebElement newUserElement = webElementInteraction.waitUntilElementIsVisible(newUserButton);
         webElementInteraction.clickElement(newUserElement);
         return new CreateUserPage(webDriver);
     }

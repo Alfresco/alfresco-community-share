@@ -48,10 +48,10 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     public NodeBrowserPage selectSearchType(SearchType searchType)
     {
-        webElementInteraction.waitUntilElementIsVisible(searchTypeDropdownButton, 3000);
+        webElementInteraction.waitUntilElementIsVisible(searchTypeDropdownButton);
         webElementInteraction.mouseOver(webElementInteraction.findElement(searchTypeDropdownButton), 3000);
-        webElementInteraction.waitUntilElementIsVisible(buttonStateAfterHover, 3000);
-        webElementInteraction.clickElement(buttonStateAfterHover, 3000);
+        webElementInteraction.waitUntilElementIsVisible(buttonStateAfterHover);
+        webElementInteraction.clickElement(buttonStateAfterHover);
         webElementInteraction.waitUntilElementIsVisible(visibleDropdown);
         webElementInteraction.findFirstElementWithValue(options, searchType.getSearchType()).click();
 
@@ -61,7 +61,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
     public NodeBrowserPage assertSearchTypeIsSelected(SearchType searchType)
     {
         webElementInteraction.mouseOver(webElementInteraction.findElement(searchTypeDropdownButton), 3000);
-        webElementInteraction.waitUntilElementIsVisible(buttonStateAfterHover, 3000);
+        webElementInteraction.waitUntilElementIsVisible(buttonStateAfterHover);
         assertEquals(searchType.getSearchType(), webElementInteraction.getElementText(searchTypeDropdownButton));
         return this;
     }
@@ -78,14 +78,15 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         webElementInteraction.mouseOver(search, 3000);
         webElementInteraction.clickElement(searchButtonAfterHover);
         webElementInteraction.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))), WAIT_5.getValue());
-        webElementInteraction.waitUntilElementIsVisible(searchButton, 3000);
+        webElementInteraction.waitUntilElementIsVisible(searchButton);
         waitForResult();
         return this;
     }
 
     private void waitForResult()
     {
-        webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(loadingMessage,  language.translate("nodeBrowser.searchTook"))), 3000);
+        webElementInteraction.waitUntilElementIsVisible(
+            By.xpath(String.format(loadingMessage,  language.translate("nodeBrowser.searchTook"))));
     }
 
     public NodeBrowserPage assertSearchButtonIsDisplayed()
@@ -120,8 +121,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
         while (retry < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(fileRow))
         {
-            
-            log.error("Wait until content {} is found", contentName);
+            log.error("Wait until content {} is found in node browser page", contentName);
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             retry++;

@@ -1,6 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_60;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -67,7 +68,8 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     private WebElement getTagRow(String tagName)
     {
-        return webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(tagRow, tagName.toLowerCase())), 2000);
+        return webElementInteraction.waitUntilElementIsVisible(
+            By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
     public boolean isTagDisplayed(String tagName)
