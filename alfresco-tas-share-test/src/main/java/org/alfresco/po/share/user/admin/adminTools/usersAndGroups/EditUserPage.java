@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_60;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
@@ -9,7 +10,6 @@ import static org.testng.Assert.assertTrue;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
-import org.alfresco.utility.exception.PageRenderTimeException;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
@@ -38,6 +38,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
     private final By photoField = By.cssSelector("img[id$='_default-update-photoimg']");
     private final By groupSearchResults = By.cssSelector("h3[class='itemname']");
     private final By groupsInputField = By.cssSelector("input[id$='_default-update-groupfinder-search-text']");
+
     private final String genericAddToGroupButton = "//h3[@class='itemname' and text()='%s']/../../..//button";
     private final String genericRemoveButton = "//div[contains(@id, 'default-update-groups')]//span[text()= '%s']";
 
@@ -181,14 +182,15 @@ public class EditUserPage extends SharePage2<EditUserPage>
         webElementInteraction.clearAndType(inputElement, group.getGroupIdentifier());
         webElementInteraction.clickElement(searchGroupButton);
 
-        int counter = 0;
+        int retryCount = 0;
         boolean found = isGroupInSearchResults(group.getGroupIdentifier());
-        while (!found && counter <= WAIT_60.getValue())
+        while (!found && retryCount <= WAIT_60.getValue())
         {
-            waitToLoopTime(2, String.format("Wait for group to be displayed: %s", group.getGroupIdentifier()));
+            log.error("Group {} is not displayed. Retry {}", group.getGroupIdentifier(), retryCount);
+            waitToLoopTime(WAIT_2.getValue());
             webElementInteraction.clickElement(searchGroupButton);
             found = isGroupInSearchResults(group.getGroupIdentifier());
-            counter++;
+            retryCount++;
         }
         return this;
     }

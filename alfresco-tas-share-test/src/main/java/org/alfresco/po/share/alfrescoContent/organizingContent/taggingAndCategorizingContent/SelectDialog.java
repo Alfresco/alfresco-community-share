@@ -1,7 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_80;
+import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -9,7 +10,10 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 @Slf4j
 public class SelectDialog extends BaseDialogComponent
@@ -92,11 +96,6 @@ public class SelectDialog extends BaseDialogComponent
         return this;
     }
 
-    public boolean isItemRemovable(String item)
-    {
-        return webElementInteraction.isElementDisplayed(getItemElementFromSelectedItemsPicker(item).findElement(removeIcon));
-    }
-
     public boolean isItemSelected(String item)
     {
         return webElementInteraction.isElementDisplayed(getItemElementFromSelectedItemsPicker(item));
@@ -131,16 +130,16 @@ public class SelectDialog extends BaseDialogComponent
         return this;
     }
 
-    public SelectDialog typeTagAndWaitForResult(String tagName)
+    public SelectDialog typeTagWithRetry(String tagName)
     {
         By tagRow = By.xpath(String.format(addItemRow, tagName));
         int retryCount = 0;
         typeTag(tagName);
-        while(retryCount < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(tagRow))
+        while(retryCount < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(tagRow))
         {
-            log.error("Wait for tag {} to be displayed in select dialog", tagName);
+            log.error("Tag {} is not displayed in select dialog. Retry {}", tagName, retryCount);
+            waitToLoopTime(WAIT_2.getValue());
             typeTag(tagName);
-            webElementInteraction.waitInSeconds(WAIT_1.getValue());
             retryCount++;
         }
         return this;

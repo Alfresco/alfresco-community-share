@@ -51,7 +51,7 @@ public class AddExistingTagTests extends BaseTest
             .usingContent(fileToAddTag).clickEditProperties()
                 .clickSelectTags();
 
-        selectDialog.typeTagAndWaitForResult(tag)
+        selectDialog.typeTagWithRetry(tag)
             .selectItem(tag)
             .assertItemIsSelected(tag)
             .assertItemIsNotSelectable(tag)

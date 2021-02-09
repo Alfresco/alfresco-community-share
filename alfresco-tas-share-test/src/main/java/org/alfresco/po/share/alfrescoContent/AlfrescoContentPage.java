@@ -107,14 +107,14 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     {
         By contentRowElement = By.xpath(String.format(contentRow, contentName));
 
-        int i = 0;
-        while(i < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(contentRowElement))
+        int retryCount = 0;
+        while(retryCount < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(contentRowElement))
         {
-            log.error("Wait for content {} to be displayed", contentName);
+            log.error("Wait for content {} to be displayed. Retry {}", contentName, retryCount);
             webElementInteraction.refresh();
             waitToLoopTime(WAIT_1.getValue());
             waitForContentPageToBeLoaded();
-            i++;
+            retryCount++;
         }
         return webElementInteraction.waitUntilElementIsVisible(contentRowElement);
     }
