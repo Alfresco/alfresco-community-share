@@ -165,6 +165,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         boolean allFound = false;
         while(!allFound && counter <= WAIT_60.getValue())
         {
+            log.error("Retry search for keyword {}", searchExpression);
             setSearchExpression(searchExpression);
             clickSearchButton();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());

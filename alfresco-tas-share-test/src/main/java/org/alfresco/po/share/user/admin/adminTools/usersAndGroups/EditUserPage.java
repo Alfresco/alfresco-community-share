@@ -70,7 +70,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
             super.navigate();
             webElementInteraction.waitUntilElementIsVisible(saveChangesButton);
         }
-        catch (TimeoutException | PageRenderTimeException e)
+        catch (TimeoutException e)
         {
             log.error("Retry navigate to Edit User Page");
             UserProfileAdminToolsPage userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);

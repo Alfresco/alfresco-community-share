@@ -16,6 +16,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FileModel;
@@ -374,7 +375,8 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
             this,
             new DocumentDetailsPage(webDriver),
             new CopyMoveUnzipToDialog(webDriver),
-            new DeleteDialog(webDriver));
+            new DeleteDialog(webDriver),
+            new EditPropertiesDialog(webDriver));
     }
 
     //todo: move into separate file

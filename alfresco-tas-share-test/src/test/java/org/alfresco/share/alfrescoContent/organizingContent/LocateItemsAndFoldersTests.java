@@ -25,7 +25,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
         getCmisApi().authenticateUser(user.get());
         getRestApi().authenticateUser(user.get());
 
-        setupAuthenticatedSession(user.get());
+        setupAuthenticatedSessionViaLoginPage(user.get());
     }
 
     @Bug (id = "MNT-17556")

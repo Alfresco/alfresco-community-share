@@ -1,163 +1,124 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
-import java.util.List;
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
+import static org.testng.Assert.assertTrue;
 
-/**
- * Created by Claudia Agache on 9/14/2016.
- */
-@PageObject
-public class EditPropertiesDialog extends ShareDialog
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.BaseDialogComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+@Slf4j
+public class EditPropertiesDialog extends BaseDialogComponent
 {
-    private SelectDialog selectDialog;
-    private EditPropertiesPage editPropertiesPage;
-    private DocumentLibraryPage documentLibraryPage;
+    private final By dialogTitle = By.cssSelector("div[id$='dialogTitle']");
+    private final By propertyName = By.cssSelector("input[name='prop_cm_name']");
+    private final By propertyTitle = By.cssSelector("input[name='prop_cm_title']");
+    private final By propertyDescription = By.cssSelector("textarea[name='prop_cm_description']");
+    private final By hostInputField = By.cssSelector("input[id*='endpointhost']");
+    private final By portInputField = By.cssSelector("input[id*='endpointport']");
+    private final By usernameInputField = By.cssSelector("input[id*='username']");
+    private final By passwordInputField = By.cssSelector("input[id*='password']");
+    private final By enabledCheckbox = By.cssSelector(".formsCheckBox");
+    private final By selectTagsButton = By.cssSelector("div[id$='prop_cm_taggable-cntrl-itemGroupActions'] button");
+    private final By selectCategoriesButton = By.cssSelector("div[id$='prop_cm_categories-cntrl-itemGroupActions'] button");
+    private final By allPropertiesButton = By.cssSelector("a[id*='editMetadata-button']");
+    private final By selectedTags = By.cssSelector("div[id$='prop_cm_taggable-cntrl-currentValueDisplay'] div");
+    private final By selectedCategories = By.cssSelector("div[id$='prop_cm_categories-cntrl-currentValueDisplay'] div");
+    private final By saveButton = By.cssSelector("button[id$='form-submit-button']");
+    private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
 
-    @FindBy (css = "div[id$='dialogTitle']")
-    private WebElement dialogTitle;
-
-    @FindBy (css = "input[name='prop_cm_name']")
-    private WebElement propertyName;
-
-    @FindBy (css = "input[name='prop_cm_title']")
-    private WebElement propertyTitle;
-
-    @FindBy (css = "textarea[name='prop_cm_description']")
-    private WebElement propertyDescription;
-
-    @FindBy (css = "input[id*='endpointhost']")
-    private WebElement hostInputField;
-
-    @FindBy (css = "input[id*='endpointport']")
-    private WebElement portInputField;
-
-    @FindBy (css = "input[id*='username']")
-    private WebElement usernameInputField;
-
-    @FindBy (css = "input[id*='password']")
-    private WebElement passwordInputField;
-
-    @FindBy (css = ".formsCheckBox")
-    private WebElement enabledCheckbox;
-
-    @FindBy (css = "div[id$='prop_cm_taggable-cntrl-itemGroupActions'] button")
-    private WebElement selectTagsButton;
-
-    @FindBy (css = "div[id$='prop_cm_categories-cntrl-itemGroupActions'] button")
-    private Button selectCategoriesButton;
-
-    @FindBy (css = "a[id*='editMetadata-button']")
-    private WebElement allPropertiesButton;
-
-    @FindAll (@FindBy (css = "div[id$='prop_cm_taggable-cntrl-currentValueDisplay'] div"))
-    private List<WebElement> selectedTags;
-
-    @FindAll (@FindBy (css = "div[id$='prop_cm_categories-cntrl-currentValueDisplay'] div"))
-    private List<WebElement> selectedCategories;
-
-    @FindBy (css = "button[id$='form-submit-button']")
-    private WebElement saveButton;
-
-    @FindBy (css = "button[id$='form-cancel-button']")
-    private WebElement cancelButton;
+    public EditPropertiesDialog(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     public String getDialogTitle()
     {
-        return dialogTitle.getText();
+        return webElementInteraction.getElementText(dialogTitle);
     }
 
     public void clickSelectCategories()
     {
-        selectCategoriesButton.click();
+        webElementInteraction.clickElement(selectCategoriesButton);
     }
 
     public boolean isSelectTagsButtonDisplayed()
     {
-        return browser.isElementDisplayed(selectTagsButton);
+        return webElementInteraction.isElementDisplayed(selectTagsButton);
     }
 
     public void clickSelectTags()
     {
-        browser.waitUntilElementClickable(selectTagsButton).click();
+        webElementInteraction.waitUntilElementIsVisible(selectTagsButton);
+        webElementInteraction.clickElement(selectTagsButton);
     }
 
     public void clickSave()
     {
-        browser.waitUntilElementClickable(saveButton).click();
-        waitUntilMessageDisappears();
+        webElementInteraction.clickElement(saveButton);
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancel()
     {
-        cancelButton.click();
+        webElementInteraction.clickElement(cancelButton);
     }
 
     public boolean isCategorySelected(String category)
     {
-        return browser.findFirstElementWithValue(selectedCategories, category) != null;
+        return webElementInteraction.findFirstElementWithValue(selectedCategories, category) != null;
     }
 
     public boolean isTagSelected(String tag)
     {
-        return browser.findFirstElementWithValue(selectedTags, tag) != null;
+        return webElementInteraction.findFirstElementWithValue(selectedTags, tag) != null;
+    }
+
+    public EditPropertiesDialog assertTagIsSelected(String tag)
+    {
+        log.info("Assert tag {} is selected", tag);
+        assertTrue(isTagSelected(tag), String.format("Tag %s is not displayed", tag));
+        return this;
     }
 
     public void setName(String fileName)
     {
-        Utils.clearAndType(propertyName, fileName);
+        webElementInteraction.clearAndType(propertyName, fileName);
     }
 
     public void setTitle(String fileTitle)
     {
-        Utils.clearAndType(propertyTitle, fileTitle);
+        webElementInteraction.clearAndType(propertyTitle, fileTitle);
     }
 
     public void setDescription(String fileDescription)
     {
-        Utils.clearAndType(propertyDescription, fileDescription);
-    }
-
-    public boolean verifyAllElementsAreDisplayed()
-    {
-        return browser.isElementDisplayed(propertyName) &&
-            browser.isElementDisplayed(propertyTitle) &&
-            browser.isElementDisplayed(propertyDescription) &&
-            browser.isElementDisplayed(selectTagsButton) &&
-            browser.isElementDisplayed(saveButton) &&
-            browser.isElementDisplayed(cancelButton);
+        webElementInteraction.clearAndType(propertyDescription, fileDescription);
     }
 
     public void typeHost(String host)
     {
-        Utils.clearAndType(hostInputField, host);
+        webElementInteraction.clearAndType(hostInputField, host);
     }
 
     public void typePort(String port)
     {
-        Utils.clearAndType(portInputField, port);
+        webElementInteraction.clearAndType(portInputField, port);
     }
 
     public void typeUsername(String username)
     {
-        Utils.clearAndType(usernameInputField, username);
+        webElementInteraction.clearAndType(usernameInputField, username);
     }
 
     public void typePassword(String password)
     {
-        Utils.clearAndType(passwordInputField, password);
+        webElementInteraction.clearAndType(passwordInputField, password);
     }
 
     public void checkEnabled()
     {
-        enabledCheckbox.click();
+        webElementInteraction.clickElement(enabledCheckbox);
     }
 
     public void updateFolderDetailsForReplication(String host, String port, String username, String password)
@@ -172,7 +133,6 @@ public class EditPropertiesDialog extends ShareDialog
 
     public void clickAllPropertiesLink()
     {
-        browser.waitUntilElementVisible(allPropertiesButton);
-        allPropertiesButton.click();
+        webElementInteraction.clickElement(allPropertiesButton);
     }
 }

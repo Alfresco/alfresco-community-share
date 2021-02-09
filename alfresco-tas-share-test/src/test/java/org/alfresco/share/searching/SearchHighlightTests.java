@@ -35,7 +35,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
 {
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     EditPropertiesDialog editFilePropertiesDialog;
     //@Autowired
     BlogPostListPage blogPage;

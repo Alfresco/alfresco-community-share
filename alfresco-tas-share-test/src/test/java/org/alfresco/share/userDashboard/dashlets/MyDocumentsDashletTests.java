@@ -63,7 +63,7 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2138")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
     public void filterDocuments() throws Exception
     {
         FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

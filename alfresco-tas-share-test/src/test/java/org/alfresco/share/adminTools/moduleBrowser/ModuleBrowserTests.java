@@ -21,7 +21,7 @@ public class ModuleBrowserTests extends BaseTest
     {
         moduleBrowserPage = new ModuleBrowserPage(webDriver);
 
-        setupAuthenticatedSession(getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(getAdminUser());
     }
 
     @BeforeClass (alwaysRun = true)

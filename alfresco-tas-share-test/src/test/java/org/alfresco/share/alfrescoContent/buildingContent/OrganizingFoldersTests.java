@@ -34,6 +34,7 @@ public class OrganizingFoldersTests extends BaseTest
     {
         String randomFolder = RandomData.getRandomFolder();
         FolderModel testFolder = new FolderModel(randomFolder, randomFolder, randomFolder);
+
         documentLibraryPage.navigate(site.get());
         documentLibraryPage.clickCreate().clickFolder()
             .assertDialogTitleEquals(language.translate("newFolderDialog.title"))

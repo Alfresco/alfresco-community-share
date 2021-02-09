@@ -23,7 +23,7 @@ public class CreateUsersTests extends BaseTest
         createUsers = new CreateUserPage(webDriver);
         usersPage = new UsersPage(webDriver);
 
-        setupAuthenticatedSession(getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(getAdminUser());
     }
 
     @TestRail (id = "C42597")

@@ -2,7 +2,7 @@ package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_40;
+import static org.alfresco.common.Wait.WAIT_60;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -78,8 +78,7 @@ public class AddUserDialog extends BaseDialogComponent
         int retry = 0;
         typeInSearch(userToSearch);
         clickSearchButton();
-        boolean found = isUserDisplayed(userToSearch);
-        while (retry < WAIT_40.getValue() && !found)
+        while (retry < WAIT_60.getValue() && !isUserDisplayed(userToSearch))
         {
             waitToLoopTime(WAIT_1.getValue());
             clickSearchButton();

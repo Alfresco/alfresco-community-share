@@ -175,7 +175,9 @@ public class SiteContentDashletComponent
     public SiteContentDashletComponent addToFavorite()
     {
         log.info("Add file to favorite");
-        webElementInteraction.clickElement(getFileRow().findElement(favoriteAction));
+        WebElement favorite = getFileRow().findElement(favoriteAction);
+        webElementInteraction.mouseOver(favorite);
+        webElementInteraction.clickElement(favorite);
         webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
         return this;
     }

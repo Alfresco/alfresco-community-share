@@ -47,7 +47,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
     private NewFolderDialog newContentDialog;
     //@Autowired
     private RepositoryPage repositoryPage;
-    @Autowired
+    //@Autowired
     private EditPropertiesDialog editPropertiesDialog;
     //@Autowired
     private ReplicationJobsPage replicationJobsPage;

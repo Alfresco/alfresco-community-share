@@ -29,7 +29,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
     SearchPage searchPage;
     //s@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     EditPropertiesDialog editPropertiesDialog;
     SoftAssert softAssert = new SoftAssert();
     private String userName = "advancedSearch" + RandomData.getRandomAlphanumeric();

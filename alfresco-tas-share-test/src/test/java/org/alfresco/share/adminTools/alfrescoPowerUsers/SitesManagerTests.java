@@ -141,7 +141,7 @@ public class SitesManagerTests extends BaseTest
     {
         testSite.set(getDataSite().usingUser(siteAdmin.get()).createPublicRandomSite());
 
-        setupAuthenticatedSession(siteAdmin.get());
+        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
         sitesManagerPage.navigate().usingSite(testSite.get())
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(testSite.get().getTitle())
