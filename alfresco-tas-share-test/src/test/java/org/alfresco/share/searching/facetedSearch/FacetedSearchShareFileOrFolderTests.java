@@ -33,7 +33,7 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
     AdvancedSearchPage advancedSearchPage;
     //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     EditPropertiesDialog editPropertiesDialog;
 
     private String userName = "facetedSearch" + RandomData.getRandomAlphanumeric();

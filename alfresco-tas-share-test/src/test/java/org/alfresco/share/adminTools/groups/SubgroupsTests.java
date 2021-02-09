@@ -30,7 +30,7 @@ public class SubgroupsTests extends BaseTest
     public void setupTest()
     {
         groupsPage = new GroupsPage(webDriver);
-        setupAuthenticatedSession(getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(getAdminUser());
         groupsPage.navigate();
     }
 
@@ -84,7 +84,7 @@ public class SubgroupsTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUser()
     {
-        UserModel userToAdd = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userToAdd = getDataUser().usingAdmin().createRandomTestUser();
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())
             .clickBrowse()
             .selectGroup(parentGroup)

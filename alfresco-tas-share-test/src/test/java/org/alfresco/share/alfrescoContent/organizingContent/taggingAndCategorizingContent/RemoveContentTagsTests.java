@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 /**
  * @author Laura.Capsa
  */
-public class RemoveTagsTests extends ContextAwareWebTest
+public class RemoveContentTagsTests extends ContextAwareWebTest
 {
     private final String random = RandomData.getRandomAlphanumeric();
     private final String siteName1 = "site1-" + random;

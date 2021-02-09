@@ -101,7 +101,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
         deleteSitesIfNotNull(secondSite);
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void createSiteFromSiteDashlet()
     {
         SiteModel site = new SiteModel(RandomData.getRandomName("site"));

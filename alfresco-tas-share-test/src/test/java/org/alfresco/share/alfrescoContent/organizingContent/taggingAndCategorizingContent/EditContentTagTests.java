@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 /**
  * @author Laura.Capsa
  */
-public class EditTagTests extends ContextAwareWebTest
+public class EditContentTagTests extends ContextAwareWebTest
 {
     private final String random = RandomData.getRandomAlphanumeric();
     private final String siteName1 = "site1-" + random;

@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.profile;
 
+import static org.alfresco.common.Wait.WAIT_20;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -24,6 +25,8 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
     private final By errorPrompt = By.id("prompt");
     private final By errorPromptMessage = By.cssSelector("#prompt .bd");
     private final By errorPromptOKButton = By.cssSelector("#prompt button");
+
+    private final String changePassword = "change-password";
 
     public ChangePasswordPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -83,7 +86,8 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
 
     public ChangePasswordPage assertChangePasswordPageIsOpened()
     {
-        assertTrue(webElementInteraction.getCurrentUrl().contains("change-password"), "Change password page is opened");
+        webElementInteraction.waitUrlContains(changePassword, WAIT_20.getValue());
+        assertTrue(webElementInteraction.getCurrentUrl().contains(changePassword), "Change password page is opened");
         return this;
     }
 

@@ -13,8 +13,6 @@ import org.openqa.selenium.support.ui.Select;
 
 public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 {
-    private SelectDialog selectDialog;
-
     private final By selectButtonForCustomSmartFolder = By.cssSelector("button[id*='yui-gen21-button']");
     private final By helpIconForRestrictableAspect = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-help-icon']");
     private final By helpMessageForRestrictableAspect = By.cssSelector("[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']");

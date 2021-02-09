@@ -35,7 +35,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     //@Autowired
     AspectsForm aspectsForm;
 
-    @Autowired
+    //@Autowired
     EditPropertiesDialog editPropertiesDialog;
 
     //@Autowired
@@ -122,7 +122,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         LOG.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
-        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+        //Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step5: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
@@ -179,7 +179,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         LOG.info("Step6: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
-        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+        //Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step7: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
@@ -239,7 +239,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         LOG.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
-        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+        //Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step5: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();

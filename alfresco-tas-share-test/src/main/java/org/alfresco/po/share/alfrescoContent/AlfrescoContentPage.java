@@ -16,6 +16,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FileModel;
@@ -106,14 +107,14 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     {
         By contentRowElement = By.xpath(String.format(contentRow, contentName));
 
-        int i = 0;
-        while(i < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(contentRowElement))
+        int retryCount = 0;
+        while(retryCount < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(contentRowElement))
         {
-            log.error("Wait for content {} to be displayed", contentName);
+            log.error("Wait for content {} to be displayed. Retry {}", contentName, retryCount);
             webElementInteraction.refresh();
             waitToLoopTime(WAIT_1.getValue());
             waitForContentPageToBeLoaded();
-            i++;
+            retryCount++;
         }
         return webElementInteraction.waitUntilElementIsVisible(contentRowElement);
     }
@@ -374,7 +375,8 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
             this,
             new DocumentDetailsPage(webDriver),
             new CopyMoveUnzipToDialog(webDriver),
-            new DeleteDialog(webDriver));
+            new DeleteDialog(webDriver),
+            new EditPropertiesDialog(webDriver));
     }
 
     //todo: move into separate file

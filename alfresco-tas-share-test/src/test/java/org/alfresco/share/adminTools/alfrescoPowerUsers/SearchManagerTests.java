@@ -28,7 +28,7 @@ public class SearchManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void userHasSearchManagerRightsWhenAddedToAdminGroup()
     {
-        setupAuthenticatedSession(userAdmin.get());
+        setupAuthenticatedSessionViaLoginPage(userAdmin.get());
         userDashboardPage.navigate(userAdmin.get());
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
         getDataGroup().usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_ADMIN_GROUP);

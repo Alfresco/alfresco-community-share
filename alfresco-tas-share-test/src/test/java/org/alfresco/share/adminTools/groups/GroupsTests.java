@@ -50,7 +50,7 @@ public class GroupsTests extends BaseTest
     public void setupTest()
     {
         groupsPage = new GroupsPage(webDriver);
-        setupAuthenticatedSession(getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(getAdminUser());
         groupsPage.navigate();
     }
 

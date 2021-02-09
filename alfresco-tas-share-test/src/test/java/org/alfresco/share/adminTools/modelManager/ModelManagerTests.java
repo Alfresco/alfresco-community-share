@@ -59,7 +59,7 @@ public class ModelManagerTests extends BaseTest
         documentDetailsPage = new DocumentDetailsPage(webDriver);
         createCustomTypeDialog = new CreateCustomTypeDialog(webDriver);
 
-        setupAuthenticatedSession(getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(getAdminUser());
     }
 
     @TestRail (id = "C42565")

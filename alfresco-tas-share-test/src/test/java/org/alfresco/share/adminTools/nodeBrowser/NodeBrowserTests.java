@@ -26,7 +26,7 @@ public class NodeBrowserTests extends BaseTest
         nodeBrowserPage = new NodeBrowserPage(webDriver);
 
         site.set(dataSite.usingAdmin().createPublicRandomSite());
-        setupAuthenticatedSession(dataUser.getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(dataUser.getAdminUser());
     }
 
     @TestRail (id = "C9309")

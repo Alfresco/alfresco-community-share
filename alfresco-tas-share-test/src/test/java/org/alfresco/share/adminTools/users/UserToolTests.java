@@ -17,7 +17,7 @@ public class UserToolTests extends BaseTest
     public void setupTest()
     {
         usersPage = new UsersPage(webDriver);
-        setupAuthenticatedSession(getAdminUser());
+        setupAuthenticatedSessionViaLoginPage(getAdminUser());
     }
 
     @TestRail (id = "C9392")

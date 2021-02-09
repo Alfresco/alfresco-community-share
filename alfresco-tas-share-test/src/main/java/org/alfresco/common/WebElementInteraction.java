@@ -1234,6 +1234,12 @@ public class WebElementInteraction
                         .executeScript("return document.readyState").equals("complete"));
     }
 
+    public void sendKeys(Keys key)
+    {
+        Actions builder = new Actions(webDriver.get());
+        builder.sendKeys(key);
+    }
+
     private FluentWait<WebDriver> setWaitingTime(long timeOutInSeconds, long pollingTimeInMillis)
     {
         return new WebDriverWait(getWebDriver(), timeOutInSeconds)
