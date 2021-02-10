@@ -58,7 +58,6 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertActiveTasksTitleIsDisplayed()
     {
         log.info("Assert Active tasks title is displayed");
-        assertEquals(webElementInteraction.findElement(taskbarTitle).getText(), language.translate("myTasksPage.active.title"));
         assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.active.title"));
         return this;
     }
@@ -66,7 +65,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertCompletedTasksTitleIsDisplayed()
     {
         log.info("Assert Completed tasks title is displayed");
-        assertEquals(webElementInteraction.findElement(taskbarTitle).getText(), language.translate("myTasksPage.completed.title"));
+        assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.completed.title"));
         return this;
     }
 
@@ -112,8 +111,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public StartWorkflowPage clickStartWorkflowButton()
     {
         webElementInteraction.clickElement(startWorkflow);
-        StartWorkflowPage startWorkflowPage = new StartWorkflowPage(webDriver);
-        return startWorkflowPage;
+        return new StartWorkflowPage(webDriver);
     }
 
     public String getTaskTitle()
