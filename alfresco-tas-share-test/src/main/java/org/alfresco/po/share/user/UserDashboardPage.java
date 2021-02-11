@@ -158,8 +158,10 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage assertPageHeaderIsCorrect(UserModel userModel)
     {
         log.info("Assert User Dashboard header title is correct");
-        assertEquals(getPageHeader(), String.format(language.translate("userDashboard.headerTitle"),
-                userModel.getFirstName(), userModel.getLastName()));
+        assertPageHeadersEqualsTo(String
+            .format(language.translate("userDashboard.headerTitle"), userModel.getFirstName(),
+                userModel.getLastName()));
+
         return this;
     }
 

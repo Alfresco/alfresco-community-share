@@ -1,7 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     private final By dashletMessage = By.cssSelector("div.dashlet.calendar .dashlet-padding>h3");
     private final By eventStartDate = By.xpath("ancestor::*[@class='details2']//a");
 
-    private String eventTitleLinkLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//a[contains(text(), '%s')]";
-    private String eventTimeLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//span[contains(text(), '%s ')]";
+    private final String eventTitleLinkLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//a[contains(text(), '%s')]";
+    private final String eventTimeLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//span[contains(text(), '%s ')]";
 
     public SiteCalendarDashlet(ThreadLocal<WebDriver> webDriver)
     {
@@ -45,14 +45,14 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     {
         log.info("Wait until event title link is displayed: {}", eventLinkTitle);
         return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
-            eventTitleLinkLocator, eventLinkTitle)), WAIT_1.getValue(), WAIT_60.getValue());
+            eventTitleLinkLocator, eventLinkTitle)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     private WebElement waitUntilEventTimeIsDisplayed(String eventTime)
     {
         log.info("Wait until event time is displayed: {}", eventTime);
         return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
-            eventTimeLocator, eventTime)), WAIT_1.getValue(), WAIT_60.getValue());
+            eventTimeLocator, eventTime)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public SiteCalendarDashlet assertEventListTitleEquals(String expectedEventTitleLink)
@@ -114,7 +114,8 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     public CalendarPage clickEvent(String eventTitle)
     {
         log.info("Click event with title: {}", eventTitle);
-        webElementInteraction.findFirstElementWithValue(siteEventsNameList, eventTitle).click();
+        webElementInteraction.clickElement(
+            webElementInteraction.findFirstElementWithValue(siteEventsNameList, eventTitle));
 
         return new CalendarPage(webDriver);
     }

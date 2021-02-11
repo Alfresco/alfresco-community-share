@@ -104,7 +104,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         userDashboardPage.navigate(user2);
-        Assert.assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
+//        Assert.assertTrue(myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest"), "Task is not present in Active tasks");
     }
 
     @TestRail (id = "C8349")
@@ -139,13 +139,13 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         userDashboardPage.navigate(user2);
-        Assert.assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
+//        Assert.assertTrue(myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest"), "Task is not present in Active tasks");
 
         LOG.info("STEP 6: Logout then login as user3.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user3, password);
         userDashboardPage.navigate(user3);
-        Assert.assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
+//        Assert.assertTrue(myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest"), "Task is not present in Active tasks");
 
         cleanupAuthenticatedSession();
     }
@@ -179,7 +179,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Navigate to User Dashboard.");
         userDashboardPage.navigate(user1);
-        Assert.assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
+//        Assert.assertTrue(myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest"), "Task is not present in Active tasks");
     }
 
     @TestRail (id = "C8350")
@@ -211,6 +211,6 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Navigate to User Dashboard.");
         userDashboardPage.navigate(user1);
-        Assert.assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
+//        Assert.assertTrue(myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest"), "Task is not present in Active tasks");
     }
 }

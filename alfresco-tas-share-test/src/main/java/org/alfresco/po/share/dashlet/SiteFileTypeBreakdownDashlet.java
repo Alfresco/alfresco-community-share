@@ -1,5 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 
@@ -46,7 +47,9 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     public SiteFileTypeBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {
         log.info("Assert pie chart size equals: {}", expectedPieChartSize);
-        webElementInteraction.waitWithRetryAndReturnWebElement(pieChartSlices, WAIT_2.getValue(), WAIT_60.getValue());
+        webElementInteraction.waitWithRetryAndReturnWebElement(pieChartSlices, WAIT_2.getValue(),
+            RETRY_TIME_80.getValue());
+
         assertEquals(webElementInteraction.waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize,
             String.format("Pie chart size not equals %d ", expectedPieChartSize));
         return this;

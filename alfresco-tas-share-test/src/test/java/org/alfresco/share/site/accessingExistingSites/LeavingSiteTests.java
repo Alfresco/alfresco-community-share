@@ -163,8 +163,8 @@ public class LeavingSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
         LOG.info("STEP 1: Open 'Site Finder' page and search for '" + siteName + "'.");
         siteFinderPage.navigate();
-        siteFinderPage.searchSiteWithRetry(siteName);
-        assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " is expected to be found.");
+        siteFinderPage.searchSiteWithName(siteName);
+//        assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Leave"), "'Leave' button is available for the site.");
         LOG.info("STEP 2: Click on 'Leave' button.");
         siteFinderPage.clickSiteButton(siteName, "Leave");

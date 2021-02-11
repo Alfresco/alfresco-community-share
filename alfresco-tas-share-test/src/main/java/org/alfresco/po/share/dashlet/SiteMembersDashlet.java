@@ -1,7 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
@@ -81,18 +81,22 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 
     private String formattedActualUsername(String expectedFirstName, String expectedLastName)
     {
-        webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(usernameLocator,
-            expectedFirstName.concat(EMPTY_SPACE).concat(expectedLastName))), WAIT_1.getValue(), WAIT_60.getValue());
+        String formattedUsername = expectedFirstName.concat(EMPTY_SPACE).concat(expectedLastName);
 
-        return webElementInteraction.findElement(By.xpath(String
-            .format(usernameLocator, expectedFirstName.concat(EMPTY_SPACE).concat(expectedLastName))))
-            .getText();
+        webElementInteraction.waitWithRetryAndReturnWebElement(
+            By.xpath(String.format(usernameLocator, formattedUsername)), WAIT_2.getValue(),
+            RETRY_TIME_80.getValue());
+
+        return webElementInteraction.getElementText(By.xpath(String
+            .format(usernameLocator, formattedUsername)));
     }
 
     public SiteMembersDashlet assertUserRoleEquals(String expectedUserRole)
     {
         log.info("Assert user role equals: {}", expectedUserRole);
-        String actualUserRole = webElementInteraction.findElement(By.xpath(String.format(userRoleLocator, expectedUserRole))).getText();
+        String actualUserRole = webElementInteraction
+            .getElementText(By.xpath(String.format(userRoleLocator, expectedUserRole)));
+
         assertEquals(actualUserRole, expectedUserRole,
             String.format("User role not equals %s ", expectedUserRole));
 

@@ -1,6 +1,9 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import static org.alfresco.common.Wait.WAIT_15;
+import static org.alfresco.common.RetryTime.RETRY_TIME_10;
+import static org.alfresco.common.RetryTime.RETRY_TIME_30;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -10,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
-import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -74,9 +76,9 @@ public class UsersPage extends SharePage2<UsersPage>
         typeUserAndClickSearch(searchKeyword);
         int counter = 0;
         boolean found = isUserFound(userToWaitFor);
-        while (!found && counter <= 10)
+        while (!found && counter <= RETRY_TIME_10.getValue())
         {
-            Utility.waitToLoopTime(1, String.format("Wait for user to be displayed: %s", userToWaitFor));
+            waitToLoopTime(WAIT_2.getValue(), String.format("Wait for user to be displayed: %s", userToWaitFor));
             typeUserAndClickSearch(searchKeyword);
             found = isUserFound(userToWaitFor);
             counter++;
@@ -119,7 +121,9 @@ public class UsersPage extends SharePage2<UsersPage>
 
     public WebElement getUserRow(String userName)
     {
-        return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)), 1, WAIT_15.getValue());
+        return webElementInteraction
+            .waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)),
+                WAIT_2.getValue(), RETRY_TIME_30.getValue());
     }
 
     public UsersPage assertSearchInputIsDisplayed()

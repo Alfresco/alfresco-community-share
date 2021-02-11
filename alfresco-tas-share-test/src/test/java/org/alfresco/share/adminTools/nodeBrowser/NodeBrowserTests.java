@@ -1,10 +1,17 @@
 package org.alfresco.share.adminTools.nodeBrowser;
 
+import static org.alfresco.po.enums.SearchType.CMIS_ALFRESCO;
+import static org.alfresco.po.enums.SearchType.CMIS_STRICT;
+import static org.alfresco.po.enums.SearchType.FTS_ALFRESCO;
+import static org.alfresco.po.enums.SearchType.LUCENE;
+import static org.alfresco.po.enums.SearchType.NODEREF;
+import static org.alfresco.po.enums.SearchType.STORE_ROOT;
+import static org.alfresco.po.enums.SearchType.XPATH;
+import static org.alfresco.po.enums.StoreType.WORKSPACE_SPACES_STORE;
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.po.enums.SearchType;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
-import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage.SearchType;
-import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage.StoreType;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.FileModel;
@@ -38,7 +45,7 @@ public class NodeBrowserTests extends BaseTest
         getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
 
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.LUCENE)
+        nodeBrowserPage.selectSearchType(LUCENE)
             .searchFor(content)
             .clickSearch()
             .assertParentForFileIsSite(file, site.get())
@@ -53,7 +60,7 @@ public class NodeBrowserTests extends BaseTest
         getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
 
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.NODEREF)
+        nodeBrowserPage.selectSearchType(NODEREF)
             .searchFor("workspace://SpacesStore/" + file.getNodeRefWithoutVersion())
             .clickSearch()
             .assertParentForFileIsSite(file, site.get())
@@ -70,7 +77,7 @@ public class NodeBrowserTests extends BaseTest
             site.get().getId(), file.getName());
 
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.XPATH)
+        nodeBrowserPage.selectSearchType(XPATH)
             .searchFor(xpathSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site.get())
@@ -85,7 +92,7 @@ public class NodeBrowserTests extends BaseTest
         getCmisApi().authenticateUser(getAdminUser()).usingSite(site.get()).createFile(file);
 
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.FTS_ALFRESCO)
+        nodeBrowserPage.selectSearchType(FTS_ALFRESCO)
             .searchFor("cm:name:" + file.getName())
             .clickSearch()
             .assertParentForFileIsSite(file, site.get())
@@ -101,7 +108,7 @@ public class NodeBrowserTests extends BaseTest
         String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
 
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.CMIS_STRICT)
+        nodeBrowserPage.selectSearchType(CMIS_STRICT)
             .searchFor(cmisSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site.get())
@@ -117,7 +124,7 @@ public class NodeBrowserTests extends BaseTest
         String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", file.getName());
 
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.CMIS_ALFRESCO)
+        nodeBrowserPage.selectSearchType(CMIS_ALFRESCO)
             .searchFor(cmisSearchTerm)
             .clickSearch()
             .assertParentForFileIsSite(file, site.get())
@@ -129,8 +136,8 @@ public class NodeBrowserTests extends BaseTest
     public void checkNodeBrowserPage()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.assertSearchTypeIsSelected(SearchType.FTS_ALFRESCO)
-            .assertStoreTypeIsSelected(StoreType.WORKSPACE_SPACES_STORE)
+        nodeBrowserPage.assertSearchTypeIsSelected(FTS_ALFRESCO)
+            .assertStoreTypeIsSelected(WORKSPACE_SPACES_STORE)
             .assertAllColumnsAreDisplayed()
             .assertSearchButtonIsDisplayed();
     }
@@ -139,7 +146,7 @@ public class NodeBrowserTests extends BaseTest
     public void executeCustomNodeSearch()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.STORE_ROOT)
+        nodeBrowserPage.selectSearchType(STORE_ROOT)
             .clickSearch()
             .assertReferenceContainsValue("workspace://SpacesStore/");
     }
@@ -148,7 +155,7 @@ public class NodeBrowserTests extends BaseTest
     public void getSearchResultsNoResults()
     {
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectSearchType(SearchType.LUCENE)
+        nodeBrowserPage.selectSearchType(LUCENE)
             .searchFor(String.valueOf(System.currentTimeMillis()))
             .clickSearch()
             .assertNoItemsFoundLabelEquals(language.translate("nodeBrowser.noItemsFound"));

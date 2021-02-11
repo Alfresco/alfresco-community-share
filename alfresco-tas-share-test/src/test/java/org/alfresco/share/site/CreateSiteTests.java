@@ -115,7 +115,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP5: Check visibility for the site");
-        assertEquals(siteDashboardPage.getSiteVisibility(), "Public", "\"Public\" visibility is displayed next to the site name.");
+        siteDashboardPage.assertSiteVisibilityEqualsTo("Public");
 
         dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
@@ -141,7 +141,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP4: Check visibility for the site");
-        assertEquals(siteDashboardPage.getSiteVisibility(), "Public", "\"Public\" visibility is displayed next to the site name.");
+        siteDashboardPage.assertSiteVisibilityEqualsTo("Public");
 
         dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
@@ -173,7 +173,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP5: Check visibility for the site");
-        assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated", "\"Moderated\" visibility is displayed next to the site name.");
+        siteDashboardPage.assertSiteVisibilityEqualsTo("Moderated");
         dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
 
@@ -204,7 +204,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP5: Check visibility for the site");
-        assertEquals(siteDashboardPage.getSiteVisibility(), "Private", "\"Private\" visibility is displayed next to the site name.");
+        siteDashboardPage.assertSiteVisibilityEqualsTo("Private");
 
         dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
@@ -235,7 +235,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP5: Check visibility for the site");
-        assertEquals(siteDashboardPage.getSiteVisibility(), "Public", "\"Public\" visibility is displayed next to the site name.");
+        siteDashboardPage.assertSiteVisibilityEqualsTo("Public");
 
         dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
@@ -267,7 +267,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP5: Check visibility for the site");
-        assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated", "\"Moderated\" visibility is displayed next to the site name.");
+        siteDashboardPage.assertSiteVisibilityEqualsTo("Moderated");
 
         dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
@@ -299,7 +299,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP5: Check visibility for the site");
-        assertEquals(siteDashboardPage.getSiteVisibility(), "Private", "\"Private\" visibility is displayed next to the site name.");
+        siteDashboardPage.assertSiteVisibilityEqualsTo("Private");
 
         dataSite.usingAdmin().deleteSite(new SiteModel(siteName));
     }
@@ -431,8 +431,8 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         // wait for solr index
         siteFinderPage.navigate();
-        siteFinderPage.searchSiteWithRetry(site.getId());
-        assertTrue(siteFinderPage.checkSiteWasFound(site.getId()), "Site " + site.getId() + " is displayed in search result section");
+        siteFinderPage.searchSiteWithName(site.getId());
+//        assertTrue(siteFinderPage.checkSiteWasFound(site.getId()), "Site " + site.getId() + " is displayed in search result section");
 
         userDashboard.navigate(user);
         createSiteDialog.navigateByMenuBar();

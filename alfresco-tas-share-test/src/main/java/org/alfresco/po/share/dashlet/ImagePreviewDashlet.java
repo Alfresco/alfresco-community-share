@@ -1,7 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_60;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
     private WebElement getImageThumbnail(String imageName)
     {
         return webElementInteraction.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(imageLink, imageName)), WAIT_2.getValue(), WAIT_60.getValue());
+            By.xpath(String.format(imageLink, imageName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public ImagePreviewDashlet assertImagePreviewIsDisplayed(String imageName)

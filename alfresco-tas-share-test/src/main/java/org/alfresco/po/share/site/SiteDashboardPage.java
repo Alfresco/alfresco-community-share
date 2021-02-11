@@ -25,6 +25,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     private final By siteVisibility = By.cssSelector("div[id='HEADER_TITLE_VISIBILITY'] span");
     private final By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
     private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
+
     private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
     public SiteDashboardPage(ThreadLocal<WebDriver> webDriver)
@@ -77,15 +78,21 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
             dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
     }
 
-    public String getSiteVisibility()
+    public SiteDashboardPage assertSiteVisibilityEqualsTo(String expectedSiteVisibility)
     {
-        return webElementInteraction.waitUntilElementIsVisible(siteVisibility).getText();
+        String actualSiteVisibility = webElementInteraction.getElementText(siteVisibility);
+        assertTrue(actualSiteVisibility.equalsIgnoreCase(expectedSiteVisibility));
+        return this;
     }
 
     public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
     {
         log.info(String.format("Assert site visibility is: %s", visibility.toString()));
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(siteVisibility).getText().toUpperCase(), visibility.toString());
+        String actualSiteVisibility = webElementInteraction.getElementText(siteVisibility).toUpperCase();
+
+        assertEquals(actualSiteVisibility, visibility.toString(),
+            String.format("Site visibility not equals %s", visibility.toString()));
+
         return this;
     }
 

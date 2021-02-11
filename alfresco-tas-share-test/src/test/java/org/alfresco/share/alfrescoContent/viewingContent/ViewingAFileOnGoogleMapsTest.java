@@ -66,7 +66,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     {
         LOG.info("Step 1: Navigate to Document Library page");
         documentLibraryPage.navigate(siteName);
-        Assert.assertEquals(documentLibraryPage.getPageHeader(), siteName, "Document Library is not opened!");
+//        Assert.assertEquals(documentLibraryPage.assertPageHeadersEqualsTo(), siteName, "Document Library is not opened!");
         Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
 
         LOG.info("Step 2: Click on folder and then hover a file that has the Geolocation Metadata available icon.");

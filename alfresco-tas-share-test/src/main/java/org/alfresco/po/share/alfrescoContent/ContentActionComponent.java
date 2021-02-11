@@ -1,26 +1,26 @@
 package org.alfresco.po.share.alfrescoContent;
 
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.Wait.WAIT_15;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.common.Timeout;
 import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.alfresco.po.share.site.dataLists.Content;
 import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.FolderModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 @Slf4j
 public class ContentActionComponent
@@ -283,12 +283,12 @@ public class ContentActionComponent
         WebElement contentRowElement = getContentRow();
         mouseOverContent();
         WebElement rename = webElementInteraction.waitUntilElementIsVisible(renameIcon);
-        int i = 0;
+        int retryCount = 0;
         while (!contentRowElement.findElement(renameForm).getAttribute("style").equals("display: inline;")
-            && i < WAIT_15.getValue())
+            && retryCount < WAIT_15.getValue())
         {
             webElementInteraction.clickElement(rename);
-            i++;
+            retryCount++;
         }
         webElementInteraction.waitUntilChildElementIsPresent(contentRowElement, renameInput);
         return this;
@@ -318,7 +318,6 @@ public class ContentActionComponent
         {
             log.error("Content has not been highlighted");
         }
-
         return this;
     }
 
@@ -368,15 +367,21 @@ public class ContentActionComponent
         mouseOverContent();
         webElementInteraction.mouseOver(contentRowElement.findElement(tagAreaLocator));
         WebElement tagIcon = webElementInteraction.waitUntilElementIsVisible(tagEditIconLocator);
-        int i = 0;
-        while (!webElementInteraction.isElementDisplayed(tagInputLocator) && i < WAIT_15.getValue())
-        {
-            log.error("Retry click tag icon for content {}", contentModel.getName());
-            webElementInteraction.clickElement(tagIcon);
-            i++;
-        }
+        clickTagIconWithRetry(tagIcon);
 
         return this;
+    }
+
+    private void clickTagIconWithRetry(WebElement tagIcon)
+    {
+        int retryCount = 0;
+        while (!webElementInteraction.isElementDisplayed(tagInputLocator) && retryCount < WAIT_15.getValue())
+        {
+            log.error("Retry click tag icon for content {}. Retry {}", contentModel.getName(), retryCount);
+            waitToLoopTime(WAIT_2.getValue());
+            webElementInteraction.clickElement(tagIcon);
+            retryCount++;
+        }
     }
 
     public ContentActionComponent addTag(String tag)

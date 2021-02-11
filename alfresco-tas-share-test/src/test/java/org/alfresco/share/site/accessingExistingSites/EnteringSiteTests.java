@@ -12,7 +12,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -85,8 +84,8 @@ public class EnteringSiteTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP 1: Search for '" + siteName + "'.");
-        siteFinderPage.searchSiteWithRetry(siteName);
-        assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " should be found.");
+        siteFinderPage.searchSiteWithName(siteName);
+//        assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " should be found.");
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
         siteFinderPage.accessSite(siteName);

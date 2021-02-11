@@ -1,9 +1,11 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.po.enums.SelectMenuOptions.ALL;
+import static org.alfresco.po.enums.SelectMenuOptions.INVERT_SELECTION;
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
 import org.alfresco.dataprep.WorkflowService.WorkflowType;
-import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.SelectMenuOptions;
+import org.alfresco.po.enums.SelectMenuOptions;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -92,11 +94,11 @@ public class MultiSelectingContentTests extends BaseTest
                 language.translate("documentLibrary.selectedItemsMenu.deselectAll"));
 
         documentLibraryPage.clickSelectMenu()
-            .selectOptionFromSelectMenu(SelectMenuOptions.INVERT_SELECTION)
+            .selectOptionFromSelectMenu(INVERT_SELECTION)
             .assertContentsAreChecked(textFile, xmlFile)
             .assertContentsAreNotChecked(folder);
         documentLibraryPage.clickSelectMenu()
-            .selectOptionFromSelectMenu(SelectMenuOptions.ALL)
+            .selectOptionFromSelectMenu(ALL)
             .assertContentsAreChecked(xmlFile, textFile, folder);
         documentLibraryPage.clickSelectMenu()
             .selectOptionFromSelectMenu(SelectMenuOptions.NONE)

@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_60;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -18,9 +18,6 @@ import org.openqa.selenium.WebElement;
 @Slf4j
 public class TagManagerPage extends SharePage2<TagManagerPage>
 {
-    private final String styleAttribute = "style";
-    private final String styleDisplayNone = "display: none;";
-
     private final By editIconSelector = By.cssSelector("a[class$='edit-tag-active']");
     private final By deleteIconSelector = By.cssSelector("a[class$='delete-tag-active']");
     private final By tableTitle = By.cssSelector(".tags-List>.title");
@@ -29,7 +26,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
 
     private final By searchButton = By.cssSelector(".search-button button");
     private final By noTagFoundMessage = By.cssSelector("div[class='tags-list-info']");
-    private final By tabBodyMessage = By.cssSelector("div[id$='default-tags'] tbody[class='yui-dt-message']");
+
     private final String tagRow = "//b[text()='%s']/../../../../..";
 
     public TagManagerPage(ThreadLocal<WebDriver> webDriver)
@@ -113,9 +110,9 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         clickSearch();
 
         int retryCounter = 0;
-        while(!isTagDisplayed(tagName) && retryCounter < WAIT_60.getValue())
+        while(!isTagDisplayed(tagName) && retryCounter < RETRY_TIME_80.getValue())
         {
-            log.error("Wait for tag {} to be displayed - retry: {}", tagName, retryCounter);;
+            log.warn("Tag {} not displayed - retry: {}", tagName, retryCounter);
             clickSearch();
             waitToLoopTime(WAIT_2.getValue());
             retryCounter++;
@@ -133,7 +130,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         }
         catch (ElementClickInterceptedException e)
         {
-            log.error("Failed to click Search button. Retry ");
+            log.error("Failed to click Search button. Retry");
             webElementInteraction.waitUntilElementIsVisible(search);
             webElementInteraction.clickJS(search);
         }

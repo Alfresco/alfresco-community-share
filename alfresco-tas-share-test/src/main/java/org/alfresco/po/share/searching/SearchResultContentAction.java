@@ -52,7 +52,8 @@ public class SearchResultContentAction extends BasePage
     public SearchCopyMoveDialog clickCopyTo()
     {
         log.info("Click Copy To...");
-        webElementInteraction.findFirstElementWithValue(actions, searchPage.language.translate("documentLibrary.contentActions.copyTo")).click();
+        webElementInteraction.clickElement(webElementInteraction.findFirstElementWithValue(actions,
+            searchPage.language.translate("documentLibrary.contentActions.copyTo")));
         return new SearchCopyMoveDialog(webDriver);
     }
 }

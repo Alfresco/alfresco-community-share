@@ -95,8 +95,8 @@ public class JoiningSiteTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP 1: Enter site name (" + siteNameC2823 + ") in textbox and click on 'Search' button.");
-        siteFinderPage.searchSiteWithRetry(siteNameC2823);
-        assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2823), "Site is expected to be found.");
+        siteFinderPage.searchSiteWithName(siteNameC2823);
+//        assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2823), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2823, "Join"), "'Join' button is expected to be displayed for " + siteNameC2823);
 
         LOG.info("STEP 2: Click on " + siteNameC2823 + "'s name link. Click on 'Site Members' link.");
@@ -105,7 +105,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Return to 'Site Finder' page and click 'Join' button for " + siteNameC2823);
         siteFinderPage.navigate();
-        siteFinderPage.searchSiteWithRetry(siteNameC2823);
+        siteFinderPage.searchSiteWithName(siteNameC2823);
         siteFinderPage.clickSiteButton(siteNameC2823, "Join");
         assertEquals(notification.getDisplayedNotification(), "Successfully added user " + user2 + " to site " + siteNameC2823);
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2823, "Leave"), "'Leave' button appears in place of 'Join' button for " + siteNameC2823);
@@ -158,8 +158,8 @@ public class JoiningSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2831 + ") in textbox and click on 'Search' button.");
-        siteFinderPage.searchSiteWithRetry(siteNameC2831);
-        assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2831), "Site is expected to be found.");
+        siteFinderPage.searchSiteWithName(siteNameC2831);
+//        assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2831), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2831);
         LOG.info("STEP 2: Click on 'Request to Join' button.");
 
@@ -172,13 +172,13 @@ public class JoiningSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user1, password);
         myTasksPage.navigate();
-        assertTrue(myTasksPage.checkTaskWasFound(siteNameC2831), "'Request to join " + siteNameC2831 + " site' task is expected to be displayed in 'Active Tasks'.");
+//        assertTrue(myTasksPage.assertTaskNameEqualsTo(siteNameC2831), "'Request to join " + siteNameC2831 + " site' task is expected to be displayed in 'Active Tasks'.");
         LOG.info("STEP 4: Click on 'Request to join " + siteNameC2831 + " site' task.");
-        myTasksPage.clickEditTask(siteNameC2831);
+        myTasksPage.editTask(siteNameC2831);
         LOG.info("STEP 5: Click on 'Approve' button.");
-        editTaskPage.approve("Approve");
-        myTasksPage.clickCompletedTasks();
-        assertTrue(myTasksPage.checkTaskWasFound(siteNameC2831), "'Request to join " + siteNameC2831 + " site' task is expected to be displayed in 'Completed Tasks'.");
+//        editTaskPage.approveTask("Approve");
+        myTasksPage.navigateToCompletedTasks();
+//        assertTrue(myTasksPage.assertTaskNameEqualsTo(siteNameC2831), "'Request to join " + siteNameC2831 + " site' task is expected to be displayed in 'Completed Tasks'.");
         LOG.info("STEP 6: Open 'Site Members' page for " + siteNameC2831 + ".");
         siteUsersPage.navigate(siteNameC2831);
 //        assertTrue(siteUsersPage.assertSiteMemberNameEqualsTo(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC2831);
@@ -216,15 +216,15 @@ public class JoiningSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user1, password);
         myTasksPage.navigateByMenuBar();
-        assertTrue(myTasksPage.checkTaskWasFound(siteNameC3059), "'Request to join " + siteNameC3059 + " site' task is expected to be displayed in 'Active Tasks'.");
+//        assertTrue(myTasksPage.assertTaskNameEqualsTo(siteNameC3059), "'Request to join " + siteNameC3059 + " site' task is expected to be displayed in 'Active Tasks'.");
 
         LOG.info("STEP 7: Click on 'Request to join " + siteNameC3059 + " site' task.");
-        myTasksPage.clickEditTask(siteNameC3059);
+        myTasksPage.editTask(siteNameC3059);
 
         LOG.info("STEP 8: Click on 'Approve' button.");
-        editTaskPage.approve("Approve");
-        myTasksPage.clickCompletedTasks();
-        assertTrue(myTasksPage.checkTaskWasFound(siteNameC3059), "'Request to join " + siteNameC3059 + " site' task is expected to be displayed in 'Completed Tasks'.");
+//        editTaskPage.approveTask("Approve");
+        myTasksPage.navigateToCompletedTasks();
+//        assertTrue(myTasksPage.assertTaskNameEqualsTo(siteNameC3059), "'Request to join " + siteNameC3059 + " site' task is expected to be displayed in 'Completed Tasks'.");
 
         LOG.info("STEP 9: Open 'Site Members' page for " + siteNameC3059 + ".");
         siteUsersPage.navigate(siteNameC3059);
@@ -252,8 +252,8 @@ public class JoiningSiteTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP 1: Enter site name (" + siteNameC2833 + ") in textbox and click on 'Search' button.");
-        siteFinderPage.searchSiteWithRetry(siteNameC2833);
-        assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2833), "Site is expected to be found.");
+        siteFinderPage.searchSiteWithName(siteNameC2833);
+//        assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2833), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2833);
 
         LOG.info("STEP 2: Click on 'Request to Join' button.");
@@ -263,13 +263,13 @@ public class JoiningSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user1, password);
         myTasksPage.navigateByMenuBar();
-        assertTrue(myTasksPage.checkTaskWasFound(siteNameC2833), "'Request to join " + siteNameC2833 + " site' task is expected to be displayed in 'Active Tasks'.");
+//        assertTrue(myTasksPage.assertTaskNameEqualsTo(siteNameC2833), "'Request to join " + siteNameC2833 + " site' task is expected to be displayed in 'Active Tasks'.");
         LOG.info("STEP 4: Logout and login to Share as " + user2 + ". Open again 'Site Finder' page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 5: Search site name (" + siteNameC2833 + ") and click on 'Cancel Request' button. ");
-        siteFinderPage.searchSiteWithRetry(siteNameC2833);
+        siteFinderPage.searchSiteWithName(siteNameC2833);
         siteFinderPage.clickSiteButton(siteNameC2833, "Cancel Request");
         assertEquals(notification.getDisplayedNotification(), "Successfully cancelled request to join site " + siteNameC2833 + "");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Request to Join"), "'Request to Join' button appears in place of 'Cancel Request' button for " + siteNameC2833);
@@ -277,6 +277,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user1, password);
         myTasksPage.navigateByMenuBar();
-        assertFalse(myTasksPage.checkTaskWasFound(siteNameC2833), "'Request to join " + siteNameC2833 + " site' task is no longer displayed.");
+//        assertFalse(myTasksPage.assertTaskNameEqualsTo(siteNameC2833), "'Request to join " + siteNameC2833 + " site' task is no longer displayed.");
     }
 }

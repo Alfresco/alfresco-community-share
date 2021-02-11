@@ -23,7 +23,7 @@ public enum Wait
     WAIT_70(70),
     WAIT_80(80);
 
-    private int value;
+    private final int value;
 
     Wait(int value)
     {

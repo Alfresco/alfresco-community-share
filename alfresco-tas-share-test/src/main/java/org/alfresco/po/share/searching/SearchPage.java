@@ -1,5 +1,6 @@
 package org.alfresco.po.share.searching;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
@@ -147,36 +148,36 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public SearchPage searchForContentWithRetry(ContentModel contentToFind)
     {
-        log.info("Search for content: {}", contentToFind);
-        int counter = 0;
-        while (counter <= WAIT_80.getValue() && !isContentDisplayed(contentToFind))
+        int retryCount = 0;
+        while (retryCount <= RETRY_TIME_80.getValue() && !isContentDisplayed(contentToFind))
         {
+            log.warn("Content {} not displayed - retry: {}", contentToFind, retryCount);
             setSearchExpression(contentToFind.getName());
             clickSearchButton();
             waitToLoopTime(WAIT_2.getValue());
-            counter++;
+            retryCount++;
         }
         return this;
     }
 
     public SearchPage searchWithKeywordAndWaitForContents(String searchExpression, ContentModel... contentModels)
     {
-        int counter = 0;
+        int retryCounter = 0;
         boolean allFound = false;
-        while(!allFound && counter <= WAIT_60.getValue())
+        while(!allFound && retryCounter < RETRY_TIME_80.getValue())
         {
-            log.error("Retry search for keyword {}", searchExpression);
+            log.warn("Keyword {} not displayed - retry: {}", searchExpression, retryCounter);
             setSearchExpression(searchExpression);
             clickSearchButton();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             if(webElementInteraction.isElementDisplayed(noResults))
             {
-                counter++;
+                retryCounter++;
                 continue;
             }
             if(webElementInteraction.findElements(searchResultRows).size() < contentModels.length)
             {
-                counter++;
+                retryCounter++;
             }
             else
             {

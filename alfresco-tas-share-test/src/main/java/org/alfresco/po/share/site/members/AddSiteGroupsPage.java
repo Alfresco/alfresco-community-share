@@ -53,6 +53,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         webElementInteraction.clearAndType(groupSearchBox, groupName);
         webElementInteraction.clickElement(groupSearchButton);
+        waitUntilLoadingMessageDisappears();
 
         return new AddSiteGroupsPage(webDriver);
     }

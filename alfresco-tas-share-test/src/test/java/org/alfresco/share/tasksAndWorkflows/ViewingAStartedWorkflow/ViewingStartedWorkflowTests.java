@@ -275,9 +275,9 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on Task Done action.");
         myTasksPage.navigate();
-        myTasksPage.clickEditTask(workflowName);
+        myTasksPage.editTask(workflowName);
         editTaskPage.clickTaskDoneButton();
-        myTasksPage.clickCompletedTasks();
+        myTasksPage.navigateToCompletedTasks();
         Assert.assertTrue(myTasksPage.getStatusCompleted(workflowName).contains("Completed"));
 
         LOG.info("STEP 5: Log in with " + c284893testUser + ", open My task page");
@@ -289,9 +289,9 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         LOG.info("STEP 6: Click on Workflow name, verify the workflow details");
         myTasksPage.clickOnTaskTitle(workflowName);
         myTasksPage.navigate();
-        myTasksPage.clickEditTask(workflowName);
+        myTasksPage.editTask(workflowName);
         editTaskPage.clickTaskDoneButton();
-        myTasksPage.clickCompletedTasks();
+        myTasksPage.navigateToCompletedTasks();
         Assert.assertTrue(myTasksPage.getStatusCompleted(workflowName).contains("Completed"));
 
         LOG.info("STEP 7: Navigate to WorkFlow I've started page, on section Completed, click on workflow name created by you and assigned to the user and see the details ");

@@ -40,7 +40,7 @@ public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
         webElementInteraction.clickElement(confirmButton);
         if(webElementInteraction.isElementDisplayed(deleteSiteWindow))
         {
-            log.error("Retry click confirm delete button");
+            log.warn("Retry click confirm delete button");
             webElementInteraction.clickElement(confirmButton);
         }
         webElementInteraction.waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);

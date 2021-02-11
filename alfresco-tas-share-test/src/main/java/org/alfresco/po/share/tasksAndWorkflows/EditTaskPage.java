@@ -1,6 +1,7 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.enums.TaskStatus;
 import org.alfresco.po.share.SharePage2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,9 +35,6 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
     private final By addItemsButton = By.cssSelector("div[id$='itemGroupActions'] button");
 
-    private String outcomeApprove;
-    private String outcomeReject;
-
     public EditTaskPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -57,34 +55,24 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
         return this;
     }
 
-    public void approve(String comment)
+    public EditTaskPage insertTaskComment(String comment)
     {
-        this.outcomeApprove = "Approved";
+        log.info("Insert task comment {}", comment);
         webElementInteraction.clearAndType(commentTextArea, comment);
+        return this;
+    }
+
+    public EditTaskPage approveTask()
+    {
+        log.info("Approve task");
         webElementInteraction.clickElement(approveButton);
+        return this;
     }
 
-    public void reject(String comment)
+    public void rejectTask()
     {
-        webElementInteraction.waitUntilElementIsVisible(commentTextArea);
-        webElementInteraction.clearAndType(commentTextArea, comment);
         webElementInteraction.waitUntilElementIsVisible(rejectButton);
-        clickRejectButton();
-    }
-
-    public void clickRejectButton()
-    {
         webElementInteraction.clickElement(rejectButton);
-    }
-
-    public String getOutcomeApproveText()
-    {
-        return outcomeApprove;
-    }
-
-    public String getOutcomeRejectText()
-    {
-        return outcomeReject;
     }
 
     public String getEditTaskHeader()
@@ -151,12 +139,12 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     {
         Select select = new Select(webElementInteraction.findElement(statusDropdown));
         webElementInteraction.waitUntilElementIsVisible(statusDropdown);
-        select.selectByValue(status.getStatus());
+        select.selectByValue(status.getStatus().toString());
     }
 
     public void writeComment(String comment)
     {
-        webElementInteraction.clearAndType(commentTextArea, comment);
+        insertTaskComment(comment);
     }
 
     public void clickOnSaveButton()
@@ -212,26 +200,5 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
             itemsTextList.add(anItemsList.getText());
         }
         return itemsTextList.toString();
-    }
-
-    public enum TaskStatus
-    {
-        NOT_STARTED("Not Yet Started"),
-        IN_PROGRESS("In Progress"),
-        ON_HOLD("On Hold"),
-        CANCELLED("Cancelled"),
-        COMPLETED("Completed");
-
-        private String status;
-
-        TaskStatus(String status)
-        {
-            this.status = status;
-        }
-
-        public String getStatus()
-        {
-            return this.status;
-        }
     }
 }

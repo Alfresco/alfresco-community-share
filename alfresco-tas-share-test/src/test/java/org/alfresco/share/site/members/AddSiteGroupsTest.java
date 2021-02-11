@@ -194,8 +194,7 @@ public class AddSiteGroupsTest extends BaseTest
     {
         addSiteGroupsPage
             .navigate(siteModel.get())
-            .searchGroupByName(NON_EXISTING_GROUP)
-            .waitUntilLoadingMessageDisappears();
+            .searchGroupByName(NON_EXISTING_GROUP);
         addSiteGroupsPage.assertNoGroupsFoundLabelEqualsTo(language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
     }
 

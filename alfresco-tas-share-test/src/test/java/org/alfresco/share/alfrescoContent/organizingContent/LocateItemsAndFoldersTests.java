@@ -1,8 +1,9 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.alfresco.po.enums.DocumentsFilter.FAVORITES;
+import static org.alfresco.po.enums.DocumentsFilter.RECENTLY_ADDED;
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
-import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage.DocumentsFilter;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -40,7 +41,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
 
         documentLibraryPage.navigate(site)
             .usingContent(file).assertContentIsDisplayed();
-        documentLibraryPage.selectFromDocumentsFilter(DocumentsFilter.RECENTLY_ADDED)
+        documentLibraryPage.selectFromDocumentsFilter(RECENTLY_ADDED)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
             .usingContent(file)
             .clickLocate();
@@ -62,7 +63,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
 
         documentLibraryPage.navigate(site)
             .usingContent(folder).assertContentIsDisplayed();
-        documentLibraryPage.selectFromDocumentsFilter(DocumentsFilter.FAVORITES)
+        documentLibraryPage.selectFromDocumentsFilter(FAVORITES)
             .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
             .usingContent(folder)
             .clickLocate();
