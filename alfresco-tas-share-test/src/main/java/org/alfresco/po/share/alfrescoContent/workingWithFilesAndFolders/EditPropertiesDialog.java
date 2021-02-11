@@ -39,6 +39,7 @@ public class EditPropertiesDialog extends BaseDialogComponent
 
     public void clickSelectCategories()
     {
+        webElementInteraction.waitUntilElementIsVisible(selectCategoriesButton);
         webElementInteraction.clickElement(selectCategoriesButton);
     }
 
@@ -67,6 +68,13 @@ public class EditPropertiesDialog extends BaseDialogComponent
     public boolean isCategorySelected(String category)
     {
         return webElementInteraction.findFirstElementWithValue(selectedCategories, category) != null;
+    }
+
+    public EditPropertiesDialog assertCategoryIsSelected(String category)
+    {
+        log.info("Assert category {} is selected", category);
+        assertTrue(isCategorySelected(category), String.format("Category %s is not displayed", category));
+        return this;
     }
 
     public boolean isTagSelected(String tag)

@@ -74,7 +74,7 @@ public class GroupsTests extends BaseTest
     }
 
     @TestRail (id = "C9473")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteGroupWithMultipleParents()
     {
         groupsPage.writeInSearchInput("C9473ParentGroup")

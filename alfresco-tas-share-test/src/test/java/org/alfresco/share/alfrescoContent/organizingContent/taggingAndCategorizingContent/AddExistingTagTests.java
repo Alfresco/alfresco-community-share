@@ -52,9 +52,9 @@ public class AddExistingTagTests extends BaseTest
                 .clickSelectTags();
 
         selectDialog.typeTagWithRetry(tag)
-            .selectItem(tag)
-            .assertItemIsSelected(tag)
-            .assertItemIsNotSelectable(tag)
+            .selectTag(tag)
+            .assertTagIsSelected(tag)
+            .assertTagIsNotSelectable(tag)
             .clickOk();
 
         editPropertiesDialog.assertTagIsSelected(tag)

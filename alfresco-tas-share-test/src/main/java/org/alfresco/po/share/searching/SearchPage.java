@@ -163,7 +163,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         int counter = 0;
         boolean allFound = false;
-        while(!allFound && counter <= WAIT_60.getValue())
+        while(!allFound && counter <= WAIT_80.getValue())
         {
             log.error("Retry search for keyword {}", searchExpression);
             setSearchExpression(searchExpression);

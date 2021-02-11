@@ -148,6 +148,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertUserPhotoIsDisplayed()
     {
         log.info("Assert user photo is displayed");
+        webElementInteraction.waitUntilElementIsVisible(userPhoto);
         assertTrue(webElementInteraction.isElementDisplayed(userPhoto), "User photo is displayed");
         return this;
     }
@@ -155,7 +156,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertUserFullNameIsDisplayedInAboutSection(UserModel user)
     {
         log.info("Assert user full name is displayed in about section {} {}", user.getFirstName(), user.getLastName());
-        assertEquals(webElementInteraction.findElement(userNameInAboutSection).getText(),
+        assertEquals(webElementInteraction.getElementText(userNameInAboutSection),
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
