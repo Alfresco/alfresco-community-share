@@ -1,6 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -66,7 +67,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     private WebElement getSearchRow(String fileName)
     {
         return webElementInteraction.waitWithRetryAndReturnWebElement
-            (By.xpath(String.format(searchRow, fileName)), WAIT_2.getValue(), WAIT_60.getValue());
+            (By.xpath(String.format(searchRow, fileName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public SavedSearchDashlet assertFileIsDisplayed(String fileName)

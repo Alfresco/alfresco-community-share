@@ -1,7 +1,12 @@
 package org.alfresco.share.tasksAndWorkflows.EditAWorkflow;
 
-import java.util.Date;
+import static org.alfresco.po.enums.TaskStatus.CANCELLED;
+import static org.alfresco.po.enums.TaskStatus.COMPLETED;
+import static org.alfresco.po.enums.TaskStatus.IN_PROGRESS;
+import static org.alfresco.po.enums.TaskStatus.NOT_STARTED;
+import static org.alfresco.po.enums.TaskStatus.ON_HOLD;
 
+import java.util.Date;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
@@ -70,7 +75,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: From 'Task Details' page click on 'Edit' button.");
         taskDetailsPage.clickEditButton();
-        editTaskPage.selectStatus(EditTaskPage.TaskStatus.IN_PROGRESS);
+        editTaskPage.selectStatus(IN_PROGRESS);
         getBrowser().waitInSeconds(2);
         editTaskPage.writeComment(comment);
 
@@ -96,15 +101,15 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        Assert.assertTrue(myTasksPage.checkTaskWasFound(workflowName));
+//        Assert.assertTrue(myTasksPage.assertTaskNameEqualsTo(workflowName));
 
         LOG.info("STEP 2: Hover over the name of the workflow and click on 'Edit Task' button.");
-        myTasksPage.clickEditTask(workflowName);
+        myTasksPage.editTask(workflowName);
         Assert.assertTrue(editTaskPage.getMessage().contains(workflowName));
         Assert.assertTrue(editTaskPage.getOwner().contains(testUser));
 
         LOG.info("STEP 3: Modify the details and click on 'Save and Close' button.");
-        editTaskPage.selectStatus(EditTaskPage.TaskStatus.ON_HOLD);
+        editTaskPage.selectStatus(ON_HOLD);
         getBrowser().waitInSeconds(2);
         editTaskPage.writeComment(comment);
         editTaskPage.clickOnSaveButton();
@@ -125,10 +130,10 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        Assert.assertTrue(myTasksPage.checkTaskWasFound(workflowName));
+//        Assert.assertTrue(myTasksPage.assertTaskNameEqualsTo(workflowName));
 
         LOG.info("STEP 2: Hover over the name of the workflow and click on 'Edit Task' button.");
-        myTasksPage.clickEditTask(workflowName);
+        myTasksPage.editTask(workflowName);
 
         LOG.info("STEP 3: Verify items are displayed on 'Edit Task' page.");
         Assert.assertTrue(editTaskPage.getMessage().contains(workflowName));
@@ -142,11 +147,11 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.isTaskDoneButtonPresent());
         Assert.assertTrue(editTaskPage.isReassignButtonPresent());
         Assert.assertTrue(editTaskPage.isAddItemsButtonPresent());
-        Assert.assertTrue(editTaskPage.isStatusOptionSelected(EditTaskPage.TaskStatus.NOT_STARTED));
-        Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.IN_PROGRESS));
-        Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.ON_HOLD));
-        Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.CANCELLED));
-        Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.COMPLETED));
+        Assert.assertTrue(editTaskPage.isStatusOptionSelected(NOT_STARTED));
+        Assert.assertTrue(editTaskPage.isStatusOptionPresent(IN_PROGRESS));
+        Assert.assertTrue(editTaskPage.isStatusOptionPresent(ON_HOLD));
+        Assert.assertTrue(editTaskPage.isStatusOptionPresent(CANCELLED));
+        Assert.assertTrue(editTaskPage.isStatusOptionPresent(COMPLETED));
         userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }

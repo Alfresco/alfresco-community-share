@@ -20,11 +20,11 @@ public abstract class Dashlet<T> extends BasePage
     private final By helpBallonText = By.cssSelector("div[style*='visible']>div>div.balloon>div.text");
     private final By helpBalloonCloseButton = By.cssSelector("div[style*='visible']>div>div>.closeButton");
 
-    private String dashlet = "//div[contains(@class, 'dashlet') and contains(@class, '%s')]";
-    private String dashletBar = "div[class*='%s'] div[class='title']";
-    private String dashletContainerLocator = "//div[text()='%s']/..";
-    private String helpIcon = "div[class*='%s'] div[class='titleBarActionIcon help']";
-    private String resizeDashlet = "//div[text()='%s']/../div[@class='yui-resize-handle yui-resize-handle-b']/div";
+    private final String dashlet = "//div[contains(@class, 'dashlet') and contains(@class, '%s')]";
+    private final String dashletBar = "div[class*='%s'] div[class='title']";
+    private final String dashletContainerLocator = "//div[text()='%s']/..";
+    private final String helpIcon = "div[class*='%s'] div[class='titleBarActionIcon help']";
+    private final String resizeDashlet = "//div[text()='%s']/../div[@class='yui-resize-handle yui-resize-handle-b']/div";
 
     protected Dashlet(ThreadLocal<WebDriver> webDriver)
     {

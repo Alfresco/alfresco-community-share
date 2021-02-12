@@ -1,7 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_80;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -147,9 +147,9 @@ public class SelectDialog extends BaseDialogComponent
         By tagRow = By.xpath(String.format(addTagItemRow, tagName));
         int retryCount = 0;
         typeTag(tagName);
-        while(retryCount < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(tagRow))
+        while(retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(tagRow))
         {
-            log.error("Tag {} is not displayed in select dialog. Retry {}", tagName, retryCount);
+            log.warn("Tag {} not displayed - retry: {}", tagName, retryCount);
             waitToLoopTime(WAIT_2.getValue());
             typeTag(tagName);
             retryCount++;

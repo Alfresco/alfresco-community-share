@@ -230,7 +230,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
         public ManagerSiteAction becomeSiteManager()
         {
-            log.info("Become site manager");
+            log.info("Select action Become Site Manager");
             clickActionsButton();
             webElementInteraction.waitUntilElementsAreVisible(dropdownOptionsList);
             WebElement becomeBtn = webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
@@ -238,16 +238,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             webElementInteraction.mouseOver(becomeBtn);
             webElementInteraction.clickElement(becomeBtn);
             sitesManagerPage.waitUntilLoadingMessageDisappears();
-            WebElement siteRow = getSiteRow();
-            webElementInteraction.waitUntilChildElementIsPresent(siteRow, siteRowSiteManager);
-            if(siteRow.findElement(siteRowSiteManager).getText().equals(language.translate("adminTools.siteManager.no")))
-            {
-                log.error("Retry action Become Site Manager");
-                navigate();
-                clickActionsButton();
-                webElementInteraction.waitUntilElementIsVisible(becomeBtn);
-                webElementInteraction.clickElement(becomeBtn);
-            }
+
             return this;
         }
 
@@ -308,8 +299,10 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             log.info("Assert site visibility is: {}", visibility.toString());
             String visibilityValue = visibility.toString().toLowerCase();
             visibilityValue = StringUtils.capitalize(visibilityValue);
-            assertEquals(getSiteRow().findElement(siteRowVisibility).getText(), visibilityValue,
-                "Site visibility is correct");
+            WebElement siteRow = getSiteRow();
+            WebElement visibilityElement = webElementInteraction.waitUntilChildElementIsPresent(siteRow, siteRowVisibility);
+            assertEquals(webElementInteraction.getElementText(visibilityElement), visibilityValue,"Site visibility is correct");
+
             return this;
         }
 

@@ -175,7 +175,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     {
         webElementInteraction.mouseOver(
             webElementInteraction.findFirstElementWithValue(commentDetailsList, comment));
-        selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=edit-comment]")).click();
+        webElementInteraction.clickElement(selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=edit-comment]")));
         return webElementInteraction.findElement(commentContentIframe).isDisplayed();
     }
 

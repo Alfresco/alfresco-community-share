@@ -1,7 +1,7 @@
 package org.alfresco.po.share.site.members;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_80;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -69,9 +69,9 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     private void searchUserWithRetry(String username)
     {
         int retryCount = 0;
-        while (!isUsernameDisplayed(username) && retryCount < WAIT_80.getValue())
+        while (!isUsernameDisplayed(username) && retryCount < RETRY_TIME_80.getValue())
         {
-            log.error("Username {} is not displayed. Retry {}", username, retryCount);
+            log.warn("Username {} not displayed - retry: {}", username, retryCount);
             webElementInteraction.clickElement(searchUserButton);
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             retryCount++;

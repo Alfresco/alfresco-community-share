@@ -2,7 +2,12 @@ package org.alfresco.po.enums;
 
 public enum DocumentsFilter
 {
-    RECENTLY_MODIFIED,
+    ALL_DOCUMENTS,
     EDITING,
-    MY_FAVORITES
+    EDITING_ME,
+    EDITING_OTHERS,
+    RECENTLY_MODIFIED,
+    RECENTLY_ADDED,
+    MY_FAVORITES,
+    FAVORITES
 }

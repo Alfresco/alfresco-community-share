@@ -1,11 +1,14 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_60;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialog;
@@ -15,24 +18,23 @@ import org.alfresco.utility.model.CustomContentModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Bogdan Bocancea
  */
+@Slf4j
 public class ModelActionsComponent
 {
-    protected final Logger LOG = LoggerFactory.getLogger(ModelActionsComponent.class);
+    private WebElementInteraction webElementInteraction;
+
+    private CustomContentModel contentModel;
+    private RestCustomTypeModel customTypeModel;
+    private CustomAspectModel aspectModel;
 
     private ModelManagerPage modelManagerPage;
-    private WebElementInteraction webElementInteraction;
-    private CustomContentModel contentModel;
     private EditModelDialog editModelDialog;
     private DeleteModelDialog deleteModelDialog;
     private ModelDetailsPage modelDetailsPage;
-    private RestCustomTypeModel customTypeModel;
-    private CustomAspectModel aspectModel;
     private boolean isAspect;
 
     private final By nameSpaceValue = By.cssSelector("td[class*='namespaceColumn'] span[class='value']");
@@ -60,7 +62,7 @@ public class ModelActionsComponent
         this.editModelDialog = editModelDialog;
         this.deleteModelDialog = deleteModelDialog;
         this.modelDetailsPage = modelDetailsPage;
-        LOG.info("Using custom model: {}", contentModel.getName());
+        log.info("Using custom model: {}", contentModel.getName());
     }
 
     public ModelActionsComponent(CustomContentModel contentModel,
@@ -72,7 +74,7 @@ public class ModelActionsComponent
         this.webElementInteraction = webElementInteraction;
         this.customTypeModel = restCustomTypeModel;
         this.modelManagerPage = modelManagerPage;
-        LOG.info("Using custom type: {}", restCustomTypeModel.getName());
+        log.info("Using custom type: {}", restCustomTypeModel.getName());
         isAspect = false;
     }
 
@@ -85,14 +87,22 @@ public class ModelActionsComponent
         this.webElementInteraction = webElementInteraction;
         this.aspectModel = aspectModel;
         this.modelManagerPage = modelManagerPage;
-        LOG.info("Using aspect: {}", aspectModel.getName());
+        log.info("Using aspect: {}", aspectModel.getName());
         isAspect = true;
     }
 
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        return webElementInteraction.waitWithRetryAndReturnWebElement(modelRowLocator, WAIT_2.getValue(), WAIT_60.getValue());
+        int retryTimes = 0;
+        while (retryTimes < RETRY_TIME_60.getValue() && !webElementInteraction.isElementDisplayed(modelRowLocator))
+        {
+            log.info("Wait for model {} to be displayed", modelName);
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            modelManagerPage.waitUntilLoadingMessageDisappears();
+        }
+        return webElementInteraction.findElement(modelRowLocator);
     }
 
     public WebElement getModelRow()
@@ -112,7 +122,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertModelIsDisplayed()
     {
-        LOG.info("Assert model is displayed");
+        log.info("Assert model is displayed");
         WebElement expectedModelRow = getModelRow();
         webElementInteraction.waitUntilElementIsVisible(expectedModelRow);
         assertTrue(webElementInteraction.isElementDisplayed(expectedModelRow),
@@ -122,14 +132,14 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertModelIsNotDisplayed()
     {
-        LOG.info("Assert model is not displayed");
+        log.info("Assert model is not displayed");
         assertFalse(webElementInteraction.isElementDisplayed(By.xpath(String.format(modelRow, contentModel.getName()))));
         return this;
     }
 
     public ModelActionsComponent assertModelNameSpaceIs(String expectedNameSpace)
     {
-        LOG.info("Assert model namespace is: {}", expectedNameSpace);
+        log.info("Assert model namespace is: {}", expectedNameSpace);
         assertEquals(getModelRow().findElement(nameSpaceValue).getText(),
             expectedNameSpace, "Name space value is correct");
         return this;
@@ -137,7 +147,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertStatusIsInactive()
     {
-        LOG.info("Assert status is Inactive");
+        log.info("Assert status is Inactive");
         assertEquals(getModelRow().findElement(statusValue).getText(),
             modelManagerPage.language.translate("modelManager.status.inactive"));
         return this;
@@ -145,7 +155,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertStatusIsActive()
     {
-        LOG.info("Assert status is Active");
+        log.info("Assert status is Active");
         assertEquals(getModelRow().findElement(statusValue).getText(),
             modelManagerPage.language.translate("modelManager.status.active"));
         return this;
@@ -153,7 +163,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent clickActions()
     {
-        LOG.info("Click Actions");
+        log.info("Click Actions");
         WebElement actionButton = getModelRow().findElement(actionsButton);
         webElementInteraction.mouseOver(actionButton);
         webElementInteraction.clickElement(actionButton);
@@ -164,7 +174,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertActionsAreAvailable(String... expectedActions)
     {
-        LOG.info("Assert available actions are: {}", Arrays.asList(expectedActions));
+        log.info("Assert available actions are: {}", Arrays.asList(expectedActions));
         String[] values = webElementInteraction.getTextFromLocatorList(actions).toArray(new String[0]);
         Arrays.sort(values);
         Arrays.sort(expectedActions);
@@ -174,7 +184,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent activateModel()
     {
-        LOG.info("Activate model");
+        log.info("Activate model");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.activate"));
         modelManagerPage.waitUntilLoadingMessageDisappears();
         waitForContentModelStatus(activeStatus);
@@ -183,7 +193,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent deactivateModel()
     {
-        LOG.info("Activate model");
+        log.info("Activate model");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.deactivate"));
         modelManagerPage.waitUntilLoadingMessageDisappears();
         waitForContentModelStatus(inactiveStatus);
@@ -202,7 +212,7 @@ public class ModelActionsComponent
             }
             catch (StaleElementReferenceException e)
             {
-                LOG.error("Wait for custom model status to change");
+                log.error("Wait for custom model status to change");
                 i++;
             }
         }
@@ -210,21 +220,21 @@ public class ModelActionsComponent
 
     public EditModelDialog clickEdit()
     {
-        LOG.info("Click Edit");
+        log.info("Click Edit");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.edit"));
         return editModelDialog;
     }
 
     public DeleteModelDialog clickDelete()
     {
-        LOG.info("Click Edit");
+        log.info("Click Edit");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.delete"));
         return deleteModelDialog;
     }
 
     public ModelActionsComponent exportModel()
     {
-        LOG.info("Click Export");
+        log.info("Click Export");
         modelManagerPage.clickOnAction(modelManagerPage.language.translate("modelManager.action.export"));
         modelManagerPage.waitUntilLoadingMessageDisappears();
         return this;
@@ -232,14 +242,14 @@ public class ModelActionsComponent
 
     public ModelDetailsPage openCustomModel()
     {
-        LOG.info("Open custom model");
+        log.info("Open custom model");
         webElementInteraction.clickElement(getModelRow().findElement(nameValue));
         return modelDetailsPage;
     }
 
     public ModelActionsComponent assertAspectIsDisplayed()
     {
-        LOG.info("Assert aspect is displayed");
+        log.info("Assert aspect is displayed");
         assertTrue(webElementInteraction.isElementDisplayed(getAspectRow()),
             String.format("Aspect %s is displayed", aspectModel.getName()));
         return this;
@@ -247,7 +257,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertDisplayLabelIs(String expectedDisplayLabel)
     {
-        LOG.info("Assert display label is: {}", expectedDisplayLabel);
+        log.info("Assert display label is: {}", expectedDisplayLabel);
         if(isAspect)
         {
             assertEquals(getAspectRow().findElement(displayLabelValue).getText(),
@@ -263,7 +273,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertParentIs(String expectedParent)
     {
-        LOG.info("Assert display label is: {}", expectedParent);
+        log.info("Assert display label is: {}", expectedParent);
         if(isAspect)
         {
             assertEquals(getAspectRow().findElement(parentValue).getText(),
@@ -279,7 +289,7 @@ public class ModelActionsComponent
 
     public ModelActionsComponent assertLayoutIsNo()
     {
-        LOG.info("Assert Layout is No");
+        log.info("Assert Layout is No");
         if(isAspect)
         {
             assertEquals(getAspectRow().findElement(layoutValue).getText(), modelManagerPage.language

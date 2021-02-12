@@ -1,5 +1,6 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,14 +35,20 @@ public class ViewTaskPage extends SharePage2<ViewTaskPage>
         return this;
     }
 
-    public String getRequestDetails()
+    public ViewTaskPage assertRequestDetailsEqualTo(String expectedRequestDetails)
     {
-        return webElementInteraction.getElementText(taskDetails);
+        log.info("Assert request details equal to {}", expectedRequestDetails);
+        String actualRequestDetails = webElementInteraction.getElementText(taskDetails);
+        assertEquals(actualRequestDetails, expectedRequestDetails);
+        return this;
     }
 
-    public String getInviteTaskTitle()
+    public ViewTaskPage assertInviteTaskTitleEqualsTo(String expectedInviteTaskTitle)
     {
-        return webElementInteraction.getElementText(inviteTaskDetails);
+        log.info("Assert invite task title equals to {}", expectedInviteTaskTitle);
+        String actualInviteTaskTitle = webElementInteraction.getElementText(inviteTaskDetails);
+        assertEquals(actualInviteTaskTitle, expectedInviteTaskTitle);
+        return this;
     }
 
     public WorkflowDetailsPage clickWorkflowDetailsLink()

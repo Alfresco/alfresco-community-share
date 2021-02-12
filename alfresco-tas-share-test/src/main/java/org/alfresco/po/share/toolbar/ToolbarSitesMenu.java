@@ -221,7 +221,8 @@ public class ToolbarSitesMenu extends BasePage
         webElementInteraction.waitUntilElementIsVisible(favorites);
         webElementInteraction.clickElement(favorites);
         webElementInteraction.waitUntilElementIsVisible(favoriteDropDown);
-        webElementInteraction.findFirstElementWithValue(favoriteSitesRowList, siteName).click();
+        webElementInteraction.clickElement(
+            webElementInteraction.findFirstElementWithValue(favoriteSitesRowList, siteName));
         return new SiteDashboardPage(webDriver);
     }
 

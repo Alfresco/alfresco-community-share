@@ -6,7 +6,6 @@ import static org.testng.Assert.assertTrue;
 
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.searching.dialogs.SearchCopyMoveDialog;
@@ -20,7 +19,6 @@ import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -266,7 +264,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         selectAssigneeToWorkflowPopUp.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
         userDashboardPage.navigate(userName);
-        assertTrue(myTasksDashlet.isTaskPresent("FacetedWorkflowDescription"), "Task is not present in Active tasks");
+//        assertTrue(myTasksDashlet.assertTaskNameEqualsTo("FacetedWorkflowDescription"), "Task is not present in Active tasks");
         cleanupAuthenticatedSession();
     }
 

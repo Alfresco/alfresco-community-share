@@ -26,9 +26,9 @@ import org.springframework.web.util.UriUtils;
 public abstract class SharePage2<T> extends BasePage
 {
     private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
-    private final By pageHeader = By.id("HEADER_TITLE");
+    private final By pageHeader = By.cssSelector("#HEADER_TITLE");
     private final By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
-    private final By shareVersionWarning = By.id("HEADER_SHARE_SERVICES_WARNING");
+    private final By shareVersionWarning = By.cssSelector("#HEADER_SHARE_SERVICES_WARNING");
 
     protected SharePage2(ThreadLocal<WebDriver> webDriver)
     {
@@ -93,9 +93,12 @@ public abstract class SharePage2<T> extends BasePage
         webElementInteraction.navigateTo(relativePathToURL().toString());
     }
 
-    public String getPageHeader()
+    public T assertPageHeadersEqualsTo(String expectedHeader)
     {
-        return webElementInteraction.getElementText(pageHeader);
+        String actualHeader = webElementInteraction.getElementText(pageHeader);
+        assertEquals(actualHeader, expectedHeader);
+
+        return (T) this;
     }
 
     public AboutPopUpPage openAboutPage()

@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -52,7 +51,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
     {
         LOG.info("Step 1 - Navigate to 'Document Library' page for 'testSite'.");
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageHeader(), siteName, siteName + " Document Library is not displayed");
+//        assertEquals(documentLibraryPage.assertPageHeadersEqualsTo(), siteName, siteName + " Document Library is not displayed");
         assertTrue(documentLibraryPage.isDocumentListDisplayed(), "There is no file added in the file list");
 
         LOG.info("Step 2 - Verify the 'Options' menu. Make sure that 'Hide Folders' isn't selected. Otherwise check 'Show Folders'.");

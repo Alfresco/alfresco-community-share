@@ -167,7 +167,7 @@ public class BasicSearchTests extends ContextAwareWebTest
             "User is redirected to Search page.");
 
         LOG.info("STEP2: Verify page title");
-        assertEquals(searchPage.getPageHeader(), "Search", "Search page title:");
+//        assertEquals(searchPage.assertPageHeadersEqualsTo(), "Search", "Search page title:");
         assertTrue(searchPage.isResultFoundWithRetry(docName1), "result not displayed");
         LOG.info("STEP3: Verify search section");
         assertTrue(searchPage.isSearchInLabelDisplayed(), "'Search in' label is displayed.");

@@ -1,6 +1,7 @@
 package org.alfresco.po.share.alfrescoContent;
 
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -9,6 +10,8 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.enums.DocumentsFilter;
+import org.alfresco.po.enums.SelectMenuOptions;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.UploadFileDialog;
@@ -108,11 +111,11 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
         By contentRowElement = By.xpath(String.format(contentRow, contentName));
 
         int retryCount = 0;
-        while(retryCount < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(contentRowElement))
+        while(retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(contentRowElement))
         {
-            log.error("Wait for content {} to be displayed. Retry {}", contentName, retryCount);
+            log.warn("Content {} not displayed - retry: {}", contentName, retryCount);
             webElementInteraction.refresh();
-            waitToLoopTime(WAIT_1.getValue());
+            waitToLoopTime(WAIT_2.getValue());
             waitForContentPageToBeLoaded();
             retryCount++;
         }
@@ -325,7 +328,8 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     {
         log.info("Select document filter {}", documentFilter.toString());
         List<WebElement> filters = webElementInteraction.waitUntilElementsAreVisible(documentsFilter);
-        webElementInteraction.findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)).click();
+        webElementInteraction.clickElement(webElementInteraction
+            .findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)));
         webElementInteraction.waitUntilElementIsVisible(selectedFilter);
         return this;
     }
@@ -377,38 +381,5 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
             new CopyMoveUnzipToDialog(webDriver),
             new DeleteDialog(webDriver),
             new EditPropertiesDialog(webDriver));
-    }
-
-    //todo: move into separate file
-    public enum DocumentsFilter
-    {
-        ALL_DOCUMENTS,
-        EDITING_ME,
-        EDITING_OTHERS,
-        RECENTLY_MODIFIED,
-        RECENTLY_ADDED,
-        FAVORITES
-    }
-
-    //todo: move into separate file
-    public enum SelectMenuOptions
-    {
-        DOCUMENTS(".selectDocuments"),
-        FOLDERS(".selectFolders"),
-        ALL(".selectAll"),
-        INVERT_SELECTION(".selectInvert"),
-        NONE(".selectNone");
-
-        private String locator;
-
-        SelectMenuOptions(String locator)
-        {
-            this.locator = locator;
-        }
-
-        public String getLocator()
-        {
-            return locator;
-        }
     }
 }

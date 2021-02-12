@@ -1,6 +1,8 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,10 @@ import org.openqa.selenium.WebElement;
 @Slf4j
 public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleByMenuBar
 {
+
+    private final int BEGIN_INDEX = 0;
+    private final String EMPTY_SPACE = " ";
+
     private final By taskRowList = By.cssSelector("div[id$='default-tasks'] tr[class*='yui-dt-rec']");
     private final By editTaskLink = By.cssSelector("div[class*='task-edit'] a");
     private final By viewTaskLink = By.cssSelector("div[class*='task-view'] a");
@@ -30,6 +36,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     private final String completeTaskName = "Request to join %s site";
     private final String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
     private final String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
+    private final String activeTaskUrl = "filter=workflows|active";
 
     public MyTasksPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -41,6 +48,19 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage navigateByMenuBar()
     {
         return new Toolbar(webDriver).clickTasks().clickMyTasks();
+    }
+
+    public MyTasksPage navigateToMyTasks()
+    {
+        return navigateByMenuBar();
+    }
+
+    public MyTasksPage assertRejectedTaskIsNotDisplayedInActiveTasks(String taskName)
+    {
+        log.info("Assert rejected task is not displayed {}", taskName);
+        boolean isTaskNameDisplayed = webElementInteraction.isElementDisplayed(By.xpath(String.format(completeTaskName, taskName)));
+        assertFalse(isTaskNameDisplayed, String.format("Task name %s is displayed", taskName));
+        return this;
     }
 
     @Override
@@ -58,7 +78,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertActiveTasksTitleIsDisplayed()
     {
         log.info("Assert Active tasks title is displayed");
-        assertEquals(webElementInteraction.findElement(taskbarTitle).getText(), language.translate("myTasksPage.active.title"));
+        webElementInteraction.waitUrlContains(activeTaskUrl, WAIT_10.getValue());
         assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.active.title"));
         return this;
     }
@@ -66,23 +86,35 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertCompletedTasksTitleIsDisplayed()
     {
         log.info("Assert Completed tasks title is displayed");
-        assertEquals(webElementInteraction.findElement(taskbarTitle).getText(), language.translate("myTasksPage.completed.title"));
+        assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.completed.title"));
         return this;
     }
 
-    public WebElement selectTask(final String taskName)
+    private WebElement getTaskName(String taskName)
     {
         return webElementInteraction.findFirstElementWithValue(taskRowList, taskName);
     }
 
-    public boolean checkTaskWasFound(String taskName)
+    public MyTasksPage assertTaskNameEqualsTo(String expectedTaskName)
     {
-        return selectTask(taskName) != null;
+        log.info("Assert task name equals to {}", expectedTaskName);
+        String actualTaskName = getActualTaskName(expectedTaskName);
+
+        assertEquals(actualTaskName, expectedTaskName,
+            String.format("Task name not equals to %s ", expectedTaskName));
+        return this;
     }
 
-    public EditTaskPage clickEditTask(String taskName)
+    private String getActualTaskName(String expectedTaskName)
     {
-        WebElement selectedTask = selectTask(taskName);
+        String taskName = webElementInteraction.getElementText(getTaskName(expectedTaskName));
+        String cutRequestToJoinText = taskName.substring(taskName.indexOf(expectedTaskName));
+        return cutRequestToJoinText.substring(BEGIN_INDEX, cutRequestToJoinText.indexOf(EMPTY_SPACE));
+    }
+
+    public EditTaskPage editTask(String taskName)
+    {
+        WebElement selectedTask = getTaskName(taskName);
         webElementInteraction.mouseOver(selectedTask);
         WebElement editAction = selectedTask.findElement(editTaskLink);
         webElementInteraction.mouseOver(editAction);
@@ -90,16 +122,17 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
         return new EditTaskPage(webDriver);
     }
 
-    public void clickCompletedTasks()
+    public MyTasksPage navigateToCompletedTasks()
     {
         webElementInteraction.clickElement(completedTasksButton);
         webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(taskbarTitle), "Completed Tasks");
+        return this;
     }
 
-    public ViewTaskPage clickViewTask(String taskName)
+    public ViewTaskPage viewTask(String taskName)
     {
-        webElementInteraction.mouseOver(selectTask(taskName));
-        webElementInteraction.clickElement(selectTask(String.format(completeTaskName, taskName)).findElement(viewTaskLink));
+        webElementInteraction.mouseOver(getTaskName(taskName));
+        webElementInteraction.clickElement(getTaskName(String.format(completeTaskName, taskName)).findElement(viewTaskLink));
         return new ViewTaskPage(webDriver);
     }
 
@@ -112,8 +145,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public StartWorkflowPage clickStartWorkflowButton()
     {
         webElementInteraction.clickElement(startWorkflow);
-        StartWorkflowPage startWorkflowPage = new StartWorkflowPage(webDriver);
-        return startWorkflowPage;
+        return new StartWorkflowPage(webDriver);
     }
 
     public String getTaskTitle()
@@ -123,7 +155,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     public WorkflowDetailsPage clickViewWorkflow(String taskName)
     {
-        WebElement selectedTask = selectTask(taskName);
+        WebElement selectedTask = getTaskName(taskName);
         webElementInteraction.mouseOver(selectedTask);
         webElementInteraction.clickElement(selectedTask.findElement(viewWorkflowLink));
         return new WorkflowDetailsPage(webDriver);
@@ -131,21 +163,21 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     public boolean isEditTaskOptionDisplayed(String taskName)
     {
-        WebElement selectedTask = selectTask(taskName);
+        WebElement selectedTask = getTaskName(taskName);
         webElementInteraction.mouseOver(selectedTask);
         return webElementInteraction.isElementDisplayed(selectedTask, editTaskLink);
     }
 
     public boolean isViewTaskOptionDisplayed(String taskName)
     {
-        WebElement selectedTask = selectTask(taskName);
+        WebElement selectedTask = getTaskName(taskName);
         webElementInteraction.mouseOver(selectedTask);
         return webElementInteraction.isElementDisplayed(selectedTask, viewTaskLink);
     }
 
     public boolean isViewWorkflowOptionDisplayed(String taskName)
     {
-        WebElement selectedTask = selectTask(taskName);
+        WebElement selectedTask = getTaskName(taskName);
         webElementInteraction.mouseOver(selectedTask);
         return webElementInteraction.isElementDisplayed(selectedTask, viewWorkflowLink);
     }
@@ -177,7 +209,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     public EditTaskPage clickOnTaskTitle(String taskName)
     {
-        WebElement selectedTask = selectTask(taskName);
+        WebElement selectedTask = getTaskName(taskName);
         webElementInteraction.mouseOver(selectedTask);
         webElementInteraction.clickElement(selectedTask.findElement(taskTitle));
         return new EditTaskPage(webDriver);

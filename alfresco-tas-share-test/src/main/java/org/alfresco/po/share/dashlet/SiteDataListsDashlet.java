@@ -1,7 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -39,7 +39,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     {
         log.info("Get data list row: {}", dataListTitle);
         return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
-            dataListTitle)), WAIT_1.getValue(), WAIT_60.getValue());
+            dataListTitle)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public CreateDataListDialog clickOnCreateDataListLink()

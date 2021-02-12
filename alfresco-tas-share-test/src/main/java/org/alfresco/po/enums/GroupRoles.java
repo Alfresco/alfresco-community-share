@@ -7,7 +7,8 @@ public enum GroupRoles
     CONTRIBUTOR("Contributor"),
     CONSUMER("Consumer");
 
-    String value;
+    private final String value;
+
     GroupRoles(String value)
     {
         this.value = value;

@@ -60,7 +60,7 @@ public class WebElementInteraction
         }
         catch (MoveTargetOutOfBoundsException | StaleElementReferenceException | NoSuchElementException ex)
         {
-            log.error("Unable to perform mouse over element {}", element);
+            log.warn("Unable to perform mouse over element {}", element);
             ((JavascriptExecutor) webDriver.get())
                 .executeScript("arguments[0].scrollIntoView(true);", element);
             new Actions(getWebDriver()).moveToElement(element).perform();
@@ -76,7 +76,7 @@ public class WebElementInteraction
         }
         catch (MoveTargetOutOfBoundsException | StaleElementReferenceException | NoSuchElementException ex)
         {
-            log.error("Unable to perform mouse over on element {}", element);
+            log.warn("Unable to perform mouse over on element {}", element);
             ((JavascriptExecutor) webDriver.get())
                 .executeScript("arguments[0].scrollIntoView(true);", element);
             new Actions(getWebDriver()).moveToElement(element).perform();
@@ -92,7 +92,7 @@ public class WebElementInteraction
         }
         catch (StaleElementReferenceException | NoSuchElementException | MoveTargetOutOfBoundsException exception)
         {
-            log.error("Unable to perform mouse over on element {}", element);
+            log.warn("Unable to perform mouse over on element {}", element);
             ((JavascriptExecutor) webDriver.get())
                     .executeScript("arguments[0].scrollIntoView(true);", element);
             new Actions(getWebDriver()).moveToElement(element).perform();
@@ -124,7 +124,7 @@ public class WebElementInteraction
             }
             catch (TimeoutException e)
             {
-                log.info("Unable to perform mouse over use javascript on element {}", webElement);
+                log.warn("Unable to perform mouse over use javascript on element {}", webElement);
             }
         }
     }
@@ -138,7 +138,7 @@ public class WebElementInteraction
         }
         catch (StaleElementReferenceException | NoSuchElementException exception)
         {
-            log.error("Unable to perform mouse over on element {}, {} ", webElement, exception.getCause());
+            log.warn("Unable to perform mouse over on element {}, {} ", webElement, exception.getCause());
             try
             {
                 executeMouseOverViaJavaScript(webElement);
@@ -171,7 +171,7 @@ public class WebElementInteraction
         }
         catch (NoSuchElementException | ElementNotInteractableException | StaleElementReferenceException | TimeoutException e)
         {
-            log.error("Unable to find element {}, {} ", webElement, e.getCause());
+            log.warn("Unable to find element {}, {} ", webElement, e.getCause());
             try
             {
                 return setWaitingTime(defaultProperties.getExplicitWait(),
@@ -204,7 +204,7 @@ public class WebElementInteraction
         }
         catch (NoSuchElementException | ElementNotInteractableException | StaleElementReferenceException | TimeoutException e)
         {
-            log.error("Unable to find element located by {}", locator);
+            log.warn("Unable to find element located by {}", locator);
             try
             {
                 return setWaitingTime(defaultProperties.getExplicitWait(),
@@ -235,7 +235,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element located by {} does not have attribute {} containing value {}", element, attribute, value);
+                log.warn("Element located by {} does not have attribute {} containing value {}", element, attribute, value);
                 setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                     .until(ExpectedConditions.attributeContains(element, attribute, value));
             }
@@ -259,7 +259,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element located by {} does not have attribute {} containing value {}", locator, attribute, value);
+                log.warn("Element located by {} does not have attribute {} containing value {}", locator, attribute, value);
                 setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                     .until(ExpectedConditions.attributeContains(locator, attribute, value));
             }
@@ -296,7 +296,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element {} is not visible", locator);
+                log.warn("Element {} is not visible", locator);
                 refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(),
                         defaultProperties.getPollingTimeInMillis())
@@ -322,7 +322,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element {} is not visible", locator);
+                log.warn("Element {} is not visible", locator);
                 refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -347,7 +347,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element {} is not visible", locator);
+                log.warn("Element {} is not visible", locator);
                 refresh();
                 return setWaitingTime(timeoutInSeconds, defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -365,7 +365,6 @@ public class WebElementInteraction
     {
         try
         {
-            log.info("Wait until element {} is visible", element);
             return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                     .until(ExpectedConditions.visibilityOf(element));
         }
@@ -373,7 +372,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element {} is not visible", element);
+                log.warn("Element {} is not visible", element);
                 refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOf(element));
@@ -398,7 +397,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element {} is not visible", element);
+                log.warn("Element {} is not visible", element);
                 refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOf(element));
@@ -423,7 +422,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element {} is not present", locator);
+                log.warn("Element {} is not present", locator);
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
@@ -446,7 +445,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Unable to find parent locator {} with child {}", parentLocator, childLocator);
+                log.warn("Unable to find parent locator {} with child {}", parentLocator, childLocator);
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
             }
@@ -469,7 +468,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Unable to find parent locator {} with child {}", parentLocator, childLocator);
+                log.warn("Unable to find parent locator {} with child {}", parentLocator, childLocator);
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
             }
@@ -493,7 +492,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Elements located by {} are not visible", locator);
+                log.warn("Elements located by {} are not visible", locator);
                 refresh();
                 return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
@@ -521,7 +520,7 @@ public class WebElementInteraction
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
         {
-            log.error("Element {} is not clickable", element);
+            log.warn("Element {} is not clickable", element);
             try
             {
                 clickJS(element);
@@ -550,7 +549,7 @@ public class WebElementInteraction
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
         {
-            log.error("Element located by {} is not clickable", locator);
+            log.warn("Element located by {} is not clickable", locator);
             try
             {
                 clickJS(findElement(locator));
@@ -574,7 +573,7 @@ public class WebElementInteraction
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
         {
-            log.error("Elements {} are not visible", elements);
+            log.warn("Elements {} are not visible", elements);
             try
             {
                 ((JavascriptExecutor) getWebDriver()).executeScript(
@@ -605,7 +604,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Text {} is not present in element {}", text, element);
+                log.warn("Text {} is not present in element {}", text, element);
                 setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                     .until(ExpectedConditions.textToBePresentInElement(element, text));
             }
@@ -628,7 +627,7 @@ public class WebElementInteraction
         {
             try
             {
-                log.error("Element {} does not contain text {}", locator, text);
+                log.warn("Element {} does not contain text {}", locator, text);
                 setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
                     .until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
             }
@@ -743,7 +742,7 @@ public class WebElementInteraction
         }
         catch (NoSuchElementException | StaleElementReferenceException e)
         {
-            log.error("Element located by {} is stale", locator);
+            log.warn("Element located by {} is stale", locator);
             try
             {
                 setWaitingTime(timeOutInSeconds, pollingTimeInMillis)
@@ -767,7 +766,7 @@ public class WebElementInteraction
         }
         catch (StaleElementReferenceException | TimeoutException exception )
         {
-            log.error("Element is still visible {}", locator);
+            log.warn("Element is still visible {}", locator);
         }
     }
 
@@ -1111,15 +1110,9 @@ public class WebElementInteraction
         }
         catch (NoSuchElementException noSuchElementException)
         {
-            try
-            {
-                return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
-                    .until((WebDriver driver) -> driver.findElements(locator));
-            }
-            catch (TimeoutException timeoutException)
-            {
-                throw new TimeoutException(String.format("Unable to find elements located by %s", locator));
-            }
+            return setWaitingTime(defaultProperties.getExplicitWait(),
+                defaultProperties.getPollingTimeInMillis())
+                .until((WebDriver driver) -> driver.findElements(locator));
         }
     }
 

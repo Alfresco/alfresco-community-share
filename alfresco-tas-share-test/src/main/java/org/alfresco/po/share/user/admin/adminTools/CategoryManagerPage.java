@@ -1,6 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.RetryTime.RETRY_TIME_15;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertFalse;
 
@@ -29,13 +31,14 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         super(webDriver);
     }
 
+    @Override
     public CategoryManagerPage navigate()
     {
         super.navigate();
         int retryCount = 0;
-        while(retryCount < WAIT_15.getValue() && !webElementInteraction.isElementDisplayed(childrenCategories))
+        while(retryCount < RETRY_TIME_15.getValue() && !webElementInteraction.isElementDisplayed(childrenCategories))
         {
-            log.error("Failed to load Category manager page");
+            log.warn("Failed to load Category manager page");
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             retryCount++;
@@ -116,13 +119,13 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
 
-        int i = 0;
-        while (i < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(category))
+        int retryCount = 0;
+        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(category))
         {
-            log.error("Wait for category {}", categoryName);
+            log.warn("Category {} not displayed - retry: {}", categoryName, retryCount);
             webElementInteraction.refresh();
             waitToLoopTime(WAIT_2.getValue());
-            i++;
+            retryCount++;
         }
     }
 
@@ -130,8 +133,8 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     {
         waitForCategory(categoryName);
         WebElement category = webElementInteraction.findElement(By.xpath(String.format(categoryLocator, categoryName)));
-        int i = 0;
-        while(i < WAIT_60.getValue())
+        int retryCount = 0;
+        while(retryCount < RETRY_TIME_80.getValue())
         {
             waitToLoopTime(WAIT_2.getValue());
             if (webElementInteraction.isElementDisplayed(category))
@@ -139,7 +142,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
                 webElementInteraction.mouseOver(category, 2000);
                 break;
             }
-            i++;
+            retryCount++;
         }
     }
 
@@ -154,8 +157,9 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     {
         By category = By.xpath(String.format(categoryLocator, expectedSubCategory));
         boolean isSubCatDisplayed = webElementInteraction.isElementDisplayed(category);
+
         int retryCount = 0;
-        while (retryCount < WAIT_80.getValue() && !isSubCatDisplayed)
+        while (retryCount < RETRY_TIME_80.getValue() && !isSubCatDisplayed)
         {
             navigate();
             waitToLoopTime(WAIT_2.getValue());
@@ -181,12 +185,14 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     {
         log.info("Assert category {} is not displayed", categoryName);
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        int i = 0;
-        while(i < WAIT_60.getValue() && webElementInteraction.isElementDisplayed(category))
+
+        int retryCount = 0;
+        while(retryCount < RETRY_TIME_80.getValue() && webElementInteraction.isElementDisplayed(category))
         {
+            log.warn("Category {} is displayed - retry: {}", categoryName, retryCount);
             waitToLoopTime(WAIT_2.getValue());
             webElementInteraction.refresh();
-            i++;
+            retryCount++;
         }
         assertFalse(webElementInteraction.isElementDisplayed(category), String.format("Category %s is displayed", category));
         return this;

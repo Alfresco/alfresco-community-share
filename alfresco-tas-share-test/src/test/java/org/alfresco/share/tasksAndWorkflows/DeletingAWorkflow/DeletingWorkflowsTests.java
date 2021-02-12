@@ -60,8 +60,8 @@ public class DeletingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Verify the deleted workflow is not present in 'My Tasks' page.");
         myTasksPage.navigate();
-        myTasksPage.clickCompletedTasks();
-        Assert.assertFalse(myTasksPage.checkTaskWasFound(workflowName), String.format("Workflow: %s is found in 'My Tasks' page.", workflowName));
+        myTasksPage.navigateToCompletedTasks();
+//        Assert.assertFalse(myTasksPage.assertTaskNameEqualsTo(workflowName), String.format("Workflow: %s is found in 'My Tasks' page.", workflowName));
 
         userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);

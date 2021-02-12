@@ -129,7 +129,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to My Tasks page. Edit task and click 'Claim' button");
         myTasksPage.navigate();
 //        assertEquals(myTasksPage.getPageTitle(), "Alfresco » My Tasks", "Displayed page=");
-        myTasksPage.clickEditTask(task);
+        myTasksPage.editTask(task);
 //        assertEquals(editTaskPage.getPageTitle(), "Alfresco » Edit Task", "Displayed page=");
         editTaskPage.clickClaimButton();
 
@@ -157,7 +157,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to My Tasks page. Edit task and click 'Claim' button");
         myTasksPage.navigate();
 //        assertEquals(myTasksPage.getPageTitle(), "Alfresco » My Tasks", "Displayed page=");
-        myTasksPage.clickEditTask(task);
+        myTasksPage.editTask(task);
 //        assertEquals(editTaskPage.getPageTitle(), "Alfresco » Edit Task", "Displayed page=");
         editTaskPage.clickClaimButton();
 
@@ -188,7 +188,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to My Tasks page. Edit task and click 'Claim' button");
         myTasksPage.navigate();
 //        assertEquals(myTasksPage.getPageTitle(), "Alfresco » My Tasks", "Displayed page=");
-        myTasksPage.clickEditTask(task);
+        myTasksPage.editTask(task);
 //        assertEquals(editTaskPage.getPageTitle(), "Alfresco » Edit Task", "Displayed page=");
         editTaskPage.clickClaimButton();
 
@@ -218,7 +218,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to My Tasks page. Edit task and click 'Claim' button");
         myTasksPage.navigate();
 //        assertEquals(myTasksPage.getPageTitle(), "Alfresco » My Tasks", "Displayed page=");
-        myTasksPage.clickEditTask(task);
+        myTasksPage.editTask(task);
 //        assertEquals(editTaskPage.getPageTitle(), "Alfresco » Edit Task", "Displayed page=");
         editTaskPage.clickClaimButton();
 

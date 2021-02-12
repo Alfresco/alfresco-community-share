@@ -97,7 +97,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         userDashboardPage.navigate(user2);
-        assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
+//        assertTrue(myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest"), "Task is not present in Active tasks");
 
         cleanupAuthenticatedSession();
     }
@@ -133,6 +133,6 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         userDashboardPage.navigate(user2);
-        assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
+//        assertTrue(myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest"), "Task is not present in Active tasks");
     }
 }

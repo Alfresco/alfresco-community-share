@@ -1,11 +1,13 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.*;
-import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.enums.SearchType;
+import org.alfresco.po.enums.StoreType;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.SiteModel;
@@ -53,7 +55,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         webElementInteraction.waitUntilElementIsVisible(buttonStateAfterHover);
         webElementInteraction.clickElement(buttonStateAfterHover);
         webElementInteraction.waitUntilElementIsVisible(visibleDropdown);
-        webElementInteraction.findFirstElementWithValue(options, searchType.getSearchType()).click();
+        webElementInteraction.clickElement(webElementInteraction.findFirstElementWithValue(options, searchType.getSearchType()));
 
         return this;
     }
@@ -79,14 +81,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         webElementInteraction.clickElement(searchButtonAfterHover);
         webElementInteraction.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))), WAIT_5.getValue());
         webElementInteraction.waitUntilElementIsVisible(searchButton);
-        waitForResult();
         return this;
-    }
-
-    private void waitForResult()
-    {
-        webElementInteraction.waitUntilElementIsVisible(
-            By.xpath(String.format(loadingMessage,  language.translate("nodeBrowser.searchTook"))));
     }
 
     public NodeBrowserPage assertSearchButtonIsDisplayed()
@@ -117,14 +112,14 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
     private WebElement getResultRowWithRetry(String contentName)
     {
         By fileRow = By.xpath(String.format(fileNameRow, contentName));
-        int retry = 0;
+        int retryCount = 0;
 
-        while (retry < WAIT_60.getValue() && !webElementInteraction.isElementDisplayed(fileRow))
+        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(fileRow))
         {
-            log.error("Wait until content {} is found in node browser page", contentName);
+            log.warn("Content {} not displayed - retry: {}", contentName, retryCount);
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
-            retry++;
+            retryCount++;
         }
         return webElementInteraction.waitUntilElementIsVisible(fileRow);
     }
@@ -175,54 +170,5 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         assertEquals(webElementInteraction.getElementText(resultNoItemsFound), expectedLabel,
             String.format("No items found label %s not equals ", expectedLabel));
         return this;
-    }
-
-    //todo: move into separate file
-    public enum SearchType
-    {
-        STORE_ROOT("storeroot"),
-        NODEREF("noderef"),
-        XPATH("xpath"),
-        LUCENE("lucene"),
-        FTS_ALFRESCO("fts-alfresco"),
-        CMIS_STRICT("cmis-strict"),
-        CMIS_ALFRESCO("cmis-alfresco"),
-        DB_AFTS("db-afts"),
-        DB_CMIS("db-cmis");
-
-        private String searchType;
-
-        SearchType(String searchType)
-        {
-            this.searchType = searchType;
-        }
-
-        public String getSearchType()
-        {
-            return this.searchType;
-        }
-    }
-
-    //todo: move this into separate file
-    public enum StoreType
-    {
-        ALFRESCO_USER_STORE("user://alfrescoUserStore"),
-        SYSTEM("system://system"),
-        LIGHT_WEIGHT_STORE("workspace://lightWeightVersionStore"),
-        VERSION_2_STORE("workspace://version2Store"),
-        ARCHIVE_SPACES_STORE("archive://SpacesStore"),
-        WORKSPACE_SPACES_STORE("workspace://SpacesStore");
-
-        private String storeType;
-
-        StoreType(String storeType)
-        {
-            this.storeType = storeType;
-        }
-
-        public String getStoreType()
-        {
-            return this.storeType;
-        }
     }
 }

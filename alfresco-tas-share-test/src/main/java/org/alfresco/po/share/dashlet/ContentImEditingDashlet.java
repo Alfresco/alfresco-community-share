@@ -1,17 +1,17 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_60;
-import static org.testng.Assert.*;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 @Slf4j
 public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
@@ -79,14 +79,13 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
     {
         boolean found = isDocumentDisplayedInDashlet(file);
         int retryCount = 0;
-        while(retryCount < WAIT_60.getValue() && !found)
+        while(retryCount < RETRY_TIME_80.getValue() && !found)
         {
-            retryCount++;
-            log.error("Wait for document {} to be displayed: {}", file.getName(), retryCount);
+            log.warn("File {} not displayed - retry: {}", file.getName(), retryCount);
             webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_1.getValue());
-            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
             found = isDocumentDisplayedInDashlet(file);
+            retryCount++;
         }
         return webElementInteraction.findElement(By.xpath(String.format(editedDocumentRow, file.getName())));
     }

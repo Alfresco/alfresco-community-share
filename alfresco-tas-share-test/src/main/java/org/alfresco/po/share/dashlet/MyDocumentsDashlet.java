@@ -1,8 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_80;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -21,11 +20,9 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     private final By dashletContainer = By.cssSelector("div.dashlet.my-documents");
     private final By filterOptions = By.cssSelector("div[class*='my-documents'] div.bd ul li");
     private final By filterButton = By.cssSelector("div[class*='my-documents'] button[id$='default-filters-button']");
-    private final By simpleViewButton = By.cssSelector("div[id$='default-simpleDetailed'] span:nth-of-type(1) button");
     private final By detailedViewButtonSpan = By.cssSelector("span[class*='detailed-view']");
     private final By detailedViewButton = By.cssSelector("span[class*='detailed-view'] button");
     private final By documentNameLink = By.cssSelector("h3.filename > a");
-    private final By documentsArea = By.cssSelector("div[id$='default-documents'] .yui-dt-data");
 
     protected final String documentRow = "//div[starts-with(@class,'dashlet my-documents')]//a[text()='%s']/../../../..";
     private final String buttonChecked = "yui-radio-button-checked";
@@ -44,14 +41,15 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public WebElement getDocumentRow(String documentName)
     {
         By docLocator = By.xpath(String.format(documentRow, documentName));
+
         int retryCount = 0;
-        while (retryCount < WAIT_80.getValue() && !webElementInteraction.isElementDisplayed(docLocator))
+        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(docLocator))
         {
-            retryCount++;
-            log.error("Wait for document {} to be displayed in My Documents dashlet", documentName);
+            log.warn("Document {} not displayed - retry: {}", documentName, retryCount);
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+            retryCount++;
         }
         return webElementInteraction.waitUntilElementIsVisible(docLocator);
     }
@@ -89,7 +87,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         webElementInteraction.clickElement(filterButton);
         List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(filterOptions);
         webElementInteraction.selectOptionFromFilterOptionsList(getFilterValue(filter), options);
-        webElementInteraction.waitInSeconds(WAIT_1.getValue());
+        webElementInteraction.waitInSeconds(WAIT_2.getValue());
         return this;
     }
 

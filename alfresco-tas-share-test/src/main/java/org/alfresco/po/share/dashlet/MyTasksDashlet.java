@@ -1,6 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_10;
+import static org.alfresco.common.RetryTime.RETRY_TIME_20;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -18,6 +19,10 @@ import org.openqa.selenium.WebElement;
 @Slf4j
 public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 {
+    private final String NEW_LINE = "\n";
+    private final int BEGIN_INDEX = 0;
+    private final String FILTER_ARROW = " ▾";
+
     private final By dashletContainer = By.cssSelector("div.dashlet.my-tasks");
     private final By dropDownTasksList = By.cssSelector("div.my-tasks div.bd ul.first-of-type li a");
     private final By startWorkFlowLink = By.cssSelector("a[href$='start-workflow']");
@@ -34,8 +39,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     private final By taskTypeAndStatus = By.cssSelector("div.yui-dt-liner div");
     private final By taskDueDate = By.cssSelector("div.yui-dt-liner h4 span");
 
-    private String taskRow = "//div[starts-with(@class,'dashlet my-tasks')]//a[text()='%s']/../../../..";
-    public String finalApproveMessage = "The document was reviewed and approved."; // TODO: add this label to translation
+    private final String taskRow = "//div[contains(@class,'dashlet my-tasks')]//a[text()='%s']/../../../..";
 
     public MyTasksDashlet(ThreadLocal<WebDriver> webDriver)
     {
@@ -43,16 +47,23 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     }
 
     @Override
-    public String getDashletTitle()
-    {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
-            .findElement(dashletTitle));
+    protected String getDashletTitle() {
+        return webElementInteraction.getElementText(
+            webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+                .findElement(dashletTitle));
     }
 
-    public WebElement getTaskRow(String taskName)
+    @Override
+    public MyTasksDashlet assertDashletTitleEquals(String expectedDashletTitle)
+    {
+        assertEquals(getDashletTitle(), expectedDashletTitle);
+        return this;
+    }
+
+    private WebElement getTaskRow(String taskName)
     {
         return webElementInteraction.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(taskRow, taskName)), 1, WAIT_10.getValue());
+            By.xpath(String.format(taskRow, taskName)), WAIT_2.getValue(), RETRY_TIME_20.getValue());
     }
 
     public MyTasksDashlet assertStartWorkflowIsDisplayed()
@@ -125,14 +136,20 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         return this;
     }
 
-    public WebElement selectTask(final String taskName)
+    public WebElement selectTask(String taskName)
     {
         return webElementInteraction.findFirstElementWithValue(tasksNameList, taskName);
     }
 
-    public boolean isTaskPresent(String taskName)
+    public MyTasksDashlet assertTaskNameEqualsTo(String expectedTaskName)
     {
-        return webElementInteraction.isElementDisplayed(selectTask(taskName));
+        log.info("Assert task name equals to {}", expectedTaskName);
+        String taskName = webElementInteraction.getElementText(getTaskRow(expectedTaskName));
+        String actualTaskName = taskName.substring(BEGIN_INDEX, taskName.indexOf(NEW_LINE));
+
+        assertEquals(actualTaskName, expectedTaskName,
+            String.format("Task name not equals to %s ", expectedTaskName));
+        return this;
     }
 
     public WebElement selectTaskDetailsRow(final String taskName)
@@ -155,10 +172,10 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     {
         log.info("Edit task {}", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
-        webElementInteraction.mouseOver(activeTasksLink);
-        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
-        webElementInteraction.waitUntilElementHasAttribute(taskRowElement, "class", "highlighted");
-        webElementInteraction.clickElement(taskRowElement.findElement(editIcon));
+        webElementInteraction.mouseOver(taskRowElement);
+
+        WebElement editButton = webElementInteraction.waitUntilElementIsVisible(editIcon);
+        webElementInteraction.clickElement(editButton);
         return new EditTaskPage(webDriver);
     }
 
@@ -204,19 +221,29 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         return this;
     }
 
-    public MyTasksDashlet selectOptionFromTaskFilters(String taskOption)
+    public MyTasksDashlet assertTaskOptionEqualsTo(String expectedTaskOption)
     {
+        log.info("Assert task option equals to {}", expectedTaskOption);
+        String taskOption = webElementInteraction.getElementText(filterTaskButton);
+        String actualTaskOption = taskOption.substring(BEGIN_INDEX, taskOption.indexOf(FILTER_ARROW));
+        assertEquals(actualTaskOption, expectedTaskOption, "Incorrect filter selected");
+
+        return this;
+    }
+
+    public MyTasksDashlet selectFilterTaskOption(String taskOption)
+    {
+        log.info("Select filter task option {}", taskOption);
         webElementInteraction.clickElement(filterTaskButton);
         webElementInteraction.selectOptionFromFilterOptionsList(taskOption,
             webElementInteraction.waitUntilElementsAreVisible(dropDownTasksList));
-        assertTrue(webElementInteraction.getElementText(filterTaskButton).contains(taskOption), "Incorrect filter selected");
 
         return this;
     }
 
     public String getTaskTypeAndStatus(String taskName)
     {
-        WebElement taskRow = selectTaskDetailsRow(taskName);
-        return webElementInteraction.getElementText(taskRow.findElement(taskTypeAndStatus));
+        WebElement taskRowElement = selectTaskDetailsRow(taskName);
+        return webElementInteraction.getElementText(taskRowElement.findElement(taskTypeAndStatus));
     }
 }

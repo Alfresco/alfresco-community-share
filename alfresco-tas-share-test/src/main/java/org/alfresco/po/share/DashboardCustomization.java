@@ -202,7 +202,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
                 }
                 catch (MoveTargetOutOfBoundsException e)
                 {
-                    log.error(String.format("Failed to add dashlet %s. Will retry...", dashlet.getDashletName()));
+                    log.warn("Failed to add dashlet {} - retry", dashlet.getDashletName());
                     retryAddDashlet(dashlet, webDashlet, target, columnNumber);
                 }
             }

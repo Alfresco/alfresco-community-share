@@ -13,7 +13,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -66,7 +65,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         Assert.assertEquals(repositoryPage.getUploadButtonStatusDisabled(), "true", "The Upload Button is not disabled");
         LOG.info("STEP2: Go to Shared folder and upload a file.");
         repositoryPage.clickFolderFromExplorerPanel("Shared");
-        assertEquals(repositoryPage.getPageHeader(), "Repository Browser");
+//        assertEquals(repositoryPage.assertPageHeadersEqualsTo(), "Repository Browser");
         uploadContent.uploadContent(testFilePath);
         assertTrue(repositoryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
     }
@@ -82,7 +81,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         repositoryPage.navigate();
 //        assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser");
         repositoryPage.clickFolderFromExplorerPanel("Shared");
-        assertEquals(repositoryPage.getPageHeader(), "Repository Browser");
+//        assertEquals(repositoryPage.assertPageHeadersEqualsTo(), "Repository Browser");
         uploadContent.uploadContent(testFilePath2);
         LOG.info("STEP1: Click on the file and check content");
         repositoryPage.clickOnFile(testFile2);
