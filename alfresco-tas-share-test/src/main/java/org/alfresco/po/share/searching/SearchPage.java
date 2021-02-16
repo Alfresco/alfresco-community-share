@@ -151,7 +151,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         int retryCount = 0;
         while (retryCount <= RETRY_TIME_80.getValue() && !isContentDisplayed(contentToFind))
         {
-            log.warn("Content {} not displayed - retry: {}", contentToFind, retryCount);
+            log.warn("Content {} not displayed - retry: {}", contentToFind.getName(), retryCount);
             setSearchExpression(contentToFind.getName());
             clickSearchButton();
             waitToLoopTime(WAIT_2.getValue());
