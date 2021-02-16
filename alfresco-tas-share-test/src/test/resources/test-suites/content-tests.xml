@@ -12,7 +12,7 @@
       </groups>
       <packages>
          <package name="org.alfresco.share.alfrescoContent.buildingContent"/>
-         <package name="org.alfresco.share.alfrescoContent.organizingContent"/>
+         <package name="org.alfresco.share.alfrescoContent.organizingContent.*"/>
       </packages>
    </test>
 

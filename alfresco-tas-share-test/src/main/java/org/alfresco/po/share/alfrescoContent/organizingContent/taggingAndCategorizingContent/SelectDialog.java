@@ -122,6 +122,14 @@ public class SelectDialog extends BaseDialogComponent
         return this;
     }
 
+    public SelectDialog removeCategory(String category)
+    {
+        log.info("Remove category {}", category);
+        WebElement selectedItem = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(removeCategoryItemRow, category)));
+        webElementInteraction.clickElement(selectedItem.findElement(removeIcon));
+        return this;
+    }
+
     public EditPropertiesDialog clickOk()
     {
         webElementInteraction.clickElement(okButton);
@@ -150,8 +158,8 @@ public class SelectDialog extends BaseDialogComponent
         while(retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(tagRow))
         {
             log.warn("Tag {} not displayed - retry: {}", tagName, retryCount);
-            waitToLoopTime(WAIT_2.getValue());
             typeTag(tagName);
+            waitToLoopTime(WAIT_2.getValue());
             retryCount++;
         }
         return this;

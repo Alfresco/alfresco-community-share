@@ -55,6 +55,7 @@ public class ContentActionComponent
     private final By tagInputLocator = By.cssSelector(".inlineTagEdit input");
     private final By highlightLocator = By.cssSelector("tr[class$='yui-dt-highlighted']");
     private final By addedCategoriesLink = By.cssSelector(".detail .filter-change");
+    private final By noCategoriesLocator = By.xpath("//span[@class='category-item item']/..//span[@class='faded']");
 
     private final String highlightContent = "yui-dt-highlighted";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
@@ -434,6 +435,24 @@ public class ContentActionComponent
         List<String> tags = webElementInteraction.getTextFromElementList(content.findElements(addedCategoriesLink));
         assertTrue(tags.contains(category), String.format("Category %s is not displayed", category));
 
+        return this;
+    }
+
+    public ContentActionComponent assertCategoryIsNotDisplayed(String category)
+    {
+        log.info("Assert category {} is not displayed", category);
+        WebElement content = getContentRow();
+        List<String> tags = webElementInteraction.getTextFromElementList(content.findElements(addedCategoriesLink));
+        assertFalse(tags.contains(category), String.format("Category %s is displayed", category));
+
+        return this;
+    }
+
+    public ContentActionComponent assertNoCategoriesIsDisplayed()
+    {
+        log.info("Assert No Categories is displayed for content {}", contentModel.getName());
+        webElementInteraction.waitUntilElementIsVisible(noCategoriesLocator);
+        assertTrue(webElementInteraction.isElementDisplayed(noCategoriesLocator), "No categories label is not displayed");
         return this;
     }
 }

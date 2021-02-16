@@ -57,6 +57,7 @@ public class EditPropertiesDialog extends BaseDialogComponent
     public void clickSave()
     {
         webElementInteraction.clickElement(saveButton);
+        webElementInteraction.waitUntilElementDisappears(dialogTitle);
         waitUntilNotificationMessageDisappears();
     }
 
