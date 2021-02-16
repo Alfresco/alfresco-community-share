@@ -50,7 +50,7 @@ public class CreateTagTests extends BaseTest
                 .clickSelectTags();
         selectDialog.typeTag(tag)
             .clickCreateNewIcon()
-            .assertItemIsSelected(tag)
+            .assertTagIsSelected(tag)
             .clickOk();
         editPropertiesDialog.clickSave();
         documentLibraryPage.usingContent(testFile).assertTagIsDisplayed(tag);
@@ -67,8 +67,8 @@ public class CreateTagTests extends BaseTest
 
         documentLibraryPage.navigate(site.get())
             .usingContent(testFile)
-                .clickTagIcon()
-                .addTag(tag)
+                .clickTagEditIcon()
+                .setTag(tag)
                 .clickSave();
         documentLibraryPage.usingContent(testFile).assertTagIsDisplayed(tag);
     }

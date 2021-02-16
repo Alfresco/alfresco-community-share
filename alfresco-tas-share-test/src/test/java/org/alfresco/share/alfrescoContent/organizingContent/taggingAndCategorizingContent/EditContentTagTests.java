@@ -1,130 +1,84 @@
 package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
-import java.util.Collections;
-
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.*;
+import org.apache.commons.lang.RandomStringUtils;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * @author Laura.Capsa
- */
-public class EditContentTagTests extends ContextAwareWebTest
+public class EditContentTagTests extends BaseTest
 {
-    private final String random = RandomData.getRandomAlphanumeric();
-    private final String siteName1 = "site1-" + random;
-    private final String siteName2 = "site2-" + random;
-    private final String folderName = "folder-" + random;
-    private final String tagName = "tagName-" + random;
-    private final String newTagName = "newTagName-" + random;
-    private final String fileName = "file-" + random;
-    private final String userName = "profileUser-" + random;
-    //@Autowired
-    private DocumentLibraryPage documentLibraryPage;
+    private DocumentLibraryPage2 documentLibraryPage;
 
-    @BeforeClass (alwaysRun = true)
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
-        siteService.create(userName, password, domain, siteName1, "Description", SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, "Description", SiteService.Visibility.PUBLIC);
-        contentService.createFolder(userName, password, folderName, siteName2);
-        contentAction.addSingleTag(userName, password, siteName2, folderName, tagName);
-        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "content of the file.");
-        contentAction.addSingleTag(userName, password, siteName1, fileName, tagName);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
 
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName1);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
-    }
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName1);
-        siteService.delete(adminUser, adminPassword, siteName2);
+        setupAuthenticatedSession(user.get());
     }
 
     @TestRail (id = "C7460")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void editTagFile()
+    public void editTagFromDocument() throws Exception
     {
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName1);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
+        String originalTag = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+        String editedTag = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+        FileModel fileWithTag = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFile(fileWithTag);
+        getRestApi().authenticateUser(getAdminUser())
+            .withCoreAPI().usingResource(fileWithTag).addTags(originalTag);
 
-        LOG.info("STEP1: Hover over the tag(s) from the content");
-        documentLibraryPage.mouseOverTags(fileName);
-        assertTrue(documentLibraryPage.isEditTagIconDisplayed(fileName), fileName + " -> 'Edit Tag' icon is displayed.");
-
-        LOG.info("STEP2: Click \"Edit Tag\" icon");
-        documentLibraryPage.clickEditTagIcon(fileName);
-        assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), fileName + " -> 'Edit Tag' text input field is displayed.");
-
-        LOG.info("STEP3: Click on any tag and type a valid tag name");
-        documentLibraryPage.editTag(tagName.toLowerCase(), newTagName);
-
-        LOG.info("STEP4: Click \"Save\" link and verify the content tags");
-        documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        try
-        {
-            assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-                tagName.toLowerCase() + " is updated with value:");
-        } catch (AssertionError e)
-        {
-            getBrowser().refresh();
-        }
-        assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-            tagName.toLowerCase() + " is updated with value:");
-
-        cleanupAuthenticatedSession();
+        documentLibraryPage.navigate(site.get())
+            .usingContent(fileWithTag)
+            .clickTagEditIcon()
+            .clickTag(originalTag)
+            .setTag(editedTag)
+            .clickSave();
+        documentLibraryPage.usingContent(fileWithTag)
+            .assertTagIsDisplayed(editedTag)
+            .assertTagIsNotDisplayed(originalTag);
     }
 
     @TestRail (id = "C10529")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void editTagFolder()
+    public void editTagFromFolder() throws Exception
     {
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName2);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
+        String originalTag = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+        String editedTag = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+        FolderModel folderWithTag = FolderModel.getRandomFolderModel();
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get()).createFolder(folderWithTag);
+        getRestApi().authenticateUser(getAdminUser())
+            .withCoreAPI().usingResource(folderWithTag).addTags(originalTag);
 
-        LOG.info("STEP1: Hover over the tag(s) from the content");
-        documentLibraryPage.mouseOverTags(folderName);
-        assertTrue(documentLibraryPage.isEditTagIconDisplayed(folderName), folderName + " -> 'Edit Tag' icon is displayed.");
+        documentLibraryPage.navigate(site.get())
+            .usingContent(folderWithTag)
+            .clickTagEditIcon()
+            .clickTag(originalTag)
+            .setTag(editedTag)
+            .clickSave();
+        documentLibraryPage.usingContent(folderWithTag)
+            .assertTagIsDisplayed(editedTag)
+            .assertTagIsNotDisplayed(originalTag);
+    }
 
-        LOG.info("STEP2: Click \"Edit Tag\" icon");
-        documentLibraryPage.clickEditTagIcon(folderName);
-        assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), folderName + " -> 'Edit Tag' text input field is displayed.");
-
-        LOG.info("STEP3: Click on any tag and type a valid tag name");
-        documentLibraryPage.editTag(tagName.toLowerCase(), newTagName);
-
-        LOG.info("STEP4: Click \"Save\" link and verify the content tags");
-        documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        try
-        {
-            assertEquals(documentLibraryPage.getTags(folderName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-                tagName.toLowerCase() + " is updated with value:");
-        } catch (AssertionError e)
-        {
-            getBrowser().refresh();
-        }
-        assertEquals(documentLibraryPage.getTags(folderName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-            tagName.toLowerCase() + " is updated with value:");
-
-        cleanupAuthenticatedSession();
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }

@@ -81,14 +81,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         webElementInteraction.clickElement(searchButtonAfterHover);
         webElementInteraction.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))), WAIT_5.getValue());
         webElementInteraction.waitUntilElementIsVisible(searchButton);
-        waitForResult();
         return this;
-    }
-
-    private void waitForResult()
-    {
-        webElementInteraction.waitUntilElementIsVisible(
-            By.xpath(String.format(loadingMessage,  language.translate("nodeBrowser.searchTook"))));
     }
 
     public NodeBrowserPage assertSearchButtonIsDisplayed()

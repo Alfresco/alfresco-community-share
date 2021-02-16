@@ -110,7 +110,7 @@ public class CreateLinksTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromSearchResultsMultipleItemsSelected()
     {
-        String randomName = RandomStringUtils.randomAlphanumeric(5);
+        String randomName = RandomStringUtils.randomAlphanumeric(7);
         FileModel file1 = new FileModel(randomName + "-file1.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
         FileModel file2 = new FileModel(randomName + "-file2.txt", FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
@@ -118,7 +118,7 @@ public class CreateLinksTests extends BaseTest
                 .createFile(file1).createFile(file2);
 
         searchPage.navigate()
-            .searchWithKeywordAndWaitForContents(randomName.concat("*"), file1, file2);
+            .searchWithKeywordAndWaitForContents(randomName, file1, file2);
         searchPage.usingContent(file1).assertIsDisplayed();
         searchPage.usingContent(file2).assertIsDisplayed();
         searchPage.checkContent(file1, file2)

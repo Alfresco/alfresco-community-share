@@ -1,5 +1,6 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import static org.alfresco.common.Wait.WAIT_10;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -35,6 +36,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     private final String completeTaskName = "Request to join %s site";
     private final String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
     private final String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
+    private final String activeTaskUrl = "filter=workflows|active";
 
     public MyTasksPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -76,6 +78,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertActiveTasksTitleIsDisplayed()
     {
         log.info("Assert Active tasks title is displayed");
+        webElementInteraction.waitUrlContains(activeTaskUrl, WAIT_10.getValue());
         assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.active.title"));
         return this;
     }

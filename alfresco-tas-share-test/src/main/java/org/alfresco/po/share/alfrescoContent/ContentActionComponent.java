@@ -54,9 +54,13 @@ public class ContentActionComponent
     private final By tagEditIconLocator = By.cssSelector("span.insitu-edit[style*='visibility: visible']");
     private final By tagInputLocator = By.cssSelector(".inlineTagEdit input");
     private final By highlightLocator = By.cssSelector("tr[class$='yui-dt-highlighted']");
+    private final By addedCategoriesLink = By.cssSelector(".detail .filter-change");
+    private final By noCategoriesLocator = By.xpath("//span[@class='category-item item']/..//span[@class='faded']");
 
     private final String highlightContent = "yui-dt-highlighted";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
+    private final String existingTag = "//span[@class='inlineTagEditTag']//span[text()='%s']";
+    private final String removeTagIcon = "/..//img[1]";
 
     public ContentActionComponent(ContentModel contentModel,
                                   WebElementInteraction webElementInteraction,
@@ -354,13 +358,24 @@ public class ContentActionComponent
     {
         log.info("Assert tag {} is displayed", tag);
         WebElement content = getContentRow();
+        webElementInteraction.waitUntilElementIsVisible(addedTagsLocator);
         List<String> tags = webElementInteraction.getTextFromElementList(content.findElements(addedTagsLocator));
         assertTrue(tags.contains(tag), String.format("Tag %s is not displayed", tag));
 
         return this;
     }
 
-    public ContentActionComponent clickTagIcon()
+    public ContentActionComponent assertTagIsNotDisplayed(String tag)
+    {
+        log.info("Assert tag {} is not displayed", tag);
+        WebElement content = getContentRow();
+        List<String> tags = webElementInteraction.getTextFromElementList(content.findElements(addedTagsLocator));
+        assertFalse(tags.contains(tag), String.format("Tag %s is displayed", tag));
+
+        return this;
+    }
+
+    public ContentActionComponent clickTagEditIcon()
     {
         log.info("Click tag icon");
         WebElement contentRowElement = getContentRow();
@@ -384,13 +399,60 @@ public class ContentActionComponent
         }
     }
 
-    public ContentActionComponent addTag(String tag)
+    public ContentActionComponent setTag(String tag)
     {
         WebElement contentRowElement = getContentRow();
         WebElement tagInput = contentRowElement.findElement(tagInputLocator);
         tagInput.sendKeys(tag);
         webElementInteraction.sendKeys(Keys.ENTER);
 
+        return this;
+    }
+
+    public ContentActionComponent clickTag(String tag)
+    {
+        log.info("Click tag {}", tag);
+        By existingTagLocator = By.xpath(String.format(existingTag, tag));
+        webElementInteraction.waitUntilElementIsVisible(existingTagLocator);
+        webElementInteraction.clickElement(existingTagLocator);
+        return this;
+    }
+
+    public ContentActionComponent removeTag(String tag)
+    {
+        log.info("Delete tag {}", tag);
+        By removeTagLocator = By.xpath(String.format(existingTag.concat(removeTagIcon), tag));
+        webElementInteraction.waitUntilElementIsVisible(removeTagLocator);
+        webElementInteraction.clickElement(removeTagLocator);
+        return this;
+    }
+
+    public ContentActionComponent assertCategoryIsDisplayed(String category)
+    {
+        log.info("Assert category {} is displayed", category);
+        WebElement content = getContentRow();
+        webElementInteraction.waitUntilElementIsVisible(addedCategoriesLink);
+        List<String> tags = webElementInteraction.getTextFromElementList(content.findElements(addedCategoriesLink));
+        assertTrue(tags.contains(category), String.format("Category %s is not displayed", category));
+
+        return this;
+    }
+
+    public ContentActionComponent assertCategoryIsNotDisplayed(String category)
+    {
+        log.info("Assert category {} is not displayed", category);
+        WebElement content = getContentRow();
+        List<String> tags = webElementInteraction.getTextFromElementList(content.findElements(addedCategoriesLink));
+        assertFalse(tags.contains(category), String.format("Category %s is displayed", category));
+
+        return this;
+    }
+
+    public ContentActionComponent assertNoCategoriesIsDisplayed()
+    {
+        log.info("Assert No Categories is displayed for content {}", contentModel.getName());
+        webElementInteraction.waitUntilElementIsVisible(noCategoriesLocator);
+        assertTrue(webElementInteraction.isElementDisplayed(noCategoriesLocator), "No categories label is not displayed");
         return this;
     }
 }

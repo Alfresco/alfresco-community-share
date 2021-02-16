@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_60;
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
@@ -93,9 +94,15 @@ public class ModelActionsComponent
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        return webElementInteraction
-            .waitWithRetryAndReturnWebElement(modelRowLocator, WAIT_2.getValue(),
-                RETRY_TIME_80.getValue());
+        int retryTimes = 0;
+        while (retryTimes < RETRY_TIME_60.getValue() && !webElementInteraction.isElementDisplayed(modelRowLocator))
+        {
+            log.info("Wait for model {} to be displayed", modelName);
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            modelManagerPage.waitUntilLoadingMessageDisappears();
+        }
+        return webElementInteraction.findElement(modelRowLocator);
     }
 
     public WebElement getModelRow()

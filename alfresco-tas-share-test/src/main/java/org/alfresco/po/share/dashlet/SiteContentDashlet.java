@@ -37,8 +37,17 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     protected WebElement getDocumentRow(String documentName)
     {
-        return webElementInteraction.waitWithRetryAndReturnWebElement(
-            By.xpath(String.format(documentRow, documentName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
+        By documentRowElement = By.xpath(String.format(documentRow, documentName));
+        int retryCount = 0;
+        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(documentRowElement))
+        {
+            retryCount++;
+            log.warn("Wait for document {} to be displayed in Site Content dashlet", documentName);
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+        }
+        return webElementInteraction.findElement(documentRowElement);
     }
 
     public SiteContentDashlet assertEmptySiteContentMessageIsCorrect()

@@ -129,8 +129,9 @@ public class SitesManagerTests extends BaseTest
         setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
         sitesManagerPage.navigate()
             .usingSite(adminSite)
-            .becomeSiteManager()
-            .assertSiteManagerIsYes();
+            .becomeSiteManager();
+        sitesManagerPage.navigate()
+            .usingSite(adminSite).assertSiteManagerIsYes();
 
         getDataSite().usingAdmin().deleteSite(adminSite);
     }

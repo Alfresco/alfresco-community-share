@@ -1,9 +1,11 @@
 package org.alfresco.po.share.site;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+@Slf4j
 public class DeleteSiteDialog extends BaseDialogComponent
 {
     private final By delete = By.cssSelector("span[class*='primary-button'] button");
@@ -43,6 +45,11 @@ public class DeleteSiteDialog extends BaseDialogComponent
     {
         webElementInteraction.clickElement(yes);
         waitUntilNotificationMessageDisappears();
+        if(webElementInteraction.isElementDisplayed(notificationMessageLocator))
+        {
+            log.info("Wait for the second message");
+            waitUntilNotificationMessageDisappears();
+        }
     }
 
     public void clickNo()

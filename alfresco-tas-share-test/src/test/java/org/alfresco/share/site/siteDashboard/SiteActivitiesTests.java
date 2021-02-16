@@ -103,8 +103,8 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
     public void verifyRemoveGroupFromSiteActivityIsDisplayed()
     {
         GroupModel groupToRemove = dataGroup.usingAdmin().createRandomGroup();
-        dataGroup.usingUser(user.get()).addGroupToSite(groupToRemove, site.get(), UserRole.SiteCollaborator);
-        dataGroup.usingUser(user.get()).removeGroupFromSite(groupToRemove, site.get());
+        getDataGroup().usingUser(user.get()).addGroupToSite(groupToRemove, site.get(), UserRole.SiteCollaborator);
+        getDataGroup().usingUser(user.get()).removeGroupFromSite(groupToRemove, site.get());
 
         siteDashboardPage.navigate(site.get());
         siteActivitiesDashlet.assertRemoveGroupFromSiteActivityIsDisplayed(groupToRemove, site.get());
