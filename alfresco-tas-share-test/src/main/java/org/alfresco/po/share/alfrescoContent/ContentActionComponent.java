@@ -358,6 +358,7 @@ public class ContentActionComponent
     {
         log.info("Assert tag {} is displayed", tag);
         WebElement content = getContentRow();
+        webElementInteraction.waitUntilElementIsPresent(addedTagsLocator);
         webElementInteraction.waitUntilElementIsVisible(addedTagsLocator);
         List<String> tags = webElementInteraction.getTextFromElementList(content.findElements(addedTagsLocator));
         assertTrue(tags.contains(tag), String.format("Tag %s is not displayed", tag));
