@@ -51,7 +51,7 @@ public class SitesManagerTests extends BaseTest
             .assertBrowserPageTitleIs(language.translate("adminTools.sitesManager.browser.pageTitle"))
             .assertTableHasAllColumns()
             .usingSite(testSite.get())
-            .assertSiteDescriptionIs(siteDescription)
+            .assertSiteDescriptionEqualsTo(siteDescription)
             .assertSiteVisibilityEquals(Visibility.MODERATED)
             .assertSiteManagerIsYes();
 

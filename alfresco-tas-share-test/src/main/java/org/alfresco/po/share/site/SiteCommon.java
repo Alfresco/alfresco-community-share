@@ -33,11 +33,13 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
         this.currentSiteName = currentSiteName;
     }
 
-    public void clickSiteConfiguration()
+    public T clickSiteConfiguration()
     {
         webElementInteraction.waitUntilElementIsVisible(siteConfiguration);
         webElementInteraction.clickElement(siteConfiguration);
         webElementInteraction.waitUntilElementsAreVisible(configurationOptions);
+
+        return (T) this;
     }
 
     public boolean isWaitPopupDisplayed()

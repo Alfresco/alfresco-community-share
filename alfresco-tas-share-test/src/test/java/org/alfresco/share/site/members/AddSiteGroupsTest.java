@@ -8,6 +8,7 @@ import static org.alfresco.po.enums.GroupRoles.MANAGER;
 import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.alfresco.utility.constants.UserRole.SiteConsumer;
 import static org.alfresco.utility.constants.UserRole.SiteContributor;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 import org.alfresco.po.share.site.members.AddSiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
@@ -18,7 +19,6 @@ import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.apache.commons.lang.RandomStringUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,7 +28,7 @@ public class AddSiteGroupsTest extends BaseTest
     private final String EXPECTED_ONE_GROUPS_ADDED_0_FAILURES = "peopleFinder.successfullyGroupAdded";
     private final String EXPECTED_NOTIFICATION_MESSAGE = "peopleFinder.emptyValueSearchNotification";
     private final String EXPECTED_NO_GROUPS_FOUND_LABEL = "peopleFinder.noGroupsFound";
-    private final String NON_EXISTING_GROUP = RandomStringUtils.randomAlphabetic(4);
+    private final String NON_EXISTING_GROUP = randomAlphabetic(4);
     private final String EMPTY_INPUT = "";
     private final String EMPTY_SPACE = " ";
 
@@ -185,6 +185,9 @@ public class AddSiteGroupsTest extends BaseTest
         addSiteGroupsPage
             .navigate(siteModel.get())
             .searchGroupByName(EMPTY_INPUT)
+            .waitUntilNotificationMessageDisappears();
+
+        addSiteGroupsPage
             .assertLastNotificationMessageEquals(language.translate(EXPECTED_NOTIFICATION_MESSAGE));
     }
 
@@ -195,7 +198,9 @@ public class AddSiteGroupsTest extends BaseTest
         addSiteGroupsPage
             .navigate(siteModel.get())
             .searchGroupByName(NON_EXISTING_GROUP);
-        addSiteGroupsPage.assertNoGroupsFoundLabelEqualsTo(language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
+
+        addSiteGroupsPage
+            .assertNoGroupsFoundLabelEqualsTo(language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
     }
 
     @TestRail (id = "C2786")

@@ -1,5 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
+import static org.alfresco.po.share.site.SiteConfigurationOptions.CUSTOMIZE_SITE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +92,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
 
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
-        siteDashboardPage.clickCustomizeSite();
+        siteDashboardPage.selectOptionFromSiteConfigurationDropDown(CUSTOMIZE_SITE.getValue());
         customizeSitePage.addPageToSite(SitePageType.DATA_LISTS);
         Assert.assertTrue(customizeSitePage.isPageAddedToCurrentPages(SitePageType.DATA_LISTS));
         LOG.info("Step 2: Rename 'Data Lists' feature");
@@ -107,7 +109,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         LOG.info("Step 6: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
-        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
         LOG.info("Step 7: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
@@ -117,7 +119,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
-        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
         LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
@@ -127,7 +129,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
-        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
         LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");

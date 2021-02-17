@@ -14,6 +14,7 @@ import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -330,8 +331,8 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
 
         LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.usingSite(siteNameC2292).clickDelete().assertConfirmMessageFromSiteManagerIsCorrect(siteNameC2292)
-            .clickCancelFromSitesManager();
+//        sitesManagerPage.usingSite(siteModel).clickDelete().assertConfirmMessageFromSiteManagerIsCorrect(siteNameC2292)
+//            .clickCancelFromSitesManager();
 //        sitesManagerPage.usingSite(siteNameC2292).assertSiteIsDisplayed();
 
         LOG.info("STEP4: Open the created site by link");

@@ -27,6 +27,9 @@ public class DefaultProperties
     @Value("${admin.password:admin}")
     private String adminPassword;
 
+    @Value ("${admin.name}")
+    private String adminName;
+
     @Value("${alfresco.scheme:http}")
     private String scheme;
 
@@ -220,6 +223,16 @@ public class DefaultProperties
     public void setAdminPassword(String adminPassword)
     {
         this.adminPassword = adminPassword;
+    }
+
+    public String getAdminName()
+    {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName)
+    {
+        this.adminName = adminName;
     }
 
     public String getScheme()

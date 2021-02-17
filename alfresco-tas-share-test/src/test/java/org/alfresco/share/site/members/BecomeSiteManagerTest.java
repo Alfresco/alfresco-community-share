@@ -1,306 +1,187 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.dataprep.SiteService;
+import static org.alfresco.po.enums.GroupRoles.MANAGER;
+import static org.alfresco.po.share.site.SiteConfigurationOptions.BECOME_SITE_MANAGER;
+import static org.alfresco.po.share.site.SiteConfigurationOptions.CUSTOMIZE_DASHBOARD;
+import static org.alfresco.po.share.site.SiteConfigurationOptions.CUSTOMIZE_SITE;
+import static org.alfresco.po.share.site.SiteConfigurationOptions.EDIT_SITE_DETAILS;
+import static org.alfresco.po.share.site.SiteConfigurationOptions.JOIN_SITE;
+import static org.alfresco.po.share.site.SiteConfigurationOptions.LEAVE_SITE;
+import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
+import static org.alfresco.utility.constants.UserRole.SiteManager;
+
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-/**
- * Created by Claudia Agache on 7/1/2016.
- */
-public class BecomeSiteManagerTest extends ContextAwareWebTest
+public class BecomeSiteManagerTest extends BaseTest
 {
-   // @Autowired
-    SiteDashboardPage siteDashboard;
+    private SiteDashboardPage siteDashboardPage;
+    private SiteUsersPage siteUsersPage;
+    private SitesManagerPage sitesManagerPage;
 
-   // @Autowired
-    SiteUsersPage siteUsers;
+    private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
 
-    //@Autowired
-    SitesManagerPage sitesManager;
-
-    private String uniqueIdentifier;
-    private String user1;
-    private String user2;
-    private String siteName;
-
-    @TestRail (id = "C2848")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void becomeSiteManagerActionIsMissingForNonAdmins()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        // preconditions
-        uniqueIdentifier = String.format("C2848-%s", RandomData.getRandomAlphanumeric());
-        user1 = "testUser1-" + uniqueIdentifier;
-        user2 = "testUser2-" + uniqueIdentifier;
-        siteName = "SiteName-" + uniqueIdentifier;
+        userModel.set(dataUser.usingAdmin().createRandomTestUser());
+        siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
 
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
+        setupAuthenticatedSession(userModel.get());
 
-        setupAuthenticatedSession(user2, password);
-
-        LOG.info("Navigate to '" + siteName + "' site's dashboard and click 'Site configuration options' icon.");
-        siteDashboard.navigate(siteName);
-        siteDashboard.clickSiteConfiguration();
-
-        assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
-
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        userService.delete(adminUser, adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        sitesManagerPage = new SitesManagerPage(webDriver);
+        siteUsersPage = new SiteUsersPage(webDriver);
     }
 
-
-    @TestRail (id = "C2849")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void becomeSiteManagerActionWhenAdminIsSiteManager()
+    @TestRail(id = "C2848")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void becomeSiteManagerActionShouldNotBeDisplayedForCollaboratorUser()
     {
-        // preconditions
-        uniqueIdentifier = String.format("C2849-%s", RandomData.getRandomAlphanumeric());
-        user1 = "testUser1-" + uniqueIdentifier;
-        siteName = uniqueIdentifier + "-SiteName";
+        UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();
+        dataUser.usingUser(userModel.get())
+            .addUserToSite(collaborator, siteModel.get(), SiteCollaborator);
 
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(user1, password, adminUser, siteName, "SiteManager");
+        setupAuthenticatedSession(collaborator);
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-
-        LOG.info("STEP 1: Navigate to '" + siteName + "' site's dashboard and click 'Site configuration options' icon.");
-        siteDashboard.navigate(siteName);
-        siteDashboard.clickSiteConfiguration();
-
-        assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"),
-            "'Customize Dashboard' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Edit Site Details"),
-            "'Edit Site Details' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Site"),
-            "'Customize Site' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Leave Site"),
-            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
-
-        LOG.info("STEP 2: Navigate 'Admin Tools' -> 'Sites Manager' page.");
-        sitesManager.navigate();
-
-        LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is not available. Only 'Delete Site' action is available.");
-        sitesManager.usingSite(siteName).assertBecomeManagerOptionIsNotAvailable()
-            .assertDeleteSiteOptionIsAvailable();
-
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteDashboardPage
+            .navigate(siteModel.get())
+            .clickSiteConfiguration()
+            .assertOptionNotEqualsTo(BECOME_SITE_MANAGER.getValue());
     }
 
-    @TestRail (id = "C2850")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void becomeSiteManagerUsingSiteConfigurationIcon()
+    @TestRail(id = "C2849")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void becomeSiteManagerActionShouldNotBeDisplayedWhenAdminIsSiteManager()
     {
-        // preconditions
-        uniqueIdentifier = String.format("C2850-%s", RandomData.getRandomAlphanumeric());
-        user1 = "testUser1-" + uniqueIdentifier;
-        siteName = "SiteName-" + uniqueIdentifier;
+        dataUser.usingUser(userModel.get())
+            .addUserToSite(getAdminUser(), siteModel.get(), SiteManager);
 
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
+        setupAuthenticatedSession(getAdminUser());
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-
-        LOG.info("STEP 1: Navigate to '" + siteName + "' site's dashboard and click 'Site configuration options' icon.");
-        siteDashboard.navigate(siteName);
-        siteDashboard.clickSiteConfiguration();
-
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-            "'Become Site Manager' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Leave Site"),
-            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"),
-            "'Customize Dashboard' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
-        assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Edit Site Details"),
-            "'Edit Site Details' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
-        assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize site"),
-            "'Customize site' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
-
-        LOG.info("STEP 2: Click on 'Become Site Manager' action. Click again 'Site configuration options' icon.");
-        siteDashboard.clickOptionInSiteConfigurationDropDown("Become Site Manager");
-        siteDashboard.waitUntilNotificationMessageDisappears();
-        siteDashboard.clickSiteConfiguration();
-
-        assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"),
-            "'Customize Dashboard' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Edit Site Details"),
-            "'Edit Site Details' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Site"),
-            "'Customize Site' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Leave Site"),
-            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
-
-        LOG.info("STEP 3: Click 'Site Members' link.");
-        siteUsers.navigate(siteName);
-
-//        assertTrue(siteUsers.assertSelectedRoleEqualsTo("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
-
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser, adminPassword, siteName);
+        sitesManagerPage
+            .navigate()
+            .usingSite(siteModel.get())
+            .openActionsDropDown()
+            .assertDeleteSiteOptionIsDisplayed()
+            .assertBecomeSiteManagerOptionIsNotDisplayed();
     }
 
-    @TestRail (id = "C2852")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void becomeSiteManagerActionAvailableForAdmins()
+    @TestRail(id = "C2850")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void shouldBecomeSiteManagerUsingSiteConfigurationIcon()
     {
-        // preconditions
-        uniqueIdentifier = String.format("0-C2852-%s", RandomData.getRandomAlphanumeric());
-        user1 = "testUser1-" + uniqueIdentifier;
-        siteName = uniqueIdentifier;
+        dataUser.usingUser(userModel.get())
+            .addUserToSite(getAdminUser(), siteModel.get(), SiteCollaborator);
 
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
+        setupAuthenticatedSession(getAdminUser());
 
-        setupAuthenticatedSession(adminUser, adminPassword);
+        siteDashboardPage
+            .navigate(siteModel.get())
+            .clickSiteConfiguration()
+            .assertOptionEqualsTo(BECOME_SITE_MANAGER.getValue())
+            .assertOptionEqualsTo(LEAVE_SITE.getValue());
 
-        LOG.info("STEP 1: Navigate to '" + siteName + "' site's dashboard and click 'Site configuration options' icon.");
-        siteDashboard.navigate(siteName);
-        siteDashboard.clickSiteConfiguration();
+        siteDashboardPage
+            .assertOptionNotEqualsTo(CUSTOMIZE_DASHBOARD.getValue())
+            .assertOptionNotEqualsTo(EDIT_SITE_DETAILS.getValue())
+            .assertOptionNotEqualsTo(CUSTOMIZE_SITE.getValue());
 
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-            "'Become Site Manager' action should be available in the 'Site Configuration Options' drop-down menu.");
+        siteDashboardPage
+            .selectOptionFromSiteConfigurationDropDown(BECOME_SITE_MANAGER.getValue())
+            .waitUntilNotificationMessageDisappears();
 
-        LOG.info("STEP 2: Navigate 'Admin Tools' -> 'Sites Manager' page.");
-        sitesManager.navigate();
+        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage
+            .assertOptionNotEqualsTo(BECOME_SITE_MANAGER.getValue())
+            .assertOptionEqualsTo(CUSTOMIZE_DASHBOARD.getValue())
+            .assertOptionEqualsTo(EDIT_SITE_DETAILS.getValue())
+            .assertOptionEqualsTo(LEAVE_SITE.getValue());
 
-        LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
-        sitesManager.usingSite(siteName).assertBecomeManagerOptionIsAvailable();
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteUsersPage
+            .navigate(siteModel.get())
+            .assertSelectedRoleEqualsTo(MANAGER.getValue(), getAdminUser().getFirstName());
     }
 
-    @TestRail (id = "C2854")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void becomeSiteManagerFromSitesManagerAdminIsSiteMember()
+    @TestRail(id = "C2854")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void shouldBecomeSiteManagerFromSitesManagerWhenAdminIsSiteMember()
     {
-        // preconditions
-        uniqueIdentifier = String.format("0-C2854-%s", RandomData.getRandomAlphanumeric());
-        user1 = "testUser1-" + uniqueIdentifier;
-        siteName = uniqueIdentifier;
+        dataUser.usingUser(userModel.get())
+            .addUserToSite(getAdminUser(), siteModel.get(), SiteCollaborator);
 
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
+        setupAuthenticatedSession(getAdminUser());
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-
-        LOG.info("STEP 1: Navigate 'Admin Tools' -> 'Sites Manager' page.");
-        sitesManager.navigate();
-
-        LOG.info("STEP 2: Verify \"I'm a Site Manager\" column.");
-        sitesManager.usingSite(siteName).assertSiteManagerIsNo()
+        sitesManagerPage
+            .navigate()
+            .usingSite(siteModel.get())
+            .assertSiteManagerIsNo()
             .becomeSiteManager()
             .assertSiteManagerIsYes()
-            .assertBecomeManagerOptionIsNotAvailable();
+            .assertBecomeSiteManagerOptionIsNotDisplayed();
 
-        LOG.info("STEP 6: Click on the site's name.");
-        sitesManager.usingSite(siteName).clickSiteName();
+        sitesManagerPage
+            .usingSite(siteModel.get())
+            .clickSiteName();
 
-        LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
-//        assertTrue(siteUsers.assertSelectedRoleEqualsTo("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser, adminPassword, siteName);
-
+        siteUsersPage
+            .navigate(siteModel.get())
+            .assertSelectedRoleEqualsTo(MANAGER.getValue(), getAdminUser().getFirstName());
     }
 
-    @TestRail (id = "C2856")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void becomeSiteManagerActionAvailableForAdminNotSiteMember()
+    @TestRail(id = "C2856")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void becomeSiteManagerActionShouldBeDisplayedWhenAdminIsNotSiteMember()
     {
-        // preconditions
-        uniqueIdentifier = String.format("0-C2856-%s", RandomData.getRandomAlphanumeric());
-        user1 = "testUser1-" + uniqueIdentifier;
-        siteName = uniqueIdentifier;
+        setupAuthenticatedSession(getAdminUser());
 
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteDashboardPage
+            .navigate(siteModel.get())
+            .clickSiteConfiguration();
 
-        setupAuthenticatedSession(adminUser, adminPassword);
+        siteDashboardPage
+            .assertOptionNotEqualsTo(BECOME_SITE_MANAGER.getValue())
+            .assertOptionEqualsTo(JOIN_SITE.getValue());
 
-        LOG.info("STEP 1: Navigate to '" + siteName + "' site's dashboard and click 'Site configuration options' icon.");
-        siteDashboard.navigate(siteName);
-        siteDashboard.clickSiteConfiguration();
-
-        assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
-        assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Join Site"),
-            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
-
-        LOG.info("STEP 2: Navigate 'Admin Tools' -> 'Sites Manager' page.");
-        sitesManager.navigate();
-
-        LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
-        sitesManager.usingSite(siteName).assertBecomeManagerOptionIsAvailable();
-
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser, adminPassword, siteName);
+        sitesManagerPage
+            .navigate()
+            .usingSite(siteModel.get())
+            .openActionsDropDown()
+            .assertBecomeSiteManagerOptionIsDisplayed();
     }
 
     @TestRail (id = "C2861")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void becomeSiteManagerFromSitesManagerAdminIsNotSiteMember()
+    public void becomeSiteManagerFromSiteManagerPageWhenAdminIsNotSiteMember()
     {
-        // preconditions
-        uniqueIdentifier = String.format("0-C2861-%s", RandomData.getRandomAlphanumeric());
-        user1 = "testUser1-" + uniqueIdentifier;
-        siteName = uniqueIdentifier;
+        setupAuthenticatedSession(getAdminUser());
+        sitesManagerPage.navigate();
 
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-
-        setupAuthenticatedSession(adminUser, adminPassword);
-
-        LOG.info("STEP 1: Navigate 'Admin Tools' -> 'Sites Manager' page.");
-        sitesManager.navigate();
-
-        LOG.info("STEP 2: Verify \"I'm a Site Manager\" column.");
-        sitesManager.usingSite(siteName)
+        sitesManagerPage.usingSite(siteModel.get())
             .assertSiteManagerIsNo()
             .becomeSiteManager()
-            .assertBecomeManagerOptionIsNotAvailable()
+            .assertBecomeSiteManagerOptionIsNotDisplayed()
             .assertSiteManagerIsYes()
             .clickSiteName();
 
-        LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
-//        assertTrue(siteUsers.assertSelectedRoleEqualsTo("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
+        siteUsersPage
+            .assertSelectedRoleEqualsTo(MANAGER.getValue(), getAdminUser().getFirstName());
+    }
 
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser, adminPassword, siteName);
+    @AfterMethod(alwaysRun = true)
+    public void testCleanup()
+    {
+        deleteSitesIfNotNull(siteModel.get());
+        deleteUsersIfNotNull(userModel.get());
     }
 }

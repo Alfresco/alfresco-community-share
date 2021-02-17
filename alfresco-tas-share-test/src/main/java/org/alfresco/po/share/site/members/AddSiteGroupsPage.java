@@ -32,6 +32,8 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     private final By searchResultsText = By.cssSelector("div[id*='default-results'] td[class='yui-dt-empty']");
     private final By addButton = By.cssSelector("button");
 
+    private final String EXPECTED_NO_GROUPS_FOUND_LABEL = "peopleFinder.noGroupsFound";
+
     public AddSiteGroupsPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -53,7 +55,6 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         webElementInteraction.clearAndType(groupSearchBox, groupName);
         webElementInteraction.clickElement(groupSearchButton);
-        waitUntilLoadingMessageDisappears();
 
         return new AddSiteGroupsPage(webDriver);
     }
@@ -152,7 +153,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage assertNoGroupsFoundLabelEqualsTo(String expectedLabel)
     {
-        waitUntilNotificationMessageDisappears();
+        webElementInteraction.waitUntilElementContainsText(searchResultsText, language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
         assertEquals(webElementInteraction.getElementText(searchResultsText), expectedLabel);
         return this;
     }

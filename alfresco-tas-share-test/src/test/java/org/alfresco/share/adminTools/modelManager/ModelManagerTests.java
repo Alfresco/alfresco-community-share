@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
@@ -23,17 +24,14 @@ import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 public class ModelManagerTests extends BaseTest
 {
-    private final Logger LOG = LoggerFactory.getLogger(ModelManagerTests.class);
-
     private final String ACTIVE = "ACTIVE";
 
     private ModelManagerPage modelManagerPage;
@@ -300,7 +298,7 @@ public class ModelManagerTests extends BaseTest
         }
         catch (Exception e)
         {
-            LOG.error("Failed to create custom model {}. Error: {}", customModel.getName(), e.getMessage());
+            log.error("Failed to create custom model {}. Error: {}", customModel.getName(), e.getMessage());
             getRestApi().authenticateUser(getAdminUser())
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
         }

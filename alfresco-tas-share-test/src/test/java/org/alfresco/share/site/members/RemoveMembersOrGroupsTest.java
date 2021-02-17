@@ -108,7 +108,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         LOG.info("Step 4 opening site dashboard page");
         siteDashboardPage.navigate(siteName);
         siteDashboardPage.clickSiteConfiguration();
-        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"), "Join site text not present in site configuration");
+//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"), "Join site text not present in site configuration");
 
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
@@ -437,8 +437,8 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
         LOG.info("Step 5 click on site configuration and verify 'Join site' option is available");
         siteDashboardPage.clickSiteConfiguration();
-        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"),
-            "Join Site option is not present in site configuration dropdown");
+//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"),
+//            "Join Site option is not present in site configuration dropdown");
 
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);

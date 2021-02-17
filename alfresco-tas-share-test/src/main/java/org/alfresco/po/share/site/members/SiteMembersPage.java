@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,15 +40,24 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return String.format("share/page/site/%s/site-members", getCurrentSiteName());
     }
 
-    public SiteMembersPage assertSelectedRoleEqualsTo(String expectedRole, String groupName)
+    public SiteMembersPage assertSelectedRoleEqualsTo(String expectedRole, String memberName)
     {
-        String actualFormattedRole = getMemberName(groupName).findElement(currentRole).getText()
-            .substring(BEGIN_INDEX, getMemberName(groupName).findElement(currentRole).getText()
-                .indexOf(EMPTY_SPACE));
+        String currentRoleText = getMemberName(memberName).findElement(currentRole).getText();
+        String actualRole = getFormattedRoleIfContainsEmptySpace(currentRoleText);
 
-        assertEquals(actualFormattedRole, expectedRole,
+        assertEquals(actualRole, expectedRole,
             String.format("Selected roles not equals with expected %s ", expectedRole));
-         return this;
+
+        return this;
+    }
+
+    private String getFormattedRoleIfContainsEmptySpace(String actualRole)
+    {
+        if(actualRole.contains(EMPTY_SPACE))
+        {
+            actualRole = actualRole.substring(BEGIN_INDEX, actualRole.indexOf(EMPTY_SPACE));
+        }
+        return actualRole;
     }
 
     public String getRole(String name)

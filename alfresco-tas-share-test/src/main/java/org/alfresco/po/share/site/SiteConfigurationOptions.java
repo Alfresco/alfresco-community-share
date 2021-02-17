@@ -1,35 +1,27 @@
 package org.alfresco.po.share.site;
 
-import org.openqa.selenium.By;
-
 /**
  * Created by Claudia Agache on 7/8/2016.
  */
 public enum SiteConfigurationOptions
 {
-    BECOME_SITE_MANAGER("div.alf-menu-groups[style*='visible'] td[id='HEADER_BECOME_SITE_MANAGER_text']", "Become Site Manager"),
-    EDIT_SITE_DETAILS("div.alf-menu-groups[style*='visible'] td[id='HEADER_EDIT_SITE_DETAILS_text']", "Edit Site Details"),
-    JOIN_SITE("div.alf-menu-groups[style*='visible'] td[id='HEADER_JOIN_SITE_text']", "Join Site"),
-    LEAVE_SITE("div.alf-menu-groups[style*='visible'] td[id='HEADER_LEAVE_SITE_text']", "Leave Site"),
-    REQUEST_TO_JOIN("div.alf-menu-groups[style*='visible'] td[id='HEADER_JOIN_SITE_text']", "Request to Join"),
-    CUSTOMIZE_SITE("div.alf-menu-groups[style*='visible'] td[id='HEADER_CUSTOMIZE_SITE_text']", "Customize Site");
+    BECOME_SITE_MANAGER("Become Site Manager"),
+    EDIT_SITE_DETAILS("Edit Site Details"),
+    JOIN_SITE("Join Site"),
+    LEAVE_SITE("Leave Site"),
+    REQUEST_TO_JOIN("Request to Join"),
+    CUSTOMIZE_SITE("Customize Site"),
+    CUSTOMIZE_DASHBOARD("Customize Dashboard");
 
-    private String optionLocator;
-    private String optionText;
+    private final String value;
 
-    SiteConfigurationOptions(String optionLocator, String optionText)
+    SiteConfigurationOptions(String optionText)
     {
-        this.optionLocator = optionLocator;
-        this.optionText = optionText;
+        this.value = optionText;
     }
 
-    public By getOptionLocator()
+    public String getValue()
     {
-        return By.cssSelector(optionLocator);
-    }
-
-    public String getOptionText()
-    {
-        return optionText;
+        return value;
     }
 }

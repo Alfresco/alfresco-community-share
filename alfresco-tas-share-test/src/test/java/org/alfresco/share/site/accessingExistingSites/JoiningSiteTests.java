@@ -129,7 +129,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open " + siteNameC3053 + " dashboard  and click 'Site configuration options' -> 'Join Site'.");
         siteDashboardPage.navigate(siteNameC3053);
         siteDashboardPage.clickSiteConfiguration();
-        siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site");
+        siteDashboardPage.selectOptionFromSiteConfigurationDropDown("Join Site");
         siteDashboardPage.waitUntilNotificationMessageDisappears();
 
         LOG.info("STEP 2: Click on 'Site Members' link.");
@@ -142,10 +142,10 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
         siteDashboardPage.navigate(siteNameC3053);
         siteDashboardPage.clickSiteConfiguration();
-        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"),
-            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
-        assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"),
-            "'Join Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+//        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"),
+//            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+//        assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"),
+//            "'Join Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         LOG.info("STEP 4: Go to 'User Dashboard' page and verify 'My Sites' dashlet.");
         userDashboardPage.navigate(user2);
         assertTrue(mySitesDashlet.isSitePresent(siteNameC3053), siteNameC3053 + " is displayed on 'My Sites' dashlet.");
@@ -200,10 +200,10 @@ public class JoiningSiteTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteNameC3059);
         LOG.info("STEP 2: Click on 'Site configuration option' icon.");
         siteDashboardPage.clickSiteConfiguration();
-        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
+//        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
         LOG.info("STEP 3: Click 'Request to Join' button.");
 
-        siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join");
+        siteDashboardPage.selectOptionFromSiteConfigurationDropDown("Request to Join");
         assertEquals(requestSentDialog.getDialogTitle(), "Request Sent", "'Request Sent' pop-up is displayed.");
         assertEquals(requestSentDialog.getDialogMessage(), dialogMessage, "'Request Sent' pop-up has the expected message.");
 
@@ -241,7 +241,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 12: Open 'Site Dashboard' page for " + siteNameC3059 + " and click on 'Site configuration option' icon.");
         siteDashboardPage.navigate(siteNameC3059);
         siteDashboardPage.clickSiteConfiguration();
-        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+//        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
     }
 
     @TestRail (id = "C2833")

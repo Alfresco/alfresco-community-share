@@ -187,7 +187,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 
     public UserModel getAdminUser()
     {
-        return dataUser.getAdminUser();
+        UserModel adminUser = dataUser.getAdminUser();
+        adminUser.setFirstName(defaultProperties.getAdminName());
+        return adminUser;
     }
 
     public CmisWrapper getCmisApi()

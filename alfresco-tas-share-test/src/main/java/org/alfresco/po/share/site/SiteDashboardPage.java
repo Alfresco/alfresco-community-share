@@ -1,10 +1,9 @@
 package org.alfresco.po.share.site;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.SiteService;
@@ -26,6 +25,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     private final By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
     private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
 
+    private final String dropdownOption = "//div[@class='alf-menu-groups' and contains(@style, 'visible')]//td[contains(@id, 'HEADER') and text()='%s']";
     private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
     public SiteDashboardPage(ThreadLocal<WebDriver> webDriver)
@@ -53,7 +53,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return this;
     }
 
-    public int getNumerOfColumns()
+    public int getNumberOfColumns()
     {
         String strCol = webElementInteraction.findElement(dashboardLayout).getAttribute("class");
         return Character.getNumericValue(strCol.charAt(strCol.length() - 1));
@@ -101,43 +101,52 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return webElementInteraction.isElementDisplayed(siteVisibility);
     }
 
-    public boolean isOptionListedInSiteConfigurationDropDown(String option)
+    private boolean isDropdownOptionEqualsTo(String expectedOption)
     {
-        List<String> availableOptions = Collections.synchronizedList(new ArrayList<>());
+        List<WebElement> siteConfigurations = webElementInteraction
+            .waitUntilElementsAreVisible(configurationOptions);
 
-        List<WebElement> siteConfigurationOptions = webElementInteraction.findElements(configurationOptions);
-        webElementInteraction.waitUntilElementsAreVisible(siteConfigurationOptions);
+        return isOptionEqualsTo(expectedOption, siteConfigurations);
+    }
 
-        for (WebElement siteConfigurationOption : siteConfigurationOptions)
+    private boolean isOptionEqualsTo(String expectedOption, List<WebElement> options)
+    {
+        for (WebElement option : options)
         {
-            availableOptions.add(siteConfigurationOption.getText());
-            if (siteConfigurationOption.getText().equals(option))
+            if (isOptionTextEqualsTo(expectedOption, option))
             {
                 return true;
             }
         }
-        log.info("Available options are: " + availableOptions.toString());
         return false;
     }
 
-    public void clickOptionInSiteConfigurationDropDown(String option)
+    private boolean isOptionTextEqualsTo(String option, WebElement siteConfigurationOption)
     {
-        SiteConfigurationOptions[] siteConfigurationOptions = SiteConfigurationOptions.values();
-        for (SiteConfigurationOptions configurationOption : siteConfigurationOptions)
-        {
-            if (configurationOption.getOptionText().equals(option))
-            {
-                webElementInteraction.waitUntilElementIsVisible(configurationOption.getOptionLocator());
-                webElementInteraction.clickElement(configurationOption.getOptionLocator());
-                break;
-            }
-        }
+        return siteConfigurationOption.getText().equals(option);
     }
 
-    public void clickCustomizeSite()
+    public SiteDashboardPage assertOptionNotEqualsTo(String expectedOption)
     {
-        webElementInteraction.waitUntilElementIsVisible(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator());
-        webElementInteraction.clickElement(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator());
+        log.info("Assert option not equals {}", expectedOption);
+        assertFalse(isDropdownOptionEqualsTo(expectedOption),
+            String.format("Option equals with %s ", expectedOption));
+        return this;
+    }
+
+    public SiteDashboardPage assertOptionEqualsTo(String expectedOption)
+    {
+        log.info("Assert option equals to {}", expectedOption);
+        assertTrue(isDropdownOptionEqualsTo(expectedOption),
+            String.format("Option not equals to %s ", expectedOption));
+        return this;
+    }
+
+    public SiteDashboardPage selectOptionFromSiteConfigurationDropDown(String option)
+    {
+        log.info("Select option from site configuration dropdown {}", option);
+        webElementInteraction.clickElement(By.xpath(String.format(dropdownOption, option)));
+        return this;
     }
 
     public boolean isLinkDisplayedInMoreMenu(String link)
@@ -205,7 +214,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     {
         navigate(siteId);
         clickSiteConfiguration();
-        clickOptionInSiteConfigurationDropDown("Edit Site Details");
+        selectOptionFromSiteConfigurationDropDown("Edit Site Details");
         return new EditSiteDetailsDialog();
     }
 

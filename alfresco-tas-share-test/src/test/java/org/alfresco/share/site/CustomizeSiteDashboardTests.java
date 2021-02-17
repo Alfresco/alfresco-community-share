@@ -52,7 +52,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
 
         LOG.info("Step 3 - Click 'OK' button.");
         customizeSite.clickOk();
-        Assert.assertTrue(siteDashboard.getNumerOfColumns() == 2);
+        Assert.assertTrue(siteDashboard.getNumberOfColumns() == 2);
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 1));
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_ACTIVITIES, 2, 2));
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 2, 1));
@@ -70,7 +70,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
 
         LOG.info("Step 6 - Click 'Ok' button.");
         customizeSite.clickOk();
-        Assert.assertTrue(siteDashboard.getNumerOfColumns() == 1);
+        Assert.assertTrue(siteDashboard.getNumberOfColumns() == 1);
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 1));
         Assert.assertFalse(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_ACTIVITIES, 2, 2));
 
@@ -89,7 +89,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         customizeSite.addDashlet(Dashlets.WEB_VIEW, 2);
         customizeSite.addDashlet(Dashlets.WIKI, 3);
         customizeSite.clickOk();
-        Assert.assertTrue(siteDashboard.getNumerOfColumns() == 3);
+        Assert.assertTrue(siteDashboard.getNumberOfColumns() == 3);
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 1), Dashlets.SITE_MEMBERS.getDashletName() + " is not on column 1 position 1");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WEB_VIEW, 2, 1), Dashlets.WEB_VIEW.getDashletName() + " is not on column 2 position 1");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WIKI, 3, 1), Dashlets.WIKI.getDashletName() + " is not on column 3 position 1");
@@ -108,7 +108,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         LOG.info("Step 12 - Add any dashlets on the fourth column.");
         customizeSite.addDashlet(Dashlets.SITE_SEARCH, 4);
         customizeSite.clickOk();
-        Assert.assertTrue(siteDashboard.getNumerOfColumns() == 4);
+        Assert.assertTrue(siteDashboard.getNumberOfColumns() == 4);
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 1));
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WEB_VIEW, 2, 1));
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WIKI, 3, 1));
@@ -245,7 +245,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
 
         LOG.info("Step 2 - Verify the layout of the dashboard.");
-        Assert.assertTrue(siteDashboard.getNumerOfColumns() == 2, "Two column layout is not displayed");
+        Assert.assertTrue(siteDashboard.getNumberOfColumns() == 2, "Two column layout is not displayed");
 
         LOG.info("Step 3 - Verify the dashlets present on each column.");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 1), "Site Members dashlet is not in column 1 first position");

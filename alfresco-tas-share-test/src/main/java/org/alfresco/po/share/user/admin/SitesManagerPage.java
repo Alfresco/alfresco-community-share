@@ -1,10 +1,18 @@
 package org.alfresco.po.share.user.admin;
 
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.RetryTime.RETRY_TIME_15;
+import static org.alfresco.common.RetryTime.RETRY_TIME_5;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -15,12 +23,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class SitesManagerPage extends SharePage2<SitesManagerPage> implements AccessibleByMenuBar
@@ -36,7 +38,8 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         super(webDriver);
     }
 
-    public SitesManagerPage navigate()
+    @Override
+    public synchronized SitesManagerPage navigate()
     {
         super.navigate();
         waitUntilDataErrorMessageDisappears();
@@ -46,13 +49,13 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
     private void waitUntilDataErrorMessageDisappears()
     {
-        int i = 0;
-        while(i < WAIT_5.getValue() && webElementInteraction.isElementDisplayed(dataFailure))
+        int retryCount = 0;
+        while(retryCount < RETRY_TIME_5.getValue() && webElementInteraction.isElementDisplayed(dataFailure))
         {
-            log.error("Data error is displayed. Retry navigate to Site Manager page {}", i);
+            log.warn("Data error is displayed - retry: {}", retryCount);
             webElementInteraction.refresh();
             waitToLoopTime(WAIT_2.getValue());
-            i++;
+            retryCount++;
         }
     }
 
@@ -69,7 +72,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return new Toolbar(webDriver).clickSitesManager();
     }
 
-    public void waitForSitesTableHeaderToBeDisplayed()
+    private void waitForSitesTableHeaderToBeVisible()
     {
         try
         {
@@ -90,32 +93,40 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
     public SitesManagerPage assertTableHasAllColumns()
     {
-        waitForSiteRowsWithRetry();waitForSitesTableHeaderToBeDisplayed();
-        List<String> expectedTableHeader = Collections.synchronizedList(new ArrayList<>(Arrays.asList
+        waitForSiteRowsWithRetry();
+        waitForSitesTableHeaderToBeVisible();
+
+        List<String> expectedTableHeaderList = getTableHeaderList();
+        List<WebElement> tableList = webElementInteraction.waitUntilElementsAreVisible(tableHeadList);
+
+        ArrayList<String> actualTableHeaderTextList = getTableHeaderText(tableList);
+        assertEquals(actualTableHeaderTextList, expectedTableHeaderList, "All table columns are displayed");
+        return this;
+    }
+
+    private ArrayList<String> getTableHeaderText(List<WebElement> tableList)
+    {
+        return tableList.stream().map(WebElement::getText)
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private List<String> getTableHeaderList()
+    {
+        return Collections.synchronizedList(new ArrayList<>(Arrays.asList
             (language.translate("adminTools.siteManager.siteName"),
              language.translate("adminTools.siteManager.siteDescription"),
              language.translate("adminTools.siteManager.visibility"),
              language.translate("adminTools.siteManager.imASiteManager"),
              language.translate("adminTools.siteManager.actions"))));
-        List<WebElement> tableList = webElementInteraction.waitUntilElementsAreVisible(tableHeadList);
-        ArrayList<String> tableHeaderText = tableList.stream().map(WebElement::getText)
-            .collect(Collectors.toCollection(ArrayList::new));
-        assertEquals(tableHeaderText, expectedTableHeader, "All table columns are displayed");
-        return this;
     }
 
-    public WebElement findManagedSiteRowByNameFromPaginatedResults(String siteName)
+    public WebElement getSiteRowBasedOnSiteName(String siteName)
     {
         do
         {
-            if(webElementInteraction.isElementDisplayed(dataFailure))
-            {
-                log.error("Data error is displayed. Refresh Site Manager page");
-                webElementInteraction.refresh();
-                webElementInteraction.waitInSeconds(WAIT_2.getValue());
-                waitForSitesTableHeaderToBeDisplayed();
-            }
+            refreshAndWaitIfDataFailureIsDisplayed();
             waitForSiteRowsWithRetry();
+
             List<WebElement> siteList = webElementInteraction.findElements(siteRowsElements);
             for (WebElement siteRow : siteList)
             {
@@ -137,14 +148,28 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return null;
     }
 
+    private void refreshAndWaitIfDataFailureIsDisplayed()
+    {
+        boolean isDisplayed = webElementInteraction.isElementDisplayed(dataFailure);
+        int retryCount = 0;
+        while(retryCount < RETRY_TIME_15.getValue() && isDisplayed)
+        {
+            log.warn("Data error is displayed. Refresh Site Manager page");
+            webElementInteraction.refresh();
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            waitForSitesTableHeaderToBeVisible();
+        }
+    }
+
     private void waitForSiteRowsWithRetry()
     {
+        boolean isDisplayed = webElementInteraction.isElementDisplayed(siteRowsElements);
         int retryCount = 0;
-        while (retryCount < WAIT_10.getValue() && !webElementInteraction.isElementDisplayed(siteRowsElements))
+        while (retryCount < RETRY_TIME_80.getValue() && !isDisplayed)
         {
-            log.error("Wait for site rows to be displayed");
+            log.warn("Site rows not displayed - retry: {}", retryCount);
             navigate();
-            webElementInteraction.waitInSeconds(WAIT_1.getValue());
+            webElementInteraction.waitInSeconds(WAIT_2.getValue());
             waitUntilLoadingMessageDisappears();
             retryCount++;
         }
