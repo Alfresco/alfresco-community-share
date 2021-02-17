@@ -93,9 +93,8 @@ public class ModelActionsComponent
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        boolean isDisplayed = webElementInteraction.isElementDisplayed(modelRowLocator);
         int retryTimes = 0;
-        while (retryTimes < RETRY_TIME_80.getValue() && !isDisplayed)
+        while (retryTimes < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(modelRowLocator))
         {
             log.warn("Model {} not displayed - retry: {}", modelName, retryTimes);
             webElementInteraction.refresh();
