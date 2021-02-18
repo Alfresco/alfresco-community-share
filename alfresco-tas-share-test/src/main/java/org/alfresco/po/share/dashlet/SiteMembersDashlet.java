@@ -112,9 +112,19 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
         return this;
     }
 
-    public String getMemberRole(String member)
+    private String getMemberRole(String member)
     {
-        return webElementInteraction.findFirstElementWithValue(membersList, member).findElement(memberRole).getText();
+        return webElementInteraction.getElementText(
+            webElementInteraction.findFirstElementWithValue(membersList, member)
+                .findElement(memberRole));
+    }
+
+    public SiteMembersDashlet assertMemberRoleEqualsTo(String expectedRole)
+    {
+        log.info("Assert member role equals to {}", expectedRole);
+        assertEquals(getMemberRole(expectedRole), expectedRole,
+            String.format("Member role not equals %s ", expectedRole));
+        return this;
     }
 
     public UserProfilePage clickUser(String username)

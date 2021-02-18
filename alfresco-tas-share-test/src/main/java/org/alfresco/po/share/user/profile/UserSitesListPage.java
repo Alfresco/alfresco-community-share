@@ -93,8 +93,7 @@ public class UserSitesListPage extends SharePage2<UserSitesListPage> implements 
     public SiteDashboardPage clickSite(SiteModel site)
     {
         log.info("Click site {}", site.getId());
-//        webElementInteraction.waitUntilElementIsVisible(getSiteRow(site).findElement(siteNameLocator));
-        webElementInteraction.clickElement(getSiteRow(site).findElement(siteNameLocator));
+        webElementInteraction.clickElement(siteNameLocator.findElement(getSiteRow(site)));
         return new SiteDashboardPage(webDriver);
     }
 

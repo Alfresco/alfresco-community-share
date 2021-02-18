@@ -179,7 +179,7 @@ public class BecomeSiteManagerTest extends BaseTest
     }
 
     @AfterMethod(alwaysRun = true)
-    public void testCleanup()
+    public void cleanupTest()
     {
         deleteSitesIfNotNull(siteModel.get());
         deleteUsersIfNotNull(userModel.get());

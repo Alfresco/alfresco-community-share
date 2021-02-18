@@ -48,7 +48,7 @@ public class SiteContentDashletComponent
 
     public WebElement getFileRow()
     {
-        return siteContentDashlet.getDocumentRow(file.getName());
+        return siteContentDashlet.getDocumentRowWithRetry(file.getName());
     }
 
     public SiteContentDashletComponent assertFileIsDisplayed()

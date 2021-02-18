@@ -79,7 +79,7 @@
 
    <test name="ChangingASiteRole">
       <classes>
-         <class name="org.alfresco.share.site.members.ChangingASiteRoleTests" />
+         <class name="org.alfresco.share.site.members.ChangeSiteRoleTests" />
       </classes>
    </test>
 

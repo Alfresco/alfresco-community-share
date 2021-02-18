@@ -48,7 +48,7 @@ public class ApprovingUsersTests extends BaseTest
     private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
 
     @BeforeMethod (alwaysRun = true)
-    public void beforeMethod()
+    public void setupTest()
     {
         managerUser.set(dataUser.usingAdmin().createRandomTestUser());
         siteModel.set(dataSite.usingUser(managerUser.get()).createModeratedRandomSite());
@@ -257,7 +257,7 @@ public class ApprovingUsersTests extends BaseTest
     }
 
     @AfterMethod(alwaysRun = true)
-    public void cleanup()
+    public void cleanupTest()
     {
         deleteSitesIfNotNull(siteModel.get());
         deleteUsersIfNotNull(managerUser.get());

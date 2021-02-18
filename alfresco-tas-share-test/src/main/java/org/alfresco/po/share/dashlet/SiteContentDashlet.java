@@ -35,17 +35,18 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
             .findElement(dashletTitle));
     }
 
-    protected WebElement getDocumentRow(String documentName)
+    protected WebElement getDocumentRowWithRetry(String documentName)
     {
         By documentRowElement = By.xpath(String.format(documentRow, documentName));
+
         int retryCount = 0;
         while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(documentRowElement))
         {
-            retryCount++;
-            log.warn("Wait for document {} to be displayed in Site Content dashlet", documentName);
+            log.warn("Document {} not displayed - retry: {}", documentName, retryCount);
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+            retryCount++;
         }
         return webElementInteraction.findElement(documentRowElement);
     }

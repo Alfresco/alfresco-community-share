@@ -37,10 +37,11 @@ public class SiteGroupsPage extends SiteMembersPage
         return this;
     }
 
-    public void clickSearch()
+    public SiteGroupsPage clickSearch()
     {
         log.info("Click search button");
         webElementInteraction.clickElement(searchButton);
+        return this;
     }
 
     public SiteGroupsPage assertRemoveGroupButtonIsDisplayed(String groupName)

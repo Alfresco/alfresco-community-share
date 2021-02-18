@@ -87,7 +87,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
     {
-        log.info(String.format("Assert site visibility is: %s", visibility.toString()));
+        log.info("Assert site visibility is {}", visibility.toString());
         String actualSiteVisibility = webElementInteraction.getElementText(siteVisibility).toUpperCase();
 
         assertEquals(actualSiteVisibility, visibility.toString(),

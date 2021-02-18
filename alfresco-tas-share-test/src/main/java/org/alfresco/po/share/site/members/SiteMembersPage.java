@@ -43,7 +43,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     public SiteMembersPage assertSelectedRoleEqualsTo(String expectedRole, String memberName)
     {
         String currentRoleText = getMemberName(memberName).findElement(currentRole).getText();
-        String actualRole = getFormattedRoleIfContainsEmptySpace(currentRoleText);
+        String actualRole = getFormattedRole(currentRoleText);
 
         assertEquals(actualRole, expectedRole,
             String.format("Selected roles not equals with expected %s ", expectedRole));
@@ -51,7 +51,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return this;
     }
 
-    private String getFormattedRoleIfContainsEmptySpace(String actualRole)
+    private String getFormattedRole(String actualRole)
     {
         if(actualRole.contains(EMPTY_SPACE))
         {
@@ -124,12 +124,14 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return webElementInteraction.findFirstElementWithValue(siteMemberRow, name);
     }
 
-    public void changeRoleForMember(String newRole, String userName)
+    public SiteMembersPage changeRoleForMember(String newRole, String userName)
     {
         webElementInteraction.clickElement(getMemberName(userName).findElement(currentRoleButton));
         webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
         webElementInteraction.selectOptionFromFilterOptionsList(newRole, webElementInteraction.findElements(dropDownOptionsList));
         waitUntilNotificationMessageDisappears();
+
+        return this;
     }
 
     public boolean isPendingInvitesDisplayed()

@@ -151,12 +151,13 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     private void refreshAndWaitIfDataFailureIsDisplayed()
     {
         int retryCount = 0;
-        while(retryCount < RETRY_TIME_15.getValue() && webElementInteraction.isElementDisplayed(dataFailure))
+        while (retryCount < RETRY_TIME_15.getValue() && webElementInteraction.isElementDisplayed(dataFailure))
         {
             log.warn("Data error is displayed. Refresh Site Manager page");
             webElementInteraction.refresh();
             webElementInteraction.waitInSeconds(WAIT_2.getValue());
             waitForSitesTableHeaderToBeVisible();
+            retryCount++;
         }
     }
 

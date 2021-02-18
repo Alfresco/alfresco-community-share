@@ -69,7 +69,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
             By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
 
-    public boolean isTagDisplayed(String tagName)
+    private boolean isTagDisplayed(String tagName)
     {
         return webElementInteraction.isElementDisplayed(By.xpath(String.format(tagRow, tagName.toLowerCase())));
     }
