@@ -14,7 +14,7 @@
       </groups>
       <packages>
          <package name="org.alfresco.share.userDashboard.*"/>
-         <package name="org.alfresco.share.site.siteDashboard.*"/>
+         <package name="org.alfresco.share.site.*"/>
       </packages>
    </test>
 
