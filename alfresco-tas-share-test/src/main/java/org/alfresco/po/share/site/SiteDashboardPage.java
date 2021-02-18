@@ -72,10 +72,18 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
             return webElementInteraction.isElementDisplayed(By.xpath(String.format(
-                "//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
+                    "//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
         }
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(
-            dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
+        WebElement dashletToCheck = webElementInteraction.waitUntilElementIsVisible(
+                By.xpath(String.format(dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
+        return webElementInteraction.isElementDisplayed(dashletToCheck);
+    }
+
+    public SiteDashboardPage assertDashletIsAddedInPosition(Dashlets dashlet, int column, int locationInColumn)
+    {
+        log.info("Assert dashlet {} is added in column {} at position {}", dashlet.getDashletName(), column, locationInColumn);
+        assertTrue(isDashletAddedInPosition(dashlet, column, locationInColumn));
+        return this;
     }
 
     public SiteDashboardPage assertSiteVisibilityEqualsTo(String expectedSiteVisibility)

@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * @author bogdan.bocancea
  */
-public class CustomizeSiteDashboardPage<T> extends DashboardCustomization<CustomizeSiteDashboardPage<T>>
+public class CustomizeSiteDashboardPage extends DashboardCustomization<CustomizeSiteDashboardPage>
 {
     private String currentSiteName;
 
@@ -38,9 +38,10 @@ public class CustomizeSiteDashboardPage<T> extends DashboardCustomization<Custom
         return this;
     }
 
-    public T navigate(SiteModel site)
+    public CustomizeSiteDashboardPage navigate(SiteModel site)
     {
         setCurrentSiteName(site.getId());
-        return (T) navigate();
+        navigate();
+        return this;
     }
 }
