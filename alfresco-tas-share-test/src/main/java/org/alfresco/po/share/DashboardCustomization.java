@@ -149,6 +149,7 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     {
         log.info("Click OK");
         webElementInteraction.clickElement(okButton);
+        waitUntilNotificationMessageDisappears();
     }
 
     public T addDashlet(Dashlets dashlet, int columnNumber)
