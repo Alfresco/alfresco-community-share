@@ -28,7 +28,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     //@Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @Autowired
+    //@Autowired
     MySitesDashlet mySitesDashlet;
 
     @Autowired

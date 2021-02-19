@@ -29,7 +29,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     @Autowired
     EditSiteDetailsDialog editSiteDetailsDialog;
 
-    @Autowired
+    //@Autowired
     SiteProfileDashlet siteProfileDashlet;
 
     private String user = String.format("profileUser%s", RandomData.getRandomAlphanumeric());

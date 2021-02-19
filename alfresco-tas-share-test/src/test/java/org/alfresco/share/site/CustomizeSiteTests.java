@@ -31,7 +31,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     //@Autowired
     private SiteDashboardPage siteDashboard;
 
-    @Autowired
+    //@Autowired
     private SiteContentDashlet siteContentDashlet;
 
     private UserModel user;
