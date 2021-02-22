@@ -149,7 +149,6 @@ public abstract class DashboardCustomization<T> extends SharePage2<DashboardCust
     {
         log.info("Click OK");
         clickElement(okButton);
-        webElementInteraction.clickElement(okButton);
         waitUntilNotificationMessageDisappears();
     }
 
