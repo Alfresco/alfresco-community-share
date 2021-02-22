@@ -96,7 +96,7 @@
    <test name="ExploringTheLibraryCategoriesTests">
       <classes>
          <class
-            name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryCategoriesTests" />
+            name="org.alfresco.share.alfrescoContent.documentLibrary.CategoriesFilterTests" />
       </classes>
    </test>
 

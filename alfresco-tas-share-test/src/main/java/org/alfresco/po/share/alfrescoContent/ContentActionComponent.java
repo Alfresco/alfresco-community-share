@@ -8,6 +8,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.WebElementInteraction;
@@ -56,6 +57,7 @@ public class ContentActionComponent
     private final By highlightLocator = By.cssSelector("tr[class$='yui-dt-highlighted']");
     private final By addedCategoriesLink = By.cssSelector(".detail .filter-change");
     private final By noCategoriesLocator = By.xpath("//span[@class='category-item item']/..//span[@class='faded']");
+    private final By actionsSet = By.cssSelector(".action-set>div:not([id='onActionShowMore']) a span");
 
     private final String highlightContent = "yui-dt-highlighted";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
@@ -383,19 +385,20 @@ public class ContentActionComponent
         mouseOverContent();
         webElementInteraction.mouseOver(contentRowElement.findElement(tagAreaLocator));
         WebElement tagIcon = webElementInteraction.waitUntilElementIsVisible(tagEditIconLocator);
-        clickTagIconWithRetry(tagIcon);
+        clickTagIconWithRetry(contentRowElement, tagIcon);
 
         return this;
     }
 
-    private void clickTagIconWithRetry(WebElement tagIcon)
+    private void clickTagIconWithRetry(WebElement contentRow, WebElement tagIcon)
     {
         int retryCount = 0;
         while (!webElementInteraction.isElementDisplayed(tagInputLocator) && retryCount < WAIT_15.getValue())
         {
             log.error("Retry click tag icon for content {}. Retry {}", contentModel.getName(), retryCount);
-            waitToLoopTime(WAIT_2.getValue());
+            webElementInteraction.mouseOver(contentRow.findElement(tagAreaLocator));
             webElementInteraction.clickElement(tagIcon);
+            waitToLoopTime(WAIT_2.getValue());
             retryCount++;
         }
     }
@@ -454,6 +457,18 @@ public class ContentActionComponent
         log.info("Assert No Categories is displayed for content {}", contentModel.getName());
         webElementInteraction.waitUntilElementIsVisible(noCategoriesLocator);
         assertTrue(webElementInteraction.isElementDisplayed(noCategoriesLocator), "No categories label is not displayed");
+        return this;
+    }
+
+    public ContentActionComponent assertActionsAreAvailable(String... expectedActions)
+    {
+        log.info("Assert available actions are: {}", Arrays.asList(expectedActions));
+        mouseOverContent();
+        clickMore();
+        String[] values = webElementInteraction.getTextFromLocatorList(actionsSet).toArray(new String[0]);
+        Arrays.sort(values);
+        Arrays.sort(expectedActions);
+        assertEquals(values, expectedActions, "Not all actions were found");
         return this;
     }
 }

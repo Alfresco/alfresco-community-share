@@ -17,7 +17,8 @@ public enum RetryTime
     RETRY_TIME_50(50),
     RETRY_TIME_60(60),
     RETRY_TIME_70(70),
-    RETRY_TIME_80(80);
+    RETRY_TIME_80(80),
+    RETRY_TIME_100(100);
 
     private final int value;
 

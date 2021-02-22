@@ -54,11 +54,23 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
     private final By startWorkflowFromSelectedItems = By.cssSelector(".onActionAssignWorkflow");
     private final By deleteFromSelectedItems = By.cssSelector(".onActionDelete");
+    private final By documentsRootBreadcrumb = By.cssSelector("div[id$='default-navBar'] div[class^='crumb documentDroppable']:nth-of-type(1)");
+    private final By optionDropdownButton = By.cssSelector("button[id$='default-options-button-button']");
+    private final By optionsMenu = By.cssSelector("div[id$='default-options-menu']");
+    private final By hideBreadcrumbOption = By.cssSelector(".hidePath");
+    private final By showBreadcrumbOption = By.cssSelector(".showPath");
+    private final By categoryRootIcon = By.cssSelector("#ygtvtableel3 .ygtvspacer");
+    private final By categoriesTable = By.id("ygtvtableel3");
+    private final By categoriesChildren = By.id("ygtvc3");
 
     private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
     private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
+    private final String categoriesCollapsed = "ygtv-collapsed";
+    private final String categoriesExpanded = "ygtv-expanded";
+    private final String categoryIcon = "//div[@class='category']//span[text()='%s']/../..//a";
+    private final String categorySelector = "//div[@class='category']//span[text()='%s']/../..//span[@class='ygtvlabel']";
 
     protected AlfrescoContentPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -142,6 +154,21 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
     public AlfrescoContentPage<T> waitForCurrentFolderBreadcrumb(FolderModel folder)
     {
         return waitForCurrentFolderBreadcrumb(folder.getName());
+    }
+
+    public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsDisplayed()
+    {
+        log.info("Assert Documents root breadcrumb is displayed");
+        webElementInteraction.waitUntilElementIsVisible(documentsRootBreadcrumb);
+        assertTrue(webElementInteraction.isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is not displayed");
+        return this;
+    }
+
+    public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsNotDisplayed()
+    {
+        log.info("Assert Documents root breadcrumb is noy displayed");
+        assertFalse(webElementInteraction.isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is displayed");
+        return this;
     }
 
     public AlfrescoContentPage<T> assertFolderIsDisplayedInBreadcrumb(FolderModel folder)
@@ -339,6 +366,81 @@ public abstract class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentP
         log.info("Assert documents filter header title '{}' is displayed", expectedHeaderTitle);
         assertEquals(webElementInteraction.getElementText(documentsFilterHeaderTitle), expectedHeaderTitle,
             String.format("%s header title is not equals to", expectedHeaderTitle));
+        return this;
+    }
+
+    public AlfrescoContentPage<T> clickOptions()
+    {
+        log.info("Click Options");
+        webElementInteraction.clickElement(optionDropdownButton);
+        webElementInteraction.waitUntilElementIsVisible(optionsMenu);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> selectHideBreadcrumbFromOptions()
+    {
+        log.info("Select Hide Breadcrumb option");
+        webElementInteraction.clickElement(hideBreadcrumbOption);
+        webElementInteraction.waitUntilElementDisappears(documentsRootBreadcrumb);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> selectShowBreadcrumbFromOptions()
+    {
+        log.info("Select Show Breadcrumb option");
+        webElementInteraction.clickElement(showBreadcrumbOption);
+        webElementInteraction.waitUntilElementIsVisible(documentsRootBreadcrumb);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> assertCategoriesAreNotExpanded()
+    {
+        log.info("Assert Categories are not expanded");
+        WebElement table = webElementInteraction.waitUntilElementIsVisible(categoriesTable);
+        assertTrue(table.getAttribute("class").contains(categoriesCollapsed), "Categories are expanded");
+        return this;
+    }
+
+    public AlfrescoContentPage<T> assertCategoriesAreExpanded()
+    {
+        log.info("Assert Categories are not expanded");
+        WebElement table = webElementInteraction.waitUntilElementIsVisible(categoriesTable);
+        assertTrue(table.getAttribute("class").contains(categoriesExpanded), "Categories are expanded");
+        return this;
+    }
+
+    public AlfrescoContentPage<T> expandCategoryRoot()
+    {
+        log.info("Expand Category Root");
+        webElementInteraction.clickElement(categoryRootIcon);
+        webElementInteraction.waitUntilElementIsVisible(categoriesChildren);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> expandCategory(String category)
+    {
+        log.info("Expand category {}", category);
+        By categoryIconSelector = By.xpath(String.format(categoryIcon, category));
+        webElementInteraction.waitUntilElementIsVisible(categoryIconSelector);
+        webElementInteraction.clickElement(categoryIconSelector);
+        webElementInteraction.waitUntilElementIsVisible(categoriesChildren);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> collapseCategoryRoot()
+    {
+        log.info("Collapse Category Root");
+        webElementInteraction.clickElement(categoryRootIcon);
+        webElementInteraction.waitUntilLocatorHasDisplayNoneStyle(categoriesChildren);
+        return this;
+    }
+
+    public AlfrescoContentPage selectCategory(String category)
+    {
+        log.info("Select category {}", category);
+        By categorySelect = By.xpath(String.format(categorySelector, category));
+        webElementInteraction.waitUntilElementIsVisible(categorySelect);
+        webElementInteraction.clickElement(categorySelect);
         return this;
     }
 

@@ -35,6 +35,9 @@ public class WebElementInteraction
     protected DefaultProperties defaultProperties;
     protected ThreadLocal<WebDriver> webDriver;
 
+    private final String STYLE = "style";
+    private final String DISPLAY_NONE = "display: none;";
+
     public WebElementInteraction(ThreadLocal<WebDriver> webDriver, DefaultProperties defaultProperties)
     {
         this.webDriver = webDriver;
@@ -1231,6 +1234,11 @@ public class WebElementInteraction
     {
         Actions builder = new Actions(webDriver.get());
         builder.sendKeys(key);
+    }
+
+    public void waitUntilLocatorHasDisplayNoneStyle(By locator)
+    {
+        waitUntilElementHasAttribute(locator, STYLE, DISPLAY_NONE);
     }
 
     private FluentWait<WebDriver> setWaitingTime(long timeOutInSeconds, long pollingTimeInMillis)

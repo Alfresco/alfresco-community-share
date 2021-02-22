@@ -1,6 +1,9 @@
 package org.alfresco.po.share.site;
 
+import static org.alfresco.common.Wait.WAIT_10;
+
 import org.alfresco.po.share.SharePage2;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.SiteModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -76,6 +79,7 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
     {
         webElementInteraction.waitUntilElementIsVisible(documentLibrary);
         webElementInteraction.clickElement(documentLibrary);
+        webElementInteraction.waitUrlContains("documentlibrary", WAIT_10.getValue());
     }
 
     public boolean isDocumentLibraryLinkDisplayed()

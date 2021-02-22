@@ -1,6 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.RetryTime.RETRY_TIME_100;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -40,7 +40,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         By documentRowElement = By.xpath(String.format(documentRow, documentName));
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(documentRowElement))
+        while (retryCount < RETRY_TIME_100.getValue() && !webElementInteraction.isElementDisplayed(documentRowElement))
         {
             log.warn("Document {} not displayed - retry: {}", documentName, retryCount);
             webElementInteraction.refresh();
