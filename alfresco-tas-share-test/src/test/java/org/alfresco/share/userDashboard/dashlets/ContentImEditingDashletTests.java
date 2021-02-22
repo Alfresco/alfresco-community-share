@@ -4,7 +4,6 @@ import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 
 import org.alfresco.po.share.dashlet.ContentImEditingDashlet;
-import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.utility.model.*;
@@ -15,7 +14,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
     private ContentImEditingDashlet contentImEditingDashlet;
     private DocumentLibraryPage2 documentLibraryPage;
 
-    private ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -25,7 +24,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), UserDashlet.CONTENT_EDITING, 1, 3);
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })

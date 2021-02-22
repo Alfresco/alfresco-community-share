@@ -59,7 +59,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isSiteThemeDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(siteThemeSelect);
+        return isElementDisplayed(siteThemeSelect);
     }
 
     public void selectTheme(Theme theme)
@@ -126,7 +126,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     public void clickCancel()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     /**
@@ -137,7 +137,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isRenameDisplayed(SitePageType page)
     {
-        return webElementInteraction.isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + renameAction));
+        return isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + renameAction));
     }
 
     /**
@@ -148,7 +148,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isRemoveDisplayed(SitePageType page)
     {
-        return webElementInteraction.isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + removeAction));
+        return isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + removeAction));
     }
 
     /**
@@ -158,13 +158,13 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public void addPageToSite(SitePageType page)
     {
-        WebElement pageElem = webElementInteraction.findElement(By.cssSelector(page.getCustomizeCssLocator()));
-        webElementInteraction.clickElement(pageElem);
-        webElementInteraction.waitUntilElementIsVisible(pageElem);
-        webElementInteraction.scrollToElement(currentSitePagesArea);
-        webElementInteraction.clickElement(pageElem);
-        webElementInteraction.waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
-        webElementInteraction.dragAndDrop(pageElem, currentSitePagesArea);
+        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        clickElement(pageElem);
+        waitUntilElementIsVisible(pageElem);
+        scrollToElement(currentSitePagesArea);
+        clickElement(pageElem);
+        waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
+        dragAndDrop(pageElem, currentSitePagesArea);
         retryAddPageToSite(page, pageElem);
     }
 
@@ -176,7 +176,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         while (i < retry && !added)
         {
             log.info(String.format("Retry add page - %s", i));
-            webElementInteraction.dragAndDrop(pageElem, currentSitePagesArea);
+            dragAndDrop(pageElem, currentSitePagesArea);
             added = isPageAddedToCurrentPages(page);
             i++;
         }
@@ -190,7 +190,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public boolean isPageAddedToCurrentPages(SitePageType page)
     {
-        return webElementInteraction.isElementDisplayed(By.cssSelector("ul[id$='default-currentPages-ul'] " + page.getCustomizeCssLocator()));
+        return isElementDisplayed(By.cssSelector("ul[id$='default-currentPages-ul'] " + page.getCustomizeCssLocator()));
     }
 
     /**
@@ -200,7 +200,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public void removePage(SitePageType page)
     {
-        WebElement pageElem = webElementInteraction.findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
         pageElem.findElement(By.cssSelector(removeAction));
     }
 
@@ -212,8 +212,8 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public void renamePage(SitePageType page, String newName)
     {
-        WebElement pageElem = webElementInteraction.findElement(By.cssSelector(page.getCustomizeCssLocator()));
-        webElementInteraction.clickElement(pageElem.findElement(By.cssSelector(renameAction)));
+        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        clickElement(pageElem.findElement(By.cssSelector(renameAction)));
         renameSiteDialog.typeDisplayName(newName);
         renameSiteDialog.clickOk();
     }
@@ -226,7 +226,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public String getPageDisplayName(SitePageType page)
     {
-        WebElement pageElem = webElementInteraction.findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
         return pageElem.findElement(By.cssSelector(".title")).getText();
     }
 }

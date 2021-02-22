@@ -79,13 +79,13 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
     public EditUserProfilePage setAboutInformation(String firstName, String lastName, String jobTitle, String location, String summary)
     {
         log.info("Set About Information details");
-        webElementInteraction.waitUntilElementIsVisible(firstNameInput);
-        webElementInteraction.clearAndType(firstNameInput, firstName);
-        webElementInteraction.clearAndType(lastNameInput, lastName);
-        webElementInteraction.clearAndType(jobTitleInput, jobTitle);
-        webElementInteraction.clearAndType(locationInput, location);
-        webElementInteraction.clearAndType(summaryInput, summary);
-        webElementInteraction.clearAndType(firstNameInput, firstName);
+        waitUntilElementIsVisible(firstNameInput);
+        clearAndType(firstNameInput, firstName);
+        clearAndType(lastNameInput, lastName);
+        clearAndType(jobTitleInput, jobTitle);
+        clearAndType(locationInput, location);
+        clearAndType(summaryInput, summary);
+        clearAndType(firstNameInput, firstName);
 
         return this;
     }
@@ -94,12 +94,12 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
                                       String skype, String im, String googleUserName)
     {
         log.info("Set Contact Information details");
-        webElementInteraction.clearAndType(telephoneInput, telephone);
-        webElementInteraction.clearAndType(mobileInput, mobile);
-        webElementInteraction.clearAndType(emailInput, email);
-        webElementInteraction.clearAndType(skypeInput, skype);
-        webElementInteraction.clearAndType(instantmsgInput, im);
-        webElementInteraction.clearAndType(googleUserNameInput, googleUserName);
+        clearAndType(telephoneInput, telephone);
+        clearAndType(mobileInput, mobile);
+        clearAndType(emailInput, email);
+        clearAndType(skypeInput, skype);
+        clearAndType(instantmsgInput, im);
+        clearAndType(googleUserNameInput, googleUserName);
 
         return this;
     }
@@ -108,22 +108,22 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
                                   String telephone, String fax, String email)
     {
         log.info("Set Company Information details");
-        webElementInteraction.clearAndType(companyNameInput, name);
-        webElementInteraction.clearAndType(companyAddress1Input, address1);
-        webElementInteraction.clearAndType(companyAddress2Input, address2);
-        webElementInteraction.clearAndType(companyAddress3Input, address3);
-        webElementInteraction.clearAndType(companyPostCodeInput, postCode);
-        webElementInteraction.clearAndType(companyTelephoneInput, telephone);
-        webElementInteraction.clearAndType(companyFaxInput, fax);
-        webElementInteraction.clearAndType(companyEmailInput, email);
+        clearAndType(companyNameInput, name);
+        clearAndType(companyAddress1Input, address1);
+        clearAndType(companyAddress2Input, address2);
+        clearAndType(companyAddress3Input, address3);
+        clearAndType(companyPostCodeInput, postCode);
+        clearAndType(companyTelephoneInput, telephone);
+        clearAndType(companyFaxInput, fax);
+        clearAndType(companyEmailInput, email);
 
         return this;
     }
 
     public EditUserProfilePage clickUseDefaultPhoto()
     {
-        webElementInteraction.clickElement(useDefaultPhoto);
-        webElementInteraction.waitUntilElementHasAttribute(webElementInteraction.findElement(avatar), "src", "no-user-photo-64.png");
+        clickElement(useDefaultPhoto);
+        waitUntilElementHasAttribute(findElement(avatar), "src", "no-user-photo-64.png");
         return this;
     }
 
@@ -135,24 +135,24 @@ public class EditUserProfilePage extends SharePage2<EditUserProfilePage>
 
     public UploadFileDialog clickUpload()
     {
-        webElementInteraction.clickElement(uploadPhoto);
+        clickElement(uploadPhoto);
         return new UploadFileDialog(webDriver);
     }
 
     public UserProfilePage clickCancel()
     {
-        webElementInteraction.scrollToElement(webElementInteraction.findElement(cancel));
-        webElementInteraction.clickElement(cancel);
+        scrollToElement(findElement(cancel));
+        clickElement(cancel);
         return new UserProfilePage(webDriver);
     }
 
     public UserProfilePage clickSave()
     {
         log.info("Click Save");
-        WebElement saveBtn = webElementInteraction.waitUntilElementIsVisible(save);
-        webElementInteraction.mouseOver(saveBtn);
-        webElementInteraction.clickJS(saveBtn);
-        webElementInteraction.waitUntilElementDisappears(save, WAIT_5.getValue());
+        WebElement saveBtn = waitUntilElementIsVisible(save);
+        mouseOver(saveBtn);
+        clickJS(saveBtn);
+        waitUntilElementDisappears(save, WAIT_5.getValue());
 
         return new UserProfilePage(webDriver);
     }

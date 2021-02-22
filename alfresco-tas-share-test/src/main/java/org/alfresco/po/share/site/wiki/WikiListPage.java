@@ -111,7 +111,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public WebElement selectWikiDetailsRow(String wikiPage)
     {
-        return webElementInteraction.findFirstElementWithValue(wikiPagesList, wikiPage);
+        return findFirstElementWithValue(wikiPagesList, wikiPage);
     }
 
     public EditWikiPage clickEdit(String wikiPage)
@@ -272,7 +272,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public void clickSpecificTag(String tagName)
     {
-        webElementInteraction.findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
+        findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
     }
 
     /**
@@ -283,8 +283,8 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public boolean isWikiPageDisplayed(String wikiPageName)
     {
-        return webElementInteraction.isElementDisplayed(
-            webElementInteraction.findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
+        return isElementDisplayed(
+            findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
     }
 
     public void clickShowAllTags()

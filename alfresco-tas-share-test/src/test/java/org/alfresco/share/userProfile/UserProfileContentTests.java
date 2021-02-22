@@ -27,7 +27,7 @@ public class UserProfileContentTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void noAddedOrModifiedContent()
     {
-        setupAuthenticatedSession(userNoContent);
+        authenticateUsingCookies(userNoContent);
         userContentPage.navigate(userNoContent)
             .assertRecentlyAddedLabelIsDisplayed()
             .assertRecentlyModifiedLabelIsDisplayed()

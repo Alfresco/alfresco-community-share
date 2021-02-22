@@ -22,7 +22,7 @@ public class CategoryManagerTests extends BaseTest
     public void setupTest()
     {
         categoryManagerPage = new CategoryManagerPage(webDriver);
-        setupAuthenticatedSessionViaLoginPage(dataUser.getAdminUser());
+        authenticateUsingLoginPage(dataUser.getAdminUser());
     }
 
     @TestRail (id = "C9294")

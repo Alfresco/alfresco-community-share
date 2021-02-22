@@ -18,7 +18,7 @@ public class SystemErrorPage extends BasePage
 
     public String getErrorHeader()
     {
-        return webElementInteraction.getElementText(errorHeader);
+        return getElementText(errorHeader);
     }
 
     public SystemErrorPage assertSomethingIsWrongWithThePageMessageIsDisplayed()

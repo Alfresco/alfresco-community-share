@@ -55,7 +55,7 @@ public class WikiPage extends SiteCommon<WikiPage>
     public WikiListPage clickOnWikiListLink()
     {
 
-        webElementInteraction.waitUntilWebElementIsDisplayedWithRetry(wikiPageListLink, 3);
+        waitUntilWebElementIsDisplayedWithRetry(wikiPageListLink, 3);
         wikiPageListLink.click();
         return new WikiListPage(webDriver);
     }

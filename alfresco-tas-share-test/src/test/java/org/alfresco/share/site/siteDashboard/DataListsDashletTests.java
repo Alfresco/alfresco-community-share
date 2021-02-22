@@ -43,7 +43,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_DATA_LIST, 1, 2);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C5568")
@@ -118,7 +118,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
 
         UserModel siteConsumer = dataUser.usingAdmin().createRandomTestUser();
         getDataUser().usingUser(user.get()).addUserToSite(siteConsumer, site.get(), UserRole.SiteConsumer);
-        setupAuthenticatedSession(siteConsumer);
+        authenticateUsingCookies(siteConsumer);
 
         siteDashboardPage.navigate(site.get());
         siteDataListsDashlet

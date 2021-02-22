@@ -34,7 +34,7 @@ public class UserProfileSitesTests extends BaseTest
         SiteModel publicSite = dataSite.usingUser(invitedUser).createPublicRandomSite();
         dataUser.usingUser(user.get()).addUserToSite(invitedUser, inviteSite, UserRole.SiteConsumer);
 
-        setupAuthenticatedSession(invitedUser);
+        authenticateUsingCookies(invitedUser);
         userSitesPage.navigate(invitedUser)
             .assertSiteIsDisplayed(inviteSite)
             .assertSiteIsDisplayed(publicSite)
@@ -48,7 +48,7 @@ public class UserProfileSitesTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER, TestGroup.SSO })
     public void userWithNoSitesTest()
     {
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
         userSitesPage.navigate(user.get())
             .assertUserHasNoSitesMessageIsDisplayed();
     }

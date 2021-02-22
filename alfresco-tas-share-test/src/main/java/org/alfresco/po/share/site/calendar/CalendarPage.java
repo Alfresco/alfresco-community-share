@@ -64,9 +64,9 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private WebElement selectTag(String tagName)
     {
         log.info("Select tag: {}", tagName);
-        WebElement selectTagElement = webElementInteraction.findFirstElementWithValue(tags, tagName);
-        webElementInteraction.waitUntilElementIsVisible(selectTagElement);
-        webElementInteraction.clickElement(selectTagElement);
+        WebElement selectTagElement = findFirstElementWithValue(tags, tagName);
+        waitUntilElementIsVisible(selectTagElement);
+        clickElement(selectTagElement);
 
         return selectTagElement;
     }
@@ -74,7 +74,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public boolean isTagDisplayed(String tagName)
     {
         log.info("Check tag is displayed: {}", tagName);
-        return webElementInteraction.isElementDisplayed(selectTag(tagName));
+        return isElementDisplayed(selectTag(tagName));
     }
 
     public String getTagLink(String tagName)
@@ -92,14 +92,14 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private WebElement getEventTitleFromCalendar(String eventTitle)
     {
         log.info("Get event title from calendar: {}", eventTitle);
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(eventsList);
-        return webElementInteraction.findFirstElementWithValue(webElementInteraction.waitUntilElementsAreVisible(eventsList), eventTitle);
+        waitUntilElementIsDisplayedWithRetry(eventsList);
+        return findFirstElementWithValue(waitUntilElementsAreVisible(eventsList), eventTitle);
     }
 
     private boolean isAllDayEventListSizeEquals(int expectedListSize)
     {
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(allDayEvents);
-        List<WebElement> titles = webElementInteraction.findElements(allDayEvents);
+        waitUntilElementIsDisplayedWithRetry(allDayEvents);
+        List<WebElement> titles = findElements(allDayEvents);
 
         return titles.size() == expectedListSize;
     }
@@ -129,7 +129,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
             if (getEventTitleFromCalendar(eventTitle).getText().equals(eventTitle))
             {
                 log.info("Click event title: {}", eventTitle);
-                webElementInteraction.mouseOver(getEventTitleFromCalendar(eventTitle));
+                mouseOver(getEventTitleFromCalendar(eventTitle));
                 getEventTitleFromCalendar(eventTitle);
             }
             else
@@ -147,8 +147,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public AddEventDialog clickAddEventButton()
     {
         log.info("Click add event button");
-        webElementInteraction.waitUntilElementIsVisible(addEventButton);
-        webElementInteraction.clickElement(addEventButton);
+        waitUntilElementIsVisible(addEventButton);
+        clickElement(addEventButton);
 
         return (AddEventDialog) addEventDialog.renderedPage();
     }
@@ -156,74 +156,74 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public boolean isShowAllItemsLinkDisplayed()
     {
         log.info("Check is show all items link displayed");
-        return webElementInteraction.isElementDisplayed(showAllItems);
+        return isElementDisplayed(showAllItems);
     }
 
     public CalendarPage clickDayButton()
     {
         log.info("Click day button");
-        webElementInteraction.clickElement(dayButton);
+        clickElement(dayButton);
         return this;
     }
 
     public CalendarPage clickWeekButton()
     {
         log.info("Click week button");
-        webElementInteraction.clickElement(weekButton);
+        clickElement(weekButton);
         return new CalendarPage(webDriver);
     }
 
     public CalendarPage clickMonthButton()
     {
-        webElementInteraction.clickElement(monthButton);
+        clickElement(monthButton);
         return this;
     }
 
     public CalendarPage clickAgendaButton()
     {
         log.info("Click agenda button");
-        webElementInteraction.clickElement(agendaButton);
+        clickElement(agendaButton);
         return this;
     }
 
     public boolean isEventPresentInAgenda(String eventName)
     {
         log.info("Check is event present in agenda: {}", eventName);
-        return webElementInteraction.findFirstElementWithValue(agendaEventsName, eventName) != null;
+        return findFirstElementWithValue(agendaEventsName, eventName) != null;
     }
 
     public EventInformationDialog clickOnEventInAgenda(String eventName)
     {
         log.info("Click event in agenda: {}", eventName);
-        webElementInteraction.findFirstElementWithValue(agendaEventsName, eventName).click();
+        findFirstElementWithValue(agendaEventsName, eventName).click();
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
     public AddEventDialog clickTodayInCalendar()
     {
         log.info("Click today in calendar");
-        webElementInteraction.clickElement(today);
+        clickElement(today);
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
     public AddEventDialog clickOnTheCalendarDayView()
     {
         log.info("Click the calendar day view");
-        webElementInteraction.findFirstDisplayedElement(By.cssSelector(".fc-view-agendaDay .fc-agenda-slots .fc-widget-content"));
+        findFirstDisplayedElement(By.cssSelector(".fc-view-agendaDay .fc-agenda-slots .fc-widget-content"));
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
     public AddEventDialog clickOnTheCalendarWeekView()
     {
         log.info("click the calendar week view");
-        webElementInteraction.findFirstDisplayedElement(By.cssSelector(".fc-view-agendaWeek .fc-agenda-slots .fc-widget-content")).click();
+        findFirstDisplayedElement(By.cssSelector(".fc-view-agendaWeek .fc-agenda-slots .fc-widget-content")).click();
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
     public AddEventDialog clickAddEventToThisCalendar()
     {
         log.info("Click add event to this calendar");
-        webElementInteraction.clickElement(agendaAddEvent);
+        clickElement(agendaAddEvent);
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
@@ -236,13 +236,13 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public String getEventDurationFromAgenda(String eventTitle)
     {
         log.info("Get event duration from agenda: {}", eventTitle);
-        return webElementInteraction.findFirstElementWithValue(agendaEventsName, eventTitle).findElement(By.xpath("../preceding-sibling::*[1]/div")).getText();
+        return findFirstElementWithValue(agendaEventsName, eventTitle).findElement(By.xpath("../preceding-sibling::*[1]/div")).getText();
     }
 
     public String getCalendarHeader()
     {
         log.info("Get calendar header text");
-        return webElementInteraction.getElementText(calendarHeader);
+        return getElementText(calendarHeader);
     }
 
     public CalendarPage assertCalendarHeaderEquals(String expectedCalendarHeader)
@@ -271,46 +271,46 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public String getSelectedViewName()
     {
         log.info("Get selected view name");
-        return webElementInteraction.findElement(selectedView).getText();
+        return findElement(selectedView).getText();
     }
 
     public String viewDisplayed()
     {
         log.info("Get calendar view attribute");
-        return webElementInteraction.findElement(calendarView).getAttribute("value");
+        return findElement(calendarView).getAttribute("value");
     }
 
     public CalendarPage clickOnNextButton()
     {
         log.info("Get next button state");
-        webElementInteraction.clickElement(nextButton);
+        clickElement(nextButton);
         return this;
     }
 
     public CalendarPage clickOnPreviousButton()
     {
         log.info("Click previous button");
-        webElementInteraction.clickElement(previousButton);
+        clickElement(previousButton);
         return this;
     }
 
     public String getNextButtonState()
     {
         log.info("Get next button state");
-        return webElementInteraction.waitUntilElementIsVisible(nextButton).getAttribute("disabled");
+        return waitUntilElementIsVisible(nextButton).getAttribute("disabled");
     }
 
     public String getTodayButtonState()
     {
         log.info("Get today button state");
-        return webElementInteraction.waitUntilElementIsVisible(todayButton).getAttribute("disabled");
+        return waitUntilElementIsVisible(todayButton).getAttribute("disabled");
     }
 
     public DeleteDialog clickDeleteIcon(String eventName)
     {
         log.info("Click delete icon");
-        WebElement eventElement = webElementInteraction.findFirstElementWithValue(agendaEventsName, eventName);
-        webElementInteraction.mouseOver(eventElement);
+        WebElement eventElement = findFirstElementWithValue(agendaEventsName, eventName);
+        mouseOver(eventElement);
         eventElement.findElement(deleteIcon).click();
 
         return new DeleteDialog(webDriver);
@@ -319,8 +319,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public EditEventDialog clickEditIcon(String eventName)
     {
         log.info("Click edit icon");
-        WebElement eventElement = webElementInteraction.findFirstElementWithValue(agendaEventsName, eventName);
-        webElementInteraction.mouseOver(eventElement);
+        WebElement eventElement = findFirstElementWithValue(agendaEventsName, eventName);
+        mouseOver(eventElement);
         eventElement.findElement(editIcon).click();
 
         return (EditEventDialog) editEventDialog.renderedPage();
@@ -329,8 +329,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public EventInformationDialog clickViewIcon(String eventName)
     {
         log.info("Click view icon");
-        WebElement eventElement = webElementInteraction.findFirstElementWithValue(agendaEventsName, eventName);
-        webElementInteraction.mouseOver(eventElement);
+        WebElement eventElement = findFirstElementWithValue(agendaEventsName, eventName);
+        mouseOver(eventElement);
         eventElement.findElement(infoIcon).click();
 
         return (EventInformationDialog) eventInformationDialog.renderedPage();
@@ -339,21 +339,21 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public boolean isTodayHighlightedInCalendar()
     {
         log.info("Check is today highlighted in calendar");
-        return webElementInteraction.waitUntilElementIsVisible(today)
+        return waitUntilElementIsVisible(today)
             .getAttribute("class").contains("fc-state-highlight");
     }
 
     public CalendarPage clickShowAllItems()
     {
         log.info("Click shows all items");
-        webElementInteraction.findElement(By.cssSelector("a[rel='-all-']")).click();
+        findElement(By.cssSelector("a[rel='-all-']")).click();
         return new CalendarPage(webDriver);
     }
 
     public CalendarPage clickTodayButton()
     {
         log.info("Click today button");
-        webElementInteraction.clickElement(todayButton);
+        clickElement(todayButton);
         return this;
     }
 }

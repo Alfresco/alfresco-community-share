@@ -61,7 +61,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
         super.navigate();
         try
         {
-            webElementInteraction.waitUntilElementIsVisible(editUserButton);
+            waitUntilElementIsVisible(editUserButton);
         }
         catch (TimeoutException e)
         {
@@ -79,7 +79,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertUserIsDisplayedInTitle(UserModel user)
     {
         log.info("Assert user first and last name are displayed in page title");
-        assertEquals(webElementInteraction.getElementText(userProfileUserName),
+        assertEquals(getElementText(userProfileUserName),
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
@@ -87,28 +87,28 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertEditUserButtonIsDisplayed()
     {
         log.info("Assert Edit User button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(editUserButton), "Edit User button is displayed");
+        assertTrue(isElementDisplayed(editUserButton), "Edit User button is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertDeleteUserButtonIsDisplayed()
     {
         log.info("Assert Delete User button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(deleteUserButton), "Delete User button is displayed");
+        assertTrue(isElementDisplayed(deleteUserButton), "Delete User button is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertGoBackButtonIsDisplayed()
     {
         log.info("Assert Go back button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(goBackButton), "Go back button is displayed");
+        assertTrue(isElementDisplayed(goBackButton), "Go back button is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertAllSectionsAreDisplayed()
     {
         log.info("Assert all sections are displayed");
-        List<String> sectionTexts = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(userProfileHeaderList));
+        List<String> sectionTexts = getTextFromElementList(findElements(userProfileHeaderList));
         assertTrue(sectionTexts.contains(language.translate("adminTools.user.about")),
             "About section is displayed");
         assertTrue(sectionTexts.contains(language.translate("adminTools.user.contactInfo")),
@@ -124,7 +124,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertAllInfoAreDisplayedInSections()
     {
         log.info("Assert all fields are displayed in each section");
-        List<String> sectionTexts = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(infoFromSections));
+        List<String> sectionTexts = getTextFromElementList(findElements(infoFromSections));
         List<String> expectedInfo = Collections.synchronizedList(sectionTexts);
         expectedInfo.add(language.translate("adminTools.user.email"));
         expectedInfo.add(language.translate("adminTools.user.telephone"));
@@ -148,15 +148,15 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertUserPhotoIsDisplayed()
     {
         log.info("Assert user photo is displayed");
-        webElementInteraction.waitUntilElementIsVisible(userPhoto);
-        assertTrue(webElementInteraction.isElementDisplayed(userPhoto), "User photo is displayed");
+        waitUntilElementIsVisible(userPhoto);
+        assertTrue(isElementDisplayed(userPhoto), "User photo is displayed");
         return this;
     }
 
     public UserProfileAdminToolsPage assertUserFullNameIsDisplayedInAboutSection(UserModel user)
     {
         log.info("Assert user full name is displayed in about section {} {}", user.getFirstName(), user.getLastName());
-        assertEquals(webElementInteraction.getElementText(userNameInAboutSection),
+        assertEquals(getElementText(userNameInAboutSection),
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
@@ -164,36 +164,36 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public EditUserPage clickEditUser()
     {
         log.info("Click Edit");
-        webElementInteraction.clickElement(editUserButton);
+        clickElement(editUserButton);
         return new EditUserPage(webDriver);
     }
 
     public UserProfileAdminToolsPage assertEmailIs(String expectedEmail)
     {
         log.info("Assert email is: {}", expectedEmail);
-        assertEquals(webElementInteraction.getElementText(email), expectedEmail, "Email is correct");
+        assertEquals(getElementText(email), expectedEmail, "Email is correct");
         return this;
     }
 
     public DeleteUserDialogPage clickDelete()
     {
         log.info("Click Delete");
-        webElementInteraction.clickElement(deleteUserButton);
+        clickElement(deleteUserButton);
         return new DeleteUserDialogPage(webDriver);
     }
 
     public UserProfileAdminToolsPage assertQuotaIs(String expectedQuota)
     {
         log.info("Assert user quota is: {}", expectedQuota);
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(userQuota).getText(), expectedQuota, "User quota is correct");
+        assertEquals(waitUntilElementIsVisible(userQuota).getText(), expectedQuota, "User quota is correct");
         return this;
     }
 
     public UserProfileAdminToolsPage assertAccountStatusIsDisabled()
     {
         log.info("Assert account is disabled");
-        WebElement status = webElementInteraction.waitUntilElementIsVisible(accountStatus);
-        webElementInteraction.scrollToElement(status);
+        WebElement status = waitUntilElementIsVisible(accountStatus);
+        scrollToElement(status);
         assertEquals(status.getText(), language.translate("adminTools.user.status.disabled"));
 
         return this;
@@ -202,8 +202,8 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     public UserProfileAdminToolsPage assertAccountStatusIsEnabled()
     {
         log.info("Assert account is enabled");
-        WebElement status = webElementInteraction.waitUntilElementIsVisible(accountStatus);
-        webElementInteraction.scrollToElement(status);
+        WebElement status = waitUntilElementIsVisible(accountStatus);
+        scrollToElement(status);
         assertEquals(status.getText(), language.translate("adminTools.user.status.enabled"));
 
         return this;
@@ -211,7 +211,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
 
     public UserProfileAdminToolsPage assertGroupsAreDisplayed(String... groupNames)
     {
-        String [] items = webElementInteraction.waitUntilElementIsVisible(addedGroups).getText().split("\\s*,\\s*");
+        String [] items = waitUntilElementIsVisible(addedGroups).getText().split("\\s*,\\s*");
         Arrays.sort(items);
         Arrays.sort(groupNames);
         assertEquals(items, groupNames);
@@ -221,7 +221,7 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
 
     public UserProfileAdminToolsPage assertGroupIsNotDisplayed(String groupName)
     {
-        assertFalse(webElementInteraction.findElement(addedGroups).getText().contains(groupName),
+        assertFalse(findElement(addedGroups).getText().contains(groupName),
             String.format("Group %s is displayed", groupName));
         return this;
     }

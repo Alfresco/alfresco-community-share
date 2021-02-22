@@ -73,16 +73,16 @@ public abstract class SharePage2<T> extends BasePage
         log.info("Navigate to {}", relativePathToURL().toString());
         try
         {
-            webElementInteraction.getUrl(relativePathToURL().toString());
+            getUrl(relativePathToURL().toString());
             waitForSharePageToLoad();
             return (T) this;
         }
         catch (TimeoutException | NoSuchSessionException e)
         {
             log.info("Navigation to {} failed. {}", getRelativePath(), e.getMessage());
-            webElementInteraction.refresh();
+            refresh();
             waitForSharePageToLoad();
-            webElementInteraction.getUrl(relativePathToURL().toString());
+            getUrl(relativePathToURL().toString());
             return (T) this;
         }
     }
@@ -90,12 +90,12 @@ public abstract class SharePage2<T> extends BasePage
     public void navigateWithoutRender()
     {
         log.info("Navigate without render {}", relativePathToURL().getPath());
-        webElementInteraction.navigateTo(relativePathToURL().toString());
+        navigateTo(relativePathToURL().toString());
     }
 
     public T assertPageHeadersEqualsTo(String expectedHeader)
     {
-        String actualHeader = webElementInteraction.getElementText(pageHeader);
+        String actualHeader = getElementText(pageHeader);
         assertEquals(actualHeader, expectedHeader);
 
         return (T) this;
@@ -103,7 +103,7 @@ public abstract class SharePage2<T> extends BasePage
 
     public AboutPopUpPage openAboutPage()
     {
-        webElementInteraction.clickElement(alfrescoOneFooterLogo);
+        clickElement(alfrescoOneFooterLogo);
         return new AboutPopUpPage(webDriver);
     }
 
@@ -119,8 +119,8 @@ public abstract class SharePage2<T> extends BasePage
         log.info("Wait for loading message to disappear");
         try
         {
-            webElementInteraction.waitUntilElementIsVisible(loadingMessage, WAIT_3.getValue());
-            webElementInteraction.waitUntilElementDisappears(loadingMessage, WAIT_5.getValue());
+            waitUntilElementIsVisible(loadingMessage, WAIT_3.getValue());
+            waitUntilElementDisappears(loadingMessage, WAIT_5.getValue());
         }
         catch (TimeoutException e)
         {
@@ -131,12 +131,12 @@ public abstract class SharePage2<T> extends BasePage
 
     public boolean isAlfrescoLogoDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(alfrescoOneFooterLogo);
+        return isElementDisplayed(alfrescoOneFooterLogo);
     }
 
     public T assertAlfrescoLogoIsDisplayedInPageFooter()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
+        assertTrue(isElementDisplayed(alfrescoOneFooterLogo), "Alfresco logo is displayed");
         return (T) this;
     }
 
@@ -150,7 +150,7 @@ public abstract class SharePage2<T> extends BasePage
     public T assertShareVersionWarningIsNotDisplayed()
     {
         log.info("Assert Share Version warning is not displayed");
-        assertFalse(webElementInteraction.isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
+        assertFalse(isElementDisplayed(shareVersionWarning), "Share version warning is displayed");
         return (T) this;
     }
 
@@ -185,7 +185,7 @@ public abstract class SharePage2<T> extends BasePage
     {
         try
         {
-            Alert alert = webElementInteraction.switchTo().alert();
+            Alert alert = switchTo().alert();
             log.info(alert.getText());
             alert.accept();
         }
@@ -199,13 +199,13 @@ public abstract class SharePage2<T> extends BasePage
     {
         try
         {
-            webElementInteraction.waitUntilElementIsVisible(alfrescoOneFooterLogo);
+            waitUntilElementIsVisible(alfrescoOneFooterLogo);
         }
         catch (TimeoutException e)
         {
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_5.getValue());
-            webElementInteraction.waitUntilElementIsVisible(alfrescoOneFooterLogo);
+            refresh();
+            waitInSeconds(WAIT_5.getValue());
+            waitUntilElementIsVisible(alfrescoOneFooterLogo);
         }
     }
 }

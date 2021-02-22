@@ -43,20 +43,20 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
                 .findElement(dashletTitle));
     }
 
     private WebElement getSiteRow(String siteName)
     {
-        return webElementInteraction.waitWithRetryAndReturnWebElement(
+        return waitWithRetryAndReturnWebElement(
                 By.xpath(String.format(siteRow, siteName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public MySitesDashlet assertSiteIsDisplayed(SiteModel siteModel)
     {
         log.info("Assert site {} is  displayed", siteModel.getTitle());
-        assertTrue(webElementInteraction.isElementDisplayed(getSiteRow(siteModel.getTitle())),
+        assertTrue(isElementDisplayed(getSiteRow(siteModel.getTitle())),
                 String.format("Site %s is not displayed", siteModel.getTitle()));
         return this;
     }
@@ -65,34 +65,34 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     {
         log.info("Assert site {} is not displayed", site.getTitle());
         By siteElement = By.xpath(String.format(siteRow, site.getTitle()));
-        webElementInteraction.waitUntilElementDisappears(siteElement);
-        assertFalse(webElementInteraction.isElementDisplayed(siteElement), String.format("Site %s is displayed", site.getTitle()));
+        waitUntilElementDisappears(siteElement);
+        assertFalse(isElementDisplayed(siteElement), String.format("Site %s is displayed", site.getTitle()));
 
         return this;
     }
 
     public WebElement selectSite(final String siteName)
     {
-        return webElementInteraction.findFirstElementWithValue(sitesLinksList, siteName);
+        return findFirstElementWithValue(sitesLinksList, siteName);
     }
 
     public WebElement selectSiteDetailsRow(final String siteName)
     {
-        return webElementInteraction.findFirstElementWithValue(By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']"), siteName);
+        return findFirstElementWithValue(By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']"), siteName);
     }
 
     public boolean isSiteFavorite(String siteName)
     {
         selectSiteDetailsRow(siteName);
-        return webElementInteraction.isElementDisplayed(favoriteEnabled);
+        return isElementDisplayed(favoriteEnabled);
     }
 
     public DeleteSiteDialog clickDelete(String siteName)
     {
         WebElement siteRowElement = getSiteRow(siteName);
-        webElementInteraction.mouseOver(createSiteLink);
-        webElementInteraction.mouseOver(siteRowElement.findElement(siteTitleElement));
-        webElementInteraction.clickElement(siteRowElement.findElement(deleteButton));
+        mouseOver(createSiteLink);
+        mouseOver(siteRowElement.findElement(siteTitleElement));
+        clickElement(siteRowElement.findElement(deleteButton));
         return new DeleteSiteDialog(webDriver);
     }
 
@@ -103,18 +103,18 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet selectOptionFromSiteFilters(SitesFilter sitesFilter)
     {
-        webElementInteraction.waitUntilElementIsVisible(sitesFilterButton);
-        webElementInteraction.clickElement(sitesFilterButton);
+        waitUntilElementIsVisible(sitesFilterButton);
+        clickElement(sitesFilterButton);
 
-        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(myFavoritesOptions);
-        webElementInteraction.selectOptionFromFilterOptionsList(getFilterValue(sitesFilter), options);
+        List<WebElement> options = waitUntilElementsAreVisible(myFavoritesOptions);
+        selectOptionFromFilterOptionsList(getFilterValue(sitesFilter), options);
         return this;
 
     }
 
     public MySitesDashlet clickFavorite(String siteName)
     {
-        webElementInteraction.clickElement(getSiteRow(siteName).findElement(favoriteAction));
+        clickElement(getSiteRow(siteName).findElement(favoriteAction));
         return this;
     }
 
@@ -125,20 +125,20 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertCreateSiteButtonIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(createSiteLink);
-        assertTrue(webElementInteraction.isElementDisplayed(createSiteLink), "Create site button is displayed");
+        waitUntilElementIsVisible(createSiteLink);
+        assertTrue(isElementDisplayed(createSiteLink), "Create site button is displayed");
         return this;
     }
 
     public CreateSiteDialog clickCreateSiteButton()
     {
-        webElementInteraction.clickElement(createSiteLink);
+        clickElement(createSiteLink);
         return new CreateSiteDialog(webDriver);
     }
 
     public boolean isSitePresent(String siteName)
     {
-//        webElementInteraction.waitUntilElementIsVisible(sitesFilterButton);
+//        waitUntilElementIsVisible(sitesFilterButton);
         try
         {
             WebElement siteLink = selectSite(siteName);
@@ -156,8 +156,8 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertSitesFilterButtonIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(sitesFilterButton);
-        assertTrue(webElementInteraction.isElementDisplayed(sitesFilterButton), "Sites filter button is displayed");
+        waitUntilElementIsVisible(sitesFilterButton);
+        assertTrue(isElementDisplayed(sitesFilterButton), "Sites filter button is displayed");
         return this;
     }
 
@@ -183,7 +183,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertSelectedFilterIs(SitesFilter filter)
     {
-        String value = webElementInteraction.getElementText(sitesFilterButton);
+        String value = getElementText(sitesFilterButton);
         assertEquals(value.substring(0, value.length() - 2),
                 getFilterValue(filter), "Selected filter is correct");
         return this;
@@ -191,13 +191,13 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public MySitesDashlet assertEmptySitesMessageIsDisplayed()
     {
-        assertEquals(webElementInteraction.getElementText(defaultSiteEmptyText), language.translate("mySitesDashlet.noSites"));
+        assertEquals(getElementText(defaultSiteEmptyText), language.translate("mySitesDashlet.noSites"));
         return this;
     }
 
     public void accessSite(String siteName)
     {
-        webElementInteraction.clickElement(getSiteRow(siteName).findElement(siteTitleElement));
+        clickElement(getSiteRow(siteName).findElement(siteTitleElement));
     }
 
     public SiteDashboardPage accessSite(SiteModel site)
@@ -209,11 +209,11 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public void hoverSite(String siteName)
     {
         WebElement siteRowElement = selectSiteDetailsRow(siteName);
-        webElementInteraction.mouseOver(siteRowElement);
+        mouseOver(siteRowElement);
     }
 
     public boolean isDeleteButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(deleteButton);
+        return isElementDisplayed(deleteButton);
     }
 }

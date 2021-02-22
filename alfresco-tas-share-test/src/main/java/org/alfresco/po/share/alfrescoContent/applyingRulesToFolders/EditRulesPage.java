@@ -53,30 +53,30 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public String getRulePageHeader()
     {
-        return webElementInteraction.getElementText(pageHeader);
+        return getElementText(pageHeader);
     }
 
     public void typeName(String name)
     {
-        webElementInteraction.clearAndType(nameInputField, name);
+        clearAndType(nameInputField, name);
     }
 
     public void typeDescription(String description)
     {
-        webElementInteraction.clearAndType(descriptionInputField, description);
+        clearAndType(descriptionInputField, description);
     }
 
     public void selectOptionFromDropdown(String dropdownId, int indexOfOption)
     {
         Select dropdown = new Select(
-            webElementInteraction.findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
+            findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
 
     public void selectOptionFromSecondDropdown(String dropdownId, int indexOfOption)
     {
-        Select dropdown = new Select(webElementInteraction.findElement(By.cssSelector(String.format(secondDropdownSelector, dropdownId))));
+        Select dropdown = new Select(findElement(By.cssSelector(String.format(secondDropdownSelector, dropdownId))));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
@@ -88,7 +88,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void selectOptionFromIfConditionCompareOperator(int indexOfOption)
     {
-        Select dropdown = new Select(webElementInteraction.findElement(ifConditionCompareSelector));
+        Select dropdown = new Select(findElement(ifConditionCompareSelector));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
@@ -100,7 +100,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void clickCopySelectButton()
     {
-        webElementInteraction.clickElement(copySelectButtonSelector);
+        clickElement(copySelectButtonSelector);
     }
 
     public void typeRuleDetails(String ruleName, String description, List<Integer> indexOfOptionFromDropdown)
@@ -116,36 +116,36 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void clickDisableRuleCheckbox()
     {
-        webElementInteraction.clickElement(disableRuleCheckbox);
+        clickElement(disableRuleCheckbox);
     }
 
     public void clickRulesAppliesToSubfoldersCheckbox()
     {
-        webElementInteraction.clickElement(ruleAppliesToSubfoldersCheckbox);
+        clickElement(ruleAppliesToSubfoldersCheckbox);
     }
 
     public RuleDetailsPage clickCreateButton()
     {
-        webElementInteraction.clickElement(createButton);
+        clickElement(createButton);
         return new RuleDetailsPage(webDriver);
     }
 
     public EditRulesPage clickCreateAndCreateAnotherButton()
     {
-        webElementInteraction.clickElement(createAndCreateAnotherButton);
+        clickElement(createAndCreateAnotherButton);
         return this;
     }
 
     public RuleDetailsPage clickSaveButton()
     {
-        webElementInteraction.clickElement(saveButton);
+        clickElement(saveButton);
         return new RuleDetailsPage(webDriver);
     }
 
     public List<String> verifyDropdownOptions(String dropdownId, List<String> expectedOptionsList)
     {
         Select dropdown = new Select(
-            webElementInteraction.findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
+            findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
         List<WebElement> options = dropdown.getOptions();
         ArrayList<String> optionsTextList = new ArrayList<>();
         for (int i = 0; i < options.size(); i++)
@@ -158,46 +158,46 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void selectAspect(String aspectName)
     {
-        webElementInteraction.selectOptionFromFilterOptionsList(aspectName, webElementInteraction.findElements(aspectDropdownList));
+        selectOptionFromFilterOptionsList(aspectName, findElements(aspectDropdownList));
     }
 
     public void clickUnlessCheckbox()
     {
-        webElementInteraction.clickElement(unlessCheckbox);
+        clickElement(unlessCheckbox);
     }
 
     public boolean isUnlessCheckboxSelected()
     {
-        return webElementInteraction.findElement(unlessCheckbox).isSelected();
+        return findElement(unlessCheckbox).isSelected();
     }
 
     public void typeInputConfigText(String textBoxId, String condition)
     {
-        WebElement element = webElementInteraction.findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
-        webElementInteraction.clearAndType(element, condition);
+        WebElement element = findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
+        clearAndType(element, condition);
     }
 
     public String getInputConfigText(String textBoxId)
     {
-        WebElement element = webElementInteraction.findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
+        WebElement element = findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
         return element.getAttribute("value");
     }
 
     public void selectWhenDropDownCondition(WhenRule whenRuleName)
     {
-        Select whenType = new Select(webElementInteraction.findElement(whenDropDown));
+        Select whenType = new Select(findElement(whenDropDown));
         whenType.selectByValue(whenRuleName.getValue());
     }
 
     public void selectIfDropDownCondition(IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName)
     {
-        Select ifType = new Select(webElementInteraction.findElement(ifAllCriteriaAreMetDropDown));
+        Select ifType = new Select(findElement(ifAllCriteriaAreMetDropDown));
         ifType.selectByVisibleText(ifAllCriteriaAreMetRuleName.getName());
     }
 
     public void selectPerformActionDropDown(PerformActionList performActionName)
     {
-        Select performAction = new Select(webElementInteraction.findElement(performActionDropDown));
+        Select performAction = new Select(findElement(performActionDropDown));
         performAction.selectByValue(performActionName.getValue());
     }
 

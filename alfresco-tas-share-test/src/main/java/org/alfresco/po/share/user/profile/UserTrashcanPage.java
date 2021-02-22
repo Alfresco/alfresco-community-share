@@ -65,21 +65,21 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public List<WebElement> search(String searchTerm)
     {
-        webElementInteraction.clearAndType(searchInput, searchTerm);
+        clearAndType(searchInput, searchTerm);
         clickSearch();
-        webElementInteraction.waitUntilElementsAreVisible(itemsNameList);
-        return webElementInteraction.findElements(itemsNameList);
+        waitUntilElementsAreVisible(itemsNameList);
+        return findElements(itemsNameList);
     }
 
     public void clickSearch()
     {
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
     }
 
     public String getItemsNamesList()
     {
         List<String> itemsNameTextList = Collections.synchronizedList(new ArrayList<>());
-        for (WebElement anItemsNameList : webElementInteraction.findElements(itemsNameList))
+        for (WebElement anItemsNameList : findElements(itemsNameList))
         {
             itemsNameTextList.add(anItemsNameList.getText());
         }
@@ -88,12 +88,12 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     private WebElement getItemRow(String item)
     {
-        return webElementInteraction.findFirstElementWithValue(itemRowsList, item);
+        return findFirstElementWithValue(itemRowsList, item);
     }
 
     private boolean findRow(String itemName)
     {
-        List<WebElement> trashRows = webElementInteraction.findElements(itemRowsList);
+        List<WebElement> trashRows = findElements(itemRowsList);
         return trashRows.stream().anyMatch(row -> row.getText().equals(itemName));
     }
 
@@ -113,7 +113,7 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
     public UserTrashcanPage clickRecoverButton(String itemName)
     {
         log.info("Click Recover button for item {}", itemName);
-        webElementInteraction.clickElement(getItemRow(itemName).findElement(recoverButtonSelector));
+        clickElement(getItemRow(itemName).findElement(recoverButtonSelector));
         waitUntilNotificationMessageDisappears();
 
         return this;
@@ -127,7 +127,7 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
     public DeleteDialog clickDeleteButton(String itemName)
     {
         log.info("Click Recover button for item {}", itemName);
-        webElementInteraction.clickElement(getItemRow(itemName).findElement(deleteButtonSelector));
+        clickElement(getItemRow(itemName).findElement(deleteButtonSelector));
 
         return new DeleteDialog(webDriver);
     }
@@ -139,22 +139,22 @@ public class UserTrashcanPage extends SharePage2<UserTrashcanPage>
 
     public DeleteDialog clickEmptyButton()
     {
-        webElementInteraction.clickElement(emptyButton);
+        clickElement(emptyButton);
         return new DeleteDialog(webDriver);
     }
 
     public UserTrashcanPage assertNoItemsExistMessageIsDisplayed()
     {
         log.info("Assert No Items Exist message is displayed");
-        WebElement emptyMessage = webElementInteraction.waitUntilElementIsVisible(emptyTrashcanMessageSelector);
-        assertTrue(webElementInteraction.isElementDisplayed(emptyMessage), "Empty items message is not displayed");
+        WebElement emptyMessage = waitUntilElementIsVisible(emptyTrashcanMessageSelector);
+        assertTrue(isElementDisplayed(emptyMessage), "Empty items message is not displayed");
         return this;
     }
 
     public UserTrashcanPage assertNoItemsExistMessageEqualTo(String expectedMessage)
     {
         log.info("Assert No Items Exist message is correct");
-        assertEquals(webElementInteraction.getElementText(emptyTrashcanMessageSelector), expectedMessage, String.format("No items exist message not equal to %s", expectedMessage));
+        assertEquals(getElementText(emptyTrashcanMessageSelector), expectedMessage, String.format("No items exist message not equal to %s", expectedMessage));
         return this;
     }
 }

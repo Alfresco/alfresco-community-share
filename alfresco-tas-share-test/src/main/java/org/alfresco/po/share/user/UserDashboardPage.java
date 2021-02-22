@@ -59,7 +59,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     @Override
     public UserDashboardPage navigateByMenuBar()
     {
-        webElementInteraction.clickElement(homeMenuLink);
+        clickElement(homeMenuLink);
         return new UserDashboardPage(webDriver);
     }
 
@@ -83,27 +83,27 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public CustomizeUserDashboardPage clickCustomizeUserDashboard()
     {
         log.info("Click Customize user dashboard button");
-        webElementInteraction.clickElement(customizeUserDashboard);
+        clickElement(customizeUserDashboard);
         return new CustomizeUserDashboardPage(webDriver);
     }
 
     public boolean isCustomizeUserDashboardDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(customizeUserDashboard);
+        return isElementDisplayed(customizeUserDashboard);
     }
 
     public UserDashboardPage assertCustomizeUserDashboardIsDisplayed()
     {
         log.info("Assert Customize User Dashboard button is displayed");
-        webElementInteraction.waitUntilElementIsVisible(customizeUserDashboard);
-        assertTrue(webElementInteraction.isElementDisplayed(customizeUserDashboard), "Customize User Dashboard button is displayed");
+        waitUntilElementIsVisible(customizeUserDashboard);
+        assertTrue(isElementDisplayed(customizeUserDashboard), "Customize User Dashboard button is displayed");
         return this;
     }
 
     public UserDashboardPage assertNumberOfDashletColumnsIs(int columnsNumber)
     {
         log.info("Assert dashboard has {} columns", columnsNumber);
-        String strCol = webElementInteraction.waitUntilElementIsVisible(dashboardLayout).getAttribute("class");
+        String strCol = waitUntilElementIsVisible(dashboardLayout).getAttribute("class");
         assertEquals(Character.getNumericValue(strCol.charAt(strCol.length() - 1)), columnsNumber);
         return this;
     }
@@ -120,13 +120,13 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            WebElement webView = webElementInteraction.waitUntilElementIsVisible(
+            WebElement webView = waitUntilElementIsVisible(
                 By.xpath(String.format(webViewDashletLocation, column, locationInColumn)));
-            return webElementInteraction.isElementDisplayed(webView);
+            return isElementDisplayed(webView);
         }
-        WebElement dashletToCheck = webElementInteraction.waitUntilElementIsVisible(
+        WebElement dashletToCheck = waitUntilElementIsVisible(
             By.xpath(String.format(dashletOnDashboard, dashlet.getDashletName(), column, locationInColumn)));
-        return webElementInteraction.isElementDisplayed(dashletToCheck);
+        return isElementDisplayed(dashletToCheck);
     }
 
     public UserDashboardPage assertDashletIsAddedInPosition(Dashlets dashlet, int column, int locationInColumn)
@@ -137,21 +137,21 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
 
     public boolean isNewAlfrescoLogoDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(alfrescoLogo);
+        return isElementDisplayed(alfrescoLogo);
     }
 
     public UserDashboardPage assertUserDashboardPageIsOpened()
     {
         log.info("Assert User Dashboard page is opened");
-        webElementInteraction.waitUntilElementIsVisible(customizeUserDashboard);
-        assertTrue(webElementInteraction.isElementDisplayed(customizeUserDashboard), "User home page is not opened");
+        waitUntilElementIsVisible(customizeUserDashboard);
+        assertTrue(isElementDisplayed(customizeUserDashboard), "User home page is not opened");
         return this;
     }
 
     public UserDashboardPage assertUserDashboardPageTitleIsCorrect()
     {
         log.info("Assert User Dashboard page title is correct");
-        assertEquals(webElementInteraction.getPageTitle(), language.translate("userDashboard.PageTitle"), "User dashboard page title is correct");
+        assertEquals(getPageTitle(), language.translate("userDashboard.PageTitle"), "User dashboard page title is correct");
         return this;
     }
 
@@ -168,24 +168,24 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage assertWelcomePanelIsDisplayed()
     {
         log.info("Assert Welcome panel is displayed");
-        webElementInteraction.waitUntilElementIsVisible(welcomePanel);
-        assertTrue(webElementInteraction.isElementDisplayed(welcomePanel), "Welcome panel is displayed");
+        waitUntilElementIsVisible(welcomePanel);
+        assertTrue(isElementDisplayed(welcomePanel), "Welcome panel is displayed");
         return this;
     }
 
     public UserDashboardPage assertWelcomePanelIsNotDisplayed()
     {
         log.info("Assert Welcome panel is NOT displayed");
-        Assert.assertFalse(webElementInteraction.isElementDisplayed(welcomePanel), "Welcome panel is displayed");
+        Assert.assertFalse(isElementDisplayed(welcomePanel), "Welcome panel is displayed");
         return this;
     }
 
     public UserDashboardPage assertWelcomePanelMessageIsCorrect()
     {
         log.info("Assert Welcome panel message is correct");
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(welcomePanelInfo).getText(), language.translate("userDashboard.welcomeMessage"),
+        assertEquals(waitUntilElementIsVisible(welcomePanelInfo).getText(), language.translate("userDashboard.welcomeMessage"),
             "Welcome panel message is correct");
-        assertEquals(webElementInteraction.getElementText(welcomePanelInfo), language.translate("userDashboard.welcomeMessage"),
+        assertEquals(getElementText(welcomePanelInfo), language.translate("userDashboard.welcomeMessage"),
                 "Welcome panel message is correct");
         return this;
     }
@@ -193,18 +193,18 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public UserDashboardPage assertHideWelcomePanelButtonIsDisplayed()
     {
         log.info("Assert Hide welcome panel button is displayed");
-        webElementInteraction.waitUntilElementIsVisible(welcomePanelHideButton);
-        assertTrue(webElementInteraction.isElementDisplayed(welcomePanelHideButton), "Hide button is displayed");
+        waitUntilElementIsVisible(welcomePanelHideButton);
+        assertTrue(isElementDisplayed(welcomePanelHideButton), "Hide button is displayed");
         return this;
     }
 
     public UserDashboardPage assertAlfrescoDocumentationPageIsOpenedFromWelcomePanel()
     {
         log.info("Assert Alfresco Documentation page is opened from welcome panel");
-        webElementInteraction.clickElement(welcomePanelInfoGetStarted);
-        webElementInteraction.waitUrlContains("https://docs.alfresco.com/", WAIT_10.getValue());
-        assertTrue(webElementInteraction.getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
-        webElementInteraction.navigateBack();
+        clickElement(welcomePanelInfoGetStarted);
+        waitUrlContains("https://docs.alfresco.com/", WAIT_10.getValue());
+        assertTrue(getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
+        navigateBack();
 
         return this;
     }
@@ -212,7 +212,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     public HideWelcomePanelDialog clickHideWelcomePanel()
     {
         log.info("Click Hide Welcome Panel");
-        webElementInteraction.clickElement(welcomePanelHideButton);
+        clickElement(welcomePanelHideButton);
         return new HideWelcomePanelDialog(webDriver);
     }
 }

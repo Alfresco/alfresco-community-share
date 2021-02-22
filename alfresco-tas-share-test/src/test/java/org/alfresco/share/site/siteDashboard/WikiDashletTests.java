@@ -45,7 +45,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.WIKI, 1, 2);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C5428")

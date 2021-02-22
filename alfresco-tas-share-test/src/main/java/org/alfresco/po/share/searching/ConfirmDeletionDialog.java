@@ -16,11 +16,11 @@ public class ConfirmDeletionDialog extends ConfirmationDialog
 
     public String getDialogTitle()
     {
-        return webElementInteraction.getElementText(dialogTitle);
+        return getElementText(dialogTitle);
     }
 
     public void clickNoButton()
     {
-        webElementInteraction.clickElement(dialogNoButton);
+        clickElement(dialogNoButton);
     }
 }

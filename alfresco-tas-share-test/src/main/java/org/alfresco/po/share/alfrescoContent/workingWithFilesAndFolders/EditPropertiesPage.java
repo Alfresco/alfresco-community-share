@@ -35,9 +35,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesList = new ArrayList<>();
-        webElementInteraction.waitUntilElementsAreVisible(propertiesElements);
+        waitUntilElementsAreVisible(propertiesElements);
 
-        for (WebElement propertyElement : webElementInteraction.findElements(propertiesElements))
+        for (WebElement propertyElement : findElements(propertiesElements))
             if (propertyElement.getText().contains(":"))
                 propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
             else
@@ -48,7 +48,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
-        List<WebElement> elements = webElementInteraction.findElements(propertiesElements);
+        List<WebElement> elements = findElements(propertiesElements);
         for (int i = 0; i < elements.size(); i++)
         {
             String property = elements.get(i).getText();
@@ -63,40 +63,40 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     public DocumentDetailsPage clickButton(String buttonName)
     {
-        webElementInteraction.findFirstElementWithValue(buttonsList, buttonName).click();
+        findFirstElementWithValue(buttonsList, buttonName).click();
         return new DocumentDetailsPage(webDriver);
     }
 
     public void clickButtonForFolder(String buttonName)
     {
-        webElementInteraction.selectOptionFromFilterOptionsList(buttonName, webElementInteraction.findElements(buttonsList));
+        selectOptionFromFilterOptionsList(buttonName, findElements(buttonsList));
     }
 
     public void clickHelpIconForRestrictableAspect()
     {
-       webElementInteraction.findElement(helpIconForRestrictableAspect).click();
+       findElement(helpIconForRestrictableAspect).click();
     }
 
     public String getHelpMessageForRestrictableAspect()
     {
 
-        return webElementInteraction.findElement(helpMessageForRestrictableAspect).getText();
+        return findElement(helpMessageForRestrictableAspect).getText();
     }
 
     public void addOfflineExpiresAfterValue(String hours)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(offlineExpiresafterInput), hours);
+        clearAndType(findElement(offlineExpiresafterInput), hours);
     }
 
     public void selectSFTemplate(int index)
     {
-        Select selectByIndex = new Select(webElementInteraction.findElement(selectorSF));
+        Select selectByIndex = new Select(findElement(selectorSF));
         selectByIndex.selectByIndex(index);
     }
 
     public boolean isButtonDisplayed(String buttonName)
     {
-        for (WebElement aButtonsList : webElementInteraction.findElements(buttonsList))
+        for (WebElement aButtonsList : findElements(buttonsList))
         {
             if (aButtonsList.getText().equals(buttonName))
                 return true;
@@ -106,7 +106,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     public SelectDialog clickSelectButtonForCustomSmartFolder()
     {
-        webElementInteraction.findElement(selectButtonForCustomSmartFolder).click();
+        findElement(selectButtonForCustomSmartFolder).click();
         return new SelectDialog(webDriver);
     }
 }

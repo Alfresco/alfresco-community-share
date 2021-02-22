@@ -35,58 +35,58 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 
     public T clickSiteConfiguration()
     {
-        webElementInteraction.waitUntilElementIsVisible(siteConfiguration);
-        webElementInteraction.clickElement(siteConfiguration);
-        webElementInteraction.waitUntilElementsAreVisible(configurationOptions);
+        waitUntilElementIsVisible(siteConfiguration);
+        clickElement(siteConfiguration);
+        waitUntilElementsAreVisible(configurationOptions);
 
         return (T) this;
     }
 
     public boolean isWaitPopupDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(waitPopup);
+        return isElementDisplayed(waitPopup);
     }
 
     public void clickSiteMembers()
     {
         while (isWaitPopupDisplayed())
         {
-            webElementInteraction.waitUntilElementDisappears(waitPopup);
+            waitUntilElementDisappears(waitPopup);
         }
-        webElementInteraction.clickElement(members);
+        clickElement(members);
     }
 
     public boolean isSiteMembersLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(members);
+        return isElementDisplayed(members);
     }
 
     public void clickSiteDashboard()
     {
-        webElementInteraction.waitUntilElementIsVisible(dashboard);
-        webElementInteraction.clickElement(dashboard);
+        waitUntilElementIsVisible(dashboard);
+        clickElement(dashboard);
     }
 
     public boolean isSiteDashboardLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dashboard);
+        return isElementDisplayed(dashboard);
     }
 
     public void clickDocumentLibrary()
     {
-        webElementInteraction.waitUntilElementIsVisible(documentLibrary);
-        webElementInteraction.clickElement(documentLibrary);
+        waitUntilElementIsVisible(documentLibrary);
+        clickElement(documentLibrary);
     }
 
     public boolean isDocumentLibraryLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(documentLibrary);
+        return isElementDisplayed(documentLibrary);
     }
 
     public void clickAddUsersIcon()
     {
-        webElementInteraction.waitUntilElementIsVisible(addUser);
-        webElementInteraction.clickElement(addUser);
+        waitUntilElementIsVisible(addUser);
+        clickElement(addUser);
     }
 
     public T navigate(String siteId)
@@ -109,6 +109,6 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 
     public String getSiteName()
     {
-        return webElementInteraction.getElementText(siteName);
+        return getElementText(siteName);
     }
 }

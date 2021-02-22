@@ -31,14 +31,14 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(title));
     }
 
     public SiteFileTypeBreakdownDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
         log.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
-        assertEquals(webElementInteraction.getElementText(dashletEmptyMessage), expectedEmptyMessage,
+        assertEquals(getElementText(dashletEmptyMessage), expectedEmptyMessage,
             String.format("Empty message not equals %s ", expectedEmptyMessage));
 
         return this;
@@ -47,10 +47,10 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     public SiteFileTypeBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {
         log.info("Assert pie chart size equals: {}", expectedPieChartSize);
-        webElementInteraction.waitWithRetryAndReturnWebElement(pieChartSlices, WAIT_2.getValue(),
+        waitWithRetryAndReturnWebElement(pieChartSlices, WAIT_2.getValue(),
             RETRY_TIME_80.getValue());
 
-        assertEquals(webElementInteraction.waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize,
+        assertEquals(waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize,
             String.format("Pie chart size not equals %d ", expectedPieChartSize));
         return this;
     }
@@ -59,8 +59,8 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     {
         log.info("Assert pie chart tooltip text equals: {}", expectedTooltipText);
         String formattedCssSelector = pieChartSlice.concat("(").concat(pieChartIndex).concat(")");
-        webElementInteraction.scrollToElement(webElementInteraction.findElement(By.cssSelector(formattedCssSelector)));
-        webElementInteraction.mouseOverViaJavascript(webElementInteraction.findElement(By.cssSelector(formattedCssSelector)));
+        scrollToElement(findElement(By.cssSelector(formattedCssSelector)));
+        mouseOverViaJavascript(findElement(By.cssSelector(formattedCssSelector)));
 
         assertEquals(getAttributeValueWithoutHtmlTags(), expectedTooltipText,
             String.format("Pie chart tooltip text not equals %s ", expectedTooltipText));
@@ -70,14 +70,14 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     private String getAttributeValueWithoutHtmlTags()
     {
         log.info("Get original title attribute without html tags");
-        return webElementInteraction.waitUntilElementIsVisible(sliceTooltip)
+        return waitUntilElementIsVisible(sliceTooltip)
             .getAttribute(ORIGINAL_TITLE_ATTRIBUTE).replaceAll(REMOVE_HTML_TAGS, EMPTY);
     }
 
     public SiteFileTypeBreakdownDashlet assertPieChartFileTypeNameEquals(String expectedFileTypeName)
     {
         log.info("Assert pie chart file type name equals: {}", expectedFileTypeName);
-        assertEquals(webElementInteraction.findElement(By.xpath(String.format(fileTypeNameLocator, expectedFileTypeName))).getText(),
+        assertEquals(findElement(By.xpath(String.format(fileTypeNameLocator, expectedFileTypeName))).getText(),
             expectedFileTypeName, String.format("Pie chart file type name not equals %s", expectedFileTypeName));
 
         return this;

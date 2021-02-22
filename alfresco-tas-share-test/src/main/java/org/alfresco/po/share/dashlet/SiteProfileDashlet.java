@@ -27,14 +27,14 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     public SiteProfileDashlet assertSiteWelcomeMessageEquals(String expectedWelcomeMessage)
     {
         log.info("Assert welcome message equals: {}", expectedWelcomeMessage);
-        assertEquals(webElementInteraction.getElementText(welcomeMessage), expectedWelcomeMessage,
+        assertEquals(getElementText(welcomeMessage), expectedWelcomeMessage,
             String.format("Welcome message not equals %s ", expectedWelcomeMessage));
 
         return this;
@@ -65,7 +65,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     public UserProfilePage clickSiteManagerLink(String managerLinkName)
     {
-        webElementInteraction.clickElement(By.xpath(String.format(managerLinkLocator, managerLinkName)));
+        clickElement(By.xpath(String.format(managerLinkLocator, managerLinkName)));
         return new UserProfilePage(webDriver);
     }
 
@@ -85,7 +85,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     private WebElement getSiteProfileRow(String searchedSiteLabel)
     {
-        List<WebElement> siteProfileRows = webElementInteraction.waitUntilElementsAreVisible(siteProfileRowLocator);
+        List<WebElement> siteProfileRows = waitUntilElementsAreVisible(siteProfileRowLocator);
         for (WebElement currentRow : siteProfileRows)
         {
             if (currentRow.getText().equalsIgnoreCase(searchedSiteLabel))

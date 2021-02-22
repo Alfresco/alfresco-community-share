@@ -6,8 +6,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialog;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialog;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialog;
 import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.utility.exception.PageRenderTimeException;
@@ -37,7 +35,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
     }
 
     @Override
-    public ModelManagerPage navigate()
+    public synchronized ModelManagerPage navigate()
     {
         try
         {
@@ -54,7 +52,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
 
     public CreateModelDialogPage clickCreateModelButton()
     {
-        webElementInteraction.clickElement(createModelButton);
+        clickElement(createModelButton);
         return new CreateModelDialogPage(webDriver);
     }
 
@@ -78,42 +76,37 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
 
     public ImportModelDialog clickImportModel()
     {
-        webElementInteraction.clickElement(importModelButton);
+        clickElement(importModelButton);
         return new ImportModelDialog(webDriver);
-    }
-
-    public ModelActionsComponent usingModel(CustomContentModel contentModel)
-    {
-        return new ModelActionsComponent(contentModel,
-            webElementInteraction,
-            this,
-            new EditModelDialog(webDriver),
-            new DeleteModelDialog(webDriver),
-            new ModelDetailsPage(webDriver));
     }
 
     public void clickOnAction(String actionName)
     {
-        List<WebElement> actionsOptions = webElementInteraction.waitUntilElementsAreVisible(actions);
+        List<WebElement> actionsOptions = waitUntilElementsAreVisible(actions);
         for (WebElement action : actionsOptions)
         {
             if (action.getText().equals(actionName))
             {
-                webElementInteraction.mouseOver(action);
-                webElementInteraction.clickElement(action);
-                webElementInteraction.waitInSeconds(WAIT_2.getValue());
+                mouseOver(action);
+                clickElement(action);
+                waitInSeconds(WAIT_2.getValue());
                 break;
             }
         }
     }
 
-    public ModelActionsComponent usingCustomType(CustomContentModel contentModel, RestCustomTypeModel customTypeModel)
+    public ModelActionsComponent usingModel(CustomContentModel contentModel)
     {
-        return new ModelActionsComponent(contentModel, webElementInteraction, customTypeModel,this);
+        return new ModelActionsComponent(webDriver, contentModel);
+    }
+
+    public ModelActionsComponent usingCustomType(CustomContentModel contentModel, RestCustomTypeModel restCustomTypeModel)
+    {
+        return new ModelActionsComponent(webDriver, contentModel, restCustomTypeModel);
     }
 
     public ModelActionsComponent usingAspect(CustomContentModel contentModel, CustomAspectModel customAspect)
     {
-        return new ModelActionsComponent(contentModel, webElementInteraction, customAspect,this);
+        return new ModelActionsComponent(webDriver, contentModel, customAspect);
     }
 }

@@ -50,10 +50,10 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     private void waitUntilDataErrorMessageDisappears()
     {
         int retryCount = 0;
-        while(retryCount < RETRY_TIME_5.getValue() && webElementInteraction.isElementDisplayed(dataFailure))
+        while(retryCount < RETRY_TIME_5.getValue() && isElementDisplayed(dataFailure))
         {
             log.warn("Data error is displayed - retry: {}", retryCount);
-            webElementInteraction.refresh();
+            refresh();
             waitToLoopTime(WAIT_2.getValue());
             retryCount++;
         }
@@ -76,7 +76,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     {
         try
         {
-            webElementInteraction.waitUntilElementIsVisible(tableHeadList);
+            waitUntilElementIsVisible(tableHeadList);
         }
         catch (TimeoutException e)
         {
@@ -87,7 +87,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     public SitesManagerPage assertSiteManagerPageIsOpened()
     {
         log.info("Assert Site Manager page is opened");
-        assertTrue(webElementInteraction.getCurrentUrl().contains("manage-sites"), "Site Manager page is opened");
+        assertTrue(getCurrentUrl().contains("manage-sites"), "Site Manager page is opened");
         return this;
     }
 
@@ -97,7 +97,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         waitForSitesTableHeaderToBeVisible();
 
         List<String> expectedTableHeaderList = getTableHeaderList();
-        List<WebElement> tableList = webElementInteraction.waitUntilElementsAreVisible(tableHeadList);
+        List<WebElement> tableList = waitUntilElementsAreVisible(tableHeadList);
 
         ArrayList<String> actualTableHeaderTextList = getTableHeaderText(tableList);
         assertEquals(actualTableHeaderTextList, expectedTableHeaderList, "All table columns are displayed");
@@ -127,10 +127,10 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             refreshAndWaitIfDataFailureIsDisplayed();
             waitForSiteRowsWithRetry();
 
-            List<WebElement> siteList = webElementInteraction.findElements(siteRowsElements);
+            List<WebElement> siteList = findElements(siteRowsElements);
             for (WebElement siteRow : siteList)
             {
-                if (webElementInteraction.getElementText(siteRow).contains(siteName))
+                if (getElementText(siteRow).contains(siteName))
                 {
                     return siteRow;
                 }
@@ -144,18 +144,18 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
                 break;
             }
         }
-        while (!webElementInteraction.findElements(siteRowsElements).isEmpty());
+        while (!findElements(siteRowsElements).isEmpty());
         return null;
     }
 
     private void refreshAndWaitIfDataFailureIsDisplayed()
     {
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_15.getValue() && webElementInteraction.isElementDisplayed(dataFailure))
+        while (retryCount < RETRY_TIME_15.getValue() && isElementDisplayed(dataFailure))
         {
             log.warn("Data error is displayed. Refresh Site Manager page");
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            refresh();
+            waitInSeconds(WAIT_2.getValue());
             waitForSitesTableHeaderToBeVisible();
             retryCount++;
         }
@@ -164,11 +164,11 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     private void waitForSiteRowsWithRetry()
     {
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(siteRowsElements))
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(siteRowsElements))
         {
             log.warn("Site rows not displayed - retry: {}", retryCount);
             navigate();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            waitInSeconds(WAIT_2.getValue());
             waitUntilLoadingMessageDisappears();
             retryCount++;
         }
@@ -176,7 +176,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
 
     private boolean hasNextPage()
     {
-        return webElementInteraction.waitUntilElementIsVisible(nextPageButton)
+        return waitUntilElementIsVisible(nextPageButton)
             .getAttribute("aria-disabled").equals("false");
     }
 
@@ -184,24 +184,24 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     {
         if (hasNextPage())
         {
-            webElementInteraction.clickElement(nextPageButton);
+            clickElement(nextPageButton);
             waitUntilLoadingMessageDisappears();
-            webElementInteraction.waitUntilElementsAreVisible(siteRowsElements);
+            waitUntilElementsAreVisible(siteRowsElements);
         }
     }
 
     public boolean isSitesTableDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(sitesTable);
-    }
-
-    public ManagerSiteActionComponent usingSite(String site)
-    {
-        return new ManagerSiteActionComponent(this, webElementInteraction, site, new SiteManagerDeleteSiteDialog(webDriver), language);
+        return isElementDisplayed(sitesTable);
     }
 
     public ManagerSiteActionComponent usingSite(SiteModel site)
     {
         return usingSite(site.getTitle());
+    }
+
+    private ManagerSiteActionComponent usingSite(String site)
+    {
+        return new ManagerSiteActionComponent(webDriver, site);
     }
 }

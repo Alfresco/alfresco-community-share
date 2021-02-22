@@ -26,6 +26,7 @@ public class CreateLinksTests extends BaseTest
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
     private final ThreadLocal<FileModel> file = new ThreadLocal<>();
+
     private DocumentLibraryPage2 documentLibraryPage;
     private DocumentDetailsPage documentDetailsPage;
     private MyActivitiesDashlet myActivitiesDashlet;
@@ -49,7 +50,7 @@ public class CreateLinksTests extends BaseTest
         file.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
         getCmisApi().authenticateUser(user.get()).usingSite(site.get()).createFile(file.get());
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C42605")

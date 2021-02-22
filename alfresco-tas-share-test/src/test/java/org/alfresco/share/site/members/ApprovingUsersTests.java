@@ -50,19 +50,17 @@ public class ApprovingUsersTests extends BaseTest
     @BeforeMethod (alwaysRun = true)
     public void setupTest()
     {
-        managerUser.set(dataUser.usingAdmin().createRandomTestUser());
-        siteModel.set(dataSite.usingUser(managerUser.get()).createModeratedRandomSite());
-
-        setupAuthenticatedSession(managerUser.get());
-
         siteFinderPage = new SiteFinderPage(webDriver);
         myTasksPage = new MyTasksPage(webDriver);
         editTaskPage = new EditTaskPage(webDriver);
         viewTaskPage = new ViewTaskPage(webDriver);
         mySitesDashlet = new MySitesDashlet(webDriver);
         siteDashboardPage = new SiteDashboardPage(webDriver);
-        userDashboardPage = new UserDashboardPage(webDriver);
         myTasksDashlet = new MyTasksDashlet(webDriver);
+
+        managerUser.set(dataUser.usingAdmin().createRandomTestUser());
+        siteModel.set(dataSite.usingUser(managerUser.get()).createModeratedRandomSite());
+        authenticateUsingCookies(managerUser.get());
     }
 
     @TestRail(id = "C2461")
@@ -70,13 +68,13 @@ public class ApprovingUsersTests extends BaseTest
     public void shouldApproveUserToJoinSiteFromMyTaskPage()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
 
         siteFinderPage.navigate()
             .searchSiteWithName(siteModel.get().getId())
             .requestToJoinSite(siteModel.get().getId());
 
-        setupAuthenticatedSession(managerUser.get());
+        authenticateUsingCookies(managerUser.get());
 
         myTasksPage
             .navigateToMyTasks()
@@ -105,7 +103,7 @@ public class ApprovingUsersTests extends BaseTest
                         .concat(siteModel.get().getId()).concat(EMPTY_SPACE)
                         .concat(language.translate(SITE))));
 
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
 
         mySitesDashlet
             .accessSite(siteModel.get().getId());
@@ -119,14 +117,14 @@ public class ApprovingUsersTests extends BaseTest
     public void shouldApproveUserFromMyTasksDashlet()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
         String taskName = String.format(language.translate(TASK_MESSAGE), siteModel.get().getTitle());
 
         siteFinderPage.navigate()
             .searchSiteWithName(siteModel.get().getId())
             .requestToJoinSite(siteModel.get().getId());
 
-        setupAuthenticatedSession(managerUser.get());
+        authenticateUsingCookies(managerUser.get());
 
         userDashboardPage.navigate(managerUser.get());
         myTasksDashlet
@@ -142,7 +140,7 @@ public class ApprovingUsersTests extends BaseTest
             .assertTaskOptionEqualsTo(language.translate(COMPLETED_TASKS))
             .assertTaskNameEqualsTo(taskName);
 
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
 
         mySitesDashlet
             .accessSite(siteModel.get().getId());
@@ -158,13 +156,13 @@ public class ApprovingUsersTests extends BaseTest
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
         String taskName = String.format(language.translate(TASK_MESSAGE), siteModel.get().getTitle());
 
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
 
         siteFinderPage.navigate()
             .searchSiteWithName(siteModel.get().getId())
             .requestToJoinSite(siteModel.get().getId());
 
-        setupAuthenticatedSession(managerUser.get());
+        authenticateUsingCookies(managerUser.get());
 
         myTasksPage
             .navigateToMyTasks()
@@ -179,7 +177,7 @@ public class ApprovingUsersTests extends BaseTest
             .navigateToCompletedTasks()
             .assertTaskNameEqualsTo(siteModel.get().getId());
 
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
 
         mySitesDashlet
             .accessSite(siteModel.get().getId());
@@ -195,14 +193,14 @@ public class ApprovingUsersTests extends BaseTest
     public void shouldRejectUserFromMyTasksDashlet()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
         String taskName = String.format(language.translate(TASK_MESSAGE), siteModel.get().getTitle());
 
         siteFinderPage.navigate()
             .searchSiteWithName(siteModel.get().getId())
             .requestToJoinSite(siteModel.get().getId());
 
-        setupAuthenticatedSession(managerUser.get());
+        authenticateUsingCookies(managerUser.get());
 
         userDashboardPage.navigate(managerUser.get());
         myTasksDashlet
@@ -221,7 +219,7 @@ public class ApprovingUsersTests extends BaseTest
             .selectFilterTaskOption(language.translate(COMPLETED_TASKS))
             .assertTaskNameEqualsTo(taskName);
 
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
 
         mySitesDashlet
             .accessSite(siteModel.get().getId());
@@ -242,14 +240,14 @@ public class ApprovingUsersTests extends BaseTest
 
         String taskName = String.format(language.translate(TASK_MESSAGE), siteModel.get().getTitle());
 
-        setupAuthenticatedSession(userModel);
+        authenticateUsingCookies(userModel);
 
         siteFinderPage.navigate();
         siteFinderPage
             .searchSiteWithName(siteModel.get().getId())
             .requestToJoinSite(siteModel.get().getId());
 
-        setupAuthenticatedSession(collaborator);
+        authenticateUsingCookies(collaborator);
 
         myTasksPage
             .navigateToMyTasks()

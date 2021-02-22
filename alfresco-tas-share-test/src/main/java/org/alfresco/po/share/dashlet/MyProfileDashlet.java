@@ -33,7 +33,7 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
@@ -41,28 +41,28 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     public MyProfileDashlet clickOnHelpIcon(DashletHelpIcon dashlet)
     {
         log.info("Click Help Icon");
-        webElementInteraction.mouseOver(toolbarMyProfile);
-        WebElement helpMyProfile = webElementInteraction.waitUntilElementIsVisible(helpIconMyProfile);
-        webElementInteraction.mouseOver(helpMyProfile);
-        webElementInteraction.clickElement(helpMyProfile);
+        mouseOver(toolbarMyProfile);
+        WebElement helpMyProfile = waitUntilElementIsVisible(helpIconMyProfile);
+        mouseOver(helpMyProfile);
+        clickElement(helpMyProfile);
         return this;
     }
 
     private WebElement getMyProfileDashletContainer()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+        return waitUntilElementIsVisible(dashletContainer);
     }
 
     public MyProfileDashlet assertViewFullProfileButtonIsDisplayed()
     {
-        WebElement fullProfile = webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(viewFullProfile);
-        assertTrue(webElementInteraction.isElementDisplayed(fullProfile), "View full profile is displayed");
+        WebElement fullProfile = waitUntilElementIsVisible(dashletContainer).findElement(viewFullProfile);
+        assertTrue(isElementDisplayed(fullProfile), "View full profile is displayed");
         return this;
     }
 
     public MyProfileDashlet assertAvatarIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getMyProfileDashletContainer().findElement(avatar)), "Avatar is displayed");
+        assertTrue(isElementDisplayed(getMyProfileDashletContainer().findElement(avatar)), "Avatar is displayed");
         return this;
     }
 
@@ -74,13 +74,13 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 
     public MyProfileDashlet assertNameIs(String fullName)
     {
-        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(name)), fullName);
+        assertEquals(getElementText(getMyProfileDashletContainer().findElement(name)), fullName);
         return this;
     }
 
     public MyProfileDashlet assertJobTitleIs(String job)
     {
-        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(jobTitle)), job);
+        assertEquals(getElementText(getMyProfileDashletContainer().findElement(jobTitle)), job);
         return this;
     }
 
@@ -99,25 +99,25 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 
     public MyProfileDashlet assertEmailIs(String expectedEmail)
     {
-        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(email)), expectedEmail);
+        assertEquals(getElementText(getMyProfileDashletContainer().findElement(email)), expectedEmail);
         return this;
     }
 
     public MyProfileDashlet assertTelephoneIs(String expectedTelephone)
     {
-        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(telephone)), expectedTelephone);
+        assertEquals(getElementText(getMyProfileDashletContainer().findElement(telephone)), expectedTelephone);
         return this;
     }
 
     public MyProfileDashlet assertSkypeIs(String expectedSkype)
     {
-        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(skype)), expectedSkype);
+        assertEquals(getElementText(getMyProfileDashletContainer().findElement(skype)), expectedSkype);
         return this;
     }
 
     public MyProfileDashlet assertInstantMessagesEqualTo(String expectedInstantMessage)
     {
-        assertEquals(webElementInteraction.getElementText(getMyProfileDashletContainer().findElement(
+        assertEquals(getElementText(getMyProfileDashletContainer().findElement(
             instantMessage)), expectedInstantMessage);
         return this;
     }

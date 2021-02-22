@@ -31,7 +31,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 
     public WebElement findTag(String Tag)
     {
-        return webElementInteraction.findElement(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
+        return findElement(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public String getPageTitle()
     {
-        return webElementInteraction.findElement(pageTitle).getText();
+        return findElement(pageTitle).getText();
     }
 
     /**
@@ -65,10 +65,10 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void sendBlogPostTextInput(String blogPostContentText)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
-        WebElement element = webElementInteraction.findElement(By.id("tinymce"));
+        switchTo().frame(findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
+        WebElement element = findElement(By.id("tinymce"));
         element.sendKeys(blogPostContentText);
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
     }
 
     /**
@@ -96,8 +96,8 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void clickDeleteTag(String Tag)
     {
-        webElementInteraction.mouseOver(findTag(Tag));
-        webElementInteraction.findElement(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']")).click();
+        mouseOver(findTag(Tag));
+        findElement(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']")).click();
     }
 
     /**
@@ -119,7 +119,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public boolean isTagPresent(String Tag)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
+        return isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
     }
 
     /**
@@ -130,8 +130,8 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public boolean isDeleteButtonAvailable(String Tag)
     {
-        webElementInteraction.mouseOver(findTag(Tag));
-        return webElementInteraction.isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']"));
+        mouseOver(findTag(Tag));
+        return isElementDisplayed(By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']"));
     }
 
     /**
@@ -148,7 +148,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
      */
     public void clickCancelButton()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     /**

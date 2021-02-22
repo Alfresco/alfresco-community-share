@@ -37,7 +37,7 @@ public class BecomeSiteManagerTest extends BaseTest
         userModel.set(dataUser.usingAdmin().createRandomTestUser());
         siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
 
-        setupAuthenticatedSession(userModel.get());
+        authenticateUsingCookies(userModel.get());
 
         siteDashboardPage = new SiteDashboardPage(webDriver);
         sitesManagerPage = new SitesManagerPage(webDriver);
@@ -52,7 +52,7 @@ public class BecomeSiteManagerTest extends BaseTest
         dataUser.usingUser(userModel.get())
             .addUserToSite(collaborator, siteModel.get(), SiteCollaborator);
 
-        setupAuthenticatedSession(collaborator);
+        authenticateUsingCookies(collaborator);
 
         siteDashboardPage
             .navigate(siteModel.get())
@@ -67,7 +67,7 @@ public class BecomeSiteManagerTest extends BaseTest
         dataUser.usingUser(userModel.get())
             .addUserToSite(getAdminUser(), siteModel.get(), SiteManager);
 
-        setupAuthenticatedSession(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
 
         sitesManagerPage
             .navigate()
@@ -84,7 +84,7 @@ public class BecomeSiteManagerTest extends BaseTest
         dataUser.usingUser(userModel.get())
             .addUserToSite(getAdminUser(), siteModel.get(), SiteCollaborator);
 
-        setupAuthenticatedSession(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
 
         siteDashboardPage
             .navigate(siteModel.get())
@@ -120,7 +120,7 @@ public class BecomeSiteManagerTest extends BaseTest
         dataUser.usingUser(userModel.get())
             .addUserToSite(getAdminUser(), siteModel.get(), SiteCollaborator);
 
-        setupAuthenticatedSession(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
 
         sitesManagerPage
             .navigate()
@@ -143,7 +143,7 @@ public class BecomeSiteManagerTest extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
     public void becomeSiteManagerActionShouldBeDisplayedWhenAdminIsNotSiteMember()
     {
-        setupAuthenticatedSession(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
 
         siteDashboardPage
             .navigate(siteModel.get())
@@ -164,7 +164,7 @@ public class BecomeSiteManagerTest extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerFromSiteManagerPageWhenAdminIsNotSiteMember()
     {
-        setupAuthenticatedSession(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
         sitesManagerPage.navigate();
 
         sitesManagerPage.usingSite(siteModel.get())

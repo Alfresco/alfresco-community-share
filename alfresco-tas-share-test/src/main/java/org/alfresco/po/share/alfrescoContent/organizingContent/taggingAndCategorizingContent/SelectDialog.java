@@ -40,19 +40,19 @@ public class SelectDialog extends BaseDialogComponent
 
     public String getDialogTitle()
     {
-        return webElementInteraction.getElementText(dialogTitle);
+        return getElementText(dialogTitle);
     }
 
     private WebElement getItemElementFromResultsPicker(String item)
     {
-        List<WebElement> results = webElementInteraction.waitUntilElementIsVisible(resultsPicker).findElements(itemsRows);
-        return webElementInteraction.findFirstElementWithValue(results, item);
+        List<WebElement> results = waitUntilElementIsVisible(resultsPicker).findElements(itemsRows);
+        return findFirstElementWithValue(results, item);
     }
 
     private WebElement getItemElementFromSelectedItemsPicker(String item)
     {
-        List<WebElement> selectedItems = webElementInteraction.waitUntilElementIsVisible(selectedItemsPicker).findElements(itemsRows);
-        return webElementInteraction.findFirstElementWithValue(selectedItems, item);
+        List<WebElement> selectedItems = waitUntilElementIsVisible(selectedItemsPicker).findElements(itemsRows);
+        return findFirstElementWithValue(selectedItems, item);
     }
 
     public void selectItems(List<String> items)
@@ -63,29 +63,29 @@ public class SelectDialog extends BaseDialogComponent
     public SelectDialog selectTag(String tag)
     {
         log.info("Select tag {}", tag);
-        WebElement itemRow = webElementInteraction.findElement(By.xpath(String.format(addTagItemRow, tag)));
-        webElementInteraction.clickElement(itemRow.findElement(addIcon));
+        WebElement itemRow = findElement(By.xpath(String.format(addTagItemRow, tag)));
+        clickElement(itemRow.findElement(addIcon));
         return this;
     }
 
     public SelectDialog selectCategory(String category)
     {
         log.info("Select category {}", category);
-        WebElement itemRow = webElementInteraction.findElement(By.xpath(String.format(addCategoryItemRow, category)));
-        webElementInteraction.clickElement(itemRow.findElement(addIcon));
+        WebElement itemRow = findElement(By.xpath(String.format(addCategoryItemRow, category)));
+        clickElement(itemRow.findElement(addIcon));
         return this;
     }
 
     public boolean isItemSelectable(String item)
     {
-        return webElementInteraction.isElementDisplayed(getItemElementFromResultsPicker(item).findElement(addIcon));
+        return isElementDisplayed(getItemElementFromResultsPicker(item).findElement(addIcon));
     }
 
     public SelectDialog assertTagIsNotSelectable(String tag)
     {
         log.info("Assert tag {} is not selectable", tag);
-        WebElement itemRow = webElementInteraction.findElement(By.xpath(String.format(addTagItemRow, tag)));
-        assertFalse(webElementInteraction.isElementDisplayed(itemRow.findElement(addIcon)),
+        WebElement itemRow = findElement(By.xpath(String.format(addTagItemRow, tag)));
+        assertFalse(isElementDisplayed(itemRow.findElement(addIcon)),
             String.format("Tag %s is selectable", tag));
         return this;
     }
@@ -93,22 +93,22 @@ public class SelectDialog extends BaseDialogComponent
     public SelectDialog assertCategoryIsNotSelectable(String category)
     {
         log.info("Assert category {} is not selectable", category);
-        WebElement itemRow = webElementInteraction.findElement(By.xpath(String.format(addCategoryItemRow, category)));
-        assertFalse(webElementInteraction.isElementDisplayed(itemRow.findElement(addIcon)),
+        WebElement itemRow = findElement(By.xpath(String.format(addCategoryItemRow, category)));
+        assertFalse(isElementDisplayed(itemRow.findElement(addIcon)),
             String.format("Tag %s is selectable", category));
         return this;
     }
 
     public boolean isItemSelected(String item)
     {
-        return webElementInteraction.isElementDisplayed(getItemElementFromSelectedItemsPicker(item));
+        return isElementDisplayed(getItemElementFromSelectedItemsPicker(item));
     }
 
     public SelectDialog assertTagIsSelected(String tag)
     {
         log.info("Assert tag {} is selected", tag);
-        WebElement selectedItem = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(removeTagItemRow, tag)));
-        assertTrue(webElementInteraction.isElementDisplayed(selectedItem),
+        WebElement selectedItem = waitUntilElementIsVisible(By.xpath(String.format(removeTagItemRow, tag)));
+        assertTrue(isElementDisplayed(selectedItem),
             String.format("Tag is not selected %s", tag));
         return this;
     }
@@ -116,8 +116,8 @@ public class SelectDialog extends BaseDialogComponent
     public SelectDialog assertCategoryIsSelected(String category)
     {
         log.info("Assert category {} is selected", category);
-        WebElement selectedItem = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(removeCategoryItemRow, category)));
-        assertTrue(webElementInteraction.isElementDisplayed(selectedItem),
+        WebElement selectedItem = waitUntilElementIsVisible(By.xpath(String.format(removeCategoryItemRow, category)));
+        assertTrue(isElementDisplayed(selectedItem),
             String.format("Category is not selected %s", category));
         return this;
     }
@@ -125,27 +125,27 @@ public class SelectDialog extends BaseDialogComponent
     public SelectDialog removeCategory(String category)
     {
         log.info("Remove category {}", category);
-        WebElement selectedItem = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(removeCategoryItemRow, category)));
-        webElementInteraction.clickElement(selectedItem.findElement(removeIcon));
+        WebElement selectedItem = waitUntilElementIsVisible(By.xpath(String.format(removeCategoryItemRow, category)));
+        clickElement(selectedItem.findElement(removeIcon));
         return this;
     }
 
     public EditPropertiesDialog clickOk()
     {
-        webElementInteraction.clickElement(okButton);
+        clickElement(okButton);
         return new EditPropertiesDialog(webDriver);
     }
 
     public void clickCancel()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     public SelectDialog typeTag(String tagName)
     {
         log.info("Type tag {}", tagName);
-        webElementInteraction.waitUntilElementIsVisible(tagInputField);
-        webElementInteraction.clearAndType(tagInputField, tagName);
+        waitUntilElementIsVisible(tagInputField);
+        clearAndType(tagInputField, tagName);
 
         return this;
     }
@@ -155,7 +155,7 @@ public class SelectDialog extends BaseDialogComponent
         By tagRow = By.xpath(String.format(addTagItemRow, tagName));
         int retryCount = 0;
         typeTag(tagName);
-        while(retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(tagRow))
+        while(retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(tagRow))
         {
             log.warn("Tag {} not displayed - retry: {}", tagName, retryCount);
             typeTag(tagName);
@@ -168,8 +168,8 @@ public class SelectDialog extends BaseDialogComponent
     public SelectDialog clickCreateNewIcon()
     {
         log.info("Click Create new icon");
-        webElementInteraction.clickElement(createNewIcon);
-        webElementInteraction.waitUntilElementIsVisible(removeIcon);
+        clickElement(createNewIcon);
+        waitUntilElementIsVisible(removeIcon);
 
         return this;
     }

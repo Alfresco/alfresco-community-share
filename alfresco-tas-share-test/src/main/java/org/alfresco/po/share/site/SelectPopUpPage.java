@@ -28,12 +28,12 @@ public class SelectPopUpPage extends BaseDialogComponent
 
     public WebElement selectDetailsRowResultList(String item)
     {
-        return webElementInteraction.findFirstElementWithValue(resultsList, item);
+        return findFirstElementWithValue(resultsList, item);
     }
 
     public WebElement selectDetailsRowSelectedList(String item)
     {
-        return webElementInteraction.findFirstElementWithValue(selectedList, item);
+        return findFirstElementWithValue(selectedList, item);
     }
 
     public void clickItem(String item)
@@ -43,30 +43,30 @@ public class SelectPopUpPage extends BaseDialogComponent
 
     public void clickAddIcon(String item)
     {
-        webElementInteraction.waitUntilElementsAreVisible(resultsList);
-        webElementInteraction.clickElement(selectDetailsRowResultList(item).findElement(addIcon));
+        waitUntilElementsAreVisible(resultsList);
+        clickElement(selectDetailsRowResultList(item).findElement(addIcon));
     }
 
     public boolean isStringPresentInSearchList(String toCheck)
     {
-        return DataUtil.isStringPresentInWebElementList(toCheck, webElementInteraction.findElements(resultsList));
+        return DataUtil.isStringPresentInWebElementList(toCheck, findElements(resultsList));
     }
 
     public boolean isStringPresentInSelectedList(String toCheck)
     {
-        return DataUtil.isStringPresentInWebElementList(toCheck, webElementInteraction.findElements(selectedList));
+        return DataUtil.isStringPresentInWebElementList(toCheck, findElements(selectedList));
     }
 
 
     public void clickRemoveIcon(String item)
     {
-        webElementInteraction.waitUntilElementsAreVisible(selectedList);
-        webElementInteraction.clickElement(selectDetailsRowResultList(item).findElement(removeIcon));
+        waitUntilElementsAreVisible(selectedList);
+        clickElement(selectDetailsRowResultList(item).findElement(removeIcon));
     }
 
     public void clickOkButton()
     {
-        webElementInteraction.clickElement(okButton);
+        clickElement(okButton);
     }
 
     public boolean isAddIconDisplayed(String item)
@@ -81,20 +81,20 @@ public class SelectPopUpPage extends BaseDialogComponent
 
     public void search(String searchText)
     {
-        webElementInteraction.clearAndType(searchInput, searchText);
-        webElementInteraction.clickElement(searchButton);
+        clearAndType(searchInput, searchText);
+        clickElement(searchButton);
         int counter = 0;
-        while (!webElementInteraction.isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
+        while (!isElementDisplayed(addIcon) && counter < WAIT_15.getValue())
         {
             log.info("Search: {}", counter);
             Utility.waitToLoopTime(1);
-            webElementInteraction.clickElement(searchButton);
+            clickElement(searchButton);
             counter++;
         }
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchButton);
+        return isElementDisplayed(searchButton);
     }
 }

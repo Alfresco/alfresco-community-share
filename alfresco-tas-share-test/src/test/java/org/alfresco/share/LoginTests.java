@@ -1,17 +1,18 @@
 package org.alfresco.share;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author bogdan.bocancea
@@ -26,9 +27,12 @@ public class LoginTests extends BaseTest
             randomString + "user.name",
             randomString + "test3&test3",
             randomString + "test5=test5" };
-    private List<UserModel> specialUserList = Collections.synchronizedList(new ArrayList<>());
+
+    private final List<UserModel> specialUserList = Collections.synchronizedList(new ArrayList<>());
     private final UserModel specialPassUser = new UserModel("specialPassUser" + randomString, "abc@123");
-    private UserModel testUserC2084 = new UserModel("testUserC2084" + randomString, password);
+    private final UserModel testUserC2084 = new UserModel("testUserC2084" + randomString, password);
+
+    private LoginPage loginPage;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -37,7 +41,13 @@ public class LoginTests extends BaseTest
         dataUser.createUser(testUserC2084);
         dataUser.createUser(specialPassUser);
         Arrays.stream(specialUsers).map(specialUser ->
-                dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));
+                dataUser.createUser(specialUser, password)).forEach(specialUserList::add);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void beforeEach()
+    {
+        loginPage = new LoginPage(webDriver);
     }
 
     @AfterClass(alwaysRun = true)

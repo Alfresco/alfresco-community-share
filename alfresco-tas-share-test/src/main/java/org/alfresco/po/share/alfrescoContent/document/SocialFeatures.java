@@ -81,12 +81,12 @@ public class SocialFeatures extends DocumentLibraryPage
     public void clickLikeButton(String fileName)
     {
         selectDocumentLibraryItemRow(fileName).findElement(likeButton).click();
-        webElementInteraction.waitUntilElementIsVisible(enabledLikeButton);
+        waitUntilElementIsVisible(enabledLikeButton);
     }
 
     public boolean isLikeButtonEnabled(String fileName)
     {
-        return webElementInteraction.isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabledLikeButton);
+        return isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabledLikeButton);
     }
 
     public String getLikeButtonEnabledText(String fileName)
@@ -117,7 +117,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isShareButtonDisplayed(String contentName)
     {
-        return webElementInteraction.isElementDisplayed(selectDocumentLibraryItemRow(contentName), shareButton);
+        return isElementDisplayed(selectDocumentLibraryItemRow(contentName), shareButton);
     }
 
     public void clickShareButton(String contentName)
@@ -127,12 +127,12 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isQuickshareWindowDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(quickShareWindow);
+        return isElementDisplayed(quickShareWindow);
     }
 
     public boolean isPublicLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(publicLinkViewButton);
+        return isElementDisplayed(publicLinkViewButton);
     }
 
     public void clickShareWithFacebook()
@@ -142,19 +142,19 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public String getFacebookWindowTitle()
     {
-        return webElementInteraction.findElement(By.id("homelink")).getText();
+        return findElement(By.id("homelink")).getText();
     }
 
     public void loginFacebook()
     {
-        webElementInteraction.findElement(By.id("email")).sendKeys(user);
-        webElementInteraction.findElement(By.id("pass")).sendKeys(password);
-        webElementInteraction.findElement(By.id("loginbutton")).click();
+        findElement(By.id("email")).sendKeys(user);
+        findElement(By.id("pass")).sendKeys(password);
+        findElement(By.id("loginbutton")).click();
     }
 
     public boolean isShareLinkDisplayedOnFacebook()
     {
-        return webElementInteraction.isElementDisplayed(By.xpath("//div[@class='mbs _6m6 _2cnj _5s6c']"));
+        return isElementDisplayed(By.xpath("//div[@class='mbs _6m6 _2cnj _5s6c']"));
     }
 
     public void clickTwitterIcon()
@@ -164,12 +164,12 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public String getTwitterPageTitle()
     {
-        return webElementInteraction.findElement(By.cssSelector("h2.action-information")).getText();
+        return findElement(By.cssSelector("h2.action-information")).getText();
     }
 
     public String getTwitterShareLink()
     {
-        String link = webElementInteraction.findElement(By.id("status")).getText();
+        String link = findElement(By.id("status")).getText();
         link = link.substring(0, link.lastIndexOf('/'));
         return link;
     }
@@ -188,10 +188,10 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public void loginToGoogleAccount()
     {
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(googlePlusEmailField, 3);
+        waitUntilElementIsDisplayedWithRetry(googlePlusEmailField, 3);
         googleEmail.sendKeys(gEmail);
         nextButton.click();
-        webElementInteraction.waitUntilWebElementIsDisplayedWithRetry(googlePassword, 3);
+        waitUntilWebElementIsDisplayedWithRetry(googlePassword, 3);
         googlePassword.sendKeys(gPassword);
         signInButton.click();
     }
@@ -203,12 +203,12 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean checkShareButtonAvailability()
     {
-        return webElementInteraction.isElementDisplayed(shareButton);
+        return isElementDisplayed(shareButton);
     }
 
     public boolean isPublicLinkInputFieldDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(publicLinkInputField);
+        return isElementDisplayed(publicLinkInputField);
     }
 
     public void clickPublicLinkViewButton()
@@ -218,14 +218,14 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isLoginButtonOnSharedFilePage()
     {
-        webElementInteraction.waitUntilElementIsVisible(loginButtonOnSharedFilePage);
-        return webElementInteraction.isElementDisplayed(loginButtonOnSharedFilePage);
+        waitUntilElementIsVisible(loginButtonOnSharedFilePage);
+        return isElementDisplayed(loginButtonOnSharedFilePage);
     }
 
     public boolean isDocumentDetailsButtonOnSharedFilePageDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(documentDetailsButtonOnSharedFilePage);
-        return webElementInteraction.isElementDisplayed(documentDetailsButtonOnSharedFilePage);
+        waitUntilElementIsVisible(documentDetailsButtonOnSharedFilePage);
+        return isElementDisplayed(documentDetailsButtonOnSharedFilePage);
     }
 
     public void clickLoginButtonOnSharedFilePage()
@@ -246,7 +246,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isShareUrlDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(sharedUrl);
-        return webElementInteraction.isElementDisplayed(sharedUrl);
+        waitUntilElementIsVisible(sharedUrl);
+        return isElementDisplayed(sharedUrl);
     }
 }

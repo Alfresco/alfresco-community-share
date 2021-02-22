@@ -88,7 +88,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     private WebElement getTopicElement(String topicTitle)
     {
-        return webElementInteraction.findFirstElementWithValue(topicsList, topicTitle);
+        return findFirstElementWithValue(topicsList, topicTitle);
     }
 
     /**
@@ -99,7 +99,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public boolean isTopicDisplayed(String topicTitle)
     {
-        return webElementInteraction.isElementDisplayed(getTopicElement(topicTitle));
+        return isElementDisplayed(getTopicElement(topicTitle));
     }
 
     /**
@@ -228,10 +228,10 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         viewButton.click();
         if (viewButtonText.equals("Simple View"))
         {
-            webElementInteraction.waitUntilElementIsVisible(By.cssSelector(".node.topic.simple"));
+            waitUntilElementIsVisible(By.cssSelector(".node.topic.simple"));
         } else
         {
-            webElementInteraction.waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
+            waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
         }
         return new TopicListPage(webDriver);
 
@@ -245,7 +245,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public boolean isTagDisplayed(String tagName)
     {
-        return webElementInteraction.findFirstElementWithValue(tagsList, tagName) != null;
+        return findFirstElementWithValue(tagsList, tagName) != null;
     }
 
     /**
@@ -256,7 +256,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public String getTagAssociatedTopicsNo(String tagName)
     {
-        String tagElement = webElementInteraction.findFirstElementWithValue(tagsList, tagName).findElement(By.xpath("..")).getText();
+        String tagElement = findFirstElementWithValue(tagsList, tagName).findElement(By.xpath("..")).getText();
         return tagElement.substring(tagElement.indexOf("("));
     }
 
@@ -268,7 +268,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public TopicListPage clickTag(String tagName)
     {
-        webElementInteraction.findFirstElementWithValue(tagsList, tagName).click();
+        findFirstElementWithValue(tagsList, tagName).click();
         return new TopicListPage(webDriver);
     }
 
@@ -276,7 +276,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-            return webElementInteraction.isElementDisplayed(getTopicElement(topic), topicContent);
+            return isElementDisplayed(getTopicElement(topic), topicContent);
         }
         catch (NoSuchElementException se)
         {
@@ -288,7 +288,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-           return webElementInteraction.isElementDisplayed(getTopicElement(topic), topicReplies);
+           return isElementDisplayed(getTopicElement(topic), topicReplies);
         }
         catch (NoSuchElementException se)
         {
@@ -300,7 +300,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-            return webElementInteraction.isElementDisplayed(getTopicElement(topic), topicTags);
+            return isElementDisplayed(getTopicElement(topic), topicTags);
         }
         catch (NoSuchElementException se)
         {
@@ -312,7 +312,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         try
         {
-            return webElementInteraction.isElementDisplayed(getTopicElement(topic), readTopic);
+            return isElementDisplayed(getTopicElement(topic), readTopic);
         }
         catch (NoSuchElementException se)
         {

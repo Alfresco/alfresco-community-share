@@ -29,7 +29,7 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
 
     public RepositoryPage assertRepositoryPageIsOpened()
     {
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Repository page is opened");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Repository page is opened");
         return this;
     }
 }

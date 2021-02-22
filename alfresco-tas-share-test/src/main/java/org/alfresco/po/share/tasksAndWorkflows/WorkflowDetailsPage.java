@@ -35,73 +35,73 @@ public class WorkflowDetailsPage extends SharePage2<WorkflowDetailsPage>
 
     public String getWorkflowDetailsHeader()
     {
-        return webElementInteraction.getElementText(workflowDetailsHeader);
+        return getElementText(workflowDetailsHeader);
     }
 
     public String getStartedByUser()
     {
-        return webElementInteraction.getElementText(startedByUser);
+        return getElementText(startedByUser);
     }
 
     public String getAssignedToUser()
     {
-        return webElementInteraction.getElementText(assignedToUser);
+        return getElementText(assignedToUser);
     }
 
     public String getDueDate()
     {
-        return webElementInteraction.getElementText(dueDate);
+        return getElementText(dueDate);
     }
 
     public String getPriority()
     {
-        return webElementInteraction.getElementText(priority);
+        return getElementText(priority);
     }
 
     public String getMessage()
     {
-        return webElementInteraction.getElementText(message);
+        return getElementText(message);
     }
 
     public String getStatus()
     {
-        return webElementInteraction.getElementText(status);
+        return getElementText(status);
     }
 
     public String getRecentOutcome()
     {
-        return webElementInteraction.getElementText(recentOutcome);
+        return getElementText(recentOutcome);
     }
 
     public String getRecentComment()
     {
-        return webElementInteraction.getElementText(recentTaskComment);
+        return getElementText(recentTaskComment);
     }
 
     public TaskDetailsPage clickTaskDetailsButton()
     {
-        webElementInteraction.clickElement(taskDetailsButton);
+        clickElement(taskDetailsButton);
         return new TaskDetailsPage(webDriver);
     }
 
     public EditTaskPage clickEditTaskButton()
     {
-        webElementInteraction.clickElement(editTaskButton);
+        clickElement(editTaskButton);
         return new EditTaskPage(webDriver);
     }
 
     public boolean isHistoryBlockPresent()
     {
-        return webElementInteraction.isElementDisplayed(historyBlock);
+        return isElementDisplayed(historyBlock);
     }
 
     public String getHistoryOutcome(String completedByUser)
     {
-        return webElementInteraction.findElement(By.xpath(String.format(historyOutcome, completedByUser))).getText();
+        return findElement(By.xpath(String.format(historyOutcome, completedByUser))).getText();
     }
 
     public String getHistoryComment(String completedByUser)
     {
-        return webElementInteraction.findElement(By.xpath(String.format(historyComment, completedByUser))).getText();
+        return findElement(By.xpath(String.format(historyComment, completedByUser))).getText();
     }
 }

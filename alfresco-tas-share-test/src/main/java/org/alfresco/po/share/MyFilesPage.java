@@ -30,8 +30,8 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
 
     public MyFilesPage assertMyFilesPageIsOpened()
     {
-        webElementInteraction.waitUrlContains(getRelativePath(), WAIT_40.getValue());
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "My Files page is opened");
+        waitUrlContains(getRelativePath(), WAIT_40.getValue());
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "My Files page is opened");
         return this;
     }
 }

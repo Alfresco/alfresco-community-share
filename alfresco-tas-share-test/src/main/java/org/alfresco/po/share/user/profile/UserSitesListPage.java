@@ -64,14 +64,14 @@ public class UserSitesListPage extends SharePage2<UserSitesListPage> implements 
     @Override
     public UserSitesListPage navigateByMenuBar()
     {
-        webElementInteraction.clickElement(sitesMenuLink);
-        webElementInteraction.waitUntilElementIsVisible(mySitesLink).click();
+        clickElement(sitesMenuLink);
+        waitUntilElementIsVisible(mySitesLink).click();
         return new UserSitesListPage(webDriver);
     }
 
     private WebElement getSiteRow(SiteModel site)
     {
-        List<WebElement> sites = webElementInteraction.waitUntilElementsAreVisible(siteRows);
+        List<WebElement> sites = waitUntilElementsAreVisible(siteRows);
         return sites.stream().filter(siteRow -> siteRow.findElement(siteNameLocator)
             .getAttribute("href").contains(site.getId())).findFirst().orElse(null);
     }
@@ -79,7 +79,7 @@ public class UserSitesListPage extends SharePage2<UserSitesListPage> implements 
     public UserSitesListPage assertSiteIsDisplayed(SiteModel site)
     {
         log.info("Assert site {} is displayed", site.getId());
-        assertTrue(webElementInteraction.isElementDisplayed(getSiteRow(site)), String.format("Site %s is displayed", site.getId()));
+        assertTrue(isElementDisplayed(getSiteRow(site)), String.format("Site %s is displayed", site.getId()));
         return this;
     }
 
@@ -93,14 +93,14 @@ public class UserSitesListPage extends SharePage2<UserSitesListPage> implements 
     public SiteDashboardPage clickSite(SiteModel site)
     {
         log.info("Click site {}", site.getId());
-        webElementInteraction.clickElement(siteNameLocator.findElement(getSiteRow(site)));
+        clickElement(siteNameLocator.findElement(getSiteRow(site)));
         return new SiteDashboardPage(webDriver);
     }
 
     public UserSitesListPage assertUserHasNoSitesMessageIsDisplayed()
     {
         log.info("Assert User is not a member of any sites");
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(noSitesMessage).getText(), language.translate("user.sitesList.noSitesMessage"),
+        assertEquals(getElementText(noSitesMessage), language.translate("user.sitesList.noSitesMessage"),
             "User is not a member of any sites is displayed");
         return this;
     }

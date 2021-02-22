@@ -22,7 +22,7 @@ public class DeleteModelDialog extends BaseDialogComponent
 
     public String getDeleteModelDialogText()
     {
-        return webElementInteraction.getElementText(deleteModelDialogText);
+        return getElementText(deleteModelDialogText);
     }
 
     public DeleteModelDialog assertDeleteModelDialogTextIsCorrect(String modelName)
@@ -33,15 +33,15 @@ public class DeleteModelDialog extends BaseDialogComponent
 
     public DeleteModelDialog assertDeleteModelDialogIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(deleteModelDialogLocator), "Delete model dialog is displayed");
+        assertTrue(isElementDisplayed(deleteModelDialogLocator), "Delete model dialog is displayed");
         return this;
     }
 
     public ModelManagerPage clickDelete()
     {
-        webElementInteraction.waitUntilElementIsVisible(deleteButton);
-        webElementInteraction.clickElement(deleteButton);
-        webElementInteraction.waitUntilElementDisappears(deleteModelDialogLocator);
+        waitUntilElementIsVisible(deleteButton);
+        clickElement(deleteButton);
+        waitUntilElementDisappears(deleteModelDialogLocator);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
         modelManagerPage.waitUntilLoadingMessageDisappears();
         return new ModelManagerPage(webDriver);
@@ -49,7 +49,7 @@ public class DeleteModelDialog extends BaseDialogComponent
 
     public DeleteModelDialog assertCancelButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 }

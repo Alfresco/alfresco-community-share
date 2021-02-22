@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
 {
     private WebViewDashlet webViewDashlet;
+
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
@@ -24,7 +25,7 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.WEB_VIEW, 1, 3);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2143")

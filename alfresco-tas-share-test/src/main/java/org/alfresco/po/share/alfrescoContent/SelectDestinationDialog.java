@@ -4,8 +4,6 @@ import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectDestinationDialog extends BaseDialogComponent
@@ -26,28 +24,28 @@ public class SelectDestinationDialog extends BaseDialogComponent
 
     public void clickOkButton()
     {
-        webElementInteraction.clickElement(okButton);
+        clickElement(okButton);
     }
 
     public void clickLinkButton()
     {
-        webElementInteraction.clickElement(linkButton);
+        clickElement(linkButton);
     }
 
     public void clickCancelButton()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     public void clickSite(String siteName)
     {
-        webElementInteraction.findFirstElementWithValue(siteList, siteName).click();
+        findFirstElementWithValue(siteList, siteName).click();
     }
 
     public void clickPathFolder(String folderName)
     {
-        webElementInteraction.waitUntilElementsAreVisible(By.cssSelector(".path .ygtvlabel"));
-        List<WebElement> list = webElementInteraction.findElements(pathList);
+        waitUntilElementsAreVisible(By.cssSelector(".path .ygtvlabel"));
+        List<WebElement> list = findElements(pathList);
         for (WebElement aPathList : list)
         {
             if (aPathList.getText().equals(folderName))
@@ -57,12 +55,12 @@ public class SelectDestinationDialog extends BaseDialogComponent
 
     public String getDialogTitle()
     {
-        return webElementInteraction.getElementText(dialogTitle);
+        return getElementText(dialogTitle);
     }
 
     public void selectSite(String siteName)
     {
-        webElementInteraction.waitUntilElementsAreVisible(By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']"));
-        webElementInteraction.clickElement(webElementInteraction.findFirstElementWithValue(sitesListCopyFilesTo, siteName));
+        waitUntilElementsAreVisible(By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']"));
+        clickElement(findFirstElementWithValue(sitesListCopyFilesTo, siteName));
     }
 }

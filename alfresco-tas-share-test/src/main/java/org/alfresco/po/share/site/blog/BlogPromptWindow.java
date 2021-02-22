@@ -33,48 +33,48 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     public void writeComment(String blogComment)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(By.xpath(
+        switchTo().frame(findElement(By.xpath(
             "//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe")));
-        WebElement element = webElementInteraction.findElement(By.id("tinymce"));
+        WebElement element = findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogComment);
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
     }
 
     public String getAddCommentLable()
     {
-        return webElementInteraction.getElementText(addCommentBoxLabel);
+        return getElementText(addCommentBoxLabel);
     }
 
     public void clickAddCommentButton()
     {
-        webElementInteraction.findElement(addCommentButton).click();
+        findElement(addCommentButton).click();
     }
 
     public void clickCancelOnAddCommentWindow()
     {
-        webElementInteraction.findElement(cancelButtonCommentWindow).click();
+        findElement(cancelButtonCommentWindow).click();
     }
 
     public void clickSaveButtonOnEditComment()
     {
-        webElementInteraction.findElement(saveButtonEditCommentWindow).click();
+        findElement(saveButtonEditCommentWindow).click();
     }
 
 
     public void clickCancelButtonOnEditComment()
     {
-        webElementInteraction.findElement(cancelButtonEditCommentWindow).click();
+        findElement(cancelButtonEditCommentWindow).click();
     }
 
     public boolean isEditCommentDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
+        return isElementDisplayed(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
     }
 
     public String getEditCommentBoxLabel()
     {
-        return webElementInteraction.findElement(editCommentBoxLabel).getText();
+        return findElement(editCommentBoxLabel).getText();
     }
 
     public void testEditComment(String comment)

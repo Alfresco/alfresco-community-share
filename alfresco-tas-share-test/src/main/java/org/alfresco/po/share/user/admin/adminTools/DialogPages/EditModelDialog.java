@@ -23,54 +23,54 @@ public class EditModelDialog extends BaseDialogComponent
 
     public EditModelDialog editNamespace(String nameSpace)
     {
-        webElementInteraction.clearAndType(namespaceField, nameSpace);
+        clearAndType(namespaceField, nameSpace);
         return this;
     }
 
     public EditModelDialog assertNamespaceIs(String expectedNamespace)
     {
-        assertEquals(webElementInteraction.findElement(namespaceField).getAttribute("value"),
+        assertEquals(findElement(namespaceField).getAttribute("value"),
             expectedNamespace, "Namespace text is correct");
         return this;
     }
 
     public EditModelDialog editPrefix(String prefix)
     {
-        webElementInteraction.clearAndType(prefixField, prefix);
+        clearAndType(prefixField, prefix);
         return this;
     }
 
     public EditModelDialog assertPrefixIs(String expectedPrefix)
     {
-        assertEquals(webElementInteraction.findElement(prefixField).getAttribute("value"),
+        assertEquals(findElement(prefixField).getAttribute("value"),
             expectedPrefix, "Prefix text is correct");
         return this;
     }
 
     public EditModelDialog editCreator(String creator)
     {
-        webElementInteraction.clearAndType(creatorField, creator);
+        clearAndType(creatorField, creator);
         return this;
     }
 
     public EditModelDialog assertCreatorIs(String expectedCreator)
     {
-        assertEquals(webElementInteraction.findElement(creatorField).getAttribute("value"),
+        assertEquals(findElement(creatorField).getAttribute("value"),
             expectedCreator, "Creator text is correct");
         return this;
     }
 
     public EditModelDialog assertNameFieldIsDisabled()
     {
-        assertEquals(webElementInteraction.findElement(nameField).getAttribute("aria-disabled"),
+        assertEquals(findElement(nameField).getAttribute("aria-disabled"),
             String.valueOf(true), "Name field is disabled");
         return this;
     }
 
     public ModelManagerPage clickSave()
     {
-        webElementInteraction.waitUntilElementIsVisible(saveButton);
-        webElementInteraction.clickElement(saveButton);
+        waitUntilElementIsVisible(saveButton);
+        clickElement(saveButton);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
         modelManagerPage.waitUntilLoadingMessageDisappears();
 
@@ -79,8 +79,8 @@ public class EditModelDialog extends BaseDialogComponent
 
     public ModelManagerPage clickCancel()
     {
-        webElementInteraction.waitUntilElementIsVisible(cancelButton);
-        webElementInteraction.clickElement(cancelButton);
+        waitUntilElementIsVisible(cancelButton);
+        clickElement(cancelButton);
         return new ModelManagerPage(webDriver);
     }
 }

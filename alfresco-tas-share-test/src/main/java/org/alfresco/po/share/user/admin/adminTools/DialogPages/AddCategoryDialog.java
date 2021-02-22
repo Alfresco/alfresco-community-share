@@ -20,10 +20,10 @@ public class AddCategoryDialog extends BaseDialogComponent
 
     public CategoryManagerPage addCategory(String categoryName)
     {
-        webElementInteraction.clearAndType(addCategoryNameInput, categoryName);
-        WebElement addButton = webElementInteraction.waitUntilElementIsVisible(addCategoryNameOKButton);
-        webElementInteraction.mouseOver(addButton);
-        webElementInteraction.clickElement(addButton, 2000);
+        clearAndType(addCategoryNameInput, categoryName);
+        WebElement addButton = waitUntilElementIsVisible(addCategoryNameOKButton);
+        mouseOver(addButton);
+        clickElement(addButton, 2000);
         waitUntilNotificationMessageDisappears();
         return new CategoryManagerPage(webDriver);
     }

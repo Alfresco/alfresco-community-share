@@ -21,11 +21,11 @@ public abstract class BaseDialogComponent extends BasePage
 
     public void clickClose()
     {
-        webElementInteraction.clickElement(closeButton);
+        clickElement(closeButton);
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(closeButton);
+        return isElementDisplayed(closeButton);
     }
 }

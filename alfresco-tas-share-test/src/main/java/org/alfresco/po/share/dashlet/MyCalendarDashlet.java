@@ -29,12 +29,12 @@ public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     private WebElement findEvent(String eventName)
     {
-        List<WebElement> events = webElementInteraction.waitUntilElementsAreVisible(userEventsList);
+        List<WebElement> events = waitUntilElementsAreVisible(userEventsList);
         for(WebElement event : events)
         {
             if(event.findElement(eventNameLink).getText().equals(eventName))
@@ -47,7 +47,7 @@ public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
 
     public boolean isEventPresentInList(String eventName)
     {
-        return webElementInteraction.isElementDisplayed(findEvent(eventName));
+        return isElementDisplayed(findEvent(eventName));
     }
 
     public MyCalendarDashlet assertEventIsDisplayed(String eventName)
@@ -64,7 +64,7 @@ public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
 
     public MyCalendarDashlet assertNoUpcomingEventsIsDisplayed()
     {
-        assertEquals(webElementInteraction.getElementText(emptyDashletText),
+        assertEquals(getElementText(emptyDashletText),
             language.translate("myCalendarDashlet.EmptyDashletText"), "No upcoming events is displayed");
         return this;
     }

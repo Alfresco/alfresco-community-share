@@ -5,21 +5,16 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.common.WebElementInteraction;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-public class MyDocumentDashletComponent
+public class MyDocumentDashletComponent extends MyDocumentsDashlet
 {
-    private final MyDocumentsDashlet myDocumentsDashlet;
-    private final WebElementInteraction webElementInteraction;
-    private final DocumentDetailsPage documentDetailsPage;
-    private final FileModel file;
-
     private final By documentNameLink = By.cssSelector("h3.filename > a");
     private final By smallIconThumbnail = By.cssSelector("td[headers$='thumbnail '] .icon32");
     private final By commentLink = By.cssSelector(".comment");
@@ -32,59 +27,54 @@ public class MyDocumentDashletComponent
     private final By versionElement = By.cssSelector(".document-version");
     private final By thumbnail = By.cssSelector("td[headers$='thumbnail '] a");
 
-    public MyDocumentDashletComponent(MyDocumentsDashlet myDocumentsDashlet,
-                                      DocumentDetailsPage documentDetailsPage,
-                                      WebElementInteraction webElementInteraction,
-                                      FileModel file)
+    private final FileModel file;
+
+    public MyDocumentDashletComponent(ThreadLocal<WebDriver> webDriver, FileModel file)
     {
-        this.myDocumentsDashlet = myDocumentsDashlet;
-        this.documentDetailsPage = documentDetailsPage;
-        this.webElementInteraction = webElementInteraction;
+        super(webDriver);
         this.file = file;
-        log.info("Using file: {} in My Documents dashlet", file.getName());
     }
 
     private WebElement getFileRow()
     {
-        return myDocumentsDashlet.getDocumentRow(file.getName());
+        return getDocumentRow(file.getName());
     }
 
     public MyDocumentDashletComponent assertFileIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
+        assertTrue(isElementDisplayed(getFileRow()), String.format("File %s is displayed", file.getName()));
         return this;
     }
 
     public MyDocumentDashletComponent assertFileIsNotDisplayed()
     {
-        assertFalse(webElementInteraction.isElementDisplayed(
-                By.xpath(String.format(myDocumentsDashlet.documentRow, file.getName()))));
+        assertFalse(isElementDisplayed(By.xpath(String.format(documentRow, file.getName()))));
         return this;
     }
 
     public MyDocumentDashletComponent assertSmallIconThumbnailIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(smallIconThumbnail)),
+        assertTrue(isElementDisplayed(getFileRow().findElement(smallIconThumbnail)),
                 "Small icon thumbnail is displayed");
         return this;
     }
 
     public MyDocumentDashletComponent assertCommentLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(commentLink);
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(commentLink)), "Comment link is displayed");
+        waitUntilElementIsVisible(commentLink);
+        assertTrue(isElementDisplayed(getFileRow().findElement(commentLink)), "Comment link is displayed");
         return this;
     }
 
     public MyDocumentDashletComponent assertLikeIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(likeAction)), "Like is displayed");
+        assertTrue(isElementDisplayed(getFileRow().findElement(likeAction)), "Like is displayed");
         return this;
     }
 
     public MyDocumentDashletComponent assertUnlikeIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is displayed");
+        assertTrue(isElementDisplayed(getFileRow().findElement(unlikeAction)), "Unlike is displayed");
         return this;
     }
 
@@ -106,44 +96,43 @@ public class MyDocumentDashletComponent
         {
             likeBtn = getFileRow().findElement(likeAction);
         }
-        webElementInteraction.clickElement(likeBtn);
-        webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
+        clickElement(likeBtn);
+        waitUntilChildElementIsPresent(getFileRow(), unlikeAction);
         return this;
     }
 
     public MyDocumentDashletComponent assertAddToFavoriteIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(favoriteAction)),
+        assertTrue(isElementDisplayed(getFileRow().findElement(favoriteAction)),
                 "Favorite action is displayed");
         return this;
     }
 
     public MyDocumentDashletComponent assertRemoveFromFavoriteIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
+        assertTrue(isElementDisplayed(getFileRow().findElement(removeFromFavorite)),
                 "Remove from favorite is displayed");
         return this;
     }
 
     public MyDocumentDashletComponent addToFavorite()
     {
-        webElementInteraction.clickElement(getFileRow().findElement(favoriteAction));
-        webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
+        clickElement(getFileRow().findElement(favoriteAction));
+        waitUntilChildElementIsPresent(getFileRow(), removeFromFavorite);
         return this;
     }
 
     public MyDocumentDashletComponent removeFromFavorite()
     {
-        webElementInteraction.clickElement(getFileRow().findElement(removeFromFavorite));
-        webElementInteraction.waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
+        clickElement(getFileRow().findElement(removeFromFavorite));
+        waitUntilChildElementIsPresent(getFileRow(), favoriteAction);
         return this;
     }
 
     public MyDocumentDashletComponent assertNoDescriptionIsDisplayed()
     {
-        assertEquals(
-            webElementInteraction.getElementText(getFileRow().findElement(descriptionElement)),
-            myDocumentsDashlet.language.translate("myDocumentsDashlet.noDescription"));
+        assertEquals(getElementText(getFileRow().findElement(descriptionElement)),
+            language.translate("myDocumentsDashlet.noDescription"));
         return this;
     }
 
@@ -151,10 +140,10 @@ public class MyDocumentDashletComponent
     {
         WebElement row = getFileRow();
         WebElement docName = row.findElement(documentNameLink);
-        webElementInteraction.mouseOver(docName);
-        webElementInteraction.waitUntilElementHasAttribute(row, "class", "highlighted");
+        mouseOver(docName);
+        waitUntilElementHasAttribute(row, "class", "highlighted");
 
-        assertEquals(webElementInteraction.getElementText(row.findElement(versionElement)),
+        assertEquals(getElementText(row.findElement(versionElement)),
             String.valueOf(version), "Document version is correct");
         return this;
     }
@@ -162,25 +151,25 @@ public class MyDocumentDashletComponent
     public MyDocumentDashletComponent assertThumbnailIsDisplayed()
     {
         log.info("Assert thumbnail is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(getFileRow().findElement(thumbnail)), "Thumbnail is displayed");
+        assertTrue(isElementDisplayed(getFileRow().findElement(thumbnail)), "Thumbnail is displayed");
         return this;
     }
 
     public DocumentDetailsPage selectDocument()
     {
-        webElementInteraction.clickElement(getFileRow().findElement(documentNameLink));
-        return documentDetailsPage;
+        clickElement(getFileRow().findElement(documentNameLink));
+        return new DocumentDetailsPage(webDriver);
     }
 
     public DocumentDetailsPage clickThumbnail()
     {
-        webElementInteraction.clickElement(getFileRow().findElement(thumbnail));
-        return documentDetailsPage;
+        clickElement(getFileRow().findElement(thumbnail));
+        return new DocumentDetailsPage(webDriver);
     }
 
     public DocumentDetailsPage addComment()
     {
-        webElementInteraction.clickElement(getFileRow().findElement(commentLink));
-        return documentDetailsPage;
+        clickElement(getFileRow().findElement(commentLink));
+        return new DocumentDetailsPage(webDriver);
     }
 }

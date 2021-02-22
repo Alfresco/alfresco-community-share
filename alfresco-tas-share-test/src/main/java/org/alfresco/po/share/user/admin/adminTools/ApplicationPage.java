@@ -43,7 +43,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
         super.navigate();
         try
         {
-            webElementInteraction.waitUntilElementIsVisible(uploadButton);
+            waitUntilElementIsVisible(uploadButton);
         }
         catch (TimeoutException e)
         {
@@ -56,13 +56,13 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public ApplicationPage assertAdminApplicationPageIsOpened()
     {
         log.info("Assert Application Admin Tools page is opened");
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Application page is not opened");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Application page is not opened");
         return this;
     }
 
     public UploadFileDialog clickUpload()
     {
-        webElementInteraction.clickElement(uploadButton);
+        clickElement(uploadButton);
         return new UploadFileDialog(webDriver);
     }
 
@@ -71,22 +71,21 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
         log.info("Click Apply button");
         try
         {
-            WebElement apply = webElementInteraction.waitUntilElementIsVisible(applyButton);
-            webElementInteraction.mouseOver(apply, 3000);
-            webElementInteraction.clickElement(applyButtonAfterHover, 3000);
+            WebElement apply = waitUntilElementIsVisible(applyButton);
+            mouseOver(apply, 3000);
+            clickElement(applyButtonAfterHover, 3000);
             if (defaultProperties.get().getBrowserName().equals("chrome"))
             {
-                webElementInteraction.waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
+                waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
             }
         }
         catch (StaleElementReferenceException | NoSuchElementException staleElementReferenceException)
         {
             log.info("Apply button is not attached to DOM");
-            webElementInteraction.waitInSeconds(WAIT_3.getValue());
-            webElementInteraction
-                .mouseOverViaJavascript(webElementInteraction.findElement(applyButton));
-            webElementInteraction.clickElement(applyButtonAfterHover, 3000);
-            webElementInteraction.waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
+            waitInSeconds(WAIT_3.getValue());
+            mouseOverViaJavascript(findElement(applyButton));
+            clickElement(applyButtonAfterHover, 3000);
+            waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
         }
         return this;
     }
@@ -94,7 +93,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public ApplicationPage assertDefaultAlfrescoImageIsNotDisplayed()
     {
         log.info("Assert default Alfresco image is not displayed");
-        assertFalse(webElementInteraction.isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is displayed");
+        assertFalse(isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is displayed");
         return this;
     }
 
@@ -108,7 +107,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public ApplicationPage assertDefaultAlfrescoImageIsDisplayed()
     {
         log.info("Assert default Alfresco image is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is not displayed");
+        assertTrue(isElementDisplayed(defaultAlfrescoImage), "Default Alfresco image is not displayed");
 
         return this;
     }
@@ -116,20 +115,20 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public ApplicationPage resetImageToDefault()
     {
         log.info("Reset image to default");
-        webElementInteraction.waitUntilElementIsVisibleWithRetry(resetButton, WAIT_30.getValue());
+        waitUntilElementIsVisibleWithRetry(resetButton, WAIT_30.getValue());
         try
         {
-            webElementInteraction.clickElement(resetButton);
+            clickElement(resetButton);
         }
         catch (StaleElementReferenceException e)
         {
             navigate();
-            webElementInteraction.clickElement(resetButton);
+            clickElement(resetButton);
         }
-        if(!webElementInteraction.isElementDisplayed(defaultAlfrescoImage))
+        if(!isElementDisplayed(defaultAlfrescoImage))
         {
             log.error("Failed to click Reset button");
-            webElementInteraction.clickElement(resetButton);
+            clickElement(resetButton);
         }
         return this;
     }
@@ -137,9 +136,9 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
     public ApplicationPage selectTheme(Theme theme)
     {
         log.info("Select theme: {}", theme.name);
-        WebElement themeElement = webElementInteraction.waitUntilElementIsVisible(themeDropdown);
-        webElementInteraction.mouseOver(themeElement);
-        webElementInteraction.waitUntilElementIsVisible(themeElement);
+        WebElement themeElement = waitUntilElementIsVisible(themeDropdown);
+        mouseOver(themeElement);
+        waitUntilElementIsVisible(themeElement);
         Select themeOptions = new Select(themeElement);
         themeOptions.selectByValue(theme.getSelectValue());
 
@@ -148,7 +147,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public boolean isThemeOptionSelected(Theme theme)
     {
-        Select themeOptions = new Select(webElementInteraction.findElement(themeDropdown));
+        Select themeOptions = new Select(findElement(themeDropdown));
         List<WebElement> options = themeOptions.getOptions();
         return options.stream().anyMatch(value ->
                 value.getAttribute("value").contains(theme.getSelectValue()) && value.isSelected());
@@ -156,8 +155,8 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public boolean doesBodyContainTheme(Theme theme)
     {
-        WebElement appliedTheme = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
-        return webElementInteraction.isElementDisplayed(appliedTheme);
+        WebElement appliedTheme = waitUntilElementIsVisible(By.xpath(String.format(bodyTheme, theme.getSelectValue())));
+        return isElementDisplayed(appliedTheme);
     }
 
     public ApplicationPage assertThemeOptionIsSelected(Theme theme)
@@ -176,6 +175,6 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
 
     public String checkText()
     {
-        return webElementInteraction.getElementText(mainText);
+        return getElementText(mainText);
     }
 }

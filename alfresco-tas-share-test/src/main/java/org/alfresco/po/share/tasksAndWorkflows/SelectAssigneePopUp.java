@@ -17,16 +17,16 @@ public class SelectAssigneePopUp extends BaseDialogComponent
 
     public void enterUserToSearch(String user)
     {
-        webElementInteraction.clearAndType(userFinderSearchTextInput, user);
+        clearAndType(userFinderSearchTextInput, user);
     }
 
     public void clickOnSearchButton()
     {
-        webElementInteraction.clickElement(userFinderSearchButton);
+        clickElement(userFinderSearchButton);
     }
 
     public void clickOnSelectButton()
     {
-        webElementInteraction.clickElement(selectButton);
+        clickElement(selectButton);
     }
 }

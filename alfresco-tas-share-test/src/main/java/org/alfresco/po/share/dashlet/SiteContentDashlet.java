@@ -6,7 +6,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -31,7 +30,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     @Override
     protected String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
@@ -40,21 +39,21 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         By documentRowElement = By.xpath(String.format(documentRow, documentName));
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(documentRowElement))
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(documentRowElement))
         {
             log.warn("Document {} not displayed - retry: {}", documentName, retryCount);
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
-            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+            refresh();
+            waitInSeconds(WAIT_2.getValue());
+            waitUntilElementIsVisible(dashletContainer);
             retryCount++;
         }
-        return webElementInteraction.findElement(documentRowElement);
+        return findElement(documentRowElement);
     }
 
     public SiteContentDashlet assertEmptySiteContentMessageIsCorrect()
     {
         log.info("Assert empty site content message is correct");
-        assertEquals(webElementInteraction.getElementText(emptyMessage), language.translate("siteContentDashlet.emptyList"),
+        assertEquals(getElementText(emptyMessage), language.translate("siteContentDashlet.emptyList"),
         "Empty list site content dashlet message is not correct");
 
         return this;
@@ -63,22 +62,22 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public SiteContentDashlet clickSimpleViewIcon()
     {
         log.info("Click simple view icon");
-        webElementInteraction.clickElement(simpleViewIcon);
+        clickElement(simpleViewIcon);
         return this;
     }
 
     public SiteContentDashlet openFilterDropdown()
     {
         log.info("Open filter dropdown");
-        webElementInteraction.clickElement(defaultFilterButton);
+        clickElement(defaultFilterButton);
         return this;
     }
 
     public SiteContentDashlet assertFilterLabelEquals(String expectedFilterLabel)
     {
         log.info("Assert filter label equals: {}", expectedFilterLabel);
-        WebElement dropdownFilterLabel = webElementInteraction.findFirstElementWithValue(filters, expectedFilterLabel);
-        assertEquals(dropdownFilterLabel.getText(), expectedFilterLabel,
+        WebElement dropdownFilterLabel = findFirstElementWithValue(filters, expectedFilterLabel);
+        assertEquals(getElementText(dropdownFilterLabel), expectedFilterLabel,
             String.format("Filter label not equals %s ", expectedFilterLabel));
 
         return this;
@@ -87,8 +86,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public SiteContentDashlet assertDetailedViewIconIsDisplayed()
     {
         log.info("Assert detailed view icon is displayed");
-        webElementInteraction.waitUntilElementIsVisible(detailedViewIcon);
-        assertTrue(webElementInteraction.isElementDisplayed(detailedViewIcon), "Detailed view icon is not displayed");
+        waitUntilElementIsVisible(detailedViewIcon);
+        assertTrue(isElementDisplayed(detailedViewIcon), "Detailed view icon is not displayed");
 
         return this;
     }
@@ -96,15 +95,12 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public SiteContentDashlet clickDetailedViewButton()
     {
         log.info("Click detailed view button");
-        webElementInteraction.clickElement(detailedViewIcon);
+        clickElement(detailedViewIcon);
         return this;
     }
 
     public SiteContentDashletComponent usingDocument(FileModel file)
     {
-        return new SiteContentDashletComponent(this,
-            webElementInteraction,
-            new DocumentDetailsPage(webDriver),
-            file);
+        return new SiteContentDashletComponent(webDriver, file);
     }
 }

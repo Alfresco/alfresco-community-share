@@ -22,30 +22,30 @@ public class WebViewDashlet extends Dashlet<WebViewDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     public WebViewDashlet assertNoWebPageMessageIsDisplayed()
     {
-        assertEquals(webElementInteraction.getElementText(defaultDashletMessage), language.translate("webViewDashlet.defaultMessage"));
+        assertEquals(getElementText(defaultDashletMessage), language.translate("webViewDashlet.defaultMessage"));
         return this;
     }
 
     public ConfigureWebViewDashletPopUp clickConfigureDashlet()
     {
-        webElementInteraction.mouseOver(titleBar);
-        webElementInteraction.mouseOver(titleBarActions);
-        webElementInteraction.clickElement(configureDashletIcon);
+        mouseOver(titleBar);
+        mouseOver(titleBarActions);
+        clickElement(configureDashletIcon);
 
         return new ConfigureWebViewDashletPopUp(webDriver);
     }
 
     public WebViewDashlet assertConfigureDashletIconDisplayed()
     {
-        webElementInteraction.mouseOver(titleBar);
-        webElementInteraction.mouseOver(titleBarActions);
-        assertTrue(webElementInteraction.isElementDisplayed(configureDashletIcon), "Configure icon is displayed");
+        mouseOver(titleBar);
+        mouseOver(titleBarActions);
+        assertTrue(isElementDisplayed(configureDashletIcon), "Configure icon is displayed");
         return this;
     }
 }

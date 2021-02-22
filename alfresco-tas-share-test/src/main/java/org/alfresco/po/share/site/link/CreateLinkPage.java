@@ -33,47 +33,47 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public LinkDetailsViewPage clickSaveButton()
     {
-        webElementInteraction.clickElement(saveButton);
+        clickElement(saveButton);
         return new LinkDetailsViewPage(webDriver);
     }
 
     public CreateLinkPage typeLinkTitle(String title)
     {
         log.info("Clear and type link title: {}", title);
-        webElementInteraction.clearAndType(linkTitle, title);
+        clearAndType(linkTitle, title);
         return this;
     }
 
     public CreateLinkPage typeLinkUrl(String url)
     {
         log.info("Clear and type link url: {}", url);
-        webElementInteraction.clearAndType(linkURL, url);
+        clearAndType(linkURL, url);
         return this;
     }
 
     public CreateLinkPage typeLinkDescription(String description)
     {
         log.info("Clear and type link description");
-        webElementInteraction.clearAndType(linkDescription, description);
+        clearAndType(linkDescription, description);
         return this;
     }
 
     public void checkLinkInternal()
     {
-        webElementInteraction.clickElement(linkInternal);
+        clickElement(linkInternal);
     }
 
     public CreateLinkPage addTag(String tag)
     {
         log.info("Add tag: {}", tag);
-        webElementInteraction.clearAndType(linkTag, tag);
-        webElementInteraction.clickElement(addTagButton);
+        clearAndType(linkTag, tag);
+        clickElement(addTagButton);
         return this;
     }
 
     public LinkPage clickCancelButton()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
         return new LinkPage(webDriver);
     }
 }

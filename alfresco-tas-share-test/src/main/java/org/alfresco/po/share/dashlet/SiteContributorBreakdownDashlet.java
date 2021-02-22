@@ -35,18 +35,18 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public SiteContributorBreakdownDashlet assertPieChartSizeEquals(int expectedPieChartSize)
     {
         log.info("Assert pie chart size equals: {}", expectedPieChartSize);
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(pieChartLocator, WAIT_2.getValue(), WAIT_40.getValue());
-        assertEquals(webElementInteraction.waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize);
+        waitUntilElementIsDisplayedWithRetry(pieChartLocator, WAIT_2.getValue(), WAIT_40.getValue());
+        assertEquals(waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize);
         return this;
     }
 
     public Map<String, String> getPieChartSliceTooltip()
     {
         HashMap<String, String> slicesTooltip = new HashMap<>();
-        for (WebElement slice : webElementInteraction.waitUntilElementsAreVisible(pieChartSlices))
+        for (WebElement slice : waitUntilElementsAreVisible(pieChartSlices))
         {
-            webElementInteraction.mouseOver(slice);
-            String tooltip = webElementInteraction.findElement(sliceTooltip).getAttribute("original-title");
+            mouseOver(slice);
+            String tooltip = findElement(sliceTooltip).getAttribute("original-title");
             slicesTooltip.put(tooltip.substring(tooltip.indexOf("<strong>") + 8,
                 tooltip.indexOf("</strong>")), tooltip.substring(tooltip.indexOf("<br/>"), tooltip.indexOf("</div>")));
         }
@@ -56,14 +56,14 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     private List<String> addOptionsToList()
     {
         List<String> optionsList = new ArrayList<>();
-        for (WebElement option : webElementInteraction.waitUntilElementsAreVisible(optionsListLocator))
+        for (WebElement option : waitUntilElementsAreVisible(optionsListLocator))
         {
             log.info("Add option to list: {}", option.getText());
             optionsList.add(option.getText());
@@ -74,8 +74,8 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public UserProfilePage clickPieChartUsername()
     {
         log.info("Click pie chart username");
-        webElementInteraction.scrollIntoView(webElementInteraction.waitUntilElementIsVisible(userLocator));
-        webElementInteraction.clickElement(userLocator);
+        scrollIntoView(waitUntilElementIsVisible(userLocator));
+        clickElement(userLocator);
 
         return new UserProfilePage(webDriver);
     }
@@ -93,15 +93,15 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public SiteContributorBreakdownDashlet assertDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
         log.info("Assert dashlet empty message equals: {}", expectedEmptyMessage);
-        webElementInteraction.waitUntilElementIsPresent(dashletEmptyMessageLocator);
-        assertEquals(webElementInteraction.getElementText(dashletEmptyMessageLocator), expectedEmptyMessage);
+        waitUntilElementIsPresent(dashletEmptyMessageLocator);
+        assertEquals(getElementText(dashletEmptyMessageLocator), expectedEmptyMessage);
         return this;
     }
 
     public SiteContributorBreakdownDashlet openFilterDropDown()
     {
         log.info("Open filters dropdown");
-        webElementInteraction.clickElement(dropDownLocator);
+        clickElement(dropDownLocator);
         return this;
     }
 }

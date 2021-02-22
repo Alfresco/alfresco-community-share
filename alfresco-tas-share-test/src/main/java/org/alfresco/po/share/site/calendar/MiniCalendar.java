@@ -42,7 +42,7 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
 
     public String getCurrentDayMiniCalendar()
     {
-        return webElementInteraction.findElement(currentDayInMiniCalendar).getText();
+        return findElement(currentDayInMiniCalendar).getText();
     }
 
     public String getCurrentMonthMiniCalendar()
@@ -70,12 +70,12 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
 
     public String getSelectedDay()
     {
-        return webElementInteraction.findElement(selectedDay).getText();
+        return findElement(selectedDay).getText();
     }
 
     public CalendarPage clickOnRandomDate()
     {
-        WebElement miniCalendar = webElementInteraction.findElement(By.id("calendar_t"));
+        WebElement miniCalendar = findElement(By.id("calendar_t"));
         List<WebElement> columns = miniCalendar.findElements(By.cssSelector("a.selector"));
         String randomDate = CalendarUtility.generateRandomDateTime(columns.size());
         for (WebElement cell : columns)

@@ -63,31 +63,31 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
 
     public ChangePasswordPage typeOldPassword(String oldPasswordText)
     {
-        webElementInteraction.clearAndType(oldPasswordInput, oldPasswordText);
+        clearAndType(oldPasswordInput, oldPasswordText);
         return this;
     }
 
     public ChangePasswordPage typeNewPassword(String newPasswordText)
     {
-        webElementInteraction.clearAndType(newPassword, newPasswordText);
+        clearAndType(newPassword, newPasswordText);
         return this;
     }
 
     public ChangePasswordPage typeConfirmNewPassword(String confirmNewPasswordText)
     {
-        webElementInteraction.clearAndType(confirmNewPassword, confirmNewPasswordText);
+        clearAndType(confirmNewPassword, confirmNewPasswordText);
         return this;
     }
 
     public void clickOkButton()
     {
-        webElementInteraction.clickElement(okButton);
+        clickElement(okButton);
     }
 
     public ChangePasswordPage assertChangePasswordPageIsOpened()
     {
-        webElementInteraction.waitUrlContains(changePassword, WAIT_20.getValue());
-        assertTrue(webElementInteraction.getCurrentUrl().contains(changePassword), "Change password page is opened");
+        waitUrlContains(changePassword, WAIT_20.getValue());
+        assertTrue(getCurrentUrl().contains(changePassword), "Change password page is opened");
         return this;
     }
 
@@ -106,11 +106,11 @@ public class ChangePasswordPage extends SharePage2<ChangePasswordPage> implement
         typeNewPassword(newPassword);
         typeConfirmNewPassword(confirmPassword);
         clickOkButton();
-        webElementInteraction.waitUntilElementIsVisible(errorPrompt);
-        assertEquals(webElementInteraction.getElementText(errorPromptMessage),
+        waitUntilElementIsVisible(errorPrompt);
+        assertEquals(getElementText(errorPromptMessage),
             language.translate("changeUserPassword.errorPrompt.message"),
             "Error prompt message is correct");
-        webElementInteraction.clickElement(errorPromptOKButton);
+        clickElement(errorPromptOKButton);
         return this;
     }
 }

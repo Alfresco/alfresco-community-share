@@ -21,31 +21,31 @@ public class DeleteSiteDialog extends BaseDialogComponent
 
     public boolean isPopupDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(delete);
-        return webElementInteraction.isElementDisplayed(delete);
+        waitUntilElementIsVisible(delete);
+        return isElementDisplayed(delete);
     }
 
     public DeleteSiteDialog clickDelete()
     {
-        webElementInteraction.clickElement(delete);
+        clickElement(delete);
         return this;
     }
 
     public void clickCancel()
     {
-        webElementInteraction.clickElement(cancel);
+        clickElement(cancel);
     }
 
     public String getConfirmMessage()
     {
-        return webElementInteraction.getElementText(deleteSiteConfirmMessage);
+        return getElementText(deleteSiteConfirmMessage);
     }
 
     public void clickYes()
     {
-        webElementInteraction.clickElement(yes);
+        clickElement(yes);
         waitUntilNotificationMessageDisappears();
-        if(webElementInteraction.isElementDisplayed(notificationMessageLocator))
+        if(isElementDisplayed(notificationMessageLocator))
         {
             log.info("Wait for the second message");
             waitUntilNotificationMessageDisappears();
@@ -54,6 +54,6 @@ public class DeleteSiteDialog extends BaseDialogComponent
 
     public void clickNo()
     {
-        webElementInteraction.clickElement(no);
+        clickElement(no);
     }
 }

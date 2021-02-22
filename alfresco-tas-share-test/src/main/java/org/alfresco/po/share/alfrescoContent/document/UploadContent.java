@@ -60,27 +60,27 @@ public class UploadContent extends SiteCommon<UploadContent>
     public void uploadContent(String filePath, String contentsOfFile)
     {
         // click Upload button
-        webElementInteraction.clickElement(uploadButton);
+        clickElement(uploadButton);
         waitUntilNotificationMessageDisappears();
 
         // set the file to upload
         File fileToUpload = newFile(filePath, contentsOfFile);
         try
         {
-            webElementInteraction.findElement(fileInput).sendKeys(fileToUpload.getAbsolutePath());
+            findElement(fileInput).sendKeys(fileToUpload.getAbsolutePath());
         }
         catch (IllegalArgumentException e)
         {
             e.printStackTrace();
         }
-        webElementInteraction.waitUntilElementDisappears(uploadFilesToDialog);
+        waitUntilElementDisappears(uploadFilesToDialog);
         // wait for the file to be visible
         String[] strPaths = filePath.split("\\\\");
         String fileName = strPaths[strPaths.length - 1];
         By selector = By.xpath("//a[contains(., '" + fileName + "')]");
         try
         {
-            webElementInteraction.waitUntilElementIsDisplayedWithRetry(selector);
+            waitUntilElementIsDisplayedWithRetry(selector);
         }
         catch (TimeoutException exception)
         {
@@ -97,26 +97,26 @@ public class UploadContent extends SiteCommon<UploadContent>
     {
         if (versionType.equals(Version.Major))
         {
-            webElementInteraction.clickElement(By.cssSelector("input[id$='_default-majorVersion-radioButton']"));
+            clickElement(By.cssSelector("input[id$='_default-majorVersion-radioButton']"));
         }
-        WebElement commentBox = webElementInteraction.waitUntilElementIsVisible(By.cssSelector("textarea[id$='_default-description-textarea']"));
+        WebElement commentBox = waitUntilElementIsVisible(By.cssSelector("textarea[id$='_default-description-textarea']"));
         Utils.clearAndType(commentBox, comments);
         File fileToUpload = newFile(filePath, "updated by upload new version");
         try
         {
-            webElementInteraction.findElement(fileInput).sendKeys(fileToUpload.getAbsolutePath());
+            findElement(fileInput).sendKeys(fileToUpload.getAbsolutePath());
         }
         catch (IllegalArgumentException e)
         {
             e.printStackTrace();
         }
-        webElementInteraction.waitUntilElementIsVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
+        waitUntilElementIsVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
         return new DocumentLibraryPage(webDriver);
     }
 
     public boolean isUploadFilesToDialogDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(uploadFilesToDialog);
+        return isElementDisplayed(uploadFilesToDialog);
     }
 
     // todo: move into separate enum

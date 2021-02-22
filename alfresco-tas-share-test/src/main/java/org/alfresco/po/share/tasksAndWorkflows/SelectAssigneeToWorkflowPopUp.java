@@ -17,14 +17,14 @@ public class SelectAssigneeToWorkflowPopUp extends SelectPopUpPage
 
     public void searchUser(String userName)
     {
-        webElementInteraction.waitUntilElementIsVisible(By.cssSelector("[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']"));
-        webElementInteraction.findElement(searchField).sendKeys(userName);
-        webElementInteraction.clickElement(searchButton);
+        waitUntilElementIsVisible(By.cssSelector("[class*=picker-header] input[id*='assignee-cntrl-picker-searchText']"));
+        findElement(searchField).sendKeys(userName);
+        clickElement(searchButton);
     }
 
     public void clickOkButton()
     {
-        webElementInteraction.waitUntilElementIsVisible(okButton);
-        webElementInteraction.clickElement(okButton);
+        waitUntilElementIsVisible(okButton);
+        clickElement(okButton);
     }
 }

@@ -26,7 +26,7 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2803")

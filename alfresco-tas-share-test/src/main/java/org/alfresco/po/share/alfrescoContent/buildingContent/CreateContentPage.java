@@ -34,59 +34,59 @@ public class CreateContentPage extends SharePage2<CreateContentPage>
     public CreateContentPage assertCreateContentPageIsOpened()
     {
         log.info("Assert Content page is opened");
-        assertTrue(webElementInteraction.getCurrentUrl().contains("create-content"), "Create content page is not opened");
+        assertTrue(getCurrentUrl().contains("create-content"), "Create content page is not opened");
         return this;
     }
 
     public CreateContentPage assertNameInputHasMandatoryMarker()
     {
         log.info("Assert Name input has mandatory marker");
-        assertTrue(webElementInteraction.isElementDisplayed(nameInputIsMandatoryMarker), "Name input is not mandatory");
+        assertTrue(isElementDisplayed(nameInputIsMandatoryMarker), "Name input is not mandatory");
         return this;
     }
 
     public CreateContentPage assertCancelButtonIsDisplayed()
     {
         log.info("Assert Cancel button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is not displayed");
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
 
     public CreateContentPage typeName(String name)
     {
-        webElementInteraction.clearAndType(nameField, name);
+        clearAndType(nameField, name);
         return this;
     }
 
     public CreateContentPage typeTitle(String title)
     {
-        webElementInteraction.clearAndType(titleField, title);
+        clearAndType(titleField, title);
         return this;
     }
 
     public CreateContentPage typeContent(String content)
     {
-        webElementInteraction.clearAndType(contentField, content);
+        clearAndType(contentField, content);
         return this;
     }
 
     public CreateContentPage typeDescription(String description)
     {
-        webElementInteraction.clearAndType(descriptionField, description);
+        clearAndType(descriptionField, description);
         return this;
     }
 
     public DocumentDetailsPage clickCreate()
     {
-        webElementInteraction.waitUntilElementIsVisible(submitButton);
-        webElementInteraction.clickElement(submitButton);
+        waitUntilElementIsVisible(submitButton);
+        clickElement(submitButton);
         return new DocumentDetailsPage(webDriver);
     }
 
     public void clickCancel()
     {
-        webElementInteraction.waitUntilElementIsVisible(cancelButton);
-        webElementInteraction.clickElement(cancelButton);
+        waitUntilElementIsVisible(cancelButton);
+        clickElement(cancelButton);
     }
 
     public CreateContentPage sendInputForHTMLContent(String inputHTMLContent)
@@ -94,7 +94,7 @@ public class CreateContentPage extends SharePage2<CreateContentPage>
         log.info("Send input for HTML file types");
         TinyMceEditor tinyMceEditor = new TinyMceEditor(webDriver);
         tinyMceEditor.setText(inputHTMLContent);
-        webElementInteraction.focusOnWebElement(webElementInteraction.findElement(nameField));
+        focusOnWebElement(findElement(nameField));
         return this;
     }
 }

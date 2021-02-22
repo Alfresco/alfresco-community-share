@@ -32,23 +32,23 @@ public class SiteUsersPage extends SiteMembersPage
 
     public AddSiteUsersPage goToAddUsersPage()
     {
-        webElementInteraction.clickElement(addUsers);
+        clickElement(addUsers);
         return new AddSiteUsersPage(webDriver);
     }
 
     public void clickSearch()
     {
-        webElementInteraction.findElement(searchButton).click();
+        findElement(searchButton).click();
     }
 
     public void searchForSiteMembers(String userName)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(searchBox), userName);
+        clearAndType(findElement(searchBox), userName);
     }
 
     public boolean isRemoveButtonDisplayedForUser(String userName)
     {
-        return webElementInteraction.isElementDisplayed(
+        return isElementDisplayed(
             By.xpath(pattern.concat(userName).concat(unInviteButtonPath).concat(removeButtonPath)));
     }
 
@@ -63,19 +63,19 @@ public class SiteUsersPage extends SiteMembersPage
     public void clickRemoveUser(String userName)
     {
         log.info("Click remove user");
-        webElementInteraction.clickElement(By.xpath(
+        clickElement(By.xpath(
             pattern.concat(userName).concat(unInviteButtonPath).concat(removeButtonPath)));
     }
 
     public boolean isUserRoleNotChangeable(String role, String userName)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(
+        return isElementDisplayed(By.xpath(
             pattern + userName + "']]/../td[contains(@class,'role')]/div/div[text()='" + role + "']"));
     }
 
     public UserProfilePage clickUser(String userName)
     {
-        webElementInteraction.findFirstDisplayedElement(By.xpath("//td//a[normalize-space(text())='" + userName + "']")).click();
+        findFirstDisplayedElement(By.xpath("//td//a[normalize-space(text())='" + userName + "']")).click();
         return new UserProfilePage(webDriver);
     }
 }

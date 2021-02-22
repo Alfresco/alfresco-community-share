@@ -8,7 +8,6 @@ import static org.testng.Assert.assertTrue;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.DocumentsFilter;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -35,23 +34,28 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public WebElement getDocumentRow(String documentName)
     {
-        By docLocator = By.xpath(String.format(documentRow, documentName));
+        By docLocator = getDocLocator(documentName);
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(docLocator))
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(docLocator))
         {
             log.warn("Document {} not displayed - retry: {}", documentName, retryCount);
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
-            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+            refresh();
+            waitInSeconds(WAIT_2.getValue());
+            waitUntilElementIsVisible(dashletContainer);
             retryCount++;
         }
-        return webElementInteraction.waitUntilElementIsVisible(docLocator);
+        return waitUntilElementIsVisible(docLocator);
+    }
+
+    private By getDocLocator(String documentName)
+    {
+        return By.xpath(String.format(documentRow, documentName));
     }
 
     private String getFilterValue(DocumentsFilter filter)
@@ -76,7 +80,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet assertSelectedFilterIs(DocumentsFilter filter)
     {
-        String filterText = webElementInteraction.getElementText(filterButton);
+        String filterText = getElementText(filterButton);
         assertEquals(filterText.substring(0, filterText.length() - 2),
             getFilterValue(filter), "Selected filter is correct");
         return this;
@@ -84,32 +88,33 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentsDashlet filter(DocumentsFilter filter)
     {
-        webElementInteraction.clickElement(filterButton);
-        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(filterOptions);
-        webElementInteraction.selectOptionFromFilterOptionsList(getFilterValue(filter), options);
-        webElementInteraction.waitInSeconds(WAIT_2.getValue());
+        clickElement(filterButton);
+        List<WebElement> options = waitUntilElementsAreVisible(filterOptions);
+        selectOptionFromFilterOptionsList(getFilterValue(filter), options);
+        waitInSeconds(WAIT_2.getValue());
         return this;
     }
 
     public MyDocumentsDashlet selectDetailedView()
     {
         log.info("Select Detailed View");
-        webElementInteraction.clickElement(detailedViewButton);
-        webElementInteraction.waitUntilElementHasAttribute(detailedViewButtonSpan, "class", buttonChecked);
+        clickElement(detailedViewButton);
+        waitUntilElementHasAttribute(detailedViewButtonSpan, "class", buttonChecked);
 
         return this;
     }
 
     public boolean isNumberOfDocumentsDisplayed(int noOfDocs)
     {
-        webElementInteraction.waitUntilElementIsVisible(dashletContainer);
-        boolean isDashletContainerVisible = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        waitUntilElementIsVisible(dashletContainer);
+        boolean isDashletContainerVisible = waitUntilElementIsVisible(dashletContainer)
             .findElements(documentNameLink).size() == noOfDocs;
+
         int retryCount = 0;
         while (!isDashletContainerVisible && retryCount < 5)
         {
-            webElementInteraction.refresh();
-            isDashletContainerVisible = webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+            refresh();
+            isDashletContainerVisible = waitUntilElementIsVisible(dashletContainer)
                 .findElements(documentNameLink).size() == noOfDocs;
             retryCount++;
         }
@@ -124,6 +129,6 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     public MyDocumentDashletComponent usingDocument(FileModel file)
     {
-        return new MyDocumentDashletComponent(this, new DocumentDetailsPage(webDriver), webElementInteraction, file);
+        return new MyDocumentDashletComponent(webDriver, file);
     }
 }

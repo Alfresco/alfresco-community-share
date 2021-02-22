@@ -34,41 +34,41 @@ public class EditPropertiesDialog extends BaseDialogComponent
 
     public String getDialogTitle()
     {
-        return webElementInteraction.getElementText(dialogTitle);
+        return getElementText(dialogTitle);
     }
 
     public void clickSelectCategories()
     {
-        webElementInteraction.waitUntilElementIsVisible(selectCategoriesButton);
-        webElementInteraction.clickElement(selectCategoriesButton);
+        waitUntilElementIsVisible(selectCategoriesButton);
+        clickElement(selectCategoriesButton);
     }
 
     public boolean isSelectTagsButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(selectTagsButton);
+        return isElementDisplayed(selectTagsButton);
     }
 
     public void clickSelectTags()
     {
-        webElementInteraction.waitUntilElementIsVisible(selectTagsButton);
-        webElementInteraction.clickElement(selectTagsButton);
+        waitUntilElementIsVisible(selectTagsButton);
+        clickElement(selectTagsButton);
     }
 
     public void clickSave()
     {
-        webElementInteraction.clickElement(saveButton);
-        webElementInteraction.waitUntilElementDisappears(dialogTitle);
+        clickElement(saveButton);
+        waitUntilElementDisappears(dialogTitle);
         waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancel()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     public boolean isCategorySelected(String category)
     {
-        return webElementInteraction.findFirstElementWithValue(selectedCategories, category) != null;
+        return findFirstElementWithValue(selectedCategories, category) != null;
     }
 
     public EditPropertiesDialog assertCategoryIsSelected(String category)
@@ -80,7 +80,7 @@ public class EditPropertiesDialog extends BaseDialogComponent
 
     public boolean isTagSelected(String tag)
     {
-        return webElementInteraction.findFirstElementWithValue(selectedTags, tag) != null;
+        return findFirstElementWithValue(selectedTags, tag) != null;
     }
 
     public EditPropertiesDialog assertTagIsSelected(String tag)
@@ -92,42 +92,42 @@ public class EditPropertiesDialog extends BaseDialogComponent
 
     public void setName(String fileName)
     {
-        webElementInteraction.clearAndType(propertyName, fileName);
+        clearAndType(propertyName, fileName);
     }
 
     public void setTitle(String fileTitle)
     {
-        webElementInteraction.clearAndType(propertyTitle, fileTitle);
+        clearAndType(propertyTitle, fileTitle);
     }
 
     public void setDescription(String fileDescription)
     {
-        webElementInteraction.clearAndType(propertyDescription, fileDescription);
+        clearAndType(propertyDescription, fileDescription);
     }
 
     public void typeHost(String host)
     {
-        webElementInteraction.clearAndType(hostInputField, host);
+        clearAndType(hostInputField, host);
     }
 
     public void typePort(String port)
     {
-        webElementInteraction.clearAndType(portInputField, port);
+        clearAndType(portInputField, port);
     }
 
     public void typeUsername(String username)
     {
-        webElementInteraction.clearAndType(usernameInputField, username);
+        clearAndType(usernameInputField, username);
     }
 
     public void typePassword(String password)
     {
-        webElementInteraction.clearAndType(passwordInputField, password);
+        clearAndType(passwordInputField, password);
     }
 
     public void checkEnabled()
     {
-        webElementInteraction.clickElement(enabledCheckbox);
+        clickElement(enabledCheckbox);
     }
 
     public void updateFolderDetailsForReplication(String host, String port, String username, String password)
@@ -142,6 +142,6 @@ public class EditPropertiesDialog extends BaseDialogComponent
 
     public void clickAllPropertiesLink()
     {
-        webElementInteraction.clickElement(allPropertiesButton);
+        clickElement(allPropertiesButton);
     }
 }

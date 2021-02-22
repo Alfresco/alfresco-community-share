@@ -31,27 +31,27 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     private WebElement findEventByTitle(String eventTitle)
     {
         log.info("Find event by title: {}", eventTitle);
-        return webElementInteraction.findFirstElementWithValue(siteEventsNameList, eventTitle);
+        return findFirstElementWithValue(siteEventsNameList, eventTitle);
     }
 
     private WebElement waitUntilEventTitleLinkIsDisplayed(String eventLinkTitle)
     {
         log.info("Wait until event title link is displayed: {}", eventLinkTitle);
-        return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
+        return waitWithRetryAndReturnWebElement(By.xpath(String.format(
             eventTitleLinkLocator, eventLinkTitle)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     private WebElement waitUntilEventTimeIsDisplayed(String eventTime)
     {
         log.info("Wait until event time is displayed: {}", eventTime);
-        return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
+        return waitWithRetryAndReturnWebElement(By.xpath(String.format(
             eventTimeLocator, eventTime)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
@@ -105,7 +105,7 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     public SiteCalendarDashlet assertNoUpcomingEventsMessageEquals(String expectedNoEventsMessage)
     {
         log.info("Assert no upcoming events message equals: {}", expectedNoEventsMessage);
-        assertEquals(webElementInteraction.getElementText(dashletMessage), expectedNoEventsMessage,
+        assertEquals(getElementText(dashletMessage), expectedNoEventsMessage,
             String.format("No events message not equals %s ", expectedNoEventsMessage));
 
         return this;
@@ -114,8 +114,8 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     public CalendarPage clickEvent(String eventTitle)
     {
         log.info("Click event with title: {}", eventTitle);
-        webElementInteraction.clickElement(
-            webElementInteraction.findFirstElementWithValue(siteEventsNameList, eventTitle));
+        clickElement(
+            findFirstElementWithValue(siteEventsNameList, eventTitle));
 
         return new CalendarPage(webDriver);
     }

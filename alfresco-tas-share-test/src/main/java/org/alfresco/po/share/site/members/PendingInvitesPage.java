@@ -3,16 +3,13 @@ package org.alfresco.po.share.site.members;
 import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 {
-    @RenderWebElement
     protected By searchInput = By.cssSelector("[id*='default-search-text']");
-    @RenderWebElement
     private final By searchButton = By.cssSelector("[id*='default-search-button']");
     private final By pendingInvitesList = By.cssSelector("tbody[class='yui-dt-data'] tr");
     private final By invitationUserAvatar = By.cssSelector(".avatar");
@@ -34,22 +31,22 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 
     private WebElement selectPendingInvitationRow(String firstName)
     {
-        return webElementInteraction.findFirstElementWithValue(pendingInvitesList, firstName);
+        return findFirstElementWithValue(pendingInvitesList, firstName);
     }
 
     public boolean isPendingInvitesListDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(pendingInvitesList);
+        return isElementDisplayed(pendingInvitesList);
     }
 
     public void typeIntoSearchInput(String input)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(searchInput), input);
+        clearAndType(findElement(searchInput), input);
     }
 
     public PendingInvitesPage clickSearchButton()
     {
-        webElementInteraction.findElement(searchButton).click();
+        findElement(searchButton).click();
         return new PendingInvitesPage(webDriver);
     }
 
@@ -67,17 +64,17 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 
     public boolean isSearchInputDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchInput);
+        return isElementDisplayed(searchInput);
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchButton);
+        return isElementDisplayed(searchButton);
     }
 
     public boolean isCancelButtonDisplayed(String firstName)
     {
-        return webElementInteraction.isElementDisplayed(selectPendingInvitationRow(firstName).findElement(cancelButton));
+        return isElementDisplayed(selectPendingInvitationRow(firstName).findElement(cancelButton));
     }
 
     public String getInvitationAvatarSource(String firstName)
@@ -103,7 +100,7 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
     public ArrayList<String> getPendingRequests()
     {
         ArrayList<String> pendingUsersText = new ArrayList<>();
-        List<WebElement> users = webElementInteraction.findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
+        List<WebElement> users = findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
         for (WebElement user : users)
         {
             pendingUsersText.add(user.getText());

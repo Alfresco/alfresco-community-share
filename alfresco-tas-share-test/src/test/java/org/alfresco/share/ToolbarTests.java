@@ -3,6 +3,7 @@ package org.alfresco.share;
 import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
@@ -14,13 +15,14 @@ public class ToolbarTests extends BaseTest
 {
     private SiteDashboardPage siteDashboardPage;
     private UserProfilePage userProfilePage;
+    private Toolbar toolbar;
 
-    private UserModel normalUser;
+    private final ThreadLocal<UserModel> normalUser = new ThreadLocal<>();
 
     @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
-        normalUser = dataUser.usingAdmin().createRandomTestUser();
+        normalUser.set(dataUser.usingAdmin().createRandomTestUser());
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -28,14 +30,15 @@ public class ToolbarTests extends BaseTest
     {
         siteDashboardPage = new SiteDashboardPage(webDriver);
         userProfilePage = new UserProfilePage(webDriver);
+        toolbar = new Toolbar(webDriver);
     }
 
     @TestRail (id = "C2091, C8701")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyAlfrescoToolbarItemsWithNormalUser()
     {
-        setupAuthenticatedSession(normalUser);
-        userDashboardPage.navigate(normalUser);
+        authenticateUsingCookies(normalUser.get());
+        userDashboardPage.navigate(normalUser.get());
         toolbar.assertToolbarIsDisplayed()
             .assertHomeIsDisplayed()
             .assertMyFilesIsDisplayed()
@@ -80,8 +83,8 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
     {
-        setupAuthenticatedSession(normalUser);
-        userProfilePage.navigate(normalUser);
+        authenticateUsingCookies(normalUser.get());
+        userProfilePage.navigate(normalUser.get());
         toolbar.assertToolbarIsDisplayed();
     }
 
@@ -92,13 +95,13 @@ public class ToolbarTests extends BaseTest
         UserModel adminUser = dataUser.createRandomTestUser();
         dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
 
-        setupAuthenticatedSessionViaLoginPage(adminUser);
+        authenticateUsingLoginPage(adminUser);
         userDashboardPage.navigate(adminUser);
         toolbar.assertAdminToolsIsDisplayed()
             .clickAdminTools().assertAdminApplicationPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
 
-        setupAuthenticatedSessionViaLoginPage(adminUser);
+        authenticateUsingLoginPage(adminUser);
         toolbar.assertAdminToolsIsNotDisplayed();
 
         dataUser.usingAdmin().deleteUser(adminUser);
@@ -108,8 +111,8 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromTheUserMenu()
     {
-        setupAuthenticatedSession(normalUser);
-        userDashboardPage.navigate(normalUser);
+        authenticateUsingCookies(normalUser.get());
+        userDashboardPage.navigate(normalUser.get());
         toolbar.clickUserMenu().clickUserDashboard()
             .assertUserDashboardPageIsOpened();
 
@@ -118,7 +121,7 @@ public class ToolbarTests extends BaseTest
 
         toolbar.clickUserMenu().clickHelp().assertHelpWillOpenDocumentationPage();
 
-        userProfilePage.navigate(normalUser);
+        userProfilePage.navigate(normalUser.get());
         toolbar.clickUserMenu().clickSetCurrentPageAsHome();
         toolbar.clickHome();
         userProfilePage.assertUserProfilePageIsOpened();
@@ -138,8 +141,8 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromTasksMenu()
     {
-        setupAuthenticatedSession(normalUser);
-        userDashboardPage.navigate(normalUser);
+        authenticateUsingCookies(normalUser.get());
+        userDashboardPage.navigate(normalUser.get());
         toolbar.clickTasks().clickMyTasks()
             .assertMyTasksPageIsOpened()
             .assertStartWorkflowIsDisplayed();
@@ -157,7 +160,7 @@ public class ToolbarTests extends BaseTest
 
         SiteModel firstSite = dataSite.usingUser(siteUser).createPublicRandomSite();
         SiteModel secondSite = dataSite.usingUser(siteUser).createPublicRandomSite();
-        setupAuthenticatedSession(siteUser);
+        authenticateUsingCookies(siteUser);
         siteDashboardPage.navigate(firstSite);
         siteDashboardPage.navigate(secondSite);
 
@@ -192,8 +195,8 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromAlfrescoToolbar()
     {
-        setupAuthenticatedSession(normalUser);
-        userDashboardPage.navigate(normalUser);
+        authenticateUsingCookies(normalUser.get());
+        userDashboardPage.navigate(normalUser.get());
         toolbar.clickHome();
         userDashboardPage.assertUserDashboardPageIsOpened();
 
@@ -207,6 +210,6 @@ public class ToolbarTests extends BaseTest
     @AfterClass(alwaysRun = true)
     public void cleanUp()
     {
-        deleteUsersIfNotNull(normalUser);
+        deleteUsersIfNotNull(normalUser.get());
     }
 }

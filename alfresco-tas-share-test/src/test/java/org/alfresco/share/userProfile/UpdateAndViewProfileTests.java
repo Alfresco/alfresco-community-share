@@ -29,7 +29,7 @@ public class UpdateAndViewProfileTests extends BaseTest
         editUserPage = new EditUserProfilePage(webDriver);
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2110")

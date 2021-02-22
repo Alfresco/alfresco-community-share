@@ -53,44 +53,44 @@ public class UserContentPage extends SharePage2<UserContentPage>
     public UserContentPage assertRecentlyAddedLabelIsDisplayed()
     {
         log.info("Assert Recently Added Label is displayed");
-        webElementInteraction.waitUntilElementIsVisible(recentlyAddedLabel);
-        assertTrue(webElementInteraction.isElementDisplayed(recentlyAddedLabel), "Recently Added Label is displayed");
+        waitUntilElementIsVisible(recentlyAddedLabel);
+        assertTrue(isElementDisplayed(recentlyAddedLabel), "Recently Added Label is displayed");
         return this;
     }
 
     public UserContentPage assertNoAddedContentMessageIsDisplayed()
     {
         log.info("No content added message is displayed");
-        webElementInteraction.waitUntilElementIsVisible(noAddedContentMessage);
-        assertTrue(webElementInteraction.isElementDisplayed(noAddedContentMessage), "No content added message is displayed");
+        waitUntilElementIsVisible(noAddedContentMessage);
+        assertTrue(isElementDisplayed(noAddedContentMessage), "No content added message is displayed");
         return this;
     }
 
     public UserContentPage assertRecentlyModifiedLabelIsDisplayed()
     {
         log.info("Assert Recently Modified Label is displayed");
-        webElementInteraction.waitUntilElementIsVisible(recentlyModfiedLabel);
-        assertTrue(webElementInteraction.isElementDisplayed(recentlyModfiedLabel), "Recently Modified Label is displayed");
+        waitUntilElementIsVisible(recentlyModfiedLabel);
+        assertTrue(isElementDisplayed(recentlyModfiedLabel), "Recently Modified Label is displayed");
         return this;
     }
 
     public UserContentPage assertNoModifiedContentMessageIsDisplayed()
     {
         log.info("No modified content message is displayed");
-        webElementInteraction.waitUntilElementIsVisible(noAddedContentMessage);
-        assertTrue(webElementInteraction.isElementDisplayed(noAddedContentMessage), "No modified content message is displayed");
+        waitUntilElementIsVisible(noAddedContentMessage);
+        assertTrue(isElementDisplayed(noAddedContentMessage), "No modified content message is displayed");
         return this;
     }
 
     public UserContentPage assertNoAddedContentMessageIsCorrect()
     {
-        assertEquals(webElementInteraction.getElementText(noAddedContentMessage), language.translate("userProfileContent.noAddedContentMessage"));
+        assertEquals(getElementText(noAddedContentMessage), language.translate("userProfileContent.noAddedContentMessage"));
         return this;
     }
 
     public UserContentPage assertNoModifiedContentMessageIsCorrect()
     {
-        assertEquals(webElementInteraction.getElementText(noModifiedContentMessage), language.translate("userProfileContent.noModifiedContentMessage"));
+        assertEquals(getElementText(noModifiedContentMessage), language.translate("userProfileContent.noModifiedContentMessage"));
         return this;
     }
 }

@@ -21,15 +21,15 @@ public class SearchCopyMoveDialog extends BaseDialogComponent
     public SearchCopyMoveDialog assertCreateLinkButtonIsDisplayed()
     {
         log.info("Assert Create Link button is displayed");
-        webElementInteraction.waitUntilElementIsVisible(createLinkButton);
-        assertTrue(webElementInteraction.isElementDisplayed(createLinkButton), "Create link button is displayed");
+        waitUntilElementIsVisible(createLinkButton);
+        assertTrue(isElementDisplayed(createLinkButton), "Create link button is displayed");
         return this;
     }
 
     public SearchCopyMoveDialog assertCreateLinkButtonIsDisabled()
     {
         log.info("Assert Create Link button is disabled");
-        assertEquals(webElementInteraction.findElement(createLinkButton).getAttribute("aria-disabled"),
+        assertEquals(findElement(createLinkButton).getAttribute("aria-disabled"),
             "true", "Create link button is disabled");
         return this;
     }

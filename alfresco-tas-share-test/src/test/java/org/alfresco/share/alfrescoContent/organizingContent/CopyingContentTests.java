@@ -31,7 +31,7 @@ public class CopyingContentTests extends BaseTest
 
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
         getCmisApi().authenticateUser(user.get());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C7377")

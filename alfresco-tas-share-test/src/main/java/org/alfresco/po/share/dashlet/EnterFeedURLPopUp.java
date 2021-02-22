@@ -26,14 +26,14 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
     public EnterFeedURLPopUp setUrlValue(String url)
     {
         log.info("Set url value: {}", url);
-        webElementInteraction.clearAndType(urlField, url);
+        clearAndType(urlField, url);
         return this;
     }
 
     public EnterFeedURLPopUp selectNumberOfItemsToDisplay(String dropDownValue)
     {
         log.info("Select number of item to display from drop-down: {}", dropDownValue);
-        WebElement itemsSelect = webElementInteraction.waitUntilElementIsVisible(numberOfItems);
+        WebElement itemsSelect = waitUntilElementIsVisible(numberOfItems);
         Select items = new Select(itemsSelect);
         items.selectByValue(dropDownValue);
         return this;
@@ -48,14 +48,14 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
     public EnterFeedURLPopUp selectOpenLinksInNewWindowCheckboxFromDialog()
     {
         log.info("Select open links in new window checkbox from dialog");
-        webElementInteraction.clickElement(newWindowCheckbox);
+        clickElement(newWindowCheckbox);
 
         return this;
     }
 
     public EnterFeedURLPopUp assertNumberOfItemsToDisplayFromDropDownIs(String expectedNumberOfItems)
     {
-        WebElement itemsSelect = webElementInteraction.waitUntilElementIsVisible(numberOfItems);
+        WebElement itemsSelect = waitUntilElementIsVisible(numberOfItems);
         Select items = new Select(itemsSelect);
         assertEquals(items.getFirstSelectedOption().getText(), expectedNumberOfItems,
             "Number of items to be displayed from drop down not equals with expected");
@@ -66,18 +66,18 @@ public class EnterFeedURLPopUp extends DashletPopUp<EnterFeedURLPopUp>
     public EnterFeedURLPopUp assertNewWindowIsChecked()
     {
         log.info("Assert new window is checked");
-        assertTrue(webElementInteraction.waitUntilElementIsVisible(newWindowCheckbox).isSelected(),
+        assertTrue(waitUntilElementIsVisible(newWindowCheckbox).isSelected(),
             "New window checkbox is not checked");
         return this;
     }
 
     public boolean isEnterFeedURLPopUpDisplayed()
     {
-        return webElementInteraction.waitUntilElementIsVisible(enterFeedURLPopUpLocator).isDisplayed();
+        return waitUntilElementIsVisible(enterFeedURLPopUpLocator).isDisplayed();
     }
 
     public boolean isUrlErrorMessageDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(urlErrorMessage);
+        return isElementDisplayed(urlErrorMessage);
     }
 }

@@ -27,7 +27,7 @@ public class CreateFolderFromTemplateTests extends BaseTest
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
 
         parentTemplateFolder.set(new FolderModel("Software Engineering Project"));
         parentTemplateFolder.get().setCmisLocation(Utility.buildPath(

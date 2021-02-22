@@ -41,14 +41,14 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public EditWikiPage clickEditPageLink()
     {
-        webElementInteraction.clickElement(wikiEditPageLink);
+        clickElement(wikiEditPageLink);
         return new EditWikiPage(webDriver);
     }
 
     public WikiMainPage assertWikiPageContentEquals(String expectedWikiContent)
     {
         log.info("Assert wiki page content equals: {}", expectedWikiContent);
-        assertEquals(webElementInteraction.getElementText(wikiPageContent), expectedWikiContent,
+        assertEquals(getElementText(wikiPageContent), expectedWikiContent,
             String.format("Wiki content not equals %s ", expectedWikiContent));
 
         return this;
@@ -56,13 +56,13 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public CreateWikiPage clickWikiNewPage()
     {
-        webElementInteraction.clickElement(newPageButton);
+        clickElement(newPageButton);
         return new CreateWikiPage(webDriver);
     }
 
     public WikiListPage clickOnWikiListLink()
     {
-        webElementInteraction.clickElement(wikiPageListLink);
+        clickElement(wikiPageListLink);
         return new WikiListPage(webDriver);
     }
 
@@ -71,19 +71,19 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
         String image1 = imageLink + imageName + "')]";
         String image = StringUtils.deleteWhitespace(image1);
-        return webElementInteraction.isElementDisplayed(By.xpath(image));
+        return isElementDisplayed(By.xpath(image));
     }
 
     public boolean clickOnRenameWikiMainPageButton()
     {
-        webElementInteraction.clickElement(renameWikiMainPageButton);
-        return webElementInteraction.isElementDisplayed(renameWikiMainPagePanel);
+        clickElement(renameWikiMainPageButton);
+        return isElementDisplayed(renameWikiMainPagePanel);
     }
 
     public WikiMainPage assertWikiMainPageTitleEquals(String expectedWikiTitle)
     {
         log.info("Assert wiki main page title equals: {}", expectedWikiTitle);
-        assertEquals(webElementInteraction.getElementText(wikiMainPageTtitle), expectedWikiTitle,
+        assertEquals(getElementText(wikiMainPageTtitle), expectedWikiTitle,
             String.format("Wiki main page title not equals %s ", expectedWikiTitle));
         return this;
 
@@ -91,67 +91,67 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public void clickOnMainPageLink()
     {
-        webElementInteraction.clickElement(mainPageLink);
+        clickElement(mainPageLink);
     }
 
     public void clickOnHereLink()
     {
-        webElementInteraction.clickElement(hereLink);
+        clickElement(hereLink);
     }
 
     public boolean isRenameWikiMainPagePanelDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(renameWikiMainPagePanel);
+        return isElementDisplayed(renameWikiMainPagePanel);
     }
 
     public boolean isNewPageButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(newPageButton);
+        return isElementDisplayed(newPageButton);
     }
 
     public boolean isDeleteButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(deletePageButton);
+        return isElementDisplayed(deletePageButton);
     }
 
     public boolean isDeleteButtonEnabled()
     {
-        return webElementInteraction.waitUntilElementIsVisible(deletePageButton).isEnabled();
+        return waitUntilElementIsVisible(deletePageButton).isEnabled();
     }
 
     public boolean isRenameButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(renameWikiMainPageButton);
+        return isElementDisplayed(renameWikiMainPageButton);
     }
 
     public boolean isViewLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(wikiViewPageLink);
+        return isElementDisplayed(wikiViewPageLink);
     }
 
     public boolean isDisabledViewLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(disabledWikiViewPageLink);
+        return isElementDisplayed(disabledWikiViewPageLink);
     }
 
     public boolean isEditPagelinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(wikiEditPageLink);
+        return isElementDisplayed(wikiEditPageLink);
     }
 
     public boolean isDetailsLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(wikiDetailsLink);
+        return isElementDisplayed(wikiDetailsLink);
     }
 
     public void deleteWikiMainPage()
     {
-        webElementInteraction.clickElement(deleteWikiMainPage);
+        clickElement(deleteWikiMainPage);
     }
 
     public WikiDetailsPage clickOnDetailsPageLink()
     {
-        webElementInteraction.clickElement(wikiDetailsLink);
+        clickElement(wikiDetailsLink);
         return new WikiDetailsPage(webDriver);
     }
 }

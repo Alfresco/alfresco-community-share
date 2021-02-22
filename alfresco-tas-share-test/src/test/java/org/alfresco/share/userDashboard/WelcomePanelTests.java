@@ -4,17 +4,19 @@ import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class WelcomePanelTests extends BaseTest
 {
-    private ThreadLocal<UserModel> testUser = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> testUser = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         testUser.set(dataUser.usingAdmin().createRandomTestUser());
-        setupAuthenticatedSession(testUser.get());
+        authenticateUsingCookies(testUser.get());
         userDashboardPage.navigate(testUser.get());
     }
 

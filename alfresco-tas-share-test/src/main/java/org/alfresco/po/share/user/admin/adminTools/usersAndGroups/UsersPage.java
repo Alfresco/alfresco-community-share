@@ -46,8 +46,8 @@ public class UsersPage extends SharePage2<UsersPage>
     public CreateUserPage clickNewUserButton()
     {
         log.info("Click New User");
-        WebElement newUserElement = webElementInteraction.waitUntilElementIsVisible(newUserButton);
-        webElementInteraction.clickElement(newUserElement);
+        WebElement newUserElement = waitUntilElementIsVisible(newUserButton);
+        clickElement(newUserElement);
         return new CreateUserPage(webDriver);
     }
 
@@ -64,11 +64,11 @@ public class UsersPage extends SharePage2<UsersPage>
 
     private void typeUserAndClickSearch(String searchKeyword)
     {
-        webElementInteraction.waitUntilElementIsVisible(userSearchInputField);
-        webElementInteraction.clearAndType(userSearchInputField, searchKeyword);
-        WebElement search = webElementInteraction.findElement(searchButton);
-        webElementInteraction.mouseOver(search);
-        webElementInteraction.clickElement(search);
+        waitUntilElementIsVisible(userSearchInputField);
+        clearAndType(userSearchInputField, searchKeyword);
+        WebElement search = findElement(searchButton);
+        mouseOver(search);
+        clickElement(search);
     }
 
     private UsersPage searchUser(String searchKeyword, String userToWaitFor)
@@ -89,8 +89,8 @@ public class UsersPage extends SharePage2<UsersPage>
     public UsersPage assertSearchTextIsCorrect(String searchText, int results)
     {
         String expectedValue = String.format(language.translate("adminTools.user.search.text"), searchText, results);
-        webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(searchTextResult), expectedValue);
-        assertEquals(webElementInteraction.findElement(searchTextResult).getText(), expectedValue);
+        waitUntilElementContainsText(findElement(searchTextResult), expectedValue);
+        assertEquals(findElement(searchTextResult).getText(), expectedValue);
         return this;
     }
 
@@ -109,54 +109,53 @@ public class UsersPage extends SharePage2<UsersPage>
     public UsersPage searchUser(String user)
     {
         log.info("Search for user: {}", user);
-        webElementInteraction.clearAndType(userSearchInputField, user);
-        webElementInteraction.clickElement(searchButton);
+        clearAndType(userSearchInputField, user);
+        clickElement(searchButton);
         return this;
     }
 
     public boolean isUserFound(String user)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(userRow, user)));
+        return isElementDisplayed(By.xpath(String.format(userRow, user)));
     }
 
     public WebElement getUserRow(String userName)
     {
-        return webElementInteraction
-            .waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)),
+        return waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)),
                 WAIT_2.getValue(), RETRY_TIME_30.getValue());
     }
 
     public UsersPage assertSearchInputIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(userSearchInputField), "Search input is displayed");
+        assertTrue(isElementDisplayed(userSearchInputField), "Search input is displayed");
         return this;
     }
 
     public UsersPage assertSearchButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public UsersPage assertNewUserButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(newUserButton), "New User button is displayed");
+        assertTrue(isElementDisplayed(newUserButton), "New User button is displayed");
         return this;
     }
 
     public UsersPage assertImportUsersButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
+        assertTrue(isElementDisplayed(uploadUsersButton), "Upload users button is displayed");
         return this;
     }
 
     public UploadUserResultsPage uploadUsers(String filePath)
     {
-        webElementInteraction.waitUntilElementIsVisible(uploadUsersButton);
-        webElementInteraction.clickElement(uploadUsersButton);
-        webElementInteraction.waitUntilElementIsVisible(fileInput);
-        webElementInteraction.clearAndType(fileInput, filePath);
-        webElementInteraction.clickElement(uploadButton);
+        waitUntilElementIsVisible(uploadUsersButton);
+        clickElement(uploadUsersButton);
+        waitUntilElementIsVisible(fileInput);
+        clearAndType(fileInput, filePath);
+        clickElement(uploadButton);
         return new UploadUserResultsPage(webDriver);
     }
 
@@ -170,7 +169,7 @@ public class UsersPage extends SharePage2<UsersPage>
     public UsersPage assertAllTableHeadersAreDisplayed()
     {
         log.info("Assert all table headers are displayed");
-        List<String> tableHeaders = webElementInteraction.getTextFromElementList(webElementInteraction.findElements(tableHeaderElements));
+        List<String> tableHeaders = getTextFromElementList(findElements(tableHeaderElements));
         List<String> expectedTableHeaders = Collections.synchronizedList(new ArrayList<>());
         expectedTableHeaders.add(language.translate("adminTools.user.table.name"));
         expectedTableHeaders.add(language.translate("adminTools.user.table.userName"));
@@ -219,7 +218,7 @@ public class UsersPage extends SharePage2<UsersPage>
         public UserRowAction assertUserIsDisabled()
         {
             log.info("Assert user {} is disabled", user.getUsername());
-            assertTrue(webElementInteraction.isElementDisplayed(getUserRow().findElement(userDisableIcon)),
+            assertTrue(isElementDisplayed(getUserRow().findElement(userDisableIcon)),
                 "User disabled icon is displayed");
             return this;
         }
@@ -248,13 +247,13 @@ public class UsersPage extends SharePage2<UsersPage>
 
         public UserProfileAdminToolsPage selectUserFullName()
         {
-            webElementInteraction.clickElement(getUserRow().findElement(userFullName));
+            clickElement(getUserRow().findElement(userFullName));
             return new UserProfileAdminToolsPage(webDriver);
         }
 
         public UserRowAction assertUserDeleteIconIsDisplayed()
         {
-            assertTrue(webElementInteraction.isElementDisplayed(getUserRow().findElement(userDeletedIcon)),
+            assertTrue(isElementDisplayed(getUserRow().findElement(userDeletedIcon)),
                 "User delete icon is displayed");
             return this;
         }

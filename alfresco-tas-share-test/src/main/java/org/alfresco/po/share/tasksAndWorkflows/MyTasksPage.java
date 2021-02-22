@@ -16,7 +16,6 @@ import org.openqa.selenium.WebElement;
 @Slf4j
 public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleByMenuBar
 {
-
     private final int BEGIN_INDEX = 0;
     private final String EMPTY_SPACE = " ";
 
@@ -58,7 +57,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertRejectedTaskIsNotDisplayedInActiveTasks(String taskName)
     {
         log.info("Assert rejected task is not displayed {}", taskName);
-        boolean isTaskNameDisplayed = webElementInteraction.isElementDisplayed(By.xpath(String.format(completeTaskName, taskName)));
+        boolean isTaskNameDisplayed = isElementDisplayed(By.xpath(String.format(completeTaskName, taskName)));
         assertFalse(isTaskNameDisplayed, String.format("Task name %s is displayed", taskName));
         return this;
     }
@@ -71,28 +70,28 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     public MyTasksPage assertMyTasksPageIsOpened()
     {
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "My Tasks page is opened");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "My Tasks page is opened");
         return this;
     }
 
     public MyTasksPage assertActiveTasksTitleIsDisplayed()
     {
         log.info("Assert Active tasks title is displayed");
-        webElementInteraction.waitUrlContains(activeTaskUrl, WAIT_10.getValue());
-        assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.active.title"));
+        waitUrlContains(activeTaskUrl, WAIT_10.getValue());
+        assertEquals(getElementText(taskbarTitle), language.translate("myTasksPage.active.title"));
         return this;
     }
 
     public MyTasksPage assertCompletedTasksTitleIsDisplayed()
     {
         log.info("Assert Completed tasks title is displayed");
-        assertEquals(webElementInteraction.getElementText(taskbarTitle), language.translate("myTasksPage.completed.title"));
+        assertEquals(getElementText(taskbarTitle), language.translate("myTasksPage.completed.title"));
         return this;
     }
 
     private WebElement getTaskName(String taskName)
     {
-        return webElementInteraction.findFirstElementWithValue(taskRowList, taskName);
+        return findFirstElementWithValue(taskRowList, taskName);
     }
 
     public MyTasksPage assertTaskNameEqualsTo(String expectedTaskName)
@@ -107,7 +106,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     private String getActualTaskName(String expectedTaskName)
     {
-        String taskName = webElementInteraction.getElementText(getTaskName(expectedTaskName));
+        String taskName = getElementText(getTaskName(expectedTaskName));
         String cutRequestToJoinText = taskName.substring(taskName.indexOf(expectedTaskName));
         return cutRequestToJoinText.substring(BEGIN_INDEX, cutRequestToJoinText.indexOf(EMPTY_SPACE));
     }
@@ -115,113 +114,113 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public EditTaskPage editTask(String taskName)
     {
         WebElement selectedTask = getTaskName(taskName);
-        webElementInteraction.mouseOver(selectedTask);
+        mouseOver(selectedTask);
         WebElement editAction = selectedTask.findElement(editTaskLink);
-        webElementInteraction.mouseOver(editAction);
-        webElementInteraction.clickElement(editAction);
+        mouseOver(editAction);
+        clickElement(editAction);
         return new EditTaskPage(webDriver);
     }
 
     public MyTasksPage navigateToCompletedTasks()
     {
-        webElementInteraction.clickElement(completedTasksButton);
-        webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(taskbarTitle), "Completed Tasks");
+        clickElement(completedTasksButton);
+        waitUntilElementContainsText(findElement(taskbarTitle), "Completed Tasks");
         return this;
     }
 
     public ViewTaskPage viewTask(String taskName)
     {
-        webElementInteraction.mouseOver(getTaskName(taskName));
-        webElementInteraction.clickElement(getTaskName(String.format(completeTaskName, taskName)).findElement(viewTaskLink));
+        mouseOver(getTaskName(taskName));
+        clickElement(getTaskName(String.format(completeTaskName, taskName)).findElement(viewTaskLink));
         return new ViewTaskPage(webDriver);
     }
 
     public MyTasksPage assertStartWorkflowIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(startWorkflow), "Start workflow is displayed");
+        assertTrue(isElementDisplayed(startWorkflow), "Start workflow is displayed");
         return this;
     }
 
     public StartWorkflowPage clickStartWorkflowButton()
     {
-        webElementInteraction.clickElement(startWorkflow);
+        clickElement(startWorkflow);
         return new StartWorkflowPage(webDriver);
     }
 
     public String getTaskTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(taskTitle).getText();
+        return waitUntilElementIsVisible(taskTitle).getText();
     }
 
     public WorkflowDetailsPage clickViewWorkflow(String taskName)
     {
         WebElement selectedTask = getTaskName(taskName);
-        webElementInteraction.mouseOver(selectedTask);
-        webElementInteraction.clickElement(selectedTask.findElement(viewWorkflowLink));
+        mouseOver(selectedTask);
+        clickElement(selectedTask.findElement(viewWorkflowLink));
         return new WorkflowDetailsPage(webDriver);
     }
 
     public boolean isEditTaskOptionDisplayed(String taskName)
     {
         WebElement selectedTask = getTaskName(taskName);
-        webElementInteraction.mouseOver(selectedTask);
-        return webElementInteraction.isElementDisplayed(selectedTask, editTaskLink);
+        mouseOver(selectedTask);
+        return isElementDisplayed(selectedTask, editTaskLink);
     }
 
     public boolean isViewTaskOptionDisplayed(String taskName)
     {
         WebElement selectedTask = getTaskName(taskName);
-        webElementInteraction.mouseOver(selectedTask);
-        return webElementInteraction.isElementDisplayed(selectedTask, viewTaskLink);
+        mouseOver(selectedTask);
+        return isElementDisplayed(selectedTask, viewTaskLink);
     }
 
     public boolean isViewWorkflowOptionDisplayed(String taskName)
     {
         WebElement selectedTask = getTaskName(taskName);
-        webElementInteraction.mouseOver(selectedTask);
-        return webElementInteraction.isElementDisplayed(selectedTask, viewWorkflowLink);
+        mouseOver(selectedTask);
+        return isElementDisplayed(selectedTask, viewWorkflowLink);
     }
 
     public boolean isTasksFilterDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(tasksFilter);
+        return isElementDisplayed(tasksFilter);
     }
 
     public boolean isDueFilterDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dueFilter);
+        return isElementDisplayed(dueFilter);
     }
 
     public boolean isPriorityFilterDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(priorityFilter);
+        return isElementDisplayed(priorityFilter);
     }
 
     public boolean isAssigneeFilterDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(assigneeFilter);
+        return isElementDisplayed(assigneeFilter);
     }
 
     public boolean isActiveTasksBarDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(taskbarTitle);
+        return isElementDisplayed(taskbarTitle);
     }
 
     public EditTaskPage clickOnTaskTitle(String taskName)
     {
         WebElement selectedTask = getTaskName(taskName);
-        webElementInteraction.mouseOver(selectedTask);
-        webElementInteraction.clickElement(selectedTask.findElement(taskTitle));
+        mouseOver(selectedTask);
+        clickElement(selectedTask.findElement(taskTitle));
         return new EditTaskPage(webDriver);
     }
 
     public String getStatus(String workflowName)
     {
-        return webElementInteraction.findElement(By.xpath(String.format(status, workflowName))).getText();
+        return findElement(By.xpath(String.format(status, workflowName))).getText();
     }
 
     public String getStatusCompleted(String workflowName)
     {
-        return webElementInteraction.findElement(By.xpath(String.format(statusCompleted, workflowName))).getText();
+        return findElement(By.xpath(String.format(statusCompleted, workflowName))).getText();
     }
 }

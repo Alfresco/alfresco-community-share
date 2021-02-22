@@ -29,16 +29,16 @@ public class ViewTaskPage extends SharePage2<ViewTaskPage>
     public ViewTaskPage assertViewTaskPageIsOpened()
     {
         log.info("Assert View task page is opened");
-        webElementInteraction.waitUntilElementIsVisible(workflowDetailsLink);
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "View task page is opened");
-        assertTrue(webElementInteraction.isElementDisplayed(workflowDetailsLink), "Workflow details link is displayed");
+        waitUntilElementIsVisible(workflowDetailsLink);
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "View task page is opened");
+        assertTrue(isElementDisplayed(workflowDetailsLink), "Workflow details link is displayed");
         return this;
     }
 
     public ViewTaskPage assertRequestDetailsEqualTo(String expectedRequestDetails)
     {
         log.info("Assert request details equal to {}", expectedRequestDetails);
-        String actualRequestDetails = webElementInteraction.getElementText(taskDetails);
+        String actualRequestDetails = getElementText(taskDetails);
         assertEquals(actualRequestDetails, expectedRequestDetails);
         return this;
     }
@@ -46,14 +46,14 @@ public class ViewTaskPage extends SharePage2<ViewTaskPage>
     public ViewTaskPage assertInviteTaskTitleEqualsTo(String expectedInviteTaskTitle)
     {
         log.info("Assert invite task title equals to {}", expectedInviteTaskTitle);
-        String actualInviteTaskTitle = webElementInteraction.getElementText(inviteTaskDetails);
+        String actualInviteTaskTitle = getElementText(inviteTaskDetails);
         assertEquals(actualInviteTaskTitle, expectedInviteTaskTitle);
         return this;
     }
 
     public WorkflowDetailsPage clickWorkflowDetailsLink()
     {
-        webElementInteraction.clickElement(workflowDetailsLink);
+        clickElement(workflowDetailsLink);
         return new WorkflowDetailsPage(webDriver);
     }
 }

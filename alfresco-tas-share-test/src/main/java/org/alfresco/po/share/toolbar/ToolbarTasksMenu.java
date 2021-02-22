@@ -20,25 +20,25 @@ public class ToolbarTasksMenu extends BasePage
 
     public ToolbarTasksMenu assertMyTasksIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(myTasks), "My Tasks link is displayed");
+        assertTrue(isElementDisplayed(myTasks), "My Tasks link is displayed");
         return this;
     }
 
     public ToolbarTasksMenu assertWorkflowIStartedIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(workflowsIveStarted), "Workflow I started link is displayed");
+        assertTrue(isElementDisplayed(workflowsIveStarted), "Workflow I started link is displayed");
         return this;
     }
 
     public MyTasksPage clickMyTasks()
     {
-        webElementInteraction.clickElement(myTasks);
+        clickElement(myTasks);
         return new MyTasksPage(webDriver);
     }
 
     public WorkflowsIveStartedPage clickWorkflowsIStarted()
     {
-        webElementInteraction.clickElement(workflowsIveStarted);
+        clickElement(workflowsIveStarted);
         return new WorkflowsIveStartedPage(webDriver);
     }
 }

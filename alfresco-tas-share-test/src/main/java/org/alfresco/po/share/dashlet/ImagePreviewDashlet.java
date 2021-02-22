@@ -27,19 +27,19 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     private WebElement getImageThumbnail(String imageName)
     {
-        return webElementInteraction.waitWithRetryAndReturnWebElement(
+        return waitWithRetryAndReturnWebElement(
             By.xpath(String.format(imageLink, imageName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public ImagePreviewDashlet assertImagePreviewIsDisplayed(String imageName)
     {
         log.info("Assert image name is: {}", imageName);
-        assertTrue(webElementInteraction.isElementDisplayed(getImageThumbnail(imageName)));
+        assertTrue(isElementDisplayed(getImageThumbnail(imageName)));
         return this;
     }
 
@@ -47,16 +47,16 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
     {
         log.info("Click View details icon");
         WebElement viewDetailsAction = getImageThumbnail(imageName).findElement(viewDetailsIcon);
-        webElementInteraction.mouseOver(viewDetailsAction);
-        webElementInteraction.clickElement(viewDetailsAction);
+        mouseOver(viewDetailsAction);
+        clickElement(viewDetailsAction);
     }
 
     public ImagePreviewDashlet clickDownloadIcon(String imageName)
     {
         log.info("Click download icon from image preview dashlet: {}", imageName);
         WebElement downloadAction = getImageThumbnail(imageName).findElement(downloadIcon);
-        webElementInteraction.mouseOver(downloadAction);
-        webElementInteraction.clickElement(downloadAction);
+        mouseOver(downloadAction);
+        clickElement(downloadAction);
         return this;
     }
 

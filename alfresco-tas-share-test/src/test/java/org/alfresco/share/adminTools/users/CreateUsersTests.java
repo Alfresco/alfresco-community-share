@@ -23,7 +23,7 @@ public class CreateUsersTests extends BaseTest
         createUsers = new CreateUserPage(webDriver);
         usersPage = new UsersPage(webDriver);
 
-        setupAuthenticatedSessionViaLoginPage(getAdminUser());
+        authenticateUsingLoginPage(getAdminUser());
     }
 
     @TestRail (id = "C42597")
@@ -145,7 +145,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @AfterMethod(alwaysRun = true)
-    public void afterEachTest()
+    public void cleanupTest()
     {
         deleteUsersIfNotNull();
     }

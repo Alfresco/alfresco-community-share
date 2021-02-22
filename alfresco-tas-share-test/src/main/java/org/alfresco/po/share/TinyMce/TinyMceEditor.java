@@ -97,7 +97,7 @@ public class TinyMceEditor extends BasePage
         try
         {
             String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", txt);
-            webElementInteraction.executeJavaScript(setCommentJs);
+            executeJavaScript(setCommentJs);
         } catch (NoSuchElementException noSuchElementExp)
         {
             log.error("Element : " + txt + " is not present", noSuchElementExp);
@@ -108,7 +108,7 @@ public class TinyMceEditor extends BasePage
     {
         setFormatType(formatType);
         selectTextFromEditor();
-        clickElementOnRichTextFormatter(webElementInteraction.findElement(textElements()));
+        clickElementOnRichTextFormatter(findElement(textElements()));
     }
 
     /**
@@ -117,15 +117,15 @@ public class TinyMceEditor extends BasePage
      */
     public void selectTextFromEditor()
     {
-        webElementInteraction.executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
+        executeJavaScript(TINY_MCE_SELECT_ALL_COMMAND);
     }
 
     protected void clickElementOnRichTextFormatter(WebElement element)
     {
         try
         {
-            webElementInteraction.switchToDefaultContent();
-            webElementInteraction.clickElement(element);
+            switchToDefaultContent();
+            clickElement(element);
 
         } catch (NoSuchElementException noSuchElementExp)
         {
@@ -137,9 +137,9 @@ public class TinyMceEditor extends BasePage
     {
         try
         {
-            webElementInteraction.switchToFrame(getFrameId());
-            String text = webElementInteraction.findElement(By.cssSelector(TINYMCE_CONTENT)).getText();
-            webElementInteraction.switchToDefaultContent();
+            switchToFrame(getFrameId());
+            String text = findElement(By.cssSelector(TINYMCE_CONTENT)).getText();
+            switchToDefaultContent();
             return text;
         }
         catch (NoSuchElementException noSuchElementExp)
@@ -151,7 +151,7 @@ public class TinyMceEditor extends BasePage
 
     public void setText(String text)
     {
-        webElementInteraction.clickJS(webElementInteraction.findElement(iFrame));
+        clickJS(findElement(iFrame));
 
         if (text == null)
         {
@@ -159,8 +159,8 @@ public class TinyMceEditor extends BasePage
         }
 
         String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-        webElementInteraction.executeJavaScript(setCommentJs);
+        executeJavaScript(setCommentJs);
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
-        webElementInteraction.executeJavaScript(setCommentJs);
+        executeJavaScript(setCommentJs);
     }
 }

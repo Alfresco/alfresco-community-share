@@ -25,7 +25,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
         mySitesDashlet = new MySitesDashlet(webDriver);
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2095")

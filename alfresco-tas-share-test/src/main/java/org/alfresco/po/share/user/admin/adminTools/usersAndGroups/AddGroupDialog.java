@@ -28,30 +28,30 @@ public class AddGroupDialog extends BaseDialogComponent
 
     public AddGroupDialog assertAddGroupDialogTitleIsCorrect()
     {
-        assertEquals(webElementInteraction.findElement(dialogTitle).getText(), language.translate("adminTools.groups.addGroupDialog.title"));
+        assertEquals(findElement(dialogTitle).getText(), language.translate("adminTools.groups.addGroupDialog.title"));
         return this;
     }
 
     public AddGroupDialog assertSearchInputIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(searchInputField), "Search input is displayed");
+        assertTrue(isElementDisplayed(searchInputField), "Search input is displayed");
         return this;
     }
 
     public AddGroupDialog assertSearchButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     private void fillInSearchInput(String textToSearch)
     {
-        webElementInteraction.clearAndType(searchInputField, textToSearch);
+        clearAndType(searchInputField, textToSearch);
     }
 
     private void clickSearchButton()
     {
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
     }
 
     public AddGroupDialog searchGroup(String groupToSearch)
@@ -63,7 +63,7 @@ public class AddGroupDialog extends BaseDialogComponent
 
     private ArrayList<String> getSearchResultsName()
     {
-        return webElementInteraction.waitUntilElementsAreVisible(searchResultsList)
+        return waitUntilElementsAreVisible(searchResultsList)
             .stream()
             .map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));
@@ -85,7 +85,7 @@ public class AddGroupDialog extends BaseDialogComponent
 
     public ArrayList<String> getSearchResultsId()
     {
-        return webElementInteraction.waitUntilElementsAreVisible(searchResultsIdList)
+        return waitUntilElementsAreVisible(searchResultsIdList)
             .stream()
             .map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));
@@ -98,15 +98,15 @@ public class AddGroupDialog extends BaseDialogComponent
 
     public void addGroup(GroupModel groupModel)
     {
-        webElementInteraction.waitUntilElementsAreVisible(addButtonsList);
+        waitUntilElementsAreVisible(addButtonsList);
         int index = getItemIndexFromSearchResults(groupModel.getDisplayName());
-        WebElement button = webElementInteraction.findElements(addButtonsList).get(index);
-        webElementInteraction.mouseOver(button);
-        webElementInteraction.clickElement(button);
+        WebElement button = findElements(addButtonsList).get(index);
+        mouseOver(button);
+        clickElement(button);
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(closeButton);
+        return isElementDisplayed(closeButton);
     }
 }

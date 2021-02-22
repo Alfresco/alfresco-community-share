@@ -1,6 +1,7 @@
 package org.alfresco.share;
 
 import org.alfresco.po.share.LoginAimsPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 public class LoginAIMSTests extends BaseTest
 {
     private LoginAimsPage loginAimsPage;
+    private Toolbar toolbar;
 
     private final String password = "password";
     private String randomString = RandomData.getRandomAlphanumeric();
@@ -42,6 +44,7 @@ public class LoginAIMSTests extends BaseTest
     public void setupTest()
     {
         loginAimsPage = new LoginAimsPage(webDriver);
+        toolbar = new Toolbar(webDriver);
     }
 
     @TestRail(id = "C2080")

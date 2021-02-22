@@ -24,13 +24,13 @@ public class ModelDetailsPage extends SharePage2<ModelDetailsPage>
 
     public CreateCustomTypeDialog clickCreateCustomType()
     {
-        webElementInteraction.clickElement(createCustomTypeButton);
+        clickElement(createCustomTypeButton);
         return new CreateCustomTypeDialog(webDriver);
     }
 
     public CreateAspectDialog clickCreateAspect()
     {
-        webElementInteraction.clickElement(createAspectButton);
+        clickElement(createAspectButton);
         return new CreateAspectDialog(webDriver);
     }
 }

@@ -26,29 +26,29 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     public SiteNoticeDashlet openConfigurationDialog()
     {
         log.info("Open configuration dialog");
-        webElementInteraction.mouseOver(titleBar);
-        webElementInteraction.clickElement(editIcon);
+        mouseOver(titleBar);
+        clickElement(editIcon);
         return this;
     }
 
     public SiteNoticeDashlet setSiteNoticeDashletTitle(String title)
     {
         log.info("Set site notice dashlet title: {}", title);
-        webElementInteraction.clearAndType(titleInput, title);
+        clearAndType(titleInput, title);
         return this;
     }
 
     public SiteNoticeDashlet assertSiteNoticeMessageEquals(String expectedNoticeMessage)
     {
         log.info("Assert site notice message equals: {}", expectedNoticeMessage);
-        String actualNoticeMessage = webElementInteraction.getElementText(noticeMessageLocator);
+        String actualNoticeMessage = getElementText(noticeMessageLocator);
         assertEquals(actualNoticeMessage, expectedNoticeMessage,
             String.format("Notice message not equals %s ", expectedNoticeMessage));
 
@@ -68,15 +68,15 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     public void clickDialogOkButton()
     {
         log.info("Click dialog Ok button");
-        webElementInteraction.waitUntilElementIsVisible(dialogOkButton);
-        webElementInteraction.clickElement(dialogOkButton);
-        webElementInteraction.waitUntilElementDisappears(dialogOkButton);
+        waitUntilElementIsVisible(dialogOkButton);
+        clickElement(dialogOkButton);
+        waitUntilElementDisappears(dialogOkButton);
     }
 
     public void clickDialogCancelButton()
     {
         log.info("Click Cancel button");
-        webElementInteraction.waitUntilElementIsVisible(dialogCancelButton);
-        webElementInteraction.clickElement(dialogCancelButton);
+        waitUntilElementIsVisible(dialogCancelButton);
+        clickElement(dialogCancelButton);
     }
 }

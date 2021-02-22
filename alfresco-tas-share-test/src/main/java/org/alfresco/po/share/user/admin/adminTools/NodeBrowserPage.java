@@ -50,78 +50,80 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     public NodeBrowserPage selectSearchType(SearchType searchType)
     {
-        webElementInteraction.waitUntilElementIsVisible(searchTypeDropdownButton);
-        webElementInteraction.mouseOver(webElementInteraction.findElement(searchTypeDropdownButton), 3000);
-        webElementInteraction.waitUntilElementIsVisible(buttonStateAfterHover);
-        webElementInteraction.clickElement(buttonStateAfterHover);
-        webElementInteraction.waitUntilElementIsVisible(visibleDropdown);
-        webElementInteraction.clickElement(webElementInteraction.findFirstElementWithValue(options, searchType.getSearchType()));
+        waitUntilElementIsVisible(searchTypeDropdownButton);
+        mouseOver(findElement(searchTypeDropdownButton), 3000);
+
+        waitUntilElementIsVisible(buttonStateAfterHover);
+        clickElement(buttonStateAfterHover);
+
+        waitUntilElementIsVisible(visibleDropdown);
+        clickElement(findFirstElementWithValue(options, searchType.getSearchType()));
 
         return this;
     }
 
     public NodeBrowserPage assertSearchTypeIsSelected(SearchType searchType)
     {
-        webElementInteraction.mouseOver(webElementInteraction.findElement(searchTypeDropdownButton), 3000);
-        webElementInteraction.waitUntilElementIsVisible(buttonStateAfterHover);
-        assertEquals(searchType.getSearchType(), webElementInteraction.getElementText(searchTypeDropdownButton));
+        mouseOver(findElement(searchTypeDropdownButton), 3000);
+        waitUntilElementIsVisible(buttonStateAfterHover);
+        assertEquals(searchType.getSearchType(), getElementText(searchTypeDropdownButton));
         return this;
     }
 
     public NodeBrowserPage assertStoreTypeIsSelected(StoreType storeType)
     {
-        assertEquals(storeType.getStoreType(), webElementInteraction.getElementText(storeTypeDropdownButton));
+        assertEquals(storeType.getStoreType(), getElementText(storeTypeDropdownButton));
         return this;
     }
 
     public NodeBrowserPage clickSearch()
     {
-        WebElement search = webElementInteraction.findElement(searchButton);
-        webElementInteraction.mouseOver(search, 3000);
-        webElementInteraction.clickElement(searchButtonAfterHover);
-        webElementInteraction.waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))), WAIT_5.getValue());
-        webElementInteraction.waitUntilElementIsVisible(searchButton);
+        WebElement search = findElement(searchButton);
+        mouseOver(search, 3000);
+        clickElement(searchButtonAfterHover);
+        waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))), WAIT_5.getValue());
+        waitUntilElementIsVisible(searchButton);
         return this;
     }
 
     public NodeBrowserPage assertSearchButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public NodeBrowserPage assertAllColumnsAreDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(nameColumn);
-        webElementInteraction.waitUntilElementIsVisible(parentColumn);
-        webElementInteraction.waitUntilElementIsVisible(referenceColumn);
+        waitUntilElementIsVisible(nameColumn);
+        waitUntilElementIsVisible(parentColumn);
+        waitUntilElementIsVisible(referenceColumn);
 
-        assertTrue(webElementInteraction.isElementDisplayed(nameColumn), "Name column is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(parentColumn), "Parent column is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(referenceColumn), "Reference column is displayed");
+        assertTrue(isElementDisplayed(nameColumn), "Name column is displayed");
+        assertTrue(isElementDisplayed(parentColumn), "Parent column is displayed");
+        assertTrue(isElementDisplayed(referenceColumn), "Reference column is displayed");
 
         return this;
     }
 
     public NodeBrowserPage searchFor(String searchItem)
     {
-        webElementInteraction.clearAndType(searchInput, searchItem);
+        clearAndType(searchInput, searchItem);
         return this;
     }
 
     private WebElement getResultRowWithRetry(String contentName)
     {
         By fileRow = By.xpath(String.format(fileNameRow, contentName));
-        int retryCount = 0;
 
-        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(fileRow))
+        int retryCount = 0;
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(fileRow))
         {
             log.warn("Content {} not displayed - retry: {}", contentName, retryCount);
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            refresh();
+            waitInSeconds(WAIT_2.getValue());
             retryCount++;
         }
-        return webElementInteraction.waitUntilElementIsVisible(fileRow);
+        return waitUntilElementIsVisible(fileRow);
     }
 
     public String getParentFor(String fileName)
@@ -157,17 +159,17 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
     public NodeBrowserPage assertReferenceContainsValue(String reference)
     {
         log.info("Assert reference %s is displayed in results");
-        WebElement referenceRow = webElementInteraction.waitUntilElementIsVisible(referenceRows);
-        webElementInteraction.waitUntilElementContainsText(referenceRow, reference);
-        assertTrue(referenceRow.getText().contains(reference));
+        WebElement referenceRow = waitUntilElementIsVisible(referenceRows);
+        waitUntilElementContainsText(referenceRow, reference);
+        assertTrue(getElementText(referenceRows).contains(reference));
 
         return this;
     }
 
     public NodeBrowserPage assertNoItemsFoundLabelEquals(String expectedLabel)
     {
-        webElementInteraction.waitUntilElementContainsText(zeroResultsFound, "found 0 results");
-        assertEquals(webElementInteraction.getElementText(resultNoItemsFound), expectedLabel,
+        waitUntilElementContainsText(zeroResultsFound, "found 0 results");
+        assertEquals(getElementText(resultNoItemsFound), expectedLabel,
             String.format("No items found label %s not equals ", expectedLabel));
         return this;
     }

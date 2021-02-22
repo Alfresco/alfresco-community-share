@@ -29,17 +29,17 @@ public class AspectsForm extends BaseDialogComponent
 
     public List<WebElement> getAddButtonsList()
     {
-        return webElementInteraction.findElements(addButtonsList);
+        return findElements(addButtonsList);
     }
 
     public List<WebElement> getRemoveButtonsList()
     {
-        return webElementInteraction.findElements(removeButtonsList);
+        return findElements(removeButtonsList);
     }
 
     public boolean areAddButtonsDisplayed()
     {
-        List<WebElement> aspectsToBeAddedList = webElementInteraction.findElements(availableAspectsList);
+        List<WebElement> aspectsToBeAddedList = findElements(availableAspectsList);
         int numberOfAspectsAvailableToAdd = aspectsToBeAddedList.size();
         int numberOfAddButtonsDisplayed = getAddButtonsList().size();
 
@@ -48,7 +48,7 @@ public class AspectsForm extends BaseDialogComponent
 
     public boolean areRemoveButtonsDisplayed()
     {
-        List<WebElement> selectedAspectsList = webElementInteraction.findElements(aspectsSelectedList);
+        List<WebElement> selectedAspectsList = findElements(aspectsSelectedList);
         int numberOfSelectedAspects = selectedAspectsList.size();
         int numberOfRemoveButtonsDisplayed = getRemoveButtonsList().size();
 
@@ -57,62 +57,62 @@ public class AspectsForm extends BaseDialogComponent
 
     public boolean isAspectsFormTitleDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(aspectsFormTitle);
+        return isElementDisplayed(aspectsFormTitle);
     }
 
     public boolean isAvailableToAddPanelDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(availableToAddPanel);
+        return isElementDisplayed(availableToAddPanel);
     }
 
     public boolean isCurrentlySelectedPanel()
     {
-        return webElementInteraction.isElementDisplayed(availableToAddPanel);
+        return isElementDisplayed(availableToAddPanel);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 
     public boolean isSaveButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(saveButton);
+        return isElementDisplayed(saveButton);
     }
 
     @Override
     public boolean isCloseButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(closeButton);
+        return isElementDisplayed(closeButton);
     }
 
     public WebElement getAvailableAspects(final String aspectName)
     {
-        return webElementInteraction.findFirstElementWithValue(availableAspectsList, aspectName);
+        return findFirstElementWithValue(availableAspectsList, aspectName);
     }
 
     public WebElement getSelectedAspects(final String aspectName)
     {
-        return webElementInteraction.findFirstElementWithValue(aspectsSelectedList, aspectName);
+        return findFirstElementWithValue(aspectsSelectedList, aspectName);
     }
 
     public boolean isAspectPresentOnAvailableAspectList(String aspectName)
     {
-        return webElementInteraction.isElementDisplayed(getAvailableAspects(aspectName));
+        return isElementDisplayed(getAvailableAspects(aspectName));
     }
 
     public boolean isAspectPresentOnCurrentlySelectedList(String aspectName)
     {
-        return webElementInteraction.isElementDisplayed(getSelectedAspects(aspectName));
+        return isElementDisplayed(getSelectedAspects(aspectName));
     }
 
     public void addAspect(String aspectName)
     {
         try
         {
-            WebElement availableAspect = webElementInteraction.findFirstElementWithValue(availableAspectsList, aspectName);
+            WebElement availableAspect = findFirstElementWithValue(availableAspectsList, aspectName);
             Parameter.checkIsMandotary("Available aspect", availableAspect);
-            webElementInteraction.scrollIntoView(availableAspect);
+            scrollIntoView(availableAspect);
             availableAspect.findElement(addButtonsList).click();
         }
         catch (NoSuchElementException noSuchElementExp)
@@ -125,7 +125,7 @@ public class AspectsForm extends BaseDialogComponent
     {
         try
         {
-            WebElement selectedAspect = webElementInteraction.findFirstElementWithValue(aspectsSelectedList, aspectName);
+            WebElement selectedAspect = findFirstElementWithValue(aspectsSelectedList, aspectName);
             Parameter.checkIsMandotary("Selected aspect", selectedAspect);
             selectedAspect.findElement(removeButtonsList).click();
         } catch (NoSuchElementException noSuchElementExp)
@@ -136,17 +136,17 @@ public class AspectsForm extends BaseDialogComponent
 
     public void clickApplyChangesButton()
     {
-        webElementInteraction.findElement(saveButton).click();
+        findElement(saveButton).click();
         waitUntilNotificationMessageDisappears();
     }
 
     public void clickCloseButton()
     {
-        webElementInteraction.findElement(closeButton).click();
+        findElement(closeButton).click();
     }
 
     public void clickCancelButton()
     {
-        webElementInteraction.findElement(cancelButton).click();
+        findElement(cancelButton).click();
     }
 }

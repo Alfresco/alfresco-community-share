@@ -17,7 +17,7 @@ public class ApplicationTests extends BaseTest
     public void beforeTest()
     {
         applicationPage = new ApplicationPage(webDriver);
-        setupAuthenticatedSessionViaLoginPage(getAdminUser());
+        authenticateUsingLoginPage(getAdminUser());
     }
 
     @TestRail (id = "C9292")

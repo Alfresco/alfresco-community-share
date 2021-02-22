@@ -53,14 +53,14 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public DataListsPage assertDataListPageIsOpened()
     {
         log.info("Assert data list page is opened");
-        assertTrue(webElementInteraction.getCurrentUrl().contains("data-lists"), "Data List page is not opened");
+        assertTrue(getCurrentUrl().contains("data-lists"), "Data List page is not opened");
         return this;
     }
 
     public DataListsPage assertEmptyListMessageEquals(String emptyMessageExpected)
     {
         log.info("Assert empty list message equals: {}", emptyMessageExpected);
-        assertEquals(webElementInteraction.getElementText(listMessage), emptyMessageExpected,
+        assertEquals(getElementText(listMessage), emptyMessageExpected,
             String.format("Empty list message not equals %s ", emptyMessageExpected));
 
         return this;
@@ -69,29 +69,29 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public DataListsPage clickOnCreateDataListLink()
     {
         log.info("Click New List button");
-        webElementInteraction.findElement(createDataListLinkLocator).click();
+        clickElement(findElement(createDataListLinkLocator));
         return this;
     }
 
     public DataListsPage setTitle(String title)
     {
         log.info("Set title value: {}", title);
-        webElementInteraction.clearAndType(listTitleTextInput, title);
+        clearAndType(listTitleTextInput, title);
         return this;
     }
 
     public DataListsPage setDescription(String description)
     {
         log.info("Set description value: {}", description);
-        webElementInteraction.clearAndType(listDescriptionTextAreaInput, description);
+        clearAndType(listDescriptionTextAreaInput, description);
         return this;
     }
 
     public List<String> getListsItemsTitle()
     {
-        webElementInteraction.waitUntilElementIsVisible(listWithCreatedLists);
+        waitUntilElementIsVisible(listWithCreatedLists);
 
-        List<WebElement> linksList = webElementInteraction.waitUntilElementIsVisible(dataListsSection)
+        List<WebElement> linksList = waitUntilElementIsVisible(dataListsSection)
             .findElements(By.cssSelector("a.filter-link"));
         List<String> dataListsName = new ArrayList<>(linksList.size());
         for (WebElement list : linksList)
@@ -103,19 +103,19 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     private WebElement getDataListElement(String listName)
     {
-        List<WebElement> linksList = webElementInteraction.waitUntilElementIsVisible(dataListsSection)
+        List<WebElement> linksList = waitUntilElementIsVisible(dataListsSection)
             .findElements(By.cssSelector("a.filter-link"));
-        return webElementInteraction.findFirstElementWithValue(linksList, listName);
+        return findFirstElementWithValue(linksList, listName);
     }
 
     public boolean noListDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(noListDisplayed);
+        return isElementDisplayed(noListDisplayed);
     }
 
     public boolean isNewItemButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(newItemButton);
+        return isElementDisplayed(newItemButton);
     }
 
     private DataListsPage clickDataList(String listName, Class c)
@@ -183,58 +183,58 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public boolean isEditButtonDisplayedForList(String listName)
     {
-        webElementInteraction.mouseOver(getDataListElement(listName));
-        return webElementInteraction.isElementDisplayed(editListButton);
+        mouseOver(getDataListElement(listName));
+        return isElementDisplayed(editListButton);
     }
 
     public boolean isDeleteButtonDisplayedForList(String listName)
     {
-        webElementInteraction.mouseOver(getDataListElement(listName));
-        return webElementInteraction.isElementDisplayed(deleteListButton);
+        mouseOver(getDataListElement(listName));
+        return isElementDisplayed(deleteListButton);
     }
 
     public EditListDetailsPopUp clickEditButtonForList(String listName)
     {
-        webElementInteraction.mouseOver(getDataListElement(listName));
-        webElementInteraction.clickElement(editListButton);
+        mouseOver(getDataListElement(listName));
+        clickElement(editListButton);
         return new EditListDetailsPopUp(webDriver);
     }
 
 
     public DeleteListPopUp clickDeleteButtonForList(String listName)
     {
-        webElementInteraction.mouseOver(getDataListElement(listName));
-        webElementInteraction.clickElement(deleteListButton);
+        mouseOver(getDataListElement(listName));
+        clickElement(deleteListButton);
         return new DeleteListPopUp(webDriver);
     }
 
     public CreateDataListDialog clickOnNewListButton()
     {
-        webElementInteraction.clickElement(newListButton);
+        clickElement(newListButton);
         return new CreateDataListDialog(webDriver);
     }
 
     public String successfullyCreatedDataListMessage()
     {
-        return webElementInteraction.getElementText(successfullyCreatedMessage);
+        return getElementText(successfullyCreatedMessage);
     }
 
     public boolean isEditButtonDisabled(String listName)
     {
-        webElementInteraction.mouseOver(getDataListElement(listName));
-        return webElementInteraction.isElementDisplayed(editButtonDisabled);
+        mouseOver(getDataListElement(listName));
+        return isElementDisplayed(editButtonDisabled);
     }
 
     public void clickOnDisabledEditButton(String listName)
     {
-        webElementInteraction.mouseOver(getDataListElement(listName));
-        webElementInteraction.clickElement(editButtonDisabled);
+        mouseOver(getDataListElement(listName));
+        clickElement(editButtonDisabled);
     }
 
     public DataListsPage assertDataListItemTitleEquals(String itemTitle)
     {
         log.info("Assert data list item title equals: {}", itemTitle);
-        WebElement actualTitle = webElementInteraction.findElement(By.xpath(String.format(listItemTitleLocator, itemTitle)));
+        WebElement actualTitle = findElement(By.xpath(String.format(listItemTitleLocator, itemTitle)));
         assertEquals( actualTitle.getText(), itemTitle, String.format("Data list item title not equals %s: ", itemTitle));
 
         return this;
@@ -242,21 +242,21 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public EditItemPopUp clickEditButtonForListItem()
     {
-        webElementInteraction.mouseOver(listItemActionsField);
-        webElementInteraction.waitUntilElementIsVisible(editListItemButton).click();
+        mouseOver(listItemActionsField);
+        waitUntilElementIsVisible(editListItemButton).click();
         return new EditItemPopUp(webDriver);
     }
 
     public CreateNewItemPopUp clickNewItemButton()
     {
-        webElementInteraction.waitUntilElementIsVisible(newItemButton).click();
+        waitUntilElementIsVisible(newItemButton).click();
         return new CreateNewItemPopUp(webDriver);
     }
 
     public List<String> getTextOfTableColumnHeader()
     {
         List<String> tableHeaderListString = new ArrayList<>();
-        for (WebElement item : webElementInteraction.waitUntilElementsAreVisible(tableColumnHeader))
+        for (WebElement item : waitUntilElementsAreVisible(tableColumnHeader))
         {
             tableHeaderListString.add(item.getText());
         }
@@ -266,6 +266,6 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public boolean isNewItemPopupFormDisplayed(CreateNewItemPopUp.NewItemPopupForm listName)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(createNewItemForm, listName.name)));
+        return isElementDisplayed(By.xpath(String.format(createNewItemForm, listName.name)));
     }
 }

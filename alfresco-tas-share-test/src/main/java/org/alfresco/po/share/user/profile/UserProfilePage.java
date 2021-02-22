@@ -83,77 +83,77 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
 
     public UserProfilePage assertUserProfilePageIsOpened()
     {
-        webElementInteraction.waitUrlContains("/profile", WAIT_10);
-        assertTrue(webElementInteraction.getCurrentUrl().contains("/profile"), "User profile page is opened");
+        waitUrlContains("/profile", WAIT_10);
+        assertTrue(getCurrentUrl().contains("/profile"), "User profile page is opened");
         return this;
     }
 
     public UserProfilePage assertInfoLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(infoLink);
-        assertTrue(webElementInteraction.isElementDisplayed(infoLink), "Info link is displayed");
+        waitUntilElementIsVisible(infoLink);
+        assertTrue(isElementDisplayed(infoLink), "Info link is displayed");
         return this;
     }
 
     public UserProfilePage assertSitesLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(sitesLink);
-        assertTrue(webElementInteraction.isElementDisplayed(sitesLink), "Sites link is displayed");
+        waitUntilElementIsVisible(sitesLink);
+        assertTrue(isElementDisplayed(sitesLink), "Sites link is displayed");
         return this;
     }
 
     public UserProfilePage assertContentLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(contentLink);
-        assertTrue(webElementInteraction.isElementDisplayed(contentLink), "Content link is displayed");
+        waitUntilElementIsVisible(contentLink);
+        assertTrue(isElementDisplayed(contentLink), "Content link is displayed");
         return this;
     }
 
     public UserProfilePage assertImFollowingLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(followingLink);
-        assertTrue(webElementInteraction.isElementDisplayed(followingLink), "Following link is displayed");
+        waitUntilElementIsVisible(followingLink);
+        assertTrue(isElementDisplayed(followingLink), "Following link is displayed");
         return this;
     }
 
     public UserProfilePage assertFollowingMeLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(followersLink);
-        assertTrue(webElementInteraction.isElementDisplayed(followersLink), "Following Me link is displayed");
+        waitUntilElementIsVisible(followersLink);
+        assertTrue(isElementDisplayed(followersLink), "Following Me link is displayed");
         return this;
     }
 
     public UserProfilePage assertChangePasswordLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(changePasswordLink);
-        assertTrue(webElementInteraction.isElementDisplayed(changePasswordLink), "Change password link is displayed");
+        waitUntilElementIsVisible(changePasswordLink);
+        assertTrue(isElementDisplayed(changePasswordLink), "Change password link is displayed");
         return this;
     }
 
     public UserProfilePage assertNotificationsLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(notificationLink);
-        assertTrue(webElementInteraction.isElementDisplayed(notificationLink), "Notifications link is displayed");
+        waitUntilElementIsVisible(notificationLink);
+        assertTrue(isElementDisplayed(notificationLink), "Notifications link is displayed");
         return this;
     }
 
     public UserProfilePage assertTrashcanLinkIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(trashcanLink);
-        assertTrue(webElementInteraction.isElementDisplayed(trashcanLink), "Trashcan link is displayed");
+        waitUntilElementIsVisible(trashcanLink);
+        assertTrue(isElementDisplayed(trashcanLink), "Trashcan link is displayed");
         return this;
     }
 
     public boolean isAboutHeaderDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(
-            webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
+        return isElementDisplayed(
+            findFirstElementWithValue(headers, language.translate("adminTools.user.about")));
     }
 
     //todo: refactor
     public UserProfilePage assertAboutHeaderIsDisplayed()
     {
-        assertNotNull(webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.about")),
+        assertNotNull(findFirstElementWithValue(headers, language.translate("adminTools.user.about")),
             "About is not displayed");
         return this;
     }
@@ -161,7 +161,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     //todo: refactor
     public UserProfilePage assertContactInfoHeaderIsDisplayed()
     {
-        assertNotNull(webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.contactInfo")),
+        assertNotNull(findFirstElementWithValue(headers, language.translate("adminTools.user.contactInfo")),
             "Contact information header is not displayed");
         return this;
     }
@@ -169,7 +169,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     //todo: refactor
     public UserProfilePage assertCompanyDetailsHeaderIsDisplayed()
     {
-        assertNotNull(webElementInteraction.findFirstElementWithValue(headers, language.translate("adminTools.user.companyDetails")),
+        assertNotNull(findFirstElementWithValue(headers, language.translate("adminTools.user.companyDetails")),
             "Company details is not displayed");
         return this;
     }
@@ -177,20 +177,20 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public EditUserProfilePage clickEditProfile()
     {
         log.info("Click Edit Profile");
-        webElementInteraction.clickElement(editProfile);
+        clickElement(editProfile);
         return new EditUserProfilePage(webDriver);
     }
 
     public UserProfilePage assertSummaryIs(String summaryValue)
     {
         log.info("Assert summary value is: {}", summaryValue);
-        assertEquals(webElementInteraction.getElementText(summary), summaryValue, "Summary is correct");
+        assertEquals(getElementText(summary), summaryValue, "Summary is correct");
         return this;
     }
 
     private List<String> getAboutUserInfo()
     {
-        List<WebElement> aboutDetails = webElementInteraction.waitUntilElementsAreVisible(aboutUserDetails);
+        List<WebElement> aboutDetails = waitUntilElementsAreVisible(aboutUserDetails);
         return aboutDetails.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
@@ -204,13 +204,13 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public UserProfilePage assertUserInfoIsEmpty()
     {
         log.info("Assert About user has no values");
-        assertFalse(webElementInteraction.isElementDisplayed(aboutUserDetails), "About user info is displayed");
+        assertFalse(isElementDisplayed(aboutUserDetails), "About user info is displayed");
         return this;
     }
 
     private UserProfilePage checkValue(String element, String label, String value)
     {
-        assertEquals(webElementInteraction.findElement(By.xpath(String.format(element,
+        assertEquals(findElement(By.xpath(String.format(element,
             language.translate(label))))
             .findElement(fieldValue).getText(), value);
         return this;
@@ -274,8 +274,8 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public UserProfilePage assertDefaultAvatarIsDisplayed()
     {
         log.info("Assert default avatar is displayed");
-        WebElement photoElement = webElementInteraction.waitUntilElementIsVisible(photo);
-        webElementInteraction.waitUntilElementHasAttribute(photoElement, "src", "no-user-photo-64.png");
+        WebElement photoElement = waitUntilElementIsVisible(photo);
+        waitUntilElementHasAttribute(photoElement, "src", "no-user-photo-64.png");
         assertTrue(photoElement.getAttribute("src").contains("no-user-photo-64.png"));
         return this;
     }
@@ -283,7 +283,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     public UserProfilePage assertNewAvatarIsDisplayed()
     {
         log.info("Assert new avatar is displayed");
-        assertTrue(webElementInteraction.waitUntilElementIsVisible(photo)
+        assertTrue(waitUntilElementIsVisible(photo)
             .getAttribute("src").contains("/content/thumbnails/avatar"));
         return this;
     }

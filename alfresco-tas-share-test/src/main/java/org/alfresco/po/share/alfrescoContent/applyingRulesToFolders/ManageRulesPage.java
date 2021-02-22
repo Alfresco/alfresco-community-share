@@ -38,75 +38,75 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 
     public String getRuleTitle()
     {
-        return webElementInteraction.getElementText(title);
+        return getElementText(title);
     }
 
     public String getNoRulesText()
     {
-        if (webElementInteraction.isElementDisplayed(noRulesText))
-            return webElementInteraction.getElementText(noRulesText);
+        if (isElementDisplayed(noRulesText))
+            return getElementText(noRulesText);
         return "'No rules defined for folder' header missing";
     }
 
     public String getCreateRulesDescription()
     {
-        if (webElementInteraction.isElementDisplayed(createRulesDescription))
-            return webElementInteraction.findElement(createRulesDescription).getText();
+        if (isElementDisplayed(createRulesDescription))
+            return findElement(createRulesDescription).getText();
         return "Create Rules description isn't displayed.";
     }
 
     public String getCreateRulesLinkText()
     {
-        if (webElementInteraction.isElementDisplayed(createRulesLink))
-            return webElementInteraction.findElement(createRulesLink).getText();
+        if (isElementDisplayed(createRulesLink))
+            return findElement(createRulesLink).getText();
         return "'Create Rules' link isn't displayed.";
     }
 
     public EditRulesPage clickCreateRules()
     {
-        webElementInteraction.findElement(createRulesLink).click();
+        findElement(createRulesLink).click();
         return new EditRulesPage(webDriver);
     }
 
     public String getLinkToRuleSetLinkText()
     {
-        if (webElementInteraction.isElementDisplayed(linkToRuleSetLink))
-            return webElementInteraction.findElement(linkToRuleSetLink).getText();
+        if (isElementDisplayed(linkToRuleSetLink))
+            return findElement(linkToRuleSetLink).getText();
         return "'Link to Rule Set' Link isn't displayed.";
     }
 
     public String getLinkToRuleSetDescription()
     {
-        if (webElementInteraction.isElementDisplayed(linkToRuleSetLink))
-            return webElementInteraction.findElement(linkToRuleSetDescription).getText();
+        if (isElementDisplayed(linkToRuleSetLink))
+            return findElement(linkToRuleSetDescription).getText();
         return "'Link to Rule Set' isn't displayed.";
     }
 
     public SelectDestinationDialog clickLinkToRuleSet()
     {
-        webElementInteraction.findElement(linkToRuleSetLink).click();
+        findElement(linkToRuleSetLink).click();
         return new SelectDestinationDialog(webDriver);
     }
 
     public String getInheritButtonText()
     {
-        if (webElementInteraction.isElementDisplayed(inheritButton))
-            return webElementInteraction.findElement(inheritButton).getText();
+        if (isElementDisplayed(inheritButton))
+            return findElement(inheritButton).getText();
         return "'Inherit Rules' button isn't displayed.";
     }
 
     public ManageRulesPage clickInheritButton()
     {
-        webElementInteraction.waitUntilElementIsVisible(inheritButton);
-        webElementInteraction.clickElement(inheritButton);
-        webElementInteraction.waitUntilElementIsVisible(inheritRulesMessage);
-        webElementInteraction.waitUntilElementDisappears(inheritRulesMessage);
+        waitUntilElementIsVisible(inheritButton);
+        clickElement(inheritButton);
+        waitUntilElementIsVisible(inheritRulesMessage);
+        waitUntilElementDisappears(inheritRulesMessage);
 
         return this;
     }
 
     public boolean isContentRuleDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(contentRule);
+        return isElementDisplayed(contentRule);
     }
 }

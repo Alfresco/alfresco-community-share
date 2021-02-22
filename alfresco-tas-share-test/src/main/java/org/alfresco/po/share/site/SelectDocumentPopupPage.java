@@ -30,7 +30,7 @@ public class SelectDocumentPopupPage extends SelectPopUpPage
     public List<String> getSelectedDocumentTitlesList()
     {
         List<String> selectedDocssTitleList = new ArrayList<>();
-        for (WebElement docTitle : webElementInteraction.findElements(selectedDocumentsList))
+        for (WebElement docTitle : findElements(selectedDocumentsList))
         {
             selectedDocssTitleList.add(docTitle.getText().trim());
         }
@@ -39,35 +39,35 @@ public class SelectDocumentPopupPage extends SelectPopUpPage
 
     public boolean isSelectDocumentPopupPageHeaderDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(selectDocumentPopupHeader);
+        return isElementDisplayed(selectDocumentPopupHeader);
     }
 
     public boolean isSearchedItemDisplayed(String documentName)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(searchedItem, documentName)));
+        return isElementDisplayed(By.xpath(String.format(searchedItem, documentName)));
     }
 
     public boolean isSelectedItemDisplayed(String documentName)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(selectedItem, documentName)));
+        return isElementDisplayed(By.xpath(String.format(selectedItem, documentName)));
     }
 
     public WebElement selectDetailsRowResultList(String item)
     {
-        return webElementInteraction.findFirstElementWithValue(resultsList, item);
+        return findFirstElementWithValue(resultsList, item);
     }
 
     public boolean isItemClickable(String item)
     {
-        webElementInteraction.clickElement(selectDetailsRowResultList(item).findElement(itemName));
+        clickElement(selectDetailsRowResultList(item).findElement(itemName));
         return !isSelectDocumentPopupPageHeaderDisplayed();
     }
 
     public void selectBreadcrumbPath(String destinationPath)
     {
-        webElementInteraction.clickElement(breadcrumbButton);
-        webElementInteraction.waitUntilElementIsVisible(breadcrumbMenu);
-        webElementInteraction.selectOptionFromFilterOptionsList(destinationPath, webElementInteraction.findElements(breadcrumbOptions));
-        webElementInteraction.waitUntilElementContainsText(breadcrumbButton, destinationPath);
+        clickElement(breadcrumbButton);
+        waitUntilElementIsVisible(breadcrumbMenu);
+        selectOptionFromFilterOptionsList(destinationPath, findElements(breadcrumbOptions));
+        waitUntilElementContainsText(breadcrumbButton, destinationPath);
     }
 }

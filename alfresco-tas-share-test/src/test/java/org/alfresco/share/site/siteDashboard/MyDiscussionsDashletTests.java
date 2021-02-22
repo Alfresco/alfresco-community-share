@@ -38,7 +38,7 @@ public class MyDiscussionsDashletTests extends AbstractSiteDashboardDashletsTest
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.MY_DISCUSSIONS, 1, 2);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2791")

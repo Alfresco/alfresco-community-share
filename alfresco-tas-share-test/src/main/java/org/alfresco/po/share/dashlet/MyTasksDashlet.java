@@ -48,8 +48,8 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     @Override
     protected String getDashletTitle() {
-        return webElementInteraction.getElementText(
-            webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(
+            waitUntilElementIsVisible(dashletContainer)
                 .findElement(dashletTitle));
     }
 
@@ -62,89 +62,89 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     private WebElement getTaskRow(String taskName)
     {
-        return webElementInteraction.waitWithRetryAndReturnWebElement(
+        return waitWithRetryAndReturnWebElement(
             By.xpath(String.format(taskRow, taskName)), WAIT_2.getValue(), RETRY_TIME_20.getValue());
     }
 
     public MyTasksDashlet assertStartWorkflowIsDisplayed()
     {
         log.info("Assert Start Workflow is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(startWorkFlowLink), "Start workflow is displayed");
+        assertTrue(isElementDisplayed(startWorkFlowLink), "Start workflow is displayed");
         return this;
     }
 
     public MyTasksDashlet assertEmptyDashletMessageIsCorrect()
     {
         log.info("Assert My Task dashlet has correct empty message");
-        assertEquals(webElementInteraction.getElementText(emptyDashletMessage), language.translate("myTasksDashlet.empty"));
+        assertEquals(getElementText(emptyDashletMessage), language.translate("myTasksDashlet.empty"));
         return this;
     }
 
     public StartWorkflowPage clickStartWorkFlow()
     {
         log.info("Click Start Workflow");
-        webElementInteraction.clickElement(startWorkFlowLink);
+        clickElement(startWorkFlowLink);
         return new StartWorkflowPage(webDriver);
     }
 
     public MyTasksDashlet assertActiveTasksButtonIsDisplayed()
     {
         log.info("Assert Active Tasks button is displayed");
-        webElementInteraction.waitUntilElementIsVisible(activeTasksLink);
-        assertTrue(webElementInteraction.isElementDisplayed(activeTasksLink), "Active Tasks button is displayed");
+        waitUntilElementIsVisible(activeTasksLink);
+        assertTrue(isElementDisplayed(activeTasksLink), "Active Tasks button is displayed");
         return this;
     }
 
     public MyTasksPage clickActiveTasksLink()
     {
-        webElementInteraction.clickElement(activeTasksLink);
+        clickElement(activeTasksLink);
         return new MyTasksPage(webDriver);
     }
 
     public MyTasksDashlet assertCompletedTasksButtonIsDisplayed()
     {
         log.info("Assert Completed Tasks button is displayed");
-        webElementInteraction.waitUntilElementIsVisible(completedTasksLink);
-        assertTrue(webElementInteraction.isElementDisplayed(completedTasksLink), "Completed Tasks button is displayed");
+        waitUntilElementIsVisible(completedTasksLink);
+        assertTrue(isElementDisplayed(completedTasksLink), "Completed Tasks button is displayed");
         return this;
     }
 
     public MyTasksPage clickOnCompletedTasksLink()
     {
-        webElementInteraction.clickElement(completedTasksLink);
+        clickElement(completedTasksLink);
         return new MyTasksPage(webDriver);
     }
 
     public MyTasksDashlet assertFilterTasksIsDisplayed()
     {
         log.info("Assert Filter Tasks is displayed");
-        webElementInteraction.waitUntilElementIsVisible(filterTaskButton);
-        assertTrue(webElementInteraction.isElementDisplayed(filterTaskButton), "Filter Tasks is displayed");
+        waitUntilElementIsVisible(filterTaskButton);
+        assertTrue(isElementDisplayed(filterTaskButton), "Filter Tasks is displayed");
         return this;
     }
 
     public EditTaskPage clickTaskName(String taskName)
     {
-        webElementInteraction.clickElement(getTaskRow(taskName).findElement(taskNames));
+        clickElement(getTaskRow(taskName).findElement(taskNames));
         return new EditTaskPage(webDriver);
     }
 
     public MyTasksDashlet assertTasksNavigationIs(int page, int numberOfTasks)
     {
-        assertEquals(webElementInteraction.getElementText(quantityOfTasks),
+        assertEquals(getElementText(quantityOfTasks),
             String.format(language.translate("myTasksDashlet.navigation"), page, numberOfTasks, numberOfTasks));
         return this;
     }
 
     public WebElement selectTask(String taskName)
     {
-        return webElementInteraction.findFirstElementWithValue(tasksNameList, taskName);
+        return findFirstElementWithValue(tasksNameList, taskName);
     }
 
     public MyTasksDashlet assertTaskNameEqualsTo(String expectedTaskName)
     {
         log.info("Assert task name equals to {}", expectedTaskName);
-        String taskName = webElementInteraction.getElementText(getTaskRow(expectedTaskName));
+        String taskName = getElementText(getTaskRow(expectedTaskName));
         String actualTaskName = taskName.substring(BEGIN_INDEX, taskName.indexOf(NEW_LINE));
 
         assertEquals(actualTaskName, expectedTaskName,
@@ -154,17 +154,17 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public WebElement selectTaskDetailsRow(final String taskName)
     {
-        return webElementInteraction.findFirstElementWithValue(taskDetails, taskName);
+        return findFirstElementWithValue(taskDetails, taskName);
     }
 
     public ViewTaskPage viewTask(String taskName)
     {
         log.info("Edit task {}", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
-        webElementInteraction.mouseOver(activeTasksLink);
-        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
-        webElementInteraction.waitUntilElementHasAttribute(taskRowElement, "class", "highlighted");
-        webElementInteraction.clickElement(taskRowElement.findElement(viewIcon));
+        mouseOver(activeTasksLink);
+        mouseOver(taskRowElement.findElement(taskNames));
+        waitUntilElementHasAttribute(taskRowElement, "class", "highlighted");
+        clickElement(taskRowElement.findElement(viewIcon));
         return new ViewTaskPage(webDriver);
     }
 
@@ -172,10 +172,10 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     {
         log.info("Edit task {}", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
-        webElementInteraction.mouseOver(taskRowElement);
+        mouseOver(taskRowElement);
 
-        WebElement editButton = webElementInteraction.waitUntilElementIsVisible(editIcon);
-        webElementInteraction.clickElement(editButton);
+        WebElement editButton = waitUntilElementIsVisible(editIcon);
+        clickElement(editButton);
         return new EditTaskPage(webDriver);
     }
 
@@ -183,8 +183,8 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     {
         log.info("Assert task {} has edit button", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
-        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
-        assertTrue(webElementInteraction.isElementDisplayed(taskRowElement.findElement(editIcon)), "Edit icon is displayed");
+        mouseOver(taskRowElement.findElement(taskNames));
+        assertTrue(isElementDisplayed(taskRowElement.findElement(editIcon)), "Edit icon is displayed");
         return this;
     }
 
@@ -192,15 +192,15 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     {
         log.info("Assert task {} has view button", taskName);
         WebElement taskRowElement = getTaskRow(taskName);
-        webElementInteraction.mouseOver(taskRowElement.findElement(taskNames));
-        assertTrue(webElementInteraction.isElementDisplayed(taskRowElement.findElement(viewIcon)), "View icon is displayed");
+        mouseOver(taskRowElement.findElement(taskNames));
+        assertTrue(isElementDisplayed(taskRowElement.findElement(viewIcon)), "View icon is displayed");
         return this;
     }
 
     public MyTasksDashlet assertTaskIsDisplayed(String taskName)
     {
         log.info("Assert tasks {} is displayed", taskName);
-        assertTrue(webElementInteraction.isElementDisplayed(getTaskRow(taskName)), String.format("Task %s is displayed", taskName));
+        assertTrue(isElementDisplayed(getTaskRow(taskName)), String.format("Task %s is displayed", taskName));
         return this;
     }
 
@@ -224,7 +224,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet assertTaskOptionEqualsTo(String expectedTaskOption)
     {
         log.info("Assert task option equals to {}", expectedTaskOption);
-        String taskOption = webElementInteraction.getElementText(filterTaskButton);
+        String taskOption = getElementText(filterTaskButton);
         String actualTaskOption = taskOption.substring(BEGIN_INDEX, taskOption.indexOf(FILTER_ARROW));
         assertEquals(actualTaskOption, expectedTaskOption, "Incorrect filter selected");
 
@@ -234,9 +234,9 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet selectFilterTaskOption(String taskOption)
     {
         log.info("Select filter task option {}", taskOption);
-        webElementInteraction.clickElement(filterTaskButton);
-        webElementInteraction.selectOptionFromFilterOptionsList(taskOption,
-            webElementInteraction.waitUntilElementsAreVisible(dropDownTasksList));
+        clickElement(filterTaskButton);
+        selectOptionFromFilterOptionsList(taskOption,
+            waitUntilElementsAreVisible(dropDownTasksList));
 
         return this;
     }
@@ -244,6 +244,6 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public String getTaskTypeAndStatus(String taskName)
     {
         WebElement taskRowElement = selectTaskDetailsRow(taskName);
-        return webElementInteraction.getElementText(taskRowElement.findElement(taskTypeAndStatus));
+        return getElementText(taskRowElement.findElement(taskTypeAndStatus));
     }
 }

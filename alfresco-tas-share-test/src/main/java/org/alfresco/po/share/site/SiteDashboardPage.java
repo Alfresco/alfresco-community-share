@@ -42,20 +42,20 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public SiteDashboardPage assertSiteDashboardPageIsOpened()
     {
         log.info("Assert site dashboard page is opened");
-        webElementInteraction.waitUntilElementIsVisible(siteVisibility);
-        assertTrue(webElementInteraction.isElementDisplayed(siteVisibility), "Site dashboard page is opened");
+        waitUntilElementIsVisible(siteVisibility);
+        assertTrue(isElementDisplayed(siteVisibility), "Site dashboard page is opened");
         return this;
     }
 
     public SiteDashboardPage assertSiteHeaderTitleIs(SiteModel expectedSite)
     {
-        assertEquals(webElementInteraction.getElementText(siteHeaderTitle), expectedSite.getTitle(), "Site header title is correct");
+        assertEquals(getElementText(siteHeaderTitle), expectedSite.getTitle(), "Site header title is correct");
         return this;
     }
 
     public int getNumberOfColumns()
     {
-        String strCol = webElementInteraction.findElement(dashboardLayout).getAttribute("class");
+        String strCol = findElement(dashboardLayout).getAttribute("class");
         return Character.getNumericValue(strCol.charAt(strCol.length() - 1));
     }
 
@@ -71,12 +71,11 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         }
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
-            return webElementInteraction.isElementDisplayed(By.xpath(String.format(
-                    "//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
+            return isElementDisplayed(By.xpath(String.format(
+                "//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
         }
-        WebElement dashletToCheck = webElementInteraction.waitUntilElementIsVisible(
-                By.xpath(String.format(dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
-        return webElementInteraction.isElementDisplayed(dashletToCheck);
+        return isElementDisplayed(By.xpath(String.format(
+            dashletLocation, dashlet.getDashletName(), column, locationInColumn)));
     }
 
     public SiteDashboardPage assertDashletIsAddedInPosition(Dashlets dashlet, int column, int locationInColumn)
@@ -88,7 +87,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public SiteDashboardPage assertSiteVisibilityEqualsTo(String expectedSiteVisibility)
     {
-        String actualSiteVisibility = webElementInteraction.getElementText(siteVisibility);
+        String actualSiteVisibility = getElementText(siteVisibility);
         assertTrue(actualSiteVisibility.equalsIgnoreCase(expectedSiteVisibility));
         return this;
     }
@@ -96,7 +95,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)
     {
         log.info("Assert site visibility is {}", visibility.toString());
-        String actualSiteVisibility = webElementInteraction.getElementText(siteVisibility).toUpperCase();
+        String actualSiteVisibility = getElementText(siteVisibility).toUpperCase();
 
         assertEquals(actualSiteVisibility, visibility.toString(),
             String.format("Site visibility not equals %s", visibility.toString()));
@@ -106,14 +105,12 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public boolean isSiteVisibilityDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(siteVisibility);
+        return isElementDisplayed(siteVisibility);
     }
 
     private boolean isDropdownOptionEqualsTo(String expectedOption)
     {
-        List<WebElement> siteConfigurations = webElementInteraction
-            .waitUntilElementsAreVisible(configurationOptions);
-
+        List<WebElement> siteConfigurations = waitUntilElementsAreVisible(configurationOptions);
         return isOptionEqualsTo(expectedOption, siteConfigurations);
     }
 
@@ -153,13 +150,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public SiteDashboardPage selectOptionFromSiteConfigurationDropDown(String option)
     {
         log.info("Select option from site configuration dropdown {}", option);
-        webElementInteraction.clickElement(By.xpath(String.format(dropdownOption, option)));
+        clickElement(By.xpath(String.format(dropdownOption, option)));
         return this;
     }
 
     public boolean isLinkDisplayedInMoreMenu(String link)
     {
-        List<WebElement> moreOptionsList = webElementInteraction.waitUntilElementsAreVisible(moreOptions);
+        List<WebElement> moreOptionsList = waitUntilElementsAreVisible(moreOptions);
         for (WebElement option : moreOptionsList)
         {
             if (option.getText().equals(link))
@@ -173,7 +170,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public void clickLinkFromMoreMenu(String link)
     {
         clickMoreLink();
-        List<WebElement> moreOptionsList = webElementInteraction.waitUntilElementsAreVisible(moreOptions);
+        List<WebElement> moreOptionsList = waitUntilElementsAreVisible(moreOptions);
         moreOptionsList.stream()
             .filter(option -> option.getText().equals(link))
             .findFirst().ifPresent(WebElement::click);
@@ -181,7 +178,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public boolean isPageAddedToDashboard(SitePageType page)
     {
-        if (webElementInteraction.isElementDisplayed(page.getDashboardLocator()))
+        if (isElementDisplayed(page.getDashboardLocator()))
         {
             return true;
         }
@@ -190,7 +187,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
             if (isMoreLinkDisplayed())
             {
                 clickMoreLink();
-                return webElementInteraction.isElementDisplayed(page.getDashboardLocator());
+                return isElementDisplayed(page.getDashboardLocator());
             }
             return false;
         }
@@ -198,23 +195,23 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public void clickMoreLink()
     {
-        webElementInteraction.waitUntilElementIsVisible(morePagesDropDown);
-        webElementInteraction.clickElement(morePagesDropDown);
+        waitUntilElementIsVisible(morePagesDropDown);
+        clickElement(morePagesDropDown);
     }
 
     public void clickLinkFromHeaderNavigationMenu(SitePageType page)
     {
-        webElementInteraction.findElement(page.getDashboardLocator()).findElement(By.cssSelector("a")).click();
+        findElement(page.getDashboardLocator()).findElement(By.cssSelector("a")).click();
     }
 
     public boolean isMoreLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(morePagesDropDown);
+        return isElementDisplayed(morePagesDropDown);
     }
 
     public String getPageDisplayName(SitePageType page)
     {
-        WebElement pageElem = webElementInteraction.findElement(By.cssSelector(page.getDashboardCssLocator()));
+        WebElement pageElem = findElement(By.cssSelector(page.getDashboardCssLocator()));
         return pageElem.findElement(By.cssSelector("span a")).getText();
     }
 
@@ -228,6 +225,6 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public boolean somethingWentWrongMessage()
     {
-        return webElementInteraction.isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
+        return isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
     }
 }

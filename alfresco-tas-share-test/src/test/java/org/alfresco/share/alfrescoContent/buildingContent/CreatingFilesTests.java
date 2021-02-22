@@ -27,7 +27,7 @@ public class CreatingFilesTests extends BaseTest
         user.set(dataUser.usingAdmin().createRandomTestUser());
         site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C6976, C6986")

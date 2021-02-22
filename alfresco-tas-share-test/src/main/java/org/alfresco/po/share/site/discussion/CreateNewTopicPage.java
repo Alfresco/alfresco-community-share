@@ -65,12 +65,12 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void typeTopicContent(String content)
     {
-        webElementInteraction.waitUntilElementIsVisible(topicContent);
-        webElementInteraction.switchToFrame(webElementInteraction.findElement(topicContent).getAttribute("id"));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        waitUntilElementIsVisible(topicContent);
+        switchToFrame(findElement(topicContent).getAttribute("id"));
+        WebElement editable = switchTo().activeElement();
         editable.clear();
         editable.sendKeys(content);
-        webElementInteraction.switchToDefaultContent();
+        switchToDefaultContent();
     }
 
     /**
@@ -125,10 +125,10 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 
     public String getTopicContent()
     {
-        webElementInteraction.switchToFrame(webElementInteraction.findElement(topicContent).getAttribute("id"));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchToFrame(findElement(topicContent).getAttribute("id"));
+        WebElement editable = switchTo().activeElement();
         String editableText = editable.getText();
-        webElementInteraction.switchToDefaultContent();
+        switchToDefaultContent();
         return editableText;
     }
 
@@ -139,6 +139,6 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void removeTag(String tag)
     {
-        webElementInteraction.findFirstElementWithValue(currentTagList, tag).click();
+        findFirstElementWithValue(currentTagList, tag).click();
     }
 }

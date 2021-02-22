@@ -25,14 +25,14 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
     @Override
     protected String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     public WikiDashlet assertWikiDashletEmptyMessageEquals(String expectedEmptyMessage)
     {
         log.info("Assert wiki dashlet empty message equals: {}", expectedEmptyMessage);
-        assertEquals(webElementInteraction.getElementText(defaultDashletMessage), expectedEmptyMessage,
+        assertEquals(getElementText(defaultDashletMessage), expectedEmptyMessage,
             String.format("Empty message not equals %s ", expectedEmptyMessage));
 
         return this;
@@ -40,22 +40,22 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
 
     public SelectWikiPagePopUp clickOnConfigureDashletIcon()
     {
-        webElementInteraction.mouseOver(wikiDashletTitle);
-        webElementInteraction.clickElement(configureDashlet);
+        mouseOver(wikiDashletTitle);
+        clickElement(configureDashlet);
         return new SelectWikiPagePopUp(webDriver);
     }
 
     public WikiDashlet assertWikiDashletMessageEquals(String expectedWikiDashletMessage)
     {
         log.info("Assert wiki dashlet message equals: {}", expectedWikiDashletMessage);
-        assertEquals(webElementInteraction.getElementText(wikiDashletText), expectedWikiDashletMessage);
+        assertEquals(getElementText(wikiDashletText), expectedWikiDashletMessage);
         return this;
     }
 
     public WikiDashlet clickDashletLinkTitle(String wikiDashletLinkTitle)
     {
         log.info("Click dashlet link title: {}", wikiDashletLinkTitle);
-        webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(dashletLinkTitleLocator, wikiDashletLinkTitle))).click();
+        waitUntilElementIsVisible(By.xpath(String.format(dashletLinkTitleLocator, wikiDashletLinkTitle))).click();
 
         return this;
     }

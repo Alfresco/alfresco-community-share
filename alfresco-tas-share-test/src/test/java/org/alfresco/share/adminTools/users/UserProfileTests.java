@@ -29,7 +29,7 @@ public class UserProfileTests extends BaseTest
         userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
         editUserPage = new EditUserPage(webDriver);
 
-        setupAuthenticatedSessionViaLoginPage(getAdminUser());
+        authenticateUsingLoginPage(getAdminUser());
     }
 
     @TestRail (id = "C9415")

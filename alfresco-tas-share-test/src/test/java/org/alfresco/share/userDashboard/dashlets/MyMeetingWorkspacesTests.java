@@ -20,7 +20,7 @@ public class MyMeetingWorkspacesTests extends AbstractUserDashboardDashletsTests
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_MEETING_WORKSPACES, 1, 3);
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2772")

@@ -19,41 +19,41 @@ public class EditListDetailsPopUp extends BaseDialogComponent
 
     public void modifyTitle(String newTitle)
     {
-        webElementInteraction.clearAndType(titleField, newTitle);
+        clearAndType(titleField, newTitle);
     }
 
     public void modifyDescription(String newDescription)
     {
-        webElementInteraction.clearAndType(descriptionField, newDescription);
+        clearAndType(descriptionField, newDescription);
     }
 
     public void clickSaveButton()
     {
-        webElementInteraction.clickElement(saveButton);
+        clickElement(saveButton);
     }
 
     public void clickCancelButton()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     public void clickCloseButton()
     {
-        webElementInteraction.clickElement(closeButton);
+        clickElement(closeButton);
     }
 
     public boolean isSaveButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(saveButton);
+        return isElementDisplayed(saveButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(closeButton);
+        return isElementDisplayed(closeButton);
     }
 }

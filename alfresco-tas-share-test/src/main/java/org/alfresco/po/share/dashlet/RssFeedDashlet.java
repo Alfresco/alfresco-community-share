@@ -28,7 +28,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public RssFeedDashlet assertDashletTitleContains(String expectedTitle)
@@ -42,10 +42,10 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public EnterFeedURLPopUp configureDashlet()
     {
         log.info("Configure dashlet");
-        webElementInteraction.mouseOver(dashletTitleBar);
-        webElementInteraction.mouseOver(titleBarActions);
-        webElementInteraction.waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
-        webElementInteraction.clickElement(configureDashletButton);
+        mouseOver(dashletTitleBar);
+        mouseOver(titleBarActions);
+        waitUntilElementHasAttribute(titleBarActions, "style", "opacity: 1;");
+        clickElement(configureDashletButton);
 
         return new EnterFeedURLPopUp(webDriver);
     }
@@ -53,7 +53,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public RssFeedDashlet clickOnRssLink(int position)
     {
         log.info("Click on rss link found at position: {}", position);
-        webElementInteraction.waitUntilElementsAreVisible(feedsList).get(position).click();
+        waitUntilElementsAreVisible(feedsList).get(position).click();
 
         return this;
     }
@@ -61,18 +61,18 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public RssFeedDashlet assertRssFeedLinkIsOpenedInNewBrowserTab(String expectedUrlTitle)
     {
         log.info("Assert RSS Feed window is opened");
-        int tabs = webElementInteraction.getWindowHandles().size();
+        int tabs = getWindowHandles().size();
         int retry = 0;
         while(tabs != 2 && retry < WAIT_20.getValue())
         {
             log.error("Wait for RSS tab to open");
-            tabs = webElementInteraction.getWindowHandles().size();
+            tabs = getWindowHandles().size();
             retry++;
         }
-        webElementInteraction.switchWindow(SECOND_TAB);
-        webElementInteraction.waitUrlContains(expectedUrlTitle, WAIT_20.getValue());
-        assertTrue(webElementInteraction.getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
-        webElementInteraction.closeWindowAndSwitchBack();
+        switchWindow(SECOND_TAB);
+        waitUrlContains(expectedUrlTitle, WAIT_20.getValue());
+        assertTrue(getCurrentUrl().contains(expectedUrlTitle) , "Rss feed title is correct");
+        closeWindowAndSwitchBack();
 
         return this;
     }
@@ -80,7 +80,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public RssFeedDashlet assertListSizeEquals(int expectedListSize)
     {
         log.info("Assert list size equals: {}", expectedListSize);
-        assertEquals(webElementInteraction.waitUntilElementsAreVisible(feedsList).size(), expectedListSize,
+        assertEquals(waitUntilElementsAreVisible(feedsList).size(), expectedListSize,
             String.format("List size not equals %d ", expectedListSize));
 
         return this;
@@ -89,7 +89,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public RssFeedDashlet assertFeedListIsEmpty()
     {
         log.info("Assert feed list is empty");
-        assertFalse(webElementInteraction.isElementDisplayed(feedsList),"Feed list is not empty");
+        assertFalse(isElementDisplayed(feedsList),"Feed list is not empty");
         return this;
     }
 }

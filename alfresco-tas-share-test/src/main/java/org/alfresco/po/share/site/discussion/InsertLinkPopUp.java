@@ -58,8 +58,8 @@ public class InsertLinkPopUp extends BaseDialogComponent
         textToDisplayInput.sendKeys(text);
         titleInput.sendKeys(title);
         targetButton.click();
-        WebElement menu = webElementInteraction.waitUntilElementIsVisible(targetMenu);
-        webElementInteraction.findFirstElementWithValue(menu.findElements(targetMenuItem), target).click();
+        WebElement menu = waitUntilElementIsVisible(targetMenu);
+        findFirstElementWithValue(menu.findElements(targetMenuItem), target).click();
         okButton.click();
     }
 
@@ -70,7 +70,7 @@ public class InsertLinkPopUp extends BaseDialogComponent
 
     public boolean isTextPresent(String text)
     {
-        webElementInteraction.waitUntilElementContainsText(insertLinkPopup, text);
+        waitUntilElementContainsText(insertLinkPopup, text);
         return insertLinkPopup.getText().contains(text);
     }
 }

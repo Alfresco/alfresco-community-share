@@ -40,28 +40,28 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     public WebElement selectBlogPostWithTitle(String title)
     {
-        return webElementInteraction.findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']/../.."));
+        return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']/../.."));
     }
 
     private WebElement selectBlogPostFooter(String title)
     {
-        return webElementInteraction.findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']/../../../.."));
+        return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']/../../../.."));
     }
 
     private WebElement selectTagsByTagName(String tag)
     {
-        return webElementInteraction.findElement(By.xpath(
+        return findElement(By.xpath(
             "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
     }
 
     private WebElement selectArchiveMonth(String month)
     {
-        return webElementInteraction.findFirstElementWithValue(archivesMonths, month);
+        return findFirstElementWithValue(archivesMonths, month);
     }
 
     public WebElement blogPostTitle(String title)
     {
-        return webElementInteraction.findElement(By.xpath("//div[@class ='nodeContent']//span[@class = 'nodeTitle']//a[text() = '" + title + "']"));
+        return findElement(By.xpath("//div[@class ='nodeContent']//span[@class = 'nodeTitle']//a[text() = '" + title + "']"));
     }
 
     @Override
@@ -77,7 +77,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public String getBlogContentText()
     {
-        return webElementInteraction.findElement(blogPageContent).getText();
+        return findElement(blogPageContent).getText();
     }
 
     /**
@@ -87,7 +87,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public boolean isNewPostButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(newPostButton);
+        return isElementDisplayed(newPostButton);
     }
 
     /**
@@ -97,7 +97,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public boolean isSimpleViewButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(simpleViewButton);
+        return isElementDisplayed(simpleViewButton);
     }
 
     /**
@@ -107,7 +107,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public String blogPageLinkName()
     {
-        return webElementInteraction.findElement(blogLinkName).getAttribute("aria-label").trim();
+        return findElement(blogLinkName).getAttribute("aria-label").trim();
     }
 
     /**
@@ -115,7 +115,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickOnBlogLink()
     {
-        webElementInteraction.findElement(By.id("HEADER_SITE_BLOG-POSTLIST")).click();
+        findElement(By.id("HEADER_SITE_BLOG-POSTLIST")).click();
     }
 
     /**
@@ -123,16 +123,16 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public BlogPostListPage clickSimpleViewButton()
     {
-        WebElement viewButton = webElementInteraction.findElement(simpleViewButton);
+        WebElement viewButton = findElement(simpleViewButton);
 
         String viewButtonText = viewButton.getText();
         viewButton.click();
         if (viewButtonText.equals("Simple View"))
         {
-            webElementInteraction.waitUntilElementIsVisible(By.cssSelector(".node.post.simple"));
+            waitUntilElementIsVisible(By.cssSelector(".node.post.simple"));
         } else
         {
-            webElementInteraction.waitUntilElementDeletedFromDom(By.cssSelector(".node.post.simple"));
+            waitUntilElementDeletedFromDom(By.cssSelector(".node.post.simple"));
         }
         return this;
     }
@@ -229,7 +229,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public String getBlogPostTitle(String title)
     {
-        webElementInteraction.waitUntilWebElementIsDisplayedWithRetry(selectBlogPostWithTitle(title), 6);
+        waitUntilWebElementIsDisplayedWithRetry(selectBlogPostWithTitle(title), 6);
         WebElement post = selectBlogPostWithTitle(title);
         return post.findElement(By.xpath(".//span[@class = 'nodeTitle']")).getText();
     }
@@ -307,7 +307,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public boolean isBlogPostDisplayed(String title)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']"));
+        return isElementDisplayed(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']"));
     }
 
     /**
@@ -315,8 +315,8 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickAllFilter()
     {
-        webElementInteraction.findElement(allFilter).click();
-        webElementInteraction.waitUntilElementContainsText(pageTitle, "All Posts");
+        findElement(allFilter).click();
+        waitUntilElementContainsText(pageTitle, "All Posts");
     }
 
     /**
@@ -324,8 +324,8 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickLatestFilter()
     {
-        webElementInteraction.findElement(latestFilter).click();
-        webElementInteraction.waitUntilElementContainsText(pageTitle, "New Posts");
+        findElement(latestFilter).click();
+        waitUntilElementContainsText(pageTitle, "New Posts");
     }
 
     /**
@@ -333,9 +333,9 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickMyDraftsFilter()
     {
-        webElementInteraction.clickElement(myDraftsFilter);
-        webElementInteraction.findElement(myDraftsFilter).click();
-        webElementInteraction.waitUntilElementContainsText(pageTitle, "My Draft Posts");
+        clickElement(myDraftsFilter);
+        findElement(myDraftsFilter).click();
+        waitUntilElementContainsText(pageTitle, "My Draft Posts");
     }
 
     /**
@@ -343,8 +343,8 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickMyPublishedFilter()
     {
-        webElementInteraction.findElement(myPublished).click();
-        webElementInteraction.waitUntilElementContainsText(pageTitle, "My Published Posts");
+        findElement(myPublished).click();
+        waitUntilElementContainsText(pageTitle, "My Published Posts");
     }
 
     /**
@@ -352,9 +352,9 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickTag(String tag)
     {
-        webElementInteraction.mouseOver(selectTagsByTagName(tag));
+        mouseOver(selectTagsByTagName(tag));
         selectTagsByTagName(tag).click();
-        webElementInteraction.waitUntilElementContainsText(pageTitle, "Blog Post List");
+        waitUntilElementContainsText(pageTitle, "Blog Post List");
     }
 
     /**
@@ -365,7 +365,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     public void clickArchiveMonth(String month)
     {
         selectArchiveMonth(month).click();
-        webElementInteraction.waitUntilElementContainsText(pageTitle, "Posts for Month " + month);
+        waitUntilElementContainsText(pageTitle, "Posts for Month " + month);
     }
 
     /**
@@ -373,7 +373,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public BlogPostViewPage clickReadBlogPost(String title)
     {
-        webElementInteraction.waitUntilWebElementIsDisplayedWithRetry(selectBlogPostFooter(title));
+        waitUntilWebElementIsDisplayedWithRetry(selectBlogPostFooter(title));
         selectBlogPostFooter(title).findElement(By.xpath(".//div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a[text() ='Read']")).click();
         return new BlogPostViewPage(webDriver);
     }
@@ -386,7 +386,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public boolean isBlogPostContentDisplayed(String title)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(".//div[@class = 'content yuieditor']"));
+        return isElementDisplayed(By.xpath(".//div[@class = 'content yuieditor']"));
     }
 
     /**
@@ -396,7 +396,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public String getButtonName()
     {
-        return webElementInteraction.findElement(simpleViewButton).getText();
+        return findElement(simpleViewButton).getText();
     }
 
     /**
@@ -406,7 +406,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public BlogPostViewPage clickOnThePostTitle(String title)
     {
-        webElementInteraction.findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']")).click();
+        findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']")).click();
         return new BlogPostViewPage(webDriver);
     }
 

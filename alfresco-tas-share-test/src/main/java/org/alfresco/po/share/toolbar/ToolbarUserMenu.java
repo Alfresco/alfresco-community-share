@@ -34,43 +34,43 @@ public class ToolbarUserMenu extends BasePage
     public ToolbarUserMenu assertUserDashboardIsDisplayed()
     {
         log.info("User Dashboard link is displayed");
-        webElementInteraction.waitUntilElementIsVisible(userDashboard);
-        assertTrue(webElementInteraction.isElementDisplayed(userDashboard), "User Dashboard is displayed");
+        waitUntilElementIsVisible(userDashboard);
+        assertTrue(isElementDisplayed(userDashboard), "User Dashboard is displayed");
         return this;
     }
 
     public UserDashboardPage clickUserDashboard()
     {
         log.info("Click User Dashboard");
-        webElementInteraction.clickElement(userDashboard);
+        clickElement(userDashboard);
         return new UserDashboardPage(webDriver);
     }
 
     public ToolbarUserMenu assertMyProfileIsDisplayed()
     {
         log.info("My Profile link is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(myProfileMenu), "My Profile link is displayed");
+        assertTrue(isElementDisplayed(myProfileMenu), "My Profile link is displayed");
         return this;
     }
 
     public UserProfilePage clickMyProfile()
     {
         log.info("Click My Profile");
-        webElementInteraction.clickElement(myProfileMenu);
+        clickElement(myProfileMenu);
         return new UserProfilePage(webDriver);
     }
 
     public ToolbarUserMenu assertHelpIsDisplayed()
     {
         log.info("Help link is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(help), "Help link is displayed");
+        assertTrue(isElementDisplayed(help), "Help link is displayed");
         return this;
     }
 
     public ToolbarUserMenu clickHelp()
     {
         log.info("Click Help");
-        webElementInteraction.clickElement(help);
+        clickElement(help);
         return this;
     }
 
@@ -78,10 +78,10 @@ public class ToolbarUserMenu extends BasePage
     {
         log.info("Assert Alfresco Documentation window is opened");
         waitForSecondWindow();
-        webElementInteraction.switchWindow(1);
-        webElementInteraction.waitUrlContains("https://docs.alfresco.com/", WAIT_10.getValue());
-        assertTrue(webElementInteraction.getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
-        webElementInteraction.closeWindowAndSwitchBack();
+        switchWindow(1);
+        waitUrlContains("https://docs.alfresco.com/", WAIT_10.getValue());
+        assertTrue(getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
+        closeWindowAndSwitchBack();
 
         return this;
     }
@@ -91,7 +91,7 @@ public class ToolbarUserMenu extends BasePage
         int i = 0;
         while(i < WAIT_10.getValue())
         {
-            if(webElementInteraction.getWindowHandles().size() == 2)
+            if(getWindowHandles().size() == 2)
             {
                 break;
             }
@@ -106,66 +106,66 @@ public class ToolbarUserMenu extends BasePage
     public ToolbarUserMenu assertSetCurrentPageAsHomeIsDisplayed()
     {
         log.info("Set Current Page As Home link is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(setCurrentPageAsHome), "Set Current Page As Home is displayed");
+        assertTrue(isElementDisplayed(setCurrentPageAsHome), "Set Current Page As Home is displayed");
         return this;
     }
 
     public void clickSetCurrentPageAsHome()
     {
         log.info("Click Set current page as home");
-        webElementInteraction.waitUntilElementIsVisible(setCurrentPageAsHome);
-        webElementInteraction.clickElement(setCurrentPageAsHome);
+        waitUntilElementIsVisible(setCurrentPageAsHome);
+        clickElement(setCurrentPageAsHome);
         waitUntilNotificationMessageDisappears();
     }
 
     public ToolbarUserMenu assertUseDashboardAsHomeIsDisplayed()
     {
         log.info("Set Current Page As Home link is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(setCurrentPageAsHome), "Use Dashboard As Home is displayed");
+        assertTrue(isElementDisplayed(setCurrentPageAsHome), "Use Dashboard As Home is displayed");
         return this;
     }
 
     public void clickSetDashBoardAsHome()
     {
         log.info("Click Set Dashboard as Home");
-        webElementInteraction.waitUntilElementIsVisible(setDashBoardAsHome);
-        webElementInteraction.clickElement(setDashBoardAsHome);
+        waitUntilElementIsVisible(setDashBoardAsHome);
+        clickElement(setDashBoardAsHome);
         waitUntilNotificationMessageDisappears();
     }
 
     public ToolbarUserMenu assertChangePasswordIsDisplayed()
     {
         log.info("Change Password link is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(changePassword), "Change Password is not displayed");
+        assertTrue(isElementDisplayed(changePassword), "Change Password is not displayed");
         return this;
     }
 
     public ToolbarUserMenu assertChangePasswordIsNotDisplayed()
     {
         log.info("Change Password link is not displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(changePassword), "Change Password is displayed");
+        assertTrue(isElementDisplayed(changePassword), "Change Password is displayed");
         return this;
     }
 
     public ChangePasswordPage clickChangePassword()
     {
         log.info("Click change password");
-        webElementInteraction.waitUntilElementIsVisible(changePassword);
-        webElementInteraction.clickElement(changePassword);
+        waitUntilElementIsVisible(changePassword);
+        clickElement(changePassword);
         return new ChangePasswordPage(webDriver);
     }
 
     public ToolbarUserMenu assertLogoutIsDisplayed()
     {
         log.info("Change Password link is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(logout), "Logout is displayed");
+        assertTrue(isElementDisplayed(logout), "Logout is displayed");
         return this;
     }
 
     public CommonLoginPage clickLogout()
     {
         log.info("Click Logout");
-        webElementInteraction.clickElement(logout);
+        clickElement(logout);
         if (defaultProperties.get().isAimsEnabled())
         {
             return new LoginAimsPage(webDriver);

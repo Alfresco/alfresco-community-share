@@ -83,7 +83,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public String getTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(pageTitle).getText();
+        return waitUntilElementIsVisible(pageTitle).getText();
     }
 
     /**
@@ -108,7 +108,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
             } else
             {
                 log.info("Wait for element after refresh: " + counter);
-                webElementInteraction.refresh();
+                refresh();
                 counter++;
             }
         }
@@ -121,7 +121,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         Utils.clearAndType(searchUserInput, searchText);
         searchUserButton.click();
         By DATA_ROWS = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
-        for (WebElement element : webElementInteraction.findElements(DATA_ROWS))
+        for (WebElement element : findElements(DATA_ROWS))
         {
             searchRows.add(element);
         }
@@ -132,7 +132,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public boolean isPermissionAddedForUser(String userProfile)
     {
-        List<WebElement> userPermissionRows = webElementInteraction.findElements(By.cssSelector("div[id$='default-directPermissions'] tbody.yui-dt-data tr"));
+        List<WebElement> userPermissionRows = findElements(By.cssSelector("div[id$='default-directPermissions'] tbody.yui-dt-data tr"));
         for (WebElement userPermissionRow : userPermissionRows)
         {
             String name = userPermissionRow.findElement(By.cssSelector("td[class$='-displayName']")).getText();
@@ -166,7 +166,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         for (int i = 1; i < 5; i++)
         {
             searchUserButton.click();
-            webElementInteraction.waitInSeconds(1);
+            waitInSeconds(1);
         }
         clickAddButton(add);
     }
@@ -179,7 +179,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public void clickAreYouSureDialog(ButtonType areYouSure)
     {
-        for (WebElement button : webElementInteraction.findElements(By.cssSelector("span.button-group span span button")))
+        for (WebElement button : findElements(By.cssSelector("span.button-group span span button")))
         {
             if (areYouSure.toString().equals(button.getText()))
             {
@@ -212,9 +212,9 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public boolean isTurnOffPermissionInheritanceDialogDisplayed()
     {
-        WebElement header = webElementInteraction.findElement(By.cssSelector("div[id='prompt'] div[id='prompt_h']"));
-        WebElement body = webElementInteraction.findElement(By.cssSelector("div[id='prompt'] div[class='bd']"));
-        WebElement footer = webElementInteraction.findElement(By.cssSelector("div[id='prompt'] div[class='ft'] span[class='button-group']"));
+        WebElement header = findElement(By.cssSelector("div[id='prompt'] div[id='prompt_h']"));
+        WebElement body = findElement(By.cssSelector("div[id='prompt'] div[class='bd']"));
+        WebElement footer = findElement(By.cssSelector("div[id='prompt'] div[class='ft'] span[class='button-group']"));
         boolean headerText = header.getText().equals("Turn off Permission Inheritance?");
         boolean bodyText = body.getText().equals("Are you sure you do not want to inherit permissions?" + '\n' + '\n'
             + "Only local permissions will apply to this document/folder.");
@@ -223,73 +223,73 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public void deleteUserOrGroupFromPermission(String userName)
     {
-        List<WebElement> userList = webElementInteraction.waitUntilElementsAreVisible(By.cssSelector("div[id$='default-directPermissions'] tr[class^='yui-dt-rec']"));
+        List<WebElement> userList = waitUntilElementsAreVisible(By.cssSelector("div[id$='default-directPermissions'] tr[class^='yui-dt-rec']"));
         for (WebElement webElement : userList)
         {
             if (webElement.findElement(By.cssSelector("td[class$='displayName']")).getText().contains(userName))
             {
-                webElementInteraction.mouseOver(webElement.findElement(By.xpath("//td[contains(@class, 'yui-dt-col-actions')]/div")));
+                mouseOver(webElement.findElement(By.xpath("//td[contains(@class, 'yui-dt-col-actions')]/div")));
                 WebElement deleteDivElement = webElement.findElement(By.cssSelector("td[class*='yui-dt-col-actions'] div div.action-set"));
-                webElementInteraction.findElement(By.id(deleteDivElement.getAttribute("id"))).findElement(By.cssSelector("a"));
+                findElement(By.id(deleteDivElement.getAttribute("id"))).findElement(By.cssSelector("a"));
             }
         }
     }
 
     public String getRole(String userName)
     {
-        WebElement userRow = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(userRowLocator, userName)));
+        WebElement userRow = waitUntilElementIsVisible(By.xpath(String.format(userRowLocator, userName)));
         return userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button|//td[contains(@class, 'role')]//span")).getText();
     }
 
     public String setRole(String userName, String role)
     {
-        WebElement userRow = webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(userRowLocator, userName)));
+        WebElement userRow = waitUntilElementIsVisible(By.xpath(String.format(userRowLocator, userName)));
         userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button"));
-        webElementInteraction.waitUntilElementIsVisible(By.cssSelector(".yui-menu-button-menu.visible"));
-        webElementInteraction.selectOptionFromFilterOptionsList(role, webElementInteraction.findElements(By.cssSelector(".yui-menu-button-menu.visible li>a")));
+        waitUntilElementIsVisible(By.cssSelector(".yui-menu-button-menu.visible"));
+        selectOptionFromFilterOptionsList(role, findElements(By.cssSelector(".yui-menu-button-menu.visible li>a")));
         return role;
     }
 
     public DocumentLibraryPage returnTo(String location)
     {
-        webElementInteraction.findFirstElementWithValue(breadcrumbList, location).click();
+        findFirstElementWithValue(breadcrumbList, location).click();
         return new DocumentLibraryPage(webDriver);
     }
 
     public boolean isAddUserGroupButtonDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(addUserGroupButton);
-        return webElementInteraction.isElementDisplayed(addUserGroupButton);
+        waitUntilElementIsVisible(addUserGroupButton);
+        return isElementDisplayed(addUserGroupButton);
     }
 
     public boolean isInheritPermissionsButtonDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(inheritPermissionButton);
-        return webElementInteraction.isElementDisplayed(inheritPermissionButton);
+        waitUntilElementIsVisible(inheritPermissionButton);
+        return isElementDisplayed(inheritPermissionButton);
     }
 
     public boolean isTheSaveButtonDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(saveButton);
-        return webElementInteraction.isElementDisplayed(saveButton);
+        waitUntilElementIsVisible(saveButton);
+        return isElementDisplayed(saveButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(cancelButton);
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        waitUntilElementIsVisible(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 
     public boolean isLocallySetPermissionsListDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(locallySetPermissionsList);
-        return webElementInteraction.isElementDisplayed(locallySetPermissionsList);
+        waitUntilElementIsVisible(locallySetPermissionsList);
+        return isElementDisplayed(locallySetPermissionsList);
     }
 
     public WebElement selectRowLocallySetPermissions(String rowDetails)
     {
-        webElementInteraction.waitUntilElementIsVisible(usersAndGroupsLocallySetPermissions);
-        return webElementInteraction.findFirstElementWithValue(usersAndGroupsLocallySetPermissions, rowDetails);
+        waitUntilElementIsVisible(usersAndGroupsLocallySetPermissions);
+        return findFirstElementWithValue(usersAndGroupsLocallySetPermissions, rowDetails);
     }
 
     public String getRowDetails(String details)
@@ -299,14 +299,14 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public boolean isDeleteButtonAvailable(String identifier)
     {
-        webElementInteraction.mouseOver(selectRowLocallySetPermissions(identifier));
-        return webElementInteraction.isElementDisplayed(deleteButton);
+        mouseOver(selectRowLocallySetPermissions(identifier));
+        return isElementDisplayed(deleteButton);
     }
 
     public void clickAddUserGroupButton()
     {
-        webElementInteraction.clickElement(addUserGroupButton);
-        webElementInteraction.waitUntilElementIsVisible(addUserGroupWindow);
+        clickElement(addUserGroupButton);
+        waitUntilElementIsVisible(addUserGroupWindow);
     }
 
     public void sendSearchInput(String userName)
@@ -321,8 +321,8 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public WebElement selectUser(String userName)
     {
-        webElementInteraction.waitUntilElementIsVisible(searchResultsList);
-        return webElementInteraction.findFirstElementWithValue(searchResultsList, userName);
+        waitUntilElementIsVisible(searchResultsList);
+        return findFirstElementWithValue(searchResultsList, userName);
     }
 
     public ManagePermissionsPage clickAddButtonForUser(String userName)
@@ -333,14 +333,14 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public void clickRoleButton(String item)
     {
-        webElementInteraction.clickElement(roleButton);
+        clickElement(roleButton);
         selectRowLocallySetPermissions(item).findElement(By.cssSelector("td[class$='yui-dt-col-role'] button")).click();
     }
 
     public void selectRole(String role)
     {
-        webElementInteraction.waitUntilElementsAreVisible(roles);
-        webElementInteraction.findFirstElementWithValue(roles, role).click();
+        waitUntilElementsAreVisible(roles);
+        findFirstElementWithValue(roles, role).click();
     }
 
     public DocumentLibraryPage clickSave()
@@ -351,8 +351,8 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public WebElement selectRowInheritedPermissions(String rowDetails)
     {
-        webElementInteraction.waitUntilElementIsVisible(inheritedPermissionsUsersAndGroups);
-        return webElementInteraction.findFirstElementWithValue(inheritedPermissionsUsersAndGroups, rowDetails);
+        waitUntilElementIsVisible(inheritedPermissionsUsersAndGroups);
+        return findFirstElementWithValue(inheritedPermissionsUsersAndGroups, rowDetails);
     }
 
     public String getInheritedPermissions(String identifier)
@@ -362,19 +362,19 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public boolean isAddUsersGroupsWindowDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(addUserGroupWindow);
-        return webElementInteraction.isElementDisplayed(addUserGroupWindow);
+        waitUntilElementIsVisible(addUserGroupWindow);
+        return isElementDisplayed(addUserGroupWindow);
     }
 
     public void deleteUserFromPermissionsList(String identifier)
     {
-        webElementInteraction.mouseOver(selectRowLocallySetPermissions(identifier));
-        webElementInteraction.waitUntilElementIsVisible(deleteButton).click();
+        mouseOver(selectRowLocallySetPermissions(identifier));
+        waitUntilElementIsVisible(deleteButton).click();
     }
 
     public String getLocallySetPermissionsTextWhenNoUsersAreAdded()
     {
-        webElementInteraction.waitUntilElementIsVisible(noPermissionsSet);
+        waitUntilElementIsVisible(noPermissionsSet);
         return noPermissionsSet.getText();
     }
 

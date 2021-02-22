@@ -27,98 +27,98 @@ public class NewFolderDialog extends BaseDialogComponent
     public NewFolderDialog assertDialogTitleEquals(String expectedTitle)
     {
         log.info("Assert dialog title is {}", expectedTitle);
-        assertEquals(webElementInteraction.getElementText(dialogTitle), expectedTitle, "Dialog title is not correct");
+        assertEquals(getElementText(dialogTitle), expectedTitle, "Dialog title is not correct");
         return this;
     }
 
     public NewFolderDialog assertSaveButtonIsDisplayed()
     {
         log.info("Assert Save button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(saveButton), "Save button is not displayed");
+        assertTrue(isElementDisplayed(saveButton), "Save button is not displayed");
         return this;
     }
 
     public NewFolderDialog assertCancelButtonIsDisplayed()
     {
         log.info("Assert Cancel button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is not displayed");
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
 
     public NewFolderDialog assertNameInputIsDisplayed()
     {
         log.info("Assert name input is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(nameField), "Name input is not displayed");
+        assertTrue(isElementDisplayed(nameField), "Name input is not displayed");
         return this;
     }
 
     public NewFolderDialog assertTitleInputIsDisplayed()
     {
         log.info("Assert title input is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(titleField), "Title input is not displayed");
+        assertTrue(isElementDisplayed(titleField), "Title input is not displayed");
         return this;
     }
 
     public NewFolderDialog assertDescriptionInputIsDisplayed()
     {
         log.info("Assert description input is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(descriptionField), "Description input is not displayed");
+        assertTrue(isElementDisplayed(descriptionField), "Description input is not displayed");
         return this;
     }
 
     public NewFolderDialog assertMandatoryIndicatorForNameIsDisplayed()
     {
         log.info("Assert mandatory indicator is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(mandatoryIndicator), "Mandatory indicator for name input is displayed");
+        assertTrue(isElementDisplayed(mandatoryIndicator), "Mandatory indicator for name input is displayed");
         return this;
     }
 
     public void clickSave()
     {
         log.info("Click Save");
-        webElementInteraction.waitUntilElementIsVisible(saveButton);
-        webElementInteraction.clickElement(saveButton);
+        waitUntilElementIsVisible(saveButton);
+        clickElement(saveButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancel()
     {
         log.info("Click Cancel");
-        webElementInteraction.waitUntilElementIsVisible(cancelButton);
-        webElementInteraction.clickElement(cancelButton);
+        waitUntilElementIsVisible(cancelButton);
+        clickElement(cancelButton);
     }
 
     public NewFolderDialog typeName(String name)
     {
         log.info("Type name {}", name);
-        webElementInteraction.clearAndType(nameField, name);
+        clearAndType(nameField, name);
         return this;
     }
 
     public NewFolderDialog fillInDetails(String name, String title, String description)
     {
         log.info("Set name, title and description");
-        webElementInteraction.clearAndType(nameField, name);
-        webElementInteraction.clearAndType(titleField, title);
-        webElementInteraction.clearAndType(descriptionField, description);
+        clearAndType(nameField, name);
+        clearAndType(titleField, title);
+        clearAndType(descriptionField, description);
         return this;
     }
 
     public String getNameFieldValue()
     {
-        return webElementInteraction.findElement(nameField).getAttribute("value");
+        return findElement(nameField).getAttribute("value");
     }
 
     public boolean isNewFolderPopupDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dialogTitle);
+        return isElementDisplayed(dialogTitle);
     }
 
     public NewFolderDialog assertNameInputIsInvalid()
     {
         log.info("Assert name input is invalid");
-        webElementInteraction.waitUntilElementHasAttribute(webElementInteraction.findElement(nameField), "class", "invalid");
-        assertTrue(webElementInteraction.findElement(nameField).getAttribute("class").contains("invalid"),  "Name field is invalid");
+        waitUntilElementHasAttribute(findElement(nameField), "class", "invalid");
+        assertTrue(findElement(nameField).getAttribute("class").contains("invalid"),  "Name field is invalid");
         return this;
     }
 
@@ -126,7 +126,7 @@ public class NewFolderDialog extends BaseDialogComponent
     {
         log.info("Assert name contains illegal characters message is displayed");
         assertEquals(language.translate("newFolderDialog.invalidName"),
-            webElementInteraction.findElement(nameField).getAttribute("title"));
+            findElement(nameField).getAttribute("title"));
         return this;
     }
 }

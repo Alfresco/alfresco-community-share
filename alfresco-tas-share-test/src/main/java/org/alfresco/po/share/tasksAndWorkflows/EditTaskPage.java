@@ -49,96 +49,96 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     public EditTaskPage assertEditTaskPageIsOpened()
     {
         log.info("Assert Edit Task page is opened");
-        webElementInteraction.waitUntilElementIsVisible(taskEditHeader);
-        assertTrue(webElementInteraction.isElementDisplayed(taskEditHeader), "Edit task header is displayed");
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Edit Task page is opened");
+        waitUntilElementIsVisible(taskEditHeader);
+        assertTrue(isElementDisplayed(taskEditHeader), "Edit task header is displayed");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Edit Task page is opened");
         return this;
     }
 
     public EditTaskPage insertTaskComment(String comment)
     {
         log.info("Insert task comment {}", comment);
-        webElementInteraction.clearAndType(commentTextArea, comment);
+        clearAndType(commentTextArea, comment);
         return this;
     }
 
     public EditTaskPage approveTask()
     {
         log.info("Approve task");
-        webElementInteraction.clickElement(approveButton);
+        clickElement(approveButton);
         return this;
     }
 
     public void rejectTask()
     {
-        webElementInteraction.waitUntilElementIsVisible(rejectButton);
-        webElementInteraction.clickElement(rejectButton);
+        waitUntilElementIsVisible(rejectButton);
+        clickElement(rejectButton);
     }
 
     public String getEditTaskHeader()
     {
-        return webElementInteraction.getElementText(taskEditHeader);
+        return getElementText(taskEditHeader);
     }
 
     public String getComment()
     {
-        return webElementInteraction.getElementText(commentTextArea);
+        return getElementText(commentTextArea);
     }
 
     public String getMessage()
     {
-        return webElementInteraction.getElementText(message);
+        return getElementText(message);
     }
 
     public String getOwner()
     {
-        return webElementInteraction.getElementText(owner);
+        return getElementText(owner);
     }
 
     public String getPriority()
     {
-        return webElementInteraction.getElementText(priority);
+        return getElementText(priority);
     }
 
     public boolean isIdentifierPresent()
     {
-        return webElementInteraction.isElementDisplayed(identifier);
+        return isElementDisplayed(identifier);
     }
 
     public boolean isDueDatePresent()
     {
-        return webElementInteraction.isElementDisplayed(dueDate);
+        return isElementDisplayed(dueDate);
     }
 
     public boolean isSaveButtonPresent()
     {
-        return webElementInteraction.isElementDisplayed(saveButton);
+        return isElementDisplayed(saveButton);
     }
 
     public boolean isCancelButtonPresent()
     {
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 
     public boolean isTaskDoneButtonPresent()
     {
-        return webElementInteraction.isElementDisplayed(taskDoneButton);
+        return isElementDisplayed(taskDoneButton);
     }
 
     public boolean isReassignButtonPresent()
     {
-        return webElementInteraction.isElementDisplayed(reassignButton);
+        return isElementDisplayed(reassignButton);
     }
 
     public boolean isAddItemsButtonPresent()
     {
-        return webElementInteraction.isElementDisplayed(addItemsButton);
+        return isElementDisplayed(addItemsButton);
     }
 
     public void selectStatus(TaskStatus status)
     {
-        Select select = new Select(webElementInteraction.findElement(statusDropdown));
-        webElementInteraction.waitUntilElementIsVisible(statusDropdown);
+        Select select = new Select(findElement(statusDropdown));
+        waitUntilElementIsVisible(statusDropdown);
         select.selectByValue(status.getStatus().toString());
     }
 
@@ -149,12 +149,12 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
 
     public void clickOnSaveButton()
     {
-        webElementInteraction.clickElement(saveButton);
+        clickElement(saveButton);
     }
 
     public boolean isStatusOptionPresent(TaskStatus status)
     {
-        Select select = new Select(webElementInteraction.findElement(statusDropdown));
+        Select select = new Select(findElement(statusDropdown));
         List<WebElement> options = select.getOptions();
         for (WebElement value : options)
             if (value.getAttribute("value").contains(status.getStatus()))
@@ -164,7 +164,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
 
     public boolean isStatusOptionSelected(TaskStatus status)
     {
-        Select select = new Select(webElementInteraction.findElement(statusDropdown));
+        Select select = new Select(findElement(statusDropdown));
         List<WebElement> options = select.getOptions();
         for (WebElement value : options)
             if (value.getAttribute("value").contains(status.getStatus()) && value.isSelected())
@@ -174,27 +174,27 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
 
     public EditTaskPage clickClaimButton()
     {
-        webElementInteraction.waitUntilElementIsVisible(claimButton).click();
+        waitUntilElementIsVisible(claimButton).click();
         waitUntilNotificationMessageDisappears();
         return this;
     }
 
     public EditTaskPage clickReleaseToPoolButton()
     {
-        webElementInteraction.clickElement(releaseToPoolButton);
-        webElementInteraction.waitUntilElementIsVisible(claimButton);
+        clickElement(releaseToPoolButton);
+        waitUntilElementIsVisible(claimButton);
         return this;
     }
 
     public void clickTaskDoneButton()
     {
-        webElementInteraction.clickElement(taskDoneButton);
+        clickElement(taskDoneButton);
     }
 
     public String getItemsList()
     {
         ArrayList<String> itemsTextList = new ArrayList<>();
-        List<WebElement> items = webElementInteraction.waitUntilElementsAreVisible(itemsList);
+        List<WebElement> items = waitUntilElementsAreVisible(itemsList);
         for (WebElement anItemsList : items)
         {
             itemsTextList.add(anItemsList.getText());

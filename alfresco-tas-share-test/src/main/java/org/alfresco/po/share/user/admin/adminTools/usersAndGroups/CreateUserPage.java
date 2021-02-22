@@ -48,18 +48,18 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage assertCreateUserPageIsOpened()
     {
-        webElementInteraction.waitUntilElementIsVisible(firstNameInputField);
-        assertTrue(webElementInteraction.isElementDisplayed(firstNameInputField), "Create user page is opened");
+        waitUntilElementIsVisible(firstNameInputField);
+        assertTrue(isElementDisplayed(firstNameInputField), "Create user page is opened");
         return this;
     }
 
     public CreateUserPage assertAllInputsFromInfoSectionAreDisplayed()
     {
         log.info("Assert all input fields from Info Section are displayed");
-        webElementInteraction.waitUntilElementIsVisible(firstNameInputField);
-        assertTrue(webElementInteraction.isElementDisplayed(firstNameInputField), "First name is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(lastNameInputField), "Last name is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(emailInputField), "Email is displayed");
+        waitUntilElementIsVisible(firstNameInputField);
+        assertTrue(isElementDisplayed(firstNameInputField), "First name is displayed");
+        assertTrue(isElementDisplayed(lastNameInputField), "Last name is displayed");
+        assertTrue(isElementDisplayed(emailInputField), "Email is displayed");
 
         return this;
     }
@@ -67,15 +67,15 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
     public CreateUserPage assertAllElementsFromAboutUserAreDisplayed()
     {
         log.info("Assert all elements from About User are displayed");
-        webElementInteraction.waitUntilElementIsVisible(usernameInputField);
-        assertTrue(webElementInteraction.isElementDisplayed(usernameInputField), "User name is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(passwordInputField), "Password is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(verifyPasswordInputField), "Verify password is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(groupFinderInputField), "Group finder is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(quotaInputField), "Quota finder is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(quotaType), "Quota type is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search type is displayed");
-        assertEquals(webElementInteraction.findElement(searchForGroupsMessage).getText(), language.translate("adminTools.user.searchGroupsMessage"));
+        waitUntilElementIsVisible(usernameInputField);
+        assertTrue(isElementDisplayed(usernameInputField), "User name is displayed");
+        assertTrue(isElementDisplayed(passwordInputField), "Password is displayed");
+        assertTrue(isElementDisplayed(verifyPasswordInputField), "Verify password is displayed");
+        assertTrue(isElementDisplayed(groupFinderInputField), "Group finder is displayed");
+        assertTrue(isElementDisplayed(quotaInputField), "Quota finder is displayed");
+        assertTrue(isElementDisplayed(quotaType), "Quota type is displayed");
+        assertTrue(isElementDisplayed(searchButton), "Search type is displayed");
+        assertEquals(findElement(searchForGroupsMessage).getText(), language.translate("adminTools.user.searchGroupsMessage"));
 
         return this;
     }
@@ -83,54 +83,54 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
     public CreateUserPage assertAllButtonsAreDisplayed()
     {
         log.info("Assert all buttons are displayed");
-        webElementInteraction.waitUntilElementIsVisible(createUserButton);
-        assertTrue(webElementInteraction.isElementDisplayed(createUserButton), "Create button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(createUserAndStartAnotherButton),
+        waitUntilElementIsVisible(createUserButton);
+        assertTrue(isElementDisplayed(createUserButton), "Create button is displayed");
+        assertTrue(isElementDisplayed(createUserAndStartAnotherButton),
             "Create and Start another button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is displayed");
 
         return this;
     }
 
     public CreateUserPage setFirstName(String firstName)
     {
-        webElementInteraction.clearAndType(firstNameInputField, firstName);
+        clearAndType(firstNameInputField, firstName);
         return this;
     }
 
     public CreateUserPage setLastName(String lastName)
     {
-        webElementInteraction.clearAndType(lastNameInputField, lastName);
+        clearAndType(lastNameInputField, lastName);
         return this;
     }
 
     public CreateUserPage setEmail(String email)
     {
-        webElementInteraction.clearAndType(emailInputField, email);
+        clearAndType(emailInputField, email);
         return this;
     }
 
     public CreateUserPage setUsername(String userName)
     {
-        webElementInteraction.clearAndType(usernameInputField, userName);
+        clearAndType(usernameInputField, userName);
         return this;
     }
 
     public CreateUserPage setPassword(String password)
     {
-        webElementInteraction.clearAndType(passwordInputField, password);
+        clearAndType(passwordInputField, password);
         return this;
     }
 
     public CreateUserPage setVerifyPassword(String verifyPassword)
     {
-        webElementInteraction.clearAndType(verifyPasswordInputField, verifyPassword);
+        clearAndType(verifyPasswordInputField, verifyPassword);
         return this;
     }
 
     public CreateUserPage setQuota(String quotaValue)
     {
-        webElementInteraction.clearAndType(quotaInputField, quotaValue);
+        clearAndType(quotaInputField, quotaValue);
         return this;
     }
 
@@ -147,30 +147,30 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage addUserToGroup(GroupModel group)
     {
-        webElementInteraction.clearAndType(groupFinderInputField, group.getGroupIdentifier());
-        webElementInteraction.clickElement(searchButton);
-        List<WebElement> searchRows = webElementInteraction.waitUntilElementsAreVisible(groupRows);
+        clearAndType(groupFinderInputField, group.getGroupIdentifier());
+        clickElement(searchButton);
+        List<WebElement> searchRows = waitUntilElementsAreVisible(groupRows);
         searchRows.stream()
             .filter(searchRow -> searchRow.getText().contains(group.getGroupIdentifier()))
-            .forEach(searchRow -> webElementInteraction.waitUntilChildElementIsPresent(searchRow,
+            .forEach(searchRow -> waitUntilChildElementIsPresent(searchRow,
                 By.cssSelector("span[class$='button'] span button")).click());
-        webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(addedGroup, group.getGroupIdentifier())));
+        waitUntilElementIsVisible(By.xpath(String.format(addedGroup, group.getGroupIdentifier())));
         return this;
     }
 
     public CreateUserPage removeGroup(GroupModel group)
     {
         log.info("Remove group {}", group.getGroupIdentifier());
-        WebElement groupToRemove = webElementInteraction.findElement(By.xpath(String.format(addedGroup, group.getGroupIdentifier())));
-        webElementInteraction.clickElement(groupToRemove);
-        webElementInteraction.waitUntilElementDisappears(groupToRemove);
+        WebElement groupToRemove = findElement(By.xpath(String.format(addedGroup, group.getGroupIdentifier())));
+        clickElement(groupToRemove);
+        waitUntilElementDisappears(groupToRemove);
         return this;
     }
 
     public CreateUserPage assertGroupIsAdded(GroupModel group)
     {
         log.info("Assert group {} is added", group.getGroupIdentifier());
-        assertTrue(webElementInteraction.isElementDisplayed(By.xpath(String.format(addedGroup, group.getGroupIdentifier()))),
+        assertTrue(isElementDisplayed(By.xpath(String.format(addedGroup, group.getGroupIdentifier()))),
             String.format("Group %s is added", group.getGroupIdentifier()));
         return this;
     }
@@ -178,7 +178,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
     public CreateUserPage assertGroupIsNotAdded(GroupModel group)
     {
         log.info("Assert group {} is not added", group.getGroupIdentifier());
-        assertFalse(webElementInteraction.isElementDisplayed(By.xpath(String.format(addedGroup, group.getGroupIdentifier()))),
+        assertFalse(isElementDisplayed(By.xpath(String.format(addedGroup, group.getGroupIdentifier()))),
             String.format("Group %s is added", group.getGroupIdentifier()));
         return this;
     }
@@ -186,16 +186,16 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
     public UsersPage clickCreate()
     {
         log.info("Click Create");
-        WebElement createButton = webElementInteraction.waitUntilElementIsVisible(createUserButton);
-        webElementInteraction.mouseOver(createButton);
-        webElementInteraction.clickElement(createButton);
+        WebElement createButton = waitUntilElementIsVisible(createUserButton);
+        mouseOver(createButton);
+        clickElement(createButton);
         waitUntilNotificationMessageDisappears();
         return new UsersPage(webDriver);
     }
 
     public CreateUserPage clickCreateButtonAndExpectFailure()
     {
-        webElementInteraction.clickElement(createUserButton);
+        clickElement(createUserButton);
         waitUntilNotificationMessageDisappears();
         return this;
     }
@@ -203,27 +203,27 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
     public CreateUserPage clickCreateUserAndStartAnother()
     {
         log.info("Click Create User And Start Another");
-        webElementInteraction.clickElement(createUserAndStartAnotherButton);
+        clickElement(createUserAndStartAnotherButton);
         waitUntilNotificationMessageDisappears();
         return this;
     }
 
     public UsersPage clickCancel()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
         return new UsersPage(webDriver);
     }
 
     public CreateUserPage assertAllFieldsAreEmpty()
     {
         log.info("Assert all input fields are empty");
-        assertTrue(webElementInteraction.findElement(firstNameInputField).getAttribute("value").isEmpty(), "First Name field is empty");
-        assertTrue(webElementInteraction.findElement(lastNameInputField).getAttribute("value").isEmpty(), "Last Name field is empty");
-        assertTrue(webElementInteraction.findElement(emailInputField).getAttribute("value").isEmpty(), "Email field is empty");
-        assertTrue(webElementInteraction.findElement(passwordInputField).getAttribute("value").isEmpty(), "Password field is empty");
-        assertTrue(webElementInteraction.findElement(verifyPasswordInputField).getAttribute("value").isEmpty(), "Verify password field is empty");
-        assertTrue(webElementInteraction.findElement(groupFinderInputField).getAttribute("value").isEmpty(), "Group field is empty");
-        assertTrue(webElementInteraction.findElement(quotaInputField).getAttribute("value").isEmpty(), "Quota field is empty");
+        assertTrue(findElement(firstNameInputField).getAttribute("value").isEmpty(), "First Name field is empty");
+        assertTrue(findElement(lastNameInputField).getAttribute("value").isEmpty(), "Last Name field is empty");
+        assertTrue(findElement(emailInputField).getAttribute("value").isEmpty(), "Email field is empty");
+        assertTrue(findElement(passwordInputField).getAttribute("value").isEmpty(), "Password field is empty");
+        assertTrue(findElement(verifyPasswordInputField).getAttribute("value").isEmpty(), "Verify password field is empty");
+        assertTrue(findElement(groupFinderInputField).getAttribute("value").isEmpty(), "Group field is empty");
+        assertTrue(findElement(quotaInputField).getAttribute("value").isEmpty(), "Quota field is empty");
 
         return this;
     }
@@ -237,13 +237,13 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage checkDisableAccount()
     {
-        webElementInteraction.clickElement(disableAccountCheckBox);
+        clickElement(disableAccountCheckBox);
         return this;
     }
 
     public CreateUserPage assertSelectedQuotaTypeIs(String expectedQuotaType)
     {
-        Select quota = new Select(webElementInteraction.findElement(quotaType));
+        Select quota = new Select(findElement(quotaType));
         assertEquals(quota.getFirstSelectedOption().getText(), expectedQuotaType);
         return this;
     }

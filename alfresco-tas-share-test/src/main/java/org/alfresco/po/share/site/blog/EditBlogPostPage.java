@@ -21,7 +21,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     public void editTitle(String editedTitle)
     {
-        webElementInteraction.waitUntilElementIsVisible(titleField);
+        waitUntilElementIsVisible(titleField);
         titleField.clear();
         titleField.sendKeys(editedTitle);
     }
@@ -34,11 +34,11 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     public void sendBlogPostTextInput(String blogPostContentText)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
-        WebElement element = webElementInteraction.findElement(By.id("tinymce"));
+        switchTo().frame(findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
+        WebElement element = findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogPostContentText);
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
     }
 
     /**
@@ -57,6 +57,6 @@ public class EditBlogPostPage extends CreateBlogPostPage
      */
     public String getEditBlogPostPageTitle()
     {
-        return webElementInteraction.findElement(editBlogPageTitle).getText();
+        return findElement(editBlogPageTitle).getText();
     }
 }

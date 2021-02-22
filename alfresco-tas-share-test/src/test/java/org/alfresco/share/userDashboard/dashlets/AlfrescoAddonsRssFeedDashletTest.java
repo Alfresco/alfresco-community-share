@@ -12,6 +12,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
 {
     private final String sampleRssFeed = "https://www.feedforall.com/sample.xml";
     private final String sampleRssFeedTitle = "feedforall.com";
+
     private RssFeedDashlet rssFeedDashlet;
 
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
@@ -20,10 +21,11 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
     public void setupTest()
     {
         rssFeedDashlet = new RssFeedDashlet(webDriver);
+
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), UserDashlet.ADDONS_RSS_FEED, 1, 3);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2168")

@@ -8,24 +8,16 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.common.Language;
-import org.alfresco.common.WebElementInteraction;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-public class ManagerSiteActionComponent
+public class ManagerSiteActionComponent extends SitesManagerPage
 {
-    private final String siteName;
-
-    private final SitesManagerPage sitesManagerPage;
-    private final SiteManagerDeleteSiteDialog deleteSiteDialog;
-    private final WebElementInteraction webElementInteraction;
-    private final Language language;
-
     private final By siteRowName = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteName span.inner");
     private final By siteRowActionsButton = By.cssSelector("td.alfresco-lists-views-layouts-Cell.actions div.dijitPopupMenuItem");
     private final By siteRowSiteManager = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteManager .value");
@@ -36,18 +28,12 @@ public class ManagerSiteActionComponent
     private final By dropdownOptionsList = By.cssSelector("div.dijitPopup[style*=visible] td.dijitMenuItemLabel");
 
     private final String dropdownOptions = "//div[@class='dijitPopup Popup' and contains(@style, visible)]//td[@class='dijitReset dijitMenuItemLabel' and text()='%s']";
+    private final String siteName;
 
-    protected ManagerSiteActionComponent(SitesManagerPage sitesManagerPage,
-                                      WebElementInteraction webElementInteraction,
-                                      String siteName,
-                                      SiteManagerDeleteSiteDialog deleteSiteDialog,
-                                      Language language)
+    protected ManagerSiteActionComponent(ThreadLocal<WebDriver> webDriver, String siteName)
     {
-        this.sitesManagerPage = sitesManagerPage;
-        this.webElementInteraction = webElementInteraction;
+        super(webDriver);
         this.siteName = siteName;
-        this.deleteSiteDialog = deleteSiteDialog;
-        this.language = language;
     }
 
     public ManagerSiteActionComponent assertSiteIsNotDisplayed()
@@ -60,20 +46,20 @@ public class ManagerSiteActionComponent
     private void clickActionsButton()
     {
         WebElement actionsButton = getSiteRow().findElement(siteRowActionsButton);
-        webElementInteraction.mouseOver(actionsButton);
-        webElementInteraction.clickElement(actionsButton);
+        mouseOver(actionsButton);
+        clickElement(actionsButton);
     }
 
     public ManagerSiteActionComponent becomeSiteManager()
     {
         log.info("Select action Become Site Manager");
         clickActionsButton();
-        webElementInteraction.waitUntilElementsAreVisible(dropdownOptionsList);
-        WebElement becomeBtn = webElementInteraction.findFirstElementWithValue(dropdownOptionsList,
-            sitesManagerPage.language.translate("sitesManager.becomeSiteManager"));
-        webElementInteraction.mouseOver(becomeBtn);
-        webElementInteraction.clickElement(becomeBtn);
-        sitesManagerPage.waitUntilLoadingMessageDisappears();
+        waitUntilElementsAreVisible(dropdownOptionsList);
+        WebElement becomeBtn = findFirstElementWithValue(dropdownOptionsList,
+            language.translate("sitesManager.becomeSiteManager"));
+        mouseOver(becomeBtn);
+        clickElement(becomeBtn);
+        waitUntilLoadingMessageDisappears();
 
         return this;
     }
@@ -81,7 +67,7 @@ public class ManagerSiteActionComponent
     public ManagerSiteActionComponent assertSiteManagerIsYes()
     {
         log.info("Assert I'm site manager is set to Yes");
-        assertEquals(getSiteRow().findElement(siteRowSiteManager).getText(),
+        assertEquals(getElementText(getSiteRow().findElement(siteRowSiteManager)),
             language.translate("adminTools.siteManager.yes"), "Is site manager");
         return this;
     }
@@ -89,7 +75,7 @@ public class ManagerSiteActionComponent
     public ManagerSiteActionComponent assertSiteManagerIsNo()
     {
         log.info("Assert I'm site manager is set to No");
-        assertEquals(getSiteRow().findElement(siteRowSiteManager).getText(),
+        assertEquals(getElementText(getSiteRow().findElement(siteRowSiteManager)),
             language.translate("adminTools.siteManager.no"), "Is site manager");
         return this;
     }
@@ -99,35 +85,24 @@ public class ManagerSiteActionComponent
         log.info("Click Delete");
         clickActionsButton();
         selectDeleteSite();
-        return deleteSiteDialog;
+        return new SiteManagerDeleteSiteDialog(webDriver);
     }
 
     private void selectDeleteSite()
     {
-        webElementInteraction.clickElement(webElementInteraction
-            .findFirstElementWithValue(dropdownOptionsList,
-                sitesManagerPage.language.translate("sitesManager.deleteSite")));
-    }
-
-    public ManagerSiteActionComponent deleteSite()
-    {
-        log.info("Delete site");
-        clickDelete();
-        deleteSiteDialog.clickDeleteFromSitesManager();
-        webElementInteraction.waitUntilElementDisappears(getSiteRow());
-        return this;
+        clickElement(findFirstElementWithValue(dropdownOptionsList,
+            language.translate("sitesManager.deleteSite")));
     }
 
     public ManagerSiteActionComponent changeSiteVisibility(Visibility visibility)
     {
         log.info("Change site visibility to {}", visibility.toString());
         WebElement siteRow = getSiteRow();
-        webElementInteraction.clickElement(siteRow.findElement(siteRowVisibilityArrow));
+        clickElement(siteRow.findElement(siteRowVisibilityArrow));
 
         List<WebElement> options = getVisibilityOptions();
         String visibilityValue = getCapitalizedVisibility(visibility);
-        WebElement option = webElementInteraction
-            .findFirstElementWithValue(options, visibilityValue);
+        WebElement option = findFirstElementWithValue(options, visibilityValue);
 
         clickOptionAndWaitForChildLocatorPresence(option, successIndicator);
 
@@ -136,19 +111,17 @@ public class ManagerSiteActionComponent
 
     private WebElement clickOptionAndWaitForChildLocatorPresence(WebElement option, By locator)
     {
-        webElementInteraction.mouseOver(option);
-        webElementInteraction.clickElement(option);
-        webElementInteraction
-            .waitUntilChildElementIsPresent(getSiteRow(), locator);
+        mouseOver(option);
+        clickElement(option);
+        waitUntilChildElementIsPresent(getSiteRow(), locator);
 
         return option;
     }
 
     private List<WebElement> getVisibilityOptions()
     {
-        List<WebElement> options = webElementInteraction
-            .waitUntilElementsAreVisible(dropdownOptionsList);
-        webElementInteraction.waitInSeconds(WAIT_2.getValue());
+        List<WebElement> options = waitUntilElementsAreVisible(dropdownOptionsList);
+        waitInSeconds(WAIT_2.getValue());
         return options;
     }
 
@@ -165,8 +138,8 @@ public class ManagerSiteActionComponent
         String visibilityValue = getCapitalizedVisibility(visibility);
 
         WebElement siteRow = getSiteRow();
-        WebElement visibilityElement = webElementInteraction.waitUntilChildElementIsPresent(siteRow, siteRowVisibility);
-        String actualVisibility = webElementInteraction.getElementText(visibilityElement);
+        WebElement visibilityElement = waitUntilChildElementIsPresent(siteRow, siteRowVisibility);
+        String actualVisibility = getElementText(visibilityElement);
         assertEquals(actualVisibility, visibilityValue,"Site visibility is correct");
 
         return this;
@@ -175,8 +148,7 @@ public class ManagerSiteActionComponent
     public ManagerSiteActionComponent assertSuccessIndicatorIsDisplayed()
     {
         log.info("Assert success indicator is displayed");
-        boolean isSuccessIndicatorDisplayed = webElementInteraction
-            .isElementDisplayed(getSiteRow().findElement(successIndicator));
+        boolean isSuccessIndicatorDisplayed = isElementDisplayed(getSiteRow().findElement(successIndicator));
 
         assertTrue(isSuccessIndicatorDisplayed, "Success indicator is not displayed");
         return this;
@@ -185,8 +157,7 @@ public class ManagerSiteActionComponent
     public ManagerSiteActionComponent assertSiteDescriptionEqualsTo(String expectedSiteDescription)
     {
         log.info(String.format("Assert site description is %s", expectedSiteDescription));
-        String actualSiteDescription = webElementInteraction
-            .getElementText(getSiteRow().findElement(siteRowDescription));
+        String actualSiteDescription = getElementText(getSiteRow().findElement(siteRowDescription));
 
         assertEquals(actualSiteDescription, expectedSiteDescription,
             "Site description is correct");
@@ -216,33 +187,31 @@ public class ManagerSiteActionComponent
 
     private boolean isDeleteSiteDisplayed()
     {
-        return webElementInteraction
-            .isElementDisplayed(By.xpath(String.format(dropdownOptions,
-                sitesManagerPage.language.translate("sitesManager.deleteSite"))));
+        return isElementDisplayed(By.xpath(
+            String.format(dropdownOptions, language.translate("sitesManager.deleteSite"))));
     }
 
     private boolean isBecomeSiteManagerDisplayed()
     {
-        return webElementInteraction
-            .isElementDisplayed(By.xpath(String.format(dropdownOptions,
-                sitesManagerPage.language.translate("sitesManager.becomeSiteManager"))));
+        return isElementDisplayed(By.xpath(
+            String.format(dropdownOptions, language.translate("sitesManager.becomeSiteManager"))));
     }
 
     private WebElement getSiteRow()
     {
-        return sitesManagerPage.getSiteRowBasedOnSiteName(siteName);
+        return getSiteRowBasedOnSiteName(siteName);
     }
 
     public ManagerSiteActionComponent openActionsDropDown()
     {
         log.info("Open Actions dropdown with site name {}", siteName);
-        webElementInteraction.clickElement(getSiteRow().findElement(siteRowActionsButton));
+        clickElement(getSiteRow().findElement(siteRowActionsButton));
         return this;
     }
 
     public void clickSiteName()
     {
         log.info("Click Site Name");
-        webElementInteraction.clickElement(getSiteRow().findElement(siteRowName));
+        clickElement(getSiteRow().findElement(siteRowName));
     }
 }

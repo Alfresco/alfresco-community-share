@@ -19,26 +19,26 @@ public class CreateModelDialogPage extends BaseDialogComponent
 
     public void sendNamespaceText(String namespace)
     {
-        webElementInteraction.waitUntilElementIsVisible(namespaceField);
-        webElementInteraction.clearAndType(namespaceField, namespace);
+        waitUntilElementIsVisible(namespaceField);
+        clearAndType(namespaceField, namespace);
     }
 
     public void sendPrefixText(String prefix)
     {
-        webElementInteraction.waitUntilElementIsVisible(prefixField);
-        webElementInteraction.clearAndType(prefixField, prefix);
+        waitUntilElementIsVisible(prefixField);
+        clearAndType(prefixField, prefix);
     }
 
     public void sendNameText(String name)
     {
-        webElementInteraction.waitUntilElementIsVisible(nameField);
-        webElementInteraction.clearAndType(nameField, name);
+        waitUntilElementIsVisible(nameField);
+        clearAndType(nameField, name);
     }
 
     public ModelManagerPage clickCreateButton()
     {
-        webElementInteraction.waitUntilElementIsVisible(createButton);
-        webElementInteraction.clickElement(createButton);
+        waitUntilElementIsVisible(createButton);
+        clickElement(createButton);
         return new ModelManagerPage(webDriver);
     }
 }

@@ -23,43 +23,43 @@ public class ImportModelDialog extends BaseDialogComponent
 
     public ImportModelDialog assertImportModelDialogOpened()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(importModelWindow), "Import model dialog is opened");
+        assertTrue(isElementDisplayed(importModelWindow), "Import model dialog is opened");
         return this;
     }
 
     public ImportModelDialog assertImportModelTitleIsCorrect()
     {
-        assertEquals(webElementInteraction.getElementText(importModelTitle), language.translate("importModelDialog.title"));
+        assertEquals(getElementText(importModelTitle), language.translate("importModelDialog.title"));
         return this;
     }
 
     public ImportModelDialog assertBrowserButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(fileInput) , "Browse button is not displayed");
+        assertTrue(isElementDisplayed(fileInput) , "Browse button is not displayed");
         return this;
     }
 
     public ImportModelDialog assertImportButtonDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(importButton), "Import button is not displayed");
+        assertTrue(isElementDisplayed(importButton), "Import button is not displayed");
         return this;
     }
 
     public ImportModelDialog assertCancelButtonDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is not displayed");
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is not displayed");
         return this;
     }
 
     public ImportModelDialog importFile(String filePath)
     {
-        webElementInteraction.clearAndType(fileInput, filePath);
+        clearAndType(fileInput, filePath);
         return this;
     }
 
     public ModelManagerPage clickImportButton()
     {
-        webElementInteraction.clickElement(importButton);
+        clickElement(importButton);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
         modelManagerPage.waitUntilLoadingMessageDisappears();
         return modelManagerPage;

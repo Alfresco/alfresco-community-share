@@ -1,7 +1,6 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
 import org.alfresco.po.share.SharePage2;
-import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -31,28 +30,28 @@ public class TaskDetailsPage extends SharePage2<TaskDetailsPage>
 
     public String getTaskDetailsHeader()
     {
-        return webElementInteraction.getElementText(taskDetailsHeader);
+        return getElementText(taskDetailsHeader);
     }
 
     public String getStatus()
     {
-        return webElementInteraction.getElementText(status);
+        return getElementText(status);
     }
 
     public String getComment()
     {
-        return webElementInteraction.getElementText(comment);
+        return getElementText(comment);
     }
 
     public WorkflowDetailsPage clickWorkflowDetailsButton()
     {
-        webElementInteraction.clickElement(workflowDetailsButton);
+        clickElement(workflowDetailsButton);
         return new WorkflowDetailsPage(webDriver);
     }
 
     public EditTaskPage clickEditButton()
     {
-        webElementInteraction.clickElement(editButton);
+        clickElement(editButton);
         return new EditTaskPage(webDriver);
     }
 }
