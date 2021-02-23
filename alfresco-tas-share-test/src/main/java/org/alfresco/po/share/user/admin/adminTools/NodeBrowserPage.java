@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.RetryTime.RETRY_TIME_100;
 import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -35,7 +35,6 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
     private final By referenceRows = By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a");
 
     private final String fileNameRow = "//a[text()='cm:%s']/../../..";
-    private final String loadingMessage = "//div[contains(text(), '%s')]";
 
     public NodeBrowserPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -64,6 +63,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     public NodeBrowserPage assertSearchTypeIsSelected(SearchType searchType)
     {
+        waitUntilElementIsVisible(searchTypeDropdownButton);
         mouseOver(findElement(searchTypeDropdownButton), 3000);
         waitUntilElementIsVisible(buttonStateAfterHover);
         assertEquals(searchType.getSearchType(), getElementText(searchTypeDropdownButton));
@@ -81,13 +81,12 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         WebElement search = findElement(searchButton);
         mouseOver(search, 3000);
         clickElement(searchButtonAfterHover);
-        waitUntilElementDisappears(By.xpath(String.format(loadingMessage, language.translate("nodeBrowser.searching"))), WAIT_5.getValue());
-        waitUntilElementIsVisible(searchButton);
         return this;
     }
 
     public NodeBrowserPage assertSearchButtonIsDisplayed()
     {
+        waitUntilElementIsVisible(searchButton);
         assertTrue(isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
@@ -116,7 +115,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         By fileRow = By.xpath(String.format(fileNameRow, contentName));
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(fileRow))
+        while (retryCount < RETRY_TIME_100.getValue() && !isElementDisplayed(fileRow))
         {
             log.warn("Content {} not displayed - retry: {}", contentName, retryCount);
             refresh();
@@ -168,7 +167,7 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
 
     public NodeBrowserPage assertNoItemsFoundLabelEquals(String expectedLabel)
     {
-        waitUntilElementContainsText(zeroResultsFound, "found 0 results");
+        waitUntilElementContainsText(resultNoItemsFound, language.translate("nodeBrowser.noItemsFound"));
         assertEquals(getElementText(resultNoItemsFound), expectedLabel,
             String.format("No items found label %s not equals ", expectedLabel));
         return this;

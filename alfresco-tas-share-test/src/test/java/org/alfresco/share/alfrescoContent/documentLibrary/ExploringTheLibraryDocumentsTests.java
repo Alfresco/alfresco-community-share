@@ -29,7 +29,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     private final String docName2 = "File-6320-2";
     //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
+    //@Autowired
     private DocumentsFilters filters;
 
     @BeforeClass (alwaysRun = true)

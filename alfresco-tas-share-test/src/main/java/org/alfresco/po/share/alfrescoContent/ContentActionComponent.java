@@ -9,6 +9,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
@@ -24,7 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-public class ContentActionComponent extends AlfrescoContentPage
+public class ContentActionComponent extends AlfrescoContentPage<ContentActionComponent>
 {
     private final By contentNameSelector = By.cssSelector(".filename a");
     private final By moreActionLink = By.cssSelector(".show-more");
@@ -49,6 +50,7 @@ public class ContentActionComponent extends AlfrescoContentPage
     private final By highlightLocator = By.cssSelector("tr[class$='yui-dt-highlighted']");
     private final By addedCategoriesLink = By.cssSelector(".detail .filter-change");
     private final By noCategoriesLocator = By.xpath("//span[@class='category-item item']/..//span[@class='faded']");
+    private final By actionsSet = By.cssSelector(".action-set>div:not([id='onActionShowMore']) a span");
 
     private final String highlightContent = "yui-dt-highlighted";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
@@ -360,17 +362,18 @@ public class ContentActionComponent extends AlfrescoContentPage
         mouseOverContent();
         mouseOver(contentRowElement.findElement(tagAreaLocator));
         WebElement tagIcon = waitUntilElementIsVisible(tagEditIconLocator);
-        clickTagIconWithRetry(tagIcon);
+        clickTagIconWithRetry(contentRowElement, tagIcon);
 
         return this;
     }
 
-    private void clickTagIconWithRetry(WebElement tagIcon)
+    private void clickTagIconWithRetry(WebElement contentRow, WebElement tagIcon)
     {
         int retryCount = 0;
         while (!isElementDisplayed(tagInputLocator) && retryCount < RETRY_TIME_80.getValue())
         {
             log.warn("Retry click tag icon for content {} - retry: {}", contentModel.getName(), retryCount);
+            mouseOver(contentRow.findElement(tagAreaLocator));
             waitToLoopTime(WAIT_2.getValue());
             clickElement(tagIcon);
             retryCount++;
@@ -379,6 +382,7 @@ public class ContentActionComponent extends AlfrescoContentPage
 
     public ContentActionComponent setTag(String tag)
     {
+        log.info("Set tag {}", tag);
         WebElement contentRowElement = getContentRow();
         WebElement tagInput = contentRowElement.findElement(tagInputLocator);
         tagInput.sendKeys(tag);
@@ -402,6 +406,7 @@ public class ContentActionComponent extends AlfrescoContentPage
         By removeTagLocator = By.xpath(String.format(existingTag.concat(removeTagIcon), tag));
         waitUntilElementIsVisible(removeTagLocator);
         clickElement(removeTagLocator);
+
         return this;
     }
 
@@ -422,5 +427,24 @@ public class ContentActionComponent extends AlfrescoContentPage
         waitUntilElementIsVisible(noCategoriesLocator);
         assertTrue(isElementDisplayed(noCategoriesLocator), "No categories label is not displayed");
         return this;
+    }
+
+    public ContentActionComponent assertActionsAreAvailable(String... expectedActions)
+    {
+        log.info("Assert available actions are: {}", Arrays.asList(expectedActions));
+        String[] actualActions = getMoreActions(expectedActions);
+        assertEquals(actualActions, expectedActions, "Not all actions were found");
+
+        return this;
+    }
+
+    private String[] getMoreActions(String[] expectedActions)
+    {
+        mouseOverContent();
+        clickMore();
+        String[] moreActions = getTextFromLocatorList(actionsSet).toArray(new String[0]);
+        Arrays.sort(moreActions);
+        Arrays.sort(expectedActions);
+        return moreActions;
     }
 }

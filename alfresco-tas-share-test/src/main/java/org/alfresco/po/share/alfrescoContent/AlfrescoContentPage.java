@@ -52,11 +52,23 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
     private final By startWorkflowFromSelectedItems = By.cssSelector(".onActionAssignWorkflow");
     private final By deleteFromSelectedItems = By.cssSelector(".onActionDelete");
+    private final By documentsRootBreadcrumb = By.cssSelector("div[id$='default-navBar'] div[class^='crumb documentDroppable']:nth-of-type(1)");
+    private final By optionDropdownButton = By.cssSelector("button[id$='default-options-button-button']");
+    private final By optionsMenu = By.cssSelector("div[id$='default-options-menu']");
+    private final By hideBreadcrumbOption = By.cssSelector(".hidePath");
+    private final By showBreadcrumbOption = By.cssSelector(".showPath");
+    private final By categoryRootIcon = By.cssSelector("#ygtvtableel3 .ygtvspacer");
+    private final By categoriesTable = By.id("ygtvtableel3");
+    private final By categoriesChildren = By.id("ygtvc3");
 
     private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
     private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
+    private final String categoriesCollapsed = "ygtv-collapsed";
+    private final String categoriesExpanded = "ygtv-expanded";
+    private final String categoryIcon = "//div[@class='category']//span[text()='%s']/../..//a";
+    private final String categorySelector = "//div[@class='category']//span[text()='%s']/../..//span[@class='ygtvlabel']";
 
     protected AlfrescoContentPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -145,6 +157,21 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     public AlfrescoContentPage<T> waitForCurrentFolderBreadcrumb(FolderModel folder)
     {
         return waitForCurrentFolderBreadcrumb(folder.getName());
+    }
+
+    public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsDisplayed()
+    {
+        log.info("Assert Documents root breadcrumb is displayed");
+        waitUntilElementIsVisible(documentsRootBreadcrumb);
+        assertTrue(isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is not displayed");
+        return this;
+    }
+
+    public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsNotDisplayed()
+    {
+        log.info("Assert Documents root breadcrumb is noy displayed");
+        assertFalse(isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is displayed");
+        return this;
     }
 
     public AlfrescoContentPage<T> assertFolderIsDisplayedInBreadcrumb(FolderModel folder)
@@ -341,6 +368,80 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
         log.info("Assert documents filter header title '{}' is displayed", expectedHeaderTitle);
         assertEquals(getElementText(documentsFilterHeaderTitle), expectedHeaderTitle,
             String.format("%s header title is not equals to", expectedHeaderTitle));
+        return this;
+    }
+
+    public AlfrescoContentPage<T> clickOptions()
+    {
+        log.info("Click Options");
+        clickElement(optionDropdownButton);
+        waitUntilElementIsVisible(optionsMenu);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> selectHideBreadcrumbFromOptions()
+    {
+        log.info("Select Hide Breadcrumb option");
+        clickElement(hideBreadcrumbOption);
+        waitUntilElementDisappears(documentsRootBreadcrumb);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> selectShowBreadcrumbFromOptions()
+    {
+        log.info("Select Show Breadcrumb option");
+        clickElement(showBreadcrumbOption);
+        waitUntilElementIsVisible(documentsRootBreadcrumb);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> assertCategoriesAreNotExpanded()
+    {
+        log.info("Assert Categories are not expanded");
+        WebElement table = waitUntilElementIsVisible(categoriesTable);
+        assertTrue(table.getAttribute("class").contains(categoriesCollapsed), "Categories are expanded");
+        return this;
+    }
+
+    public AlfrescoContentPage<T> assertCategoriesAreExpanded()
+    {
+        log.info("Assert Categories are not expanded");
+        WebElement table = waitUntilElementIsVisible(categoriesTable);
+        assertTrue(table.getAttribute("class").contains(categoriesExpanded), "Categories are expanded");
+        return this;
+    }
+
+    public AlfrescoContentPage<T> expandCategoryRoot()
+    {
+        log.info("Expand Category Root");
+        clickElement(categoryRootIcon);
+        waitUntilElementIsVisible(categoriesChildren);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> expandCategory(String category)
+    {
+        log.info("Expand category {}", category);
+        By categoryIconSelector = By.xpath(String.format(categoryIcon, category));
+        waitUntilElementIsVisible(categoryIconSelector);
+        clickElement(categoryIconSelector);
+        waitUntilElementIsVisible(categoriesChildren);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> collapseCategoryRoot()
+    {
+        log.info("Collapse Category Root");
+        clickElement(categoryRootIcon);
+        return this;
+    }
+
+    public AlfrescoContentPage selectCategory(String category)
+    {
+        log.info("Select category {}", category);
+        By categorySelect = By.xpath(String.format(categorySelector, category));
+        waitUntilElementIsVisible(categorySelect);
+        clickElement(categorySelect);
         return this;
     }
 

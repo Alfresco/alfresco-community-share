@@ -55,6 +55,7 @@ public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
 
     public ModuleBrowserPage assertModuleTableHeadersAreDisplayed()
     {
+        waitUntilElementIsVisible(titleTableHeader);
         assertTrue(isElementDisplayed(titleTableHeader), "Title header is displayed");
         assertTrue(isElementDisplayed(descriptionTableHeader), "Description header is displayed");
         assertTrue(isElementDisplayed(versionTableHeader), "Version header is displayed");
