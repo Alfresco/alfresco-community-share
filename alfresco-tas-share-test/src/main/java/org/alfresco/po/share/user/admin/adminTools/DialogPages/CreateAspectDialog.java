@@ -22,32 +22,32 @@ public class CreateAspectDialog extends BaseDialogComponent
 
     public CreateAspectDialog assertCreateAspectDialogIsOpened()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(createAspectWidow), "Create aspect dialog is opened");
+        assertTrue(isElementDisplayed(createAspectWidow), "Create aspect dialog is opened");
         return this;
     }
 
     public CreateAspectDialog typeName(String name)
     {
-        webElementInteraction.clearAndType(nameField, name);
+        clearAndType(nameField, name);
         return this;
     }
 
     public CreateAspectDialog typeDisplayLabel(String displayLabel)
     {
-        webElementInteraction.clearAndType(displayLabelField, displayLabel);
+        clearAndType(displayLabelField, displayLabel);
         return this;
     }
 
     public CreateAspectDialog typeDescription(String description)
     {
-        webElementInteraction.clearAndType(descriptionField, description);
+        clearAndType(descriptionField, description);
         return this;
     }
 
     public ModelDetailsPage clickCreate()
     {
-        webElementInteraction.waitUntilElementIsVisible(createButton);
-        webElementInteraction.clickElement(createButton);
+        waitUntilElementIsVisible(createButton);
+        clickElement(createButton);
         ModelDetailsPage modelDetailsPage = new ModelDetailsPage(webDriver);
         modelDetailsPage.waitUntilLoadingMessageDisappears();
 

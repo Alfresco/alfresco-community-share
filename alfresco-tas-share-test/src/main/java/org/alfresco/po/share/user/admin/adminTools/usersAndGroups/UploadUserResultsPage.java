@@ -15,8 +15,8 @@ public class UploadUserResultsPage extends BasePage
 
     public UsersPage clickGoBack()
     {
-        webElementInteraction.waitUntilElementIsVisible(goBackButton);
-        webElementInteraction.clickElement(goBackButton);
+        waitUntilElementIsVisible(goBackButton);
+        clickElement(goBackButton);
         waitUntilNotificationMessageDisappears();
         return new UsersPage(webDriver);
     }

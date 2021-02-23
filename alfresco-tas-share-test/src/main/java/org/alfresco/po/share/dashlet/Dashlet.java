@@ -36,17 +36,17 @@ public abstract class Dashlet<T> extends BasePage
     public boolean isDashletDisplayed(DashletHelpIcon dashletName)
     {
         By dashletToCheck = By.xpath(String.format(dashlet, dashletName.name));
-        webElementInteraction.waitUntilElementIsVisible(dashletToCheck);
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(dashlet, dashletName.name)));
+        waitUntilElementIsVisible(dashletToCheck);
+        return isElementDisplayed(By.xpath(String.format(dashlet, dashletName.name)));
     }
 
     public T clickOnHelpIcon(DashletHelpIcon dashlet)
     {
         log.info("Click Help Icon");
-        webElementInteraction.mouseOver(By.cssSelector(String.format(dashletBar, dashlet.name)));
-        WebElement helpElement = webElementInteraction.waitUntilElementIsVisible(
+        mouseOver(By.cssSelector(String.format(dashletBar, dashlet.name)));
+        WebElement helpElement = waitUntilElementIsVisible(
             By.cssSelector(String.format(helpIcon, dashlet.name)));
-        webElementInteraction.clickElement(helpElement);
+        clickElement(helpElement);
 
         return (T) this;
     }
@@ -54,24 +54,24 @@ public abstract class Dashlet<T> extends BasePage
     public T assertBalloonMessageIsDisplayed()
     {
         log.info("Assert balloon message is displayed");
-        webElementInteraction.waitUntilElementIsVisible(helpBallon);
-        assertTrue(webElementInteraction.isElementDisplayed(helpBallon), "Balloon message is not displayed");
+        waitUntilElementIsVisible(helpBallon);
+        assertTrue(isElementDisplayed(helpBallon), "Balloon message is not displayed");
         return (T) this;
     }
 
     public T assertBalloonMessageIsNotDisplayed()
     {
         log.info("Assert balloon message is NOT displayed");
-        assertFalse(webElementInteraction.isElementDisplayed(helpBallon), "Balloon message is displayed");
+        assertFalse(isElementDisplayed(helpBallon), "Balloon message is displayed");
         return (T) this;
     }
 
     public T assertDashletHelpIconIsDisplayed(DashletHelpIcon dashletHelpIcon)
     {
         log.info("Assert dashlet help icon is displayed");
-        WebElement bar = webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(dashletBar, dashletHelpIcon.name)));
-        webElementInteraction.mouseOver(bar);
-        assertTrue(webElementInteraction.waitUntilElementIsVisible(
+        WebElement bar = waitUntilElementIsVisible(By.cssSelector(String.format(dashletBar, dashletHelpIcon.name)));
+        mouseOver(bar);
+        assertTrue(waitUntilElementIsVisible(
             By.cssSelector(String.format(helpIcon, dashletHelpIcon.name))).isDisplayed(),"Dashlet help icon is not displayed");
 
         return (T) this;
@@ -80,7 +80,7 @@ public abstract class Dashlet<T> extends BasePage
     public T assertHelpBalloonMessageEquals(String expectedMessage)
     {
         log.info("Assert balloon message equals: {}", expectedMessage);
-        assertEquals(webElementInteraction.getElementText(helpBallonText), expectedMessage,
+        assertEquals(getElementText(helpBallonText), expectedMessage,
             String.format("Help balloon message not equals %s ", expectedMessage));
 
         return (T) this;
@@ -89,9 +89,9 @@ public abstract class Dashlet<T> extends BasePage
     public T closeHelpBalloon()
     {
         log.info("Close help balloon");
-        webElementInteraction.waitUntilElementIsVisible(helpBalloonCloseButton);
-        webElementInteraction.clickElement(helpBalloonCloseButton);
-        webElementInteraction.waitUntilElementDisappears(helpBalloonCloseButton);
+        waitUntilElementIsVisible(helpBalloonCloseButton);
+        clickElement(helpBalloonCloseButton);
+        waitUntilElementDisappears(helpBalloonCloseButton);
         return (T) this;
     }
 
@@ -99,8 +99,8 @@ public abstract class Dashlet<T> extends BasePage
     {
         log.info("Assert dashlet is expandable");
         By dashletElement = By.xpath(String.format(resizeDashlet, this.getDashletTitle()));
-        webElementInteraction.waitUntilElementIsVisible(dashletElement);
-        assertTrue(webElementInteraction.isElementDisplayed(dashletElement),
+        waitUntilElementIsVisible(dashletElement);
+        assertTrue(isElementDisplayed(dashletElement),
             String.format("Dashlet %s is expandable", this.getDashletTitle()));
         return (T) this;
     }
@@ -116,26 +116,26 @@ public abstract class Dashlet<T> extends BasePage
 
     public void resizeDashlet(int height, int scrolldown)
     {
-        WebElement resizeDash = webElementInteraction.waitUntilElementIsVisible(
+        WebElement resizeDash = waitUntilElementIsVisible(
             By.xpath(String.format(resizeDashlet, this.getDashletTitle())));
         if (scrolldown == 1)
         {
-            webElementInteraction.executeJavaScript("window.scrollBy(0,500)");
+            executeJavaScript("window.scrollBy(0,500)");
         }
         try
         {
-            webElementInteraction.dragAndDrop(resizeDash, 0, height);
+            dragAndDrop(resizeDash, 0, height);
         }
         catch (MoveTargetOutOfBoundsException e)
         {
             log.error("Retry resize dashlet");
         }
-        webElementInteraction.dragAndDrop(resizeDash, 0, height);
+        dragAndDrop(resizeDash, 0, height);
     }
 
     public int getDashletHeight()
     {
-        WebElement dashletContainer = webElementInteraction.findElement(
+        WebElement dashletContainer = findElement(
             By.xpath(String.format(dashletContainerLocator, this.getDashletTitle())));
         String val = dashletContainer.getCssValue("height").replace("px", "");
         try
@@ -152,7 +152,7 @@ public abstract class Dashlet<T> extends BasePage
     public String getDashletColor()
     {
         String hex = "";
-        WebElement dashletContainer = webElementInteraction.findElement(By.cssSelector(".dashlet .title"));
+        WebElement dashletContainer = findElement(By.cssSelector(".dashlet .title"));
         String color = dashletContainer.getCssValue("background-color");
         String[] numbers = color.replace("rgb(", "").replace(")", "").split(",");
         int number1 = Integer.parseInt(numbers[0]);

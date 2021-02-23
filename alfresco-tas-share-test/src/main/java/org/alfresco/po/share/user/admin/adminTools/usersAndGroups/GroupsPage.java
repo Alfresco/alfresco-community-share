@@ -67,34 +67,34 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage assertSectionTitleEquals(String expectedSectionTitle)
     {
-        webElementInteraction.waitUntilElementIsVisible(sectionTitle);
-        assertEquals(webElementInteraction.getElementText(sectionTitle),
+        waitUntilElementIsVisible(sectionTitle);
+        assertEquals(getElementText(sectionTitle),
             expectedSectionTitle, String.format("Section title not equals %s ", expectedSectionTitle));
         return this;
     }
 
     public GroupsPage clickSearch()
     {
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
         return this;
     }
 
     public GroupsPage clickBrowse()
     {
-        webElementInteraction.clickElement(browseButton);
-        webElementInteraction.waitUntilElementIsVisible(groupBody);
+        clickElement(browseButton);
+        waitUntilElementIsVisible(groupBody);
         return this;
     }
 
     public GroupsPage waitUntilSearchElementDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(searchResultTable);
+        waitUntilElementIsVisible(searchResultTable);
         return this;
     }
 
     public List<String> getBreadcrumb()
     {
-        return webElementInteraction.waitUntilElementsAreVisible(breadcrumbList).stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
+        return waitUntilElementsAreVisible(breadcrumbList).stream().map(WebElement::getText).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public GroupsPage assertGroupIsInBreadcrumbPath(GroupModel groupModel)
@@ -107,13 +107,13 @@ public class GroupsPage extends SharePage2<GroupsPage>
     public GroupsPage assertGroupIsFoundInSearch(GroupModel groupModel)
     {
         boolean found = false;
-        webElementInteraction.waitUntilElementsAreVisible(searchResultTable);
-        webElementInteraction.waitUntilElementsAreVisible(searchShortName);
-        List<WebElement> results = webElementInteraction.findElements(searchResults);
+        waitUntilElementsAreVisible(searchResultTable);
+        waitUntilElementsAreVisible(searchShortName);
+        List<WebElement> results = findElements(searchResults);
         for(WebElement searchedGroup : results)
         {
-            webElementInteraction.waitUntilElementIsVisible(searchResultTable);
-            webElementInteraction.waitUntilElementIsVisible(searchShortName);
+            waitUntilElementIsVisible(searchResultTable);
+            waitUntilElementIsVisible(searchShortName);
             if(searchedGroup.findElement(searchShortName).getText().equals(groupModel.getGroupIdentifier()))
             {
                 found = true;
@@ -125,14 +125,14 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage writeInSearchInput(String searchItem)
     {
-        webElementInteraction.waitUntilElementIsVisible(searchInput);
-        webElementInteraction.clearAndType(searchInput, searchItem);
+        waitUntilElementIsVisible(searchInput);
+        clearAndType(searchInput, searchItem);
         return this;
     }
 
     public GroupsPage assertGroupIsDisplayed(GroupModel groupModel)
     {
-        assertTrue(webElementInteraction.isElementDisplayed(getItemGroup(groupModel.getDisplayName())),
+        assertTrue(isElementDisplayed(getItemGroup(groupModel.getDisplayName())),
             String.format("Group %s was found", groupModel.getDisplayName()));
         return this;
     }
@@ -146,7 +146,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage assertUserIsNotDisplayed(UserModel userModel)
     {
-        webElementInteraction.waitUntilElementDisappears(By.xpath(String.format(groupRow, getUserFormat(userModel))));
+        waitUntilElementDisappears(By.xpath(String.format(groupRow, getUserFormat(userModel))));
         assertFalse(isGroupDisplayed(getUserFormat(userModel)),
             String.format("User %s was found", userModel.getUsername()));
         return this;
@@ -154,7 +154,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     private boolean isGroupDisplayed(String groupName)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(groupRow, groupName)));
+        return isElementDisplayed(By.xpath(String.format(groupRow, groupName)));
     }
 
     public WebElement getItemGroup(String name)
@@ -164,10 +164,10 @@ public class GroupsPage extends SharePage2<GroupsPage>
         while(!found)
         {
             log.info("Move to next group page");
-            if(webElementInteraction.isElementDisplayed(nextPageButton))
+            if(isElementDisplayed(nextPageButton))
             {
-                webElementInteraction.clickElement(nextPageButton);
-                webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(currentPage), String.format("( %s of ", pageCount));
+                clickElement(nextPageButton);
+                waitUntilElementContainsText(findElement(currentPage), String.format("( %s of ", pageCount));
                 found = isGroupDisplayed(name);
                 pageCount++;
             }
@@ -176,14 +176,14 @@ public class GroupsPage extends SharePage2<GroupsPage>
                 break;
             }
         }
-        return webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(groupRow, name)));
+        return waitUntilElementIsVisible(By.xpath(String.format(groupRow, name)));
     }
 
     private void waitForColumnGroups(int column)
     {
         By columnElement = By.cssSelector(String.format(columnGroupValues, column));
-        webElementInteraction.waitUntilElementIsPresent(columnElement);
-        webElementInteraction.waitUntilElementsAreVisible(columnElement);
+        waitUntilElementIsPresent(columnElement);
+        waitUntilElementsAreVisible(columnElement);
     }
 
     public List<String> getColumnGroups(int column)
@@ -191,7 +191,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
         List<WebElement> values = Collections.synchronizedList(new ArrayList<>());
         try
         {
-            values = webElementInteraction.findElements(By.cssSelector(String.format(columnGroupValues, column)));
+            values = findElements(By.cssSelector(String.format(columnGroupValues, column)));
         }
         catch (NoSuchElementException e)
         {
@@ -202,7 +202,7 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage assertColumnContainsGroup(int columnNr, String groupName)
     {
-        webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(columnGroupValues, columnNr)));
+        waitUntilElementIsVisible(By.cssSelector(String.format(columnGroupValues, columnNr)));
         assertTrue(getColumnGroups(columnNr).contains(groupName),
             String.format("Group %s was found in column %s", groupName, columnNr));
         return this;
@@ -227,9 +227,9 @@ public class GroupsPage extends SharePage2<GroupsPage>
     {
         log.info("Select group: {}", itemName);
         WebElement groupToClick = getItemGroup(itemName);
-        webElementInteraction.mouseOver(groupToClick);
-        webElementInteraction.clickElement(groupToClick);
-        webElementInteraction.waitUntilElementHasAttribute(webElementInteraction.findElement
+        mouseOver(groupToClick);
+        clickElement(groupToClick);
+        waitUntilElementHasAttribute(findElement
             (By.xpath(String.format(groupRow, itemName))), "class", "item-selected");
         return this;
     }
@@ -242,27 +242,27 @@ public class GroupsPage extends SharePage2<GroupsPage>
 
     public GroupsPage clickCreateNewGroup(int column)
     {
-        webElementInteraction.clickElement(By.cssSelector(String.format(createSubGroupButton, column)));
-        webElementInteraction.waitUntilElementIsVisible(newGroupPanelTitle);
+        clickElement(By.cssSelector(String.format(createSubGroupButton, column)));
+        waitUntilElementIsVisible(newGroupPanelTitle);
         return this;
     }
 
     public AddGroupDialog clickAddGroup(int groupColumn)
     {
-        webElementInteraction.clickElement(By.cssSelector(String.format(addSubGroupButton, groupColumn)));
+        clickElement(By.cssSelector(String.format(addSubGroupButton, groupColumn)));
         return new AddGroupDialog(webDriver);
     }
 
     public GroupsPage assertAddUserButtonIsDisplayed(int groupColumn)
     {
-        WebElement addUser = webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(addUserGroupButton, groupColumn)));
-        assertTrue(webElementInteraction.isElementDisplayed(addUser), "Add user button is displayed");
+        WebElement addUser = waitUntilElementIsVisible(By.cssSelector(String.format(addUserGroupButton, groupColumn)));
+        assertTrue(isElementDisplayed(addUser), "Add user button is displayed");
         return this;
     }
 
     public AddUserDialog clickAddUser(int groupColumn)
     {
-        webElementInteraction.clickElement(By.cssSelector(String.format(addUserGroupButton, groupColumn)));
+        clickElement(By.cssSelector(String.format(addUserGroupButton, groupColumn)));
         return new AddUserDialog(webDriver);
     }
 
@@ -270,9 +270,9 @@ public class GroupsPage extends SharePage2<GroupsPage>
     {
         WebElement groupElement = mouseOverGroup(getUserFormat(user));
         WebElement remove = groupElement.findElement(removeUser);
-        webElementInteraction.scrollToElement(remove);
-        webElementInteraction.mouseOver(remove);
-        webElementInteraction.clickElement(remove);
+        scrollToElement(remove);
+        mouseOver(remove);
+        clickElement(remove);
 
         return new RemoveUserFromGroupDialog(webDriver);
     }
@@ -281,74 +281,74 @@ public class GroupsPage extends SharePage2<GroupsPage>
     {
         WebElement groupElement = mouseOverGroup(groupName);
         WebElement delete = groupElement.findElement(deleteGroupButton);
-        webElementInteraction.mouseOver(delete);
-        webElementInteraction.clickElement(delete);
+        mouseOver(delete);
+        clickElement(delete);
         return new DeleteGroupDialog(webDriver);
     }
 
     public GroupsPage assertNewGroupTitleIsDisplayed()
     {
-        assertEquals(webElementInteraction.waitUntilElementIsVisible(newGroupPanelTitle).getText(),
+        assertEquals(waitUntilElementIsVisible(newGroupPanelTitle).getText(),
             language.translate("adminTools.groups.newGroupPanelTitle"), "New Group title is displayed");
         return this;
     }
 
     public GroupsPage assertIdentifierInputFieldIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(groupIdentifierInput), "Identifier input is displayed");
+        assertTrue(isElementDisplayed(groupIdentifierInput), "Identifier input is displayed");
         return this;
     }
 
     public void typeGroupIdentifier(String identifierName)
     {
-        webElementInteraction.waitUntilElementIsVisible(groupIdentifierInput);
-        webElementInteraction.clearAndType(groupIdentifierInput, identifierName);
+        waitUntilElementIsVisible(groupIdentifierInput);
+        clearAndType(groupIdentifierInput, identifierName);
     }
 
     public GroupsPage assertDisplayNameInputFieldIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(groupDisplayNameInput), "Display Name input is displayed");
+        assertTrue(isElementDisplayed(groupDisplayNameInput), "Display Name input is displayed");
         return this;
     }
 
     public GroupsPage assertGroupIdentifierFieldLabelIsCorrect()
     {
-        assertEquals(webElementInteraction.findElement(identifierFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.identifier"));
+        assertEquals(findElement(identifierFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.identifier"));
         return this;
     }
 
     public GroupsPage assertDisplayNameFieldLabelIsCorrect()
     {
-        assertEquals(webElementInteraction.findElement(displayNameFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.displayName"));
+        assertEquals(findElement(displayNameFieldLabel).getText(), language.translate("adminTools.groups.newGroupProperties.displayName"));
         return this;
     }
 
     public void typeGroupDisplayName(String identifierName)
     {
-        webElementInteraction.clearAndType(groupDisplayNameInput, identifierName);
+        clearAndType(groupDisplayNameInput, identifierName);
     }
 
     public GroupsPage assertCreateNewGroupButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(createGroupOKButton), "Create group button is displayed");
+        assertTrue(isElementDisplayed(createGroupOKButton), "Create group button is displayed");
         return this;
     }
 
     public void clickCreateGroupButton()
     {
-        webElementInteraction.clickElement(createGroupOKButton);
+        clickElement(createGroupOKButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public GroupsPage assertCreateAndCreateAnotherGroupButtonDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(createAndCreateAnotherGroupButton), "Create and create another button is displayed");
+        assertTrue(isElementDisplayed(createAndCreateAnotherGroupButton), "Create and create another button is displayed");
         return this;
     }
 
     public GroupsPage assertCancelCreateNewGroupButtonDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(cancelCreateGroupButton), "Create and create another button is displayed");
+        assertTrue(isElementDisplayed(cancelCreateGroupButton), "Create and create another button is displayed");
         return this;
     }
 
@@ -364,10 +364,10 @@ public class GroupsPage extends SharePage2<GroupsPage>
     {
         WebElement groupElement = mouseOverGroup(groupModel.getDisplayName());
         WebElement delete = groupElement.findElement(deleteGroupButton);
-        webElementInteraction.scrollToElement(delete);
-        webElementInteraction.mouseOver(delete);
-        webElementInteraction.clickElement(delete);
-        webElementInteraction.clickElement(deleteGroupOKButton);
+        scrollToElement(delete);
+        mouseOver(delete);
+        clickElement(delete);
+        clickElement(deleteGroupOKButton);
         waitUntilNotificationMessageDisappears();
 
         return this;
@@ -376,8 +376,8 @@ public class GroupsPage extends SharePage2<GroupsPage>
     private WebElement mouseOverGroup(String groupName)
     {
         WebElement element = getItemGroup(groupName);
-        webElementInteraction.scrollIntoView(element);
-        webElementInteraction.mouseOver(element);
+        scrollIntoView(element);
+        mouseOver(element);
         return element;
     }
 
@@ -385,22 +385,22 @@ public class GroupsPage extends SharePage2<GroupsPage>
     {
         WebElement groupElement = mouseOverGroup(group.getDisplayName());
         WebElement edit = groupElement.findElement(updateGroupButton);
-        webElementInteraction.mouseOver(edit);
-        webElementInteraction.clickElement(edit);
-        WebElement groupEditDisplayNameInputElement =  webElementInteraction.waitUntilElementIsVisible(groupEditDisplayNameInput);
-        webElementInteraction.clearAndType(groupEditDisplayNameInputElement, newName);
-        webElementInteraction.clickElement(updateGroupOKButton);
+        mouseOver(edit);
+        clickElement(edit);
+        WebElement groupEditDisplayNameInputElement =  waitUntilElementIsVisible(groupEditDisplayNameInput);
+        clearAndType(groupEditDisplayNameInputElement, newName);
+        clickElement(updateGroupOKButton);
         waitUntilNotificationMessageDisappears();
-        if( webElementInteraction.isElementDisplayed(firstPageButton))
+        if( isElementDisplayed(firstPageButton))
         {
-            webElementInteraction.clickElement(firstPageButton);
+            clickElement(firstPageButton);
         }
         return this;
     }
 
     public GroupsPage assertSearchBarTextIs(String searchKeyword, int results)
     {
-        assertEquals(webElementInteraction.findElement(searchBar).getText(), String.format(
+        assertEquals(findElement(searchBar).getText(), String.format(
             language.translate("adminTools.groups.searchResultHeader"), searchKeyword, results));
         return this;
     }

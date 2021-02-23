@@ -5,6 +5,7 @@ import static org.alfresco.share.TestUtils.ALFRESCO_SITE_ADMINISTRATORS;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -22,6 +23,7 @@ public class SitesManagerTests extends BaseTest
     private SitesManagerPage sitesManagerPage;
     private SiteDashboardPage siteDashboardPage;
     private SystemErrorPage systemErrorPage;
+    private Toolbar toolbar;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -32,6 +34,7 @@ public class SitesManagerTests extends BaseTest
         siteDashboardPage = new SiteDashboardPage(webDriver);
         sitesManagerPage = new SitesManagerPage(webDriver);
         systemErrorPage = new SystemErrorPage(webDriver);
+        toolbar = new Toolbar(webDriver);
     }
 
     @TestRail (id = "C8674")
@@ -45,7 +48,7 @@ public class SitesManagerTests extends BaseTest
         testSite.set(site);
         getDataSite().usingUser(siteAdmin.get()).createSite(testSite.get());
 
-        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
+        authenticateUsingLoginPage(siteAdmin.get());
         sitesManagerPage.navigate()
             .assertSiteManagerPageIsOpened()
             .assertBrowserPageTitleIs(language.translate("adminTools.sitesManager.browser.pageTitle"))
@@ -64,7 +67,7 @@ public class SitesManagerTests extends BaseTest
     {
         testSite.set(getDataSite().usingUser(siteAdmin.get()).createModeratedRandomSite());
 
-        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
+        authenticateUsingLoginPage(siteAdmin.get());
         sitesManagerPage.navigate().usingSite(testSite.get())
             .changeSiteVisibility(Visibility.PUBLIC)
             .assertSiteVisibilityEquals(Visibility.PUBLIC)
@@ -79,7 +82,7 @@ public class SitesManagerTests extends BaseTest
     {
         testSite.set(getDataSite().usingUser(siteAdmin.get()).createPrivateRandomSite());
 
-        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
+        authenticateUsingLoginPage(siteAdmin.get());
         sitesManagerPage.navigate().usingSite(testSite.get())
             .changeSiteVisibility(Visibility.MODERATED)
             .assertSiteVisibilityEquals(Visibility.MODERATED)
@@ -94,7 +97,7 @@ public class SitesManagerTests extends BaseTest
     {
         testSite.set(getDataSite().usingUser(siteAdmin.get()).createPublicRandomSite());
 
-        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
+        authenticateUsingLoginPage(siteAdmin.get());
         sitesManagerPage.navigate().usingSite(testSite.get())
             .changeSiteVisibility(Visibility.PRIVATE)
             .assertSiteVisibilityEquals(Visibility.PRIVATE)
@@ -110,11 +113,11 @@ public class SitesManagerTests extends BaseTest
         UserModel user = dataUser.usingAdmin().createRandomTestUser();
         dataGroup.usingUser(user).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
 
-        setupAuthenticatedSessionViaLoginPage(user);
+        authenticateUsingLoginPage(user);
         userDashboardPage.navigate(user);
         toolbar.assertSitesManagerIsDisplayed().clickSitesManager().assertSiteManagerPageIsOpened();
         dataGroup.removeUserFromGroup(ALFRESCO_SITE_ADMINISTRATORS, user);
-        setupAuthenticatedSessionViaLoginPage(user);
+        authenticateUsingLoginPage(user);
         toolbar.assertSitesManagerIsNotDisplayed();
 
         dataUser.usingAdmin().deleteUser(user);
@@ -126,7 +129,7 @@ public class SitesManagerTests extends BaseTest
     {
         SiteModel adminSite = getDataSite().usingAdmin().createPublicRandomSite();
 
-        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
+        authenticateUsingLoginPage(siteAdmin.get());
         sitesManagerPage.navigate()
             .usingSite(adminSite)
             .becomeSiteManager();
@@ -142,7 +145,7 @@ public class SitesManagerTests extends BaseTest
     {
         testSite.set(getDataSite().usingUser(siteAdmin.get()).createPublicRandomSite());
 
-        setupAuthenticatedSessionViaLoginPage(siteAdmin.get());
+        authenticateUsingLoginPage(siteAdmin.get());
         sitesManagerPage.navigate().usingSite(testSite.get())
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(testSite.get().getTitle())

@@ -20,7 +20,7 @@ public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
 
     public void transformAndCopy(Mimetype mimetypeTransformation, String targetSite , String targetFolder)
     {
-        Select performAction = new Select(webElementInteraction.findElement(mimetypeDropDown));
+        Select performAction = new Select(findElement(mimetypeDropDown));
         performAction.selectByValue(mimetypeTransformation.getValue());
         editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(targetSite);

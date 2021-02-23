@@ -30,8 +30,8 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
 
     public SharedFilesPage assertSharedFilesPageIsOpened()
     {
-        webElementInteraction.waitUrlContains(getRelativePath(), WAIT_30.getValue());
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
+        waitUrlContains(getRelativePath(), WAIT_30.getValue());
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Shared Files page is opened");
         return this;
     }
 }

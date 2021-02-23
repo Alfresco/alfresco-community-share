@@ -30,17 +30,29 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * In the base pages/components class we will store only common members/methods which are in each child classes.
  */
 @Slf4j
-public abstract class BasePage
+public abstract class BasePage extends WebElementInteraction
 {
     protected static final ThreadLocal<String> notificationMessageThread = new ThreadLocal<>();
-    public static final ThreadLocal<DefaultProperties> defaultProperties = new ThreadLocal<>();
-
-    public final Language language;
     protected final By notificationMessageLocator = By.cssSelector("div.bd span.message");
-    protected WebElementInteraction webElementInteraction;
-    public final ThreadLocal<WebDriver> webDriver;
+    protected final Language language;
 
     protected BasePage(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+
+        createAppContextAndSetPropertiesIfNull();
+        language = getLanguage();
+        waitUntilDomReadyStateIsComplete();
+    }
+
+    private Language getLanguage()
+    {
+        return new Language("language/page_labels",
+            defaultProperties.get().getBrowserLanguage(),
+            defaultProperties.get().getBrowserLanguageCountry());
+    }
+
+    private void createAppContextAndSetPropertiesIfNull()
     {
         if(defaultProperties.get() == null)
         {
@@ -48,24 +60,14 @@ public abstract class BasePage
             ApplicationContext context = new AnnotationConfigApplicationContext(ShareTestContext.class);
             defaultProperties.set(context.getBean(DefaultProperties.class));
         }
-
-        language = new Language("language/page_labels",
-            defaultProperties.get().getBrowserLanguage(),
-            defaultProperties.get().getBrowserLanguageCountry());
-
-        this.webDriver = webDriver;
-        webElementInteraction = new WebElementInteraction(webDriver, defaultProperties.get());
-        webElementInteraction.waitUntilDomReadyStateIsComplete();
     }
-
 
     public ThreadLocal<String> waitUntilNotificationMessageDisappears()
     {
         try
         {
-            notificationMessageThread.set(webElementInteraction.getElementText(
-                notificationMessageLocator, WAIT_5.getValue()));
-            webElementInteraction.waitUntilElementDisappears(notificationMessageLocator, WAIT_5.getValue());
+            notificationMessageThread.set(getElementText(notificationMessageLocator, WAIT_5.getValue()));
+            waitUntilElementDisappears(notificationMessageLocator, WAIT_5.getValue());
         }
         catch (TimeoutException | StaleElementReferenceException exception)
         {

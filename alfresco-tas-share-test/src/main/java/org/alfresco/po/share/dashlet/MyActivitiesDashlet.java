@@ -28,7 +28,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertAddDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
     {
         log.info("Assert add document activity is displayed for document {}", file.getName());
-        assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
+        assertTrue(isElementDisplayed(getActivityRow(
             String.format(language.translate(CREATE_ACTIVITY),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))),
                 "Add document activity is not displayed");
@@ -38,8 +38,8 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertAddDocumentActivityIsNotDisplayedForUser(UserModel user, FileModel file, SiteModel site)
     {
         log.info("Assert add document activity for {} is not displayed for user {}",file.getName(), user.getUsername());
-        List<WebElement> rows = webElementInteraction.waitUntilElementsAreVisible(activityRows);
-        assertFalse(webElementInteraction.getTextFromElementList(rows).contains(
+        List<WebElement> rows = waitUntilElementsAreVisible(activityRows);
+        assertFalse(getTextFromElementList(rows).contains(
             String.format(language.translate(CREATE_ACTIVITY),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle())),
                     String.format("Add document activity is displayed for user %s ", user.getUsername()));
@@ -49,7 +49,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertUpdateDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
     {
         log.info("Assert update document activity is displayed for document {}", file.getName());
-        assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
+        assertTrue(isElementDisplayed(getActivityRow(
             String.format(language.translate("activitiesDashlet.document.updateActivity"),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))),
                 "Update document activity is not displayed");
@@ -59,7 +59,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertDeleteDocumentActivityIsDisplayed(UserModel user, FileModel file, SiteModel site)
     {
         log.info("Assert delete document activity is displayed for document {}", file.getName());
-        assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
+        assertTrue(isElementDisplayed(getActivityRow(
             String.format(language.translate("activitiesDashlet.document.deleteActivity"),
                 user.getFirstName(), user.getLastName(), file.getName(), site.getTitle()))),
                 "Delete document activity is not displayed");
@@ -69,7 +69,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertAddedFolderActivityIsDisplayed(UserModel user, FolderModel folder, SiteModel site)
     {
         log.info("Assert add folder activity is displayed for {}", folder.getName());
-        assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
+        assertTrue(isElementDisplayed(getActivityRow(
             String.format(language.translate("activitiesDashlet.folder.createActivity"),
                 user.getFirstName(), user.getLastName(), folder.getName(), site.getTitle()))),
                 "Add folder activity is not displayed");
@@ -79,7 +79,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertDeletedFolderActivityIsDisplayed(UserModel user, FolderModel folder, SiteModel site)
     {
         log.info("Assert delete folder activity is displayed for {}", folder.getName());
-        assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
+        assertTrue(isElementDisplayed(getActivityRow(
             String.format(language.translate("activitiesDashlet.folder.deleteActivity"),
                 user.getFirstName(), user.getLastName(), folder.getName(), site.getTitle()))),
                 "Delete folder activity is not displayed");
@@ -89,7 +89,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertCreatedLinkActivityIsDisplayed(UserModel user, ContentModel contentModel, SiteModel site)
     {
         log.info("Assert create link activity is displayed for content {}", contentModel.getName());
-        assertTrue(webElementInteraction.isElementDisplayed(getActivityRow(
+        assertTrue(isElementDisplayed(getActivityRow(
             String.format(language.translate("activitiesDashlet.link.createActivity"),
                 user.getFirstName(), user.getLastName(), contentModel.getName(), site.getTitle()))),
             "Create link activity is not displayed");
@@ -98,7 +98,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
 
     public UserProfilePage clickUserFromAddedDocumentActivity(UserModel user, FileModel file, SiteModel site)
     {
-        webElementInteraction.clickElement(getActivityRow(String
+        clickElement(getActivityRow(String
             .format(language.translate(CREATE_ACTIVITY), user.getFirstName(), user.getLastName(),
                 file.getName(), site.getTitle())).findElement(userLinkLocator));
         return new UserProfilePage(webDriver);
@@ -107,7 +107,7 @@ public class MyActivitiesDashlet extends AbstractActivitiesDashlet<MyActivitiesD
     public MyActivitiesDashlet assertEmptyDashletMessageEquals()
     {
         log.info("Assert my activities dashlet message is correct when there are no activities");
-        assertEquals(webElementInteraction.getElementText(activitiesEmptyList), language.translate("myactivitiesDashlet.empty"),
+        assertEquals(getElementText(activitiesEmptyList), language.translate("myactivitiesDashlet.empty"),
             "Empty dashlet message is not correct");
         return this;
     }

@@ -30,15 +30,15 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     public SavedSearchDashlet assertNoResultsFoundMessageEquals(String expectedNoResultsFoundMessage)
     {
         log.info("Assert No results found message equals: {}", expectedNoResultsFoundMessage);
-        webElementInteraction.waitUntilElementContainsText(defaultDashletMessage, expectedNoResultsFoundMessage);
-        assertEquals(webElementInteraction.getElementText(defaultDashletMessage), expectedNoResultsFoundMessage, String
+        waitUntilElementContainsText(defaultDashletMessage, expectedNoResultsFoundMessage);
+        assertEquals(getElementText(defaultDashletMessage), expectedNoResultsFoundMessage, String
             .format("No results found message not equals %s ", expectedNoResultsFoundMessage));
 
         return this;
@@ -47,9 +47,9 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     public SavedSearchDashlet assertConfigureDashletButtonIsDisplayed()
     {
         log.info("Assert configure dashlet button is displayed");
-        webElementInteraction.mouseOver(titleBar);
-        webElementInteraction.mouseOver(titleBarActions);
-        assertTrue(webElementInteraction.isElementDisplayed(configureDashletIcon),
+        mouseOver(titleBar);
+        mouseOver(titleBarActions);
+        assertTrue(isElementDisplayed(configureDashletIcon),
             "Configure dashlet button is not displayed");
 
         return this;
@@ -58,22 +58,22 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     public ConfigureSavedSearchDashletDialog configureDashlet()
     {
         log.info("Configure dashlet");
-        webElementInteraction.mouseOver(titleBar);
-        webElementInteraction.mouseOver(titleBarActions);
-        webElementInteraction.clickElement(configureDashletIcon);
+        mouseOver(titleBar);
+        mouseOver(titleBarActions);
+        clickElement(configureDashletIcon);
         return new ConfigureSavedSearchDashletDialog(webDriver);
     }
 
     private WebElement getSearchRow(String fileName)
     {
-        return webElementInteraction.waitWithRetryAndReturnWebElement
+        return waitWithRetryAndReturnWebElement
             (By.xpath(String.format(searchRow, fileName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public SavedSearchDashlet assertFileIsDisplayed(String fileName)
     {
         log.info("Assert file is found in saved search dashlet: {}", fileName);
-        assertTrue(webElementInteraction.isElementDisplayed(getSearchRow(fileName)),
+        assertTrue(isElementDisplayed(getSearchRow(fileName)),
             String.format("File %s was not found", fileName));
 
         return this;

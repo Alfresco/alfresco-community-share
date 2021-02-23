@@ -10,7 +10,7 @@ public class ShareLogoAndVersionsTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void beforeTest()
     {
-        setupAuthenticatedSession(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
     }
 
     @TestRail (id = "C2088")

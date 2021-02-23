@@ -31,19 +31,19 @@ public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
     public ModuleBrowserPage assertModuleBrowserPageIsOpened()
     {
         log.info("Assert Module browser page is opened");
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Module browser page is not opened");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Module browser page is not opened");
         return this;
     }
 
     public WebElement selectModuleName(String moduleName)
     {
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10.getValue());
-        return webElementInteraction.findFirstElementWithValue(modulesList, moduleName);
+        waitUntilElementIsDisplayedWithRetry(modulesList,1, WAIT_10.getValue());
+        return findFirstElementWithValue(modulesList, moduleName);
     }
 
     public boolean isModuleAvailable(String moduleName)
     {
-        return webElementInteraction.isElementDisplayed(selectModuleName(moduleName));
+        return isElementDisplayed(selectModuleName(moduleName));
     }
 
     public ModuleBrowserPage assertGoogleDocsModuleIsPresent()
@@ -55,9 +55,9 @@ public class ModuleBrowserPage extends SharePage2<ModuleBrowserPage>
 
     public ModuleBrowserPage assertModuleTableHeadersAreDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(titleTableHeader), "Title header is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(descriptionTableHeader), "Description header is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(versionTableHeader), "Version header is displayed");
+        assertTrue(isElementDisplayed(titleTableHeader), "Title header is displayed");
+        assertTrue(isElementDisplayed(descriptionTableHeader), "Description header is displayed");
+        assertTrue(isElementDisplayed(versionTableHeader), "Version header is displayed");
         return this;
     }
 }

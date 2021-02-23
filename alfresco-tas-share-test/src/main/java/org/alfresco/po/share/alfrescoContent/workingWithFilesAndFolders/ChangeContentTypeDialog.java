@@ -24,33 +24,33 @@ public class ChangeContentTypeDialog extends BaseDialogComponent
 
     public String getDialogTitle()
     {
-        return webElementInteraction.getElementText(dialogTitle);
+        return getElementText(dialogTitle);
     }
 
     public boolean isDialogDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dialogBody);
+        return isElementDisplayed(dialogBody);
     }
 
     public void clickOkButton()
     {
-        WebElement ok = webElementInteraction.waitUntilElementIsVisible(okButton);
-        webElementInteraction.mouseOver(ok);
-        webElementInteraction.clickElement(ok);
+        WebElement ok = waitUntilElementIsVisible(okButton);
+        mouseOver(ok);
+        clickElement(ok);
         waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancelButton()
     {
-        webElementInteraction.clickElement(cancelButton);
-        webElementInteraction.waitUntilElementDisappears(dialogTitle);
+        clickElement(cancelButton);
+        waitUntilElementDisappears(dialogTitle);
     }
 
     public ChangeContentTypeDialog selectOption(String optionName)
     {
         log.info("Select option {}", optionName);
-        webElementInteraction.waitInSeconds(1);
-        Select dropdown = new Select(webElementInteraction.waitUntilElementIsVisible(typeDropdown));
+        waitInSeconds(1);
+        Select dropdown = new Select(waitUntilElementIsVisible(typeDropdown));
         dropdown.selectByVisibleText(optionName);
 
         return this;
@@ -58,6 +58,6 @@ public class ChangeContentTypeDialog extends BaseDialogComponent
 
     public boolean isDropdownMandatory()
     {
-        return webElementInteraction.isElementDisplayed(mandatory);
+        return isElementDisplayed(mandatory);
     }
 }

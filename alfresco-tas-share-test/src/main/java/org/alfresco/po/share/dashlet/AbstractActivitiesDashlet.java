@@ -42,37 +42,37 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     protected WebElement getActivityRow(String expectedActivity)
     {
         waitForActivitiesToLoad();
-        List<WebElement> rows = webElementInteraction.waitUntilElementsAreVisible(activityRows);
-        List<String> activities = webElementInteraction.getTextFromElementList(rows);
+        List<WebElement> rows = waitUntilElementsAreVisible(activityRows);
+        List<String> activities = getTextFromElementList(rows);
 
         int retry = 0;
         while(!activities.contains(expectedActivity) && retry < WAIT_60.getValue())
         {
             retry++;
             waitToLoopTime(WAIT_1.getValue(), String.format("Wait for activity '%s' to be displayed", expectedActivity));
-            webElementInteraction.refresh();
-            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
-            rows = webElementInteraction.findElements(activityRows);
-            activities = webElementInteraction.getTextFromElementList(rows);
+            refresh();
+            waitUntilElementIsVisible(dashletContainer);
+            rows = findElements(activityRows);
+            activities = getTextFromElementList(rows);
         }
-        return webElementInteraction.findFirstElementWithExactValue(rows, expectedActivity);
+        return findFirstElementWithExactValue(rows, expectedActivity);
     }
 
     private void waitForActivitiesToLoad()
     {
         int retryCount = 0;
-        while(retryCount < WAIT_60.getValue() && webElementInteraction.isElementDisplayed(activitiesEmptyList))
+        while(retryCount < WAIT_60.getValue() && isElementDisplayed(activitiesEmptyList))
         {
             log.info("Wait for activity rows to be displayed");
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_1.getValue());
-            webElementInteraction.waitUntilElementIsVisible(dashletContainer);
+            refresh();
+            waitInSeconds(WAIT_1.getValue());
+            waitUntilElementIsVisible(dashletContainer);
             retryCount++;
         }
     }
@@ -84,9 +84,9 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
             language.translate("activitiesDashlet.filter.everyoneElse"),
             language.translate("activitiesDashlet.filter.everyone"),
             language.translate("activitiesDashlet.filter.meFollowing"));
-        webElementInteraction.clickElement(myActivitiesButton);
-        List<WebElement> filterList = webElementInteraction.waitUntilElementsAreVisible(filters);
-        assertEquals(expectedUserActivities, webElementInteraction.getTextFromElementList(filterList),
+        clickElement(myActivitiesButton);
+        List<WebElement> filterList = waitUntilElementsAreVisible(filters);
+        assertEquals(expectedUserActivities, getTextFromElementList(filterList),
             "Not all options are found in activities filter");
 
         return (T) this;
@@ -100,9 +100,9 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
             language.translate("activitiesDashlet.filter.comments"),
             language.translate("activitiesDashlet.filter.content"),
             language.translate("activitiesDashlet.filter.memberships"));
-        webElementInteraction.clickElement(defaultActivitiesButton);
-        List<WebElement> filterList = webElementInteraction.waitUntilElementsAreVisible(filters);
-        assertEquals(expectedUserActivities, webElementInteraction.getTextFromElementList(filterList),
+        clickElement(defaultActivitiesButton);
+        List<WebElement> filterList = waitUntilElementsAreVisible(filters);
+        assertEquals(expectedUserActivities, getTextFromElementList(filterList),
             "Not all options are found in activities filter");
 
         return (T) this;
@@ -117,9 +117,9 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
             language.translate("activitiesDashlet.filter.last14days"),
             language.translate("activitiesDashlet.filter.last28days"));
 
-        webElementInteraction.clickElement(daysRangeButton);
-        List<WebElement> filterList = webElementInteraction.waitUntilElementsAreVisible(filters);
-        assertEquals(expectedUserActivities, webElementInteraction.getTextFromElementList(filterList),
+        clickElement(daysRangeButton);
+        List<WebElement> filterList = waitUntilElementsAreVisible(filters);
+        assertEquals(expectedUserActivities, getTextFromElementList(filterList),
             "Not all options are found in activities filter");
 
         return (T) this;
@@ -128,7 +128,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     public T assertSelectedActivityFilterContains(String expectedFilter)
     {
         log.info("Assert filter {} is selected", expectedFilter);
-        assertTrue(webElementInteraction.getElementText(myActivitiesButton).contains(expectedFilter),
+        assertTrue(getElementText(myActivitiesButton).contains(expectedFilter),
             String.format("Expected filter is %s ", expectedFilter));
         return (T) this;
     }
@@ -136,7 +136,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     public T assertSelectedHistoryOptionContains(String expectedValue)
     {
         log.info("Assert history filter {} is selected", expectedValue);
-        assertTrue(webElementInteraction.getElementText(daysRangeButton).contains(expectedValue),
+        assertTrue(getElementText(daysRangeButton).contains(expectedValue),
             String.format("Expected history filter is %s", expectedValue));
         return (T) this;
     }
@@ -144,7 +144,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     public T assertSelectedItemFilterContains(String expectedFilter)
     {
         log.info("Assert item filter {} is selected", expectedFilter);
-        assertTrue(webElementInteraction.getElementText(defaultActivitiesButton)
+        assertTrue(getElementText(defaultActivitiesButton)
             .contains(expectedFilter), String.format("Expected item filter is %s", expectedFilter));
         return (T) this;
     }
@@ -152,9 +152,9 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     public T assertRssFeedButtonIsDisplayed()
     {
         log.info("Assert Rss Feed button is displayed");
-        webElementInteraction.mouseOver(activitiesDashletTitle);
-        webElementInteraction.mouseOver(myActivitiesButton);
-        assertTrue(webElementInteraction.isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
+        mouseOver(activitiesDashletTitle);
+        mouseOver(myActivitiesButton);
+        assertTrue(isElementDisplayed(rssFeedButton), "Rss Feed button is displayed");
 
         return (T) this;
     }
@@ -162,12 +162,12 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     protected T assertRssFeedContainsExpectedUrl(String url)
     {
         log.info("Assert Rss Feed contains url {}", url);
-        webElementInteraction.mouseOver(activitiesDashletTitle);
-        webElementInteraction.clickElement(rssFeedButton);
-        webElementInteraction.switchWindow(SECOND_TAB);
-        webElementInteraction.waitUrlContains(url, WAIT_5.getValue());
-        assertTrue(webElementInteraction.getCurrentUrl().contains(url), "Rss Feed is not opened with the correct url");
-        webElementInteraction.closeWindowAndSwitchBack();
+        mouseOver(activitiesDashletTitle);
+        clickElement(rssFeedButton);
+        switchWindow(SECOND_TAB);
+        waitUrlContains(url, WAIT_5.getValue());
+        assertTrue(getCurrentUrl().contains(url), "Rss Feed is not opened with the correct url");
+        closeWindowAndSwitchBack();
 
         return (T) this;
     }
@@ -221,10 +221,10 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     public T selectActivityFilter(ActivitiesFilter activitiesFilter)
     {
         log.info("Select activity filter {}", activitiesFilter.toString());
-        webElementInteraction.clickElement(myActivitiesButton);
-        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
-        webElementInteraction.selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), options);
-        webElementInteraction.waitInSeconds(WAIT_1.getValue());
+        clickElement(myActivitiesButton);
+        List<WebElement> options = waitUntilElementsAreVisible(dropDownOptionsList);
+        selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), options);
+        waitInSeconds(WAIT_1.getValue());
 
         return (T) this;
     }
@@ -232,10 +232,10 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     public T selectOptionFromHistoryFilter(ActivitiesDaysRangeFilter noDaysOption)
     {
         log.info("Select history filter {}", noDaysOption.toString());
-        webElementInteraction.clickElement(daysRangeButton);
-        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
-        webElementInteraction.selectOptionFromFilterOptionsList(getActivitiesDaysRangeFilter(noDaysOption), options);
-        webElementInteraction.waitInSeconds(WAIT_1.getValue());
+        clickElement(daysRangeButton);
+        List<WebElement> options = waitUntilElementsAreVisible(dropDownOptionsList);
+        selectOptionFromFilterOptionsList(getActivitiesDaysRangeFilter(noDaysOption), options);
+        waitInSeconds(WAIT_1.getValue());
 
         return (T) this;
     }

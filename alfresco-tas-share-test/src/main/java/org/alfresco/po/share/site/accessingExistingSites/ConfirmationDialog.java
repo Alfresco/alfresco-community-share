@@ -21,36 +21,36 @@ public abstract class ConfirmationDialog extends BaseDialogComponent
 
     public String getDialogMessage()
     {
-        return webElementInteraction.getElementText(dialogMessage);
+        return getElementText(dialogMessage);
     }
 
     public void clickOKButton()
     {
         log.info("Click OK button");
-        WebElement ok = webElementInteraction.waitUntilElementIsVisible(confirmDeletionButton);
-        webElementInteraction.mouseOver(ok);
-        webElementInteraction.clickElement(ok);
+        WebElement ok = waitUntilElementIsVisible(confirmDeletionButton);
+        mouseOver(ok);
+        clickElement(ok);
         waitUntilNotificationMessageDisappears();
-        if(webElementInteraction.isElementDisplayed(dialogBody))
+        if(isElementDisplayed(dialogBody))
         {
             log.error("Failed to click Ok button. Retry click.");
-            webElementInteraction.clickElement(ok);
+            clickElement(ok);
         }
     }
 
     public boolean isOkButtonDisplayed()
     {
-        return webElementInteraction.waitUntilElementIsVisible(By.cssSelector("span[class$='dijitButtonContents']")).isDisplayed();
+        return waitUntilElementIsVisible(By.cssSelector("span[class$='dijitButtonContents']")).isDisplayed();
     }
 
     @Override
     public boolean isCloseButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dialogCloseButton);
+        return isElementDisplayed(dialogCloseButton);
     }
 
     public void clickCloseButton()
     {
-        webElementInteraction.clickElement(dialogCloseButton);
+        clickElement(dialogCloseButton);
     }
 }

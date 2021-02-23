@@ -58,12 +58,12 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     {
         try
         {
-            notificationMessageThread.set(webElementInteraction.getElementText(notificationMessage, WAIT_5.getValue()));
-            webElementInteraction.waitUntilElementDisappears(notificationMessage);
+            notificationMessageThread.set(getElementText(notificationMessage, WAIT_5.getValue()));
+            waitUntilElementDisappears(notificationMessage);
         }
         catch (TimeoutException exception)
         {
-            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
+            log.info("Timeout exception {}", exception.getCause());
         }
         return notificationMessageThread;
     }
@@ -71,39 +71,34 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     public SearchManagerPage assertSearchManagerPageIsOpened()
     {
         log.info("Assert Search Manager page is opened");
-        webElementInteraction.waitUrlContains(getRelativePath(), WAIT_10.getValue());
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
+        waitUrlContains(getRelativePath(), WAIT_10.getValue());
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Search Manager page is opened");
         return this;
     }
 
     private WebElement selectFilterProperty(String filterPropertyText)
     {
-        return webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(
+        return waitUntilElementIsVisible(By.xpath(String.format(
             filterPropertyPath, filterPropertyText)));
     }
 
     private WebElement getFilterRowById(String filterId)
     {
-        return webElementInteraction.findFirstElementWithValue(filterRows, filterId);
+        return findFirstElementWithValue(filterRows, filterId);
     }
 
     public SearchManagerPage assertFilterIsNotDisplayed(String filterId)
     {
         log.info("Assert filter {} is not displayed", filterId);
         By filter = By.xpath(String.format(filterRow, filterId));
-        assertFalse(webElementInteraction.isElementDisplayed(filter), String.format("Filter %s is displayed", filterId));
+        assertFalse(isElementDisplayed(filter), String.format("Filter %s is displayed", filterId));
         return this;
     }
 
-    /**
-     * Method gets default filters table columns titles
-     *
-     * @return
-     */
     public List<String> getFiltersTableColumns()
     {
         List<String> columnsTitle = new ArrayList<>();
-        for (WebElement column : webElementInteraction.findElements(filterTableColumns))
+        for (WebElement column : findElements(filterTableColumns))
         {
             if (!column.getText().isEmpty())
             {
@@ -115,26 +110,26 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public boolean isCreateNewFilterDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(createNewFilter);
+        return isElementDisplayed(createNewFilter);
     }
 
     public boolean isFilterAvailable(String filter)
     {
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(filterRows);
-        return webElementInteraction.findFirstElementWithValue(filters, filter) != null;
+        waitUntilElementIsDisplayedWithRetry(filterRows);
+        return findFirstElementWithValue(filters, filter) != null;
     }
 
     public CreateNewFilterDialog createNewFilter()
     {
-        webElementInteraction.waitUntilElementIsVisible(createNewFilter);
-        webElementInteraction.clickElement(createNewFilter);
+        waitUntilElementIsVisible(createNewFilter);
+        clickElement(createNewFilter);
         return new CreateNewFilterDialog(webDriver);
     }
 
     public CreateNewFilterDialog clickFilterId(String filterId)
     {
-        webElementInteraction.waitUntilElementIsVisible(this.filterId);
-        webElementInteraction.findFirstElementWithValue(this.filterId, filterId).click();
+        waitUntilElementIsVisible(this.filterId);
+        findFirstElementWithValue(this.filterId, filterId).click();
         return new CreateNewFilterDialog(webDriver);
     }
 
@@ -171,7 +166,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public ConfirmDeletionDialog clickDeleteFilter(String filterId)
     {
-        webElementInteraction.clickElement(getFilterRowById(filterId).findElement(filterDeleteImage));
+        clickElement(getFilterRowById(filterId).findElement(filterDeleteImage));
         return new ConfirmDeletionDialog(webDriver);
     }
 
@@ -179,20 +174,20 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     {
         log.info("Delete filter {}", filterId);
         clickDeleteFilter(filterId).clickOKButton();
-        webElementInteraction.waitUntilElementIsVisible(filterTable);
+        waitUntilElementIsVisible(filterTable);
 
         return this;
     }
 
     public SearchManagerPage editFilterName(String filterName, String newFilterName)
     {
-        WebElement filter = webElementInteraction.findFirstElementWithValue(this.filterName, filterName);
+        WebElement filter = findFirstElementWithValue(this.filterName, filterName);
         WebElement filterParent = filter.findElement(parent);
-        webElementInteraction.mouseOver(filter);
-        webElementInteraction.clickElement(filterParent.findElement(editIcon));
+        mouseOver(filter);
+        clickElement(filterParent.findElement(editIcon));
         filterParent.findElement(editInput).clear();
         filterParent.findElement(editInput).sendKeys(newFilterName);
-        webElementInteraction.clickElement(filterParent.findElement(editSave));
+        clickElement(filterParent.findElement(editSave));
         return this;
     }
 
@@ -200,29 +195,29 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
     {
         WebElement filterRow = getFilterRowById(filterId);
         WebElement filterProp = filterRow.findElement(filterProperty);
-        webElementInteraction.mouseOver(filterProp);
+        mouseOver(filterProp);
         WebElement editIconElement = filterProp.findElement(editIcon);
-        webElementInteraction.mouseOver(editIconElement);
-        webElementInteraction.clickElement(editIconElement);
-        webElementInteraction.clickElement(filterPropertyDropDownArrow);
-        webElementInteraction.clickElement(selectFilterProperty(newFilterProperty));
+        mouseOver(editIconElement);
+        clickElement(editIconElement);
+        clickElement(filterPropertyDropDownArrow);
+        clickElement(selectFilterProperty(newFilterProperty));
         WebElement saveBtn = filterRow.findElement(editSave);
-        webElementInteraction.clickElement(saveBtn);
+        clickElement(saveBtn);
         waitUntilNotificationMessageDisappears();
-        webElementInteraction.waitUntilElementContainsText(filterProp, newFilterProperty);
+        waitUntilElementContainsText(filterProp, newFilterProperty);
 
         return this;
     }
 
     public SearchManagerPage cancelEditFilterName(String filterName, String newFilterName)
     {
-        WebElement filter = webElementInteraction.findFirstElementWithValue(this.filterName, filterName);
+        WebElement filter = findFirstElementWithValue(this.filterName, filterName);
         WebElement filterParent = filter.findElement(parent);
-        webElementInteraction.mouseOver(filter);
-        webElementInteraction.clickElement(filterParent.findElement(editIcon));
+        mouseOver(filter);
+        clickElement(filterParent.findElement(editIcon));
         filterParent.findElement(editInput).clear();
         filterParent.findElement(editInput).sendKeys(newFilterName);
-        webElementInteraction.clickElement(filterParent.findElement(editCancel));
+        clickElement(filterParent.findElement(editCancel));
 
         return this;
     }
@@ -245,12 +240,12 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public SearchManagerPage moveFilterDown(String filterId)
     {
-        webElementInteraction.clickElement(getFilterRowById(filterId).findElement(filterReorderDown));
+        clickElement(getFilterRowById(filterId).findElement(filterReorderDown));
         return this;
     }
 
     public int getFilterPosition(String filterId)
     {
-        return webElementInteraction.findFirstElementWithValue(this.filterId, filterId).findElements(By.xpath("ancestor::tr/preceding-sibling::*")).size() + 1;
+        return findFirstElementWithValue(this.filterId, filterId).findElements(By.xpath("ancestor::tr/preceding-sibling::*")).size() + 1;
     }
 }

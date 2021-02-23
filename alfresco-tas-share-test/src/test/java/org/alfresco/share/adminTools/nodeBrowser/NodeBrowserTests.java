@@ -10,7 +10,6 @@ import static org.alfresco.po.enums.SearchType.XPATH;
 import static org.alfresco.po.enums.StoreType.WORKSPACE_SPACES_STORE;
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
-import org.alfresco.po.enums.SearchType;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -25,7 +24,7 @@ public class NodeBrowserTests extends BaseTest
 {
     private NodeBrowserPage nodeBrowserPage;
 
-    private ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -33,7 +32,7 @@ public class NodeBrowserTests extends BaseTest
         nodeBrowserPage = new NodeBrowserPage(webDriver);
 
         site.set(dataSite.usingAdmin().createPublicRandomSite());
-        setupAuthenticatedSessionViaLoginPage(dataUser.getAdminUser());
+        authenticateUsingLoginPage(dataUser.getAdminUser());
     }
 
     @TestRail (id = "C9309")

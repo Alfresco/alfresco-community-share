@@ -25,49 +25,49 @@ public abstract class DashletPopUp<T> extends BasePage
     public void clickOk()
     {
         log.info("Click OK from dialog");
-        webElementInteraction.clickElement(okButton);
-        webElementInteraction.waitUntilElementDisappears(dialogContainer);
+        clickElement(okButton);
+        waitUntilElementDisappears(dialogContainer);
     }
 
     public void clickOkButtonSimple()
     {
-        webElementInteraction.clickElement(okButton);
+        clickElement(okButton);
     }
 
     public T assertOKButtonIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(okButton);
-        assertTrue(webElementInteraction.isElementDisplayed(okButton), "Ok button is displayed");
+        waitUntilElementIsVisible(okButton);
+        assertTrue(isElementDisplayed(okButton), "Ok button is displayed");
         return (T) this;
     }
 
     public void clickCancelButton()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     public T assertCancelButtonIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(cancelButton);
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        waitUntilElementIsVisible(cancelButton);
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is displayed");
         return (T) this;
     }
 
     public void clickClose()
     {
-        webElementInteraction.clickElement(closeButton);
+        clickElement(closeButton);
     }
 
     public T assertCloseButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(closeButton), "Close button is not displayed");
+        assertTrue(isElementDisplayed(closeButton), "Close button is not displayed");
         return (T) this;
     }
 
     public T assertDialogTitleEquals(String expectedDialogTitle)
     {
         log.info("Assert dialog title equals: {}", expectedDialogTitle);
-        assertEquals(webElementInteraction.getElementText(dialogTitle), expectedDialogTitle,
+        assertEquals(getElementText(dialogTitle), expectedDialogTitle,
             String.format("Dialog title not equals %s ", expectedDialogTitle));
 
         return (T) this;

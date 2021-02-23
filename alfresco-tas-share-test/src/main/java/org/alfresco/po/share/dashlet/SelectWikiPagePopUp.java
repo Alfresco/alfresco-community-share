@@ -26,7 +26,7 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
     public SelectWikiPagePopUp assertDialogBodyMessageEquals(String expectedDialogBodyMessage)
     {
         log.info("Assert dialog body message equals: {}", expectedDialogBodyMessage);
-        assertEquals(webElementInteraction.getElementText(selectWikiPageText), expectedDialogBodyMessage,
+        assertEquals(getElementText(selectWikiPageText), expectedDialogBodyMessage,
             String.format("Dialog body message not equals %s ", expectedDialogBodyMessage));
 
         return this;
@@ -36,7 +36,7 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
     {
         log.info("Assert dropdown option equals: {}", expectedDropdownOption);
         List<String> wikiNames = Collections.synchronizedList(new ArrayList<>());
-        Select wikiSelect = new Select(webElementInteraction.waitUntilElementIsVisible(selectAPageDropDown));
+        Select wikiSelect = new Select(waitUntilElementIsVisible(selectAPageDropDown));
         for(WebElement wiki : wikiSelect.getOptions())
         {
             wikiNames.add(wiki.getText());
@@ -50,7 +50,7 @@ public class SelectWikiPagePopUp extends DashletPopUp<SelectWikiPagePopUp>
     public SelectWikiPagePopUp clickDialogDropdown()
     {
         log.info("Click dialog dropdown");
-        webElementInteraction.clickElement(selectAPageDropDown);
+        clickElement(selectAPageDropDown);
         return this;
     }
 }

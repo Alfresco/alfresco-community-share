@@ -75,12 +75,12 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     private WebElement selectCategoriesFilter(String filterName)
     {
-        return webElementInteraction.findElement(By.xpath("//div[@class ='category']//div[@class ='ygtvchildren']//span[text() = '" + filterName + "']"));
+        return findElement(By.xpath("//div[@class ='category']//div[@class ='ygtvchildren']//span[text() = '" + filterName + "']"));
     }
 
     private WebElement selectTagByTagName(String tagName)
     {
-        return webElementInteraction.findElement(By.xpath("//span[@class ='tag']//a[text()='" + tagName + "']/.."));
+        return findElement(By.xpath("//span[@class ='tag']//a[text()='" + tagName + "']/.."));
     }
 
     @Override
@@ -201,14 +201,14 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
         try
         {
-            List<WebElement> tags = webElementInteraction.waitUntilElementsAreVisible(By.cssSelector(".filter .tag-link"));
+            List<WebElement> tags = waitUntilElementsAreVisible(By.cssSelector(".filter .tag-link"));
 
             for (WebElement tag : tags)
             {
                 if (tag.getText().equals(tagName))
                 {
                     tag.click();
-                    webElementInteraction.waitUntilElementContainsText(headerAfterFilter, tagName);
+                    waitUntilElementContainsText(headerAfterFilter, tagName);
                     break;
                 }
             }
@@ -217,7 +217,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
             while (counter < 3)
             {
                 counter++;
-                webElementInteraction.refresh();
+                refresh();
                 clickSidebarTag(tagName);
             }
         }
@@ -225,7 +225,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean areTagsPresent()
     {
-        return webElementInteraction.isElementDisplayed(By.cssSelector("span[class ='tag']"));
+        return isElementDisplayed(By.cssSelector("span[class ='tag']"));
     }
 
     public String getSidebarTag(String tagName)

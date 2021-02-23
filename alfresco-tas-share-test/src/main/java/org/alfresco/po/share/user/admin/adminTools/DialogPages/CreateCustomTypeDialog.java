@@ -22,7 +22,7 @@ public class CreateCustomTypeDialog extends BaseDialogComponent
 
     public ModelDetailsPage clickCreate()
     {
-        webElementInteraction.clickElement(createButton);
+        clickElement(createButton);
         ModelDetailsPage modelDetailsPage = new ModelDetailsPage(webDriver);
         modelDetailsPage.waitUntilLoadingMessageDisappears();
         return modelDetailsPage;
@@ -30,13 +30,13 @@ public class CreateCustomTypeDialog extends BaseDialogComponent
 
     public CreateCustomTypeDialog selectParentType(String parentType)
     {
-        webElementInteraction.waitUntilElementIsVisible(parentTypeArrow);
-        webElementInteraction.clickElement(parentTypeArrow);
-        for (WebElement type : webElementInteraction.findElements(parentTypeElements))
+        waitUntilElementIsVisible(parentTypeArrow);
+        clickElement(parentTypeArrow);
+        for (WebElement type : findElements(parentTypeElements))
         {
             if (type.getAttribute("aria-label").equals(parentType))
             {
-                webElementInteraction.clickElement(type);
+                clickElement(type);
             }
         }
         return this;
@@ -44,18 +44,18 @@ public class CreateCustomTypeDialog extends BaseDialogComponent
 
     public void clickCancelButton()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     public CreateCustomTypeDialog typeName(String name)
     {
-        webElementInteraction.clearAndType(nameField, name);
+        clearAndType(nameField, name);
         return this;
     }
 
     public CreateCustomTypeDialog typeDisplayLabel(String displayLabel)
     {
-        webElementInteraction.clearAndType(displayLabelField, displayLabel);
+        clearAndType(displayLabelField, displayLabel);
         return this;
     }
 }

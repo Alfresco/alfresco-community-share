@@ -33,14 +33,14 @@ public class SiteGroupsPage extends SiteMembersPage
     public SiteGroupsPage searchGroupByName(String groupName)
     {
         log.info("Search group by name {}", groupName);
-        webElementInteraction.clearAndType(searchGroupField, groupName);
+        clearAndType(searchGroupField, groupName);
         return this;
     }
 
     public SiteGroupsPage clickSearch()
     {
         log.info("Click search button");
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
         return this;
     }
 
@@ -49,27 +49,27 @@ public class SiteGroupsPage extends SiteMembersPage
         log.info("Assert remove group {} button is displayed", groupName);
         By removeButton = By.cssSelector(groupPath.concat(groupName).concat(removeButtonPath));
 
-        assertTrue(webElementInteraction.isElementDisplayed(removeButton),
+        assertTrue(isElementDisplayed(removeButton),
             String.format("Remove group button is not displayed %s ", groupName));
         return this;
     }
 
     public void removeGroup(String groupName)
     {
-        WebElement groupRemoveButton = webElementInteraction.findElement(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
-        webElementInteraction.clickElement(groupRemoveButton);
+        WebElement groupRemoveButton = findElement(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
+        clickElement(groupRemoveButton);
     }
 
     public SiteGroupsPage assertAddGroupsButtonIsNotDisplayed()
     {
         log.info("Assert Add Groups button is not displayed");
-        assertFalse(webElementInteraction.isElementDisplayed(addGroups),
+        assertFalse(isElementDisplayed(addGroups),
             "Add Groups button is displayed");
         return this;
     }
 
     public void clickSearchButton()
     {
-        webElementInteraction.clickElement(searchButtonGroup);
+        clickElement(searchButtonGroup);
     }
 }

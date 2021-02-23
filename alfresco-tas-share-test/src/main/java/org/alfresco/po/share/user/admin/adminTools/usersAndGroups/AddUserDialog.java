@@ -37,35 +37,35 @@ public class AddUserDialog extends BaseDialogComponent
 
     public AddUserDialog assertAddUserDialogTitleIsCorrect()
     {
-        assertEquals(webElementInteraction.findElement(dialogTitle).getText(), language.translate("adminTools.groups.addUserDialog.title"));
+        assertEquals(findElement(dialogTitle).getText(), language.translate("adminTools.groups.addUserDialog.title"));
         return this;
     }
 
     public AddUserDialog assertSearchButtonIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(searchButton), "Search button is displayed");
+        assertTrue(isElementDisplayed(searchButton), "Search button is displayed");
         return this;
     }
 
     public AddUserDialog assertSearchInputIsDisplayed()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(searchInputField), "Search input is displayed");
+        assertTrue(isElementDisplayed(searchInputField), "Search input is displayed");
         return this;
     }
 
     private void fillInSearchInput(String textToSearch)
     {
-        webElementInteraction.clearAndType(searchInputField, textToSearch);
+        clearAndType(searchInputField, textToSearch);
     }
 
     public void clickSearchButton()
     {
         try
         {
-            WebElement search = webElementInteraction.waitUntilElementIsVisible(searchButton);
-            webElementInteraction.clickElement(search);
-            webElementInteraction.waitUntilElementIsVisible(searchingStatus, WAIT_2.getValue());
-            webElementInteraction.waitUntilElementDisappears(searchingStatus, WAIT_2.getValue());
+            WebElement search = waitUntilElementIsVisible(searchButton);
+            clickElement(search);
+            waitUntilElementIsVisible(searchingStatus, WAIT_2.getValue());
+            waitUntilElementDisappears(searchingStatus, WAIT_2.getValue());
         }
         catch (TimeoutException e)
         {
@@ -100,7 +100,7 @@ public class AddUserDialog extends BaseDialogComponent
 
     public ArrayList<String> getSearchResultsName()
     {
-        return webElementInteraction.findElements(searchResultsList).stream()
+        return findElements(searchResultsList).stream()
             .map(WebElement::getText)
             .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -120,9 +120,9 @@ public class AddUserDialog extends BaseDialogComponent
     public void clickAddButtonForUser(String searchResult)
     {
         int index = getItemIndexFromSearchResults(searchResult);
-        WebElement button = webElementInteraction.findElements(addButtonsList).get(index);
-        webElementInteraction.mouseOver(button);
-        webElementInteraction.clickElement(button);
+        WebElement button = findElements(addButtonsList).get(index);
+        mouseOver(button);
+        clickElement(button);
     }
 
     public void addUser(UserModel userModel)
@@ -134,19 +134,19 @@ public class AddUserDialog extends BaseDialogComponent
 
     public boolean isUserDisplayed(String username)
     {
-        return webElementInteraction.isElementDisplayed(By.cssSelector(String.format(searchedUsername, username)));
+        return isElementDisplayed(By.cssSelector(String.format(searchedUsername, username)));
     }
 
     public AddUserDialog assertAddButtonIsDisplayedForUser(UserModel user)
     {
         int index = getItemIndexFromSearchResults(getUserFormat(user));
-        assertTrue(webElementInteraction.isElementDisplayed(webElementInteraction.findElements(addButtonsList).get(index)));
+        assertTrue(isElementDisplayed(findElements(addButtonsList).get(index)));
         return this;
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(closeButton);
+        return isElementDisplayed(closeButton);
     }
 
     private String getUserFormat(UserModel userModel)

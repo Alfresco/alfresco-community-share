@@ -24,25 +24,25 @@ public class DeleteDialog extends BaseDialogComponent
 
     public String getHeader()
     {
-        return webElementInteraction.getElementText(dialogHeader);
+        return getElementText(dialogHeader);
     }
 
     public DeleteDialog assertDeleteDialogHeaderEqualsTo(String expectedHeader)
     {
         log.info("Assert dialog header equals to {}", expectedHeader);
-        assertEquals(webElementInteraction.getElementText(dialogHeader), expectedHeader, String.format("Dialog header is not equals to %s", expectedHeader));
+        assertEquals(getElementText(dialogHeader), expectedHeader, String.format("Dialog header is not equals to %s", expectedHeader));
         return this;
     }
 
     public String getMessage()
     {
-        return webElementInteraction.findElement(message).getText();
+        return findElement(message).getText();
     }
 
     public DeleteDialog assertConfirmDeleteMessageForContentEqualsTo(String deletedObject)
     {
         log.info("Assert confirm delete message is correct for content {}", deletedObject);
-        assertEquals(webElementInteraction.getElementText(message), String.format(language.translate("confirmDeletion.message"), deletedObject),
+        assertEquals(getElementText(message), String.format(language.translate("confirmDeletion.message"), deletedObject),
                 "Delete confirm message is correct");
         return this;
     }
@@ -55,16 +55,16 @@ public class DeleteDialog extends BaseDialogComponent
     public DeleteDialog assertConfirmDeleteMessageEqualsTo(String expectedMessage)
     {
         log.info("Assert confirm delete message equals with expected {}", expectedMessage);
-        assertEquals(webElementInteraction.getElementText(message), expectedMessage, String.format("Delete confirm message not equals to %s", expectedMessage));
+        assertEquals(getElementText(message), expectedMessage, String.format("Delete confirm message not equals to %s", expectedMessage));
         return this;
     }
 
     public void clickDelete()
     {
         log.info("Click Delete");
-        webElementInteraction.clickElement(deleteButton);
+        clickElement(deleteButton);
         waitUntilNotificationMessageDisappears();
-        if(webElementInteraction.isElementDisplayed(notificationMessageLocator))
+        if(isElementDisplayed(notificationMessageLocator))
         {
             log.info("Wait for the second message");
             waitUntilNotificationMessageDisappears();
@@ -73,31 +73,31 @@ public class DeleteDialog extends BaseDialogComponent
 
     public void clickCancel()
     {
-        webElementInteraction.clickElement(cancelButton);
-        webElementInteraction.waitUntilElementDisappears(dialogBody);
+        clickElement(cancelButton);
+        waitUntilElementDisappears(dialogBody);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 
     public boolean isDeleteButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(deleteButton);
+        return isElementDisplayed(deleteButton);
     }
 
     public DeleteDialog assertDeleteButtonIsDisplayed()
     {
         log.info("Assert Delete button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(deleteButton), "Delete button is displayed.");
+        assertTrue(isElementDisplayed(deleteButton), "Delete button is displayed.");
         return this;
     }
 
     public DeleteDialog assertCancelButtonIsDisplayed()
     {
         log.info("Assert Cancel button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed.");
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is displayed.");
         return this;
     }
 }

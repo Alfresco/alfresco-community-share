@@ -132,7 +132,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public WebElement selectLinkDetailsRow(String linkTitle)
     {
-        return webElementInteraction.findFirstElementWithValue(linksList, linkTitle);
+        return findFirstElementWithValue(linksList, linkTitle);
     }
 
     public List<String> getLinkTags(String linkTitle)
@@ -208,7 +208,7 @@ public class LinkPage extends SiteCommon<LinkPage>
      */
     public void clickSpecificTag(String tagName)
     {
-        webElementInteraction.findElement(By.cssSelector("li a[rel='" + tagName + "']")).click();
+        findElement(By.cssSelector("li a[rel='" + tagName + "']")).click();
     }
 
     /**
@@ -223,15 +223,15 @@ public class LinkPage extends SiteCommon<LinkPage>
         {
             case "All Links":
                 allLinksFilter.click();
-                webElementInteraction.waitUntilElementContainsText(linksListTitle, "All Links");
+                waitUntilElementContainsText(linksListTitle, "All Links");
                 break;
             case "My Links":
                 myLinksFilter.click();
-                webElementInteraction.waitUntilElementContainsText(linksListTitle, "My Links");
+                waitUntilElementContainsText(linksListTitle, "My Links");
                 break;
             case "Recently Added":
                 recentLinksFilter.click();
-                webElementInteraction.waitUntilElementContainsText(linksListTitle, "Recently Added Links");
+                waitUntilElementContainsText(linksListTitle, "Recently Added Links");
                 break;
 
             default:break;
@@ -241,7 +241,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public boolean isLinkDisplayed(String linkTitle)
     {
-        return webElementInteraction.isElementDisplayed(selectLinkDetailsRow(linkTitle));
+        return isElementDisplayed(selectLinkDetailsRow(linkTitle));
     }
 
     public LinkDetailsViewPage clickOnLinkName(String linkTitle)
@@ -252,7 +252,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public String getNoLinksFoundMsg()
     {
-        webElementInteraction.waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
+        waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
         return dataTableMsgEmpty.getText();
     }
 
@@ -264,19 +264,19 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public void clickOnLinkURL(String linkURL)
     {
-        webElementInteraction.findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
+        findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
     }
 
     public EditLinkPage clickEditLink(String linkTitle)
     {
-        webElementInteraction.mouseOver(webElementInteraction.findFirstElementWithValue(linksList, linkTitle));
+        mouseOver(findFirstElementWithValue(linksList, linkTitle));
         selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".edit-link span")).click();
         return new EditLinkPage(webDriver);
     }
 
     public boolean clickDeleteLink(String linkTitle)
     {
-        webElementInteraction.mouseOver(webElementInteraction.findFirstElementWithValue(linksList, linkTitle));
+        mouseOver(findFirstElementWithValue(linksList, linkTitle));
         selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".delete-link span")).click();
         return deleteLinkPrompt.isDisplayed();
     }
@@ -284,7 +284,7 @@ public class LinkPage extends SiteCommon<LinkPage>
     public List<String> getTagsFromTagsSection()
     {
         List<String> tags = new ArrayList<>();
-        List<WebElement> tagsList = webElementInteraction.findElements(By.cssSelector("li [class=tag] a"));
+        List<WebElement> tagsList = findElements(By.cssSelector("li [class=tag] a"));
         for (WebElement tag : tagsList)
         {
             tags.add(tag.getText());

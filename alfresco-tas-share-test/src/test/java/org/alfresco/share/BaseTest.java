@@ -1,18 +1,12 @@
 package org.alfresco.share;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
-import org.alfresco.common.ScreenshotHelper;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.WebDriverFactory;
 import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.CommonLoginPage;
-import org.alfresco.po.share.LoginAimsPage;
-import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
@@ -23,30 +17,27 @@ import org.alfresco.utility.data.auth.DataAIS;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
-import org.apache.commons.httpclient.HttpState;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.ITestResult;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 
 /**
  * This class represents a test template which should be inherit by each test class.
  * e.g. ToolbarTests extends BaseTest
- * Only test class which will not use this template should be LoginTests.
  *
  * This class should only contain common members/methods which are used in each test class
  */
-@ContextConfiguration(classes = ShareTestContext.class)
 @Slf4j
+@Listeners(TestListener.class)
+@ContextConfiguration(classes = ShareTestContext.class)
 public abstract class BaseTest extends AbstractTestNGSpringContextTests
 {
-    //private ScreenshotHelper screenshotHelper;
-
     @Autowired
     private WebDriverFactory webDriverFactory;
 
@@ -68,7 +59,6 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     @Autowired
     protected Language language;
 
-    protected final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
     private final ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
     private final ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
     private final ThreadLocal<UserService> userService = new ThreadLocal<>();
@@ -76,95 +66,68 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     private final ThreadLocal<DataUserAIS> dataUserThread = new ThreadLocal<>();
     private final ThreadLocal<DataGroup> dataGroupThread = new ThreadLocal<>();
 
-    protected LoginPage loginPage;
+    protected final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
     protected UserDashboardPage userDashboardPage;
-    protected Toolbar toolbar;
 
     @BeforeMethod(alwaysRun = true)
-    public void beforeEachTest()
+    protected void beforeEachTest(ITestContext iTestContext)
     {
+        setApplicationsContext();
         webDriver.set(webDriverFactory.createWebDriver());
+//        setTestContext(iTestContext, webDriver.get());
 
+        userDashboardPage = new UserDashboardPage(webDriver);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    protected void afterEachTest()
+    {
+        quitWebDriver();
+    }
+
+    private void setApplicationsContext()
+    {
         cmisApi.set(applicationContext.getBean(CmisWrapper.class));
         restApi.set(applicationContext.getBean(RestWrapper.class));
         userService.set(applicationContext.getBean(UserService.class));
         dataSiteThread.set(applicationContext.getBean(DataSite.class));
         dataUserThread.set(applicationContext.getBean(DataUserAIS.class));
         dataGroupThread.set(applicationContext.getBean(DataGroup.class));
-        //screenshotHelper = new ScreenshotHelper(webDriver);
-
-        loginPage = new LoginPage(webDriver);
-        userDashboardPage = new UserDashboardPage(webDriver);
-        toolbar = new Toolbar(webDriver);
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void afterEachTest(Method method, ITestResult result)
-    {
-        log.info("FINISHED TEST: {}, {}, {}", method.getDeclaringClass().getSimpleName(), method.getName(),
-            result.isSuccess() ? "PASSED" : "FAILED");
-        if(!result.isSuccess())
-        {
-            log.warn("TEST FAILED {}", method);
-            //screenshotHelper.captureAndSaveScreenshot(webDriver, method);
-        }
-        closeWebDriver();
-    }
-
-    private void closeWebDriver()
+    private void quitWebDriver()
     {
         try
         {
             if (webDriver.get() != null)
             {
-                log.info("Close webdriver..");
+                log.info("Quit webdriver..");
                 webDriver.get().quit();
             }
         }
         catch (NoSuchSessionException noSuchSessionException)
         {
-            log.error("Webdriver is not closed: {}", noSuchSessionException.getMessage());
+            log.warn("Webdriver is not quit: {}", noSuchSessionException.getMessage());
         }
         finally
         {
-            log.info("Finally close webdriver..");
+            log.info("Finally quit webdriver..");
             webDriver.get().quit();
         }
     }
 
-    public synchronized void setupAuthenticatedSession(UserModel user)
+    protected synchronized void authenticateUsingCookies(UserModel userModel)
     {
-        log.info("Setup authenticated session for user {}", user.getUsername());
-        if(dataAIS.isEnabled()) // if identity-service is enabled do the login using the UI
-        {
-            if(userDashboardPage.isAlfrescoLogoDisplayed())
-            {
-                toolbar.clickUserMenu().clickLogout();
-            }
-            setupAuthenticatedSessionViaLoginPage(user);
-        }
-        else
-        {
-            authenticateViaCookies(user);
-        }
+        Authenticator authenticator = new Authenticator(dataAIS, userService, webDriver);
+        authenticator
+            .authenticateUsingCookies(userModel, userDashboardPage,
+                new Toolbar(webDriver), defaultProperties.getShareUrl().toString());
     }
 
-    public synchronized void setupAuthenticatedSessionViaLoginPage(UserModel userModel)
+    protected synchronized void authenticateUsingLoginPage(UserModel userModel)
     {
-        deleteAllCookiesIfNotNull();
-        getLoginPage().navigate().login(userModel);
-        userDashboardPage.waitForSharePageToLoad();
-    }
-
-    private void authenticateViaCookies(UserModel user)
-    {
-        webDriver.get().get(defaultProperties.getShareUrl().toString());
-        HttpState state = getUserService().login(user.getUsername(), user.getPassword());
-        deleteAllCookiesIfNotNull();
-        Arrays.stream(state.getCookies()).forEach(cookie -> {
-            cookie.setPath("/share");
-            webDriver.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue(), cookie.getPath()));
-        });
+        Authenticator authenticator = new Authenticator(webDriver, dataAIS);
+        authenticator.authenticateUsingLoginPage(userModel, userDashboardPage);
     }
 
     protected void deleteAllCookiesIfNotNull()
@@ -176,53 +139,44 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    private CommonLoginPage getLoginPage()
-    {
-        if (dataAIS.isEnabled())
-        {
-            return new LoginAimsPage(webDriver);
-        }
-        return loginPage;
-    }
-
-    public UserModel getAdminUser()
+    protected UserModel getAdminUser()
     {
         UserModel adminUser = dataUser.getAdminUser();
         adminUser.setFirstName(defaultProperties.getAdminName());
         return adminUser;
     }
 
-    public CmisWrapper getCmisApi()
+    protected CmisWrapper getCmisApi()
     {
         return cmisApi.get();
     }
 
-    public RestWrapper getRestApi()
+    protected RestWrapper getRestApi()
     {
         return restApi.get();
     }
 
-    public UserService getUserService()
+    protected UserService getUserService()
     {
         return userService.get();
     }
 
-    public DataSite getDataSite()
+    protected DataSite getDataSite()
     {
         return dataSiteThread.get();
     }
 
-    public DataUserAIS getDataUser()
+    protected DataUserAIS getDataUser()
     {
         return dataUserThread.get();
     }
 
-    public DataGroup getDataGroup()
+    protected DataGroup getDataGroup()
     {
         return dataGroupThread.get();
     }
 
-    public void deleteUsersIfNotNull(UserModel... users)
+    protected void deleteUsersIfNotNull(UserModel... users)
     {
         for (UserModel userModel : users)
         {
@@ -244,7 +198,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    public void deleteSitesIfNotNull(SiteModel... sites)
+    protected void deleteSitesIfNotNull(SiteModel... sites)
     {
         for (SiteModel siteModel : sites)
         {
@@ -254,4 +208,10 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
             }
         }
     }
+
+//    private ITestContext setTestContext(ITestContext iTestContext, WebDriver driver)
+//    {
+//        iTestContext.setAttribute("driver", driver);
+//        return iTestContext;
+//    }
 }

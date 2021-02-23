@@ -37,7 +37,7 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SAVED_SEARCH, 1, 2);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2787")

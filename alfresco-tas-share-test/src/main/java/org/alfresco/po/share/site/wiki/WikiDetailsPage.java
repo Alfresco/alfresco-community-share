@@ -102,7 +102,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
         try
         {
             selectVersionButton.click();
-            webElementInteraction.selectOptionFromFilterOptionsList(version, dropDownVersionsList);
+            selectOptionFromFilterOptionsList(version, dropDownVersionsList);
             Assert.assertTrue(selectVersionButton.getText().contains(version), "Incorrect filter selected");
 
             return new WikiDetailsPage(webDriver);
@@ -126,7 +126,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 
     public WebElement selectVersionDetails(String version)
     {
-        return webElementInteraction.findFirstElementWithValue(versionsList, version);
+        return findFirstElementWithValue(versionsList, version);
     }
 
     public void clickOnVersion(String version)

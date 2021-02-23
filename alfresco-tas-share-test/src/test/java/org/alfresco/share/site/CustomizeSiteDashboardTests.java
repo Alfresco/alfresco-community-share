@@ -35,7 +35,7 @@ public class CustomizeSiteDashboardTests extends BaseTest
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2198")

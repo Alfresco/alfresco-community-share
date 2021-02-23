@@ -31,35 +31,35 @@ public class CustomizeUserDashboardPage extends DashboardCustomization<Customize
     public CustomizeUserDashboardPage selectShowGetStartedPanelOnDashboard()
     {
         log.info("Select Show on dashboard");
-        webElementInteraction.clickElement(showOnDashboardRadio);
+        clickElement(showOnDashboardRadio);
         return this;
     }
 
     public CustomizeUserDashboardPage selectHideStartedPanelFromDashboard()
     {
         log.info("Select hide from Dashboard");
-        webElementInteraction.clickElement(hideFromDashboardRadio);
+        clickElement(hideFromDashboardRadio);
         return this;
     }
 
     public CustomizeUserDashboardPage assertShowOnDashboardIsNotSelected()
     {
         log.info("Assert Show on dashboard is NOT selected");
-        assertFalse(webElementInteraction.findElement(showOnDashboardRadio).isSelected(), "Show on dashboard is not selected");
+        assertFalse(findElement(showOnDashboardRadio).isSelected(), "Show on dashboard is not selected");
         return this;
     }
 
     public CustomizeUserDashboardPage assertHideFromDashboardIsSelected()
     {
         log.info("Assert Hide from dashboard is selected");
-        assertTrue(webElementInteraction.findElement(hideFromDashboardRadio).isSelected(), "Hide from dashboard is selected");
+        assertTrue(findElement(hideFromDashboardRadio).isSelected(), "Hide from dashboard is selected");
         return this;
     }
 
     public CustomizeUserDashboardPage assertShowOnDashboardIsSelected()
     {
         log.info("Assert Show on dashboard is selected");
-        assertTrue(webElementInteraction.findElement(showOnDashboardRadio).isSelected(), "Show on dashboard is not selected");
+        assertTrue(findElement(showOnDashboardRadio).isSelected(), "Show on dashboard is not selected");
         return this;
     }
 }

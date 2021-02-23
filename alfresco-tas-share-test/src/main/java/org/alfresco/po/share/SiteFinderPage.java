@@ -42,7 +42,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 
     public SiteFinderPage assertSiteFinderPageIsOpened()
     {
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Site Finder page is opened");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Site Finder page is opened");
         return this;
     }
 
@@ -55,21 +55,20 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 
     public boolean isSiteNameDisplayed(String siteName)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(siteNamePath, siteName)));
+        return isElementDisplayed(By.xpath(String.format(siteNamePath, siteName)));
     }
 
     private WebElement getSiteRow(String siteName)
     {
-        return webElementInteraction
-            .waitWithRetryAndReturnWebElement(By.xpath(String.format(siteNamePath, siteName)),
+        return waitWithRetryAndReturnWebElement(By.xpath(String.format(siteNamePath, siteName)),
                 WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public SiteFinderPage searchSiteWithName(String siteName)
     {
-        WebElement searchInput =  webElementInteraction.findElement(searchSiteInput);
-        webElementInteraction.clearAndType(searchInput, siteName);
-        webElementInteraction.clickElement(searchSiteButton);
+        WebElement searchInput =  findElement(searchSiteInput);
+        clearAndType(searchInput, siteName);
+        clickElement(searchSiteButton);
         searchSiteWithRetry(siteName);
 
         return this;
@@ -81,7 +80,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
         while (!isSiteNameDisplayed(siteName) && retryCounter < RETRY_TIME_80.getValue())
         {
             log.warn("Site {} not displayed - retry: {}", siteName, retryCounter);
-            webElementInteraction.clickElement(searchSiteButton);
+            clickElement(searchSiteButton);
             waitToLoopTime(WAIT_2.getValue());
             retryCounter++;
         }
@@ -99,18 +98,18 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 
     public WebElement selectSite(String siteName)
     {
-        return webElementInteraction.findFirstElementWithValue(siteRowList, siteName);
+        return findFirstElementWithValue(siteRowList, siteName);
     }
 
     public List<WebElement> getTheButtonsForSite(String siteName)
     {
         WebElement siteRow = selectSite(siteName);
-        return webElementInteraction.waitUntilElementsAreVisible(siteRow.findElements(By.cssSelector("button")));
+        return waitUntilElementsAreVisible(siteRow.findElements(By.cssSelector("button")));
     }
 
     public boolean isButtonDisplayedForSite(String siteName, String buttonName)
     {
-        webElementInteraction.waitUntilElementsAreVisible(getTheButtonsForSite(siteName));
+        waitUntilElementsAreVisible(getTheButtonsForSite(siteName));
         for (WebElement button : getTheButtonsForSite(siteName))
         {
             if (button.getText().equals(buttonName))
@@ -123,22 +122,22 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 
     public void clickSiteButton(String siteName, String buttonName)
     {
-        webElementInteraction.waitUntilElementsAreVisible(getTheButtonsForSite(siteName));
+        waitUntilElementsAreVisible(getTheButtonsForSite(siteName));
         for (WebElement button : getTheButtonsForSite(siteName))
             if (button.getText().equals(buttonName))
             {
-                webElementInteraction.clickElement(button);
+                clickElement(button);
                 if (!buttonName.equals("Delete"))
-                    webElementInteraction.waitUntilElementDoesNotContainText(button, buttonName);
+                    waitUntilElementDoesNotContainText(button, buttonName);
                 break;
             }
     }
 
     public void requestToJoinSite(String siteName)
     {
-        webElementInteraction.clickElement(getSiteRow(siteName).findElement(requestToJoinButton));
+        clickElement(getSiteRow(siteName).findElement(requestToJoinButton));
         waitUntilNotificationMessageDisappears();
-        if(webElementInteraction.isElementDisplayed(notificationMessageLocator))
+        if(isElementDisplayed(notificationMessageLocator))
         {
             log.info("Wait for the second message");
             waitUntilNotificationMessageDisappears();
@@ -153,41 +152,41 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 
     public boolean isSearchFieldDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchSiteInput);
+        return isElementDisplayed(searchSiteInput);
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchSiteButton);
+        return isElementDisplayed(searchSiteButton);
     }
 
     public String getSearchMessage()
     {
-        return webElementInteraction.findElement(searchMessage).getText();
+        return findElement(searchMessage).getText();
     }
 
     public boolean isSearchResultsListDisplayed()
     {
-        return !webElementInteraction.findElements(siteRowList).isEmpty();
+        return !findElements(siteRowList).isEmpty();
     }
 
     public boolean isSiteNameListDisplayed()
     {
-        return !webElementInteraction.findDisplayedElementsFromLocator(siteNameLink).isEmpty();
+        return !findDisplayedElementsFromLocator(siteNameLink).isEmpty();
     }
 
     public boolean isSiteDescriptionListDisplayed()
     {
-        return !webElementInteraction.findElements(siteDescriptionList).isEmpty();
+        return !findElements(siteDescriptionList).isEmpty();
     }
 
     public boolean isSiteVisibilityListDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(siteVisibility);
+        return isElementDisplayed(siteVisibility);
     }
 
     public String getVisibilityLabel()
     {
-        return webElementInteraction.waitUntilElementIsVisible(siteVisibility).getText();
+        return waitUntilElementIsVisible(siteVisibility).getText();
     }
 }

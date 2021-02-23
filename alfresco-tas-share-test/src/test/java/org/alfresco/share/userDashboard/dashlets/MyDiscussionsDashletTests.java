@@ -34,7 +34,7 @@ public class MyDiscussionsDashletTests extends AbstractUserDashboardDashletsTest
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_DISCUSSIONS, 1, 3);
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2774")

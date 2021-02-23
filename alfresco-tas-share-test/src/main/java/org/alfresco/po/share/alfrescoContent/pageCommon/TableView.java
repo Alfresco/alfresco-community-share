@@ -45,8 +45,7 @@ public class TableView extends SiteCommon<TableView>
 
     private WebElement findItemInTableInTableView(String contentName)
     {
-        return webElementInteraction
-            .findElement(By.xpath("//table[contains(@id,'yuievtautoid')]//tbody[@class ='yui-dt-data']//td[contains(@class, 'yui-dt-col-name')]//a[text()='"
+        return findElement(By.xpath("//table[contains(@id,'yuievtautoid')]//tbody[@class ='yui-dt-data']//td[contains(@class, 'yui-dt-col-name')]//a[text()='"
                 + contentName + "']"));
     }
 
@@ -59,7 +58,7 @@ public class TableView extends SiteCommon<TableView>
 
     public boolean isTableViewDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(tableInTableView);
+        return isElementDisplayed(tableInTableView);
     }
 
     public String getContentNameTableView(String contentName)
@@ -69,56 +68,56 @@ public class TableView extends SiteCommon<TableView>
 
     public boolean isSelectedColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(selectedColumnTitle);
+        return isElementDisplayed(selectedColumnTitle);
     }
 
     public boolean isStatusColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(statusColumnTitle);
+        return isElementDisplayed(statusColumnTitle);
     }
 
     public boolean isThumbnailColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(thumbnailColumnTitle);
+        return isElementDisplayed(thumbnailColumnTitle);
     }
 
     public boolean isNameColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(nameColumnTitle);
+        return isElementDisplayed(nameColumnTitle);
     }
 
     public boolean isTitleColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(titleColumnTitle);
+        return isElementDisplayed(titleColumnTitle);
     }
 
     public boolean isDescriptionColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(descriptionColumnTitle);
+        return isElementDisplayed(descriptionColumnTitle);
     }
 
     public boolean isCreatorColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(creatorColumnTitle);
+        return isElementDisplayed(creatorColumnTitle);
     }
 
     public boolean isCreatedColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(createdColumnTitle);
+        return isElementDisplayed(createdColumnTitle);
     }
 
     public boolean isModifierColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(modifierColumnTitle);
+        return isElementDisplayed(modifierColumnTitle);
     }
 
     public boolean isModifiedColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(modifiedColumnTitle);
+        return isElementDisplayed(modifiedColumnTitle);
     }
 
     public boolean isActionsColumnDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(actionsColumnTitle);
+        return isElementDisplayed(actionsColumnTitle);
     }
 }

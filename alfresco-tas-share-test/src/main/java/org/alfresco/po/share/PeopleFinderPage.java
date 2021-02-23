@@ -39,23 +39,23 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public PeopleFinderPage assertPeopleFinderPageIsOpened()
     {
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "People finder page is opened");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "People finder page is opened");
         return this;
     }
 
     public void typeSearchInput(String searchInput)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(searchInputField), searchInput);
+        clearAndType(findElement(searchInputField), searchInput);
     }
 
     public void clickSearch()
     {
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
     }
 
     public void clickSearchAndWaitForResults()
     {
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
     }
 
     public void search(String searchInput)
@@ -66,47 +66,47 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public String getNoResultsText()
     {
-        return webElementInteraction.getElementText(noResults);
+        return getElementText(noResults);
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchButton);
+        return isElementDisplayed(searchButton);
     }
 
     public boolean isSearchInputFieldDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchInputField);
+        return isElementDisplayed(searchInputField);
     }
 
     public String getSearchInputFieldValue()
     {
-        return webElementInteraction.findElement(searchInputField).getAttribute("value").trim();
+        return findElement(searchInputField).getAttribute("value").trim();
     }
 
     public String getSearchInputFieldPlaceholder()
     {
-        return webElementInteraction.findElement(searchInputField).getAttribute("placeholder").trim();
+        return findElement(searchInputField).getAttribute("placeholder").trim();
     }
 
     public boolean isHelpMessageDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchHelpMessage);
+        return isElementDisplayed(searchHelpMessage);
     }
 
     public String getSearchHelpMessage()
     {
-        return webElementInteraction.getElementText(searchHelpMessage);
+        return getElementText(searchHelpMessage);
     }
 
     public String getSearchResultsInfo()
     {
-        return webElementInteraction.getElementText(searchResultsInfo);
+        return getElementText(searchResultsInfo);
     }
 
     public WebElement selectUser(String username)
     {
-        return webElementInteraction.findFirstElementWithValue(searchResultsList, username);
+        return findFirstElementWithValue(searchResultsList, username);
     }
 
     public boolean isUserDisplayed(String username)
@@ -116,7 +116,7 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public boolean isUserAvatarDisplayed(String username)
     {
-        return webElementInteraction.isElementDisplayed(selectUser(username).findElement(avatar));
+        return isElementDisplayed(selectUser(username).findElement(avatar));
     }
 
     public UserProfilePage clickUserLink(String username)
@@ -127,11 +127,11 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public boolean isFollowButtonDisplayed(String username)
     {
-        return webElementInteraction.isElementDisplayed(selectUser(username).findElement(By.cssSelector("button")));
+        return isElementDisplayed(selectUser(username).findElement(By.cssSelector("button")));
     }
 
     public int getNumberOfSearchResults()
     {
-        return webElementInteraction.findElements(searchResultsList).size();
+        return findElements(searchResultsList).size();
     }
 }

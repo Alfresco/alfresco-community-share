@@ -21,60 +21,60 @@ public class ConfigureWebViewDashletPopUp extends DashletPopUp<ConfigureWebViewD
 
     public ConfigureWebViewDashletPopUp setLinkTitleField(String linkTitle)
     {
-        webElementInteraction.clearAndType(linkTitleField, linkTitle);
+        clearAndType(linkTitleField, linkTitle);
         return this;
     }
 
     public ConfigureWebViewDashletPopUp setUrlField(String url)
     {
-        webElementInteraction.clearAndType(urlField, url);
+        clearAndType(urlField, url);
         return this;
     }
 
     public ConfigureWebViewDashletPopUp assertLinkTitleFieldIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(linkTitleField);
-        assertTrue(webElementInteraction.isElementDisplayed(linkTitleField), "Link field is displayed");
+        waitUntilElementIsVisible(linkTitleField);
+        assertTrue(isElementDisplayed(linkTitleField), "Link field is displayed");
         return this;
     }
 
     public ConfigureWebViewDashletPopUp assertUrlFieldIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(urlField);
-        assertTrue(webElementInteraction.isElementDisplayed(urlField), "URL field is displayed");
+        waitUntilElementIsVisible(urlField);
+        assertTrue(isElementDisplayed(urlField), "URL field is displayed");
         return this;
     }
 
     public ConfigureWebViewDashletPopUp assertUrlFieldIsMandatory()
     {
-        WebElement url = webElementInteraction.waitUntilElementIsVisible(urlField);
-        webElementInteraction.focusOnWebElement(url);
-        webElementInteraction.waitUntilElementIsVisible(urlErrorMessage);
-        assertTrue(webElementInteraction.isElementDisplayed(urlErrorMessage), "Url field is mandatory");
+        WebElement url = waitUntilElementIsVisible(urlField);
+        focusOnWebElement(url);
+        waitUntilElementIsVisible(urlErrorMessage);
+        assertTrue(isElementDisplayed(urlErrorMessage), "Url field is mandatory");
         return this;
     }
 
     public ConfigureWebViewDashletPopUp assertUrlFieldEmptyValidationMessageIsCorrect()
     {
         assertEquals(language.translate("webViewDashlet.configure.emptyUrlValidation"),
-            webElementInteraction.waitUntilElementIsVisible(urlField).getAttribute("title"));
+            waitUntilElementIsVisible(urlField).getAttribute("title"));
         return this;
     }
 
     public ConfigureWebViewDashletPopUp assertInvalidUrlFieldValidationMessageIsCorrect()
     {
         assertEquals(language.translate("webViewDashlet.configure.invalidUrlValidation"),
-            webElementInteraction.waitUntilElementIsVisible(urlField).getAttribute("title"));
+            waitUntilElementIsVisible(urlField).getAttribute("title"));
         return this;
     }
 
     public boolean isConfigureWebViewDashletPopUpDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(configureWebViewDashletPopUp);
+        return isElementDisplayed(configureWebViewDashletPopUp);
     }
 
     public boolean isUrlErrorMessageDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(urlErrorMessage);
+        return isElementDisplayed(urlErrorMessage);
     }
 }

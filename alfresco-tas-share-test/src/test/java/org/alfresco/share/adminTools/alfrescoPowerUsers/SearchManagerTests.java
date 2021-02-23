@@ -4,6 +4,7 @@ import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 import static org.alfresco.share.TestUtils.ALFRESCO_SEARCH_ADMINISTRATORS;
 
 import org.alfresco.po.share.searching.SearchManagerPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -14,13 +15,15 @@ import org.testng.annotations.*;
 public class SearchManagerTests extends BaseTest
 {
     private SearchManagerPage searchManagerPage;
-
-    private ThreadLocal<UserModel> userAdmin = new ThreadLocal<>();
+    private Toolbar toolbar;
+    private final ThreadLocal<UserModel> userAdmin = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod()
     {
         searchManagerPage = new SearchManagerPage(webDriver);
+        toolbar = new Toolbar(webDriver);
+
         userAdmin.set(getDataUser().usingAdmin().createRandomTestUser());
     }
 
@@ -28,11 +31,11 @@ public class SearchManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void userHasSearchManagerRightsWhenAddedToAdminGroup()
     {
-        setupAuthenticatedSessionViaLoginPage(userAdmin.get());
+        authenticateUsingLoginPage(userAdmin.get());
         userDashboardPage.navigate(userAdmin.get());
         toolbar.search("test").assertSearchManagerButtonIsNotDisplayed();
         getDataGroup().usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_ADMIN_GROUP);
-        setupAuthenticatedSession(userAdmin.get());
+        authenticateUsingCookies(userAdmin.get());
         userDashboardPage.navigate(userAdmin.get());
         toolbar.search("test").assertSearchManagerButtonIsDisplayed()
             .clickSearchManagerLink()
@@ -47,7 +50,7 @@ public class SearchManagerTests extends BaseTest
         String filterId = RandomData.getRandomAlphanumeric();
         getDataGroup().usingUser(userAdmin.get()).addUserToGroup(ALFRESCO_SEARCH_ADMINISTRATORS);
 
-        setupAuthenticatedSessionViaLoginPage(userAdmin.get());
+        authenticateUsingLoginPage(userAdmin.get());
         searchManagerPage.navigate()
             .assertSearchManagerPageIsOpened()
             .createNewFilter()

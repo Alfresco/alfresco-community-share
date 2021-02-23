@@ -27,7 +27,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 
     public void addContent(String field, String content)
     {
-        WebElement fieldElement = webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(fieldLocator, field)));
+        WebElement fieldElement = waitUntilElementIsVisible(By.cssSelector(String.format(fieldLocator, field)));
         fieldElement.clear();
         fieldElement.sendKeys(content);
     }
@@ -36,7 +36,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (folderName != null)
         {
-            webElementInteraction.clickElement(By.cssSelector(selectAttachmentButtonLocator));
+            clickElement(By.cssSelector(selectAttachmentButtonLocator));
             SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
             selectDocumentPopupPage.clickItem(folderName);
             selectDocumentPopupPage.clickAddIcon(fileName);
@@ -46,7 +46,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 
     public void addAttachmentFromDocumentLibrary(String fileName)
     {
-        webElementInteraction.clickElement(By.cssSelector(selectAttachmentButtonLocator));
+        clickElement(By.cssSelector(selectAttachmentButtonLocator));
         SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
         selectDocumentPopupPage.clickAddIcon(fileName);
         selectDocumentPopupPage.clickOkButton();
@@ -56,7 +56,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (userName != null)
         {
-            webElementInteraction.clickElement(By.cssSelector(selectAssignedToButtonLocator));
+            clickElement(By.cssSelector(selectAssignedToButtonLocator));
             SelectPopUpPage selectPopUpPage = new SelectPopUpPage(webDriver);
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
@@ -68,7 +68,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (userName != null)
         {
-            webElementInteraction.clickElement(By.cssSelector(selectAssignedToButtonLocator));
+            clickElement(By.cssSelector(selectAssignedToButtonLocator));
             SelectPopUpPage selectPopUpPage = new SelectPopUpPage(webDriver);
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
@@ -80,7 +80,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (userName != null)
         {
-            webElementInteraction.clickElement(By.cssSelector(selectAssignedToButtonLocator));
+            clickElement(By.cssSelector(selectAssignedToButtonLocator));
             SelectPopUpPage selectPopUpPage = new SelectPopUpPage(webDriver);
             selectPopUpPage.search(userName);
             selectPopUpPage.clickAddIcon(userName);
@@ -92,25 +92,25 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         if (item != null)
         {
-            webElementInteraction.waitUntilElementsAreVisible(By.cssSelector("option"));
-            Select dropdown = new Select(webElementInteraction.findElement(By.cssSelector(String.format(dropDownLocator, dropDownList))));
+            waitUntilElementsAreVisible(By.cssSelector("option"));
+            Select dropdown = new Select(findElement(By.cssSelector(String.format(dropDownLocator, dropDownList))));
             dropdown.selectByValue(item);
         }
     }
 
     public void clickCancel()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
     }
 
     public void clickSave()
     {
-        webElementInteraction.clickElement(saveButton);
+        clickElement(saveButton);
     }
 
     public void clickCloseButton()
     {
-        webElementInteraction.clickElement(closeButton);
+        clickElement(closeButton);
     }
 
     public void fillCreateNewContactItem(List<String> fieldsValue)
@@ -274,9 +274,9 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 
         for (Enum<E> enumValue : enumData.getEnumConstants())
         {
-            WebElement formField = webElementInteraction.findElement(By.cssSelector(String.format(webElement, enumValue)));
+            WebElement formField = findElement(By.cssSelector(String.format(webElement, enumValue)));
 
-            areAllFieldsDisplayed = areAllFieldsDisplayed && webElementInteraction.isElementDisplayed(formField);
+            areAllFieldsDisplayed = areAllFieldsDisplayed && isElementDisplayed(formField);
         }
         return areAllFieldsDisplayed;
     }
@@ -319,7 +319,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 
         for (Enum<E> enumValue : enumData.getEnumConstants())
         {
-            String fieldText = webElementInteraction.findElement(By.cssSelector(String.format(webElement, enumValue))).getAttribute("value");
+            String fieldText = findElement(By.cssSelector(String.format(webElement, enumValue))).getAttribute("value");
 
             areFieldsFilled = areFieldsFilled && fieldText.equals(searchedText);
 
@@ -362,7 +362,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
      */
     public boolean isSelectAttachmentButtonLocatorDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(selectAttachmentButton);
+        return isElementDisplayed(selectAttachmentButton);
     }
 
     /**
@@ -372,7 +372,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
      */
     public boolean isSaveButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(saveButton);
+        return isElementDisplayed(saveButton);
     }
 
     /**
@@ -382,7 +382,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
      */
     public boolean isCancelButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 
 

@@ -29,19 +29,23 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Slf4j
-public class WebElementInteraction
+public abstract class WebElementInteraction
 {
+    protected static final ThreadLocal<DefaultProperties> defaultProperties = new ThreadLocal<>();
+    protected final ThreadLocal<WebDriver> webDriver;
     private String mainWindow;
-    protected DefaultProperties defaultProperties;
-    protected ThreadLocal<WebDriver> webDriver;
 
     private final String STYLE = "style";
     private final String DISPLAY_NONE = "display: none;";
 
-    public WebElementInteraction(ThreadLocal<WebDriver> webDriver, DefaultProperties defaultProperties)
+    protected WebElementInteraction(ThreadLocal<WebDriver> webDriver)
     {
         this.webDriver = webDriver;
-        this.defaultProperties = defaultProperties;
+    }
+    
+    protected final DefaultProperties getDefaultProperties()
+    {
+        return defaultProperties.get();
     }
 
     private WebDriver getWebDriver()
@@ -49,14 +53,14 @@ public class WebElementInteraction
         return webDriver.get();
     }
 
-    public void mouseOver(By locator)
+    protected void mouseOver(By locator)
     {
         mouseOver(waitUntilElementIsVisible(locator));
     }
 
-    public void mouseOver(WebElement element)
+    protected void mouseOver(WebElement element)
     {
-        setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis());
+        setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis());
         try
         {
             new Actions(getWebDriver()).moveToElement(element).perform();
@@ -70,9 +74,9 @@ public class WebElementInteraction
         }
     }
 
-    public void mouseOver(WebElement element, long pollingTimeInMillis)
+    protected void mouseOver(WebElement element, long pollingTimeInMillis)
     {
-        setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis);
+        setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis);
         try
         {
             new Actions(getWebDriver()).moveToElement(element).perform();
@@ -86,9 +90,9 @@ public class WebElementInteraction
         }
     }
 
-    public void mouseOver(WebElement element, int xOffset, int yOffset)
+    protected void mouseOver(WebElement element, int xOffset, int yOffset)
     {
-        setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis());
+        setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis());
         try
         {
             new Actions(getWebDriver()).moveToElement(element, xOffset, yOffset).perform();
@@ -111,10 +115,10 @@ public class WebElementInteraction
         ((JavascriptExecutor) getWebDriver()).executeScript(javaScript, webElement);
     }
 
-    public void mouseOverViaJavascript(WebElement webElement)
+    protected void mouseOverViaJavascript(WebElement webElement)
     {
-        setWaitingTime(defaultProperties.getExplicitWait(),
-                defaultProperties.getPollingTimeInMillis());
+        setWaitingTime(getDefaultProperties().getExplicitWait(),
+                getDefaultProperties().getPollingTimeInMillis());
         try
         {
             executeMouseOverViaJavaScript(webElement);
@@ -132,9 +136,9 @@ public class WebElementInteraction
         }
     }
 
-    public void mouseOverViaJavascript(WebElement webElement, long pollingTimeInMillis)
+    protected void mouseOverViaJavascript(WebElement webElement, long pollingTimeInMillis)
     {
-        setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis);
+        setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis);
         try
         {
             executeMouseOverViaJavaScript(webElement);
@@ -150,22 +154,22 @@ public class WebElementInteraction
             {
                 throw new TimeoutException(String.format(
                     "Unable to perform mouse over use javascript on element %s  in the given seconds %d ",
-                        webElement, defaultProperties.getExplicitWait()));
+                        webElement, getDefaultProperties().getExplicitWait()));
             }
         }
     }
 
-    public void refresh()
+    protected void refresh()
     {
         getWebDriver().navigate().refresh();
         waitUntilDomReadyStateIsComplete();
     }
 
-    public WebElement findElement(WebElement webElement)
+    protected WebElement findElement(WebElement webElement)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until((WebDriver driver) -> {
                         isElementDisplayed(webElement);
                         webElement.isEnabled();
@@ -177,8 +181,8 @@ public class WebElementInteraction
             log.warn("Unable to find element {}, {} ", webElement, e.getCause());
             try
             {
-                return setWaitingTime(defaultProperties.getExplicitWait(),
-                        defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(),
+                        getDefaultProperties().getPollingTimeInMillis())
                         .until((WebDriver driver) -> {
                             isElementDisplayed(webElement);
                             webElement.isEnabled();
@@ -189,16 +193,16 @@ public class WebElementInteraction
             {
                 throw new NoSuchElementException(
                     String.format("Unable to find element %s in the given seconds %d ", webElement,
-                        defaultProperties.getExplicitWait()), timeoutException.getCause());
+                        getDefaultProperties().getExplicitWait()), timeoutException.getCause());
             }
         }
     }
 
-    public WebElement findElement(By locator)
+    protected WebElement findElement(By locator)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until((WebDriver driver) -> {
                         driver.findElement(locator).isDisplayed();
                         driver.findElement(locator).isEnabled();
@@ -210,8 +214,8 @@ public class WebElementInteraction
             log.warn("Unable to find element located by {}", locator);
             try
             {
-                return setWaitingTime(defaultProperties.getExplicitWait(),
-                        defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(),
+                        getDefaultProperties().getPollingTimeInMillis())
                         .until((WebDriver driver) -> {
                             driver.findElement(locator).isDisplayed();
                             driver.findElement(locator).isEnabled();
@@ -222,16 +226,16 @@ public class WebElementInteraction
             {
                 throw new NoSuchElementException(
                     String.format("Unable to find element %s in the given seconds %d ", locator,
-                        defaultProperties.getExplicitWait()), timeoutException.getCause());
+                        getDefaultProperties().getExplicitWait()), timeoutException.getCause());
             }
         }
     }
 
-    public void waitUntilElementHasAttribute(WebElement element, String attribute, String value)
+    protected void waitUntilElementHasAttribute(WebElement element, String attribute, String value)
     {
         try
         {
-            setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.attributeContains(element, attribute, value));
         }
         catch (NoSuchElementException exception)
@@ -239,23 +243,23 @@ public class WebElementInteraction
             try
             {
                 log.warn("Element located by {} does not have attribute {} containing value {}", element, attribute, value);
-                setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.attributeContains(element, attribute, value));
             }
             catch (TimeoutException timeoutException)
             {
                 throw new TimeoutException(String.format(
                     "Element located by %s does not contain attribute %s with value %s in given seconds %d ",
-                        element, attribute, value, defaultProperties.getExplicitWait()), timeoutException.getCause());
+                        element, attribute, value, getDefaultProperties().getExplicitWait()), timeoutException.getCause());
             }
         }
     }
 
-    public void waitUntilElementHasAttribute(By locator, String attribute, String value)
+    protected void waitUntilElementHasAttribute(By locator, String attribute, String value)
     {
         try
         {
-            setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.attributeContains(locator, attribute, value));
         }
         catch (NoSuchElementException exception)
@@ -263,36 +267,36 @@ public class WebElementInteraction
             try
             {
                 log.warn("Element located by {} does not have attribute {} containing value {}", locator, attribute, value);
-                setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.attributeContains(locator, attribute, value));
             }
             catch (TimeoutException | NoSuchElementException noSuchElement)
             {
                 throw new TimeoutException(String.format(
                     "Element located by %s does not contain attribute %s with value %s in given seconds %d ",
-                        locator, attribute, value, defaultProperties.getExplicitWait()), noSuchElement.getCause());
+                        locator, attribute, value, getDefaultProperties().getExplicitWait()), noSuchElement.getCause());
             }
         }
     }
 
-    public WebElement waitUntilElementClickable(WebElement element)
+    protected WebElement waitUntilElementClickable(WebElement element)
     {
-        return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+        return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
             .until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public WebElement waitUntilElementClickable(By element)
+    protected WebElement waitUntilElementClickable(By element)
     {
-        return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+        return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public WebElement waitUntilElementIsVisible(By locator)
+    protected WebElement waitUntilElementIsVisible(By locator)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(),
-                    defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(),
+                    getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.visibilityOfElementLocated(locator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -301,24 +305,24 @@ public class WebElementInteraction
             {
                 log.warn("Element {} is not visible", locator);
                 refresh();
-                return setWaitingTime(defaultProperties.getExplicitWait(),
-                        defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(),
+                        getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
             catch (TimeoutException | NoSuchElementException noSuchElement)
             {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds  %d ", locator,
-                        defaultProperties.getExplicitWait()), noSuchElement.getCause());
+                        getDefaultProperties().getExplicitWait()), noSuchElement.getCause());
             }
         }
     }
 
-    public WebElement waitUntilElementIsVisible(By locator, long pollingTimeInMillis)
+    protected WebElement waitUntilElementIsVisible(By locator, long pollingTimeInMillis)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis)
                     .until(ExpectedConditions.visibilityOfElementLocated(locator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -327,23 +331,23 @@ public class WebElementInteraction
             {
                 log.warn("Element {} is not visible", locator);
                 refresh();
-                return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
+                return setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
             catch (TimeoutException | NoSuchElementException noSuchElement)
             {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds %d ", locator,
-                        defaultProperties.getExplicitWait()), noSuchElement.getCause());
+                        getDefaultProperties().getExplicitWait()), noSuchElement.getCause());
             }
         }
     }
 
-    public WebElement waitUntilElementIsVisible(By locator, int timeoutInSeconds)
+    protected WebElement waitUntilElementIsVisible(By locator, int timeoutInSeconds)
     {
         try
         {
-            return setWaitingTime(timeoutInSeconds, defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(timeoutInSeconds, getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.visibilityOfElementLocated(locator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -352,23 +356,23 @@ public class WebElementInteraction
             {
                 log.warn("Element {} is not visible", locator);
                 refresh();
-                return setWaitingTime(timeoutInSeconds, defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(timeoutInSeconds, getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
             catch (TimeoutException | NoSuchElementException noSuchElement)
             {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds %d ", locator,
-                            defaultProperties.getExplicitWait()), noSuchElement.getCause());
+                            getDefaultProperties().getExplicitWait()), noSuchElement.getCause());
             }
         }
     }
 
-    public WebElement waitUntilElementIsVisible(WebElement element)
+    protected WebElement waitUntilElementIsVisible(WebElement element)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.visibilityOf(element));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -377,23 +381,23 @@ public class WebElementInteraction
             {
                 log.warn("Element {} is not visible", element);
                 refresh();
-                return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOf(element));
             }
             catch (ElementNotVisibleException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds  %d ", element,
-                        defaultProperties.getExplicitWait()), elementNotVisibleException.getCause());
+                        getDefaultProperties().getExplicitWait()), elementNotVisibleException.getCause());
             }
         }
     }
 
-    public WebElement waitUntilElementIsVisible(WebElement element, long pollingTimeInMillis)
+    protected WebElement waitUntilElementIsVisible(WebElement element, long pollingTimeInMillis)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis)
                     .until(ExpectedConditions.visibilityOf(element));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -402,23 +406,23 @@ public class WebElementInteraction
             {
                 log.warn("Element {} is not visible", element);
                 refresh();
-                return setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
+                return setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOf(element));
             }
             catch (ElementNotVisibleException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds %d ", element,
-                        defaultProperties.getExplicitWait()), elementNotVisibleException.getCause());
+                        getDefaultProperties().getExplicitWait()), elementNotVisibleException.getCause());
             }
         }
     }
 
-    public WebElement waitUntilElementIsPresent(By locator)
+    protected WebElement waitUntilElementIsPresent(By locator)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.presenceOfElementLocated(locator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -426,22 +430,22 @@ public class WebElementInteraction
             try
             {
                 log.warn("Element {} is not present", locator);
-                return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
             catch (ElementNotVisibleException elementNotVisibleException) {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds  %d ", locator,
-                        defaultProperties.getExplicitWait()), exception.getCause());
+                        getDefaultProperties().getExplicitWait()), exception.getCause());
             }
         }
     }
 
-    public WebElement waitUntilChildElementIsPresent(By parentLocator, By childLocator)
+    protected WebElement waitUntilChildElementIsPresent(By parentLocator, By childLocator)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -449,22 +453,22 @@ public class WebElementInteraction
             try
             {
                 log.warn("Unable to find parent locator {} with child {}", parentLocator, childLocator);
-                return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
             }
             catch (ElementNotVisibleException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Element parent %s with child %s was not present in the given seconds  %d ",
-                        parentLocator, childLocator, defaultProperties.getExplicitWait()), exception.getCause());
+                        parentLocator, childLocator, getDefaultProperties().getExplicitWait()), exception.getCause());
             }
         }
     }
 
-    public WebElement waitUntilChildElementIsPresent(WebElement parentLocator, By childLocator) {
+    protected WebElement waitUntilChildElementIsPresent(WebElement parentLocator, By childLocator) {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -472,23 +476,23 @@ public class WebElementInteraction
             try
             {
                 log.warn("Unable to find parent locator {} with child {}", parentLocator, childLocator);
-                return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
             }
             catch (NoSuchElementException noSuchElementException)
             {
                 throw new TimeoutException(String.format(
                     "Unable to find element with parent %s and with child %s was not present in the given seconds  %d ",
-                        parentLocator, childLocator, defaultProperties.getExplicitWait()), noSuchElementException.getCause());
+                        parentLocator, childLocator, getDefaultProperties().getExplicitWait()), noSuchElementException.getCause());
             }
         }
     }
 
-    public List<WebElement> waitUntilElementsAreVisible(By locator)
+    protected List<WebElement> waitUntilElementsAreVisible(By locator)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -497,28 +501,28 @@ public class WebElementInteraction
             {
                 log.warn("Elements located by {} are not visible", locator);
                 refresh();
-                return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
             }
             catch (NoSuchElementException noSuchElementException)
             {
                 throw new TimeoutException(
                     String.format("Elements %s not visible in the given seconds %d ", locator,
-                            defaultProperties.getExplicitWait()), noSuchElementException.getCause());
+                            getDefaultProperties().getExplicitWait()), noSuchElementException.getCause());
             }
         }
     }
 
-    public void clickElement(WebElement element)
+    protected void clickElement(WebElement element)
     {
-        clickElement(element, defaultProperties.getPollingTimeInMillis());
+        clickElement(element, getDefaultProperties().getPollingTimeInMillis());
     }
 
-    public void clickElement(WebElement element, long pollingTimeInMillis)
+    protected void clickElement(WebElement element, long pollingTimeInMillis)
     {
         try
         {
-            setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
+            setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis)
                 .until(ExpectedConditions.elementToBeClickable(element)).click();
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -532,22 +536,22 @@ public class WebElementInteraction
             {
                 throw new TimeoutException(String
                         .format("Element %s was not clickable in the given seconds  %d ", element,
-                                defaultProperties.getExplicitWait()), elementNotInteractableException.getCause());
+                                getDefaultProperties().getExplicitWait()), elementNotInteractableException.getCause());
             }
         }
     }
 
-    public void clickElement(By locator)
+    protected void clickElement(By locator)
     {
-        clickElement(locator, defaultProperties.getPollingTimeInMillis());
+        clickElement(locator, getDefaultProperties().getPollingTimeInMillis());
     }
 
-    public void clickElement(By locator, long pollingTimeInMillis)
+    protected void clickElement(By locator, long pollingTimeInMillis)
     {
         try
         {
             log.info("Wait until element located by {} is clickable", locator);
-            setWaitingTime(defaultProperties.getExplicitWait(), pollingTimeInMillis)
+            setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis)
                 .until(ExpectedConditions.elementToBeClickable(locator)).click();
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -561,17 +565,17 @@ public class WebElementInteraction
             {
                 throw new TimeoutException(String
                     .format("Element %s was not clickable in the given seconds  %d ", locator,
-                        defaultProperties.getExplicitWait()), elementNotInteractableException.getCause());
+                        getDefaultProperties().getExplicitWait()), elementNotInteractableException.getCause());
             }
         }
     }
 
-    public List<WebElement> waitUntilElementsAreVisible(List<WebElement> elements)
+    protected List<WebElement> waitUntilElementsAreVisible(List<WebElement> elements)
     {
         try
         {
             log.info("Wait until elements {} are visible", elements);
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.visibilityOfAllElements(elements));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
@@ -583,24 +587,24 @@ public class WebElementInteraction
                     "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';",
                     elements);
 
-                return setWaitingTime(defaultProperties.getExplicitWait(),
-                        defaultProperties.getPollingTimeInMillis())
+                return setWaitingTime(getDefaultProperties().getExplicitWait(),
+                        getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfAllElements(elements));
             }
             catch (NoSuchElementException noSuchElementException)
             {
                 throw new TimeoutException(String
                     .format("Elements not visible %s in the given seconds %d ", elements,
-                        defaultProperties.getExplicitWait()), exception.getCause());
+                        getDefaultProperties().getExplicitWait()), exception.getCause());
             }
         }
     }
 
-    public void waitUntilElementContainsText(WebElement element, String text)
+    protected void waitUntilElementContainsText(WebElement element, String text)
     {
         try
         {
-            setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.textToBePresentInElement(element, text));
         }
         catch (TimeoutException | StaleElementReferenceException | NoSuchElementException exception)
@@ -608,22 +612,22 @@ public class WebElementInteraction
             try
             {
                 log.warn("Text {} is not present in element {}", text, element);
-                setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.textToBePresentInElement(element, text));
             }
             catch (ElementNotVisibleException elementNotVisibleException) {
                 throw new TimeoutException(String
                     .format("Unable to get element %s text %s in the given seconds %d ", element,
-                            text, defaultProperties.getExplicitWait()), elementNotVisibleException.getCause());
+                            text, getDefaultProperties().getExplicitWait()), elementNotVisibleException.getCause());
             }
         }
     }
 
-    public void waitUntilElementContainsText(By locator, String text)
+    protected void waitUntilElementContainsText(By locator, String text)
     {
         try
         {
-            setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
         }
         catch (TimeoutException | StaleElementReferenceException | NoSuchElementException exception)
@@ -631,19 +635,19 @@ public class WebElementInteraction
             try
             {
                 log.warn("Element {} does not contain text {}", locator, text);
-                setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+                setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
             }
             catch (ElementNotVisibleException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Unable to get element %s text %s in the given seconds %d ", locator,
-                        text, defaultProperties.getExplicitWait()), elementNotVisibleException.getCause());
+                        text, getDefaultProperties().getExplicitWait()), elementNotVisibleException.getCause());
             }
         }
     }
 
-    public void waitUntilElementIsVisibleWithRetry(By locator, int retryCount)
+    protected void waitUntilElementIsVisibleWithRetry(By locator, int retryCount)
     {
         int counter = 0;
         while (!isElementDisplayed(locator) && counter <= retryCount)
@@ -653,17 +657,17 @@ public class WebElementInteraction
         }
     }
 
-    public void waitUntilElementIsDisplayedWithRetry(By locator)
+    protected void waitUntilElementIsDisplayedWithRetry(By locator)
     {
         waitUntilElementIsDisplayedWithRetry(locator, 1);
     }
 
-    public void waitUntilElementIsDisplayedWithRetry(By locator, int secondsToWait)
+    protected void waitUntilElementIsDisplayedWithRetry(By locator, int secondsToWait)
     {
         waitUntilElementIsDisplayedWithRetry(locator, secondsToWait, 3);
     }
 
-    public void waitUntilElementIsDisplayedWithRetry(By locator, int secondsToWait, int retryTimes)
+    protected void waitUntilElementIsDisplayedWithRetry(By locator, int secondsToWait, int retryTimes)
     {
         int counter = 1;
         while (counter <= retryTimes && !isElementDisplayed(locator))
@@ -674,13 +678,13 @@ public class WebElementInteraction
         }
     }
 
-    public WebElement waitWithRetryAndReturnWebElement(By locator, int secondsToWait, int retryTimes)
+    protected WebElement waitWithRetryAndReturnWebElement(By locator, int secondsToWait, int retryTimes)
     {
         waitUntilElementIsDisplayedWithRetry(locator, secondsToWait, retryTimes);
         return findElement(locator);
     }
 
-    public void waitUntilElementIsDisplayedWithRetry(WebElement webElement, int secondsToWait)
+    protected void waitUntilElementIsDisplayedWithRetry(WebElement webElement, int secondsToWait)
     {
         int counter = 1;
         int retryRefreshCount = 3;
@@ -693,7 +697,7 @@ public class WebElementInteraction
         }
     }
 
-    public void waitUntilElementDisappearsWithRetry(By locator, int secondsToWait)
+    protected void waitUntilElementDisappearsWithRetry(By locator, int secondsToWait)
     {
         int counter = 1;
         int retryRefreshCount = 3;
@@ -706,12 +710,12 @@ public class WebElementInteraction
         }
     }
 
-    public void waitUntilWebElementIsDisplayedWithRetry(WebElement webElement)
+    protected void waitUntilWebElementIsDisplayedWithRetry(WebElement webElement)
     {
         waitUntilWebElementIsDisplayedWithRetry(webElement, 0);
     }
 
-    public void waitUntilWebElementIsDisplayedWithRetry(WebElement webElement, int secondsToWait)
+    protected void waitUntilWebElementIsDisplayedWithRetry(WebElement webElement, int secondsToWait)
     {
         int counter = 1;
         int retryRefreshCount = 3;
@@ -724,19 +728,19 @@ public class WebElementInteraction
         }
     }
 
-    public void waitUrlContains(String url, long timeOutInSeconds)
+    protected void waitUrlContains(String url, long timeOutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(getWebDriver(), timeOutInSeconds);
         wait.until(ExpectedConditions.urlContains(url));
     }
 
-    public void waitUntilElementDeletedFromDom(By locator)
+    protected void waitUntilElementDeletedFromDom(By locator)
     {
-        waitUntilElementDeletedFromDom(locator, defaultProperties.getExplicitWait(),
-            defaultProperties.getPollingTimeInMillis());
+        waitUntilElementDeletedFromDom(locator, getDefaultProperties().getExplicitWait(),
+            getDefaultProperties().getPollingTimeInMillis());
     }
 
-    public void waitUntilElementDeletedFromDom(By locator, long timeOutInSeconds, long pollingTimeInMillis)
+    protected void waitUntilElementDeletedFromDom(By locator, long timeOutInSeconds, long pollingTimeInMillis)
     {
         try
         {
@@ -760,11 +764,11 @@ public class WebElementInteraction
         }
     }
 
-    public void waitUntilElementDisappears(By locator)
+    protected void waitUntilElementDisappears(By locator)
     {
         try
         {
-            setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.invisibilityOfElementLocated(locator));
         }
         catch (StaleElementReferenceException | TimeoutException exception )
@@ -773,11 +777,11 @@ public class WebElementInteraction
         }
     }
 
-    public void waitUntilElementDisappears(By locator, long timeoutInSeconds)
+    protected void waitUntilElementDisappears(By locator, long timeoutInSeconds)
     {
         try
         {
-            setWaitingTime(timeoutInSeconds, defaultProperties.getPollingTimeInMillis())
+            setWaitingTime(timeoutInSeconds, getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.invisibilityOfElementLocated(locator));
         }
         catch (TimeoutException timeoutException)
@@ -786,11 +790,11 @@ public class WebElementInteraction
         }
     }
 
-    public void waitUntilElementDisappears(WebElement locator)
+    protected void waitUntilElementDisappears(WebElement locator)
     {
         try
         {
-            setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until(ExpectedConditions.invisibilityOf(locator));
         }
         catch (TimeoutException timeoutException)
@@ -799,7 +803,7 @@ public class WebElementInteraction
         }
     }
 
-    public boolean isElementDisplayed(By locator)
+    protected boolean isElementDisplayed(By locator)
     {
         try
         {
@@ -812,7 +816,7 @@ public class WebElementInteraction
         return false;
     }
 
-    public boolean isElementDisplayed(WebElement element)
+    protected boolean isElementDisplayed(WebElement element)
     {
         try
         {
@@ -825,7 +829,7 @@ public class WebElementInteraction
         return false;
     }
 
-    public boolean isElementDisplayed(WebElement element, By locator)
+    protected boolean isElementDisplayed(WebElement element, By locator)
     {
         try
         {
@@ -838,17 +842,17 @@ public class WebElementInteraction
         return false;
     }
 
-    public void switchToFrame(String frameId)
+    protected void switchToFrame(String frameId)
     {
         getWebDriver().switchTo().frame(frameId);
     }
 
-    public void switchToDefaultContent()
+    protected void switchToDefaultContent()
     {
         getWebDriver().switchTo().defaultContent();
     }
 
-    public void switchWindow()
+    protected void switchWindow()
     {
         mainWindow = getWebDriver().getWindowHandle();
         Set<String> windows = getWebDriver().getWindowHandles();
@@ -856,7 +860,7 @@ public class WebElementInteraction
         switchToWindow(windows.iterator().next());
     }
 
-    public void switchWindow(int windowIndex)
+    protected void switchWindow(int windowIndex)
     {
         mainWindow = getWebDriver().getWindowHandle();
         Set<String> windows = getWebDriver().getWindowHandles();
@@ -879,7 +883,7 @@ public class WebElementInteraction
         }
     }
 
-    public void switchWindow(String winHandler)
+    protected void switchWindow(String winHandler)
     {
         mainWindow = getWebDriver().getWindowHandle();
         for (String winHandle : getWebDriver().getWindowHandles())
@@ -896,18 +900,18 @@ public class WebElementInteraction
         }
     }
 
-    public void closeWindowAndSwitchBack()
+    protected void closeWindowAndSwitchBack()
     {
         getWebDriver().close();
         switchToWindow(mainWindow);
     }
 
-    public void switchToWindow(String windowHandle)
+    protected void switchToWindow(String windowHandle)
     {
         getWebDriver().switchTo().window(windowHandle);
     }
 
-    public Cookie getCookie(final String name)
+    protected Cookie getCookie(final String name)
     {
         if (name == null || name.isEmpty())
         {
@@ -921,39 +925,39 @@ public class WebElementInteraction
         return null;
     }
 
-    public void deleteCookie(Cookie cookie)
+    protected void deleteCookie(Cookie cookie)
     {
         getWebDriver().manage().deleteCookie(cookie);
     }
 
-    public void dragAndDrop(WebElement source, WebElement target)
+    protected void dragAndDrop(WebElement source, WebElement target)
     {
         Actions builder = new Actions(getWebDriver());
         builder.dragAndDrop(source, target).perform();
     }
 
-    public void dragAndDrop(WebElement source, int x, int y)
+    protected void dragAndDrop(WebElement source, int x, int y)
     {
         Actions builder = new Actions(getWebDriver());
         Action dragAndDrop = builder.dragAndDropBy(source, x, y).build();
         dragAndDrop.perform();
     }
 
-    public void doubleClickOnElement(WebElement element)
+    protected void doubleClickOnElement(WebElement element)
     {
         Actions builder = new Actions(getWebDriver());
         Action doubleClick = builder.doubleClick(element).build();
         doubleClick.perform();
     }
 
-    public void rightClickOnElement(WebElement element)
+    protected void rightClickOnElement(WebElement element)
     {
         Actions builder = new Actions(getWebDriver());
         Action rightClick = builder.contextClick(element).build();
         rightClick.perform();
     }
 
-    public WebElement findFirstDisplayedElement(By locator)
+    protected WebElement findFirstDisplayedElement(By locator)
     {
         List<WebElement> elementList = findDisplayedElementsFromLocator(locator);
         if (!elementList.isEmpty())
@@ -963,13 +967,13 @@ public class WebElementInteraction
         return null;
     }
 
-    public WebElement findFirstElementWithValue(By locator, String value)
+    protected WebElement findFirstElementWithValue(By locator, String value)
     {
         List<WebElement> elementList = waitUntilElementsAreVisible(locator);
         return elementList.stream().filter(element -> element.getText().contains(value)).findFirst().orElse(null);
     }
 
-    public WebElement findFirstElementWithValue(List<WebElement> list, String value)
+    protected WebElement findFirstElementWithValue(List<WebElement> list, String value)
     {
         for (WebElement element : list)
         {
@@ -981,12 +985,12 @@ public class WebElementInteraction
         return null;
     }
 
-    public WebElement findFirstElementWithExactValue(List<WebElement> list, String value)
+    protected WebElement findFirstElementWithExactValue(List<WebElement> list, String value)
     {
         return list.stream().filter(element -> element.getText().equals(value)).findFirst().orElse(null);
     }
 
-    public List<WebElement> findDisplayedElementsFromLocator(By selector)
+    protected List<WebElement> findDisplayedElementsFromLocator(By selector)
     {
         List<WebElement> elementList = getWebDriver().findElements(selector);
         List<WebElement> displayedElementList = Collections.synchronizedList(new ArrayList<>());
@@ -1000,7 +1004,7 @@ public class WebElementInteraction
         return displayedElementList;
     }
 
-    public void selectOptionFromFilterOptionsList(String option,
+    protected void selectOptionFromFilterOptionsList(String option,
                                                   List<WebElement> filterOptionsList)
     {
         for (WebElement webElement : filterOptionsList)
@@ -1013,17 +1017,17 @@ public class WebElementInteraction
         }
     }
 
-    public void scrollToElement(WebElement element)
+    protected void scrollToElement(WebElement element)
     {
         executeJavaScript(String.format("window.scrollTo(0, '%s')", element.getLocation().getY()));
     }
 
-    public void scrollIntoView(WebElement element)
+    protected void scrollIntoView(WebElement element)
     {
         executeJavaScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public void waitInSeconds(int seconds)
+    protected void waitInSeconds(int seconds)
     {
         long time0;
         long time1;
@@ -1035,7 +1039,7 @@ public class WebElementInteraction
         while (time1 - time0 < seconds * 1000L);
     }
 
-    public void executeJavaScript(String command)
+    protected void executeJavaScript(String command)
     {
         if (getWebDriver() instanceof JavascriptExecutor)
         {
@@ -1043,22 +1047,22 @@ public class WebElementInteraction
         }
     }
 
-    public void executeJavaScript(String scriptToExecute, WebElement element)
+    protected void executeJavaScript(String scriptToExecute, WebElement element)
     {
         ((JavascriptExecutor) getWebDriver()).executeScript(scriptToExecute, element);
     }
 
-    public Object executeJavaScript(String command, Object... args)
+    protected Object executeJavaScript(String command, Object... args)
     {
         return ((JavascriptExecutor) getWebDriver()).executeScript(command, args);
     }
 
-    public void clickJS(WebElement elementToClick)
+    protected void clickJS(WebElement elementToClick)
     {
         executeJavaScript("arguments[0].click();", elementToClick);
     }
 
-    public boolean isAlertPresent()
+    protected boolean isAlertPresent()
     {
         try
         {
@@ -1071,7 +1075,7 @@ public class WebElementInteraction
         }
     }
 
-    public void acceptAlert()
+    protected void acceptAlert()
     {
         if (isAlertPresent())
         {
@@ -1082,74 +1086,74 @@ public class WebElementInteraction
         }
     }
 
-    public void focusOnWebElement(WebElement webElement)
+    protected void focusOnWebElement(WebElement webElement)
     {
         webElement.sendKeys(Keys.TAB);
     }
 
-    public void waitUntilElementDoesNotContainText(WebElement element, String text)
+    protected void waitUntilElementDoesNotContainText(WebElement element, String text)
     {
-        setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+        setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
             .until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, text)));
     }
 
-    public List<String> getTextFromLocatorList(By elementsList)
+    protected List<String> getTextFromLocatorList(By elementsList)
     {
         List<WebElement> elements = waitUntilElementsAreVisible(elementsList);
         return elements.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public List<String> getTextFromElementList(List<WebElement> elementsList)
+    protected List<String> getTextFromElementList(List<WebElement> elementsList)
     {
         return elementsList.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public List<WebElement> findElements(By locator)
+    protected List<WebElement> findElements(By locator)
     {
         try
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(), defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                 .until((WebDriver driver) -> driver.findElements(locator));
         }
         catch (NoSuchElementException noSuchElementException)
         {
-            return setWaitingTime(defaultProperties.getExplicitWait(),
-                defaultProperties.getPollingTimeInMillis())
+            return setWaitingTime(getDefaultProperties().getExplicitWait(),
+                getDefaultProperties().getPollingTimeInMillis())
                 .until((WebDriver driver) -> driver.findElements(locator));
         }
     }
 
-    public String getCurrentUrl()
+    protected String getCurrentUrl()
     {
         return getWebDriver().getCurrentUrl();
     }
 
-    public void getUrl(String url)
+    protected void getUrl(String url)
     {
         getWebDriver().get(url);
     }
 
-    public void navigateTo(String url)
+    protected void navigateTo(String url)
     {
         getWebDriver().navigate().to(url);
     }
 
-    public void navigateBack()
+    protected void navigateBack()
     {
         getWebDriver().navigate().back();
     }
 
-    public String getTitle()
+    protected String getTitle()
     {
         return getWebDriver().getTitle();
     }
 
-    public TargetLocator switchTo()
+    protected TargetLocator switchTo()
     {
         return getWebDriver().switchTo();
     }
 
-    public void clearAndType(WebElement webElement, String value)
+    protected void clearAndType(WebElement webElement, String value)
     {
         try
         {
@@ -1171,7 +1175,7 @@ public class WebElementInteraction
         }
     }
 
-    public void clearAndType(By locator, String value)
+    protected void clearAndType(By locator, String value)
     {
         try
         {
@@ -1193,44 +1197,44 @@ public class WebElementInteraction
         }
     }
 
-    public String getElementText(By selector)
+    protected String getElementText(By selector)
     {
         return waitUntilElementIsVisible(selector).getText();
     }
 
-    public String getElementText(WebElement element)
+    protected String getElementText(WebElement element)
     {
         return waitUntilElementIsVisible(element).getText();
     }
 
-    public String getElementText(By selector, int timeoutInSeconds)
+    protected String getElementText(By selector, int timeoutInSeconds)
     {
         return waitUntilElementIsVisible(selector, timeoutInSeconds).getText();
     }
 
-    public String getPageSource()
+    protected String getPageSource()
     {
         return getWebDriver().getPageSource();
     }
 
-    public Set<String> getWindowHandles()
+    protected Set<String> getWindowHandles()
     {
         return getWebDriver().getWindowHandles();
     }
 
-    public String getPageTitle()
+    protected String getPageTitle()
     {
         return getWebDriver().getTitle();
     }
 
-    public void waitUntilDomReadyStateIsComplete()
+    protected void waitUntilDomReadyStateIsComplete()
     {
-        new WebDriverWait(webDriver.get(), defaultProperties.getExplicitWait())
+        new WebDriverWait(webDriver.get(), getDefaultProperties().getExplicitWait())
                 .until(driver -> ((JavascriptExecutor) webDriver.get())
                         .executeScript("return document.readyState").equals("complete"));
     }
 
-    public void sendKeys(Keys key)
+    protected void sendKeys(Keys key)
     {
         Actions builder = new Actions(webDriver.get());
         builder.sendKeys(key);

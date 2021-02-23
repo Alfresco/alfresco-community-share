@@ -36,11 +36,11 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     {
         super.navigate();
         int retryCount = 0;
-        while(retryCount < RETRY_TIME_15.getValue() && !webElementInteraction.isElementDisplayed(childrenCategories))
+        while(retryCount < RETRY_TIME_15.getValue() && !isElementDisplayed(childrenCategories))
         {
             log.warn("Failed to load Category manager page");
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            refresh();
+            waitInSeconds(WAIT_2.getValue());
             retryCount++;
         }
         return this;
@@ -48,8 +48,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 
     private WebElement category(String categoryLabel)
     {
-        return webElementInteraction
-            .waitUntilElementIsVisible(By.xpath(String.format(categoryLocator, categoryLabel)));
+        return waitUntilElementIsVisible(By.xpath(String.format(categoryLocator, categoryLabel)));
     }
 
     @Override
@@ -60,7 +59,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 
     public AddCategoryDialog clickAddButton()
     {
-        webElementInteraction.clickElement(addCategoryButton);
+        clickElement(addCategoryButton);
         return new AddCategoryDialog(webDriver);
     }
 
@@ -78,9 +77,9 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     public DeleteDialog clickDeleteButton(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-        WebElement deleteCategoryElement = webElementInteraction.findElement(deleteCategoryButton);
-        webElementInteraction.mouseOver(deleteCategoryElement);
-        webElementInteraction.clickElement(deleteCategoryElement, 2000);
+        WebElement deleteCategoryElement = findElement(deleteCategoryButton);
+        mouseOver(deleteCategoryElement);
+        clickElement(deleteCategoryElement, 2000);
         return new DeleteDialog(webDriver);
     }
 
@@ -93,24 +92,24 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     public void clickEditCategory(String categoryName)
     {
         mouseOverOnCategory(categoryName);
-        WebElement editCategoryElement = webElementInteraction.findElement(editCategoryButton);
-        webElementInteraction.mouseOver(editCategoryElement);
-        webElementInteraction.clickElement(editCategoryElement);
+        WebElement editCategoryElement = findElement(editCategoryButton);
+        mouseOver(editCategoryElement);
+        clickElement(editCategoryElement);
     }
 
     public CategoryManagerPage editCategory(String categoryName, String newCategoryName)
     {
         clickEditCategory(categoryName);
-        if(!webElementInteraction.isElementDisplayed(editCategoryNameInput))
+        if(!isElementDisplayed(editCategoryNameInput))
         {
             log.info("Click Edit category again");
             clickEditCategory(categoryName);
         }
-        WebElement input = webElementInteraction.findElement(editCategoryNameInput);
-        webElementInteraction.clearAndType(input, newCategoryName);
+        WebElement input = findElement(editCategoryNameInput);
+        clearAndType(input, newCategoryName);
 
-        WebElement saveButton = webElementInteraction.findElement(editCategorySaveButton);
-        webElementInteraction.clickElement(saveButton);
+        WebElement saveButton = findElement(editCategorySaveButton);
+        clickElement(saveButton);
         waitUntilNotificationMessageDisappears();
         return this;
     }
@@ -120,10 +119,10 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         By category = By.xpath(String.format(categoryLocator, categoryName));
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_80.getValue() && !webElementInteraction.isElementDisplayed(category))
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(category))
         {
             log.warn("Category {} not displayed - retry: {}", categoryName, retryCount);
-            webElementInteraction.refresh();
+            refresh();
             waitToLoopTime(WAIT_2.getValue());
             retryCount++;
         }
@@ -132,14 +131,14 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     private void mouseOverOnCategory(String categoryName)
     {
         waitForCategory(categoryName);
-        WebElement category = webElementInteraction.findElement(By.xpath(String.format(categoryLocator, categoryName)));
+        WebElement category = findElement(By.xpath(String.format(categoryLocator, categoryName)));
         int retryCount = 0;
         while(retryCount < RETRY_TIME_80.getValue())
         {
             waitToLoopTime(WAIT_2.getValue());
-            if (webElementInteraction.isElementDisplayed(category))
+            if (isElementDisplayed(category))
             {
-                webElementInteraction.mouseOver(category, 2000);
+                mouseOver(category, 2000);
                 break;
             }
             retryCount++;
@@ -150,27 +149,27 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
         waitForCategory(categoryName);
-        return webElementInteraction.isElementDisplayed(category);
+        return isElementDisplayed(category);
     }
 
     public boolean isSubcategoryDisplayed(String parentCategory, String expectedSubCategory)
     {
         By category = By.xpath(String.format(categoryLocator, expectedSubCategory));
-        boolean isSubCatDisplayed = webElementInteraction.isElementDisplayed(category);
+        boolean isSubCatDisplayed = isElementDisplayed(category);
 
         int retryCount = 0;
         while (retryCount < RETRY_TIME_80.getValue() && !isSubCatDisplayed)
         {
             navigate();
             waitToLoopTime(WAIT_2.getValue());
-            boolean isExpanded = webElementInteraction.isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
+            boolean isExpanded = isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
             if (!isExpanded)
             {
                 WebElement parent = category(parentCategory);
-                webElementInteraction.waitUntilChildElementIsPresent(parent, By.xpath("../..//a[@class='ygtvspacer']")).click();
-                webElementInteraction.waitInSeconds(WAIT_2.getValue());
+                waitUntilChildElementIsPresent(parent, By.xpath("../..//a[@class='ygtvspacer']")).click();
+                waitInSeconds(WAIT_2.getValue());
             }
-            isSubCatDisplayed = webElementInteraction.isElementDisplayed(category);
+            isSubCatDisplayed = isElementDisplayed(category);
             if(isSubCatDisplayed)
             {
                 break;
@@ -187,14 +186,14 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
         By category = By.xpath(String.format(categoryLocator, categoryName));
 
         int retryCount = 0;
-        while(retryCount < RETRY_TIME_80.getValue() && webElementInteraction.isElementDisplayed(category))
+        while(retryCount < RETRY_TIME_80.getValue() && isElementDisplayed(category))
         {
             log.warn("Category {} is displayed - retry: {}", categoryName, retryCount);
             waitToLoopTime(WAIT_2.getValue());
-            webElementInteraction.refresh();
+            refresh();
             retryCount++;
         }
-        assertFalse(webElementInteraction.isElementDisplayed(category), String.format("Category %s is displayed", category));
+        assertFalse(isElementDisplayed(category), String.format("Category %s is displayed", category));
         return this;
     }
 }

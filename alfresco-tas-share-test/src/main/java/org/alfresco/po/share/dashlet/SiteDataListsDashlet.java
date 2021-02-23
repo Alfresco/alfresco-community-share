@@ -31,29 +31,29 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     private WebElement getDataListRow(String dataListTitle)
     {
         log.info("Get data list row: {}", dataListTitle);
-        return webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
+        return waitWithRetryAndReturnWebElement(By.xpath(String.format(dataListRow,
             dataListTitle)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public CreateDataListDialog clickOnCreateDataListLink()
     {
         log.info("Click New List button");
-        webElementInteraction.findElement(createDataListLinkLocator).click();
+        findElement(createDataListLinkLocator).click();
         return new CreateDataListDialog(webDriver);
     }
 
     public SiteDataListsDashlet assertCreateDataListLinkDisplayed()
     {
         log.info("Assert create data list link displayed");
-        webElementInteraction.waitUntilElementIsVisible(createDataListLinkLocator);
-        assertTrue(webElementInteraction.isElementDisplayed(createDataListLinkLocator),
+        waitUntilElementIsVisible(createDataListLinkLocator);
+        assertTrue(isElementDisplayed(createDataListLinkLocator),
             "Create data list link is not displayed");
 
         return this;
@@ -62,7 +62,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     public SiteDataListsDashlet assertDataListItemTitleIsDisplayed(String expectedDataListItemTitle)
     {
         log.info("Assert data list item title is displayed: {}", expectedDataListItemTitle);
-        assertTrue(webElementInteraction.isElementDisplayed(getDataListRow(expectedDataListItemTitle)),
+        assertTrue(isElementDisplayed(getDataListRow(expectedDataListItemTitle)),
             String.format("Data list %s is not displayed", expectedDataListItemTitle));
 
         return this;
@@ -88,7 +88,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     public SiteDataListsDashlet assertEmptyListMessageEquals(String emptyMessageExpected)
     {
         log.info("Assert empty list message equals: {}", emptyMessageExpected);
-        assertEquals(webElementInteraction.getElementText(message), emptyMessageExpected,
+        assertEquals(getElementText(message), emptyMessageExpected,
             String.format("Empty list message not equals %s ", emptyMessageExpected));
 
         return this;

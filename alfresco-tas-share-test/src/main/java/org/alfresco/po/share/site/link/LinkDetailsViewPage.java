@@ -47,7 +47,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public LinkDetailsViewPage assertLinkTitleEquals(String expectedLinkTitle)
     {
         log.info("Assert link title equals: {}", expectedLinkTitle);
-        assertEquals(webElementInteraction.getElementText(linkTitle), expectedLinkTitle,
+        assertEquals(getElementText(linkTitle), expectedLinkTitle,
             String.format("Link title not equals %s ", expectedLinkTitle));
 
         return this;
@@ -56,7 +56,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public LinkDetailsViewPage assertLinkUrlEquals(String expectedLinkUrl)
     {
         log.info("Assert link url equals: {}", expectedLinkUrl);
-        assertEquals(webElementInteraction.getElementText(linkURL), expectedLinkUrl,
+        assertEquals(getElementText(linkURL), expectedLinkUrl,
             String.format("Link url not equals %s ", expectedLinkUrl));
         return this;
     }
@@ -64,7 +64,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public LinkDetailsViewPage assertLinkCreationDateContains(DateFormat dateFormat)
     {
         log.info("Assert link creation date contains: {}", dateFormat);
-        assertTrue(webElementInteraction.getElementText(creationDate).contains(dateFormat.format(new Date())),
+        assertTrue(getElementText(creationDate).contains(dateFormat.format(new Date())),
             String.format("Link creation date not contains %s", dateFormat));
 
         return this;
@@ -73,7 +73,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public LinkDetailsViewPage assertCreatedByLabelEqualsFullUserName(String firstName, String lastName)
     {
         log.info("Assert created by label equals full username: {}", firstName, lastName);
-        assertEquals(webElementInteraction.getElementText(createdBy), firstName.concat(" " + lastName),
+        assertEquals(getElementText(createdBy), firstName.concat(" " + lastName),
                 String.format("Full username not equals %s and %s ", firstName, lastName));
 
         return this;
@@ -82,7 +82,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public LinkDetailsViewPage assertLinkDescriptionEquals(String expectedLinkDescription)
     {
         log.info("Assert link description equals: {}", expectedLinkDescription);
-        assertEquals(webElementInteraction.getElementText(description), expectedLinkDescription,
+        assertEquals(getElementText(description), expectedLinkDescription,
             String.format("Link description not equals %s ", expectedLinkDescription));
 
         return this;
@@ -90,14 +90,14 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public void clickOnLinksListLink()
     {
-        webElementInteraction.clickElement(linksListLink);
+        clickElement(linksListLink);
     }
 
     public List<String> getTagsList()
     {
 
         List<String> linkTags = new ArrayList<>();
-        for (WebElement linkTag : webElementInteraction.waitUntilElementsAreVisible(tagsList))
+        for (WebElement linkTag : waitUntilElementsAreVisible(tagsList))
         {
             linkTags.add(linkTag.getText());
         }
@@ -106,50 +106,50 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public void clickOnLinkURL(String linkURL)
     {
-        webElementInteraction.findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
+        findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
     }
 
     public EditLinkPage clickOnEditLink()
     {
-        webElementInteraction.clickElement(editLink);
+        clickElement(editLink);
         return new EditLinkPage(webDriver);
     }
 
     public boolean clickOnDeleteLink()
     {
-        webElementInteraction.clickElement(deleteLink);
-        return webElementInteraction.isElementDisplayed(deleteLinkPrompt);
+        clickElement(deleteLink);
+        return isElementDisplayed(deleteLinkPrompt);
     }
 
     public boolean clickOnAddCommentButton()
     {
-        webElementInteraction.clickElement(addCommentButton);
-        return webElementInteraction.isElementDisplayed(commentContentIframe);
+        clickElement(addCommentButton);
+        return isElementDisplayed(commentContentIframe);
     }
 
     public void addComment(String comment)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(commentContentIframe));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement editable = switchTo().activeElement();
 
         editable.sendKeys(comment);
-        webElementInteraction.switchTo().defaultContent();
-        webElementInteraction.clickElement(submitCommentButton);
+        switchTo().defaultContent();
+        clickElement(submitCommentButton);
     }
 
     public void cancelAddComment(String comment)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(commentContentIframe));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement editable = switchTo().activeElement();
         editable.sendKeys(comment);
-        webElementInteraction.switchTo().defaultContent();
-        webElementInteraction.clickElement(cancelSubmitCommentButton);
+        switchTo().defaultContent();
+        clickElement(cancelSubmitCommentButton);
     }
 
     public List<String> getCommentsList()
     {
         List<String> comments = new ArrayList<>();
-        for (WebElement comment : webElementInteraction.waitUntilElementsAreVisible(commentsList))
+        for (WebElement comment : waitUntilElementsAreVisible(commentsList))
         {
             comments.add(comment.getText());
         }
@@ -158,7 +158,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public WebElement selectCommentDetailsRow(String commentTitle)
     {
-        return webElementInteraction.findFirstElementWithValue(commentDetailsList, commentTitle);
+        return findFirstElementWithValue(commentDetailsList, commentTitle);
     }
 
     public String getCommentAuthor(String comment)
@@ -173,25 +173,25 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public boolean clickEditComment(String comment)
     {
-        webElementInteraction.mouseOver(
-            webElementInteraction.findFirstElementWithValue(commentDetailsList, comment));
-        webElementInteraction.clickElement(selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=edit-comment]")));
-        return webElementInteraction.findElement(commentContentIframe).isDisplayed();
+        mouseOver(
+            findFirstElementWithValue(commentDetailsList, comment));
+        clickElement(selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=edit-comment]")));
+        return findElement(commentContentIframe).isDisplayed();
     }
 
     public void clearCommentContent()
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(commentContentIframe));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement editable = switchTo().activeElement();
         editable.clear();
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
     }
 
     public boolean clickDeleteCommentLink(String comment)
     {
-        webElementInteraction.mouseOver(
-            webElementInteraction.findFirstElementWithValue(commentDetailsList, comment));
+        mouseOver(
+            findFirstElementWithValue(commentDetailsList, comment));
         selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=delete-comment]")).click();
-        return webElementInteraction.isElementDisplayed(deleteLinkPrompt);
+        return isElementDisplayed(deleteLinkPrompt);
     }
 }

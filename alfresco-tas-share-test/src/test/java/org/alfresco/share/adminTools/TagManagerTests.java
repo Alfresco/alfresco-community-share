@@ -32,7 +32,7 @@ public class TagManagerTests extends BaseTest
         getRestApi().authenticateUser(getAdminUser())
             .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
 
-        setupAuthenticatedSession(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
     }
 
     @AfterMethod(alwaysRun = true)

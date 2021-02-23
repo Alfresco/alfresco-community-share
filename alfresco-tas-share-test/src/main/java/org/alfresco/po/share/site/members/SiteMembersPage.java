@@ -79,26 +79,26 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
      */
     public boolean isRoleButtonDisplayed(String name)
     {
-        return webElementInteraction.isElementDisplayed(getMemberName(name), currentRoleButton);
+        return isElementDisplayed(getMemberName(name), currentRoleButton);
     }
 
     public SiteGroupsPage openSiteGroupsPage()
     {
-        webElementInteraction.clickElement(siteGroups);
+        clickElement(siteGroups);
         return new SiteGroupsPage(webDriver);
     }
 
     public SiteUsersPage openSiteUsersPage()
     {
-        webElementInteraction.clickElement(siteUsers);
+        clickElement(siteUsers);
         return new SiteUsersPage(webDriver);
     }
 
     public List<String> getSiteMembersList()
     {
-        webElementInteraction.waitUntilElementsAreVisible(listNameLocator);
+        waitUntilElementsAreVisible(listNameLocator);
         List<String> names = Collections.synchronizedList(new ArrayList<>());
-        for (WebElement listName : webElementInteraction.findElements(listNameLocator))
+        for (WebElement listName : findElements(listNameLocator))
         {
             names.add(listName.getText());
         }
@@ -115,20 +115,20 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     public void waitSiteMemberToDisappear(String siteMember)
     {
-        webElementInteraction.waitUntilElementDisappears(
-            webElementInteraction.findElement(By.cssSelector(String.format(memberName, siteMember))));
+        waitUntilElementDisappears(
+            findElement(By.cssSelector(String.format(memberName, siteMember))));
     }
 
     public WebElement getMemberName(String name)
     {
-        return webElementInteraction.findFirstElementWithValue(siteMemberRow, name);
+        return findFirstElementWithValue(siteMemberRow, name);
     }
 
     public SiteMembersPage changeRoleForMember(String newRole, String userName)
     {
-        webElementInteraction.clickElement(getMemberName(userName).findElement(currentRoleButton));
-        webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
-        webElementInteraction.selectOptionFromFilterOptionsList(newRole, webElementInteraction.findElements(dropDownOptionsList));
+        clickElement(getMemberName(userName).findElement(currentRoleButton));
+        waitUntilElementsAreVisible(dropDownOptionsList);
+        selectOptionFromFilterOptionsList(newRole, findElements(dropDownOptionsList));
         waitUntilNotificationMessageDisappears();
 
         return this;
@@ -136,6 +136,6 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     public boolean isPendingInvitesDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(pendingInvites);
+        return isElementDisplayed(pendingInvites);
     }
 }

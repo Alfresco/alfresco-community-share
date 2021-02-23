@@ -26,13 +26,13 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public MyDiscussionsDashlet assertNoTopicsMessageEquals(String expectedMessage)
     {
         log.info("Assert No topics message equals:{}", expectedMessage);
-        assertEquals(webElementInteraction.getElementText(defaultDashletMessage), expectedMessage,
+        assertEquals(getElementText(defaultDashletMessage), expectedMessage,
             String.format("No topics message not equals %s", expectedMessage));
 
         return this;
@@ -40,19 +40,19 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 
     public void clickOnTopicButton()
     {
-        webElementInteraction.waitUntilElementIsVisible(topicsButton);
-        webElementInteraction.clickElement(topicsButton);
+        waitUntilElementIsVisible(topicsButton);
+        clickElement(topicsButton);
     }
 
     public void clickHistoryButton()
     {
-        webElementInteraction.clickElement(historyButton);
+        clickElement(historyButton);
     }
 
     private List<String> getCurrentOptions()
     {
         List<String> options = new ArrayList<>();
-        List<WebElement> dropdownOptions = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
+        List<WebElement> dropdownOptions = waitUntilElementsAreVisible(dropDownOptionsList);
         for (WebElement option : dropdownOptions)
         {
             options.add(option.getText());
@@ -64,8 +64,8 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
     {
         log.info("Assert My Topics drop down options equal: {}",myTopicsDropDownOptions);
         clickOnTopicButton();
-        List<WebElement> dropdownOptions = webElementInteraction.waitUntilElementsAreVisible(dropDownOptionsList);
-        List<String> actualDropDownOptions = webElementInteraction.getTextFromElementList(dropdownOptions);
+        List<WebElement> dropdownOptions = waitUntilElementsAreVisible(dropDownOptionsList);
+        List<String> actualDropDownOptions = getTextFromElementList(dropdownOptions);
         assertEquals(myTopicsDropDownOptions, actualDropDownOptions,
             String.format("My Topics drop down options not equal %s", myTopicsDropDownOptions));
 

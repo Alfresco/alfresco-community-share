@@ -32,13 +32,13 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     private List<String> getDropDownValues()
     {
-        List<WebElement> options = webElementInteraction.waitUntilElementsAreVisible(filterOption);
+        List<WebElement> options = waitUntilElementsAreVisible(filterOption);
         return options.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
@@ -54,17 +54,17 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public SiteSearchDashlet clickSearchButton()
     {
         log.info("Click Search button");
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
         return this;
     }
 
     public DocumentDetailsPage clickFileLinkName(String fileLinkName)
     {
         log.info("Click file link name: {}", fileLinkName);
-        WebElement fileLink = webElementInteraction.waitWithRetryAndReturnWebElement(By.xpath(String.format(
+        WebElement fileLink = waitWithRetryAndReturnWebElement(By.xpath(String.format(
             siteSearchRow, fileLinkName)), WAIT_2.getValue(), WAIT_60.getValue());
-        webElementInteraction.scrollToElement(fileLink);
-        webElementInteraction.clickElement(fileLink);
+        scrollToElement(fileLink);
+        clickElement(fileLink);
 
         return new DocumentDetailsPage(webDriver);
     }
@@ -72,16 +72,16 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public SiteSearchDashlet typeInSearch(String inputText)
     {
         log.info("Type in search field: {}", inputText);
-        webElementInteraction.clearAndType(searchField, inputText);
+        clearAndType(searchField, inputText);
         return this;
     }
 
     public SiteSearchDashlet assertReturnedSearchResultEquals(String expectedSearchResult)
     {
         log.info("Assert returned search results equals: {}", expectedSearchResult);
-        WebElement result = webElementInteraction.waitWithRetryAndReturnWebElement(
+        WebElement result = waitWithRetryAndReturnWebElement(
             By.xpath(String.format(siteSearchRow, expectedSearchResult)), WAIT_1.getValue(), WAIT_60.getValue());
-        assertEquals(webElementInteraction.getElementText(result), expectedSearchResult, String.format("Returned search result not equals %s ", expectedSearchResult));
+        assertEquals(getElementText(result), expectedSearchResult, String.format("Returned search result not equals %s ", expectedSearchResult));
 
         return this;
     }
@@ -89,8 +89,8 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public SiteSearchDashlet assertNoResultsFoundMessageEquals(String expectedSearchMessage)
     {
         log.info("Assert no results found message equals: {}", expectedSearchMessage);
-        webElementInteraction.waitUntilElementIsVisible(noResultsMessage);
-        assertEquals(webElementInteraction.getElementText(noResultsMessage), expectedSearchMessage,
+        waitUntilElementIsVisible(noResultsMessage);
+        assertEquals(getElementText(noResultsMessage), expectedSearchMessage,
             String.format("No results found message not equals %s ", expectedSearchMessage));
 
         return this;
@@ -99,7 +99,7 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public SiteSearchDashlet openSearchFilterDropdown()
     {
         log.info("Open search filter dropdown");
-        webElementInteraction.clickElement(filterButton);
+        clickElement(filterButton);
         return this;
     }
 }

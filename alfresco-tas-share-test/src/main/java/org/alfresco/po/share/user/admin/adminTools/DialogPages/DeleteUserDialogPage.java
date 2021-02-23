@@ -20,19 +20,19 @@ public class DeleteUserDialogPage extends BaseDialogComponent
 
     public DeleteUserDialogPage assertDeleteUserDialogIsOpened()
     {
-        assertTrue(webElementInteraction.isElementDisplayed(deleteUserWindow), "Delete user dialog is displayed");
+        assertTrue(isElementDisplayed(deleteUserWindow), "Delete user dialog is displayed");
         return this;
     }
 
     public void clickDelete()
     {
-        webElementInteraction.clickElement(deleteUserButton);
+        clickElement(deleteUserButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public DeleteUserDialogPage assertDeleteUserDialogTextIsCorrect()
     {
-        assertEquals(webElementInteraction.getElementText(deleteUserText), language.translate("deleteUser.dialog"));
+        assertEquals(getElementText(deleteUserText), language.translate("deleteUser.dialog"));
         return this;
     }
 }

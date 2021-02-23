@@ -48,14 +48,14 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
     public DocumentLibraryPage clickButton(String buttonName)
     {
-        webElementInteraction.findFirstElementWithValue(buttonsList, buttonName);
+        findFirstElementWithValue(buttonsList, buttonName);
         return new DocumentLibraryPage(webDriver);
     }
 
     public DocumentLibraryPage clickSaveButton()
     {
         log.info("Click Save button");
-        webElementInteraction.clickElement(saveButton);
+        clickElement(saveButton);
         return new DocumentLibraryPage(webDriver);
     }
 
@@ -72,24 +72,24 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
     private void typeName(String name)
     {
         log.info("Type name: {}", name);
-        webElementInteraction.clearAndType(nameInput, name);
+        clearAndType(nameInput, name);
     }
 
     public void typeContent(String content)
     {
         log.info("Type content: {}", content);
-        webElementInteraction.clearAndType(contentTextarea, content);
+        clearAndType(contentTextarea, content);
     }
 
     private void typeTitle(String title)
     {
         log.info("Type title: {}", title);
-        webElementInteraction.clearAndType(titleInput, title);
+        clearAndType(titleInput, title);
     }
 
     private void typeDescription(String description)
     {
         log.info("Type description: {}", description);
-        webElementInteraction.clearAndType(descriptionTextarea, description);
+        clearAndType(descriptionTextarea, description);
     }
 }

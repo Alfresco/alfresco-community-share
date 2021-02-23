@@ -24,6 +24,7 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
     private static final String EXPECTED_BALLOON_MESSAGE = "siteSearchDashlet.balloonMessage";
 
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+
     private SiteSearchDashlet siteSearchDashlet;
 
     @BeforeMethod(alwaysRun = true)
@@ -34,7 +35,7 @@ public class SiteSearchDashletTest extends AbstractUserDashboardDashletsTests
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.SITE_SEARCH, 1, 3);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2423, C2424")

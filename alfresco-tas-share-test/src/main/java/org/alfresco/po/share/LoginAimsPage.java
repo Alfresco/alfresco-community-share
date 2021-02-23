@@ -27,64 +27,64 @@ public class LoginAimsPage extends CommonLoginPage
 
     public CommonLoginPage navigate()
     {
-        webElementInteraction.getUrl(defaultProperties.get().getShareUrl().toString());
+        getUrl(defaultProperties.get().getShareUrl().toString());
         return new LoginAimsPage(webDriver);
     }
 
     public void typeUserName(String userName)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(usernameInput), userName);
+        clearAndType(findElement(usernameInput), userName);
     }
 
     public void autoCompleteUsername(String startCharsUser)
     {
         typeUserName(startCharsUser);
-        webElementInteraction.waitInSeconds(1);
-        WebElement userInput = webElementInteraction.findElement(usernameInput);
+        waitInSeconds(1);
+        WebElement userInput = findElement(usernameInput);
         userInput.sendKeys(Keys.ARROW_DOWN);
         userInput.sendKeys(Keys.TAB);
     }
 
     public void typePassword(String password)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(passwordInput), password);
+        clearAndType(findElement(passwordInput), password);
     }
 
     public void clickLogin()
     {
-        webElementInteraction.clickElement(submit);
+        clickElement(submit);
     }
 
     public String getAuthenticationError()
     {
-        return webElementInteraction.waitUntilElementIsVisible(errorLogin).getText();
+        return waitUntilElementIsVisible(errorLogin).getText();
     }
 
     public boolean isAuthenticationErrorDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(errorLogin);
+        return isElementDisplayed(errorLogin);
     }
 
     public boolean isCopyrightDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(copyright);
+        return isElementDisplayed(copyright);
     }
 
     public boolean isLogoDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(alfrescoLogo);
+        return isElementDisplayed(alfrescoLogo);
     }
 
     public String getCopyRightText()
     {
-        return webElementInteraction.findElement(copyright).getText();
+        return findElement(copyright).getText();
     }
 
     @Override
     public CommonLoginPage assertLoginPageIsOpened()
     {
         log.info("Assert Login Page is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(usernameInput), "Username input is displayed");
+        assertTrue(isElementDisplayed(usernameInput), "Username input is displayed");
         return this;
     }
 
@@ -101,7 +101,7 @@ public class LoginAimsPage extends CommonLoginPage
     public CommonLoginPage assertAuthenticationErrorIsDisplayed()
     {
         log.info("Assert authentication error is displayed");
-        webElementInteraction.waitUntilElementIsVisible(errorLogin);
+        waitUntilElementIsVisible(errorLogin);
         assertTrue(isAuthenticationErrorDisplayed(), "Authentication error is displayed");
         return this;
     }
@@ -124,7 +124,7 @@ public class LoginAimsPage extends CommonLoginPage
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {
         log.info("Assert Login Page Title is correct");
-        assertEquals(webElementInteraction.getTitle(), language.translate("login.aims.pageTitle"), "Login page title is correct");
+        assertEquals(getTitle(), language.translate("login.aims.pageTitle"), "Login page title is correct");
         return this;
     }
 }

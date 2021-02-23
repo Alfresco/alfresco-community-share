@@ -29,7 +29,7 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_PROFILE, 1, 3);
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2141")

@@ -69,10 +69,10 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage saveWikiContent(String content)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = switchTo().activeElement();
         editable.sendKeys(content);
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
         saveButton.click();
         return new WikiMainPage(webDriver);
     }
@@ -82,10 +82,10 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage cancelWikiContent(String content)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = switchTo().activeElement();
         editable.sendKeys(content);
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
         cancelButton.click();
         return new WikiMainPage(webDriver);
     }
@@ -96,10 +96,10 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     public void clearWikiPageContent()
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = switchTo().activeElement();
         editable.clear();
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
     }
 
     /**
@@ -119,15 +119,15 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     public String getWikiPageContent()
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.waitUntilElementIsVisible(wikiPageContent));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(waitUntilElementIsVisible(wikiPageContent));
+        WebElement editable = switchTo().activeElement();
         return editable.getText();
     }
 
     public WebElement selectTagDetailsRow(String tagName)
     {
-        webElementInteraction.switchTo().defaultContent();
-        return webElementInteraction.findFirstElementWithValue(tagsList, tagName);
+        switchTo().defaultContent();
+        return findFirstElementWithValue(tagsList, tagName);
     }
 
     /**
@@ -149,7 +149,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage clickOnSaveButton()
     {
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
         saveButton.click();
         return new WikiMainPage(webDriver);
     }
@@ -182,7 +182,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public boolean isImageDisplayed(String imageName)
     {
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
-        return webElementInteraction.isElementDisplayed(webElementInteraction.waitUntilElementIsVisible(By.xpath(image)));
+        return isElementDisplayed(waitUntilElementIsVisible(By.xpath(image)));
     }
 
     /**
@@ -192,15 +192,15 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public void clickOnImage(String imageName)
     {
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
-        webElementInteraction.waitUntilElementIsVisible(By.xpath(image));
-        webElementInteraction.clickElement(By.xpath(image));
+        waitUntilElementIsVisible(By.xpath(image));
+        clickElement(By.xpath(image));
     }
 
     public String getIframeSourceCode()
     {
-        webElementInteraction.switchTo().defaultContent();
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(wikiPageContent));
-        webElementInteraction.switchTo().activeElement();
-        return webElementInteraction.getPageSource();
+        switchTo().defaultContent();
+        switchTo().frame(findElement(wikiPageContent));
+        switchTo().activeElement();
+        return getPageSource();
     }
 }

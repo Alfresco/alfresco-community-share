@@ -21,7 +21,7 @@ public class ImportUsersTests extends BaseTest
     public void setupTest()
     {
         usersPage = new UsersPage(webDriver);
-        setupAuthenticatedSessionViaLoginPage(getAdminUser());
+        authenticateUsingLoginPage(getAdminUser());
     }
 
     @TestRail (id = "C9438")

@@ -29,55 +29,55 @@ public class EditGroupPage extends SharePage2<EditGroupPage>
 
     public boolean isIdentifierFieldDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(identifierField);
-        return webElementInteraction.isElementDisplayed(identifierField);
+        waitUntilElementIsVisible(identifierField);
+        return isElementDisplayed(identifierField);
     }
 
     public String getIdentifierText()
     {
-        return webElementInteraction.waitUntilElementIsVisible(identifierField).getText();
+        return waitUntilElementIsVisible(identifierField).getText();
     }
 
     public boolean isDisplayNameInputFieldDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(displayNameInputField);
-        return webElementInteraction.isElementDisplayed(displayNameInputField);
+        waitUntilElementIsVisible(displayNameInputField);
+        return isElementDisplayed(displayNameInputField);
     }
 
     public void editDisplayName(String newDisplayName)
     {
-        webElementInteraction.waitUntilElementIsVisible(displayNameInputField);
-        webElementInteraction.clearAndType(displayNameInputField, newDisplayName);
+        waitUntilElementIsVisible(displayNameInputField);
+        clearAndType(displayNameInputField, newDisplayName);
     }
 
     public HtmlPage clickSaveChangesButton(HtmlPage page)
     {
-        webElementInteraction.clickElement(saveChangesButton);
-        webElementInteraction.findElement(saveChangesButton).click();
+        clickElement(saveChangesButton);
+        findElement(saveChangesButton).click();
         return page.renderedPage();
     }
 
     public HtmlPage clickCancelButton(HtmlPage page)
     {
-        webElementInteraction.clickElement(cancelButton);
-        webElementInteraction.findElement(cancelButton).click();
+        clickElement(cancelButton);
+        findElement(cancelButton).click();
         return page.renderedPage();
     }
 
     public String getEditGroupPageTitle()
     {
-        return webElementInteraction.getElementText(pageTitle);
+        return getElementText(pageTitle);
     }
 
     public boolean isSaveChangesButtonDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(saveChangesButton);
-        return webElementInteraction.isElementDisplayed(saveChangesButton);
+        waitUntilElementIsVisible(saveChangesButton);
+        return isElementDisplayed(saveChangesButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(cancelButton);
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        waitUntilElementIsVisible(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 }

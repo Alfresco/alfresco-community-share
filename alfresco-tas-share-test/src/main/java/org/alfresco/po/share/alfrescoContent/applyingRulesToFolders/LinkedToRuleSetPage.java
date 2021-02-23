@@ -22,7 +22,7 @@ public class LinkedToRuleSetPage extends SiteCommon<LinkedToRuleSetPage>
 
     public void clickButton(String buttonId)
     {
-        WebElement button = webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(buttonSelector, buttonId)));
-        webElementInteraction.clickElement(button);
+        WebElement button = waitUntilElementIsVisible(By.cssSelector(String.format(buttonSelector, buttonId)));
+        clickElement(button);
     }
 }

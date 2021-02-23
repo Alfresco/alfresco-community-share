@@ -26,7 +26,7 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
 
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         testSite.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2111")

@@ -37,27 +37,27 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public boolean isSelectButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(selectMenu);
+        return isElementDisplayed(selectMenu);
     }
 
     public void clickSelectMenu()
     {
-        webElementInteraction.clickElement(selectMenu);
+        clickElement(selectMenu);
     }
 
     public void clickSelectOption(String optionText)
     {
-        webElementInteraction.selectOptionFromFilterOptionsList(optionText, selectOptionsList);
+        selectOptionFromFilterOptionsList(optionText, selectOptionsList);
     }
 
     public boolean isSelectedItemsMenuEnabled()
     {
-        return !webElementInteraction.isElementDisplayed(selectedItemsMenuDisabled);
+        return !isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public boolean isSelectItemsMenuDisplayedDisabled()
     {
-        return webElementInteraction.isElementDisplayed(selectedItemsMenuDisabled);
+        return isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public void clickSelectedItemsMenu()
@@ -67,7 +67,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public void clickSelectedItemsOption(String optionText)
     {
-        List<WebElement> selectedItemsOptionsList = webElementInteraction.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
-        webElementInteraction.selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
+        List<WebElement> selectedItemsOptionsList = findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
+        selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
     }
 }

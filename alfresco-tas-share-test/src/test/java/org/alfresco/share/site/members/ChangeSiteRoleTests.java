@@ -36,7 +36,7 @@ public class ChangeSiteRoleTests extends BaseTest
     public void setupTest()
     {
         userModel.set(dataUser.createRandomTestUser());
-        setupAuthenticatedSession(userModel.get());
+        authenticateUsingCookies(userModel.get());
 
         siteUsersPage = new SiteUsersPage(webDriver);
         siteDashboardPage = new SiteDashboardPage(webDriver);
@@ -81,7 +81,7 @@ public class ChangeSiteRoleTests extends BaseTest
         dataGroup.usingUser(consumer).addUserToGroup(groupModel);
         dataGroup.usingUser(manager).addGroupToSite(groupModel, siteModel, SiteManager);
 
-        setupAuthenticatedSession(manager);
+        authenticateUsingCookies(manager);
 
         siteUsersPage
             .navigate(siteModel.getTitle())
@@ -99,7 +99,7 @@ public class ChangeSiteRoleTests extends BaseTest
             .assertSiteMemberNameEqualsTo(
                 manager.getFirstName().concat(EMPTY_SPACE).concat(manager.getLastName()));
 
-        setupAuthenticatedSession(consumer);
+        authenticateUsingCookies(consumer);
 
         siteUsersPage
             .navigate(siteModel)
@@ -114,7 +114,7 @@ public class ChangeSiteRoleTests extends BaseTest
         UserModel consumer = dataUser.usingAdmin().createRandomTestUser();
         SiteModel siteModel = dataSite.usingUser(manager).createPublicRandomSite();
 
-        setupAuthenticatedSession(manager);
+        authenticateUsingCookies(manager);
 
         dataUser.addUserToSite(consumer, siteModel, SiteManager);
 
@@ -125,7 +125,7 @@ public class ChangeSiteRoleTests extends BaseTest
         siteUsersPage
             .changeRoleForMember(CONSUMER.getValue(), consumer.getUsername());
 
-        setupAuthenticatedSession(consumer);
+        authenticateUsingCookies(consumer);
 
         siteUsersPage
             .navigate(siteModel)

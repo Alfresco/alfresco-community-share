@@ -92,8 +92,8 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
 
     public WebElement selectTagDetailsRow(String tagName)
     {
-        webElementInteraction.switchTo().defaultContent();
-        return webElementInteraction.findFirstElementWithValue(tagsList, tagName);
+        switchTo().defaultContent();
+        return findFirstElementWithValue(tagsList, tagName);
     }
 
     /**

@@ -44,50 +44,50 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         super(webDriver);
     }
 
-    public Boolean isDialogDisplayed()
+    public boolean isDialogDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dialogTitle);
+        return  isElementDisplayed(dialogTitle);
     }
 
     public String getDialogTitle()
     {
-        return webElementInteraction.getElementText(dialogTitle);
+        return getElementText(dialogTitle);
     }
 
     public String getFilterNameValue()
     {
-        return webElementInteraction.findElement(filterNameInput).getAttribute("value");
+        return findElement(filterNameInput).getAttribute("value");
     }
 
     public String getSortBy()
     {
-        return webElementInteraction.getElementText(sortByInput);
+        return getElementText(sortByInput);
     }
 
     public String getNoFilters()
     {
-        return webElementInteraction.getElementText(noFilters);
+        return getElementText(noFilters);
     }
 
     public String getMinimumFilterLength()
     {
-        return webElementInteraction.getElementText(minFilterLength);
+        return getElementText(minFilterLength);
     }
 
     public String getMinimumRequiredResults()
     {
-        return webElementInteraction.getElementText(minRequiredResults);
+        return getElementText(minRequiredResults);
     }
 
     public String getFilterAvailability()
     {
-        return webElementInteraction.getElementText(filterAvailabilityInput);
+        return getElementText(filterAvailabilityInput);
     }
 
     public String[] getCurrentSelectedSites()
     {
         int i = 0;
-        List<WebElement> list = webElementInteraction.findElements(currentSitesEntries);
+        List<WebElement> list = findElements(currentSitesEntries);
         String[] currentSelectedSites = new String[list.size()];
         for (WebElement entry : list)
         {
@@ -99,82 +99,82 @@ public class CreateNewFilterDialog extends BaseDialogComponent
 
     public void selectFromFilterAvailability(String option)
     {
-        webElementInteraction.findElement(filterAvailabilityArrow);
-        WebElement dropdown = webElementInteraction.waitUntilElementIsVisible(filterAvailabilityDropdown);
-        webElementInteraction.selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
+        findElement(filterAvailabilityArrow);
+        WebElement dropdown = waitUntilElementIsVisible(filterAvailabilityDropdown);
+        selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
     }
 
     public void selectFromFilterProperty(String option)
     {
-        webElementInteraction.clearAndType(filterPropertyInput, option);
-        webElementInteraction.waitUntilElementIsVisible(filterPropertyDropdown);
-        webElementInteraction.selectOptionFromFilterOptionsList(option, webElementInteraction.findElements(filterPropertyOptions));
+        clearAndType(filterPropertyInput, option);
+        waitUntilElementIsVisible(filterPropertyDropdown);
+        selectOptionFromFilterOptionsList(option, findElements(filterPropertyOptions));
     }
 
     public void selectFromSortBy(String option)
     {
-        webElementInteraction.clickElement(sortByArrow);
-        WebElement dropdown = webElementInteraction.waitUntilElementIsVisible(sortByDropdown);
-        webElementInteraction.selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
+        clickElement(sortByArrow);
+        WebElement dropdown = waitUntilElementIsVisible(sortByDropdown);
+        selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
     }
 
     public CreateNewFilterDialog typeFilterId(String value)
     {
-        WebElement filterIdElement = webElementInteraction.waitUntilElementIsVisible(filterIdInput);
-        webElementInteraction.mouseOver(filterIdElement);
-        webElementInteraction.clickElement(filterIdElement);
-        webElementInteraction.clearAndType(filterIdElement, value);
+        WebElement filterIdElement = waitUntilElementIsVisible(filterIdInput);
+        mouseOver(filterIdElement);
+        clickElement(filterIdElement);
+        clearAndType(filterIdElement, value);
         return this;
     }
 
     public CreateNewFilterDialog typeFilterName(String value)
     {
-        WebElement filterNameElement = webElementInteraction.waitUntilElementIsVisible(filterNameInput);
-        webElementInteraction.mouseOver(filterNameElement);
-        webElementInteraction.clickElement(filterNameElement);
-        webElementInteraction.clearAndType(filterNameElement, value);
+        WebElement filterNameElement = waitUntilElementIsVisible(filterNameInput);
+        mouseOver(filterNameElement);
+        clickElement(filterNameElement);
+        clearAndType(filterNameElement, value);
         return this;
     }
 
     public void typeNumberOfFilters(String value)
     {
-        webElementInteraction.clearAndType(noFilters, value);
+        clearAndType(noFilters, value);
     }
 
     public void typeMinimumFilterLength(String value)
     {
-        webElementInteraction.clearAndType(minFilterLength, value);
+        clearAndType(minFilterLength, value);
     }
 
     public void typeMinimumRequiredResults(String value)
     {
-        webElementInteraction.clearAndType(minRequiredResults, value);
+        clearAndType(minRequiredResults, value);
     }
 
     public void clickShowWithSearchResults()
     {
         if (!isShowWithSearchResultsChecked())
         {
-            webElementInteraction.clickElement(showWithSearch);
+            clickElement(showWithSearch);
         }
     }
 
     public boolean isShowWithSearchResultsChecked()
     {
-        return webElementInteraction.findElement(showWithSearch).isSelected();
+        return findElement(showWithSearch).isSelected();
     }
 
     public SearchManagerPage clickSave()
     {
-        WebElement save = webElementInteraction.waitUntilElementIsVisible(saveButton);
-        webElementInteraction.mouseOver(save);
-        webElementInteraction.clickElement(save);
+        WebElement save = waitUntilElementIsVisible(saveButton);
+        mouseOver(save);
+        clickElement(save);
         SearchManagerPage searchManagerPage = new SearchManagerPage(webDriver);
         searchManagerPage.waitUntilNotificationMessageDisappears();
-        if(webElementInteraction.isElementDisplayed(dialogBody))
+        if(isElementDisplayed(dialogBody))
         {
             log.warn("Failed to click Save button");
-            webElementInteraction.clickElement(save);
+            clickElement(save);
             searchManagerPage.waitUntilNotificationMessageDisappears();
         }
         return searchManagerPage;
@@ -182,56 +182,56 @@ public class CreateNewFilterDialog extends BaseDialogComponent
 
     public SearchManagerPage clickCancel()
     {
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
         return new SearchManagerPage(webDriver);
     }
 
     public void clickClose()
     {
-        webElementInteraction.clickElement(closeButton);
+        clickElement(closeButton);
     }
 
     public void addSite(String siteName)
     {
-        webElementInteraction.clickElement(sitesAddButton);
-        webElementInteraction.clickElement(sitesSiteNameArrow);
-        WebElement dropdown = webElementInteraction.waitUntilElementIsVisible(sitesSiteNameDropdown);
-        webElementInteraction.selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
-        webElementInteraction.clickElement(sitesDoneEditingButton);
+        clickElement(sitesAddButton);
+        clickElement(sitesSiteNameArrow);
+        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown);
+        selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
+        clickElement(sitesDoneEditingButton);
     }
 
     public void cancelAddSite(String siteName)
     {
-        webElementInteraction.clickElement(sitesAddButton);
-        webElementInteraction.clickElement(sitesSiteNameArrow);
-        WebElement dropdown = webElementInteraction.waitUntilElementIsVisible(sitesSiteNameDropdown);
-        webElementInteraction.selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
-        webElementInteraction.clickElement(sitesCancelEditingButton);
+        clickElement(sitesAddButton);
+        clickElement(sitesSiteNameArrow);
+        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown);
+        selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
+        clickElement(sitesCancelEditingButton);
     }
 
     public void editSite(String siteNameToBeEdited, String newSiteName)
     {
-        WebElement siteElement = webElementInteraction.findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
+        WebElement siteElement = findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
         siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button edit']"));
-        webElementInteraction.clickElement(sitesSiteNameArrow);
-        WebElement dropdown = webElementInteraction.waitUntilElementIsVisible(sitesSiteNameDropdown);
-        webElementInteraction.selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
-        webElementInteraction.clickElement(sitesDoneEditingButton);
+        clickElement(sitesSiteNameArrow);
+        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown);
+        selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
+        clickElement(sitesDoneEditingButton);
     }
 
     public void cancelEditSite(String siteNameToBeEdited, String newSiteName)
     {
-        WebElement siteElement = webElementInteraction.findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
-        webElementInteraction.clickElement(siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button edit']")));
-        webElementInteraction.clickElement(sitesSiteNameArrow);
-        WebElement dropdown = webElementInteraction.waitUntilElementIsVisible(sitesSiteNameDropdown);
-        webElementInteraction.selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
-        webElementInteraction.clickElement(sitesCancelEditingButton);
+        WebElement siteElement = findFirstElementWithValue(currentSitesEntries, siteNameToBeEdited);
+        clickElement(siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button edit']")));
+        clickElement(sitesSiteNameArrow);
+        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown);
+        selectOptionFromFilterOptionsList(newSiteName, dropdown.findElements(dropdownOptions));
+        clickElement(sitesCancelEditingButton);
     }
 
     public void deleteSite(String siteName)
     {
-        WebElement siteElement = webElementInteraction.findFirstElementWithValue(currentSitesEntries, siteName);
-        webElementInteraction.clickElement(siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button delete']")));
+        WebElement siteElement = findFirstElementWithValue(currentSitesEntries, siteName);
+        clickElement(siteElement.findElement(By.xpath("ancestor::*[@class='alfresco-forms-controls-MultipleEntryElementWrapper']//div[@class='button delete']")));
     }
 }

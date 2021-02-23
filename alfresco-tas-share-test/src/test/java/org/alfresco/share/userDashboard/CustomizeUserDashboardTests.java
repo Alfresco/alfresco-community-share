@@ -31,7 +31,7 @@ public class CustomizeUserDashboardTests extends BaseTest
         myActivitiesDashlet = new MyActivitiesDashlet(webDriver);
 
         user.set(getDataUser().usingAdmin().createRandomTestUser());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2853")
@@ -60,7 +60,7 @@ public class CustomizeUserDashboardTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void changeDashboardLayout()
     {
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
         customizeUserDashboard.navigate()
             .assertCurrentLayoutIs(Layout.TWO_COLUMNS_WIDE_RIGHT)
             .clickChangeLayout()

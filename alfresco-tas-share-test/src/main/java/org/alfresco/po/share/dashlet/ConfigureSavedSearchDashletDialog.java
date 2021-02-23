@@ -25,40 +25,40 @@ public class ConfigureSavedSearchDashletDialog extends DashletPopUp<ConfigureSav
 
     public ConfigureSavedSearchDashletDialog setSearchTermField(String searchTerm)
     {
-        webElementInteraction.clearAndType(searchTermField, searchTerm);
+        clearAndType(searchTermField, searchTerm);
         return this;
     }
 
     public ConfigureSavedSearchDashletDialog setTitleField(String title)
     {
-        webElementInteraction.clearAndType(titleField, title);
+        clearAndType(titleField, title);
         return this;
     }
 
     public ConfigureSavedSearchDashletDialog assertSearchTermFieldIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(searchTermField);
-        assertTrue(webElementInteraction.isElementDisplayed(searchTermField), "Search term field is displayed");
+        waitUntilElementIsVisible(searchTermField);
+        assertTrue(isElementDisplayed(searchTermField), "Search term field is displayed");
         return this;
     }
 
     public ConfigureSavedSearchDashletDialog assertTitleFieldIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(titleField);
-        assertTrue(webElementInteraction.isElementDisplayed(titleField), "Title field is displayed");
+        waitUntilElementIsVisible(titleField);
+        assertTrue(isElementDisplayed(titleField), "Title field is displayed");
         return this;
     }
 
     public ConfigureSavedSearchDashletDialog assertSearchLimitIsDisplayed()
     {
-        webElementInteraction.waitUntilElementIsVisible(searchLimitElement);
-        assertTrue(webElementInteraction.isElementDisplayed(searchLimitElement), "Search limit is displayed");
+        waitUntilElementIsVisible(searchLimitElement);
+        assertTrue(isElementDisplayed(searchLimitElement), "Search limit is displayed");
         return this;
     }
 
     public ConfigureSavedSearchDashletDialog assertAllLimitValuesAreDisplayed()
     {
-        WebElement select = webElementInteraction.waitUntilElementIsVisible(searchLimitElement);
+        WebElement select = waitUntilElementIsVisible(searchLimitElement);
         Select limits = new Select(select);
         List<WebElement> actualOptions = limits.getOptions();
         List<String> availableOptions = actualOptions.stream().map(WebElement::getText).collect(Collectors.toList());

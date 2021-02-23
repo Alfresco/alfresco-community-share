@@ -47,45 +47,45 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public SiteGroupsPage goBackToSiteGroupsPage()
     {
-        webElementInteraction.clickElement(backToSiteGroups);
+        clickElement(backToSiteGroups);
         return new SiteGroupsPage(webDriver);
     }
 
     public AddSiteGroupsPage searchGroupByName(String groupName)
     {
-        webElementInteraction.clearAndType(groupSearchBox, groupName);
-        webElementInteraction.clickElement(groupSearchButton);
+        clearAndType(groupSearchBox, groupName);
+        clickElement(groupSearchButton);
 
         return new AddSiteGroupsPage(webDriver);
     }
 
     private WebElement getGroupFromSearchResults(String group)
     {
-        return webElementInteraction.findFirstElementWithValue(groupResultsList, group);
+        return findFirstElementWithValue(groupResultsList, group);
     }
 
     private WebElement getGroupFromInvitedList(String groupName)
     {
-        return webElementInteraction.findFirstElementWithValue(groupInvitedList, groupName);
+        return findFirstElementWithValue(groupInvitedList, groupName);
     }
 
     public AddSiteGroupsPage addGroupWithName(String groupName)
     {
         log.info("Add group with name {}", groupName);
-        webElementInteraction.clickElement(getGroupFromSearchResults(groupName).findElement(addButton));
+        clickElement(getGroupFromSearchResults(groupName).findElement(addButton));
         return this;
     }
 
     private List<String> getFilterRolesFromDropdown()
     {
-        webElementInteraction.clickElement(setAllRolesToButton);
+        clickElement(setAllRolesToButton);
         List<String> roles = Collections.synchronizedList(new ArrayList<>());
 
-        for (WebElement allRolesFilterOption : webElementInteraction.findElements(allRolesFilterOptions))
+        for (WebElement allRolesFilterOption : findElements(allRolesFilterOptions))
         {
             roles.add(allRolesFilterOption.getText());
         }
-        webElementInteraction.clickElement(setAllRolesToButton);
+        clickElement(setAllRolesToButton);
         return roles;
     }
 
@@ -131,9 +131,9 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         try
         {
-            webElementInteraction.clickElement(getGroupFromInvitedList(groupName).findElement(addButton));
-            List<WebElement> groupRoleOptions = webElementInteraction.waitUntilElementsAreVisible(roleOptions);
-            webElementInteraction.selectOptionFromFilterOptionsList(roleOption, groupRoleOptions);
+            clickElement(getGroupFromInvitedList(groupName).findElement(addButton));
+            List<WebElement> groupRoleOptions = waitUntilElementsAreVisible(roleOptions);
+            selectOptionFromFilterOptionsList(roleOption, groupRoleOptions);
             return this;
         }
         catch (NoSuchElementException nse)
@@ -145,16 +145,16 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage addGroups()
     {
-        webElementInteraction.waitUntilElementIsVisible(addGroupsButton);
-        webElementInteraction.clickElement(addGroupsButton);
+        waitUntilElementIsVisible(addGroupsButton);
+        clickElement(addGroupsButton);
         waitUntilNotificationMessageDisappears();
         return this;
     }
 
     public AddSiteGroupsPage assertNoGroupsFoundLabelEqualsTo(String expectedLabel)
     {
-        webElementInteraction.waitUntilElementContainsText(searchResultsText, language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
-        assertEquals(webElementInteraction.getElementText(searchResultsText), expectedLabel);
+        waitUntilElementContainsText(searchResultsText, language.translate(EXPECTED_NO_GROUPS_FOUND_LABEL));
+        assertEquals(getElementText(searchResultsText), expectedLabel);
         return this;
     }
 

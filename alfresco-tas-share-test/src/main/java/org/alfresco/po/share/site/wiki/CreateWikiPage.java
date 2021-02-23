@@ -64,10 +64,10 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     public void typeWikiPageContent(String content)
     {
-        webElementInteraction.switchTo().frame(webElementInteraction.findElement(wikiPageContent));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchTo().frame(findElement(wikiPageContent));
+        WebElement editable = switchTo().activeElement();
         editable.sendKeys(content);
-        webElementInteraction.switchTo().defaultContent();
+        switchTo().defaultContent();
     }
 
     /**
@@ -91,7 +91,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     public WikiListPage cancelWikiPageAndLeavePage()
     {
         cancelButton.click();
-        Alert confirmationBox = webElementInteraction.switchTo().alert();
+        Alert confirmationBox = switchTo().alert();
         confirmationBox.accept();
         return new WikiListPage(webDriver);
     }

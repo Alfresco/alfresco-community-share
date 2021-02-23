@@ -25,7 +25,7 @@ public class ChangePasswordTest extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void changeUserPassword()
     {
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
         String newPassword = user.get().getPassword() + "--new";
         changePasswordPage.navigate(user.get())
             .assertChangePasswordPageIsOpened()
@@ -33,7 +33,7 @@ public class ChangePasswordTest extends BaseTest
             .changePassword("password", newPassword)
             .assertUserProfilePageIsOpened();
         user.get().setPassword(newPassword);
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
         userDashboardPage.navigate(user.get()).assertUserDashboardPageIsOpened();
     }
 
@@ -41,7 +41,7 @@ public class ChangePasswordTest extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void incorrectOldOrNewPasswordTests()
     {
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
         changePasswordPage.navigate(user.get())
             .changePasswordAndExpectError(user.get().getPassword() + "-invalid",
                     user.get().getPassword() + "-1",

@@ -88,17 +88,17 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     private WebElement docName(String docName)
     {
-        return webElementInteraction.findElement(By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DISPLAY_NAME']//mark[text()='" + docName + "']"));
+        return findElement(By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DISPLAY_NAME']//mark[text()='" + docName + "']"));
     }
 
     private WebElement fileTypeOption(String option)
     {
-        return webElementInteraction.findElement(By.xpath("//div[@id='FCTSRCH_filter_mimetype']//span[text()='" + option + "']"));
+        return findElement(By.xpath("//div[@id='FCTSRCH_filter_mimetype']//span[text()='" + option + "']"));
     }
 
     private WebElement image(String imageName)
     {
-        return webElementInteraction.findElement(By.cssSelector("span[class^='alfresco-renderers-Thumbnail'] img[title='" + imageName + "']"));
+        return findElement(By.cssSelector("span[class^='alfresco-renderers-Thumbnail'] img[title='" + imageName + "']"));
     }
 
     @Override
@@ -116,18 +116,18 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void waitForPageToLoad()
     {
-        webElementInteraction.waitUntilElementIsVisible(searchButton);
+        waitUntilElementIsVisible(searchButton);
     }
 
     private boolean isContentDisplayed(ContentModel contentModel)
     {
-        if(webElementInteraction.isElementDisplayed(noResults))
+        if(isElementDisplayed(noResults))
         {
             return false;
         }
         else
         {
-            List<WebElement> searchResults = webElementInteraction.findElements(searchResultRows);
+            List<WebElement> searchResults = findElements(searchResultRows);
             return searchResults.stream().anyMatch(row ->
                 row.findElement(contentName).getText().equals(contentModel.getName()));
         }
@@ -135,7 +135,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     protected WebElement getContentRowResult(ContentModel content)
     {
-        List<WebElement> searchResults = webElementInteraction.waitUntilElementsAreVisible(searchResultRows);
+        List<WebElement> searchResults = waitUntilElementsAreVisible(searchResultRows);
         for(WebElement row : searchResults)
         {
             if(row.findElement(contentName).getText().equals(content.getName()))
@@ -163,33 +163,21 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchPage searchWithKeywordAndWaitForContents(String searchExpression, ContentModel... contentModels)
     {
         int retryCounter = 0;
-        boolean allFound = false;
-        while(!allFound && retryCounter <= RETRY_TIME_80.getValue())
+        while (findElements(searchResultRows).size() < contentModels.length &&
+            isElementDisplayed(noResults) && retryCounter <= RETRY_TIME_80.getValue())
         {
             log.warn("Keyword {} not displayed - retry: {}", searchExpression, retryCounter);
             setSearchExpression(searchExpression);
             clickSearchButton();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
-            if(webElementInteraction.isElementDisplayed(noResults))
-            {
-                retryCounter++;
-                continue;
-            }
-            if(webElementInteraction.findElements(searchResultRows).size() < contentModels.length)
-            {
-                retryCounter++;
-            }
-            else
-            {
-                allFound = true;
-            }
+            waitInSeconds(WAIT_2.getValue());
+            retryCounter++;
         }
         return this;
     }
 
     public String getNumberOfResultsText()
     {
-        return webElementInteraction.getElementText(numberOfResultsLabel);
+        return getElementText(numberOfResultsLabel);
     }
 
     public Object executeJavaScript(final String js, Object... args)
@@ -198,7 +186,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         {
             throw new IllegalArgumentException("JS script is required");
         }
-        return webElementInteraction.executeJavaScript(js, args);
+        return executeJavaScript(js, args);
     }
 
     public void scrollToPageBottom()
@@ -214,18 +202,18 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isResultFound(String query)
     {
-        WebElement webElement = webElementInteraction.findFirstElementWithValue(resultsDetailedViewList, query);
+        WebElement webElement = findFirstElementWithValue(resultsDetailedViewList, query);
         if (webElement == null)
         {
-            webElementInteraction.refresh();
-            webElement = webElementInteraction.findFirstElementWithValue(resultsDetailedViewList, query);
+            refresh();
+            webElement = findFirstElementWithValue(resultsDetailedViewList, query);
         }
         return webElement != null;
     }
 
     public boolean isResultFoundWithRetry(String query)
     {
-        WebElement webElement = webElementInteraction.findFirstElementWithValue(resultsDetailedViewList, query);
+        WebElement webElement = findFirstElementWithValue(resultsDetailedViewList, query);
         for (int i = 0; i < 5; i++)
         {
             if (webElement != null)
@@ -234,26 +222,26 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             }
             else
             {
-                List<WebElement> results = webElementInteraction.findElements(resultsDetailedViewList);
-                webElement = webElementInteraction.findFirstElementWithExactValue(results, query);
+                List<WebElement> results = findElements(resultsDetailedViewList);
+                webElement = findFirstElementWithExactValue(results, query);
             }
         }
-        return webElementInteraction.isElementDisplayed(webElement);
+        return isElementDisplayed(webElement);
     }
 
     public void mouseOverResult(String query)
     {
-        for (WebElement result : webElementInteraction.findElements(resultsDetailedViewList))
+        for (WebElement result : findElements(resultsDetailedViewList))
         {
             if (result.getText().contains(query))
-                webElementInteraction.mouseOver(result);
+                mouseOver(result);
         }
     }
 
     public List<String> getFilterTypeList()
     {
         List<String> filterList = new ArrayList<>();
-        for (WebElement aFilterTypeList : webElementInteraction.findElements(filterTypeList))
+        for (WebElement aFilterTypeList : findElements(filterTypeList))
         {
             filterList.add(aFilterTypeList.getText());
         }
@@ -262,48 +250,48 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isFilterTypePresent(String filter)
     {
-        return webElementInteraction.findFirstElementWithValue(filterTypeList, filter) != null;
+        return findFirstElementWithValue(filterTypeList, filter) != null;
     }
 
     public boolean isFilterOptionDisplayed(String filterId, String filterOption)
     {
-        WebElement filterElement = webElementInteraction.findElement(By.id("FCTSRCH_" + filterId));
-        return webElementInteraction.findFirstElementWithValue(filterElement.findElements(By.cssSelector(".filterLabel")), filterOption) != null;
+        WebElement filterElement = findElement(By.id("FCTSRCH_" + filterId));
+        return findFirstElementWithValue(filterElement.findElements(By.cssSelector(".filterLabel")), filterOption) != null;
     }
 
     public String getFilterOptionHits(String filterOption)
     {
-        return webElementInteraction.findFirstElementWithValue(allOptions, filterOption).findElement(By.xpath("following-sibling::*[1]")).getText();
+        return findFirstElementWithValue(allOptions, filterOption).findElement(By.xpath("following-sibling::*[1]")).getText();
     }
 
     public void clickSortDropdown()
     {
-        webElementInteraction.clickElement(sortDropdownButton);
+        clickElement(sortDropdownButton);
     }
 
     public void clickSearchInDropdown()
     {
-        webElementInteraction.clickElement(searchInDropdown);
+        clickElement(searchInDropdown);
     }
 
     public String getSearchInDropdownSelectedValue()
     {
-        return  webElementInteraction.findElement(searchInDropdown).getText();
+        return  findElement(searchInDropdown).getText();
     }
 
     public boolean isSearchInLabelDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchInLabel);
+        return isElementDisplayed(searchInLabel);
     }
 
     public boolean isSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(searchButton);
+        return isElementDisplayed(searchButton);
     }
 
     public String getSearchInDropdownValues()
     {
-        List<WebElement> searchInDropdownOptions = webElementInteraction.waitUntilElementsAreVisible(searchInDropdownOptionsSelector);
+        List<WebElement> searchInDropdownOptions = waitUntilElementsAreVisible(searchInDropdownOptionsSelector);
         if (!searchInDropdownOptions.get(searchInDropdownOptions.size() - 2).getText().equals("All Sites"))
             return "'All Sites' value not displayed";
         if (!searchInDropdownOptions.get(searchInDropdownOptions.size() - 1).getText().equals("Repository"))
@@ -314,7 +302,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchPage selectOptionFromSearchIn(String option)
     {
         clickSearchInDropdown();
-        List<WebElement> searchInDropdownOptions = webElementInteraction.findDisplayedElementsFromLocator(searchInDropdownOptionsSelector);
+        List<WebElement> searchInDropdownOptions = findDisplayedElementsFromLocator(searchInDropdownOptionsSelector);
         for (WebElement optionSearchIn : searchInDropdownOptions)
         {
             if (optionSearchIn.getText().equals(option))
@@ -325,7 +313,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isSortDropdownComplete()
     {
-        List<WebElement> sortList = webElementInteraction.findElements(sortOptions);
+        List<WebElement> sortList = findElements(sortOptions);
         if (sortList.size() == 12)
             return sortList.get(0).getText().equals("Relevance")
                 && sortList.get(1).getText().equals("Name")
@@ -344,13 +332,13 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void clickViewsDropdown()
     {
-        webElementInteraction.clickElement(viewsDropdown);
-        webElementInteraction.waitUntilElementIsVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
+        clickElement(viewsDropdown);
+        waitUntilElementIsVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
     }
 
     public List<String> getViewsDropdownOptions()
     {
-        List<WebElement> viewsDropdownOptions = webElementInteraction.findElements(viewsDropdownOptionsSelector);
+        List<WebElement> viewsDropdownOptions = findElements(viewsDropdownOptionsSelector);
         ArrayList<String> viewsOptionsText = new ArrayList<>();
         for (WebElement viewsDropdownOption : viewsDropdownOptions)
         {
@@ -361,44 +349,44 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isSearchResultsListInDetailedView()
     {
-        webElementInteraction.waitUntilElementsAreVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
-        return !webElementInteraction.findElements(resultsDetailedViewList).isEmpty();
+        waitUntilElementsAreVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
+        return !findElements(resultsDetailedViewList).isEmpty();
     }
 
     public boolean isSearchResultsListInGalleryView()
     {
-        webElementInteraction.waitUntilElementIsVisible(By.cssSelector("[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']"));
-        return !webElementInteraction.findElements(resultsGalleryViewList).isEmpty();
+        waitUntilElementIsVisible(By.cssSelector("[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']"));
+        return !findElements(resultsGalleryViewList).isEmpty();
     }
 
     public SearchPage clickGalleryView()
     {
         clickViewsDropdown();
-        webElementInteraction.waitUntilElementIsPresent(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP'] td[class='dijitReset dijitMenuItemLabel']"));
-        webElementInteraction.selectOptionFromFilterOptionsList("Gallery View", webElementInteraction.findElements(viewsDropdownOptionsSelector));
+        waitUntilElementIsPresent(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP'] td[class='dijitReset dijitMenuItemLabel']"));
+        selectOptionFromFilterOptionsList("Gallery View", findElements(viewsDropdownOptionsSelector));
         return this;
     }
 
     public SearchPage clickDetailedView()
     {
         clickViewsDropdown();
-        webElementInteraction.waitUntilElementIsPresent(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP'] td[class='dijitReset dijitMenuItemLabel']"));
-        webElementInteraction.selectOptionFromFilterOptionsList("Detailed View", webElementInteraction.findElements(viewsDropdownOptionsSelector));
-        webElementInteraction.waitUntilElementDisappears(By.cssSelector("table[class*='alfresco-documentlibrary-AlfGalleryViewSlider']"));
+        waitUntilElementIsPresent(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP'] td[class='dijitReset dijitMenuItemLabel']"));
+        selectOptionFromFilterOptionsList("Detailed View", findElements(viewsDropdownOptionsSelector));
+        waitUntilElementDisappears(By.cssSelector("table[class*='alfresco-documentlibrary-AlfGalleryViewSlider']"));
         return this;
     }
 
     public boolean isSliderGalleryViewDisplayed()
     {
-        return (webElementInteraction.isElementDisplayed(sliderGalleryView)
-                && webElementInteraction.isElementDisplayed(sliderIncrementIcon)
-                && webElementInteraction.isElementDisplayed(sliderDecrementIcon));
+        return (isElementDisplayed(sliderGalleryView)
+                && isElementDisplayed(sliderIncrementIcon)
+                && isElementDisplayed(sliderDecrementIcon));
     }
 
     public void clickFilterOption(String option, String filterBy)
     {
         By selector = By.cssSelector("div.alfresco-documentlibrary-AlfDocumentFilters[id$='" + filterBy + "'] .filterLabel");
-        List<WebElement> filterOptionList = webElementInteraction.findElements(selector);
+        List<WebElement> filterOptionList = findElements(selector);
         clickShowMore();
         for (WebElement filterOption : filterOptionList)
         {
@@ -413,7 +401,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public boolean isSearchResultsAsExpected(List<String> expectedResults)
     {
         int counter = 0;
-        List<WebElement> results = webElementInteraction.findElements(resultsDetailedViewList);
+        List<WebElement> results = findElements(resultsDetailedViewList);
         if (results.size() == expectedResults.size())
             for (int i = 0; i < results.size(); i++)
             {
@@ -431,26 +419,26 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchPage assertSearchManagerButtonIsDisplayed()
     {
         log.info("Assert search manager button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(searchManager), "Search manager is displayed");
+        assertTrue(isElementDisplayed(searchManager), "Search manager is displayed");
         return this;
     }
 
     public SearchPage assertSearchManagerButtonIsNotDisplayed()
     {
         log.info("Assert search manager button is NOT displayed");
-        assertFalse(webElementInteraction.isElementDisplayed(searchManager), "Search manager is displayed");
+        assertFalse(isElementDisplayed(searchManager), "Search manager is displayed");
         return this;
     }
 
     public SearchManagerPage clickSearchManagerLink()
     {
-        webElementInteraction.clickElement(searchManager);
+        clickElement(searchManager);
         return new SearchManagerPage(webDriver);
     }
 
     public void clickShowMore()
     {
-        List<WebElement> showMoreList = webElementInteraction.findElements(showMore);
+        List<WebElement> showMoreList = findElements(showMore);
         if (!showMoreList.isEmpty())
             for (WebElement aShowMore : showMoreList)
             {
@@ -461,7 +449,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void clickShowFewer()
     {
-        List<WebElement> showLessList = webElementInteraction.findElements(showLess);
+        List<WebElement> showLessList = findElements(showLess);
         if (!showLessList.isEmpty())
             for (WebElement showLess : showLessList)
             {
@@ -472,116 +460,116 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public int getFilterTypePosition(String filter)
     {
-        return webElementInteraction.findFirstElementWithValue(filterTypeList, filter)
+        return findFirstElementWithValue(filterTypeList, filter)
             .findElements(By.xpath("ancestor::div[contains(@id, 'FCTSRCH_filter_')]/preceding-sibling::*")).size() + 1;
     }
 
     public boolean isActionsLinkDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(actionsLink);
+        return isElementDisplayed(actionsLink);
     }
 
     public void clickCheckbox(String searchResult)
     {
         if (isResultFound(searchResult))
         {
-            List<WebElement> checkBoxElements = webElementInteraction.findElements(checkboxList);
+            List<WebElement> checkBoxElements = findElements(checkboxList);
             int i;
             for (i = 0; i < checkBoxElements.size(); i++)
             {
                 log.info("Position {} ", i);
                 checkBoxElements.get(i).click();
-                webElementInteraction.findDisplayedElementsFromLocator(checkboxSelector);
+                findDisplayedElementsFromLocator(checkboxSelector);
             }
         }
     }
 
     public boolean isSelectedItemsListOptionDisplayed(String optionName)
     {
-        WebElement action = webElementInteraction.findFirstElementWithValue(selectedItemsCheckboxOptions, optionName);
-        return webElementInteraction.isElementDisplayed(action);
+        WebElement action = findFirstElementWithValue(selectedItemsCheckboxOptions, optionName);
+        return isElementDisplayed(action);
     }
 
     public void clickOptionFromSelectedItemsListCheckbox(String optionName)
     {
         if (isSelectedItemsListOptionDisplayed(optionName))
         {
-            WebElement action = webElementInteraction.findFirstElementWithValue(selectedItemsCheckboxOptions, optionName);
-            webElementInteraction.clickElement(action);
+            WebElement action = findFirstElementWithValue(selectedItemsCheckboxOptions, optionName);
+            clickElement(action);
         }
     }
 
     public void clickSelectedItemsDropdown()
     {
-        webElementInteraction.clickElement(selectedItemsDropdown);
-        webElementInteraction.waitUntilElementIsVisibleWithRetry(By.id("SELECTED_ITEMS_MENU_dropdown"), 3);
+        clickElement(selectedItemsDropdown);
+        waitUntilElementIsVisibleWithRetry(By.id("SELECTED_ITEMS_MENU_dropdown"), 3);
     }
 
     public boolean isSelectedItemsOptionDisplayed(String optionName)
     {
-        WebElement action = webElementInteraction.findFirstElementWithValue(selectedItemsOptions, optionName);
-        return webElementInteraction.isElementDisplayed(action);
+        WebElement action = findFirstElementWithValue(selectedItemsOptions, optionName);
+        return isElementDisplayed(action);
     }
 
     public void clickOptionFromSelectedItemsDropdown(String optionName)
     {
         if (isSelectedItemsOptionDisplayed(optionName))
         {
-            WebElement action = webElementInteraction.findFirstElementWithValue(selectedItemsOptions, optionName);
-            webElementInteraction.clickElement(action);
+            WebElement action = findFirstElementWithValue(selectedItemsOptions, optionName);
+            clickElement(action);
         }
     }
 
     public boolean isALLItemsCheckboxChecked()
     {
-        return webElementInteraction.isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
+        return isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
     }
 
     public boolean isNoneItemsCheckboxChecked()
     {
-        return webElementInteraction.isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have no items selected. Click this icon to select all.']"));
+        return isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have no items selected. Click this icon to select all.']"));
     }
 
     public String getSelectedItemsState()
     {
-        webElementInteraction.waitInSeconds(2);
-        return webElementInteraction.findElement(By.cssSelector("div[id='SELECTED_ITEMS_MENU']")).getAttribute("aria-disabled");
+        waitInSeconds(2);
+        return findElement(By.cssSelector("div[id='SELECTED_ITEMS_MENU']")).getAttribute("aria-disabled");
     }
 
     public void deleteDocuments(boolean areYouSure)
     {
-        webElementInteraction.clickElement(deleteDialogCancel);
+        clickElement(deleteDialogCancel);
 
         if (areYouSure)
         {
-            while (webElementInteraction.isElementDisplayed(deleteDialogConfirm))
+            while (isElementDisplayed(deleteDialogConfirm))
             {
-                webElementInteraction.clickElement(deleteDialogConfirm);
+                clickElement(deleteDialogConfirm);
             }
         } else
         {
-            while (webElementInteraction.isElementDisplayed(deleteDialogCancel))
+            while (isElementDisplayed(deleteDialogCancel))
             {
-                webElementInteraction.clickElement(deleteDialogCancel);
+                clickElement(deleteDialogCancel);
             }
         }
     }
 
     public void clickSelectAll()
     {
-        webElementInteraction.clickElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS']"));
-        webElementInteraction.waitUntilElementIsVisibleWithRetry(By.id("SELECTED_LIST_ITEMS_dropdown"), 5);
-        webElementInteraction.clickElement(By.cssSelector("tr[title='All'] td[class*='dijitMenuItemLabel']"));
+        clickElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS']"));
+        waitUntilElementIsVisibleWithRetry(By.id("SELECTED_LIST_ITEMS_dropdown"), 5);
+        clickElement(By.cssSelector("tr[title='All'] td[class*='dijitMenuItemLabel']"));
     }
 
     public void clickSelectedItemsListDropdownArrow()
     {
-        webElementInteraction.clickElement(selectedListItemsDropdownArrow);
+        clickElement(selectedListItemsDropdownArrow);
     }
 
     public boolean isNameHighlighted(String name)
     {
-        List<WebElement> allNameHighlights = webElementInteraction.findElements(nameHighlight);
+        List<WebElement> allNameHighlights = findElements(nameHighlight);
         for (WebElement eachNameHighlight : allNameHighlights)
         {
             if (eachNameHighlight.getText().equals(name))
@@ -594,78 +582,78 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isContentHighlighted(String content)
     {
-        if (!webElementInteraction.isElementDisplayed(contentHighlight))
+        if (!isElementDisplayed(contentHighlight))
         {
             return false;
         } else {
-            return webElementInteraction.findElement(contentHighlight).getText().equals(content);
+            return findElement(contentHighlight).getText().equals(content);
         }
     }
 
     public boolean isDescriptionHighlighted(String description)
     {
-        if (!webElementInteraction.isElementDisplayed(descriptionHighlight))
+        if (!isElementDisplayed(descriptionHighlight))
         {
             return false;
         } else {
-            return webElementInteraction.findElement(descriptionHighlight).getText().equals(description);
+            return findElement(descriptionHighlight).getText().equals(description);
         }
     }
 
     public boolean isTitleHighlighted(String title)
     {
-        if (!webElementInteraction.isElementDisplayed(titleHighlight))
+        if (!isElementDisplayed(titleHighlight))
         {
             return false;
         } else {
-            return webElementInteraction.findElement(titleHighlight).getText().equals(title);
+            return findElement(titleHighlight).getText().equals(title);
         }
     }
 
     public String getNoSearchResultsText()
     {
-        return webElementInteraction.findElement(noSearchResults).getText();
+        return findElement(noSearchResults).getText();
     }
 
     public boolean isAnyFolderReturnedInResults()
     {
-        return webElementInteraction.isElementDisplayed(folderResult);
+        return isElementDisplayed(folderResult);
     }
 
     public boolean isAnyFileReturnedInResults()
     {
-        return webElementInteraction.isElementDisplayed(contentResult);
+        return isElementDisplayed(contentResult);
     }
 
     public boolean isConfirmDeletionDialogDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(confirmDeleteDialog);
+        return isElementDisplayed(confirmDeleteDialog);
     }
 
     public boolean isSiteHighlighted()
     {
-        return webElementInteraction.isElementDisplayed(highlightedSite);
+        return isElementDisplayed(highlightedSite);
     }
 
     public boolean isModifiedOnHighlighted()
     {
-        return webElementInteraction.isElementDisplayed(highlightedModifiedDate);
+        return isElementDisplayed(highlightedModifiedDate);
     }
 
     public void setSearchExpression(String searchExpression)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(inputField), searchExpression);
+        clearAndType(findElement(inputField), searchExpression);
     }
 
     public void clickSearchButton()
     {
-        webElementInteraction.clickElement(searchButton);
+        clickElement(searchButton);
     }
 
     public boolean confirmNoItemIsHighlighted()
     {
-        webElementInteraction.waitUntilElementDeletedFromDom(highlight);
-        return webElementInteraction.isElementDisplayed(highlight);
+        waitUntilElementDeletedFromDom(highlight);
+        return isElementDisplayed(highlight);
     }
 
     public void clickContentName(String contentName)
@@ -675,45 +663,45 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void clickSortDropdownOption(String sortingOption)
     {
-        webElementInteraction.findFirstDisplayedElement(By.xpath("//div[@id='DOCLIB_SORT_FIELD_SELECT_GROUP']//td[text()='" + sortingOption + "']")).click();
-        webElementInteraction.waitUntilElementContainsText(webElementInteraction.findElement(currentSortFilter), sortingOption);
+        findFirstDisplayedElement(By.xpath("//div[@id='DOCLIB_SORT_FIELD_SELECT_GROUP']//td[text()='" + sortingOption + "']")).click();
+        waitUntilElementContainsText(findElement(currentSortFilter), sortingOption);
     }
 
     public boolean isSortOrderToggleButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(sortOrderToggleButton);
+        return isElementDisplayed(sortOrderToggleButton);
     }
 
     public void clickToggleButton()
     {
-        webElementInteraction.clickElement(sortOrderToggleButton);
+        clickElement(sortOrderToggleButton);
     }
 
     public boolean isDescendingOrderSet()
     {
-        return webElementInteraction.isElementDisplayed(By.cssSelector("div[title='Change sort order to descending']"));
+        return isElementDisplayed(By.cssSelector("div[title='Change sort order to descending']"));
     }
 
     public boolean isAscendingOrderSet()
     {
-        return webElementInteraction.isElementDisplayed(By.cssSelector("div[title='Change sort order to ascending']"));
+        return isElementDisplayed(By.cssSelector("div[title='Change sort order to ascending']"));
     }
 
     public String getSortFilter()
     {
-        return webElementInteraction.findElement(currentSortFilter).getText().trim();
+        return findElement(currentSortFilter).getText().trim();
     }
 
     public int getResultsListSize()
     {
-        return webElementInteraction.findElements(resultsList).size();
+        return findElements(resultsList).size();
     }
 
     public boolean areResultsSortedByName()
     {
         boolean status;
         List<String> resultsListText = new ArrayList<>();
-        List<WebElement> resultsName = webElementInteraction.findElements(By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] a[class^='alfresco-navigation'] span.value"));
+        List<WebElement> resultsName = findElements(By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] a[class^='alfresco-navigation'] span.value"));
         List<String> sortedList = new ArrayList<>();
         for (WebElement item : resultsName)
         {
@@ -731,8 +719,8 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public List<String> getAvailableFilters()
     {
         List<String> availableOptions = new ArrayList<>();
-        webElementInteraction.clickElement(sortDropdownButton);
-        for (WebElement option : webElementInteraction.findElements(sortOptions))
+        clickElement(sortDropdownButton);
+        for (WebElement option : findElements(sortOptions))
         {
             availableOptions.add(option.getText());
         }
@@ -744,17 +732,17 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void selectFileTypeFilter(String fileType)
     {
-        webElementInteraction.clickElement(fileTypeOption(fileType));
+        clickElement(fileTypeOption(fileType));
     }
 
     public int getGalleryViewResultsNumber()
     {
-        return webElementInteraction.findElements(galleryViewResultsList).size();
+        return findElements(galleryViewResultsList).size();
     }
 
     public void openFileFromGalleryView(String fileName)
     {
-        webElementInteraction.findFirstElementWithValue(galleryViewResultsList, fileName).click();
+        findFirstElementWithValue(galleryViewResultsList, fileName).click();
     }
 
     public void clickContentThumbnailByName(String contentName)
@@ -764,34 +752,34 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public String getPreviewedImageName()
     {
-        return webElementInteraction.findElement(imagePreview).getText();
+        return findElement(imagePreview).getText();
     }
 
     public boolean isContentPreviewed(String docName)
     {
-        return webElementInteraction.findElement(previewTitle).getText().equals(docName);
+        return findElement(previewTitle).getText().equals(docName);
     }
 
     public boolean isConfigureSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(configureSearchButton);
+        return isElementDisplayed(configureSearchButton);
     }
 
     public void clickModifiedBy(String modifierName)
     {
-        webElementInteraction.findFirstElementWithValue(modifiedBy, modifierName).click();
+        findFirstElementWithValue(modifiedBy, modifierName).click();
     }
 
     public void closePicturePreview()
     {
-        webElementInteraction.clickElement(closePicturePreview);
-        webElementInteraction.waitUntilElementDisappears(By.cssSelector("img[id='aikauLightboxImage']"));
+        clickElement(closePicturePreview);
+        waitUntilElementDisappears(By.cssSelector("img[id='aikauLightboxImage']"));
     }
 
     public void closeFilePreview()
     {
-        webElementInteraction.clickElement(closeFilePreviewButton);
-        webElementInteraction.waitUntilElementDisappears(By.cssSelector("div[class$='dialogDisplayed dijitDialog']"));
+        clickElement(closeFilePreviewButton);
+        waitUntilElementDisappears(By.cssSelector("div[class$='dialogDisplayed dijitDialog']"));
     }
 
     public SearchPage checkContent(ContentModel... contentModels)
@@ -799,7 +787,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         for(ContentModel content : contentModels)
         {
             log.info("Check content: {}", content.getName());
-            webElementInteraction.clickElement(getContentRowResult(content).findElement(contentCheckBox));
+            clickElement(getContentRowResult(content).findElement(contentCheckBox));
         }
         return this;
     }
@@ -807,19 +795,19 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchPage clickSelectedItems()
     {
         log.info("Click Selected Items...");
-        webElementInteraction.clickElement(selectedItemsMenu);
+        clickElement(selectedItemsMenu);
         return this;
     }
 
     public SearchCopyMoveDialog clickCopyToForSelectedItems()
     {
         log.info("Click Copy to... from Selected Items");
-        webElementInteraction.clickElement(copyToAction);
+        clickElement(copyToAction);
         return new SearchCopyMoveDialog(webDriver);
     }
 
-    public SearchResultContentAction usingContent(ContentModel contentModel)
+    public SearchContentActionComponent usingContent(ContentModel contentModel)
     {
-        return new SearchResultContentAction(webDriver, contentModel, this);
+        return new SearchContentActionComponent(webDriver, contentModel);
     }
 }

@@ -50,51 +50,51 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
 
     public AdvancedSearchPage assertAdvancedSearchPageIsOpened()
     {
-        assertTrue(webElementInteraction.getCurrentUrl().contains(getRelativePath()), "Advanced Search page is opened");
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Advanced Search page is opened");
         return this;
     }
 
     public boolean isKeywordsSearchFieldDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(keywordsSearchField);
+        return isElementDisplayed(keywordsSearchField);
     }
 
     public SearchPage clickFirstSearchButton()
     {
-        webElementInteraction.clickElement(firstSearchButton);
+        clickElement(firstSearchButton);
         return new SearchPage(webDriver);
     }
 
     public SearchPage clickSecondSearchButton()
     {
-        webElementInteraction.clickElement(secondSearchButton);
+        clickElement(secondSearchButton);
         return new SearchPage(webDriver);
     }
 
     public void typeKeywords(String keyword)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(keywordsSearchField), keyword);
+        clearAndType(findElement(keywordsSearchField), keyword);
     }
 
     public boolean isTopSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(firstSearchButton);
+        return isElementDisplayed(firstSearchButton);
     }
 
     public boolean isBottomSearchButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(secondSearchButton);
+        return isElementDisplayed(secondSearchButton);
     }
 
     public void clickOnLookForDropdown()
     {
-        webElementInteraction.clickElement(lookForDropdownButton);
+        clickElement(lookForDropdownButton);
     }
 
     public boolean isLookForDropdownOptionDisplayed(String label, String description)
     {
         boolean status = false;
-        List<WebElement> dropdownOptions = webElementInteraction.findElements(lookForDropdownOptions);
+        List<WebElement> dropdownOptions = findElements(lookForDropdownOptions);
         for (WebElement htmlElement : dropdownOptions)
         {
             if (htmlElement.findElement(lookForDropdownOptionLabel).getText().equals(label))
@@ -109,7 +109,7 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
 
     public void clickOnLookForDropdownOption(String label)
     {
-        List<WebElement> dropdownOptions = webElementInteraction.findElements(lookForDropdownOptions);
+        List<WebElement> dropdownOptions = findElements(lookForDropdownOptions);
         for (WebElement htmlElement : dropdownOptions)
         {
             if (htmlElement.findElement(lookForDropdownOptionLabel).getText().equals(label))
@@ -122,85 +122,85 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
 
     public boolean isKeywordsInputDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(keywordsSearchField);
+        return isElementDisplayed(keywordsSearchField);
     }
 
     public boolean isNameInputDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(nameInput);
+        return isElementDisplayed(nameInput);
     }
 
     public boolean isTitleTextareaDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(titleTextarea);
+        return isElementDisplayed(titleTextarea);
     }
 
     public boolean isDescriptionTextareaDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(descriptionTextarea);
+        return isElementDisplayed(descriptionTextarea);
     }
 
     public boolean isMimetypeDropDownDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(mimetypeDropdown);
+        return isElementDisplayed(mimetypeDropdown);
     }
 
     public boolean isDateFromPickerDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dateFromPicker);
+        return isElementDisplayed(dateFromPicker);
     }
 
     public boolean isDateToPickerDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(dateToPicker);
+        return isElementDisplayed(dateToPicker);
     }
 
     public boolean isModifierInputDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(modifierInput);
+        return isElementDisplayed(modifierInput);
     }
 
     public void typeName(String name)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(nameInput), name);
+        clearAndType(findElement(nameInput), name);
     }
 
     public void typeTitle(String title)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(titleTextarea), title);
+        clearAndType(findElement(titleTextarea), title);
     }
 
     public void typeDescription(String description)
     {
-        webElementInteraction.clearAndType(webElementInteraction.findElement(descriptionTextarea), description);
+        clearAndType(findElement(descriptionTextarea), description);
     }
 
     public void selectMimetype(String mimetype)
     {
-        Select mimeTypeSelect = new Select(webElementInteraction.findElement(mimetypeDropdown));
+        Select mimeTypeSelect = new Select(findElement(mimetypeDropdown));
         mimeTypeSelect.selectByValue(mimetype);
     }
 
     public void setFromDate(String dateToBeSet)
     {
-        webElementInteraction.waitUntilElementIsVisible(fromDateInputField);
-        webElementInteraction.clearAndType(webElementInteraction.findElement(fromDateInputField), dateToBeSet);
+        waitUntilElementIsVisible(fromDateInputField);
+        clearAndType(findElement(fromDateInputField), dateToBeSet);
     }
 
     public void setToDate(String dateToBeSet)
     {
-        webElementInteraction.waitUntilElementIsVisible(toDateInputField);
-        webElementInteraction.clearAndType(toDateInputField, dateToBeSet);
+        waitUntilElementIsVisible(toDateInputField);
+        clearAndType(toDateInputField, dateToBeSet);
     }
 
     public String getSelectedContentTypeOption()
     {
-        return webElementInteraction.findElement(lookForDropdownButton).getText();
+        return findElement(lookForDropdownButton).getText();
     }
 
     public void setTitle(String criteria)
     {
-        webElementInteraction.waitUntilElementIsVisible(titleBox);
-        webElementInteraction.clearAndType(titleBox, criteria);
+        waitUntilElementIsVisible(titleBox);
+        clearAndType(titleBox, criteria);
     }
 }

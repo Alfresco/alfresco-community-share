@@ -129,8 +129,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     public DeleteDialog clickDeleteButton()
     {
-        webElementInteraction.waitUntilElementIsVisible(deleteButton);
-        webElementInteraction.clickElement(deleteButton);
+        waitUntilElementIsVisible(deleteButton);
+        clickElement(deleteButton);
         return new DeleteDialog(webDriver);
     }
 
@@ -146,7 +146,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     private WebElement selectComment(String user)
     {
-        return webElementInteraction.findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
+        return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
     }
 
     /**
@@ -188,8 +188,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
      */
     public void clickEditComment(String user)
     {
-        webElementInteraction.mouseOver(selectComment(user));
-        webElementInteraction.clickElement(editCommentButton);
+        mouseOver(selectComment(user));
+        clickElement(editCommentButton);
     }
 
     /**
@@ -197,8 +197,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
      */
     public DeleteDialog clickDeleteComment(String user)
     {
-        webElementInteraction.mouseOver(selectComment(user));
-        webElementInteraction.clickElement(deleteCommentButton);
+        mouseOver(selectComment(user));
+        clickElement(deleteCommentButton);
         return new DeleteDialog(webDriver);
     }
 

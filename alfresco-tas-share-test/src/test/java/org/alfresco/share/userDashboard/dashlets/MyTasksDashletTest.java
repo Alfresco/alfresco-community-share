@@ -15,7 +15,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
 {
     private MyTasksDashlet myTasksDashlet;
 
-    private ThreadLocal<DataWorkflow> dataWorkflow = new ThreadLocal<>();
+    private final ThreadLocal<DataWorkflow> dataWorkflow = new ThreadLocal<>();
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
@@ -27,7 +27,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2122")

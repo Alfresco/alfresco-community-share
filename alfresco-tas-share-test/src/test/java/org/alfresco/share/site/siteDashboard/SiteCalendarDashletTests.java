@@ -56,7 +56,7 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_CALENDAR, 1, 2);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C5492")

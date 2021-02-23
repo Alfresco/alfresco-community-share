@@ -50,7 +50,7 @@ public class SiteFileTypeBreakdownDashletTests extends AbstractSiteDashboardDash
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, 1, 2);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C5783")

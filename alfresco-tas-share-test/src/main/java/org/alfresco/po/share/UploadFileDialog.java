@@ -29,33 +29,33 @@ public class UploadFileDialog extends BaseDialogComponent
 
     public void uploadFile(String location)
     {
-        webElementInteraction.waitUntilElementIsVisible(dialogBody);
-        webElementInteraction.clearAndType(uploadInput, location);
-        webElementInteraction.waitUntilElementDisappears(dialogBody);
+        waitUntilElementIsVisible(dialogBody);
+        clearAndType(uploadInput, location);
+        waitUntilElementDisappears(dialogBody);
     }
 
     public <T> T uploadFile(String location, SharePage2<T> page)
     {
         log.info("Upload file from {}", location);
         uploadFile(location);
-        webElementInteraction.waitUntilElementDisappears(dialogBody);
+        waitUntilElementDisappears(dialogBody);
         
         return (T) this;
     }
 
     public boolean isUploadFailedMessageDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(uploadFailedTransformationMessage);
+        return isElementDisplayed(uploadFailedTransformationMessage);
     }
 
     @Override
     public void clickClose()
     {
-        webElementInteraction.clickElement(closeUploadDialogButton);
+        clickElement(closeUploadDialogButton);
     }
 
     public void waitForUploadDialogToDisappear()
     {
-        webElementInteraction.waitUntilElementDisappears(dialogBody);
+        waitUntilElementDisappears(dialogBody);
     }
 }

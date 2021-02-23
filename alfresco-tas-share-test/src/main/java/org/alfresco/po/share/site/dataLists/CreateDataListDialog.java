@@ -26,7 +26,7 @@ public class CreateDataListDialog extends BaseDialogComponent
     private final By descriptionLabel = By.cssSelector("label[for*='default-newList'][for$='description']");
     private final By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
 
-    private String typeOfListDescription = "//div[contains(@id, 'itemTypesContainer')]//a[text()='Contact List']//ancestor::*//div[contains(@id, 'itemTypesContainer')]//span";
+    private final String typeOfListDescription = "//div[contains(@id, 'itemTypesContainer')]//a[text()='Contact List']//ancestor::*//div[contains(@id, 'itemTypesContainer')]//span";
 
     public CreateDataListDialog(ThreadLocal<WebDriver> webDriver)
     {
@@ -42,7 +42,7 @@ public class CreateDataListDialog extends BaseDialogComponent
     {
         List<String> typesOfListString = new ArrayList<>();
 
-        for (WebElement item : webElementInteraction.waitUntilElementsAreVisible(typesOfList))
+        for (WebElement item : waitUntilElementsAreVisible(typesOfList))
         {
             typesOfListString.add(item.getText());
         }
@@ -52,106 +52,105 @@ public class CreateDataListDialog extends BaseDialogComponent
 
     public boolean isNewListPopupDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(newListPopup);
+        return isElementDisplayed(newListPopup);
     }
 
     public String getTypeOfListDescription(DataListTypes listType)
     {
-        return webElementInteraction.waitUntilElementIsVisible(By.xpath(String.format(typeOfListDescription,
-                listType.toString()))).getText();
+        return getElementText(By.xpath(String.format(typeOfListDescription, listType.toString())));
     }
 
     public String getTitleLabelText()
     {
-        return webElementInteraction.waitUntilElementIsVisible(titleLabel).getText();
+        return waitUntilElementIsVisible(titleLabel).getText();
     }
 
     public boolean isTitleMandatoryIndicatorDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(titleMandatoryIndicator);
+        return isElementDisplayed(titleMandatoryIndicator);
     }
 
     public boolean isTitleFieldDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(titleField);
+        return isElementDisplayed(titleField);
     }
 
     public String getDescriptionLabelText()
     {
-        return webElementInteraction.waitUntilElementIsVisible(descriptionLabel).getText();
+        return waitUntilElementIsVisible(descriptionLabel).getText();
     }
 
     public boolean isDescriptionFieldDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(descriptionField);
+        return isElementDisplayed(descriptionField);
     }
 
     public CreateDataListDialog selectType(String type)
     {
-        webElementInteraction.findFirstElementWithValue(typesOfList, type).click();
+        findFirstElementWithValue(typesOfList, type).click();
         return this;
     }
 
     public boolean isExpectedTypeSelected(String expectedType)
     {
-        return webElementInteraction.findElement(typeSelected).getText().equals(expectedType);
+        return findElement(typeSelected).getText().equals(expectedType);
     }
 
     public CreateDataListDialog typeTitle(String title)
     {
         log.info("Clear and type title: {}", title);
-        webElementInteraction.clearAndType(titleField, title);
+        clearAndType(titleField, title);
         return this;
     }
 
     public String getTitleValue()
     {
-        return webElementInteraction.findElement(titleField).getAttribute("value");
+        return findElement(titleField).getAttribute("value");
     }
 
     public CreateDataListDialog typeDescription(String description)
     {
         log.info("Clear and type description: {}", description);
-        webElementInteraction.clearAndType(descriptionField, description);
+        clearAndType(descriptionField, description);
         return this;
     }
 
     public String getDescriptionValue()
     {
-        return webElementInteraction.waitUntilElementIsVisible(titleField).getAttribute("value");
+        return waitUntilElementIsVisible(titleField).getAttribute("value");
     }
 
     public String getInvalidDataListBalloonMessage()
     {
-        return webElementInteraction.getElementText(balloon);
+        return getElementText(balloon);
     }
 
     public String invalidTitleBalloonMessage()
     {
-        return webElementInteraction.waitUntilElementIsVisible(titleField).getAttribute("title");
+        return waitUntilElementIsVisible(titleField).getAttribute("title");
     }
 
     public boolean isSaveButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(saveButton);
+        return isElementDisplayed(saveButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return webElementInteraction.isElementDisplayed(cancelButton);
+        return isElementDisplayed(cancelButton);
     }
 
     public void clickSaveButton()
     {
         log.info("Click Save button");
-        webElementInteraction.clickElement(saveButton);
+        clickElement(saveButton);
         waitUntilNotificationMessageDisappears();
     }
 
     public DataListsPage clickCancelButton()
     {
         log.info("Click Cancel button");
-        webElementInteraction.clickElement(cancelButton);
+        clickElement(cancelButton);
 
         return new DataListsPage(webDriver);
     }

@@ -24,19 +24,19 @@ public class HideWelcomePanelDialog extends BaseDialogComponent
     public void clickOK()
     {
         log.info("Click OK");
-        webElementInteraction.clickElement(panelText);
-        webElementInteraction.clickElement(okButton);
-        webElementInteraction.waitUntilElementDisappears(startedPanelContainer);
+        clickElement(panelText);
+        clickElement(okButton);
+        waitUntilElementDisappears(startedPanelContainer);
     }
 
     public HideWelcomePanelDialog assertHideWelcomePanelDialogContentIsCorrect()
     {
         log.info("Assert Hide welcome panel dialog content is correct");
-        assertEquals(webElementInteraction.findElement(panelText).getText(), language.translate("hideWelcomePanelDialog.message"),
+        assertEquals(findElement(panelText).getText(), language.translate("hideWelcomePanelDialog.message"),
                 "Dialog message is correct");
 
-       assertTrue(webElementInteraction.isElementDisplayed(configIcon), "Config icon is displayed");
-       assertEquals(webElementInteraction.findElement(panelTextSettingsIcon).getText(), language.translate("hideWelcomePanelDialog.selectSettingIcon"),
+       assertTrue(isElementDisplayed(configIcon), "Config icon is displayed");
+       assertEquals(findElement(panelTextSettingsIcon).getText(), language.translate("hideWelcomePanelDialog.selectSettingIcon"),
                 "Select setting icon message is correct");
 
         return this;

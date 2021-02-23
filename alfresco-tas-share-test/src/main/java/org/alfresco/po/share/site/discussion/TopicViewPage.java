@@ -104,7 +104,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     private WebElement selectReply(String reply)
     {
-        return webElementInteraction.findFirstElementWithValue(repliesList, reply);
+        return findFirstElementWithValue(repliesList, reply);
     }
 
     /**
@@ -124,7 +124,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicReplyHeader()
     {
-        webElementInteraction.waitUntilElementIsVisible(addReplyHeader);
+        waitUntilElementIsVisible(addReplyHeader);
         return addReplyHeader.getText();
     }
 
@@ -275,11 +275,11 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     public void typeReply(String content)
     {
-        webElementInteraction.switchToFrame(webElementInteraction.waitUntilElementIsVisible(replyTextArea).getAttribute("id"));
-        WebElement editable = webElementInteraction.switchTo().activeElement();
+        switchToFrame(waitUntilElementIsVisible(replyTextArea).getAttribute("id"));
+        WebElement editable = switchTo().activeElement();
         editable.clear();
         editable.sendKeys(content);
-        webElementInteraction.switchToDefaultContent();
+        switchToDefaultContent();
     }
 
     /**
@@ -299,9 +299,9 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getReplyBoxContent()
     {
-        webElementInteraction.switchToFrame(webElementInteraction.findElement(replyTextArea).getAttribute("id"));
-        String editableText = webElementInteraction.switchTo().activeElement().getText();
-        webElementInteraction.switchToDefaultContent();
+        switchToFrame(findElement(replyTextArea).getAttribute("id"));
+        String editableText = switchTo().activeElement().getText();
+        switchToDefaultContent();
         return editableText;
     }
 
@@ -335,7 +335,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isReplyIndentedFromItsParent(String replyChild, String replyParent)
     {
-        return webElementInteraction.isElementDisplayed(selectReply(replyParent),
+        return isElementDisplayed(selectReply(replyParent),
             By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
     }
 
@@ -359,14 +359,14 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isReplyVisible(String reply)
     {
-        return webElementInteraction.isElementDisplayed(selectReply(reply));
+        return isElementDisplayed(selectReply(reply));
     }
 
     public InsertLinkPopUp selectOptionFromInsertMenu(String option)
     {
         insertMenuButton.click();
-        WebElement insertMenu = webElementInteraction.waitUntilElementIsVisible(replyBoxMenu);
-        webElementInteraction.findFirstElementWithValue(insertMenu.findElements(replyBoxMenuItem), option).click();
+        WebElement insertMenu = waitUntilElementIsVisible(replyBoxMenu);
+        findFirstElementWithValue(insertMenu.findElements(replyBoxMenuItem), option).click();
         return new InsertLinkPopUp(webDriver);
     }
 
@@ -390,7 +390,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isImageDisplayedInReply(String reply, String imageSource)
     {
-        return webElementInteraction.isElementDisplayed(selectReply(reply), By.cssSelector("img[src='" + imageSource + "']"));
+        return isElementDisplayed(selectReply(reply), By.cssSelector("img[src='" + imageSource + "']"));
     }
 
     /**

@@ -33,27 +33,27 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public ContentImEditingDashlet clickHelpIcon()
     {
-        webElementInteraction.mouseOver(titleBar);
-        webElementInteraction.clickElement(helpIcon);
+        mouseOver(titleBar);
+        clickElement(helpIcon);
         return this;
     }
 
     public ContentImEditingDashlet assertAllHeadersAreDisplayed()
     {
         log.info("Assert all headers are displayed for Content I'm editing dashlet");
-        List<WebElement> headers = webElementInteraction.waitUntilElementsAreVisible(dashletContentHeaders);
-        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
+        List<WebElement> headers = waitUntilElementsAreVisible(dashletContentHeaders);
+        assertNotNull(findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.documents")));
-        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
+        assertNotNull(findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.blogPosts")));
-        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
+        assertNotNull(findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.wikiPages")));
-        assertNotNull(webElementInteraction.findFirstElementWithExactValue(headers,
+        assertNotNull(findFirstElementWithExactValue(headers,
             language.translate("contentImEditingDashlet.forumPosts")));
 
         return this;
@@ -72,7 +72,7 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
 
     private boolean isDocumentDisplayedInDashlet(FileModel file)
     {
-        return webElementInteraction.isElementDisplayed(By.xpath(String.format(editedDocumentRow, file.getName())));
+        return isElementDisplayed(By.xpath(String.format(editedDocumentRow, file.getName())));
     }
 
     private WebElement waitForDocumentToBeDisplayed(FileModel file)
@@ -82,12 +82,12 @@ public class ContentImEditingDashlet extends Dashlet<ContentImEditingDashlet>
         while(retryCount < RETRY_TIME_80.getValue() && !found)
         {
             log.warn("File {} not displayed - retry: {}", file.getName(), retryCount);
-            webElementInteraction.refresh();
-            webElementInteraction.waitInSeconds(WAIT_2.getValue());
+            refresh();
+            waitInSeconds(WAIT_2.getValue());
             found = isDocumentDisplayedInDashlet(file);
             retryCount++;
         }
-        return webElementInteraction.findElement(By.xpath(String.format(editedDocumentRow, file.getName())));
+        return findElement(By.xpath(String.format(editedDocumentRow, file.getName())));
     }
 
     public ContentImEditingDashlet assertDocumentIsDisplayed(FileModel file)

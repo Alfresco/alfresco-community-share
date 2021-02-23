@@ -30,7 +30,7 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_CALENDAR, 1, 3);
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })

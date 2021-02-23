@@ -39,7 +39,7 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_CONTRIB_BREAKDOWN, 1, 2);
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C202732")

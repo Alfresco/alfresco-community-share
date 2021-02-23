@@ -47,7 +47,7 @@ public class AddSiteGroupsTest extends BaseTest
         siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
         groupModel.set(dataGroup.usingAdmin().createRandomGroup());
 
-        setupAuthenticatedSession(userModel.get());
+        authenticateUsingCookies(userModel.get());
 
         addSiteGroupsPage = new AddSiteGroupsPage(webDriver);
         siteGroupsPage = new SiteGroupsPage(webDriver);
@@ -228,15 +228,15 @@ public class AddSiteGroupsTest extends BaseTest
         dataGroup.usingUser(userModel.get())
             .addGroupToSite(consumerGroup, siteModel.get(), SiteConsumer);
 
-        setupAuthenticatedSession(collaborator);
+        authenticateUsingCookies(collaborator);
         siteGroupsPage.navigate(siteModel.get());
         siteGroupsPage.assertAddGroupsButtonIsNotDisplayed();
 
-        setupAuthenticatedSession(contributor);
+        authenticateUsingCookies(contributor);
         siteGroupsPage.navigate(siteModel.get());
         siteGroupsPage.assertAddGroupsButtonIsNotDisplayed();
 
-        setupAuthenticatedSession(consumer);
+        authenticateUsingCookies(consumer);
         siteGroupsPage.navigate(siteModel.get());
         siteGroupsPage.assertAddGroupsButtonIsNotDisplayed();
     }

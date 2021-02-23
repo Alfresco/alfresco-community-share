@@ -17,12 +17,12 @@ public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashl
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
+        return waitUntilElementIsVisible(dashletContainer).findElement(dashletTitle).getText();
     }
 
     public MyMeetingWorkspacesDashlet assertNoMeetingWorkspacesMessageIsDisplayed()
     {
-        assertEquals(webElementInteraction.getElementText(defaultDashletMessage),
+        assertEquals(getElementText(defaultDashletMessage),
             language.translate("myMeetingWorkspacesDashlet.noMeeting"));
         return this;
     }

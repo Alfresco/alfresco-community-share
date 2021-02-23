@@ -43,7 +43,7 @@ public class AddSiteMembersTests extends BaseTest
         userModel.set(dataUser.usingAdmin().createRandomTestUser());
         siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
 
-        setupAuthenticatedSession(userModel.get());
+        authenticateUsingCookies(userModel.get());
 
         addSiteUsersPage = new AddSiteUsersPage(webDriver);
         siteMembersPage = new SiteMembersPage(webDriver);

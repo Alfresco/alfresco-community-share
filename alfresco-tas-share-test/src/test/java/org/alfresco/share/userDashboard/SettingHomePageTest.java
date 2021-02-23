@@ -2,6 +2,7 @@ package org.alfresco.share.userDashboard;
 
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -14,8 +15,9 @@ public class SettingHomePageTest extends BaseTest
     private SharedFilesPage sharedFilesPage;
     private PeopleFinderPage peopleFinderPage;
     private UserProfilePage userProfilePage;
+    private Toolbar toolbar;
 
-    private ThreadLocal<UserModel> testUser = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> testUser = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -23,9 +25,10 @@ public class SettingHomePageTest extends BaseTest
         userProfilePage = new UserProfilePage(webDriver);
         peopleFinderPage = new PeopleFinderPage(webDriver);
         sharedFilesPage = new SharedFilesPage(webDriver);
+        toolbar = new Toolbar(webDriver);
 
         testUser.set(getDataUser().usingAdmin().createRandomTestUser());
-        setupAuthenticatedSession(testUser.get());
+        authenticateUsingCookies(testUser.get());
     }
 
     @TestRail (id = "C2858")

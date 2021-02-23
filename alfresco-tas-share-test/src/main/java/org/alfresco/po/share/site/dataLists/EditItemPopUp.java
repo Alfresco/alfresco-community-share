@@ -12,8 +12,8 @@ public class EditItemPopUp extends CreateNewItemPopUp
 
     public void editContent(String field, String content)
     {
-        webElementInteraction.waitUntilElementIsVisible(By.cssSelector(String.format(fieldLocator, field)));
-        webElementInteraction.findElement(By.cssSelector(String.format(fieldLocator, field))).clear();
+        waitUntilElementIsVisible(By.cssSelector(String.format(fieldLocator, field)));
+        findElement(By.cssSelector(String.format(fieldLocator, field))).clear();
         addContent(field, content);
     }
 }

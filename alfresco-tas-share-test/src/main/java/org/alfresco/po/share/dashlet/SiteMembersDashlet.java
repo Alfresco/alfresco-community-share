@@ -33,20 +33,20 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 
     private WebElement allMembersButton(String buttonText)
     {
-        return webElementInteraction.findElement(By.xpath("//a[text()='" + buttonText + "']"));
+        return findElement(By.xpath("//a[text()='" + buttonText + "']"));
     }
 
     @Override
     public String getDashletTitle()
     {
-        return webElementInteraction.getElementText(webElementInteraction.waitUntilElementIsVisible(dashletContainer)
+        return getElementText(waitUntilElementIsVisible(dashletContainer)
             .findElement(dashletTitle));
     }
 
     public SiteMembersDashlet assertMembersListMessageEquals(String expectedMembersListMessage)
     {
         log.info("Assert members list message equals: {}", expectedMembersListMessage);
-        assertEquals(webElementInteraction.getElementText(emptyMembersListMessage), expectedMembersListMessage,
+        assertEquals(getElementText(emptyMembersListMessage), expectedMembersListMessage,
             String.format("Members list message not equals %s ", expectedMembersListMessage));
 
         return this;
@@ -55,7 +55,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     public SiteMembersDashlet assertAddUsersLinkTextEquals(String expectedAddUsersLinkText)
     {
         log.info("Assert Add Users link text equals: {}", expectedAddUsersLinkText);
-        assertEquals(webElementInteraction.getElementText(addUsersLink), expectedAddUsersLinkText,
+        assertEquals(getElementText(addUsersLink), expectedAddUsersLinkText,
             String.format("Add Users link text not equals %s ", expectedAddUsersLinkText));
 
         return this;
@@ -64,7 +64,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     public SiteMembersDashlet assertAllMembersLinkTextEquals(String expectedAllMembersLinkText)
     {
         log.info("Assert All Members link text equals: {}", expectedAllMembersLinkText);
-        assertEquals(webElementInteraction.getElementText(allMembersLink), expectedAllMembersLinkText,
+        assertEquals(getElementText(allMembersLink), expectedAllMembersLinkText,
             String.format("All Members link text not equals %s ", expectedAllMembersLinkText));
 
         return this;
@@ -83,19 +83,18 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     {
         String formattedUsername = expectedFirstName.concat(EMPTY_SPACE).concat(expectedLastName);
 
-        webElementInteraction.waitWithRetryAndReturnWebElement(
+        waitWithRetryAndReturnWebElement(
             By.xpath(String.format(usernameLocator, formattedUsername)), WAIT_2.getValue(),
             RETRY_TIME_80.getValue());
 
-        return webElementInteraction.getElementText(By.xpath(String
+        return getElementText(By.xpath(String
             .format(usernameLocator, formattedUsername)));
     }
 
     public SiteMembersDashlet assertUserRoleEquals(String expectedUserRole)
     {
         log.info("Assert user role equals: {}", expectedUserRole);
-        String actualUserRole = webElementInteraction
-            .getElementText(By.xpath(String.format(userRoleLocator, expectedUserRole)));
+        String actualUserRole = getElementText(By.xpath(String.format(userRoleLocator, expectedUserRole)));
 
         assertEquals(actualUserRole, expectedUserRole,
             String.format("User role not equals %s ", expectedUserRole));
@@ -106,7 +105,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     public SiteMembersDashlet assertPaginationTextEquals(String expectedPaginationText)
     {
         log.info("Assert pagination text equals: {}", expectedPaginationText);
-        assertEquals(webElementInteraction.getElementText(paginationSection), expectedPaginationText,
+        assertEquals(getElementText(paginationSection), expectedPaginationText,
             String.format("Pagination text not equals %s ", expectedPaginationText));
 
         return this;
@@ -114,8 +113,8 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 
     private String getMemberRole(String member)
     {
-        return webElementInteraction.getElementText(
-            webElementInteraction.findFirstElementWithValue(membersList, member)
+        return getElementText(
+            findFirstElementWithValue(membersList, member)
                 .findElement(memberRole));
     }
 
@@ -130,7 +129,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
     public UserProfilePage clickUser(String username)
     {
         log.info("Navigate to profile page of given user: {}", username);
-        webElementInteraction.clickElement(webElementInteraction.findElement(
+        clickElement(findElement(
             By.xpath(String.format(usernameLocator, username))));
 
         return new UserProfilePage(webDriver);
@@ -138,6 +137,6 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 
     public void clickAllMembersButton(String buttonText)
     {
-        allMembersButton(buttonText).click();
+        clickElement(allMembersButton(buttonText));
     }
 }

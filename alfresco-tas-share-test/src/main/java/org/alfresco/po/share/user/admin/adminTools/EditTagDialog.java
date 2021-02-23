@@ -26,44 +26,44 @@ public class EditTagDialog extends BaseDialogComponent
 
     public String getDialogTitle()
     {
-        return webElementInteraction.getElementText(dialogTitle);
+        return getElementText(dialogTitle);
     }
 
     public EditTagDialog assertRenameTagLabelIsCorrect()
     {
         log.info("Assert Rename Tag label is correct");
-        assertEquals(webElementInteraction.getElementText(renameLabel), language.translate("editTag.renameLabel"), "Rename label is");
+        assertEquals(getElementText(renameLabel), language.translate("editTag.renameLabel"), "Rename label is");
         return this;
     }
 
     public EditTagDialog assertRequiredSymbolIsDisplayed()
     {
         log.info("Assert required symbol is displayed");
-        assertEquals(webElementInteraction.getElementText(requiredSymbol), " *", "Required symbol is displayed");
+        assertEquals(getElementText(requiredSymbol), " *", "Required symbol is displayed");
         return this;
     }
 
     public EditTagDialog assertOkButtonIsDisplayed()
     {
         log.info("Assert Ok button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(okButton), "Ok button is displayed");
+        assertTrue(isElementDisplayed(okButton), "Ok button is displayed");
         return this;
     }
 
     public EditTagDialog assertCancelButtonIsDisplayed()
     {
         log.info("Assert Cancel button is displayed");
-        assertTrue(webElementInteraction.isElementDisplayed(cancelButton), "Cancel button is displayed");
+        assertTrue(isElementDisplayed(cancelButton), "Cancel button is displayed");
         return this;
     }
 
     public TagManagerPage renameTag(String updatedTag)
     {
         log.info("Rename tag to {}", updatedTag);
-        webElementInteraction.clearAndType(editTagInputField, updatedTag);
-        WebElement ok = webElementInteraction.waitUntilElementIsVisible(okButton);
-        webElementInteraction.mouseOver(ok);
-        webElementInteraction.clickElement(ok);
+        clearAndType(editTagInputField, updatedTag);
+        WebElement ok = waitUntilElementIsVisible(okButton);
+        mouseOver(ok);
+        clickElement(ok);
         waitUntilNotificationMessageDisappears();
 
         return new TagManagerPage(webDriver);

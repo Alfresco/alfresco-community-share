@@ -22,7 +22,7 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
 
         user.set(dataUser.usingAdmin().createRandomTestUser());
         site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C2134")
