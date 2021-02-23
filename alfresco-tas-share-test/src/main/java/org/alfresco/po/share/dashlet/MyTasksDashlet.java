@@ -97,6 +97,8 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     public MyTasksPage clickActiveTasksLink()
     {
+        log.info("Click Active Tasks link");
+        waitUntilElementIsVisible(activeTasksLink);
         clickElement(activeTasksLink);
         return new MyTasksPage(webDriver);
     }
