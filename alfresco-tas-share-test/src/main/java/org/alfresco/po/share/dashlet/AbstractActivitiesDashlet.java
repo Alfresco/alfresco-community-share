@@ -221,6 +221,7 @@ public abstract class AbstractActivitiesDashlet<T> extends Dashlet<AbstractActiv
     public T selectActivityFilter(ActivitiesFilter activitiesFilter)
     {
         log.info("Select activity filter {}", activitiesFilter.toString());
+        mouseOver(myActivitiesButton);
         clickElement(myActivitiesButton);
         List<WebElement> options = waitUntilElementsAreVisible(dropDownOptionsList);
         selectOptionFromFilterOptionsList(getActivitiesFilterValue(activitiesFilter), options);

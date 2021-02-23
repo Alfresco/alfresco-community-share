@@ -32,7 +32,7 @@ public class CategoriesFilterTests extends BaseTest
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C6910, C10595")

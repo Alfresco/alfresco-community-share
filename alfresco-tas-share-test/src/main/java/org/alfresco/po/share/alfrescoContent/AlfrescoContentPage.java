@@ -162,15 +162,15 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsDisplayed()
     {
         log.info("Assert Documents root breadcrumb is displayed");
-        webElementInteraction.waitUntilElementIsVisible(documentsRootBreadcrumb);
-        assertTrue(webElementInteraction.isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is not displayed");
+        waitUntilElementIsVisible(documentsRootBreadcrumb);
+        assertTrue(isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is not displayed");
         return this;
     }
 
     public AlfrescoContentPage<T> assertDocumentsRootBreadcrumbIsNotDisplayed()
     {
         log.info("Assert Documents root breadcrumb is noy displayed");
-        assertFalse(webElementInteraction.isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is displayed");
+        assertFalse(isElementDisplayed(documentsRootBreadcrumb), "Documents root folder is displayed");
         return this;
     }
 
@@ -374,31 +374,31 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     public AlfrescoContentPage<T> clickOptions()
     {
         log.info("Click Options");
-        webElementInteraction.clickElement(optionDropdownButton);
-        webElementInteraction.waitUntilElementIsVisible(optionsMenu);
+        clickElement(optionDropdownButton);
+        waitUntilElementIsVisible(optionsMenu);
         return this;
     }
 
     public AlfrescoContentPage<T> selectHideBreadcrumbFromOptions()
     {
         log.info("Select Hide Breadcrumb option");
-        webElementInteraction.clickElement(hideBreadcrumbOption);
-        webElementInteraction.waitUntilElementDisappears(documentsRootBreadcrumb);
+        clickElement(hideBreadcrumbOption);
+        waitUntilElementDisappears(documentsRootBreadcrumb);
         return this;
     }
 
     public AlfrescoContentPage<T> selectShowBreadcrumbFromOptions()
     {
         log.info("Select Show Breadcrumb option");
-        webElementInteraction.clickElement(showBreadcrumbOption);
-        webElementInteraction.waitUntilElementIsVisible(documentsRootBreadcrumb);
+        clickElement(showBreadcrumbOption);
+        waitUntilElementIsVisible(documentsRootBreadcrumb);
         return this;
     }
 
     public AlfrescoContentPage<T> assertCategoriesAreNotExpanded()
     {
         log.info("Assert Categories are not expanded");
-        WebElement table = webElementInteraction.waitUntilElementIsVisible(categoriesTable);
+        WebElement table = waitUntilElementIsVisible(categoriesTable);
         assertTrue(table.getAttribute("class").contains(categoriesCollapsed), "Categories are expanded");
         return this;
     }
@@ -406,7 +406,7 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     public AlfrescoContentPage<T> assertCategoriesAreExpanded()
     {
         log.info("Assert Categories are not expanded");
-        WebElement table = webElementInteraction.waitUntilElementIsVisible(categoriesTable);
+        WebElement table = waitUntilElementIsVisible(categoriesTable);
         assertTrue(table.getAttribute("class").contains(categoriesExpanded), "Categories are expanded");
         return this;
     }
@@ -414,8 +414,8 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     public AlfrescoContentPage<T> expandCategoryRoot()
     {
         log.info("Expand Category Root");
-        webElementInteraction.clickElement(categoryRootIcon);
-        webElementInteraction.waitUntilElementIsVisible(categoriesChildren);
+        clickElement(categoryRootIcon);
+        waitUntilElementIsVisible(categoriesChildren);
         return this;
     }
 
@@ -423,17 +423,16 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     {
         log.info("Expand category {}", category);
         By categoryIconSelector = By.xpath(String.format(categoryIcon, category));
-        webElementInteraction.waitUntilElementIsVisible(categoryIconSelector);
-        webElementInteraction.clickElement(categoryIconSelector);
-        webElementInteraction.waitUntilElementIsVisible(categoriesChildren);
+        waitUntilElementIsVisible(categoryIconSelector);
+        clickElement(categoryIconSelector);
+        waitUntilElementIsVisible(categoriesChildren);
         return this;
     }
 
     public AlfrescoContentPage<T> collapseCategoryRoot()
     {
         log.info("Collapse Category Root");
-        webElementInteraction.clickElement(categoryRootIcon);
-        webElementInteraction.waitUntilLocatorHasDisplayNoneStyle(categoriesChildren);
+        clickElement(categoryRootIcon);
         return this;
     }
 
@@ -441,8 +440,8 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     {
         log.info("Select category {}", category);
         By categorySelect = By.xpath(String.format(categorySelector, category));
-        webElementInteraction.waitUntilElementIsVisible(categorySelect);
-        webElementInteraction.clickElement(categorySelect);
+        waitUntilElementIsVisible(categorySelect);
+        clickElement(categorySelect);
         return this;
     }
 

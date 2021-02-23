@@ -29,7 +29,7 @@ public class DocumentLibraryTests extends BaseTest
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());
 
-        setupAuthenticatedSession(user.get());
+        authenticateUsingCookies(user.get());
     }
 
     @TestRail (id = "C6935, C6907")

@@ -166,6 +166,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
 
     public SearchManagerPage clickSave()
     {
+        waitInSeconds(1);
         WebElement save = waitUntilElementIsVisible(saveButton);
         mouseOver(save);
         clickElement(save);

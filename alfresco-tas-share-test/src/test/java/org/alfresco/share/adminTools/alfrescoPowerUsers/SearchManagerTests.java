@@ -57,7 +57,7 @@ public class SearchManagerTests extends BaseTest
                 .typeFilterId(filterId)
                 .typeFilterName(filterId)
                 .clickSave();
-        searchManagerPage.navigate()
+        searchManagerPage
             .editFilterProperty(filterId, "audio:album (Album)")
             .assertFilterPropertyIs(filterId, "audio:album (Album)")
             .deleteFilter(filterId)
