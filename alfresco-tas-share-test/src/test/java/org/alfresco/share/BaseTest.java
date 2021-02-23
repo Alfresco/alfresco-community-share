@@ -72,9 +72,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     @BeforeMethod(alwaysRun = true)
     protected void beforeEachTest(ITestContext iTestContext)
     {
-        webDriver.set(webDriverFactory.createWebDriver());
         setApplicationsContext();
-        setTestContext(iTestContext, webDriver.get());
+        webDriver.set(webDriverFactory.createWebDriver());
+//        setTestContext(iTestContext, webDriver.get());
 
         userDashboardPage = new UserDashboardPage(webDriver);
     }
@@ -209,9 +209,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    private ITestContext setTestContext(ITestContext iTestContext, WebDriver driver)
-    {
-        iTestContext.setAttribute("driver", driver);
-        return iTestContext;
-    }
+//    private ITestContext setTestContext(ITestContext iTestContext, WebDriver driver)
+//    {
+//        iTestContext.setAttribute("driver", driver);
+//        return iTestContext;
+//    }
 }
