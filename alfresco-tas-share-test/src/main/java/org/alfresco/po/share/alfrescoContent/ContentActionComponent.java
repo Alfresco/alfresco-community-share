@@ -25,7 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-public class ContentActionComponent extends AlfrescoContentPage
+public class ContentActionComponent extends AlfrescoContentPage<ContentActionComponent>
 {
     private final By contentNameSelector = By.cssSelector(".filename a");
     private final By moreActionLink = By.cssSelector(".show-more");
@@ -432,13 +432,19 @@ public class ContentActionComponent extends AlfrescoContentPage
     public ContentActionComponent assertActionsAreAvailable(String... expectedActions)
     {
         log.info("Assert available actions are: {}", Arrays.asList(expectedActions));
-        mouseOverContent();
-        clickMore();
-        String[] values = getTextFromLocatorList(actionsSet).toArray(new String[0]);
-        Arrays.sort(values);
-        Arrays.sort(expectedActions);
-        assertEquals(values, expectedActions, "Not all actions were found");
+        String[] actualActions = getMoreActions(expectedActions);
+        assertEquals(actualActions, expectedActions, "Not all actions were found");
 
         return this;
+    }
+
+    private String[] getMoreActions(String[] expectedActions)
+    {
+        mouseOverContent();
+        clickMore();
+        String[] moreActions = getTextFromLocatorList(actionsSet).toArray(new String[0]);
+        Arrays.sort(moreActions);
+        Arrays.sort(expectedActions);
+        return moreActions;
     }
 }

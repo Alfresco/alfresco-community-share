@@ -1240,7 +1240,7 @@ public abstract class WebElementInteraction
         builder.sendKeys(key);
     }
 
-    public void waitUntilLocatorHasDisplayNoneStyle(By locator)
+    protected void waitUntilLocatorHasDisplayNoneStyle(By locator)
     {
         waitUntilElementHasAttribute(locator, STYLE, DISPLAY_NONE);
     }
