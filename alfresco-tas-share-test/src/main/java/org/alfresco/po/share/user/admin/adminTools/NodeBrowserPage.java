@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_100;
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -25,7 +25,6 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
     private final By searchButton = By.cssSelector("button[id$='_default-search-button-button']");
     private final By searchButtonAfterHover = By.cssSelector("span[class*='yui-push-button-hover']");
     private final By resultNoItemsFound = By.cssSelector("td[class='yui-dt-empty'] div[class='yui-dt-liner']");
-    private final By zeroResultsFound = By.cssSelector("div[class='search-main'] div[id*='default-search-bar']");
     private final By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private final By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
     private final By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
@@ -110,16 +109,28 @@ public class NodeBrowserPage extends SharePage2<NodeBrowserPage>
         return this;
     }
 
+    /**
+     * Method to get document row with retry
+     *
+     * @param contentName content name
+     * @return result row web element
+     *
+     * @implNote The default value of solr indexing resources in database is 10 seconds. In order to
+     * avoid reaching maximum number of retries and have failing tests, we decided to increase that
+     * wait time within while loop to 5 seconds.
+     * <p>
+     * https://github.com/Alfresco/SearchServices/blob/master/search-services/alfresco-search/src/main/resources/solr/instance/templates/rerank/conf/solrcore.properties#L58
+     */
     private WebElement getResultRowWithRetry(String contentName)
     {
         By fileRow = By.xpath(String.format(fileNameRow, contentName));
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_100.getValue() && !isElementDisplayed(fileRow))
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(fileRow))
         {
             log.warn("Content {} not displayed - retry: {}", contentName, retryCount);
             refresh();
-            waitInSeconds(WAIT_2.getValue());
+            waitInSeconds(WAIT_5.getValue());
             retryCount++;
         }
         return waitUntilElementIsVisible(fileRow);

@@ -2,6 +2,7 @@
 <suite name="User Dashboard Tests" parallel="classes" thread-count="3">
    <listeners>
       <listener class-name="org.alfresco.utility.report.HtmlReportListener"/>
+      <listener class-name="org.alfresco.share.RetryListener"/>
    </listeners>
 
    <test name="User and Site Dashboard Tests">

@@ -1,7 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_100;
-import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -34,16 +34,28 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
             .findElement(dashletTitle));
     }
 
+    /**
+     * Method to get document row with retry
+     *
+     * @param documentName document name
+     * @return document row web element
+     *
+     * @implNote The default value of solr indexing resources in database is 10 seconds. In order to
+     * avoid reaching maximum number of retries and have failing tests, we decided to increase that
+     * wait time within while loop to 5 seconds.
+     * <p>
+     * https://github.com/Alfresco/SearchServices/blob/master/search-services/alfresco-search/src/main/resources/solr/instance/templates/rerank/conf/solrcore.properties#L58
+     */
     protected WebElement getDocumentRowWithRetry(String documentName)
     {
         By documentRowElement = By.xpath(String.format(documentRow, documentName));
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_100.getValue() && !isElementDisplayed(documentRowElement))
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(documentRowElement))
         {
             log.warn("Document {} not displayed - retry: {}", documentName, retryCount);
             refresh();
-            waitInSeconds(WAIT_2.getValue());
+            waitInSeconds(WAIT_5.getValue());
             waitUntilElementIsVisible(dashletContainer);
             retryCount++;
         }

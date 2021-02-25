@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_100;
-import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_5;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -104,18 +104,29 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         return this;
     }
 
+    /**
+     * Method to get document row with retry
+     *
+     * @param tagName tag name
+     * @return instance of TagManager page object
+     *
+     * @implNote The default value of solr indexing resources in database is 10 seconds. In order to
+     * avoid reaching maximum number of retries and have failing tests, we decided to increase that
+     * wait time within while loop to 5 seconds.
+     * <p>
+     * https://github.com/Alfresco/SearchServices/blob/master/search-services/alfresco-search/src/main/resources/solr/instance/templates/rerank/conf/solrcore.properties#L58
+     */
     public TagManagerPage searchTagWithRetry(String tagName)
     {
         typeInSearch(tagName);
         clickSearch();
 
         int retryCounter = 0;
-        while(!isTagDisplayed(tagName) && retryCounter < RETRY_TIME_100.getValue())
+        while(!isTagDisplayed(tagName) && retryCounter < RETRY_TIME_80.getValue())
         {
             log.warn("Tag {} not displayed - retry: {}", tagName, retryCounter);
             clickSearch();
-            waitToLoopTime(WAIT_2.getValue());
-            isTagDisplayed(tagName);
+            waitToLoopTime(WAIT_5.getValue());
             retryCounter++;
         }
         return this;

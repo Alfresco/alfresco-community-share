@@ -1,7 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_100;
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -42,11 +43,11 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         By docLocator = getDocLocator(documentName);
 
         int retryCount = 0;
-        while (retryCount < RETRY_TIME_100.getValue() && !isElementDisplayed(docLocator))
+        while (retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(docLocator))
         {
             log.warn("Document {} not displayed - retry: {}", documentName, retryCount);
             refresh();
-            waitInSeconds(WAIT_2.getValue());
+            waitInSeconds(WAIT_5.getValue());
             waitUntilElementIsVisible(dashletContainer);
             retryCount++;
         }
