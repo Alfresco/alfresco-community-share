@@ -107,13 +107,6 @@
       </classes>
    </test>
 
-   <test name="ManagingPendingInvitationsTest">
-      <classes>
-         <class
-            name="org.alfresco.share.site.members.ManagingPendingInvitationsTest" />
-      </classes>
-   </test>
-
    <test name="RemoveMembersOrGroupsTest">
       <classes>
          <class name="org.alfresco.share.site.members.RemoveMembersOrGroupsTest" />
