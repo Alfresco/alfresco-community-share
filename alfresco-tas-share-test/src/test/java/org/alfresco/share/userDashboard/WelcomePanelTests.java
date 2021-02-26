@@ -20,8 +20,9 @@ public class WelcomePanelTests extends BaseTest
         userDashboardPage.navigate(testUser.get());
     }
 
+    // Should be re enabled after acs 7.0.0 is released
     @TestRail (id = "C202855")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, enabled = false)
     public void checkWelcomePanel()
     {
         userDashboardPage.assertWelcomePanelIsDisplayed()

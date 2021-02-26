@@ -107,8 +107,9 @@ public class ToolbarTests extends BaseTest
         dataUser.usingAdmin().deleteUser(adminUser);
     }
 
+    // Should be re enabled after acs 7.0.0 is released
     @TestRail (id = "C2864")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER }, enabled = false)
     public void verifyTheLinksFromTheUserMenu()
     {
         authenticateUsingCookies(normalUser.get());
