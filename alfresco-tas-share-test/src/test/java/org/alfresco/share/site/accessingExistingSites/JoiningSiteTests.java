@@ -128,7 +128,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Open " + siteNameC3053 + " dashboard  and click 'Site configuration options' -> 'Join Site'.");
         siteDashboardPage.navigate(siteNameC3053);
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
         siteDashboardPage.selectOptionFromSiteConfigurationDropDown("Join Site");
         siteDashboardPage.waitUntilNotificationMessageDisappears();
 
@@ -141,7 +141,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
         siteDashboardPage.navigate(siteNameC3053);
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"),
 //            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
 //        assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"),
@@ -199,7 +199,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Site Dashboard' page for " + siteNameC3059);
         siteDashboardPage.navigate(siteNameC3059);
         LOG.info("STEP 2: Click on 'Site configuration option' icon.");
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
         LOG.info("STEP 3: Click 'Request to Join' button.");
 
@@ -240,7 +240,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 12: Open 'Site Dashboard' page for " + siteNameC3059 + " and click on 'Site configuration option' icon.");
         siteDashboardPage.navigate(siteNameC3059);
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
     }
 

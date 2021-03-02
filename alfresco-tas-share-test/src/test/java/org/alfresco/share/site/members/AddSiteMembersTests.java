@@ -16,9 +16,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 8/1/2016.
- */
 public class AddSiteMembersTests extends BaseTest
 {
     private final int ONE_USER = 1;
@@ -61,8 +58,9 @@ public class AddSiteMembersTests extends BaseTest
             .assertAddUsersToSiteMessageEqualsTo(language.translate(ADD_USER_TO_SITE_MESSAGE));
     }
 
+    // Should be enabled after acs release 7.0.0
     @TestRail (id = "C3114")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES }, enabled = false)
     public void shouldOpenNewBrowserTabWhenClickSeeMore()
     {
         addSiteUsersPage
@@ -86,7 +84,7 @@ public class AddSiteMembersTests extends BaseTest
             .searchUserWithName(user.getUsername())
             .clickSelectUserButton(user.getUsername())
             .setUserRole(user.getUsername(), MANAGER.getValue())
-            .clickAddUsers();
+            .addUsersToSite();
 
         addSiteUsersPage
             .assertTotalUserIs(ONE_USER)
@@ -116,7 +114,7 @@ public class AddSiteMembersTests extends BaseTest
             .searchUserWithName(user.getUsername())
             .clickSelectUserButton(user.getUsername())
             .setUserRole(user.getUsername(), COLLABORATOR.getValue())
-            .clickAddUsers();
+            .addUsersToSite();
 
         addSiteUsersPage
             .assertTotalUserIs(ONE_USER)
@@ -146,7 +144,7 @@ public class AddSiteMembersTests extends BaseTest
             .searchUserWithName(user.getUsername())
             .clickSelectUserButton(user.getUsername())
             .setUserRole(user.getUsername(), CONSUMER.getValue())
-            .clickAddUsers();
+            .addUsersToSite();
 
         addSiteUsersPage
             .assertTotalUserIs(ONE_USER)
@@ -176,7 +174,7 @@ public class AddSiteMembersTests extends BaseTest
             .searchUserWithName(user.getUsername())
             .clickSelectUserButton(user.getUsername())
             .setUserRole(user.getUsername(), CONTRIBUTOR.getValue())
-            .clickAddUsers();
+            .addUsersToSite();
 
         addSiteUsersPage
             .assertTotalUserIs(ONE_USER)
@@ -216,7 +214,7 @@ public class AddSiteMembersTests extends BaseTest
 
         addSiteUsersPage
             .setAllRolesTo(CONTRIBUTOR.getValue())
-            .clickAddUsers();
+            .addUsersToSite();
 
         addSiteUsersPage.assertTotalUserIs(TWO_USERS);
 
@@ -262,7 +260,7 @@ public class AddSiteMembersTests extends BaseTest
             .clickSelectUserButton(secondUser.getUsername())
             .setUserRole(secondUser.getUsername(), CONSUMER.getValue());
 
-        addSiteUsersPage.clickAddUsers();
+        addSiteUsersPage.addUsersToSite();
         addSiteUsersPage.assertTotalUserIs(TWO_USERS);
 
         addSiteUsersPage

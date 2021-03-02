@@ -11,7 +11,6 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
@@ -40,7 +39,6 @@ public class ApprovingUsersTests extends BaseTest
     private EditTaskPage editTaskPage;
     private ViewTaskPage viewTaskPage;
     private MySitesDashlet mySitesDashlet;
-    private UserDashboardPage userDashboardPage;
     private MyTasksDashlet myTasksDashlet;
     private SiteDashboardPage siteDashboardPage;
 

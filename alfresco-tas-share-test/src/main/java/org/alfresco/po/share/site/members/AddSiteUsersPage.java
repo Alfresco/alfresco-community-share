@@ -33,7 +33,6 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     private final By infoBalloonText = By.cssSelector(".alf-info-balloon .text");
     private final By seeMoreLink = By.cssSelector(".alf-info-balloon a");
     private final By dropDownOptionsList = By.cssSelector("div.visible ul.first-of-type li a");
-    private final By searchResultsRows = By.cssSelector("div[class*='results'] tbody[class='yui-dt-data'] tr");
     private final By addedUsersTally = By.cssSelector(".added-users-list-tally");
     private final By selectRoleButton = By.cssSelector("td[class*='role'] button");
     private final By removeButton = By.cssSelector("td[class*='remove'] .removeIcon");
@@ -103,11 +102,6 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
         return findElement(By.xpath(String.format(setUserRoleRows, username)));
     }
 
-    public boolean isUserDisplayedInSearchResults(String user)
-    {
-        return !findElements(searchResultsRows).isEmpty() && getUserRow(user) != null;
-    }
-
     public AddSiteUsersPage clickSelectUserButton(String username)
     {
         WebElement selectButtonElement = getUserRow(username).findElement(selectButton);
@@ -152,7 +146,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
         return this;
     }
 
-    public void clickAddUsers()
+    public void addUsersToSite()
     {
         while (isWaitPopupDisplayed())
         {
@@ -162,25 +156,17 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
         waitUntilNotificationMessageDisappears();
     }
 
-    public String getAddedUsersTally()
-    {
-        waitUntilNotificationMessageDisappears();
-        waitUntilElementIsVisibleWithRetry(addedUsersTally, 10);
-        return findElement(addedUsersBox).findElement(addedUsersTally).getText();
-    }
-
     public AddSiteUsersPage assertTotalUserIs(int nrOfUsers)
     {
         String value = language.translate("addUsersPage.addedUsersTally") + nrOfUsers;
         waitUntilElementContainsText(findElement(addedUsersTally), value);
-        assertEquals(findElement(addedUsersTally).getText(), value, "Total added user is correct");
+        assertEquals(getElementText(addedUsersTally), value, "Total added user is correct");
         return this;
     }
 
     public AddSiteUsersPage assertUserNameEqualsTo(String expectedUserName)
     {
         String actualUsername = getElementText(By.xpath(String.format(addedUserRow, expectedUserName)));
-
         String formattedActualUsername = actualUsername
             .substring(BEGIN_INDEX, actualUsername.indexOf(NEW_LINE));
 

@@ -91,7 +91,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser.getUsername(), testUser.getPassword());
 
         siteDashboardPage.navigate(testSite.getTitle());
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
         siteDashboardPage.selectOptionFromSiteConfigurationDropDown(CUSTOMIZE_SITE.getValue());
         customizeSitePage.addPageToSite(SitePageType.DATA_LISTS);
         Assert.assertTrue(customizeSitePage.isPageAddedToCurrentPages(SitePageType.DATA_LISTS));
@@ -108,7 +108,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         setupAuthenticatedSession(ls.getOneUserWithRole(UserRole.SiteConsumer).getUsername(), password);
         LOG.info("Step 6: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
         LOG.info("Step 7: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
@@ -118,7 +118,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         setupAuthenticatedSession(ls.getOneUserWithRole(UserRole.SiteCollaborator).getUsername(), password);
         LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
         LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
@@ -128,7 +128,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         setupAuthenticatedSession(ls.getOneUserWithRole(UserRole.SiteContributor).getUsername(), password);
         LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
         LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));

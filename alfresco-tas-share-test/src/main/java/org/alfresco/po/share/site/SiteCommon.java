@@ -35,7 +35,7 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
         this.currentSiteName = currentSiteName;
     }
 
-    public T clickSiteConfiguration()
+    public T openSiteConfiguration()
     {
         waitUntilElementIsVisible(siteConfiguration);
         clickElement(siteConfiguration);

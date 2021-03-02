@@ -87,7 +87,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         siteUsersPage.navigate(siteName);
 
         LOG.info("Enter 'test' string in the search box and click 'Search' button.");
-        siteUsersPage.searchForSiteMembers("test");
+        siteUsersPage.searchUserWithName("test");
         siteUsersPage.clickSearch();
 
         LOG.info("STEP 2:Check that all site members are displayed.",
@@ -117,7 +117,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         siteUsersPage.navigate(siteName);
 
         LOG.info("STEP 2: Enter '" + user2 + "' string in the search box and click 'Search' button.");
-        siteUsersPage.searchForSiteMembers(user2);
+        siteUsersPage.searchUserWithName(user2);
         siteUsersPage.clickSearch();
 
         LOG.info("Only: '" + user2 + "' is displayed");

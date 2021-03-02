@@ -6,8 +6,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -64,7 +62,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse over site configuration option and check available options");
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
@@ -83,7 +81,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse over site configuration option and check available options");
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
@@ -102,7 +100,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse over site configuration option and check available options");
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
 //        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
@@ -121,7 +119,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse over site configuration option and check available options");
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
 //        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
 //        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
 //        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");

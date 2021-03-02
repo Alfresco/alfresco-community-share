@@ -831,7 +831,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         addSiteUsersPage.searchUserWithName(userName2);
         addSiteUsersPage.clickSelectUserButton(userName2);
         addSiteUsersPage.setUserRole(userName2, "Manager");
-        addSiteUsersPage.clickAddUsers();
+        addSiteUsersPage.addUsersToSite();
         String rulename3 = "rule-C286441-" + random;
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);

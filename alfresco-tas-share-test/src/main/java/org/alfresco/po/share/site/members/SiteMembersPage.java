@@ -1,6 +1,7 @@
 package org.alfresco.po.share.site.members;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -21,13 +22,14 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     private final By listNameLocator = By.cssSelector("td+td>div.yui-dt-liner>h3");
     private final By siteUsers = By.cssSelector("a[id*='site-members-link']");
     private final By siteGroups = By.cssSelector("a[id*='site-groups-link']");
-    private final By pendingInvites = By.cssSelector("a[id*='pending-invites-link']");
     private final By siteMemberRow = By.cssSelector("tbody[class='yui-dt-data'] tr");
     private final By dropDownOptionsList = By.cssSelector("div.visible ul.first-of-type li a");
     private final By currentRoleButton = By.cssSelector("td[class*='role'] button");
     private final By removeButton = By.cssSelector(".uninvite button");
     private final By currentRole = By.cssSelector("td[class*='role'] div :first-child");
+
     private final String memberName = "td>a[href$='%s/profile']";
+    private final String memberRow = "//a[text()='%s']/../../../..";
 
     public SiteMembersPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -42,7 +44,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     public SiteMembersPage assertSelectedRoleEqualsTo(String expectedRole, String memberName)
     {
-        String currentRoleText = getMemberName(memberName).findElement(currentRole).getText();
+        String currentRoleText = getElementText(getMemberName(memberName).findElement(currentRole));
         String actualRole = getFormattedRole(currentRoleText);
 
         assertEquals(actualRole, expectedRole,
@@ -71,17 +73,6 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return this;
     }
 
-    /**
-     * Method returns if the role drop down button is displayed for the specified name
-     *
-     * @param name String
-     * @return True if the role drop down button is displayed for the specified name
-     */
-    public boolean isRoleButtonDisplayed(String name)
-    {
-        return isElementDisplayed(getMemberName(name), currentRoleButton);
-    }
-
     public SiteGroupsPage openSiteGroupsPage()
     {
         clickElement(siteGroups);
@@ -94,7 +85,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return new SiteUsersPage(webDriver);
     }
 
-    public List<String> getSiteMembersList()
+    private List<String> getSiteMembersList()
     {
         waitUntilElementsAreVisible(listNameLocator);
         List<String> names = Collections.synchronizedList(new ArrayList<>());
@@ -111,6 +102,19 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         assertTrue(getSiteMembersList().stream().anyMatch(member -> member.equals(expectedSiteMemberName)),
             String.format("Site member name not equals %s ", expectedSiteMemberName));
         return this;
+    }
+
+    public SiteMembersPage assertSiteMemberNameIsNotDisplayed(String memberName)
+    {
+        log.info("Assert Site member name is not displayed {}", memberName);
+        By member = getMemberRow(memberName);
+        assertFalse( isElementDisplayed(member));
+        return this;
+    }
+
+    private By getMemberRow(String memberName)
+    {
+        return By.xpath(String.format(memberRow, memberName));
     }
 
     public void waitSiteMemberToDisappear(String siteMember)
@@ -132,10 +136,5 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         waitUntilNotificationMessageDisappears();
 
         return this;
-    }
-
-    public boolean isPendingInvitesDisplayed()
-    {
-        return isElementDisplayed(pendingInvites);
     }
 }

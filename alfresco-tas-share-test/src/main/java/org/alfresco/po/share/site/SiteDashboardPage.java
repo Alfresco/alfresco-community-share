@@ -218,7 +218,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public EditSiteDetailsDialog navigateToEditSiteDetailsDialog(String siteId)
     {
         navigate(siteId);
-        clickSiteConfiguration();
+        openSiteConfiguration();
         selectOptionFromSiteConfigurationDropDown("Edit Site Details");
         return new EditSiteDetailsDialog();
     }

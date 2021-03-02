@@ -82,7 +82,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Navigate to Site Dashboard for'" + siteName + "'");
         siteDashboard.navigate(siteName);
         LOG.info("STEP 2: Click on 'Site configuration options' icon -> Leave SiteService.");
-        siteDashboard.clickSiteConfiguration();
+        siteDashboard.openSiteConfiguration();
         siteDashboard.selectOptionFromSiteConfigurationDropDown("Leave Site");
         int counter = 1;
         int retryRefreshCount = 5;
@@ -101,7 +101,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
             {
                 counter++;
                 getBrowser().refresh();
-                siteDashboard.clickSiteConfiguration();
+                siteDashboard.openSiteConfiguration();
                 siteDashboard.selectOptionFromSiteConfigurationDropDown("Leave Site");
             }
 
@@ -122,7 +122,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
-        siteDashboard.clickSiteConfiguration();
+        siteDashboard.openSiteConfiguration();
         siteDashboard.selectOptionFromSiteConfigurationDropDown("Leave Site");
         int counter = 1;
         int retryRefreshCount = 5;
@@ -145,7 +145,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
             {
                 counter++;
                 getBrowser().refresh();
-                siteDashboard.clickSiteConfiguration();
+                siteDashboard.openSiteConfiguration();
                 siteDashboard.selectOptionFromSiteConfigurationDropDown("Leave Site");
             }
         }
@@ -188,7 +188,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
-        siteDashboard.clickSiteConfiguration();
+        siteDashboard.openSiteConfiguration();
         siteDashboard.selectOptionFromSiteConfigurationDropDown("Leave Site");
 
         
@@ -215,7 +215,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
-        siteDashboard.clickSiteConfiguration();
+        siteDashboard.openSiteConfiguration();
         siteDashboard.selectOptionFromSiteConfigurationDropDown("Leave Site");
         int counter = 1;
         int retryRefreshCount = 5;
@@ -238,7 +238,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
             {
                 counter++;
                 getBrowser().refresh();
-                siteDashboard.clickSiteConfiguration();
+                siteDashboard.openSiteConfiguration();
                 siteDashboard.selectOptionFromSiteConfigurationDropDown("Leave Site");
             }
         }

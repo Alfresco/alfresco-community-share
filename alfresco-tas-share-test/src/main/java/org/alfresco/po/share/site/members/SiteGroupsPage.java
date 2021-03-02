@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site.members;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -16,6 +17,7 @@ public class SiteGroupsPage extends SiteMembersPage
     private final By searchButton = By.cssSelector("button[id$='site-groups_x0023_default-button-button']");
     private final By searchButtonGroup = By.cssSelector("button[id$='_default-group-search-button-button']");
 
+    private final String noGroupsFoundPath = "//div[@class='yui-dt-liner' and text()='%s']";
     private final String groupPath = "[id$='_default-button-GROUP_";
     private final String removeButtonPath = "']>span>span>button";
 
@@ -54,10 +56,12 @@ public class SiteGroupsPage extends SiteMembersPage
         return this;
     }
 
-    public void removeGroup(String groupName)
+    public SiteGroupsPage removeGroup(String groupName)
     {
         WebElement groupRemoveButton = findElement(By.cssSelector("span[id$='_default-button-GROUP_" + groupName + "']>span>span>button"));
         clickElement(groupRemoveButton);
+        waitUntilNotificationMessageDisappears();
+        return this;
     }
 
     public SiteGroupsPage assertAddGroupsButtonIsNotDisplayed()
@@ -71,5 +75,13 @@ public class SiteGroupsPage extends SiteMembersPage
     public void clickSearchButton()
     {
         clickElement(searchButtonGroup);
+    }
+
+    public SiteGroupsPage assertNoGroupsFoundLabelEqualsTo(String expectedLabelText)
+    {
+        log.info("Assert no groups found label equals to {}", expectedLabelText);
+        String actualLabelText = getElementText(By.xpath(String.format(noGroupsFoundPath, expectedLabelText)));
+        assertEquals(actualLabelText, expectedLabelText, String.format("Label text not equals %s", expectedLabelText));
+        return this;
     }
 }

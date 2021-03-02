@@ -56,7 +56,7 @@ public class BecomeSiteManagerTest extends BaseTest
 
         siteDashboardPage
             .navigate(siteModel.get())
-            .clickSiteConfiguration()
+            .openSiteConfiguration()
             .assertOptionNotEqualsTo(BECOME_SITE_MANAGER.getValue());
     }
 
@@ -88,7 +88,7 @@ public class BecomeSiteManagerTest extends BaseTest
 
         siteDashboardPage
             .navigate(siteModel.get())
-            .clickSiteConfiguration()
+            .openSiteConfiguration()
             .assertOptionEqualsTo(BECOME_SITE_MANAGER.getValue())
             .assertOptionEqualsTo(LEAVE_SITE.getValue());
 
@@ -101,7 +101,7 @@ public class BecomeSiteManagerTest extends BaseTest
             .selectOptionFromSiteConfigurationDropDown(BECOME_SITE_MANAGER.getValue())
             .waitUntilNotificationMessageDisappears();
 
-        siteDashboardPage.clickSiteConfiguration();
+        siteDashboardPage.openSiteConfiguration();
         siteDashboardPage
             .assertOptionNotEqualsTo(BECOME_SITE_MANAGER.getValue())
             .assertOptionEqualsTo(CUSTOMIZE_DASHBOARD.getValue())
@@ -147,7 +147,7 @@ public class BecomeSiteManagerTest extends BaseTest
 
         siteDashboardPage
             .navigate(siteModel.get())
-            .clickSiteConfiguration();
+            .openSiteConfiguration();
 
         siteDashboardPage
             .assertOptionNotEqualsTo(BECOME_SITE_MANAGER.getValue())
