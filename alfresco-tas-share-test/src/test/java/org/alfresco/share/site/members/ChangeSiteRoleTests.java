@@ -90,7 +90,6 @@ public class ChangeSiteRoleTests extends BaseTest
         siteUsersPage
             .openSiteGroupsPage()
             .searchGroupByName(groupModel.getDisplayName())
-            .clickSearch()
             .assertSiteMemberNameEqualsTo(groupModel.getDisplayName());
 
         siteGroupsPage

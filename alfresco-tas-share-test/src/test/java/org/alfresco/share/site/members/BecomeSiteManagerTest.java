@@ -132,10 +132,7 @@ public class BecomeSiteManagerTest extends BaseTest
 
         sitesManagerPage
             .usingSite(siteModel.get())
-            .clickSiteName();
-
-        siteUsersPage
-            .navigate(siteModel.get())
+            .navigateToSiteMembersPage()
             .assertSelectedRoleEqualsTo(MANAGER.getValue(), getAdminUser().getFirstName());
     }
 
@@ -172,9 +169,7 @@ public class BecomeSiteManagerTest extends BaseTest
             .becomeSiteManager()
             .assertBecomeSiteManagerOptionIsNotDisplayed()
             .assertSiteManagerIsYes()
-            .clickSiteName();
-
-        siteUsersPage
+            .navigateToSiteMembersPage()
             .assertSelectedRoleEqualsTo(MANAGER.getValue(), getAdminUser().getFirstName());
     }
 

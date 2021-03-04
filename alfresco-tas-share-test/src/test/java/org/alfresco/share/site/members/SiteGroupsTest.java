@@ -1,148 +1,91 @@
 package org.alfresco.share.site.members;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.alfresco.po.enums.GroupRoles.COLLABORATOR;
+import static org.alfresco.po.enums.GroupRoles.CONSUMER;
+import static org.alfresco.po.enums.GroupRoles.CONTRIBUTOR;
+import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
+import static org.alfresco.utility.constants.UserRole.SiteConsumer;
+import static org.alfresco.utility.constants.UserRole.SiteContributor;
 
-import org.alfresco.dataprep.GroupService;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.GroupModel;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 6/30/2016.
- */
-public class SiteGroupsTest extends ContextAwareWebTest
+public class SiteGroupsTest extends BaseTest
 {
-    //@Autowired
-    SiteGroupsPage siteGroupsPage;
+    private SiteGroupsPage siteGroupsPage;
 
-    @Autowired
-    GroupService groupService;
+    private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
+    private final ThreadLocal<GroupModel> groupModel = new ThreadLocal<>();
 
-    private String user = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private String group1 = String.format("testGroup1-%s", RandomData.getRandomAlphanumeric());
-    private String group2 = String.format("testGroup2-%s", RandomData.getRandomAlphanumeric());
-    private String group3 = String.format("testGroup3-%s", RandomData.getRandomAlphanumeric());
-
-
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
-        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        userModel.set(dataUser.createRandomTestUser());
+        siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
+        groupModel.set(dataGroup.usingAdmin().createRandomGroup());
 
-        groupService.createGroup(adminUser, adminPassword, group1);
-        groupService.createGroup(adminUser, adminPassword, group2);
-        groupService.createGroup(adminUser, adminPassword, group3);
+        authenticateUsingCookies(userModel.get());
 
-        groupService.inviteGroupToSite(adminUser, adminPassword, siteName, group1, "SiteCollaborator");
-        groupService.inviteGroupToSite(adminUser, adminPassword, siteName, group2, "SiteContributor");
-        groupService.inviteGroupToSite(adminUser, adminPassword, siteName, group3, "SiteConsumer");
-
-        setupAuthenticatedSession(user, password);
+        siteGroupsPage = new SiteGroupsPage(webDriver);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @TestRail(id = "C2819")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayAllSiteGroups()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        GroupModel collaboratorGroup = dataGroup.usingAdmin().createRandomGroup();
+        GroupModel contributorGroup = dataGroup.usingAdmin().createRandomGroup();
 
-        siteService.delete(adminUser, adminPassword, siteName);
+        dataGroup.usingUser(userModel.get())
+            .addGroupToSite(collaboratorGroup, siteModel.get(), SiteCollaborator);
 
+        dataGroup.usingUser(userModel.get())
+            .addGroupToSite(contributorGroup, siteModel.get(), SiteContributor);
+
+        siteGroupsPage
+            .navigate(siteModel.get())
+            .assertSiteMemberNameEqualsTo(collaboratorGroup.getDisplayName())
+            .assertSiteMemberNameEqualsTo(contributorGroup.getDisplayName());
+
+        siteGroupsPage
+            .assertSelectedRoleEqualsTo(COLLABORATOR.getValue(), collaboratorGroup.getDisplayName())
+            .assertSelectedRoleEqualsTo(CONTRIBUTOR.getValue(), contributorGroup.getDisplayName());
+
+        siteGroupsPage
+            .assertRemoveGroupButtonIsDisplayed(collaboratorGroup.getDisplayName())
+            .assertRemoveGroupButtonIsDisplayed(contributorGroup.getDisplayName());
     }
 
-    @TestRail (id = "C2819")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void listAllSiteGroups()
+    @TestRail(id = "C2821")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    public void shouldDisplayGroupFullNameWhenSearch()
     {
-        LOG.info("Navigate to 'Site Groups' page of site '" + siteName + "'.");
-        siteGroupsPage.navigate(siteName);
+        GroupModel consumerGroup = dataGroup.usingAdmin().createRandomGroup();
+        dataGroup.usingUser(userModel.get()).addGroupToSite(consumerGroup, siteModel.get(), SiteConsumer);
 
-        LOG.info("Expected Result: '" + group1 + "' with 'Collaborator' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
+        siteGroupsPage.navigate(siteModel.get());
+        siteGroupsPage
+            .searchGroupByName(consumerGroup.getDisplayName())
+            .assertSiteMemberNameEqualsTo(consumerGroup.getDisplayName())
+            .assertSelectedRoleEqualsTo(CONSUMER.getValue(), consumerGroup.getDisplayName());
 
-        LOG.info("Expected Result: '" + group2 + "' with 'Contributor' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
-
-        LOG.info("Expected Result: '" + group3 + "' with 'Consumer' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is not present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
-
-        LOG.info("Click on 'Search' button leaving the search box empty.");
-        siteGroupsPage.clickSearch();
-
-        LOG.info("Expected Result: '" + group1 + "' with 'Collaborator' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
-
-        LOG.info("Expected Result: '" + group2 + "' with 'Contributor' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
-
-        LOG.info("Expected Result: '" + group3 + "' with 'Consumer' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
+        siteGroupsPage
+            .assertRemoveGroupButtonIsDisplayed(consumerGroup.getDisplayName());
     }
 
-    @TestRail (id = "C2820")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void searchForGroupsUsingPartialName()
+    @AfterMethod(alwaysRun = true)
+    public void cleanupTest()
     {
-        LOG.info("Navigate to 'Site Groups' page of site '" + siteName + "'.");
-        siteGroupsPage.navigate(siteName);
-
-        LOG.info("Enter 'test' string in the search box and click 'Search' button.");
-        siteGroupsPage.searchGroupByName("test");
-        siteGroupsPage.clickSearch();
-
-        LOG.info("Expected Result: '" + group1 + "' with 'Collaborator' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Collaborator", group1), "Group '" + group1 + "' has 'Collaborator' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Group '" + group1 + "' has 'Remove' button.");
-
-        LOG.info("Expected Result: '" + group2 + "' with 'Contributor' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Contributor", group2), "Group '" + group2 + "' has 'Contributor' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group2), "Group '" + group2 + "' has 'Remove' button.");
-
-        LOG.info("Expected Result: '" + group3 + "' with 'Consumer' role and 'Remove' button is displayed");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is present on the page.");
-//        assertTrue(siteGroupsPage.assertSelectedRoleEqualsTo("Consumer", group3), "Group '" + group3 + "' has 'Consumer' role.");
-//        assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group3), "Group '" + group3 + "' has 'Remove' button.");
+        deleteUsersIfNotNull(userModel.get());
+        deleteSitesIfNotNull(siteModel.get());
     }
-
-    @TestRail (id = "C2821")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void searchForGroupsUsingFullName()
-    {
-        LOG.info("Navigate to 'Site Groups' page of site '" + siteName + "'.");
-        siteGroupsPage.navigate(siteName);
-
-        LOG.info("Enter '" + group2 + "' string in the search box and click 'Search' button.");
-        siteGroupsPage.searchGroupByName(group2);
-        siteGroupsPage.clickSearch();
-
-        LOG.info("Only: '" + group2 + "' is displayed");
-//        assertFalse(siteGroupsPage.assertSiteMemberNameEqualsTo(group1), "Group '" + group1 + "' is not expected to be present on the page.");
-//        assertTrue(siteGroupsPage.assertSiteMemberNameEqualsTo(group2), "Group '" + group2 + "' is present on the page.");
-//        assertFalse(siteGroupsPage.assertSiteMemberNameEqualsTo(group3), "Group '" + group3 + "' is not expected to be present on the page.");
-    }
-
 }

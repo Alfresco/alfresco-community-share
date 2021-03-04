@@ -14,7 +14,7 @@ public class SiteGroupsPage extends SiteMembersPage
 {
     private final By addGroups = By.cssSelector("a[id*='addGroups']");
     private final By searchGroupField = By.cssSelector("input[class*='search-term']");
-    private final By searchButton = By.cssSelector("button[id$='site-groups_x0023_default-button-button']");
+    private final By searchButton = By.cssSelector("button[id$='_default-button-button']");
     private final By searchButtonGroup = By.cssSelector("button[id$='_default-group-search-button-button']");
 
     private final String noGroupsFoundPath = "//div[@class='yui-dt-liner' and text()='%s']";
@@ -36,12 +36,6 @@ public class SiteGroupsPage extends SiteMembersPage
     {
         log.info("Search group by name {}", groupName);
         clearAndType(searchGroupField, groupName);
-        return this;
-    }
-
-    public SiteGroupsPage clickSearch()
-    {
-        log.info("Click search button");
         clickElement(searchButton);
         return this;
     }

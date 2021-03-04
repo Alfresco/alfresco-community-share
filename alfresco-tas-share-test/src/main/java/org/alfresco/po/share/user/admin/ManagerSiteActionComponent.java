@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
+import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -209,9 +210,10 @@ public class ManagerSiteActionComponent extends SitesManagerPage
         return this;
     }
 
-    public void clickSiteName()
+    public SiteMembersPage navigateToSiteMembersPage()
     {
-        log.info("Click Site Name");
+        log.info("Navigate to Site members page");
         clickElement(getSiteRow().findElement(siteRowName));
+        return new SiteMembersPage(webDriver);
     }
 }
