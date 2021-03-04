@@ -28,7 +28,6 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     private final By removeButton = By.cssSelector(".uninvite button");
     private final By currentRole = By.cssSelector("td[class*='role'] div :first-child");
 
-    private final String memberName = "td>a[href$='%s/profile']";
     private final String memberRow = "//a[text()='%s']/../../../..";
 
     public SiteMembersPage(ThreadLocal<WebDriver> webDriver)
@@ -108,19 +107,13 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
     {
         log.info("Assert Site member name is not displayed {}", memberName);
         By member = getMemberRow(memberName);
-        assertFalse( isElementDisplayed(member));
+        assertFalse(isElementDisplayed(member));
         return this;
     }
 
     private By getMemberRow(String memberName)
     {
         return By.xpath(String.format(memberRow, memberName));
-    }
-
-    public void waitSiteMemberToDisappear(String siteMember)
-    {
-        waitUntilElementDisappears(
-            findElement(By.cssSelector(String.format(memberName, siteMember))));
     }
 
     public WebElement getMemberName(String name)

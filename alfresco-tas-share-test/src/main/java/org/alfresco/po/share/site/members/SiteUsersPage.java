@@ -15,8 +15,8 @@ public class SiteUsersPage extends SiteMembersPage
     private final By searchButton = By.cssSelector("button[id*='site-members']");
     private final By removeButton = By.cssSelector("td[class*='uninvite'] button");
 
-    private final String removeButtonPath = "//button[contains(text(),'Remove')]";
     private final String userRow = "//a[text()='%s']/../../../..";
+    private final String userLinkPath = "//a[text()='%s']";
 
     public SiteUsersPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -29,31 +29,12 @@ public class SiteUsersPage extends SiteMembersPage
         return String.format("share/page/site/%s/site-members", getCurrentSiteName());
     }
 
-    public void clickSearch()
-    {
-        clickElement(searchButton);
-    }
-
     public SiteUsersPage searchUserWithName(String username)
     {
         log.info("Search user with name {}", username);
         clearAndType(searchBox, username);
-        clickSearch();
+        clickElement(searchButton);
         return this;
-    }
-
-    public SiteUsersPage assertRemoveButtonIsNotDisplayedForUser(String username)
-    {
-        log.info("Assert remove button is not displayed for user {}", username);
-        assertFalse(isRemoveButtonDisplayedForUser(username),
-            String.format("Remove button is displayed for user %s", username));
-        return this;
-    }
-
-    private boolean isRemoveButtonDisplayedForUser(String userName)
-    {
-        return isElementDisplayed(
-            By.xpath(String.format(userRow, userName).concat(removeButtonPath)));
     }
 
     public SiteUsersPage assertRemoveButtonIsDisabledForUser(String userName)
@@ -80,9 +61,12 @@ public class SiteUsersPage extends SiteMembersPage
         return this;
     }
 
-    public UserProfilePage clickUser(String userName)
+    public UserProfilePage navigateToUserProfilePage(String userName)
     {
-        clickElement(findFirstDisplayedElement(By.xpath("//td//a[normalize-space(text())='" + userName + "']")));
+        WebElement userLink = getUserRow(userName)
+            .findElement(By.xpath(String.format(userLinkPath, userName)));
+
+        clickElement(userLink);
         return new UserProfilePage(webDriver);
     }
 
