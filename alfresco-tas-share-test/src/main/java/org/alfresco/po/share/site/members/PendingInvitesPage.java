@@ -1,22 +1,22 @@
 package org.alfresco.po.share.site.members;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 {
-    protected By searchInput = By.cssSelector("[id*='default-search-text']");
     private final By searchButton = By.cssSelector("[id*='default-search-button']");
     private final By pendingInvitesList = By.cssSelector("tbody[class='yui-dt-data'] tr");
-    private final By invitationUserAvatar = By.cssSelector(".avatar");
-    private final By invitationUserName = By.xpath("(//*[@class='attr-value'])[1]");
-    private final By invitationSentDate = By.xpath("(//*[@class='attr-value'])[2]");
-    private final By invitationUserRole = By.xpath("(//*[@class='attr-value'])[3]");
     private final By cancelButton = By.cssSelector("button");
+
+    private final String managePendingRequestsRow = "//div[@class='to-invitee']//a[text()='%s']/../../../../..";
 
     public PendingInvitesPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -34,37 +34,10 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
         return findFirstElementWithValue(pendingInvitesList, firstName);
     }
 
-    public boolean isPendingInvitesListDisplayed()
-    {
-        return isElementDisplayed(pendingInvitesList);
-    }
-
-    public void typeIntoSearchInput(String input)
-    {
-        clearAndType(findElement(searchInput), input);
-    }
-
     public PendingInvitesPage clickSearchButton()
     {
         findElement(searchButton).click();
         return new PendingInvitesPage(webDriver);
-    }
-
-    public boolean isPendingInvitationListed(String firstName)
-    {
-        WebElement pendingInvitation = selectPendingInvitationRow(firstName);
-        String pendingInvitationText;
-        if (pendingInvitation != null)
-        {
-            pendingInvitationText = pendingInvitation.getText();
-            return pendingInvitationText.contains(firstName);
-        }
-        return false;
-    }
-
-    public boolean isSearchInputDisplayed()
-    {
-        return isElementDisplayed(searchInput);
     }
 
     public boolean isSearchButtonDisplayed()
@@ -77,34 +50,26 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
         return isElementDisplayed(selectPendingInvitationRow(firstName).findElement(cancelButton));
     }
 
-    public String getInvitationAvatarSource(String firstName)
+    private By getPendingRequestRow(String username)
     {
-        return selectPendingInvitationRow(firstName).findElement(invitationUserAvatar).getAttribute("src");
+        return By.xpath(String.format(managePendingRequestsRow, username));
     }
 
-    public String getInvitationUserName(String firstName)
+    public PendingInvitesPage assertUserHasNoPendingRequest(String username)
     {
-        return selectPendingInvitationRow(firstName).findElement(invitationUserName).getText();
+        log.info("Assert user {} has no pending request", username);
+        By usernameRow = getPendingRequestRow(username);
+        assertFalse(isElementDisplayed(usernameRow), String.format("User %s has pending request", username));
+        return this;
     }
 
-    public String getInvitationSentDate(String firstName)
+    public PendingInvitesPage assertUserHasPendingRequest(String username)
     {
-        return selectPendingInvitationRow(firstName).findElement(invitationSentDate).getText();
-    }
+        log.info("Assert user has pending request");
+        By usernameRow = getPendingRequestRow(username);
+        waitUntilElementIsVisible(usernameRow);
+        assertTrue(isElementDisplayed(usernameRow), String.format("User %s has not any pending request", username));
 
-    public String getInvitationUserRole(String firstName)
-    {
-        return selectPendingInvitationRow(firstName).findElement(invitationUserRole).getText();
-    }
-
-    public ArrayList<String> getPendingRequests()
-    {
-        ArrayList<String> pendingUsersText = new ArrayList<>();
-        List<WebElement> users = findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
-        for (WebElement user : users)
-        {
-            pendingUsersText.add(user.getText());
-        }
-        return pendingUsersText;
+        return this;
     }
 }

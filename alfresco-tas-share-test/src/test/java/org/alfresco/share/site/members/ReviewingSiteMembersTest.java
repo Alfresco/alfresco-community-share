@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 public class ReviewingSiteMembersTest extends BaseTest
 {
     private final String EMPTY_SPACE = " ";
-    private final String USER_PROFILE_PAGE_PAGE_TITLE = "userProfilePage.pageTitle";
+    private final String USER_PROFILE_PAGE_PAGE_TITLE = "userProfilePage.title";
 
     private SiteUsersPage siteUsersPage;
 

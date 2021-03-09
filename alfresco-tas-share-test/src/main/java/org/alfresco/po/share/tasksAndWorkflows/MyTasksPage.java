@@ -1,6 +1,7 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
 import static org.alfresco.common.Wait.WAIT_10;
+import static org.alfresco.po.share.site.SiteConfigurationOptions.REQUEST_TO_JOIN;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.utility.model.SiteModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -216,11 +218,11 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     public String getStatus(String workflowName)
     {
-        return findElement(By.xpath(String.format(status, workflowName))).getText();
+        return getElementText(By.xpath(String.format(status, workflowName)));
     }
 
     public String getStatusCompleted(String workflowName)
     {
-        return findElement(By.xpath(String.format(statusCompleted, workflowName))).getText();
+        return getElementText(By.xpath(String.format(statusCompleted, workflowName)));
     }
 }

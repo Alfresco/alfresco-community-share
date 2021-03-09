@@ -174,7 +174,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
 
     public EditTaskPage clickClaimButton()
     {
-        waitUntilElementIsVisible(claimButton).click();
+        clickElement(claimButton);
         waitUntilNotificationMessageDisappears();
         return this;
     }
@@ -182,7 +182,25 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     public EditTaskPage clickReleaseToPoolButton()
     {
         clickElement(releaseToPoolButton);
+        waitUntilNotificationMessageDisappears();
+        return this;
+    }
+
+    public EditTaskPage assertReleaseToPoolButtonIsDisplayed()
+    {
+        log.info("Assert Release to pool button is displayed");
+        waitUntilElementIsVisible(releaseToPoolButton);
+        assertTrue(isElementDisplayed(releaseToPoolButton));
+
+        return this;
+    }
+
+    public EditTaskPage assertClaimButtonIsDisplayed()
+    {
+        log.info("Assert Claim button is displayed");
         waitUntilElementIsVisible(claimButton);
+        assertTrue(isElementDisplayed(claimButton));
+
         return this;
     }
 
