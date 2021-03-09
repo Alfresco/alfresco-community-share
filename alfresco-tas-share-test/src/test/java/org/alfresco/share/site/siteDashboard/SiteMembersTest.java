@@ -9,6 +9,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -110,7 +111,7 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
         deleteUsersIfNotNull(collaborator, consumer, contributor);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
         deleteUsersIfNotNull(user.get());

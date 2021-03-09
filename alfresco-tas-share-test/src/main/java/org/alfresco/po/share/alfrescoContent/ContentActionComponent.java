@@ -404,7 +404,16 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
     {
         log.info("Delete tag {}", tag);
         By removeTagLocator = By.xpath(String.format(existingTag.concat(removeTagIcon), tag));
-        waitUntilElementIsVisible(removeTagLocator);
+        try
+        {
+            waitUntilElementIsVisible(removeTagLocator);
+        }
+        catch (TimeoutException e)
+        {
+            log.warn("Failed to load tag {}. Refreshing page", tag);
+            refresh();
+            waitForContentPageToBeLoaded();
+        }
         clickElement(removeTagLocator);
 
         return this;

@@ -41,8 +41,9 @@ public class LocateItemsAndFoldersTests extends BaseTest
 
         documentLibraryPage.navigate(site)
             .usingContent(file).assertContentIsDisplayed();
-        documentLibraryPage.selectFromDocumentsFilter(RECENTLY_ADDED)
-            .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
+        documentLibraryPage.usingContentFilters()
+            .selectFromDocumentsFilter(RECENTLY_ADDED)
+                .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.recentlyAdded.title"))
             .usingContent(file)
             .clickLocate();
         documentLibraryPage.usingContent(file).assertContentIsHighlighted();
@@ -63,8 +64,9 @@ public class LocateItemsAndFoldersTests extends BaseTest
 
         documentLibraryPage.navigate(site)
             .usingContent(folder).assertContentIsDisplayed();
-        documentLibraryPage.selectFromDocumentsFilter(FAVORITES)
-            .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
+        documentLibraryPage.usingContentFilters()
+            .selectFromDocumentsFilter(FAVORITES)
+                .assertDocumentsFilterHeaderTitleEqualsTo(language.translate("documentLibrary.documentsFilter.favorites.title"))
             .usingContent(folder)
             .clickLocate();
         documentLibraryPage.usingContent(folder).assertContentIsHighlighted();
