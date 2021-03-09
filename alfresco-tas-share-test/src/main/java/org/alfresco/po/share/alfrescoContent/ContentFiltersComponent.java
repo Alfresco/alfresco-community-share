@@ -102,7 +102,7 @@ public class ContentFiltersComponent extends AlfrescoContentPage
         WebElement folderLink = waitUntilElementIsVisible(
             By.xpath(String.format(folderInFilterElement, folder.getName())));
         assertTrue(isElementDisplayed(folderLink),
-            String.format("Folder %s is displayed in filter", folder.getName()));
+            String.format("Folder %s is not displayed in filter", folder.getName()));
 
         return this;
     }
