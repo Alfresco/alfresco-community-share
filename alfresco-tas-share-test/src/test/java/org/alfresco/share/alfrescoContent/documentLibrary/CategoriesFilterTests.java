@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.util.Collections;
@@ -40,11 +41,12 @@ public class CategoriesFilterTests extends BaseTest
     public void verifyCategoryRootTreeNodes()
     {
         documentLibraryPage.navigate(site.get())
-            .assertCategoriesAreNotExpanded()
-            .expandCategoryRoot()
-            .assertCategoriesAreExpanded()
-            .collapseCategoryRoot()
-            .assertCategoriesAreNotExpanded();
+            .usingContentFilters()
+                .assertCategoriesAreNotExpanded()
+                .expandCategoryRoot()
+                .assertCategoriesAreExpanded()
+                .collapseCategoryRoot()
+                .assertCategoriesAreNotExpanded();
     }
 
     @TestRail (id = "C6910, C10595")
@@ -58,17 +60,25 @@ public class CategoriesFilterTests extends BaseTest
         createFileAndSetLanguageCategory(frenchFile, site.get(), FRENCH_CATEGORY);
 
         documentLibraryPage.navigate(site.get())
-            .expandCategoryRoot()
-            .expandCategory(LANGUAGE_CATEGORY)
-            .selectCategory(ENGLISH_CATEGORY);
+            .usingContentFilters()
+                .expandCategoryRoot()
+                .expandCategory(LANGUAGE_CATEGORY)
+                .selectCategory(ENGLISH_CATEGORY);
 
         documentLibraryPage.usingContent(englishFile).assertContentIsDisplayed();
         documentLibraryPage.usingContent(frenchFile).assertContentIsNotDisplayed();
 
-        documentLibraryPage.selectCategory(FRENCH_CATEGORY);
+        documentLibraryPage.usingContentFilters().selectCategory(FRENCH_CATEGORY);
 
         documentLibraryPage.usingContent(englishFile).assertContentIsNotDisplayed();
         documentLibraryPage.usingContent(frenchFile).assertContentIsDisplayed();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     private void createFileAndSetLanguageCategory(FileModel fileModel, SiteModel site, String languageCategory)
@@ -81,6 +91,6 @@ public class CategoriesFilterTests extends BaseTest
         String englishNodeRef = getUserService()
             .getCategoryNodeRef(getAdminUser().getUsername(), getAdminUser().getPassword(), languageCategory);
         getCmisApi().usingResource(fileModel)
-                .updateProperty(CATEGORIES_PROPERTY, Collections.singletonList(NODE_REF_WORKSPACE.concat(englishNodeRef)));
+            .updateProperty(CATEGORIES_PROPERTY, Collections.singletonList(NODE_REF_WORKSPACE.concat(englishNodeRef)));
     }
 }

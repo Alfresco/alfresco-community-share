@@ -71,8 +71,8 @@ public class SelectDialog extends BaseDialogComponent
     public SelectDialog selectCategory(String category)
     {
         log.info("Select category {}", category);
-        WebElement itemRow = findElement(By.xpath(String.format(addCategoryItemRow, category)));
-        clickElement(itemRow.findElement(addIcon));
+        By categoryLocator = By.xpath(String.format(addCategoryItemRow, category));
+        clickElement(waitUntilElementIsVisible(categoryLocator).findElement(addIcon));
         return this;
     }
 

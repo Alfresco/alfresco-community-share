@@ -10,7 +10,6 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.po.enums.DocumentsFilter;
 import org.alfresco.po.enums.SelectMenuOptions;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
@@ -44,8 +43,6 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     private final By selectedItemsLink = By.cssSelector("button[id$='selectedItems-button-button']");
     private final By selectedItemsActions = By.cssSelector("div[id$=default-selectedItems-menu]");
     private final By copyToFromSelectedItems = By.cssSelector(".onActionCopyTo");
-    private final By documentsFilter = By.cssSelector("a.filter-link");
-    private final By selectedFilter = By.cssSelector(".filterLink .selected");
     private final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
     protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
     private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
@@ -57,18 +54,10 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     private final By optionsMenu = By.cssSelector("div[id$='default-options-menu']");
     private final By hideBreadcrumbOption = By.cssSelector(".hidePath");
     private final By showBreadcrumbOption = By.cssSelector(".showPath");
-    private final By categoryRootIcon = By.cssSelector("#ygtvtableel3 .ygtvspacer");
-    private final By categoriesTable = By.id("ygtvtableel3");
-    private final By categoriesChildren = By.id("ygtvc3");
 
     private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
-    private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
-    private final String categoriesCollapsed = "ygtv-collapsed";
-    private final String categoriesExpanded = "ygtv-expanded";
-    private final String categoryIcon = "//div[@class='category']//span[text()='%s']/../..//a";
-    private final String categorySelector = "//div[@class='category']//span[text()='%s']/../..//span[@class='ygtvlabel']";
 
     protected AlfrescoContentPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -80,7 +69,7 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
         return null;
     }
 
-    private void waitForContentPageToBeLoaded()
+    protected void waitForContentPageToBeLoaded()
     {
         waitUntilElementIsVisible(contentArea);
     }
@@ -137,16 +126,6 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
         return waitUntilElementIsVisible(contentRowElement);
     }
 
-    public AlfrescoContentPage<T> assertFolderIsDisplayedInFilter(FolderModel folder)
-    {
-        log.info("Assert folder {} is displayed in documents filter from left side", folder.getName());
-        WebElement folderLink = waitUntilElementIsVisible(
-            By.xpath(String.format(folderInFilterElement, folder.getName())));
-        assertTrue(isElementDisplayed(folderLink),
-            String.format("Folder %s is displayed in filter", folder.getName()));
-        return this;
-    }
-
     public AlfrescoContentPage<T> waitForCurrentFolderBreadcrumb(String folderName)
     {
         log.info("Wait for folder breadcrumb {}", folderName);
@@ -181,14 +160,6 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
         WebElement folderElement = waitUntilElementIsVisible(folderBreadcrumb);
         assertTrue(isElementDisplayed(folderElement),
             String.format("Folder %s is displayed in breadcrumb", folder.getName()));
-        return this;
-    }
-
-    public AlfrescoContentPage<T> clickFolderFromFilter(FolderModel folder)
-    {
-        log.info("Click folder {} from filter", folder.getName());
-        clickElement(By.xpath(String.format(folderInFilterElement, folder.getName())));
-        waitForCurrentFolderBreadcrumb(folder);
         return this;
     }
 
@@ -354,15 +325,6 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
         return new DeleteDialog(webDriver);
     }
 
-    public AlfrescoContentPage<T> selectFromDocumentsFilter(DocumentsFilter documentFilter)
-    {
-        log.info("Select document filter {}", documentFilter.toString());
-        List<WebElement> filters = waitUntilElementsAreVisible(documentsFilter);
-        clickElement(findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)));
-        waitUntilElementIsVisible(selectedFilter);
-        return this;
-    }
-
     public AlfrescoContentPage<T> assertDocumentsFilterHeaderTitleEqualsTo(String expectedHeaderTitle)
     {
         log.info("Assert documents filter header title '{}' is displayed", expectedHeaderTitle);
@@ -395,87 +357,13 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
         return this;
     }
 
-    public AlfrescoContentPage<T> assertCategoriesAreNotExpanded()
-    {
-        log.info("Assert Categories are not expanded");
-        WebElement table = waitUntilElementIsVisible(categoriesTable);
-        assertTrue(table.getAttribute("class").contains(categoriesCollapsed), "Categories are expanded");
-        return this;
-    }
-
-    public AlfrescoContentPage<T> assertCategoriesAreExpanded()
-    {
-        log.info("Assert Categories are not expanded");
-        WebElement table = waitUntilElementIsVisible(categoriesTable);
-        assertTrue(table.getAttribute("class").contains(categoriesExpanded), "Categories are expanded");
-        return this;
-    }
-
-    public AlfrescoContentPage<T> expandCategoryRoot()
-    {
-        log.info("Expand Category Root");
-        clickElement(categoryRootIcon);
-        waitUntilElementIsVisible(categoriesChildren);
-        return this;
-    }
-
-    public AlfrescoContentPage<T> expandCategory(String category)
-    {
-        log.info("Expand category {}", category);
-        By categoryIconSelector = By.xpath(String.format(categoryIcon, category));
-        waitUntilElementIsVisible(categoryIconSelector);
-        clickElement(categoryIconSelector);
-        waitUntilElementIsVisible(categoriesChildren);
-        return this;
-    }
-
-    public AlfrescoContentPage<T> collapseCategoryRoot()
-    {
-        log.info("Collapse Category Root");
-        clickElement(categoryRootIcon);
-        return this;
-    }
-
-    public AlfrescoContentPage selectCategory(String category)
-    {
-        log.info("Select category {}", category);
-        By categorySelect = By.xpath(String.format(categorySelector, category));
-        waitUntilElementIsVisible(categorySelect);
-        clickElement(categorySelect);
-        return this;
-    }
-
-    private String getDocumentsFilterValue(DocumentsFilter documentsFilter)
-    {
-        String filterValue = "";
-        switch (documentsFilter)
-        {
-            case ALL_DOCUMENTS:
-                filterValue = language.translate("documentLibrary.documentsFilter.all");
-                break;
-            case EDITING_ME:
-                filterValue = language.translate("documentLibrary.documentsFilter.editingMe");
-                break;
-            case EDITING_OTHERS:
-                filterValue = language.translate("documentLibrary.documentsFilter.othersEditing");
-                break;
-            case RECENTLY_MODIFIED:
-                filterValue = language.translate("documentLibrary.documentsFilter.recentlyModified");
-                break;
-            case RECENTLY_ADDED:
-                filterValue = language.translate("documentLibrary.documentsFilter.recentlyAdded");
-                break;
-            case FAVORITES:
-                filterValue = language.translate("documentLibrary.documentsFilter.favorites");
-                break;
-            default:
-                break;
-        }
-        return filterValue;
-    }
-
     public ContentActionComponent usingContent(ContentModel contentModel)
     {
         return new ContentActionComponent(webDriver, contentModel);
+    }
+
+    public ContentFiltersComponent usingContentFilters()
+    {
+        return new ContentFiltersComponent(webDriver);
     }
 }

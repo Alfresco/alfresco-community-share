@@ -82,14 +82,14 @@
    <test name="ExploringTheLibraryDocumentsTests">
       <classes>
          <class
-            name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryDocumentsTests" />
+            name="org.alfresco.share.alfrescoContent.documentLibrary.DocumentsFilterTests" />
       </classes>
    </test>
 
    <test name="ExploringTheLibraryLibraryTests">
       <classes>
          <class
-            name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryLibraryTests" />
+            name="org.alfresco.share.alfrescoContent.documentLibrary.LibraryFilterTests" />
       </classes>
    </test>
 
@@ -103,7 +103,7 @@
    <test name="ExploringTheLibraryTagsTests">
       <classes>
          <class
-            name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryTagsTests" />
+            name="org.alfresco.share.alfrescoContent.documentLibrary.TagsFilterTests" />
       </classes>
    </test>
 

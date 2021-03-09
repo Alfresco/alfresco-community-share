@@ -49,6 +49,7 @@ public class OrganizingFoldersTests extends BaseTest
         documentLibraryPage.usingContent(testFolder).assertContentIsDisplayed()
             .selectFolder();
         documentLibraryPage.assertFolderIsDisplayedInBreadcrumb(testFolder)
+            .usingContentFilters()
             .assertFolderIsDisplayedInFilter(testFolder);
     }
 
@@ -77,12 +78,16 @@ public class OrganizingFoldersTests extends BaseTest
 
         documentLibraryPage.navigate(site.get())
             .usingContent(parentFolder).assertContentIsDisplayed();
-        documentLibraryPage.assertFolderIsDisplayedInFilter(parentFolder)
+        documentLibraryPage.usingContentFilters()
+            .assertFolderIsDisplayedInFilter(parentFolder)
             .clickFolderFromFilter(parentFolder)
                 .assertFolderIsDisplayedInBreadcrumb(parentFolder)
+                .usingContentFilters()
                 .assertFolderIsDisplayedInFilter(subFolder)
                     .usingContent(subFolder).assertContentIsDisplayed();
-        documentLibraryPage.clickFolderFromFilter(subFolder)
+        documentLibraryPage
+            .usingContentFilters()
+            .clickFolderFromFilter(subFolder)
             .assertFolderIsDisplayedInBreadcrumb(parentFolder)
             .assertFolderIsDisplayedInBreadcrumb(subFolder)
                 .clickFolderUpButton().waitForCurrentFolderBreadcrumb(parentFolder)
