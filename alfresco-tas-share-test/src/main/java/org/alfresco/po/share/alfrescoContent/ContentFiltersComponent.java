@@ -1,5 +1,9 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.utility.Utility.waitToLoopTime;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +22,9 @@ public class ContentFiltersComponent extends AlfrescoContentPage
     private final By categoriesChildren = By.id("ygtvc3");
     private final By documentsFilter = By.cssSelector("a.filter-link");
     private final By selectedFilter = By.cssSelector(".filterLink .selected");
+    private final By tagsFilter = By.cssSelector("div[id*='tags'] .filter");
+    private final By tagsFilterOpen = By.cssSelector("div[id*='tags'] h2[class$='alfresco-twister-open']");
+    private final By tagLinksArea = By.cssSelector(".filterLink .tag-link");
 
     private final String categoriesCollapsed = "ygtv-collapsed";
     private final String categoriesExpanded = "ygtv-expanded";
@@ -25,6 +32,7 @@ public class ContentFiltersComponent extends AlfrescoContentPage
     private final String categorySelector = "//div[@class='category']//span[text()='%s']/../..//span[@class='ygtvlabel']";
     private final String libraryFolderFilter = "//div[@class='treeview filter']//span[text()='%s']/../..//span[@class='ygtvlabel']";
     private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
+    private final String filterTag = "//div[@class='filter']//a[text()='%s']";
 
     protected ContentFiltersComponent(ThreadLocal webDriver)
     {
@@ -122,6 +130,42 @@ public class ContentFiltersComponent extends AlfrescoContentPage
         List<WebElement> filters = waitUntilElementsAreVisible(documentsFilter);
         clickElement(findFirstElementWithValue(filters, getDocumentsFilterValue(documentFilter)));
         waitUntilElementIsVisible(selectedFilter);
+
+        return this;
+    }
+
+    public ContentFiltersComponent openTagsFilter()
+    {
+        log.info("Open Tags filter");
+        clickElement(tagsFilter);
+        waitUntilElementIsVisible(tagsFilterOpen);
+
+        return this;
+    }
+
+    public ContentFiltersComponent assertNoTagsAreDisplayed()
+    {
+        log.info("Assert no tags are displayed");
+        assertFalse(isElementDisplayed(tagLinksArea), "Tags are displayed");
+        return this;
+    }
+
+    public ContentFiltersComponent clickTag(String tagValue)
+    {
+        log.info("Click tag {}", tagValue);
+
+        By tagLocator = By.xpath(String.format(filterTag, tagValue));
+        int retryCount = 0;
+        while(retryCount < RETRY_TIME_80.getValue() && !isElementDisplayed(tagLocator))
+        {
+            log.warn("Tag {} not displayed in content filters - retry: {}", tagValue, retryCount);
+            refresh();
+            waitToLoopTime(WAIT_2.getValue());
+            waitForContentPageToBeLoaded();
+            retryCount++;
+        }
+        clickElement(tagLocator);
+        waitUntilElementContainsText(documentsFilterHeaderTitle, tagValue);
 
         return this;
     }
