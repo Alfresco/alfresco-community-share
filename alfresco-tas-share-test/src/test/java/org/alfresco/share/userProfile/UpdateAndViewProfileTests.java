@@ -16,12 +16,6 @@ public class UpdateAndViewProfileTests extends BaseTest
 
     private ThreadLocal<UserModel> user = new ThreadLocal<>();
 
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-
-    }
-
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {

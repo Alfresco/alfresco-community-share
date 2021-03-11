@@ -18,11 +18,11 @@ public class MyDocumentDashletComponent extends MyDocumentsDashlet
     private final By documentNameLink = By.cssSelector("h3.filename > a");
     private final By smallIconThumbnail = By.cssSelector("td[headers$='thumbnail '] .icon32");
     private final By commentLink = By.cssSelector(".comment");
-    private final By likeAction = By.cssSelector("a[class='like-action like4']");
-    private final By unlikeAction = By.cssSelector("a[class='like-action like4 enabled']");
+    private final By likeAction = By.cssSelector("a[class*='like-action like']");
+    private final By unlikeAction = By.cssSelector("a.like-action.enabled");
     private final By likesCount = By.cssSelector(".likes-count");
     private final By favoriteAction = By.cssSelector("a[class^='favourite-action']");
-    private final By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite3 enabled']");
+    private final By removeFromFavorite = By.cssSelector("a.favourite-action.enabled");
     private final By descriptionElement = By.cssSelector(".faded");
     private final By versionElement = By.cssSelector(".document-version");
     private final By thumbnail = By.cssSelector("td[headers$='thumbnail '] a");

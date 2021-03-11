@@ -43,7 +43,7 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     private final By selectedItemsLink = By.cssSelector("button[id$='selectedItems-button-button']");
     private final By selectedItemsActions = By.cssSelector("div[id$=default-selectedItems-menu]");
     private final By copyToFromSelectedItems = By.cssSelector(".onActionCopyTo");
-    private final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
+    protected final By documentsFilterHeaderTitle = By.cssSelector("div[id$='default-description'] .message");
     protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
     private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
     private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");

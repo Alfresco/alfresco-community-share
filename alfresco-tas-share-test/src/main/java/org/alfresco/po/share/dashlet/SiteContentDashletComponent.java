@@ -21,11 +21,11 @@ public class SiteContentDashletComponent extends SiteContentDashlet
     private final By description = By.cssSelector(".detail:nth-of-type(2) > span");
     private final By documentVersion = By.cssSelector(".document-version");
     private final By fileSize = By.cssSelector(".detail:nth-of-type(1)>span:nth-of-type(2)");
-    private final By likeAction = By.cssSelector("a[class='like-action like1']");
-    private final By unlikeAction = By.cssSelector("a[class='like-action like1 enabled']");
+    private final By likeAction = By.cssSelector("a[class*='like-action like']");
+    private final By unlikeAction = By.cssSelector("a.like-action.enabled");
     private final By likesCount = By.cssSelector(".likes-count");
     private final By favoriteAction = By.cssSelector("a[class^='favourite-action']");
-    private final By removeFromFavorite = By.cssSelector("a[class='favourite-action favourite0 enabled']");
+    private final By removeFromFavorite = By.cssSelector("a.favourite-action.enabled");
     private final By commentLink = By.cssSelector("a.comment");
 
     private final FileModel file;
@@ -116,8 +116,7 @@ public class SiteContentDashletComponent extends SiteContentDashlet
     public SiteContentDashletComponent assertNumberOfLikesEqualsTo(int nrOfLikes)
     {
         log.info("Assert number of likes equals to {}", nrOfLikes);
-        int likes = Integer.parseInt(getElementText(getFileRow().findElement(likesCount)));
-        assertEquals(likes, nrOfLikes, "Number of likes is correct");
+        assertEquals(Integer.parseInt(getElementText(getFileRow().findElement(likesCount))), nrOfLikes, "Number of likes is correct");
         return this;
     }
 
@@ -141,8 +140,11 @@ public class SiteContentDashletComponent extends SiteContentDashlet
     public SiteContentDashletComponent clickUnlike()
     {
         log.info("Click unlike");
-        clickElement(getFileRow().findElement(unlikeAction));
+        WebElement unlikeActionElement = getFileRow().findElement(unlikeAction);
+        clickElement(unlikeActionElement);
+        waitUntilElementDisappears(unlikeActionElement);
         waitUntilChildElementIsPresent(getFileRow(), likeAction);
+
         return this;
     }
 
