@@ -54,6 +54,7 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
     private final By optionsMenu = By.cssSelector("div[id$='default-options-menu']");
     private final By hideBreadcrumbOption = By.cssSelector(".hidePath");
     private final By showBreadcrumbOption = By.cssSelector(".showPath");
+    private final By filmstripViewOption = By.cssSelector("span[class='view filmstrip']");
 
     private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
@@ -355,6 +356,13 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>>
         clickElement(showBreadcrumbOption);
         waitUntilElementIsVisible(documentsRootBreadcrumb);
         return this;
+    }
+
+    public FilmstripViewComponent selectFilmstripView()
+    {
+        log.info("Select Filmstrip view");
+        clickElement(filmstripViewOption);
+        return new FilmstripViewComponent(webDriver);
     }
 
     public ContentActionComponent usingContent(ContentModel contentModel)
