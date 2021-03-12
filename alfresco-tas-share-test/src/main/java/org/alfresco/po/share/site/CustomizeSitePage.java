@@ -4,40 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.Theme;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import ru.yandex.qatools.htmlelements.element.Button;
 
-/**
- * @author bogdan.bocancea
- */
 @Slf4j
 public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 {
+    private final By siteThemeSelect = By.cssSelector("select[id$='default-theme-menu']");
+    private final By availableSitePagesArea = By.cssSelector("ul[id$='default-availablePages-ul']");
+    private final By currentSitePagesArea = By.cssSelector("ul[id$='default-currentPages-ul']");
+    private final By okButton = By.cssSelector("button[id$='save-button-button']");
+    private final By cancelButton = By.cssSelector("button[id$='cancel-button-button']");
 
-    private RenameSitePageDialog renameSiteDialog;
-
-    @RenderWebElement
-    @FindBy (css = "select[id$='default-theme-menu']")
-    private WebElement siteThemeSelect;
-
-    @RenderWebElement
-    @FindBy (css = "ul[id$='default-availablePages-ul']")
-    private WebElement availableSitePagesArea;
-
-    @RenderWebElement
-    @FindBy (css = "ul[id$='default-currentPages-ul']")
-    private WebElement currentSitePagesArea;
-
-    @FindBy (css = "button[id$='save-button-button']")
-    private Button okButton;
-
-    @FindBy (css = "button[id$='cancel-button-button']")
-    private Button cancelButton;
     private String renameAction = ".actions > a[name='.onRenameClick']";
     private String removeAction = ".actions > a[name='.onRemoveClick']";
 
@@ -64,7 +44,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     public void selectTheme(Theme theme)
     {
-        Select themeType = new Select(siteThemeSelect);
+        Select themeType = new Select(waitUntilElementIsVisible(siteThemeSelect));
         if (theme.equals(Theme.APPLICATION_SET))
         {
             themeType.selectByVisibleText("Application Set Theme");
@@ -77,7 +57,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     public List<String> getThemeOptions()
     {
         List<String> themeValues = new ArrayList<>();
-        Select themes = new Select(siteThemeSelect);
+        Select themes = new Select(waitUntilElementIsVisible(siteThemeSelect));
         for (WebElement theme : themes.getOptions())
         {
             themeValues.add(theme.getText());
@@ -106,7 +86,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public List<SitePageType> getCurrentPages()
     {
-        return getPages(currentSitePagesArea);
+        return getPages(findElement(currentSitePagesArea));
     }
 
     /**
@@ -116,12 +96,13 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public List<SitePageType> getAvailablePages()
     {
-        return getPages(availableSitePagesArea);
+        return getPages(findElement(availableSitePagesArea));
     }
 
-    public void clickOk()
+    public void saveChanges()
     {
-        okButton.click();
+        clickElement(okButton);
+        waitUntilNotificationMessageDisappears();
     }
 
     public void clickCancel()
@@ -129,42 +110,25 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         clickElement(cancelButton);
     }
 
-    /**
-     * Verify if rename action is displayed for a current page
-     *
-     * @param page
-     * @return true if displayed
-     */
     public boolean isRenameDisplayed(SitePageType page)
     {
         return isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + renameAction));
     }
 
-    /**
-     * Verify if remove action is displayed for a current page
-     *
-     * @param page
-     * @return true if displayed
-     */
     public boolean isRemoveDisplayed(SitePageType page)
     {
         return isElementDisplayed(By.cssSelector(page.getCustomizeCssLocator() + " " + removeAction));
     }
 
-    /**
-     * Drag and drop available page to current site pages
-     *
-     * @param page SitePageType page to add
-     */
     public void addPageToSite(SitePageType page)
     {
-        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = getSitePageType(page);
         clickElement(pageElem);
         waitUntilElementIsVisible(pageElem);
-        scrollToElement(currentSitePagesArea);
+        scrollToElement(waitUntilElementIsVisible(currentSitePagesArea));
         clickElement(pageElem);
         waitUntilElementHasAttribute(pageElem, "class", "dnd-focused");
-        dragAndDrop(pageElem, currentSitePagesArea);
+        dragAndDrop(pageElem, waitUntilElementIsVisible(currentSitePagesArea));
         retryAddPageToSite(page, pageElem);
     }
 
@@ -176,46 +140,43 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         while (i < retry && !added)
         {
             log.info(String.format("Retry add page - %s", i));
-            dragAndDrop(pageElem, currentSitePagesArea);
+            dragAndDrop(pageElem, waitUntilElementIsVisible(currentSitePagesArea));
             added = isPageAddedToCurrentPages(page);
             i++;
         }
     }
 
-    /**
-     * Verify if a page is addded in Current Site Pages
-     *
-     * @param page
-     * @return
-     */
     public boolean isPageAddedToCurrentPages(SitePageType page)
     {
         return isElementDisplayed(By.cssSelector("ul[id$='default-currentPages-ul'] " + page.getCustomizeCssLocator()));
     }
 
-    /**
-     * Remove page added in Current Site Pages
-     *
-     * @param page SitePageType page to remove
-     */
     public void removePage(SitePageType page)
     {
-        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = getSitePageType(page);
         pageElem.findElement(By.cssSelector(removeAction));
     }
 
-    /**
-     * Rename page from added in Current Site Pages
-     *
-     * @param page    SitePageType page to edit
-     * @param newName String new name
-     */
-    public void renamePage(SitePageType page, String newName)
+    public CustomizeSitePage renameSitePage(SitePageType page, String newName)
     {
-        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
-        clickElement(pageElem.findElement(By.cssSelector(renameAction)));
-        renameSiteDialog.typeDisplayName(newName);
-        renameSiteDialog.clickOk();
+        log.info("Rename page {} with value {}", page, newName);
+        WebElement pageType = getSitePageType(page);
+        clickElement(pageType.findElement(By.cssSelector(renameAction)));
+        typeDisplayNameAndSave(newName);
+
+        return this;
+    }
+
+    private void typeDisplayNameAndSave(String newName)
+    {
+        RenameSitePageDialog renameSitePageDialog = new RenameSitePageDialog(webDriver);
+        renameSitePageDialog.typeDisplayName(newName);
+        renameSitePageDialog.clickOk();
+    }
+
+    private WebElement getSitePageType(SitePageType page)
+    {
+        return waitUntilElementIsVisible(By.cssSelector(page.getCustomizeCssLocator()));
     }
 
     /**
@@ -226,7 +187,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
      */
     public String getPageDisplayName(SitePageType page)
     {
-        WebElement pageElem = findElement(By.cssSelector(page.getCustomizeCssLocator()));
+        WebElement pageElem = getSitePageType(page);
         return pageElem.findElement(By.cssSelector(".title")).getText();
     }
 }

@@ -16,7 +16,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -66,11 +65,11 @@ public class AccessingCalendarTests extends ContextAwareWebTest
 
         LOG.info("Step 2 - Open 'Customize Site' page for " + siteName + " and rename 'Calendar' page to 'newCalendar'.");
         customizeSitePage.navigate(siteName);
-        customizeSitePage.renamePage(SitePageType.CALENDER, "newCalendar");
+        customizeSitePage.renameSitePage(SitePageType.CALENDER, "newCalendar");
         assertEquals(customizeSitePage.getPageDisplayName(SitePageType.CALENDER), "newCalendar", "Calendar display page name is modified.");
 
         LOG.info("Step 3 - Click OK to save changes");
-        customizeSitePage.clickOk();
+        customizeSitePage.saveChanges();
         siteDashboardPage.navigate(siteName);
         assertEquals(siteDashboardPage.getPageDisplayName(SitePageType.CALENDER), "newCalendar", "Calendar display page name is modified.");
 

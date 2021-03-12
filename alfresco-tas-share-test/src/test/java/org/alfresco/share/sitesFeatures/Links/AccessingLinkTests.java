@@ -14,7 +14,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -76,11 +75,11 @@ public class AccessingLinkTests extends ContextAwareWebTest
 
         LOG.info("Step 2 : Open customize site and rename 'Links' to 'newLinks'");
         customizeSitePage.navigate(siteName);
-        customizeSitePage.renamePage(SitePageType.LINKS, newLinksPageName);
+        customizeSitePage.renameSitePage(SitePageType.LINKS, newLinksPageName);
         Assert.assertEquals(customizeSitePage.getPageDisplayName(SitePageType.LINKS), newLinksPageName, "Wrong page name after it was renamed!");
 
         LOG.info("Step 3 : Click 'Ok' button");
-        customizeSitePage.clickOk();
+        customizeSitePage.saveChanges();
         siteDashboardPage.navigate(siteName);
         Assert.assertEquals(siteDashboardPage.getPageDisplayName(SitePageType.LINKS), newLinksPageName, "Wrong 'Links' page name on site dashboard!");
 

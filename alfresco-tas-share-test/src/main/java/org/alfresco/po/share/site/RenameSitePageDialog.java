@@ -1,44 +1,34 @@
 package org.alfresco.po.share.site;
 
-import org.alfresco.common.Utils;
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.common.Parameter;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.BaseDialogComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-/**
- * @author bogdan.bocancea
- */
-
-@PageObject
-public class RenameSitePageDialog extends ShareDialog
+@Slf4j
+public class RenameSitePageDialog extends BaseDialogComponent
 {
-    @RenderWebElement
-    @FindBy (css = ".bd>label")
-    private WebElement pageNameLabel;
+    private final By pageNameLabel = By.cssSelector(".bd>label");
+    private final By displayNameInput = By.cssSelector(".bd > input");
+    private final By okButton = By.cssSelector(".button-group > span[class$='push-button default']");
 
-    @FindBy (css = ".bd > input")
-    private WebElement displayNameInput;
-
-    @FindBy (css = ".button-group > span[class$='push-button default']")
-    private Button okButton;
+    protected RenameSitePageDialog(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
     public boolean isPageNameLabelDisplayed()
     {
-        return browser.isElementDisplayed(pageNameLabel);
+        return isElementDisplayed(pageNameLabel);
     }
 
     public void typeDisplayName(String newName)
     {
-        Parameter.checkIsMandotary("New Display Name", newName);
-        Utils.clearAndType(displayNameInput, newName);
+        clearAndType(displayNameInput, newName);
     }
 
     public void clickOk()
     {
-        okButton.click();
+        clickElement(okButton);
     }
 }

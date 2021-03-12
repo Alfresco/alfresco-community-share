@@ -10,7 +10,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -66,7 +65,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         {
             customizeSite.navigate(site2135);
             customizeSite.selectTheme(theme);
-            customizeSite.clickOk();
+            customizeSite.saveChanges();
            
             if (theme.equals(Theme.APPLICATION_SET))
             {
@@ -160,7 +159,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.BLOG), SitePageType.BLOG.getDisplayText() + " is not added");
 
         LOG.info("Step 5 - Click 'Ok' button.");
-        customizeSite.clickOk();
+        customizeSite.saveChanges();
         siteDashboard.waitUntilNotificationMessageDisappears();
        
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added to site dashboard");
@@ -188,7 +187,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.addPageToSite(SitePageType.CALENDER);
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added");
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText() + " is not added");
-        customizeSite.clickOk();
+        customizeSite.saveChanges();
        
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
@@ -204,7 +203,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Assert.assertFalse(customizeSite.isPageAddedToCurrentPages(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText() + " is not removed");
 
         LOG.info("Step 5 - Click 'Ok' button.");
-        customizeSite.clickOk();
+        customizeSite.saveChanges();
        
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not removed from site dashboard");
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
@@ -224,11 +223,11 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.addPageToSite(SitePageType.WIKI);
 
         LOG.info("Step 4 / 5 / 6 - Click 'Rename' button under any page / Type any name in the 'Display Name' text field / Click OK");
-        customizeSite.renamePage(SitePageType.WIKI, "Wiki-Edit");
+        customizeSite.renameSitePage(SitePageType.WIKI, "Wiki-Edit");
         Assert.assertTrue(customizeSite.getPageDisplayName(SitePageType.WIKI).equals("Wiki-Edit"), "Wiki display page name is not modified");
 
         LOG.info("Step 7 - Click OK");
-        customizeSite.clickOk();
+        customizeSite.saveChanges();
        
         Assert.assertTrue(siteDashboard.getPageDisplayName(SitePageType.WIKI).equals("Wiki-Edit"), "Wiki display page name is not modified");
 

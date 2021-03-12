@@ -3,7 +3,7 @@
 
    <test name="AccessingTheBlogTests">
       <classes>
-         <class name="org.alfresco.share.sitesFeatures.blog.AccessingTheBlogTests" />
+         <class name="org.alfresco.share.sitesFeatures.blog.AccessBlogTests" />
       </classes>
    </test>
 

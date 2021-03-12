@@ -80,11 +80,11 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Check that all published blog posts are displayed");
         assertEquals(blogPage.getPageTitle(), "All Posts");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published), blogTitleUser1Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published), blogTitleUser1Published);
         assertEquals(blogPage.getBlogPostAuthor(blogTitleUser1Published), author1);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
         assertEquals(blogPage.getBlogPostAuthor(blogTitleUser1Draft), author1);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser2Published), blogTitleUser2Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser2Published), blogTitleUser2Published);
         assertEquals(blogPage.getBlogPostAuthor(blogTitleUser2Published), author2);
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of user 2 is displayed");
     }
@@ -101,8 +101,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Check that only published blog posts are displayed. Drafts should not be displayed");
         assertEquals(blogPage.getPageTitle(), "New Posts");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published), blogTitleUser1Published);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser2Published), blogTitleUser2Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published), blogTitleUser1Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser2Published), blogTitleUser2Published);
         assertEquals(blogPage.getBlogPostAuthor(blogTitleUser1Published), author1);
         assertEquals(blogPage.getBlogPostAuthor(blogTitleUser2Published), author2);
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "blog post is displayed");
@@ -120,7 +120,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Check that only the draft blog posts of user1 are displayed");
         assertEquals(blogPage.getPageTitle(), "My Draft Posts");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Published), "Blog post published by User 1 is displayed");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Published), "Blog post published by User 2 is displayed");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post User 2 is displayed");
@@ -137,7 +137,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
 
         LOG.info("Step 2 : Check that only blog posts published by User1 are displayed");
         assertEquals(blogPage.getPageTitle(), "My Published Posts");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published), blogTitleUser1Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published), blogTitleUser1Published);
         assertEquals(blogPage.getBlogPostAuthor(blogTitleUser1Published), author1);
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Published), "Blog post published by User 2 is displayed");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post User 2 is displayed");
@@ -161,17 +161,17 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitleUser2Published), 6);
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitleUser1Draft), 6);
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogTitleUser1Published + "C6008"), 6);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published), blogTitleUser1Published);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser2Published), blogTitleUser2Published);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published + "C6008"), blogTitleUser1Published + "C6008");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published), blogTitleUser1Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser2Published), blogTitleUser2Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published + "C6008"), blogTitleUser1Published + "C6008");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Published + "C6008SecondTag"), "Blog post with tag2 is displayed");
 
         LOG.info("Step 3: Click tag2 tag in Tags area.");
         blogPage.clickTag("tag2");
 
         LOG.info("Step 4: Check that only posts with tag2 are displayed");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published + "C6008SecondTag"), blogTitleUser1Published + "C6008SecondTag");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published + "C6008SecondTag"), blogTitleUser1Published + "C6008SecondTag");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Published), "Blog post published by user 1 with tag1 is displayed");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Published), "Blog post published by user 2 with tag1 is displayed");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Draft), "User 1 draft with tag1 is displayed");
@@ -190,11 +190,11 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
         blogPage.clickArchiveMonth(currentMonth);
         assertEquals(blogPage.getPageTitle(), "Posts for Month " + currentMonth);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published + "C6008SecondTag"), blogTitleUser1Published + "C6008SecondTag");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published), blogTitleUser1Published);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser2Published), blogTitleUser2Published);
-        assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published + "C6008"), blogTitleUser1Published + "C6008");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published + "C6008SecondTag"), blogTitleUser1Published + "C6008SecondTag");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published), blogTitleUser1Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser2Published), blogTitleUser2Published);
+        assertEquals(blogPage.assertBlogTitleEqualsTo(blogTitleUser1Published + "C6008"), blogTitleUser1Published + "C6008");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of User 2 is displayed");
     }
 }

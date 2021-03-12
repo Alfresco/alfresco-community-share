@@ -15,9 +15,9 @@ public enum SitePageType
     DOCUMENT_LIBRARY("li[id$='_default-page-documentlibrary']", "#HEADER_SITE_DOCUMENTLIBRARY", "Document Library"),
     LINKS("li[id$='_default-page-links']", "#HEADER_SITE_LINKS", "Links");
 
-    private String customizeLocator;
-    private String dashboardLocation;
-    private String text;
+    private final String customizeLocator;
+    private final String dashboardLocation;
+    private final String text;
 
     SitePageType(String customizeLocator, String dashboardLocation, String text)
     {

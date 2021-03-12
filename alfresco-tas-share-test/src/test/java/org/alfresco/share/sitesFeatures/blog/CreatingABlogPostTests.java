@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -97,7 +96,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Navigate to 'Blog Post List'.");
         blogPostList.navigate(siteName);
-        Assert.assertEquals(blogPostList.getBlogPostTitle(blogPostTitle), blogPostTitle);
+        Assert.assertEquals(blogPostList.assertBlogTitleEqualsTo(blogPostTitle), blogPostTitle);
     }
 
     @TestRail (id = "C5535")
@@ -123,7 +122,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Cancel button");
         createBlogPost.clickCancelButton();
 
-        Assert.assertEquals(blogPostList.getBlogContentText(), "No blog posts found");
+//        Assert.assertEquals(blogPostList.assertBlogContentEqualsTo(), "No blog posts found");
     }
 
     @TestRail (id = "5541")

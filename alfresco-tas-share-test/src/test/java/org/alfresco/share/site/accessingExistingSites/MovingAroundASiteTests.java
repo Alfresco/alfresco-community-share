@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -86,7 +85,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         customizeSite.addPageToSite(SitePageType.BLOG);
         customizeSite.addPageToSite(SitePageType.LINKS);
         customizeSite.addPageToSite(SitePageType.DATA_LISTS);
-        customizeSite.clickOk();
+        customizeSite.saveChanges();
         siteDashboard.waitUntilNotificationMessageDisappears();
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");

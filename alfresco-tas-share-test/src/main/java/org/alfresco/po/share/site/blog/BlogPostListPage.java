@@ -1,8 +1,17 @@
 package org.alfresco.po.share.site.blog;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_30;
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
 import org.openqa.selenium.By;
@@ -11,20 +20,28 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 {
+    private final String ARIA_LABEL_ATTRIBUTE = "aria-label";
+    private final String OPEN_PARENTHESIS = "(";
+    private final String CLOSE_PARENTHESIS = ")";
+
+    //Below fields will be delete in next PRs
     @FindBy (css = "[class='listTitle']")
     public WebElement pageTitle;
 
-    private final By blogPageContent = By.cssSelector("tbody.yui-dt-message");
-    private final By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
-
-    @FindBy (css = "div.new-blog span[id*='_default-create-button']")
-    private WebElement newPostButton;
-    @FindBy (css = "div[id$='_default-postlist']")
-    private WebElement defaultBlogPostList;
     @FindAll (@FindBy (css = "div[id*='archives'] a.filter-link"))
     private List<WebElement> archivesMonths;
+
+    private final By blogContent = By.xpath(".//div[@class = 'content yuieditor']");
+    private final By noBlogPostsFound = By.xpath(".//tbody[@class='yui-dt-message']");
+    private final By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
+    private final By newPostButton = By.cssSelector("div.new-blog span[id*='_default-create-button']");
+    private final By defaultBlogPostList = By.cssSelector("div[id$='_default-postlist']");
+    private final By nodeTitle = By.xpath(".//span[@class = 'nodeTitle']");
+    private final By simpleNodePost = By.cssSelector(".node.post.simple");
+    private final By postDateTime = By.xpath(".//div[@class = 'published']//span[@class = 'nodeAttrValue']");
 
     private final By editButton = By.xpath(".//../div[@class = 'nodeEdit']//div[@class = 'onEditBlogPost']//a//span[text() = 'Edit']");
     private final By blogLinkName = By.id("HEADER_SITE_BLOG-POSTLIST");
@@ -32,10 +49,22 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final By latestFilter = By.cssSelector("ul.filterLink span.new>a");
     private final By myDraftsFilter = By.cssSelector("ul.filterLink span.mydrafts>a");
     private final By myPublished = By.cssSelector("ul.filterLink span.mypublished>a");
+    private final By tag = By.xpath("//span[@class ='tag']/a");
+
+    private final String postRowPath = "//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '%s']/../../../..";
+    private final String labelPath = "//div[@class = 'nodeContent']//span/a[text() = '%s']/../..//span[@class='nodeAttrLabel' and normalize-space()= '%s']";
+    private final String valuePath = "//div[@class = 'nodeContent']//span/a[text() = '%s']/../..//span[@class='nodeAttrValue' and normalize-space()='%s']";
+    private final String postFooterPath = ".//div[@class = 'nodeFooter' ]//span[text() = '(%s)']";
 
     public BlogPostListPage(ThreadLocal<WebDriver> webDriver)
     {
       super(webDriver);
+    }
+
+    private WebElement getBlogPostRow(String blogTitle)
+    {
+        return waitWithRetryAndReturnWebElement(By.xpath(String.format(postRowPath, blogTitle)),
+            WAIT_1.getValue(), RETRY_TIME_30.getValue());
     }
 
     public WebElement selectBlogPostWithTitle(String title)
@@ -70,14 +99,22 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return String.format("share/page/site/%s/blog-postlist", getCurrentSiteName());
     }
 
-    /**
-     * Method to get the Blog page content or if no content message: "No blog posts found" is returned
-     *
-     * @return
-     */
-    public String getBlogContentText()
+    public BlogPostListPage assertBlogContentEqualsTo(String expectedBlogContentText)
     {
-        return findElement(blogPageContent).getText();
+        log.info("Assert blog content equals to {}", expectedBlogContentText);
+        String actualBlogContentText = getElementText(blogContent);
+        assertEquals(actualBlogContentText, expectedBlogContentText,
+            String.format("Blog content not equals %s ", expectedBlogContentText));
+        return this;
+    }
+
+    public BlogPostListPage assertNoBlogPostFound(String expectedNoBlogPostsFoundLabel)
+    {
+        log.info("Assert no blog post found label equals to {}", expectedNoBlogPostsFoundLabel);
+        String actualNoBlogPostsFoundLabel = getElementText(noBlogPostsFound);
+        assertEquals(actualNoBlogPostsFoundLabel, expectedNoBlogPostsFoundLabel,
+            String.format("No blog posts found label not equals %s ", expectedNoBlogPostsFoundLabel));
+        return this;
     }
 
     /**
@@ -90,62 +127,33 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return isElementDisplayed(newPostButton);
     }
 
-    /**
-     * Method to check if the Simple view button is displayed on the Blog Page
-     *
-     * @return
-     */
-    public boolean isSimpleViewButtonDisplayed()
+    public BlogPostListPage assertNewBlogIsDisplayedInMenuBar(String expectedBlogName)
     {
-        return isElementDisplayed(simpleViewButton);
-    }
-
-    /**
-     * Method to get the text displayed on the blog link from the site dashboard page.
-     *
-     * @return
-     */
-    public String blogPageLinkName()
-    {
-        return findElement(blogLinkName).getAttribute("aria-label").trim();
-    }
-
-    /**
-     * Method to click on the blog link while on the site dashboard page.
-     */
-    public void clickOnBlogLink()
-    {
-        findElement(By.id("HEADER_SITE_BLOG-POSTLIST")).click();
-    }
-
-    /**
-     * Method to get the blog content for the first blog post
-     */
-    public BlogPostListPage clickSimpleViewButton()
-    {
-        WebElement viewButton = findElement(simpleViewButton);
-
-        String viewButtonText = viewButton.getText();
-        viewButton.click();
-        if (viewButtonText.equals("Simple View"))
-        {
-            waitUntilElementIsVisible(By.cssSelector(".node.post.simple"));
-        } else
-        {
-            waitUntilElementDeletedFromDom(By.cssSelector(".node.post.simple"));
-        }
+        log.info("Assert new blog is displayed in menu bar {}", expectedBlogName);
+        waitUntilElementIsVisible(blogLinkName);
+        String actualBlogName = findElement(blogLinkName).getAttribute(ARIA_LABEL_ATTRIBUTE).trim();
+        assertEquals(actualBlogName, expectedBlogName, String.format("Blog name not equals %s ", expectedBlogName));
         return this;
     }
 
-    /**
-     * Method to get the published on date and time for the blog post under test
-     *
-     * @param title
-     * @return
-     */
-    public String getPublishedOnDateTime(String title)
+    public BlogPostListPage navigateToBlogPage()
     {
-        return selectBlogPostWithTitle(title).findElement(By.xpath(".//div[@class = 'published']//span[@class = 'nodeAttrValue']")).getText();
+        log.info("Navigate to blog page");
+        clickElement(blogLinkName);
+        return this;
+    }
+
+    public BlogPostListPage openBlogSimpleView()
+    {
+        log.info("Open blog simple view");
+        clickElement(simpleViewButton);
+        waitUntilElementIsVisible(simpleNodePost);
+        return this;
+    }
+
+    private String getPostPublishedDateTime(String title)
+    {
+        return getElementText(getBlogPostRow(title).findElement(postDateTime));
     }
 
     /**
@@ -171,124 +179,134 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     }
 
     /**
-     * Method to check if the blog post published date and time is correct. The method is not exact as can not get the timestamp for when the event is created.
-     * The method checks if between the reference timestamp and the published on date and time is a difference of under 60 seconds.
+     * Method to compare if blog post date from UI contains blog post date from server
      *
-     * @param title
-     * @return
+     * @implNote
+     * We need to update method which creates a blog post, createBlogPost, in order to have full control on creation date
      */
-    public boolean blogDateTimeComparator(String title)
+    public BlogPostListPage assertBlogPublishDateContains(String title,String expectedLabel, LocalDateTime serverDate, DateTimeFormatter formatter)
     {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE d MMM yyyy HH:mm:ss");
-        LocalDateTime BlogDate = LocalDateTime.parse(getPublishedOnDateTime(title), formatter);
-
-        // Get my date
-        LocalDateTime MyDate = LocalDateTime.now();
-
-        // Compare them
-        if (MyDate.isAfter(BlogDate.plusSeconds(60)))
-        {
-            System.out.println("Blog Date older. BlogDate: " + BlogDate + " MyDate: " + MyDate);
-            return false;
-        } else
-        {
-            System.out.println("Blog Date is ok " + BlogDate);
-            return true;
-        }
+        LocalDateTime postDateUI = LocalDateTime.parse(getPostPublishedDateTime(title), formatter);
+        assertTrue(expectedLabel.concat(formatDate(postDateUI)).contains(formatDate(serverDate)),
+            String.format("Post date from UI %s not contains post date from server %s ", postDateUI, serverDate));
+        return this;
     }
 
-    /**
-     * Method to get the blog post author for the blog post under test
-     *
-     * @param title
-     * @return
-     */
+    private String formatDate(LocalDateTime localDateTime)
+    {
+        String dayOfWeek = localDateTime.truncatedTo(ChronoUnit.DAYS).toLocalDate().getDayOfWeek()
+            .getDisplayName(TextStyle.SHORT, Locale.US);
+
+        String dayOfMonth = String
+            .valueOf(localDateTime.truncatedTo(ChronoUnit.DAYS).toLocalDate().getDayOfMonth());
+
+        String month = localDateTime.truncatedTo(ChronoUnit.DAYS).toLocalDate().getMonth()
+            .getDisplayName(TextStyle.SHORT, Locale.US);
+
+        String year = String
+            .valueOf(localDateTime.truncatedTo(ChronoUnit.DAYS).toLocalDate().getYear());
+        String emptySpace = " ";
+
+        return dayOfWeek.concat(emptySpace).concat(dayOfMonth).concat(emptySpace).concat(month)
+            .concat(emptySpace).concat(year);
+    }
+
+    //this method will be replace in the remained classes with assertBlogAuthorPostEqualsTo
     public String getBlogPostAuthor(String title)
     {
-        WebElement post = selectBlogPostWithTitle(title);
+        WebElement post = getBlogPostRow(title);
         List<WebElement> listLabels = post.findElements(By.xpath(".//span[@class='nodeAttrLabel']"));
+
         int index;
         for (index = 0; index < listLabels.size(); index++)
         {
             if (listLabels.get(index).getText().trim().equals("Author:"))
+            {
                 break;
+            }
         }
         if (index == listLabels.size())
+        {
             throw new PageOperationException("Element not found");
+        }
 
         List<WebElement> listAttribute = post.findElements(By.xpath(".//span[@class='nodeAttrValue']"));
         return listAttribute.get(index).getText();
     }
 
-    /**
-     * Method to get the blog post title for the blog post under test
-     *
-     * @param title
-     * @return
-     */
-    public String getBlogPostTitle(String title)
+    public BlogPostListPage assertBlogTitleEqualsTo(String expectedBlogTitle)
     {
-        waitUntilWebElementIsDisplayedWithRetry(selectBlogPostWithTitle(title), 6);
-        WebElement post = selectBlogPostWithTitle(title);
-        return post.findElement(By.xpath(".//span[@class = 'nodeTitle']")).getText();
+        log.info("Assert blog title equals to {}", expectedBlogTitle);
+        String actualBlogTitle = getElementText(getBlogPostRow(expectedBlogTitle).findElement(nodeTitle));
+        assertEquals(actualBlogTitle, expectedBlogTitle, String.format("Blog title not equals %s ", expectedBlogTitle));
+        return this;
     }
 
-    /**
-     * Method to get the blog post status for the blog post under test
-     *
-     * @param title
-     * @return
-     */
-    public String getBlogPostStatus(String title)
+    public BlogPostListPage assertBlogAuthorPostEqualsTo(String blogTitle, String expectedAuthorLabel, String expectedAuthorValue)
     {
+        log.info("Assert blog author equals to {}", expectedAuthorValue);
+        String label = getAuthor(blogTitle, expectedAuthorLabel, labelPath);
+        String value = getAuthor(blogTitle, expectedAuthorValue, valuePath);
+        String actualAuthorValue = label.concat(value);
 
-        return selectBlogPostWithTitle(title).findElement(By.xpath(".//div[@class = 'published']//span[text() = 'Published on: ']")).getText();
+        assertEquals(actualAuthorValue, expectedAuthorLabel.concat(expectedAuthorValue),
+            String.format("Blog author not equals %s ", expectedAuthorValue));
+        return this;
     }
 
-    /**
-     * Method to get the blog post content for the blog post under test
-     *
-     * @param title
-     * @return
-     */
+    private String getAuthor(String blogTitle, String authorLabel, String labelPath)
+    {
+        return getElementText(getBlogPostRow(blogTitle)
+            .findElement(By.xpath(String.format(labelPath, blogTitle, authorLabel))));
+    }
+
     public String getBlogPostContent(String title)
     {
-        WebElement post = selectBlogPostWithTitle(title);
-        return post.findElement(By.xpath(".//div[@class = 'content yuieditor']")).getText();
+        WebElement post = getBlogPostRow(title);
+        return getElementText(post.findElement(blogContent));
     }
 
-    /**
-     * Method to get the blog post number of replies for the blog post under test
-     *
-     * @param title
-     * @return
-     */
-    public String getBlogPostNumberOfReplies(String title)
+    public BlogPostListPage assertBlogPostNumberOfRepliesEqualTo(String title, String expectedNumberOfReplies)
     {
-        return selectBlogPostFooter(title).findElement(By.xpath(".//div[@class = 'nodeFooter' ]//span[position()=2]")).getText();
+        log.info("Assert blog post number of replies equal to {}", expectedNumberOfReplies);
+        waitUntilElementIsVisible(By.xpath(String.format(postFooterPath, expectedNumberOfReplies)));
+
+        String actualNumberOfReplies = getActualNumberOfReplies(title, expectedNumberOfReplies);
+        assertEquals(actualNumberOfReplies, formattedExpectedFooterLabel(expectedNumberOfReplies),
+        String.format("Number of replies not equals %s ", formattedExpectedFooterLabel(expectedNumberOfReplies)));
+        return this;
     }
 
-    /**
-     * Method to get the blog post tags label text when no tags are available for the blog post under test
-     *
-     * @param title
-     * @return
-     */
-    public String getBlogPostTagsWhenNoTagsAreAvailable(String title)
+    private String getActualNumberOfReplies(String title, String expectedNumberOfReplies)
     {
-        return selectBlogPostFooter(title).findElement(By.xpath(".//div[@class = 'nodeFooter' ]/span[text() = '(None)']")).getText();
+        return getElementText(getBlogPostRow(title)
+            .findElement(By.xpath(String.format(postFooterPath, expectedNumberOfReplies))));
     }
 
-    /**
-     * Method to get the blog post tags when tags are available for the blog post under test
-     *
-     * @param title
-     * @return
-     */
-    public String getBlogPostTagsWhenTagsAreAvailable(String title)
+    public BlogPostListPage assertBlogPostDontHaveTag(String title, String expectedNoneTag)
     {
-        return selectBlogPostFooter(title).findElement(By.xpath(".//div[@class = 'nodeFooter' ]//span[@class ='tag']/a")).getText();
+        log.info("Assert blog post have tag label equals to {}", expectedNoneTag);
+        waitUntilElementIsVisible(By.xpath(String.format(postFooterPath, expectedNoneTag)));
+
+        String actualTag = getElementText(getBlogPostRow(title)
+            .findElement(By.xpath(String.format(postFooterPath, expectedNoneTag))));
+
+        assertEquals(actualTag, formattedExpectedFooterLabel(expectedNoneTag),
+            String.format("Tag not equals %s ", expectedNoneTag));
+        return this;
+    }
+
+    private String formattedExpectedFooterLabel(String expectedNoneTag)
+    {
+        return OPEN_PARENTHESIS.concat(expectedNoneTag).concat(CLOSE_PARENTHESIS);
+    }
+
+    public BlogPostListPage assertBlogPostHaveTagEqualsTo(String title, String expectedTag)
+    {
+        log.info("Assert blog post have tag equals to {}", expectedTag);
+        String actualTag = getElementText(getBlogPostRow(title).findElement(tag));
+        assertEquals(actualTag, expectedTag.toLowerCase(), String.format("Tag not equals %s ", expectedTag));
+        return this;
     }
 
     /**
@@ -299,15 +317,9 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return pageTitle.getText();
     }
 
-    /**
-     * Method to check if the blog post is displayed
-     *
-     * @param title
-     * @return
-     */
     public boolean isBlogPostDisplayed(String title)
     {
-        return isElementDisplayed(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']"));
+        return isElementDisplayed(getBlogPostRow(title));
     }
 
     /**
@@ -426,7 +438,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public CreateBlogPostPage clickNewPostButton()
     {
-        newPostButton.click();
+        clickElement(newPostButton);
         return new CreateBlogPostPage(webDriver);
     }
 
@@ -438,5 +450,13 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     public void clickDeleteButton(String title)
     {
         selectBlogPostWithTitle(title).findElement(By.xpath("//div[@class = 'onDeleteBlogPost']//span[text()='Delete']")).click();
+    }
+
+    public BlogPostListPage assertButtonTextEqualsTo(String expectedButtonText)
+    {
+        log.info("Assert button text equals to {}", expectedButtonText);
+        assertEquals(getElementText(simpleViewButton), expectedButtonText,
+            String.format("Button text not equals %s ", expectedButtonText));
+        return this;
     }
 }

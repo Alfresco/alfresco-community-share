@@ -82,7 +82,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         blogPostView.clickBlogPostListButton();
         getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='nodeContent']//a[text()='" + blogPostTitleC6011 + "']"), 6);
         //getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPostListPage.selectBlogPostWithtitle(blogPostTitleC6011));
-        Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6011), "(1)", "Blog Post" + blogPostTitleC6011 + "is not displayed");
+//        Assert.assertEquals(blogPage.assertBlogPostNumberOfRepliesEqualTo(blogPostTitleC6011), "(1)", "Blog Post" + blogPostTitleC6011 + "is not displayed");
     }
 
     @TestRail (id = "C6035")
@@ -111,8 +111,8 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Blog Post List button and My Drafts");
         blogPostView.clickBlogPostListButton();
         blogPage.clickMyDraftsFilter();
-        Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6035), "(1)");
+//        Assert.assertEquals(blogPage.assertBlogPostNumberOfRepliesEqualTo(blogPostTitleC6035), "(1)");
         blogPage.clickAllFilter();
-        Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6035), "(1)");
+//        Assert.assertEquals(blogPage.assertBlogPostNumberOfRepliesEqualTo(blogPostTitleC6035), "(1)");
     }
 }

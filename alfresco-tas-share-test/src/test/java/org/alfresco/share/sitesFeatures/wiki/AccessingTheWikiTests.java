@@ -16,7 +16,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -80,11 +79,11 @@ public class AccessingTheWikiTests extends ContextAwareWebTest
 
         LOG.info("Step 2 : Open customize site and rename 'Wiki' to 'newWiki'");
         customizeSitePage.navigate(siteName);
-        customizeSitePage.renamePage(SitePageType.WIKI, "newWiki");
+        customizeSitePage.renameSitePage(SitePageType.WIKI, "newWiki");
         Assert.assertEquals(customizeSitePage.getPageDisplayName(SitePageType.WIKI), "newWiki", "Wiki page not renamed correctly");
 
         LOG.info("Step 3 : Click 'Ok' button and verify that the wiki page has been renamed on site dashboard");
-        customizeSitePage.clickOk();
+        customizeSitePage.saveChanges();
         siteDashboardPage.navigate(siteName);
         Assert.assertEquals(siteDashboardPage.getPageDisplayName(SitePageType.WIKI), "newWiki", "'Wiki' page not correctly renamed on site dashboard");
 
