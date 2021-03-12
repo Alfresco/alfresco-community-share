@@ -7,6 +7,7 @@ import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.apache.commons.lang.RandomStringUtils;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -71,5 +72,12 @@ public class TagsFilterTests extends BaseTest
             .assertDocumentsFilterHeaderTitleEqualsTo(String.format(language.translate(CONTENTS_TAGGED_PAGE_HEADER), tagFolder))
             .usingContent(testFile).assertContentIsNotDisplayed()
             .usingContent(testFolder).assertContentIsDisplayed();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }
