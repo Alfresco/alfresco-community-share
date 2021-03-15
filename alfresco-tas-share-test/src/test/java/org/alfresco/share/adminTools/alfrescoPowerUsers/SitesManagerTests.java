@@ -150,7 +150,7 @@ public class SitesManagerTests extends BaseTest
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(testSite.get().getTitle())
             .clickDeleteFromSitesManager();
-        sitesManagerPage.waitUntilLoadingMessageDisappears()
+        sitesManagerPage
             .navigate()
             .usingSite(testSite.get()).assertSiteIsNotDisplayed();
         siteDashboardPage.navigateWithoutRender(testSite.get());

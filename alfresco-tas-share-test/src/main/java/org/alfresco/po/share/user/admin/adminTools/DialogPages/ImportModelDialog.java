@@ -61,7 +61,6 @@ public class ImportModelDialog extends BaseDialogComponent
     {
         clickElement(importButton);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
-        modelManagerPage.waitUntilLoadingMessageDisappears();
         return modelManagerPage;
     }
 }

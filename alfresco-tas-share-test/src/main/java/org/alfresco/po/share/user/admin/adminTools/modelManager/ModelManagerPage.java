@@ -40,7 +40,6 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
         try
         {
             super.navigate();
-            waitUntilLoadingMessageDisappears();
             return this;
         }
         catch(TimeoutException | PageRenderTimeException  e)
@@ -69,7 +68,6 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        waitUntilLoadingMessageDisappears();
 
         return this;
     }

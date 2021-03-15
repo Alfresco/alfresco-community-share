@@ -72,7 +72,6 @@ public class EditModelDialog extends BaseDialogComponent
         waitUntilElementIsVisible(saveButton);
         clickElement(saveButton);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
-        modelManagerPage.waitUntilLoadingMessageDisappears();
 
         return new ModelManagerPage(webDriver);
     }

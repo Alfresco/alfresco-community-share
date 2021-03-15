@@ -48,9 +48,6 @@ public class CreateAspectDialog extends BaseDialogComponent
     {
         waitUntilElementIsVisible(createButton);
         clickElement(createButton);
-        ModelDetailsPage modelDetailsPage = new ModelDetailsPage(webDriver);
-        modelDetailsPage.waitUntilLoadingMessageDisappears();
-
-        return modelDetailsPage;
+        return new ModelDetailsPage(webDriver);
     }
 }

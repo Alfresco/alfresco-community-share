@@ -114,7 +114,7 @@ public abstract class SharePage2<T> extends BasePage
         return (T) this;
     }
 
-    public T waitUntilLoadingMessageDisappears()
+    /*public T waitUntilLoadingMessageDisappears()
     {
         log.info("Wait for loading message to disappear");
         try
@@ -127,7 +127,7 @@ public abstract class SharePage2<T> extends BasePage
             log.info("Timeout exception for loading message {}", e.getMessage());
         }
         return (T) this;
-    }
+    }*/
 
     public boolean isAlfrescoLogoDisplayed()
     {

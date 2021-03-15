@@ -74,7 +74,6 @@ public class ModelActionsComponent extends ModelManagerPage
             log.warn("Model {} not displayed - retry: {}", modelName, retryTimes);
             refresh();
             waitInSeconds(WAIT_2.getValue());
-            waitUntilLoadingMessageDisappears();
         }
         return findElement(modelRowLocator);
     }
@@ -159,7 +158,6 @@ public class ModelActionsComponent extends ModelManagerPage
     {
         log.info("Activate model");
         clickOnAction(language.translate("modelManager.action.activate"));
-        waitUntilLoadingMessageDisappears();
         waitForContentModelStatus(activeStatus);
         return this;
     }
@@ -168,7 +166,6 @@ public class ModelActionsComponent extends ModelManagerPage
     {
         log.info("Activate model");
         clickOnAction(language.translate("modelManager.action.deactivate"));
-        waitUntilLoadingMessageDisappears();
         waitForContentModelStatus(inactiveStatus);
         return this;
     }
@@ -209,7 +206,6 @@ public class ModelActionsComponent extends ModelManagerPage
     {
         log.info("Click Export");
         clickOnAction(language.translate("modelManager.action.export"));
-        waitUntilLoadingMessageDisappears();
         return this;
     }
 

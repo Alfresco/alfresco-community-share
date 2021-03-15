@@ -60,7 +60,6 @@ public class ManagerSiteActionComponent extends SitesManagerPage
             language.translate("sitesManager.becomeSiteManager"));
         mouseOver(becomeBtn);
         clickElement(becomeBtn);
-        waitUntilLoadingMessageDisappears();
 
         return this;
     }

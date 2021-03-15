@@ -42,8 +42,6 @@ public class DeleteModelDialog extends BaseDialogComponent
         waitUntilElementIsVisible(deleteButton);
         clickElement(deleteButton);
         waitUntilElementDisappears(deleteModelDialogLocator);
-        ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
-        modelManagerPage.waitUntilLoadingMessageDisappears();
         return new ModelManagerPage(webDriver);
     }
 

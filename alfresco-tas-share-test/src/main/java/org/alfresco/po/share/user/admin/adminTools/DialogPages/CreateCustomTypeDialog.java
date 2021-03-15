@@ -23,9 +23,7 @@ public class CreateCustomTypeDialog extends BaseDialogComponent
     public ModelDetailsPage clickCreate()
     {
         clickElement(createButton);
-        ModelDetailsPage modelDetailsPage = new ModelDetailsPage(webDriver);
-        modelDetailsPage.waitUntilLoadingMessageDisappears();
-        return modelDetailsPage;
+        return new ModelDetailsPage(webDriver);
     }
 
     public CreateCustomTypeDialog selectParentType(String parentType)
