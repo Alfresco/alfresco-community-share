@@ -10,8 +10,8 @@ import org.openqa.selenium.WebDriver;
 
 public class ImportModelDialog extends BaseDialogComponent
 {
-    private final By importModelWindow = By.cssSelector("div[id='CMM_IMPORT_DIALOG']");
-    private final By importButton = By.cssSelector("span[id='CMM_IMPORT_DIALOG_OK']");
+    private final By importModelWindow = By.id("CMM_IMPORT_DIALOG");
+    private final By importButton = By.id("CMM_IMPORT_DIALOG_OK");
     private final By importModelTitle = By.cssSelector("div[class='dijitDialogTitleBar'] span[id ='CMM_IMPORT_DIALOG_title']");
     private final By cancelButton = By.cssSelector("span[aria-labelledby='CMM_IMPORT_DIALOG_CANCEL_label']");
     private final By fileInput = By.cssSelector(".alfresco-html-FileInput");
@@ -60,7 +60,7 @@ public class ImportModelDialog extends BaseDialogComponent
     public ModelManagerPage clickImportButton()
     {
         clickElement(importButton);
-        ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
-        return modelManagerPage;
+        waitUntilElementDisappears(importModelWindow);
+        return new ModelManagerPage(webDriver);
     }
 }

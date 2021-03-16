@@ -126,7 +126,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         {
             log.warn("Tag {} not displayed - retry: {}", tagName, retryCounter);
             clickSearch();
-            waitToLoopTime(WAIT_3.getValue());
+            waitToLoopTime(WAIT_5.getValue());
             retryCounter++;
         }
         return this;

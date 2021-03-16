@@ -42,6 +42,7 @@ public class RemoveContentTagsTests extends BaseTest
 
         documentLibraryPage.navigate(site.get())
             .usingContent(fileWithTag)
+            .assertTagIsDisplayed(tag)
             .clickTagEditIcon()
             .removeTag(tag)
             .clickSave();
