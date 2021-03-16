@@ -169,7 +169,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             log.warn("Keyword {} not displayed - retry: {}", searchExpression, retryCounter);
             setSearchExpression(searchExpression);
             clickSearchButton();
-            waitInSeconds(WAIT_2.getValue());
+            waitInSeconds(WAIT_3.getValue());
             retryCounter++;
         }
         return this;
