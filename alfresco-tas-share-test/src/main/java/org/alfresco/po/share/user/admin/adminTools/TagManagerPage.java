@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
-import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.*;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -126,7 +126,7 @@ public class TagManagerPage extends SharePage2<TagManagerPage>
         {
             log.warn("Tag {} not displayed - retry: {}", tagName, retryCounter);
             clickSearch();
-            waitToLoopTime(WAIT_5.getValue());
+            waitToLoopTime(WAIT_3.getValue());
             retryCounter++;
         }
         return this;

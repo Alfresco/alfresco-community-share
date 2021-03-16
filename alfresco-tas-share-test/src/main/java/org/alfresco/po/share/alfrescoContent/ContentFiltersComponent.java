@@ -33,6 +33,7 @@ public class ContentFiltersComponent extends AlfrescoContentPage
     private final String libraryFolderFilter = "//div[@class='treeview filter']//span[text()='%s']/../..//span[@class='ygtvlabel']";
     private final String folderInFilterElement = "//tr[starts-with(@class,'ygtvrow documentDroppable')]//span[text()='%s']";
     private final String filterTag = "//div[@class='filter']//a[text()='%s']";
+    private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//span[text()='%s']";
 
     protected ContentFiltersComponent(ThreadLocal webDriver)
     {
@@ -90,6 +91,7 @@ public class ContentFiltersComponent extends AlfrescoContentPage
         By categorySelect = By.xpath(String.format(categorySelector, category));
         waitUntilElementIsVisible(categorySelect);
         clickElement(categorySelect);
+        waitUntilElementIsVisible(By.xpath(String.format(breadcrumb, category)));
 
         return this;
     }
@@ -137,7 +139,7 @@ public class ContentFiltersComponent extends AlfrescoContentPage
     public ContentFiltersComponent openTagsFilter()
     {
         log.info("Open Tags filter");
-        clickElement(tagsFilter);
+        clickJS(waitUntilElementIsVisible(tagsFilter));
         waitUntilElementIsVisible(tagsFilterOpen);
 
         return this;

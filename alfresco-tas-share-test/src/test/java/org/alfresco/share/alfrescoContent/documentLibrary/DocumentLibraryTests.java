@@ -76,6 +76,7 @@ public class DocumentLibraryTests extends BaseTest
                 language.translate("documentLibrary.contentActions.viewInBrowser"),
                 language.translate("documentLibrary.contentActions.editProperties"),
                 language.translate("documentLibrary.contentAction.uploadNewVersion"),
+                language.translate("documentLibrary.contentActions.editInAlfresco"),
                 language.translate("documentLibrary.contentActions.editOffline"),
                 language.translate("documentLibrary.contentActions.copyTo"),
                 language.translate("documentLibrary.contentActions.moveTo"),

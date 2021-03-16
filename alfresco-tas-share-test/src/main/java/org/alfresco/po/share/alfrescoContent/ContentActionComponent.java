@@ -441,19 +441,16 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
     public ContentActionComponent assertActionsAreAvailable(String... expectedActions)
     {
         log.info("Assert available actions are: {}", Arrays.asList(expectedActions));
-        String[] actualActions = getMoreActions(expectedActions);
-        assertEquals(actualActions, expectedActions, "Not all actions were found");
+        List<String> actions = getMoreActions();
+        assertTrue(actions.stream().anyMatch(element -> Arrays.asList(expectedActions).contains(element)), "Not all actions were found");
 
         return this;
     }
 
-    private String[] getMoreActions(String[] expectedActions)
+    private List<String> getMoreActions()
     {
         mouseOverContent();
         clickMore();
-        String[] moreActions = getTextFromLocatorList(actionsSet).toArray(new String[0]);
-        Arrays.sort(moreActions);
-        Arrays.sort(expectedActions);
-        return moreActions;
+        return getTextFromLocatorList(actionsSet);
     }
 }
