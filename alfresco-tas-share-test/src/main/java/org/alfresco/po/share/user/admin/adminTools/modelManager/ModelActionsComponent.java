@@ -68,14 +68,7 @@ public class ModelActionsComponent extends ModelManagerPage
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        int retryTimes = 0;
-        while (retryTimes < RETRY_TIME_80.getValue() && !isElementDisplayed(modelRowLocator))
-        {
-            log.warn("Model {} not displayed - retry: {}", modelName, retryTimes);
-            refresh();
-            waitInSeconds(WAIT_2.getValue());
-        }
-        return findElement(modelRowLocator);
+        return waitUntilElementIsVisible(modelRowLocator);
     }
 
     public WebElement getModelRow()
@@ -99,7 +92,7 @@ public class ModelActionsComponent extends ModelManagerPage
         WebElement expectedModelRow = getModelRow();
         waitUntilElementIsVisible(expectedModelRow);
         assertTrue(isElementDisplayed(expectedModelRow),
-                String.format("Model %s is displayed", contentModel.getName()));
+            String.format("Model %s is displayed", contentModel.getName()));
         return this;
     }
 

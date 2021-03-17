@@ -108,11 +108,13 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
 
     public ModelActionsComponent usingCustomType(CustomContentModel contentModel, RestCustomTypeModel restCustomTypeModel)
     {
+        waitForContentModelTableToBeLoaded();
         return new ModelActionsComponent(webDriver, contentModel, restCustomTypeModel);
     }
 
     public ModelActionsComponent usingAspect(CustomContentModel contentModel, CustomAspectModel customAspect)
     {
+        waitForContentModelTableToBeLoaded();
         return new ModelActionsComponent(webDriver, contentModel, customAspect);
     }
 }

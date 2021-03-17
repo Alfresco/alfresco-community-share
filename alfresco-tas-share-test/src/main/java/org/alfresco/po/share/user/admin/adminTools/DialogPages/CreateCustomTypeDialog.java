@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class CreateCustomTypeDialog extends BaseDialogComponent
 {
+    private final By dialogBody = By.id("CMM_CREATE_TYPE_DIALOG");
     private final By createButton = By.id("CMM_CREATE_TYPE_DIALOG_OK");
     private final By cancelButton = By.id("CMM_CREATE_TYPE_DIALOG_CANCEL_label");
     private final By nameField = By.xpath("//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']");
@@ -23,6 +24,7 @@ public class CreateCustomTypeDialog extends BaseDialogComponent
     public ModelDetailsPage clickCreate()
     {
         clickElement(createButton);
+        waitUntilElementDisappears(dialogBody);
         return new ModelDetailsPage(webDriver);
     }
 
