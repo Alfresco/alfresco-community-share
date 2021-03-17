@@ -7,7 +7,6 @@ import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.WebDriverFactory;
 import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.data.DataGroup;
@@ -74,7 +73,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         setApplicationsContext();
         webDriver.set(webDriverFactory.createWebDriver());
-//        setTestContext(iTestContext, webDriver.get());
+        //setTestContext(iTestContext, webDriver.get());
 
         userDashboardPage = new UserDashboardPage(webDriver);
     }
@@ -120,8 +119,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         Authenticator authenticator = new Authenticator(dataAIS, userService, webDriver);
         authenticator
-            .authenticateUsingCookies(userModel, userDashboardPage,
-                new Toolbar(webDriver), defaultProperties.getShareUrl().toString());
+            .authenticateUsingCookies(userModel, userDashboardPage, defaultProperties.getShareUrl().toString());
     }
 
     protected synchronized void authenticateUsingLoginPage(UserModel userModel)
@@ -209,9 +207,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-//    private ITestContext setTestContext(ITestContext iTestContext, WebDriver driver)
-//    {
-//        iTestContext.setAttribute("driver", driver);
-//        return iTestContext;
-//    }
+    /*private ITestContext setTestContext(ITestContext iTestContext, WebDriver driver)
+    {
+        iTestContext.setAttribute("driver", driver);
+        return iTestContext;
+    }*/
 }

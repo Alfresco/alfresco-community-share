@@ -31,7 +31,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     private final By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
     private final By nextPageButton = By.id("DOCLIB_PAGINATION_MENU_PAGE_FORWARD");
     private final By dataFailure = By.cssSelector(".data-failure");
-    
+
     public SitesManagerPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);

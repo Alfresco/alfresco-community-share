@@ -37,13 +37,12 @@ public class Authenticator
 
     protected synchronized void authenticateUsingCookies(UserModel user,
                                                          UserDashboardPage userDashboardPage,
-                                                         Toolbar toolbar,
                                                          String url)
     {
         log.info("Setup authenticated session for user {}", user.getUsername());
         if (dataAIS.isEnabled()) // if identity-service is enabled do the login using the UI
         {
-            logoutIfAlfrescoLogoIsDisplayed(userDashboardPage, toolbar);
+            logoutIfAlfrescoLogoIsDisplayed(userDashboardPage, new Toolbar(webDriver));
             authenticateUsingLoginPage(user, userDashboardPage);
         }
         else

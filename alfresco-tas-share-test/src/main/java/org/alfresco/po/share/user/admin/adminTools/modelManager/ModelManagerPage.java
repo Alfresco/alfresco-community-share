@@ -22,6 +22,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
     private final By actions = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']");
     private final By createModelButton = By.cssSelector("span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
     private final By importModelButton = By.cssSelector("span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
+    private final By contentModelsTable = By.cssSelector("div[class$='dijitVisible'] div[class='alfresco-lists-AlfList']");
 
     public ModelManagerPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -40,6 +41,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
         try
         {
             super.navigate();
+            waitForContentModelTableToBeLoaded();
             return this;
         }
         catch(TimeoutException | PageRenderTimeException  e)
@@ -47,6 +49,11 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
             log.error("Reload Custom Model page");
             return super.navigate();
         }
+    }
+
+    public void waitForContentModelTableToBeLoaded()
+    {
+        waitUntilElementIsVisible(contentModelsTable);
     }
 
     public CreateModelDialogPage clickCreateModelButton()
@@ -68,6 +75,7 @@ public class ModelManagerPage extends SharePage2<ModelManagerPage>
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
+        waitForContentModelTableToBeLoaded();
 
         return this;
     }

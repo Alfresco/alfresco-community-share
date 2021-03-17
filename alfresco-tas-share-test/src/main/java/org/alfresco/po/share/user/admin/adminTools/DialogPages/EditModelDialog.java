@@ -73,8 +73,9 @@ public class EditModelDialog extends BaseDialogComponent
         waitUntilElementIsVisible(saveButton);
         clickElement(saveButton);
         waitUntilElementDisappears(dialogBody);
-
-        return new ModelManagerPage(webDriver);
+        ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
+        modelManagerPage.waitForContentModelTableToBeLoaded();
+        return modelManagerPage;
     }
 
     public ModelManagerPage clickCancel()
