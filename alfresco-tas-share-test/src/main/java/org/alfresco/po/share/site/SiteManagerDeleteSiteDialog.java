@@ -5,6 +5,7 @@ import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
+import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,7 +29,7 @@ public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
         return this;
     }
 
-    public void clickDeleteFromSitesManager()
+    public SitesManagerPage clickDeleteFromSitesManager()
     {
         WebElement confirmButton = waitUntilElementIsVisible(confirmFromSitesManager);
         mouseOver(confirmButton);
@@ -39,5 +40,9 @@ public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
             clickElement(confirmButton);
         }
         waitUntilElementDisappearsWithRetry(deleteSiteWindow, WAIT_10.getValue());
+        SitesManagerPage sitesManagerPage = new SitesManagerPage(webDriver);
+        sitesManagerPage.waitForSitesTableHeaderToBeVisible();
+
+        return sitesManagerPage;
     }
 }

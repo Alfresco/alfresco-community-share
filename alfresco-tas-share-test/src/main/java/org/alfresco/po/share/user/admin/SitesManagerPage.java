@@ -31,6 +31,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     private final By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
     private final By nextPageButton = By.id("DOCLIB_PAGINATION_MENU_PAGE_FORWARD");
     private final By dataFailure = By.cssSelector(".data-failure");
+    private final By loadedSitesTable = By.cssSelector("div[class='alfresco-lists-AlfList__views rendered-view']");
 
     public SitesManagerPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -70,11 +71,11 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return new Toolbar(webDriver).clickSitesManager();
     }
 
-    private void waitForSitesTableHeaderToBeVisible()
+    public void waitForSitesTableHeaderToBeVisible()
     {
         try
         {
-            waitUntilElementIsVisible(tableHeadList);
+            waitUntilElementIsVisible(loadedSitesTable);
         }
         catch (TimeoutException e)
         {
