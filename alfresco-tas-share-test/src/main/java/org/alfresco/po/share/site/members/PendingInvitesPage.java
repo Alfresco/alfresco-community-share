@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -67,7 +68,15 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
     {
         log.info("Assert user has pending request");
         By usernameRow = getPendingRequestRow(username);
-        waitUntilElementIsVisible(usernameRow);
+        try
+        {
+            waitUntilElementIsVisible(usernameRow);
+        }
+        catch (TimeoutException e)
+        {
+            log.warn("Retry get pending request for user {}", username);
+            waitUntilElementIsVisible(usernameRow);
+        }
         assertTrue(isElementDisplayed(usernameRow), String.format("User %s has not any pending request", username));
 
         return this;

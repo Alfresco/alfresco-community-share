@@ -1,8 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
 import static org.alfresco.common.RetryTime.RETRY_TIME_15;
-import static org.alfresco.common.RetryTime.RETRY_TIME_80;
-import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
