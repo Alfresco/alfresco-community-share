@@ -114,21 +114,6 @@ public abstract class SharePage2<T> extends BasePage
         return (T) this;
     }
 
-    /*public T waitUntilLoadingMessageDisappears()
-    {
-        log.info("Wait for loading message to disappear");
-        try
-        {
-            waitUntilElementIsVisible(loadingMessage, WAIT_3.getValue());
-            waitUntilElementDisappears(loadingMessage, WAIT_5.getValue());
-        }
-        catch (TimeoutException e)
-        {
-            log.info("Timeout exception for loading message {}", e.getMessage());
-        }
-        return (T) this;
-    }*/
-
     public boolean isAlfrescoLogoDisplayed()
     {
         return isElementDisplayed(alfrescoOneFooterLogo);
