@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.DocumentsFilter;
 import org.alfresco.utility.model.FolderModel;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ContentFiltersComponent extends AlfrescoContentPage
     private final String filterTag = "//div[@class='filter']//a[text()='%s']";
     private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//span[text()='%s']";
 
-    protected ContentFiltersComponent(ThreadLocal webDriver)
+    protected ContentFiltersComponent(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
