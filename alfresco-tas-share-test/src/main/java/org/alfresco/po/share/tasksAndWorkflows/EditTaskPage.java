@@ -66,6 +66,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     {
         log.info("Approve task");
         clickElement(approveButton);
+        waitUntilElementDisappears(approveButton);
         return this;
     }
 

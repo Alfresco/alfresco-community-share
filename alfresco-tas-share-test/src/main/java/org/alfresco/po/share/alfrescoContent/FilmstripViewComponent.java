@@ -5,6 +5,7 @@ import static org.testng.Assert.assertTrue;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.utility.model.ContentModel;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class FilmstripViewComponent extends AlfrescoContentPage
 
     private final String filmstripSelectedContent  = "//div[@class='alf-filmstrip-main-content']//li[contains(@class, 'carousel-item-selected')]//div[text()='%s']";
 
-    protected FilmstripViewComponent(ThreadLocal webDriver)
+    protected FilmstripViewComponent(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }

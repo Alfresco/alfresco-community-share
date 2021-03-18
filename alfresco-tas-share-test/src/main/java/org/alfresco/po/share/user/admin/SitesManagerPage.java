@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.site.SiteManagerDeleteSiteDialog;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.SiteModel;
 import org.openqa.selenium.By;
@@ -32,6 +31,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     private final By siteRowsElements = By.cssSelector("tr.alfresco-lists-views-layouts-Row");
     private final By nextPageButton = By.id("DOCLIB_PAGINATION_MENU_PAGE_FORWARD");
     private final By dataFailure = By.cssSelector(".data-failure");
+    private final By loadedSitesTable = By.cssSelector("div[class='alfresco-lists-AlfList__views rendered-view']");
 
     public SitesManagerPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -43,7 +43,6 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
     {
         super.navigate();
         waitUntilDataErrorMessageDisappears();
-        waitUntilLoadingMessageDisappears();
         return this;
     }
 
@@ -72,11 +71,11 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
         return new Toolbar(webDriver).clickSitesManager();
     }
 
-    private void waitForSitesTableHeaderToBeVisible()
+    public void waitForSitesTableHeaderToBeVisible()
     {
         try
         {
-            waitUntilElementIsVisible(tableHeadList);
+            waitUntilElementIsVisible(loadedSitesTable);
         }
         catch (TimeoutException e)
         {
@@ -135,7 +134,7 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
                     return siteRow;
                 }
             }
-            if (hasNextPage())
+            if (isNextPageButtonEnabled())
             {
                 clickNextButton();
             }
@@ -169,23 +168,20 @@ public class SitesManagerPage extends SharePage2<SitesManagerPage> implements Ac
             log.warn("Site rows not displayed - retry: {}", retryCount);
             navigate();
             waitInSeconds(WAIT_2.getValue());
-            waitUntilLoadingMessageDisappears();
             retryCount++;
         }
     }
 
-    private boolean hasNextPage()
+    private boolean isNextPageButtonEnabled()
     {
-        return waitUntilElementIsVisible(nextPageButton)
-            .getAttribute("aria-disabled").equals("false");
+        return waitUntilElementIsVisible(nextPageButton).getAttribute("aria-disabled").equals("false");
     }
 
     public void clickNextButton()
     {
-        if (hasNextPage())
+        if (isNextPageButtonEnabled())
         {
             clickElement(nextPageButton);
-            waitUntilLoadingMessageDisappears();
             waitUntilElementsAreVisible(siteRowsElements);
         }
     }

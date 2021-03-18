@@ -27,6 +27,7 @@ public class SelectDialog extends BaseDialogComponent
     private final By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
     private final By addIcon = By.cssSelector("a[class^='add-item']");
     private final By removeIcon = By.cssSelector("a[class*='remove-item']");
+    private final By leftAreaResults = By.cssSelector("div[id$='prop_cm_categories-cntrl-picker-results']");
 
     private final String addTagItemRow = "//div[contains(@id, 'prop_cm_taggable-cntrl-picker-left')]//h3[text()='%s']/../../..";
     private final String removeTagItemRow = "//div[contains(@id, 'prop_cm_taggable-cntrl-picker-right')]//h3[text()='%s']/../../..";
@@ -41,6 +42,11 @@ public class SelectDialog extends BaseDialogComponent
     public String getDialogTitle()
     {
         return getElementText(dialogTitle);
+    }
+
+    public void waitForLeftAreaResults()
+    {
+        waitUntilElementIsVisible(leftAreaResults);
     }
 
     private WebElement getItemElementFromResultsPicker(String item)

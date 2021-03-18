@@ -38,16 +38,16 @@ public class ModelManagerTests extends BaseTest
     private DocumentDetailsPage documentDetailsPage;
     private CreateCustomTypeDialog createCustomTypeDialog;
 
-    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
-    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    private UserModel user;
+    private SiteModel site;
 
     private final List<CustomContentModel> modelsToRemove = Collections.synchronizedList(new ArrayList<>());
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        user.set(dataUser.usingAdmin().createRandomTestUser());
-        site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
+        user = dataUser.usingAdmin().createRandomTestUser();
+        site = dataSite.usingUser(user).createPublicRandomSite();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -270,8 +270,8 @@ public class ModelManagerTests extends BaseTest
         modelsToRemove.add(importedModel);
 
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "content");
-        getCmisApi().authenticateUser(user.get())
-            .usingSite(site.get()).createFile(file).assertThat().existsInRepo();
+        getCmisApi().authenticateUser(user)
+            .usingSite(site).createFile(file).assertThat().existsInRepo();
 
         modelManagerPage.navigate().clickImportModel()
             .importFile(filePath)
@@ -279,7 +279,7 @@ public class ModelManagerTests extends BaseTest
         modelManagerPage.usingModel(importedModel).assertModelIsDisplayed()
             .clickActions().activateModel();
 
-        authenticateUsingCookies(user.get());
+        authenticateUsingCookies(user);
         documentDetailsPage.navigate(file)
             .assertPropertiesAreDisplayed(defaultProperties)
             .clickChangeType()
@@ -321,10 +321,10 @@ public class ModelManagerTests extends BaseTest
     @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        dataSite.usingUser(user.get()).deleteSite(site.get());
-        getUserService().emptyTrashcan(user.get().getUsername(), user.get().getPassword());
+        dataSite.usingUser(user).deleteSite(site);
+        getUserService().emptyTrashcan(user.getUsername(), user.getPassword());
 
-        deleteUsersIfNotNull(user.get());
+        deleteUsersIfNotNull(user);
         modelsToRemove.forEach(this::deleteCustomModel);
     }
 }

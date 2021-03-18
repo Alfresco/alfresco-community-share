@@ -4,6 +4,7 @@ import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
+import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -37,10 +38,13 @@ public class EditPropertiesDialog extends BaseDialogComponent
         return getElementText(dialogTitle);
     }
 
-    public void clickSelectCategories()
+    public SelectDialog clickSelectCategories()
     {
         waitUntilElementIsVisible(selectCategoriesButton);
         clickElement(selectCategoriesButton);
+        SelectDialog selectDialog = new SelectDialog(webDriver);
+        selectDialog.waitForLeftAreaResults();
+        return selectDialog;
     }
 
     public boolean isSelectTagsButtonDisplayed()

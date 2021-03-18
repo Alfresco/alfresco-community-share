@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 
 public class EditModelDialog extends BaseDialogComponent
 {
+    private final By dialogBody = By.id("CMM_EDIT_MODEL_DIALOG");
     private final By saveButton = By.id("CMM_EDIT_MODEL_DIALOG_OK_label");
     private final By cancelButton = By.id("CMM_EDIT_MODEL_DIALOG_CANCEL_label");
     private final By namespaceField = By.cssSelector("div[id='CMM_EDIT_MODEL_DIALOG'] input[name='namespace']");
@@ -71,10 +72,10 @@ public class EditModelDialog extends BaseDialogComponent
     {
         waitUntilElementIsVisible(saveButton);
         clickElement(saveButton);
+        waitUntilElementDisappears(dialogBody);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
-        modelManagerPage.waitUntilLoadingMessageDisappears();
-
-        return new ModelManagerPage(webDriver);
+        modelManagerPage.waitForContentModelTableToBeLoaded();
+        return modelManagerPage;
     }
 
     public ModelManagerPage clickCancel()

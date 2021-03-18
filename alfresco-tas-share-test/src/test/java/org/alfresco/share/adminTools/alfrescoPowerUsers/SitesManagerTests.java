@@ -133,8 +133,7 @@ public class SitesManagerTests extends BaseTest
         sitesManagerPage.navigate()
             .usingSite(adminSite)
             .becomeSiteManager();
-        sitesManagerPage.navigate()
-            .usingSite(adminSite).assertSiteManagerIsYes();
+        sitesManagerPage.usingSite(adminSite).assertSiteManagerIsYes();
 
         getDataSite().usingAdmin().deleteSite(adminSite);
     }
@@ -150,7 +149,7 @@ public class SitesManagerTests extends BaseTest
             .clickDelete()
             .assertConfirmMessageFromSiteManagerIsCorrect(testSite.get().getTitle())
             .clickDeleteFromSitesManager();
-        sitesManagerPage.waitUntilLoadingMessageDisappears()
+        sitesManagerPage
             .navigate()
             .usingSite(testSite.get()).assertSiteIsNotDisplayed();
         siteDashboardPage.navigateWithoutRender(testSite.get());

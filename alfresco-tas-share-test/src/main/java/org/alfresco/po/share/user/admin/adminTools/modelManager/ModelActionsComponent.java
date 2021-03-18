@@ -1,8 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
 import static org.alfresco.common.RetryTime.RETRY_TIME_15;
-import static org.alfresco.common.RetryTime.RETRY_TIME_80;
-import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -68,15 +66,7 @@ public class ModelActionsComponent extends ModelManagerPage
     private WebElement getModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        int retryTimes = 0;
-        while (retryTimes < RETRY_TIME_80.getValue() && !isElementDisplayed(modelRowLocator))
-        {
-            log.warn("Model {} not displayed - retry: {}", modelName, retryTimes);
-            refresh();
-            waitInSeconds(WAIT_2.getValue());
-            waitUntilLoadingMessageDisappears();
-        }
-        return findElement(modelRowLocator);
+        return waitUntilElementIsVisible(modelRowLocator);
     }
 
     public WebElement getModelRow()
@@ -100,7 +90,7 @@ public class ModelActionsComponent extends ModelManagerPage
         WebElement expectedModelRow = getModelRow();
         waitUntilElementIsVisible(expectedModelRow);
         assertTrue(isElementDisplayed(expectedModelRow),
-                String.format("Model %s is displayed", contentModel.getName()));
+            String.format("Model %s is displayed", contentModel.getName()));
         return this;
     }
 
@@ -159,7 +149,6 @@ public class ModelActionsComponent extends ModelManagerPage
     {
         log.info("Activate model");
         clickOnAction(language.translate("modelManager.action.activate"));
-        waitUntilLoadingMessageDisappears();
         waitForContentModelStatus(activeStatus);
         return this;
     }
@@ -168,7 +157,6 @@ public class ModelActionsComponent extends ModelManagerPage
     {
         log.info("Activate model");
         clickOnAction(language.translate("modelManager.action.deactivate"));
-        waitUntilLoadingMessageDisappears();
         waitForContentModelStatus(inactiveStatus);
         return this;
     }
@@ -209,7 +197,6 @@ public class ModelActionsComponent extends ModelManagerPage
     {
         log.info("Click Export");
         clickOnAction(language.translate("modelManager.action.export"));
-        waitUntilLoadingMessageDisappears();
         return this;
     }
 
