@@ -159,6 +159,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     public AddSiteUsersPage assertTotalUserIs(int nrOfUsers)
     {
         String value = language.translate("addUsersPage.addedUsersTally") + nrOfUsers;
+        waitUntilElementIsVisible(addedUsersTally);
         waitUntilElementContainsText(findElement(addedUsersTally), value);
         assertEquals(getElementText(addedUsersTally), value, "Total added user is correct");
         return this;
