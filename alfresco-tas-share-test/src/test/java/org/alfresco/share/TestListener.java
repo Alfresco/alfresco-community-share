@@ -1,6 +1,7 @@
 package org.alfresco.share;
 
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -24,8 +25,8 @@ public class TestListener extends ScreenshotHelper implements ITestListener
     public void onTestFailure(ITestResult result)
     {
         log.warn("TEST FAILED: {}", result.getMethod().getMethodName());
-//        WebDriver webDriver = (WebDriver) result.getTestContext().getAttribute("driver");
-//        captureAndSaveScreenshot(webDriver, result);
+        WebDriver webDriver = (WebDriver) result.getTestContext().getAttribute("driver");
+        captureAndSaveScreenshot(webDriver, result);
     }
 
     @Override

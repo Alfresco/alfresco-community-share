@@ -73,7 +73,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         setApplicationsContext();
         webDriver.set(webDriverFactory.createWebDriver());
-        //setTestContext(iTestContext, webDriver.get());
+        setTestContext(iTestContext, webDriver.get());
 
         userDashboardPage = new UserDashboardPage(webDriver);
     }
@@ -207,9 +207,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
-    /*private ITestContext setTestContext(ITestContext iTestContext, WebDriver driver)
+    private ITestContext setTestContext(ITestContext iTestContext, WebDriver driver)
     {
         iTestContext.setAttribute("driver", driver);
         return iTestContext;
-    }*/
+    }
 }
