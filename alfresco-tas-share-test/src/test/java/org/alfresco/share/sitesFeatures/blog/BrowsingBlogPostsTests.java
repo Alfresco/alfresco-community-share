@@ -76,7 +76,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
 
         LOG.info("Step 1: Click the 'All' view.");
-        blogPage.clickAllFilter();
+        blogPage.navigateToAllFilter();
 
         LOG.info("Step 2: Check that all published blog posts are displayed");
         assertEquals(blogPage.getPageTitle(), "All Posts");
@@ -94,7 +94,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     public void browseTheBlogPostsLatestPosts()
     {
         blogPage.navigate(siteName);
-        blogPage.clickAllFilter();
+        blogPage.navigateToAllFilter();
 
         LOG.info("Step 1: Click on Latest filter");
         blogPage.clickLatestFilter();
@@ -116,7 +116,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
 
         LOG.info("Step 1: Click on My Drafts filter");
-        blogPage.clickMyDraftsFilter();
+        blogPage.navigateToMyDrafts();
 
         LOG.info("Step 2: Check that only the draft blog posts of user1 are displayed");
         assertEquals(blogPage.getPageTitle(), "My Draft Posts");

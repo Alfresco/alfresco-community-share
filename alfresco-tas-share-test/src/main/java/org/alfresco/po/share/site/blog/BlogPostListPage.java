@@ -42,12 +42,14 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final By nodeTitle = By.xpath(".//span[@class = 'nodeTitle']");
     private final By simpleNodePost = By.cssSelector(".node.post.simple");
     private final By postDateTime = By.xpath(".//div[@class = 'published']//span[@class = 'nodeAttrValue']");
+    private final By readLabel = By.xpath("div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a");
 
     private final By editButton = By.xpath(".//../div[@class = 'nodeEdit']//div[@class = 'onEditBlogPost']//a//span[text() = 'Edit']");
     private final By blogLinkName = By.id("HEADER_SITE_BLOG-POSTLIST");
     private final By allFilter = By.cssSelector("ul.filterLink span.all>a");
     private final By latestFilter = By.cssSelector("ul.filterLink span.new>a");
     private final By myDraftsFilter = By.cssSelector("ul.filterLink span.mydrafts>a");
+    private final By listTitle = By.className("listTitle");
     private final By myPublished = By.cssSelector("ul.filterLink span.mypublished>a");
     private final By tag = By.xpath("//span[@class ='tag']/a");
 
@@ -117,11 +119,6 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return this;
     }
 
-    /**
-     * Method to check if the New Post button is displayed on the Blog Page
-     *
-     * @return
-     */
     public boolean isNewPostButtonDisplayed()
     {
         return isElementDisplayed(newPostButton);
@@ -156,23 +153,11 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return getElementText(getBlogPostRow(title).findElement(postDateTime));
     }
 
-    /**
-     * Method to check if the edit button is available for the blog post under test
-     *
-     * @param title
-     * @return
-     */
     public boolean isEditButtonPresentForBlogPost(String title)
     {
         return selectBlogPostWithTitle(title).findElement(By.xpath("//div[@class = 'onEditBlogPost']")).isDisplayed();
     }
 
-    /**
-     * Method to check if the delete button is available for the blog post under test
-     *
-     * @param title
-     * @return
-     */
     public boolean isDeleteButtonPresentForBlogPost(String title)
     {
         return selectBlogPostWithTitle(title).findElement(By.xpath("//div[@class = 'onDeleteBlogPost']")).isDisplayed();
@@ -266,7 +251,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return getElementText(post.findElement(blogContent));
     }
 
-    public BlogPostListPage assertBlogPostNumberOfRepliesEqualTo(String title, String expectedNumberOfReplies)
+    public BlogPostListPage assertPostNumberOfRepliesEqualTo(String title, String expectedNumberOfReplies)
     {
         log.info("Assert blog post number of replies equal to {}", expectedNumberOfReplies);
         waitUntilElementIsVisible(By.xpath(String.format(postFooterPath, expectedNumberOfReplies)));
@@ -309,9 +294,6 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return this;
     }
 
-    /**
-     * Method to get the page title
-     */
     public String getPageTitle()
     {
         return pageTitle.getText();
@@ -322,131 +304,81 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return isElementDisplayed(getBlogPostRow(title));
     }
 
-    /**
-     * Method to click on the All filter
-     */
-    public void clickAllFilter()
+    public BlogPostListPage navigateToAllFilter()
     {
-        findElement(allFilter).click();
-        waitUntilElementContainsText(pageTitle, "All Posts");
+        log.info("Navigate to all filter");
+        clickElement(allFilter);
+        return this;
     }
 
-    /**
-     * Click on Latest filter
-     */
     public void clickLatestFilter()
     {
-        findElement(latestFilter).click();
-        waitUntilElementContainsText(pageTitle, "New Posts");
+        clickElement(latestFilter);
+        waitUntilElementContainsText(listTitle, "New Posts");
     }
 
-    /**
-     * Click on My Drafts filter
-     */
-    public void clickMyDraftsFilter()
+    public BlogPostListPage navigateToMyDrafts()
     {
         clickElement(myDraftsFilter);
-        findElement(myDraftsFilter).click();
-        waitUntilElementContainsText(pageTitle, "My Draft Posts");
+        waitUntilElementContainsText(listTitle, "My Draft Posts");
+        return this;
     }
 
-    /**
-     * Click on My Published filter
-     */
     public void clickMyPublishedFilter()
     {
-        findElement(myPublished).click();
-        waitUntilElementContainsText(pageTitle, "My Published Posts");
+        clickElement(myPublished);
+        waitUntilElementContainsText(listTitle, "My Published Posts");
     }
 
-    /**
-     * Click on Tag filter
-     */
     public void clickTag(String tag)
     {
         mouseOver(selectTagsByTagName(tag));
-        selectTagsByTagName(tag).click();
-        waitUntilElementContainsText(pageTitle, "Blog Post List");
+        clickElement(selectTagsByTagName(tag));
+        waitUntilElementContainsText(listTitle, "Blog Post List");
     }
 
-    /**
-     * Click on Archive Month filter
-     *
-     * @param month
-     */
     public void clickArchiveMonth(String month)
     {
         selectArchiveMonth(month).click();
         waitUntilElementContainsText(pageTitle, "Posts for Month " + month);
     }
 
-    /**
-     * Method to click on the Read button for the selected blog post
-     */
-    public BlogPostViewPage clickReadBlogPost(String title)
+    public BlogPostViewPage readPost(String postTitle)
     {
-        waitUntilWebElementIsDisplayedWithRetry(selectBlogPostFooter(title));
-        selectBlogPostFooter(title).findElement(By.xpath(".//div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a[text() ='Read']")).click();
+        log.info("Read post {}", postTitle);
+        waitUntilWebElementIsDisplayedWithRetry(getBlogPostRow(postTitle));
+        clickElement(getBlogPostRow(postTitle).findElement(readLabel));
         return new BlogPostViewPage(webDriver);
     }
 
-    /**
-     * Method to check if the blog post content is displayed while on the Blog Post List page
-     *
-     * @param title
-     * @return
-     */
     public boolean isBlogPostContentDisplayed(String title)
     {
         return isElementDisplayed(By.xpath(".//div[@class = 'content yuieditor']"));
     }
 
-    /**
-     * Method to get the button name displayed for Simple View/ Detailed View button
-     *
-     * @return
-     */
     public String getButtonName()
     {
         return findElement(simpleViewButton).getText();
     }
 
-    /**
-     * Method to click on the blog post title
-     *
-     * @param title
-     */
     public BlogPostViewPage clickOnThePostTitle(String title)
     {
         findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']")).click();
         return new BlogPostViewPage(webDriver);
     }
 
-    /**
-     * Method to click the Edit button for the selected blog post that needs to be edited. The blog post is selected by title
-     *
-     * @param title
-     */
     public EditBlogPostPage clickEditButton(String title)
     {
         selectBlogPostWithTitle(title).findElement(editButton).click();
         return new EditBlogPostPage(webDriver);
     }
 
-    /**
-     * Method to click the New Post button
-     */
     public CreateBlogPostPage clickNewPostButton()
     {
         clickElement(newPostButton);
         return new CreateBlogPostPage(webDriver);
     }
 
-    /**
-     * Method to click on the Delete button for the selected blog post
-     *
-     * @param title
-     */
     public void clickDeleteButton(String title)
     {
         selectBlogPostWithTitle(title).findElement(By.xpath("//div[@class = 'onDeleteBlogPost']//span[text()='Delete']")).click();

@@ -1,118 +1,119 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import java.util.Collections;
-import java.util.List;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.By;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class BlogPostAddCommentTests extends ContextAwareWebTest
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class BlogPostAddCommentTests extends BaseTest
 {
-    //@Autowired
-    BlogPostListPage blogPage;
+    private final String ADD_YOUR_COMMENT_LABEL = "Add Your Comment...";
+    private final String EXPECTED_NUMBER_OF_REPLIES = "1";
 
-    //@Autowired
-    BlogPostViewPage blogPostView;
+    @Autowired
+    private SiteService siteService;
 
-    //@Autowired
-    BlogPromptWindow commentWindow;
+    @Autowired
+    protected SitePagesService sitePagesService;
 
-    private String user = String.format("C6011User%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("C6011SiteName%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("C6011SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private String blogPostContentText = "C6011 post content text";
-    private List<String> tags = Collections.singletonList("tagc6011");
-    private String blogPostTitleC6011 = "C6011 blog post title";
-    private String comment = "C6011 comment text";
-    private String commentUser = user + " " + user;
+    private BlogPostViewPage blogPostViewPage;
+    private BlogPostListPage blogPostListPage;
+    private BlogPromptWindow blogPromptWindow;
 
-    @BeforeClass (alwaysRun = true)
+    private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
+
+    private final String blogTitle = "Blog Title ".concat(randomAlphanumeric(5));
+    private final String blogContent = "Blog Content ".concat(randomAlphanumeric(5));
+    private final String blogComment = "Blog Comment ".concat(randomAlphanumeric(5));
+    private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(user, password, siteName, Page.BLOG, null);
-        setupAuthenticatedSession(user, password);
+        userModel.set(getDataUser().usingAdmin().createRandomTestUser());
+        siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
+        siteService.addPageToSite(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), Page.BLOG, null);
+
+        authenticateUsingCookies(userModel.get());
+
+        blogPostViewPage = new BlogPostViewPage(webDriver);
+        blogPostListPage = new BlogPostListPage(webDriver);
+        blogPromptWindow = new BlogPromptWindow(webDriver);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @TestRail(id = "C6011")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    public void shouldAddCommentToBlogPost()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, siteName);
+        sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), blogTitle, blogContent, false, noTags);
+
+        blogPostListPage
+            .navigate(siteModel.get())
+            .readPost(blogTitle)
+            .openCommentEditor()
+            .assertAddCommentLabelEqualsTo(ADD_YOUR_COMMENT_LABEL);
+
+        blogPromptWindow
+            .writePostComment(blogComment)
+            .addPostComment();
+
+        blogPostViewPage
+            .navigateBackToBlogList()
+            .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
     }
 
-    @TestRail (id = "C6011")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-
-    public void addingACommentToABlogPost()
-    {
-        LOG.info("Preconditions: ");
-        sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6011, blogPostContentText, false, tags);
-        blogPage.navigate(siteName);
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithTitle(blogPostTitleC6011));
-        blogPage.clickReadBlogPost(blogPostTitleC6011);
-
-        LOG.info("Step 1: Click Add comment button");
-        blogPostView.clickAddCommentButton();
-        Assert.assertEquals(commentWindow.getAddCommentLable(), "Add Your Comment...");
-
-        LOG.info("Step 2: Type your comment in the Add Your Comment box.");
-        commentWindow.writeComment(comment);
-
-        LOG.info("Step 3: Click the Add Comment button");
-        commentWindow.clickAddCommentButton();
-        getBrowser().waitUntilElementVisible(blogPostView.commentText);
-
-        LOG.info("Step 4: Click Blog Post List button");
-
-        blogPostView.clickBlogPostListButton();
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='nodeContent']//a[text()='" + blogPostTitleC6011 + "']"), 6);
-        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPostListPage.selectBlogPostWithtitle(blogPostTitleC6011));
-//        Assert.assertEquals(blogPage.assertBlogPostNumberOfRepliesEqualTo(blogPostTitleC6011), "(1)", "Blog Post" + blogPostTitleC6011 + "is not displayed");
-    }
-
-    @TestRail (id = "C6035")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-
+    @TestRail(id = "C6035")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void addCommentToDraftBlogPost()
     {
-        String blogPostTitleC6035 = "C6035 blog post title";
-        sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6035, blogPostContentText, true, tags);
+        sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), blogTitle, blogContent, true, noTags);
 
-        blogPage.navigate(siteName);
-        blogPage.clickMyDraftsFilter();
-        blogPage.clickReadBlogPost(blogPostTitleC6035);
+        blogPostListPage
+            .navigate(siteModel.get())
+            .navigateToMyDrafts()
+            .readPost(blogTitle);
 
-        LOG.info("Step 1: Click Add Comment");
-        blogPostView.clickAddCommentButton();
-        Assert.assertEquals(commentWindow.getAddCommentLable(), "Add Your Comment...");
+        blogPostViewPage
+            .openCommentEditor()
+            .assertAddCommentLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
+            .writePostComment(blogComment)
+            .addPostComment();
 
-        LOG.info("Step 2: Type your comment in the Add Your Comment box.");
-        commentWindow.writeComment(comment);
+        blogPostViewPage
+            .navigateBackToBlogList()
+            .navigateToMyDrafts()
+            .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
 
-        LOG.info("Step 3: Click the Add Comment button");
-        commentWindow.clickAddCommentButton();
-        getBrowser().waitUntilElementVisible(blogPostView.commentText);
+        blogPostListPage
+            .navigateToAllFilter()
+            .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
+    }
 
-        LOG.info("Step 4: Click Blog Post List button and My Drafts");
-        blogPostView.clickBlogPostListButton();
-        blogPage.clickMyDraftsFilter();
-//        Assert.assertEquals(blogPage.assertBlogPostNumberOfRepliesEqualTo(blogPostTitleC6035), "(1)");
-        blogPage.clickAllFilter();
-//        Assert.assertEquals(blogPage.assertBlogPostNumberOfRepliesEqualTo(blogPostTitleC6035), "(1)");
+    @AfterMethod(alwaysRun = true)
+    public void cleanupTest()
+    {
+        deleteUsersIfNotNull(userModel.get());
+        deleteSitesIfNotNull(siteModel.get());
     }
 }

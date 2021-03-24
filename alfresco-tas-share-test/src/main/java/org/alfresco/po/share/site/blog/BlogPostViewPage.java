@@ -2,6 +2,8 @@ package org.alfresco.po.share.site.blog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
@@ -10,37 +12,26 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
-    
     public final By commentText = By.cssSelector("div[class ='comment-content'] p");
-    @FindBy (xpath = "//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']")
-    public WebElement noCommentsText;
+    public final By noCommentsText = By.xpath("//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']");
+    private final By blogPostTitle = By.cssSelector("div[id*='_blog-postview'] div.nodeTitle>a");
+    private final By blogPostContent = By.cssSelector("div[id*='_blog-postview'] div.content");
+    private final By blogPostAuthor = By.cssSelector(".published .nodeAttrValue>a");
+    private final By blogPostNote = By.cssSelector(".nodeTitle .nodeStatus");
+    private final By blogPostListButton = By.cssSelector("div[id*='_blog-postview'] .backLink>a");
+    private final By editButton = By.cssSelector(".onEditBlogPost>a");
+    private final By deleteButton = By.cssSelector(".onDeleteBlogPost>a");
+    private final By addCommentButton = By.cssSelector(".onAddCommentClick button");
+    private final By commentAuthorName = By.xpath("//span[@class = 'info']/a");
+    private final By editCommentButton = By.xpath("//a[@title='Edit Comment']");
+    private final By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
+    private final By newPostButton = By.cssSelector("button[id$='_default-create-button-button']");
 
-    @FindBy (css = "div[id*='_blog-postview'] div.nodeTitle>a")
-    private WebElement blogPostTitle;
-
-    @FindBy (css = "div[id*='_blog-postview'] div.content")
-    private WebElement blogPostContent;
-    @FindBy (css = ".published .nodeAttrValue>a")
-    private WebElement blogPostAuthor;
-    @FindBy (css = ".nodeTitle .nodeStatus")
-    private WebElement blogPostNote;
-    @FindBy (css = "div[id*='_blog-postview'] .backLink>a")
-    private WebElement blogPostListButton;
-    @FindBy (css = "button[id$='_default-create-button-button']")
-    private WebElement newPostButton;
-    @FindBy (css = ".onEditBlogPost>a")
-    private WebElement editButton;
-    @FindBy (css = ".onDeleteBlogPost>a")
-    private WebElement deleteButton;
-    @FindBy (css = ".onAddCommentClick button")
-    private WebElement addCommentButton;
     @FindAll (@FindBy (css = ".tag>a"))
     private List<WebElement> blogTags;
-    private By commentAuthorName = By.xpath("//span[@class = 'info']/a");
-    private By editCommentButton = By.xpath("//a[@title='Edit Comment']");
-    private By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
 
     public BlogPostViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -53,79 +44,44 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return String.format("share/page/site/%s/blog-postview", getCurrentSiteName());
     }
 
-    /**
-     * Method to get the blog post title
-     *
-     * @return
-     */
     public String getBlogPostTitle()
     {
-        return blogPostTitle.getText();
+        return getElementText(blogPostTitle);
     }
 
-    /**
-     * Method to get the blog post content
-     *
-     * @return
-     */
     public String getBlogPostContent()
     {
-        return blogPostContent.getText();
+        return getElementText(blogPostContent);
     }
-
-    /**
-     * Method to get the blog post Author name
-     *
-     * @return
-     */
 
     public String getBlogPostAuthor()
     {
-        return blogPostAuthor.getText();
+        return getElementText(blogPostAuthor);
     }
 
-    /**
-     * Method to get the blog post (Draft) note for the blog post that needs to be checked
-     *
-     * @return
-     */
     public String getBlogPostNote()
     {
-        return blogPostNote.getText();
+        return getElementText(blogPostNote);
     }
 
-    /**
-     * Method to click the blog post list button
-     *
-     * @return
-     */
-    public BlogPostListPage clickBlogPostListButton()
+    public BlogPostListPage navigateBackToBlogList()
     {
-        blogPostListButton.click();
+        log.info("Navigate back to blog list");
+        clickElement(blogPostListButton);
         return new BlogPostListPage(webDriver);
     }
 
-    /**
-     * Method to click the New Post button
-     */
     public CreateBlogPostPage clickNewPostButton()
     {
-        newPostButton.click();
+        clickElement(newPostButton);
         return new CreateBlogPostPage(webDriver);
     }
 
-    /**
-     * Method to click the Edit button
-     */
     public EditBlogPostPage clickEditButton()
     {
-        editButton.click();
+        clickElement(editButton);
         return new EditBlogPostPage(webDriver);
     }
-
-    /**
-     * Method to click the Delete button for the selected blog post. The blog post is selected by title
-     */
 
     public DeleteDialog clickDeleteButton()
     {
@@ -134,13 +90,10 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return new DeleteDialog(webDriver);
     }
 
-    /**
-     * Method to click the Add Comment button
-     */
-
-    public BlogPromptWindow clickAddCommentButton()
+    public BlogPromptWindow openCommentEditor()
     {
-        addCommentButton.click();
+        log.info("Open add comment editor");
+        clickElement(addCommentButton);
         return new BlogPromptWindow(webDriver);
     }
 
@@ -149,11 +102,6 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
     }
 
-    /**
-     * Method to get the blog post Tags
-     *
-     * @return
-     */
     public List<String> getBlogPostTags()
     {
         List<String> tagsList = new ArrayList<>();
@@ -164,37 +112,22 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return tagsList;
     }
 
-
-    /**
-     * Method to get the Comment author name
-     */
-
     public String commentAuthorName(String user)
     {
-        return selectComment(user).findElement(commentAuthorName).getText();
+        return getElementText(selectComment(user).findElement(commentAuthorName));
     }
-
-    /**
-     * Method to get the comment text
-     */
 
     public String getCommentText(String user)
     {
-        return selectComment(user).findElement(commentText).getText();
+        return getElementText(selectComment(user).findElement(commentText));
     }
 
-    /**
-     * Method to click on the Edit button for comment
-     */
     public void clickEditComment(String user)
     {
         mouseOver(selectComment(user));
         clickElement(editCommentButton);
     }
 
-    /**
-     * Method to click on the Delete button for comment
-     */
     public DeleteDialog clickDeleteComment(String user)
     {
         mouseOver(selectComment(user));
@@ -202,12 +135,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return new DeleteDialog(webDriver);
     }
 
-    /**
-     * Method to get the text displayed for comments when no comments are available
-     */
-
     public String getNoCommentsText()
     {
-        return noCommentsText.getText();
+        return getElementText(noCommentsText);
     }
 }

@@ -12,7 +12,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -64,7 +63,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6063, blogPostContentText, false, tags);
         sitePagesService.commentBlog(user, password, siteName, blogPostTitleC6063, false, comment);
         blogPage.navigate(siteName);
-        blogPage.clickReadBlogPost(blogPostTitleC6063);
+        blogPage.readPost(blogPostTitleC6063);
 
         LOG.info("Step 1: Click Delete Comment to the right of the comment.");
         blogPostView.clickDeleteComment(commentUser);
@@ -86,8 +85,8 @@ public class DeletingACommentTests extends ContextAwareWebTest
         sitePagesService.commentBlog(user, password, siteName, blogPostTitleC6064, true, comment);
 
         blogPage.navigate(siteName);
-        blogPage.clickMyDraftsFilter();
-        blogPage.clickReadBlogPost(blogPostTitleC6064);
+        blogPage.navigateToMyDrafts();
+        blogPage.readPost(blogPostTitleC6064);
 
         LOG.info("Step 1: Click Delete Comment to the right of the comment.");
         blogPostView.clickDeleteComment(commentUser);

@@ -13,7 +13,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -67,7 +66,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
         sitePagesService.commentBlog(user, password, siteName, blogPostTitleC6061, false, comment);
 
         blogPage.navigate(siteName);
-        blogPage.clickReadBlogPost(blogPostTitleC6061);
+        blogPage.readPost(blogPostTitleC6061);
 
         LOG.info("Step 1: Click Edit to the right of the comment.");
         blogPostView.clickEditComment(commentUser);
@@ -97,8 +96,8 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click edit for Draft Comment");
         blogPage.navigate(siteName);
-        blogPage.clickMyDraftsFilter();
-        blogPage.clickReadBlogPost(blogPostTitleC6062);
+        blogPage.navigateToMyDrafts();
+        blogPage.readPost(blogPostTitleC6062);
         blogPostView.clickEditComment(commentUser);
         getBrowser().waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
         Assert.assertEquals(commentWindow.getEditCommentBoxLabel(), "Edit Comment...");

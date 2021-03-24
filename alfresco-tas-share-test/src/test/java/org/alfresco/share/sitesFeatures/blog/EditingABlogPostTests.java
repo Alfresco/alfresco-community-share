@@ -96,7 +96,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         String blogPostTitleC5561 = "C5561 blog post title";
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC5561, blogPostContentText, false, tags);
         blogPage.navigate(siteName);
-        blogPage.clickReadBlogPost(blogPostTitleC5561);
+        blogPage.readPost(blogPostTitleC5561);
 
         LOG.info("Step 1: Click 'Edit' button.");
         blogPostView.clickEditButton();
@@ -134,7 +134,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Test steps");
         LOG.info("Step 1: Select the draft post and click the Edit button");
-        blogPage.clickAllFilter();
+        blogPage.navigateToAllFilter();
         blogPage.selectBlogPostWithTitle(blogTitle);
         blogPage.clickEditButton(blogTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
@@ -162,8 +162,8 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         String blogPostTitleC6108 = "C5967 blog post title";
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6108, blogPostContentText, true, tags);
         blogPage.navigate(siteName);
-        blogPage.clickMyDraftsFilter();
-        blogPage.clickReadBlogPost(blogPostTitleC6108);
+        blogPage.navigateToMyDrafts();
+        blogPage.readPost(blogPostTitleC6108);
 
         String newTitle = "C6108 edited title";
         String newContent = "C6108 edited content";
@@ -206,7 +206,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Test steps");
         LOG.info("Step 1: Select the draft post and click the Edit button");
-        blogPage.clickAllFilter();
+        blogPage.navigateToAllFilter();
         blogPage.selectBlogPostWithTitle(blogTitle);
         blogPage.clickEditButton(blogTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
@@ -223,9 +223,9 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList("c6110tag", newTag));
 
         LOG.info("Step 3: Go to Blog post list");
-        blogPostView.clickBlogPostListButton();
+        blogPostView.navigateBackToBlogList();
         Assert.assertTrue(blogPage.isBlogPostDisplayed(newTitle), "The blog post is not visible in the Latest view");
-        blogPage.clickMyDraftsFilter();
+        blogPage.navigateToMyDrafts();
         getBrowser().waitUntilElementsVisible(By.xpath("//td[@class = 'yui-dt-empty']//div[text() = 'No blog posts found']"));
         Assert.assertFalse(blogPage.isBlogPostDisplayed(newTitle), "The blog post is still displayed in My Drafts view");
         Assert.assertFalse(blogPage.isBlogPostDisplayed(blogTitle), "The original draft blog post is still displayed in My Drafts view");

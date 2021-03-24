@@ -159,7 +159,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertFalse(blogPostList.isBlogPostDisplayed(blogPostTitleC5541), "Blog post is displayed on the Blog Post List View");
 
         LOG.info("Step 6: Click the All filter'");
-        blogPostList.clickAllFilter();
+        blogPostList.navigateToAllFilter();
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC5541),
             "Blog post is not displayed on the Blog Post List View when All filter is applied");
     }
@@ -191,7 +191,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostTitle(), blogPostTitleC6119);
 
         LOG.info("Step 4 : Navigate to blog post list");
-        blogPostView.clickBlogPostListButton();
+        blogPostView.navigateBackToBlogList();
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC6119), "Blog Post is not displayed on the blog post list page");
     }
 
@@ -219,11 +219,11 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostTitle(), blogPostTitleC6120);
 
         LOG.info("Step 4: Navigate to blog post list");
-        blogPostView.clickBlogPostListButton();
+        blogPostView.navigateBackToBlogList();
         Assert.assertFalse(blogPostList.isBlogPostDisplayed(blogPostTitleC6120), "Draft blog post is displayed on the Blog Post List page.");
 
         LOG.info("Step 5: Click All filter");
-        blogPostList.clickAllFilter();
+        blogPostList.navigateToAllFilter();
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC6120), "Draft blog post is not displayed when All filter is applied.");
     }
 }

@@ -144,7 +144,7 @@ public class AccessBlogTests extends BaseTest
         blogPostListPage
             .assertBlogAuthorPostEqualsTo(blogTitle, language.translate(AUTHOR_LABEL), authorValue)
             .assertBlogContentEqualsTo(blogContent)
-            .assertBlogPostNumberOfRepliesEqualTo(blogTitle, language.translate(ZERO_REPLIES))
+            .assertPostNumberOfRepliesEqualTo(blogTitle, language.translate(ZERO_REPLIES))
             .assertBlogPostHaveTagEqualsTo(blogTitle, tag);
     }
 

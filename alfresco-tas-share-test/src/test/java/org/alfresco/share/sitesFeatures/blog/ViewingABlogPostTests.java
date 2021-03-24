@@ -75,12 +75,12 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         blogPostListPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'Read' beneath the Post1.");
-        blogPostListPage.clickReadBlogPost(blogTitleUser1Published);
+        blogPostListPage.readPost(blogTitleUser1Published);
         assertEquals(blogPostViewPage.getBlogPostTitle(), blogTitleUser1Published);
         assertEquals(blogPostViewPage.getBlogPostContent(), blogContent, "The post view displays the selected blog post entirely.");
 
         LOG.info("Step 2: Click 'Blog Post List'.");
-        blogPostViewPage.clickBlogPostListButton();
+        blogPostViewPage.navigateBackToBlogList();
         String expectedRelativePath = "share/page/site/" + siteName + "/blog-postlist";
         assertEquals(blogPostListPage.getRelativePath(), expectedRelativePath);
 
@@ -94,7 +94,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 5: Go back on Blog page and set view toggle button on 'Detailed View'.");
 
-        blogPostViewPage.clickBlogPostListButton();
+        blogPostViewPage.navigateBackToBlogList();
         assertEquals(blogPostListPage.getBlogPostContent(blogTitleUser1Published), sampleBlogContentDetailedView,
             "A sample of the content is showing in the blog list.");
 
@@ -110,7 +110,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         blogPostListPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'All' view.");
-        blogPostListPage.clickAllFilter();
+        blogPostListPage.navigateToAllFilter();
         assertEquals(blogPostListPage.assertBlogContentEqualsTo(""), "No blog posts found");
         assertFalse(blogPostListPage.isBlogPostDisplayed(blogTitleUser2Draft), "Blog post draft of user 2 is visible for user one before it was published");
 
@@ -118,7 +118,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         userService.logout();
         setupAuthenticatedSession(user2, password);
         blogPostListPage.navigate(siteName);
-        blogPostListPage.clickMyDraftsFilter();
+        blogPostListPage.navigateToMyDrafts();
 
         Assert.assertTrue(blogPostListPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of user 2 is not displayed");
 
@@ -136,7 +136,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         userService.logout();
         setupAuthenticatedSession(user1, password);
         blogPostListPage.navigate(siteName);
-        blogPostListPage.clickAllFilter();
+        blogPostListPage.navigateToAllFilter();
 //        assertEquals(blogPostListPage.getBlogPostTitle(blogPostListPage.getBlogPostTitle(blogTitleUser2Draft)), blogTitleUser2Draft);
     }
 }
