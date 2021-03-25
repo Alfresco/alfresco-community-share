@@ -1,6 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
 import static org.alfresco.common.RetryTime.RETRY_TIME_15;
+import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -167,14 +168,13 @@ public class ModelActionsComponent extends ModelManagerPage
             try
             {
                 waitForContentModelTableToBeLoaded();
-                waitUntilChildElementIsPresent(getModelRow(), modelStatus, WAIT_2.getValue());
+                waitUntilChildElementIsPresent(getModelRow(), modelStatus, WAIT_1.getValue());
+                retryCounter++;
                 break;
             }
             catch (StaleElementReferenceException | TimeoutException e)
             {
                 log.error("Wait for custom model status to change");
-                retryCounter++;
-                continue;
             }
         }
     }
