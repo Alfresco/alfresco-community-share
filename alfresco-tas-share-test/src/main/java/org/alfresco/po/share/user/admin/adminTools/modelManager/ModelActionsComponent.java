@@ -1,6 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools.modelManager;
 
 import static org.alfresco.common.RetryTime.RETRY_TIME_15;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -12,10 +13,7 @@ import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialog;
 import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.utility.model.CustomAspectModel;
 import org.alfresco.utility.model.CustomContentModel;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 /**
  * @author Bogdan Bocancea
@@ -168,13 +166,15 @@ public class ModelActionsComponent extends ModelManagerPage
         {
             try
             {
-                waitUntilChildElementIsPresent(getModelRow(), modelStatus);
+                waitForContentModelTableToBeLoaded();
+                waitUntilChildElementIsPresent(getModelRow(), modelStatus, WAIT_2.getValue());
                 break;
             }
-            catch (StaleElementReferenceException e)
+            catch (StaleElementReferenceException | TimeoutException e)
             {
                 log.error("Wait for custom model status to change");
                 retryCounter++;
+                continue;
             }
         }
     }

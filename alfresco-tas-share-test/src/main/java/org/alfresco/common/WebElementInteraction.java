@@ -438,20 +438,20 @@ public abstract class WebElementInteraction
         }
     }
 
-    protected WebElement waitUntilChildElementIsPresent(By parentLocator, By childLocator)
+    protected WebElement waitUntilChildElementIsPresent(By parentLocator, By childLocator, long secondsToWait)
     {
         try
         {
-            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
-                    .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
+            return setWaitingTime(secondsToWait, getDefaultProperties().getPollingTimeInMillis())
+                .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
         {
             try
             {
                 log.warn("Unable to find parent locator {} with child {}", parentLocator, childLocator);
-                return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
-                        .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
+                return setWaitingTime(secondsToWait, getDefaultProperties().getPollingTimeInMillis())
+                    .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
             }
             catch (ElementNotVisibleException elementNotVisibleException)
             {
@@ -462,18 +462,24 @@ public abstract class WebElementInteraction
         }
     }
 
-    protected WebElement waitUntilChildElementIsPresent(WebElement parentLocator, By childLocator) {
+    protected WebElement waitUntilChildElementIsPresent(By parentLocator, By childLocator)
+    {
+        return waitUntilChildElementIsPresent(parentLocator, childLocator, getDefaultProperties().getExplicitWait());
+    }
+
+    protected WebElement waitUntilChildElementIsPresent(WebElement parentLocator, By childLocator, long waitInSeconds)
+    {
         try
         {
-            return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
-                    .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
+            return setWaitingTime(waitInSeconds, getDefaultProperties().getPollingTimeInMillis())
+                .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
         }
         catch (NoSuchElementException | StaleElementReferenceException | ElementNotInteractableException | TimeoutException exception)
         {
             try
             {
                 log.warn("Unable to find parent locator {} with child {}", parentLocator, childLocator);
-                return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
+                return setWaitingTime(waitInSeconds, getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
             }
             catch (NoSuchElementException noSuchElementException)
@@ -483,6 +489,11 @@ public abstract class WebElementInteraction
                         parentLocator, childLocator, getDefaultProperties().getExplicitWait()), noSuchElementException.getCause());
             }
         }
+    }
+
+    protected WebElement waitUntilChildElementIsPresent(WebElement parentLocator, By childLocator)
+    {
+        return waitUntilChildElementIsPresent(parentLocator, childLocator, getDefaultProperties().getExplicitWait());
     }
 
     protected List<WebElement> waitUntilElementsAreVisible(By locator)

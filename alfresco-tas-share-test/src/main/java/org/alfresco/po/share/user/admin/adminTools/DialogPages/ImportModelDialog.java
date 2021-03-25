@@ -63,6 +63,8 @@ public class ImportModelDialog extends BaseDialogComponent
         waitUntilElementDisappears(importModelWindow);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
         modelManagerPage.waitForContentModelTableToBeLoaded();
+        waitInSeconds(1);
+
         return modelManagerPage;
     }
 }
