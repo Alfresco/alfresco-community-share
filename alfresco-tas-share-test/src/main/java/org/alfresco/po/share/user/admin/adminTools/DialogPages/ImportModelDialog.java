@@ -2,6 +2,7 @@ package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.alfresco.common.Wait.WAIT_1;
 
 import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
@@ -63,6 +64,8 @@ public class ImportModelDialog extends BaseDialogComponent
         waitUntilElementDisappears(importModelWindow);
         ModelManagerPage modelManagerPage = new ModelManagerPage(webDriver);
         modelManagerPage.waitForContentModelTableToBeLoaded();
+        waitInSeconds(WAIT_1.getValue());
+
         return modelManagerPage;
     }
 }
