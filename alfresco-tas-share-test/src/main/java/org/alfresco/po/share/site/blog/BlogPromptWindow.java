@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.blog;
 
+import static org.testng.Assert.assertEquals;
+
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.site.SiteCommon;
@@ -7,21 +9,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.testng.Assert.assertEquals;
-
 @Slf4j
 public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 {
-    private TinyMceEditor tinyMceEditor;
-
-    private final By addCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Add Your Comment...']");
     private final By addCommentButton = By.xpath("//button[contains(@id, '_default-add-submit-button')]");
-    private final By cancelButtonCommentWindow = By.xpath("//button[contains(@id, '_default-add-cancel')]");
     private final By saveButtonEditCommentWindow = By.xpath("//button[text()='Save']");
-    private final By cancelButtonEditCommentWindow = By.xpath("//button[text()='Cancel']");
-    private final By editCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']");
     private final By editorIframe = By.xpath("//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe");
     private final By editor = By.id("tinymce");
+
+    private final String commentBoxLabel = "//div[@class = 'comment-form']//h2[text()='%s']";
 
     public BlogPromptWindow(ThreadLocal<WebDriver> webDriver)
     {
@@ -31,8 +27,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     @Override
     public String getRelativePath()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return "Empty relative path!";
     }
 
     public BlogPromptWindow writePostComment(String postComment)
@@ -45,11 +40,11 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
         return this;
     }
 
-    public BlogPromptWindow assertAddCommentLabelEqualsTo(String expectedLabel)
+    public BlogPromptWindow assertCommentBoxLabelEqualsTo(String expectedLabel)
     {
-        log.info("Assert Add comment label equals to {}", expectedLabel);
-        String actualLabel = getElementText(addCommentBoxLabel);
-        assertEquals(actualLabel, expectedLabel, String.format("Add comment label not equals %s", expectedLabel));
+        log.info("Assert comment box label equals to {}", expectedLabel);
+        String actualLabel = getElementText(By.xpath(String.format(commentBoxLabel, expectedLabel)));
+        assertEquals(actualLabel, expectedLabel, String.format("Comment box label not equals %s", expectedLabel));
         return this;
     }
 
@@ -61,34 +56,18 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
         return this;
     }
 
-    public void clickCancelOnAddCommentWindow()
+    public void saveEditedComment()
     {
-        findElement(cancelButtonCommentWindow).click();
+        log.info("Save edited comment");
+        clickElement(saveButtonEditCommentWindow);
+        waitUntilNotificationMessageDisappears();
     }
 
-    public void clickSaveButtonOnEditComment()
+    public BlogPromptWindow editComment(String comment)
     {
-        findElement(saveButtonEditCommentWindow).click();
-    }
-
-
-    public void clickCancelButtonOnEditComment()
-    {
-        findElement(cancelButtonEditCommentWindow).click();
-    }
-
-    public boolean isEditCommentDisplayed()
-    {
-        return isElementDisplayed(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
-    }
-
-    public String getEditCommentBoxLabel()
-    {
-        return findElement(editCommentBoxLabel).getText();
-    }
-
-    public void testEditComment(String comment)
-    {
+        log.info("Edit comment {}", comment);
+        TinyMceEditor tinyMceEditor = new TinyMceEditor(webDriver);
         tinyMceEditor.setText(comment);
+        return this;
     }
 }

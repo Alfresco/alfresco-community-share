@@ -1,115 +1,128 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.By;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class BlogPostEditCommentsTests extends ContextAwareWebTest
+public class BlogPostEditCommentsTests extends BaseTest
 {
-    //@Autowired
-    BlogPostListPage blogPage;
+    private final String EMPTY_SPACE = " ";
+    private final String EDIT_COMMENT_LABEL = "Edit Comment...";
 
-    //@Autowired
-    BlogPostViewPage blogPostView;
+    @Autowired
+    private SiteService siteService;
 
-    //@Autowired
-    BlogPromptWindow commentWindow;
+    @Autowired
+    protected SitePagesService sitePagesService;
 
-    private String user = String.format("C6061User%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("C6061SiteName%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("C6061SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private String blogPostContentText = "C6061 post content text";
-    private List<String> tags = Collections.singletonList("tagc6011");
-    private String blogPostTitleC6061 = "C6061 blog post title";
-    private String comment = "C6061 comment text";
-    private String commentUser = user + " " + user;
-    private String editedComment = "C6061 edited comment text";
+    private BlogPostListPage blogPostListPage;
+    private BlogPostViewPage blogPostViewPage;
+    private BlogPromptWindow blogPromptWindow;
 
-    @BeforeClass (alwaysRun = true)
+    private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
+
+    private final String blogTitle = "Blog Title ".concat(randomAlphanumeric(5));
+    private final String blogContent = "Blog Content ".concat(randomAlphanumeric(5));
+    private final String blogComment = "Blog Comment ".concat(randomAlphanumeric(5));
+    private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
+
+    private String fullUsername;
+    private String editedComment = "Edited Comment".concat(randomAlphanumeric(5));
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(user, password, siteName, Page.BLOG, null);
-        setupAuthenticatedSession(user, password);
+        userModel.set(getDataUser().usingAdmin().createRandomTestUser());
+        siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
+        siteService.addPageToSite(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), Page.BLOG, null);
+
+        fullUsername = userModel.get().getFirstName().concat(EMPTY_SPACE).concat(userModel.get().getLastName());
+
+        authenticateUsingCookies(userModel.get());
+
+        blogPostViewPage = new BlogPostViewPage(webDriver);
+        blogPostListPage = new BlogPostListPage(webDriver);
+        blogPromptWindow = new BlogPromptWindow(webDriver);
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @TestRail(id = "C6061")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    public void shouldEditBlogPostComment()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, siteName);
+        sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), blogTitle, blogContent, false, noTags);
+
+        sitePagesService.commentBlog(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), blogTitle, false, blogComment);
+
+        blogPostListPage
+            .navigate(siteModel.get())
+            .readPost(blogTitle);
+
+        blogPostViewPage
+            .openEditCommentEditor(fullUsername);
+
+        blogPromptWindow
+            .assertCommentBoxLabelEqualsTo(EDIT_COMMENT_LABEL)
+            .editComment(editedComment)
+            .saveEditedComment();
+
+        blogPostViewPage
+            .assertCommentEqualsTo(fullUsername, editedComment);
     }
 
-
-    @TestRail (id = "C6061")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-
-    public void editBlogPostComment()
+    @TestRail(id = "C6062")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    public void shouldEditDraftBlogPostComment()
     {
-        sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6061, blogPostContentText, false, tags);
-        sitePagesService.commentBlog(user, password, siteName, blogPostTitleC6061, false, comment);
+        sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), blogTitle, blogContent, true, noTags);
 
-        blogPage.navigate(siteName);
-        blogPage.readPost(blogPostTitleC6061);
+        sitePagesService.commentBlog(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), blogTitle, true, blogComment);
 
-        LOG.info("Step 1: Click Edit to the right of the comment.");
-        blogPostView.clickEditComment(commentUser);
-        getBrowser().waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
-        Assert.assertEquals(commentWindow.getEditCommentBoxLabel(), "Edit Comment...");
+        blogPostListPage
+            .navigate(siteModel.get())
+            .filterPostBy(MY_DRAFTS_POSTS)
+            .readPost(blogTitle);
 
-        LOG.info("Step 2: Type your comment in the Add Your Comment box.");
-        commentWindow.testEditComment(editedComment);
+        blogPostViewPage
+            .openEditCommentEditor(fullUsername);
 
-        LOG.info("Step 3: Click the Save button");
-        commentWindow.clickSaveButtonOnEditComment();
-        getBrowser().waitUntilElementVisible(blogPostView.commentText);
-        Assert.assertEquals(blogPostView.getCommentText(commentUser), editedComment);
+        blogPromptWindow
+            .assertCommentBoxLabelEqualsTo(EDIT_COMMENT_LABEL)
+            .editComment(editedComment)
+            .saveEditedComment();
+
+        blogPostViewPage
+            .assertCommentEqualsTo(fullUsername, editedComment);
     }
 
-    @TestRail (id = "C6062")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-
-    public void editDraftBlogPostComment()
+    @AfterMethod(alwaysRun = true)
+    public void cleanupTest()
     {
-        LOG.info("Test setup");
-        String blogPostTitleC6062 = "C6062 Blog post title";
-        String commentC6062 = "C6062 Comment";
-        String C6062editedComment = "C6062 edited comment";
-        sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6062, blogPostContentText, true, tags);
-        sitePagesService.commentBlog(user, password, siteName, blogPostTitleC6062, true, commentC6062);
-
-        LOG.info("Step 1: Click edit for Draft Comment");
-        blogPage.navigate(siteName);
-        blogPage.navigateToMyDrafts();
-        blogPage.readPost(blogPostTitleC6062);
-        blogPostView.clickEditComment(commentUser);
-        getBrowser().waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
-        Assert.assertEquals(commentWindow.getEditCommentBoxLabel(), "Edit Comment...");
-
-        LOG.info("Step 2: Type your comment in the Add Your Comment box.");
-        commentWindow.testEditComment(C6062editedComment);
-
-        LOG.info("Step 3: Click the Save button");
-        commentWindow.clickSaveButtonOnEditComment();
-        getBrowser().waitUntilElementVisible(blogPostView.commentText);
-        getBrowser().waitUntilElementContainsText(getBrowser().findElement(blogPostView.commentText), C6062editedComment);
-        Assert.assertEquals(blogPostView.getCommentText(commentUser), C6062editedComment);
+        deleteSitesIfNotNull(siteModel.get());
+        deleteUsersIfNotNull(userModel.get());
     }
-
 }

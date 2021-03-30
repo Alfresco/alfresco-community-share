@@ -1,9 +1,12 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
+
 import java.util.Collections;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
@@ -159,7 +162,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertFalse(blogPostList.isBlogPostDisplayed(blogPostTitleC5541), "Blog post is displayed on the Blog Post List View");
 
         LOG.info("Step 6: Click the All filter'");
-        blogPostList.navigateToAllFilter();
+        blogPostList.filterPostBy(ALL_POSTS);
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC5541),
             "Blog post is not displayed on the Blog Post List View when All filter is applied");
     }
@@ -223,7 +226,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertFalse(blogPostList.isBlogPostDisplayed(blogPostTitleC6120), "Draft blog post is displayed on the Blog Post List page.");
 
         LOG.info("Step 5: Click All filter");
-        blogPostList.navigateToAllFilter();
+        blogPostList.filterPostBy(ALL_POSTS);
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC6120), "Draft blog post is not displayed when All filter is applied.");
     }
 }

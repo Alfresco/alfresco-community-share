@@ -1,11 +1,14 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.EditBlogPostPage;
@@ -134,7 +137,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Test steps");
         LOG.info("Step 1: Select the draft post and click the Edit button");
-        blogPage.navigateToAllFilter();
+        blogPage.filterPostBy(ALL_POSTS);
         blogPage.selectBlogPostWithTitle(blogTitle);
         blogPage.clickEditButton(blogTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
@@ -161,9 +164,9 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Test Setup");
         String blogPostTitleC6108 = "C5967 blog post title";
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6108, blogPostContentText, true, tags);
-        blogPage.navigate(siteName);
-        blogPage.navigateToMyDrafts();
-        blogPage.readPost(blogPostTitleC6108);
+//        blogPage.navigate(siteName);
+//        blogPage.filterPostBy();
+//        blogPage.readPost(blogPostTitleC6108);
 
         String newTitle = "C6108 edited title";
         String newContent = "C6108 edited content";
@@ -202,13 +205,13 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         String newContent = "C6110 edited content";
         String newTag = "c6110editedtag";
         sitePagesService.createBlogPost(user, password, siteName, blogTitle, blogContent, true, tags);
-        blogPage.navigate(siteName);
+//        blogPage.navigate(siteName);
 
         LOG.info("Test steps");
         LOG.info("Step 1: Select the draft post and click the Edit button");
-        blogPage.navigateToAllFilter();
-        blogPage.selectBlogPostWithTitle(blogTitle);
-        blogPage.clickEditButton(blogTitle);
+//        blogPage.navigateToAllFilter();
+//        blogPage.selectBlogPostWithTitle(blogTitle);
+//        blogPage.clickEditButton(blogTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
 
         LOG.info("Step 2:  Update title, content, tag then click Publish Internally button.");
@@ -225,7 +228,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 3: Go to Blog post list");
         blogPostView.navigateBackToBlogList();
         Assert.assertTrue(blogPage.isBlogPostDisplayed(newTitle), "The blog post is not visible in the Latest view");
-        blogPage.navigateToMyDrafts();
+//        blogPage.filterPostBy();
         getBrowser().waitUntilElementsVisible(By.xpath("//td[@class = 'yui-dt-empty']//div[text() = 'No blog posts found']"));
         Assert.assertFalse(blogPage.isBlogPostDisplayed(newTitle), "The blog post is still displayed in My Drafts view");
         Assert.assertFalse(blogPage.isBlogPostDisplayed(blogTitle), "The original draft blog post is still displayed in My Drafts view");

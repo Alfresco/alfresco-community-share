@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
 import org.openqa.selenium.By;
@@ -38,19 +39,13 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final By noBlogPostsFound = By.xpath(".//tbody[@class='yui-dt-message']");
     private final By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
     private final By newPostButton = By.cssSelector("div.new-blog span[id*='_default-create-button']");
-    private final By defaultBlogPostList = By.cssSelector("div[id$='_default-postlist']");
     private final By nodeTitle = By.xpath(".//span[@class = 'nodeTitle']");
     private final By simpleNodePost = By.cssSelector(".node.post.simple");
     private final By postDateTime = By.xpath(".//div[@class = 'published']//span[@class = 'nodeAttrValue']");
     private final By readLabel = By.xpath("div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a");
-
     private final By editButton = By.xpath(".//../div[@class = 'nodeEdit']//div[@class = 'onEditBlogPost']//a//span[text() = 'Edit']");
     private final By blogLinkName = By.id("HEADER_SITE_BLOG-POSTLIST");
-    private final By allFilter = By.cssSelector("ul.filterLink span.all>a");
-    private final By latestFilter = By.cssSelector("ul.filterLink span.new>a");
-    private final By myDraftsFilter = By.cssSelector("ul.filterLink span.mydrafts>a");
     private final By listTitle = By.className("listTitle");
-    private final By myPublished = By.cssSelector("ul.filterLink span.mypublished>a");
     private final By tag = By.xpath("//span[@class ='tag']/a");
 
     private final String postRowPath = "//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '%s']/../../../..";
@@ -304,30 +299,13 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return isElementDisplayed(getBlogPostRow(title));
     }
 
-    public BlogPostListPage navigateToAllFilter()
+    public BlogPostListPage filterPostBy(BlogPostFilters blogPostFilters)
     {
-        log.info("Navigate to all filter");
-        clickElement(allFilter);
+        log.info("Filter blog post by {}", blogPostFilters);
+        By filter = By.cssSelector(blogPostFilters.getLocator());
+        clickElement(filter);
+        waitUntilElementContainsText(listTitle, blogPostFilters.getExpectedFilterLabel());
         return this;
-    }
-
-    public void clickLatestFilter()
-    {
-        clickElement(latestFilter);
-        waitUntilElementContainsText(listTitle, "New Posts");
-    }
-
-    public BlogPostListPage navigateToMyDrafts()
-    {
-        clickElement(myDraftsFilter);
-        waitUntilElementContainsText(listTitle, "My Draft Posts");
-        return this;
-    }
-
-    public void clickMyPublishedFilter()
-    {
-        clickElement(myPublished);
-        waitUntilElementContainsText(listTitle, "My Published Posts");
     }
 
     public void clickTag(String tag)

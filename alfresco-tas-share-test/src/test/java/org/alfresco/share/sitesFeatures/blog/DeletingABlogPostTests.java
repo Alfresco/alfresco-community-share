@@ -1,10 +1,13 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
+
 import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
@@ -87,7 +90,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         List<String> tags = Collections.singletonList("c5957tag");
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC5957, blogPostContentTextC5957, true, tags);
         blogPage.navigate(siteName);
-        blogPage.navigateToMyDrafts();
+//        blogPage.filterPostBy();
 
         LOG.info("Test steps");
         LOG.info("Step 1: Click Delete for draft blog post");
@@ -98,7 +101,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
         deleteDialog.clickDelete();
         // TODO get popup text for Post Deleted
-        blogPage.navigateToMyDrafts();
+//        blogPage.filterPostBy();
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
     }
@@ -124,7 +127,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
         // TODO get popup text for Post Deleted
-        blogPage.navigateToAllFilter();
+        blogPage.filterPostBy(ALL_POSTS);
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "All Posts");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
     }
@@ -138,7 +141,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         String blogPostTitleC5967 = "C5967 blog post title";
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC5967, blogPostContentText, true, tags);
         blogPage.navigate(siteName);
-        blogPage.navigateToMyDrafts();
+//        blogPage.filterPostBy();
         blogPage.readPost(blogPostTitleC5967);
 
         LOG.info("Test Steps");
@@ -152,7 +155,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.getPageTitle(), "New Posts");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
-        blogPage.navigateToMyDrafts();
+//        blogPage.filterPostBy();
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
     }

@@ -1,5 +1,9 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
+import static org.alfresco.po.enums.BlogPostFilters.LATEST_POSTS;
+import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
+import static org.alfresco.po.enums.BlogPostFilters.MY_PUBLISHED_POSTS;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
@@ -10,6 +14,7 @@ import java.util.List;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -76,7 +81,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
 
         LOG.info("Step 1: Click the 'All' view.");
-        blogPage.navigateToAllFilter();
+        blogPage.filterPostBy(ALL_POSTS);
 
         LOG.info("Step 2: Check that all published blog posts are displayed");
         assertEquals(blogPage.getPageTitle(), "All Posts");
@@ -94,10 +99,10 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     public void browseTheBlogPostsLatestPosts()
     {
         blogPage.navigate(siteName);
-        blogPage.navigateToAllFilter();
+        blogPage.filterPostBy(ALL_POSTS);
 
         LOG.info("Step 1: Click on Latest filter");
-        blogPage.clickLatestFilter();
+        blogPage.filterPostBy(LATEST_POSTS);
 
         LOG.info("Step 2: Check that only published blog posts are displayed. Drafts should not be displayed");
         assertEquals(blogPage.getPageTitle(), "New Posts");
@@ -116,7 +121,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
 
         LOG.info("Step 1: Click on My Drafts filter");
-        blogPage.navigateToMyDrafts();
+        blogPage.filterPostBy(MY_DRAFTS_POSTS);
 
         LOG.info("Step 2: Check that only the draft blog posts of user1 are displayed");
         assertEquals(blogPage.getPageTitle(), "My Draft Posts");
@@ -133,7 +138,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
 
         LOG.info("Step 1: Click on My Published Filter");
-        blogPage.clickMyPublishedFilter();
+        blogPage.filterPostBy(MY_PUBLISHED_POSTS);
 
         LOG.info("Step 2 : Check that only blog posts published by User1 are displayed");
         assertEquals(blogPage.getPageTitle(), "My Published Posts");

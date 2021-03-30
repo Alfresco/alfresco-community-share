@@ -1,5 +1,6 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.EditBlogPostPage;
@@ -110,7 +112,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         blogPostListPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'All' view.");
-        blogPostListPage.navigateToAllFilter();
+        blogPostListPage.filterPostBy(ALL_POSTS);
         assertEquals(blogPostListPage.assertBlogContentEqualsTo(""), "No blog posts found");
         assertFalse(blogPostListPage.isBlogPostDisplayed(blogTitleUser2Draft), "Blog post draft of user 2 is visible for user one before it was published");
 
@@ -118,7 +120,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         userService.logout();
         setupAuthenticatedSession(user2, password);
         blogPostListPage.navigate(siteName);
-        blogPostListPage.navigateToMyDrafts();
+//        blogPostListPage.filterPostBy();
 
         Assert.assertTrue(blogPostListPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of user 2 is not displayed");
 
@@ -136,7 +138,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         userService.logout();
         setupAuthenticatedSession(user1, password);
         blogPostListPage.navigate(siteName);
-        blogPostListPage.navigateToAllFilter();
+        blogPostListPage.filterPostBy(ALL_POSTS);
 //        assertEquals(blogPostListPage.getBlogPostTitle(blogPostListPage.getBlogPostTitle(blogTitleUser2Draft)), blogTitleUser2Draft);
     }
 }

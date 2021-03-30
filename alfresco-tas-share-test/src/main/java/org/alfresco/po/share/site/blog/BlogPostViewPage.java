@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.blog;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,8 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
-    public final By commentText = By.cssSelector("div[class ='comment-content'] p");
     public final By noCommentsText = By.xpath("//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']");
+    private final By commentText = By.cssSelector("div[class ='comment-content'] p");
     private final By blogPostTitle = By.cssSelector("div[id*='_blog-postview'] div.nodeTitle>a");
     private final By blogPostContent = By.cssSelector("div[id*='_blog-postview'] div.content");
     private final By blogPostAuthor = By.cssSelector(".published .nodeAttrValue>a");
@@ -25,7 +27,6 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     private final By editButton = By.cssSelector(".onEditBlogPost>a");
     private final By deleteButton = By.cssSelector(".onDeleteBlogPost>a");
     private final By addCommentButton = By.cssSelector(".onAddCommentClick button");
-    private final By commentAuthorName = By.xpath("//span[@class = 'info']/a");
     private final By editCommentButton = By.xpath("//a[@title='Edit Comment']");
     private final By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
     private final By newPostButton = By.cssSelector("button[id$='_default-create-button-button']");
@@ -112,18 +113,17 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return tagsList;
     }
 
-    public String commentAuthorName(String user)
+    public BlogPostViewPage assertCommentEqualsTo(String user, String expectedComment)
     {
-        return getElementText(selectComment(user).findElement(commentAuthorName));
+        log.info("Assert comment equals {}", expectedComment);
+        String actualComment = getElementText(selectComment(user).findElement(commentText));
+        assertEquals(actualComment, expectedComment, String.format("Comment not equals %s ", expectedComment));
+        return this;
     }
 
-    public String getCommentText(String user)
+    public void openEditCommentEditor(String user)
     {
-        return getElementText(selectComment(user).findElement(commentText));
-    }
-
-    public void clickEditComment(String user)
-    {
+        log.info("Open edit comment editor");
         mouseOver(selectComment(user));
         clickElement(editCommentButton);
     }

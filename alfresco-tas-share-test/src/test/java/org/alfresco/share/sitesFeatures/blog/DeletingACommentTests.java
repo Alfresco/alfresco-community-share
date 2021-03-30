@@ -85,7 +85,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         sitePagesService.commentBlog(user, password, siteName, blogPostTitleC6064, true, comment);
 
         blogPage.navigate(siteName);
-        blogPage.navigateToMyDrafts();
+//        blogPage.filterPostBy();
         blogPage.readPost(blogPostTitleC6064);
 
         LOG.info("Step 1: Click Delete Comment to the right of the comment.");

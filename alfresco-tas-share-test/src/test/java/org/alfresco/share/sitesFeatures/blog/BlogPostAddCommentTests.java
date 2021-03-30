@@ -1,10 +1,13 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
+import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
@@ -69,11 +72,13 @@ public class BlogPostAddCommentTests extends BaseTest
 
         blogPostListPage
             .navigate(siteModel.get())
-            .readPost(blogTitle)
-            .openCommentEditor()
-            .assertAddCommentLabelEqualsTo(ADD_YOUR_COMMENT_LABEL);
+            .readPost(blogTitle);
+
+        blogPostViewPage
+            .openCommentEditor();
 
         blogPromptWindow
+            .assertCommentBoxLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
             .writePostComment(blogComment)
             .addPostComment();
 
@@ -91,22 +96,24 @@ public class BlogPostAddCommentTests extends BaseTest
 
         blogPostListPage
             .navigate(siteModel.get())
-            .navigateToMyDrafts()
+            .filterPostBy(MY_DRAFTS_POSTS)
             .readPost(blogTitle);
 
         blogPostViewPage
-            .openCommentEditor()
-            .assertAddCommentLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
+            .openCommentEditor();
+
+        blogPromptWindow
+            .assertCommentBoxLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
             .writePostComment(blogComment)
             .addPostComment();
 
         blogPostViewPage
             .navigateBackToBlogList()
-            .navigateToMyDrafts()
+            .filterPostBy(MY_DRAFTS_POSTS)
             .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
 
         blogPostListPage
-            .navigateToAllFilter()
+            .filterPostBy(ALL_POSTS)
             .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
     }
 
