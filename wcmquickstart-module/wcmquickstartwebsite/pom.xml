@@ -3,10 +3,11 @@
     <artifactId>alfresco-wcmqs-web</artifactId>
     <name>Alfresco WCMQS Web</name>
     <packaging>war</packaging>
+
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>11.0-SNAPSHOT</version>
     </parent>
 
     <properties>
