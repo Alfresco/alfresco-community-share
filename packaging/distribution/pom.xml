@@ -24,12 +24,12 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-share-services</artifactId>
             <version>${project.version}</version>
             <type>amp</type>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-share-encryption</artifactId>
