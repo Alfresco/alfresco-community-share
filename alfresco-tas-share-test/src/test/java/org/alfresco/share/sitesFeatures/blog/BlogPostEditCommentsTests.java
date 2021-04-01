@@ -1,5 +1,6 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.LATEST_POSTS;
 import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -47,7 +48,7 @@ public class BlogPostEditCommentsTests extends BaseTest
     private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
 
     private String fullUsername;
-    private String editedComment = "Edited Comment".concat(randomAlphanumeric(5));
+    private final String editedComment = "Edited Comment".concat(randomAlphanumeric(5));
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -78,6 +79,7 @@ public class BlogPostEditCommentsTests extends BaseTest
 
         blogPostListPage
             .navigate(siteModel.get())
+            .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
             .readPost(blogTitle);
 
         blogPostViewPage
@@ -105,6 +107,7 @@ public class BlogPostEditCommentsTests extends BaseTest
         blogPostListPage
             .navigate(siteModel.get())
             .filterPostBy(MY_DRAFTS_POSTS)
+            .assertPostInfoBarTitleEqualsTo(MY_DRAFTS_POSTS.getExpectedFilterLabel())
             .readPost(blogTitle);
 
         blogPostViewPage

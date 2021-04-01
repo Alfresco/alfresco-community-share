@@ -3,43 +3,37 @@ package org.alfresco.po.share.site.blog;
 import static org.alfresco.common.RetryTime.RETRY_TIME_30;
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.exception.PageOperationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 
 @Slf4j
 public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 {
+    private final String BLOG_POST_LIST = "Blog Post List";
+    private final String POSTS_FOR_MONTH = "Posts for Month ";
     private final String ARIA_LABEL_ATTRIBUTE = "aria-label";
     private final String OPEN_PARENTHESIS = "(";
     private final String CLOSE_PARENTHESIS = ")";
 
-    //Below fields will be delete in next PRs
-    @FindBy (css = "[class='listTitle']")
-    public WebElement pageTitle;
-
-    @FindAll (@FindBy (css = "div[id*='archives'] a.filter-link"))
-    private List<WebElement> archivesMonths;
-
+    private final By pageTitle = By.cssSelector("[class='listTitle']");
+    private final By archivesMonths = By.cssSelector("div[id*='archives'] a.filter-link");
     private final By blogContent = By.xpath(".//div[@class = 'content yuieditor']");
     private final By noBlogPostsFound = By.xpath(".//tbody[@class='yui-dt-message']");
     private final By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
     private final By newPostButton = By.cssSelector("div.new-blog span[id*='_default-create-button']");
-    private final By nodeTitle = By.xpath(".//span[@class = 'nodeTitle']");
+    private final By nodeTitle = By.xpath("//span[@class = 'nodeTitle']");
     private final By simpleNodePost = By.cssSelector(".node.post.simple");
     private final By postDateTime = By.xpath(".//div[@class = 'published']//span[@class = 'nodeAttrValue']");
     private final By readLabel = By.xpath("div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a");
@@ -52,10 +46,17 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final String labelPath = "//div[@class = 'nodeContent']//span/a[text() = '%s']/../..//span[@class='nodeAttrLabel' and normalize-space()= '%s']";
     private final String valuePath = "//div[@class = 'nodeContent']//span/a[text() = '%s']/../..//span[@class='nodeAttrValue' and normalize-space()='%s']";
     private final String postFooterPath = ".//div[@class = 'nodeFooter' ]//span[text() = '(%s)']";
+    private final String tagPath = "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '%s']";
 
     public BlogPostListPage(ThreadLocal<WebDriver> webDriver)
     {
       super(webDriver);
+    }
+
+    @Override
+    public String getRelativePath()
+    {
+        return String.format("share/page/site/%s/blog-postlist", getCurrentSiteName());
     }
 
     private WebElement getBlogPostRow(String blogTitle)
@@ -67,33 +68,6 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     public WebElement selectBlogPostWithTitle(String title)
     {
         return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']/../.."));
-    }
-
-    private WebElement selectBlogPostFooter(String title)
-    {
-        return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']/../../../.."));
-    }
-
-    private WebElement selectTagsByTagName(String tag)
-    {
-        return findElement(By.xpath(
-            "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
-    }
-
-    private WebElement selectArchiveMonth(String month)
-    {
-        return findFirstElementWithValue(archivesMonths, month);
-    }
-
-    public WebElement blogPostTitle(String title)
-    {
-        return findElement(By.xpath("//div[@class ='nodeContent']//span[@class = 'nodeTitle']//a[text() = '" + title + "']"));
-    }
-
-    @Override
-    public String getRelativePath()
-    {
-        return String.format("share/page/site/%s/blog-postlist", getCurrentSiteName());
     }
 
     public BlogPostListPage assertBlogContentEqualsTo(String expectedBlogContentText)
@@ -112,11 +86,6 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         assertEquals(actualNoBlogPostsFoundLabel, expectedNoBlogPostsFoundLabel,
             String.format("No blog posts found label not equals %s ", expectedNoBlogPostsFoundLabel));
         return this;
-    }
-
-    public boolean isNewPostButtonDisplayed()
-    {
-        return isElementDisplayed(newPostButton);
     }
 
     public BlogPostListPage assertNewBlogIsDisplayedInMenuBar(String expectedBlogName)
@@ -146,16 +115,6 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private String getPostPublishedDateTime(String title)
     {
         return getElementText(getBlogPostRow(title).findElement(postDateTime));
-    }
-
-    public boolean isEditButtonPresentForBlogPost(String title)
-    {
-        return selectBlogPostWithTitle(title).findElement(By.xpath("//div[@class = 'onEditBlogPost']")).isDisplayed();
-    }
-
-    public boolean isDeleteButtonPresentForBlogPost(String title)
-    {
-        return selectBlogPostWithTitle(title).findElement(By.xpath("//div[@class = 'onDeleteBlogPost']")).isDisplayed();
     }
 
     /**
@@ -191,32 +150,11 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
             .concat(emptySpace).concat(year);
     }
 
-    //this method will be replace in the remained classes with assertBlogAuthorPostEqualsTo
-    public String getBlogPostAuthor(String title)
-    {
-        WebElement post = getBlogPostRow(title);
-        List<WebElement> listLabels = post.findElements(By.xpath(".//span[@class='nodeAttrLabel']"));
-
-        int index;
-        for (index = 0; index < listLabels.size(); index++)
-        {
-            if (listLabels.get(index).getText().trim().equals("Author:"))
-            {
-                break;
-            }
-        }
-        if (index == listLabels.size())
-        {
-            throw new PageOperationException("Element not found");
-        }
-
-        List<WebElement> listAttribute = post.findElements(By.xpath(".//span[@class='nodeAttrValue']"));
-        return listAttribute.get(index).getText();
-    }
-
     public BlogPostListPage assertBlogTitleEqualsTo(String expectedBlogTitle)
     {
         log.info("Assert blog title equals to {}", expectedBlogTitle);
+        waitUntilElementIsVisible(getBlogPostRow(expectedBlogTitle).findElement(nodeTitle));
+
         String actualBlogTitle = getElementText(getBlogPostRow(expectedBlogTitle).findElement(nodeTitle));
         assertEquals(actualBlogTitle, expectedBlogTitle, String.format("Blog title not equals %s ", expectedBlogTitle));
         return this;
@@ -289,14 +227,21 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return this;
     }
 
-    public String getPageTitle()
+    public BlogPostListPage assertPostInfoBarTitleEqualsTo(String expectedPageTitle)
     {
-        return pageTitle.getText();
+        log.info("Assert post info bar title equals to {}", expectedPageTitle);
+        String actualPageTitle = getElementText(pageTitle);
+        assertEquals(actualPageTitle, expectedPageTitle,
+            String.format("Post info bar title not equals %s", expectedPageTitle));
+        return this;
     }
 
-    public boolean isBlogPostDisplayed(String title)
+    public BlogPostListPage assertBlogPostIsNotDisplayed(String title)
     {
-        return isElementDisplayed(getBlogPostRow(title));
+        log.info("Assert blog post {} is not displayed", title);
+        By blogPost = By.xpath(String.format(postRowPath, title));
+        assertFalse(isElementDisplayed(blogPost), String.format("Blog post is displayed %s", title));
+        return this;
     }
 
     public BlogPostListPage filterPostBy(BlogPostFilters blogPostFilters)
@@ -308,17 +253,13 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return this;
     }
 
-    public void clickTag(String tag)
+    public BlogPostListPage filterPostByTag(String tag)
     {
-        mouseOver(selectTagsByTagName(tag));
-        clickElement(selectTagsByTagName(tag));
-        waitUntilElementContainsText(listTitle, "Blog Post List");
-    }
-
-    public void clickArchiveMonth(String month)
-    {
-        selectArchiveMonth(month).click();
-        waitUntilElementContainsText(pageTitle, "Posts for Month " + month);
+        log.info("Filter post by tag {}", tag);
+        By tagLocator = By.xpath(String.format(tagPath, tag.toLowerCase()));
+        clickElement(tagLocator);
+        waitUntilElementContainsText(listTitle, BLOG_POST_LIST);
+        return this;
     }
 
     public BlogPostViewPage readPost(String postTitle)
@@ -332,11 +273,6 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     public boolean isBlogPostContentDisplayed(String title)
     {
         return isElementDisplayed(By.xpath(".//div[@class = 'content yuieditor']"));
-    }
-
-    public String getButtonName()
-    {
-        return findElement(simpleViewButton).getText();
     }
 
     public BlogPostViewPage clickOnThePostTitle(String title)
@@ -368,5 +304,18 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         assertEquals(getElementText(simpleViewButton), expectedButtonText,
             String.format("Button text not equals %s ", expectedButtonText));
         return this;
+    }
+
+    public BlogPostListPage filterPostByMonthAndYearFromArchive(String monthAndYear)
+    {
+        log.info("filter post by month and year from archive {}", monthAndYear);
+        clickElement(selectArchiveMonth(monthAndYear));
+        waitUntilElementContainsText(pageTitle, POSTS_FOR_MONTH.concat(monthAndYear));
+        return  this;
+    }
+
+    private WebElement selectArchiveMonth(String month)
+    {
+        return findFirstElementWithValue(archivesMonths, month);
     }
 }

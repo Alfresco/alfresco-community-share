@@ -1,5 +1,6 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.LATEST_POSTS;
 import static org.alfresco.po.share.site.SitePageType.BLOG;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
@@ -119,6 +120,7 @@ public class AccessBlogTests extends BaseTest
             .assertBlogPostDontHaveTag(blogTitle, language.translate(NONE))
             .openBlogSimpleView()
             .assertButtonTextEqualsTo(language.translate(DETAILED_VIEW))
+            .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
             .assertBlogTitleEqualsTo(blogTitle)
             .assertBlogPublishDateContains(blogTitle, language.translate(PUBLISHED_ON_LABEL),
                 getPublishDateFromResponse(formatter), formatter)
@@ -137,9 +139,12 @@ public class AccessBlogTests extends BaseTest
         blogPostListPage.navigate(siteModel.get());
 
         blogPostListPage
+            .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
             .assertBlogTitleEqualsTo(blogTitle)
-            .assertBlogPublishDateContains(blogTitle, language.translate(PUBLISHED_ON_LABEL),
-                getPublishDateFromResponse(formatter), formatter);
+            .assertBlogPublishDateContains(
+                blogTitle, language.translate(PUBLISHED_ON_LABEL),
+            getPublishDateFromResponse(formatter),
+            formatter);
 
         blogPostListPage
             .assertBlogAuthorPostEqualsTo(blogTitle, language.translate(AUTHOR_LABEL), authorValue)

@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
@@ -124,11 +123,11 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
         deleteDialog.clickDelete();
-        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
+//        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
         // TODO get popup text for Post Deleted
         blogPage.filterPostBy(ALL_POSTS);
-        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "All Posts");
+//        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "All Posts");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
     }
 
@@ -152,8 +151,8 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
         deleteDialog.clickDelete();
         // TODO get popup text for Post Deleted
-        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
-        Assert.assertEquals(blogPage.getPageTitle(), "New Posts");
+//        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
+//        Assert.assertEquals(blogPage.assertPageTitleEqualsTo(), "New Posts");
         Assert.assertEquals(blogPage.assertBlogContentEqualsTo(""), "No blog posts found");
 //        blogPage.filterPostBy();
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");

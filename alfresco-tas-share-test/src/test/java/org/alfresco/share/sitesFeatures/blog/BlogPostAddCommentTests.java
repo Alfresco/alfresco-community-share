@@ -1,13 +1,13 @@
 package org.alfresco.share.sitesFeatures.blog;
 
 import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
+import static org.alfresco.po.enums.BlogPostFilters.LATEST_POSTS;
 import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.enums.BlogPostFilters;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
@@ -72,6 +72,8 @@ public class BlogPostAddCommentTests extends BaseTest
 
         blogPostListPage
             .navigate(siteModel.get())
+            .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
+            .assertBlogTitleEqualsTo(blogTitle)
             .readPost(blogTitle);
 
         blogPostViewPage
@@ -89,7 +91,7 @@ public class BlogPostAddCommentTests extends BaseTest
 
     @TestRail(id = "C6035")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
-    public void addCommentToDraftBlogPost()
+    public void shouldAddCommentToDraftBlogPost()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
             siteModel.get().getId(), blogTitle, blogContent, true, noTags);
@@ -97,6 +99,7 @@ public class BlogPostAddCommentTests extends BaseTest
         blogPostListPage
             .navigate(siteModel.get())
             .filterPostBy(MY_DRAFTS_POSTS)
+            .assertPostInfoBarTitleEqualsTo(MY_DRAFTS_POSTS.getExpectedFilterLabel())
             .readPost(blogTitle);
 
         blogPostViewPage
@@ -114,6 +117,7 @@ public class BlogPostAddCommentTests extends BaseTest
 
         blogPostListPage
             .filterPostBy(ALL_POSTS)
+            .assertPostInfoBarTitleEqualsTo(ALL_POSTS.getExpectedFilterLabel())
             .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
     }
 

@@ -1,6 +1,7 @@
 package org.alfresco.share.sitesFeatures.blog;
 
 import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
+import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -227,10 +228,14 @@ public class EditingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Go to Blog post list");
         blogPostView.navigateBackToBlogList();
-        Assert.assertTrue(blogPage.isBlogPostDisplayed(newTitle), "The blog post is not visible in the Latest view");
+
+//        Assert.assertTrue(blogPage.isBlogPostDisplayed(newTitle), "The blog post is not visible in the Latest view");
 //        blogPage.filterPostBy();
+
+//        Assert.assertTrue(blogPage.assertBlogPostIsNotDisplayed(newTitle), "The blog post is not visible in the Latest view");
+        blogPage.filterPostBy(MY_DRAFTS_POSTS);
         getBrowser().waitUntilElementsVisible(By.xpath("//td[@class = 'yui-dt-empty']//div[text() = 'No blog posts found']"));
-        Assert.assertFalse(blogPage.isBlogPostDisplayed(newTitle), "The blog post is still displayed in My Drafts view");
-        Assert.assertFalse(blogPage.isBlogPostDisplayed(blogTitle), "The original draft blog post is still displayed in My Drafts view");
+//        Assert.assertFalse(blogPage.assertBlogPostIsNotDisplayed(newTitle), "The blog post is still displayed in My Drafts view");
+//        Assert.assertFalse(blogPage.assertBlogPostIsNotDisplayed(blogTitle), "The original draft blog post is still displayed in My Drafts view");
     }
 }
