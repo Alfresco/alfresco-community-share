@@ -180,6 +180,32 @@ public class DefaultProperties
     @Value("${aims.enabled}")
     private boolean aimsEnabled;
 
+    @Value ("${locale.language}")
+    private String language;
+
+    @Value ("${locale.country}")
+    private String country;
+
+    public String getLanguage()
+    {
+        return language;
+    }
+
+    public void setLanguage(String language)
+    {
+        this.language = language;
+    }
+
+    public String getCountry()
+    {
+        return country;
+    }
+
+    public void setCountry(String country)
+    {
+        this.country = country;
+    }
+
     public Boolean showTenantsOnServerHealth()
     {
         return showTenantsOnServerHealth;

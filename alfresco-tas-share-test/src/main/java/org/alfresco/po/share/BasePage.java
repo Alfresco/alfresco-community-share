@@ -48,8 +48,8 @@ public abstract class BasePage extends WebElementInteraction
     private Language getLanguage()
     {
         return new Language("language/page_labels",
-            defaultProperties.get().getBrowserLanguage(),
-            defaultProperties.get().getBrowserLanguageCountry());
+            defaultProperties.get().getLanguage(),
+            defaultProperties.get().getCountry());
     }
 
     private void createAppContextAndSetPropertiesIfNull()

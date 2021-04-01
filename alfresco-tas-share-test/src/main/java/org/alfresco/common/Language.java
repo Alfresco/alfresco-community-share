@@ -22,7 +22,25 @@ public class Language
     public Language(String languageResource, String language, String country)
     {
         currentLocale = new Locale(language, country);
+        setDefaultLanguageToEnglishIfNotSet();
+        setDefaultCountryToUSIfNotSet();
         resourceBundle = ResourceBundle.getBundle(languageResource, currentLocale);
+    }
+
+    private void setDefaultCountryToUSIfNotSet()
+    {
+        if (!Locale.getDefault().getCountry().equalsIgnoreCase("US"))
+        {
+            Locale.setDefault(Locale.US);
+        }
+    }
+
+    private void setDefaultLanguageToEnglishIfNotSet()
+    {
+        if (!Locale.getDefault().getLanguage().equalsIgnoreCase("en"))
+        {
+            Locale.setDefault(Locale.ENGLISH);
+        }
     }
 
     /**

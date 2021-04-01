@@ -67,12 +67,6 @@ public class EnvProperties
     @Value ("${admin.name}")
     private String adminName;
 
-    @Value ("${locale.language}")
-    private String language;
-
-    @Value ("${locale.country}")
-    private String country;
-
     @Value ("${ftp.port}")
     private String ftpPort;
 
@@ -196,26 +190,6 @@ public class EnvProperties
     public void setAdminName(String adminName)
     {
         this.adminName = adminName;
-    }
-
-    public String getLanguage()
-    {
-        return language;
-    }
-
-    public void setLanguage(String language)
-    {
-        this.language = language;
-    }
-
-    public String getCountry()
-    {
-        return country;
-    }
-
-    public void setCountry(String country)
-    {
-        this.country = country;
     }
 
     public String getFtpPort() { return ftpPort; }
