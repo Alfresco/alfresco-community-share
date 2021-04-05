@@ -164,11 +164,11 @@ public class ModelActionsComponent extends ModelManagerPage
         int retryCounter = 0;
         while(retryCounter < RETRY_TIME_15.getValue())
         {
+            retryCounter++;
             try
             {
                 waitForContentModelTableToBeLoaded();
                 waitUntilChildElementIsPresent(getModelRow(), modelStatus, WAIT_1.getValue());
-                retryCounter++;
                 break;
             }
             catch (StaleElementReferenceException | TimeoutException e)
