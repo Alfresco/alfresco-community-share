@@ -41,9 +41,6 @@
         <maven.build.sourceVersion>11</maven.build.sourceVersion>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
-        <!-- url for snapshots uploads on nexus-->
-        <maven.distributionManagement.snapshot.url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</maven.distributionManagement.snapshot.url>
-
         <!-- common dependencies-->
         <dependency.spring.version>5.3.3</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
@@ -96,25 +93,17 @@
      <connection>scm:git:https://github.com/Alfresco/share.git/</connection>
      <developerConnection>scm:git:https://github.com/Alfresco/share.git</developerConnection>
      <url>https://github.com/Alfresco/share</url>
-     <tag>alfresco-share-parent--A2</tag>
+     <tag>HEAD</tag>
    </scm>
-    <pluginRepositories>
-        <pluginRepository>
-            <!-- Only used for the customised version of yuicompressor in yuicompressor-maven-plugin -->
-            <id>alfresco-public</id>
-            <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <distributionManagement>
         <repository>
             <id>alfresco-internal</id>
-         <!--   <url>https://artifacts.alfresco.com/nexus/content/repositories/internal-releases</url>-->
- 	    <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>alfresco-internal-snapshots</id>
-            <url>${maven.distributionManagement.snapshot.url}</url>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -449,11 +438,7 @@
                             <manifestEntries>
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
-                                <Build-Date>${maven.build.timestamp}</Build-Date>
-                                <Build-Name>${bamboo_planName}</Build-Name>
-                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                                <Build-Number>${bamboo_buildNumber}</Build-Number>
-                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                                <Build-Number>${env.TRAVIS_BUILD_NUMBER}</Build-Number>
                             </manifestEntries>
                         </archive>
                     </configuration>
@@ -465,22 +450,8 @@
                             <manifestEntries>
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
-                                <Build-Date>${maven.build.timestamp}</Build-Date>
-                                <Build-Name>${bamboo_planName}</Build-Name>
-                                <Build-Key>${bamboo_fullBuildKey}</Build-Key>
-                                <Build-Number>${bamboo_buildNumber}</Build-Number>
-                                <Build-Revision>${bamboo_repository_revision_number}</Build-Revision>
+                                <Build-Number>${env.TRAVIS_BUILD_NUMBER}</Build-Number>
                             </manifestEntries>
-                            <manifestSections>
-                                <manifestSection>
-                                    <name>Source-control</name>
-                                    <manifestEntries>
-                                        <Last-change-Revision>${bamboo_custom_svn_lastchange_revision_number}</Last-change-Revision>
-                                        <Source-Revision>${bamboo_repository_revision_number}</Source-Revision>
-                                        <Source-Url>${bamboo_planRepository_repositoryUrl}</Source-Url>
-                                    </manifestEntries>
-                                </manifestSection>
-                            </manifestSections>
                         </archive>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     </configuration>
@@ -526,39 +497,6 @@
                         <username>${db.master.username}</username>
                         <password>${db.master.password}</password>
                     </configuration>
-                </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                	<groupId>org.eclipse.m2e</groupId>
-                	<artifactId>lifecycle-mapping</artifactId>
-                	<version>1.0.0</version>
-                	<configuration>
-                		<lifecycleMappingMetadata>
-                			<pluginExecutions>
-                				<pluginExecution>
-                					<pluginExecutionFilter>
-                						<groupId>
-                							org.codehaus.mojo
-                						</groupId>
-                						<artifactId>
-                							license-maven-plugin
-                						</artifactId>
-                						<versionRange>
-                							[1.8,)
-                						</versionRange>
-                						<goals>
-                							<goal>
-                								check-file-header
-                							</goal>
-                						</goals>
-                					</pluginExecutionFilter>
-                					<action>
-                						<ignore />
-                					</action>
-                				</pluginExecution>
-                			</pluginExecutions>
-                		</lifecycleMappingMetadata>
-                	</configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
