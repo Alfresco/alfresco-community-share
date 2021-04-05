@@ -24,6 +24,7 @@ import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -308,7 +309,7 @@ public class ModelManagerTests extends BaseTest
     {
         getRestApi().authenticateUser(dataUser.getAdminUser());
         RestCustomModel restCustomModel = getRestApi().withPrivateAPI().usingCustomModel(customContentModel).getModel();
-        if (restCustomModel != null)
+        if (getRestApi().getStatusCode().equals(String.valueOf(HttpStatus.OK.value())))
         {
             if (restCustomModel.getStatus().equals(ACTIVE))
             {

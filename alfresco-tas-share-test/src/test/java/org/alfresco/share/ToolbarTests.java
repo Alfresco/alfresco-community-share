@@ -19,18 +19,14 @@ public class ToolbarTests extends BaseTest
 
     private final ThreadLocal<UserModel> normalUser = new ThreadLocal<>();
 
-    @BeforeClass(alwaysRun = true)
-    public void dataPrep()
-    {
-        normalUser.set(dataUser.usingAdmin().createRandomTestUser());
-    }
-
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         siteDashboardPage = new SiteDashboardPage(webDriver);
         userProfilePage = new UserProfilePage(webDriver);
         toolbar = new Toolbar(webDriver);
+
+        normalUser.set(dataUser.usingAdmin().createRandomTestUser());
     }
 
     @TestRail (id = "C2091, C8701")
@@ -92,19 +88,18 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
-        UserModel adminUser = dataUser.createRandomTestUser();
-        dataGroup.usingUser(adminUser).addUserToGroup(ALFRESCO_ADMIN_GROUP);
+        dataGroup.usingUser(normalUser.get()).addUserToGroup(ALFRESCO_ADMIN_GROUP);
 
-        authenticateUsingLoginPage(adminUser);
-        userDashboardPage.navigate(adminUser);
+        authenticateUsingLoginPage(normalUser.get());
+        userDashboardPage.navigate(normalUser.get());
         toolbar.assertAdminToolsIsDisplayed()
             .clickAdminTools().assertAdminApplicationPageIsOpened();
-        dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, adminUser);
+        dataGroup.removeUserFromGroup(ALFRESCO_ADMIN_GROUP, normalUser.get());
 
-        authenticateUsingLoginPage(adminUser);
+        authenticateUsingLoginPage(normalUser.get());
         toolbar.assertAdminToolsIsNotDisplayed();
 
-        dataUser.usingAdmin().deleteUser(adminUser);
+        dataUser.usingAdmin().deleteUser(normalUser.get());
     }
 
     // Should be re enabled after acs 7.0.0 is released
@@ -157,15 +152,13 @@ public class ToolbarTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void verifyTheLinksFromSitesMenu()
     {
-        UserModel siteUser = dataUser.createRandomTestUser();
-
-        SiteModel firstSite = dataSite.usingUser(siteUser).createPublicRandomSite();
-        SiteModel secondSite = dataSite.usingUser(siteUser).createPublicRandomSite();
-        authenticateUsingCookies(siteUser);
+        SiteModel firstSite = dataSite.usingUser(normalUser.get()).createPublicRandomSite();
+        SiteModel secondSite = dataSite.usingUser(normalUser.get()).createPublicRandomSite();
+        authenticateUsingCookies(normalUser.get());
         siteDashboardPage.navigate(firstSite);
         siteDashboardPage.navigate(secondSite);
 
-        userDashboardPage.navigate(siteUser);
+        userDashboardPage.navigate(normalUser.get());
         toolbar.clickSites()
             .assertRecentSitesSectionIsDisplayed()
             .assertSiteIsInRecentSites(firstSite)
@@ -189,7 +182,6 @@ public class ToolbarTests extends BaseTest
 
         dataSite.usingAdmin().deleteSite(firstSite);
         dataSite.usingAdmin().deleteSite(secondSite);
-        dataUser.usingAdmin().deleteUser(siteUser);
     }
 
     @TestRail (id = "C2867")
@@ -208,7 +200,7 @@ public class ToolbarTests extends BaseTest
         toolbar.clickAdvancedSearch().assertAdvancedSearchPageIsOpened();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
         deleteUsersIfNotNull(normalUser.get());
