@@ -13,48 +13,28 @@ public class EditBlogPostPage extends CreateBlogPostPage
         super(webDriver);
     }
 
-    /**
-     * Method to send input to the Title field
-     *
-     * @return
-     */
-
     public void editTitle(String editedTitle)
     {
         waitUntilElementIsVisible(titleField);
-        titleField.clear();
-        titleField.sendKeys(editedTitle);
+        clearAndType(titleField, editedTitle);
     }
 
-    /**
-     * Method to send input for the Blog content
-     *
-     * @param blogPostContentText
-     */
-
-    public void sendBlogPostTextInput(String blogPostContentText)
+    public EditBlogPostPage setContent(String blogPostContentText)
     {
         switchTo().frame(findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
         WebElement element = findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogPostContentText);
         switchTo().defaultContent();
+        return this;
     }
 
-    /**
-     * Method to click the Update button
-     */
     public BlogPostViewPage clickUpdateButton()
     {
-        saveAsDraftButton.click();
+        clickElement(saveAsDraftButton);
         return new BlogPostViewPage(webDriver);
     }
 
-    /**
-     * Method to get the page title for the Edit Blog Post page
-     *
-     * @return
-     */
     public String getEditBlogPostPageTitle()
     {
         return findElement(editBlogPageTitle).getText();

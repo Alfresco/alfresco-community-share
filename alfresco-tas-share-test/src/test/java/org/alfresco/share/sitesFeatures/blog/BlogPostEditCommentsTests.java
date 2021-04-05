@@ -29,6 +29,13 @@ public class BlogPostEditCommentsTests extends BaseTest
     private final String EMPTY_SPACE = " ";
     private final String EDIT_COMMENT_LABEL = "Edit Comment...";
 
+    private final String postTitle = "Post Title ".concat(randomAlphanumeric(5));
+    private final String postContent = "Post Content ".concat(randomAlphanumeric(5));
+    private final String postComment = "Post Comment ".concat(randomAlphanumeric(5));
+    private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
+    private final String editedComment = "Edited Comment".concat(randomAlphanumeric(5));
+    private String fullUsername;
+
     @Autowired
     private SiteService siteService;
 
@@ -42,13 +49,6 @@ public class BlogPostEditCommentsTests extends BaseTest
     private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
 
-    private final String blogTitle = "Blog Title ".concat(randomAlphanumeric(5));
-    private final String blogContent = "Blog Content ".concat(randomAlphanumeric(5));
-    private final String blogComment = "Blog Comment ".concat(randomAlphanumeric(5));
-    private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
-
-    private String fullUsername;
-    private final String editedComment = "Edited Comment".concat(randomAlphanumeric(5));
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -72,15 +72,15 @@ public class BlogPostEditCommentsTests extends BaseTest
     public void shouldEditBlogPostComment()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, noTags);
+            siteModel.get().getId(), postTitle, postContent, false, noTags);
 
         sitePagesService.commentBlog(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, false, blogComment);
+            siteModel.get().getId(), postTitle, false, postComment);
 
         blogPostListPage
             .navigate(siteModel.get())
             .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
-            .readPost(blogTitle);
+            .readPost(postTitle);
 
         blogPostViewPage
             .openEditCommentEditor(fullUsername);
@@ -99,16 +99,16 @@ public class BlogPostEditCommentsTests extends BaseTest
     public void shouldEditDraftBlogPostComment()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, true, noTags);
+            siteModel.get().getId(), postTitle, postContent, true, noTags);
 
         sitePagesService.commentBlog(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, true, blogComment);
+            siteModel.get().getId(), postTitle, true, postComment);
 
         blogPostListPage
             .navigate(siteModel.get())
             .filterPostBy(MY_DRAFTS_POSTS)
             .assertPostInfoBarTitleEqualsTo(MY_DRAFTS_POSTS.getExpectedFilterLabel())
-            .readPost(blogTitle);
+            .readPost(postTitle);
 
         blogPostViewPage
             .openEditCommentEditor(fullUsername);

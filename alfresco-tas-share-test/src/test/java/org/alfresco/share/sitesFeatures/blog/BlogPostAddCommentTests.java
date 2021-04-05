@@ -30,6 +30,11 @@ public class BlogPostAddCommentTests extends BaseTest
     private final String ADD_YOUR_COMMENT_LABEL = "Add Your Comment...";
     private final String EXPECTED_NUMBER_OF_REPLIES = "1";
 
+    private final String postTitle = "Post Title ".concat(randomAlphanumeric(5));
+    private final String postContent = "Post Content ".concat(randomAlphanumeric(5));
+    private final String postComment = "Post Comment ".concat(randomAlphanumeric(5));
+    private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
+
     @Autowired
     private SiteService siteService;
 
@@ -42,11 +47,6 @@ public class BlogPostAddCommentTests extends BaseTest
 
     private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
-
-    private final String blogTitle = "Blog Title ".concat(randomAlphanumeric(5));
-    private final String blogContent = "Blog Content ".concat(randomAlphanumeric(5));
-    private final String blogComment = "Blog Comment ".concat(randomAlphanumeric(5));
-    private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -68,25 +68,25 @@ public class BlogPostAddCommentTests extends BaseTest
     public void shouldAddCommentToBlogPost()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, noTags);
+            siteModel.get().getId(), postTitle, postContent, false, noTags);
 
         blogPostListPage
             .navigate(siteModel.get())
             .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
-            .assertBlogTitleEqualsTo(blogTitle)
-            .readPost(blogTitle);
+            .assertBlogTitleEqualsTo(postTitle)
+            .readPost(postTitle);
 
         blogPostViewPage
             .openCommentEditor();
 
         blogPromptWindow
             .assertCommentBoxLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
-            .writePostComment(blogComment)
+            .writePostComment(postComment)
             .addPostComment();
 
         blogPostViewPage
             .navigateBackToBlogList()
-            .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
+            .assertPostNumberOfRepliesEqualTo(postTitle, EXPECTED_NUMBER_OF_REPLIES);
     }
 
     @TestRail(id = "C6035")
@@ -94,31 +94,31 @@ public class BlogPostAddCommentTests extends BaseTest
     public void shouldAddCommentToDraftBlogPost()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, true, noTags);
+            siteModel.get().getId(), postTitle, postContent, true, noTags);
 
         blogPostListPage
             .navigate(siteModel.get())
             .filterPostBy(MY_DRAFTS_POSTS)
             .assertPostInfoBarTitleEqualsTo(MY_DRAFTS_POSTS.getExpectedFilterLabel())
-            .readPost(blogTitle);
+            .readPost(postTitle);
 
         blogPostViewPage
             .openCommentEditor();
 
         blogPromptWindow
             .assertCommentBoxLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
-            .writePostComment(blogComment)
+            .writePostComment(postComment)
             .addPostComment();
 
         blogPostViewPage
             .navigateBackToBlogList()
             .filterPostBy(MY_DRAFTS_POSTS)
-            .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
+            .assertPostNumberOfRepliesEqualTo(postTitle, EXPECTED_NUMBER_OF_REPLIES);
 
         blogPostListPage
             .filterPostBy(ALL_POSTS)
             .assertPostInfoBarTitleEqualsTo(ALL_POSTS.getExpectedFilterLabel())
-            .assertPostNumberOfRepliesEqualTo(blogTitle, EXPECTED_NUMBER_OF_REPLIES);
+            .assertPostNumberOfRepliesEqualTo(postTitle, EXPECTED_NUMBER_OF_REPLIES);
     }
 
     @AfterMethod(alwaysRun = true)

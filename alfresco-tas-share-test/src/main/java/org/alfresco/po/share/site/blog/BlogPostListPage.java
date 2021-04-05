@@ -33,7 +33,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final By noBlogPostsFound = By.xpath(".//tbody[@class='yui-dt-message']");
     private final By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
     private final By newPostButton = By.cssSelector("div.new-blog span[id*='_default-create-button']");
-    private final By nodeTitle = By.xpath("//span[@class = 'nodeTitle']");
+    private final By nodeTitle = By.xpath("//span[@class = 'nodeTitle']//a");
     private final By simpleNodePost = By.cssSelector(".node.post.simple");
     private final By postDateTime = By.xpath(".//div[@class = 'published']//span[@class = 'nodeAttrValue']");
     private final By readLabel = By.xpath("div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a");
@@ -41,12 +41,14 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final By blogLinkName = By.id("HEADER_SITE_BLOG-POSTLIST");
     private final By listTitle = By.className("listTitle");
     private final By tag = By.xpath("//span[@class ='tag']/a");
+    private final By blogPostStatus = By.cssSelector(".nodeTitle .nodeStatus");
 
     private final String postRowPath = "//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '%s']/../../../..";
-    private final String labelPath = "//div[@class = 'nodeContent']//span/a[text() = '%s']/../..//span[@class='nodeAttrLabel' and normalize-space()= '%s']";
-    private final String valuePath = "//div[@class = 'nodeContent']//span/a[text() = '%s']/../..//span[@class='nodeAttrValue' and normalize-space()='%s']";
-    private final String postFooterPath = ".//div[@class = 'nodeFooter' ]//span[text() = '(%s)']";
+    private final String valuePath = "//div[@class='published']//span[@class='nodeAttrValue' and normalize-space() = '%s']";
+    private final String labelPath = "//div[@class='published']//span[@class='nodeAttrLabel' and normalize-space() = '%s']";
+    private final String postFooterPath = "//div[@class = 'nodeFooter' ]//span[text() = '(%s)']";
     private final String tagPath = "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '%s']";
+    private final String postViewPagePath = "//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text()='%s']";
 
     public BlogPostListPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -160,6 +162,14 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return this;
     }
 
+    public BlogPostListPage assertBlogPostStatusEqualsTo(String expectedStatus)
+    {
+        log.info("Assert blog post status equals to {}", expectedStatus);
+        String actualStatus = getElementText(blogPostStatus);
+        assertEquals(actualStatus, expectedStatus, String.format("Blog post status not equals %s ", expectedStatus));
+        return this;
+    }
+
     public BlogPostListPage assertBlogAuthorPostEqualsTo(String blogTitle, String expectedAuthorLabel, String expectedAuthorValue)
     {
         log.info("Assert blog author equals to {}", expectedAuthorValue);
@@ -175,7 +185,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private String getAuthor(String blogTitle, String authorLabel, String labelPath)
     {
         return getElementText(getBlogPostRow(blogTitle)
-            .findElement(By.xpath(String.format(labelPath, blogTitle, authorLabel))));
+            .findElement(By.xpath(String.format(labelPath, authorLabel))));
     }
 
     public String getBlogPostContent(String title)
@@ -236,6 +246,14 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return this;
     }
 
+    public BlogPostListPage assertBlogPostContentEqualsTo(String expectedContent)
+    {
+        log.info("Assert blog content equals to {}", expectedContent);
+        String actualContent = getElementText(blogContent);
+        assertEquals(actualContent, expectedContent, String.format("Blog content not equals %s ", expectedContent));
+        return this;
+    }
+
     public BlogPostListPage assertBlogPostIsNotDisplayed(String title)
     {
         log.info("Assert blog post {} is not displayed", title);
@@ -270,14 +288,11 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return new BlogPostViewPage(webDriver);
     }
 
-    public boolean isBlogPostContentDisplayed(String title)
+    public BlogPostViewPage navigateToBlogPostViewPage(String title)
     {
-        return isElementDisplayed(By.xpath(".//div[@class = 'content yuieditor']"));
-    }
-
-    public BlogPostViewPage clickOnThePostTitle(String title)
-    {
-        findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']")).click();
+        log.info("Navigate to blog post view page {}", title);
+        WebElement viewPageLink = findElement(By.xpath(String.format(postViewPagePath, title)));
+        clickElement(viewPageLink);
         return new BlogPostViewPage(webDriver);
     }
 
@@ -287,7 +302,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return new EditBlogPostPage(webDriver);
     }
 
-    public CreateBlogPostPage clickNewPostButton()
+    public CreateBlogPostPage openCreateNewPostForm()
     {
         clickElement(newPostButton);
         return new CreateBlogPostPage(webDriver);

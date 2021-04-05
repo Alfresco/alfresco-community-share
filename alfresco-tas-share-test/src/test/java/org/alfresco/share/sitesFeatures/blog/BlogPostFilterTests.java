@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -36,22 +33,23 @@ public class BlogPostFilterTests extends BaseTest
     private final String POSTS_FOR_MONTH = "Posts for Month ";
     private final String MMMM_YYYY = "MMMM yyyy";
 
+    private final String postTitle = "Post Title ".concat(randomAlphanumeric(5));
+    private final String postContent = "Post Content ".concat(randomAlphanumeric(5));
+    private final List<String> tags = Collections.synchronizedList(new ArrayList<>());
+    private final String tag = "Tag ".concat(randomAlphanumeric(5));
+    private String expectedAuthorValue;
+
     @Autowired
     private SiteService siteService;
 
     @Autowired
-    protected SitePagesService sitePagesService;
+    private SitePagesService sitePagesService;
 
     private BlogPostListPage blogPostListPage;
 
     private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
 
-    private final String blogTitle = "Blog Title ".concat(randomAlphanumeric(5));
-    private final String blogContent = "Blog Content ".concat(randomAlphanumeric(5));
-    private final List<String> tags = Collections.synchronizedList(new ArrayList<>());
-    private final String tag = "Tag ".concat(randomAlphanumeric(5));
-    private String expectedAuthorValue;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -76,13 +74,13 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, tags);
 
         blogPostListPage
             .navigate(siteModel.get())
             .filterPostBy(ALL_POSTS)
-            .assertBlogTitleEqualsTo(blogTitle)
-            .assertBlogAuthorPostEqualsTo(blogTitle, AUTHOR_LABEL, expectedAuthorValue)
+            .assertBlogTitleEqualsTo(postTitle)
+            .assertBlogAuthorPostEqualsTo(postTitle, AUTHOR_LABEL, expectedAuthorValue)
             .assertBlogPostIsNotDisplayed(manager.getUsername());
     }
 
@@ -95,16 +93,16 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, tags);
 
         blogPostListPage
             .navigate(siteModel.get())
             .filterPostBy(LATEST_POSTS)
-            .assertBlogTitleEqualsTo(blogTitle)
+            .assertBlogTitleEqualsTo(postTitle)
             .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel());
 
         blogPostListPage
-            .assertBlogAuthorPostEqualsTo(blogTitle, AUTHOR_LABEL, expectedAuthorValue)
+            .assertBlogAuthorPostEqualsTo(postTitle, AUTHOR_LABEL, expectedAuthorValue)
             .assertBlogPostIsNotDisplayed(manager.getUsername());
     }
 
@@ -116,11 +114,8 @@ public class BlogPostFilterTests extends BaseTest
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
-       JFileChooser chooser = new JFileChooser();
-       chooser.setLocale(Locale.US);
-
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, tags);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -128,8 +123,8 @@ public class BlogPostFilterTests extends BaseTest
             .assertPostInfoBarTitleEqualsTo(MY_DRAFTS_POSTS.getExpectedFilterLabel());
 
         blogPostListPage
-            .assertBlogTitleEqualsTo(blogTitle)
-            .assertBlogAuthorPostEqualsTo(blogTitle, AUTHOR_LABEL, expectedAuthorValue)
+            .assertBlogTitleEqualsTo(postTitle)
+            .assertBlogAuthorPostEqualsTo(postTitle, AUTHOR_LABEL, expectedAuthorValue)
             .assertBlogPostIsNotDisplayed(manager.getUsername());
     }
 
@@ -142,7 +137,7 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, tags);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -150,8 +145,8 @@ public class BlogPostFilterTests extends BaseTest
             .assertPostInfoBarTitleEqualsTo(MY_PUBLISHED_POSTS.getExpectedFilterLabel());
 
         blogPostListPage
-            .assertBlogTitleEqualsTo(blogTitle)
-            .assertBlogAuthorPostEqualsTo(blogTitle, AUTHOR_LABEL, expectedAuthorValue)
+            .assertBlogTitleEqualsTo(postTitle)
+            .assertBlogAuthorPostEqualsTo(postTitle, AUTHOR_LABEL, expectedAuthorValue)
             .assertBlogPostIsNotDisplayed(manager.getUsername());
     }
 
@@ -166,13 +161,13 @@ public class BlogPostFilterTests extends BaseTest
 
         tags.add(tag);
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, tags);
 
         blogPostListPage
             .navigate(siteModel.get())
             .filterPostByTag(tag)
-            .assertBlogTitleEqualsTo(blogTitle)
-            .assertBlogAuthorPostEqualsTo(blogTitle, AUTHOR_LABEL, expectedAuthorValue)
+            .assertBlogTitleEqualsTo(postTitle)
+            .assertBlogAuthorPostEqualsTo(postTitle, AUTHOR_LABEL, expectedAuthorValue)
             .assertBlogPostIsNotDisplayed(manager.getUsername());
     }
 
@@ -185,7 +180,7 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), blogTitle, blogContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, tags);
 
         String currentMonthAndYear = new SimpleDateFormat(MMMM_YYYY).format(Calendar.getInstance().getTime());
 
@@ -193,7 +188,7 @@ public class BlogPostFilterTests extends BaseTest
             .navigate(siteModel.get())
             .filterPostByMonthAndYearFromArchive(currentMonthAndYear)
             .assertPostInfoBarTitleEqualsTo(POSTS_FOR_MONTH.concat(currentMonthAndYear))
-            .assertBlogTitleEqualsTo(blogTitle)
+            .assertBlogTitleEqualsTo(postTitle)
             .assertBlogPostIsNotDisplayed(manager.getUsername());
     }
 

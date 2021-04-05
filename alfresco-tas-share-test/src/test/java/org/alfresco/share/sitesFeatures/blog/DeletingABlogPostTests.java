@@ -115,7 +115,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC5959, blogPostContentText, false, tags);
 
         blogPage.navigate(siteName);
-        blogPage.clickOnThePostTitle(blogPostTitleC5959);
+        blogPage.navigateToBlogPostViewPage(blogPostTitleC5959);
         LOG.info("Test Steps");
         LOG.info("Step 1: Click Delete for blog post");
         blogPostView.clickDeleteButton();
