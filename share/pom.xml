@@ -1,31 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.alfresco</groupId>
-        <artifactId>alfresco-share-parent</artifactId>
-        <version>7.0.1-SNAPSHOT</version>
-    </parent>
-
     <artifactId>share</artifactId>
     <packaging>war</packaging>
     <name>Alfresco Share WAR</name>
     <description>Alfresco Share</description>
+
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-share-parent</artifactId>
+        <version>11.0-SNAPSHOT</version>
+    </parent>
 
     <properties>
         <tomcat.version>7.0.86</tomcat.version>
         <maven.tomcat.path>/share</maven.tomcat.path>
         <maven.tomcat.port>${tomcat.default.share.port}</maven.tomcat.port>
         <maven.tomcat.httpsPort>${tomcat.default.share.ssl.port}</maven.tomcat.httpsPort>
-        <!-- Files to exclude from SonarQube analysis -->
-        <sonar.exclusions>
-            src/main/webapp/jquery/**,
-            src/main/webapp/js/flash/extMouseWheel.js,
-            src/main/webapp/js/lightbox.js,
-            src/main/webapp/yui/**,
-            src/main/webapp/components/preview/**,
-            src/main/webapp/components/console/**,
-            src/main/webapp/ctools/**
-        </sonar.exclusions>
         <license-header-location>${project.parent.basedir}</license-header-location>
     </properties>
 
@@ -548,66 +538,6 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <configuration>
-                    <!-- Set up an interval to scan for changes -->
-                    <!--
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
-                    <scanTargetPatterns>
-                       <scanTargetPattern>
-                          <directory>${project.build.directory}/${project.build.finalName}/js/alfresco</directory>
-                          <includes>
-                            <include>**/*.js</include>
-                            <include>**/*.css</include>
-                            <include>**/*.html</include>
-                            <include>**/*.properties</include>
-                          </includes>
-                      </scanTargetPattern>
-                      <scanTargetPattern>
-                          <directory>tests/testApp</directory>
-                          <includes>
-                            <include>js/aikau/**/*.js</include>
-                            <include>js/aikau/**/*.css</include>
-                            <include>js/aikau/**/*.html</include>
-                            <include>js/aikau/**/*.properties</include>
-                            <include>WEB-INF/classes/alfresco/site-webscripts/**</include>
-                          </includes>
-                      </scanTargetPattern>
-                   </scanTargetPatterns> -->
-
-                    <!-- Sets the port when using mvn jetty:run-forked -->
-                    <jvmArgs>-Djetty.port=8089</jvmArgs>
-                    <!-- Override the system properties to set a port that *should* be unused -->
-                    <systemProperties>
-                        <force>true</force>
-                        <systemProperty>
-                            <name>jetty.port</name>
-                            <value>8089</value>
-                        </systemProperty>
-                    </systemProperties>
-                    <!--  The following 3 settings allow us to execute a mvn jetty:stop command to shutdown the test application -->
-                    <stopPort>9966</stopPort>
-                    <stopKey>foo</stopKey>
-                    <stopWait>20</stopWait>
-                    <!-- Configure the application, this will essentially be Share but overlaid with the test resources -->
-                    <webApp>
-                        <!--  <descriptor>${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml</descriptor> -->
-                        <descriptor>tests/testApp/WEB-INF/web.xml</descriptor>
-                        <!--  <descriptor>tests/testApp/WEB-INF/web.xml</descriptor> -->
-                        <contextPath>/aikau</contextPath>
-                        <resourceBases>
-                            <resourceBase>tests/testApp</resourceBase>
-                            <resourceBase>${project.build.directory}/${project.build.finalName}</resourceBase>
-                        </resourceBases>
-                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-                    </webApp>
-                    <webAppSourceDirectory>tests/testApp</webAppSourceDirectory>
-                    <classesDirectory>tests/testApp/WEB-INF/classes</classesDirectory>
-                    <!--<baseAppFirst>false</baseAppFirst>-->
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
