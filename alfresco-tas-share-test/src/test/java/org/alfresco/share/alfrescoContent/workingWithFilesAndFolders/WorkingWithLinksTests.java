@@ -305,7 +305,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
         sharedFilesPage.clickDocumentLibraryItemAction(linkC42631, ItemActions.DELETE_LINK);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.contentActions.deleteDocument"), "Displayed dialog=");
         LOG.info("STEP3: In the Delete confirmation dialog press 'Delete' button");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertFalse(sharedFilesPage.isContentNameDisplayed(linkC42631), linkC42631 + " is displayed in destination of copy file, Shared Files.");
     }
 }

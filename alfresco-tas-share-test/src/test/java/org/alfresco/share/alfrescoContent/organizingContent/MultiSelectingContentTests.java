@@ -135,7 +135,7 @@ public class MultiSelectingContentTests extends BaseTest
             .checkContent(testFolder, testFile)
             .clickSelectedItems()
             .clickDeleteFromSelectedItems()
-            .clickDelete();
+            .confirmDeletion();
 
         documentLibraryPage.usingContent(testFile).assertContentIsNotDisplayed();
         documentLibraryPage.usingContent(testFolder).assertContentIsNotDisplayed();

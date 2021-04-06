@@ -12,7 +12,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -62,7 +61,7 @@ public class DeleteTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
 
         LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " is displayed.");
 
         cleanupAuthenticatedSession();
@@ -86,7 +85,7 @@ public class DeleteTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
 
         LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertFalse(sharedFilesPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
 
         cleanupAuthenticatedSession();

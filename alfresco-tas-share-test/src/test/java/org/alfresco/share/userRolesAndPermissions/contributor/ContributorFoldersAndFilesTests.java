@@ -297,7 +297,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), fileName));
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Document Library of " + siteName);
     }

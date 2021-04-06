@@ -48,7 +48,7 @@ public class DeletingContentTests extends BaseTest
                 .clickDelete()
                 .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteDocument"))
                 .assertConfirmDeleteMessageForContentEqualsTo(fileToDelete)
-                .clickDelete();
+                .confirmDeletion();
         documentLibraryPage.usingContent(fileToDelete).assertContentIsNotDisplayed();
     }
 
@@ -67,7 +67,7 @@ public class DeletingContentTests extends BaseTest
             .clickDelete()
             .assertDeleteDialogHeaderEqualsTo(language.translate("documentLibrary.deleteFolder"))
             .assertConfirmDeleteMessageForContentEqualsTo(folderToDelete)
-            .clickDelete();
+            .confirmDeletion();
 
         documentLibraryPage.usingContent(folderToDelete).assertContentIsNotDisplayed();
         getCmisApi().usingResource(folderToDelete).assertThat().doesNotExistInRepo()

@@ -46,7 +46,7 @@ public class TrashcanTests extends BaseTest
             .clickEmptyButton()
             .assertDeleteDialogHeaderEqualsTo(language.translate("emptyTrashcan.title"))
             .assertConfirmDeleteMessageEqualsTo(language.translate("emptyTrashcan.message"))
-            .clickDelete();
+            .confirmDeletion();
         userTrashcanPage.assertNoItemsExistMessageIsDisplayed()
             .assertNoItemsExistMessageEqualTo(language.translate("emptyTrashcan.noItems"));
     }
@@ -62,7 +62,7 @@ public class TrashcanTests extends BaseTest
 
         userTrashcanPage.navigate(user.get())
             .clickDeleteButton(file)
-            .clickDelete();
+            .confirmDeletion();
         userTrashcanPage.assertContentIsNotDisplayed(file);
     }
 
@@ -77,7 +77,7 @@ public class TrashcanTests extends BaseTest
 
         userTrashcanPage.navigate(user.get())
             .clickDeleteButton(folder)
-            .clickDelete();
+            .confirmDeletion();
         userTrashcanPage.assertContentIsNotDisplayed(folder);
     }
 

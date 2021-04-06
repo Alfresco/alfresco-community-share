@@ -16,7 +16,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -71,7 +70,7 @@ public class DeletingAListItemTest extends ContextAwareWebTest
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "Delete dialog - Delete button is displayed.");
 
         LOG.info("STEP2: Click the Delete button on the Delete Item form");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertFalse(dataListsPage.currentContent.isAnyListItemDisplayed(), "Data list item is displayed in Data List items list.");
 
         cleanupAuthenticatedSession();

@@ -97,7 +97,7 @@ public class DeleteRuleTest extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), language.translate("documentLibrary.rules.delete.dialogMessage"), "Delete dialog=");
 
         LOG.info("STEP2: Click 'Delete' button from Delete dialog");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertEquals(manageRulesPage.getNoRulesText(), language.translate("documentLibrary.rules.noRules"), "Displayed rules=");
     }
 }

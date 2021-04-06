@@ -14,7 +14,6 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -342,7 +341,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, ItemActions.EDIT_IN_GOOGLE_DOCS), "Edit in Google Docs™ is not available for " + fileNameC202762);
 
         repositoryPage.clickDocumentLibraryItemAction(fileNameC202762, ItemActions.DELETE_DOCUMENT);
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
 
         Assert.assertFalse(repositoryPage.isContentNameDisplayed(fileNameC202762), fileNameC202762 + " is still displayed in " + folderName);
         cleanupAuthenticatedSession();

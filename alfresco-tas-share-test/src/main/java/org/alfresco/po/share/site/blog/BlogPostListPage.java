@@ -42,6 +42,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final By listTitle = By.className("listTitle");
     private final By tag = By.xpath("//span[@class ='tag']/a");
     private final By blogPostStatus = By.cssSelector(".nodeTitle .nodeStatus");
+    private final By deleteButton = By.xpath("//div[@class = 'onDeleteBlogPost']//a[@class='blogpost-action-link-div']");
 
     private final String postRowPath = "//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '%s']/../../../..";
     private final String valuePath = "//div[@class='published']//span[@class='nodeAttrValue' and normalize-space() = '%s']";
@@ -308,9 +309,11 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return new CreateBlogPostPage(webDriver);
     }
 
-    public void clickDeleteButton(String title)
+    public BlogPostListPage deletePost(String title)
     {
-        selectBlogPostWithTitle(title).findElement(By.xpath("//div[@class = 'onDeleteBlogPost']//span[text()='Delete']")).click();
+        log.info("Delete post {}", title);
+        clickElement(getBlogPostRow(title).findElement(deleteButton));
+        return this;
     }
 
     public BlogPostListPage assertButtonTextEqualsTo(String expectedButtonText)

@@ -85,7 +85,7 @@ public class CategoryManagerPage extends SharePage2<CategoryManagerPage>
 
     public CategoryManagerPage deleteCategory(String categoryName)
     {
-        clickDeleteButton(categoryName).clickDelete();
+        clickDeleteButton(categoryName).confirmDeletion();
         return this;
     }
 

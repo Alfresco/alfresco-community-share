@@ -85,7 +85,7 @@ public class TagManagerTests extends BaseTest
             .assertConfirmDeleteMessageForContentEqualsTo(tag.get())
             .assertDeleteButtonIsDisplayed()
             .assertCancelButtonIsDisplayed()
-            .clickDelete();
+            .confirmDeletion();
         tagManagerPage.assertNoTagFoundMessageIsDisplayed()
             .typeInSearch(tag.get()).clickSearch()
             .assertTagIsNotDisplayed(tag.get());

@@ -36,7 +36,7 @@ public class DeleteDialog extends BaseDialogComponent
 
     public String getMessage()
     {
-        return findElement(message).getText();
+        return getElementText(message);
     }
 
     public DeleteDialog assertConfirmDeleteMessageForContentEqualsTo(String deletedObject)
@@ -59,9 +59,9 @@ public class DeleteDialog extends BaseDialogComponent
         return this;
     }
 
-    public void clickDelete()
+    public void confirmDeletion()
     {
-        log.info("Click Delete");
+        log.info("Confirm deletion");
         clickElement(deleteButton);
         waitUntilNotificationMessageDisappears();
         if(isElementDisplayed(notificationMessageLocator))

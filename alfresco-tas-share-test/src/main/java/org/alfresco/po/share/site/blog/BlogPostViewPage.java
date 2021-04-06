@@ -142,7 +142,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return new EditBlogPostPage(webDriver);
     }
 
-    public DeleteDialog clickDeleteButton()
+    public DeleteDialog deletePost()
     {
         waitUntilElementIsVisible(deleteButton);
         clickElement(deleteButton);

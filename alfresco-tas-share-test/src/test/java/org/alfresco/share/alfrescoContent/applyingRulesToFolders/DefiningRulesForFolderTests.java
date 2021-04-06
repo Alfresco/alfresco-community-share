@@ -451,7 +451,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.selectedItemsMenu.delete"));
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
 
@@ -638,7 +638,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.selectedItemsMenu.delete"));
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
 
         LOG.info("STEP3: Navigate to the path specified in the rule, Document Library");

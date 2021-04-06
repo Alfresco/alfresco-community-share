@@ -12,8 +12,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -64,7 +62,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), testFile));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
 
         LOG.info("STEP4: Verify that the file was deleted");
         assertFalse(myFilesPage.isContentNameDisplayed(testFile), "Documents item list is refreshed and is empty");
@@ -86,7 +84,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.clickDelete();
+        deleteDialog.confirmDeletion();
         assertFalse(myFilesPage.isContentNameDisplayed(folderName), "Documents item list is refreshed and is empty");
         assertFalse(myFilesPage.getExplorerPanelDocuments().contains(folderName), "'DelFolder' is not visible in 'Library' section of the browsing pane.");
     }
