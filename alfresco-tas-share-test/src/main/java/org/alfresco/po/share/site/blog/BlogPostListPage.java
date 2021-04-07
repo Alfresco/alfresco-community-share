@@ -68,20 +68,6 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
             WAIT_1.getValue(), RETRY_TIME_30.getValue());
     }
 
-    public WebElement selectBlogPostWithTitle(String title)
-    {
-        return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']/../.."));
-    }
-
-    public BlogPostListPage assertBlogContentEqualsTo(String expectedBlogContentText)
-    {
-        log.info("Assert blog content equals to {}", expectedBlogContentText);
-        String actualBlogContentText = getElementText(blogContent);
-        assertEquals(actualBlogContentText, expectedBlogContentText,
-            String.format("Blog content not equals %s ", expectedBlogContentText));
-        return this;
-    }
-
     public BlogPostListPage assertNoBlogPostFound(String expectedNoBlogPostsFoundLabel)
     {
         log.info("Assert no blog post found label equals to {}", expectedNoBlogPostsFoundLabel);
@@ -255,6 +241,14 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return this;
     }
 
+    public BlogPostListPage assertBlogPostContentContains(String expectedContent)
+    {
+        log.info("Assert blog content contains to {}", expectedContent);
+        String actualContent = getElementText(blogContent);
+        assertTrue(actualContent.contains(expectedContent), String.format("Blog content not equals %s ", expectedContent));
+        return this;
+    }
+
     public BlogPostListPage assertBlogPostIsNotDisplayed(String title)
     {
         log.info("Assert blog post {} is not displayed", title);
@@ -297,9 +291,9 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         return new BlogPostViewPage(webDriver);
     }
 
-    public EditBlogPostPage clickEditButton(String title)
+    public EditBlogPostPage openEditForm(String title)
     {
-        selectBlogPostWithTitle(title).findElement(editButton).click();
+        clickElement(getBlogPostRow(title).findElement(editButton));
         return new EditBlogPostPage(webDriver);
     }
 

@@ -33,6 +33,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     private final String labelPath = "//div[@class='published']//span[@class='nodeAttrLabel' and normalize-space() = '%s']";
     private final String labelTagPath = "//div[@class='published']//span[@class='nodeAttrLabel tagLabel' and normalize-space() = '%s']";
     private final String valueTagPath = "//span[@class='tag']//a[normalize-space()='%s']";
+    private final String userRow = "//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '%s']/../..";
 
     public BlogPostViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -136,9 +137,9 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return new CreateBlogPostPage(webDriver);
     }
 
-    public EditBlogPostPage clickEditButton()
+    public EditBlogPostPage openEditForm(String title)
     {
-        clickElement(editButton);
+        clickElement(getBlogPostRow(title).findElement(editButton));
         return new EditBlogPostPage(webDriver);
     }
 
@@ -156,15 +157,15 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         return new BlogPromptWindow(webDriver);
     }
 
-    private WebElement selectComment(String user)
+    private WebElement getCommentUserRow(String user)
     {
-        return findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '" + user + "']/../.."));
+        return findElement(By.xpath(String.format(userRow, user)));
     }
 
     public BlogPostViewPage assertCommentEqualsTo(String user, String expectedComment)
     {
         log.info("Assert comment equals {}", expectedComment);
-        String actualComment = getElementText(selectComment(user).findElement(commentText));
+        String actualComment = getElementText(getCommentUserRow(user).findElement(commentText));
         assertEquals(actualComment, expectedComment, String.format("Comment not equals %s ", expectedComment));
         return this;
     }
@@ -172,19 +173,22 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     public void openEditCommentEditor(String user)
     {
         log.info("Open edit comment editor");
-        mouseOver(selectComment(user));
+        mouseOver(getCommentUserRow(user));
         clickElement(editCommentButton);
     }
 
-    public DeleteDialog clickDeleteComment(String user)
+    public DeleteDialog deleteComment(String user)
     {
-        mouseOver(selectComment(user));
+        mouseOver(getCommentUserRow(user));
         clickElement(deleteCommentButton);
         return new DeleteDialog(webDriver);
     }
 
-    public String getNoCommentsText()
+    public BlogPostViewPage assertNoCommentsLabelEqualsTo(String expectedLabel)
     {
-        return getElementText(noCommentsText);
+        log.info("Assert no comments label equals to {}", expectedLabel);
+        String actualLabel = getElementText(noCommentsText);
+        assertEquals(actualLabel, expectedLabel, String.format("Label not equals %s ", expectedLabel));
+        return this;
     }
 }

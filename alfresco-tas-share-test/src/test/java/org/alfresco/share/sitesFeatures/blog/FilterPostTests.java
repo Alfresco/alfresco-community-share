@@ -26,7 +26,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class BlogPostFilterTests extends BaseTest
+public class FilterPostTests extends BaseTest
 {
     private final String AUTHOR_LABEL = "Author:";
     private final String EMPTY_SPACE = " ";
@@ -74,7 +74,7 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -93,7 +93,7 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -115,7 +115,7 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -137,7 +137,7 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -180,7 +180,7 @@ public class BlogPostFilterTests extends BaseTest
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         String currentMonthAndYear = new SimpleDateFormat(MMMM_YYYY).format(Calendar.getInstance().getTime());
 

@@ -6,37 +6,44 @@ import org.openqa.selenium.WebElement;
 
 public class EditBlogPostPage extends CreateBlogPostPage
 {
-    public By editBlogPageTitle = By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']");
+    private final By editBlogPageTitle = By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']");
+    private final By iframe = By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe");
+    private final By tinyMce = By.id("tinymce");
 
     public EditBlogPostPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
 
-    public void editTitle(String editedTitle)
+    @Override
+    public EditBlogPostPage setTitle(String editedTitle)
     {
         waitUntilElementIsVisible(titleField);
         clearAndType(titleField, editedTitle);
+        return this;
     }
 
+    @Override
     public EditBlogPostPage setContent(String blogPostContentText)
     {
-        switchTo().frame(findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
-        WebElement element = findElement(By.id("tinymce"));
-        element.clear();
-        element.sendKeys(blogPostContentText);
+        switchTo().frame(findElement(iframe));
+
+        WebElement element = findElement(tinyMce);
+        clearAndType(element, blogPostContentText);
+
         switchTo().defaultContent();
         return this;
     }
 
-    public BlogPostViewPage clickUpdateButton()
+    public BlogPostViewPage updatePost()
     {
         clickElement(saveAsDraftButton);
+        waitUntilNotificationMessageDisappears();
         return new BlogPostViewPage(webDriver);
     }
 
     public String getEditBlogPostPageTitle()
     {
-        return findElement(editBlogPageTitle).getText();
+        return getElementText(editBlogPageTitle);
     }
 }

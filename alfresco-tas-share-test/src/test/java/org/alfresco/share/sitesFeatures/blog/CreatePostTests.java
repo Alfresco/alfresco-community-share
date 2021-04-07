@@ -29,7 +29,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreateBlogPostTests extends BaseTest
+public class CreatePostTests extends BaseTest
 {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE d MMM yyyy HH:mm:ss");
 
@@ -89,7 +89,7 @@ public class CreateBlogPostTests extends BaseTest
             .openCreateNewPostForm();
 
         createBlogPostPage
-            .assertPostFormHeaderTitleEqualsTo(language.translate(CREATE_BLOG_POST));
+            .assertPageFormHeaderEqualsTo(language.translate(CREATE_BLOG_POST));
 
         createBlogPostPage
             .setTitle(postTitle)
@@ -113,7 +113,7 @@ public class CreateBlogPostTests extends BaseTest
             .openCreateNewPostForm();
 
         createBlogPostPage
-            .assertPostFormHeaderTitleEqualsTo(language.translate(CREATE_BLOG_POST));
+            .assertPageFormHeaderEqualsTo(language.translate(CREATE_BLOG_POST));
 
         createBlogPostPage
             .setTitle(postTitle)
@@ -135,7 +135,7 @@ public class CreateBlogPostTests extends BaseTest
         blogPostListPage.openCreateNewPostForm();
 
         createBlogPostPage
-            .assertPostFormHeaderTitleEqualsTo(language.translate(CREATE_BLOG_POST));
+            .assertPageFormHeaderEqualsTo(language.translate(CREATE_BLOG_POST));
 
         createBlogPostPage
             .setTitle(postTitle)
@@ -177,7 +177,7 @@ public class CreateBlogPostTests extends BaseTest
             .openCreateNewPostForm();
 
         createBlogPostPage
-            .assertPostFormHeaderTitleEqualsTo(language.translate(CREATE_BLOG_POST));
+            .assertPageFormHeaderEqualsTo(language.translate(CREATE_BLOG_POST));
 
         createBlogPostPage
             .setTitle(postTitle)
@@ -216,7 +216,7 @@ public class CreateBlogPostTests extends BaseTest
         blogPostViewPage.openCreateNewPostForm();
 
         createBlogPostPage
-            .assertPostFormHeaderTitleEqualsTo(language.translate(CREATE_BLOG_POST));
+            .assertPageFormHeaderEqualsTo(language.translate(CREATE_BLOG_POST));
 
         createBlogPostPage
             .setTitle(postTitle)

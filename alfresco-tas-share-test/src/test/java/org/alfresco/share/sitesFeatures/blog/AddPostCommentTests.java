@@ -1,12 +1,9 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
 import static org.alfresco.po.enums.BlogPostFilters.LATEST_POSTS;
 import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
@@ -24,17 +21,14 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class BlogPostEditCommentsTests extends BaseTest
+public class AddPostCommentTests extends BaseTest
 {
-    private final String EMPTY_SPACE = " ";
-    private final String EDIT_COMMENT_LABEL = "Edit Comment...";
+    private final String ADD_YOUR_COMMENT_LABEL = "Add Your Comment...";
+    private final String EXPECTED_NUMBER_OF_REPLIES = "1";
 
     private final String postTitle = "Post Title ".concat(randomAlphanumeric(5));
     private final String postContent = "Post Content ".concat(randomAlphanumeric(5));
     private final String postComment = "Post Comment ".concat(randomAlphanumeric(5));
-    private final List<String> noTags = Collections.synchronizedList(new ArrayList<>());
-    private final String editedComment = "Edited Comment".concat(randomAlphanumeric(5));
-    private String fullUsername;
 
     @Autowired
     private SiteService siteService;
@@ -42,13 +36,12 @@ public class BlogPostEditCommentsTests extends BaseTest
     @Autowired
     protected SitePagesService sitePagesService;
 
-    private BlogPostListPage blogPostListPage;
     private BlogPostViewPage blogPostViewPage;
+    private BlogPostListPage blogPostListPage;
     private BlogPromptWindow blogPromptWindow;
 
     private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
-
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -58,8 +51,6 @@ public class BlogPostEditCommentsTests extends BaseTest
         siteService.addPageToSite(userModel.get().getUsername(), userModel.get().getPassword(),
             siteModel.get().getId(), Page.BLOG, null);
 
-        fullUsername = userModel.get().getFirstName().concat(EMPTY_SPACE).concat(userModel.get().getLastName());
-
         authenticateUsingCookies(userModel.get());
 
         blogPostViewPage = new BlogPostViewPage(webDriver);
@@ -67,42 +58,38 @@ public class BlogPostEditCommentsTests extends BaseTest
         blogPromptWindow = new BlogPromptWindow(webDriver);
     }
 
-    @TestRail(id = "C6061")
+    @TestRail(id = "C6011")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
-    public void shouldEditBlogPostComment()
+    public void shouldAddCommentToBlogPost()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, noTags);
-
-        sitePagesService.commentBlog(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, false, postComment);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         blogPostListPage
             .navigate(siteModel.get())
             .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
+            .assertBlogTitleEqualsTo(postTitle)
             .readPost(postTitle);
 
         blogPostViewPage
-            .openEditCommentEditor(fullUsername);
+            .openCommentEditor();
 
         blogPromptWindow
-            .assertCommentBoxLabelEqualsTo(EDIT_COMMENT_LABEL)
-            .editComment(editedComment)
-            .saveEditedComment();
+            .assertCommentBoxLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
+            .writePostComment(postComment)
+            .addPostComment();
 
         blogPostViewPage
-            .assertCommentEqualsTo(fullUsername, editedComment);
+            .navigateBackToBlogList()
+            .assertPostNumberOfRepliesEqualTo(postTitle, EXPECTED_NUMBER_OF_REPLIES);
     }
 
-    @TestRail(id = "C6062")
+    @TestRail(id = "C6035")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
-    public void shouldEditDraftBlogPostComment()
+    public void shouldAddCommentToDraftBlogPost()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, true, noTags);
-
-        sitePagesService.commentBlog(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, true, postComment);
+            siteModel.get().getId(), postTitle, postContent, true, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -111,21 +98,28 @@ public class BlogPostEditCommentsTests extends BaseTest
             .readPost(postTitle);
 
         blogPostViewPage
-            .openEditCommentEditor(fullUsername);
+            .openCommentEditor();
 
         blogPromptWindow
-            .assertCommentBoxLabelEqualsTo(EDIT_COMMENT_LABEL)
-            .editComment(editedComment)
-            .saveEditedComment();
+            .assertCommentBoxLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
+            .writePostComment(postComment)
+            .addPostComment();
 
         blogPostViewPage
-            .assertCommentEqualsTo(fullUsername, editedComment);
+            .navigateBackToBlogList()
+            .filterPostBy(MY_DRAFTS_POSTS)
+            .assertPostNumberOfRepliesEqualTo(postTitle, EXPECTED_NUMBER_OF_REPLIES);
+
+        blogPostListPage
+            .filterPostBy(ALL_POSTS)
+            .assertPostInfoBarTitleEqualsTo(ALL_POSTS.getExpectedFilterLabel())
+            .assertPostNumberOfRepliesEqualTo(postTitle, EXPECTED_NUMBER_OF_REPLIES);
     }
 
     @AfterMethod(alwaysRun = true)
     public void cleanupTest()
     {
-        deleteSitesIfNotNull(siteModel.get());
         deleteUsersIfNotNull(userModel.get());
+        deleteSitesIfNotNull(siteModel.get());
     }
 }

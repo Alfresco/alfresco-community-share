@@ -4,9 +4,6 @@ import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
 import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -24,7 +21,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class DeleteBlogPostTests extends BaseTest
+public class DeletePostTests extends BaseTest
 {
     private final String CONFIRMATION_QUESTION = "blog.dialog.confirmation";
     private final String QUESTION_MARK = "blog.dialog.question.mark";
@@ -39,7 +36,6 @@ public class DeleteBlogPostTests extends BaseTest
     @Autowired
     private SitePagesService sitePagesService;
 
-    private final List<String> tags = Collections.synchronizedList(new ArrayList<>());
     private final ThreadLocal<UserModel> userModel = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
 
@@ -67,7 +63,7 @@ public class DeleteBlogPostTests extends BaseTest
     public void shouldDisplayNoPostsFoundWhenDeleteBlogPostFromBlogListPage()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -87,7 +83,7 @@ public class DeleteBlogPostTests extends BaseTest
     public void shouldDisplayNoPostsFoundWhenDeleteDraftPost()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, true, tags);
+            siteModel.get().getId(), postTitle, postContent, true, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -109,7 +105,7 @@ public class DeleteBlogPostTests extends BaseTest
     public void shouldDisplayNoPostsFoundWhenDeletePostFromBlogViewPage()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, false, tags);
+            siteModel.get().getId(), postTitle, postContent, false, null);
 
         blogPostListPage
             .navigate(siteModel.get())
@@ -137,7 +133,7 @@ public class DeleteBlogPostTests extends BaseTest
     public void shouldDisplayNoPostsFoundWhenDeleteDraftPostFromBlogViewPage()
     {
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
-            siteModel.get().getId(), postTitle, postContent, true, tags);
+            siteModel.get().getId(), postTitle, postContent, true, null);
 
         blogPostListPage
             .navigate(siteModel.get())
