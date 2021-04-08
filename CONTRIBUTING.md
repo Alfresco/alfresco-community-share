@@ -8,7 +8,7 @@ Share is made available under the terms of LGPLv3.
 
 ## Get Share ready for patching
 1. Fork the project.
-2. Clone the project to your local machine using: `git clone git@github.com:Alfresco/share.git` and add a new remote for the original repository (upstream).
+2. Clone the project to your local machine using: `git clone git@github.com:Alfresco/alfresco-enterprise-share.git` and add a new remote for the original repository (upstream).
 3. Setup your environment by installing the following: jdk 1.8, maven 3.5, postgreSQL 9.6. Don't forget to edit your environment variables: JAVA_HOME and path.
 4. To check that your environment is functional, build and run Share by following these instructions:
     * Build Share by running this command in the folder where the project resides: `mvn clean install -Penterprise`;

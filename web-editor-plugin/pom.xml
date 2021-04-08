@@ -5,11 +5,11 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>7.0.1-SNAPSHOT</version>
+        <version>11.3-SNAPSHOT</version>
     </parent>
 
     <build>
-    <!-- Non standard folder layout for resources -->
+        <!-- Non standard folder layout for resources -->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -54,21 +54,21 @@
     </build>
 
     <dependencies>
-         <dependency>
+        <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
             <version>${dependency.surf.version}</version>
-             <exclusions>
-                 <exclusion>
-                     <groupId>dom4j</groupId>
-                     <artifactId>dom4j</artifactId>
-                 </exclusion>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
-             </exclusions>
-         </dependency>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webscripts</artifactId>
@@ -89,13 +89,13 @@
                     <artifactId>dom4j</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-      			<version>29.0-jre</version>
+            <version>29.0-jre</version>
         </dependency>
-        
+
     </dependencies>
 
 </project>

@@ -7,15 +7,15 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>7.0.1-SNAPSHOT</version>
+        <version>11.3-SNAPSHOT</version>
     </parent>
 
     <properties>
         <image.registry>quay.io</image.registry>
-        <image.name>alfresco/alfresco-share-aws</image.name>
+        <image.name>alfresco/alfresco-enterprise-share-aws</image.name>
         <image.tag>latest</image.tag>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -24,7 +24,7 @@
             <type>amp</type>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -42,7 +42,7 @@
                 </executions>
             </plugin>
         </plugins>
-        
+
         <pluginManagement>
             <plugins>
                 <plugin>

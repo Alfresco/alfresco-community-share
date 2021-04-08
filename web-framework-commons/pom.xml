@@ -1,14 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.alfresco</groupId>
-        <artifactId>alfresco-share-parent</artifactId>
-        <version>7.0.1-SNAPSHOT</version>
-    </parent>
     <artifactId>alfresco-web-framework-commons</artifactId>
     <name>Alfresco Web Framework common libraries</name>
     <description>Alfresco Web Framework common libraries</description>
     <packaging>war</packaging>
+
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-share-parent</artifactId>
+        <version>11.3-SNAPSHOT</version>
+    </parent>
 
     <properties>
         <sonar.exclusions>
@@ -17,59 +18,59 @@
     </properties>
 
     <dependencies>
-         <dependency>
+        <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
             <version>${dependency.surf.version}</version>
-             <exclusions>
-                 <exclusion>
-                     <groupId>commons-collections</groupId>
-                     <artifactId>commons-collections</artifactId>
-                 </exclusion>
-                 <exclusion>
-                     <groupId>dom4j</groupId>
-                     <artifactId>dom4j</artifactId>
-                 </exclusion>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
-             </exclusions>
-         </dependency>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
-            <version>${dependency.alfresco-community-repo.version}</version>            
+            <version>${dependency.alfresco-community-repo.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>         
+        </dependency>
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-			<version>1.2.0</version>
+            <version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+            <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-             <groupId>commons-logging</groupId>
-             <artifactId>commons-logging</artifactId>
-			 <version>1.2</version>
-             <scope>provided</scope>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Test only dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-			<version>4.13.1</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -82,7 +83,7 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
-            </exclusions>            
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -103,7 +104,7 @@
                     <groupId>commons-collections</groupId>
                     <artifactId>commons-collections</artifactId>
                 </exclusion>
-            </exclusions>           
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -144,7 +145,7 @@
                     <artifactId>commons-collections</artifactId>
                 </exclusion>
             </exclusions>
-            
+
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -174,7 +175,7 @@
                     <groupId>commons-collections</groupId>
                     <artifactId>commons-collections</artifactId>
                 </exclusion>
-            </exclusions>            
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -185,7 +186,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
+            <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -194,43 +195,26 @@
             <version>1.0.5</version>
             <scope>test</scope>
         </dependency>
-      <!--  <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
-		-->
-
         <!-- SHA-2432 -->
         <dependency>
-          <groupId>org.apache.taglibs</groupId>
-          <artifactId>taglibs-standard-spec</artifactId>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-spec</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.apache.taglibs</groupId>
-          <artifactId>taglibs-standard-impl</artifactId>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-impl</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.apache.taglibs</groupId>
-          <artifactId>taglibs-standard-jstlel</artifactId>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-jstlel</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-      			<version>29.0-jre</version>
+            <version>29.0-jre</version>
         </dependency>
     </dependencies>
-    
+
     <build>
         <!--  Needs to produce a war to overlay to share to neatly share src/main/webapp resources
             | Producing an attached WAR so that Share can depend and overlay it
@@ -246,13 +230,13 @@
                 <configuration>
                     <!-- This allows an empty overlay -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>            
+                </configuration>
             </plugin>
 
             <!-- ACE-3329 Create _en.properties message files  -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                 <executions>
+                <executions>
                     <execution>
                         <id>duplicate-english-messages</id>
                         <phase>generate-resources</phase>
@@ -272,34 +256,34 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
-         <id>integration-tests</id>
-         <activation>
-             <activeByDefault>false</activeByDefault>
-         </activation>
-         <build>
-             <plugins>
-                 <plugin>
-                     <artifactId>maven-surefire-plugin</artifactId>
-                     <executions>
-                        <execution>
-                           <id>integration-tests</id>
-                           <goals>
-                              <goal>test</goal>
-                           </goals>
-                           <configuration>
-                             <includes>
-                               <include>**/FormUIGetRestApiIT.java</include>
-                             </includes>
-                           </configuration>
-                        </execution>
-                     </executions>
-                 </plugin>
-             </plugins>
-         </build>
-      </profile>
+            <id>integration-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>integration-tests</id>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>**/FormUIGetRestApiIT.java</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-    
+
 </project>
