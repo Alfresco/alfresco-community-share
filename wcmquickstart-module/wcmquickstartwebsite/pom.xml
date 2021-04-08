@@ -3,15 +3,16 @@
     <artifactId>alfresco-wcmqs-web</artifactId>
     <name>Alfresco WCMQS Web</name>
     <packaging>war</packaging>
+
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>7.0.1-SNAPSHOT</version>
+        <version>11.3-SNAPSHOT</version>
     </parent>
 
     <properties>
         <sonar.exclusions>
-            src/main/webapp/js/jquery-ui-1.7.2.custom.min.js        
+            src/main/webapp/js/jquery-ui-1.7.2.custom.min.js
         </sonar.exclusions>
     </properties>
 
@@ -21,7 +22,7 @@
             <!-- ACE-3329 Create _en.properties message files  -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                 <executions>
+                <executions>
                     <execution>
                         <id>duplicate-english-messages</id>
                         <phase>generate-resources</phase>
@@ -59,47 +60,47 @@
             <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-surf</artifactId>
             <version>${dependency.surf.version}</version>
-             <exclusions>
-                 <exclusion>
-                     <groupId>commons-collections</groupId>
-                     <artifactId>commons-collections</artifactId>
-                 </exclusion>
-                 <exclusion>
-                     <groupId>dom4j</groupId>
-                     <artifactId>dom4j</artifactId>
-                 </exclusion>
-            	<exclusion>
-		            <groupId>org.alfresco</groupId>
-		            <artifactId>alfresco-core</artifactId>
-	        	</exclusion>
-             </exclusions>
-         </dependency>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.alfresco</groupId>
+                    <artifactId>alfresco-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
-			<version>4.0.4</version>
+            <version>4.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.30</version>
+            <version>1.7.30</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-      			<version>29.0-jre</version>
+            <version>29.0-jre</version>
         </dependency>
 
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-			<version>4.13.1</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

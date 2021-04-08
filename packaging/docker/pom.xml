@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>7.0.1-SNAPSHOT</version>
+        <version>11.3-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -16,7 +16,7 @@
         <alfresco.googledocs.version>3.2.1</alfresco.googledocs.version>
 
         <image.registry>quay.io</image.registry>
-        <image.name>alfresco/alfresco-share</image.name>
+        <image.name>alfresco/alfresco-enterprise-share</image.name>
         <image.tag>latest</image.tag>
 
         <license-header-location>${project.parent.parent.basedir}</license-header-location>

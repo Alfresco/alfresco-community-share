@@ -4,30 +4,31 @@
     <artifactId>alfresco-share-encryption</artifactId>
     <name>Alfresco Share Encryption</name>
     <packaging>jar</packaging>
+
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>7.0.1-SNAPSHOT</version>
+        <version>11.3-SNAPSHOT</version>
     </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
-			<scope>test</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.jasypt</groupId>
-			<artifactId>jasypt</artifactId>
-			<version>1.9.3</version>
-		</dependency>
-		
-	</dependencies>
-	
-	   <build>
-	<plugins>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
             <!-- Build a local jar, even if empty, to please maven-shade-plugin -->
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -54,30 +55,30 @@
                             </manifestEntries>
                         </transformer>
                     </transformers>
-                    
-                    <artifactSet>                    
+
+                    <artifactSet>
                         <includes>
                             <include>org.jasypt:*</include>
                         </includes>
                     </artifactSet>
-  
+
                     <filters>
                         <filter>
-                             <artifact>*:*</artifact>
-                             <excludes>
-                                 <exclude>META-INF/**</exclude>
-                             </excludes>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/**</exclude>
+                            </excludes>
                         </filter>
-                        
+
                         <filter>
-                             <artifact>*:*</artifact>
-                                 <includes>
-                                     <include>org/**</include>
-                                 </includes>
-                        </filter>    
-                    </filters>  
+                            <artifact>*:*</artifact>
+                            <includes>
+                                <include>org/**</include>
+                            </includes>
+                        </filter>
+                    </filters>
                 </configuration>
-            </plugin> 
+            </plugin>
         </plugins>
-	</build>
+    </build>
 </project>
