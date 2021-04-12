@@ -64,6 +64,10 @@ function main()
       model.commentCount = (count != undefined ? count : null);
       model.lock = (nodeDetails.item.node.properties["cm:lockType"] != undefined ? nodeDetails.item.node.properties["cm:lockType"] : null);
 
+      // MNT-20006, verifies if user has access to a document located in a certain site where is not a member
+      var siteMembership = model.site != null ? AlfrescoUtil.getSiteMembership(model.site) : null;
+      model.notSiteMemberWithPermissions = (model.site != null && siteMembership != null && siteMembership.isMember == false).toString();
+
       var suppressConfig = AlfrescoUtil.getSupressConfig();
       var supressDateFolderDetailsConfig = {};
       if (suppressConfig)
@@ -108,7 +112,8 @@ function main()
             libraryRoot: model.libraryRoot,
             lock: model.lock,
             folderIcon: model.folderIcon,
-            showItemModifier: (model.showItemModifier == "true")
+            showItemModifier: (model.showItemModifier == "true"),
+            notSiteMemberWithPermissions: (model.notSiteMemberWithPermissions == "true")
          }
       };
       
