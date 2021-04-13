@@ -79,9 +79,9 @@
     </properties>
 
    <scm>
-     <connection>scm:git@github.com:Alfresco/share.git/</connection>
-     <developerConnection>scm:git@github.com:Alfresco/share.git</developerConnection>
-     <url>https://github.com/Alfresco/share</url>
+     <connection>scm:git@github.com:Alfresco/alfresco-enterprise-share.git/</connection>
+     <developerConnection>scm:git@github.com:Alfresco/alfresco-enterprise-share.git</developerConnection>
+     <url>https://github.com/Alfresco/alfresco-enterprise-share</url>
      <tag>HEAD</tag>
    </scm>
     <pluginRepositories>
