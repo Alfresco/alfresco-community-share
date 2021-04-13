@@ -90,9 +90,9 @@
     </properties>
 
    <scm>
-     <connection>scm:git:https://github.com/Alfresco/share.git/</connection>
-     <developerConnection>scm:git:https://github.com/Alfresco/share.git</developerConnection>
-     <url>https://github.com/Alfresco/share</url>
+     <connection>scm:git:https://github.com/Alfresco/alfresco-enterprise-share.git/</connection>
+     <developerConnection>scm:git:https://github.com/Alfresco/alfresco-enterprise-share.git</developerConnection>
+     <url>https://github.com/Alfresco/alfresco-enterprise-share</url>
      <tag>alfresco-share-parent--A2</tag>
    </scm>
     <pluginRepositories>
