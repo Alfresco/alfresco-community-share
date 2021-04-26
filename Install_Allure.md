@@ -62,7 +62,7 @@ On the report generation side, a new Travis stage is added "Generate tests repor
         stage: report    
         install: skip     
         script:         
-            - bash _ci/upload_test_artifacts.sh
+            - bash scripts/travis/upload_test_artifacts.sh
 
 ##Allure report visualization:
 1. Navigate to https://s3.console.aws.amazon.com/
