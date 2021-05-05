@@ -7,9 +7,8 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>11.6-ags-1.0-SNAPSHOT</version>
+        <version>11.4-ags-1.0-SNAPSHOT</version>
     </parent>
-
 
     <properties>
         <highest.basedir>${basedir}/../../..</highest.basedir>
@@ -27,27 +26,13 @@
 
         <!-- Installer version that will be used in the final name -->
         <installer.version.name>${project.version}</installer.version.name>
-
     </properties>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>3.5.42</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 
     <modules>
         <module>distribution</module>
         <module>webeditor</module>
         <module>wcmqs</module>
         <module>docker</module>
-        <module>docker-aws</module>
+        <module>tests</module>
     </modules>
-
 </project>
