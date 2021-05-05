@@ -33,6 +33,7 @@
         <module>webeditor</module>
         <module>wcmqs</module>
         <module>docker</module>
+        <module>docker-alfresco</module>
         <module>tests</module>
     </modules>
 </project>
