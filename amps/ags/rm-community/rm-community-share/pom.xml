@@ -1,15 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
    <modelVersion>4.0.0</modelVersion>
    <artifactId>alfresco-governance-services-community-share</artifactId>
+   <packaging>amp</packaging>
    <name>Alfresco Governance Services Community Share</name>
    <description>Alfresco Governance Services Share Extension</description>
-   <packaging>amp</packaging>
 
    <parent>
       <groupId>org.alfresco</groupId>
-      <artifactId>alfresco-governance-services-community</artifactId>
-      <version>11.6-ags-1.0-SNAPSHOT</version>
+      <artifactId>alfresco-governance-services-community-share-parent</artifactId>
+      <version>11.4-ags-1.0-SNAPSHOT</version>
    </parent>
 
    <properties>
@@ -18,7 +17,9 @@
       <ags.artifactId>alfresco-governance-services-community-share</ags.artifactId>
       <alfresco.aikau.version>1.0.104</alfresco.aikau.version>
       <app.filtering.enabled>true</app.filtering.enabled>
+
       <image.name>alfresco/alfresco-governance-share-community</image.name>
+
       <maven.javadoc.skip>false</maven.javadoc.skip>
    </properties>
 
@@ -267,70 +268,71 @@
             </plugins>
          </build>
       </profile>
-       <!--Docker profiles used to build specific docker images for community share, defined in parent pom -->
+
       <profile>
-         <id>buildDockerImage</id>
+         <id>local</id>
+         <!-- builds "image:latest" locally -->
          <build>
             <plugins>
                <plugin>
                   <groupId>io.fabric8</groupId>
                   <artifactId>docker-maven-plugin</artifactId>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-       <profile>
-           <id>publish-docker-latest</id>
-           <build>
-               <plugins>
-                   <plugin>
-                       <groupId>io.fabric8</groupId>
-                       <artifactId>docker-maven-plugin</artifactId>
-                   </plugin>
-               </plugins>
-           </build>
-       </profile>
-      <profile>
-         <id>release-community</id>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>io.fabric8</groupId>
-                  <artifactId>docker-maven-plugin</artifactId>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-      <!-- Always skip the database start/stop execution for Share. -->
-      <profile>
-         <id>start-db</id>
-         <activation>
-            <property>
-               <name>skip.integrationtests</name>
-               <value>false</value>
-            </property>
-         </activation>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>io.fabric8</groupId>
-                  <artifactId>docker-maven-plugin</artifactId>
+                  <configuration>
+                     <images>
+                        <image>
+                           <name>${image.name}:${image.tag}</name>
+                        </image>
+                     </images>
+                  </configuration>
                   <executions>
                      <execution>
-                        <id>start</id>
-                        <configuration>
-                           <skip>true</skip>
-                        </configuration>
-                     </execution>
-                     <execution>
-                        <id>stop</id>
-                        <configuration>
-                           <skip>true</skip>
-                        </configuration>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                           <goal>build</goal>
+                        </goals>
                      </execution>
                   </executions>
                </plugin>
             </plugins>
+         </build>
+      </profile>
+
+      <profile>
+         <id>internal</id>
+         <!-- publishes "image:latest" on Quay -->
+         <build>
+            <pluginManagement>
+               <plugins>
+                  <plugin>
+                     <groupId>io.fabric8</groupId>
+                     <artifactId>docker-maven-plugin</artifactId>
+                     <configuration>
+                        <images>
+                           <!-- Quay image -->
+                           <image>
+                              <name>${image.name}:${image.tag}</name>
+                              <registry>${image.registry}</registry>
+                           </image>
+                           <!-- DockerHub image -->
+                           <!--<image>-->
+                           <!--   <name>${image.name}:${image.tag}</name>-->
+                           <!--</image>-->
+                        </images>
+                     </configuration>
+                     <executions>
+                        <execution>
+                           <id>build-push-image</id>
+                           <phase>install</phase>
+                           <goals>
+                              <goal>build</goal>
+                              <goal>push</goal>
+                           </goals>
+                        </execution>
+                     </executions>
+                  </plugin>
+               </plugins>
+            </pluginManagement>
          </build>
       </profile>
    </profiles>
