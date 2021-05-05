@@ -106,7 +106,7 @@
 
     <profiles>
         <profile>
-            <id>local</id>
+            <id>build-docker-images</id>
             <!-- builds "image:latest" locally -->
             <build>
                 <plugins>
