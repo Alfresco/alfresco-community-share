@@ -219,14 +219,13 @@
          showItemModifier: true,
 
          /**
-          * Flag indicating if user is not a member of the site where item belongs
-          * but has permissions on the item itself
+          * Flag indicating whether the user should be redirect (when is not member of document site) or not
           *
-          * @property notSiteMemberWithPermissions
+          * @property redirectNonSiteMember
           * @type boolean
-          * @default: false
+          * @default: null
           */
-         notSiteMemberWithPermissions: false
+          redirectNonSiteMember: null
       },
 
       /**
@@ -237,8 +236,8 @@
        */
       onReady: function NodeHeader_onReady()
       {
-          // MNT-20006, redirect non member user (but with collaborator permissions) to the document direct location instead of site location
-          if (this.options.notSiteMemberWithPermissions === true)
+          // MNT-20006, redirect user who is not member of the site where document is placed but has permissions on document
+          if (this.options.redirectNonSiteMember == true)
           {
             var correctUrl = "/share/page/document-details?nodeRef=" + this.options.nodeRef;
             Alfresco.util.PopupManager.displayPrompt(
