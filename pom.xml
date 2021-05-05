@@ -28,6 +28,7 @@
         <version.minor>0</version.minor>
         <version.revision>0</version.revision>
 
+        <api.explorer.version>7.0.0</api.explorer.version>
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
 
@@ -65,6 +66,9 @@
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.12.1</dependency.jackson.version>
 
+        <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
+        <alfresco.googledrive.version>3.2.1</alfresco.googledrive.version>
+
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
         <runtime.data.folder>${runtime.parent.folder}/runtime</runtime.data.folder>
@@ -90,6 +94,8 @@
 
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
         <license-header-location>${maven.multiModuleProjectDirectory}</license-header-location>
+
+        <repo.image.tag>${dependency.alfresco-enterprise-repo.version}</repo.image.tag>
     </properties>
 
     <scm>
@@ -285,6 +291,19 @@
                 <version>4.13.1</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-mmt</artifactId>
+                <version>${dependency.alfresco-mmt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco.integrations</groupId>
+                <artifactId>alfresco-googledrive-share</artifactId>
+                <version>${alfresco.googledrive.version}</version>
+                <type>amp</type>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -436,8 +455,17 @@
 
         <pluginManagement>
             <plugins>
+                <!-- Ensure consistent maven-release-plugin version-->
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <configuration>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.0</version>
                     <configuration>
                         <archive>
                             <manifestEntries>
@@ -509,6 +537,16 @@
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>0.34.1</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -531,7 +569,6 @@
             <id>run</id>
             <build>
                 <plugins>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>

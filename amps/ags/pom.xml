@@ -448,15 +448,6 @@
                <version>1.5</version>
             </plugin>
 
-            <!-- Maven Release Plugin (Use a recent version for better Git Support) -->
-            <plugin>
-               <artifactId>maven-release-plugin</artifactId>
-               <version>2.5.3</version>
-               <configuration>
-                  <tagNameFormat>V@{project.version}</tagNameFormat>
-               </configuration>
-            </plugin>
-
             <!-- Disable doclint until RM-3150 is fixed -->
             <plugin>
                <artifactId>maven-javadoc-plugin</artifactId>
