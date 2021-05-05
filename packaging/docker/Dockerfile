@@ -27,3 +27,5 @@ RUN java -jar /usr/local/tomcat/alfresco-mmt/alfresco-mmt*.jar install \
 ENTRYPOINT ["/usr/local/tomcat/shared/classes/alfresco/substituter.sh", "catalina.sh run"]
 
 EXPOSE 8000
+
+LABEL quay.expires-after=${docker.quay-expires.value}
