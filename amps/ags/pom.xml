@@ -17,26 +17,14 @@
    </modules>
 
    <properties>
-      <alfresco.client.contextPath>/alfresco</alfresco.client.contextPath>
-      <alfresco.data.location>${session.executionRootDirectory}/alf_data_dev</alfresco.data.location>
-      <alfresco.db.datasource.class>org.gjt.mm.mysql.Driver</alfresco.db.datasource.class>
-      <alfresco.db.name>alf_dev</alfresco.db.name>
-      <alfresco.db.params>AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=10000;MVCC=FALSE;LOCK_MODE=0;IGNORECASE=TRUE</alfresco.db.params>
-      <alfresco.db.password>alfresco</alfresco.db.password>
-      <alfresco.db.url>jdbc:mysql://${alfresco.db.host}:${alfresco.db.port}/${alfresco.db.name}</alfresco.db.url>
-      <alfresco.db.username>alfresco</alfresco.db.username>
       <alfresco-spring-webscripts.version>8.15</alfresco-spring-webscripts.version>
-      <api.explorer.version>7.0.0</api.explorer.version>
-      <!-- Set this here and override it in the community and enterprise modules. -->
-      <alfresco.min.version>0.0</alfresco.min.version>
 
-      <postgres.version>9.4.12</postgres.version>
-      <activemq.version>5.15.8</activemq.version>
-      <activemq.port1>61616</activemq.port1>
-      <activemq.port2>5672</activemq.port2>
-      <camel.mock.version>3.7.0</camel.mock.version>
+      <!-- Set this here and forget about it. -->
+      <alfresco.min.version>7.0.0</alfresco.min.version>
+
       <share.client.contextPath>/share</share.client.contextPath>
 
+      <!-- TODO cleanup these properties - use the ones from the share parent -->
       <maven.javadoc.version>3.1.0</maven.javadoc.version>
       <maven.javadoc.skip>true</maven.javadoc.skip>
       <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
@@ -99,11 +87,6 @@
             <classifier>tests</classifier>
          </dependency>
          <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${alfresco.postgres.version}</version>
-         </dependency>
-         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
@@ -124,12 +107,6 @@
          <artifactId>jaxb-api</artifactId>
          <version>${javax-jaxb.version}</version>
          <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>org.apache.camel</groupId>
-         <artifactId>camel-mock</artifactId>
-         <version>${camel.mock.version}</version>
       </dependency>
 
       <dependency>

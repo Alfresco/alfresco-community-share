@@ -15,8 +15,8 @@
       <maven.tomcat.port>8181</maven.tomcat.port>
       <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
       <ags.artifactId>alfresco-governance-services-community-share</ags.artifactId>
+      <!-- TODO use the Share-provided Aikau version - APPS-966 -->
       <alfresco.aikau.version>1.0.104</alfresco.aikau.version>
-      <app.filtering.enabled>true</app.filtering.enabled>
 
       <image.name>alfresco/alfresco-governance-share-community</image.name>
 
@@ -102,7 +102,7 @@
                            <groupId>org.alfresco</groupId>
                            <artifactId>share</artifactId>
                            <type>war</type>
-                           <version>${share.version}</version>
+                           <version>${project.version}</version>
                         </artifactItem>
                      </artifactItems>
                   </configuration>
@@ -218,7 +218,7 @@
       <dependency>
          <groupId>org.alfresco</groupId>
          <artifactId>share</artifactId>
-         <version>${share.version}</version>
+         <version>${project.version}</version>
          <classifier>classes</classifier>
          <scope>provided</scope>
       </dependency>
@@ -238,38 +238,6 @@
 
    <profiles>
       <profile>
-         <id>start-share</id>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.tomcat.maven</groupId>
-                  <artifactId>tomcat7-maven-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <id>run-embedded</id>
-                        <goals>
-                           <goal>run</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                        <configuration>
-                           <useTestClasspath>false</useTestClasspath>
-                           <ignorePackaging>true</ignorePackaging>
-                           <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-                           <systemProperties>
-                              <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
-                           </systemProperties>
-                           <delegate>true</delegate>
-                           <contextFile>${project.basedir}/tomcat/context.xml</contextFile>
-                           <warSourceDirectory>${app.amp.client.war.folder}</warSourceDirectory>
-                        </configuration>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-
-      <profile>
          <id>local</id>
          <!-- builds "image:latest" locally -->
          <build>
@@ -278,6 +246,7 @@
                   <groupId>io.fabric8</groupId>
                   <artifactId>docker-maven-plugin</artifactId>
                   <configuration>
+                     <verbose>true</verbose>
                      <images>
                         <image>
                            <name>${image.name}:${image.tag}</name>
