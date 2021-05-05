@@ -83,6 +83,15 @@
          siteId: "",
 
          /**
+          * Maximum number of results displayed.
+          *
+          * @property maxResults
+          * @type int
+          * @default 500
+          */
+         maxResults: 500,
+
+         /**
           * Custom property groups
           *
           * @property groups
@@ -130,6 +139,14 @@
        * @type Array
        */
       resultNodeRefs: [],
+
+      /**
+       * True if there are more results than the ones listed in the table.
+       *
+       * @property hasMoreResults
+       * @type boolean
+       */
+      hasMoreResults: false,
 
       /**
        * Array of sort descriptor objects. See constructor above for example object structure.
@@ -542,6 +559,11 @@
             else if (oResponse.results)
             {
                // update the results count
+               me.hasMoreResults = (oResponse.results.length > me.options.maxResults);
+               if (me.hasMoreResults)
+               {
+                  oResponse.results = oResponse.results.slice(0, me.options.maxResults);
+               }
                me.resultsCount = oResponse.results.length;
                me.renderLoopSize = 32;
 
@@ -730,12 +752,13 @@
       _buildSearchParams: function RecordsResults__buildSearchParams(query, filters)
       {
          // build the parameter string and encode each value
-         var params = YAHOO.lang.substitute("site={site}&query={query}&sortby={sortby}&filters={filters}",
+         var params = YAHOO.lang.substitute("site={site}&query={query}&sortby={sortby}&filters={filters}&maxResults={maxResults}",
          {
             site: encodeURIComponent(this.options.siteId),
             query : query !== null ? encodeURIComponent(query) : "",
             filters : encodeURIComponent(filters),
             sortby : encodeURIComponent(this._buildSortParam()),
+            maxResults : this.options.maxResults + 1 // to be able to know whether we got more results
          });
 
          return params;
