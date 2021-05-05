@@ -37,7 +37,7 @@
             <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
         <!-- Share services AMP -->
-        <!--dependencySet>
+        <dependencySet>
             <includes>
                 <include>*:*:amp</include>
             </includes>
@@ -45,7 +45,7 @@
             <outputFileNameMapping>alfresco-share-services.amp</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet-->
+        </dependencySet>
         <!-- Share encryption JAR -->
         <dependencySet>
             <includes>
