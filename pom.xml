@@ -40,9 +40,10 @@
         <image.tag>latest</image.tag>
 
         <!-- Java 11 compatibility -->
-        <maven.compile.source>11</maven.compile.source>
-        <maven.compile.target>11</maven.compile.target>
-        <maven.build.sourceVersion>11</maven.build.sourceVersion>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.build.sourceVersion>${java.version}</maven.build.sourceVersion>
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <!-- common dependencies-->
@@ -64,7 +65,9 @@
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>11.0.2</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.12.1</dependency.jackson.version>
+        <dependency.jackson.version>2.12.2</dependency.jackson.version>
+        <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
+        <dependency.org-json.version>20210307</dependency.org-json.version>
 
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <alfresco.googledrive.version>3.2.1</alfresco.googledrive.version>
@@ -77,15 +80,6 @@
         <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties</alfresco.properties.file>
         <!-- Define the location where alfresco will store its content files, i.e. *.bin) -->
         <dir.root>${runtime.data.folder}/alf_data</dir.root>
-
-        <tomcat.default.alfresco.port>8080</tomcat.default.alfresco.port>
-        <tomcat.default.alfresco.ssl.port>8443</tomcat.default.alfresco.ssl.port>
-        <tomcat.default.share.port>8081</tomcat.default.share.port>
-        <tomcat.default.share.ssl.port>0</tomcat.default.share.ssl.port>
-        <tomcat.default.solr.port>8082</tomcat.default.solr.port>
-        <tomcat.default.solr.ssl.port>8445</tomcat.default.solr.ssl.port>
-        <tomcat.default.solr4.port>8083</tomcat.default.solr4.port>
-        <tomcat.default.solr4.ssl.port>8446</tomcat.default.solr4.ssl.port>
 
         <db.skip>true</db.skip>
         <test.working.dir>${project.build.directory}</test.working.dir>
@@ -305,6 +299,24 @@
                 <version>${alfresco.googledrive.version}</version>
                 <type>amp</type>
             </dependency>
+
+            <!-- Jakarta... -->
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${dependency.jakarta-jaxb-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${dependency.jakarta-jaxb-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${dependency.org-json.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -518,18 +530,6 @@
                             <swf.exe>${swf.exe}</swf.exe>
                             <index.subsystem.name>${index.subsystem.name}</index.subsystem.name>
                         </systemPropertyVariables>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>sql-maven-plugin</artifactId>
-                    <configuration>
-                        <skip>${db.skip}</skip>
-                        <autocommit>true</autocommit>
-                        <driver>${db.driver}</driver>
-                        <url>${db.master.url}</url>
-                        <username>${db.master.username}</username>
-                        <password>${db.master.password}</password>
                     </configuration>
                 </plugin>
 
