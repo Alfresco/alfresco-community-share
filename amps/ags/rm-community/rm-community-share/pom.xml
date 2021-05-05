@@ -12,15 +12,12 @@
    </parent>
 
    <properties>
-      <maven.tomcat.port>8181</maven.tomcat.port>
       <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
       <ags.artifactId>alfresco-governance-services-community-share</ags.artifactId>
       <!-- TODO use the Share-provided Aikau version - APPS-966 -->
       <alfresco.aikau.version>1.0.104</alfresco.aikau.version>
 
       <image.name>alfresco/alfresco-governance-share-community</image.name>
-
-      <maven.javadoc.skip>false</maven.javadoc.skip>
    </properties>
 
    <build>
@@ -164,43 +161,6 @@
          </plugin>
 
       </plugins>
-      <pluginManagement>
-         <plugins>
-            <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-            <plugin>
-               <groupId>org.eclipse.m2e</groupId>
-               <artifactId>lifecycle-mapping</artifactId>
-               <version>1.0.0</version>
-               <configuration>
-                  <lifecycleMappingMetadata>
-                     <pluginExecutions>
-                        <pluginExecution>
-                           <pluginExecutionFilter>
-                              <groupId>
-                                 org.codehaus.mojo
-                              </groupId>
-                              <artifactId>
-                                 license-maven-plugin
-                              </artifactId>
-                              <versionRange>
-                                 [1.8,)
-                              </versionRange>
-                              <goals>
-                                 <goal>
-                                    update-file-header
-                                 </goal>
-                              </goals>
-                           </pluginExecutionFilter>
-                           <action>
-                              <ignore />
-                           </action>
-                        </pluginExecution>
-                     </pluginExecutions>
-                  </lifecycleMappingMetadata>
-               </configuration>
-            </plugin>
-         </plugins>
-      </pluginManagement>
    </build>
 
    <dependencies>

@@ -47,7 +47,7 @@ services:
             - "30000-30099:30000-30099"
 
     share:
-        image: alfresco/alfresco-governance-share-community:latest
+        image: alfresco/alfresco-governance-share-community:${TAG_NAME}
         environment:
             - REPO_HOST=alfresco
             - REPO_PORT=8080
