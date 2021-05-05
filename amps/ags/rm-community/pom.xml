@@ -14,14 +14,6 @@
       <module>rm-community-share</module>
    </modules>
 
-   <properties>
-      <spring.version>5.3.3</spring.version>
-      <alfresco.min.version>7.0.0</alfresco.min.version>
-      <share.version>7.0.0</share.version>
-      <!-- The properties app.amp.* need to be set for share to work. -->
-      <app.filtering.enabled>true</app.filtering.enabled>
-   </properties>
-
    <licenses>
       <license>
          <name>LGPL 3</name>
@@ -38,23 +30,9 @@
    <dependencyManagement>
       <dependencies>
          <dependency>
-            <groupId>org.alfresco</groupId>
-            <artifactId>alfresco-community-repo</artifactId>
-            <version>${dependency.alfresco-community-repo.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
-            <groupId>org.alfresco</groupId>
-            <artifactId>alfresco-share-parent</artifactId>
-            <version>${share.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
+            <version>${dependency.spring.version}</version>
          </dependency>
          <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

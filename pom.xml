@@ -108,15 +108,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Import all dependencyManagement from Alfresco Platform
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-parent</artifactId>
-                <version>6.0.</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
--->
             <!-- Override dependencies with the locally defined versions -->
             <dependency>
                 <groupId>org.alfresco</groupId>
@@ -274,6 +265,25 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${dependency.jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${dependency.slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${dependency.slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.1</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -510,14 +520,6 @@
             <id>enterprise</id>
             <modules>
                 <module>alfresco-enterprise</module>
-            </modules>
-        </profile>
-
-        <!-- Profile to build Share packaging, including installer -->
-        <profile>
-            <id>packaging</id>
-            <modules>
-                <module>packaging</module>
             </modules>
         </profile>
 
