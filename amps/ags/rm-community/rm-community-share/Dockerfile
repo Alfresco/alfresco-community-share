@@ -7,3 +7,5 @@ COPY target/alfresco-governance-services-community-share-*.amp /usr/local/tomcat
 ### Install AMP on share
 RUN java -jar /usr/local/tomcat/alfresco-mmt/alfresco-mmt*.jar install \
               /usr/local/tomcat/amps_share/alfresco-governance-services-community-share-*.amp /usr/local/tomcat/webapps/share -nobackup
+
+LABEL quay.expires-after=${docker.quay-expires.value}

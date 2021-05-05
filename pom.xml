@@ -96,6 +96,7 @@
         <license-header-location>${maven.multiModuleProjectDirectory}</license-header-location>
 
         <repo.image.tag>${dependency.alfresco-enterprise-repo.version}</repo.image.tag>
+        <docker.quay-expires.value>1w</docker.quay-expires.value>
     </properties>
 
     <scm>
