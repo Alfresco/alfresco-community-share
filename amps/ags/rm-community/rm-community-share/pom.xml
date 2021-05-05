@@ -2,21 +2,19 @@
 
    <modelVersion>4.0.0</modelVersion>
    <artifactId>alfresco-governance-services-community-share</artifactId>
-   <name>AGS Share</name>
+   <name>Alfresco Governance Services Community Share</name>
    <description>Alfresco Governance Services Share Extension</description>
    <packaging>amp</packaging>
 
    <parent>
       <groupId>org.alfresco</groupId>
       <artifactId>alfresco-governance-services-community</artifactId>
-      <version>3.5.1-SNAPSHOT</version>
+      <version>11.6-ags-1.0-SNAPSHOT</version>
    </parent>
 
    <properties>
-      <app.amp.client.war.artifactId>${alfresco.share.artifactId}</app.amp.client.war.artifactId>
       <maven.tomcat.port>8181</maven.tomcat.port>
       <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
-      <alfresco.share.artifactId>share</alfresco.share.artifactId>
       <ags.artifactId>alfresco-governance-services-community-share</ags.artifactId>
       <alfresco.aikau.version>1.0.104</alfresco.aikau.version>
       <app.filtering.enabled>true</app.filtering.enabled>
@@ -100,8 +98,8 @@
                      <outputDirectory>${app.amp.client.war.folder}</outputDirectory>
                      <artifactItems>
                         <artifactItem>
-                           <groupId>${alfresco.groupId}</groupId>
-                           <artifactId>${app.amp.client.war.artifactId}</artifactId>
+                           <groupId>org.alfresco</groupId>
+                           <artifactId>share</artifactId>
                            <type>war</type>
                            <version>${share.version}</version>
                         </artifactItem>
@@ -217,7 +215,7 @@
          </exclusions>
       </dependency>
       <dependency>
-         <groupId>${alfresco.groupId}</groupId>
+         <groupId>org.alfresco</groupId>
          <artifactId>share</artifactId>
          <version>${share.version}</version>
          <classifier>classes</classifier>
