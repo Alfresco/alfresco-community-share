@@ -60,6 +60,7 @@
                 <resource-path-pattern>^/WEB-INF/.*</resource-path-pattern>
                 <resource-path-pattern>.*/\.\./WEB-INF/.*</resource-path-pattern>
                 <resource-path-pattern>.*/classes/.*\.properties</resource-path-pattern>
+                <resource-path-pattern>.*/classes/alfresco/.*\.xml</resource-path-pattern>
             </deny-access-resource-paths>
         </web-framework>
     </config>
