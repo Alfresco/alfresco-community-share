@@ -1,4 +1,4 @@
-FROM alfresco/alfresco-base-tomcat:9.0.41-java-11-openjdk-centos-8
+FROM alfresco/alfresco-base-tomcat:9.0.45-java-11-centos-8
 
 RUN mkdir -p /usr/local/tomcat/shared/classes/alfresco/web-extension
 RUN mkdir -p /usr/local/tomcat/amps_share
@@ -27,5 +27,4 @@ RUN java -jar /usr/local/tomcat/alfresco-mmt/alfresco-mmt*.jar install \
 ENTRYPOINT ["/usr/local/tomcat/shared/classes/alfresco/substituter.sh", "catalina.sh run"]
 
 EXPOSE 8000
-
 LABEL quay.expires-after=${docker.quay-expires.value}
