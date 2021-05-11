@@ -12,9 +12,8 @@
 
    <modules>
       <module>rm-community</module>
-      <module>rm-enterprise</module>
-      <module>rm-automation</module>
    </modules>
+
 
    <properties>
       <!-- Set this here and forget about it. -->
@@ -569,6 +568,28 @@
    </reporting>
 
    <profiles>
+      <profile>
+         <id>rm-enterprise</id>
+         <activation>
+            <file>
+               <exists>rm-enterprise/pom.xml</exists>
+            </file>
+         </activation>
+         <modules>
+            <module>rm-enterprise</module>
+         </modules>
+      </profile>
+      <profile>
+         <id>rm-automation</id>
+         <activation>
+            <file>
+               <exists>rm-automation/pom.xml</exists>
+            </file>
+         </activation>
+         <modules>
+            <module>rm-automation</module>
+         </modules>
+      </profile>
       <!--
         The following profile adds the /properties directories as resource directories in the project.
         This means we can filter the property files in these directories.
