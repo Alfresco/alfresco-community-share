@@ -13,155 +13,12 @@
 
    <properties>
       <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
-      <ags.artifactId>alfresco-governance-services-community-share</ags.artifactId>
+
       <!-- TODO use the Share-provided Aikau version - APPS-966 -->
       <alfresco.aikau.version>1.0.104</alfresco.aikau.version>
 
       <image.name>alfresco/alfresco-governance-share-community</image.name>
    </properties>
-
-   <build>
-      <sourceDirectory>source/java</sourceDirectory>
-      <resources>
-         <resource>
-            <directory>config</directory>
-            <filtering>${app.filtering.enabled}</filtering>
-         </resource>
-         <resource>
-            <directory>source/web</directory>
-         </resource>
-      </resources>
-      <plugins>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>add-test-source</id>
-                  <goals>
-                     <goal>add-test-source</goal>
-                  </goals>
-                  <configuration>
-                     <sources>
-                        <source>unit-test/java</source>
-                     </sources>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-               <execution>
-                  <phase>prepare-package</phase>
-                  <goals>
-                     <goal>run</goal>
-                  </goals>
-                  <configuration>
-                     <target>
-                        <move todir="${project.build.directory}/${project.build.finalName}/config/alfresco">
-                           <fileset dir="${project.build.outputDirectory}/alfresco" />
-                        </move>
-                        <move todir="${project.build.directory}/${project.build.finalName}/web/components">
-                           <fileset dir="${project.build.outputDirectory}/components" />
-                        </move>
-                        <move todir="${project.build.directory}/${project.build.finalName}/web/rm">
-                           <fileset dir="${project.build.outputDirectory}/rm" />
-                        </move>
-                        <move todir="${project.build.directory}/${project.build.finalName}/web/js">
-                           <fileset dir="${project.build.outputDirectory}/js" />
-                        </move>
-                        <move file="${project.build.directory}/${project.build.finalName}/config/alfresco/module/org_alfresco_module_rm_share/file-mapping.properties" todir="${project.build.directory}/${project.build.finalName}" />
-                        <move file="${project.build.directory}/${project.build.finalName}/config/alfresco/module/org_alfresco_module_rm_share/module.properties" todir="${project.build.directory}/${project.build.finalName}" />
-                     </target>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <groupId>net.alchim31.maven</groupId>
-            <artifactId>yuicompressor-maven-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>unpack-alfresco</id>
-                  <phase>prepare-package</phase>
-                  <goals>
-                     <goal>unpack</goal>
-                  </goals>
-                  <configuration>
-                     <outputDirectory>${app.amp.client.war.folder}</outputDirectory>
-                     <artifactItems>
-                        <artifactItem>
-                           <groupId>org.alfresco</groupId>
-                           <artifactId>share</artifactId>
-                           <type>war</type>
-                           <version>${project.version}</version>
-                        </artifactItem>
-                     </artifactItems>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <groupId>org.alfresco.maven.plugin</groupId>
-            <artifactId>alfresco-maven-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>attach-alfresco-governance-services-jar</id>
-                  <goals>
-                     <goal>amp</goal>
-                  </goals>
-                  <configuration>
-                     <attachClasses>true</attachClasses>
-                     <attachConfig>true</attachConfig>
-                     <includeDependencies>true</includeDependencies>
-                  </configuration>
-               </execution>
-               <execution>
-                  <id>amps-to-war-overlay</id>
-                  <phase>package</phase>
-                  <goals>
-                     <goal>install</goal>
-                  </goals>
-               </execution>
-            </executions>
-            <configuration>
-               <includeWebResources>true</includeWebResources>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>test-jar</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-
-         <!-- License header generation -->
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>license-maven-plugin</artifactId>
-            <configuration>
-               <licenseName>alfresco_community</licenseName>
-               <roots>
-                  <root>source/java</root>
-                  <root>config</root>
-                  <root>source/web</root>
-                  <root>unit-test/java</root>
-               </roots>
-            </configuration>
-         </plugin>
-
-      </plugins>
-   </build>
 
    <dependencies>
       <dependency>
@@ -194,7 +51,146 @@
          <scope>test</scope>
       </dependency>
 
+      <!-- XML jars removed in Java 11 but are provided by alfresco-content-services -->
+      <dependency>
+         <groupId>jakarta.xml.bind</groupId>
+         <artifactId>jakarta.xml.bind-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.glassfish.jaxb</groupId>
+         <artifactId>jaxb-runtime</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.bcel</groupId>
+         <artifactId>bcel</artifactId>
+         <scope>provided</scope>
+      </dependency>
    </dependencies>
+
+   <build>
+      <sourceDirectory>source/java</sourceDirectory>
+      <resources>
+         <resource>
+            <directory>config</directory>
+            <filtering>true</filtering>
+         </resource>
+         <resource>
+            <directory>source/web</directory>
+         </resource>
+      </resources>
+
+      <plugins>
+         <plugin>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>yuicompressor-maven-plugin</artifactId>
+         </plugin>
+
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>add-test-source</id>
+                  <goals>
+                     <goal>add-test-source</goal>
+                  </goals>
+                  <configuration>
+                     <sources>
+                        <source>unit-test/java</source>
+                     </sources>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+
+         <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+               <includes>
+                  <include>**/*UnitTest.java</include>
+               </includes>
+            </configuration>
+         </plugin>
+
+         <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+               <execution>
+                  <phase>prepare-package</phase>
+                  <goals>
+                     <goal>run</goal>
+                  </goals>
+                  <configuration>
+                     <target>
+                        <move todir="${project.build.directory}/${project.build.finalName}/config/alfresco">
+                           <fileset dir="${project.build.outputDirectory}/alfresco" />
+                        </move>
+                        <move todir="${project.build.directory}/${project.build.finalName}/web/components">
+                           <fileset dir="${project.build.outputDirectory}/components" />
+                        </move>
+                        <move todir="${project.build.directory}/${project.build.finalName}/web/rm">
+                           <fileset dir="${project.build.outputDirectory}/rm" />
+                        </move>
+                        <move todir="${project.build.directory}/${project.build.finalName}/web/js">
+                           <fileset dir="${project.build.outputDirectory}/js" />
+                        </move>
+                        <move file="${project.build.directory}/${project.build.finalName}/config/alfresco/module/org_alfresco_module_rm_share/file-mapping.properties" todir="${project.build.directory}/${project.build.finalName}" />
+                        <move file="${project.build.directory}/${project.build.finalName}/config/alfresco/module/org_alfresco_module_rm_share/module.properties" todir="${project.build.directory}/${project.build.finalName}" />
+                     </target>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+
+         <plugin>
+            <groupId>org.alfresco.maven.plugin</groupId>
+            <artifactId>alfresco-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>amp</goal>
+                  </goals>
+                  <configuration>
+                     <attachClasses>true</attachClasses>
+                     <attachConfig>true</attachConfig>
+                     <includeDependencies>true</includeDependencies>
+                     <includeWebResources>true</includeWebResources>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>test-jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
+         <!-- License header generation -->
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+            <configuration>
+               <licenseName>alfresco_community</licenseName>
+               <roots>
+                  <root>source/java</root>
+                  <root>config</root>
+                  <root>source/web</root>
+                  <root>unit-test/java</root>
+               </roots>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
 
    <profiles>
       <profile>
@@ -206,7 +202,6 @@
                   <groupId>io.fabric8</groupId>
                   <artifactId>docker-maven-plugin</artifactId>
                   <configuration>
-                     <verbose>true</verbose>
                      <images>
                         <image>
                            <name>${image.name}:${image.tag}</name>
@@ -231,37 +226,35 @@
          <id>push-docker-images</id>
          <!-- publishes "image:latest" on Quay -->
          <build>
-            <pluginManagement>
-               <plugins>
-                  <plugin>
-                     <groupId>io.fabric8</groupId>
-                     <artifactId>docker-maven-plugin</artifactId>
-                     <configuration>
-                        <images>
-                           <!-- Quay image -->
-                           <image>
-                              <name>${image.name}:${image.tag}</name>
-                              <registry>${image.registry}</registry>
-                           </image>
-                           <!-- DockerHub image -->
-                           <!--<image>-->
-                           <!--   <name>${image.name}:${image.tag}</name>-->
-                           <!--</image>-->
-                        </images>
-                     </configuration>
-                     <executions>
-                        <execution>
-                           <id>build-push-image</id>
-                           <phase>install</phase>
-                           <goals>
-                              <goal>build</goal>
-                              <goal>push</goal>
-                           </goals>
-                        </execution>
-                     </executions>
-                  </plugin>
-               </plugins>
-            </pluginManagement>
+            <plugins>
+               <plugin>
+                  <groupId>io.fabric8</groupId>
+                  <artifactId>docker-maven-plugin</artifactId>
+                  <configuration>
+                     <images>
+                        <!-- Quay image -->
+                        <image>
+                           <name>${image.name}:${image.tag}</name>
+                           <registry>${image.registry}</registry>
+                        </image>
+                        <!-- DockerHub image -->
+                        <!--<image>-->
+                        <!--   <name>${image.name}:${image.tag}</name>-->
+                        <!--</image>-->
+                     </images>
+                  </configuration>
+                  <executions>
+                     <execution>
+                        <id>build-push-image</id>
+                        <phase>install</phase>
+                        <goals>
+                           <goal>build</goal>
+                           <goal>push</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
          </build>
       </profile>
    </profiles>
