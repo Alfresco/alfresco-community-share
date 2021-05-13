@@ -216,7 +216,16 @@
           * @type boolean
           * @default: true
           */
-         showItemModifier: true
+         showItemModifier: true,
+
+         /**
+          * Flag indicating whether the user should be redirect (when is not member of document site) or not
+          *
+          * @property redirectNonSiteMember
+          * @type boolean
+          * @default: null
+          */
+          redirectNonSiteMember: null
       },
 
       /**
@@ -227,8 +236,30 @@
        */
       onReady: function NodeHeader_onReady()
       {
+          // MNT-20006, redirect user who is not member of the site where document is placed but has permissions on document
+          if (this.options.redirectNonSiteMember == true)
+          {
+            var correctUrl = "/share/page/document-details?nodeRef=" + this.options.nodeRef;
+            Alfresco.util.PopupManager.displayPrompt(
+            {
+               text: this.msg("message.document.notSiteMember"),
+               buttons: [
+               {
+                  text: this.msg("button.ok"),
+                  handler: function()
+                  {
+                     window.location = correctUrl;
+                  },
+                  isDefault: true
+               }]
+            });
+            YAHOO.lang.later(10000, this, function()
+            {
+              window.location = correctUrl;
+            });
+          }
           // MNT-9081 fix, redirect user to the correct location, if requested site is not the actual site where document is located
-          if (this.options.siteId != this.options.actualSiteId)
+          else if (this.options.siteId != this.options.actualSiteId)
           {
              // Moved to a site...
              if (this.options.actualSiteId != null)
