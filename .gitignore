@@ -4,6 +4,8 @@
 .classpath
 .settings
 .project
+.classpath
+.gradle
 
 # Intellij
 .idea/
@@ -34,3 +36,6 @@ runtime
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 
 hs_err_pid*
+
+# AGS
+amps/ags/rm-automation/src/test/resources/webdriver.properties
