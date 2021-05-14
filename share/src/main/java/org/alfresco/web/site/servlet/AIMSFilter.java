@@ -196,7 +196,7 @@ public class AIMSFilter extends KeycloakOIDCFilter
             {
                 // Ensure User ID is in session so the web-framework knows we have logged in
                 session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
-                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH, true);
+                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
 
                 // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
                 Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
