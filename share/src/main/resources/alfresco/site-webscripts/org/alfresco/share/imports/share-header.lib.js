@@ -1049,20 +1049,6 @@ function getUserMenuWidgets()
             }
          });
       }
-      else
-      {
-         otherWidgets.push({
-             id: "HEADER_USER_MENU_LOGOUT",
-             name: "alfresco/header/AlfMenuItem",
-             config:
-             {
-               id: "HEADER_USER_MENU_LOGOUT",
-               label: "logout.label",
-               iconClass: "alf-user-logout-icon",
-               targetUrl: "aims/logout"
-             }
-         });
-      }
       userMenuWidgets.push({
          id: "HEADER_USER_MENU_OTHER_GROUP",
          name: "alfresco/menus/AlfMenuGroup",
