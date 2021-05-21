@@ -10,7 +10,7 @@ if [[ $REPO_PORT == "" ]]; then
 fi
 
 if [[ $USE_SSL == "true" ]]; then
-sed -ie 's_port="8080"_port="8080" scheme="https"_' /usr/local/tomcat/conf/server.xml 
+sed -ie 's_port="8080"_port="8080" scheme="https"_' /usr/local/tomcat/conf/server.xml
 fi
 
 echo "Replace 'REPO_HOST' with '$REPO_HOST' and 'REPO_PORT' with '$REPO_PORT'"
@@ -25,7 +25,7 @@ if [ "${CSRF_FILTER_REFERER}" != "" ] && [  "${CSRF_FILTER_ORIGIN}" != "" ]; the
    sed -i -e "s|<config evaluator=\"string-compare\" condition=\"CSRFPolicy\" replace=\"false\">|<config evaluator=\"string-compare\" condition=\"CSRFPolicy\" replace=\"true\">|" /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
    sed -i -e "s|<referer><\/referer>|<referer>$CSRF_FILTER_REFERER<\/referer>|" /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
    sed -i -e "s|<origin><\/origin>|<origin>$CSRF_FILTER_ORIGIN<\/origin>|" /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
-   
+
 else
 # set CSRFPolicy to false and leave empty the properties referer and origin
    sed -i -e "s|<config evaluator=\"string-compare\" condition=\"CSRFPolicy\" replace=\"false\">|<config evaluator=\"string-compare\" condition=\"CSRFPolicy\" replace=\"false\">|" /usr/local/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
@@ -35,4 +35,3 @@ fi
 
 
 bash -c "$@"
-

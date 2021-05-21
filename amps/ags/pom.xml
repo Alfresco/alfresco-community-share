@@ -1,0 +1,238 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <artifactId>alfresco-governance-services-share-parent</artifactId>
+   <packaging>pom</packaging>
+   <name>Alfresco Governance Services Share Parent</name>
+
+   <parent>
+      <groupId>org.alfresco</groupId>
+      <artifactId>alfresco-share-amps</artifactId>
+      <version>11.6-SNAPSHOT</version>
+   </parent>
+
+   <modules>
+      <module>rm-community</module>
+   </modules>
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <argLine>-Xmx1024m -XX:MaxPermSize=256m -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
+
+      <license.update.dryrun>true</license.update.dryrun>
+      <license.verbose>false</license.verbose>
+
+      <app.log.dir>${project.build.directory}/</app.log.dir>
+      <app.log.root.level>WARN</app.log.root.level>
+   </properties>
+
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${dependency.spring.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${dependency.jackson.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${dependency.jackson.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${dependency.jackson.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>${dependency.jackson.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${dependency.jackson.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.bcel</groupId>
+            <artifactId>bcel</artifactId>
+            <version>6.2.99</version>
+            <scope>provided</scope>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
+
+   <build>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <artifactId>maven-surefire-plugin</artifactId>
+               <configuration>
+                  <argLine>
+                     --illegal-access=permit
+                  </argLine>
+               </configuration>
+            </plugin>
+
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>license-maven-plugin</artifactId>
+               <version>1.16</version>
+               <configuration>
+                  <verbose>${license.verbose}</verbose>
+                  <addSvnKeyWords>false</addSvnKeyWords>
+                  <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+
+                   <!-- header configuration -->
+                  <organizationName>Alfresco Software Limited</organizationName>
+                  <descriptionTemplate>${project.parent.parent.basedir}/license/description.ftl</descriptionTemplate>
+                  <canUpdateCopyright>true</canUpdateCopyright>
+                  <canUpdateDescription>true</canUpdateDescription>
+
+                   <!-- licence configuration -->
+                  <licenseResolver>file:${project.parent.parent.basedir}/license</licenseResolver>
+
+                   <!-- dry run options -->
+                   <dryRun>${license.update.dryrun}</dryRun>
+                  <failOnMissingHeader>true</failOnMissingHeader>
+                  <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
+
+                   <!-- default root -->
+                  <roots>
+                     <root>src</root>
+                  </roots>
+
+                   <!-- exculsions -->
+                  <excludes>
+                     <exclude>**/package-info.java</exclude>
+                     <exclude>**/*.properties</exclude>
+                     <exclude>**/*.css</exclude>
+                     <exclude>**/*.xml</exclude>
+                     <exclude>**/*.json</exclude>
+                     <exclude>**/*.txt</exclude>
+                     <exclude>**/*.html</exclude>
+                  </excludes>
+               </configuration>
+               <executions>
+                  <execution>
+                     <id>first</id>
+                     <goals>
+                        <goal>update-file-header</goal>
+                     </goals>
+                     <phase>process-sources</phase>
+                  </execution>
+               </executions>
+            </plugin>
+
+            <plugin>
+               <artifactId>maven-resources-plugin</artifactId>
+               <configuration>
+                  <encoding>UTF-8</encoding>
+                  <nonFilteredFileExtensions>
+                     <nonFilteredFileExtension>ftl</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>acp</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>png</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>gif</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>doc</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>docx</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>xls</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>ppt</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>pptx</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>bin</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>lic</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>swf</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>zip</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>msg</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>jar</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>css</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>ico</nonFilteredFileExtension>
+                     <nonFilteredFileExtension>psd</nonFilteredFileExtension>
+                  </nonFilteredFileExtensions>
+               </configuration>
+            </plugin>
+
+            <plugin>
+               <groupId>net.alchim31.maven</groupId>
+               <artifactId>yuicompressor-maven-plugin</artifactId>
+               <executions>
+                  <execution>
+                     <id>compress-js</id>
+                     <phase>process-resources</phase>
+                     <goals>
+                        <goal>compress</goal>
+                     </goals>
+                     <configuration>
+                        <excludes>
+                           <exclude>**/webscripts/**</exclude>
+                           <exclude>**/site-webscripts/**</exclude>
+                           <exclude>**/*.lib.js</exclude>
+                           <exclude>**/*.css</exclude>
+                        </excludes>
+                        <warSourceDirectory>src/main/resources/META-INF</warSourceDirectory>
+                        <jswarn>false</jswarn>
+                     </configuration>
+                  </execution>
+               </executions>
+            </plugin>
+         </plugins>
+      </pluginManagement>
+   </build>
+
+   <reporting>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+         </plugin>
+      </plugins>
+   </reporting>
+
+   <profiles>
+      <profile>
+         <id>rm-enterprise</id>
+         <activation>
+            <file>
+               <exists>rm-enterprise/pom.xml</exists>
+            </file>
+         </activation>
+         <modules>
+            <module>rm-enterprise</module>
+         </modules>
+      </profile>
+      <profile>
+         <id>rm-automation</id>
+         <activation>
+            <file>
+               <exists>rm-automation/pom.xml</exists>
+            </file>
+         </activation>
+         <modules>
+            <module>rm-automation</module>
+         </modules>
+      </profile>
+   </profiles>
+</project>

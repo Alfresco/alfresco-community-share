@@ -10,44 +10,16 @@
         <version>11.6-SNAPSHOT</version>
     </parent>
 
-
     <properties>
         <highest.basedir>${basedir}/../../..</highest.basedir>
-        <alfresco.package.name>alfresco-content-services-share</alfresco.package.name>
-        <alfresco.distribution.name>alfresco-content-services-share-distribution</alfresco.distribution.name>
-
-        <!-- Versions of binaries packaged in the installer -->
-        <installer.common.version>5.1-20151118</installer.common.version>
-        <installer.tomcat.version>7.0.78-alfresco-distribution</installer.tomcat.version>
-        <installer.java.version>11.0.1+13</installer.java.version>
-        <installer.manager.version>1.0</installer.manager.version>
-
-        <!-- Install builder version -->
-        <installer.installbuilder.version>15.10.1</installer.installbuilder.version>
-
-        <!-- Installer version that will be used in the final name -->
-        <installer.version.name>${project.version}</installer.version.name>
-
     </properties>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>3.5.42</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 
     <modules>
         <module>distribution</module>
         <module>webeditor</module>
         <module>wcmqs</module>
         <module>docker</module>
-        <module>docker-aws</module>
+        <module>docker-alfresco</module>
+        <module>tests</module>
     </modules>
-
 </project>
