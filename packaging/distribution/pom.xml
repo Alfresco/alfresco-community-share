@@ -1,16 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>alfresco-content-services-share-distribution</artifactId>
+    <artifactId>alfresco-share-base-distribution</artifactId>
     <name>Distribution of Alfresco Share</name>
     <packaging>pom</packaging>
-
 
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
         <version>11.6-SNAPSHOT</version>
     </parent>
-
 
     <!-- To replace in share-config-custom.xml -->
     <properties>
@@ -24,12 +22,12 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-        <!--dependency>
+        <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-share-services</artifactId>
-            <version>${project.version}</version>
+            <version>${dependency.alfresco-community-repo.version}</version>
             <type>amp</type>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-share-encryption</artifactId>
@@ -111,27 +109,6 @@
                         </configuration>
                     </execution>
 
-                    <!-- Extract licenses and bin from distribution resources 
-					Assuming this is not necessary for ACS 6.0+
-                    <execution>
-                        <id>unpack-resources</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-platform-community-distributionzip</artifactId>
-                                    <version>${alfresco.platform.version}</version>
-                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                                    <includes>bin/**,licenses/**</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
--->
                     <!-- Copy MMT jar -->
                     <execution>
                         <id>fetch-resources</id>
