@@ -64,6 +64,21 @@ function main()
       model.commentCount = (count != undefined ? count : null);
       model.lock = (nodeDetails.item.node.properties["cm:lockType"] != undefined ? nodeDetails.item.node.properties["cm:lockType"] : null);
 
+      // MNT-20006
+      // Obtains the site name if node is within a site
+      var siteName = model.site || AlfrescoUtil.getSiteFromPath(nodeDetails);
+
+      // Checks if the previous site is visible to the current user (public site or user is a member)
+      var isSiteVisible = AlfrescoUtil.isSiteVisible(siteName);
+
+      // If the node is opened in site context but user can't see the site, a redirect will be performed
+      var redirectNonSiteMember = model.site && isSiteVisible == false;
+
+      // If node is within a visible site, the breadcrumb will be shown, otherwise, it will be hidden or fallback to the default showPath value
+      if (siteName) {
+        model.showPath = (model.showPath == "true" && isSiteVisible == true).toString();
+      }
+
       var suppressConfig = AlfrescoUtil.getSupressConfig();
       var supressDateFolderDetailsConfig = {};
       if (suppressConfig)
@@ -108,10 +123,11 @@ function main()
             libraryRoot: model.libraryRoot,
             lock: model.lock,
             folderIcon: model.folderIcon,
-            showItemModifier: (model.showItemModifier == "true")
+            showItemModifier: (model.showItemModifier == "true"),
+            redirectNonSiteMember: redirectNonSiteMember
          }
       };
-      
+
       if(nodeDetails.item.workingCopy != null && nodeDetails.item.workingCopy.isWorkingCopy)
       {
          nodeHeader.options.showFavourite = false;
