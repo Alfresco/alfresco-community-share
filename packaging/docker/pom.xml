@@ -151,11 +151,6 @@
                                     <name>${image.name}:${image.tag}</name>
                                     <registry>${image.registry}</registry>
                                 </image>
-                                <!-- DockerHub image -->
-                                <!--<image>-->
-                                <!--    <name>${image.name}:${image.tag}</name>-->
-                                <!--    <registry>${image.registry}</registry>-->
-                                <!--</image>-->
                             </images>
                         </configuration>
                         <executions>
