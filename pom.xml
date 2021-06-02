@@ -35,7 +35,7 @@
 
         <!-- Version of Alfresco Community Repo to depend on -->
         <dependency.alfresco-community-repo.version>11.51</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>11.56</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-enterprise-repo.version>11.57</dependency.alfresco-enterprise-repo.version>
 
         <image.registry>quay.io</image.registry>
         <image.tag>latest</image.tag>
