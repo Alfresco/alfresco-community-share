@@ -1593,7 +1593,8 @@
             {
                containerEl.appendChild(checkBoxEl);
             }
-            checkBoxEl.checked = YAHOO.lang.isBoolean(value) ? value : false;
+            var booleanValue = this._convertType(value, "d:boolean");
+            checkBoxEl.checked = YAHOO.lang.isBoolean(booleanValue) ? booleanValue : false;
             return checkBoxEl;
          }
       },
