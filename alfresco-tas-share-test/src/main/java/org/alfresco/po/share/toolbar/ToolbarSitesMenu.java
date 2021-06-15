@@ -180,7 +180,7 @@ public class ToolbarSitesMenu extends BasePage
         WebElement remove = waitUntilElementIsVisible(removeCurrentSiteFromFavorites);
         clickElement(remove);
         waitUntilElementDisappears(removeCurrentSiteFromFavorites);
-        if (defaultProperties.get().getBrowserName().equals("chrome"))
+        if (defaultProperties.getBrowserName().equals("chrome"))
         {
             waitUntilElementDeletedFromDom(removeCurrentSiteFromFavorites);
         }

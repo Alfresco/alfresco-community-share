@@ -32,6 +32,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     private final By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
     private final By deleteButton = By.cssSelector("a[class^='delete-site']");
     private final By favoriteAction = By.cssSelector("a[class^='favourite-action']");
+    private final By siteDescription = By.cssSelector("div[class='detail']>span");
 
     private final String siteRow = "//div[starts-with(@class,'dashlet my-sites')]//a[text()='%s']/../../../..";
 
@@ -50,14 +51,14 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     private WebElement getSiteRow(String siteName)
     {
         return waitWithRetryAndReturnWebElement(
-                By.xpath(String.format(siteRow, siteName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
+            By.xpath(String.format(siteRow, siteName)), WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public MySitesDashlet assertSiteIsDisplayed(SiteModel siteModel)
     {
         log.info("Assert site {} is  displayed", siteModel.getTitle());
         assertTrue(isElementDisplayed(getSiteRow(siteModel.getTitle())),
-                String.format("Site %s is not displayed", siteModel.getTitle()));
+            String.format("Site %s is not displayed", siteModel.getTitle()));
         return this;
     }
 
@@ -68,6 +69,14 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         waitUntilElementDisappears(siteElement);
         assertFalse(isElementDisplayed(siteElement), String.format("Site %s is displayed", site.getTitle()));
 
+        return this;
+    }
+
+    public MySitesDashlet assertSiteDescriptionEqualsTo(SiteModel site, String expectedDescription)
+    {
+        log.info("Assert description for site {} equals to {}", site.getTitle(), expectedDescription);
+        assertEquals(getSiteRow(site.getTitle()).findElement(siteDescription).getText(), expectedDescription,
+            String.format("Description for site %s doesn't equals %s", site.getTitle(), expectedDescription));
         return this;
     }
 
@@ -138,7 +147,6 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public boolean isSitePresent(String siteName)
     {
-//        waitUntilElementIsVisible(sitesFilterButton);
         try
         {
             WebElement siteLink = selectSite(siteName);

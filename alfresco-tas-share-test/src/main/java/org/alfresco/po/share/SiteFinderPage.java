@@ -2,6 +2,7 @@ package org.alfresco.po.share;
 
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_3;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertTrue;
 
@@ -61,7 +62,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
     private WebElement getSiteRow(String siteName)
     {
         return waitWithRetryAndReturnWebElement(By.xpath(String.format(siteNamePath, siteName)),
-                WAIT_2.getValue(), RETRY_TIME_80.getValue());
+            WAIT_2.getValue(), RETRY_TIME_80.getValue());
     }
 
     public SiteFinderPage searchSiteWithName(String siteName)
@@ -81,7 +82,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
         {
             log.warn("Site {} not displayed - retry: {}", siteName, retryCounter);
             clickElement(searchSiteButton);
-            waitToLoopTime(WAIT_2.getValue());
+            waitToLoopTime(WAIT_3.getValue());
             retryCounter++;
         }
         throwExceptionIfUsernameNotDisplayed(isSiteNameDisplayed(siteName), retryCounter);

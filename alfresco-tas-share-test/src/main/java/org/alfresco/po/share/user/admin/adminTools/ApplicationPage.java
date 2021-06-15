@@ -8,7 +8,7 @@ import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
-import org.alfresco.po.share.Theme;
+import org.alfresco.po.enums.Theme;
 import org.alfresco.po.share.UploadFileDialog;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
@@ -74,9 +74,9 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
             WebElement apply = waitUntilElementIsVisible(applyButton);
             mouseOver(apply, 3000);
             clickElement(applyButtonAfterHover, 3000);
-            if (defaultProperties.get().getBrowserName().equals("chrome"))
+            if (defaultProperties.getBrowserName().equals("chrome"))
             {
-                waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
+                waitUntilElementDeletedFromDom(applyButton, defaultProperties.getExplicitWait(), 3000);
             }
         }
         catch (StaleElementReferenceException | NoSuchElementException staleElementReferenceException)
@@ -85,7 +85,7 @@ public class ApplicationPage extends SharePage2<ApplicationPage>
             waitInSeconds(WAIT_3.getValue());
             mouseOverViaJavascript(findElement(applyButton));
             clickElement(applyButtonAfterHover, 3000);
-            waitUntilElementDeletedFromDom(applyButton, defaultProperties.get().getExplicitWait(), 3000);
+            waitUntilElementDeletedFromDom(applyButton, defaultProperties.getExplicitWait(), 3000);
         }
         return this;
     }

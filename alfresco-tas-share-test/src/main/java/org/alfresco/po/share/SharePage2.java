@@ -25,7 +25,6 @@ import org.springframework.web.util.UriUtils;
 @Slf4j
 public abstract class SharePage2<T> extends BasePage
 {
-    private final By loadingMessage = By.cssSelector("div[class$='alfresco-lists-AlfList--loading']");
     private final By pageHeader = By.cssSelector("#HEADER_TITLE");
     private final By alfrescoOneFooterLogo = By.cssSelector(".copyright>a>img");
     private final By shareVersionWarning = By.cssSelector("#HEADER_SHARE_SERVICES_WARNING");
@@ -56,7 +55,7 @@ public abstract class SharePage2<T> extends BasePage
         URI relativeURI = null;
         try
         {
-            relativeURI = defaultProperties.get().getShareUrl().toURI().resolve(getRelativePath());
+            relativeURI = defaultProperties.getShareUrl().toURI().resolve(getRelativePath());
             return relativeURI.toURL();
         }
         catch (URISyntaxException | MalformedURLException me)
@@ -127,7 +126,7 @@ public abstract class SharePage2<T> extends BasePage
 
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
-        assertTrue(new WebDriverWait(webDriver.get(), defaultProperties.get().getExplicitWait())
+        assertTrue(new WebDriverWait(webDriver.get(), defaultProperties.getExplicitWait())
             .until(ExpectedConditions.titleIs(expectedTitle)), "Page title is correct");
         return (T) this;
     }

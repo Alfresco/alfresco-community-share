@@ -166,7 +166,7 @@ public class ToolbarUserMenu extends BasePage
     {
         log.info("Click Logout");
         clickElement(logout);
-        if (defaultProperties.get().isAimsEnabled())
+        if (defaultProperties.isAimsEnabled())
         {
             return new LoginAimsPage(webDriver);
         }

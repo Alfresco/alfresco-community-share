@@ -48,17 +48,16 @@ public abstract class BasePage extends WebElementInteraction
     private Language getLanguage()
     {
         return new Language("language/page_labels",
-            defaultProperties.get().getLanguage(),
-            defaultProperties.get().getCountry());
+            defaultProperties.getLanguage(),
+            defaultProperties.getCountry());
     }
 
     private void createAppContextAndSetPropertiesIfNull()
     {
-        if(defaultProperties.get() == null)
+        if(defaultProperties == null)
         {
-            @SuppressWarnings("resource")
             ApplicationContext context = new AnnotationConfigApplicationContext(ShareTestContext.class);
-            defaultProperties.set(context.getBean(DefaultProperties.class));
+            defaultProperties = context.getBean(DefaultProperties.class);
         }
     }
 

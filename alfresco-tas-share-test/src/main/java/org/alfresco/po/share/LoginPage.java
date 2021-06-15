@@ -32,7 +32,7 @@ public class LoginPage extends CommonLoginPage
     public CommonLoginPage navigate()
     {
         log.info("Navigate to Login Page");
-        webDriver.get().get(defaultProperties.get().getShareUrl().toString());
+        webDriver.get().get(defaultProperties.getShareUrl().toString());
         return new LoginPage(webDriver);
     }
 

@@ -3,6 +3,7 @@ package org.alfresco.po.share.site;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.alfresco.dataprep.SiteService.Visibility;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,6 @@ import org.openqa.selenium.WebElement;
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
     private final By siteHeaderTitle = By.cssSelector("#HEADER_TITLE a");
-    private final By dashboardLayout = By.cssSelector("div[class*='grid columnSize']");
     private final By siteVisibility = By.cssSelector("div[id='HEADER_TITLE_VISIBILITY'] span");
     private final By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
     private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
@@ -39,6 +39,11 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return String.format("share/page/site/%s/dashboard", getCurrentSiteName());
     }
 
+    public void waitForSiteDashboardPageToBeLoaded()
+    {
+        waitUntilElementIsVisible(siteHeaderTitle);
+    }
+
     public SiteDashboardPage assertSiteDashboardPageIsOpened()
     {
         log.info("Assert site dashboard page is opened");
@@ -51,12 +56,6 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     {
         assertEquals(getElementText(siteHeaderTitle), expectedSite.getTitle(), "Site header title is correct");
         return this;
-    }
-
-    public int getNumberOfColumns()
-    {
-        String strCol = findElement(dashboardLayout).getAttribute("class");
-        return Character.getNumericValue(strCol.charAt(strCol.length() - 1));
     }
 
     public boolean isDashletAddedInPosition(final Dashlets dashlet, final int column, final int locationInColumn)
@@ -87,9 +86,16 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     public SiteDashboardPage assertSiteVisibilityEqualsTo(String expectedSiteVisibility)
     {
+        log.info("Assert site visibility is {}", expectedSiteVisibility);
         String actualSiteVisibility = getElementText(siteVisibility);
-        assertTrue(actualSiteVisibility.equalsIgnoreCase(expectedSiteVisibility));
+        assertTrue(actualSiteVisibility.equalsIgnoreCase(expectedSiteVisibility),
+            String.format("Site visibility not equals to %s", expectedSiteVisibility));
         return this;
+    }
+
+    public SiteDashboardPage assertSiteVisibilityEqualsTo(Visibility expectedSiteVisibility)
+    {
+        return assertSiteVisibilityEqualsTo(expectedSiteVisibility.name());
     }
 
     public SiteDashboardPage assertSiteVisibilityIs(SiteService.Visibility visibility)

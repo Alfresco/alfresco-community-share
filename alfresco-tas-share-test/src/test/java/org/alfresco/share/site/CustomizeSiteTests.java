@@ -1,6 +1,6 @@
 package org.alfresco.share.site;
 
-import org.alfresco.po.share.Theme;
+import org.alfresco.po.enums.Theme;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author bogdan.bocancea
- */
 public class CustomizeSiteTests extends ContextAwareWebTest
 {
     //@Autowired

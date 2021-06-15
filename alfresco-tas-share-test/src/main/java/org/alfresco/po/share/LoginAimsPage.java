@@ -27,7 +27,7 @@ public class LoginAimsPage extends CommonLoginPage
 
     public CommonLoginPage navigate()
     {
-        getUrl(defaultProperties.get().getShareUrl().toString());
+        getUrl(defaultProperties.getShareUrl().toString());
         return new LoginAimsPage(webDriver);
     }
 

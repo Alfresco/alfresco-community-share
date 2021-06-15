@@ -1,6 +1,6 @@
 package org.alfresco.share.adminTools.application;
 
-import org.alfresco.po.share.Theme;
+import org.alfresco.po.enums.Theme;
 import org.alfresco.po.share.user.admin.adminTools.ApplicationPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;

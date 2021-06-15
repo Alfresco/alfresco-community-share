@@ -31,7 +31,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 @Slf4j
 public abstract class WebElementInteraction
 {
-    protected static final ThreadLocal<DefaultProperties> defaultProperties = new ThreadLocal<>();
+    protected static DefaultProperties defaultProperties;
     protected final ThreadLocal<WebDriver> webDriver;
     private String mainWindow;
 
@@ -45,7 +45,7 @@ public abstract class WebElementInteraction
     
     protected final DefaultProperties getDefaultProperties()
     {
-        return defaultProperties.get();
+        return defaultProperties;
     }
 
     private WebDriver getWebDriver()

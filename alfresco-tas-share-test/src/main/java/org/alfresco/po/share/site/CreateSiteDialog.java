@@ -1,43 +1,31 @@
 package org.alfresco.po.share.site;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+@Slf4j
 public class CreateSiteDialog extends BaseDialogComponent
 {
     private final By siteIDInput = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] div[class*='InputField'] input");
-    private final By siteIdDescription = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] div.description");
-    private final By nameMandatory = By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] span[class='requirementIndicator required']");
-    private final By siteIDMandatory = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span[class='requirementIndicator required']");
     private final By createSiteDialog = By.id("CREATE_SITE_DIALOG");
     private final By createButton = By.id("CREATE_SITE_DIALOG_OK");
     private final By cancelButton = By.id("CREATE_SITE_DIALOG_CANCEL_label");
     private final By nameInputField = By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] div[class*='dijitInputField'] input");
-    private final By nameFieldLabel = By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] label");
     private final By descriptionInputField = By.cssSelector("div[id='CREATE_SITE_FIELD_DESCRIPTION'] textarea");
-    private final By descriptionLabel = By.cssSelector("div[id='CREATE_SITE_FIELD_DESCRIPTION'] label");
-    private final By siteIDLabel = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] label");
-    private final By visibilityLabel = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY'] label");
-    private final By publicVisibilityRadioButton = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] input");
-    private final By moderatedVisibilityButton = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] input");
-    private final By privateVisibilityButton = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] input");
-    private final By publicVisibilityDescription = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] .alfresco-forms-controls-RadioButtons__description");
-    private final By moderatedVisibilityDescription = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] .alfresco-forms-controls-RadioButtons__description");
-    private final By privateVisibilityDescription = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] .alfresco-forms-controls-RadioButtons__description");
-    private final By publicVisibilityRadioButtonChecked = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div[class*='dijitRadioChecked']");
-    private final By moderatedVisibilityRadioButtonChecked = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div[class*='dijitRadioChecked']");
-    private final By privateVisibilityRadioButtonChecked = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div[class*='dijitRadioChecked']");
+    private final By publicVisibilityRadioButton = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] .radio-button-widget");
+    private final By moderatedVisibilityButton = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] .radio-button-widget");
+    private final By privateVisibilityButton = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] .radio-button-widget");
+    private final By publicVisibilityRadioButtonChecked = By.cssSelector("div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] input");
     private final By closeXButton = By.cssSelector("span.dijitDialogCloseIcon");
-    private final By typeLabel = By.cssSelector("div[id='CREATE_SITE_FIELD_PRESET'] label.label");
-    private final By typeLabelValue = By.cssSelector("table[id='CREATE_SITE_FIELD_PRESET_CONTROL'] div[class$='dijitButtonText'] span");
     private final By nameFieldWarningMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] div[class$='__warning-row'] div");
-    private final By urlErrorMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span.validation-message");
+    private final By siteIdErrorMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span.validation-message");
     private final By createButtonState = By.cssSelector("span[aria-labelledby='CREATE_SITE_DIALOG_OK_label']");
 
     public  CreateSiteDialog(ThreadLocal<WebDriver> webDriver)
@@ -51,11 +39,6 @@ public class CreateSiteDialog extends BaseDialogComponent
         return new CreateSiteDialog(webDriver);
     }
 
-    public void navigateFromDashlet()
-    {
-        new MySitesDashlet(webDriver).clickCreateSiteButton();
-    }
-
     public boolean isSiteIDInputFieldDisplayed()
     {
         return isElementDisplayed(siteIDInput);
@@ -66,50 +49,18 @@ public class CreateSiteDialog extends BaseDialogComponent
         return findElement(siteIDInput).getAttribute("value");
     }
 
-    public String getSiteIDFieldLabel()
+    public CreateSiteDialog assertSiteIdErrorMessageEqualsWithExpected(String expectedErrorLabel)
     {
-        return findElement(siteIDLabel).getText();
+        assertEquals(getElementText(siteIdErrorMessage), expectedErrorLabel,
+            "Site id error message not equals with expected");
+        return this;
     }
 
-    public String getSiteIDDescriptionText()
+    public CreateSiteDialog assertSiteNameInUseWarningMessageEquals(String expectedErrorLabel)
     {
-        return findElement(siteIdDescription).getText();
-    }
-
-    public void clearSiteIdInput()
-    {
-        findElement(siteIDInput).clear();
-    }
-
-    public boolean isSiteIdInputEmpty()
-    {
-        return findElement(siteIDInput).getText().isEmpty();
-    }
-
-    public String getUrlErrorMessage()
-    {
-        waitUntilElementIsVisible(urlErrorMessage);
-        return findFirstDisplayedElement(urlErrorMessage).getText();
-    }
-
-    public boolean isTitleMandatory()
-    {
-        return findElement(nameMandatory).getText().contains("*");
-    }
-
-    public boolean isSiteIDMandatory()
-    {
-        return findElement(siteIDMandatory).getText().contains("*");
-    }
-
-    public boolean isNameInputFieldDisplayed()
-    {
-        return isElementDisplayed(nameInputField);
-    }
-
-    public String getNameFieldLabel()
-    {
-        return waitUntilElementIsVisible(nameFieldLabel).getText();
+        assertEquals(getElementText(nameFieldWarningMessage), expectedErrorLabel,
+            "Site id error message not equals with expected");
+        return this;
     }
 
     public boolean isDescriptionInputFieldDisplayed()
@@ -117,57 +68,11 @@ public class CreateSiteDialog extends BaseDialogComponent
         return isElementDisplayed(descriptionInputField);
     }
 
-    public String getDescriptionLabel()
-    {
-        return waitUntilElementIsVisible(descriptionLabel).getText();
-    }
-
-    public String getVisibilityLabel()
-    {
-        return waitUntilElementIsVisible(visibilityLabel).getText();
-    }
-
-    public String getPublicVisibilityButtonState()
-    {
-        return findElement(publicVisibilityRadioButton).getAttribute("value").trim();
-    }
-
-    public String isModeratedVisibilityButtonDisplayed()
-    {
-        return findElement(moderatedVisibilityButton).getAttribute("value").trim();
-    }
-
-    public String isPrivateVisibilityButtonDisplayed()
-    {
-        return findElement(privateVisibilityButton).getAttribute("value").trim();
-    }
-
-    public String getPublicVisibilityDescription()
-    {
-        return getElementText(publicVisibilityDescription);
-    }
-
-    public String getModeratedVisibilityDescription()
-    {
-        return getElementText(moderatedVisibilityDescription);
-    }
-
-    public String getPrivateVisibilityDescription()
-    {
-        return getElementText(privateVisibilityDescription);
-    }
-
     public boolean isCreateButtonDisplayed()
     {
         return isElementDisplayed(createButton);
     }
 
-    /**
-     * Get PopUp Create Site button state.
-     *
-     * @return - false if button is enabled.
-     * - true if button is disabled.
-     */
     public String getCreateButtonState()
     {
         return waitUntilElementIsVisible(createButtonState).getAttribute("aria-disabled");
@@ -180,6 +85,7 @@ public class CreateSiteDialog extends BaseDialogComponent
 
     public CreateSiteDialog typeInNameInput(String siteName)
     {
+        waitUntilElementIsVisible(nameInputField);
         clearAndType(nameInputField, siteName);
         return this;
     }
@@ -188,6 +94,15 @@ public class CreateSiteDialog extends BaseDialogComponent
     {
         waitUntilElementIsVisible(descriptionInputField);
         clearAndType(descriptionInputField, siteDescription);
+        return this;
+    }
+
+    public CreateSiteDialog assertSiteIdValueEquals(String expectedId)
+    {
+        log.info("Assert site id value equals to {}", expectedId);
+        waitUntilElementIsVisible(siteIDInput);
+        assertEquals(findElement(siteIDInput).getAttribute("value"), expectedId.toLowerCase(),
+            String.format("Site id is not %s", expectedId));
         return this;
     }
 
@@ -210,42 +125,45 @@ public class CreateSiteDialog extends BaseDialogComponent
         return findElement(descriptionInputField).getAttribute("value");
     }
 
-    public void selectPublicVisibility()
+    public CreateSiteDialog selectPublicVisibility()
     {
-        clickElement(publicVisibilityRadioButton);
+        log.info("Select Public site visibility");
+        clickJS(findElement(publicVisibilityRadioButton));
+        return this;
     }
 
-    public void selectModeratedVisibility()
+    public CreateSiteDialog assertPublicVisibilityIsSelected()
     {
+        log.info("Assert public visibility is selected");
+        assertTrue(findElement(publicVisibilityRadioButtonChecked).isSelected(), "Public visibility is not selected");
+        return this;
+    }
+
+    public CreateSiteDialog selectModeratedVisibility()
+    {
+        log.info("Select Moderated site visibility");
         clickElement(moderatedVisibilityButton);
+        return this;
     }
 
-    public void selectPrivateVisibility()
+    public CreateSiteDialog selectPrivateVisibility()
     {
+        log.info("Select Private site visibility");
         clickElement(privateVisibilityButton);
-    }
-
-    public boolean isPublicVisibilityRadioButtonChecked()
-    {
-        return isElementDisplayed(publicVisibilityRadioButtonChecked);
-    }
-
-    public boolean isModeratedVisibilityRadioButtonChecked()
-    {
-        return isElementDisplayed(moderatedVisibilityRadioButtonChecked);
-    }
-
-    public boolean isPrivateVisibilityRadioButtonChecked()
-    {
-        return isElementDisplayed(privateVisibilityRadioButtonChecked);
+        return this;
     }
 
     public SiteDashboardPage clickCreateButton()
     {
+        log.info("Click Create button");
         WebElement create = waitUntilElementIsVisible(createButton);
         waitUntilElementHasAttribute(create,"aria-disabled", "false");
         clickElement(create);
-        return new SiteDashboardPage(webDriver);
+
+        SiteDashboardPage siteDashboardPage = new SiteDashboardPage(webDriver);
+        siteDashboardPage.waitForSiteDashboardPageToBeLoaded();
+
+        return siteDashboardPage;
     }
 
     public void clickCancelButton()
@@ -259,30 +177,10 @@ public class CreateSiteDialog extends BaseDialogComponent
         waitUntilElementDisappears(createSiteDialog);
     }
 
-    public boolean isCloseXButtonDisplayed()
-    {
-        return isElementDisplayed(closeXButton);
-    }
-
     public CreateSiteDialog assertCreateSiteDialogIsDisplayed()
     {
         waitUntilElementIsVisible(createSiteDialog);
         assertTrue(isElementDisplayed(createSiteDialog), "Create site dialog is displayed");
         return this;
-    }
-
-    public boolean isTypeLabelDisplayed()
-    {
-        return isElementDisplayed(typeLabel);
-    }
-
-    public String getTypeLabelValue()
-    {
-        return waitUntilElementIsVisible(typeLabelValue).getText();
-    }
-
-    public String getNameFieldWarningMessage()
-    {
-        return waitUntilElementIsVisible(nameFieldWarningMessage).getText();
     }
 }

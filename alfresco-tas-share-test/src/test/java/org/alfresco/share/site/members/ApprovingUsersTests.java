@@ -202,7 +202,6 @@ public class ApprovingUsersTests extends BaseTest
 
         userDashboardPage.navigate(managerUser.get());
         myTasksDashlet
-            .selectFilterTaskOption(language.translate(ACTIVE_TASKS))
             .assertDashletTitleEquals(language.translate(MY_TASKS))
             .assertTaskNameEqualsTo(taskName);
 

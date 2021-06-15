@@ -3,11 +3,13 @@ package org.alfresco.po.share.site;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.po.share.Theme;
+import org.alfresco.po.enums.Theme;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
+import static org.alfresco.common.RetryTime.RETRY_TIME_10;
 
 @Slf4j
 public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
@@ -32,11 +34,6 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         return String.format("share/page/site/%s/customise-site", getCurrentSiteName());
     }
 
-    /**
-     * Verify if Site Theme drop-down is displayed
-     *
-     * @return true if displayed
-     */
     public boolean isSiteThemeDisplayed()
     {
         return isElementDisplayed(siteThemeSelect);
@@ -44,11 +41,13 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     public void selectTheme(Theme theme)
     {
+        log.info("Set site theme to {}", theme.name);
         Select themeType = new Select(waitUntilElementIsVisible(siteThemeSelect));
         if (theme.equals(Theme.APPLICATION_SET))
         {
             themeType.selectByVisibleText("Application Set Theme");
-        } else
+        }
+        else
         {
             themeType.selectByValue(theme.selectValue);
         }
@@ -79,21 +78,11 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         return currentPageTypes;
     }
 
-    /**
-     * Returns All Current {@link SitePageType}.
-     *
-     * @return List<SitePageType>
-     */
     public List<SitePageType> getCurrentPages()
     {
         return getPages(findElement(currentSitePagesArea));
     }
 
-    /**
-     * Returns All Available {@link SitePageType}.
-     *
-     * @return List<SitePageType>
-     */
     public List<SitePageType> getAvailablePages()
     {
         return getPages(findElement(availableSitePagesArea));
@@ -135,9 +124,8 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     private void retryAddPageToSite(SitePageType page, WebElement pageElem )
     {
         int i = 0;
-        int retry = 5;
         boolean added = isPageAddedToCurrentPages(page);
-        while (i < retry && !added)
+        while (i < RETRY_TIME_10.getValue() && !added)
         {
             log.info(String.format("Retry add page - %s", i));
             dragAndDrop(pageElem, waitUntilElementIsVisible(currentSitePagesArea));
@@ -179,12 +167,6 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         return waitUntilElementIsVisible(By.cssSelector(page.getCustomizeCssLocator()));
     }
 
-    /**
-     * Get the display name for a page
-     *
-     * @param page SitePageType the page
-     * @return String display name
-     */
     public String getPageDisplayName(SitePageType page)
     {
         WebElement pageElem = getSitePageType(page);
