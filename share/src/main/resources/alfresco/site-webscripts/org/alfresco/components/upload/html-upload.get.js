@@ -1,6 +1,21 @@
-<import resource="classpath:alfresco/site-webscripts/org/alfresco/components/upload/flash-upload.get.js">
+/**
+ * Custom content types
+ */
+function getContentTypes()
+{
+   // TODO: Data webscript call to return list of available types
+   var contentTypes = [
+      {
+         id: "cm:content",
+         value: "cm_content"
+      }];
 
-function main2()
+   return contentTypes;
+}
+
+model.contentTypes = getContentTypes();
+
+function main()
 {
    // Widget instantiation metadata...
    var htmlUpload = {
@@ -24,5 +39,5 @@ function main2()
    model.fileUploadSizeLimit = (_maximumFileSizeLimit != null) ? _maximumFileSizeLimit : "0";
 }
 
-main2();
+main();
 
