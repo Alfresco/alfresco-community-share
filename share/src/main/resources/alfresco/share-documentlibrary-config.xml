@@ -9,14 +9,14 @@
 
    <!-- Document Library config section -->
    <config evaluator="string-compare" condition="DocumentLibraryViews">
-         <!-- The view renderers that will be available as options in DocumentLibrary, My Files, Shared Files and 
+         <!-- The view renderers that will be available as options in DocumentLibrary, My Files, Shared Files and
               Repository pages. This list can be added to or removed to control the views displayed. Use the a module
-              that provides evaluated configuration to have the options change based on criteria (e.g. site name, 
+              that provides evaluated configuration to have the options change based on criteria (e.g. site name,
               site preset, user group, etc)
-              
-              Remember to include all dependencies, even those duplicated by another view - Surf will ensure only 
+
+              Remember to include all dependencies, even those duplicated by another view - Surf will ensure only
               one version of each is loaded - but if a view is removed that depends on a dependency defined in another
-              view then it will cause an error. 
+              view then it will cause an error.
            -->
       <view-renderers>
          <view-renderer id="simple" iconClass="simple" label="button.view.simple" index="10" widget="Alfresco.DocumentListSimpleViewRenderer">
@@ -48,11 +48,8 @@
                <js src="yui/carousel/carousel.js" />
                <js src="components/preview/web-preview.js" />
                <js src="components/preview/WebPreviewer.js" />
-               <js src="js/flash/extMouseWheel.js" />
-               <js src="components/preview/StrobeMediaPlayback.js" />
                <js src="components/preview/Video.js" />
                <js src="components/preview/Audio.js" />
-               <js src="components/preview/Flash.js" />
                <js src="components/preview/Image.js" />
                <js src="components/preview/PdfJs.js" />
                <js src="components/preview/pdfjs/pdf.js" />
@@ -67,23 +64,23 @@
                <css src="components/preview/PdfJs.css" />
             </dependencies>
          </view-renderer>
-         
+
          <!-- The following entries are examples of how to create multiple instances of the
               same renderer. In this case they are different configurations of the table view
-              and the differences are controlled by the "json-config" element (although it should 
+              and the differences are controlled by the "json-config" element (although it should
               be noted that not although a view renderer may be supplied with the json-config the
               table view is the only renderer that makes use of it.
-              
+
               There are 4 columns that are always present in the table which need to be manually
               hidden if required (they will be displayed if included in the json-config:
               - actions (the drop-down menu of actions that can be peformed on the document)
               - indicators (the set of icons that visually communicate information about the document)
               - selector (the checkbox to use when selecting multiple documents)
               - thumbnail (the thumbnail sized preview of the document)
-              
+
               All other columns must be defined in the "propertyColumns" array. The property attribute
               can be set to EITHER a document property (e.g. "cm:name") or a metadata template renderer
-              such as "size", "tags" or "date". 
+              such as "size", "tags" or "date".
          -->
          <!--
          <view-renderer id="email" iconClass="table" label="button.view.email" index="50" widget="Alfresco.DocumentListTableViewRenderer">
@@ -472,30 +469,30 @@
             shall use when asking the repository for nodes.
           -->
          <data-url-resolver>resolver.doclib.doclistDataUrl</data-url-resolver>
-         
-         
+
+
       </doclist>
 
-      <!-- This defines a set of modes for pickers (e.g. the copy/move to picker, etc) that should be hidden. 
+      <!-- This defines a set of modes for pickers (e.g. the copy/move to picker, etc) that should be hidden.
            The mode names correlate to values in the Alfresco.module.DoclibGlobalFolder JavaScript widget.
            By default no view modes will be hidden, each view mode should be added as the value of it's own
            <mode> element.
         -->
       <hidden-picker-view-modes></hidden-picker-view-modes>
-       
+
       <tree>
          <!--
             Whether the folder Tree component should enumerate child folders or not.
             This is a relatively expensive operation, so should be set to "false" for Repositories with broad folder structures.
          -->
          <evaluate-child-folders>true</evaluate-child-folders>
-         
+
          <!--
             Optionally limit the number of folders shown in treeview throughout Share.
          -->
          <maximum-folder-count>-1</maximum-folder-count>
-         
-         <!--  
+
+         <!--
             Default timeout in milliseconds for folder Tree component to recieve response from Repository
          -->
          <timeout>7000</timeout>
@@ -595,8 +592,8 @@
             See: http://bugs.adobe.com/jira/browse/FP-4830
             For these cases, it is useful to disable the Flash-based uploader for Share Document Libraries.
          -->
-         <adobe-flash-enabled>true</adobe-flash-enabled>
-         
+         <adobe-flash-enabled>false</adobe-flash-enabled>
+
          <!--
             In order to support drag-and-drop file upload a browser must be able to support the HTML5 drag-and-drop events, however
             if the browser does not support the FormData type (that allows streamed multipart file uploads) then all files need to be
@@ -618,7 +615,7 @@
          The 'sort' config element contains the name of the content model field to sort against and can be of the form:
          - short QName string e.g. "cm:name"
          - any other valid sortable fts-alfresco special field e.g. "TYPE"
-         
+
          The field can be optionally followed by |true or |false to indicate sort direction,
          where true = ascending, false = descending
       -->
@@ -635,7 +632,7 @@
          <sort label="label.mimetype">cm:content.mimetype</sort>
          <sort label="label.type">TYPE</sort>
       </sorting>
-      
+
       <!--
          Filter configurations
       -->
@@ -645,7 +642,7 @@
          -->
          <maximum-tag-count>100</maximum-tag-count>
       </filters>
-      
+
       <!--
          Status Indicators
       -->
@@ -782,9 +779,9 @@
          <action type="action-link" id="onActionAssignWorkflow" asset="document" icon="document-assign-workflow" label="menu.selected-items.assign-workflow"/>
          <action type="action-link" id="onActionDelete" icon="document-delete" permission="Delete" label="menu.selected-items.delete" notAspect="sys:undeletable,smf:smartFolder" />
       </multi-select>
-      
+
       <!--
-       Enables lazy loading of filmstrip items of type IMAGE. Instead of loading all the images 
+       Enables lazy loading of filmstrip items of type IMAGE. Instead of loading all the images
        when the folder is opened, only load upon demand, i.e. when a thumbnail is clicked
       -->
       <filmstripImageLazyLoading>true</filmstripImageLazyLoading>
@@ -800,7 +797,7 @@
 
       <!-- Hide the Repository header link for non-Admin users -->
       <visible>false</visible>
-      
+
       <tree>
          <!--
             Whether the folder Tree component should enumerate child folders or not.
@@ -1035,7 +1032,7 @@
             </permissions>
             <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
          </action>
-         
+
          <!-- Unzip to -->
          <action id="document-unzip-to" type="javascript" label="actions.document.unzip-to">
             <param name="function">onActionUnzipTo</param>
@@ -1380,7 +1377,7 @@
       </actionGroups>
    </config>
 
-   <!-- 
+   <!--
       Configuration used to suppress components like: Comments, Favorites, Like, Tags, Date
       when the filter criteria match.
    -->
@@ -1499,10 +1496,10 @@
       </component-config>
    </config>
 
-   <!-- 
+   <!--
       Configuration of components styles for folders, when the filter criteria match.
       Used for Smart Folders visualization.
-      This approach can also be used for content - some adaptations required. 
+      This approach can also be used for content - some adaptations required.
    -->
    <config evaluator="string-compare" condition="CommonComponentStyle">
       <component-style>
