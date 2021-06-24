@@ -93,8 +93,6 @@
          <plugin srcMaxSize="2000000">Image</plugin>
       </condition>
 
-      <!-- Note! The Flash plugin is not activated by default, for more information see Flash.js -->
-
       <!-- To add zooming capabilities for images place the following inside a <condition> element -->
       <!-- <plugin>WebPreviewer</plugin> -->
 
