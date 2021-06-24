@@ -5,4 +5,3 @@
 <script type="text/javascript" src="${url.context}/messages.js?locale=${locale}"></script>
 
 <script type="text/javascript" src="${url.context}/js/preview/web-preview.js"></script>
-<script type="text/javascript" src="${url.context}/js/flash/extMouseWheel.js"></script>

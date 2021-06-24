@@ -102,7 +102,6 @@
    <!-- Alfresco web framework common resources -->
    <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/base.css" group="template-common" />
    <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/yui-layout.css" group="template-common" />
-   <@script type="text/javascript" src="${url.context}/res/js/flash/AC_OETags.js" group="template-common"/>
    <@script type="text/javascript" src="${url.context}/res/js/alfresco.js" group="template-common"/>
    <script type="text/javascript" src="<@checksumResource src="${url.context}/res/modules/editors/tinymce/tinymce.min.js" parameter="checksum"/>"></script>
    <@script type="text/javascript" src="${url.context}/res/modules/editors/tiny_mce.js" group="template-common"/>

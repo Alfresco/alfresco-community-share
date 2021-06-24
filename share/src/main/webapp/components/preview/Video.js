@@ -71,11 +71,19 @@ Alfresco.WebPreview.prototype.Plugins.Video.prototype =
     */
    display: function Video_display()
    {
+      var $html = Alfresco.util.encodeHTML;
+
       var src = this.attributes.src ? this.wp.getThumbnailUrl(this.attributes.src) : this.wp.getContentUrl(),
          mimeType = this.attributes.srcMimeType ? this.attributes.srcMimeType : this.wp.options.mimeType;
+
+      // If mimeType does not start with 'video/' then there may be security or usability concerns.
+      if (!mimeType.lastIndexOf('video/', 0) === 0) {
+         return '';
+      }
+      
       var str = '';
-      str += '<video width="100%" height="100%" controls alt="' + this.wp.options.name  + '" title="' + this.wp.options.name  + '">';
-      str += '   <source src="' + src + '"  type=\'' + mimeType + '\'>';
+      str += '<video width="100%" height="100%" controls alt="' + $html(this.wp.options.name)  + '" title="' + $html(this.wp.options.name)  + '">';
+      str += '   <source src="' + $html(src) + '"  type=\'' + $html(mimeType) + '\'>';
       str += '</video>';
       return str;
    }
