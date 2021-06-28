@@ -1780,15 +1780,6 @@ function getHeaderModel(pageTitle) {
       }
    },
    {
-      id: "HEADER_SHARE_SERVICES_WARNING",
-      name: "share/services/ServicesWarning",
-      config: {
-         shareServices: getShareServices(),
-         shareVersion: getShareImplementationVersion(),
-         userIsAdmin: user.isAdmin
-      }
-   },
-   {
       id: "HEADER_TITLE_BAR",
       name: "alfresco/layout/LeftAndRight",
       className: "share-header-title",
