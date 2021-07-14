@@ -27,14 +27,14 @@
     <properties>
         <version.major>7</version.major>
         <version.minor>0</version.minor>
-        <version.revision>0</version.revision>
+        <version.revision>1</version.revision>
 
         <!-- Version of Alfresco Platform to depend on -->
         <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
-        <alfresco.content-services.version>8.433</alfresco.content-services.version>
+        <alfresco.content-services.version>9.37</alfresco.content-services.version>
 
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>8.393</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>9.29</dependency.alfresco-community-repo.version>
 
         <!-- Java 8 compatibility -->
         <maven.compile.source>1.8</maven.compile.source>
