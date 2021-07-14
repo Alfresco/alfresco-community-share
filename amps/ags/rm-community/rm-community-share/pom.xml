@@ -8,7 +8,7 @@
    <parent>
       <groupId>org.alfresco</groupId>
       <artifactId>alfresco-governance-services-community-share-parent</artifactId>
-      <version>11.43</version>
+      <version>11.44-SNAPSHOT</version>
    </parent>
 
    <properties>
