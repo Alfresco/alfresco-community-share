@@ -83,6 +83,10 @@ function getUserGroupData() {
       }
       userData.groups = processedGroups;
    }
+   else
+   {
+       userData.groups = {};
+   }
    userData.isNetworkAdmin = user.properties["isNetworkAdmin"];
    if (userData.isNetworkAdmin == null)
    {
