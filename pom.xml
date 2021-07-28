@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>11.47-SNAPSHOT</version>
+    <version>14.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -34,8 +34,8 @@
         <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
 
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>11.93</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>11.110</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>14.0</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>14.0</dependency.alfresco-enterprise-repo.version>
 
         <image.registry>quay.io</image.registry>
         <image.tag>latest</image.tag>
