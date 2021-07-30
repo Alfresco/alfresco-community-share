@@ -187,8 +187,9 @@ public class DetailsPageTest extends AbstractTest
         folderDetails.addComment(xssComment, Encoder.ENCODER_NOENCODER);
         folderDetails.addComment(xssComment, Encoder.ENCODER_HTML);
         folderDetails.addComment(xssComment, Encoder.ENCODER_JAVASCRIPT);
-        
-        Assert.assertTrue(folderDetails.getComments().contains(xssComment), "Problem adding XSS Comment");
+
+        // PRODSEC-4421 : The XSS comment shouldn't appear as is in the comments section
+        Assert.assertFalse(folderDetails.getComments().contains(xssComment), "Added XSS Comment");
     }
     
     @Test(dependsOnMethods="addCommentsToFolder", groups = { "alfresco-one" }, expectedExceptions={UnsupportedOperationException.class})
@@ -239,8 +240,9 @@ public class DetailsPageTest extends AbstractTest
         docDetails.addComment(xssComment, Encoder.ENCODER_NOENCODER);
         docDetails.addComment(xssComment, Encoder.ENCODER_HTML);
         docDetails.addComment(xssComment, Encoder.ENCODER_JAVASCRIPT);
-        
-        Assert.assertTrue(docDetails.getComments().contains(xssComment), "Problem adding XSS Comment");
+
+        // PRODSEC-4421 : The XSS comment shouldn't appear as is in the comments section
+        Assert.assertFalse(docDetails.getComments().contains(xssComment), "Added XSS Comment");
     }
    
     @Test(dependsOnMethods="addCommentsToFile", groups = { "alfresco-one" })
