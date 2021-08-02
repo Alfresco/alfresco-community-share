@@ -1,17 +1,19 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class ManageRulesPage extends SiteCommon<ManageRulesPage>
+import static org.testng.Assert.assertEquals;
+
+@Slf4j public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 {
     private DocumentLibraryPage documentLibraryPage;
     private EditRulesPage editRulesPage;
     private SelectDestinationDialog selectDestinationDialog;
-
     private final By contentRule = By.cssSelector("li.rules-list-item.selected.dnd-draggable");
     private final By title = By.cssSelector(".rules-header .rules-title");
     private final By noRulesText = By.xpath(".//*[contains(@class, 'dialog-options')]/*[1]");
@@ -26,12 +28,11 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     public ManageRulesPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
-        documentLibraryPage = new DocumentLibraryPage(webDriver);
-        editRulesPage = new EditRulesPage(webDriver);
+        //documentLibraryPage = new DocumentLibraryPage(webDriver);
+        //editRulesPage = new EditRulesPage(webDriver);
     }
 
-    @Override
-    public String getRelativePath()
+    @Override public String getRelativePath()
     {
         return String.format("share/page/site/%s/folder-rules", getCurrentSiteName());
     }
@@ -101,7 +102,22 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         clickElement(inheritButton);
         waitUntilElementIsVisible(inheritRulesMessage);
         waitUntilElementDisappears(inheritRulesMessage);
+        return this;
+    }
 
+    public ManageRulesPage assertManageRulesPageTitleEquals(String expectedTitle)
+    {
+        log.info("Verify Manage Rule Page Title");
+        assertEquals(getPageTitle(), expectedTitle,
+            String.format("Manage Rule page title not match %s ", expectedTitle));
+        return this;
+    }
+
+    public ManageRulesPage assertRulesPageTitleEquals(String folderName)
+    {
+        log.info("Verify Rule Page Title");
+        assertEquals(getRuleTitle(), folderName + ": Rules",
+            String.format("Rule page title not matched %s ", folderName));
         return this;
     }
 
