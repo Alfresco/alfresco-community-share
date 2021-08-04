@@ -94,6 +94,37 @@ if (typeof DM == "undefined" || !DM)
 
                         return configDef;
                      }
+                  },
+               DeclareAndFileVersionRecord:
+                  {
+                     text: function (configDef, ruleConfig, configEl) {
+                        this._getParamDef(configDef, "path").displayLabel = this.msg("declare-as-version-record.path.label");
+                        return configDef;
+                     },
+
+                     edit: function (configDef, ruleConfig, configEl) {
+                        this._hideParameters(configDef.parameterDefinitions);
+
+                        configDef.parameterDefinitions.splice(0, 0,
+                           {
+                              type: "arca:dm-fileTo-destination-dialog-button",
+                              _buttonLabel: this.msg("button.select-folder"),
+                              _destinationParam: "destination-folder"
+                           });
+
+                        configDef.parameterDefinitions.splice(1, 0,
+                           {
+                              type: "arca:record-path-help-icon"
+                           });
+
+                        var path = this._getParamDef(configDef, "path");
+                        path._type = "hidden";
+                        path.displayLabel = this.msg("declare-as-version-record.path.label"),
+                           path._displayLabelToRight = false;
+                        path._hideColon = true;
+
+                        return configDef;
+                     }
                   }
             },
          renderers:
