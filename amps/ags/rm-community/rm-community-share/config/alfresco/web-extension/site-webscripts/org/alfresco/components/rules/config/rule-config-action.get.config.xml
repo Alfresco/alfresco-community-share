@@ -95,6 +95,7 @@
       <action name="import">Import</action>
       <action name="set-property-value">SetPropertyValue</action>
       <action name="create-record">DeclareAndFileRecord</action>
+      <action name="declare-as-version-record">DeclareAndFileVersionRecord</action>
    </customise>
 
 </rule-config>
