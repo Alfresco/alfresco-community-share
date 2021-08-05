@@ -17,7 +17,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -60,21 +59,21 @@ public class DeleteRuleTest extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
         LOG.info("Navigate to Create rule page");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
