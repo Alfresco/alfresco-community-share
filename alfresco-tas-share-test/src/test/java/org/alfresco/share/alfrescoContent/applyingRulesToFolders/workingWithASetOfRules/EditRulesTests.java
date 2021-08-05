@@ -82,6 +82,13 @@ public class EditRulesTests extends BaseTest
     }
 
     @TestRail(id = "C7254")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void shouldEditRuleDetails()
+    {
+        createFolderRule(user.get(),
+            folderToCheck, "copy",
+            ruleName, description,
+            false, true, false, "inbound");
 
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,
         "tobefixed" }) public void shouldRuleDetailsEdited()
@@ -113,11 +120,14 @@ public class EditRulesTests extends BaseTest
         ruleDetailsPage.assertPerformedActionEquals("Copy items to .../documentLibrary");
     }
 
-    @TestRail(id = "C7258") @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,
-        "tobefixed" }) public void shouldRuleGetDisable()
+    @TestRail(id = "C7258")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void shouldRuleGetDisable()
     {
-        ruleDetailsPage.clickButton("edit");
-        editRulesPage.assertRulesPageHeaderEquals(ruleName);
+        createFolderRule(user.get(),
+            folderToCheck, "copy",
+            ruleName, description,
+            true, false, false, "inbound");
 
         editRulesPage.clickDisableRuleCheckbox();
         editRulesPage.clickSaveButton();
