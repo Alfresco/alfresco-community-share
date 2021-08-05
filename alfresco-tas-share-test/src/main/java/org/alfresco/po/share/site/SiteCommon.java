@@ -74,7 +74,7 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
         return isElementDisplayed(dashboard);
     }
 
-    public void clickDocumentLibrary()
+    public void navigateToDocumentLibraryPage()
     {
         waitUntilElementIsVisible(documentLibrary);
         clickElement(documentLibrary);

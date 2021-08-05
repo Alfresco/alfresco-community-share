@@ -23,9 +23,9 @@ public class PerformActionRulePage extends SiteCommon<PerformActionRulePage> {
         Select performAction = new Select(findElement(mimetypeDropDown));
         performAction.selectByValue(mimetypeTransformation.getValue());
         editRulesPage.clickCopySelectButton();
-        selectDestinationDialog.clickSite(targetSite);
-        selectDestinationDialog.clickPathFolder(targetFolder);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(targetSite);
+        selectDestinationDialog.selectFolderPath(targetFolder);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
     }
 

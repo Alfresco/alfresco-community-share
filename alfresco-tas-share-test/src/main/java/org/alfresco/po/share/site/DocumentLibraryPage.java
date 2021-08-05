@@ -3,21 +3,19 @@ package org.alfresco.po.share.site;
 import static org.alfresco.common.Utils.retryUntil;
 import static org.alfresco.common.Wait.WAIT_3;
 import static org.alfresco.common.Wait.WAIT_5;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import com.google.common.base.Function;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.UploadFileDialog;
-import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
-import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -39,7 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO to be deleted
 {
-    public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver) {
+    public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver)
+    {
         super(webDriver);
     }
 
@@ -319,11 +318,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }
     }
 
-    public boolean isContentNameDisplayed(String contentName) {
-        try {
+    public boolean isContentNameDisplayed(String contentName)
+    {
+        try
+        {
             waitForContent(contentName);
             return true;
-        } catch (AssertionError | InterruptedException ex) {
+        }
+        catch (InterruptedException e) {
             return false;
         }
     }
@@ -387,6 +389,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public List<String> getAllOptionsText() {
         List<String> optionsText = new ArrayList<>();
         List<WebElement> options = findElements(displayedOptionsListBy);
+
         for (WebElement option : options) {
             optionsText.add(option.getText());
         }
@@ -433,7 +436,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         WebElement folderElement = selectDocumentLibraryItemRow(folderName);
         Parameter.checkIsMandotary("Folder", folderElement);
         clickElement(folderElement.findElement(contentNameSelector));
-        waitUntilElementContainsText(breadcumbCurrentFolder, folderName);
         return this;
     }
 
@@ -636,26 +638,22 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }
     }
 
-    /**
-     * Click on the given action for an item.
-     * This method is used for actions that redirect to a page!
-     *
-     * @param contentItem content item to apply action
-     * @param action      to be clicked on
-     * @return render redirected page
-     */
-    public void clickDocumentLibraryItemAction(String contentItem, ItemActions action) {
+    public void selectItemAction(String contentItem, ItemActions action) {
         WebElement libraryItem = mouseOverContentItem(contentItem);
-        WebElement actionElement;
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
+        WebElement actionElement;
 
-        if (isActionInMoreActionsContainer(action)) {
-            // click on "more actions" if it is
+        if (isActionInMoreActionsContainer(action))
+        {
             clickOnMoreActions(libraryItem);
         }
-        try {
+
+        try
+        {
             actionElement = waitUntilElementIsVisible(actionSelector);
-        } catch (TimeoutException timeoutException) {
+        }
+        catch (TimeoutException timeoutException)
+        {
             throw new TimeoutException("The action " + action.getActionName() + " could not be found for list item " + contentItem);
         }
 
@@ -1187,15 +1185,17 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }
     }
 
-    public DocumentLibraryPage assertDocumentLibraryPageTitleEquals(String expectedTittle) {
+    public DocumentLibraryPage assertDocumentLibraryPageTitleEquals(String expectedTittle)
+    {
         log.info("Verify Document Library Page Title");
         assertEquals(getPageTitle(), expectedTittle, String.format("Page Title not equal %s ", expectedTittle));
         return this;
     }
-    public DocumentLibraryPage assertContentNameNotDisplayedFalse(String fileName) {
-        log.info("Verify File Name not displayed in the Document Library");
-        assertFalse(isContentNameDisplayed(fileName), fileName + " displayed in Document Library");
+
+    public DocumentLibraryPage assertFileIsNotDisplayedInFolder(String fileName)
+    {
+        log.info("Assert folder is not displayed in Document Library");
+        assertFalse(isContentNameDisplayed(fileName), fileName + " is displayed in Document Library");
         return this;
     }
-
 }

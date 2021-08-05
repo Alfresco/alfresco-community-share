@@ -1,19 +1,16 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.testng.Assert.assertEquals;
+
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import static org.testng.Assert.assertEquals;
-
-@Slf4j public class ManageRulesPage extends SiteCommon<ManageRulesPage>
+@Slf4j
+public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 {
-    private DocumentLibraryPage documentLibraryPage;
-    private EditRulesPage editRulesPage;
-    private SelectDestinationDialog selectDestinationDialog;
     private final By contentRule = By.cssSelector("li.rules-list-item.selected.dnd-draggable");
     private final By title = By.cssSelector(".rules-header .rules-title");
     private final By noRulesText = By.xpath(".//*[contains(@class, 'dialog-options')]/*[1]");
@@ -22,14 +19,11 @@ import static org.testng.Assert.assertEquals;
     private final By linkToRuleSetLink = By.cssSelector("a[id*='linkToRuleSet']");
     private final By linkToRuleSetDescription = By.xpath("(.//div[@class='dialog-option']/div)[2]");
     private final By inheritButton = By.cssSelector("button[id*='inheritButton']");
-    private final By breadcrumbList = By.cssSelector("span.folder-link a");
     private final By inheritRulesMessage = By.cssSelector("#message .bd");
 
     public ManageRulesPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
-        //documentLibraryPage = new DocumentLibraryPage(webDriver);
-        //editRulesPage = new EditRulesPage(webDriver);
     }
 
     @Override public String getRelativePath()
@@ -63,9 +57,9 @@ import static org.testng.Assert.assertEquals;
         return "'Create Rules' link isn't displayed.";
     }
 
-    public EditRulesPage clickCreateRules()
+    public EditRulesPage openCreateNewRuleForm()
     {
-        findElement(createRulesLink).click();
+        clickElement(createRulesLink);
         return new EditRulesPage(webDriver);
     }
 

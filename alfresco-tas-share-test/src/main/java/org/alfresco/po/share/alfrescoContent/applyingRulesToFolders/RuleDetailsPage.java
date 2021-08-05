@@ -11,28 +11,22 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertEquals;
 
-@Slf4j public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
+@Slf4j
+public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 {
-    private EditRulesPage editRulesPage;
-
     private final By ruleTitle = By.cssSelector(".rule-details [id*='title']");
     private final By ruleDescription = By.cssSelector("span[id*='description']");
-    private final By detailsSelector = By
-        .cssSelector("div[id*='default-display'] div[class*='behaviour']");
+    private final By detailsSelector = By.cssSelector("div[id*='default-display'] div[class*='behaviour']");
     private final By whenCondition = By.cssSelector("ul[id*='ruleConfigType'] .name span");
-    private final By ifAllCriteriaCondition = By
-        .cssSelector("ul[id*='ruleConfigIfCondition'] .name span");
-    private final By performAction = By
-        .xpath(".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']");
+    private final By ifAllCriteriaCondition = By.cssSelector("ul[id*='ruleConfigIfCondition'] .name span");
+    private final By performAction = By.xpath(".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']");
     private final By rulesList = By.cssSelector(".rules-list-container .title");
     private final By runRulesOptions = By.cssSelector(".rules-actions .yuimenuitemlabel");
     private final String buttonSelector = "button[id*='%s']";
-    private final By deleteButton = By.xpath("//button[text()=\"Delete\"]");
 
-    public RuleDetailsPage(ThreadLocal<WebDriver> browser)
+    public RuleDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
-        editRulesPage = new EditRulesPage(browser);
+        super(webDriver);
     }
 
     @Override public String getRelativePath()
@@ -45,33 +39,33 @@ import static org.testng.Assert.assertEquals;
         return getElementText(ruleTitle);
     }
 
-    public String getRuleDescription()
-    {
-        return getElementText(ruleDescription);
-    }
-
     public List<String> getDetailsList()
     {
         List<WebElement> descriptionDetailsList = waitUntilElementsAreVisible(detailsSelector);
-        ArrayList<String> descriptionDetailsText = new ArrayList<>();
+        ArrayList<String> descriptionDetails = new ArrayList<>();
+
         if (!descriptionDetailsList.isEmpty())
-            for (WebElement aDescriptionDetailsList : descriptionDetailsList)
+        {
+            for (WebElement descriptionDetail : descriptionDetailsList)
             {
-                descriptionDetailsText.add(aDescriptionDetailsList.getText());
+                descriptionDetails.add(descriptionDetail.getText());
             }
+        }
         else
-            descriptionDetailsText.add("'Description' details is empty!");
-        return descriptionDetailsText;
+        {
+            descriptionDetails.add("'Description' details is empty!");
+        }
+        return descriptionDetails;
     }
 
     public String getWhenCondition()
     {
-        return findElement(whenCondition).getText();
+        return getElementText(whenCondition);
     }
 
     public String getIfAllCriteriaCondition()
     {
-        return findElement(ifAllCriteriaCondition).getText();
+        return getElementText(ifAllCriteriaCondition);
     }
 
     public String getPerformAction()
@@ -82,12 +76,15 @@ import static org.testng.Assert.assertEquals;
     public List<String> getDisplayedRules()
     {
         ArrayList<String> rulesTextList = new ArrayList<>();
-        List<WebElement> list = findElements(rulesList);
+        List<WebElement> list = waitUntilElementsAreVisible(rulesList);
+
         if (!list.isEmpty())
+        {
             for (WebElement aRulesList : list)
             {
                 rulesTextList.add(aRulesList.getText());
             }
+        }
         else
         {
             rulesTextList.add("No rules displayed!");
@@ -101,7 +98,7 @@ import static org.testng.Assert.assertEquals;
         clickElement(By.cssSelector(String.format(buttonSelector, buttonId)));
     }
 
-    public void clickEditButton()
+    public void openEditRuleForm()
     {
         clickButton("edit");
     }
@@ -129,35 +126,38 @@ import static org.testng.Assert.assertEquals;
         return this;
     }
 
-    public RuleDetailsPage assertRuleDescriptionEquals(String updatedDescription)
+    public RuleDetailsPage assertRuleDescriptionEquals(String expectedDescription)
     {
-        log.info("Verify Rule Description");
-        assertEquals(getRuleDescription(), updatedDescription,
-            String.format("Rule Description not match %s ", updatedDescription));
+        log.info("Verify Rule Description {}", expectedDescription);
+        String actualDescription = getElementText(ruleDescription);
+
+        assertEquals(actualDescription, expectedDescription,
+            String.format("Rule Description not match %s ", expectedDescription));
         return this;
     }
 
-    public RuleDetailsPage assertRuleDetailsListEquals(String expectedDescriptionDetails)
+    public RuleDetailsPage assertRuleDescriptionDetailsEqualTo(List<String> expectedList)
     {
-        log.info("Verify Rule Details List");
-        assertEquals(getDetailsList().toString(), expectedDescriptionDetails,
-            String.format("Description List not match %s ", expectedDescriptionDetails));
+        log.info("Assert rule description detail equals {}", expectedList);
+        assertEquals(getDetailsList().toString(), expectedList.toString(),
+            String.format("Description List not match %s ", expectedList));
+
         return this;
     }
 
-    public RuleDetailsPage assertWhenConditionEquals(String selectedOptionFromDropdown)
+    public RuleDetailsPage assertWhenConditionTextEquals(String expectedText)
     {
         log.info("Verify When Condition from the Dropdown");
-        assertEquals(getWhenCondition(), selectedOptionFromDropdown,
-            String.format("When section is not met - Section %s ", selectedOptionFromDropdown));
+        assertEquals(getWhenCondition(), expectedText,
+            String.format("When section is not met - Section %s ", expectedText));
         return this;
     }
 
-    public RuleDetailsPage assertIfAllCriteriaConditionEquals(String selectedOptionFromDropdown)
+    public RuleDetailsPage assertIfAllCriteriaConditionEquals(String expectedText)
     {
         log.info("Verify If all criteria condition");
-        assertEquals(getIfAllCriteriaCondition(), selectedOptionFromDropdown,
-            String.format("If all Criteria is not met - Section %s ", selectedOptionFromDropdown));
+        assertEquals(getIfAllCriteriaCondition(), expectedText,
+            String.format("If all Criteria is not met - Section %s ", expectedText));
         return this;
     }
 
