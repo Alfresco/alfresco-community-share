@@ -1,5 +1,5 @@
 ### AGS community repo image
-FROM alfresco/alfresco-governance-repository-community:latest
+FROM alfresco/alfresco-governance-repository-community-base:latest
 
 ### Install the jRebel agent
 RUN yum install -y unzip
