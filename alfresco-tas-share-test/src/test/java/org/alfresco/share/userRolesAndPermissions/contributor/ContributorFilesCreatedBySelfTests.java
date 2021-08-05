@@ -137,7 +137,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Mouse over test File and check 'Upload new version' action is available.");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.UPLOAD_NEW_VERSION);
+        documentLibraryPage.selectItemAction(textFile, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
         
@@ -166,7 +166,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(toBeEdited, ItemActions.EDIT_IN_ALFRESCO), "Edit in Alfresco available for Contributor user");
         LOG.info("Steps2: Click 'Edit in Alfresco'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(toBeEdited, ItemActions.EDIT_IN_ALFRESCO);
+        documentLibraryPage.selectItemAction(toBeEdited, ItemActions.EDIT_IN_ALFRESCO);
         LOG.info("Steps3: Edit content and save changes.");
         editInAlfresco.enterDocumentDetails("editedName", "editedContent", "editedTitle", "editedDescription");
         editInAlfresco.clickButton("Save");
@@ -189,14 +189,14 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.EDIT_OFFLINE), "Edit Offline available for Contributor user");
         LOG.info("Steps2: Click 'Edit Offline' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_OFFLINE);
+        documentLibraryPage.selectItemAction(fileName, ItemActions.EDIT_OFFLINE);
         
         LOG.info("Steps3: Check the file is locked for offline editing.");
         Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
         LOG.info("Steps4,5: Upload a new version for the locked document");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.UPLOAD_NEW_VERSION), "Upload New Version available for Contributor user");
         LOG.info("Steps6: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.UPLOAD_NEW_VERSION);
+        documentLibraryPage.selectItemAction(fileName, ItemActions.UPLOAD_NEW_VERSION);
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
         getBrowser().waitInSeconds(2);
         LOG.info("Steps7: Click test file title link to open details page and check content.");
@@ -223,7 +223,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
             "Edit in Google Docs available for Contributor user");
 
         LOG.info("Steps2: Click 'Edit in Google Docs' action and add some content");
-        documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", ItemActions.EDIT_IN_GOOGLE_DOCS);
+        documentLibraryPage.selectItemAction("uploadedDoc.docx", ItemActions.EDIT_IN_GOOGLE_DOCS);
         getBrowser().waitInSeconds(5);
         docs.clickOkButtonOnTheAuthPopup();
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Edited");
@@ -233,7 +233,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getInfoBannerText("uploadedDoc.docx"), "This document is locked by you.", "Document appears to be locked");
         assertTrue(docs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
         LOG.info("Steps4, 5: Mouse over testFile name and Click 'Check In Google Doc'. Verify Version Information window is displayed.");
-        documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", ItemActions.CHECK_IN_GOOGLE_DOC
+        documentLibraryPage.selectItemAction("uploadedDoc.docx", ItemActions.CHECK_IN_GOOGLE_DOC
         );
         getBrowser().waitInSeconds(10);
         Assert.assertEquals(docs.isVersionInformationPopupDisplayed(), true, "Version information pop-up displayed");
@@ -266,7 +266,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(lockedByMe, ItemActions.CANCEL_EDITING),
             "Cancel Editing action available for Contributor user");
         LOG.info("Steps3: Click 'Cancel Editing' action and check whether the lock is removed for the test file");
-        documentLibraryPage.clickDocumentLibraryItemAction(lockedByMe, ItemActions.CANCEL_EDITING);
+        documentLibraryPage.selectItemAction(lockedByMe, ItemActions.CANCEL_EDITING);
         
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(lockedByMe), "Document appears to be locked");
     }
@@ -287,7 +287,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Step1: Hover over test File and check 'Edit In Google Docs action' is available");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS), "Edit in Google Docs action available");
         LOG.info("Step2: Click 'Edit In Google Docs action' and verify the file is opened in Google Docs");
-        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
+        documentLibraryPage.selectItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
         docs.clickOkButtonOnTheAuthPopup();
         getBrowser().switchWindow(docsUrl);
         assertTrue(getBrowser().getCurrentUrl().contains(docsUrl),
@@ -304,7 +304,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Step1: Mouse over file and click 'Start Workflow' action.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFile, ItemActions.START_WORKFLOW), "Start Workflow action available for Contributor user");
         LOG.info("Steps2: Click 'Start Workflows' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(textFile, ItemActions.START_WORKFLOW);
         LOG.info("Steps3: From the Select Workflow drop-down select New Task Workflow.");
         startWorkflowPage.selectAWorkflow("New Task");
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
@@ -318,7 +318,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         LOG.info("Step1: In Documents Library, go to Documents sections and select Recently Added.");
         documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.RecentlyAdded.title);
         LOG.info("Step2: Hover over test file and click 'Locate File'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(textFile, ItemActions.LOCATE_FILE);
+        documentLibraryPage.selectItemAction(textFile, ItemActions.LOCATE_FILE);
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb is 'Documents'.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(textFile),

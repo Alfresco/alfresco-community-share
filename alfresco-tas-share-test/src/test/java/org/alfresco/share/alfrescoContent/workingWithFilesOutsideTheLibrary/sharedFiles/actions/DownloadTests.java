@@ -7,7 +7,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -51,7 +50,7 @@ public class DownloadTests extends ContextAwareWebTest
         sharePage.navigate();
 
         LOG.info("Step 1: Mouse over file, click Download");
-        sharePage.clickDocumentLibraryItemAction(fileNameC8024, ItemActions.DOWNLOAD);
+        sharePage.selectItemAction(fileNameC8024, ItemActions.DOWNLOAD);
         sharePage.acceptAlertIfDisplayed();
 
         LOG.info("Step 2: Check the file was saved locally");
@@ -65,7 +64,7 @@ public class DownloadTests extends ContextAwareWebTest
         sharePage.navigate();
 
         LOG.info("Step 1: Mouse over folder, click Download");
-        sharePage.clickDocumentLibraryItemAction(folderNameC8027, ItemActions.DOWNLOAD_AS_ZIP);
+        sharePage.selectItemAction(folderNameC8027, ItemActions.DOWNLOAD_AS_ZIP);
         sharePage.acceptAlertIfDisplayed();
         LOG.info("Step 2: Check the folder was saved locally");
         Assert.assertTrue(isFileInDirectory(folderNameC8027, ".zip"), "The folder was not found in the specified location");

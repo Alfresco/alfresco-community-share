@@ -65,7 +65,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName), fileName + " is not available in Repository");
 
         LOG.info("Step 1: Hover over the file you want to delete and press More, select Delete Document");
-        repositoryPage.clickDocumentLibraryItemAction(fileName, ItemActions.DELETE_DOCUMENT);
+        repositoryPage.selectItemAction(fileName, ItemActions.DELETE_DOCUMENT);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), fileName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is not displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");
@@ -90,7 +90,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), folderName + " is not available in Repository");
 
         LOG.info("Step 1: Hover over the folder you want to delete and press More, select Delete Folder");
-        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER);
+        repositoryPage.selectItemAction(folderName, ItemActions.DELETE_FOLDER);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), folderName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is not displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");

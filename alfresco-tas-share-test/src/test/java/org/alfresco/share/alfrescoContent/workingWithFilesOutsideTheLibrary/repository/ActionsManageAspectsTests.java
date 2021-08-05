@@ -7,7 +7,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -56,7 +55,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(nonAdminUser);
 
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
-        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS);
+        repositoryPage.selectItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS);
         Assert.assertTrue(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel is not diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedPanel(), "Currently Selected panel is not diaplyed");
@@ -79,7 +78,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(nonAdminUser);
 
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
-        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS);
+        repositoryPage.selectItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addAspect("Classifiable");
@@ -88,7 +87,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
 
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
-        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS);
+        repositoryPage.selectItemAction(folderInRepoUserHomes, ItemActions.MANAGE_ASPECTS);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 

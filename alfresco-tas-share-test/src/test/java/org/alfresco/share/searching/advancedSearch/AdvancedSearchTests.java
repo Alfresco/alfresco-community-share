@@ -12,7 +12,6 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -111,7 +110,7 @@ public class AdvancedSearchTests extends ContextAwareWebTest
         String folderTitle = "Folder title";
         String description = "This is a test folder";
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         editPropertiesDialog.setTitle(folderTitle);
         editPropertiesDialog.setDescription(description);
         editPropertiesDialog.clickSave();

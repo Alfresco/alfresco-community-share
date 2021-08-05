@@ -90,13 +90,14 @@ public class EditRulesTests extends BaseTest
             ruleName, description,
             false, true, false, "inbound");
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,
-        "tobefixed" }) public void shouldRuleDetailsEdited()
-    {
-        String updatedRuleName = "updateRule-C7254-" + RandomData.getRandomAlphanumeric();
-        String updatedDescription = "Updated Rule description";
+        siteDashboardPage
+            .navigate(site.get())
+            .navigateToDocumentLibraryPage();
 
-        ruleDetailsPage.clickButton("edit");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), MANAGE_RULES);
+
+        ruleDetailsPage.openEditRuleForm();
         editRulesPage.assertRulesPageHeaderEquals(ruleName);
 
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
@@ -129,9 +130,9 @@ public class EditRulesTests extends BaseTest
             ruleName, description,
             true, false, false, "inbound");
 
-        editRulesPage.clickDisableRuleCheckbox();
-        editRulesPage.clickSaveButton();
-        manageRulesPage.assertManageRulesPageTitleEquals("Alfresco » Folder Rules");
+        siteDashboardPage
+            .navigate(site.get())
+            .navigateToDocumentLibraryPage();
 
         FileModel fileModel = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "Test content");
         getCmisApi().usingSite(site.get()).usingResource(folderToCheck).createFile(fileModel);

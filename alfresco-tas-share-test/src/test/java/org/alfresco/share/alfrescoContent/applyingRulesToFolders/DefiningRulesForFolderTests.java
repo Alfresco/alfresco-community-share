@@ -98,7 +98,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Hover created folder, click on 'More' menu -> 'Manage Rules' option");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getNoRulesText(), language.translate("documentLibrary.rules.noRules"), "'No rules' message=");
         assertEquals(manageRulesPage.getCreateRulesLinkText(), language.translate("documentLibrary.rules.createLinkText"), "'Create rules' link text=");
@@ -122,12 +122,12 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Mouse over folder, click More and select Manage Rules");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getNoRulesText(), language.translate("documentLibrary.rules.noRules"), "'No rules' message=");
 
         LOG.info("STEP2: Click on 'Create Rule' link");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
@@ -159,11 +159,11 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("STEP1: Hover created folder, click on 'More' menu -> 'Manage Rules' option");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
 
         LOG.info("STEP2: Click on 'Create Rule' link");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
@@ -174,9 +174,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
         editRulesPage.selectOptionFromDropdown("ruleConfigAction", 2);
         editRulesPage.clickCopySelectButton();
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder("Documents");
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath("Documents");
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
@@ -202,20 +202,20 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Create Rule page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
@@ -249,20 +249,20 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Create Rule page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateAndCreateAnotherButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
@@ -270,9 +270,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Fill in Create Rule details and submit form");
         editRulesPage.typeRuleDetails(ruleName2, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         ArrayList<String> expectedRules = new ArrayList<>(Arrays.asList(ruleName1, ruleName2));
@@ -299,19 +299,19 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Create Rule page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and cancel form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
         selectDestinationDialog.clickCancelButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
@@ -330,21 +330,21 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
         LOG.info("Navigate to Create rule page");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickDisableRuleCheckbox();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
@@ -370,21 +370,21 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
         LOG.info("Navigate to Create rule page");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
@@ -400,7 +400,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP4: Navigate to folder content. For file click on 'Edit in Alfresco' and update the content");
         documentLibraryPage.clickOnFolderName(folderName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO);
+        documentLibraryPage.selectItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO);
 //        assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
         editInAlfrescoPage.clickSaveButton();
@@ -421,21 +421,21 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
         LOG.info("Navigate to Create rule page");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(2, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
@@ -480,20 +480,20 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Create Rule page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         
         editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
         editRulesPage.clickCreateButton();
@@ -540,20 +540,20 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Create Rule page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         
         editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
         editRulesPage.clickCreateButton();
@@ -574,7 +574,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
             "Folders list in Document Library -> " + folderName + "=");
 
         LOG.info("STEP3: Navigate to folder content. For file click on 'Edit in Alfresco' and update the content");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO);
+        documentLibraryPage.selectItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO);
 //        assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
         editInAlfrescoPage.clickSaveButton();
@@ -602,20 +602,20 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Create Rule page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(2, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         
         editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
         editRulesPage.clickCreateButton();
@@ -662,9 +662,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Precondition: Navigate to 'Create rule' page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
@@ -675,9 +675,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
         editRulesPage.selectOptionFromDropdown("ruleConfigAction", 5);
         editRulesPage.clickCopySelectButton();
-        selectDestinationDialog.clickSite(siteName2);
-        selectDestinationDialog.clickPathFolder("Documents");
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName2);
+        selectDestinationDialog.selectFolderPath("Documents");
+        selectDestinationDialog.confirmFolderLocation();
         
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
@@ -718,9 +718,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Precondition: Navigate to 'Create rule' page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
@@ -731,9 +731,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
         editRulesPage.selectOptionFromDropdown("ruleConfigAction", 3);
         editRulesPage.clickCopySelectButton();
-        selectDestinationDialog.clickSite(siteName2);
-        selectDestinationDialog.clickPathFolder("Documents");
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName2);
+        selectDestinationDialog.selectFolderPath("Documents");
+        selectDestinationDialog.confirmFolderLocation();
         
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
@@ -773,9 +773,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("Precondition: Navigate to 'Create rule' page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 
@@ -786,9 +786,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
         editRulesPage.selectOptionFromDropdown("ruleConfigAction", 2);
         editRulesPage.clickCopySelectButton();
-        selectDestinationDialog.clickSite(siteName2);
-        selectDestinationDialog.clickPathFolder("Documents");
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName2);
+        selectDestinationDialog.selectFolderPath("Documents");
+        selectDestinationDialog.confirmFolderLocation();
         
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
@@ -834,8 +834,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         addSiteUsersPage.addUsersToSite();
         String rulename3 = "rule-C286441-" + random;
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
-        manageRulesPage.clickCreateRules();
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
 
         LOG.info("STEP 1: Fill 'Name' field with correct data;");

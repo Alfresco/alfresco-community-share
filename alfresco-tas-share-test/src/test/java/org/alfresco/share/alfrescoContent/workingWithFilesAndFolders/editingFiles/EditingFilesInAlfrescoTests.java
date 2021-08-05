@@ -78,7 +78,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO
+        documentLibraryPage.selectItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO
         );
 
         LOG.info("Step2: Edit the document's properties by sending new input");

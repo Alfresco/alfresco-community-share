@@ -16,7 +16,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -66,7 +65,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1: Click 'Upload new version' action for the test file");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.UPLOAD_NEW_VERSION);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("Step2 - Click on 'Select files to upload' button, browse to the new version of the test file and select it. Click 'Upload' button.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
         LOG.info("Step3 - Check the new title of the file displayed in Document Library.");

@@ -7,7 +7,6 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
-import org.apache.chemistry.opencmis.client.api.Folder;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -45,7 +44,7 @@ public class DocumentLibraryTests extends BaseTest
         getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
 
         siteDashboardPage.navigate(site.get())
-            .clickDocumentLibrary();
+            .navigateToDocumentLibraryPage();
 
         documentLibraryPage.assertBrowserPageTitleIs(language.translate("documentLibrary.browserTitle"));
         documentLibraryPage.usingContent(folderToCheck)

@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -59,7 +58,7 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
 
         LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");
         siteDashboardPage.navigate(siteName);
-        siteDashboardPage.clickDocumentLibrary();
+        siteDashboardPage.navigateToDocumentLibraryPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder is not displayed!");
 
         LOG.info("STEP 2: Click on folder name then on file name");

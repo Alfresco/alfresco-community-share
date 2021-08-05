@@ -55,11 +55,11 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         editPropertiesDialog.setTitle(folderTitle);
         editPropertiesDialog.setDescription(description);
         editPropertiesDialog.clickSave();
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(docName, ItemActions.EDIT_PROPERTIES);
         editPropertiesDialog.setTitle(fileTitle);
         editPropertiesDialog.setDescription(fileDescription);
         editPropertiesDialog.clickSave();

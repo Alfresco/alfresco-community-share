@@ -76,7 +76,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Section Structure' from the drop-down list.");
@@ -112,7 +112,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Web Assets' from the drop-down list.");

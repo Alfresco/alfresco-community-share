@@ -84,7 +84,7 @@ public class EditTests extends ContextAwareWebTest
 //        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties' action");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName1, ItemActions.EDIT_PROPERTIES);
+        sharedFilesPage.selectItemAction(docName1, ItemActions.EDIT_PROPERTIES);
         //assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -123,7 +123,7 @@ public class EditTests extends ContextAwareWebTest
 //        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties'");
-        sharedFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES
+        sharedFilesPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES
         );
         //assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
@@ -165,7 +165,7 @@ public class EditTests extends ContextAwareWebTest
 //        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName2, ItemActions.EDIT_IN_ALFRESCO);
+        sharedFilesPage.selectItemAction(docName2, ItemActions.EDIT_IN_ALFRESCO);
 
         LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.enterDocumentDetails(updatedDocName2, updatedContent, updatedTitle, updatedDescription);
@@ -205,7 +205,7 @@ public class EditTests extends ContextAwareWebTest
         uploadContent.uploadContent(googleDocPath);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        sharedFilesPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
+        sharedFilesPage.selectItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
         getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButtonOnTheAuthPopup();
 

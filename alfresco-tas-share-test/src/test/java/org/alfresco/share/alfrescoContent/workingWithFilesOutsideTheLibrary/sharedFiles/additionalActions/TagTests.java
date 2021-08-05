@@ -120,7 +120,7 @@ public class TagTests extends ContextAwareWebTest
     public void addExistingTag()
     {
         LOG.info("STEP1: Hover over " + docName2 + ".STEP2: Click \"Edit Properties\" option");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName2, ItemActions.EDIT_PROPERTIES);
+        sharedFilesPage.selectItemAction(docName2, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName2), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 
