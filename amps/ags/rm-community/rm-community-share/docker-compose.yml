@@ -2,7 +2,7 @@ version: "3"
 
 services:
     alfresco:
-        image: alfresco/alfresco-governance-repository-community:latest
+        image: alfresco/alfresco-governance-repository-community-base:latest
         environment:
             CATALINA_OPTS: "
                 -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
@@ -47,7 +47,7 @@ services:
             - "30000-30099:30000-30099"
 
     share:
-        image: alfresco/alfresco-governance-share-community:latest
+        image: alfresco/alfresco-governance-share-community-base:latest
         environment:
             - REPO_HOST=alfresco
             - REPO_PORT=8080
