@@ -16,7 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * This class represents a template which should be inherit by each page object/component class.
+ * This class represents a template which should be inherited by each page object/component class.
  *
  * So for example we are going to have:
  *

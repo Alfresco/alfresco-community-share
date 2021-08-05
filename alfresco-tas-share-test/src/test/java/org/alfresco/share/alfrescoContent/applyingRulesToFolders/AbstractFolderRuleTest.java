@@ -35,6 +35,7 @@ public abstract class AbstractFolderRuleTest extends BaseTest
 {
     /**
      * Method for create a rule which will be applied from Share interface on a folder
+     *
      * @implNote Since this method have too many params, could be transformed into
      * a specific class called <b>RuleModel</b> should be passed as a parameter on createFolderRule method.
      * Please see <b>FolderModel</b>
