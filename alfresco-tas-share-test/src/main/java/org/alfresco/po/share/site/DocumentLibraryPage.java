@@ -3,6 +3,8 @@ package org.alfresco.po.share.site;
 import static org.alfresco.common.Utils.retryUntil;
 import static org.alfresco.common.Wait.WAIT_3;
 import static org.alfresco.common.Wait.WAIT_5;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import com.google.common.base.Function;
@@ -37,12 +39,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 {
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver)
     {
-      super(webDriver);
+        super(webDriver);
     }
 
     //todo: move to separate file
-    public enum CreateMenuOption
-    {
+    public enum CreateMenuOption {
         FOLDER(By.cssSelector("span.folder-file")),
         PLAIN_TEXT(By.cssSelector("span.text-file")),
         HTML(By.cssSelector("span.html-file")),
@@ -55,13 +56,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
         private By locator;
 
-        CreateMenuOption(By locator)
-        {
+        CreateMenuOption(By locator) {
             this.locator = locator;
         }
 
-        public By getLocator()
-        {
+        public By getLocator() {
             return locator;
         }
     }
@@ -74,86 +73,88 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private UploadFileDialog uploadDialog;
-   // @Autowired
+    // @Autowired
     private NewFolderDialog newContentDialog;
 
     private static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";
     private static final String ACTION_SELECTOR_MORE = "div[id*='default-actions']:not([class*='hidden']) div.more-actions>.{0}>a";
-    /** more actions */
+    /**
+     * more actions
+     */
     private By moreSelector = By.cssSelector("div[id*='default-actions']:not([class*='hidden']) a.show-more");
     private By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
 
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
-    @FindBy (css = "[id$='default-fileUpload-button-button']")
+    @FindBy(css = "[id$='default-fileUpload-button-button']")
     protected WebElement uploadButton;
-    @FindBy (css = "button[id$='default-options-button-button']")
+    @FindBy(css = "button[id$='default-options-button-button']")
     protected WebElement optionsMenu;
-    @FindBy (css = ".hideFolders")
+    @FindBy(css = ".hideFolders")
     protected WebElement hideFoldersMenuOption;
     protected By likeButton = By.cssSelector("a.like-action");
 
-    @FindAll (@FindBy (css = "a.filter-link"))
+    @FindAll(@FindBy(css = "a.filter-link"))
     private List<WebElement> documentsFilterOptions;
-    @FindBy (css = "div[id$='default-navBar']")
+    @FindBy(css = "div[id$='default-navBar']")
     private WebElement navigationBar;
-    @FindBy (css = "div[id$='paginatorBottom'] span[class$='current']")
+    @FindBy(css = "div[id$='paginatorBottom'] span[class$='current']")
     private WebElement paginator;
-    @FindBy (css = "div[id$='_default-dl-body']")
+    @FindBy(css = "div[id$='_default-dl-body']")
     private WebElement docListContainer;
-    @FindBy (css = ".documents[id$='_default-documents']")
+    @FindBy(css = ".documents[id$='_default-documents']")
     private WebElement documentList;
-    @FindBy (css = "button[id*='createContent']")
+    @FindBy(css = "button[id*='createContent']")
     private WebElement createButton;
-    @FindBy (css = "div[id$='default-options-menu'] span")
+    @FindBy(css = "div[id$='default-options-menu'] span")
     private List<WebElement> optionsList;
     private By optionsMenuDropDown = By.cssSelector("div[id*='default-options-menu'].visible");
     private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
-    private By foldersList  = By.cssSelector(".filter-change:nth-child(1)");
+    private By foldersList = By.cssSelector(".filter-change:nth-child(1)");
     private By filesList = By.cssSelector(".filename a[href*='document-details']");
     private By documentLibraryItemsList = By.cssSelector("div[id$='default-documents'] tbody[class$='data'] tr");
-    @FindAll (@FindBy (css = ".crumb .folder"))
+    @FindAll(@FindBy(css = ".crumb .folder"))
     private List<WebElement> breadcrumbList;
-    @FindBy (css = ".crumb .label a")
+    @FindBy(css = ".crumb .label a")
     private WebElement breadcumbCurrentFolder;
-    @FindBy (css = "button[id*='folderUp']")
+    @FindBy(css = "button[id*='folderUp']")
     private WebElement folderUpButton;
     private By contentNameInputField = By.cssSelector("input[id*='form-field']");
-    @FindBy (css = ".insitu-edit a")
+    @FindBy(css = ".insitu-edit a")
     private List<WebElement> buttonsFromRenameContent;
-    @FindBy (css = ".inlineTagEditAutoCompleteWrapper input")
+    @FindBy(css = ".inlineTagEditAutoCompleteWrapper input")
     private WebElement editTagInputField;
-    @FindBy (css = "form[class='insitu-edit'] a")
+    @FindBy(css = "form[class='insitu-edit'] a")
     private List<WebElement> editTagButtons;
-    @FindBy (css = ".inlineTagEditAutoCompleteWrapper input")
+    @FindBy(css = ".inlineTagEditAutoCompleteWrapper input")
     private WebElement tagToBeEdited;
-    @FindBy (css = "div[class ='google-map']")
+    @FindBy(css = "div[class ='google-map']")
     private WebElement googleMap;
-    @FindBy (css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
+    @FindBy(css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
     private WebElement googleMapPopUp;
-    @FindBy (css = "div[class ='status'] img[title ='Geolocation metadata available']")
+    @FindBy(css = "div[class ='status'] img[title ='Geolocation metadata available']")
     private WebElement geolocationMetadataIcon;
-    @FindBy (css = "span[class ='setDefaultView']")
+    @FindBy(css = "span[class ='setDefaultView']")
     private WebElement setDefaultView;
-    @FindBy (css = "span[class ='removeDefaultView']")
+    @FindBy(css = "span[class ='removeDefaultView']")
     private WebElement removeDefaultView;
-    @FindBy (css = "div[class ='alf-gallery-item']")
+    @FindBy(css = "div[class ='alf-gallery-item']")
     private WebElement galleryViewItem;
-    @FindBy (css = "div[id*='_default-filmstrip-nav-handle']")
+    @FindBy(css = "div[id*='_default-filmstrip-nav-handle']")
     private WebElement downArrowPointer;
-    @FindBy (css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next']")
+    @FindBy(css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next']")
     private WebElement rightArrowPointer;
-    @FindBy (css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev']")
+    @FindBy(css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev']")
     private WebElement leftArrowPointer;
-    @FindBy (css = "button[id*='_default-sortAscending-button-button']")
+    @FindBy(css = "button[id*='_default-sortAscending-button-button']")
     private WebElement sortButton;
-    @FindBy (css = "button[id*='_default-sortField-button-button']")
+    @FindBy(css = "button[id*='_default-sortField-button-button']")
     private WebElement sortByFieldButton;
-    @FindBy (css = "span.yui-pg-current")
+    @FindBy(css = "span.yui-pg-current")
     private WebElement currentPage;
-    @FindAll (@FindBy (css = ".documentDroppable .ygtvlabel"))
+    @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
-    @FindBy (css = ".yui-dt-col-fileName")
+    @FindBy(css = ".yui-dt-col-fileName")
     private List<WebElement> nrOfSharedElements;
 
     private By renameIcon = By.cssSelector(".filename span.insitu-edit[style*='visibility: visible']");
@@ -176,23 +177,19 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
     private By commentButton = By.cssSelector("a.comment");
 
-    public boolean areCreateOptionsAvailable()
-    {
+    public boolean areCreateOptionsAvailable() {
         for (CreateMenuOption option : CreateMenuOption.values()) {
-            if (!isElementDisplayed(option.getLocator()))
-            {
-                log.info("Create menu option: %s was not found", option.name() );
+            if (!isElementDisplayed(option.getLocator())) {
+                log.info("Create menu option: %s was not found", option.name());
                 return false;
             }
         }
         return true;
     }
-
     /**
      * Method to click Plain Text, HTML or XML option from create menu
      */
-    public CreateContentPage clickCreateContentOption(CreateMenuOption option)
-    {
+    public CreateContentPage clickCreateContentOption(CreateMenuOption option) {
         clickElement(option.getLocator());
         return new CreateContentPage(webDriver);
     }
@@ -200,14 +197,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Method to click on create google docs options from create menu
      */
-    public GoogleDocsCommon clickGoogleDocsOption(CreateMenuOption option)
-    {
+    public GoogleDocsCommon clickGoogleDocsOption(CreateMenuOption option) {
         clickElement(option.getLocator());
         return (GoogleDocsCommon) googleDocs.renderedPage();
     }
 
-    public NewFolderDialog clickFolderLink()
-    {
+    public NewFolderDialog clickFolderLink() {
         clickElement(CreateMenuOption.FOLDER.getLocator());
         return new NewFolderDialog(webDriver);
     }
@@ -215,8 +210,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Method to click on Create Document/Folder from Template
      */
-    public void clickCreateFromTemplateOption(CreateMenuOption option)
-    {
+    public void clickCreateFromTemplateOption(CreateMenuOption option) {
         Utils.retry(() ->
         {
             WebElement optionElement = waitUntilElementIsVisible(option.getLocator());
@@ -229,24 +223,21 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }, WAIT_3.getValue());
     }
 
-    private WebElement selectTemplate(String templateName)
-    {
+    private WebElement selectTemplate(String templateName) {
         return waitUntilElementIsVisible(By.xpath("//a[@class = 'yuimenuitemlabel']//span[text()='" + templateName + "']"));
     }
 
     /**
      * Method to check if the template is present
      */
-    public boolean isTemplateDisplayed(String templateName)
-    {
+    public boolean isTemplateDisplayed(String templateName) {
         return isElementDisplayed(selectTemplate(templateName));
     }
 
     /**
      * Method to select template
      */
-    public void clickOnTemplate(String templateName)
-    {
+    public void clickOnTemplate(String templateName) {
         clickElement(selectTemplate(templateName));
        /* if (page instanceof DocumentLibraryPage)
         {
@@ -257,18 +248,15 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Helper method to get the number of items that should be on the page, according to the item count at the bottom.
      */
-    protected int getItemCount()
-    {
+    protected int getItemCount() {
         // figure out how many items are on the page
         String text = paginator.getText();
         String[] values = text.split(" ");
         // The original string will be something like "1 - 25 of 32".
-        if (values.length == 5)
-        {
+        if (values.length == 5) {
             int maxItemOnPage = Integer.parseInt(values[2]);
             // Handle the special case of "0 - 0 of 0"
-            if (maxItemOnPage == 0)
-            {
+            if (maxItemOnPage == 0) {
                 return 0;
             }
             int minItemOnPage = Integer.parseInt(values[0]);
@@ -281,19 +269,15 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Wait for all the expected rows to be there
      */
-    private void waitForRows()
-    {
+    private void waitForRows() {
         // wait predicate
         Function<WebBrowser, Boolean> rowsAvailable = (w) ->
         {
             List<WebElement> rows = w.findElements(documentLibraryItemsList);
             int itemCount = -1;
-            try
-            {
+            try {
                 itemCount = getItemCount();
-            }
-            catch (NoSuchElementException e)
-            {
+            } catch (NoSuchElementException e) {
                 // This can happen because this method is called while the page is rendering.
                 log.debug("BrowseList still rendering - item count is not yet displayed");
             }
@@ -302,37 +286,30 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
 
-    private WebElement selectViewInOptions(String viewName)
-    {
+    private WebElement selectViewInOptions(String viewName) {
         return findElement(By.xpath("//div[contains(@id, '_default-options-menu')]//ul[@class= 'first-of-type']//span[text()='" + viewName + "']"));
     }
 
-    private WebElement findItemInCarrouselFilmstripView(String contentName)
-    {
+    private WebElement findItemInCarrouselFilmstripView(String contentName) {
         return findElement(By.xpath("//div[contains(@class, 'alf-filmstrip-nav-item-thumbnail')]//div[text()='" + contentName + "']"));
     }
 
-    public int getNrOfSharedElements()
-    {
+    public int getNrOfSharedElements() {
         return nrOfSharedElements.size();
     }
 
     @Override
-    public String getRelativePath()
-    {
+    public String getRelativePath() {
         return String.format("share/page/site/%s/documentlibrary", getCurrentSiteName());
     }
 
-    public boolean isUploadButtonDisplayed()
-    {
+    public boolean isUploadButtonDisplayed() {
         return isElementDisplayed(waitUntilElementIsVisible(uploadButton));
     }
 
-    public void waitForContent(String contentName) throws InterruptedException
-    {
+    public void waitForContent(String contentName) throws InterruptedException {
         //the content might not be in the Document Library list due to SOLR indexes
-        if (selectDocumentLibraryItemRow(contentName) == null)
-        {
+        if (selectDocumentLibraryItemRow(contentName) == null) {
             //refresh the current page until the file is found in the Document Library list
             Utility.sleep(5000, 30000, () -> {
                 refresh();
@@ -348,45 +325,54 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             waitForContent(contentName);
             return true;
         }
-        catch (AssertionError | InterruptedException ex)
+        catch (InterruptedException e) {
+            return false;
+        }
+    }
+
+    public boolean isFileNameDisplayed(String fileName)
+    {
+        refresh();
+        waitInSeconds(WAIT_5.getValue());
+        if (selectDocumentLibraryItemRow(fileName) == null)
         {
             return false;
+        }else
+        {
+            return true;
         }
     }
 
     /**
      * Replace the extension of the file. Replace what comes after '.' character with a string representing another extension.
-     * @param fileName          the name of the file that will have another extension type
-     * @param newFileExtension  the expected extension
-     * @return                  the file name with changed extension
+     *
+     * @param fileName         the name of the file that will have another extension type
+     * @param newFileExtension the expected extension
+     * @return the file name with changed extension
      */
-    public String replaceFileExtension(String fileName, String newFileExtension){
+    public String replaceFileExtension(String fileName, String newFileExtension) {
         return String.format(StringUtils.substringBefore(fileName, ".") + newFileExtension);
     }
 
     /**
      * Verify presence of content with exact value for it's name
      */
-    public boolean isContentWithExactValuePresent(String content)
-    {
+    public boolean isContentWithExactValuePresent(String content) {
         WebElement webElement = selectDocLibItemWithExactValue(content);
         return isElementDisplayed(webElement);
     }
 
-    public UploadFileDialog clickUpload()
-    {
+    public UploadFileDialog clickUpload() {
         waitUntilElementIsVisible(uploadButton).click();
         return new UploadFileDialog(webDriver);
     }
 
-    public DocumentLibraryPage uploadNewImage(String imagePath)
-    {
+    public DocumentLibraryPage uploadNewImage(String imagePath) {
         log.info("Upload image to path: {}", imagePath);
         return (DocumentLibraryPage) clickUpload().uploadFile(imagePath, this);
     }
 
-    public boolean isDocumentListDisplayed()
-    {
+    public boolean isDocumentListDisplayed() {
         return isElementDisplayed(documentList);
     }
 
@@ -395,13 +381,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @return true if displayed or false if is not.
      */
-    public boolean isOptionsMenuDisplayed()
-    {
+    public boolean isOptionsMenuDisplayed() {
         return isElementDisplayed(optionsMenu);
     }
 
-    public boolean isHideFoldersMenuOptionDisplayed()
-    {
+    public boolean isHideFoldersMenuOptionDisplayed() {
         boolean elementDisplayed;
         optionsMenu.click();
         elementDisplayed = isElementDisplayed(hideFoldersMenuOption);
@@ -409,19 +393,17 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return elementDisplayed;
     }
 
-    public DocumentLibraryPage selectViewFromOptionsMenu(String view)
-    {
+    public DocumentLibraryPage selectViewFromOptionsMenu(String view) {
         optionsMenu.click();
         selectOptionFromFilterOptionsList(view, optionsList);
         return this;
     }
 
-    public List<String> getAllOptionsText()
-    {
+    public List<String> getAllOptionsText() {
         List<String> optionsText = new ArrayList<>();
         List<WebElement> options = findElements(displayedOptionsListBy);
-        for (WebElement option : options)
-        {
+
+        for (WebElement option : options) {
             optionsText.add(option.getText());
         }
         return optionsText;
@@ -432,20 +414,17 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @return foldersName
      */
-    public List<String> getFoldersList()
-    {
+    public List<String> getFoldersList() {
         waitUntilElementIsDisplayedWithRetry(foldersList, WAIT_5.getValue());
         waitForRows();
         List<String> foldersName = new ArrayList<>();
-        for (WebElement folder : findElements(foldersList))
-        {
+        for (WebElement folder : findElements(foldersList)) {
             foldersName.add(folder.getText());
         }
         return foldersName;
     }
 
-    public WebElement selectDocumentLibraryItemRow(String documentItem)
-    {
+    public WebElement selectDocumentLibraryItemRow(String documentItem) {
         waitForRows();
         List<WebElement> itemsList = findElements(documentLibraryItemsList);
         return findFirstElementWithValue(itemsList, documentItem);
@@ -455,8 +434,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * Select document library item matching exact value of content name
      */
 
-    public WebElement selectDocLibItemWithExactValue(String item)
-    {
+    public WebElement selectDocLibItemWithExactValue(String item) {
         waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 2);
         List<WebElement> itemsList = findElements(documentLibraryItemsList);
         return findFirstElementWithExactValue(itemsList, item);
@@ -467,12 +445,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param folderName to be clicked on
      */
-    public DocumentLibraryPage clickOnFolderName(String folderName)
-    {
+    public DocumentLibraryPage clickOnFolderName(String folderName) {
         WebElement folderElement = selectDocumentLibraryItemRow(folderName);
         Parameter.checkIsMandotary("Folder", folderElement);
         clickElement(folderElement.findElement(contentNameSelector));
-        waitUntilElementContainsText(breadcumbCurrentFolder, folderName);
         return this;
     }
 
@@ -481,14 +457,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param contentItem content item's name link to be hovered
      */
-    public WebElement mouseOverContentItem(String contentItem)
-    {
-        try
-        {
+    public WebElement mouseOverContentItem(String contentItem) {
+        try {
             waitForContent(contentItem);
-        }
-        catch (InterruptedException | AssertionError e)
-        {
+        } catch (InterruptedException | AssertionError e) {
             throw new AssertionError("Content " + contentItem + " was not displayed in library page!");
         }
         WebElement contentItemElement = selectDocumentLibraryItemRow(contentItem);
@@ -498,7 +470,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return Utils.retry(() ->
         {
             mouseOver(contentItemElement);
-            waitUntilElementHasAttribute(contentItemElement,"class", "yui-dt-highlighted");
+            waitUntilElementHasAttribute(contentItemElement, "class", "yui-dt-highlighted");
 
             return contentItemElement;
         }, WAIT_3.getValue());
@@ -509,27 +481,23 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @return filesName
      */
-    public List<String> getFilesList()
-    {
+    public List<String> getFilesList() {
         waitUntilElementIsDisplayedWithRetry(filesList, 6);
         List<String> filesName = new ArrayList<>();
-        for (WebElement file : findElements(filesList))
-        {
+        for (WebElement file : findElements(filesList)) {
             filesName.add(file.getText());
         }
         return filesName;
     }
 
-    public DocumentDetailsPage clickOnFile(String file)
-    {
+    public DocumentDetailsPage clickOnFile(String file) {
         WebElement fileElement = selectDocumentLibraryItemRow(file);
         Parameter.checkIsMandotary("File", fileElement);
         clickElement(fileElement.findElement(contentNameSelector));
         return new DocumentDetailsPage(webDriver);
     }
 
-    public void clickCreateButton()
-    {
+    public void clickCreateButton() {
         clickElement(createButton);
         waitUntilElementIsVisible(By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']"));
     }
@@ -539,12 +507,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @return documents string list
      */
-    public String getExplorerPanelDocuments()
-    {
+    public String getExplorerPanelDocuments() {
         waitUntilElementsAreVisible(explorerPanelDocumentsList);
         ArrayList<String> foldersTextList = new ArrayList<>();
-        for (WebElement anExplorerPanelDocumentsList : explorerPanelDocumentsList)
-        {
+        for (WebElement anExplorerPanelDocumentsList : explorerPanelDocumentsList) {
             foldersTextList.add(anExplorerPanelDocumentsList.getText());
         }
         return foldersTextList.toString();
@@ -553,12 +519,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * @return string list containing elements from Document Library breadcrumb
      */
-    public String getBreadcrumbList()
-    {
+    public String getBreadcrumbList() {
         waitInSeconds(1);
         ArrayList<String> breadcrumbTextList = new ArrayList<>();
-        for (WebElement aBreadcrumbList : breadcrumbList)
-        {
+        for (WebElement aBreadcrumbList : breadcrumbList) {
             breadcrumbTextList.add(aBreadcrumbList.getText());
         }
         breadcrumbTextList.add(breadcumbCurrentFolder.getText());
@@ -571,12 +535,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param filter to be clicked
      */
-    public DocumentLibraryPage clickDocumentsFilterOption(String filter)
-    {
+    public DocumentLibraryPage clickDocumentsFilterOption(String filter) {
         findFirstElementWithValue(documentsFilterOptions, filter).click();
         for (DocumentsFilters docFilter : DocumentsFilters.values())
-            if (docFilter.title.equals(filter))
-            {
+            if (docFilter.title.equals(filter)) {
                 waitUntilElementContainsText(navigationBar, docFilter.header);
                 break;
             }
@@ -588,8 +550,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param folderName folder to be clicked
      */
-    public DocumentLibraryPage clickFolderFromExplorerPanel(String folderName)
-    {
+    public DocumentLibraryPage clickFolderFromExplorerPanel(String folderName) {
         WebElement folder = waitUntilElementIsVisible(
             findFirstElementWithExactValue(explorerPanelDocumentsList, folderName));
         folder.click();
@@ -602,8 +563,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param folderName folder to be clicked
      */
-    public DocumentLibraryPage clickFolderFromBreadcrumb(String folderName)
-    {
+    public DocumentLibraryPage clickFolderFromBreadcrumb(String folderName) {
         findFirstElementWithExactValue(breadcrumbList, folderName).click();
         waitUntilElementContainsText(breadcumbCurrentFolder, folderName);
         return this;
@@ -612,14 +572,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Click on folderUp icon
      */
-    public DocumentLibraryPage clickFolderUpButton()
-    {
+    public DocumentLibraryPage clickFolderUpButton() {
         folderUpButton.click();
         return this;
     }
 
-    public boolean isMoreMenuDisplayed(String contentName)
-    {
+    public boolean isMoreMenuDisplayed(String contentName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(contentName), moreMenuSelector);
     }
 
@@ -629,35 +587,29 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param libraryItem - the content (file/ folder) from where the actions will be collected in the 'list'
      * @return - the name of all available menu action
      */
-    private List<WebElement> getAvailableActions(String libraryItem)
-    {
+    private List<WebElement> getAvailableActions(String libraryItem) {
         WebElement itemRow = mouseOverContentItem(libraryItem);
         clickOnMoreActions(itemRow);
         return itemRow.findElements(actionsSet);
     }
 
-    public boolean isActionAvailableForLibraryItem(String libraryItem, ItemActions action)
-    {
+    public boolean isActionAvailableForLibraryItem(String libraryItem, ItemActions action) {
         return isElementDisplayed(
             findFirstElementWithValue(getAvailableActions(libraryItem), action.getActionName()));
     }
 
-    public boolean areActionsAvailableForLibraryItem(String libraryItem, List<String> actions)
-    {
+    public boolean areActionsAvailableForLibraryItem(String libraryItem, List<String> actions) {
         List<String> availableActions = getAvailableActions(libraryItem).stream()
-                                                                        .map(action -> action.getText())
-                                                                        .collect(Collectors.toList());
+            .map(action -> action.getText())
+            .collect(Collectors.toList());
         return availableActions.containsAll(actions);
     }
 
-    public boolean areActionsNotAvailableForLibraryItem(String libraryItem, List<String> actions)
-    {
+    public boolean areActionsNotAvailableForLibraryItem(String libraryItem, List<String> actions) {
         List<WebElement> availableActions = getAvailableActions(libraryItem);
         boolean notFound = true;
-        for (String action : actions)
-        {
-            if (findFirstElementWithValue(availableActions, action) != null)
-            {
+        for (String action : actions) {
+            if (findFirstElementWithValue(availableActions, action) != null) {
                 log.info(String.format("Action '%s' is available!", action));
                 return false;
             }
@@ -668,17 +620,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Helper method to determine if the specified action is found in more actions container
      */
-    private boolean isActionInMoreActionsContainer(ItemActions action)
-    {
+    private boolean isActionInMoreActionsContainer(ItemActions action) {
         WebElement actionElement;
-        try
-        {
+        try {
             waitUntilElementIsVisible(moreSelector);
             By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR_MORE, action.getActionLocator()));
             actionElement = waitUntilElementIsPresent(actionSelector);
-        }
-        catch (TimeoutException | NoSuchElementException e)
-        {
+        } catch (TimeoutException | NoSuchElementException e) {
             return false;
         }
         return actionElement != null;
@@ -687,45 +635,32 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Click on the more actions link
      */
-    private void clickOnMoreActions(WebElement libraryItem)
-    {
-        try
-        {
+    private void clickOnMoreActions(WebElement libraryItem) {
+        try {
             Utils.retry(
-                    () -> {
-                        WebElement moreAction = waitUntilChildElementIsPresent(libraryItem, moreSelector);
-                        mouseOver(moreAction);
-                        clickElement(moreAction);
-                        // wait for the actions to show
-                        return waitUntilChildElementIsPresent(libraryItem, moreActionsMenu);
-                    }, WAIT_3.getValue());
+                () -> {
+                    WebElement moreAction = waitUntilChildElementIsPresent(libraryItem, moreSelector);
+                    mouseOver(moreAction);
+                    clickElement(moreAction);
+                    // wait for the actions to show
+                    return waitUntilChildElementIsPresent(libraryItem, moreActionsMenu);
+                }, WAIT_3.getValue());
 
-        }
-        catch (TimeoutException e)
-        {
+        } catch (TimeoutException e) {
             // do nothing
         }
     }
 
-    /**
-     * Click on the given action for an item.
-     * This method is used for actions that redirect to a page!
-     *
-     * @param contentItem content item to apply action
-     * @param action      to be clicked on
-     * @return render redirected page
-     */
-    public void clickDocumentLibraryItemAction(String contentItem, ItemActions action)
-    {
+    public void selectItemAction(String contentItem, ItemActions action) {
         WebElement libraryItem = mouseOverContentItem(contentItem);
-        WebElement actionElement;
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
+        WebElement actionElement;
 
-        if(isActionInMoreActionsContainer(action))
+        if (isActionInMoreActionsContainer(action))
         {
-            // click on "more actions" if it is
             clickOnMoreActions(libraryItem);
         }
+
         try
         {
             actionElement = waitUntilElementIsVisible(actionSelector);
@@ -739,57 +674,45 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         clickElement(actionElement);
     }
 
-    public String getDocumentListHeader()
-    {
+    public String getDocumentListHeader() {
         return navigationBar.getText();
     }
 
-    public String getDocumentListMessage()
-    {
+    public String getDocumentListMessage() {
         return documentList.getText();
     }
 
-    public String getFavoriteTooltip(String fileName)
-    {
+    public String getFavoriteTooltip(String fileName) {
         return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("title");
     }
 
-    public DocumentLibraryPage clickFavoriteLink(String fileName)
-    {
+    public DocumentLibraryPage clickFavoriteLink(String fileName) {
         selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).click();
         return this;
     }
 
-    public boolean isFileFavorite(String fileName)
-    {
+    public boolean isFileFavorite(String fileName) {
         return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("class").contains("enabled");
     }
 
-    private void mouseOverContentName(String content)
-    {
-        try
-        {
+    private void mouseOverContentName(String content) {
+        try {
             mouseOver(selectDocumentLibraryItemRow(content).findElement(contentNameSelector));
             waitUntilElementIsVisible(renameIcon);
-        }
-        catch (TimeoutException e)
-        {
+        } catch (TimeoutException e) {
             //ignore the exception for the cases when icon should not appear
         }
     }
-    public boolean isRenameIconDisplayed(String content)
-    {
-        try
-        {
+
+    public boolean isRenameIconDisplayed(String content) {
+        try {
             return retryUntil(() -> {
-                        mouseOverContentName(content);
-                        return true;
-                    },
-                    () -> isElementDisplayed(renameIcon),
-                    WAIT_3.getValue());
-        }
-        catch (RuntimeException runtimeException)
-        {
+                    mouseOverContentName(content);
+                    return true;
+                },
+                () -> isElementDisplayed(renameIcon),
+                WAIT_3.getValue());
+        } catch (RuntimeException runtimeException) {
             return false;
         }
     }
@@ -797,8 +720,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Click on 'Rename' icon from the right of content name
      */
-    public void clickRenameIcon(String contentName)
-    {
+    public void clickRenameIcon(String contentName) {
         WebElement renameIconElement = selectDocumentLibraryItemRow(contentName).findElement(renameIcon);
         renameIconElement.click();
         waitUntilElementIsVisible(contentNameInputField);
@@ -807,8 +729,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Verify content name is text input field
      */
-    public boolean isContentNameInputField()
-    {
+    public boolean isContentNameInputField() {
         return isElementDisplayed(contentNameInputField);
     }
 
@@ -817,8 +738,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param newContentName
      */
-    public void typeContentName(String newContentName)
-    {
+    public void typeContentName(String newContentName) {
         WebElement contentNameInput = waitUntilElementIsVisible(contentNameInputField);
         Utils.clearAndType(contentNameInput, newContentName);
     }
@@ -828,8 +748,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param buttonName to be clicked (Save/Cancel)
      */
-    public DocumentLibraryPage clickButtonFromRenameContent(String buttonName)
-    {
+    public DocumentLibraryPage clickButtonFromRenameContent(String buttonName) {
         findFirstElementWithValue(buttonsFromRenameContent, buttonName).click();
         return this;
     }
@@ -838,8 +757,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param expectedButtons list of expected to be displayed buttons from renaming content by icon
      * @return displayed buttons
      */
-    public boolean verifyButtonsFromRenameContent(String... expectedButtons)
-    {
+    public boolean verifyButtonsFromRenameContent(String... expectedButtons) {
         List<String> buttonNames = new ArrayList<>();
         for (WebElement buttonFromRenameContent : buttonsFromRenameContent)
             buttonNames.add(buttonFromRenameContent.getText());
@@ -851,14 +769,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param contentName to be selected
      */
-    public void clickCheckBox(String contentName)
-    {
+    public void clickCheckBox(String contentName) {
         selectDocumentLibraryItemRow(contentName).findElement(checkBoxSelector).click();
         waitInSeconds(1);
     }
 
-    public boolean isContentSelected(String contentName)
-    {
+    public boolean isContentSelected(String contentName) {
         waitInSeconds(1);
         return selectDocumentLibraryItemRow(contentName).findElement(checkBoxSelector).isSelected();
     }
@@ -869,10 +785,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param expectedSelectedContentList content to be selected
      * @return
      */
-    public String verifyContentItemsSelected(ArrayList<String> expectedSelectedContentList)
-    {
-        for (String contentName : expectedSelectedContentList)
-        {
+    public String verifyContentItemsSelected(ArrayList<String> expectedSelectedContentList) {
+        for (String contentName : expectedSelectedContentList) {
             if (!isContentSelected(contentName))
                 return contentName + " isn't selected!";
         }
@@ -886,18 +800,15 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param expectedNotSelectedContentList content not to be selected
      * @return
      */
-    public String verifyContentItemsNotSelected(ArrayList<String> expectedNotSelectedContentList)
-    {
-        for (String contentName : expectedNotSelectedContentList)
-        {
+    public String verifyContentItemsNotSelected(ArrayList<String> expectedNotSelectedContentList) {
+        for (String contentName : expectedNotSelectedContentList) {
             if (isContentSelected(contentName))
                 return contentName + " is selected!";
         }
         return expectedNotSelectedContentList.toString();
     }
 
-    public boolean isActiveWorkflowsIconDisplayed(String documentLibraryItem)
-    {
+    public boolean isActiveWorkflowsIconDisplayed(String documentLibraryItem) {
         WebElement element = waitUntilElementIsVisible(selectDocumentLibraryItemRow(documentLibraryItem).findElement(By.cssSelector("[class=status] img")));
         return isElementDisplayed(element);
     }
@@ -908,60 +819,49 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param documentLibraryItem
      * @return
      */
-    public List<String> getItemCategories(String documentLibraryItem)
-    {
+    public List<String> getItemCategories(String documentLibraryItem) {
         List<String> categoriesTexts = new ArrayList<>();
         List<WebElement> categories = selectDocumentLibraryItemRow(documentLibraryItem).findElements(categoriesDetails);
-        for (WebElement category : categories)
-        {
+        for (WebElement category : categories) {
             categoriesTexts.add(category.getText());
         }
         return categoriesTexts;
     }
 
-    public String getItemTitle(String itemName)
-    {
+    public String getItemTitle(String itemName) {
         return selectDocumentLibraryItemRow(itemName).findElement(titleSelector).getText();
     }
 
-    public String getItemDescription(String itemName)
-    {
+    public String getItemDescription(String itemName) {
         return selectDocumentLibraryItemRow(itemName).findElement(descriptionSelector).getText();
     }
 
-    public String getTags(String contentName)
-    {
+    public String getTags(String contentName) {
         waitInSeconds(8);
         waitUntilWebElementIsDisplayedWithRetry(findElement(contentTagsSelector), 5);
         List<WebElement> tagsList = selectDocumentLibraryItemRow(contentName).findElements(contentTagsSelector);
         List<String> tagsTextList = new ArrayList<>();
-        for (WebElement aTagsList : tagsList)
-        {
+        for (WebElement aTagsList : tagsList) {
             tagsTextList.add(aTagsList.getText());
         }
         return tagsTextList.toString();
     }
 
-    public List<String> getAllTagNames()
-    {
+    public List<String> getAllTagNames() {
         List<String> allTagsNames = new ArrayList<>();
         int counter = 0;
         int retryCount = 5;
-        while (counter < retryCount)
-        {
-            try
-            {
+        while (counter < retryCount) {
+            try {
                 waitInSeconds(20);
                 refresh();
                 By tagRows = By.cssSelector("ul.filterLink li span.tag a");
                 waitUntilElementsAreVisible(tagRows);
-                for (WebElement tagsElem : findElements(tagRows))
-                {
+                for (WebElement tagsElem : findElements(tagRows)) {
                     allTagsNames.add(tagsElem.getText());
                 }
                 break;
-            } catch (TimeoutException | NoSuchElementException e)
-            {
+            } catch (TimeoutException | NoSuchElementException e) {
                 refresh();
                 counter++;
             }
@@ -975,8 +875,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param tagName    tag to be edited
      * @param newTagName new value for tag
      */
-    public void editTag(String tagName, String newTagName)
-    {
+    public void editTag(String tagName, String newTagName) {
         List<WebElement> tagsList = waitUntilElementsAreVisible(inlineEditTagsSelector);
 
         WebElement tagElement = findFirstElementWithExactValue(tagsList, tagName);
@@ -989,17 +888,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         tagToBeEdited.sendKeys(Keys.ENTER);
     }
 
-    public boolean isNoTagsTextDisplayed(String contentName)
-    {
+    public boolean isNoTagsTextDisplayed(String contentName) {
         int counter = 0;
-        while (counter < 2)
-        {
-            try
-            {
+        while (counter < 2) {
+            try {
                 WebElement noTags = selectDocumentLibraryItemRow(contentName).findElement(noTagsSelector);
                 return isElementDisplayed(noTags);
-            } catch (TimeoutException | NoSuchElementException e)
-            {
+            } catch (TimeoutException | NoSuchElementException e) {
                 log.error("Action not found:" + e);
             }
             counter++;
@@ -1008,8 +903,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return false;
     }
 
-    public void mouseOverTags(String contentName)
-    {
+    public void mouseOverTags(String contentName) {
         WebElement contentElement = selectDocumentLibraryItemRow(contentName);
         Parameter.checkIsMandotary("Content selector", contentElement);
         WebElement tagElement = contentElement.findElement(contentTagsSelector);
@@ -1023,8 +917,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param contentName
      */
-    public void mouseOverNoTags(String contentName)
-    {
+    public void mouseOverNoTags(String contentName) {
         WebElement contentElement = selectDocumentLibraryItemRow(contentName);
         Parameter.checkIsMandotary("Content selector", contentElement);
         WebElement tagElement = contentElement.findElement(noTagsSelector);
@@ -1033,21 +926,18 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         waitUntilElementIsVisible(contentElement.findElement(editTagSelector));
     }
 
-    public boolean isEditTagInputFieldDisplayed()
-    {
+    public boolean isEditTagInputFieldDisplayed() {
         waitUntilElementIsVisible(editTagInputField);
         return isElementDisplayed(editTagInputField);
     }
 
-    public void typeTagName(String tagName)
-    {
+    public void typeTagName(String tagName) {
         waitInSeconds(5);
         Utils.clearAndType(waitUntilElementIsVisible(editTagInputField), tagName);
         editTagInputField.sendKeys(Keys.RETURN);
     }
 
-    public DocumentLibraryPage clickEditTagLink(String linkName)
-    {
+    public DocumentLibraryPage clickEditTagLink(String linkName) {
         waitInSeconds(1);
         WebElement link = findFirstElementWithValue(editTagButtons, linkName);
         clickElement(link);
@@ -1055,8 +945,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return this;
     }
 
-    public void clickOnTag(String tagName)
-    {
+    public void clickOnTag(String tagName) {
         waitUntilElementIsVisible(
             By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
     }
@@ -1067,8 +956,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param contentName
      * @return true if icon is displayed, false otherwise
      */
-    public boolean isEditTagIconDisplayed(String contentName)
-    {
+    public boolean isEditTagIconDisplayed(String contentName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(contentName), editTagSelector);
     }
 
@@ -1077,8 +965,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @param contentName
      */
-    public void clickEditTagIcon(String contentName)
-    {
+    public void clickEditTagIcon(String contentName) {
         WebElement editTagIcon = selectDocumentLibraryItemRow(contentName).findElement(editTagSelector);
         clickElement(editTagIcon);
     }
@@ -1086,12 +973,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Switch to new window and get page content
      */
-    public String switchToNewWindowAngGetContent()
-    {
+    public String switchToNewWindowAngGetContent() {
         String content = null;
 
-        if (!getWindowHandles().isEmpty())
-        {
+        if (!getWindowHandles().isEmpty()) {
             switchWindow(1);
             content = findElement(By.xpath("//body")).getText();
             closeWindowAndSwitchBack();
@@ -1105,15 +990,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param tagName to be removed
      * @return name of removed tag
      */
-    public void removeTag(String tagName)
-    {
+    public void removeTag(String tagName) {
         List<WebElement> tagsList = waitUntilElementsAreVisible(inlineEditTagsSelector);
         List<WebElement> removeIconList = waitUntilElementsAreVisible(removeTagIconSelector);
 
-        for (int i = 0; i < tagsList.size(); i++)
-        {
-            if (tagsList.get(i).getText().equalsIgnoreCase(tagName))
-            {
+        for (int i = 0; i < tagsList.size(); i++) {
+            if (tagsList.get(i).getText().equalsIgnoreCase(tagName)) {
                 removeIconList.get(i);
             }
         }
@@ -1122,8 +1004,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Method to check if the file is opened in Google Maps
      */
-    public boolean isFileOpenedInGoogleMaps()
-    {
+    public boolean isFileOpenedInGoogleMaps() {
         return googleMap.isDisplayed();
     }
 
@@ -1132,16 +1013,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      *
      * @return
      */
-    public boolean isDocumentThumbnailDisplayedOnGoogleMaps()
-    {
+    public boolean isDocumentThumbnailDisplayedOnGoogleMaps() {
         return googleMapPopUp.isDisplayed();
     }
 
     /**
      * Method to click on the document thumbnail to open the document in preview
      */
-    public DocumentDetailsPage clickOnFileInGoogleMaps()
-    {
+    public DocumentDetailsPage clickOnFileInGoogleMaps() {
         googleMapPopUp.click();
         return new DocumentDetailsPage(webDriver);
     }
@@ -1149,8 +1028,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     /**
      * Method to check that the geolocation metadata icon is displayed next to the document
      */
-    public boolean isGeolocationMetadataIconDisplayed()
-    {
+    public boolean isGeolocationMetadataIconDisplayed() {
         return geolocationMetadataIcon.isDisplayed();
     }
 
@@ -1158,8 +1036,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * Method to get the info banner text
      */
 
-    public String getInfoBannerText(String fileName)
-    {
+    public String getInfoBannerText(String fileName) {
         WebElement fileElement = selectDocumentLibraryItemRow(fileName);
         Parameter.checkIsMandotary("Document library file", fileElement);
         WebElement bannerElement = waitUntilChildElementIsPresent(fileElement, infoBanner);
@@ -1171,25 +1048,22 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * Method to check if the info banner is displayed
      */
 
-    public boolean isInfoBannerDisplayed(String fileName)
-    {
+    public boolean isInfoBannerDisplayed(String fileName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), infoBanner);
     }
 
     /**
      * Method to get the locked by user name
      */
-    public String getLockedByUserName(String fileName)
-    {
-        return waitUntilChildElementIsPresent(selectDocumentLibraryItemRow(fileName),lockedByUser).getText();
+    public String getLockedByUserName(String fileName) {
+        return waitUntilChildElementIsPresent(selectDocumentLibraryItemRow(fileName), lockedByUser).getText();
     }
 
     /**
      * Method to check if a view option is present
      */
 
-    public boolean isViewOptionDisplayed(String view)
-    {
+    public boolean isViewOptionDisplayed(String view) {
         return isElementDisplayed(selectViewInOptions(view));
     }
 
@@ -1197,144 +1071,117 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * Method to click on the Options menu button
      */
 
-    public void clickOptionsButton()
-    {
+    public void clickOptionsButton() {
         optionsMenu.click();
     }
 
     /**
      * Method to check if Favorite link is present for test file
      */
-    public boolean isFavoriteLinkPresent(String fileName)
-    {
+    public boolean isFavoriteLinkPresent(String fileName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), favoriteLink);
     }
 
-    public boolean isLikeButtonDisplayed(String fileName)
-    {
+    public boolean isLikeButtonDisplayed(String fileName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), likeButton);
     }
 
-    public boolean isCommentButtonDisplayed(String fileName)
-    {
+    public boolean isCommentButtonDisplayed(String fileName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), commentButton);
     }
 
-    public boolean isShareButtonDisplayed(String fileName)
-    {
+    public boolean isShareButtonDisplayed(String fileName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), By.cssSelector("a[class='quickshare-action']"));
     }
 
-    public String getOptionsSetDefaultViewText(String text)
-    {
+    public String getOptionsSetDefaultViewText(String text) {
         waitUntilElementIsDisplayedWithRetry(optionsMenuDropDown);
         waitUntilElementContainsText(setDefaultView, text);
         return setDefaultView.getText();
     }
 
-    public boolean isItemDisplayedInGalleryView()
-    {
+    public boolean isItemDisplayedInGalleryView() {
         return galleryViewItem.isDisplayed();
     }
 
-    public String getLabelDisplayedInFilmstripView(String contentName)
-    {
+    public String getLabelDisplayedInFilmstripView(String contentName) {
         return findItemInCarrouselFilmstripView(contentName).getText();
     }
 
-    public boolean isDownArrowPointerDisplayed()
-    {
+    public boolean isDownArrowPointerDisplayed() {
         return isElementDisplayed(downArrowPointer);
     }
 
-    public boolean isRightArrowPointerDisplayed()
-    {
+    public boolean isRightArrowPointerDisplayed() {
         return isElementDisplayed(rightArrowPointer);
     }
 
-    public void clickTheRightArrowPointer()
-    {
+    public void clickTheRightArrowPointer() {
         rightArrowPointer.click();
     }
 
-    public boolean isLeftArrowPointerDisplayed()
-    {
+    public boolean isLeftArrowPointerDisplayed() {
         return isElementDisplayed(leftArrowPointer);
     }
 
-    public void clickSetDefaultView()
-    {
+    public void clickSetDefaultView() {
         setDefaultView.click();
     }
 
-    public String getRemoveDefaultViewText()
-    {
+    public String getRemoveDefaultViewText() {
         return removeDefaultView.getText();
     }
 
-    public boolean isSortButtonDisplayed()
-    {
+    public boolean isSortButtonDisplayed() {
         return isElementDisplayed(sortButton);
     }
 
-    public boolean isCreateButtonDisplayed()
-    {
+    public boolean isCreateButtonDisplayed() {
         return isElementDisplayed(createButton);
     }
 
-    public boolean isSortByFieldButtonDisplayed()
-    {
+    public boolean isSortByFieldButtonDisplayed() {
         return isElementDisplayed(sortByFieldButton);
     }
 
-    public boolean isPaginationDisplayed()
-    {
+    public boolean isPaginationDisplayed() {
         return isElementDisplayed(currentPage);
     }
 
-    public String getCreateButtonStatusDisabled()
-    {
+    public String getCreateButtonStatusDisabled() {
         return createButton.getAttribute("disabled");
     }
 
-    public String getUploadButtonStatusDisabled()
-    {
+    public String getUploadButtonStatusDisabled() {
         return uploadButton.getAttribute("disabled");
     }
 
-    public void clickLinkToFolder(String folderName)
-    {
+    public void clickLinkToFolder(String folderName) {
         List<WebElement> linkToFolderList = waitUntilElementsAreVisible(linkToFolderLocator);
         findFirstElementWithExactValue(linkToFolderList, folderName).click();
     }
 
-    public boolean isCreateContentMenuDisplayed()
-    {
+    public boolean isCreateContentMenuDisplayed() {
         return isElementDisplayed(createContentMenu);
     }
 
-    public void clickCreateButtonWithoutWait()
-    {
+    public void clickCreateButtonWithoutWait() {
         waitUntilElementIsVisible(createButton);
     }
 
-    public boolean isFileDisplayed(String fileName)
-    {
-        try
-        {
+    public boolean isFileDisplayed(String fileName) {
+        try {
             waitUntilElementIsDisplayedWithRetry(By.cssSelector("td[class$='yui-dt-col-fileName']"), 5);
             WebElement webElement = selectDocumentLibraryItemRow(fileName);
 
             return isElementDisplayed(webElement);
-        } catch (NoSuchElementException ex)
-        {
+        } catch (NoSuchElementException ex) {
             log.info("Element not found " + ex.getMessage());
             return false;
         }
     }
 
-    public enum DocumentsFilters
-    {
+    public enum DocumentsFilters {
         All("All Documents", "All Documents in the Document Library"),
         EditingMe("I'm Editing", "Documents I'm Editing(working copies)"),
         EditingOthers("Others are Editing", "Documents Others are Editing(working copies)"),
@@ -1345,10 +1192,23 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         public final String title;
         public final String header;
 
-        DocumentsFilters(String title, String header)
-        {
+        DocumentsFilters(String title, String header) {
             this.title = title;
             this.header = header;
         }
+    }
+
+    public DocumentLibraryPage assertDocumentLibraryPageTitleEquals(String expectedTittle)
+    {
+        log.info("Verify Document Library Page Title");
+        assertEquals(getPageTitle(), expectedTittle, String.format("Page Title not equal %s ", expectedTittle));
+        return this;
+    }
+
+    public DocumentLibraryPage assertFileIsNotDisplayed(String fileName)
+    {
+        log.info("Assert folder is not displayed in Document Library");
+        assertFalse(isFileNameDisplayed(fileName), fileName + " is displayed in Document Library");
+        return this;
     }
 }

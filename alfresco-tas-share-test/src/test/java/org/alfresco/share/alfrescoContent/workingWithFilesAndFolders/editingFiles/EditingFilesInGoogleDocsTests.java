@@ -66,7 +66,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         uploadContent.uploadContent(googleDocPath);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
+        documentLibraryPage.selectItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
 
         LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         googleDocsCommon.clickOkButtonOnTheAuthPopup();

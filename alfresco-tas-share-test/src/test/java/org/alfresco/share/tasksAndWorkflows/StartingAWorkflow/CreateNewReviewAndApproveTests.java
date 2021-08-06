@@ -83,7 +83,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review And Approve (single reviewer)' from the drop-down list.");
@@ -116,7 +116,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (one or more reviewers)' from the drop-down list.");
@@ -159,7 +159,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (group review)' from the drop-down list.");
@@ -191,7 +191,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (pooled review)' from the drop-down list.");

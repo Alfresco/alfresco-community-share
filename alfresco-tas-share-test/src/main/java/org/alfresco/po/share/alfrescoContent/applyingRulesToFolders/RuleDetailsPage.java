@@ -2,33 +2,34 @@ package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static org.testng.Assert.assertEquals;
+
+@Slf4j
 public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 {
-    private EditRulesPage editRulesPage;
-
     private final By ruleTitle = By.cssSelector(".rule-details [id*='title']");
     private final By ruleDescription = By.cssSelector("span[id*='description']");
     private final By detailsSelector = By.cssSelector("div[id*='default-display'] div[class*='behaviour']");
     private final By whenCondition = By.cssSelector("ul[id*='ruleConfigType'] .name span");
     private final By ifAllCriteriaCondition = By.cssSelector("ul[id*='ruleConfigIfCondition'] .name span");
-    private final By performAction = By.cssSelector(".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']");
+    private final By performAction = By.xpath(".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']");
     private final By rulesList = By.cssSelector(".rules-list-container .title");
     private final By runRulesOptions = By.cssSelector(".rules-actions .yuimenuitemlabel");
     private final String buttonSelector = "button[id*='%s']";
 
-    public RuleDetailsPage(ThreadLocal<WebDriver> browser)
+    public RuleDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
-        super(browser);
-        editRulesPage = new EditRulesPage(browser);
+        super(webDriver);
     }
 
-    @Override
-    public String getRelativePath()
+    @Override public String getRelativePath()
     {
         return String.format("share/page/site/%s/rule-edit", getCurrentSiteName());
     }
@@ -38,33 +39,33 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
         return getElementText(ruleTitle);
     }
 
-    public String getRuleDescription()
-    {
-        return getElementText(ruleDescription);
-    }
-
     public List<String> getDetailsList()
     {
         List<WebElement> descriptionDetailsList = waitUntilElementsAreVisible(detailsSelector);
-        ArrayList<String> descriptionDetailsText = new ArrayList<>();
+        ArrayList<String> descriptionDetails = new ArrayList<>();
+
         if (!descriptionDetailsList.isEmpty())
-            for (WebElement aDescriptionDetailsList : descriptionDetailsList)
+        {
+            for (WebElement descriptionDetail : descriptionDetailsList)
             {
-                descriptionDetailsText.add(aDescriptionDetailsList.getText());
+                descriptionDetails.add(descriptionDetail.getText());
             }
+        }
         else
-            descriptionDetailsText.add("'Description' details is empty!");
-        return descriptionDetailsText;
+        {
+            descriptionDetails.add("'Description' details is empty!");
+        }
+        return descriptionDetails;
     }
 
     public String getWhenCondition()
     {
-        return findElement(whenCondition).getText();
+        return getElementText(whenCondition);
     }
 
     public String getIfAllCriteriaCondition()
     {
-        return findElement(ifAllCriteriaCondition).getText();
+        return getElementText(ifAllCriteriaCondition);
     }
 
     public String getPerformAction()
@@ -75,12 +76,15 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     public List<String> getDisplayedRules()
     {
         ArrayList<String> rulesTextList = new ArrayList<>();
-        List<WebElement> list = findElements(rulesList);
+        List<WebElement> list = waitUntilElementsAreVisible(rulesList);
+
         if (!list.isEmpty())
+        {
             for (WebElement aRulesList : list)
             {
                 rulesTextList.add(aRulesList.getText());
             }
+        }
         else
         {
             rulesTextList.add("No rules displayed!");
@@ -94,7 +98,7 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
         clickElement(By.cssSelector(String.format(buttonSelector, buttonId)));
     }
 
-    public void clickEditButton()
+    public void openEditRuleForm()
     {
         clickButton("edit");
     }
@@ -112,5 +116,56 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     public void clickOnRunRulesOption(int indexOfOption)
     {
         findElements(runRulesOptions).get(indexOfOption);
+    }
+
+    public RuleDetailsPage assertRulesPageTitleEquals(String updatedRuleName)
+    {
+        log.info("Verify Rules Details Page Title");
+        assertEquals(getRuleTitle(), updatedRuleName,
+            String.format("Rule Details Page Title not match %s ", updatedRuleName));
+        return this;
+    }
+
+    public RuleDetailsPage assertRuleDescriptionEquals(String expectedDescription)
+    {
+        log.info("Verify Rule Description {}", expectedDescription);
+        String actualDescription = getElementText(ruleDescription);
+
+        assertEquals(actualDescription, expectedDescription,
+            String.format("Rule Description not match %s ", expectedDescription));
+        return this;
+    }
+
+    public RuleDetailsPage assertRuleDescriptionDetailsEqualTo(List<String> expectedList)
+    {
+        log.info("Assert rule description detail equals {}", expectedList);
+        assertEquals(getDetailsList().toString(), expectedList.toString(),
+            String.format("Description List not match %s ", expectedList));
+
+        return this;
+    }
+
+    public RuleDetailsPage assertWhenConditionTextEquals(String expectedText)
+    {
+        log.info("Verify When Condition from the Dropdown");
+        assertEquals(getWhenCondition(), expectedText,
+            String.format("When section is not met - Section %s ", expectedText));
+        return this;
+    }
+
+    public RuleDetailsPage assertIfAllCriteriaConditionEquals(String expectedText)
+    {
+        log.info("Verify If all criteria condition");
+        assertEquals(getIfAllCriteriaCondition(), expectedText,
+            String.format("If all Criteria is not met - Section %s ", expectedText));
+        return this;
+    }
+
+    public RuleDetailsPage assertPerformedActionEquals(String expectedAction)
+    {
+        log.info("Verify Performed Action");
+        assertEquals(getPerformAction(), expectedAction,
+            String.format("Performed Action not equal %s ", expectedAction));
+        return this;
     }
 }

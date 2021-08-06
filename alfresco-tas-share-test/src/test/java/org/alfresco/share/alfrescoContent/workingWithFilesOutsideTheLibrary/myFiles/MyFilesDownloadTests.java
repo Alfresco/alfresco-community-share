@@ -12,7 +12,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -46,7 +45,7 @@ public class MyFilesDownloadTests extends ContextAwareWebTest
         uploadContent.uploadContent(testDataFolder + fileNameC7799, fileContent);
 
         LOG.info("Step 1: Mouse over file, click Download");
-        myFilesPage.clickDocumentLibraryItemAction(fileNameC7799, ItemActions.DOWNLOAD);
+        myFilesPage.selectItemAction(fileNameC7799, ItemActions.DOWNLOAD);
         myFilesPage.acceptAlertIfDisplayed();
 
         LOG.info("Step 2: Check the file was saved locally");
@@ -72,7 +71,7 @@ public class MyFilesDownloadTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(folderNameC7802), folderNameC7802 + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Mouse over folder, click Download");
-        myFilesPage.clickDocumentLibraryItemAction(folderNameC7802, ItemActions.DOWNLOAD_AS_ZIP);
+        myFilesPage.selectItemAction(folderNameC7802, ItemActions.DOWNLOAD_AS_ZIP);
         myFilesPage.acceptAlertIfDisplayed();
 
         LOG.info("Step 2: Check the folder was saved locally");

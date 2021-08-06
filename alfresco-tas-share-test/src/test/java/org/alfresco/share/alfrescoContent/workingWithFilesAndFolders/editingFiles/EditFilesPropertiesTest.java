@@ -10,7 +10,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -63,7 +62,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setup("C7005");
 
         LOG.info("Step 1: Hover over a file and click 'Edit Properties'");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(docName, ItemActions.EDIT_PROPERTIES);
         //Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -104,7 +103,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setup("C7005");
 
         LOG.info("Step 1: Hover over a folder and click 'Edit Properties'");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         //.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");

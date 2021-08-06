@@ -133,7 +133,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -162,7 +162,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -198,7 +198,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -262,7 +262,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(C286291siteName);
 
         LOG.info("Precondition 2:  Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("Precondition 3: New Task workflow is selected;");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -373,7 +373,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Expand Selected Items menu.");
         LOG.info("STEP 3: Click Start Workflow action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("STEP 4: Select Adhoc task (New Task).");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -520,7 +520,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("Precondition 7: Start workflow page is opened for the document;");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
 
         LOG.info("Precondition 8: New Task workflow is selected;");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -586,7 +586,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file and click More then Start Workflow.");
-        documentLibraryPage.clickDocumentLibraryItemAction(documentName, ItemActions.START_WORKFLOW);
+        documentLibraryPage.selectItemAction(documentName, ItemActions.START_WORKFLOW);
         Assert.assertTrue(startWorkflowPage.isStartWorkflowDropDownVisible(), "Start Workflow page is not opened");
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button.");

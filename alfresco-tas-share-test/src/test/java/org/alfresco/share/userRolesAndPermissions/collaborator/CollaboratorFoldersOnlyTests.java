@@ -16,7 +16,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -105,7 +104,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
             "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, ItemActions.LOCATE_FOLDER);
+        documentLibraryPage.selectItemAction(subFolderName, ItemActions.LOCATE_FOLDER);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 
@@ -121,7 +120,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
             "'Manage Rules' option is displayed for " + folderName3);
 
         LOG.info("STEP2: Click 'Manage Rules' option for " + folderName3);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName3, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName3, ItemActions.MANAGE_RULES);
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
     }
 

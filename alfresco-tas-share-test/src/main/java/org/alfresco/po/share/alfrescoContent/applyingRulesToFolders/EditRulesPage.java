@@ -1,9 +1,11 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.alfresco.common.Wait.WAIT_3;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteCommon;
@@ -12,15 +14,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+@Slf4j
 public class EditRulesPage extends SiteCommon<EditRulesPage>
 {
-    private DocumentLibraryPage documentLibraryPage;
-    private ManageRulesPage manageRulesPage;
 
-    private By pageHeader = By.cssSelector(".rule-edit .edit-header");
-    private By nameInputField = By.cssSelector("input[id*='title']");
-    private By descriptionInputField = By.cssSelector("textarea[id*='description']");
-    private final By ifCheckbox = By.cssSelector("input[id*='ruleConfigIfCondition']");
+    private static final int THIRD_OPTION = 2;
+
+    private final By pageHeader = By.cssSelector(".rule-edit .edit-header");
+    private final By nameInputField = By.cssSelector("input[id*='title']");
+    private final By descriptionInputField = By.cssSelector("textarea[id*='description']");
     private final By createButton = By.cssSelector(".main-buttons button[id*='create-button']");
     private final By saveButton = By.cssSelector(".edit-buttons button[id*='save-button']");
     private final By createAndCreateAnotherButton = By.cssSelector(".main-buttons button[id*='createAnother']");
@@ -30,23 +32,21 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     private final By whenDropDown = By.cssSelector("div[id*=ruleConfigType] .config-name");
     private final By ifAllCriteriaAreMetDropDown = By.cssSelector("div[id*=ruleConfigIfCondition] .config-name");
     private final By performActionDropDown = By.cssSelector("div[id*=ruleConfigAction] .config-name");
-    private final String dropdownSelector = "div[id*='%s'] select[class='config-name']";
-    private final String secondDropdownSelector = "div[id*='%s'] select[class='suppress-validation']";
-    private final String inputConfigText = "ul[id*='%s'] input[type='text']";
-    private final By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
+
     private final By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
     private final ArrayList<String> selectedValues = new ArrayList<>();
     private final By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
 
+    private final String dropdownSelector = "div[id*='%s'] select[class='config-name']";
+    private final String secondDropdownSelector = "div[id*='%s'] select[class='suppress-validation']";
+    private final String inputConfigText = "ul[id*='%s'] input[type='text']";
+
     public EditRulesPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
-        documentLibraryPage = new DocumentLibraryPage(webDriver);
-        manageRulesPage = new ManageRulesPage(webDriver);
     }
 
-    @Override
-    public String getRelativePath()
+    @Override public String getRelativePath()
     {
         return String.format("share/page/site/%s/rule-edit", getCurrentSiteName());
     }
@@ -58,6 +58,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void typeName(String name)
     {
+        waitInSeconds(WAIT_3.getValue());
         clearAndType(nameInputField, name);
     }
 
@@ -76,7 +77,8 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void selectOptionFromSecondDropdown(String dropdownId, int indexOfOption)
     {
-        Select dropdown = new Select(findElement(By.cssSelector(String.format(secondDropdownSelector, dropdownId))));
+        Select dropdown = new Select(
+            findElement(By.cssSelector(String.format(secondDropdownSelector, dropdownId))));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
@@ -84,13 +86,6 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public List<String> getSelectedOptionFromDropdown()
     {
         return selectedValues;
-    }
-
-    public void selectOptionFromIfConditionCompareOperator(int indexOfOption)
-    {
-        Select dropdown = new Select(findElement(ifConditionCompareSelector));
-        dropdown.selectByIndex(indexOfOption);
-        selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
 
     public void cleanupSelectedValues()
@@ -103,15 +98,19 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         clickElement(copySelectButtonSelector);
     }
 
-    public void typeRuleDetails(String ruleName, String description, List<Integer> indexOfOptionFromDropdown)
+    public EditRulesPage typeRuleDetails(String ruleName, String description, List<Integer> indexOfOptionFromDropdown)
     {
         typeName(ruleName);
         typeDescription(description);
         selectOptionFromDropdown("ruleConfigType", indexOfOptionFromDropdown.get(0));
         selectOptionFromDropdown("ruleConfigIfCondition", indexOfOptionFromDropdown.get(1));
         selectOptionFromDropdown("ruleConfigAction", indexOfOptionFromDropdown.get(2));
-        if (indexOfOptionFromDropdown.get(2).equals(2))
+
+        if (indexOfOptionFromDropdown.get(THIRD_OPTION).equals(THIRD_OPTION))
+        {
             clickCopySelectButton();
+        }
+        return this;
     }
 
     public void clickDisableRuleCheckbox()
@@ -144,21 +143,16 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public List<String> verifyDropdownOptions(String dropdownId, List<String> expectedOptionsList)
     {
-        Select dropdown = new Select(
-            findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
+        Select dropdown = new Select(findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
         List<WebElement> options = dropdown.getOptions();
         ArrayList<String> optionsTextList = new ArrayList<>();
+
         for (int i = 0; i < options.size(); i++)
         {
             String optionText = options.get(i).getText();
             assertEquals(optionText, expectedOptionsList.get(i), dropdownId + " option");
         }
         return optionsTextList;
-    }
-
-    public void selectAspect(String aspectName)
-    {
-        selectOptionFromFilterOptionsList(aspectName, findElements(aspectDropdownList));
     }
 
     public void clickUnlessCheckbox()
@@ -201,10 +195,16 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         performAction.selectByValue(performActionName.getValue());
     }
 
-    public void defineRule(String ruleName, String siteName, String sourceFolder, WhenRule whenRuleName, IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName, PerformActionList performActionName) {
+    public void defineRule(String ruleName, String siteName, String sourceFolder,
+        WhenRule whenRuleName, IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName,
+        PerformActionList performActionName)
+    {
+        DocumentLibraryPage documentLibraryPage = new DocumentLibraryPage(webDriver);
+        ManageRulesPage manageRulesPage = new ManageRulesPage(webDriver);
+
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(sourceFolder, ItemActions.MANAGE_RULES);
-        manageRulesPage.clickCreateRules();
+        documentLibraryPage.selectItemAction(sourceFolder, ItemActions.MANAGE_RULES);
+        manageRulesPage.openCreateNewRuleForm();
         typeName(ruleName);
         selectWhenDropDownCondition(whenRuleName);
         selectIfDropDownCondition(ifAllCriteriaAreMetRuleName);
@@ -214,29 +214,33 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     //todo: move into separate file
     public enum WhenRule
     {
-        itemsCreatedOrEnterFolder("Items are created or enter this folder", "inbound"),
-        itemsUpdated("Items are updated", "update"),
-        itemsDeletedOrLeaveFolder("Items are deleted or leave this folder", "outbound");
+        itemsCreatedOrEnterFolder("Items are created or enter this folder",
+            "inbound"), itemsUpdated("Items are updated", "update"), itemsDeletedOrLeaveFolder(
+        "Items are deleted or leave this folder", "outbound");
 
         private String name;
         private String value;
 
-        WhenRule(String name, String value) {
+        WhenRule(String name, String value)
+        {
             this.name = name;
             this.value = value;
         }
 
-        public String getName() {
+        public String getName()
+        {
             return name;
         }
 
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
     }
 
     //todo: move into separate file
-    public enum IfAllCriteriaAreMetRule {
+    public enum IfAllCriteriaAreMetRule
+    {
         ALL_ITEMS("All Items", "no-condition", "condition"),
         SIZE("Size", "compare-property-value", "SIZE"),
         CREATED_DATE("Created Date", "compare-property-value", "created"),
@@ -245,7 +249,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         MODIFIER("Modifier", "compare-property-value", "modifier"),
         AUTHOR("Author", "compare-property-value", "author"),
         MIMETYPE("Mimetype", "compare-mime-type", "MIME_TYPE"),
-        ENCONDING("Encoding", "compare-property-value", "ENCODING"),
+        ENCODING("Encoding", "compare-property-value", "ENCODING"),
         DESCRIPTION("Description", "compare-property-value", "description"),
         NAME("Name", "compare-property-value", "name"),
         TITLE("Title", "compare-property-value", "title"),
@@ -259,21 +263,25 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         private String value;
         private String rel;
 
-        IfAllCriteriaAreMetRule(String name, String value, String rel) {
+        IfAllCriteriaAreMetRule(String name, String value, String rel)
+        {
             this.name = name;
             this.value = value;
             this.rel = rel;
         }
 
-        public String getName() {
+        public String getName()
+        {
             return name;
         }
 
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
 
-        public String getRel() {
+        public String getRel()
+        {
             return rel;
         }
     }
@@ -282,7 +290,8 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
      * List of values from `Perform Action` dropdown
      */
     //todo:move into separate file
-    public enum PerformActionList {
+    public enum PerformActionList
+    {
         SELECT("Select...", "select"),
         EXECUTE_SCRIPT("Execute script", "script"),
         COPY("Copy", "copy"),
@@ -306,17 +315,28 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         private String name;
         private String value;
 
-        PerformActionList(String name, String value) {
+        PerformActionList(String name, String value)
+        {
             this.name = name;
             this.value = value;
         }
 
-        public String getName() {
+        public String getName()
+        {
             return name;
         }
 
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
+    }
+
+    public EditRulesPage assertRulesPageHeaderEquals(String ruleName)
+    {
+        log.info("Verify Rules Page Header");
+        assertEquals(getRulePageHeader(),
+            String.format(language.translate("rules.editPageHeader"), ruleName), "Page header=");
+        return this;
     }
 }

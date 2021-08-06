@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -61,19 +60,19 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for " + folder1);
-        documentLibraryPage.clickDocumentLibraryItemAction(folder1, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folder1, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder1 + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
         LOG.info("Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.clickSite(siteName);
-        selectDestinationDialog.clickPathFolder(path);
-        selectDestinationDialog.clickOkButton();
+        selectDestinationDialog.selectSite(siteName);
+        selectDestinationDialog.selectFolderPath(path);
+        selectDestinationDialog.confirmFolderLocation();
         editRulesPage.clickCreateButton();
 //        assertEquals(ruleDetailsPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
@@ -97,7 +96,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     public void switchOffInheritRules()
     {
         LOG.info("STEP1: Navigate to 'Manage Rules' page for " + folder2);
-        documentLibraryPage.clickDocumentLibraryItemAction(folder2, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folder2, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder2 + ": Rules", "Rule title=");
         LOG.info("STEP2: Click on 'Inherit Rules' button");

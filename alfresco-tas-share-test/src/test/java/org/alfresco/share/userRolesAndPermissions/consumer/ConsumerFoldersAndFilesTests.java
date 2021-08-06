@@ -105,7 +105,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 //        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page verify the user has access to View the folder details page");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, ItemActions.VIEW_DETAILS);
+        documentLibraryPage.selectItemAction(folderC8761, ItemActions.VIEW_DETAILS);
 //        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
         LOG.info("Step 2: Verify the user has access to View the file details page");
         documentDetailsPage.clickDocumentsLink();
@@ -179,7 +179,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 //        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileC8770, ItemActions.COPY_TO);
+        documentLibraryPage.selectItemAction(fileC8770, ItemActions.COPY_TO);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + fileC8770 + " to...", "Displayed pop up");
         LOG.info("STEP3: Set the destination to 'Shared Files'");
         copyMoveToDialog.selectSharedFilesDestination();
@@ -244,7 +244,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 //        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, ItemActions.VIEW_DETAILS);
+        documentLibraryPage.selectItemAction(folderC8761, ItemActions.VIEW_DETAILS);
 //        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
         LOG.info("Step 2: Verify the user does not have access to change the type.");
         Assert.assertFalse(documentDetailsPage.isActionAvailable("Change Type"), "Change Type action is not available.");
@@ -271,7 +271,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 //        Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderC8784, ItemActions.VIEW_DETAILS);
+        documentLibraryPage.selectItemAction(folderC8784, ItemActions.VIEW_DETAILS);
 //        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
         LOG.info("Step 2: Verify the user does not have access to edit the comment.");
         Assert.assertFalse(documentDetailsPage.isEditButtonDisplayedForComment(comment), "Edit comment action is not available.");

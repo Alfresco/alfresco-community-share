@@ -87,7 +87,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, C42550testFilePath);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(docName, ItemActions.EDIT_PROPERTIES);
         editFilePropertiesDialog.setTitle(docTitle);
         editFilePropertiesDialog.setDescription(docDescription);
         editFilePropertiesDialog.clickSave();

@@ -17,7 +17,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -122,7 +121,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.navigate();
 
         LOG.info("STEP1: Click \"Edit Properties\" option");
-        myFilesPage.clickDocumentLibraryItemAction(testFileC7873, ItemActions.EDIT_PROPERTIES);
+        myFilesPage.selectItemAction(testFileC7873, ItemActions.EDIT_PROPERTIES);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), testFileC7873),
             "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");

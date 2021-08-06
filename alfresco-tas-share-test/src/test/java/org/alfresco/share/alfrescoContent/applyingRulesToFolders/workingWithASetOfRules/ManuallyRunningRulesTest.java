@@ -55,12 +55,12 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_RULES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
         LOG.info("Navigate to Create rule page");
-        manageRulesPage.clickCreateRules();
+//        manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
 

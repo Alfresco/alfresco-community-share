@@ -21,7 +21,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -103,7 +102,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteNameC8665);
 
         LOG.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_ASPECTS);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
@@ -121,7 +120,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton();
 
         LOG.info("Step4: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         //Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step5: Click 'All Properties' link.");
@@ -167,7 +166,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
 
         LOG.info("Step3: Hover over folder, click More -> Manage Aspects");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step4: Click 'Add' button next to 'System Smart Folder' template and verify it moves to 'Currently Selected'");
         aspectsForm.addAspect("System Smart Folder");
@@ -178,7 +177,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton();
 
         LOG.info("Step6: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         //Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step7: Click 'All Properties' link.");
@@ -227,7 +226,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteNameC8668);
 
         LOG.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_ASPECTS);
 
         LOG.info("Step2: Click 'Add' button next to 'Custom Smart Folder' template and verify it moves to 'Currently Selected'");
         aspectsForm.addAspect("Custom Smart Folder");
@@ -238,7 +237,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton();
 
         LOG.info("Step4: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         //Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         LOG.info("Step5: Click 'All Properties' link.");

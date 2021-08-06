@@ -22,7 +22,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -105,7 +104,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.VIEW_DETAILS);
 //        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 
         LOG.info("STEP1: Verify folder's Properties list from 'Folder Actions' section");

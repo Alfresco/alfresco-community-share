@@ -13,7 +13,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -64,7 +63,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP1: On the Document Library page click on Manage Permissions option for the file.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP2: On the Manage Permissions page check the header title is correct.");
         assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + testFileName, "Manage Permissions: " + testFileName + " title displayed.");
@@ -83,26 +82,26 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP1: On the Document Library page click on Manage Permissions option for the file.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP2: On the Manage Permissions page click on Add User/Group button and add permissions for testUser2.");
         managePermissionsPage.searchAndAddUserAndGroup(testUser2);
         managePermissionsPage.clickSave();
 
         LOG.info("STEP3: Return to Manage Permissions page for the file and check if permissions were added successfully.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         managePermissionsPage.clickCancel();
 
         LOG.info("STEP4: On the Document Library page click on Manage Permissions option for the folder.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP5: On the Manage Permissions page click on Add User/Group button and add permissions for testUser2.");
         managePermissionsPage.searchAndAddUserAndGroup(testUser2);
         managePermissionsPage.clickSave();
 
         LOG.info("STEP6: Return to Manage Permissions page for the folder and check if permissions were added successfully.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         cleanupAuthenticatedSession();
     }
@@ -115,7 +114,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("Precondition: Navigate to Manage Permissions page for the file.");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP1: On the Manage Permissions page click on Inherit Permissions button and verify dialog is displayed.");
         managePermissionsPage.clickInheritPermissionsButton();
@@ -130,13 +129,13 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         managePermissionsPage.clickSave();
 
         LOG.info("STEP4: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         Assert.assertFalse(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is displayed.");
         Assert.assertFalse(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
         managePermissionsPage.clickCancel();
 
         LOG.info("STEP5: On the Document Library page click on Manage Permissions option for the folder.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP6: On the Manage Permissions page click on Inherit Permissions button and verify dialog is displayed.");
         managePermissionsPage.clickInheritPermissionsButton();
@@ -151,7 +150,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         managePermissionsPage.clickSave();
 
         LOG.info("STEP9: On the Document Library page click on Manage Permissions option for the folder and verify if changes were saved.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         Assert.assertFalse(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is displayed.");
         Assert.assertFalse(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
         cleanupAuthenticatedSession();
@@ -165,17 +164,17 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("Precondition: Navigate to Manage Permission page for the file and set Inherit Permissions to off.");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         managePermissionsPage.toggleInheritPermissions(false, ManagePermissionsPage.ButtonType.Yes);
         managePermissionsPage.clickSave();
 
         LOG.info("Precondition: Navigate to Manage Permission page for the folder and set Inherit Permissions to off.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         managePermissionsPage.toggleInheritPermissions(false, ManagePermissionsPage.ButtonType.Yes);
         managePermissionsPage.clickSave();
 
         LOG.info("STEP1: Navigate to Manage Permissions page for the file and turn on Inherit Permissions.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         managePermissionsPage.clickInheritPermissionsButton();
         Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
         Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
@@ -184,13 +183,13 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         managePermissionsPage.clickSave();
 
         LOG.info("STEP3: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
         Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
         managePermissionsPage.clickCancel();
 
         LOG.info("STEP4: Navigate to Manage Permissions page for the folder and turn on Inherit Permissions.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         managePermissionsPage.clickInheritPermissionsButton();
         Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
         Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
@@ -199,7 +198,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         managePermissionsPage.clickSave();
 
         LOG.info("STEP6: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
         Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
         cleanupAuthenticatedSession();
@@ -212,15 +211,15 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         LOG.info("Precondition: Login as testUser1 and add local permissions for testUser2 for the file and folder.");
         setupAuthenticatedSession(testUser1, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         managePermissionsPage.searchAndAddUserAndGroup(testUser2);
         managePermissionsPage.clickSave();
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         managePermissionsPage.searchAndAddUserAndGroup(testUser2);
         managePermissionsPage.clickSave();
 
         LOG.info("STEP1: Verify locally set permissions for the file.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         assertTrue(managePermissionsPage.getRole(testUser2).equals("Site Contributor"), String.format("User [%s] has incorrect role.", testUser2));
 
@@ -233,7 +232,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         managePermissionsPage.clickSave();
 
         LOG.info("STEP4: Navigate to Manage Permissions page for the folder.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP5: Verify locally set permissions.");
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
@@ -246,7 +245,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("STEP7: Click Save button and then return to Manage Permissions page for the folder.");
         managePermissionsPage.clickSave();
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is added in permissions.", testUser2));
 
         LOG.info("STEP8: Logout from testUser1 and Login as testUser2 and navigate to Document Library page.");
@@ -267,7 +266,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         LOG.info("Precondition: Login as testUser1 and navigate to Manage Permissions for the testFile.");
         setupAuthenticatedSession(testUser1, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP1: On the Manage Permissions page click on Add User/Group button and search for testUser2.");
         managePermissionsPage.searchAndAddUserAndGroup(testUser2);
@@ -278,13 +277,13 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFileName), String.format("The file [%s] is not present", testFileName));
 
         LOG.info("STEP3: Return to Manage Permissions for the file and verify changes are not saved.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
         assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         managePermissionsPage.clickCancel();
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFolderName), String.format("The file [%s] is not present", testFolderName));
 
         LOG.info("STEP4: Navigate to Manage Permissions for the folder.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
 
         LOG.info("STEP5: On the Manage Permissions page click on Add User/Group button and search for testUser2.");
         managePermissionsPage.searchAndAddUserAndGroup(testUser2);
@@ -295,7 +294,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFolderName), String.format("The file [%s] is not present", testFolderName));
 
         LOG.info("STEP7: Return to Manage Permissions for the folder and verify changes are not saved.");
-        documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
         assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         cleanupAuthenticatedSession();
     }

@@ -114,7 +114,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
 //        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Hover over 'Folder1' folder from 'Documents' list, then select 'View Details' option");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS);
+        documentLibraryPage.selectItemAction(folderName, ItemActions.VIEW_DETAILS);
 //        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
         assertEquals(documentDetailsPage.getPropertyValue("Modifier:"), userContributor, "'Modifier' property value=");
 

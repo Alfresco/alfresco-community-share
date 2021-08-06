@@ -89,7 +89,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to Shared folder from Repository page and click on upload new version");
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("Shared");
-        repositoryPage.clickDocumentLibraryItemAction(testFile2, ItemActions.UPLOAD_NEW_VERSION);
+        repositoryPage.selectItemAction(testFile2, ItemActions.UPLOAD_NEW_VERSION);
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         assertTrue(repositoryPage.isContentNameDisplayed(newVersionFile), String.format("File [%s] is displayed", newVersionFile));

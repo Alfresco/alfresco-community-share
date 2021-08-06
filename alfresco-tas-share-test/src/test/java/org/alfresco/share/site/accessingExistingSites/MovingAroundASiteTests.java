@@ -57,7 +57,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
 
         LOG.info("STEP 2: Click on 'Document Library' link.");
-        siteDashboard.clickDocumentLibrary();
+        siteDashboard.navigateToDocumentLibraryPage();
         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/documentlibrary"), "'Document Library' page is opened.");
 
         LOG.info("STEP 3: Click on 'Site Members' link.");
@@ -140,7 +140,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Document Library' link.");
-        siteDashboard.clickDocumentLibrary();
+        siteDashboard.navigateToDocumentLibraryPage();
         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/documentlibrary"), "'Document Library' page is opened.");
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");

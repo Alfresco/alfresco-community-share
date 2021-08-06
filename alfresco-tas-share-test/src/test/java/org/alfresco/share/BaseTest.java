@@ -41,7 +41,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     private WebDriverFactory webDriverFactory;
 
     @Autowired
-    private DefaultProperties defaultProperties;
+    protected DefaultProperties defaultProperties;
 
     @Autowired
     protected DataUserAIS dataUser;

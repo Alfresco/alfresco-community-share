@@ -79,7 +79,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(docNameC8186), String.format("Document %s is not present", docNameC8186));
 
         LOG.info("Step 1: Hover over a file and click 'Edit Properties'");
-        myFilesPage.clickDocumentLibraryItemAction(docNameC8186, ItemActions.EDIT_PROPERTIES);
+        myFilesPage.selectItemAction(docNameC8186, ItemActions.EDIT_PROPERTIES);
        // Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -119,7 +119,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Hover over a folder and click 'Edit Properties'");
-        myFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES);
+        myFilesPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
         //Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -160,7 +160,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(docNameC8212), String.format("Document %s is not present", docNameC8212));
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        myFilesPage.clickDocumentLibraryItemAction(docNameC8212, ItemActions.EDIT_IN_ALFRESCO);
+        myFilesPage.selectItemAction(docNameC8212, ItemActions.EDIT_IN_ALFRESCO);
 
         LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.enterDocumentDetails(editedDocName, editedContent, editedTitle, editedDescription);
@@ -193,7 +193,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
         docsCommon.loginToGoogleDocs();
-        myFilesPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
+        myFilesPage.selectItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
 
         LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         docsCommon.clickOkButton();
