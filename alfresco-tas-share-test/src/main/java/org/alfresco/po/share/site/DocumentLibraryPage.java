@@ -330,6 +330,19 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }
     }
 
+    public boolean isFileNameDisplayed(String fileName)
+    {
+        refresh();
+        waitInSeconds(WAIT_5.getValue());
+        if (selectDocumentLibraryItemRow(fileName) == null)
+        {
+            return false;
+        }else
+        {
+            return true;
+        }
+    }
+
     /**
      * Replace the extension of the file. Replace what comes after '.' character with a string representing another extension.
      *
@@ -1192,10 +1205,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return this;
     }
 
-    public DocumentLibraryPage assertFileIsNotDisplayedInFolder(String fileName)
+    public DocumentLibraryPage assertFileIsNotDisplayed(String fileName)
     {
         log.info("Assert folder is not displayed in Document Library");
-        assertFalse(isContentNameDisplayed(fileName), fileName + " is displayed in Document Library");
+        assertFalse(isFileNameDisplayed(fileName), fileName + " is displayed in Document Library");
         return this;
     }
 }
