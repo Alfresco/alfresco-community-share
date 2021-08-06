@@ -131,8 +131,8 @@ public class EditRulesTests extends AbstractFolderRuleTest
 
         documentLibraryPage
             .navigate(site.get().getId())
-            .clickOnFolderName(folderToCheck.getName())
-            .assertFileIsNotDisplayedInFolder(fileModel.getName());
+            .navigateToDocumentLibraryPage();
+        documentLibraryPage.assertFileIsNotDisplayed(fileModel.getName());
     }
 
     @AfterMethod(alwaysRun = true)
