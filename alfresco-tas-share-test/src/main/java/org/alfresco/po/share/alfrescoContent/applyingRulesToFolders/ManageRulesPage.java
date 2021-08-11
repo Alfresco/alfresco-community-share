@@ -99,31 +99,10 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         return this;
     }
 
-    public ManageRulesPage assertManageRulesPageTitleEquals(String expectedTitle)
-    {
-        log.info("Verify Manage Rule Page Title");
-        assertEquals(getPageTitle(), expectedTitle,
-            String.format("Manage Rule page title not match %s ", expectedTitle));
-        return this;
-    }
-
     public ManageRulesPage assertNoRulesTextIsEqual(String expectedNoRuleText)
     {
         log.info("Verify No Rules are defined for this folder");
         assertEquals(getNoRulesText(), expectedNoRuleText, String.format("Expected 'No Rules are defined for this folder' not match %s ", expectedNoRuleText));
         return this;
-    }
-
-    public ManageRulesPage assertRulesPageTitleEquals(String folderName)
-    {
-        log.info("Verify Rule Page Title");
-        assertEquals(getRuleTitle(), folderName + ": Rules",
-            String.format("Rule page title not matched %s ", folderName));
-        return this;
-    }
-
-    public boolean isContentRuleDisplayed()
-    {
-        return isElementDisplayed(contentRule);
     }
 }
