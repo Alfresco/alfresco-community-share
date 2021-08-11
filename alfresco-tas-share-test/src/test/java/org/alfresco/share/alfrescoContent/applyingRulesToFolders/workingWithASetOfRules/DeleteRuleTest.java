@@ -14,6 +14,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -53,8 +54,7 @@ public class DeleteRuleTest extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7267")
-    @Test(invocationCount = 3, groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void shouldDeleteExistingRule()
     {
         createFolderRule(user.get(), folderToCheck, "copy", ruleName, description, false, true,
@@ -76,5 +76,13 @@ public class DeleteRuleTest extends AbstractFolderRuleTest
         manageRulesPage.
             assertNoRulesTextIsEqual("No Rules are defined for this folder");
     }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanupTest()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
+    }
 }
+
 
