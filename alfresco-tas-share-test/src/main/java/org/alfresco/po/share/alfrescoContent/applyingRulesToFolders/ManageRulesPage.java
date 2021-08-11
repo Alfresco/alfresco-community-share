@@ -107,6 +107,13 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         return this;
     }
 
+    public ManageRulesPage assertNoRulesTextIsEqual(String expectedNoRuleText)
+    {
+        log.info("Verify No Rules are defined for this folder");
+        assertEquals(getNoRulesText(), expectedNoRuleText, String.format("Expected 'No Rules are defined for this folder' not match %s ", expectedNoRuleText));
+        return this;
+    }
+
     public ManageRulesPage assertRulesPageTitleEquals(String folderName)
     {
         log.info("Verify Rule Page Title");
