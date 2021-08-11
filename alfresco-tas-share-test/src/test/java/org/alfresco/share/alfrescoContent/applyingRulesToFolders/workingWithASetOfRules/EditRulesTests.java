@@ -37,8 +37,8 @@ public class EditRulesTests extends AbstractFolderRuleTest
 
     private final String path = "Documents";
     private final String ruleName = "rule-C7254-" + random;
-    private FolderModel folderToCheck;
 
+    private FolderModel folderToCheck;
     private DocumentLibraryPage documentLibraryPage;
     private SiteDashboardPage siteDashboardPage;
     private EditRulesPage editRulesPage;
