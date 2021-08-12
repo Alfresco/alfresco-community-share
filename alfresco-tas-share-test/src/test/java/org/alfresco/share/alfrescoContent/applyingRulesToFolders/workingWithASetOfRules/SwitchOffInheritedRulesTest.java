@@ -2,21 +2,18 @@ package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASe
 
 import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
-import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
-import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
-import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
-
 import org.alfresco.share.alfrescoContent.applyingRulesToFolders.AbstractFolderRuleTest;
-
 import org.alfresco.testrail.TestRail;
-
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.*;
-
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -27,24 +24,20 @@ import org.testng.annotations.Test;
 public class SwitchOffInheritedRulesTest extends AbstractFolderRuleTest
 {
     private static final String DOCUMENT_LIBRARY_PAGE_TITLE = "documentLibrary.browserTitle";
-    private static final String RULE_PAGE_TITLE = "documentLibrary.rules.browserTitle";
     private static final String INHERIT_BUTTON_TEXT ="documentLibrary.rules.inheritButton";
     private static final String INHERITED_RULE_INFO_MSG = "documentLibrary.rules.inheritRuleInfoMsg";
     private static final String DONT_INHERIT_BTN_TEXT = "documentLibrary.rules.dontInheritRuleButton";
 
     private final String random = RandomData.getRandomAlphanumeric();
-    private final String parentFolder = "ParentFolder-"+random;
-    private final String childFolder = "ChildFolder-"+random;
+    private final String parentFolder = "ParentFolder-" + random;
+    private final String childFolder = "ChildFolder-" + random;
     private final String description = "description-" + random;
     private final String ruleName = "rule-C7254-" + random;
 
     private DocumentLibraryPage documentLibraryPage;
     private SiteDashboardPage siteDashboardPage;
     private ManageRulesPage manageRulesPage;
-    private EditRulesPage editRulesPage;
-    private RuleDetailsPage ruleDetailsPage;
-    private SelectDestinationDialog selectDestinationDialog;
-    private DeleteDialog deleteDialog;
+
     private FolderModel folderToCheck;
     private FileModel file;
 
@@ -61,10 +54,7 @@ public class SwitchOffInheritedRulesTest extends AbstractFolderRuleTest
         documentLibraryPage = new DocumentLibraryPage(webDriver);
         siteDashboardPage = new SiteDashboardPage(webDriver);
         manageRulesPage = new ManageRulesPage(webDriver);
-        editRulesPage = new EditRulesPage(webDriver);
-        selectDestinationDialog = new SelectDestinationDialog(webDriver);
-        ruleDetailsPage = new RuleDetailsPage(webDriver);
-        deleteDialog = new DeleteDialog(webDriver);
+
         authenticateUsingCookies(user.get());
 
         folderToCheck = FolderModel.getRandomFolderModel();
@@ -122,7 +112,8 @@ public class SwitchOffInheritedRulesTest extends AbstractFolderRuleTest
             .assertFileIsNotDisplayed(file.getName());
     }
 
-    @AfterMethod(alwaysRun = true) public void afterMethod()
+    @AfterMethod(alwaysRun = true)
+    public void cleanupTest()
     {
         deleteUsersIfNotNull(user.get());
         deleteSitesIfNotNull(site.get());

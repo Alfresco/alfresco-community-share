@@ -39,21 +39,27 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     public String getNoRulesText()
     {
         if (isElementDisplayed(noRulesText))
+        {
             return getElementText(noRulesText);
+        }
         return "'No rules defined for folder' header missing";
     }
 
     public String getCreateRulesDescription()
     {
         if (isElementDisplayed(createRulesDescription))
+        {
             return findElement(createRulesDescription).getText();
+        }
         return "Create Rules description isn't displayed.";
     }
 
     public String getCreateRulesLinkText()
     {
         if (isElementDisplayed(createRulesLink))
+        {
             return findElement(createRulesLink).getText();
+        }
         return "'Create Rules' link isn't displayed.";
     }
 
@@ -66,14 +72,18 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     public String getLinkToRuleSetLinkText()
     {
         if (isElementDisplayed(linkToRuleSetLink))
+        {
             return findElement(linkToRuleSetLink).getText();
+        }
         return "'Link to Rule Set' Link isn't displayed.";
     }
 
     public String getLinkToRuleSetDescription()
     {
         if (isElementDisplayed(linkToRuleSetLink))
+        {
             return findElement(linkToRuleSetDescription).getText();
+        }
         return "'Link to Rule Set' isn't displayed.";
     }
 
@@ -86,14 +96,18 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     public String getInheritButtonText()
     {
         if (isElementDisplayed(inheritButton))
+        {
             return findElement(inheritButton).getText();
+        }
         return "'Inherit Rules' button isn't displayed.";
     }
 
     public String getInheritRuleInfoMsgText()
     {
         if(isElementDisplayed(inheritRuleInfoMessage))
+        {
             return findElement(inheritRuleInfoMessage).getText();
+        }
         return "Inherit Rule Info Message 'This folder inherits Rules from its parent folder(s)' not Displayed";
     }
 
@@ -108,14 +122,14 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 
     public ManageRulesPage assertNoRulesTextIsEqual(String expectedNoRuleText)
     {
-        log.info("Verify No Rules are defined for this folder");
+        log.info("Verify No Rules are defined for this folder {}", expectedNoRuleText);
         assertEquals(getNoRulesText(), expectedNoRuleText, String.format("Expected 'No Rules are defined for this folder' not match %s ", expectedNoRuleText));
         return this;
     }
 
     public ManageRulesPage assertInheritButtonTextEquals(String btnText)
     {
-        log.info("Verify Inherit button text");
+        log.info("Verify Inherit button text {}", btnText);
         assertEquals(getInheritButtonText(), btnText,
             String.format("Inherit button text not matched %s ", btnText));
         return this;
@@ -123,7 +137,7 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 
     public ManageRulesPage assertInheritRuleInfoMessageEquals(String infoMsg)
     {
-        log.info("Verify Inherit rule info message");
+        log.info("Verify Inherit rule info message {}", infoMsg);
         assertEquals(getInheritRuleInfoMsgText(), infoMsg, String.format("Info Message 'This folder inherits Rules from its parent folder(s)' not matched %s ", infoMsg));
         return this;
     }
