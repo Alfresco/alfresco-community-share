@@ -1218,8 +1218,4 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertTrue(isFileNameDisplayed(fileName), fileName + " is not displayed");
         return this;
     }
-
-
-/*    assertEquals(documentLibraryPage.getFilesList(), Arrays.asList(file.getName()),
-    folderToCheck.getName() + " content=");*/
 }
