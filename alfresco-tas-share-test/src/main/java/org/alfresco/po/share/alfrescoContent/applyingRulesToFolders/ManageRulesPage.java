@@ -1,17 +1,16 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
-import static org.testng.Assert.assertEquals;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import static org.testng.Assert.assertEquals;
+
 @Slf4j
 public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 {
-    private final By contentRule = By.cssSelector("li.rules-list-item.selected.dnd-draggable");
     private final By title = By.cssSelector(".rules-header .rules-title");
     private final By noRulesText = By.xpath(".//*[contains(@class, 'dialog-options')]/*[1]");
     private final By createRulesLink = By.cssSelector(".dialog-option a[href*='rule-edit']");
@@ -20,6 +19,7 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     private final By linkToRuleSetDescription = By.xpath("(.//div[@class='dialog-option']/div)[2]");
     private final By inheritButton = By.cssSelector("button[id*='inheritButton']");
     private final By inheritRulesMessage = By.cssSelector("#message .bd");
+    private final By inheritRuleInfoMessage = By.cssSelector("div .rules-info span");
 
     public ManageRulesPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -90,6 +90,13 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         return "'Inherit Rules' button isn't displayed.";
     }
 
+    public String getInheritRuleInfoMsgText()
+    {
+        if(isElementDisplayed(inheritRuleInfoMessage))
+            return findElement(inheritRuleInfoMessage).getText();
+        return "Inherit Rule Info Message 'This folder inherits Rules from its parent folder(s)' not Displayed";
+    }
+
     public ManageRulesPage clickInheritButton()
     {
         waitUntilElementIsVisible(inheritButton);
@@ -103,6 +110,21 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     {
         log.info("Verify No Rules are defined for this folder");
         assertEquals(getNoRulesText(), expectedNoRuleText, String.format("Expected 'No Rules are defined for this folder' not match %s ", expectedNoRuleText));
+        return this;
+    }
+
+    public ManageRulesPage assertInheritButtonTextEquals(String btnText)
+    {
+        log.info("Verify Inherit button text");
+        assertEquals(getInheritButtonText(), btnText,
+            String.format("Inherit button text not matched %s ", btnText));
+        return this;
+    }
+
+    public ManageRulesPage assertInheritRuleInfoMessageEquals(String infoMsg)
+    {
+        log.info("Verify Inherit rule info message");
+        assertEquals(getInheritRuleInfoMsgText(), infoMsg, String.format("Info Message 'This folder inherits Rules from its parent folder(s)' not matched %s ", infoMsg));
         return this;
     }
 }
