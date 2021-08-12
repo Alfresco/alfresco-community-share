@@ -1,8 +1,7 @@
 package org.alfresco.po.share.site;
 
 import static org.alfresco.common.Utils.retryUntil;
-import static org.alfresco.common.Wait.WAIT_3;
-import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -446,6 +445,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param folderName to be clicked on
      */
     public DocumentLibraryPage clickOnFolderName(String folderName) {
+        waitInSeconds(WAIT_1.getValue());
         WebElement folderElement = selectDocumentLibraryItemRow(folderName);
         Parameter.checkIsMandotary("Folder", folderElement);
         clickElement(folderElement.findElement(contentNameSelector));
@@ -1211,4 +1211,15 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertFalse(isFileNameDisplayed(fileName), fileName + " is displayed in Document Library");
         return this;
     }
+
+    public DocumentLibraryPage assertFileIsDisplayed(String fileName)
+    {
+        log.info("Assert folder is not displayed in Document Library");
+        assertTrue(isFileNameDisplayed(fileName), fileName + " is not displayed");
+        return this;
+    }
+
+
+/*    assertEquals(documentLibraryPage.getFilesList(), Arrays.asList(file.getName()),
+    folderToCheck.getName() + " content=");*/
 }
