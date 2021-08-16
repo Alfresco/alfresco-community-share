@@ -23,6 +23,7 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     private final By rulesList = By.cssSelector(".rules-list-container .title");
     private final By runRulesOptions = By.cssSelector(".rules-actions .yuimenuitemlabel");
     private final String buttonSelector = "button[id*='%s']";
+    private final By rulesSuccessfullMessage = By.cssSelector("#message .bd");
 
     public RuleDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -115,7 +116,9 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 
     public void clickOnRunRulesOption(int indexOfOption)
     {
-        findElements(runRulesOptions).get(indexOfOption);
+        findElements(runRulesOptions).get(indexOfOption).click();
+        waitUntilElementIsVisible(rulesSuccessfullMessage);
+        waitUntilElementDisappears(rulesSuccessfullMessage);
     }
 
     public RuleDetailsPage assertRulesPageTitleEquals(String updatedRuleName)
