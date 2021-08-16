@@ -31,7 +31,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO to be deleted
@@ -64,15 +63,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }
     }
 
-    @Autowired
-    GoogleDocsCommon googleDocs;
-    //@Autowired
-    CreateContentPage createContent;
-    //@Autowired
-    DocumentDetailsPage documentDetailsPage;
-    //@Autowired
+    private GoogleDocsCommon googleDocs;
+    private CreateContentPage createContent;
+    private DocumentDetailsPage documentDetailsPage;
     private UploadFileDialog uploadDialog;
-    // @Autowired
     private NewFolderDialog newContentDialog;
 
     private static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";
@@ -283,7 +277,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             return (itemCount == rows.size());
         };
     }
-
 
     private WebElement selectViewInOptions(String viewName) {
         return findElement(By.xpath("//div[contains(@id, '_default-options-menu')]//ul[@class= 'first-of-type']//span[text()='" + viewName + "']"));
@@ -809,6 +802,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public boolean isActiveWorkflowsIconDisplayed(String documentLibraryItem) {
+        waitInSeconds(WAIT_1.getValue());
         WebElement element = waitUntilElementIsVisible(selectDocumentLibraryItemRow(documentLibraryItem).findElement(By.cssSelector("[class=status] img")));
         return isElementDisplayed(element);
     }
@@ -1059,29 +1053,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return waitUntilChildElementIsPresent(selectDocumentLibraryItemRow(fileName), lockedByUser).getText();
     }
 
-    /**
-     * Method to check if a view option is present
-     */
-
-    public boolean isViewOptionDisplayed(String view) {
-        return isElementDisplayed(selectViewInOptions(view));
-    }
-
-    /**
-     * Method to click on the Options menu button
-     */
-
-    public void clickOptionsButton() {
-        optionsMenu.click();
-    }
-
-    /**
-     * Method to check if Favorite link is present for test file
-     */
-    public boolean isFavoriteLinkPresent(String fileName) {
-        return isElementDisplayed(selectDocumentLibraryItemRow(fileName), favoriteLink);
-    }
-
     public boolean isLikeButtonDisplayed(String fileName) {
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), likeButton);
     }
@@ -1094,58 +1065,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), By.cssSelector("a[class='quickshare-action']"));
     }
 
-    public String getOptionsSetDefaultViewText(String text) {
-        waitUntilElementIsDisplayedWithRetry(optionsMenuDropDown);
-        waitUntilElementContainsText(setDefaultView, text);
-        return setDefaultView.getText();
-    }
-
-    public boolean isItemDisplayedInGalleryView() {
-        return galleryViewItem.isDisplayed();
-    }
-
-    public String getLabelDisplayedInFilmstripView(String contentName) {
-        return findItemInCarrouselFilmstripView(contentName).getText();
-    }
-
-    public boolean isDownArrowPointerDisplayed() {
-        return isElementDisplayed(downArrowPointer);
-    }
-
-    public boolean isRightArrowPointerDisplayed() {
-        return isElementDisplayed(rightArrowPointer);
-    }
-
-    public void clickTheRightArrowPointer() {
-        rightArrowPointer.click();
-    }
-
-    public boolean isLeftArrowPointerDisplayed() {
-        return isElementDisplayed(leftArrowPointer);
-    }
-
-    public void clickSetDefaultView() {
-        setDefaultView.click();
-    }
-
-    public String getRemoveDefaultViewText() {
-        return removeDefaultView.getText();
-    }
-
-    public boolean isSortButtonDisplayed() {
-        return isElementDisplayed(sortButton);
-    }
-
     public boolean isCreateButtonDisplayed() {
         return isElementDisplayed(createButton);
-    }
-
-    public boolean isSortByFieldButtonDisplayed() {
-        return isElementDisplayed(sortByFieldButton);
-    }
-
-    public boolean isPaginationDisplayed() {
-        return isElementDisplayed(currentPage);
     }
 
     public String getCreateButtonStatusDisabled() {
