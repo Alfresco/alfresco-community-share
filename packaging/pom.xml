@@ -19,7 +19,20 @@
         <module>webeditor</module>
         <module>wcmqs</module>
         <module>docker</module>
-        <module>docker-alfresco</module>
         <module>tests</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>docker-alfresco</id>
+            <activation>
+                <file>
+                    <exists>docker-alfresco/pom.xml</exists>
+                </file>
+            </activation>
+            <modules>
+                <module>docker-alfresco</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
