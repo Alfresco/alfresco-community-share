@@ -29,13 +29,10 @@
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
-        <api.explorer.version>7.0.0</api.explorer.version>
-        <!-- Version of Alfresco Platform to depend on -->
-        <alfresco.platform.version>7.0.0-A3</alfresco.platform.version>
-
         <!-- Version of Alfresco Community Repo to depend on -->
         <dependency.alfresco-community-repo.version>11.117</dependency.alfresco-community-repo.version>
         <dependency.alfresco-enterprise-repo.version>11.129</dependency.alfresco-enterprise-repo.version>
+        <api.explorer.version>7.1.0-A1</api.explorer.version>
 
         <image.registry>quay.io</image.registry>
         <image.tag>latest</image.tag>
