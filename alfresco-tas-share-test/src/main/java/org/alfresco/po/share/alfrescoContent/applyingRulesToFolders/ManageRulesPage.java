@@ -1,12 +1,12 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.testng.Assert.assertEquals;
+
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import static org.testng.Assert.assertEquals;
 
 @Slf4j
 public class ManageRulesPage extends SiteCommon<ManageRulesPage>
@@ -139,6 +139,13 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     {
         log.info("Verify Inherit rule info message {}", infoMsg);
         assertEquals(getInheritRuleInfoMsgText(), infoMsg, String.format("Info Message 'This folder inherits Rules from its parent folder(s)' not matched %s ", infoMsg));
+        return this;
+    }
+
+    public ManageRulesPage assertRuleTitleEquals(String folderName)
+    {
+        log.info("Verify Rule Title on manage rule page{}", folderName+": Rules");
+        assertEquals(getRuleTitle(), folderName+": Rules", String.format("Rule Title '"+getRuleTitle()+"' not matched %s ", folderName+": Rules"));
         return this;
     }
 }

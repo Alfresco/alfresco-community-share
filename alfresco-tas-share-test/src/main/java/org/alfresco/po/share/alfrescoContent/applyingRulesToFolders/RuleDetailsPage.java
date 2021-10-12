@@ -1,15 +1,15 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.testng.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static org.testng.Assert.assertEquals;
 
 @Slf4j
 public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
@@ -97,6 +97,7 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     public void clickButton(String buttonId)
     {
         clickElement(By.cssSelector(String.format(buttonSelector, buttonId)));
+        waitInSeconds(WAIT_1.getValue());
     }
 
     public void openEditRuleForm()
