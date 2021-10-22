@@ -9,7 +9,7 @@ function main()
    {
       model.linkButtons.push({
          id: "login",
-         href: url.context + "/page?pt=login&alfRedirectUrl=" + url.context + "/s/" + args.shareId,
+         href: url.context + "/page?pt=login&alfRedirectUrl=" + url.context + "/s/" + encodeURIComponent(args.shareId),
          label: msg.get("button.login"),
          cssClass: "brand-bgcolor-2"
       });
