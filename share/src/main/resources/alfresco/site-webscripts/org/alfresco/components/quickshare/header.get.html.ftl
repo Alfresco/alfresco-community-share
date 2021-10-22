@@ -29,7 +29,7 @@
             <div class="quickshare-header-right">
                <@markup id="linkButtons">
                   <#list linkButtons as linkButton>
-                     <a href="${linkButton.href}" class="brand-button ${linkButton.cssClass!""}" tabindex="0">${linkButton.label?html}</a>
+                     <a href="Encode.forHtmlAttribute(${linkButton.href})" class="brand-button ${linkButton.cssClass!""}" tabindex="0">${linkButton.label?html}</a>
                   </#list>
                </@markup>
             </div>
