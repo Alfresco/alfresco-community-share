@@ -124,7 +124,7 @@ public class LinkingToDifferentRuleSetTest extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7327")
-    @Test (invocationCount = 10,groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyRuleIsLinked()
     {
         log.info("STEP1: Create a file in folder2");
