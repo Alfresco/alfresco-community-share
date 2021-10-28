@@ -1,112 +1,146 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
-import java.util.Arrays;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
-import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.LinkedToRuleSetPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
+import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.share.alfrescoContent.applyingRulesToFolders.AbstractFolderRuleTest;
+
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.*;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * @author Laura.Capsa
  */
-public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
+@Slf4j
+public class LinkingToDifferentRuleSetTest extends AbstractFolderRuleTest
 {
-    private final String random = RandomData.getRandomAlphanumeric();
-    private final String userName = "user-" + random;
-    private final String siteName = "Site-" + random;
-    private final String description = "description-" + random;
-    private final String folderName = "Folder-C7327-" + random;
-    private final String folderName2 = "Folder2-C7327-" + random;
-    private final String ruleName1 = "rule-C7327-" + random;
-    //@Autowired
-    private DocumentLibraryPage documentLibraryPage;
-    //@Autowired
-    private ManageRulesPage manageRulesPage;
-    //@Autowired
-    private EditRulesPage editRulesPage;
-    //@Autowired
-    private LinkedToRuleSetPage linkedToRuleSetPage;
-    //@Autowired
-    private SelectDestinationDialog selectDestinationDialog;
+    private static final String DOCUMENT_LIBRARY_PAGE_TITLE = "documentLibrary.browserTitle";
+    private static final String RULE_BROWSER_TITLE ="documentLibrary.rules.browserTitle";
+    private static final String NO_RULE_DEFINED = "documentLibrary.rules.noRules";
 
-    @BeforeClass (alwaysRun = true)
+    private final String random = RandomData.getRandomAlphanumeric();
+    private final String description = "description-" + random;
+    private final String folder1 = "Folder-1-" + random;
+    private final String folder2 = "Folder2-" + random;
+    private final String ruleName = "rule-1-" + random;
+
+    private DocumentLibraryPage documentLibraryPage;
+    private SiteDashboardPage siteDashboardPage;
+    private ManageRulesPage manageRulesPage;
+    private RuleDetailsPage ruleDetailsPage;
+    private LinkedToRuleSetPage linkedToRuleSetPage;
+    private SelectDestinationDialog selectDestinationDialog;
+    private FolderModel folderToCheck;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.createFolder(userName, password, folderName2, siteName);
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.selectItemAction(folderName, ItemActions.MANAGE_RULES);
-//        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
-        LOG.info("Navigate to Create rule page");
-//        manageRulesPage.clickCreateRules();
-        editRulesPage.setCurrentSiteName(siteName);
-        assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
-        LOG.info("Fill in Create Rule details and submit form");
-        List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
-        editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        selectDestinationDialog.selectSite(siteName);
-        String path = "Documents";
-        selectDestinationDialog.selectFolderPath(path);
-        selectDestinationDialog.confirmFolderLocation();
-        editRulesPage.clickCreateButton();
-//        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        editRulesPage.cleanupSelectedValues();
-        LOG.info("Navigate to Manage Rule page for folder2");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.selectItemAction(folderName2, ItemActions.MANAGE_RULES);
-//        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
-    }
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        manageRulesPage = new ManageRulesPage(webDriver);
+        selectDestinationDialog = new SelectDestinationDialog(webDriver);
+        linkedToRuleSetPage = new LinkedToRuleSetPage(webDriver);
+        ruleDetailsPage = new RuleDetailsPage(webDriver);
+
+        authenticateUsingCookies(user.get());
+
+        folderToCheck = FolderModel.getRandomFolderModel();
+        folderToCheck.setName(folder1);
+
+        log.info("Create folder1{}", folder1);
+        getCmisApi()
+            .usingSite(site.get())
+            .createFolder(folderToCheck)
+            .assertThat().existsInRepo();
+
+        log.info("Create Rule for "+folder1+"{}",ruleName);
+        createFolderRule(user.get(),
+            folderToCheck, "copy",
+            ruleName, description,
+            false, true, false, "inbound");
+
+        log.info("Create folder2{}", folder2);
+        folderToCheck.setName(folder2);
+        getCmisApi()
+            .usingSite(site.get())
+            .createFolder(folderToCheck)
+            .assertThat().existsInRepo();
+
+        siteDashboardPage
+            .navigate(site.get())
+            .navigateToDocumentLibraryPage();
+
+        log.info("Navigate to Manage Rule page for "+folder2);
+        documentLibraryPage
+            .assertDocumentLibraryPageTitleEquals(language.translate(DOCUMENT_LIBRARY_PAGE_TITLE))
+            .selectItemAction(folder2, MANAGE_RULES);
+
+        manageRulesPage
+            .assertRuleTitleEquals(folder2)
+            .assertBrowserPageTitleIs(language.translate(RULE_BROWSER_TITLE));
+
+        log.info("Link rule of "+folder2+" with rule of "+folder1);
+        manageRulesPage
+            .clickLinkToRuleSet();
+
+        selectDestinationDialog
+            .selectFolderPath(folder1)
+            .confirmFolderLocation();
+
+        linkedToRuleSetPage
+            .setCurrentSiteName(site.get().getTitle());
+        linkedToRuleSetPage
+            .assertRelativePathEquals(site.get().getTitle())
+            .clickButton("done");
+
+        siteDashboardPage
+            .navigate(site.get())
+            .navigateToDocumentLibraryPage();
+
+        log.info("Navigate to Manage Rule page for "+folder2);
+        documentLibraryPage
+            .assertDocumentLibraryPageTitleEquals(language.translate(DOCUMENT_LIBRARY_PAGE_TITLE))
+            .selectItemAction(folder2, MANAGE_RULES);
     }
 
     @TestRail (id = "C7327")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void linkToRuleSet()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyRuleIsLinked()
     {
-        LOG.info("STEP1: Click on 'Link to Rule Set' link\n" + "Set path to 'Folder1'.\n" + "Click 'Link' button");
-        manageRulesPage.clickLinkToRuleSet();
-        selectDestinationDialog.selectFolderPath(folderName);
-        selectDestinationDialog.clickLinkButton();
-        linkedToRuleSetPage.setCurrentSiteName(siteName);
-        assertEquals(linkedToRuleSetPage.getRelativePath(), "share/page/site/" + siteName + "/folder-rules", "Redirected to=");
-        LOG.info("STEP2: Click \"Done\" button");
-        linkedToRuleSetPage.clickButton("done");
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        LOG.info("STEP3: Create a file in folder2");
-        String fileName = "testDoc.txt";
-        contentService.createDocumentInFolder(userName, password, siteName, folderName2, CMISUtil.DocumentType.HTML, fileName, "docContent");
-        LOG.info("STEP4: Navigate to Document Library");
-        documentLibraryPage.navigate(siteName);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed");
+        log.info("STEP1: Create a file in folder2");
+        FileModel fileModel = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "Test content");
+        getCmisApi().usingSite(site.get()).usingResource(folderToCheck).createFile(fileModel);
+
+        documentLibraryPage.navigateToDocumentLibraryPage();
+        documentLibraryPage.clickOnFolderName(folder1);
+        documentLibraryPage.assertFileIsDisplayed(fileModel.getName());
+
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanupTest()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 }
