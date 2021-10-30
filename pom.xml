@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>14.10-SNAPSHOT</version>
+    <version>14.16-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -30,8 +30,8 @@
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
         <!-- Version of Alfresco Community Repo to depend on -->
-        <dependency.alfresco-community-repo.version>14.12-SNAPSHOT</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>14.14-SNAPSHOT</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>14.25</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>14.24</dependency.alfresco-enterprise-repo.version>
         <alfresco.api-explorer.version>7.1.0.1</alfresco.api-explorer.version>
 
         <image.registry>quay.io</image.registry>
@@ -48,7 +48,7 @@
         <dependency.spring.version>5.3.7</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
-        <dependency.aikau.version>1.0.113</dependency.aikau.version>
+        <dependency.aikau.version>1.0.114</dependency.aikau.version>
         <dependency.freemarker.version>2.3.30</dependency.freemarker.version>
         <dependency.rhino.version>1.7.13</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.13</dependency.httpcomponents.version>
