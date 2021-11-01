@@ -67,7 +67,6 @@
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20210307</dependency.org-json.version>
 
-        <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <alfresco.googledrive.version>3.2.1</alfresco.googledrive.version>
 
         <!-- Developer's runtime environment configuration -->
@@ -288,7 +287,7 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-mmt</artifactId>
-                <version>${dependency.alfresco-mmt.version}</version>
+                <version>${dependency.alfresco-community-repo.version}</version>
             </dependency>
 
             <dependency>
