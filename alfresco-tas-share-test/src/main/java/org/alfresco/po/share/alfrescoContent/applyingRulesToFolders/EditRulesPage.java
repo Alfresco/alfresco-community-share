@@ -24,6 +24,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     private final By nameInputField = By.cssSelector("input[id*='title']");
     private final By descriptionInputField = By.cssSelector("textarea[id*='description']");
     private final By createButton = By.cssSelector(".main-buttons button[id*='create-button']");
+    private final By cancelButton = By.cssSelector(".main-buttons button[id*='cancel-button']");
     private final By saveButton = By.cssSelector(".edit-buttons button[id*='save-button']");
     private final By createAndCreateAnotherButton = By.cssSelector(".main-buttons button[id*='createAnother']");
     private final By disableRuleCheckbox = By.cssSelector(".disabled input");
@@ -126,6 +127,12 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public RuleDetailsPage clickCreateButton()
     {
         clickElement(createButton);
+        return new RuleDetailsPage(webDriver);
+    }
+
+    public RuleDetailsPage clickCancelButton()
+    {
+        clickElement(cancelButton);
         return new RuleDetailsPage(webDriver);
     }
 
