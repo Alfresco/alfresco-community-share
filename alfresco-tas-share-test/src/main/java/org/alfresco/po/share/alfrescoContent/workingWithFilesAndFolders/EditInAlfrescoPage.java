@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import static org.testng.Assert.assertEquals;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -21,8 +22,10 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
     @FindBy (css = "input[id*='name']")
     private WebElement nameInput;
 
-    @FindBy (css = "textarea[id*='_content']")
-    private WebElement contentTextarea;
+//    @FindBy (css = "textarea[id*='_content']")
+//    private WebElement contentTextarea;
+
+    private By contentTextarea = By.cssSelector("textarea[id*='_content']");
 
     @FindBy (css = "input[id*='title']")
     private WebElement titleInput;
@@ -91,5 +94,12 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
     {
         log.info("Type description: {}", description);
         clearAndType(descriptionTextarea, description);
+    }
+
+    public EditInAlfrescoPage assertEditInAlfrescoPageTitleEquals(String title)
+    {
+        log.info("Verify Edit in Alfresco page title {}", title);
+        assertEquals(getPageTitle(), title, String.format("Edit in page title should be '"+getPageTitle()+"'(s)' not matched %s ", title));
+        return this;
     }
 }
