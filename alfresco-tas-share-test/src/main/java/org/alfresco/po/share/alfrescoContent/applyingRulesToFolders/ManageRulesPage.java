@@ -148,4 +148,32 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         assertEquals(getRuleTitle(), folderName+": Rules", String.format("Rule Title '"+getRuleTitle()+"' not matched %s ", folderName+": Rules"));
         return this;
     }
+
+    public ManageRulesPage assertCreateRuleLinkTextEquals(String linkText)
+    {
+        log.info("Verify create rule link text {}", linkText);
+        assertEquals(getCreateRulesLinkText(), linkText, String.format("Create Rule link text should be 'Create Rules(s)' not matched %s ", linkText));
+        return this;
+    }
+
+    public ManageRulesPage assertCreateRuleDescriptionTextEquals(String descriptionTxt)
+    {
+        log.info("Verify create rule description text {}", descriptionTxt);
+        assertEquals(getCreateRulesDescription(), descriptionTxt, String.format("Create Rule Description text should be 'Define your own rules from scratch for this folder(s)' not matched %s ", descriptionTxt));
+        return this;
+    }
+
+    public ManageRulesPage assertLinkToRuleSetLinkTextEquals(String linkText)
+    {
+        log.info("Verify 'Link to Rule Set' link text {}", linkText);
+        assertEquals(getLinkToRuleSetLinkText(), linkText, String.format("Link to Rule Set link text should be 'Link to Rule Set(s)' not matched %s ", linkText));
+        return this;
+    }
+
+    public ManageRulesPage assertLinkToRuleSetDescriptionEquals(String description)
+    {
+        log.info("Verify 'Link to Rule Set' description {}", description);
+        assertEquals(getLinkToRuleSetDescription(), description, String.format("Link to Rule Set description should be 'Reuse an existing rule set defined for another folder(s)' not matched %s ", description));
+        return this;
+    }
 }
