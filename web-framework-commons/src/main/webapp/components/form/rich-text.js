@@ -141,6 +141,12 @@
          }
          // render and register event handler
          this.editor.render();
+
+         // Add validation to the rich text editor on change
+         this.editor.subscribe('change', function (e)
+         {
+            _this._handleContentChange()
+         }, this, true);
          
          // Make sure we persist the dom content from the editor in to the hidden textarea when appropriate 
          var _this = this;
