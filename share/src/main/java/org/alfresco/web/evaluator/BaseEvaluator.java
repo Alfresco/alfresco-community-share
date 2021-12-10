@@ -233,6 +233,33 @@ public abstract class BaseEvaluator implements Evaluator
     }
 
     /**
+     * Retrieves the mimetype for a node
+     *
+     * @param jsonObject JSONObject containing a "node" object as returned from the ApplicationScriptUtils class.
+     * @return String containing the node mimetype
+     */
+    public final String getNodeMimetype(JSONObject jsonObject)
+    {
+        String mimetype = null;
+
+        try
+        {
+            JSONObject node = (JSONObject) jsonObject.get("node");
+
+            if (node != null)
+            {
+                mimetype = (String) node.get("mimetype");
+            }
+        }
+        catch (Exception err)
+        {
+            throw new AlfrescoRuntimeException("Exception whilst running UI evaluator: " + err.getMessage());
+        }
+
+        return mimetype;
+    }
+
+    /**
      * Retrieve a JSONArray of aspects for a node
      *
      * @param jsonObject JSONObject containing a "node" object as returned from the ApplicationScriptUtils class.
