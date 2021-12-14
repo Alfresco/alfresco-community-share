@@ -738,7 +738,7 @@
                 
              };
 
-             Dom.get(parent.id + "-view-title").innerHTML = node.name[parent._qnamePropertyName()];
+             Dom.get(parent.id + "-view-title").innerHTML = $html(node.name[parent._qnamePropertyName()]);
              
              // About section fields
              fnSetter("-view-node-ref", node.nodeRef);
@@ -832,7 +832,12 @@
                 dtConfig
              );
 
-             var permissionsDT = new YAHOO.widget.DataTable(parent.id + "-view-node-permissions", 
+             if( node.permissions && node.permissions.entries ) {
+                for(var key in node.permissions.entries) {
+                    node.permissions.entries[key].authority = $html(node.permissions.entries[key].authority);
+                }
+             }
+             var permissionsDT = new YAHOO.widget.DataTable(parent.id + "-view-node-permissions",
                 [
                    { key: "permission", label: parent.msg("label.permissions-permission") },
                    { key: "authority", label: parent.msg("label.permissions-authority") },
@@ -841,7 +846,12 @@
                 new YAHOO.util.LocalDataSource(node.permissions.entries),
                 dtConfig
              );
-             
+
+             if( node.permissions && node.permissions.masks ) {
+                for(var key in node.permissions.masks) {
+                    node.permissions.masks[key].authority = $html(node.permissions.masks[key].authority);
+                }
+             }
              var storePermissionsDT = new YAHOO.widget.DataTable(parent.id + "-view-node-store-permissions", 
                 [
                    { key: "permission", label: parent.msg("label.permissions-store-permission") },
