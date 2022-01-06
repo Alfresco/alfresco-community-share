@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -26,7 +26,7 @@
  */
 /**
  * Helper to determine if the current user has the given Capability in any assigned Role
- * 
+ *
  * @method hasCapability
  * @param conn Connector to use
  * @param cap Capability ID to test e.g. "AccessAudit"
@@ -52,7 +52,7 @@ function hasCapabilityImpl(cap, capabilities)
          }
       }
    }
-   return result;	
+   return result;
 }
 
 function getCapabilities(conn)

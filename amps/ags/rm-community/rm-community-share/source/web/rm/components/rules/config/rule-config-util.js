@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -119,7 +119,7 @@
                   htmlid: ruleConfigComponentId,
                   site: this.options.siteId
                }, ruleConfig.dataObj);
-            
+
             this.ruleConfigs[ruleConfigComponentId] = false;
             Alfresco.util.Ajax.request(
             {
