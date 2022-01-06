@@ -4,7 +4,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -30,10 +30,10 @@
 // Keep a reference to the original implementation
 DocList.inheritedGetAllMetadataTemplates = DocList.getAllMetadataTemplates;
 
-/* 
- * Override getAllMetadataTemplates to return rm templates first 
+/*
+ * Override getAllMetadataTemplates to return rm templates first
  * fix for RM-3202
- */ 
+ */
 DocList.getAllMetadataTemplates = function getAllMetadataTemplates()
 {
    var templates, template, rmTemplates = [], otherTemplates = [], orderedTemplates = {};
@@ -61,7 +61,7 @@ DocList.getAllMetadataTemplates = function getAllMetadataTemplates()
       {
           orderedTemplates[template.id] = template;
       }
-      // add the other templates to the final template list 
+      // add the other templates to the final template list
       for each(template in otherTemplates)
       {
           orderedTemplates[template.id] = template;

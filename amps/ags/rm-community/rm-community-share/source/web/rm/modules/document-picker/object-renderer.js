@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -27,9 +27,9 @@
 
 /**
  * RM_ObjectRenderer component
- * 
+ *
  * Overrides certain methods so RM doc picker can display RM icons
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.RM_ObjectRenderer
  */
@@ -43,7 +43,7 @@
 
    /**
     * RM_ObjectRenderer component constructor.
-    * 
+    *
     * @param {object} Instance of the DocumentPicker
     * @return {Alfresco.module.ObjectRenderer} The new ObjectRenderer instance
     * @constructor
@@ -54,7 +54,7 @@
 
       return this;
    };
-    
+
    YAHOO.extend(Alfresco.rm.module.ObjectRenderer, Alfresco.ObjectRenderer,
    {
 /**
@@ -103,12 +103,12 @@
             }
             default:
             {
-               return Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIcon(item.name, item.type, size); 
+               return Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIcon(item.name, item.type, size);
             }
          }
          return Alfresco.constants.URL_RESCONTEXT + 'rm/components/documentlibrary/images/' + type + '-'+size+'.png';
       }
-   }      
+   }
    });
-   
+
 })();

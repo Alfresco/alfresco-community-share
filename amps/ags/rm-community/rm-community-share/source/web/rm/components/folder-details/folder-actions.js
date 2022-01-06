@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -26,7 +26,7 @@
  */
 /**
  * Folder actions component - RM extensions.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.rm.doclib.FolderActions
  */
@@ -34,7 +34,7 @@
 {
    /**
     * RecordsFolderActions constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.rm.doclib.FolderActions} The new RecordsFolderActions instance
     * @constructor
@@ -48,12 +48,12 @@
       }, this);
       return this;
    };
-   
+
    /**
     * Extend from Alfresco.FolderActions
     */
    YAHOO.extend(Alfresco.rm.doclib.FolderActions, Alfresco.FolderActions);
-   
+
    /**
     * Augment prototype with RecordActions module, ensuring overwrite is enabled
     */

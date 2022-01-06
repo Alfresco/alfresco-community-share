@@ -5,7 +5,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -45,7 +45,7 @@ function main()
 
    // Widget instantiation metadata...
    var folderActions = {
-      id : "rmFolderActions", 
+      id : "rmFolderActions",
       name : "Alfresco.rm.doclib.FolderActions",
       options : {
          nodeRef : model.nodeRef,
@@ -62,7 +62,7 @@ function main()
    {
       folderActions.options.repositoryUrl = model.repositoryUrl;
    }
-   
+
    model.widgets = [folderActions];
 }
 

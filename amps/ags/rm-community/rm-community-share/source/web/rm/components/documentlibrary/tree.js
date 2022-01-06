@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -26,7 +26,7 @@
  */
 /**
  * DocumentList TreeView component.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.rm.component.DocListTree
  */
@@ -47,7 +47,7 @@
 
    /**
     * Records DocumentList TreeView constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.rm.component.DocListTree} The new RecordsDocListTree instance
     * @constructor
@@ -56,7 +56,7 @@
    {
       return Alfresco.rm.component.DocListTree.superclass.constructor.call(this, htmlId);
    };
-   
+
    YAHOO.extend(Alfresco.rm.component.DocListTree, Alfresco.DocListTree,
    {
       /**
