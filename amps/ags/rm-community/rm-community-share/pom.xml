@@ -124,6 +124,7 @@
                         </move>
                         <move file="${project.build.directory}/${project.build.finalName}/config/alfresco/module/org_alfresco_module_rm_share/file-mapping.properties" todir="${project.build.directory}/${project.build.finalName}" />
                         <move file="${project.build.directory}/${project.build.finalName}/config/alfresco/module/org_alfresco_module_rm_share/module.properties" todir="${project.build.directory}/${project.build.finalName}" />
+                        <copy file="${project.build.directory}/generated-sources/license/THIRD-PARTY.txt" todir="${project.build.directory}/${project.build.finalName}/licenses/${artifactId}" />
                      </target>
                   </configuration>
                </execution>
