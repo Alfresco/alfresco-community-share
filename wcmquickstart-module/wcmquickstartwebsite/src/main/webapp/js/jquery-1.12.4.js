@@ -212,12 +212,12 @@ jQuery.extend = jQuery.fn.extend = function() {
 				copy = options[ name ];
 
 				/*
-				PATCH: Prevent Object.prototype pollution
-				Before: 
-				if ( target === copy ) {
-				*/
+                PATCH: Prevent Object.prototype pollution
+                Before: 
+                if ( target === copy ) {
+                */
 				if ( name === "__proto__" || target === copy ) {
-					continue;
+                    continue;
 				}
 
 				// Recurse if we're merging plain objects or arrays
@@ -1457,7 +1457,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 	if ( support.matchesSelector && documentIsHTML &&
 		!compilerCache[ expr + " " ] &&
 		( !rbuggyMatches || !rbuggyMatches.test( expr ) ) &&
-		( !rbuggyQSA	 || !rbuggyQSA.test( expr ) ) ) {
+		( !rbuggyQSA     || !rbuggyQSA.test( expr ) ) ) {
 
 		try {
 			var ret = matches.call( elem, expr );
@@ -4498,14 +4498,14 @@ function createSafeFragment( document ) {
 	div.innerHTML = "<textarea>x</textarea>";
 	support.noCloneChecked = !!div.cloneNode( true ).lastChild.defaultValue;
 
-	/*
-	PATCH: Support: IE <=9 only
-	IE <=9 replaces <option> tags with their contents when inserted outside of
-	the select element.
-	Added:
-	*/
-	div.innerHTML = "<option></option>";
-	support.option = !!div.lastChild;
+    /*
+    PATCH: Support: IE <=9 only
+    IE <=9 replaces <option> tags with their contents when inserted outside of
+    the select element.
+    Added:
+    */
+    div.innerHTML = "<option></option>";
+    support.option = !!div.lastChild;
 
 	// #11217 - WebKit loses check when the name is after the checked attribute
 	fragment.appendChild( div );
@@ -4536,7 +4536,7 @@ function createSafeFragment( document ) {
 
 /*
 PATCH: Removed from wrapMap:
-	option: [ 1, "<select multiple='multiple'>", "</select>" ],
+    option: [ 1, "<select multiple='multiple'>", "</select>" ],
 */
 // We have to close these tags to support XHTML (#13200)
 var wrapMap = {
@@ -4557,7 +4557,7 @@ var wrapMap = {
 
 /*
 PATCH: Removed optgroup from wrapMap:
-	 wrapMap.optgroup = wrapMap.option;
+     wrapMap.optgroup = wrapMap.option;
 */
 
 wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
@@ -4567,7 +4567,7 @@ wrapMap.th = wrapMap.td;
 PATCH: Added Support: IE <=9 only
 */
 if ( !support.option ) {
-	wrapMap.optgroup = wrapMap.option = [ 1, "<select multiple='multiple'>", "</select>" ];
+    wrapMap.optgroup = wrapMap.option = [ 1, "<select multiple='multiple'>", "</select>" ];
 }
 
 function getAll( context, tag ) {
@@ -5895,7 +5895,7 @@ jQuery.fn.extend( {
 
 /*
 PATCH: Removed
-	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:-]+)[^>]*)\/>/gi,
+    rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:-]+)[^>]*)\/>/gi,
 */
 var rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g,
 	rnoshimcache = new RegExp( "<(?:" + nodeNames + ")[\\s/>]", "i" ),
@@ -6154,10 +6154,10 @@ function remove( elem, selector, keepData ) {
 
 jQuery.extend( {
 	htmlPrefilter: function( html ) {
-		/*
-		PATCH: Removed
-		return html.replace( rxhtmlTag, "<$1></$2>" );
-		*/
+        /*
+        PATCH: Removed
+        return html.replace( rxhtmlTag, "<$1></$2>" );
+        */
 		return html;
 	},
 
@@ -9118,8 +9118,8 @@ var
 	/* Prefilters
 	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
 	 * 2) These are called:
-	 *	- BEFORE asking for a transport
-	 *	- AFTER param serialization (s.data is a string if s.processData is true)
+	 *    - BEFORE asking for a transport
+	 *    - AFTER param serialization (s.data is a string if s.processData is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
 	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
