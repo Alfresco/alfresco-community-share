@@ -4,9 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="/wcmqs/css/index.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="/wcmqs/css/slimbox2.css" type="text/css" media="screen" />
-<script type="text/javascript" src="/wcmqs/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/wcmqs/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="/wcmqs/js/jqueryslidemenu.js"></script>
-<script type="text/javascript" src="/wcmqs/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="/wcmqs/js/jquery-ui-1.12.1.min.js"></script>
 <script type="text/javascript" src="/wcmqs/js/slimbox2.js"></script>
 
 <style>

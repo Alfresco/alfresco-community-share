@@ -12,7 +12,7 @@
 
     <properties>
         <sonar.exclusions>
-            src/main/webapp/js/jquery-ui-1.7.2.custom.min.js
+            src/main/webapp/js/jquery-ui-1.12.1.min.js
         </sonar.exclusions>
     </properties>
 
