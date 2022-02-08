@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Sanity Test Suite" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Sanity Tests">
+      <groups>
+         <run>
+            <include name="sanity"/>
+            <exclude name="regression"/>
+
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.alfrescoContent.*"/>
+      </packages>
+   </test>
+
+</suite>
