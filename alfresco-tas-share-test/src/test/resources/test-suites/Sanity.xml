@@ -8,13 +8,26 @@
       <groups>
          <run>
             <include name="sanity"/>
-            <exclude name="regression"/>
-
+            <include name="regression"/>
+            <exclude name="unit"/>
+            <exclude name="SmartFolders"/>
+            <exclude name="ExternalUsers"/>
+            <exclude name="office"/>
+            <exclude name="TransformationServer"/>
+            <exclude name="xsstests"/>
+            <exclude name="admin-tools"></exclude>
+            <exclude name="sites"/>
+            <exclude name="user-dashboard"/>
+            <exclude name="site-dashboard"/>
+            <exclude name="user"/>
+            <exclude name="auth"/>
          </run>
       </groups>
       <packages>
-         <package name="org.alfresco.share.alfrescoContent.*"/>
+         <package name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.DefiningRulesForFolders"/>
+         <package name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules"/>
+         <package name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules"/>
+         <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
    </test>
-
 </suite>
