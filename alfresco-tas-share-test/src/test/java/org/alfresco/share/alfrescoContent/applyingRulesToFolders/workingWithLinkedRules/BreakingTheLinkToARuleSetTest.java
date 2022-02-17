@@ -127,7 +127,7 @@ public class BreakingTheLinkToARuleSetTest extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7332")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void shouldUnlinkTheRules()
     {
         log.info("STEP1: Click 'Unlink' button for the linked rule set");
