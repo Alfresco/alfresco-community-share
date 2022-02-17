@@ -22,7 +22,7 @@ public class ChangePasswordTest extends BaseTest
     }
 
     @TestRail (id = "C2226")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER , TestGroup.INTEGRATION})
     public void changeUserPassword()
     {
         authenticateUsingCookies(user.get());
@@ -38,7 +38,7 @@ public class ChangePasswordTest extends BaseTest
     }
 
     @TestRail (id = "C2227, 2229")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, TestGroup.INTEGRATION })
     public void incorrectOldOrNewPasswordTests()
     {
         authenticateUsingCookies(user.get());

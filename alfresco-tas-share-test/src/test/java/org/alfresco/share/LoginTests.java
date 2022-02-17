@@ -58,7 +58,7 @@ public class LoginTests extends BaseTest
     }
 
     @TestRail(id = "C2080")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH, TestGroup.INTEGRATION })
     public void loginValidCredentials()
     {
         loginPage.navigate()
@@ -71,7 +71,7 @@ public class LoginTests extends BaseTest
     }
 
     @TestRail(id = "C2081")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH, TestGroup.INTEGRATION })
     public void loginInvalidCredentials()
     {
         loginPage.navigate().login("fakeUser", "fakePassword");
@@ -81,7 +81,7 @@ public class LoginTests extends BaseTest
     }
 
     @TestRail(id = "C2082")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH, TestGroup.INTEGRATION })
     public void loginInvalidPassword()
     {
         loginPage.navigate().login(validUser.getUsername(), "fakePassword");
@@ -91,7 +91,7 @@ public class LoginTests extends BaseTest
     }
 
     @TestRail(id = "C2083")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH, TestGroup.INTEGRATION })
     public void invalidUserRedirectedToLoginPage()
     {
         userDashboardPage.navigateWithoutRender(validUser);
@@ -100,7 +100,7 @@ public class LoginTests extends BaseTest
     }
 
     @TestRail(id = "C2084")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH, TestGroup.INTEGRATION })
     public void loginAutoComplete()
     {
         loginPage.navigate().autoCompleteUsername(testUserC2084.getUsername());
@@ -117,7 +117,7 @@ public class LoginTests extends BaseTest
     }
 
     @TestRail(id = "C2085")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH, TestGroup.INTEGRATION })
     public void loginUserWithSpecialChar()
     {
         specialUserList.forEach(specialUser -> {
@@ -129,7 +129,7 @@ public class LoginTests extends BaseTest
     }
 
     @TestRail(id = "C2086")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH, TestGroup.INTEGRATION })
     public void loginUserWithSpecialPassword()
     {
         loginPage.navigate();

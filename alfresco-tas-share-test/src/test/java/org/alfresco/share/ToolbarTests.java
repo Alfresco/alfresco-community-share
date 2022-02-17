@@ -85,7 +85,7 @@ public class ToolbarTests extends BaseTest
     }
 
     @TestRail (id = "C2863, C8684, C8681")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, TestGroup.INTEGRATION })
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
         dataGroup.usingUser(normalUser.get()).addUserToGroup(ALFRESCO_ADMIN_GROUP);
