@@ -33,7 +33,7 @@ public class UserProfileTests extends BaseTest
     }
 
     @TestRail (id = "C9415")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION})
     public void browseUserProfilePage()
     {
         userProfileAdminToolsPage.navigate(user.get())
@@ -48,7 +48,7 @@ public class UserProfileTests extends BaseTest
     }
 
     @TestRail (id = "C9416")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void browseEditUserAdminPage()
     {
         userProfileAdminToolsPage.navigate(user.get())
@@ -71,7 +71,7 @@ public class UserProfileTests extends BaseTest
     }
 
     @TestRail (id = "C9417")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void editingUser()
     {
         UserModel editUser = dataUser.createRandomTestUser();
@@ -110,7 +110,7 @@ public class UserProfileTests extends BaseTest
     }
 
     @TestRail (id = "C9431")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void deleteNeverAuthorizedUser()
     {
         UserModel newUser = dataUser.usingAdmin().createRandomTestUser();
@@ -125,7 +125,7 @@ public class UserProfileTests extends BaseTest
             .usingUser(newUser).assertUserIsNotFound();
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void deleteAuthorizedUser()
     {
         getUserService().login(user.get().getUsername(), user.get().getPassword());
@@ -152,7 +152,7 @@ public class UserProfileTests extends BaseTest
     }
 
     @TestRail (id = "C9426")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void enablingAccount()
     {
         editUserPage.navigate(user.get())

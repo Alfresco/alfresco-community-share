@@ -107,7 +107,7 @@ public class SitesManagerTests extends BaseTest
     }
 
     @TestRail (id = "C8683, C8682, C2868")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void verifyUserAddedAndRemovedFromSiteAdminGroup()
     {
         UserModel user = dataUser.usingAdmin().createRandomTestUser();

@@ -79,7 +79,7 @@ public class CreateRuleTests extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C6372")
-    @Test (invocationCount = 5, groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createRule()
     {
         String ruleName1 = "rule-C6372-" + random;
@@ -121,7 +121,7 @@ public class CreateRuleTests extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7239")
-    @Test (invocationCount = 5, groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createAndCreateAnother()
     {
         String ruleName1 = "rule1-C7239-" + random;

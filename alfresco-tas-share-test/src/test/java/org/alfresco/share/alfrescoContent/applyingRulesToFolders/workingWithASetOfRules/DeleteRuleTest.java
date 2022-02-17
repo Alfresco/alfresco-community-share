@@ -54,7 +54,7 @@ public class DeleteRuleTest extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7267")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void shouldDeleteExistingRule()
     {
         createFolderRule(user.get(), folderToCheck, "copy", ruleName, description, false, true,

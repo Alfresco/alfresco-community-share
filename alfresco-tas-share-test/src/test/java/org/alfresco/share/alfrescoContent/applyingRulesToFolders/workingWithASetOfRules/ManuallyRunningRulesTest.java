@@ -68,7 +68,7 @@ public class ManuallyRunningRulesTest extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7320")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void shouldAbleToRunCreatedRule()
     {
         createFolderRule(user.get(),

@@ -21,7 +21,7 @@ public class UserToolTests extends BaseTest
     }
 
     @TestRail (id = "C9392")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void accessingUsersTool()
     {
         usersPage.navigate();

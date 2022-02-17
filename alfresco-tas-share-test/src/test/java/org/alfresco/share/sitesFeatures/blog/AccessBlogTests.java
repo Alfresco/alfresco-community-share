@@ -83,7 +83,7 @@ public class AccessBlogTests extends BaseTest
     }
 
     @TestRail(id = "C5526")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION})
     public void shouldDisplayRenamedBlogInMenuBar()
     {
         blogPostListPage

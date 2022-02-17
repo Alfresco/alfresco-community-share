@@ -25,7 +25,7 @@ public class ImportUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9438")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void importUsers()
     {
         UserModel importedUser = new UserModel("C9438user", password);

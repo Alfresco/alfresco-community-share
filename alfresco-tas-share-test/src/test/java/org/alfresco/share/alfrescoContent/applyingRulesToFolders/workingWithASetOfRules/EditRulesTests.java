@@ -68,7 +68,7 @@ public class EditRulesTests extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7254")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void shouldEditRuleDetails()
     {
         createFolderRule(user.get(),

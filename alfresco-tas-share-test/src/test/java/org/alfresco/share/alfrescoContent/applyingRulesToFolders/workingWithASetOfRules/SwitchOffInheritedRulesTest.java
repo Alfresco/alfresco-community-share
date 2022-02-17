@@ -78,7 +78,7 @@ public class SwitchOffInheritedRulesTest extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7325")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void shouldSwitchOffTheInheritRules()
     {
         siteDashboardPage

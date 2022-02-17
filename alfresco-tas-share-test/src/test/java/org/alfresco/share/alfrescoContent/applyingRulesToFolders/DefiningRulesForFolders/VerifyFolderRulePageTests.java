@@ -66,7 +66,7 @@ public class VerifyFolderRulePageTests extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C6367")
-    @Test(invocationCount = 5, groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyFolderRulesPage()
     {
         siteDashboardPage.navigate(site.get()).navigateToDocumentLibraryPage();
@@ -87,7 +87,7 @@ public class VerifyFolderRulePageTests extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C12857")
-    @Test(invocationCount = 5, groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void verifyCreateRulePageDropdownElements()
     {
         siteDashboardPage.navigate(site.get()).navigateToDocumentLibraryPage();

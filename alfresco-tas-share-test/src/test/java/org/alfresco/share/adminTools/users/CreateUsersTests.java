@@ -27,7 +27,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C42597")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void verifyCreateUsersPage()
     {
         usersPage.navigate();
@@ -39,7 +39,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9396")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void browseCreateUserPage()
     {
         usersPage.navigate();
@@ -47,7 +47,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9397")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void createUser()
     {
         UserModel user = UserModel.getRandomUserModel();
@@ -61,7 +61,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9401")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void createAndStartAnother()
     {
         UserModel user = UserModel.getRandomUserModel();
@@ -76,7 +76,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9405")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void managePassword()
     {
         UserModel user = UserModel.getRandomUserModel();
@@ -95,7 +95,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9406")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void addingUserToGroup()
     {
         UserModel user = UserModel.getRandomUserModel();
@@ -115,7 +115,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9407")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void disableAccount()
     {
         UserModel userToDisable = UserModel.getRandomUserModel();
@@ -131,7 +131,7 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9408")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void addQuotaToUser()
     {
         UserModel user = UserModel.getRandomUserModel();
