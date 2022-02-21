@@ -454,6 +454,7 @@
                     <excludes>
                         <exclude>**/sinon-1.10.3/**</exclude>
                         <exclude>**/*-min.js</exclude>
+                        <exclude>**/*.min.js</exclude>
                         <exclude>**/WEB-INF/**</exclude>
                         <exclude>**/tinymce/**</exclude>
                         <exclude>**/yui/**</exclude>
