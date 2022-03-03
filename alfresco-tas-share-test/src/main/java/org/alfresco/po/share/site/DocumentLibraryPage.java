@@ -1139,4 +1139,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertTrue(isFileNameDisplayed(fileName), fileName + " is not displayed");
         return this;
     }
+
+    public DocumentLibraryPage assertLockedBannerIsDisplayed(String fileName)
+    {
+        log.info("Assert Locked banner displayed on Document {}");
+        assertTrue(isInfoBannerDisplayed(fileName), "Document is Locked Info banner on File" +fileName+ " is not displayed");
+        return this;
+    }
 }
