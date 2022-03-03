@@ -26,15 +26,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-
 @Slf4j
 public class ItemsAreDeletedTests extends AbstractFolderRuleTest
 {
     private static final String DOCUMENT_LIBRARY_PAGE_TITLE = "documentLibrary.browserTitle";
     private static final String MANAGE_RULE_PAGE_TITLE = "documentLibrary.rules.browserTitle";
     private static final String NO_RULE_DEFINED_MSG = "documentLibrary.rules.noRules";
-    private static final String ITEMS_ARE_UPDATED = "documentLibrary.rules.createRule.rulesDetailsPage.when.itemsAreUpdated";
+    private static final String ITEMS_ARE_DELETED = "documentLibrary.rules.createRule.rulesDetailsPage.when.itemsAreDeleted";
     private static final String ALL_ITEMS = "documentLibrary.rules.createRule.rulesDetailsPage.ifAllCriteria.allItems";
     private static final String COPY_ITEM_TO = "documentLibrary.rules.createRule.rulesDetailsPage.performAction.copyItem";
     private static final String EDIT_IN_ALFRESCO_PAGE_TITLE = "documentLibrary.contentActions.editInAlfresco.pageTitle";
@@ -108,7 +106,7 @@ public class ItemsAreDeletedTests extends AbstractFolderRuleTest
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + site.get().getTitle() + "/rule-edit", "Redirected to=");
 
         log.info("STEP3: Type rule name, description and select value from each dropdown");
-        List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
+        List<Integer> indexOfOptionFromDropdown = Arrays.asList(2, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
         editRulesPage.clickCopySelectButton();
         selectDestinationDialog.selectSite(site.get().getTitle());
@@ -120,7 +118,7 @@ public class ItemsAreDeletedTests extends AbstractFolderRuleTest
         ruleDetailsPage
             .assertRulesPageTitleEquals(ruleName1)
             .assertRuleDescriptionDetailsEqualTo(expectedDescriptionDetails)
-            .assertWhenConditionTextEquals(language.translate(ITEMS_ARE_UPDATED))
+            .assertWhenConditionTextEquals(language.translate(ITEMS_ARE_DELETED))
             .assertIfAllCriteriaConditionEquals(language.translate(ALL_ITEMS))
             .assertPerformedActionEquals(language.translate(COPY_ITEM_TO));
 
@@ -135,32 +133,11 @@ public class ItemsAreDeletedTests extends AbstractFolderRuleTest
             .navigate(site.get().getId())
             .navigateToDocumentLibraryPage();
 
-        log.info("Step 6: Verify file should not be displayed in the document library");
+        log.info("Step6: Verify file should not be displayed in the document library");
         documentLibraryPage
             .assertFileIsNotDisplayed(fileToCheck.getName());
 
-        log.info("STEP7: Navigate to folder content. For file click on 'Edit in Alfresco' and update the content");
-        documentLibraryPage
-            .clickOnFolderName(folderToCheck.getName())
-            .assertFileIsDisplayed(fileToCheck.getName())
-            .selectItemAction(fileToCheck.getName(), ItemActions.EDIT_IN_ALFRESCO);
-
-        editInAlfrescoPage
-            .assertEditInAlfrescoPageTitleEquals(language.translate(EDIT_IN_ALFRESCO_PAGE_TITLE));
-        editInAlfrescoPage
-            .typeContent("Content updated!");
-        editInAlfrescoPage
-            .clickSaveButton();
-
-        log.info("STEP8: Navigate to the Document Library and verify file is displayed");
-        siteDashboardPage
-            .navigate(site.get())
-            .navigateToDocumentLibraryPage();
-
-        documentLibraryPage
-            .assertFileIsDisplayed(fileToCheck.getName());
-
-        log.info("STEP9: Verify File is Deleted  and should not be displayed in Folder");
+        log.info("STEP7: Verify File is Deleted  and should not be displayed in Folder");
         documentLibraryPage
             .clickOnFolderName(folderToCheck.getName())
             .assertFileIsDisplayed(fileToCheck.getName())
@@ -171,7 +148,7 @@ public class ItemsAreDeletedTests extends AbstractFolderRuleTest
         documentLibraryPage
             .assertFileIsNotDisplayed(fileToCheck.getName());
 
-        log.info("STEP10: Verify File should be  displayed in DocumentLibrary");
+        log.info("STEP8: Verify File should be displayed in DocumentLibrary");
         siteDashboardPage
             .navigate(site.get())
             .navigateToDocumentLibraryPage();
@@ -179,5 +156,4 @@ public class ItemsAreDeletedTests extends AbstractFolderRuleTest
         documentLibraryPage
             .assertFileIsDisplayed(fileToCheck.getName());
     }
-
 }
