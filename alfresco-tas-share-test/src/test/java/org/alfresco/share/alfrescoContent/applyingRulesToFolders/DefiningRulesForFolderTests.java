@@ -494,7 +494,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.selectSite(siteName);
         selectDestinationDialog.selectFolderPath(path);
         selectDestinationDialog.confirmFolderLocation();
-        
+
         editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
@@ -523,7 +523,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202963")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    //@Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void itemsAreUpdatedRuleAppliesToSubfolders()
     {
         String ruleName1 = "rule-C202963-" + random;
@@ -554,7 +554,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.selectSite(siteName);
         selectDestinationDialog.selectFolderPath(path);
         selectDestinationDialog.confirmFolderLocation();
-        
+
         editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
@@ -585,7 +585,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202964")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    //@Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void itemsAreDeletedRuleAppliesToSubfolders()
     {
         String ruleName1 = "rule-C202964-" + random;
@@ -616,7 +616,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.selectSite(siteName);
         selectDestinationDialog.selectFolderPath(path);
         selectDestinationDialog.confirmFolderLocation();
-        
+
         editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
@@ -650,7 +650,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7285")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    //@Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void checkoutToSite()
     {
         String ruleName1 = "rule-C7285-" + random;
@@ -678,7 +678,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.selectSite(siteName2);
         selectDestinationDialog.selectFolderPath("Documents");
         selectDestinationDialog.confirmFolderLocation();
-        
+
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
@@ -706,7 +706,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7284")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    //@Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void moveToSite()
     {
         String ruleName1 = "rule-C7284-" + random;
@@ -734,7 +734,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.selectSite(siteName2);
         selectDestinationDialog.selectFolderPath("Documents");
         selectDestinationDialog.confirmFolderLocation();
-        
+
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
@@ -761,7 +761,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7283")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    //@Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void copyToSite()
     {
         String ruleName1 = "rule-C7283-" + random;
@@ -789,7 +789,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.selectSite(siteName2);
         selectDestinationDialog.selectFolderPath("Documents");
         selectDestinationDialog.confirmFolderLocation();
-        
+
         editRulesPage.clickCreateButton();
 //        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
@@ -816,7 +816,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286441")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    //@Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void createRuleWithUnlessShowMoreOption()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -868,9 +868,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
 
         LOG.info("STEP 8: Click 'Create' button;");
-        
         editRulesPage.clickCreateButton();
-
 
         LOG.info("STEP 9: Apply the rule on 'Folder1' that was created");
         ruleDetailsPage.clickRunRulesButton();
