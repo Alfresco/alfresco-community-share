@@ -7,7 +7,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>14.77.2</version>
+        <version>14.77.3-SNAPSHOT</version>
     </parent>
 
     <properties>
