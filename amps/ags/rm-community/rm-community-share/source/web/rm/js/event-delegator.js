@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -29,7 +29,7 @@
  * This is meant to be used as an augmentation to Alfresco.component.Base.
  * It allows events to be delegated to the root element of the component
  * and passes events through to the correct event handler using CSS rules.
- * 
+ *
  * Usage:
  *    Component must have an initEvents method which registers event handlers
  *    via registerEventHandler(). initEvents() must be called in component's
@@ -44,9 +44,9 @@
  *         },
  *         scope : this
  *      });
- *    
- *    or multiple handlers for the same event: 
- * 
+ *
+ *    or multiple handlers for the same event:
+ *
  *    this.registerEventHandler('click',
  *    [
  *       {
@@ -69,7 +69,7 @@
  *          }
  *       }
  *    ]);
- * 
+ *
  */
 (function Base_Component_Event_Delegator()
 {
@@ -80,7 +80,7 @@
        Sel = YAHOO.util.Selector;
 
    var eventDelegator = function(){};
- 
+
    eventDelegator.prototype =
    {
       /**

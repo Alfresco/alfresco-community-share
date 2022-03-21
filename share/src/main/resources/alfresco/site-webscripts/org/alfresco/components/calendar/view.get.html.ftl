@@ -15,8 +15,7 @@
    <#if (view=='agenda')>
       <@script type="text/javascript" src="${url.context}/res/components/calendar/calendar-view-${context.properties.filteredView?js_string}.js" group="calendar"/>
    <#else>
-      <@script type="text/javascript" src="${url.context}/res/jquery/jquery-1.6.2.js" group="calendar"/>
-      <@script type="text/javascript" src="${url.context}/res/jquery/jquery-ui-1.8.11.custom.min.js" group="calendar"/>
+      <@script type="text/javascript" src="${url.context}/res/jquery/jquery-1.12.4.min.js" group="calendar"/>
       <@script type="text/javascript" src="${url.context}/res/jquery/fullcalendar/fullcalendar.js" group="calendar"/>
       <@script type="text/javascript" src="${url.context}/res/components/calendar/calendar-view-fullCalendar.js" group="calendar"/>
    </#if>

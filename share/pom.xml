@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>14.16-SNAPSHOT</version>
+        <version>14.97-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -317,7 +317,7 @@
 
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>slf4j-reload4j</artifactId>
         </dependency>
 
         <!-- Keycloak -->
@@ -454,6 +454,7 @@
                     <excludes>
                         <exclude>**/sinon-1.10.3/**</exclude>
                         <exclude>**/*-min.js</exclude>
+                        <exclude>**/*.min.js</exclude>
                         <exclude>**/WEB-INF/**</exclude>
                         <exclude>**/tinymce/**</exclude>
                         <exclude>**/yui/**</exclude>

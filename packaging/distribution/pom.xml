@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-packaging</artifactId>
-        <version>14.16-SNAPSHOT</version>
+        <version>14.97-SNAPSHOT</version>
     </parent>
 
     <!-- To replace in share-config-custom.xml -->
@@ -121,7 +121,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-mmt</artifactId>
-                                    <version>6.0</version>
+                                    <version>${dependency.alfresco-community-repo.version}</version>
                                     <outputDirectory>${project.build.outputDirectory}/bin</outputDirectory>
                                 </artifactItem>
                             </artifactItems>

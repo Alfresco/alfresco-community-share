@@ -1673,7 +1673,7 @@
        */
       onDownloadClick : function PdfJs_onDownloadClick(p_obj)
       {
-         window.open(this.wp.getContentUrl(true).replace("api/node","slingshot/node"), "_blank");
+           this.downloadIfLoggedIn(this.wp.getContentUrl(true).replace("api/node","slingshot/node"));
       },
 
       /**
@@ -1683,7 +1683,24 @@
        */
       onDownloadPDFClick : function PdfJs_onDownloadPDFClick(p_obj)
       {
-         window.open(this.wp.getThumbnailUrl(this.attributes.src) + "&a=true", "_blank");
+            this.downloadIfLoggedIn(this.wp.getThumbnailUrl(this.attributes.src) + "&a=true");
+      },
+
+      downloadIfLoggedIn : function PdfJs_downloadIfLoggedIn(url)
+      {
+            var request = new XMLHttpRequest();
+
+            request.onreadystatechange = function() {
+                if (this.status === 401)
+                {
+                    window.location.reload();
+                }
+                else if (this.readyState == 4 && this.status == 200) {
+                    window.open(url, "_blank");
+                }
+            };
+            request.open("GET", url, true);
+            request.send();
       },
 
       /**
