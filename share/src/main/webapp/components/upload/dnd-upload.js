@@ -1174,7 +1174,7 @@
          {
             msg = Alfresco.util.message("label.failure", this.name, errormsg);
          }
-         fileInfo.fileSizeInfo["innerHTML"] = fileInfo.fileSizeInfo["innerHTML"] + " (" + msg + ")";
+         fileInfo.fileSizeInfo["innerHTML"] = fileInfo.fileSizeInfo["innerHTML"] + " (" + $html(msg) + ")";
          fileInfo.fileSizeInfo.setAttribute("title", msg);
          fileInfo.progressInfo.setAttribute("title", msg);
          fileInfo.progressInfo.parentElement.setAttribute("title", msg);

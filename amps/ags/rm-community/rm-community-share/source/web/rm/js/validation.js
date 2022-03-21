@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -27,7 +27,7 @@
 
 /**
  * Mandatory validation handler, tests that the given field has a value.
- * 
+ *
  * @method mandatory
  * @param field {object} The element representing the field the validation is for
  * @param args {object} Not used
@@ -41,8 +41,8 @@ Alfresco.forms.validation.rmVitalRecordPeriodMandatory = function rmVitalRecordP
 {
    if (Alfresco.logger.isDebugEnabled())
       Alfresco.logger.debug("Validating mandatory state of vital record period '" + field.id + "'");
-   
-   // if the vital record indicator checkbox is checked the period must 
+
+   // if the vital record indicator checkbox is checked the period must
    // be set to a valid period.
    var form = YAHOO.util.Dom.get(form.formId);
    var vitalRecordIndicator = form["prop_rma_vitalRecordIndicator"];
@@ -54,14 +54,14 @@ Alfresco.forms.validation.rmVitalRecordPeriodMandatory = function rmVitalRecordP
          // has been set and that "None" is not selected
          var fieldValue = YAHOO.lang.trim(field.value);
          var valid = (fieldValue.length !== 0) && (fieldValue !== "none") && (fieldValue !== "none|0");
-         
+
          if (Alfresco.logger.isDebugEnabled())
             Alfresco.logger.debug("Checked vital record period value as vital record indicator is true, period value: " + valid);
-         
+
          return valid;
       }
    }
-   
+
    // if we get this far just do the normal mandatory check
    return Alfresco.forms.validation.mandatory(field, args, event, form, silent, message);
 };

@@ -26,7 +26,7 @@ The Web Quick Start uses an HTML Site Template that includes the following third
 	3) 	jQuery secondary menu: http://www.dynamicdrive.com/style/csslibrary/item/jquery_multi_level_css_menu_2/.  Terms of licensing can be seen at www.dynamicdrive.com/notice.htm.  
 		Please see file header of jqueryslidemenu.js for further information.
 	
-	4)	jQuery Tabular data: http://jqueryui.com/download is provided under the MIT license.  See file header - jQuery-ui-1.7.2.custom.min.js and license/MIT-LICENSE.txt.
+	4)	jQuery Tabular data: http://jqueryui.com/download is provided under the MIT license.  See file header - jQuery-ui-1.12.1.min.js and license/MIT-LICENSE.txt.
 	
 	5)  jQuery lightbox plugin: http://www.digitalia.be/software/slimbox2 - Slimbox is free software released under MIT License.
 		Slimbox v2.02 - The ultimate lightweight Lightbox clone for jQuery (c) 2007-2009 Christophe Beyls <http://www.digitalia.be>.

@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -37,7 +37,7 @@ function getDocName(nodeRef)
 
 /*
  * Note, "From" is customreferences from this node and *not* from other documents to this node.
- */ 
+ */
 function getDocReferences()
 {
    var nodeRef = page.url.args.nodeRef.replace(":/", "");
@@ -55,10 +55,10 @@ function getDocReferences()
             ref.sourceRef = ref.parentRef;
          }
          docrefs[i] = ref;
-      }      
+      }
       return docrefs;
    };
-   
+
    if (result.status == 200)
    {
       var data = eval('(' + result + ')');
@@ -67,7 +67,7 @@ function getDocReferences()
          from: processDocRefs(data.data.customReferencesFrom, true),
          to: processDocRefs(data.data.customReferencesTo, false)
       };
-      
+
       return docrefs;
    }
    return [];

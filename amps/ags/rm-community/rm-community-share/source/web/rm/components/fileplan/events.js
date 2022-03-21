@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -121,7 +121,7 @@
           * @property siteId
           * @type string
           */
-         siteId: null         
+         siteId: null
       },
 
       /**
@@ -223,7 +223,7 @@
             this.widgets.feedbackMessage.destroy();
             this.widgets.feedbackMessage = null;
          }
-         
+
          // Destroy any existing YUI buttons
          var index;
          for (index in this.eventButtons)
@@ -234,14 +234,14 @@
                delete this.eventButtons[index];
             }
          }
-         
+
          this.widgets.completedEventsEl.innerHTML = "";
          this.widgets.incompleteEventsEl.innerHTML = "";
          var events = nextDispositionAction.events ? nextDispositionAction.events : [],
             completed = 0,
             incomplete = 0,
             ev, completedAt, eventEl, asOf;
-         
+
          for (var i = 0, ii = events.length; i < ii; i++)
          {
             ev = events[i];
@@ -255,7 +255,7 @@
                   { "completed-at" : completedAt ? Alfresco.util.formatDate(completedAt) : "" },
                   { "completed-by" : ev.completedByFirstName + " " + ev.completedByLastName }
                ], "undo-button", this.onUndoEventButtonClick, this.widgets.completedEventTemplate);
-               
+
                eventEl = this.widgets.completedEventsEl.appendChild(eventEl);
                completed++;
             }
@@ -268,7 +268,7 @@
                   { "automatic" : ev.automatic ? this.msg("label.automatic") : this.msg("label.manual") },
                   { "asof" : asOf ? Alfresco.util.formatDate(asOf) : this.msg("label.none") }
                ], "complete-button", this.onCompleteEventButtonClick, this.widgets.incompleteEventTemplate);
-               
+
                eventEl = this.widgets.incompleteEventsEl.appendChild(eventEl);
                incomplete++;
             }
@@ -419,7 +419,7 @@
                   Alfresco.util.PopupManager.displayPrompt(
                   {
                      text: this.msg(failureMessage)
-                  });                  
+                  });
                },
                scope: this
             }
@@ -459,7 +459,7 @@
          form.setShowSubmitStateDynamically(true);
 
          // Setup date validation
-         form.addValidation(this.id + "-completedAtTime", Alfresco.forms.validation.time, null, "keyup");         
+         form.addValidation(this.id + "-completedAtTime", Alfresco.forms.validation.time, null, "keyup");
 
          // Initialise the form
          form.init();
@@ -477,7 +477,7 @@
             scope: this,
             correctScope: true
          });
-         escapeListener.enable();         
+         escapeListener.enable();
 
          this.widgets.completeEventForm = form;
       },
@@ -522,7 +522,7 @@
                   selectedDate = new Date(date[0], (date[1]-1), date[2]),
                   elem = Dom.get(me.id + "-completedAtDate");
                   elemShort = Dom.get(me.id + "-completedAtDateShort");
-               
+
                elem.value = Alfresco.util.formatDate(selectedDate, DATE_LONG);
                elemShort.value = Alfresco.util.formatDate(selectedDate, DATE_SHORT);
             }

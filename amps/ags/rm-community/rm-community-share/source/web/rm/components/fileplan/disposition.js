@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -131,7 +131,7 @@
          var actionsEl = Dom.get(this.id + "-actions"),
             actionEls = Dom.getElementsByClassName("action", "div", actionsEl),
             actionEl, more, a, description;
-         
+
          for (var i = 0, ii = actionEls.length; i < ii; i++)
          {
             actionEl = actionEls[i];

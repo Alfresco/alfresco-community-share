@@ -1,4 +1,4 @@
-FROM alfresco/alfresco-base-tomcat:9.0.52-java-11-centos-7
+FROM alfresco/alfresco-base-tomcat:tomcat9-jre11-centos7-202203091924
 
 RUN mkdir -p /usr/local/tomcat/shared/classes/alfresco/web-extension
 RUN mkdir -p /usr/local/tomcat/amps_share

@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -27,7 +27,7 @@
 
 /**
  * RM EmailMappings component
- * 
+ *
  * @namespace Alfresco.rm.component
  * @class Alfresco.rm.component.ManageReferences
  */
@@ -47,7 +47,7 @@
 
    /**
     * RM UserRights componentconstructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.dashlet.MyDocuments} The new component instance
     * @constructor
@@ -58,7 +58,7 @@
       YAHOO.Bubbling.on('UserRights_DataLoad', this.onDataLoad, this, true);
       return this;
    };
-    
+
    YAHOO.extend(Alfresco.rm.component.RMUserRights, Alfresco.component.Base,
    {
       /**
@@ -79,11 +79,11 @@
                   handler:this.onSaveMappings,
                   scope : this
                }
-            }                                
+            }
          ]);
          return this;
       },
-      
+
       /**
        * Fired by YUI when parent element is available for scripting
        *
@@ -94,13 +94,13 @@
          this.initEvents();
 
          this.widgets['roles'] = Dom.get('userrightsRoles');
-         this.widgets['groups'] = Dom.get('userrightsGroups');         
-         
+         this.widgets['groups'] = Dom.get('userrightsGroups');
+
          var DS = this.widgets['datasource'] = new YAHOO.util.DataSource(Alfresco.constants.PROXY_URI + 'api/rma/admin/userrightsreport',
          {
             responseType: YAHOO.util.DataSource.TYPE_JSARRAY
          });
-         
+
          DS.doBeforeCallback = function doBeforeCallback(oRequest, oFullResponse, oParsedResponse, oCallback)
          {
             var responseDataUsers = oFullResponse.data.users;
@@ -142,7 +142,7 @@
           * Custom formatter to add a space between each role
           *
           * @method rolesFormatter
-          */   
+          */
          YAHOO.widget.DataTable.Formatter.roles = function rolesFormatter(elLiner, oRecord, oColumn, oData)
          {
             elLiner.innerHTML = oData.join(', ');
@@ -150,14 +150,14 @@
 
          /**
           * Custom formatter to add a space between each role
-          * 
+          *
           * @method groupsFormatter
-          */   
+          */
          YAHOO.widget.DataTable.Formatter.groups = function groupsFormatter(elLiner, oRecord, oColumn, oData)
          {
             elLiner.innerHTML = oData.join(', ');
          };
-         
+
          var DT = this.widgets['datasource'] = new YAHOO.widget.DataTable("userrightsDT",
          [
             { key: "name", label: this.msg('label.name'), sortable: true, resizeable: true },
@@ -166,10 +166,10 @@
             { key: "groups", label: this.msg('label.groups'),  formatter: "groups", sortable: true, resizeable: true }
          ], DS);
       },
-      
+
       /**
        * Renders role and groups HTML based on data fired from datasource doBeforeCallback
-       * 
+       *
        * @method onDataLoad
        * @param e {object} Dom event
        * @param args {object} Event parameters
@@ -234,7 +234,7 @@
                         {
                            data: Alfresco.util.message('label.no-users', 'Alfresco.rm.component.RMUserRights'),
                            className: (ii % 2 === 0) ? 'odd' : ''
-                        });                  
+                        });
                      }
                      ii++;
                   }

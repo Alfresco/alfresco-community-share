@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -27,7 +27,7 @@
 
 /**
  * RM References component
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.rm.component.ManageReferences
  */
@@ -42,7 +42,7 @@
 
    /**
     * RM References component constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.rm.component.ManageReferences} The new component instance
     * @constructor
@@ -51,7 +51,7 @@
    {
       return Alfresco.rm.component.ManageReferences.superclass.constructor.call(this, "Alfresco.rm.component.ManageReferences", htmlId);
    };
-   
+
    /**
     * Extend Alfresco.component.Base with class implementation
     */
@@ -59,7 +59,7 @@
    {
       /**
        * Initialises event listening and custom events
-       * 
+       *
        * @method initEvents
        */
       initEvents: function RM_References_initEvents()
@@ -83,7 +83,7 @@
                   handler: this.onDoneReference,
                   scope: this
                }
-            },                       
+            },
             {
                rule: 'button.newRef',
                o:
@@ -95,10 +95,10 @@
          ]);
          return this;
       },
-      
+
       /**
        * Handler for Done button
-       * 
+       *
        * @method onDoneReference
        * @param e {object} Event
        * @param args {object} Event arguments
@@ -114,10 +114,10 @@
 
          window.location.href = pageUrl;
       },
-      
+
       /**
        * Handler for delete button
-       * 
+       *
        * @method onDeleteReference
        * @param e {object} Event
        * @param args {object} Event arguments
@@ -148,7 +148,7 @@
             failureMessage: Alfresco.util.message("message.delete.fail", 'Alfresco.rm.component.ManageReferences')
          });
       },
-      
+
       /**
        * Handler for new reference  button
        *
@@ -167,12 +167,12 @@
                docName: encodeURIComponent(this.options.docName)
             });
 
-         window.location.href = url; 
+         window.location.href = url;
       },
-      
+
       /**
-       * Handler for deletion success 
-       * 
+       * Handler for deletion success
+       *
        * @method onDeleteSuccess
        * @param nodeRefEl {string} ID portion of nodeRef that was successfully deleted
        * @param type {string} Type of reference (from or to)
@@ -191,18 +191,18 @@
              Dom.addClass(type+"-no-refs", 'active');
           }
        },
-       
+
       /**
        * Fired by YUI when parent element is available for scripting
-       * 
+       *
        * @method onReady
        * @override
        */
       onReady: function RM_References_onReady()
       {
          this.initEvents();
-         
-         // Create widget button while reassigning classname to src element (since YUI removes classes). 
+
+         // Create widget button while reassigning classname to src element (since YUI removes classes).
          // We need the classname so we can identify what action to take when it is interacted with (event delegation).
          var buttons = Sel.query('button', this.id),
             button, id;

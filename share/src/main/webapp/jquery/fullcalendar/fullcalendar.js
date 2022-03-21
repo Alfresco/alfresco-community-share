@@ -12,7 +12,10 @@
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
  * Date: Tue Jan 10 17:09:29 2012 +0000
- *
+ * 
+ * EDIT: 
+ *  - 'curCSS' calls replaced by 'css '
+ *  - Replaced self-enclosing tags 
  */
  
 (function($, undefined) {
@@ -267,7 +270,7 @@ function Calendar(element, options, eventSources) {
 		if (options.theme) {
 			element.addClass('ui-widget');
 		}
-		content = $("<div class='fc-content' style='position:relative'/>")
+		content = $("<div class='fc-content' style='position:relative'></div>")
 			.prependTo(element);
 		header = new Header(t, options);
 		headerElement = header.render();
@@ -343,7 +346,7 @@ function Calendar(element, options, eventSources) {
 			}else{
 				currentView = viewInstances[newViewName] = new fcViews[newViewName](
 					newViewElement = absoluteViewElement =
-						$("<div class='fc-view fc-view-" + newViewName + "' style='position:absolute'/>")
+						$("<div class='fc-view fc-view-" + newViewName + "' style='position:absolute'></div>")
 							.appendTo(content),
 					t // the calendar object
 				);
@@ -705,9 +708,9 @@ function Header(calendar, options) {
 		tm = options.theme ? 'ui' : 'fc';
 		var sections = options.header;
 		if (sections) {
-			element = $("<table class='fc-header' style='width:100%'/>")
+			element = $("<table class='fc-header' style='width:100%'></table>")
 				.append(
-					$("<tr/>")
+					$("<tr></tr>")
 						.append(renderSection('left'))
 						.append(renderSection('center'))
 						.append(renderSection('right'))
@@ -723,12 +726,12 @@ function Header(calendar, options) {
 	
 	
 	function renderSection(position) {
-		var e = $("<td class='fc-header-" + position + "'/>");
+		var e = $("<td class='fc-header-" + position + "'></td>");
 		var buttonStr = options.header[position];
 		if (buttonStr) {
 			$.each(buttonStr.split(' '), function(i) {
 				if (i > 0) {
-					e.append("<span class='fc-header-space'/>");
+					e.append("<span class='fc-header-space'></span>");
 				}
 				var prevButton;
 				$.each(this.split(','), function(j, buttonName) {
@@ -758,7 +761,7 @@ function Header(calendar, options) {
 										"<span class='fc-button-content'>" +
 											(icon ?
 												"<span class='fc-icon-wrap'>" +
-													"<span class='ui-icon ui-icon-" + icon + "'/>" +
+													"<span class='ui-icon ui-icon-" + icon + "'></span>" +
 												"</span>" :
 												text
 												) +
@@ -1755,7 +1758,7 @@ function setOuterHeight(element, height, includeMargins) {
 }
 
 
-// TODO: curCSS has been deprecated (jQuery 1.4.3 - 10/16/2010)
+// TODO: css has been deprecated (jQuery 1.4.3 - 10/16/2010)
 
 
 function hsides(element, includeMargins) {
@@ -1764,20 +1767,20 @@ function hsides(element, includeMargins) {
 
 
 function hpadding(element) {
-	return (parseFloat($.curCSS(element[0], 'paddingLeft', true)) || 0) +
-	       (parseFloat($.curCSS(element[0], 'paddingRight', true)) || 0);
+	return (parseFloat($.css(element[0], 'paddingLeft', true)) || 0) +
+	       (parseFloat($.css(element[0], 'paddingRight', true)) || 0);
 }
 
 
 function hmargins(element) {
-	return (parseFloat($.curCSS(element[0], 'marginLeft', true)) || 0) +
-	       (parseFloat($.curCSS(element[0], 'marginRight', true)) || 0);
+	return (parseFloat($.css(element[0], 'marginLeft', true)) || 0) +
+	       (parseFloat($.css(element[0], 'marginRight', true)) || 0);
 }
 
 
 function hborders(element) {
-	return (parseFloat($.curCSS(element[0], 'borderLeftWidth', true)) || 0) +
-	       (parseFloat($.curCSS(element[0], 'borderRightWidth', true)) || 0);
+	return (parseFloat($.css(element[0], 'borderLeftWidth', true)) || 0) +
+	       (parseFloat($.css(element[0], 'borderRightWidth', true)) || 0);
 }
 
 
@@ -1787,20 +1790,20 @@ function vsides(element, includeMargins) {
 
 
 function vpadding(element) {
-	return (parseFloat($.curCSS(element[0], 'paddingTop', true)) || 0) +
-	       (parseFloat($.curCSS(element[0], 'paddingBottom', true)) || 0);
+	return (parseFloat($.css(element[0], 'paddingTop', true)) || 0) +
+	       (parseFloat($.css(element[0], 'paddingBottom', true)) || 0);
 }
 
 
 function vmargins(element) {
-	return (parseFloat($.curCSS(element[0], 'marginTop', true)) || 0) +
-	       (parseFloat($.curCSS(element[0], 'marginBottom', true)) || 0);
+	return (parseFloat($.css(element[0], 'marginTop', true)) || 0) +
+	       (parseFloat($.css(element[0], 'marginBottom', true)) || 0);
 }
 
 
 function vborders(element) {
-	return (parseFloat($.curCSS(element[0], 'borderTopWidth', true)) || 0) +
-	       (parseFloat($.curCSS(element[0], 'borderBottomWidth', true)) || 0);
+	return (parseFloat($.css(element[0], 'borderTopWidth', true)) || 0) +
+	       (parseFloat($.css(element[0], 'borderBottomWidth', true)) || 0);
 }
 
 
@@ -1862,7 +1865,7 @@ function htmlEscape(s) {
 		.replace(/>/g, '&gt;')
 		.replace(/'/g, '&#039;')
 		.replace(/"/g, '&quot;')
-		.replace(/\n/g, '<br />');
+		.replace(/\n/g, '<br></br>');
 }
 
 
@@ -2235,7 +2238,7 @@ function BasicView(element, calendar, viewName) {
 			"<tr>";
 		for (i=0; i<colCnt; i++) {
 			s +=
-				"<th class='fc- " + headerClass + "'/>"; // need fc- for setDayID
+				"<th class='fc- " + headerClass + "'></th>"; // need fc- for setDayID
 		}
 		s +=
 			"</tr>" +
@@ -2249,7 +2252,7 @@ function BasicView(element, calendar, viewName) {
 					"<td class='fc- " + contentClass + " fc-day" + (i*colCnt+j) + "'>" + // need fc- for setDayID
 					"<div>" +
 					(showNumbers ?
-						"<div class='fc-day-number'/>" :
+						"<div class='fc-day-number'></div>" :
 						''
 						) +
 					"<div class='fc-day-content'>" +
@@ -2281,7 +2284,7 @@ function BasicView(element, calendar, viewName) {
 		dayBind(bodyCells);
 		
 		daySegmentContainer =
-			$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
+			$("<div style='position:absolute;z-index:8;top:0;left:0'></div>")
 				.appendTo(element);
 	}
 	
@@ -2993,7 +2996,7 @@ function AgendaView(element, calendar, viewName) {
 			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 		for (i=0; i<colCnt; i++) {
 			s +=
-				"<th class='fc- fc-col" + i + ' ' + headerClass + "'/>"; // fc- needed for setDayID
+				"<th class='fc- fc-col" + i + ' ' + headerClass + "'></th>"; // fc- needed for setDayID
 		}
 		s +=
 			"<th class='fc-agenda-gutter " + headerClass + "'>&nbsp;</th>" +
@@ -3033,13 +3036,13 @@ function AgendaView(element, calendar, viewName) {
 		gutterCells = dayTable.find('.fc-agenda-gutter');
 		
 		slotLayer =
-			$("<div style='position:absolute;z-index:2;left:0;width:100%'/>")
+			$("<div style='position:absolute;z-index:2;left:0;width:100%'></div>")
 				.appendTo(element);
 				
 		if (opt('allDaySlot')) {
 		
 			daySegmentContainer =
-				$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
+				$("<div style='position:absolute;z-index:8;top:0;left:0'></div>")
 					.appendTo(slotLayer);
 		
 			s =
@@ -3047,7 +3050,7 @@ function AgendaView(element, calendar, viewName) {
 				"<tr>" +
 				"<th class='" + headerClass + " fc-agenda-axis'>" + opt('allDayText') + "</th>" +
 				"<td>" +
-				"<div class='fc-day-content'><div style='position:relative'/></div>" +
+				"<div class='fc-day-content'><div style='position:relative'></div></div>" +
 				"</td>" +
 				"<th class='" + headerClass + " fc-agenda-gutter'>&nbsp;</th>" +
 				"</tr>" +
@@ -3062,7 +3065,7 @@ function AgendaView(element, calendar, viewName) {
 			
 			slotLayer.append(
 				"<div class='fc-agenda-divider " + headerClass + "'>" +
-				"<div class='fc-agenda-divider-inner'/>" +
+				"<div class='fc-agenda-divider-inner'></div>" +
 				"</div>"
 			);
 			
@@ -3073,15 +3076,15 @@ function AgendaView(element, calendar, viewName) {
 		}
 		
 		slotScroller =
-			$("<div style='position:absolute;width:100%;overflow-x:hidden;overflow-y:auto'/>")
+			$("<div style='position:absolute;width:100%;overflow-x:hidden;overflow-y:auto'></div>")
 				.appendTo(slotLayer);
 				
 		slotContent =
-			$("<div style='position:relative;width:100%;overflow:hidden'/>")
+			$("<div style='position:relative;width:100%;overflow:hidden'></div>")
 				.appendTo(slotScroller);
 				
 		slotSegmentContainer =
-			$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
+			$("<div style='position:absolute;z-index:8;top:0;left:0'></div>")
 				.appendTo(slotContent);
 		
 		s =
@@ -4585,7 +4588,7 @@ function DayEventRenderer() {
 	
 	
 	function renderTempDaySegs(segs, adjustRow, adjustTop) {
-		var tempContainer = $("<div/>");
+		var tempContainer = $("<div></div>");
 		var elements;
 		var segmentContainer = getDaySegmentContainer();
 		var i;
@@ -5102,7 +5105,7 @@ function OverlayManager() {
 	function renderOverlay(rect, parent) {
 		var e = unusedOverlays.shift();
 		if (!e) {
-			e = $("<div class='fc-cell-overlay' style='position:absolute;z-index:3'/>");
+			e = $("<div class='fc-cell-overlay' style='position:absolute;z-index:3'></div>");
 		}
 		if (e[0].parentNode != parent[0]) {
 			e.appendTo(parent);
