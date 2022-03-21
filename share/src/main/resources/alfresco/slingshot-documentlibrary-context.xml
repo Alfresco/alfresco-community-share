@@ -312,7 +312,7 @@
       </property>
    </bean>
 
-   <!-- Edit Online AOS -->
+   <!-- Edit Online AOS Only evaluating mimetype - Deprecated -->
    <bean id="evaluator.doclib.action.isMimetypeEditableAos" parent="evaluator.doclib.action.isMimetype">
       <property name="mimetypes">
          <list>
@@ -344,6 +344,40 @@
             <value>application/vnd.visio</value>
             <value>application/vnd.visio2013</value>
          </list>
+      </property>
+   </bean>
+   <!-- Edit Online AOS evaluating mimetype and extension -->
+   <bean id="evaluator.doclib.action.isNodeEditableAos" class="org.alfresco.web.evaluator.doclib.action.IsNodeEditableAos">
+      <property name="mimetypeExtensionMap">
+         <map>
+            <entry key="application/msword" value="doc" />
+            <entry key="application/vnd.ms-word" value="doc" />
+            <entry key="application/vnd.openxmlformats-officedocument.wordprocessingml.document" value="docx" />
+            <entry key="application/vnd.ms-word.document.macroenabled.12" value="docm" />
+            <entry key="application/vnd.openxmlformats-officedocument.wordprocessingml.template" value="dotx" />
+            <entry key="application/vnd.ms-word.template.macroenabled.12" value="dotm" />
+            <entry key="application/ms-powerpoint" value="ppt" />
+            <entry key="application/vnd.ms-powerpoint" value="ppt" />
+            <entry key="application/vnd.openxmlformats-officedocument.presentationml.presentation" value="pptx" />
+            <entry key="application/vnd.ms-powerpoint.presentation.macroenabled.12" value="pptm" />
+            <entry key="application/vnd.openxmlformats-officedocument.presentationml.slideshow" value="ppsx" />
+            <entry key="application/vnd.ms-powerpoint.slideshow.macroenabled.12" value="ppsm" />
+            <entry key="application/vnd.openxmlformats-officedocument.presentationml.template" value="potx" />
+            <entry key="application/vnd.ms-powerpoint.template.macroenabled.12" value="potm" />
+            <entry key="application/vnd.ms-powerpoint.addin.macroenabled.12" value="ppam" />
+            <entry key="application/vnd.openxmlformats-officedocument.presentationml.slide" value="sldx" />
+            <entry key="application/vnd.ms-powerpoint.slide.macroEnabled.12" value="sldm" />
+            <entry key="application/ms-excel" value="xls" />
+            <entry key="application/vnd.ms-excel" value="xls" />
+            <entry key="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" value="xlsx" />
+            <entry key="application/vnd.openxmlformats-officedocument.spreadsheetml.template" value="xltx" />
+            <entry key="application/vnd.ms-excel.sheet.macroenabled.12" value="xlsm" />
+            <entry key="application/vnd.ms-excel.template.macroenabled.12" value="xltm" />
+            <entry key="application/vnd.ms-excel.addin.macroenabled.12" value="xlam" />
+            <entry key="application/vnd.ms-excel.sheet.binary.macroenabled.12" value="xlsb" />
+            <entry key="application/vnd.visio" value="vsd" />
+            <entry key="application/vnd.visio2013" value="vsdx" />
+         </map>
       </property>
    </bean>
    <bean id="evaluator.doclib.action.isLockedForAos" parent="evaluator.doclib.action.chainedMatchOne">

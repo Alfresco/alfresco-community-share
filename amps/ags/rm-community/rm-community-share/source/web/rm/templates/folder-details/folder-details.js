@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -24,10 +24,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  */
- 
+
 /**
  * RecordsFolderDetails template - RM extensions.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.rm.template.FolderDetails
  */
@@ -35,20 +35,20 @@
 {
    /**
     * RecordsFolderDetails constructor.
-    * 
+    *
     * @return {Alfresco.rm.template.FolderDetails} The new RecordsFolderDetails instance
     * @constructor
     */
    Alfresco.rm.template.FolderDetails = function RecordsFolderDetails_constructor()
    {
       Alfresco.rm.template.FolderDetails.superclass.constructor.call(this);
-      
+
       /* Decoupled event listeners */
       YAHOO.Bubbling.on("detailsRefresh", this.onReady, this);
 
       return this;
    };
-   
+
    YAHOO.extend(Alfresco.rm.template.FolderDetails, Alfresco.FolderDetails,
    {
       /**
@@ -63,10 +63,10 @@
          {
             method: "GET",
             url: Alfresco.constants.PROXY_URI + 'slingshot/doclib/rm/node/' + this.options.nodeRef.uri,
-            successCallback: 
-            { 
-               fn: this._getDataSuccess, 
-               scope: this 
+            successCallback:
+            {
+               fn: this._getDataSuccess,
+               scope: this
             },
             failureMessage: "Failed to load data for folder details"
          };

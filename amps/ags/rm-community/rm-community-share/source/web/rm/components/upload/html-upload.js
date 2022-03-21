@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2021 Alfresco Software Limited
+ * Copyright (C) 2005 - 2022 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -70,7 +70,7 @@
    Alfresco.rm.component.HtmlUpload = function(htmlId)
    {
       Alfresco.rm.component.HtmlUpload.superclass.constructor.call(this, htmlId);
-      
+
       this.name = "Alfresco.rm.component.HtmlUpload";
       Alfresco.util.ComponentManager.reregister(this);
 
@@ -87,7 +87,7 @@
        * @type int
        */
       MODE_SINGLE_IMPORT: 4,
-      
+
       /**
        * Fired by YUI when parent element is available for scripting.
        * Initial History Manager event registration
@@ -131,7 +131,7 @@
        */
       _applyConfig: function RecordsHtmlUpload__applyConfig()
       {
-         // Call super class that does that applies the main part of the config attributes 
+         // Call super class that does that applies the main part of the config attributes
          Alfresco.rm.component.HtmlUpload.superclass._applyConfig.call(this);
 
          for (var i = 0, ii = this.widgets.recordTypes.length; i < ii; i++)
@@ -172,7 +172,7 @@
          {
             // Display the record type form & flash tips
             Dom.removeClass(this.widgets.recordTypeSection, "hidden");
-            Dom.addClass(this.widgets.singleUploadTip, "hidden");            
+            Dom.addClass(this.widgets.singleUploadTip, "hidden");
             // Only show the "Install Flash" message if Flash is enabled via config
             if (this.showConfig.adobeFlashEnabled)
             {

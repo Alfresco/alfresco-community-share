@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>14.16-SNAPSHOT</version>
+        <version>14.97-SNAPSHOT</version>
     </parent>
 
     <build>
@@ -162,8 +162,8 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.30</version>
+            <artifactId>slf4j-reload4j</artifactId>
+            <version>1.7.35</version>
         </dependency>
         <dependency>
             <groupId>com.yahoo.platform.yui</groupId>
