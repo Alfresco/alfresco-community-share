@@ -1,11 +1,17 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class SocialFeatures extends DocumentLibraryPage
 {
     //@Autowired
@@ -248,5 +254,26 @@ public class SocialFeatures extends DocumentLibraryPage
     {
         waitUntilElementIsVisible(sharedUrl);
         return isElementDisplayed(sharedUrl);
+    }
+
+    public SocialFeatures assertLikeButtonMessage(String fileName, String message)
+    {
+        log.info("Assert like button message {}");
+        assertEquals(getLikeButtonMessage(fileName), message, String.format("Like Button Message not equal %s ", message));
+        return this;
+    }
+
+    public SocialFeatures assertNoOfLikesVerify(String fileName, int noOfLikes)
+    {
+        log.info("Verify no of likes for the file/folder {}");
+        assertEquals(getNumberOfLikes(fileName), noOfLikes, String.format("Number of likes is not equals to %s ", noOfLikes));
+        return this;
+    }
+
+    public SocialFeatures assertIsLikeButtonEnabled(String fileName)
+    {
+        log.info("Verify Like button is enabled for file/Folder {}");
+        assertTrue(isLikeButtonEnabled(fileName), "Like button is not enabled for File/Folder");
+        return this;
     }
 }
