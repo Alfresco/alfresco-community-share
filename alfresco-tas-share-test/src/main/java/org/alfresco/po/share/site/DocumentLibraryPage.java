@@ -1146,4 +1146,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertTrue(isInfoBannerDisplayed(fileName), "Document is Locked Info banner on File" +fileName+ " is not displayed");
         return this;
     }
+
+    public DocumentLibraryPage assertLikeButtonIsDisplayed(String fileName)
+    {
+        log.info("Assert Like button is displayed for the file/Folder {}");
+        assertTrue(isLikeButtonDisplayed(fileName), "file/Folders link is not present for " +fileName);
+        return this;
+    }
 }

@@ -1,97 +1,107 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.*;
 
-public class LikeFilesAndFoldersTests extends ContextAwareWebTest
+@Slf4j
+public class LikeFilesAndFoldersTests extends BaseTest
 {
-    private final String user = String.format("C7906User%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("C7906SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("C7906SiteName%s", RandomData.getRandomAlphanumeric());
-    private final String fileNameC7906 = "C7906 title";
-    private final String fileContentC7906 = "C7906 content";
-    private final String folderNameC7907 = "C7907 folder name";
-    private final String fileName7908 = "7908 fileName";
-    private final String folderName7909 = "7909 folderName";
-    //@Autowired
-    CreateContentPage create;
-    //@Autowired
-    DocumentDetailsPage documentDetailsPage;
-    //@Autowired
+    private static final String LIKE_THIS_DOCUMENT_MESSAGE = "documentLibrary.socialFeatures.likeDocument";
+    private static final String LIKE_THIS_FOLDER_MESSAGE = "documentLibrary.socialFeatures.likeFolder";
+
+    private final String random = RandomData.getRandomAlphanumeric();
+    private final String description = "description-" + random;
+
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
-    //@Autowired
     private SocialFeatures social;
 
-    @BeforeClass (alwaysRun = true)
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC7906, fileContentC7906);
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName7908, fileContentC7906);
-        contentService.createFolder(user, password, folderNameC7907, siteName);
-        contentService.createFolder(user, password, folderName7909, siteName);
-        setupAuthenticatedSession(user, password);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        social = new SocialFeatures(webDriver);
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     @TestRail (id = "C7906")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void likeFile()
     {
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Step 1: Hover over the file Like link.");
+        log.info("Step 1: Navigate to the Document Library.");
+        documentLibraryPage
+            .navigate(site.get().getTitle());
 
-        Assert.assertTrue(documentLibraryPage.isLikeButtonDisplayed(fileNameC7906), "Documents link is not present");
-        Assert.assertEquals(social.getLikeButtonMessage(fileNameC7906), "Like this document", "Like Button message is not correct");
-        Assert.assertEquals(social.getNumberOfLikes(fileNameC7906), 0, "The number of likes is not correct");
+        log.info("Step 2: Hover over the file/folder Like link and verify like button is displayed.");
+        documentLibraryPage
+            .assertLikeButtonIsDisplayed(fileToCheck.getName());
 
-        LOG.info("Step 2: Click on the Like button");
-        social.clickLikeButton(fileNameC7906);
+        log.info("Step 3: Verify the like button message and count of like should be 0.");
+        social
+            .assertLikeButtonMessage(fileToCheck.getName(), language.translate(LIKE_THIS_DOCUMENT_MESSAGE))
+            .assertNoOfLikesVerify(fileToCheck.getName(), 0);
 
-        Assert.assertEquals(social.getNumberOfLikes(fileNameC7906), 1, "The number of likes is not correct");
-        Assert.assertTrue(social.isLikeButtonEnabled(fileNameC7906), "Like button is not enabled");
+        log.info("Step 4: Click on the Like button");
+        social
+            .clickLikeButton(fileToCheck.getName());
 
+        log.info("Step 5: Verify the number of likes should be 1 and like button should be enabled.");
+        social
+            .assertNoOfLikesVerify(fileToCheck.getName(), 1)
+            .assertIsLikeButtonEnabled(fileToCheck.getName());
     }
 
     @TestRail (id = "7907")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void likeFolder()
     {
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Step 1: Hover over the file Like link.");
-        Assert.assertTrue(documentLibraryPage.isLikeButtonDisplayed(folderNameC7907), "Documents link is not present");
-        Assert.assertEquals(social.getLikeButtonMessage(folderNameC7907), "Like this folder", "Like Button message is not correct");
-        Assert.assertEquals(social.getNumberOfLikes(folderNameC7907), 0, "The number of likes is not correct");
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step 2: Click on the Like button");
-        social.clickLikeButton(folderNameC7907);
-        Assert.assertEquals(social.getNumberOfLikes(folderNameC7907), 1, "The number of likes is not correct");
-        Assert.assertTrue(social.isLikeButtonEnabled(folderNameC7907), "Like button is not enabled");
+        log.info("Step 1: Navigate to the Document Library.");
+        documentLibraryPage
+            .navigate(site.get().getTitle());
+
+        log.info("Step 2: Hover over the file/folder Like link and verify like button is displayed.");
+        documentLibraryPage
+            .assertLikeButtonIsDisplayed(folderToCheck.getName());
+
+        log.info("Step 3: Verify the like button message and count of like should be 0.");
+        social
+            .assertLikeButtonMessage(folderToCheck.getName(), language.translate(LIKE_THIS_FOLDER_MESSAGE))
+            .assertNoOfLikesVerify(folderToCheck.getName(), 0);
+
+        log.info("Step 4: Click on the Like button");
+        social
+            .clickLikeButton(folderToCheck.getName());
+
+        log.info("Step 5: Verify the number of likes should be 1 and like button should be enabled.");
+        social
+            .assertNoOfLikesVerify(folderToCheck.getName(), 1)
+            .assertIsLikeButtonEnabled(folderToCheck.getName());
     }
 
     @TestRail (id = "C7908")
@@ -99,34 +109,76 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
 
     public void unlikeFile()
     {
-        //preconditions
-        documentLibraryPage.navigate(siteName);
-        social.clickLikeButton(fileName7908);
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step 1: Hover over the file Like link.");
-        Assert.assertEquals(social.getLikeButtonEnabledText(fileName7908), "Unlike", "Unlike is not displayed");
-        Assert.assertEquals(social.getNumberOfLikes(fileName7908), 1, "The number of likes is not correct");
+        log.info("Step 1: Navigate to the Document Library.");
+        documentLibraryPage
+            .navigate(site.get().getTitle());
 
-        LOG.info("Step 2: Click on Unlike");
-        social.clickUnlike(fileName7908);
-        Assert.assertEquals(social.getNumberOfLikes(fileName7908), 0, "The number of likes is not correct");
-    }
+        log.info("Step 2: Hover over the file/folder Like link and verify like button is displayed.");
+        documentLibraryPage
+            .assertLikeButtonIsDisplayed(fileToCheck.getName());
+
+        log.info("Step 3: Verify the like button message and count of like should be 0.");
+        social
+            .assertLikeButtonMessage(fileToCheck.getName(), language.translate(LIKE_THIS_DOCUMENT_MESSAGE))
+            .assertNoOfLikesVerify(fileToCheck.getName(), 0);
+
+        log.info("Step 4: Click on the Like button");
+        social
+            .clickLikeButton(fileToCheck.getName());
+
+        log.info("Step 5: Verify the number of likes should be 1 and like button should be enabled.");
+        social
+            .assertNoOfLikesVerify(fileToCheck.getName(), 1)
+            .assertIsLikeButtonEnabled(fileToCheck.getName());
+
+        log.info("Step 6: Click on Unlike");
+        social
+            .clickUnlike(fileToCheck.getName());
+
+        log.info("Step 7: Verify the number of likes should be 0.");
+        social
+            .assertNoOfLikesVerify(fileToCheck.getName(), 0);
+        }
 
     @TestRail (id = "C7909")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void unlikeFolder()
     {
-        //preconditions
-        documentLibraryPage.navigate(siteName);
-        social.clickLikeButton(folderName7909);
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step 1: Hover over the folder Like link.");
-        Assert.assertEquals(social.getLikeButtonEnabledText(folderName7909), "Unlike", "Unlike is not displayed");
-        Assert.assertEquals(social.getNumberOfLikes(folderName7909), 1, "The number of likes is not correct");
+        log.info("Step 1: Navigate to the Document Library.");
+        documentLibraryPage
+            .navigate(site.get().getTitle());
 
-        LOG.info("Step 2: Click on Unlike");
-        social.clickUnlike(folderName7909);
-        Assert.assertEquals(social.getNumberOfLikes(folderName7909), 0, "The number of likes is not correct");
+        log.info("Step 2: Hover over the file/folder Like link and verify like button is displayed.");
+        documentLibraryPage
+            .assertLikeButtonIsDisplayed(folderToCheck.getName());
+
+        log.info("Step 3: Verify the like button message and count of like should be 0.");
+        social
+            .assertLikeButtonMessage(folderToCheck.getName(), language.translate(LIKE_THIS_FOLDER_MESSAGE))
+            .assertNoOfLikesVerify(folderToCheck.getName(), 0);
+
+        log.info("Step 4: Click on the Like button");
+        social
+            .clickLikeButton(folderToCheck.getName());
+
+        log.info("Step 5: Verify the number of likes should be 1 and like button should be enabled.");
+        social
+            .assertNoOfLikesVerify(folderToCheck.getName(), 1)
+            .assertIsLikeButtonEnabled(folderToCheck.getName());
+
+        log.info("Step 6: Click on Unlike");
+        social
+            .clickUnlike(folderToCheck.getName());
+
+        log.info("Step 7: Verify the number of likes should be 0.");
+        social
+            .assertNoOfLikesVerify(folderToCheck.getName(), 0);
     }
-}       
+}
