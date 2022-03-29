@@ -22,6 +22,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import javax.validation.constraints.AssertTrue;
+
 @Slf4j
 public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 {
@@ -212,12 +214,14 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public DocumentDetailsPage addComment(String comment)
     {
         log.info("Add comment: {}", comment);
-        waitUntilElementIsVisible(commentContentIframe);
-        clickElement(commentContentIframe);
-        findElement(commentContentIframe).sendKeys(comment);
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement commentTextArea = switchTo().activeElement();
+        waitUntilElementIsVisible(commentTextArea);
+        clickElement(commentTextArea);
+        commentTextArea.sendKeys(comment);
+        switchToDefaultContent();
         clickElement(addCommentButtonSave);
         waitUntilElementDisappears(message);
-
         return this;
     }
 
@@ -688,4 +692,47 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         clickElement(unzipToAction);
         return new CopyMoveUnzipToDialog(webDriver);
     }
+
+    public DocumentDetailsPage assertVerifyCommentContent(String content)
+    {
+        log.info("Verify the comment content {}");
+        assertEquals(getCommentContent(),content, String.format("Comment content not matched %s", content));
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsDeleteButtonDisplayedForComment(String comment)
+    {
+        log.info("Verify Delete button displayed for the comment Added {}");
+        assertTrue(isDeleteButtonDisplayedForComment(comment), "Delete Button not displayed for the comment %s" +comment);
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsEditButtonDisplayedForComment(String comment)
+    {
+        log.info("Verify Edit button displayed for the comment Added {}");
+        assertTrue(isEditButtonDisplayedForComment(comment), "Edit Button not displayed for the comment %s" +comment);
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsDeleteCommentPromptDisplayed()
+    {
+        log.info("Verify that the Delete Comment Prompt Displayed {}");
+        assertTrue(isDeleteCommentPromptDisplayed(), "Delete Comment prompt is not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertNoCommentNotificationText(String noComment)
+    {
+        log.info("Verify 'No Comment' notification text {}");
+        assertEquals(getNoCommentsText(), noComment, String.format("No comment notification text no matched with %s", noComment));
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsEditCommentTitleDisplayed()
+    {
+        log.info("Verify Edit comment title of the box is Displayed {}");
+        assertTrue(isEditCommentDisplayed(),"Edit comment is not displayed");
+        return this;
+    }
+
 }
