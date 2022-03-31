@@ -696,19 +696,11 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return new CopyMoveUnzipToDialog(webDriver);
     }
 
-    public DocumentDetailsPage assertVerifyCommentNumber()
+    public DocumentDetailsPage assertVerifyCommentNumber(String content)
     {
         log.info("Verify the comment number {}");
         waitInSeconds(WAIT_1.getValue());
-        assertTrue(getPageNoReport().equals("1 - 10 of 11"),String.format("Wrong page report!"));
-        return this;
-    }
-
-    public DocumentDetailsPage assertVerifyEditedComment()
-    {
-        log.info("Verify the edited content {}");
-        waitInSeconds(WAIT_1.getValue());
-        assertTrue(getCommentContent().equals("modificationtest comment10"),String.format("Wrong comment content!"));
+        assertTrue(getPageNoReport().equals(content),String.format("Wrong page report!"));
         return this;
     }
 
