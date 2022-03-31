@@ -1,88 +1,104 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import java.text.ParseException;
-
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * @author iulia.cojocea
- * This test doesn't work with with selenium version 2.46.0. I should be enabled on 2.53.0 version.
- */
-public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
+@Slf4j
+public class AddAndEditCommentsToAFileTest extends BaseTest
 {
-    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private final String folderName = "testFolder";
-    private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
-    //@Autowired
-    private SiteDashboardPage siteDashboardPage;
-    //@Autowired
-    private DocumentDetailsPage documentDetailsPage;
-    //@Autowired
+    private static final String NO_COMMENTS = "documentLibrary.documentDetailsPage.commentSection.noComment";
+    private final String random = RandomData.getRandomAlphanumeric();
+    private final String description = "description-" + random;
+    private final String comment = "Test comment for C9934" + random;
+    private final String editedComment = "Test comment edited for C9934" + random;
+
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
+    private DocumentDetailsPage documentPreviewPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true) public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        contentService.createFolder(testUser, password, folderName, siteName);
-        contentService.createDocumentInFolder(testUser, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");
-        setupAuthenticatedSession(testUser, password);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+
+        folderToCheck = FolderModel.getRandomFolderModel();
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
+
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
+
+        getCmisApi().usingSite(site.get()).usingResource(folderToCheck).createFile(fileToCheck);
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentPreviewPage = new DocumentDetailsPage(webDriver);
+
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @AfterMethod(alwaysRun = true) public void afterMethod()
     {
-        userService.delete(adminUser, adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
-    @TestRail (id = "C5885")
-    public void addAndEditCommentsToAFile() throws ParseException
+    @TestRail(id = "C5885")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyAddandEditCommentsToAFile() throws InterruptedException
     {
 
-        LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.navigateToDocumentLibraryPage();
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder is not displayed!");
+        log.info("Precondition: click on the folder created in the site where comment to be added.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFolderName(folderToCheck.getName());
 
-        LOG.info("STEP 2: Click on folder name then on file name");
-        documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
-        documentLibraryPage.clickOnFile(docName);
+        log.info("Precondition: click on the file created in the site where comment to be added.");
+        documentLibraryPage
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
 
-        LOG.info("STEP 3: Click on 'Add Comment' and type a comment. Add 11 such comments");
-        for (int i = 0; i < 2; i++)
+        log.info("STEP 3: Click on 'Add Comment' and type a comment. Add 11 such comments");
+        for (int i = 0; i < 11; i++)
         {
-            documentDetailsPage.clickOnCommentDocument();
-            documentDetailsPage.addComment("test comment" + i);
+            documentPreviewPage
+                .clickOnCommentDocument();
+            documentPreviewPage
+                .addComment("test comment" + i)
+                .assertVerifyCommentContent("test comment" + i);
         }
-        Assert.assertTrue(documentDetailsPage.getPageNoReport().equals("1 - 10 of 11"), "Wrong page report!");
+        documentPreviewPage
+            .assertVerifyCommentNumber();
 
-        LOG.info("STEP 4: Click previous (<<) and next (>>) to see more comments");
-        documentDetailsPage.clickOnNextPage();
-        Assert.assertEquals(documentDetailsPage.getCommentsListSize(), 1, "Only a comment should be displayed!");
-        documentDetailsPage.clickOnPreviousPage();
-        Assert.assertEquals(documentDetailsPage.getCommentsListSize(), 10, "Wrong number of comments displayed in the list!");
+        log.info("STEP 4: Click previous (<<) and next (>>) to see more comments");
+        documentPreviewPage
+            .clickOnNextPage();
+        documentPreviewPage
+            .assertNextPageCommentContent(1);
 
-        LOG.info("STEP 5: Edit the first comment");
-        documentDetailsPage.clickOnEditComment("test comment1");
-        documentDetailsPage.modifyCommContent("modification");
-        Assert.assertTrue(documentDetailsPage.getCommentContent("test comment1 modification").equals("test comment1 modification"), "Wrong comment content!");
+        documentPreviewPage
+            .clickOnPreviousPage();
+        documentPreviewPage
+            .assertNextPageCommentContent(10);
+
+        log.info("STEP 5: Edit the first comment");
+        documentPreviewPage
+            .clickOnEditComment("test comment1");
+        documentPreviewPage
+            .modifyCommContent("modification");
+        documentPreviewPage
+            .assertVerifyEditedComment();
     }
 }
+
