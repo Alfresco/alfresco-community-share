@@ -484,6 +484,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public DocumentDetailsPage clickOnFile(String file) {
+        waitInSeconds(WAIT_1.getValue());
         WebElement fileElement = selectDocumentLibraryItemRow(file);
         Parameter.checkIsMandotary("File", fileElement);
         clickElement(fileElement.findElement(contentNameSelector));
