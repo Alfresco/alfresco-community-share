@@ -1,5 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -359,6 +361,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         WebElement editable = switchTo().activeElement();
         editable.sendKeys(modification);
         switchToDefaultContent();
+        clickOnSaveButtonEditComment();
     }
 
     public String getPageNoReport()
@@ -693,12 +696,30 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return new CopyMoveUnzipToDialog(webDriver);
     }
 
+    public DocumentDetailsPage assertVerifyCommentNumber(String content)
+    {
+        log.info("Verify the comment number {}");
+        waitInSeconds(WAIT_1.getValue());
+        assertTrue(getPageNoReport().equals(content),String.format("Wrong page report!"));
+        return this;
+    }
+
     public DocumentDetailsPage assertVerifyCommentContent(String content)
     {
         log.info("Verify the comment content {}");
+        waitInSeconds(WAIT_1.getValue());
         assertEquals(getCommentContent(),content, String.format("Comment content not matched %s", content));
         return this;
     }
+
+    public DocumentDetailsPage assertNextPageCommentContent(int content)
+    {   waitInSeconds(WAIT_2.getValue());
+        log.info("Verify the NextPageComment content Count{}");
+        assertEquals(getCommentsListSize(),content, String.format("comment should be displayed as expected!"));
+        return this;
+    }
+
+
 
     public DocumentDetailsPage assertIsDeleteButtonDisplayedForComment(String comment)
     {
