@@ -19,8 +19,9 @@ public class AddAndEditCommentsToAFileTest extends BaseTest
     private static final String NO_COMMENTS = "documentLibrary.documentDetailsPage.commentSection.noComment";
     private final String random = RandomData.getRandomAlphanumeric();
     private final String description = "description-" + random;
-    private final String comment = "Test comment for C9934" + random;
-    private final String editedComment = "Test comment edited for C9934" + random;
+    private final String testComment = "Test comment for C5885";
+    private final String editedComment = "Test comment edited for C5885";
+
 
     private FolderModel folderToCheck;
     private FileModel fileToCheck;
@@ -57,7 +58,7 @@ public class AddAndEditCommentsToAFileTest extends BaseTest
 
     @TestRail(id = "C5885")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyAddandEditCommentsToAFile() throws InterruptedException
+    public void verifyAddAndEditCommentsToAFile()
     {
 
         log.info("Precondition: click on the folder created in the site where comment to be added.");
@@ -75,11 +76,11 @@ public class AddAndEditCommentsToAFileTest extends BaseTest
             documentPreviewPage
                 .clickOnCommentDocument();
             documentPreviewPage
-                .addComment("test comment" + i)
-                .assertVerifyCommentContent("test comment" + i);
+                .addComment(testComment + i)
+                .assertVerifyCommentContent(testComment + i);
         }
         documentPreviewPage
-            .assertVerifyCommentNumber();
+            .assertVerifyCommentNumber("1 - 10 of 11");
 
         log.info("STEP 4: Click previous (<<) and next (>>) to see more comments");
         documentPreviewPage
@@ -94,11 +95,11 @@ public class AddAndEditCommentsToAFileTest extends BaseTest
 
         log.info("STEP 5: Edit the first comment");
         documentPreviewPage
-            .clickOnEditComment("test comment1");
+            .clickOnEditComment(testComment+"10");
         documentPreviewPage
-            .modifyCommContent("modification");
+            .modifyCommContent(editedComment);
         documentPreviewPage
-            .assertVerifyEditedComment();
+            .assertVerifyCommentContent(editedComment+testComment+"10");
     }
 }
 
