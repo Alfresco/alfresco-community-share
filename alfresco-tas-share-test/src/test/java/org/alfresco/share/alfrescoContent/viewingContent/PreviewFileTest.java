@@ -2,122 +2,166 @@ package org.alfresco.share.alfrescoContent.viewingContent;
 
 import static org.alfresco.common.Utils.srcRoot;
 
-import java.io.File;
+import lombok.extern.slf4j.Slf4j;
 
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.*;
+
+import java.io.File;
 
 /**
  * @author iulia.cojocea
  */
-
-public class PreviewFileTest extends ContextAwareWebTest
+@Slf4j
+public class PreviewFileTest extends BaseTest
 {
-    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private final String folderName = "testFolder";
-    private final String docName = "MultiPageDocument.docx";
-    private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
-    //@Autowired
-    private DocumentDetailsPage documentDetailsPage;
-    //@Autowired
-    private DocumentLibraryPage documentLibraryPage;
+    private static final String docFileName = "MultiPageDocument.docx";
+    private static final String imageName = "Tulips.jpg";
+    private static final String videoName = "TestVideo.mp4";
 
-    @BeforeClass (alwaysRun = true)
+    private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
+
+    private DocumentLibraryPage documentLibraryPage;
+    private DocumentDetailsPage documentDetailsPage;
+    private FolderModel folderToCheck;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        contentService.createFolder(testUser, password, folderName, siteName);
-        setupAuthenticatedSession(testUser, password);
-        contentService.uploadFilesInFolder(testDataFolder, testUser, password, siteName, folderName);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+
+        log.info("Create Folder in document library.");
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
+
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod()
     {
-        userService.delete(adminUser, adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
-
-    @Bug (id = "ACE-5914", status = Bug.Status.OPENED)
     @TestRail (id = "C5884")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void previewFile()
     {
-        LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");
-        documentLibraryPage.navigate(siteName);
-//        Assert.assertEquals(documentLibraryPage.getPageHeader(), siteName, "Document Library is not opened!");
-        Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
+        log.info("Precondition : Uploading docFile, imageFile and videoFile in the folder");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(folderToCheck.getName())
+            .clickOnFolderName(folderToCheck.getName())
+            .clickUpload()
+            .uploadFile(testDataFolder+docFileName);
 
-        LOG.info("STEP 2: Click on folder name then on file name");
-        documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
-        documentLibraryPage.clickOnFile(docName);
-        Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Wrong file name!");
+        documentLibraryPage
+            .clickUpload()
+            .uploadFile(testDataFolder+imageName);
 
-        LOG.info("STEP 3: Click 'Maximize' to view a larger preview");
-        documentDetailsPage.clickOnMaximizeMinimizeButton();
-        Assert.assertTrue(documentDetailsPage.getMinimizeMaximizeText().equals("Minimize"), "Minimize button is not displayed!");
+        documentLibraryPage
+            .clickUpload()
+            .uploadFile(testDataFolder+videoName);
 
-        LOG.info("STEP 4: Scroll between testDoc pages");
+        log.info("Precondition : Verify uploaded docFile, imageFile and videoFile in the folder is displayed and then click on docFile");
+        documentLibraryPage
+            .assertFileIsDisplayed(docFileName)
+            .assertFileIsDisplayed(imageName)
+            .assertFileIsDisplayed(videoName)
+            .clickOnFile(docFileName);
+
+        log.info("Step 1: On document details page verify the file name 'docFileName' and click on maximize button");
+        documentDetailsPage
+            .assertIsFileNameDisplayedOnPreviewPage(docFileName)
+            .clickOnMaximizeMinimizeButton();
+
+        log.info("STEP 2: Verify 'Minimize' button text");
+        documentDetailsPage
+            .assertVerifyMinimizeButtonTextOnPreviewPage("Minimize");
+
+        log.info("STEP 3: Scroll between testDoc pages and get the actual page number.");
         String actualPageNo = documentDetailsPage.getCurrentPageNo();
-        documentDetailsPage.clickOnNextButton();
+
+        log.info("Step 4: Clink on Next Button to move next page....and get the new page number.");
+        documentDetailsPage
+            .clickOnNextButton();
+
         String newPageNo = documentDetailsPage.getCurrentPageNo();
-        Assert.assertFalse(actualPageNo.equals(newPageNo), "Page number should be different!");
-        documentDetailsPage.clickOnPreviousButton();
+
+        log.info("Step 5: Verify that the Page numbers should be different and then click on Previous button");
+        documentDetailsPage
+            .assertPageNoIsDifferent(actualPageNo, newPageNo)
+            .clickOnPreviousButton();
+
+        log.info("Step 6: Now get the current page no and verify that page number should be same");
         newPageNo = documentDetailsPage.getCurrentPageNo();
-        Assert.assertTrue(newPageNo.equals(actualPageNo), "Page number should be different!");
+        documentDetailsPage
+            .assertPageNoIsSame(newPageNo, actualPageNo);
 
-        LOG.info("STEP 5: Click 'Zoom In' button, check that the Zoom level is saved for the next time you preview this item");
+        log.info("STEP 7: Click 'Zoom In' button, check that the Zoom level is saved for the next time you preview this item");
         String initialScaleValue = documentDetailsPage.getScaleValue();
-        documentDetailsPage.clickOnZoomInButton();
+        documentDetailsPage
+            .clickOnZoomInButton();
         String newScaleValue = documentDetailsPage.getScaleValue();
-        Assert.assertFalse(documentDetailsPage.getScaleValue().equals(initialScaleValue), "Scale value should be different!");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
-        documentLibraryPage.clickOnFile(docName);
-        Assert.assertEquals(documentDetailsPage.getScaleValue(), newScaleValue, "Wrong scale value! expected " + documentDetailsPage.getScaleValue()
-            + "but found " + newScaleValue);
-        documentDetailsPage.clickOnZoomOutButton();
-        Assert.assertFalse(documentDetailsPage.getScaleValue().equals(newScaleValue), "Scale value should be different");
+        documentDetailsPage
+            .assertScalValueIsDifferent(documentDetailsPage.getScaleValue(), initialScaleValue);
 
-        LOG.info("STEP 6: Click 'Advanced Search' icon");
-        documentDetailsPage.clickOnSearchButton();
+         documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFolderName(folderToCheck.getName())
+            .clickOnFile(docFileName);
 
-        LOG.info("STEP 6: Go back to the folder content and click on the video");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Tulips.jpg"), "Picture is not displayed!");
-        documentLibraryPage.clickOnFile("Tulips.jpg");
-        Assert.assertFalse(documentDetailsPage.isZoomOutButtonDisplayed(), "Zoom out button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isZoomInButtonDisplayed(), "Zoom in button should not be displayed!");
-//        Assert.assertFalse(documentDetailsPage.isMaximizetButtonDisplayed(), "Maximize button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isNextPageButton(), "Next page button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isPreviousPageButton(), "Previous page button should not be displayed!");
+         documentDetailsPage
+            .assertScalValueIsSame(documentDetailsPage.getScaleValue(), newScaleValue);
 
-        LOG.info("STEP 7: Go back to the folder content and click on the image");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Tulips.jpg"), "Picture is not displayed!");
-        documentLibraryPage.clickOnFile("Tulips.jpg");
-        Assert.assertFalse(documentDetailsPage.isZoomOutButtonDisplayed(), "Zoom out button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isZoomInButtonDisplayed(), "Zoom in button should not be displayed!");
-//        Assert.assertFalse(documentDetailsPage.isMaximizetButtonDisplayed(), "Maximize button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isNextPageButton(), "Next page button should not be displayed!");
-        Assert.assertFalse(documentDetailsPage.isPreviousPageButton(), "Previous page button should not be displayed!");
+         documentDetailsPage
+            .clickOnZoomOutButton();
+        documentDetailsPage
+            .assertScalValueIsDifferent(documentDetailsPage.getScaleValue(), newScaleValue);
+
+        log.info("STEP 8: Click 'Advanced Search' icon");
+        documentDetailsPage
+            .clickOnSearchButton();
+
+        log.info("STEP 9: Go back to the folder content and then click on imageFile");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFolderName(folderToCheck.getName())
+            .clickOnFile(imageName);
+
+        log.info("Step 10: Verify that the ZoomIn, ZoomOut, NextPage & PreviousPage button should not displayed for image");
+        documentDetailsPage
+            .assertIsZoomOutButtonNotDisplayed()
+            .assertIsZoomInButtonNotDisplayed()
+            .assertIsNextPageButtonNotDisplayed()
+            .assertIsPreviousPageButtonNotDisplayed();
+
+        log.info("STEP 11: Go back to the folder content and click on videoFile");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFolderName(folderToCheck.getName())
+            .clickOnFile(videoName);
+
+        log.info("Step 12: Verify that the ZoomIn, ZoomOut, NextPage & PreviousPage button should not displayed for video");
+        documentDetailsPage
+            .assertIsZoomOutButtonNotDisplayed()
+            .assertIsZoomInButtonNotDisplayed()
+            .assertIsNextPageButtonNotDisplayed()
+            .assertIsPreviousPageButtonNotDisplayed();
     }
 }

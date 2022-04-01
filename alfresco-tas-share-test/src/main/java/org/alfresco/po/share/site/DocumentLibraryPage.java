@@ -76,7 +76,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     private By moreSelector = By.cssSelector("div[id*='default-actions']:not([class*='hidden']) a.show-more");
     private By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
-
+    private By uploadButton_ = By.cssSelector("[id$='default-fileUpload-button-button']");
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
     @FindBy(css = "[id$='default-fileUpload-button-button']")
@@ -324,14 +324,20 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public boolean isFileNameDisplayed(String fileName)
     {
-        refresh();
-        waitInSeconds(WAIT_5.getValue());
-        if (selectDocumentLibraryItemRow(fileName) == null)
-        {
-            return false;
-        }else
+        if (selectDocumentLibraryItemRow(fileName) != null)
         {
             return true;
+        }else
+        {
+            refresh();
+            waitInSeconds(WAIT_5.getValue());
+            if (selectDocumentLibraryItemRow(fileName) != null)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
         }
     }
 
@@ -355,12 +361,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public UploadFileDialog clickUpload() {
-        waitUntilElementIsVisible(uploadButton).click();
+        waitInSeconds(WAIT_1.getValue());
+        waitUntilElementIsVisible(uploadButton_).click();
         return new UploadFileDialog(webDriver);
     }
 
     public DocumentLibraryPage uploadNewImage(String imagePath) {
         log.info("Upload image to path: {}", imagePath);
+        waitInSeconds(WAIT_1.getValue());
         return (DocumentLibraryPage) clickUpload().uploadFile(imagePath, this);
     }
 

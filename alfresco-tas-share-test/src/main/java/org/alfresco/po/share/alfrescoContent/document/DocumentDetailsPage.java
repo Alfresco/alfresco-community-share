@@ -2,14 +2,14 @@ package org.alfresco.po.share.alfrescoContent.document;
 
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_2;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
+import org.alfresco.common.Wait;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -284,6 +284,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public String getScaleValue()
     {
+        waitInSeconds(Wait.WAIT_1.getValue());
         return getElementText(scaleButton);
     }
 
@@ -756,4 +757,73 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return this;
     }
 
+    public DocumentDetailsPage assertIsFileNameDisplayedOnPreviewPage(String fileName)
+    {
+        log.info("Verify File name displayed in preview page {}");
+        assertEquals(getFileName(), fileName, String.format("File name not matched with %s ", fileName));
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyMinimizeButtonTextOnPreviewPage(String minimize)
+    {
+        log.info("Verify minimize text displayed on preview page after clicking on maximize {}");
+        assertEquals(getMinimizeMaximizeText(), minimize, "Minimize button is not displayed!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertPageNoIsDifferent(String currentPageNo, String newPageNo)
+    {
+        log.info("Verify page number should be different {}");
+        assertNotEquals(currentPageNo, newPageNo, String.format("Page no is matched with current page no %s and new page no %s", currentPageNo, newPageNo));
+        return this;
+    }
+
+    public DocumentDetailsPage assertPageNoIsSame(String currentPageNo, String newPageNo)
+    {
+        log.info("Verify page number should be same {}");
+        assertEquals(currentPageNo, newPageNo, String.format("Page no is not matched with current page no %s and new page no %s", currentPageNo, newPageNo));
+        return this;
+    }
+
+    public DocumentDetailsPage assertScalValueIsDifferent(String currentScale, String newScale)
+    {
+        log.info("Verify scale value should be different {}");
+        assertNotEquals(currentScale, newScale, String.format("Scale value is not matched with current scale %s and new scale %s", currentScale, newScale));
+        return this;
+    }
+
+    public DocumentDetailsPage assertScalValueIsSame(String currentScale, String newScale)
+    {
+        log.info("Verify scale value should be same {}");
+        assertEquals(currentScale, newScale, String.format("Scale value is matched with current scale %s and new scale %s", currentScale, newScale));
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsZoomInButtonNotDisplayed()
+    {
+        log.info("Verify Zoom In button is not displayed {}");
+        assertFalse(isZoomInButtonDisplayed(), "Zoom in button is displayed!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsZoomOutButtonNotDisplayed()
+    {
+        log.info("Verify Zoom Out button is not displayed {}");
+        assertFalse(isZoomOutButtonDisplayed(), "Zoom Out button is displayed!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsNextPageButtonNotDisplayed()
+    {
+        log.info("Verify next page button is not displayed {}");
+        assertFalse(isNextPageButton(), "Next Page button is displayed!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsPreviousPageButtonNotDisplayed()
+    {
+        log.info("Verify Previous page button is not displayed {}");
+        assertFalse(isPreviousPageButton(), "Previous Page Button is displayed!");
+        return this;
+    }
 }
