@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 @Slf4j
 public class AddAndEditCommentsToAFileTest extends BaseTest
 {
-    private static final String NO_COMMENTS = "documentLibrary.documentDetailsPage.commentSection.noComment";
     private final String random = RandomData.getRandomAlphanumeric();
     private final String description = "description-" + random;
     private final String testComment = "Test comment for C5885";
