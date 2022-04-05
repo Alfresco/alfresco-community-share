@@ -76,6 +76,9 @@ public class AIMSFilter extends KeycloakOIDCFilter
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
 
+    public static final String SHARE_PAGE = "/share/page";
+    public static final String SHARE_AIMS_LOGOUT = "/share/page/aims/logout";
+
     /**
      * Initialize the filter
      *
@@ -132,7 +135,7 @@ public class AIMSFilter extends KeycloakOIDCFilter
         HttpServletResponse response = (HttpServletResponse) sres;
         HttpSession session = request.getSession();
 
-        if (this.enabled)
+        if (this.enabled && (request.getRequestURI().contains(SHARE_PAGE) || request.getRequestURI().contains(SHARE_AIMS_LOGOUT)))
         {
             // Pre Keycloak filter
             // Avoid remaining logged in in Share, if we're logged out from Keycloak
