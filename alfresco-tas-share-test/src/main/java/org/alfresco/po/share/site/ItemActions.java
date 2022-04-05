@@ -21,7 +21,7 @@ public enum ItemActions
     MANAGE_REPO_PERMISSIONS("document-manage-repo-permissions", "Manage Permissions"),
     MANAGE_ASPECTS("document-manage-aspects", "Manage Aspects"),
     LOCATE_FILE("document-locate", "Locate File"),
-    VIEW_ON_GOOGLE_MAPS("TBD", "View on Google Maps"),
+    VIEW_ON_GOOGLE_MAPS("document-view-googlemaps", "View on Google Maps"),
     CHECK_IN_GOOGLE_DOC("TBD", "Check In Google Doc™"),
     CANCEL_EDITING_IN_GOOGLE_DOC("TBD", "Cancel Editing in Google Docs™"),
 

@@ -27,6 +27,8 @@ public class EditPropertiesDialog extends BaseDialogComponent
     private final By selectedCategories = By.cssSelector("div[id$='prop_cm_categories-cntrl-currentValueDisplay'] div");
     private final By saveButton = By.cssSelector("button[id$='form-submit-button']");
     private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
+    private final By longitudeEditField = By.cssSelector("input[title$='Longitude']");
+    private final By lattitudeEditField = By.cssSelector("input[title$='Latitude']");
 
     public EditPropertiesDialog(ThreadLocal<WebDriver> webDriver)
     {
@@ -45,6 +47,14 @@ public class EditPropertiesDialog extends BaseDialogComponent
         SelectDialog selectDialog = new SelectDialog(webDriver);
         selectDialog.waitForLeftAreaResults();
         return selectDialog;
+    }
+
+    public void setLongitudeLattitude(double longitude, double lattitude)
+    {
+        waitUntilElementIsVisible(longitudeEditField);
+        clearAndType(longitudeEditField, longitude+"");
+        clearAndType(lattitudeEditField, lattitude+"");
+        clickSave();
     }
 
     public boolean isSelectTagsButtonDisplayed()

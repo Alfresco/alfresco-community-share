@@ -1,5 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.aspects;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
@@ -148,5 +150,19 @@ public class AspectsForm extends BaseDialogComponent
     public void clickCancelButton()
     {
         findElement(cancelButton).click();
+    }
+
+    public AspectsForm assertAspactPresentInAvailableList(String aspactName)
+    {
+        log.info("Verify that the Aspact is present in the Available List {}");
+        assertTrue(isAspectPresentOnAvailableAspectList(aspactName), String.format("Aspact %s in not available in the present in Available list", aspactName));
+        return this;
+    }
+
+    public AspectsForm assertAspactPresentInCurrentlySelectedList(String aspactName)
+    {
+        log.info("Verify that the Aspact is present in the Currently Selected List {}");
+        assertTrue(isAspectPresentOnCurrentlySelectedList(aspactName), String.format("Aspact %s in not available in the present in currently selected list", aspactName));
+        return this;
     }
 }

@@ -9,6 +9,7 @@ import static org.testng.Assert.assertTrue;
 import com.google.common.base.Function;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 @Slf4j
 public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO to be deleted
@@ -106,6 +108,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By foldersList = By.cssSelector(".filter-change:nth-child(1)");
     private By filesList = By.cssSelector(".filename a[href*='document-details']");
     private By documentLibraryItemsList = By.cssSelector("div[id$='default-documents'] tbody[class$='data'] tr");
+    private By geolocationMetadataIcon_ = By.cssSelector("div[class ='status'] img[title ='Geolocation metadata available']");
+    private By googleMap_ = By.cssSelector("div[class ='google-map']");
+    private By googleMapPopUp_ = By.cssSelector("div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']");
+
     @FindAll(@FindBy(css = ".crumb .folder"))
     private List<WebElement> breadcrumbList;
     @FindBy(css = ".crumb .label a")
@@ -676,6 +682,24 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         clickElement(actionElement);
     }
 
+    public void selectEditPropertiesOption(String contentItem, ItemActions action) {
+        WebElement libraryItem = mouseOverContentItem(contentItem);
+        By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
+        WebElement actionElement;
+
+        try
+        {
+            actionElement = waitUntilElementIsVisible(actionSelector);
+        }
+        catch (TimeoutException timeoutException)
+        {
+            throw new TimeoutException("The action " + action.getActionName() + " could not be found for list item " + contentItem);
+        }
+
+        mouseOver(actionElement);
+        clickElement(actionElement);
+    }
+
     public String getDocumentListHeader() {
         return navigationBar.getText();
     }
@@ -1008,7 +1032,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * Method to check if the file is opened in Google Maps
      */
     public boolean isFileOpenedInGoogleMaps() {
-        return googleMap.isDisplayed();
+        return findElement(googleMap_).isDisplayed();
     }
 
     /**
@@ -1017,14 +1041,17 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @return
      */
     public boolean isDocumentThumbnailDisplayedOnGoogleMaps() {
-        return googleMapPopUp.isDisplayed();
+        if(findElement(By.cssSelector("button.dismissButton")).isDisplayed()){
+            findElement(By.cssSelector("button.dismissButton")).click();
+        }
+        return findElement(googleMapPopUp_).isDisplayed();
     }
 
     /**
      * Method to click on the document thumbnail to open the document in preview
      */
     public DocumentDetailsPage clickOnFileInGoogleMaps() {
-        googleMapPopUp.click();
+        findElement(googleMapPopUp_).click();
         return new DocumentDetailsPage(webDriver);
     }
 
@@ -1032,7 +1059,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * Method to check that the geolocation metadata icon is displayed next to the document
      */
     public boolean isGeolocationMetadataIconDisplayed() {
-        return geolocationMetadataIcon.isDisplayed();
+        return findElement(geolocationMetadataIcon_).isDisplayed();
     }
 
     /**
@@ -1162,4 +1189,36 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertTrue(isLikeButtonDisplayed(fileName), "file/Folders link is not present for " +fileName);
         return this;
     }
+
+    public DocumentLibraryPage assertIsGioLocationMetadataIconDisplayed()
+    {
+        log.info("Verify that the Gio location Metadata Icon is Displayed {}");
+        assertTrue(isGeolocationMetadataIconDisplayed(), "Geolocation Metadata icon is not displayed");
+        return this;
+    }
+
+    public DocumentLibraryPage assertAreActionsAvailableForLibraryItems(String contantName)
+    {
+        log.info("Verify that the actions 'Download', 'View In Browser', 'Edit in Google Docs™' & 'View on Google Maps' are available for the content {}");
+        List<String> expectedActions = Arrays
+            .asList("Download", "View In Browser", "Edit in Google Docs™", "View on Google Maps");
+        Assert.assertTrue(areActionsAvailableForLibraryItem(contantName, expectedActions), "Expected actions");
+        return this;
+    }
+
+    public DocumentLibraryPage assertIsFileOpenInGoogleMap()
+    {
+        log.info("Verify that the content open in the google map {}");
+        assertTrue(isFileOpenedInGoogleMaps(), "File is not opened in Google Maps");
+        return this;
+    }
+
+    public DocumentLibraryPage assertisDocumentThumbnailDisplayedOnGoogleMaps()
+    {
+        log.info("Verify that the content Thumbnail image displayed on the google map {}");
+        assertTrue(isDocumentThumbnailDisplayedOnGoogleMaps(), "Document thumbnail is not displayed in Google Maps");
+        return this;
+    }
+
+
 }
