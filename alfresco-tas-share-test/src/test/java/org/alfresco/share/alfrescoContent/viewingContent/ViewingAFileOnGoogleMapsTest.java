@@ -98,7 +98,7 @@ public class ViewingAFileOnGoogleMapsTest extends BaseTest
         log.info("Step 5: Hover a file and verify it has the Geolocation Metadata available icon and verify the actions available for the document.");
         documentLibraryPage
             .assertIsGioLocationMetadataIconDisplayed()
-            .assertAreActionsAvailableForLibraryItems(
+            .assertAreActionsAvailableForLibraryItemsInPreviewPage(
             fileToCheck.getName());
 
         log.info("Step 6: Click on the 'Edit Properties' action for the file");
