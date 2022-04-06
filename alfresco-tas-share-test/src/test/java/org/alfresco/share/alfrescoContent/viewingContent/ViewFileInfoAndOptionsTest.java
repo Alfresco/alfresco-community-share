@@ -1,105 +1,137 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import static org.alfresco.common.Utils.testDataFolder;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
-
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
 import org.joda.time.DateTime;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+
+import org.testng.annotations.*;
 
 /**
  * @author iulia.cojocea
  */
-public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
+
+@Slf4j
+public class ViewFileInfoAndOptionsTest extends BaseTest
 {
-    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private final String folderName = "testFolder";
-    private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
+    private final String random = RandomData.getRandomAlphanumeric();
     private final DateTime currentDate = new DateTime();
-    //@Autowired
+    private final String description = "C5920-SiteDescription-%s-" + random;
+    private final String comment = "C5920-Comment-%s-" + random;
+
     private DocumentLibraryPage documentLibraryPage;
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
-    @BeforeClass (alwaysRun = true)
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        contentService.createFolder(testUser, password, folderName, siteName);
-        contentService.createDocumentInFolder(testUser, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");
-        setupAuthenticatedSession(testUser, password);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+
+        log.info("Create Folder in document library.");
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
+
+        log.info("Create a file into the folder");
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
+        getCmisApi().usingSite(site.get()).usingResource(folderToCheck).createFile(fileToCheck).assertThat().existsInRepo();
+
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
-
+    
     @TestRail (id = "C5883")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void viewFileInfoAndOptions()
     {
-        LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");
-        documentLibraryPage.navigate(siteName);
-//        Assert.assertEquals(documentLibraryPage.assertPageHeadersEqualsTo(), siteName, "Document Library is not opened!");
-        Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
+        log.info("STEP 1: Navigate to 'Document Library' page for 'siteName' and verify folder name");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(folderToCheck.getName());
 
-        LOG.info("STEP 2: Click on folder name then on file name");
-        documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
-        documentLibraryPage.clickOnFile(docName);
-        Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Wrong file name!");
-        Assert.assertEquals(documentDetailsPage.getFileVersion(), "1.0", "Wrong file version!");
-        Assert.assertEquals(documentDetailsPage.getItemModifier(), "firstName lastName", "Wrong item modifier!");
-        Assert.assertTrue(documentDetailsPage.getModifyDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong modification date!");
+        log.info("STEP 2: Click on folder name and verify the file present in folder then click on file name");
+        documentLibraryPage
+            .clickOnFolderName(folderToCheck.getName())
+            .assertFileIsDisplayed(fileToCheck.getName())
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("STEP 3: Click 'Download' icon to download testFile");
-        documentDetailsPage.clickDownloadButton();
-        Assert.assertTrue(isFileInDirectory(docName, null), "File does not exist!");
+        log.info("Stem 3: Verify 'File Name', 'File Version', 'Item Modifire' & 'Modified Date' on preview page.");
+        documentDetailsPage
+            .assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName())
+            .assertVerifyFileVersion("1.0")
+            .assertVerifyItemModifire(user.get().getFirstName(), user.get().getLastName())
+            .assertVerifyModifiedDate(currentDate.toString("EEE d MMM yyyy"));
 
+        log.info("STEP 4: Click 'Download' icon to download testFile");
+        documentDetailsPage
+            .clickDownloadButton();
 
-        LOG.info("STEP 4: Click 'Like' icon to like testFile then click on unlike");
-        documentDetailsPage.clickOnLikeUnlike();
-        Assert.assertEquals(documentDetailsPage.getLikesNo(), 1, "Wrong no of likes!");
-        documentDetailsPage.clickOnLikeUnlike();
-        Assert.assertEquals(documentDetailsPage.getLikesNo(), 0, "File should have 0 likes!");
+        log.info("Step 5: Verify Downloaded file present in the directory.");
+        documentDetailsPage
+            .assertVerifyFileInDirectory(fileToCheck.getName());
 
-        LOG.info("STEP 5: Click 'Favorite' icon to favorite testFile then click unfavorite");
-        documentDetailsPage.clickOnFavoriteUnfavoriteLink();
-        Assert.assertTrue(documentDetailsPage.getFavoriteText().isEmpty(), "File should be already added to favorite!");
-        documentDetailsPage.clickOnFavoriteUnfavoriteLink();
-        Assert.assertTrue(documentDetailsPage.getFavoriteText().equals("Favorite"), "File should be already added to favorite!");
+        log.info("STEP 6: Click 'Like' icon to like testFile");
+        documentDetailsPage
+            .clickOnLikeUnlike();
 
-        LOG.info("STEP 6: Click 'Comment' icon to add a comment to testFile");
-        documentDetailsPage.clickOnCommentDocument();
-        documentDetailsPage.addComment("Comment for test");
-        Assert.assertTrue(documentDetailsPage.getCommentContent().equals("Comment for test"), "Comment should be displayed!");
-        LOG.info("STEP 7: Click 'Shared' icon");
-        documentDetailsPage.clickOnSharedLink();
-    }
+        log.info("Step 7: Verify No of like should be 1 and then click on like button again");
+        documentDetailsPage
+            .assertVerifyNoOfLikes(1)
+            .clickOnLikeUnlike();
 
-    @AfterMethod
-    public void deleteFile()
-    {
-        File file = new File(testDataFolder + docName);
-        file.delete();
-        Assert.assertFalse(file.exists(), "File should not exist!");
+        log.info("Step 8: Verify No of like should be 0");
+        documentDetailsPage
+            .assertVerifyNoOfLikes(0);
+
+        log.info("STEP 9: Click 'Favorite' icon to favorite testFile");
+        documentDetailsPage
+            .clickOnFavoriteUnfavoriteLink();
+
+        log.info("Step 10: Verify that file marked as Favorite and then click on UnFavorite");
+        documentDetailsPage
+            .assertContantMarkedAsFavorite()
+            .clickOnFavoriteUnfavoriteLink();
+
+        log.info("Step 11: Verify File is not marked as Favorite");
+        documentDetailsPage
+            .assertContantNotMarkedAsFavorite();
+
+        log.info("STEP 12: Click 'Comment' icon");
+        documentDetailsPage
+            .clickOnCommentDocument();
+
+        log.info("Step 13: Add comment and verify that comment added successfully");
+        documentDetailsPage
+            .addComment(comment)
+            .assertVerifyCommentContent(comment);
+
+        log.info("STEP 14: Click 'Shared' icon and verify the Shared popup");
+        documentDetailsPage
+            .clickOnSharedLink();
     }
 }

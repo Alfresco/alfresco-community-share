@@ -34,6 +34,8 @@
       <classes>
          <class name="org.alfresco.share.alfrescoContent.viewingContent.AddAndEditCommentsToAFileTest"></class>
          <class name="org.alfresco.share.alfrescoContent.viewingContent.PreviewFileTest"></class>
+         <class name="org.alfresco.share.alfrescoContent.viewingContent.ViewingAFileOnGoogleMapsTest"></class>
+         <class name="org.alfresco.share.alfrescoContent.viewingContent.ViewFileInfoAndOptionsTest"></class>
       </classes>
    </test>
 </suite>
