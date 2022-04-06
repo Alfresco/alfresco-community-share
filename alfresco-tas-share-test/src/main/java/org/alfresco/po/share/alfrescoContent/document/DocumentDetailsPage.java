@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.*;
@@ -7,7 +8,9 @@ import static org.testng.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Wait;
 import org.alfresco.po.share.SharePage2;
@@ -18,13 +21,12 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import javax.validation.constraints.AssertTrue;
 
 @Slf4j
 public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
@@ -824,6 +826,55 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         log.info("Verify Previous page button is not displayed {}");
         assertFalse(isPreviousPageButton(), "Previous Page Button is displayed!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyFileVersion(String version)
+    {
+        log.info("Verify file version {}");
+        assertEquals(getFileVersion(), version, String.format("File version not matched with %s ", version));
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyItemModifire(String firstName, String lastName)
+    {
+        log.info("Verify the modifire name on preview page {}");
+        assertEquals(getItemModifier(), firstName+ " " +lastName, String.format("Item modifire name not matched with %s ", firstName+ " " +lastName));
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyModifiedDate(String date)
+    {
+        log.info("Verify item modified date {}");
+        assertTrue(getModifyDate().contains(date), "Wrong modification date!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyFileInDirectory(String fileName)
+    {
+        log.info("Verify that the downloaded content/file in to the Directory. {}");
+        assertTrue(isFileInDirectory(fileName, null), "File does not exist!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyNoOfLikes(int noOfLikes)
+    {
+        log.info("Verify No of likes on the content {}");
+        assertEquals(getLikesNo(), noOfLikes, "No of likes not matched with %s " +noOfLikes);
+        return this;
+    }
+
+    public DocumentDetailsPage assertContantMarkedAsFavorite()
+    {
+        log.info("Verify that the contant marked as Favorite {}");
+        assertTrue(getFavoriteText().isEmpty(), "File should be already added to favorite!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertContantNotMarkedAsFavorite()
+    {
+        log.info("Verify Contant is not marked as favorite {}");
+        assertTrue(getFavoriteText().equals("Favorite"), "File should be already added to favorite!");
         return this;
     }
 }
