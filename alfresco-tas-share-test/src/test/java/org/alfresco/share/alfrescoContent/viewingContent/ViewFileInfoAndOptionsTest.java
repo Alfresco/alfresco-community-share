@@ -12,7 +12,11 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
 import org.joda.time.DateTime;
 
+import org.testng.Assert;
 import org.testng.annotations.*;
+
+import static org.alfresco.common.Utils.testDataFolder;
+import java.io.File;
 
 /**
  * @author iulia.cojocea
@@ -61,6 +65,9 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
     @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
+        File file = new File(testDataFolder + fileToCheck.getName());
+        file.delete();
+        Assert.assertFalse(file.exists(), "File should not exist!");
         deleteUsersIfNotNull(user.get());
         deleteSitesIfNotNull(site.get());
     }

@@ -1,64 +1,81 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.*;
 
-import java.util.Arrays;
-import java.util.List;
 
-public class ViewingAFileInBrowserTests extends ContextAwareWebTest
+@Slf4j
+public class ViewingAFileInBrowserTests extends BaseTest
 {
-    private final String user = String.format("C5920User%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("C5920SiteName%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("C5920SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private final String docName = "File-C5920";
-    private final String folderName = "testFolder";
-   // @Autowired
-    private DocumentLibraryPage documentLibraryPage;
 
-    @BeforeClass (alwaysRun = true)
+    private final String description = "description-" ;
+
+    private DocumentLibraryPage documentLibraryPage;
+    private DocumentDetailsPage documentDetailsPage;
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createFolder(user, password, folderName, siteName);
-        contentService.createDocumentInFolder(user, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");
-        setupAuthenticatedSession(user, password);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+
+        log.info("Create Folder in document library.");
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
+
+        log.info("Create File in document library.");
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
+        getCmisApi().usingSite(site.get()).usingResource(folderToCheck).createFile(fileToCheck);
+
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     @TestRail (id = "C5920")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void viewingAFileInBrowser()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyViewAFileInBrowser()
     {
-        LOG.info("Step 1: Navigate to Document Library page for testSite.");
-        documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder is not displayed!");
-        LOG.info("Step 2: Click on a folder (e.g. testFolder) and then hover over a file in the document library (e.g. testFile) .");
-        documentLibraryPage.clickOnFolderName(folderName);
-        List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™");
-        Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
-        Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
-        LOG.info("Step 3: Click View In Browser.");
-        documentLibraryPage.selectItemAction(docName, ItemActions.VIEW_IN_BROWSER);
-        Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
-            "File content is not correct or file has not be opened in new window");
+        log.info("Step 1: Navigate to Document Library page for testSite and click on foldername.");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFolderName(folderToCheck.getName());
+
+        log.info("Step 2: Verify the ActionsAvailableForLibraryItem.");
+        documentLibraryPage
+            .assertAreActionsAvailableForLibraryItems(fileToCheck.getName());
+        documentLibraryPage
+            .assertisMoreMenuDisplayed(fileToCheck.getName());
+
+        log.info("Step 3: Click View In Browser.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.VIEW_IN_BROWSER);
+        documentLibraryPage
+            .assertVerifyFileContentInNewBrowserWindow(description);
     }
 }
+

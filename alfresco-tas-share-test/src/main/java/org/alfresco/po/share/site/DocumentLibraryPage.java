@@ -1197,11 +1197,20 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return this;
     }
 
-    public DocumentLibraryPage assertAreActionsAvailableForLibraryItems(String contantName)
+    public DocumentLibraryPage assertAreActionsAvailableForLibraryItemsInPreviewPage(String contantName)
     {
         log.info("Verify that the actions 'Download', 'View In Browser', 'Edit in Google Docs™' & 'View on Google Maps' are available for the content {}");
         List<String> expectedActions = Arrays
             .asList("Download", "View In Browser", "Edit in Google Docs™", "View on Google Maps");
+        Assert.assertTrue(areActionsAvailableForLibraryItem(contantName, expectedActions), "Expected actions");
+        return this;
+    }
+
+    public DocumentLibraryPage assertAreActionsAvailableForLibraryItems(String contantName)
+    {
+        log.info("Verify that the actions 'Download', 'View In Browser', 'Edit Properties™' are available for the content {}");
+        List<String> expectedActions = Arrays
+            .asList("Download", "View In Browser", "Edit Properties");
         Assert.assertTrue(areActionsAvailableForLibraryItem(contantName, expectedActions), "Expected actions");
         return this;
     }
@@ -1217,6 +1226,20 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         log.info("Verify that the content Thumbnail image displayed on the google map {}");
         assertTrue(isDocumentThumbnailDisplayedOnGoogleMaps(), "Document thumbnail is not displayed in Google Maps");
+        return this;
+    }
+
+    public DocumentLibraryPage assertisMoreMenuDisplayed(String filename)
+    {
+        log.info("More Menu is Displaying");
+        assertTrue(isMoreMenuDisplayed(filename), "More Menu is not displayed");
+        return this;
+    }
+
+    public DocumentLibraryPage assertVerifyFileContentInNewBrowserWindow(String description)
+    {
+        log.info("File content is correct in new window");
+        assertEquals(switchToNewWindowAngGetContent(), description, "File content is not correct or file has not be opened in new window");
         return this;
     }
 
