@@ -19,6 +19,7 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
 
@@ -875,6 +876,34 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         log.info("Verify Contant is not marked as favorite {}");
         assertTrue(getFavoriteText().equals("Favorite"), "File should be already added to favorite!");
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyFilePropertiesDetailsDisplayed()
+    {
+        log.info("File Properties details are displayed");
+        assertTrue(isElementDisplayed(filePropertiesdetailsPanel), "File Properties details are not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifySocialFeaturesActionsPanelDisplayed()
+    {
+        log.info("Social features actions panel is  displayed");
+        assertTrue(isElementDisplayed(socialFeaturesPanel), "Social features actions panel is not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyFolderActionsPanelDisplayed()
+    {
+        log.info("Folder actions panel is displayed");
+        assertTrue(isElementDisplayed(folderActionsPanel), "Folder actions panel is not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyTagsFeaturePanelDisplayed()
+    {
+        log.info("Tags feature panel is  displayed");
+        assertTrue(isElementDisplayed(tagsFeaturePanel), "Tags feature panel is not displayed");
         return this;
     }
 }
