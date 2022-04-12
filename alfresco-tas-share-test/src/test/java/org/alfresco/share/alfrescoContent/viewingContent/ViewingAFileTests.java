@@ -1,185 +1,231 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.common.DefaultProperties;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.FileActionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.alfresco.common.Utils.testDataFolder;
-import static org.testng.Assert.assertEquals;
-
-public class ViewingAFileTests extends ContextAwareWebTest
+@Slf4j
+public class ViewingAFileTests extends BaseTest
 {
-    private final String user = "C9917User1489451372540";
-    private final String siteName = String.format("C9917SiteName%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("C9917SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private final String docName = "File-C9917";
     private final DateTime currentDate = new DateTime();
-    //@Autowired
+    private final String thumbNailImage = "docx-file-48.png";
+
     private DocumentDetailsPage documentPreviewPage;
-    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
+    private FileActionsPage fileActions;
+    @Autowired
+    private DefaultProperties properties;
 
-    //@Autowired
-    private UserDashboardPage userDashboard;
+    private FileModel fileToCheck;
 
-    @BeforeClass (alwaysRun = true)
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".docx");
-        setupAuthenticatedSession(user, password);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentPreviewPage = new DocumentDetailsPage(webDriver);
+        fileActions = new FileActionsPage(webDriver);
+
+        log.info("Create File in document library.");
+        fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
+
+        authenticateUsingCookies(user.get());
     }
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     @TestRail (id = "C9917")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void informationAndOptionsCheckAvailableInfo()
     {
-        documentLibraryPage.navigate(siteName);
+        log.info("Navigate to the site document library and verify file present in the document library");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(fileToCheck.getName());
 
-        LOG.info("Step 1: Click on the thumbnail or name of the file in the document library.");
-        documentLibraryPage.clickOnFile(docName);
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("Step 2: Verify the file location and name information available.");
-        Assert.assertEquals(documentPreviewPage.getFileName(), docName + ".docx");
-        Assert.assertTrue(documentPreviewPage.isDocumentsLinkPresent(), "Documents link to return to Document Library is not displayed");
+        log.info("Step 2: Verify the file location and name information available"
+            + " Step 3: Verify and confirm that the file version is displayed."
+            + " Step 4: Verify and confirm that information regarding the last user who has modified the file is available."
+            + " Step 5: Verify that the date/time of the last modification is displayed."
+            + " Step 6: Verify that the file type is indicated by an icon to the left of the information section.");
 
-        LOG.info("Step 3: Verify and confirm that the file version is displayed.");
-        Assert.assertEquals(documentPreviewPage.getFileVersion(), "1.0", "Wrong value for file version");
-
-        LOG.info("Step 4: Verify and confirm that information regarding the last user who has modified the file is available.");
-        Assert.assertEquals(documentPreviewPage.getItemModifier(), user + " " + user, "Wrong value for Modifier");
-
-        LOG.info("Step 5: Verify that the date/time of the last modification is displayed.");
-        Assert.assertTrue(documentPreviewPage.getModifyDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong value for Modified on");
-
-        LOG.info("Step 6: Verify that the file type is indicated by an icon to the left of the information section.");
-        Assert.assertTrue(documentPreviewPage.isDocumentThumbnailDisplayed().contains("docx-file-48.png"));
+        documentPreviewPage
+            .assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName())
+            .assertIsDocumentsLinkPresent()
+            .assertVerifyFileVersion("1.0")
+            .assertVerifyItemModifire(user.get().getFirstName(), user.get().getLastName())
+            .assertVerifyModifiedDate(currentDate.toString("EEE d MMM yyyy"))
+            .assertIsDocumentThumbnailDisplayed(thumbNailImage);
     }
 
     @TestRail (id = "C9923")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void informationAndOptionsCheckLinkToReturnToDocumentLibrary()
     {
-        documentLibraryPage.navigate(siteName);
+        log.info("Navigate to the site document library and verify file present in the document library");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(fileToCheck.getName());
 
-        LOG.info("Step 1: Click on the thumbnail or name of the file in the document library.");
-        documentLibraryPage.clickOnFile(docName);
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library."
+            + " Step 2: Verify the presence of the link to return to Document Library.");
+        documentLibraryPage
+            .clickOnFile(fileToCheck.getName())
+            .assertIsDocumentsLinkPresent();
 
-        LOG.info("Step 2: Verify the presence of the link to return to Document Library.");
-        Assert.assertTrue(documentPreviewPage.isDocumentsLinkPresent(), "Documents link to return to Document Library is not displayed");
+        log.info("Step 3: Click on the Documents link.");
+        documentPreviewPage
+            .clickDocumentsLink();
 
-        LOG.info("Step 3: Click on the Documents link.");
-        documentPreviewPage.clickDocumentsLink();
-        String expectedRelativePath = "share/page/site/" + siteName + "/documentlibrary";
-        assertEquals(documentLibraryPage.getRelativePath(), expectedRelativePath, "User is not redirected to Document Library");
+        log.info("Step 4: Verify Relative path of document library page, after clicking on link to return to Document Library");
+        documentLibraryPage
+            .assertVerifyDocumentRelativePath(site.get().getTitle());
     }
 
     @TestRail (id = "C9925")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void informationAndOptionsLikeOption()
     {
-        documentLibraryPage.navigate(siteName);
+        log.info("Navigate to the site document library and verify file present in the document library");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(fileToCheck.getName());
 
-        LOG.info("Step 1: Click on the thumbnail or name of the file in the document library.");
-        documentLibraryPage.clickOnFile(docName);
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("Step 2: Verify that the Like option is available.");
-        Assert.assertTrue(documentPreviewPage.isLikeButtonPresent(), "The like button is not displayed");
+        log.info("Step 2: Verify that the Like option is available and then click on Like button");
+        documentPreviewPage
+            .assertLikeButtonDisplayedOnDocumentDetailsPage()
+            .clickOnLikeUnlike();
 
-        LOG.info("Step 3: Click the Like button.");
-        documentPreviewPage.clickOnLikeUnlike();
-        Assert.assertEquals(documentPreviewPage.getLikesNo(), 1);
+        log.info("Step 3: Verify the number of like should be 1 and the Click the Like button again to unlike the content.");
 
-        LOG.info("Step 4: Click the Like button again to unlike the content");
-        documentPreviewPage.clickOnLikeUnlike();
-        Assert.assertEquals(documentPreviewPage.getLikesNo(), 0);
+        documentPreviewPage
+            .assertVerifyNoOfLikes(1)
+            .clickOnLikeUnlike();
+
+        log.info("Step 4: Verify the number of likes should be 0 After Clicking the Like button again to unlike the content");
+
+        documentPreviewPage
+            .assertVerifyNoOfLikes(0);
     }
 
     @TestRail (id = "C9926")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void informationAndOptionsFavoriteOption()
     {
-        documentLibraryPage.navigate(siteName);
+        log.info("Navigate to the site document library and verify file present in the document library");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(fileToCheck.getName());
 
-        LOG.info("Step 1: Click on the thumbnail or name of the file in the document library.");
-        documentLibraryPage.clickOnFile(docName);
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("Step 2: Verify that the Favorite option is available.");
-        Assert.assertTrue(documentPreviewPage.isAddToFavoriteLinkDisplayed(), "Favorite button is not displayed");
+        log.info("Step 2: Verify that the Favorite option is available and Click the Favorite button.");
+        documentPreviewPage
+            .assertIsAddToFavoriteLinkDisplayed()
+            .clickOnFavoriteUnfavoriteLink();
 
-        LOG.info("Step 3: Click the Favorite button.");
-        documentPreviewPage.clickOnFavoriteUnfavoriteLink();
-        Assert.assertTrue(documentPreviewPage.isDocumentFavourite(), "Document is not successfully favorited");
+        log.info("Step 3: Verify that the document marked as favorite and Click the Favorite button again.");
+        documentPreviewPage
+            .assertContantMarkedAsFavorite()
+            .clickOnFavoriteUnfavoriteLink();
 
-        LOG.info("Step 4: Click the Favorite button again.");
-        documentPreviewPage.clickOnFavoriteUnfavoriteLink();
-        Assert.assertFalse(documentPreviewPage.isDocumentFavourite(), "Document has not been unfavorited");
+        log.info("Step 4: Verify that now the document is not marked as favorite after Click the Favorite button again.");
+        documentPreviewPage
+            .assertContantNotMarkedAsFavorite();
     }
 
 
     @TestRail (id = "C9936")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "office" })
-
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkActionsAvailability()
     {
-        LOG.info("Step 1: Click on document name");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFile(docName);
+        log.info("Step 1: Click on document name");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("Step 2: Check the document actions available");
-        /*Assert.assertTrue(fileActions.isDocumentActionsBlockDisplayed(), "Document Actions block is not displayed");
-        Assert.assertTrue(fileActions.isViewInBrowserDisplayed(), "View in browser action is not displayed");
-        Assert.assertTrue(fileActions.isEditInGoogleDocsDisplayed(), "Edit in google docs action is not displayed");
-        Assert.assertTrue(fileActions.isEditInMicrosoftOfficeDisplayed(), "Edit in Microsoft Office action is not displayed");
-        Assert.assertTrue(fileActions.isUploadNewVersionDisplayed(), "Upload new version is not displayed");
-        Assert.assertTrue(fileActions.isEditPropertiesDisplayed(), "Edit properties is not displayed");
-        Assert.assertTrue(fileActions.isMoveToDisplayed(), "Move to is not displayed");
-        Assert.assertTrue(fileActions.isCopyToDisplayed(), "Copy to is not displayed");
-        Assert.assertTrue(fileActions.isDeleteDocumentDisplayed(), "Delete document is not displayed");
-        Assert.assertTrue(fileActions.isStartWorkflowDisplayed(), "Start Workflow is not displayed");
-        Assert.assertTrue(fileActions.isManagePermissionsDisplayed(), "Manage Permissions is not displayed");
-        Assert.assertTrue(fileActions.isBecomeOwnerDisplayed(), "Become owner is not displayed");
-        Assert.assertTrue(fileActions.isManageAspectsDisplayed(), "Manage aspects is not displayed");
-        Assert.assertTrue(fileActions.isChangeTypeDisplayed(), "Change type is not displayed");
+        log.info("Step 2: Check the document actions available");
+        fileActions
+            .assertIsDocumentActionsBlockDisplayed();
 
-        LOG.info("Step 3: Check Tags presence");
-        Assert.assertTrue(fileActions.isTagsBlockDisplayed(), "Tags block is not displayed");
+        fileActions
+            .assertIsViewInBrowserDisplayed()
+            .assertIsEditInGoogleDocsDisplayed()
+            .assertIsEditInMicrosoftOfficeDisplayed()
+            .assertIsUploadNewVersionDisplayed()
+            .assertIsEditPropertiesDisplayed()
+            .assertIsMoveToOptionDisplayed()
+            .assertIsCopyToOptionDisplayed()
+            .assertIsDeleteDocumentOptionDisplayed()
+            .assertIsStartWorkflowDisplayed()
+            .assertIsManagePermissionDisplayed()
+            .assertIsBecomeOwnerDisplayed()
+            .assertIsManageAspectsDisplayed()
+            .assertIsChangeTypeOptionDisplayed();
 
-        LOG.info("Step 4: Check that Share block present");
-        Assert.assertTrue(fileActions.isShareBlockDisplayed(), "Share block is not displayed");
-        Assert.assertTrue(fileActions.isShareLinkDisplayed(), "Share link section is not displayed in the Share block");
+        log.info("Step 3: Check Tags presence");
+        fileActions
+            .assertIsTagBlockDisplayed();
 
-        LOG.info("Step 5: Check that the Properties block is displayed");
-        Assert.assertTrue(fileActions.isPropertiesBlockDisplayed(), "Properties block is not displayed");
+        log.info("Step 4: Check that Share block present");
+        fileActions
+            .assertIsShareBlockDisplayed();
 
-        LOG.info("Step 6: Check that the workflow block is displayed");
-        Assert.assertTrue(fileActions.isWorkflowsBlockDisplayed(), "Workflows block is not displayed");
+        log.info("Step 5: Verify share link in share block");
 
-        LOG.info("Step 7: Check that Version History block is displayed ");
-        Assert.assertTrue(fileActions.isVersionHistoryBlockDisplayed(), "Version History block is not displayed");*/
+        String shareUrl = properties.getShareUrl().toString();
+        String nodeRef = fileToCheck.getNodeRefWithoutVersion();
+        String siteName = site.get().getTitle();
+        String shareLinkText = shareUrl+"/page/site/"+siteName+"/document-details?nodeRef=workspace://SpacesStore/"+nodeRef;
+
+        fileActions
+            .assertVerifyShareLink(shareLinkText);
+
+        log.info("Step 6: Check that the Properties block is displayed");
+        fileActions
+            .assertIsPropertiesBlockDisplayed();
+
+
+        log.info("Step 7: Check that the workflow block is displayed");
+        fileActions
+            .assertIsWorkFlowsBlockDisplayed();
+
+        log.info("Step 8: Check that Version History block is displayed ");
+        fileActions
+            .assertIsVersionHistoryBlockDisplayed();
     }
 }
