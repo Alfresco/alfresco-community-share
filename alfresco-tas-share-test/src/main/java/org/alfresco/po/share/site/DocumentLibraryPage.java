@@ -1403,5 +1403,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return this;
     }
 
-
+    public DocumentLibraryPage assertVerifyDocumentRelativePath(String site)
+    {
+        log.info("Verify the document relative path {}");
+        String expectedRelativePath = "share/page/site/" + site + "/documentlibrary";
+        assertEquals(getRelativePath(), expectedRelativePath, "User is not redirected to Document Library");
+        return this;
+    }
 }
