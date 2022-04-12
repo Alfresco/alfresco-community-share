@@ -19,7 +19,6 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
 
@@ -702,7 +701,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertVerifyCommentNumber(String content)
     {
-        log.info("Verify the comment number {}");
+        log.info("Verify the comment number {}", content);
         waitInSeconds(WAIT_1.getValue());
         assertTrue(getPageNoReport().equals(content),String.format("Wrong page report!"));
         return this;
@@ -710,7 +709,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertVerifyCommentContent(String content)
     {
-        log.info("Verify the comment content {}");
+        log.info("Verify the comment content {}", content);
         waitInSeconds(WAIT_1.getValue());
         assertEquals(getCommentContent(),content, String.format("Comment content not matched %s", content));
         return this;
@@ -718,7 +717,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertNextPageCommentContent(int content)
     {   waitInSeconds(WAIT_2.getValue());
-        log.info("Verify the NextPageComment content Count{}");
+        log.info("Verify the NextPageComment content Count{}", content);
         assertEquals(getCommentsListSize(),content, String.format("comment should be displayed as expected!"));
         return this;
     }
@@ -727,154 +726,154 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public DocumentDetailsPage assertIsDeleteButtonDisplayedForComment(String comment)
     {
-        log.info("Verify Delete button displayed for the comment Added {}");
+        log.info("Verify Delete button displayed for the comment Added {}", comment);
         assertTrue(isDeleteButtonDisplayedForComment(comment), "Delete Button not displayed for the comment %s" +comment);
         return this;
     }
 
     public DocumentDetailsPage assertIsEditButtonDisplayedForComment(String comment)
     {
-        log.info("Verify Edit button displayed for the comment Added {}");
+        log.info("Verify Edit button displayed for the comment Added {}", comment);
         assertTrue(isEditButtonDisplayedForComment(comment), "Edit Button not displayed for the comment %s" +comment);
         return this;
     }
 
     public DocumentDetailsPage assertIsDeleteCommentPromptDisplayed()
     {
-        log.info("Verify that the Delete Comment Prompt Displayed {}");
+        log.info("Verify that the Delete Comment Prompt Displayed");
         assertTrue(isDeleteCommentPromptDisplayed(), "Delete Comment prompt is not displayed");
         return this;
     }
 
     public DocumentDetailsPage assertNoCommentNotificationText(String noComment)
     {
-        log.info("Verify 'No Comment' notification text {}");
+        log.info("Verify 'No Comment' notification text {}", noComment);
         assertEquals(getNoCommentsText(), noComment, String.format("No comment notification text no matched with %s", noComment));
         return this;
     }
 
     public DocumentDetailsPage assertIsEditCommentTitleDisplayed()
     {
-        log.info("Verify Edit comment title of the box is Displayed {}");
+        log.info("Verify Edit comment title of the box is Displayed");
         assertTrue(isEditCommentDisplayed(),"Edit comment is not displayed");
         return this;
     }
 
     public DocumentDetailsPage assertIsFileNameDisplayedOnPreviewPage(String fileName)
     {
-        log.info("Verify File name displayed in preview page {}");
+        log.info("Verify File name displayed in preview page {}", fileName);
         assertEquals(getFileName(), fileName, String.format("File name not matched with %s ", fileName));
         return this;
     }
 
     public DocumentDetailsPage assertVerifyMinimizeButtonTextOnPreviewPage(String minimize)
     {
-        log.info("Verify minimize text displayed on preview page after clicking on maximize {}");
+        log.info("Verify minimize text displayed on preview page after clicking on maximize {}", minimize);
         assertEquals(getMinimizeMaximizeText(), minimize, "Minimize button is not displayed!");
         return this;
     }
 
     public DocumentDetailsPage assertPageNoIsDifferent(String currentPageNo, String newPageNo)
     {
-        log.info("Verify page number should be different {}");
+        log.info("Verify page number should be different {} {}", currentPageNo, newPageNo);
         assertNotEquals(currentPageNo, newPageNo, String.format("Page no is matched with current page no %s and new page no %s", currentPageNo, newPageNo));
         return this;
     }
 
     public DocumentDetailsPage assertPageNoIsSame(String currentPageNo, String newPageNo)
     {
-        log.info("Verify page number should be same {}");
+        log.info("Verify page number should be same {} {}", currentPageNo, newPageNo);
         assertEquals(currentPageNo, newPageNo, String.format("Page no is not matched with current page no %s and new page no %s", currentPageNo, newPageNo));
         return this;
     }
 
     public DocumentDetailsPage assertScalValueIsDifferent(String currentScale, String newScale)
     {
-        log.info("Verify scale value should be different {}");
+        log.info("Verify scale value should be different {} {}", newScale, currentScale);
         assertNotEquals(currentScale, newScale, String.format("Scale value is not matched with current scale %s and new scale %s", currentScale, newScale));
         return this;
     }
 
     public DocumentDetailsPage assertScalValueIsSame(String currentScale, String newScale)
     {
-        log.info("Verify scale value should be same {}");
+        log.info("Verify scale value should be same {} {}", newScale, currentScale);
         assertEquals(currentScale, newScale, String.format("Scale value is matched with current scale %s and new scale %s", currentScale, newScale));
         return this;
     }
 
     public DocumentDetailsPage assertIsZoomInButtonNotDisplayed()
     {
-        log.info("Verify Zoom In button is not displayed {}");
+        log.info("Verify Zoom In button is not displayed");
         assertFalse(isZoomInButtonDisplayed(), "Zoom in button is displayed!");
         return this;
     }
 
     public DocumentDetailsPage assertIsZoomOutButtonNotDisplayed()
     {
-        log.info("Verify Zoom Out button is not displayed {}");
+        log.info("Verify Zoom Out button is not displayed");
         assertFalse(isZoomOutButtonDisplayed(), "Zoom Out button is displayed!");
         return this;
     }
 
     public DocumentDetailsPage assertIsNextPageButtonNotDisplayed()
     {
-        log.info("Verify next page button is not displayed {}");
+        log.info("Verify next page button is not displayed");
         assertFalse(isNextPageButton(), "Next Page button is displayed!");
         return this;
     }
 
     public DocumentDetailsPage assertIsPreviousPageButtonNotDisplayed()
     {
-        log.info("Verify Previous page button is not displayed {}");
+        log.info("Verify Previous page button is not displayed");
         assertFalse(isPreviousPageButton(), "Previous Page Button is displayed!");
         return this;
     }
 
     public DocumentDetailsPage assertVerifyFileVersion(String version)
     {
-        log.info("Verify file version {}");
+        log.info("Verify file version {}", version);
         assertEquals(getFileVersion(), version, String.format("File version not matched with %s ", version));
         return this;
     }
 
     public DocumentDetailsPage assertVerifyItemModifire(String firstName, String lastName)
     {
-        log.info("Verify the modifire name on preview page {}");
+        log.info("Verify the modifire name on preview page {}", firstName + " " + lastName);
         assertEquals(getItemModifier(), firstName+ " " +lastName, String.format("Item modifire name not matched with %s ", firstName+ " " +lastName));
         return this;
     }
 
     public DocumentDetailsPage assertVerifyModifiedDate(String date)
     {
-        log.info("Verify item modified date {}");
+        log.info("Verify item modified date {}", date);
         assertTrue(getModifyDate().contains(date), "Wrong modification date!");
         return this;
     }
 
     public DocumentDetailsPage assertVerifyFileInDirectory(String fileName)
     {
-        log.info("Verify that the downloaded content/file in to the Directory. {}");
+        log.info("Verify that the downloaded content/file in to the Directory. {}", fileName);
         assertTrue(isFileInDirectory(fileName, null), "File does not exist!");
         return this;
     }
 
     public DocumentDetailsPage assertVerifyNoOfLikes(int noOfLikes)
     {
-        log.info("Verify No of likes on the content {}");
+        log.info("Verify No of likes on the content {}", noOfLikes);
         assertEquals(getLikesNo(), noOfLikes, "No of likes not matched with %s " +noOfLikes);
         return this;
     }
 
     public DocumentDetailsPage assertContantMarkedAsFavorite()
     {
-        log.info("Verify that the contant marked as Favorite {}");
-        assertTrue(getFavoriteText().isEmpty(), "File should be already added to favorite!");
+        log.info("Verify that the contant marked as Favorite");
+        assertTrue(getFavoriteText().isEmpty(), "File is not marked as favorite!");
         return this;
     }
 
     public DocumentDetailsPage assertContantNotMarkedAsFavorite()
     {
-        log.info("Verify Contant is not marked as favorite {}");
+        log.info("Verify Contant is not marked as favorite");
         assertTrue(getFavoriteText().equals("Favorite"), "File should be already added to favorite!");
         return this;
     }
@@ -882,28 +881,56 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public DocumentDetailsPage assertVerifyFilePropertiesDetailsDisplayed()
     {
         log.info("File Properties details are displayed");
-        assertTrue(isElementDisplayed(filePropertiesdetailsPanel), "File Properties details are not displayed");
+        assertTrue(isFilePropertiesDetailsDisplayed(), "File Properties details are not displayed");
         return this;
     }
 
     public DocumentDetailsPage assertVerifySocialFeaturesActionsPanelDisplayed()
     {
         log.info("Social features actions panel is  displayed");
-        assertTrue(isElementDisplayed(socialFeaturesPanel), "Social features actions panel is not displayed");
+        assertTrue(isSocialFeaturesActionsPanelDisplayed(), "Social features actions panel is not displayed");
         return this;
     }
 
     public DocumentDetailsPage assertVerifyFolderActionsPanelDisplayed()
     {
         log.info("Folder actions panel is displayed");
-        assertTrue(isElementDisplayed(folderActionsPanel), "Folder actions panel is not displayed");
+        assertTrue(isFolderActionsPanelDisplayed(), "Folder actions panel is not displayed");
         return this;
     }
 
     public DocumentDetailsPage assertVerifyTagsFeaturePanelDisplayed()
     {
         log.info("Tags feature panel is  displayed");
-        assertTrue(isElementDisplayed(tagsFeaturePanel), "Tags feature panel is not displayed");
+        assertTrue(isTagsFeaturePanelDisplayed(), "Tags feature panel is not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsDocumentsLinkPresent()
+    {
+        log.info("Verify that the documents link is present");
+        assertTrue(isDocumentsLinkPresent(), "Documents link to return to Document Library is not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsDocumentThumbnailDisplayed(String imageName)
+    {
+        log.info("Verify that the Document thumb nail image displayed or not {}", imageName);
+        assertTrue(isDocumentThumbnailDisplayed().contains(imageName), String.format("Document thumb nail not contains image name as %s", imageName));
+        return this;
+    }
+
+    public DocumentDetailsPage assertLikeButtonDisplayedOnDocumentDetailsPage()
+    {
+        log.info("Verify that like button present for the document on the document details page");
+        assertTrue(isLikeButtonPresent(), "The like button is not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsAddToFavoriteLinkDisplayed()
+    {
+        log.info("Verify that document favorite link is displayed on preview page");
+        assertTrue(isAddToFavoriteLinkDisplayed(), "Favorite button is not displayed");
         return this;
     }
 }
