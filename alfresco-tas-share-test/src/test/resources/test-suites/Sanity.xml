@@ -32,5 +32,8 @@
          <package name="org.alfresco.share.alfrescoContent.viewingContent"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
+      <classes>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditFilesPropertiesTest"></class>
+      </classes>
    </test>
 </suite>

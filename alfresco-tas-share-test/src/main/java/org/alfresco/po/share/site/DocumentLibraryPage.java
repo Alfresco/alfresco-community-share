@@ -1410,4 +1410,32 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertEquals(getRelativePath(), expectedRelativePath, "User is not redirected to Document Library");
         return this;
     }
+
+    public DocumentLibraryPage assertIsContantNameDisplayed(String contantName)
+    {
+        log.info("Verify file/folder name displayed {}", contantName);
+        assertTrue(isContentNameDisplayed(contantName), String.format("file/folder name not matched with %s ", contantName));
+        return this;
+    }
+
+    public DocumentLibraryPage assertItemTitleEquals(String itemName, String itemTitle)
+    {
+        log.info("Verify that the item title is displayed {}", itemTitle);
+        assertEquals(getItemTitle(itemName), "(" + itemTitle + ")", String.format("Item Title is not matched with %s ", itemTitle));
+        return this;
+    }
+
+    public DocumentLibraryPage assertItemDescriptionEquals(String itemName, String itemDescription)
+    {
+        log.info("Verify that the item description is displayed {}", itemDescription);
+        assertEquals(getItemDescription(itemName), itemDescription, String.format("Item description is not matched with %s ", itemDescription));
+        return this;
+    }
+
+    public DocumentLibraryPage assertItemTagEquals(String itemName, String itemTag)
+    {
+        log.info("Verify that the added tag displayed for item {}", itemTag);
+        assertEquals(getTags(itemName), "[" + itemTag + "]", String.format("The tag of the item is not matched with %s ", itemTag));
+        return this;
+    }
 }
