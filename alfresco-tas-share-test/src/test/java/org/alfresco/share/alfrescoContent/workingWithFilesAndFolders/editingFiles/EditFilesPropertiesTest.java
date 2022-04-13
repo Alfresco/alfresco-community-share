@@ -1,140 +1,163 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.testng.Assert;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * Created by Alex Argint
- */
-public class EditFilesPropertiesTest extends ContextAwareWebTest
+@Slf4j
+public class EditFilesPropertiesTest extends BaseTest
 {
-
-    //@Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    //@Autowired
-    private EditPropertiesDialog editFilePropertiesDialog;
-
-    //@Autowired
-    private SelectDialog selectDialog;
-
     private String uniqueIdentifier;
-    private String userName;
-    private String siteName;
-    private String description;
-    private String docName;
-    private String folderName;
+    private final String contantEditName = "ItemEditName";
+    private final String contantEditTitle = "ItemEditTitle";
+    private final String contantEditDescription = "ItemEditDescription";
+    private final String editTag = "edittag";
 
-    private void setup(String id)
+    private DocumentLibraryPage documentLibraryPage;
+    private EditPropertiesDialog editFilePropertiesDialog;
+    private SelectDialog selectDialog;
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        LOG.info("Preconditions for test " + id);
-        uniqueIdentifier = "-" + id + "-" + RandomData.getRandomAlphanumeric();
+        uniqueIdentifier = "-C7005-" + RandomData.getRandomAlphanumeric();
         uniqueIdentifier = uniqueIdentifier.toLowerCase();
-        siteName = "siteName" + uniqueIdentifier;
-        userName = "User" + uniqueIdentifier;
-        description = "description" + uniqueIdentifier;
-        docName = "PlainText" + uniqueIdentifier;
-        folderName = "Folder" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, description);
-        setupAuthenticatedSession(userName, password);
-        documentLibraryPage.navigate(siteName);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        editFilePropertiesDialog = new EditPropertiesDialog(webDriver);
+        selectDialog = new SelectDialog(webDriver);
+
+        folderToCheck = FolderModel.getRandomFolderModel();
+        fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
+
+        authenticateUsingCookies(user.get());
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     @TestRail (id = "C7005")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFileProperties()
     {
-        LOG.info("Starting test C7005");
-        setup("C7005");
+        log.info("Create File in document library.");
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step 1: Hover over a file and click 'Edit Properties'");
-        documentLibraryPage.selectItemAction(docName, ItemActions.EDIT_PROPERTIES);
-        //Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
+        log.info("Navigate to the site document library and verify file present in the document library");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(fileToCheck.getName());
 
-        LOG.info("Step 2: In the 'Name' field enter a valid name");
-        editFilePropertiesDialog.setName("DocEditName");
+        log.info("Step 1: Hover over a file and click 'Edit Properties'");
+        documentLibraryPage
+            .selectEditPropertiesOption(fileToCheck.getName(), ItemActions.EDIT_PROPERTIES);
 
-        LOG.info("Step 3: In the 'Title' field enter a valid title");
-        editFilePropertiesDialog.setTitle("DocEditTitle");
+        log.info("Step 2: In the 'Name' field enter a valid name");
+        editFilePropertiesDialog
+            .setName(contantEditName);
 
-        LOG.info("Step 4: In the 'Description' field enter a valid description");
-        editFilePropertiesDialog.setDescription("DocEditDescription");
+        log.info("Step 3: In the 'Title' field enter a valid title");
+        editFilePropertiesDialog
+            .setTitle(contantEditTitle);
 
-        LOG.info("Step 5: Click the 'Select' button in the tags section");
-        editFilePropertiesDialog.clickSelectTags();
+        log.info("Step 4: In the 'Description' field enter a valid description");
+        editFilePropertiesDialog
+            .setDescription(contantEditDescription);
 
-        LOG.info("Step 6: Type a tag name and click create");
-        selectDialog.typeTag("editTag" + uniqueIdentifier);
-        selectDialog.clickCreateNewIcon();
-        selectDialog.clickOk();
+        log.info("Step 5: Click the 'Select' button in the tags section");
+        editFilePropertiesDialog
+            .clickSelectTags();
 
-        LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
-        editFilePropertiesDialog.clickSave();
+        log.info("Step 6: Type a tag name and click create and verify tag is created and then click Ok Button");
+        selectDialog
+            .typeTag(editTag + uniqueIdentifier)
+            .clickCreateNewIcon()
+            .assertTagIsSelected(editTag + uniqueIdentifier)
+            .clickOk();
 
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("DocEditName"), "Edited document name is not found");
-        Assert.assertEquals(documentLibraryPage.getItemTitle("DocEditName"), "(DocEditTitle)", "The title of edited document is not correct");
-        Assert.assertEquals(documentLibraryPage.getItemDescription("DocEditName"), "DocEditDescription", "The description of edited document is not correct");
-        Assert.assertEquals(documentLibraryPage.getTags("DocEditName"), "[edittag" + uniqueIdentifier + "]", "The tag of the edited document is not correct");
+        log.info("Step 7: Click 'Save' And verify that document details have been updated");
+        editFilePropertiesDialog
+            .clickSave();
 
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        documentLibraryPage
+            .assertIsContantNameDisplayed(contantEditName)
+            .assertItemTitleEquals(contantEditName, contantEditTitle)
+            .assertItemDescriptionEquals(contantEditName, contantEditDescription)
+            .assertItemTagEquals(contantEditName, editTag + uniqueIdentifier);
     }
 
     @TestRail (id = "C7013")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFolderProperties()
     {
-        LOG.info("Starting test C7005");
-        setup("C7005");
+        log.info("Creating folder into the document library...");
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step 1: Hover over a folder and click 'Edit Properties'");
-        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
-        //.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
+        log.info("Navigate to the site document library and verify folder present in the document library");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(folderToCheck.getName());
 
-        LOG.info("Step 2: In the 'Name' field enter a valid name");
-        editFilePropertiesDialog.setName("FolderEditName");
+        log.info("Step 1: Hover over a folder and click 'Edit Properties'");
+        documentLibraryPage
+            .selectEditPropertiesOption(folderToCheck.getName(), ItemActions.EDIT_PROPERTIES);
 
-        LOG.info("Step 3: In the 'Title' field enter a valid title");
-        editFilePropertiesDialog.setTitle("FolderEditTitle");
+        log.info("Step 2: In the 'Name' field enter a valid name");
+        editFilePropertiesDialog
+            .setName(contantEditName);
 
-        LOG.info("Step 4: In the 'Description' field enter a valid description");
-        editFilePropertiesDialog.setDescription("FolderEditDescription");
+        log.info("Step 3: In the 'Title' field enter a valid title");
+        editFilePropertiesDialog
+            .setTitle(contantEditTitle);
 
-        LOG.info("Step 5: Click the 'Select' button in the tags section");
-        editFilePropertiesDialog.clickSelectTags();
+        log.info("Step 4: In the 'Description' field enter a valid description");
+        editFilePropertiesDialog
+            .setDescription(contantEditDescription);
 
-        LOG.info("Step 6: Type a tag name and click create");
-        selectDialog.typeTag("editTag" + uniqueIdentifier);
-        selectDialog.clickCreateNewIcon();
-        selectDialog.clickOk();
+        log.info("Step 5: Click the 'Select' button in the tags section");
+        editFilePropertiesDialog
+            .clickSelectTags();
 
-        LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
-        editFilePropertiesDialog.clickSave();
+        log.info("Step 6: Type a tag name and click create and verify tag is created and then click Ok Button");
+        selectDialog
+            .typeTag(editTag + uniqueIdentifier)
+            .clickCreateNewIcon()
+            .assertTagIsSelected(editTag + uniqueIdentifier)
+            .clickOk();
 
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("FolderEditName"), "Edited document name is not found");
-        Assert.assertEquals(documentLibraryPage.getItemTitle("FolderEditName"), "(FolderEditTitle)", "The title of edited document is not correct");
-        Assert.assertEquals(documentLibraryPage.getItemDescription("FolderEditName"), "FolderEditDescription",
-            "The description of edited document is not correct");
-        Assert.assertEquals(documentLibraryPage.getTags("FolderEditName"), "[edittag" + uniqueIdentifier + "]",
-            "The tag of the edited document is not correct");
+        log.info("Step 7: Click 'Save' And verify that folder details have been updated");
+        editFilePropertiesDialog
+            .clickSave();
 
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        documentLibraryPage
+            .assertIsContantNameDisplayed(contantEditName)
+            .assertItemTitleEquals(contantEditName, contantEditTitle)
+            .assertItemDescriptionEquals(contantEditName, contantEditDescription)
+            .assertItemTagEquals(contantEditName, editTag + uniqueIdentifier);
     }
 }
