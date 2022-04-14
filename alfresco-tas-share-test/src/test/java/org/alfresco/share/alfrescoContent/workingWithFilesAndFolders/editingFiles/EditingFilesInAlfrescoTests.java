@@ -1,103 +1,109 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
+import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
+
+import org.alfresco.utility.model.*;
+
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
+@Slf4j
+public class EditingFilesInAlfrescoTests extends BaseTest
 {
-    private String userName;
-    private String siteName;
-    private String fileName;
-    private String fileContent;
-    private String editedName;
-    private String editedContent;
-    private String editedTitle;
-    private String editedDescription;
+    private final String contentEditName = "ItemEditName";
+    private final String contentEditTitle = "ItemEditTitle";
+    private final String contentEditDescription = "ItemEditDescription";
+    private final String description = "contentAddedInDescription";
 
-    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
+    private DocumentDetailsPage documentDetailsPage;
+    private EditPropertiesDialog editFilePropertiesDialog;
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
 
-    //@Autowired
-    private DocumentDetailsPage detailsPage;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    //@Autowired
-    private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired
-    private GoogleDocsCommon docsCommon;
-
-    @BeforeMethod (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        LOG.info("Preconditions for Editing files in Google Docs tests");
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+        getCmisApi().authenticateUser(user.get());
 
-        fileName = "testFile";
-        fileContent = "testContent";
-        editedName = "edited test file";
-        editedContent = "edited test content";
-        editedTitle = "Edited test title";
-        editedDescription = "Edited description";
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage=new DocumentDetailsPage(webDriver);
+        editFilePropertiesDialog = new EditPropertiesDialog(webDriver);
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        folderToCheck = FolderModel.getRandomFolderModel();
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN,description);
 
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     @TestRail (id = "C7036")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void editFileInAlfresco()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyEditFileProperties()
     {
-        LOG.info("Preconditions: Navigate to document library page for the test site");
-        documentLibraryPage.navigate(siteName);
+        log.info("Create File in document library.");
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        documentLibraryPage.selectItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO
-        );
+        log.info("Navigate to the site document library and verify file present in the document library");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(fileToCheck.getName());
 
-        LOG.info("Step2: Edit the document's properties by sending new input");
-        editInAlfrescoPage.enterDocumentDetails(editedName, editedContent, editedTitle, editedDescription);
+        log.info("Step 1: Hover over a file and click 'EDIT_IN_ALFRESCO'");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.EDIT_IN_ALFRESCO);
 
-        LOG.info("Step3: Click Save button");
-        editInAlfrescoPage.clickButton("Save");
+        log.info("Step 2: In the 'Name' field enter a valid name");
+        editFilePropertiesDialog
+            .setName(contentEditName);
 
-        LOG.info("Step4: Verify the new title for the document");
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedName), "Document name is not updated");
+        log.info("Step 3: In the 'Title' field enter a valid title");
+        editFilePropertiesDialog
+            .setTitle(contentEditTitle);
 
-        LOG.info("Step5: Click on document title to open the document's details page");
-        documentLibraryPage.clickOnFile(editedName);
+        editFilePropertiesDialog
+            .setContent(contentEditDescription);
 
-        LOG.info("Step6: Verify the document's content");
-        Assert.assertEquals(detailsPage.getContentText(), editedContent);
+        log.info("Step 4: In the 'Description' field enter a valid description");
+        editFilePropertiesDialog
+            .setDescription(contentEditDescription);
 
-        LOG.info("Step7: Verify Title and Description fields");
-        //Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedTitle), "Updated title is not displayed");
-        //Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
+        log.info("Step3: Click Save button");
+        editFilePropertiesDialog.clickSave();
+
+        log.info("Step4: Verify the edited name and edited tittle");
+        documentLibraryPage
+            .assertIsContantNameDisplayed(contentEditName)
+            .assertItemTitleEquals(contentEditName, contentEditTitle);
+
+        log.info("Step5: Click on document title to open the document's details page");
+        documentLibraryPage.clickOnFile(contentEditName);
+
+        log.info("Step6: Verify the document's content");
+        documentDetailsPage
+            .assertContentDescriptionEquals(contentEditDescription);
     }
+
 }
