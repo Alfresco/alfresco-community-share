@@ -15,6 +15,7 @@ public class EditPropertiesDialog extends BaseDialogComponent
     private final By propertyName = By.cssSelector("input[name='prop_cm_name']");
     private final By propertyTitle = By.cssSelector("input[name='prop_cm_title']");
     private final By propertyDescription = By.cssSelector("textarea[name='prop_cm_description']");
+    private final By propertyContent=By.cssSelector("textarea[id*='_content']");
     private final By hostInputField = By.cssSelector("input[id*='endpointhost']");
     private final By portInputField = By.cssSelector("input[id*='endpointport']");
     private final By usernameInputField = By.cssSelector("input[id*='username']");
@@ -152,6 +153,11 @@ public class EditPropertiesDialog extends BaseDialogComponent
         typePassword(password);
         checkEnabled();
         clickSave();
+    }
+
+    public void setContent(String content)
+    {
+        clearAndType(propertyContent, content);
     }
 
     public void clickAllPropertiesLink()

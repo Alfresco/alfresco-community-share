@@ -19,6 +19,7 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
 
@@ -931,6 +932,13 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         log.info("Verify that document favorite link is displayed on preview page");
         assertTrue(isAddToFavoriteLinkDisplayed(), "Favorite button is not displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertContentDescriptionEquals(String expectedEditedContent)
+    {   waitInSeconds(WAIT_1.getValue());
+        log.info("Verify that the editedContent is displaying correctly");
+        assertEquals(getElementText(contentText).trim(), expectedEditedContent, String.format("The actual content is not matched with %s ", expectedEditedContent));
         return this;
     }
 }
