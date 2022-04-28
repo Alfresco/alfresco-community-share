@@ -19,7 +19,6 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
 
@@ -616,7 +615,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public boolean isAspectNotDisplayed(String aspectName)
     {
         By aspectXPath = By.xpath(String.format("//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='%s']", aspectName));
-        waitUntilElementDeletedFromDom(aspectXPath);
         return isElementDisplayed(aspectXPath);
     }
 
@@ -939,6 +937,20 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {   waitInSeconds(WAIT_1.getValue());
         log.info("Verify that the editedContent is displaying correctly");
         assertEquals(getElementText(contentText).trim(), expectedEditedContent, String.format("The actual content is not matched with %s ", expectedEditedContent));
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsAspectDisplayedOnDetailsPage(String aspectName)
+    {
+        log.info("Verify that the Aspect is displayed on the Document Details Page {}", aspectName);
+        assertTrue(isAspectDisplayed(aspectName), String.format("Aspect Added on the details page is not matched with %s ", aspectName));
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsAspectNotDisplayedOnDetailsPage(String aspectName)
+    {
+        log.info("Verify that the Aspect is not displayed on the Document Details Page {}", aspectName);
+        assertFalse(isAspectNotDisplayed(aspectName), "Aspect added on the page is displayed %s " +aspectName);
         return this;
     }
 }
