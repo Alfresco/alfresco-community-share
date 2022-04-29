@@ -34,6 +34,8 @@
       </packages>
       <classes>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditFilesPropertiesTest"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditingFilesInAlfrescoTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ApplyingAspectsTests"></class>
       </classes>
    </test>
 </suite>

@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.aspects;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
@@ -154,15 +155,78 @@ public class AspectsForm extends BaseDialogComponent
 
     public AspectsForm assertAspactPresentInAvailableList(String aspactName)
     {
-        log.info("Verify that the Aspact is present in the Available List {}");
-        assertTrue(isAspectPresentOnAvailableAspectList(aspactName), String.format("Aspact %s in not available in the present in Available list", aspactName));
+        log.info("Verify that the Aspact is present in the Available List {}", aspactName);
+        assertTrue(isAspectPresentOnAvailableAspectList(aspactName), String.format("Aspact %s is not present in the Available panel list", aspactName));
         return this;
     }
 
     public AspectsForm assertAspactPresentInCurrentlySelectedList(String aspactName)
     {
-        log.info("Verify that the Aspact is present in the Currently Selected List {}");
-        assertTrue(isAspectPresentOnCurrentlySelectedList(aspactName), String.format("Aspact %s in not available in the present in currently selected list", aspactName));
+        log.info("Verify that the Aspact is present in the Currently Selected List {}", aspactName);
+        assertTrue(isAspectPresentOnCurrentlySelectedList(aspactName), String.format("Aspact %s is not present in the currently selected list", aspactName));
+        return this;
+    }
+
+    public AspectsForm assertIsAspectsFormTitleDisplayed()
+    {
+        log.info("Verify that the aspects form title displayed");
+        assertTrue(isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
+        return this;
+    }
+
+    public AspectsForm assertIsAspectsFormTitleNotDisplayed()
+    {
+        log.info("Verify that the aspects form title is not displayed");
+        assertFalse(isAspectsFormTitleDisplayed(), "Aspects for the file form is diplayed");
+        return this;
+    }
+
+    public AspectsForm assertIsAvailableToAddPanelDisplayed()
+    {
+        log.info("Verify that the Available to Add Pabel is displayed");
+        assertTrue(isAvailableToAddPanelDisplayed(), "Available to Add panel is not diaplyed");
+        return this;
+    }
+
+    public AspectsForm assertIsCurrentlySelectedPanel()
+    {
+        log.info("Verify that the Currently Selected Pabel is displayed");
+        assertTrue(isCurrentlySelectedPanel(), "Currently Selected panel is not diaplyed");
+        return this;
+    }
+
+    public AspectsForm assertAreAddButtonsDisplayed()
+    {
+        log.info("Verify that Add buttons are displayed in the Available panel list");
+        assertTrue(areAddButtonsDisplayed(), "Add buttons are not displayed for all the available to add aspects");
+        return this;
+    }
+
+    public AspectsForm assertAreRemoveButtonsDisplayed()
+    {
+        log.info("Verify that Remove buttons are displayed in the Currently selected panel list");
+        assertTrue(areRemoveButtonsDisplayed(), "Remove buttons are not displayed for all the selected aspects");
+        return this;
+    }
+
+    public AspectsForm assertmIsApplyChangesButtonDisplayed()
+    {
+        log.info("Verify that Apply Changes button is displayed on Aspects Form");
+        assertTrue(isSaveButtonDisplayed(), "Apply Chnages button is not displayed");
+        return this;
+    }
+
+    public AspectsForm assertmIsCancelButtonDisplayed()
+    {
+        log.info("Verify that Cancel button is displayed on Aspects Form");
+        assertTrue(isCancelButtonDisplayed(), "Cancel button is not displayed");
+        return this;
+    }
+
+    public AspectsForm assertmIsCloseButtonDisplayed()
+    {
+        log.info("Verify that Close[X] button is displayed on Aspects Form");
+        assertTrue(isCloseButtonDisplayed(), "Close button is not displayed");
         return this;
     }
 }
