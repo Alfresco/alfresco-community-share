@@ -843,7 +843,7 @@
          // Set the worker source
          PDFJS.workerSrc = this.workerSrc;
          // Set the char map source dir
-         PDFJS.cMapUrl = './cmaps/';
+         PDFJS.cMapUrl = Alfresco.constants.URL_CONTEXT + 'res/components/preview/pdfjs/cmaps/';
          PDFJS.cMapPacked = true;
 
          // PDFJS range request for progessive loading
