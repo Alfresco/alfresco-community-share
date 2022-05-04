@@ -111,6 +111,7 @@ public class UploadContent extends SiteCommon<UploadContent>
             e.printStackTrace();
         }
         waitUntilElementIsVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
+        clickElement(By.cssSelector("button[id$='_default-upload-button-button']"));
         return new DocumentLibraryPage(webDriver);
     }
 
