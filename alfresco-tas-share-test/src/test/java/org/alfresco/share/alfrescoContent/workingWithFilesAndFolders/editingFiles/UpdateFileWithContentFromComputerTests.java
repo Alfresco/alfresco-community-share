@@ -1,79 +1,90 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
-import static org.alfresco.common.Utils.testDataFolder;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import lombok.extern.slf4j.Slf4j;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
+import org.alfresco.utility.model.*;
+
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
-{
+import static org.alfresco.common.Utils.testDataFolder;
 
-    //@Autowired
-    EditPropertiesPage editPropertiesPage;
-    //@Autowired
+@Slf4j
+public class UpdateFileWithContentFromComputerTests extends BaseTest
+{
     private DocumentLibraryPage documentLibraryPage;
-   //@Autowired
     private UploadFileDialog uploadFileDialog;
-   // @Autowired
     private UploadContent uploadContent;
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
-    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private String testFileName = "testFileC7074.txt";
-    private String fileContent = "Test Content C7074";
     private String newVersionFileName = "EditedTestFileC7074.txt";
     private String newVersionFilePath = testDataFolder + newVersionFileName;
+    private String editedContent = "Edited content C7074";
 
-    @BeforeMethod (alwaysRun = true)
+    private FileModel fileToCheck;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, testFileName, fileContent);
-        setupAuthenticatedSession(userName, password);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        uploadFileDialog = new UploadFileDialog(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
+
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
-    //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7074")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void uploadFileUsingUploadNewVersion()
     {
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Steps1: Click 'Upload new version' action for the test file");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.UPLOAD_NEW_VERSION);
-        LOG.info("Step2 - Click on 'Select files to upload' button, browse to the new version of the test file and select it. Click 'Upload' button.");
-        uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
-        LOG.info("Step3 - Check the new title of the file displayed in Document Library.");
-        documentLibraryPage.navigate(siteName);
-        assertTrue(documentLibraryPage.isContentNameDisplayed(newVersionFileName), String.format("The file [%s] is not present", newVersionFileName));
-        LOG.info("Steps4,5: Click on the file and check the version and content are updated.");
+        documentLibraryPage.navigate(site.get().getTitle());
+
+        log.info("Steps1: Click 'Upload new version' action for the test file");
+        documentLibraryPage.selectItemAction(fileToCheck.getName(), ItemActions.UPLOAD_NEW_VERSION);
+
+        log.info(
+            "Step2 - Click on 'Select files to upload' button, browse to the new version of the test file and select it. Click 'Upload' button.");
+        uploadContent
+            .updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
+
+        log.info("Step3 - Check the new title of the file displayed in Document Library.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .assertFileIsDisplayed(newVersionFileName);
+
+        log.info("Steps4,5: Click on the file and check the version and content are updated.");
         documentLibraryPage.clickOnFile(newVersionFileName);
-        assertEquals(documentDetailsPage.getContentText(), "Edited content C7074", String.format("Contents of %s are wrong.", newVersionFileName));
-        assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFileName));
+
+        documentDetailsPage.assertFileContentEquals("Edited content C7074")
+            .assertVerifyFileVersion("2.0");
+
     }
 }

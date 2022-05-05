@@ -30,11 +30,10 @@
          <package name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules"/>
          <package name="org.alfresco.share.alfrescoContent.socialFeatures"></package>
          <package name="org.alfresco.share.alfrescoContent.viewingContent"></package>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditFilesPropertiesTest"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditingFilesInAlfrescoTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ApplyingAspectsTests"></class>
       </classes>
    </test>
