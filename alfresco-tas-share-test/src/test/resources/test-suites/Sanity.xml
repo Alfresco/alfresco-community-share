@@ -35,6 +35,7 @@
       </packages>
       <classes>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ApplyingAspectsTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerTests"></class>
       </classes>
    </test>
 </suite>
