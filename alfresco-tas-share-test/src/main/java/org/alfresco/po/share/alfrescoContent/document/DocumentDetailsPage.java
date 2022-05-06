@@ -953,4 +953,17 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         assertFalse(isAspectNotDisplayed(aspectName), "Aspect added on the page is displayed %s " +aspectName);
         return this;
     }
+    public DocumentDetailsPage assertIsPropertyDisplayed(String propertyText)
+    {
+        log.info("Verify that the property is displayed on the document details page {}", propertyText);
+        assertTrue(isPropertyDisplayed(propertyText), String.format("Property text not matched with %s ", propertyText));
+        return this;
+    }
+
+    public DocumentDetailsPage assertIsPropertyNotDisplayed(String propertyText)
+    {
+        log.info("Verify that the property is not displayed on the document details page {}", propertyText);
+        assertFalse(isPropertyDisplayed(propertyText), "Property is displayed");
+        return this;
+    }
 }

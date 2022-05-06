@@ -1372,6 +1372,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return this;
     }
 
+    public DocumentLibraryPage assertisMoreMenuNotDisplayed(String filename)
+    {
+        log.info("More Menu is Displaying");
+        assertFalse(isMoreMenuDisplayed(filename), "More Menu is displayed");
+        return this;
+    }
+
     public DocumentLibraryPage assertVerifyFileContentInNewBrowserWindow(String description)
     {
         log.info("File content is correct in new window");
