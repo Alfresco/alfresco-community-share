@@ -1,5 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import static org.testng.Assert.assertEquals;
+
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
@@ -38,6 +40,7 @@ public class ChangeContentTypeDialog extends BaseDialogComponent
         mouseOver(ok);
         clickElement(ok);
         waitUntilNotificationMessageDisappears();
+        refresh();
     }
 
     public void clickCancelButton()
@@ -59,5 +62,11 @@ public class ChangeContentTypeDialog extends BaseDialogComponent
     public boolean isDropdownMandatory()
     {
         return isElementDisplayed(mandatory);
+    }
+    public ChangeContentTypeDialog assertVerifyChangeTypeDialogTitle(String title)
+    {
+        log.info("Verify the change type Dialog Title {}" +title);
+        assertEquals(getDialogTitle(), title, String.format("Dialog title not matched with %s ", title));
+        return this;
     }
 }

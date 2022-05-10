@@ -413,6 +413,13 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return this;
     }
 
+    public DocumentDetailsPage assertPropertiesAreNotDisplayed(String... properties)
+    {
+        log.info("Assert properties are displayed {}", Arrays.asList(properties));
+        assertFalse(arePropertiesDisplayed(properties), "All properties are displayed");
+        return this;
+    }
+
     public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
         List<WebElement> properties = findElements(propertiesList);
