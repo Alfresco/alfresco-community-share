@@ -1,7 +1,9 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
@@ -11,6 +13,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
+@Slf4j
 public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 {
     private final By selectButtonForCustomSmartFolder = By.cssSelector("button[id*='yui-gen21-button']");
@@ -108,5 +116,19 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     {
         findElement(selectButtonForCustomSmartFolder).click();
         return new SelectDialog(webDriver);
+    }
+
+    public EditPropertiesPage assertPropertiesAreDisplayed(String... properties)
+    {
+        log.info("Assert properties are displayed {}", Arrays.asList(properties));
+        assertTrue(arePropertiesDisplayed(properties), "Not all properties are displayed");
+        return this;
+    }
+
+    public EditPropertiesPage assertPropertiesAreNotDisplayed(String... properties)
+    {
+        log.info("Assert properties are displayed {}", Arrays.asList(properties));
+        assertFalse(arePropertiesDisplayed(properties), "All properties are displayed");
+        return this;
     }
 }

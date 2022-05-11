@@ -3,182 +3,196 @@ package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
-
-import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelDetailsPage;
-import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.*;
 
 /**
  * @author Laura.Capsa
  */
-public class ChangeContentTypeTests extends ContextAwareWebTest
+@Slf4j
+public class ChangeContentTypeTests extends BaseTest
 {
-    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
-    private final String docContent = "content of the file.";
-    private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
-    //@Autowired
-    ModelManagerPage modelManagerPage;
-   // @Autowired
-    CreateModelDialogPage createModelDialogPage;
-    //@Autowired
-    ModelDetailsPage modelDetailsPage;
-    //@Autowired
-    CreateCustomTypeDialog createCustomTypeDialog;
-    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    //@Autowired
     private ChangeContentTypeDialog changeContentTypeDialog;
-    //@Autowired
     private EditPropertiesPage editPropertiesPage;
 
-    @BeforeClass (alwaysRun = true)
+    private FileModel fileToCheck;
+    private FolderModel folderToCheck;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
-        siteService.create(userName, password, domain, siteName, "Description", SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        changeContentTypeDialog = new ChangeContentTypeDialog(webDriver);
+        editPropertiesPage = new EditPropertiesPage(webDriver);
+
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
-
 
     @TestRail (id = "C7163")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelChangeType()
     {
-        String docName = String.format("Doc-C7163-%s", RandomData.getRandomAlphanumeric());
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        log.info("Create a file in the site under document library.");
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(siteName);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        documentLibraryPage.clickOnFile(docName);
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page:");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertDocumentLibraryPageTitleEquals("Alfresco » Document Library")
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("STEP1: Click 'Change Type' option from 'Document Actions' list");
-        documentDetailsPage.clickDocumentActionsOption("Change Type");
-        assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
+        log.info("STEP1: Click 'Change Type' option from 'Document Actions' list");
+        documentDetailsPage
+            .clickDocumentActionsOption("Change Type");
 
-        LOG.info("STEP2: Select 'Article' from 'New Type' dropdown and click 'Cancel' button");
-        changeContentTypeDialog.selectOption("Smart Folder Template");
-        changeContentTypeDialog.clickCancelButton();
-        ArrayList<String> propertiesList = new ArrayList<>(Arrays.asList("Template Name:", "Primary Image:", "Secondary Image:", "Related Articles:"));
-        assertEquals(documentDetailsPage.checkPropertiesAreNotDisplayed(propertiesList), "Given list isn't displayed", " property displayed.");
+        changeContentTypeDialog
+            .assertVerifyChangeTypeDialogTitle("Change Type");
 
-        LOG.info("STEP3: Click 'Edit Properties' option from 'Document Actions' list");
-        documentDetailsPage.clickEditProperties();
-//        assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
-        assertEquals(editPropertiesPage.checkPropertiesAreNotDisplayed(propertiesList), "Given list isn't displayed", " property is displayed.");
+        log.info("STEP2: Select 'Article' from 'New Type' dropdown and click 'Cancel' button");
+        changeContentTypeDialog
+            .selectOption("Smart Folder Template")
+            .clickCancelButton();
+
+        log.info("STEP3: Verify that the properties not added into the document details page");
+        documentDetailsPage
+            .assertPropertiesAreNotDisplayed("Template Name:", "Primary Image:", "Secondary Image:", "Related Articles:");
+
+        log.info("STEP4: Click 'Edit Properties' option from 'Document Actions' list");
+        documentDetailsPage
+            .clickEditProperties();
+
+        log.info("STEP5: Verify that the properties for changes type not displayed");
+        editPropertiesPage
+            .assertPropertiesAreNotDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Description", "Creator", "Name",
+                "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Encoding", "Size", "Mimetype");
     }
 
+
     @TestRail (id = "C7166")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
     public void changeTypeFolder()
     {
         String folderName = String.format("Folder-C7166-%s", RandomData.getRandomAlphanumeric());
-        contentService.createFolder(userName, password, folderName, siteName);
+        // contentService.createFolder(userName, password, folderName, siteName);
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.selectItemAction(folderName, ItemActions.VIEW_DETAILS);
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
+        documentLibraryPage.navigate(site.get().getTitle());
+        documentLibraryPage
+            .selectEditPropertiesOption(folderToCheck.getName(), ItemActions.VIEW_DETAILS);
+        //documentLibraryPage.selectItemAction(folderToCheck.getName(), ItemActions.VIEW_DETAILS);
+        //        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 
-        LOG.info("STEP1: Verify folder's Properties list from 'Folder Actions' section");
+        log.info("STEP1: Verify folder's Properties list from 'Folder Actions' section");
         assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
-        LOG.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
+        log.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
         documentDetailsPage.clickEditProperties();
-//        assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
+        //        assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
 
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags"), "Displayed properties:");
 
-        LOG.info("STEP3: Cancel 'Edit Properties'.");
+        log.info("STEP3: Cancel 'Edit Properties'.");
         editPropertiesPage.clickButton("Cancel");
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
+        //        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 
-        LOG.info("STEP4: From 'Document Actions' list click 'Change Type' option");
+        log.info("STEP4: From 'Document Actions' list click 'Change Type' option");
         documentDetailsPage.clickDocumentActionsOption("Change Type");
         assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
         assertTrue(changeContentTypeDialog.isDropdownMandatory(), "'New Type' dropdown is mandatory.");
 
-        LOG.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
+        log.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("ws:website");
         changeContentTypeDialog.clickOkButton();
-        getBrowser().refresh();
+        // getBrowser().refresh();
 
-        LOG.info("STEP6: Click 'Edit Properties' option from 'Folder Actions' section");
+        log.info("STEP6: Click 'Edit Properties' option from 'Folder Actions' section");
         documentDetailsPage.clickEditProperties();
-//        assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
+        //        assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Host Name", "Host Port ", "Web App Context ",
             "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
     }
 
-    //the word modifcation is spelled wrongly, but in case the bug will never be fixed, I changed the test to pass
     @TestRail (id = "C7167")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void changeTypeFile()
     {
-        String docName = String.format("Doc-C7167-%s", RandomData.getRandomAlphanumeric());
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        log.info("Create a file in the site under document library.");
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        documentLibraryPage.navigate(siteName);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        documentLibraryPage.clickOnFile(docName);
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page:");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertDocumentLibraryPageTitleEquals("Alfresco » Document Library")
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("STEP1: Verify document's Properties list");
-        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
+        log.info("STEP1: Verify document's Properties list");
+        documentDetailsPage
+            .assertPropertiesAreDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date");
 
-        LOG.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
-        documentDetailsPage.clickEditProperties();
-//        assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
-        assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Tags", "Mimetype"), "Displayed properties:");
+        log.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
+        documentDetailsPage
+            .clickEditProperties();
 
-        LOG.info("STEP3: Cancel 'Edit Properties'.");
-        editPropertiesPage.clickButton("Cancel");
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page:");
+        editPropertiesPage
+            .assertPropertiesAreDisplayed("Name", "Title", "Description", "Author", "Tags", "Mimetype");
 
-        LOG.info("STEP4: From 'Document Actions' list click 'Change Type' option");
-        documentDetailsPage.clickDocumentActionsOption("Change Type");
-        assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
+        log.info("STEP3: Cancel 'Edit Properties'.");
+        editPropertiesPage
+            .clickButton("Cancel");
 
-        LOG.info("STEP5: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
-        changeContentTypeDialog.selectOption("Smart Folder Template");
-        changeContentTypeDialog.clickOkButton();
-        getBrowser().refresh();
+        log.info("STEP4: From 'Document Actions' list click 'Change Type' option");
+        documentDetailsPage
+            .assertBrowserPageTitleIs("Alfresco » Document Details")
+            .clickDocumentActionsOption("Change Type");
 
-        assertTrue(documentDetailsPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name",
-            "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
+        changeContentTypeDialog
+            .assertVerifyChangeTypeDialogTitle("Change Type");
 
+        log.info("STEP5: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
+        changeContentTypeDialog
+            .selectOption("Smart Folder Template")
+            .clickOkButton();
 
-        LOG.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
-        documentDetailsPage.clickEditProperties();
-//        assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
-        assertTrue(editPropertiesPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name",
-            "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
+        documentDetailsPage
+            .assertPropertiesAreDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Description", "Creator", "Name",
+                "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Encoding", "Size", "Mimetype");
+
+        log.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
+        documentDetailsPage
+            .clickEditProperties();
+
+        log.info("STEP7: Verify that the properties for changes type are displayed");
+        editPropertiesPage
+            .assertPropertiesAreDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Description", "Creator", "Name",
+                "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Encoding", "Size", "Mimetype");
     }
 }
