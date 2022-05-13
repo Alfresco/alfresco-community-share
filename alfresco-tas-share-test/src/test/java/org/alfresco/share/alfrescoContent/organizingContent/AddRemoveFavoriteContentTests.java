@@ -67,7 +67,10 @@ public class AddRemoveFavoriteContentTests extends BaseTest
         FileModel favoriteFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFile(favoriteFile).assertThat().existsInRepo();
-        getRestApi().authenticateUser(user.get())
+       // getRestApi().authenticateUser(user.get())
+      //      .withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
+
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
             .withCoreAPI().usingAuthUser().addFileToFavorites(favoriteFile);
 
         documentLibraryPage.navigate(site.get())
@@ -84,7 +87,10 @@ public class AddRemoveFavoriteContentTests extends BaseTest
         FolderModel folder = FolderModel.getRandomFolderModel();
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFolder(folder).assertThat().existsInRepo();
-        getRestApi().authenticateUser(user.get())
+       // getRestApi().authenticateUser(user.get())
+         //   .withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
+
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
             .withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
         documentLibraryPage.navigate(site.get())

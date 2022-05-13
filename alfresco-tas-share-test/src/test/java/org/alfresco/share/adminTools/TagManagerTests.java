@@ -29,7 +29,9 @@ public class TagManagerTests extends BaseTest
         tagFile.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
         tag.set("tag" + RandomStringUtils.randomAlphabetic(4).toLowerCase());
         getCmisApi().authenticateUser(getAdminUser()).usingShared().createFile(tagFile.get());
-        getRestApi().authenticateUser(getAdminUser())
+  //      getRestApi().authenticateUser(getAdminUser())
+    //        .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser()))
             .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
 
         authenticateUsingCookies(getAdminUser());

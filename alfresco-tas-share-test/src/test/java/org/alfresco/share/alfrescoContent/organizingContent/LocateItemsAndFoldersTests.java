@@ -24,7 +24,8 @@ public class LocateItemsAndFoldersTests extends BaseTest
 
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         getCmisApi().authenticateUser(user.get());
-        getRestApi().authenticateUser(user.get());
+     //   getRestApi().authenticateUser(user.get());
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()));
 
         authenticateUsingLoginPage(user.get());
     }
@@ -60,7 +61,9 @@ public class LocateItemsAndFoldersTests extends BaseTest
 
         FolderModel folder = FolderModel.getRandomFolderModel();
         getCmisApi().usingSite(site).createFolder(folder).assertThat().existsInRepo();
-        getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
+      //  getRestApi().withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
+            .withCoreAPI().usingAuthUser().addFolderToFavorites(folder);
 
         documentLibraryPage.navigate(site)
             .usingContent(folder).assertContentIsDisplayed();
