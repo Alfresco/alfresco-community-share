@@ -3,13 +3,18 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
+import org.alfresco.rest.core.RestAisAuthentication;
+import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Base64;
 
 public class TagsFilterTests extends BaseTest
 {
@@ -54,9 +59,15 @@ public class TagsFilterTests extends BaseTest
             .usingSite(site.get())
             .createFile(testFile)
             .createFolder(testFolder);
-        getRestApi().authenticateUser(user.get())
+
+//        getRestApi().authenticateUser(user.get())
+//            .withCoreAPI().usingResource(testFile).addTag(tagFile);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
             .withCoreAPI().usingResource(testFile).addTag(tagFile);
-        getRestApi().withCoreAPI().usingResource(testFolder).addTag(tagFolder);
+
+//        getRestApi().withCoreAPI().usingResource(testFolder).addTag(tagFolder);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
+            .withCoreAPI().usingResource(testFolder).addTag(tagFolder);
 
         documentLibraryPage.navigate(site.get())
             .usingContentFilters()
