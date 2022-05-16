@@ -1,125 +1,189 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.share.ContextAwareWebTest;
+
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.*;
 
-public class RestrictingMobileAccessTests extends ContextAwareWebTest
+@Slf4j
+public class RestrictingMobileAccessTests extends BaseTest
 {
-    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-
-    //@Autowired
     private AspectsForm aspectsForm;
-
-    //@Autowired
     private EditPropertiesPage editPropertiesPage;
+    private FileModel fileToCheck;
 
-    private String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private String fileName;
-    private String fileContent = "testContent";
-    private String helpMessage = "This field must contain a number.";
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    private static final String helpMessage = "This field must contain a number.";
+    private static final String restrictableAspect = "Restrictable";
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
+        log.info("Creating a random user and a random public site");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        getCmisApi().authenticateUser(user.get());
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        aspectsForm = new AspectsForm(webDriver);
+        editPropertiesPage = new EditPropertiesPage(webDriver);
+
+        authenticateUsingCookies(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     @TestRail (id = "C7111")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void addRestrictableAspect() throws Exception
+    public void addRestrictableAspect()
     {
-        fileName = String.format("testFileC7111%s", RandomData.getRandomAlphanumeric());
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        LOG.info("Preconditions: Navigate to Document Details page for the test file");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFile(fileName);
+        log.info("Create file under document library in site");
+        fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step1: Click Actions -> Manage Aspects option");
-        documentDetailsPage.clickManageAspects();
+        log.info("Preconditions: Navigate to Document Details page for the test file");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to 'Restrictable' aspect and verify it's displayed in 'Currently Selected' list");
-        aspectsForm.addAspect("Restrictable");
-        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Restrictable"), "Aspect is not added to 'Currently Selected' list");
-        Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Restrictable"), "Aspect is present on 'Available to Add' list");
+        log.info("Step1: Click Actions -> Manage Aspects option");
+        documentDetailsPage
+            .clickManageAspects();
 
-        LOG.info("Step3: Click 'Apply Changes' and verify the restrictions are placed on the file");
-        aspectsForm.clickApplyChangesButton();
-        Assert.assertTrue(documentDetailsPage.isAspectDisplayed("Restrictable"), "Restrictable aspect is added");
+        log.info("Step2: From 'Available to Add' list, click 'Add' icon next to 'Restrictable' aspect and verify it's displayed in 'Currently Selected' list");
+        aspectsForm
+            .addAspect(restrictableAspect);
+        aspectsForm
+            .assertAspactPresentInCurrentlySelectedList(restrictableAspect);
 
+        log.info("Step3: Click 'Apply Changes' and verify the restrictions are placed on the file");
+        aspectsForm
+            .clickApplyChangesButton();
+
+        documentDetailsPage
+            .assertIsAspectDisplayedOnDetailsPage(restrictableAspect);
     }
+
 
     @TestRail (id = "C7112")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editRestrictableProperty()
     {
-        fileName = String.format("testFileC7111%s", RandomData.getRandomAlphanumeric());
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
+        log.info("Create file under document library in site");
+        fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step1: Click Actions -> Edit Properties option");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFile(fileName);
-        documentDetailsPage.clickEditProperties();
+        log.info("Preconditions: Navigate to Document Details page for the test file add Restrictable Aspect");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("Step2: Click '?' icon and verify the help message");
-        editPropertiesPage.clickHelpIconForRestrictableAspect();
-        Assert.assertEquals(helpMessage, editPropertiesPage.getHelpMessageForRestrictableAspect());
+        documentDetailsPage
+            .clickManageAspects();
 
-        LOG.info("Step3: Fill in 'Offline Expires After (hours) and verify the change is saved");
+        aspectsForm
+            .addAspect(restrictableAspect);
+        aspectsForm
+            .assertAspactPresentInCurrentlySelectedList(restrictableAspect)
+            .clickApplyChangesButton();
 
-        editPropertiesPage.addOfflineExpiresAfterValue("48");
-        editPropertiesPage.clickButton("Save");
-        Assert.assertTrue(documentDetailsPage.isRestrictableValueUpdated("48"), "The value for Offline Expires After (hours) has not been updated");
+        documentDetailsPage
+            .assertIsAspectDisplayedOnDetailsPage(restrictableAspect);
+
+        log.info("Step1: Click Actions -> Edit Properties option");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName());
+
+        documentDetailsPage
+            .clickEditProperties();
+
+        log.info("Step2: Click '?' icon and verify the help message");
+        editPropertiesPage
+            .clickHelpIconForRestrictableAspect();
+
+        log.info("Step3: Verify the help message for the Restrictable Aspect");
+        editPropertiesPage
+            .assertHelpMessageForRestrictableAspectIsEquals(helpMessage);
+
+        log.info("Step4: Fill in 'Offline Expires After (hours) and verify the change is saved");
+
+        editPropertiesPage
+            .addOfflineExpiresAfterValue("48");
+        editPropertiesPage
+            .clickButton("Save");
+
+        log.info("Step5: Verify the value for Offline Expires After (hours) has been updated");
+        documentDetailsPage
+            .assertIsRestrictableValueIsEquals("48");
     }
+
 
     @TestRail (id = "C7113")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void removeRestrictableProperty() throws Exception
+    public void removeRestrictableProperty()
     {
-        fileName = String.format("testFileC7111%s", RandomData.getRandomAlphanumeric());
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
+        log.info("Create file under document library in site");
+        fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        LOG.info("Step1: Click Actions -> Manage Aspects option");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFile(fileName);
-        documentDetailsPage.clickManageAspects();
+        log.info("Preconditions: Navigate to Document Details page for the test file add Restrictable Aspect");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName());
 
-        LOG.info("Step2: Click 'Remove' icon next to 'Restrictable' aspect");
-        aspectsForm.removeAspect("Restrictable");
+        documentDetailsPage
+            .clickManageAspects();
 
-        LOG.info("Step3: Click 'Apply changes' button and verify the 'Restrictable' property is removed from 'Properties' section");
-        aspectsForm.clickApplyChangesButton();
-        Assert.assertFalse(documentDetailsPage.isAspectNotDisplayed("Restrictable"), "Restrictable aspect is removed");
+        aspectsForm
+            .addAspect(restrictableAspect);
+        aspectsForm
+            .assertAspactPresentInCurrentlySelectedList(restrictableAspect)
+            .clickApplyChangesButton();
+
+        documentDetailsPage
+            .assertIsAspectDisplayedOnDetailsPage(restrictableAspect);
+
+        log.info("Step1: Click Actions -> Manage Aspects option");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName());
+
+        documentDetailsPage
+            .clickManageAspects();
+
+        log.info("Step2: Click 'Remove' icon next to 'Restrictable' aspect");
+        aspectsForm
+            .assertAspactPresentInCurrentlySelectedList(restrictableAspect);
+        aspectsForm
+            .removeAspect(restrictableAspect);
+        aspectsForm
+            .assertAspactPresentInAvailableList(restrictableAspect);
+
+        log.info("Step3: Click 'Apply changes' button and verify the 'Restrictable' property is removed from 'Properties' section");
+        aspectsForm
+            .clickApplyChangesButton();
+
+        log.info("Step:3 Verify that Aspect should not present on the document details page");
+        documentDetailsPage
+            .assertIsAspectNotDisplayedOnDetailsPage(restrictableAspect);
     }
-
 }
