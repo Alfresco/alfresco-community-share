@@ -103,7 +103,7 @@ public class ViewingAFileOnGoogleMapsTest extends BaseTest
 
         log.info("Step 6: Click on the 'Edit Properties' action for the file");
         documentLibraryPage
-            .selectEditPropertiesOption(fileToCheck.getName(), EDIT_PROPERTIES);
+            .selectItemActionFormFirstThreeAvailableOptions(fileToCheck.getName(), EDIT_PROPERTIES);
 
         log.info("Step 7: Click on the 'All Properties' link in Edit Properties Doalog and set the 'Longitude' & 'Lattitude' and save");
         editPropertiesDialog

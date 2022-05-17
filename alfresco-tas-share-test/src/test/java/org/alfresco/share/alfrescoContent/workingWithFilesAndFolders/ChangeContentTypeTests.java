@@ -107,7 +107,7 @@ public class ChangeContentTypeTests extends BaseTest
 
         documentLibraryPage.navigate(site.get().getTitle());
         documentLibraryPage
-            .selectEditPropertiesOption(folderToCheck.getName(), ItemActions.VIEW_DETAILS);
+            .selectItemActionFormFirstThreeAvailableOptions(folderToCheck.getName(), ItemActions.VIEW_DETAILS);
         //documentLibraryPage.selectItemAction(folderToCheck.getName(), ItemActions.VIEW_DETAILS);
         //        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 

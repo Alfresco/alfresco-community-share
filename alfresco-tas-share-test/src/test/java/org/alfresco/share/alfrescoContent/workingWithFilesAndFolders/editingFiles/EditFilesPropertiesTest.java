@@ -75,7 +75,7 @@ public class EditFilesPropertiesTest extends BaseTest
 
         log.info("Step 1: Hover over a file and click 'Edit Properties'");
         documentLibraryPage
-            .selectEditPropertiesOption(fileToCheck.getName(), ItemActions.EDIT_PROPERTIES);
+            .selectItemActionFormFirstThreeAvailableOptions(fileToCheck.getName(), ItemActions.EDIT_PROPERTIES);
 
         log.info("Step 2: In the 'Name' field enter a valid name");
         editFilePropertiesDialog
@@ -125,7 +125,7 @@ public class EditFilesPropertiesTest extends BaseTest
 
         log.info("Step 1: Hover over a folder and click 'Edit Properties'");
         documentLibraryPage
-            .selectEditPropertiesOption(folderToCheck.getName(), ItemActions.EDIT_PROPERTIES);
+            .selectItemActionFormFirstThreeAvailableOptions(folderToCheck.getName(), ItemActions.EDIT_PROPERTIES);
 
         log.info("Step 2: In the 'Name' field enter a valid name");
         editFilePropertiesDialog
