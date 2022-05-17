@@ -973,4 +973,11 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         assertFalse(isPropertyDisplayed(propertyText), "Property is displayed");
         return this;
     }
+
+    public DocumentDetailsPage assertIsRestrictableValueIsEquals(String hrs)
+    {
+        log.info("Verify that the value of Offline Expires After (hours) is Equals {}", hrs);
+        assertTrue(isRestrictableValueUpdated(hrs), "The value for Offline Expires After (hours) has not been updated");
+        return this;
+    }
 }

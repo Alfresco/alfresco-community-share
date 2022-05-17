@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
@@ -72,6 +73,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     public DocumentDetailsPage clickButton(String buttonName)
     {
         findFirstElementWithValue(buttonsList, buttonName).click();
+        refresh();
         return new DocumentDetailsPage(webDriver);
     }
 
@@ -129,6 +131,13 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     {
         log.info("Assert properties are displayed {}", Arrays.asList(properties));
         assertFalse(arePropertiesDisplayed(properties), "All properties are displayed");
+        return this;
+    }
+
+    public EditPropertiesPage assertHelpMessageForRestrictableAspectIsEquals(String helpMsg)
+    {
+        log.info("Verify the help message of Restrictable Aspect is {}", helpMsg);
+        assertEquals(getHelpMessageForRestrictableAspect(), helpMsg, String.format("Help message for Restrictable Aspect not matched with %s ", helpMsg));
         return this;
     }
 }
