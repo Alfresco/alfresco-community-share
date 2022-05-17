@@ -44,7 +44,10 @@ public class AddExistingTagTests extends BaseTest
         FileModel fileToAddTag = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFile(fileWithTag).createFile(fileToAddTag);
-        getRestApi().authenticateUser(getAdminUser())
+    //    getRestApi().authenticateUser(getAdminUser())
+      //      .withCoreAPI().usingResource(fileWithTag).addTags(tag);
+
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser()))
             .withCoreAPI().usingResource(fileWithTag).addTags(tag);
 
         documentLibraryPage.navigate(site.get())

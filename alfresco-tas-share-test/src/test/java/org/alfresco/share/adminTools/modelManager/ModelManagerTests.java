@@ -294,20 +294,29 @@ public class ModelManagerTests extends BaseTest
     {
         try
         {
-            getRestApi().authenticateUser(getAdminUser())
+     //       getRestApi().authenticateUser(getAdminUser())
+      //          .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
+            setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser()))
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
+
         }
         catch (Exception e)
         {
             log.error("Failed to create custom model {}. Error: {}", customModel.getName(), e.getMessage());
-            getRestApi().authenticateUser(getAdminUser())
+      //      getRestApi().authenticateUser(getAdminUser())
+        //        .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
+            setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser()))
                 .withPrivateAPI().usingCustomModel().createCustomModel(customModel);
+
+
         }
     }
 
     private void deleteCustomModel(CustomContentModel customContentModel)
     {
-        getRestApi().authenticateUser(dataUser.getAdminUser());
+     //   getRestApi().authenticateUser(dataUser.getAdminUser());
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser()));
+
         RestCustomModel restCustomModel = getRestApi().withPrivateAPI().usingCustomModel(customContentModel).getModel();
         if (getRestApi().getStatusCode().equals(String.valueOf(HttpStatus.OK.value())))
         {

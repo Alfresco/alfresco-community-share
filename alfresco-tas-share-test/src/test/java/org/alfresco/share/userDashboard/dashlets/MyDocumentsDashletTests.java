@@ -72,7 +72,10 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get())
                 .createFile(file1).createFile(file2);
-        getRestApi().authenticateUser(user.get())
+     //   getRestApi().authenticateUser(user.get())
+       //     .withCoreAPI().usingAuthUser().addFileToFavorites(file2);
+
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
             .withCoreAPI().usingAuthUser().addFileToFavorites(file2);
 
         userDashboardPage.navigate(user.get());

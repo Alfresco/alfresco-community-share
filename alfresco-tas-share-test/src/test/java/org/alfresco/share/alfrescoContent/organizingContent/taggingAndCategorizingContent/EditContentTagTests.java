@@ -38,7 +38,9 @@ public class EditContentTagTests extends BaseTest
         FileModel fileWithTag = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFile(fileWithTag);
-        getRestApi().authenticateUser(getAdminUser())
+     //   getRestApi().authenticateUser(getAdminUser())
+       //     .withCoreAPI().usingResource(fileWithTag).addTags(originalTag);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser()))
             .withCoreAPI().usingResource(fileWithTag).addTags(originalTag);
 
         documentLibraryPage.navigate(site.get())
@@ -61,7 +63,9 @@ public class EditContentTagTests extends BaseTest
         FolderModel folderWithTag = FolderModel.getRandomFolderModel();
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFolder(folderWithTag);
-        getRestApi().authenticateUser(getAdminUser())
+  //      getRestApi().authenticateUser(getAdminUser())
+   //         .withCoreAPI().usingResource(folderWithTag).addTags(originalTag);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
             .withCoreAPI().usingResource(folderWithTag).addTags(originalTag);
 
         documentLibraryPage.navigate(site.get())

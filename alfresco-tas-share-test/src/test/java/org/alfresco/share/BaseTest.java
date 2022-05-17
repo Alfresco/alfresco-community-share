@@ -1,5 +1,7 @@
 package org.alfresco.share;
 
+import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.DefaultProperties;
@@ -8,6 +10,7 @@ import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.WebDriverFactory;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.rest.core.RestAisAuthentication;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.utility.data.DataGroup;
 import org.alfresco.utility.data.DataSite;
@@ -25,6 +28,8 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
+
+import java.util.Base64;
 
 /**
  * This class represents a test template which should be inherit by each test class.
@@ -57,6 +62,11 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 
     @Autowired
     protected Language language;
+
+    @Autowired
+    private RestAisAuthentication aisAuthentication;
+
+    private static final String authorization_header ="Authorization";
 
     private final ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
     private final ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
@@ -211,5 +221,17 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         iTestContext.setAttribute("driver", driver);
         return iTestContext;
+    }
+
+    protected RestWrapper setAuthorizationRequestHeader(RestWrapper restWrapper) {
+        UserModel user = restWrapper.getTestUser();
+        if (null != user) {
+            if (!this.aisAuthentication.isAisAuthenticationEnabled()) {
+                String usernameColonPassword = user.getUsername() + ":" + user.getPassword();
+                String authorizationHeader = "Basic " + Base64.getEncoder().encodeToString(usernameColonPassword.getBytes());
+                restWrapper.configureRequestSpec().addHeader(authorization_header,authorizationHeader);
+            }
+        }
+    return restWrapper;
     }
 }

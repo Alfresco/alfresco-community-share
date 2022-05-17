@@ -37,7 +37,9 @@ public class RemoveContentTagsTests extends BaseTest
         FileModel fileWithTag = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFile(fileWithTag);
-        getRestApi().authenticateUser(getAdminUser())
+    //    getRestApi().authenticateUser(getAdminUser())
+      //      .withCoreAPI().usingResource(fileWithTag).addTags(tag);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
             .withCoreAPI().usingResource(fileWithTag).addTags(tag);
 
         documentLibraryPage.navigate(site.get())
@@ -58,7 +60,9 @@ public class RemoveContentTagsTests extends BaseTest
         FolderModel folderWithTag = FolderModel.getRandomFolderModel();
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFolder(folderWithTag);
-        getRestApi().authenticateUser(getAdminUser())
+   //     getRestApi().authenticateUser(getAdminUser())
+     //       .withCoreAPI().usingResource(folderWithTag).addTags(tag);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
             .withCoreAPI().usingResource(folderWithTag).addTags(tag);
 
         documentLibraryPage.navigate(site.get())

@@ -29,7 +29,9 @@ public class TagManagerTests extends BaseTest
         tagFile.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));
         tag.set("tag" + RandomStringUtils.randomAlphabetic(4).toLowerCase());
         getCmisApi().authenticateUser(getAdminUser()).usingShared().createFile(tagFile.get());
-        getRestApi().authenticateUser(getAdminUser())
+  //      getRestApi().authenticateUser(getAdminUser())
+    //        .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser()))
             .withCoreAPI().usingResource(tagFile.get()).addTags(tag.get());
 
         authenticateUsingCookies(getAdminUser());
@@ -53,7 +55,7 @@ public class TagManagerTests extends BaseTest
             .renameTag(updatedTag)
             .searchTagWithRetry(updatedTag)
             .assertTagIsDisplayed(updatedTag);
-        RestTagModelsCollection tags = getRestApi().withCoreAPI().usingResource(tagFile.get()).getNodeTags();
+        RestTagModelsCollection tags =  setAuthorizationRequestHeader(getRestApi().authenticateUser(getAdminUser())).withCoreAPI().usingResource(tagFile.get()).getNodeTags();
         tags.assertThat()
             .entriesListContains("tag", updatedTag);
     }
