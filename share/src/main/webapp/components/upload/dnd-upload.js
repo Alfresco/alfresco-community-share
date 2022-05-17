@@ -906,13 +906,11 @@
                         try
                         {
                            var percentage = Math.round((e.loaded * 100) / e.total),
-                               fileInfo = scope.fileStore[fileId];,
-                           console.log("***Brij log****  percentage", percentage);
+                               fileInfo = scope.fileStore[fileId];
                            fileInfo.progressPercentage.innerHTML = percentage + "%";
    
                            // Set progress position
                            var left = (-400 + ((percentage/100) * 400));
-                           console.log("***Brij log****  left", left);
                            Dom.setStyle(fileInfo.progress, "left", left + "px");
                            scope._updateAggregateProgress(fileInfo, e.loaded);
    
@@ -921,7 +919,6 @@
                         }
                         catch(exception)
                         {
-                           console.log(exception.stackTrace);
                            Alfresco.logger.error("The following error occurred processing an upload progress event: ", exception);
                         }
                     }
