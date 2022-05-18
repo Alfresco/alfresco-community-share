@@ -130,7 +130,7 @@ public class BecomeContentOwnerTests extends BaseTest
 
         log.info("STEP1: Hover over 'Folder1' folder from 'Documents' list, then select 'View Details' option");
         documentLibraryPage
-            .selectEditPropertiesOption(folderToCheck.getName(), ItemActions.VIEW_DETAILS);
+            .selectItemActionFormFirstThreeAvailableOptions(folderToCheck.getName(), ItemActions.VIEW_DETAILS);
 
         documentDetailsPage
             .assertBrowserPageTitleIs("Alfresco » Folder Details");

@@ -38,6 +38,7 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.RestrictingMobileAccessTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.DownloadingContentTests"></class>
       </classes>
    </test>
 </suite>

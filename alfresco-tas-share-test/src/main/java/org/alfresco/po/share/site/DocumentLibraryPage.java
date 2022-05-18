@@ -729,7 +729,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         clickElement(actionElement);
     }
 
-    public void selectEditPropertiesOption(String contentItem, ItemActions action)
+    public void selectItemActionFormFirstThreeAvailableOptions(String contentItem, ItemActions action)
     {
         WebElement libraryItem = mouseOverContentItem(contentItem);
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
