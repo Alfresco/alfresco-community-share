@@ -31,7 +31,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2122")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkMyTasksDashlet()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
