@@ -69,6 +69,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet assertStartWorkflowIsDisplayed()
     {
         log.info("Assert Start Workflow is displayed");
+        waitInSeconds(2);
         assertTrue(isElementDisplayed(startWorkFlowLink), "Start workflow is displayed");
         return this;
     }
@@ -90,6 +91,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet assertActiveTasksButtonIsDisplayed()
     {
         log.info("Assert Active Tasks button is displayed");
+        waitInSeconds(2);
         waitUntilElementIsVisible(activeTasksLink);
         assertTrue(isElementDisplayed(activeTasksLink), "Active Tasks button is displayed");
         return this;
@@ -106,6 +108,8 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet assertCompletedTasksButtonIsDisplayed()
     {
         log.info("Assert Completed Tasks button is displayed");
+        waitInSeconds(2);
+
         waitUntilElementIsVisible(completedTasksLink);
         assertTrue(isElementDisplayed(completedTasksLink), "Completed Tasks button is displayed");
         return this;
@@ -120,6 +124,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet assertFilterTasksIsDisplayed()
     {
         log.info("Assert Filter Tasks is displayed");
+        waitInSeconds(2);
         waitUntilElementIsVisible(filterTaskButton);
         assertTrue(isElementDisplayed(filterTaskButton), "Filter Tasks is displayed");
         return this;
