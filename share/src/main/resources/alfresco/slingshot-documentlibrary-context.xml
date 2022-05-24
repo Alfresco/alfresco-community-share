@@ -318,7 +318,8 @@
          </list>
       </property>
    </bean>
-   <!-- Edit Online AOS -->
+
+   <!-- Edit Online AOS Only evaluating mimetype - Deprecated -->
    <bean id="evaluator.doclib.action.isMimetypeEditableAos" parent="evaluator.doclib.action.isMimetype">
       <property name="mimetypes">
          <list>
