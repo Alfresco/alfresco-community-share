@@ -132,7 +132,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     private By renameIcon = By.cssSelector(".filename span.insitu-edit[style*='visibility: visible']");
     private By linkToFolderLocator = By.cssSelector(".filename [href*='FdocumentLibrary']");
-    private By moreMenuSelector = By.cssSelector("div[id*='onActionShowMore'] a span");
+    private By moreMenuSelector = By.cssSelector("div[class='action-set detailed'] div[id*='onActionShowMore'] a span");
     private By noTagsSelector = By.cssSelector("td[class*='fileName'] .detail .item .faded");
     private By contentTagsSelector = By.cssSelector(".item .tag-link");
     private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
@@ -619,6 +619,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public boolean isMoreMenuDisplayed(String contentName)
     {
+        mouseOverContentItem(contentName);
         return isElementDisplayed(selectDocumentLibraryItemRow(contentName), moreMenuSelector);
     }
 
@@ -1306,7 +1307,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentLibraryPage assertLockedBannerIsDisplayed(String fileName)
     {
-        log.info("Assert Locked banner displayed on Document {}");
+        log.info("Assert Locked banner displayed on Document {}", fileName);
         assertTrue(isInfoBannerDisplayed(fileName),
             "Document is Locked Info banner on File" + fileName + " is not displayed");
         return this;
@@ -1314,7 +1315,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentLibraryPage assertLikeButtonIsDisplayed(String fileName)
     {
-        log.info("Assert Like button is displayed for the file/Folder {}");
+        log.info("Assert Like button is displayed for the file/Folder {} ", fileName);
         assertTrue(isLikeButtonDisplayed(fileName),
             "file/Folders link is not present for " + fileName);
         return this;
@@ -1322,7 +1323,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentLibraryPage assertIsGioLocationMetadataIconDisplayed()
     {
-        log.info("Verify that the Gio location Metadata Icon is Displayed {}");
+        log.info("Verify that the Gio location Metadata Icon is Displayed");
         assertTrue(isGeolocationMetadataIconDisplayed(),
             "Geolocation Metadata icon is not displayed");
         return this;
@@ -1331,7 +1332,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public DocumentLibraryPage assertAreActionsAvailableForLibraryItemsInPreviewPage(String contantName)
     {
         log.info(
-            "Verify that the actions 'Download', 'View In Browser', 'Edit in Google Docs™' & 'View on Google Maps' are available for the content {}");
+            "Verify that the actions 'Download', 'View In Browser', 'Edit in Google Docs™' & 'View on Google Maps' are available for the content {}", contantName);
         List<String> expectedActions = Arrays
             .asList("Download", "View In Browser", "Edit in Google Docs™", "View on Google Maps");
         Assert.assertTrue(areActionsAvailableForLibraryItem(contantName, expectedActions),
@@ -1342,7 +1343,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public DocumentLibraryPage assertAreActionsAvailableForLibraryItems(String contantName)
     {
         log.info(
-            "Verify that the actions 'Download', 'View In Browser', 'Edit Properties™' are available for the content {}");
+            "Verify that the actions 'Download', 'View In Browser', 'Edit Properties™' are available for the content {}", contantName);
         List<String> expectedActions = Arrays
             .asList("Download", "View In Browser", "Edit Properties");
         Assert.assertTrue(areActionsAvailableForLibraryItem(contantName, expectedActions),
@@ -1352,14 +1353,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentLibraryPage assertIsFileOpenInGoogleMap()
     {
-        log.info("Verify that the content open in the google map {}");
+        log.info("Verify that the content open in the google map");
         assertTrue(isFileOpenedInGoogleMaps(), "File is not opened in Google Maps");
         return this;
     }
 
     public DocumentLibraryPage assertisDocumentThumbnailDisplayedOnGoogleMaps()
     {
-        log.info("Verify that the content Thumbnail image displayed on the google map {}");
+        log.info("Verify that the content Thumbnail image displayed on the google map");
         assertTrue(isDocumentThumbnailDisplayedOnGoogleMaps(),
             "Document thumbnail is not displayed in Google Maps");
         return this;
@@ -1376,6 +1377,26 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         log.info("More Menu is Displaying");
         assertFalse(isMoreMenuDisplayed(filename), "More Menu is displayed");
+        return this;
+    }
+
+    public boolean isActionItemAvailableInTheDocumentLibraryItems(String content, ItemActions actionItem)
+    {
+
+        boolean actionAvailable;
+        if (isMoreMenuDisplayed(content))
+        {
+            actionAvailable = isActionAvailableForLibraryItem(content, actionItem);
+        }else
+        {
+            actionAvailable = false;
+        }
+        return actionAvailable;
+    }
+    public DocumentLibraryPage assertActionItem_Not_AvailableInTheDocumentLibraryItems(String content, ItemActions actionItem)
+    {
+        log.info("Verify that the Action Item is Available in the list for the Document Library Itme {}", content );
+        assertFalse(isActionItemAvailableInTheDocumentLibraryItems(content, actionItem), "Action is available");
         return this;
     }
 

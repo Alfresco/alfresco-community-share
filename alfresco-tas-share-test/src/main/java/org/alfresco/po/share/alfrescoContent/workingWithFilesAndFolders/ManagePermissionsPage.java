@@ -1,15 +1,18 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
@@ -22,47 +25,38 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     @FindBy (css = "div.add-user-group button")
     private WebElement addUserGroupButton;
+    private By addUserGroupButton_ = By.cssSelector("div.add-user-group button");
 
     @FindBy (css = "button[id$='_default-okButton-button']")
     private WebElement saveButton;
+    private By saveButton_ = By.cssSelector("button[id$='_default-okButton-button']");
     @FindBy (css = "button[id$='-cancelButton-button']")
     private WebElement cancelButton;
+    private By cancelButton_ = By.cssSelector("button[id$='-cancelButton-button']");
     @FindBy (css = "div.search-text input")
     private WebElement searchUserInput;
+    private By searchUserInput_ = By.cssSelector("div.search-text input");
     @FindBy (css = "div.authority-search-button button")
     private WebElement searchUserButton;
-    @FindBy (css = "div[id$='_manage-permissions_x0023_default-inheritedButtonContainer']")
-    private WebElement inheritPermissionButton;
-    @FindBy (css = "td[class$='displayName']")
-    private WebElement userNameLocator;
-    @FindBy (css = "td[class*='role']")
-    private WebElement userRoleLocator;
-    @FindBy (css = "span[id$='_default-title']")
-    private WebElement pageTitle;
-    @FindBy (css = "span[class$='button' span button]")
-    private WebElement addUser;
-    @FindBy (css = "div[id$='_default-inheritedPermissions']")
-    private WebElement inheritPermissionTable;
-    @FindBy (css = "div[class$='inherited-on']")
-    private WebElement inheritButtonStatus;
-    @FindBy (css = "span.folder-link a")
+    private By searchUserButton_ = By.cssSelector("div.authority-search-button button");
+    private By inheritPermissionButton = By.cssSelector("div[id$='_manage-permissions_x0023_default-inheritedButtonContainer']");
+    private  By userNameLocator = By.cssSelector("td[class$='displayName']");
+    private  By userRoleLocator = By.cssSelector("td[class*='role']");
+    private By pageTitle_ = By.cssSelector("span[id$='_default-title']");
+    private  By addUser = By.cssSelector("span[class$='button' span button]");
+    private  By inheritPermissionTable_ = By.cssSelector("div[id$='_default-inheritedPermissions']");
+    private  By inheritButtonStatus = By.cssSelector("div[class$='inherited-on']");
+    private  By inheritButtonStatusDisabled = By.cssSelector("div[class$='inherited-off']");
     private List<WebElement> breadcrumbList;
     @FindAll (@FindBy (css = "div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']"))
     private List<WebElement> usersAndGroupsList;
-    @FindBy (css = "div[id$='_default-directContainer'] div[id$='_default-directPermissions']")
-    private WebElement locallySetPermissionsList;
-    @FindBy (css = "div.onActionDelete")
-    private WebElement deleteButton;
-    @FindBy (css = "input[id$='_default-authorityFinder-search-text']")
-    private WebElement searchInputBox;
-    @FindBy (css = "div[id$='_manage-permissions_x0023_default-authorityFinder-body']")
-    private WebElement addUserGroupWindow;
-    @FindBy (css = "button[id$='_manage-permissions_x0023_default-authorityFinder-authority-search-button-button']")
-    private WebElement searchButton;
-    @FindBy (css = "td[class$='yui-dt-col-role'] button")
-    private WebElement roleButton;
-    @FindBy (css = "div[id$='_default-directPermissions'] td[class='yui-dt-empty'] div")
-    private WebElement noPermissionsSet;
+    private  By locallySetPermissionsList = By.cssSelector("div[id$='_default-directContainer'] div[id$='_default-directPermissions']");
+    private  By deleteButton = By.cssSelector("div.onActionDelete");
+    private  By searchInputBox = By.cssSelector("input[id$='_default-authorityFinder-search-text']");
+    private  By addUserGroupWindow = By.cssSelector("div[id$='_manage-permissions_x0023_default-authorityFinder-body']");
+    private  By searchButton = By.cssSelector("button[id$='_manage-permissions_x0023_default-authorityFinder-authority-search-button-button']");
+    private  By roleButton = By.cssSelector("td[class$='yui-dt-col-role'] button");
+    private  By noPermissionsSet = By.cssSelector("div[id$='_default-directPermissions'] td[class='yui-dt-empty'] div");
 
     private final By searchResultsList = By.cssSelector("td[class$='yui-dt-col-fullName'] span");
     private final By addButton = By.xpath("//button[text()='Add ']");
@@ -83,7 +77,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public String getTitle()
     {
-        return waitUntilElementIsVisible(pageTitle).getText();
+        return waitUntilElementIsVisible(pageTitle_).getText();
     }
 
     /**
@@ -91,7 +85,9 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      */
     public DocumentLibraryPage clickCancel()
     {
-        cancelButton.click();
+        waitInSeconds(1);
+        findElement(cancelButton_).click();
+        waitInSeconds(1);
         return new DocumentLibraryPage(webDriver);
     }
 
@@ -101,9 +97,9 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         int retryRefreshCount = 5;
         while (counter <= retryRefreshCount)
         {
-            if (inheritPermissionButton.isDisplayed())
+            if (findElement(inheritPermissionButton).isDisplayed())
             {
-                inheritPermissionButton.findElement(By.cssSelector("button")).click();
+                findElement(inheritPermissionButton).findElement(By.cssSelector("button")).click();
                 break;
             } else
             {
@@ -116,22 +112,42 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public void searchAndAddUserAndGroup(String searchText)
     {
-        addUserGroupButton.click();
+        findElement(addUserGroupButton_).click();
         List<WebElement> searchRows = new ArrayList<>();
-        Utils.clearAndType(searchUserInput, searchText);
-        searchUserButton.click();
-        By DATA_ROWS = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
-        for (WebElement element : findElements(DATA_ROWS))
+        for (int i = 0; i<10; i++)
         {
-            searchRows.add(element);
+            int count=0;
+            Utils.clearAndType(findElement(searchUserInput_), searchText);
+            waitInSeconds(1);
+            findElement(searchUserButton_).click();
+            clickElement(searchUserButton_, 2);
+            waitInSeconds(1);
+            By DATA_ROWS = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
+            for (WebElement element : findElements(DATA_ROWS))
+            {
+                searchRows.add(element);
+            }
+            for (WebElement searchRow : searchRows)
+                if (searchRow.getText().contains(searchText))
+                {
+                    searchRow.findElement(By.cssSelector("span[class$='button'] span button")).click();
+                    waitInSeconds(1);
+                    count++;
+                }
+            if (count==1)
+            {
+                break;
+            }
+            for (WebElement element : findElements(DATA_ROWS))
+            {
+                searchRows.removeAll(searchRows);
+            }
         }
-        for (WebElement searchRow : searchRows)
-            if (searchRow.getText().contains(searchText))
-                searchRow.findElement(By.cssSelector("span[class$='button'] span button")).click();
     }
 
     public boolean isPermissionAddedForUser(String userProfile)
     {
+        waitInSeconds(1);
         List<WebElement> userPermissionRows = findElements(By.cssSelector("div[id$='default-directPermissions'] tbody.yui-dt-data tr"));
         for (WebElement userPermissionRow : userPermissionRows)
         {
@@ -144,14 +160,25 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public boolean isInheritPermissionsTableEnabled()
     {
-        return inheritPermissionTable.isDisplayed();
+        return findElement(inheritPermissionTable_).isDisplayed();
     }
 
     public boolean isInheritButtonStatusEnabled()
     {
         try
         {
-            return inheritButtonStatus.isDisplayed();
+            return findElement(inheritButtonStatus).isDisplayed();
+        } catch (NoSuchElementException e)
+        {
+            return false;
+        }
+    }
+
+    public boolean isInheritButtonStatusDisabled()
+    {
+        try
+        {
+            return findElement(inheritButtonStatusDisabled).isDisplayed();
         } catch (NoSuchElementException e)
         {
             return false;
@@ -194,11 +221,11 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         boolean buttonStatusOn = isInheritButtonStatusEnabled();
         if (turnOn && !buttonStatusOn)
         {
-            inheritPermissionButton.findElement(By.cssSelector("button")).click();
+            findElement(inheritPermissionButton).findElement(By.cssSelector("button")).click();
         }
         if (!turnOn && buttonStatusOn)
         {
-            inheritPermissionButton.findElement(By.cssSelector("button")).click();
+            findElement(inheritPermissionButton).findElement(By.cssSelector("button")).click();
             try
             {
                 clickAreYouSureDialog(areYouSure);
@@ -230,7 +257,8 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
             {
                 mouseOver(webElement.findElement(By.xpath("//td[contains(@class, 'yui-dt-col-actions')]/div")));
                 WebElement deleteDivElement = webElement.findElement(By.cssSelector("td[class*='yui-dt-col-actions'] div div.action-set"));
-                findElement(By.id(deleteDivElement.getAttribute("id"))).findElement(By.cssSelector("a"));
+                findElement(By.id(deleteDivElement.getAttribute("id"))).findElement(By.cssSelector("a")).click();
+                waitInSeconds(2);
             }
         }
     }
@@ -311,12 +339,12 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public void sendSearchInput(String userName)
     {
-        Utils.clearAndType(searchInputBox, userName);
+        Utils.clearAndType(findElement(searchInputBox), userName);
     }
 
     public void clickSearchButton()
     {
-        searchButton.click();
+        findElement(searchButton).click();
     }
 
     public WebElement selectUser(String userName)
@@ -345,7 +373,9 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public DocumentLibraryPage clickSave()
     {
-        saveButton.click();
+        waitInSeconds(1);
+        findElement(saveButton_).click();
+        waitInSeconds(1);
         return new DocumentLibraryPage(webDriver);
     }
 
@@ -375,7 +405,70 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     public String getLocallySetPermissionsTextWhenNoUsersAreAdded()
     {
         waitUntilElementIsVisible(noPermissionsSet);
-        return noPermissionsSet.getText();
+        return findElement(noPermissionsSet).getText();
+    }
+
+    public ManagePermissionsPage assertManagePermissionPageHeaderTitleEquals(String content)
+    {
+        log.info("Verify the Manage Permission Page Header Title.");
+        assertEquals(getTitle(), "Manage Permissions: " + content, String.format("Displayed Title %s is not matched with %s ", getTitle(), "Manage Permissions: " + content));
+        return this;
+    }
+
+    public ManagePermissionsPage assertIsPermissionAddedForUser(String userName)
+    {
+        log.info("Verify that the Permission should be added for the User.");
+        assertTrue(isPermissionAddedForUser(userName), String.format("User [%s] is not added in permissions.", userName));
+        return this;
+    }
+
+    public ManagePermissionsPage assertNoPermissionAddedForUser(String userName)
+    {
+        log.info("Verify that the Permission should not be added for the User.");
+        assertFalse(isPermissionAddedForUser(userName), String.format("User [%s] is added in permissions.", userName));
+        return this;
+    }
+
+    public ManagePermissionsPage assertIsTurnOffPermissionInheritanceDialogDisplayed()
+    {
+        log.info("Verify that Turn off inherit permissions dialog is displayed.");
+        assertTrue(isTurnOffPermissionInheritanceDialogDisplayed(), "Turn off inherit permissions dialog isn't displayed.");
+        return this;
+    }
+
+    public ManagePermissionsPage assertNoInheritPermissionsTableEnabled()
+    {
+        log.info("Verify that Inherit Permissions section isn't displayed.");
+        assertFalse(isInheritPermissionsTableEnabled(), "Inherit Permissions section is displayed.");
+        return this;
+    }
+
+    public ManagePermissionsPage assertIsInheritPermissionsTableEnabled()
+    {
+        log.info("Verify that Inherit Permissions section is displayed.");
+        assertTrue(isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
+        return this;
+    }
+
+    public ManagePermissionsPage assertIsInheritButtonStatusDisabled()
+    {
+        log.info("Verify that Inherit Permissions button status is Disabled.");
+        assertTrue(isInheritButtonStatusDisabled(), "Inherit Permissions button status is incorrect.");
+        return this;
+    }
+
+    public ManagePermissionsPage assertIsInheritButtonStatusEnabled()
+    {
+        log.info("Verify that Inherit Permissions button status is Enabled.");
+        assertTrue(isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
+        return this;
+    }
+
+    public ManagePermissionsPage assertUserRoleAtPermissionPageEquals(String role, String userName)
+    {
+        log.info("Verify the user role at Manage Permission Page.");
+        assertEquals(getRole(userName), role, String.format("User [%s] has incorrect role [%s].", userName, role));
+        return this;
     }
 
     // todo into separate enum
