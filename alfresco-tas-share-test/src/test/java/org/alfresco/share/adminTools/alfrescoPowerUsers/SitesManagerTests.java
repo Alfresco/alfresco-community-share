@@ -139,7 +139,7 @@ public class SitesManagerTests extends BaseTest
     }
 
     @TestRail (id = "C8696")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSiteAsSiteAdmin()
     {
         testSite.set(getDataSite().usingUser(siteAdmin.get()).createPublicRandomSite());
