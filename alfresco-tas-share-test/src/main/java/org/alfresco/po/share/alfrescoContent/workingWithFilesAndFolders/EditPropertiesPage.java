@@ -55,6 +55,20 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         return DataUtil.areListsEquals(propertiesList, expectedPropertiesList);
     }
 
+    public boolean arePropertiesDisplayed_(ArrayList<String> expectedPropertiesList)
+    {
+        List<String> propertiesList = new ArrayList<>();
+        waitUntilElementsAreVisible(propertiesElements);
+
+        for (WebElement propertyElement : findElements(propertiesElements))
+            if (propertyElement.getText().contains(":"))
+                propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
+            else
+                propertiesList.add(propertyElement.getText());
+
+        return propertiesList.containsAll(expectedPropertiesList);
+    }
+
     public String checkPropertiesAreNotDisplayed(List<String> propertiesNotDisplayedList)
     {
         List<WebElement> elements = findElements(propertiesElements);
@@ -120,10 +134,10 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         return new SelectDialog(webDriver);
     }
 
-    public EditPropertiesPage assertPropertiesAreDisplayed(String... properties)
+    public EditPropertiesPage assertPropertiesAreDisplayed(ArrayList<String> properties)
     {
         log.info("Assert properties are displayed {}", Arrays.asList(properties));
-        assertTrue(arePropertiesDisplayed(properties), "Not all properties are displayed");
+        assertTrue(arePropertiesDisplayed_(properties), "Not all properties are displayed");
         return this;
     }
 
