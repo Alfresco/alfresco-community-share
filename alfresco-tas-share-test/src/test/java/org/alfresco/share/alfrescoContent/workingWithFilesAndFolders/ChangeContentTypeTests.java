@@ -15,12 +15,17 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * @author Laura.Capsa
  */
 @Slf4j
 public class ChangeContentTypeTests extends BaseTest
 {
+    ArrayList<String> propertiesList;
+
     private DocumentLibraryPage documentLibraryPage;
     private DocumentDetailsPage documentDetailsPage;
     private ChangeContentTypeDialog changeContentTypeDialog;
@@ -155,15 +160,16 @@ public class ChangeContentTypeTests extends BaseTest
             .clickOnFile(fileToCheck.getName());
 
         log.info("STEP1: Verify document's Properties list");
+        propertiesList = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"));
         documentDetailsPage
-            .assertPropertiesAreDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date");
+            .assertPropertiesAreDisplayed_(propertiesList);
 
         log.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
         documentDetailsPage
             .clickEditProperties();
-
+        propertiesList = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Author", "Tags", "Mimetype"));
         editPropertiesPage
-            .assertPropertiesAreDisplayed("Name", "Title", "Description", "Author", "Tags", "Mimetype");
+            .assertPropertiesAreDisplayed(propertiesList);
 
         log.info("STEP3: Cancel 'Edit Properties'.");
         editPropertiesPage
@@ -182,17 +188,19 @@ public class ChangeContentTypeTests extends BaseTest
             .selectOption("Smart Folder Template")
             .clickOkButton();
 
+        propertiesList = new ArrayList<>(Arrays.asList("Auto Version - on update properties only", "Created Date", "Title", "Description", "Creator", "Name",
+            "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Encoding", "Size", "Mimetype"));
         documentDetailsPage
-            .assertPropertiesAreDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Description", "Creator", "Name",
-                "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Encoding", "Size", "Mimetype");
+            .assertPropertiesAreDisplayed_(propertiesList);
 
-        log.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
+      log.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage
             .clickEditProperties();
 
         log.info("STEP7: Verify that the properties for changes type are displayed");
+        propertiesList = new ArrayList<>(Arrays.asList("Auto Version - on update properties only", "Created Date", "Title", "Description", "Creator", "Name",
+            "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Encoding", "Size", "Mimetype"));
         editPropertiesPage
-            .assertPropertiesAreDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Description", "Creator", "Name",
-                "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Encoding", "Size", "Mimetype");
+            .assertPropertiesAreDisplayed(propertiesList);
     }
 }

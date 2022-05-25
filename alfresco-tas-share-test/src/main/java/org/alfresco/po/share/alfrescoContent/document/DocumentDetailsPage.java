@@ -406,10 +406,28 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return DataUtil.areListsEquals(propertiesTextList, expectedPropertiesList);
     }
 
+    public boolean arePropertiesDisplayed_(ArrayList<String> expectedPropertiesList)
+    {
+        List<String> propertiesTextList = new ArrayList<>();
+        List<WebElement> properties = waitUntilElementsAreVisible(propertiesList);
+        for (WebElement property : properties)
+        {
+            propertiesTextList.add(property.getText().substring(0, property.getText().indexOf(":")));
+        }
+        return propertiesTextList.containsAll(expectedPropertiesList);
+    }
+
     public DocumentDetailsPage assertPropertiesAreDisplayed(String... properties)
     {
         log.info("Assert properties are displayed {}", Arrays.asList(properties));
         assertTrue(arePropertiesDisplayed(properties), "Not all properties are displayed");
+        return this;
+    }
+
+    public DocumentDetailsPage assertPropertiesAreDisplayed_(ArrayList<String> properties)
+    {
+        log.info("Assert properties are displayed {}", Arrays.asList(properties));
+        assertTrue(arePropertiesDisplayed_(properties), "Not all properties are displayed");
         return this;
     }
 
@@ -578,6 +596,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public AspectsForm clickManageAspects()
     {
         clickElement(manageAspectsButton);
+        waitInSeconds(2);
         return new AspectsForm(webDriver);
     }
 
