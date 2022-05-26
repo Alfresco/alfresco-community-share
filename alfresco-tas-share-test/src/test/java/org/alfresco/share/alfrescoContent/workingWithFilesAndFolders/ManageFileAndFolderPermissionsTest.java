@@ -1,301 +1,395 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * @author Razvan.Dorobantu
  */
-public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
+@Slf4j
+public class ManageFileAndFolderPermissionsTest extends BaseTest
 {
-    private final String docContent = "content of the file.";
-    private final String testUser1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
-    private final String testUser2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private final String testFileName = "testDoc.txt";
-    private final String testFolderName = "testFolder";
-    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-   // @Autowired
     private ManagePermissionsPage managePermissionsPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void createPrecondition()
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
+
+    private UserModel testUser1;
+    private UserModel testUser2;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser1, password, testUser1 + domain, testUser1, "lastName");
-        userService.create(adminUser, adminPassword, testUser2, password, testUser2 + domain, testUser2, "lastName");
-        siteService.create(testUser1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(testUser1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, testFileName, docContent);
-        contentService.createFolder(testUser1, password, testFolderName, siteName);
+        log.info("Creating a testuser1 and site1 created by user1");
+        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        site.set(getDataSite().usingUser(testUser1).createPublicRandomSite());
+
+        log.info("Creating another user testuser2");
+        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+
+        getCmisApi().authenticateUser(testUser1);
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        managePermissionsPage = new ManagePermissionsPage(webDriver);
+
+        log.info("Create Folder and File in document library.");
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
+
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
+        authenticateUsingCookies(testUser1);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, testUser1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser1);
-        userService.delete(adminUser, adminPassword, testUser2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser2);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
-
     @TestRail (id = "C6092")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelManagePermissions()
     {
-        setupAuthenticatedSession(testUser1, password);
-        documentLibraryPage.navigate(siteName);
+        log.info("Navigate to the Site Document library.");
+        documentLibraryPage
+            .navigate(site.get().getTitle());
 
-        LOG.info("STEP1: On the Document Library page click on Manage Permissions option for the file.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        log.info("STEP1: On the Document Library page click on Manage Permissions option for the file.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP2: On the Manage Permissions page check the header title is correct.");
-        assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + testFileName, "Manage Permissions: " + testFileName + " title displayed.");
+        log.info("STEP2: On the Manage Permissions page check the header title is correct."
+            + "STEP3: On the Manage Permissions page click the Cancel button and return to Document Library page."
+            + "And again go to the manage permission page for the file and verify that permission should not be added.");
+        managePermissionsPage
+            .assertManagePermissionPageHeaderTitleEquals(fileToCheck.getName())
+            .clickCancel();
 
-        LOG.info("STEP3: On the Manage Permissions page click the Cancel button and return to Document Library page.");
-        managePermissionsPage.clickCancel();
-        assertTrue(documentLibraryPage.isContentNameDisplayed(testFileName), String.format("The file [%s] is not present", testFileName));
-        cleanupAuthenticatedSession();
+        documentLibraryPage
+            .assertFileIsDisplayed(fileToCheck.getName())
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        managePermissionsPage
+            .assertNoPermissionAddedForUser(testUser2.getUsername())
+            .clickCancel();
+
+        log.info("Step3: Repeat Step1 and Step2 for folder");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        log.info("On the Manage Permissions page check the header title is correct."
+            + "And On the Manage Permissions page click the Cancel button and return to Document Library page."
+            + "And again go to the manage permission page for the folder and verify that permission should not be added.");
+        managePermissionsPage
+            .assertManagePermissionPageHeaderTitleEquals(folderToCheck.getName())
+            .clickCancel();
+
+        documentLibraryPage
+            .assertFileIsDisplayed(folderToCheck.getName())
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        managePermissionsPage
+            .assertNoPermissionAddedForUser(testUser2.getUsername());
     }
 
     @TestRail (id = "C7121")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void saveManagePermissions()
     {
-        setupAuthenticatedSession(testUser1, password);
-        documentLibraryPage.navigate(siteName);
+        log.info("Navigate to the Site Document Library.");
+        documentLibraryPage
+            .navigate(site.get().getTitle());
 
-        LOG.info("STEP1: On the Document Library page click on Manage Permissions option for the file.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        log.info("STEP1: On the Document Library page click on Manage Permissions option for the file.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP2: On the Manage Permissions page click on Add User/Group button and add permissions for testUser2.");
-        managePermissionsPage.searchAndAddUserAndGroup(testUser2);
+        log.info("STEP2: On the Manage Permissions page click on Add User/Group button and add permissions for testUser2.");
+        managePermissionsPage
+            .searchAndAddUserAndGroup(testUser2.getUsername());
         managePermissionsPage.clickSave();
 
-        LOG.info("STEP3: Return to Manage Permissions page for the file and check if permissions were added successfully.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
-        managePermissionsPage.clickCancel();
+        log.info("STEP3: Return to Manage Permissions page for the file and check if permissions were added successfully.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP4: On the Document Library page click on Manage Permissions option for the folder.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        managePermissionsPage
+            .assertIsPermissionAddedForUser(testUser2.getUsername())
+            .clickCancel();
 
-        LOG.info("STEP5: On the Manage Permissions page click on Add User/Group button and add permissions for testUser2.");
-        managePermissionsPage.searchAndAddUserAndGroup(testUser2);
+        log.info("STEP4: On the Document Library page click on Manage Permissions option for the folder.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        log.info("STEP5: On the Manage Permissions page click on Add User/Group button and add permissions for testUser2.");
+        managePermissionsPage
+            .searchAndAddUserAndGroup(testUser2.getUsername());
         managePermissionsPage.clickSave();
 
-        LOG.info("STEP6: Return to Manage Permissions page for the folder and check if permissions were added successfully.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
-        cleanupAuthenticatedSession();
+        log.info("STEP6: Return to Manage Permissions page for the folder and check if permissions were added successfully.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        managePermissionsPage
+            .assertIsPermissionAddedForUser(testUser2.getUsername());
     }
 
     @TestRail (id = "C7124")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void turnOffInheritPermissions()
     {
-        setupAuthenticatedSession(testUser1, password);
+        log.info("Precondition: Navigate to Manage Permissions page for the file.");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("Precondition: Navigate to Manage Permissions page for the file.");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        log.info("STEP1: On the Manage Permissions page click on Inherit Permissions button and verify dialog is displayed.");
+        managePermissionsPage
+            .clickInheritPermissionsButton();
+        managePermissionsPage
+            .assertIsTurnOffPermissionInheritanceDialogDisplayed();
 
-        LOG.info("STEP1: On the Manage Permissions page click on Inherit Permissions button and verify dialog is displayed.");
-        managePermissionsPage.clickInheritPermissionsButton();
-        Assert.assertTrue(managePermissionsPage.isTurnOffPermissionInheritanceDialogDisplayed(), "Turn off inherit permissions dialog isn't displayed.");
+        log.info("STEP2: On the Inherit Permissions dialog click on Yes option and verify the Inherit Permissions table is not displayed."
+            + "STEP3: On the Manage Permissions page click on Save button and return to Document Library page.");
+        managePermissionsPage
+            .clickAreYouSureDialog(ManagePermissionsPage.ButtonType.Yes);
+        managePermissionsPage
+            .assertNoInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusDisabled()
+            .clickSave();
 
-        LOG.info("STEP2: On the Inherit Permissions dialog click on Yes option and verify the Inherit Permissions table is not displayed.");
-        managePermissionsPage.clickAreYouSureDialog(ManagePermissionsPage.ButtonType.Yes);
-        Assert.assertFalse(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is displayed.");
-        Assert.assertFalse(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
+        log.info("STEP4: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP3: On the Manage Permissions page click on Save button and return to Document Library page.");
-        managePermissionsPage.clickSave();
+        managePermissionsPage
+            .assertNoInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusDisabled()
+            .clickCancel();
 
-        LOG.info("STEP4: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        Assert.assertFalse(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is displayed.");
-        Assert.assertFalse(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
-        managePermissionsPage.clickCancel();
+        log.info("STEP5: On the Document Library page click on Manage Permissions option for the folder.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP5: On the Document Library page click on Manage Permissions option for the folder.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        log.info("STEP6: On the Manage Permissions page click on Inherit Permissions button and verify dialog is displayed.");
+        managePermissionsPage
+            .clickInheritPermissionsButton();
+        managePermissionsPage
+            .assertIsTurnOffPermissionInheritanceDialogDisplayed();
 
-        LOG.info("STEP6: On the Manage Permissions page click on Inherit Permissions button and verify dialog is displayed.");
-        managePermissionsPage.clickInheritPermissionsButton();
-        Assert.assertTrue(managePermissionsPage.isTurnOffPermissionInheritanceDialogDisplayed(), "Turn off inherit permissions dialog isn't displayed.");
+        log.info("STEP7: On the Inherit Permissions dialog click on Yes option and verify the Inherit Permissions table is not displayed."
+            + "STEP8: On the Manage Permissions page click on Save button and return to Document Library page.");
+        managePermissionsPage
+            .clickAreYouSureDialog(ManagePermissionsPage.ButtonType.Yes);
+        managePermissionsPage
+            .assertNoInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusDisabled()
+            .clickSave();
 
-        LOG.info("STEP7: On the Inherit Permissions dialog click on Yes option and verify the Inherit Permissions table is not displayed.");
-        managePermissionsPage.clickAreYouSureDialog(ManagePermissionsPage.ButtonType.Yes);
-        Assert.assertFalse(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is displayed.");
-        Assert.assertFalse(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
-
-        LOG.info("STEP8: On the Manage Permissions page click on Save button and return to Document Library page.");
-        managePermissionsPage.clickSave();
-
-        LOG.info("STEP9: On the Document Library page click on Manage Permissions option for the folder and verify if changes were saved.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        Assert.assertFalse(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is displayed.");
-        Assert.assertFalse(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
-        cleanupAuthenticatedSession();
+        log.info("STEP9: On the Document Library page click on Manage Permissions option for the folder and verify if changes were saved.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+        managePermissionsPage
+            .assertNoInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusDisabled();
     }
 
     @TestRail (id = "C7125")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void turnOnInheritPermissions()
     {
-        setupAuthenticatedSession(testUser1, password);
+        log.info("Precondition1: Navigate to Manage Permission page for the file and set Inherit Permissions to off.");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("Precondition: Navigate to Manage Permission page for the file and set Inherit Permissions to off.");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        managePermissionsPage.toggleInheritPermissions(false, ManagePermissionsPage.ButtonType.Yes);
-        managePermissionsPage.clickSave();
+        managePermissionsPage
+            .toggleInheritPermissions(false, ManagePermissionsPage.ButtonType.Yes)
+            .clickSave();
 
-        LOG.info("Precondition: Navigate to Manage Permission page for the folder and set Inherit Permissions to off.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        managePermissionsPage.toggleInheritPermissions(false, ManagePermissionsPage.ButtonType.Yes);
-        managePermissionsPage.clickSave();
+        log.info("Precondition2: Navigate to Manage Permission page for the folder and set Inherit Permissions to off.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+        managePermissionsPage
+            .toggleInheritPermissions(false, ManagePermissionsPage.ButtonType.Yes)
+            .clickSave();
 
-        LOG.info("STEP1: Navigate to Manage Permissions page for the file and turn on Inherit Permissions.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        managePermissionsPage.clickInheritPermissionsButton();
-        Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
-        Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
+        log.info("STEP1: Navigate to Manage Permissions page for the file and turn on Inherit Permissions and click on Save Button.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP2: On the Manage Permissions page click on Save button and return to Document Library page.");
-        managePermissionsPage.clickSave();
+        managePermissionsPage
+            .clickInheritPermissionsButton();
 
-        LOG.info("STEP3: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
-        Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
-        managePermissionsPage.clickCancel();
+        managePermissionsPage
+            .assertIsInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusEnabled()
+            .clickSave();
 
-        LOG.info("STEP4: Navigate to Manage Permissions page for the folder and turn on Inherit Permissions.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        managePermissionsPage.clickInheritPermissionsButton();
-        Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
-        Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
+        log.info("STEP2: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP5: On the Manage Permissions page click on Save button and return to Document Library page.");
-        managePermissionsPage.clickSave();
+        managePermissionsPage
+            .assertIsInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusEnabled()
+            .clickCancel();
 
-        LOG.info("STEP6: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        Assert.assertTrue(managePermissionsPage.isInheritPermissionsTableEnabled(), "Inherit Permissions section is not displayed.");
-        Assert.assertTrue(managePermissionsPage.isInheritButtonStatusEnabled(), "Inherit Permissions button status is incorrect.");
-        cleanupAuthenticatedSession();
+        log.info("STEP3: Navigate to Manage Permissions page for the folder and turn on Inherit Permissions and click on Save Button.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        managePermissionsPage
+            .clickInheritPermissionsButton();
+
+        managePermissionsPage
+            .assertIsInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusEnabled()
+            .clickSave();
+
+        log.info("STEP4: On the Document Library page click on Manage Permissions option for the file and verify if changes were saved.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        managePermissionsPage
+            .assertIsInheritPermissionsTableEnabled()
+            .assertIsInheritButtonStatusEnabled();
     }
 
     @TestRail (id = "C7143")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteUser()
     {
-        LOG.info("Precondition: Login as testUser1 and add local permissions for testUser2 for the file and folder.");
-        setupAuthenticatedSession(testUser1, password);
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        managePermissionsPage.searchAndAddUserAndGroup(testUser2);
-        managePermissionsPage.clickSave();
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        managePermissionsPage.searchAndAddUserAndGroup(testUser2);
-        managePermissionsPage.clickSave();
+        log.info("Navigate to the Site Document Library and go to the Manage Permission page of file.");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP1: Verify locally set permissions for the file.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
-        assertTrue(managePermissionsPage.getRole(testUser2).equals("Site Contributor"), String.format("User [%s] has incorrect role.", testUser2));
-
-        LOG.info("STEP2: Delete permissions for testUser2.");
-        managePermissionsPage.deleteUserOrGroupFromPermission(testUser2);
-        getBrowser().waitInSeconds(5);
-        assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is added in permissions.", testUser2));
-
-        LOG.info("STEP3: Click Save button and return to Document Library page.");
+        log.info("Add user permission as testuser2 for file and click on save button.");
+        managePermissionsPage
+            .searchAndAddUserAndGroup(testUser2.getUsername());
         managePermissionsPage.clickSave();
 
-        LOG.info("STEP4: Navigate to Manage Permissions page for the folder.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-
-        LOG.info("STEP5: Verify locally set permissions.");
-        assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
-        assertTrue(managePermissionsPage.getRole(testUser2).equals("Site Contributor"), String.format("User [%s] has incorrect role.", testUser2));
-
-        LOG.info("STEP6: Delete permissions for testUser2.");
-        managePermissionsPage.deleteUserOrGroupFromPermission(testUser2);
-        getBrowser().waitInSeconds(5);
-        assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is added in permissions.", testUser2));
-
-        LOG.info("STEP7: Click Save button and then return to Manage Permissions page for the folder.");
+        log.info("Now Add the user permission as testuser2 for folder.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+        managePermissionsPage
+            .searchAndAddUserAndGroup(testUser2.getUsername());
         managePermissionsPage.clickSave();
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is added in permissions.", testUser2));
 
-        LOG.info("STEP8: Logout from testUser1 and Login as testUser2 and navigate to Document Library page.");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(testUser2, password);
-        documentLibraryPage.navigate(siteName);
+        log.info("STEP1: Verify locally set permissions for the file.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP9: Navigate to Manage Permissions page and check permissions for file/folder were removed.");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(testFileName, ItemActions.MANAGE_PERMISSIONS), "Action is available");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(testFolderName, ItemActions.MANAGE_PERMISSIONS), "Actions is available");
-        cleanupAuthenticatedSession();
+        managePermissionsPage
+            .assertIsPermissionAddedForUser(testUser2.getUsername())
+            .assertUserRoleAtPermissionPageEquals("Site Contributor", testUser2.getUsername());
+
+        log.info("STEP2: Delete permissions for testUser2 and verify that the permission deleted and then click on Save Button.");
+        managePermissionsPage
+            .deleteUserOrGroupFromPermission(testUser2.getUsername());
+        managePermissionsPage
+            .assertNoPermissionAddedForUser(testUser2.getUsername())
+            .clickSave();
+
+        log.info("STEP3: Navigate to Manage Permissions page for the folder.");
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        log.info("STEP5: Verify locally set permissions.");
+        managePermissionsPage
+            .assertIsPermissionAddedForUser(testUser2.getUsername())
+            .assertUserRoleAtPermissionPageEquals("Site Contributor", testUser2.getUsername());
+
+        log.info("STEP6: Delete permissions for testUser2.");
+        managePermissionsPage
+            .deleteUserOrGroupFromPermission(testUser2.getUsername());
+
+        managePermissionsPage
+            .assertNoPermissionAddedForUser(testUser2.getUsername());
+
+        log.info("STEP7: Click Save button and then return to Manage Permissions page for the folder.");
+        managePermissionsPage.clickSave();
+
+        documentLibraryPage
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+        managePermissionsPage
+            .assertNoPermissionAddedForUser(testUser2.getUsername());
+
+        log.info("STEP8: Login as testUser2 and navigate to Document Library page.");
+        authenticateUsingCookies(testUser2);
+
+        documentLibraryPage
+            .navigate(site.get().getTitle());
+
+        log.info("STEP9: Navigate to Manage Permissions page and check permissions for file/folder were removed.");
+        documentLibraryPage
+            .assertActionItem_Not_AvailableInTheDocumentLibraryItems(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS)
+            .assertActionItem_Not_AvailableInTheDocumentLibraryItems(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
     }
 
     @TestRail (id = "C7123")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelChangesFromManagePermissions()
     {
-        LOG.info("Precondition: Login as testUser1 and navigate to Manage Permissions for the testFile.");
-        setupAuthenticatedSession(testUser1, password);
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
+        log.info("Navigate to the Mange permission page for File.");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP1: On the Manage Permissions page click on Add User/Group button and search for testUser2.");
-        managePermissionsPage.searchAndAddUserAndGroup(testUser2);
-        assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
+        log.info("STEP1: On the Manage Permissions page click on Add User/Group button and search for testUser2.");
+        managePermissionsPage
+            .searchAndAddUserAndGroup(testUser2.getUsername());
+        managePermissionsPage
+            .assertIsPermissionAddedForUser(testUser2.getUsername());
 
-        LOG.info("STEP2: On the Manage Permissions page click the Cancel button and return to Document Library page.");
+        log.info("STEP2: On the Manage Permissions page click the Cancel button and return to Document Library page.");
         managePermissionsPage.clickCancel();
-        assertTrue(documentLibraryPage.isContentNameDisplayed(testFileName), String.format("The file [%s] is not present", testFileName));
 
-        LOG.info("STEP3: Return to Manage Permissions for the file and verify changes are not saved.");
-        documentLibraryPage.selectItemAction(testFileName, ItemActions.MANAGE_PERMISSIONS);
-        assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
-        managePermissionsPage.clickCancel();
-        assertTrue(documentLibraryPage.isContentNameDisplayed(testFolderName), String.format("The file [%s] is not present", testFolderName));
+        documentLibraryPage
+            .assertFileIsDisplayed(fileToCheck.getName());
 
-        LOG.info("STEP4: Navigate to Manage Permissions for the folder.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
+        log.info("STEP3: Return to Manage Permissions for the file and verify changes are not saved.");
+        documentLibraryPage
+            .selectItemAction(fileToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP5: On the Manage Permissions page click on Add User/Group button and search for testUser2.");
-        managePermissionsPage.searchAndAddUserAndGroup(testUser2);
-        assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
+        managePermissionsPage
+            .assertNoPermissionAddedForUser(testUser2.getUsername())
+            .clickCancel();
 
-        LOG.info("STEP6: On the Manage Permissions page click the Cancel button and return to Document Library page.");
-        managePermissionsPage.clickCancel();
-        assertTrue(documentLibraryPage.isContentNameDisplayed(testFolderName), String.format("The file [%s] is not present", testFolderName));
+        log.info("STEP4: Navigate to Manage Permissions for the folder.");
+        documentLibraryPage
+            .assertFileIsDisplayed(folderToCheck.getName())
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
 
-        LOG.info("STEP7: Return to Manage Permissions for the folder and verify changes are not saved.");
-        documentLibraryPage.selectItemAction(testFolderName, ItemActions.MANAGE_PERMISSIONS);
-        assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
-        cleanupAuthenticatedSession();
+        log.info("STEP5: On the Manage Permissions page click on Add User/Group button and search for testUser2."
+            + "STEP6: On the Manage Permissions page click the Cancel button and return to Document Library page."
+            + "STEP7: Return to Manage Permissions for the folder and verify changes are not saved.");
+        managePermissionsPage
+            .searchAndAddUserAndGroup(testUser2.getUsername());
+        managePermissionsPage
+            .assertIsPermissionAddedForUser(testUser2.getUsername())
+            .clickCancel();
+
+        documentLibraryPage
+            .assertFileIsDisplayed(folderToCheck.getName())
+            .selectItemAction(folderToCheck.getName(), ItemActions.MANAGE_PERMISSIONS);
+
+        managePermissionsPage
+            .assertNoPermissionAddedForUser(testUser2.getUsername());
     }
 }
