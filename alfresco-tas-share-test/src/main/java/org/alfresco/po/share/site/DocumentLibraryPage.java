@@ -107,8 +107,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By documentList_ = By.cssSelector(".documents[id$='_default-documents']");
     private By optionMenu_ = By.cssSelector("button[id$='default-options-button-button']");
     private By hideFoldersMenuOption_=By.cssSelector(".hideFolders");
-    @FindAll(@FindBy(css = ".crumb .folder")) private List<WebElement> breadcrumbList;
-    @FindBy(css = ".crumb .label a") private WebElement breadcumbCurrentFolder;
+    //@FindAll(@FindBy(css = ".crumb .folder")) private List<WebElement> breadcrumbList;
+    private List<WebElement> breadcrumbList = findElements((By.xpath("//div[contains(@class, 'crumb')]/a[@class='folder']")));
+    //@FindBy(css = ".crumb .label a") private WebElement breadcumbCurrentFolder;
+    private By breadcumbCurrentFolder = By.cssSelector(".crumb .label a");
     @FindBy(css = "button[id*='folderUp']") private WebElement folderUpButton;
     private By contentNameInputField = By.cssSelector("input[id*='form-field']");
     @FindBy(css = ".insitu-edit a") private List<WebElement> buttonsFromRenameContent;
@@ -137,6 +139,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By contentTagsSelector = By.cssSelector(".item .tag-link");
     private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
     private By removeTagIconSelector = By.cssSelector(".inlineTagEditTag img[src*='delete-item-off']");
+    private By deleteFileFolderPrompt = By.xpath("//div[@id='prompt']/div[contains(text(),'Delete')]");
+    private By deleteButtonPrompt = By.xpath("//div[@id='prompt']//button[contains(text(),'Delete')]");
 
     private By contentNameSelector = By.cssSelector(".filename a");
     private By checkBoxSelector = By.cssSelector("tbody[class='yui-dt-data'] input[id*='checkbox']");
@@ -560,7 +564,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         {
             breadcrumbTextList.add(aBreadcrumbList.getText());
         }
-        breadcrumbTextList.add(breadcumbCurrentFolder.getText());
+        breadcrumbTextList.add(findElement(breadcumbCurrentFolder).getText());
 
         return breadcrumbTextList.toString();
     }
@@ -1165,6 +1169,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return new DocumentDetailsPage(webDriver);
     }
 
+    public void clickOnDeleteButtonOnDeletePrompt()
+    {
+        waitUntilElementIsVisible(findElement(deleteFileFolderPrompt));
+        findElement(deleteButtonPrompt).click();
+    }
+
     /**
      * Method to check that the geolocation metadata icon is displayed next to the document
      */
@@ -1321,6 +1331,30 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return this;
     }
 
+    public DocumentLibraryPage assertLikeButtonNotDisplayed(String fileName)
+    {
+        log.info("Assert Like button is not displayed for the file/Folder {} ", fileName);
+        assertFalse(isLikeButtonDisplayed(fileName),
+            "file/Folders link is present for " + fileName);
+        return this;
+    }
+
+    public DocumentLibraryPage assertCommentButtonNotDisplayed(String fileName)
+    {
+        log.info("Assert Comment button is not displayed for the file/Folder {} ", fileName);
+        assertFalse(isCommentButtonDisplayed(fileName),
+            "file/Folders comment button is present for " + fileName);
+        return this;
+    }
+
+    public DocumentLibraryPage assertShareButtonNotDisplayed(String fileName)
+    {
+        log.info("Assert share button is not displayed for the file/Folder {} ", fileName);
+        assertFalse(isShareButtonDisplayed(fileName),
+            "file/Folders share button is present for " + fileName);
+        return this;
+    }
+
     public DocumentLibraryPage assertIsGioLocationMetadataIconDisplayed()
     {
         log.info("Verify that the Gio location Metadata Icon is Displayed");
@@ -1464,6 +1498,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         log.info("Verify that the added tag displayed for item {}", itemTag);
         assertEquals(getTags(itemName), "[" + itemTag + "]", String.format("The tag of the item is not matched with %s ", itemTag));
+        return this;
+    }
+
+    public DocumentLibraryPage assertBreadCrumbEquals(String... breadCrumb)
+    {
+        log.info("Verify the breadcrumb of the folder");
+        ArrayList<String> breadcrumb = new ArrayList<>(Arrays.asList(breadCrumb));
+        assertEquals(getBreadcrumbList(), breadcrumb.toString(), "BreadCrumb of folder not mathced");
         return this;
     }
 }

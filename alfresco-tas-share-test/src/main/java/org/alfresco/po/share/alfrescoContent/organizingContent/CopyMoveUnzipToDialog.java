@@ -1,9 +1,10 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent;
 
-import static org.alfresco.common.Wait.WAIT_10;
-import static org.alfresco.common.Wait.WAIT_15;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.alfresco.common.Wait.WAIT_10;
+import static org.alfresco.common.Wait.WAIT_15;
 
 import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
@@ -167,6 +168,13 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
     {
         log.info("Assert Create Link button is not displayed");
         assertFalse(isElementDisplayed(createLinkButton), "Create link button is displayed");
+        return this;
+    }
+
+    public CopyMoveUnzipToDialog assertDialogTitleEquals(String contentName)
+    {
+        log.info("Verify the Dialog Title...");
+        assertEquals(getDialogTitle(), contentName, String.format("Dialog title not matched with [%s]", contentName));
         return this;
     }
 
