@@ -618,6 +618,20 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return this;
     }
 
+    public DocumentDetailsPage assertContentNameEquals(String contentName)
+    {
+        log.info("Assert file/folder name is {}", contentName);
+        assertEquals(getFileName(), contentName, "File name is not correct");
+        return this;
+    }
+
+    public DocumentDetailsPage assertPageTitleEquals(String pageTitle)
+    {
+        log.info("Verify that the page title is {}", pageTitle);
+        assertEquals(getPageTitle(), pageTitle, "Page title is not matched with [%s]" +pageTitle);
+        return this;
+    }
+
     public boolean isRestrictableValueUpdated(String hours)
     {
         String restrictable = "//span[contains(@class,'viewmode-value')] [contains(text(),'" + hours + "')]";
