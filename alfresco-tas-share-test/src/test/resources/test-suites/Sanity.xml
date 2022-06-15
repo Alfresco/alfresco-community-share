@@ -40,6 +40,7 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.RestrictingMobileAccessTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.DownloadingContentTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
       </classes>
    </test>
 </suite>

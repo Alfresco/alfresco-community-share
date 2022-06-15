@@ -1,14 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
 import static org.alfresco.common.Utils.testDataFolder;
-import static org.testng.Assert.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -16,7 +14,6 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
-import org.alfresco.utility.report.Bug;
 import org.testng.annotations.*;
 
 /**
@@ -25,34 +22,26 @@ import org.testng.annotations.*;
 @Slf4j
 public class WorkingWithLinksTests extends BaseTest
 {
-    private String siteName1;
-    private String siteName2;
-    private String fileC42624;
-    private String linkC42624;
-    private String folderC42626;
-    private String linkC42626;
-    private final String newFileC42628 = "EditedFileC7074.txt";
-    private final String linkC42628 = "Link to " + newFileC42628;
-    private final String newVersionFilePath = testDataFolder + newFileC42628;
-    private String fileC42629;
-    private String linkC42629;
-    private String fileC42630;
-    private String linkC42630;
-    private String folderC42631;
-    private String linkC42631;
+    private String testSite;
+    private String testFile;
+    private String testFileLink;
+    private String testFolder;
+    private String testFolderLink;
+    private final String newEditedTestFile = "EditedFileC7074.txt";
+    private final String newEditedTestFileLink = "Link to " + newEditedTestFile;
+    private final String newVersionFilePath = testDataFolder + newEditedTestFile;
 
     private DocumentLibraryPage documentLibraryPage;
     private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
     private SharedFilesPage sharedFilesPage;
     private DocumentDetailsPage documentDetailsPage;
-    private GoogleDocsCommon googleDocsCommon;
     private UploadContent uploadContent;
     private RepositoryPage repositoryPage;
     private DeleteDialog deleteDialog;
 
     private FileModel fileToCheck;
     private FolderModel folderToCheck;
-    private UserModel testUser1;
+    private UserModel testUser;
 
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
@@ -61,50 +50,31 @@ public class WorkingWithLinksTests extends BaseTest
     public void setupTest()
     {
         log.info("Creating a testuser1 and site1 created by testuser1");
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
-        site.set(getDataSite().usingUser(testUser1).createPublicRandomSite());
-        siteName1 = site.get().getTitle();
+        testUser = dataUser.usingAdmin().createRandomTestUser();
+        site.set(getDataSite().usingUser(testUser).createPublicRandomSite());
+        testSite = site.get().getTitle();
 
-        getCmisApi().authenticateUser(testUser1);
+        getCmisApi().authenticateUser(testUser);
 
         documentLibraryPage = new DocumentLibraryPage(webDriver);
         documentDetailsPage = new DocumentDetailsPage(webDriver);
         copyMoveUnzipToDialog = new CopyMoveUnzipToDialog(webDriver);
         sharedFilesPage  = new SharedFilesPage(webDriver);
-        googleDocsCommon = new GoogleDocsCommon();
         uploadContent = new UploadContent(webDriver);
         repositoryPage = new RepositoryPage(webDriver);
         deleteDialog = new DeleteDialog(webDriver);
 
         fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
         getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
-        fileC42624 = fileToCheck.getName();
-        linkC42624 = "Link to " + fileC42624;
+        testFile = fileToCheck.getName();
+        testFileLink = "Link to " + testFile;
 
         folderToCheck = FolderModel.getRandomFolderModel();
         getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
-        folderC42626 = folderToCheck.getName();
-        linkC42626 = "Link to " + folderC42626;
+        testFolder = folderToCheck.getName();
+        testFolderLink = "Link to " + testFolder;
 
-        site.set(getDataSite().usingUser(testUser1).createPublicRandomSite());
-        siteName2 = site.get().getTitle();
-
-        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
-        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
-        fileC42629 = fileToCheck.getName();
-        linkC42629 = "Link to " + fileC42629;
-
-        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
-        getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
-        fileC42630 = fileToCheck.getName();
-        linkC42630 = "Link to " + fileC42630;
-
-        folderToCheck = FolderModel.getRandomFolderModel();
-        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
-        folderC42631 = folderToCheck.getName();
-        linkC42631 = "Link to " + folderC42631;
-
-        authenticateUsingCookies(testUser1);
+        authenticateUsingCookies(testUser);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -121,28 +91,28 @@ public class WorkingWithLinksTests extends BaseTest
         log.info("STEP1: Go to Document Library of the site"
             + "STEP2: For a file/folder, click on \"Copy to\", select a destination folder");
         documentLibraryPage
-            .navigate(siteName1)
-            .selectItemAction(fileC42624, ItemActions.COPY_TO);
+            .navigate(testSite)
+            .selectItemAction(testFile, ItemActions.COPY_TO);
 
         copyMoveUnzipToDialog
-            .assertDialogTitleEquals("Copy " + fileC42624 + " to...")
+            .assertDialogTitleEquals("Copy " + testFile + " to...")
             .selectSharedFilesDestination()
             .clickCreateLinkButton();
 
-        log.info("STEP3: Go to the link's destination " + linkC42624);
+        log.info("STEP3: Go to the link's destination " + testFileLink);
         sharedFilesPage
             .navigate()
             .assertBrowserPageTitleIs("Alfresco » Shared Files");
 
         sharedFilesPage
-            .assertFileIsDisplayed(linkC42624)
-            .assertLikeButtonNotDisplayed(linkC42624)
-            .assertCommentButtonNotDisplayed(linkC42624)
-            .assertShareButtonNotDisplayed(linkC42624);
+            .assertFileIsDisplayed(testFileLink)
+            .assertLikeButtonNotDisplayed(testFileLink)
+            .assertCommentButtonNotDisplayed(testFileLink)
+            .assertShareButtonNotDisplayed(testFileLink);
 
         log.info("Step4: Delete the link from the shared folder.....");
         sharedFilesPage
-            .selectItemActionFormFirstThreeAvailableOptions(linkC42624, ItemActions.DELETE_LINK);
+            .selectItemActionFormFirstThreeAvailableOptions(testFileLink, ItemActions.DELETE_LINK);
         sharedFilesPage
             .clickOnDeleteButtonOnDeletePrompt();
     }
@@ -153,11 +123,11 @@ public class WorkingWithLinksTests extends BaseTest
     {
         log.info("From Document actions, click on [Copy to] option and Select a destination folder and click [Create Link] button");
         documentLibraryPage
-            .navigate(siteName1)
-            .selectItemAction(fileC42624, ItemActions.COPY_TO);
+            .navigate(testSite)
+            .selectItemAction(testFile, ItemActions.COPY_TO);
 
         copyMoveUnzipToDialog
-            .assertDialogTitleEquals("Copy " + fileC42624 + " to...")
+            .assertDialogTitleEquals("Copy " + testFile + " to...")
             .selectSharedFilesDestination()
             .clickCreateLinkButton();
 
@@ -166,20 +136,20 @@ public class WorkingWithLinksTests extends BaseTest
             .navigate()
             .assertBrowserPageTitleIs("Alfresco » Shared Files");
         sharedFilesPage
-            .assertFileIsDisplayed(linkC42624);
+            .assertFileIsDisplayed(testFileLink);
 
         log.info("STEP2: Click on the link to file");
         sharedFilesPage
-            .clickOnFile(linkC42624);
+            .clickOnFile(testFileLink);
 
         documentDetailsPage
             .assertPageTitleEquals("Alfresco » Document Details")
-            .assertContentNameEquals(fileC42624);
+            .assertContentNameEquals(testFile);
 
         log.info("Step3: Delete the link from the shared folder.....");
         sharedFilesPage.navigate();
         sharedFilesPage
-            .selectItemActionFormFirstThreeAvailableOptions(linkC42624, ItemActions.DELETE_LINK);
+            .selectItemActionFormFirstThreeAvailableOptions(testFileLink, ItemActions.DELETE_LINK);
         sharedFilesPage
             .clickOnDeleteButtonOnDeletePrompt();
     }
@@ -190,12 +160,12 @@ public class WorkingWithLinksTests extends BaseTest
     {
         log.info("From Document actions, click on \"Copy to\" option");
         documentLibraryPage
-            .navigate(siteName1)
-            .selectItemAction(folderC42626, ItemActions.COPY_TO);
+            .navigate(testSite)
+            .selectItemAction(testFolder, ItemActions.COPY_TO);
 
         log.info("Select a destination folder and click \"Create Link\" button");
         copyMoveUnzipToDialog
-            .assertDialogTitleEquals("Copy " + folderC42626 + " to...")
+            .assertDialogTitleEquals("Copy " + testFolder + " to...")
             .selectSharedFilesDestination()
             .clickCreateLinkButton();
 
@@ -204,21 +174,21 @@ public class WorkingWithLinksTests extends BaseTest
             .navigate()
             .assertBrowserPageTitleIs("Alfresco » Shared Files");
         sharedFilesPage
-            .assertFileIsDisplayed(linkC42626);
+            .assertFileIsDisplayed(testFolderLink);
 
         log.info("STEP2: Click on the link to folder");
         sharedFilesPage
-            .clickLinkToFolder(linkC42626);
+            .clickLinkToFolder(testFolderLink);
 
         repositoryPage
             .assertBrowserPageTitleIs("Alfresco » Repository Browser");
         repositoryPage
-            .assertBreadCrumbEquals(folderC42626);
+            .assertBreadCrumbEquals(testFolder);
 
         log.info("Delete link from Shared folder...");
         sharedFilesPage.navigate();
         sharedFilesPage
-            .selectItemActionFormFirstThreeAvailableOptions(linkC42626, ItemActions.DELETE_LINK);
+            .selectItemActionFormFirstThreeAvailableOptions(testFolderLink, ItemActions.DELETE_LINK);
         sharedFilesPage
             .clickOnDeleteButtonOnDeletePrompt();
     }
@@ -227,40 +197,39 @@ public class WorkingWithLinksTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void linkToLockedDocRedirectsToOriginalDoc()
     {
-        log.info("Precondition1: Login to Share/Google Docs and navigate to Document Library page for the test site; upload a .docx file");
-        //setupAuthenticatedSession(userName, password);
-        log.info("Precondition2: Go to Document Library of the site. Create link for document");
+        log.info("Precondition1: Login to Share/Google Docs and navigate to Document Library page for the test site; upload a .docx file"
+            + "Precondition2: Go to Document Library of the site. Create link for document");
         documentLibraryPage
-            .navigate(siteName1)
-            .selectItemAction(fileC42624,ItemActions.COPY_TO);
+            .navigate(testSite)
+            .selectItemAction(testFile,ItemActions.COPY_TO);
         copyMoveUnzipToDialog
-            .assertDialogTitleEquals("Copy " + fileC42624 + " to...")
+            .assertDialogTitleEquals("Copy " + testFile + " to...")
             .selectSharedFilesDestination()
             .clickCreateLinkButton();
 
         log.info("STEP1: Lock the document, e.g: edit it Google Docs");
         documentLibraryPage
-            .navigate(siteName1)
-            .selectItemAction(fileC42624,ItemActions.EDIT_OFFLINE);
+            .navigate(testSite)
+            .selectItemAction(testFile,ItemActions.EDIT_OFFLINE);
 
         log.info("STEP2: Go to the location where the link was created");
         sharedFilesPage
             .navigate()
             .assertBrowserPageTitleIs("Alfresco » Shared Files");
         sharedFilesPage
-            .assertFileIsDisplayed(linkC42624);
+            .assertFileIsDisplayed(testFileLink);
 
         log.info("STEP3: Click on the link");
         documentLibraryPage
-            .clickOnFile(linkC42624);
+            .clickOnFile(testFileLink);
         documentDetailsPage
             .assertPageTitleEquals("Alfresco » Document Details")
-            .assertContentNameEquals(fileC42624);
+            .assertContentNameEquals(testFile);
 
         log.info("STEP4: Deleting Link from Share Folder");
         sharedFilesPage
             .navigate(site.get())
-            .selectItemActionFormFirstThreeAvailableOptions(linkC42624, ItemActions.DELETE_LINK);
+            .selectItemActionFormFirstThreeAvailableOptions(testFileLink, ItemActions.DELETE_LINK);
         sharedFilesPage
             .clickOnDeleteButtonOnDeletePrompt();
     }
@@ -270,19 +239,19 @@ public class WorkingWithLinksTests extends BaseTest
     {
         log.info("Precondition1: 'Upload new version' for a file");
         documentLibraryPage
-            .navigate(siteName1)
-            .selectItemAction(fileC42624, ItemActions.UPLOAD_NEW_VERSION);
+            .navigate(testSite)
+            .selectItemAction(testFile, ItemActions.UPLOAD_NEW_VERSION);
 
         uploadContent
             .updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
 
-        log.info("Precondition2: Create link for the file with new version " + newFileC42628);
+        log.info("Precondition2: Create link for the file with new version " + newEditedTestFile);
         documentLibraryPage
-            .assertIsContantNameDisplayed(newFileC42628)
-            .selectItemAction(newFileC42628, ItemActions.COPY_TO);
+            .assertIsContantNameDisplayed(newEditedTestFile)
+            .selectItemAction(newEditedTestFile, ItemActions.COPY_TO);
 
         copyMoveUnzipToDialog
-            .assertDialogTitleEquals("Copy " + newFileC42628 + " to...")
+            .assertDialogTitleEquals("Copy " + newEditedTestFile + " to...")
             .selectSharedFilesDestination()
             .clickCreateLinkButton();
 
@@ -293,17 +262,17 @@ public class WorkingWithLinksTests extends BaseTest
 
         log.info("STEP2: Click on the created link");
         sharedFilesPage
-            .clickOnFile(linkC42628);
+            .clickOnFile(newEditedTestFileLink);
 
         documentDetailsPage
             .assertPageTitleEquals("Alfresco » Document Details")
-            .assertContentNameEquals(newFileC42628);
+            .assertContentNameEquals(newEditedTestFile);
 
         log.info("STEP3: Deleting the Link from Share Folder");
         sharedFilesPage
             .navigate();
         sharedFilesPage
-            .selectItemActionFormFirstThreeAvailableOptions(linkC42628, ItemActions.DELETE_LINK);
+            .selectItemActionFormFirstThreeAvailableOptions(newEditedTestFileLink, ItemActions.DELETE_LINK);
         sharedFilesPage
             .clickOnDeleteButtonOnDeletePrompt();
     }
@@ -314,12 +283,12 @@ public class WorkingWithLinksTests extends BaseTest
     {
         log.info("Precondition: For a file click 'Copy to' option");
         documentLibraryPage
-            .navigate(siteName2)
-            .selectItemAction(fileC42629,ItemActions.COPY_TO);
+            .navigate(testSite)
+            .selectItemAction(testFile,ItemActions.COPY_TO);
 
         log.info("Precondition: Click \"Create Link\" button");
         copyMoveUnzipToDialog
-            .assertDialogTitleEquals("Copy " + fileC42629 + " to...")
+            .assertDialogTitleEquals("Copy " + testFile + " to...")
             .selectSharedFilesDestination()
             .clickCreateLinkButton();
 
@@ -328,96 +297,133 @@ public class WorkingWithLinksTests extends BaseTest
             .navigate()
             .assertBrowserPageTitleIs("Alfresco » Shared Files");
         sharedFilesPage
-            .assertFileIsDisplayed(linkC42629);
+            .assertFileIsDisplayed(testFileLink);
 
-        log.info("STEP2: Verify available actions for " + linkC42629);
-        sharedFilesPage.assertIsActionAvailableForLibraryItem(linkC42629,ItemActions.LOCATE_LINKED_ITEM);
-        sharedFilesPage.assertIsActionAvailableForLibraryItem(linkC42629,ItemActions.DELETE_LINK);
-        sharedFilesPage.assertIsActionAvailableForLibraryItem(linkC42629,ItemActions.COPY_TO);
-        sharedFilesPage.assertIsActionAvailableForLibraryItem(linkC42629,ItemActions.MOVE_TO);
+        log.info("STEP2: Verify available actions for " + testFileLink);
+        sharedFilesPage
+            .assertIsActionAvailableForLibraryItem(testFileLink,ItemActions.LOCATE_LINKED_ITEM);
+        sharedFilesPage
+            .assertIsActionAvailableForLibraryItem(testFileLink,ItemActions.DELETE_LINK);
+        sharedFilesPage
+            .assertIsActionAvailableForLibraryItem(testFileLink,ItemActions.COPY_TO);
+        sharedFilesPage
+            .assertIsActionAvailableForLibraryItem(testFileLink,ItemActions.MOVE_TO);
 
     }
 
-    @Bug (id = "MNT-17556", description = "Step 2: file is not selected")
     @TestRail (id = "C42630")
-    @Test (enabled = false,groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups =  { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLocateLinkedItemRedirectsToOriginalDoc()
     {
         log.info("Precondition: For a file click 'Copy to' option");
         documentLibraryPage
-            .navigate(siteName2);
-        documentLibraryPage
-            .selectItemAction(fileC42630, ItemActions.COPY_TO);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileC42630 + " to...", "Displayed dialog=");
+            .navigate(testSite)
+            .selectItemAction(testFile, ItemActions.COPY_TO);
 
         log.info("Precondition: Click \"Create Link\" button");
         copyMoveUnzipToDialog
-            .selectSharedFilesDestination();
-        copyMoveUnzipToDialog
+            .assertDialogTitleEquals("Copy " + testFile + " to...")
+            .selectSharedFilesDestination()
             .clickCreateLinkButton();
 
         log.info("STEP1: Go to the location where the link was created");
-        sharedFilesPage.navigate();
-        // assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed(linkC42630), linkC42630 + " is displayed in destination of copy file, Shared Files.");
+        sharedFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » Shared Files");
+        sharedFilesPage
+            .assertFileIsDisplayed(testFileLink);
 
         log.info("STEP2: Mouse over the link and click on 'Locate Linked Item' option");
         sharedFilesPage
-            .selectItemActionFormFirstThreeAvailableOptions(linkC42630,ItemActions.LOCATE_LINKED_ITEM);
-        // assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
+            .selectItemActionFormFirstThreeAvailableOptions(testFileLink, ItemActions.LOCATE_LINKED_ITEM);
 
-        log.info("STEP3: Verify Page redirects to the Document Library view of the location of the original file");
-        assertTrue(repositoryPage.isContentNameDisplayed(fileC42630), fileC42630 + " is selected");
+        log.info("Step3: Verify that Page redirects to the Document Library view of the location of the original file/Folder.");
+        repositoryPage
+            .assertBrowserPageTitleIs("Alfresco » Repository Browser");
+        repositoryPage
+            .assertFileIsDisplayed(testFile);
+
+        log.info("Step4: Delete the link from the shared folder.....");
+        sharedFilesPage
+            .navigate();
+        sharedFilesPage
+            .selectItemActionFormFirstThreeAvailableOptions(testFileLink, ItemActions.DELETE_LINK);
+        sharedFilesPage
+            .clickOnDeleteButtonOnDeletePrompt();
     }
 
-    @Bug (id = "MNT-17556", description = "Step 2: folder is not selected")
     @TestRail (id = "C42631")
-    @Test (enabled = false,groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLocateLinkedItemRedirectsToFolder()
     {
         log.info("Precondition: For a file click 'Copy to' option");
-        documentLibraryPage.navigate(siteName2);
         documentLibraryPage
-            .selectItemAction(folderC42631, ItemActions.COPY_TO);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderC42631 + " to...", "Displayed dialog=");
+            .navigate(testSite)
+            .selectItemAction(testFolder, ItemActions.COPY_TO);
 
         log.info("Precondition: Click \"Create Link\" button");
-        copyMoveUnzipToDialog.selectSharedFilesDestination();
-        copyMoveUnzipToDialog.clickCreateLinkButton();
+        copyMoveUnzipToDialog
+            .assertDialogTitleEquals("Copy " + testFolder + " to...")
+            .selectSharedFilesDestination()
+            .clickCreateLinkButton();
 
         log.info("STEP1: Go to the location where the link was created");
-        sharedFilesPage.navigate();
-        //        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed(linkC42631), linkC42631 + " is displayed in destination of copy file, Shared Files.");
+        sharedFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » Shared Files");
+        sharedFilesPage
+            .assertFileIsDisplayed(testFolderLink);
 
         log.info("STEP2: Mouse over the link and click on 'Locate Linked Item' option");
         sharedFilesPage
-            .selectItemActionFormFirstThreeAvailableOptions(linkC42631, ItemActions.LOCATE_LINKED_ITEM);
-        // assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
-        assertTrue(repositoryPage.isContentNameDisplayed(folderC42631), folderC42631 + " is selected");
+            .selectItemActionFormFirstThreeAvailableOptions(testFolderLink, ItemActions.LOCATE_LINKED_ITEM);
+
+        log.info("Step3: Verify that Page redirects to the Document Library view of the location of the original file/Folder.");
+        repositoryPage
+            .assertBrowserPageTitleIs("Alfresco » Repository Browser");
+        repositoryPage
+            .assertFileIsDisplayed(testFolder);
+
+        log.info("Step4: Delete the link from the shared folder.....");
+        sharedFilesPage
+            .navigate();
+        sharedFilesPage
+            .selectItemActionFormFirstThreeAvailableOptions(testFolderLink, ItemActions.DELETE_LINK);
+        sharedFilesPage
+            .clickOnDeleteButtonOnDeletePrompt();
     }
 
-    @Bug (id = "MNT-17556", description = "Step 2: folder is not selected")
     @TestRail (id = "C42632")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteLinkRemovesLink()
     {
         log.info("Precondition: For a file click 'Copy to' option");
-        documentLibraryPage.navigate(siteName2);
-        documentLibraryPage.selectItemAction(folderC42631, ItemActions.COPY_TO);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderC42631 + " to...", "Displayed dialog=");
+        documentLibraryPage
+            .navigate(testSite)
+            .selectItemAction(testFolder, ItemActions.COPY_TO);
+
         log.info("Precondition: Click \"Create Link\" button");
-        copyMoveUnzipToDialog.selectSharedFilesDestination();
-        copyMoveUnzipToDialog.clickCreateLinkButton();
+        copyMoveUnzipToDialog
+            .assertDialogTitleEquals("Copy " + testFolder + " to...")
+            .selectSharedFilesDestination()
+            .clickCreateLinkButton();;
+
         log.info("STEP1: Go to the location where the link was created");
-        sharedFilesPage.navigate();
-        //        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed(linkC42631), linkC42631 + " is displayed in destination of copy file, Shared Files.");
+        sharedFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » Shared Files");
+
         log.info("STEP2: Mouse over the link and click on 'Delete Link' option");
-        sharedFilesPage.selectItemAction(linkC42631, ItemActions.DELETE_LINK);
-        assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.contentActions.deleteDocument"), "Displayed dialog=");
+        sharedFilesPage
+            .selectItemActionFormFirstThreeAvailableOptions(testFolderLink, ItemActions.DELETE_LINK);
+
         log.info("STEP3: In the Delete confirmation dialog press 'Delete' button");
-        deleteDialog.confirmDeletion();
-        assertFalse(sharedFilesPage.isContentNameDisplayed(linkC42631), linkC42631 + " is displayed in destination of copy file, Shared Files.");
+        deleteDialog
+            .assertDeleteDialogHeaderEquals(language.translate("documentLibrary.contentActions.deleteDocument"))
+            .confirmDeletion();
+
+        log.info("Step4: Verify that the link should not be present in the shared File");
+        sharedFilesPage
+            .assertFileIsNotDisplayed(testFolderLink);
     }
 }

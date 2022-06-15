@@ -100,4 +100,11 @@ public class DeleteDialog extends BaseDialogComponent
         assertTrue(isElementDisplayed(cancelButton), "Cancel button is displayed.");
         return this;
     }
+
+    public DeleteDialog assertDeleteDialogHeaderEquals(String header)
+    {
+        log.info("Assert Delete Dialog Header is equals {}", header);
+        assertEquals(getHeader(), header, String.format("Header is not matched with %s",header));
+        return this;
+    }
 }
