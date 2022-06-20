@@ -1079,6 +1079,10 @@
                       {
                           this._onAlreadyLockedConfirmation(record, lockOwner);
                       }
+                      else if (differentLockOwner)
+                      {
+                          this._onAlreadyOnlineLockedConfirmation(record, lockOwner);
+                      }
                       else
                       {
                           this._triggerEditOnlineAos(record);
@@ -1122,6 +1126,26 @@
                   {
                       text: this.msg('message.edit-online-aos.edit_offline_locked.cancel'),
                       handler: function dlA_onAlreadyLockedConfirmation_cancel()
+                      {
+                          this.destroy();
+                      },
+                      isDefault: true
+                  }
+              ]
+          });
+      },
+
+      _onAlreadyOnlineLockedConfirmation: function dlA_onAlreadyOnlineLockedConfirmation(record, lockOwner)
+      {
+          var me = this;
+          Alfresco.util.PopupManager.displayPrompt(
+          {
+              title: this.msg('message.edit-online-aos.edit_locked.title', lockOwner.displayName.length > 0 ? lockOwner.displayName : lockOwner.userName ),
+              text: this.msg('message.edit-online-aos.edit_locked.message'),
+              buttons: [
+                  {
+                      text: this.msg('message.edit-online-aos.edit_locked.button_dismiss'),
+                      handler: function dlA_onAlreadyOnlineLockedConfirmation_cancel()
                       {
                           this.destroy();
                       },
