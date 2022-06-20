@@ -22,6 +22,7 @@
         <module>wcmquickstart-module</module>
         <module>packaging</module>
         <module>share-encryption</module>
+        <module>alfresco-tas-share-test</module>
     </modules>
 
     <properties>
