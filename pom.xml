@@ -21,6 +21,7 @@
         <module>share-encryption</module>
         <module>packaging</module>
         <module>amps</module>
+        <module>alfresco-tas-share-test</module>
     </modules>
 
     <properties>
