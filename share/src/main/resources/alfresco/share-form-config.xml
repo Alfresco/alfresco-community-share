@@ -356,7 +356,7 @@
                   </control>
                </field>
                <field id="mimetype">
-                  <control template="/org/alfresco/components/form/controls/hidden.ftl">
+                  <control template="/org/alfresco/components/form/controls/create-content-mimetype.ftl">
                      <control-param name="contextProperty">mimeType</control-param>
                   </control>
                </field>
