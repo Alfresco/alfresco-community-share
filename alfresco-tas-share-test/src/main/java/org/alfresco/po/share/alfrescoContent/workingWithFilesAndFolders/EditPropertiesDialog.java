@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
@@ -102,6 +103,21 @@ public class EditPropertiesDialog extends BaseDialogComponent
     {
         log.info("Assert tag {} is selected", tag);
         assertTrue(isTagSelected(tag), String.format("Tag %s is not displayed", tag));
+        return this;
+    }
+
+    public EditPropertiesDialog assertIseditPropertiesDialogEquals(String contentName)
+    {
+        log.info("Verify Edit properties title.");
+        assertEquals(getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), contentName),
+            "Displayed dialog=");
+        return this;
+    }
+
+    public EditPropertiesDialog assertIsSelectTagsButtonDisplayed()
+    {
+        log.info("Verify that the Select Tag Button is Displayed.");
+        assertTrue(isSelectTagsButtonDisplayed(), "Select Tag Button is not displayed.");
         return this;
     }
 
