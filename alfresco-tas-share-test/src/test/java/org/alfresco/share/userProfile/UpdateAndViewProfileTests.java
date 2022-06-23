@@ -1,13 +1,15 @@
 package org.alfresco.share.userProfile;
 
-import org.alfresco.common.Utils;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.apache.commons.lang.StringUtils;
 import org.testng.annotations.*;
+
+import java.io.File;
 
 public class UpdateAndViewProfileTests extends BaseTest
 {
@@ -85,7 +87,9 @@ public class UpdateAndViewProfileTests extends BaseTest
         userProfilePage.navigate(user.get())
             .assertDefaultAvatarIsDisplayed()
             .clickEditProfile()
-            .uploadNewPhoto(Utils.testDataFolder + "newavatar.jpg")
+            .uploadNewPhoto(StringUtils.substringBeforeLast(System.getProperty("user.dir"),File.separator)
+                + File.separator + "testdata" + File.separator
+                + "newavatar.jpg")
             .clickSave()
             .assertNewAvatarIsDisplayed()
             .clickEditProfile()
