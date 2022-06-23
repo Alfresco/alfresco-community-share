@@ -1,6 +1,6 @@
 package org.alfresco.share.adminTools.users;
 
-import java.io.File;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -12,8 +12,6 @@ import org.testng.annotations.Test;
 public class ImportUsersTests extends BaseTest
 {
     private final String password = "password";
-    private String srcRoot = System.getProperty("user.dir") + File.separator;
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
 
     private UsersPage usersPage;
 
@@ -31,7 +29,7 @@ public class ImportUsersTests extends BaseTest
         UserModel importedUser = new UserModel("C9438user", password);
 
         usersPage.navigate();
-        usersPage.uploadUsers(testDataFolder + "C9438.csv").clickGoBack()
+        usersPage.uploadUsers(Utils.testDataFolder + "C9438.csv").clickGoBack()
             .searchUserWithRetry(importedUser)
                 .usingUser(importedUser).assertUserIsFound();
         deleteUsersIfNotNull(importedUser);
