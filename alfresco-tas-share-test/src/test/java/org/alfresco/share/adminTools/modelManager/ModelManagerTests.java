@@ -176,7 +176,8 @@ public class ModelManagerTests extends BaseTest
     public void exportModel()
     {
         String name = String.format("C9517testModel%s", getRandomAlphanumeric());
-        File exportedFile = new File(testDataFolder + File.separator + name.concat(".zip"));
+        File exportedFile = new File(System.getProperty("user.dir")
+            + File.separator + "testdata" + File.separator + name.concat(".zip"));
         exportedFile.deleteOnExit();
         CustomContentModel modelToExport = new CustomContentModel(name, name, name);
         createCustomModel(modelToExport);

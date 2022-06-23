@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.function.Supplier;
 import org.alfresco.utility.Utility;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -27,8 +28,9 @@ public final class Utils
 {
     protected static final Logger LOG = LoggerFactory.getLogger(Utils.class);
 
-    public static String srcRoot = System.getProperty("user.dir") + File.separator;
+    public static String srcRoot = StringUtils.substringBeforeLast(System.getProperty("user.dir"),File.separator) + File.separator;
     public static String testDataFolder = srcRoot + "testdata" + File.separator;
+
     public static File screenshotFolder = new File("./target/reports/screenshots");
 
     /**
