@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Admin Tools Test Suite" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Admin Tools Tests">
+      <groups>
+         <run>
+            <include name="admin-tools"/>
+            <exclude name="regression"/>
+            <exclude name="integration"></exclude>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.adminTools.*"/>
+      </packages>
+   </test>
+
+</suite>
