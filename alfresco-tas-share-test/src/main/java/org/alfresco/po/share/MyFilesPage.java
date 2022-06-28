@@ -1,17 +1,21 @@
 package org.alfresco.po.share;
 
+import static org.alfresco.common.Wait.WAIT_3;
 import static org.alfresco.common.Wait.WAIT_40;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+
+import java.text.MessageFormat;
+
 @Slf4j
 public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
@@ -28,8 +32,12 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     {
         return "share/page/context/mine/myfiles";
     }
-
-    @SuppressWarnings ("unchecked")
+    private static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";
+    private static final String ACTION_SELECTOR_MORE = "div[id*='default-actions']:not([class*='hidden']) div.more-actions>.{0}>a";
+    private By moreSelector = By.cssSelector("div[id*='default-actions']:not([class*='hidden']) a.show-more");
+    private By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
+    private final By message = By.cssSelector("#prompt_h + div.bd");
+    private By documentLibraryItemsList = By.cssSelector("div[id$='default-documents'] tbody[class$='data'] tr");
     @Override
     public MyFilesPage navigateByMenuBar()
     {
@@ -53,10 +61,20 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
         clickElement(CreateMenuOption.FOLDER.getLocator());
         return this;
     }
-    public void assertDialogTitleEquals(String contentName)
+    public MyFilesPage assertDialogTitleEquals(String contentName)
     {
         log.info("Verify the Dialog Title..");
         assertEquals(getDialogTitle(), contentName, String.format("Dialog title not matched with [%s]", contentName));
+        return this;
+    }
+    public void assertConfirmationMessage(String contentName)
+    {
+        log.info("Verify the Confirmation Message");
+        assertEquals(getMessage(), contentName, String.format("Dialog title not matched with [%s]", contentName));
+    }
+    public String getMessage()
+    {
+        return getElementText(message);
     }
     public MyFilesPage assertIsContantNameDisplayed(String contantName)
     {
@@ -73,5 +91,54 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     public String getDialogTitle()
     {
         return getElementText(dialogTitle);
+    }
+    public MyFilesPage select_ItemAction(String contentItem, ItemActions action)
+    {
+        WebElement libraryItem = mouseOverContentItem(contentItem);
+        By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
+        WebElement actionElement;
+        if (isActionInMoreActionsContainer(action))
+        {
+            clickOnMoreActions(libraryItem);
+        }
+        try
+        {
+           actionElement = waitUntilElementIsVisible(actionSelector);
+        }
+        catch (TimeoutException timeoutException)
+        {
+            throw new TimeoutException(
+                "The action " + action.getActionName() + " could not be found for list item " + contentItem);
+        }
+        mouseOver(actionElement);
+        clickElement(actionElement);
+        return this;
+    }
+
+    private boolean isActionInMoreActionsContainer(ItemActions action)
+    {
+        By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR_MORE, action.getActionLocator()));
+        WebElement actionElement = waitUntilElementIsPresent(actionSelector);
+        return actionElement != null;
+    }
+    private void clickOnMoreActions(WebElement libraryItem)
+    {
+        WebElement moreAction = waitUntilChildElementIsPresent(libraryItem, moreSelector);
+        mouseOver(moreAction);
+        clickElement(moreAction);
+    }
+    public void assertIsContentDeleted(String contentName)
+    {
+        log.info("Verify file/folder deleted");
+        assertFalse(isContentAvailable(contentName), String.format("Check file/folder %s", contentName));
+    }
+    public boolean isContentAvailable(String contentNameInList)
+    {
+        for (WebElement contentList : findElements(documentLibraryItemsList))
+        {
+            if (contentList.getText().equals(contentNameInList))
+                return true;
+        }
+        return false;
     }
 }
