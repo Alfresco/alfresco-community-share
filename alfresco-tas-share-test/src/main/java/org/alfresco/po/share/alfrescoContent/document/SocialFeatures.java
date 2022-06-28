@@ -102,6 +102,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public void clickUnlike(String fileName)
     {
+        waitUntilElementIsVisible(enabledLikeButton);
         selectDocumentLibraryItemRow(fileName).findElement(enabledLikeButton).click();
     }
 
@@ -259,6 +260,7 @@ public class SocialFeatures extends DocumentLibraryPage
     public SocialFeatures assertLikeButtonMessage(String fileName, String message)
     {
         log.info("Assert like button message {}");
+        waitInSeconds(2);
         assertEquals(getLikeButtonMessage(fileName), message, String.format("Like Button Message not equal %s ", message));
         return this;
     }
@@ -266,13 +268,22 @@ public class SocialFeatures extends DocumentLibraryPage
     public SocialFeatures assertNoOfLikesVerify(String fileName, int noOfLikes)
     {
         log.info("Verify no of likes for the file/folder {}");
+        waitInSeconds(2);
         assertEquals(getNumberOfLikes(fileName), noOfLikes, String.format("Number of likes is not equals to %s ", noOfLikes));
+        return this;
+    }
+    public SocialFeatures assertNoOfCommentsVerify(String fileName, int noOfComments)
+    {
+        log.info("Verify no of Comments for the file/folder {}");
+        waitInSeconds(2);
+        assertEquals(getNumberOfComments(fileName), noOfComments, String.format("Number of Comments is not equals to %s ", noOfComments));
         return this;
     }
 
     public SocialFeatures assertIsLikeButtonEnabled(String fileName)
     {
         log.info("Verify Like button is enabled for file/Folder {}");
+        waitInSeconds(2);
         assertTrue(isLikeButtonEnabled(fileName), "Like button is not enabled for File/Folder");
         return this;
     }

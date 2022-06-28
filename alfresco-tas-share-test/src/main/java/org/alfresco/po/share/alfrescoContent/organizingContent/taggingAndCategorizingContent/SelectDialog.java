@@ -3,8 +3,7 @@ package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCatego
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.utility.Utility.waitToLoopTime;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -116,6 +115,13 @@ public class SelectDialog extends BaseDialogComponent
         WebElement selectedItem = waitUntilElementIsVisible(By.xpath(String.format(removeTagItemRow, tag)));
         assertTrue(isElementDisplayed(selectedItem),
             String.format("Tag is not selected %s", tag));
+        return this;
+    }
+
+    public SelectDialog assertIsItemSelected(String tagName)
+    {
+        log.info("Verify that the item is selected.");
+        assertTrue(isItemSelected(tagName), tagName.toLowerCase() + " is displayed in selected categories list.");
         return this;
     }
 

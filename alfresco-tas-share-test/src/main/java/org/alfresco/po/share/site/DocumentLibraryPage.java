@@ -10,6 +10,7 @@ import com.google.common.base.Function;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -115,8 +116,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By contentNameInputField = By.cssSelector("input[id*='form-field']");
     @FindBy(css = ".insitu-edit a") private List<WebElement> buttonsFromRenameContent;
     @FindBy(css = ".inlineTagEditAutoCompleteWrapper input") private WebElement editTagInputField;
-    @FindBy(css = "form[class='insitu-edit'] a") private List<WebElement> editTagButtons;
-    @FindBy(css = ".inlineTagEditAutoCompleteWrapper input") private WebElement tagToBeEdited;
+    private By editTagInputField_ = By.cssSelector(".inlineTagEditAutoCompleteWrapper input");
+    //@FindBy(css = "form[class='insitu-edit'] a") private List<WebElement> editTagButtons;
+    private By editTagButtons = By.cssSelector("form[class='insitu-edit'] a");
+    //@FindBy(css = ".inlineTagEditAutoCompleteWrapper input") private WebElement tagToBeEdited;
+    private By tagToBeEdited = By.cssSelector(".inlineTagEditAutoCompleteWrapper input");
     @FindBy(css = "div[class ='google-map']") private WebElement googleMap;
     @FindBy(css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']") private WebElement googleMapPopUp;
     @FindBy(css = "div[class ='status'] img[title ='Geolocation metadata available']") private WebElement geolocationMetadataIcon;
@@ -999,11 +1003,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         WebElement tagElement = findFirstElementWithExactValue(tagsList, tagName);
         Parameter.checkIsMandotary("Tag", tagElement);
         tagElement.click();
-        waitUntilElementIsVisible(tagToBeEdited);
-        tagToBeEdited.clear();
+        waitUntilElementIsVisible(findElement(tagToBeEdited));
+        findElement(tagToBeEdited).clear();
         waitInSeconds(1);
-        tagToBeEdited.sendKeys(newTagName);
-        tagToBeEdited.sendKeys(Keys.ENTER);
+        findElement(tagToBeEdited).sendKeys(newTagName);
+        findElement(tagToBeEdited).sendKeys(Keys.ENTER);
     }
 
     public boolean isNoTagsTextDisplayed(String contentName)
@@ -1053,21 +1057,21 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public boolean isEditTagInputFieldDisplayed()
     {
-        waitUntilElementIsVisible(editTagInputField);
-        return isElementDisplayed(editTagInputField);
+        waitUntilElementIsVisible(findElement(editTagInputField_));
+        return isElementDisplayed(findElement(editTagInputField_));
     }
 
     public void typeTagName(String tagName)
     {
-        waitInSeconds(5);
-        Utils.clearAndType(waitUntilElementIsVisible(editTagInputField), tagName);
-        editTagInputField.sendKeys(Keys.RETURN);
+        waitInSeconds(1);
+        Utils.clearAndType(waitUntilElementIsVisible(findElement(editTagInputField_)), tagName);
+        findElement(editTagInputField_).sendKeys(Keys.RETURN);
     }
 
     public DocumentLibraryPage clickEditTagLink(String linkName)
     {
         waitInSeconds(1);
-        WebElement link = findFirstElementWithValue(editTagButtons, linkName);
+        WebElement link = findFirstElementWithValue(findElements(editTagButtons), linkName);
         clickElement(link);
         waitInSeconds(2);
         return this;
@@ -1098,6 +1102,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public void clickEditTagIcon(String contentName)
     {
+        waitInSeconds(1);
         WebElement editTagIcon = selectDocumentLibraryItemRow(contentName).findElement(editTagSelector);
         clickElement(editTagIcon);
     }
@@ -1133,7 +1138,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         {
             if (tagsList.get(i).getText().equalsIgnoreCase(tagName))
             {
-                removeIconList.get(i);
+                removeIconList.get(i).click();
             }
         }
     }
@@ -1508,4 +1513,34 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertEquals(getBreadcrumbList(), breadcrumb.toString(), "BreadCrumb of folder not mathced");
         return this;
     }
+
+    public DocumentLibraryPage assertIsEditTagIconDisplayed(String contentName)
+    {
+        log.info("Verify that the Edit Tag Icon is displayed");
+        assertTrue(isEditTagIconDisplayed(contentName), "Edit Tag icon is not displayed");
+        return this;
+    }
+
+    public DocumentLibraryPage assertIsEditTagInputFieldDisplayed()
+    {
+        log.info("Verify that the Edit Tag Input Field is displayed");
+        assertTrue(isEditTagInputFieldDisplayed(), "Edit Tag Input Field is not displayed");
+        return this;
+    }
+
+    public DocumentLibraryPage assertCheckAddedTagsList(String tagName, String contentName)
+    {
+        log.info("Verify the added tag/tags for the content.");
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
+        assertEquals(getTags(contentName), tagsList.toString(), contentName + " -> tag/tags=");
+        return this;
+    }
+
+    public DocumentLibraryPage assertIsNoTagsTextDisplayed(String contentName)
+    {
+     log.info("Verify that no tags is displayed.");
+     assertTrue(isNoTagsTextDisplayed(contentName), "Tag is still displayed.");
+     return this;
+    }
 }
+

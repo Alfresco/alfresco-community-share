@@ -4,221 +4,265 @@ import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.share.BaseTest;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+@Slf4j
 /**
  * @author Razvan.Dorobantu
  */
-public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
-{
+public class MyFilesSocialFeaturesTests extends BaseTest {
     private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
     private final String testFilePath = testDataFolder + testFile;
-    private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
-   // @Autowired
-    private MyFilesPage myFilesPage;
-    //@Autowired
-    private SiteDashboardPage sitePage;
-    //@Autowired
-    private DocumentDetailsPage documentDetailsPage;
-    //@Autowired
-    private NewFolderDialog newContentDialog;
-    //@Autowired
-    private UploadContent uploadContent;
-    //@Autowired
-    private SocialFeatures social;
+    private final String testFolder = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
 
-    @TestRail (id = "C12839")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    private MyFilesPage myFilesPage;
+
+    private SiteDashboardPage sitePage;
+    private DocumentDetailsPage documentDetailsPage;
+
+    private NewFolderDialog newContentDialog;
+    private DocumentLibraryPage documentLibraryPage;
+    private UploadContent uploadContent;
+
+    private SocialFeatures social;
+    private UserModel testUser;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() {
+        log.info("PreCondition: Creating a TestUser");
+        testUser = dataUser.usingAdmin().createRandomTestUser();
+        getCmisApi().authenticateUser(testUser);
+        authenticateUsingCookies(testUser);
+
+        uploadContent = new UploadContent(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        social = new SocialFeatures(webDriver);
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        newContentDialog = new NewFolderDialog(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup() {
+        deleteUsersIfNotNull(user.get());
+    }
+
+    @TestRail(id = "C12839")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesLikeFile()
     {
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        log.info("Precondition: Navigate to My Files page and upload a file.");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        uploadContent
+            .uploadContent(testFilePath);
+        myFilesPage
+            .assertIsContantNameDisplayed(testFile);
 
-        LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(testFilePath);
-        assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
+        log.info("Step 1: Hover over the file Like link.");
+        myFilesPage
+            .isLikeButtonDisplayed(testFile);
+        social
+            .assertLikeButtonMessage(testFile, "Like this document")
+            .assertNoOfLikesVerify(testFile, 0);
 
-        LOG.info("Step 1: Hover over the file Like link.");
-        Assert.assertTrue(myFilesPage.isLikeButtonDisplayed(testFile), "Documents link is not present");
-        Assert.assertEquals(social.getLikeButtonMessage(testFile), "Like this document", "Like Button message is not correct");
-        Assert.assertEquals(social.getNumberOfLikes(testFile), 0, "The number of likes is not correct");
+        log.info("Step 2: Click on the Like button");
+        social.
+            clickLikeButton(testFile);
 
-        LOG.info("Step 2: Click on the Like button");
-        social.clickLikeButton(testFile);
-        Assert.assertEquals(social.getNumberOfLikes(testFile), 1, "The number of likes is not correct");
-        Assert.assertTrue(social.isLikeButtonEnabled(testFile), "Like button is not enabled");
-
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Step 3: Verify the number of likes should be 1 and Unlike button should be enabled.");
+        social
+            .assertNoOfLikesVerify(testFile, 1)
+            .assertLikeButtonMessage(testFile, "Unlike");
     }
 
-    @TestRail (id = "C13661")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void myFilesLikeFolder()
-    {
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+    @TestRail(id = "C13661")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void myFilesLikeFolder() {
+        log.info("Precondition: Navigate to My Files page and create a folder.");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        myFilesPage
+            .click_CreateButton()
+            .click_FolderLink()
+            .assertDialogTitleEquals("New Folder");
+        newContentDialog
+            .typeName(testFolder)
+            .clickSave();
+        myFilesPage
+            .assertIsContantNameDisplayed(testFolder);
 
-        LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        myFilesPage.clickCreateButton();
-        myFilesPage.clickFolderLink();
-        newContentDialog.typeName(folderName);
-        newContentDialog.clickSave();
-        assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
+        log.info("Step 1: Hover over the file Like link.");
+        myFilesPage
+            .isLikeButtonDisplayed(testFolder);
+        social
+            .assertLikeButtonMessage(testFolder, "Like this folder")
+            .assertNoOfLikesVerify(testFolder, 0);
 
-        LOG.info("Step 1: Hover over the file Like link.");
-        Assert.assertTrue(myFilesPage.isLikeButtonDisplayed(folderName), "Documents link is not present");
-        Assert.assertEquals(social.getLikeButtonMessage(folderName), "Like this folder", "Like Button message is not correct");
-        Assert.assertEquals(social.getNumberOfLikes(folderName), 0, "The number of likes is not correct");
+        log.info("Step 2: Click on the Like button");
+        social.
+            clickLikeButton(testFolder);
 
-        LOG.info("Step 2: Click on the Like button");
-        social.clickLikeButton(folderName);
-        Assert.assertEquals(social.getNumberOfLikes(folderName), 1, "The number of likes is not correct");
-        Assert.assertTrue(social.isLikeButtonEnabled(folderName), "Like button is not enabled");
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
+        log.info("Step 3: Verify the number of likes should be 1 and Unlike button should be enabled.");
+        social
+            .assertNoOfLikesVerify(testFolder, 1)
+            .assertLikeButtonMessage(testFolder, "Unlike");
     }
 
-    @TestRail (id = "C13662")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void myFilesUnlikeFile()
-    {
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+    @TestRail(id = "C13662")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void myFilesUnlikeFile() {
+        log.info("Precondition: Navigate to My Files page and upload a file");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        uploadContent
+            .uploadContent(testFilePath);
+        myFilesPage
+            .assertIsContantNameDisplayed(testFile);
 
-        LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(testFilePath);
-        assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
+        log.info("Precondition: Like the file");
+        social
+            .clickLikeButton(testFile);
 
-        LOG.info("Precondition: Like the file.");
-        social.clickLikeButton(testFile);
+        log.info("Precondition: Verify the number of likes should be 1 and Unlike button should be enabled.");
+        social
+            .assertNoOfLikesVerify(testFile, 1)
+            .assertLikeButtonMessage(testFile, "Unlike");
 
-        LOG.info("Step 1: Hover over the file Like link.");
-        Assert.assertEquals(social.getLikeButtonEnabledText(testFile), "Unlike", "Unlike is not displayed");
-        Assert.assertEquals(social.getNumberOfLikes(testFile), 1, "The number of likes is not correct");
+        log.info("Step 1: Click on Unlike");
+        social
+            .clickUnlike(testFile);
 
-        LOG.info("Step 2: Click on Unlike");
-        social.clickUnlike(testFile);
-        Assert.assertEquals(social.getNumberOfLikes(testFile), 0, "The number of likes is not correct");
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Step 2: Verify the number of likes should be 0 ");
+        social
+            .assertNoOfLikesVerify(testFile, 0);
     }
 
-    @TestRail (id = "C13663")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void myFilesUnlikeFolder()
-    {
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+    @TestRail(id = "C13663")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void myFilesUnlikeFolder() {
+        log.info("Precondition: Navigate to My Files page and create a folder.");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        myFilesPage
+            .click_CreateButton()
+            .click_FolderLink()
+            .assertDialogTitleEquals("New Folder");
+        newContentDialog
+            .typeName(testFolder)
+            .clickSave();
+        myFilesPage
+            .assertIsContantNameDisplayed(testFolder);
 
-        LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        myFilesPage.clickCreateButton();
-        myFilesPage.clickFolderLink();
-        newContentDialog.typeName(folderName);
-        newContentDialog.clickSave();
-        assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
+        log.info("PreCondition: Click on the Like button");
+        social.
+            clickLikeButton(testFolder);
 
-        LOG.info("Precondition: Like the folder.");
-        social.clickLikeButton(folderName);
+        log.info("Hover over the folder Like link & Verify the number of likes should be 1 and Unlike button should be enabled.");
+        social
+            .assertNoOfLikesVerify(testFolder, 1)
+            .assertLikeButtonMessage(testFolder, "Unlike");
 
-        LOG.info("Step 1: Hover over the folder Like link.");
-        Assert.assertEquals(social.getLikeButtonEnabledText(folderName), "Unlike", "Unlike is not displayed");
-        Assert.assertEquals(social.getNumberOfLikes(folderName), 1, "The number of likes is not correct");
+        log.info("Step 1: Click on Unlike");
+        social
+            .clickUnlike(testFolder);
 
-        LOG.info("Step 2: Click on Unlike");
-        social.clickUnlike(folderName);
-        Assert.assertEquals(social.getNumberOfLikes(folderName), 0, "The number of likes is not correct");
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Step 2: Verify the number of likes should be 0 ");
+        social
+            .assertNoOfLikesVerify(testFolder, 0);
     }
 
-    @TestRail (id = "C12841")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void myFilesAddCommentToFile()
-    {
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        String comment = String.format("Test comment%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+    @TestRail(id = "C12841")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void myFilesAddCommentToFile() {
+        log.info("Precondition: Navigate to My Files page and upload a file");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        uploadContent
+            .uploadContent(testFilePath);
+        myFilesPage
+            .isContentNameDisplayed(testFile);
 
-        LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(testFilePath);
-        getBrowser().refresh();
-        assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
+        log.info("STEP1: Hover over a document and press \"Comment\"");
+        social
+            .clickCommentLink(testFile)
+            .assertPageTitleEquals("Alfresco » Document Details");
 
-        LOG.info("STEP1: Hover over a document and press \"Comment\"");
-        social.clickCommentLink(testFile);
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
+        log.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
+        documentDetailsPage
+            .addComment("File Comment")
+            .refreshpage()
+            .assertVerifyCommentContent("File Comment");
 
-        LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
-        documentDetailsPage.addComment(comment);
-        assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
+        log.info("STEP3: Navigate to My Files page.");
+        myFilesPage
+            .navigate();
 
-        LOG.info("STEP3: Navigate to My Files page.");
-        myFilesPage.navigate();
-        assertEquals(social.getNumberOfComments(testFile), 1, "Number of comments=");
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Step 4: Verify the number of Comments should be 1 ");
+        social
+            .assertNoOfCommentsVerify(testFile,1);
     }
 
     @TestRail (id = "C13664")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void myFilesAddCommentToFolder()
-    {
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        String comment = String.format("Test comment%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    public void myFilesAddCommentToFolder() {
+        log.info("Precondition: Navigate to My Files page and create a folder.");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        myFilesPage
+            .click_CreateButton()
+            .click_FolderLink()
+            .assertDialogTitleEquals("New Folder");
+        newContentDialog
+            .typeName(testFolder)
+            .clickSave();
+        myFilesPage
+            .assertIsContantNameDisplayed(testFolder);
 
-        LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        myFilesPage.clickCreateButton();
-        myFilesPage.clickFolderLink();
-        newContentDialog.typeName(folderName);
-        newContentDialog.clickSave();
-        assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
+        log.info("STEP1: Hover over a document and press Comment");
+        social
+            .clickCommentLink(testFolder)
+            .assertPageTitleEquals("Alfresco » Folder Details");
 
-        LOG.info("STEP1: Hover over a document and press \"Comment\"");
-        social.clickCommentLink(folderName);
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
+        log.info("STEP2: In the Comments area of Document Details page write a comment and press Add Comment button");
+        documentDetailsPage
+            .addComment("Folder comment")
+            .refreshpage()
+            .assertVerifyCommentContent("Folder comment");
 
-        LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
-        documentDetailsPage.addComment(comment);
-        getBrowser().waitInSeconds(3);
-        assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
+        log.info("STEP3: Navigate to My Files page");
+        myFilesPage
+            .navigate();
 
-        LOG.info("STEP3: Navigate to My Files page");
-        myFilesPage.navigate();
-        assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Step 4: Verify the number of Comments should be 1 ");
+        social
+            .assertNoOfCommentsVerify(testFolder,1);
     }
 }
