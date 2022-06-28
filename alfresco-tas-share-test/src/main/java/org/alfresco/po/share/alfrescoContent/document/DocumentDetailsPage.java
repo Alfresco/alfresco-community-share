@@ -151,7 +151,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public boolean isAddToFavoriteLinkDisplayed()
     {
         return waitUntilElementsAreVisible(By.cssSelector("a[class$='favourite-document']")).get(0).getAttribute("title")
-                  .equals("Add document to favorites"); //TODO: update
+            .equals("Add document to favorites");
     }
 
     public void clickOnLikeUnlike()
@@ -227,6 +227,16 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         clickElement(addCommentButtonSave);
         waitUntilElementDisappears(message);
         return this;
+    }
+    public DocumentDetailsPage refreshpage()
+    {
+        getWebDriver().navigate().refresh();
+        waitUntilDomReadyStateIsComplete();
+        return this;
+    }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
     }
 
     public DocumentDetailsPage assertCommentsAreaIsOpened()
