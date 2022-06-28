@@ -41,6 +41,8 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.DownloadingContentTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesSocialFeaturesTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesTaggingTests"></class>
       </classes>
    </test>
 </suite>
