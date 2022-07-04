@@ -28,7 +28,7 @@ public final class Utils
 {
     protected static final Logger LOG = LoggerFactory.getLogger(Utils.class);
 
-    public static String srcRoot = StringUtils.substringBeforeLast(System.getProperty("user.dir"),File.separator) + File.separator;
+    public static String srcRoot = StringUtils.substringBeforeLast(System.getProperty("user.dir"), File.separator + "target") + File.separator;
     public static String testDataFolder = srcRoot + "testdata" + File.separator;
 
     public static File screenshotFolder = new File("./target/reports/screenshots");
