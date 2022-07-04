@@ -1,7 +1,6 @@
 package org.alfresco.po.share;
 
 import static org.alfresco.common.Wait.WAIT_40;
-
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
