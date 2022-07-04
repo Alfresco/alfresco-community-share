@@ -1,6 +1,10 @@
 package org.alfresco.po.share;
+
 import static org.alfresco.common.Wait.WAIT_40;
-import static org.testng.Assert.*;
+
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.Utils;
