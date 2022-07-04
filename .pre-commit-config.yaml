@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        exclude: helm/.*/templates
+      - id: check-json
+      - id: check-merge-conflict
+      - id: fix-byte-order-marker
+        files: '\.yml$'
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+        files: '\.yml$'
+      - id: end-of-file-fixer
+        files: '\.yml$'
+      - id: trailing-whitespace
+        files: '\.yml$'
+  - repo: local
+    hooks:
+      - id: docker-compose-check
+        name: Check validity of docker-compose files
+        entry: ./scripts/pre-commit/docker-compose-check.sh
+        language: script
+        verbose: true
+        files: docker-compose.y[a]{0,1}ml$
+  - repo: https://github.com/sirosen/check-jsonschema
+    rev: 0.14.0
+    hooks:
+      - id: check-travis
+  - repo: https://github.com/Alfresco/alfresco-build-tools
+    rev: v1.2.0
+    hooks:
+      - id: travis-yml-lint

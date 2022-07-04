@@ -1,0 +1,31 @@
+.task-details-header
+{
+   clear: both;
+   padding: 0;
+}
+
+.task-details-header .links
+{
+   width: 30%;
+   float: right;
+   text-align: right;
+}
+
+.task-details-header h1
+{
+   width: 65%;
+   float: left;
+   margin-top: -7px;
+   padding-bottom: 14px;
+}
+
+.task-details-header .clear
+{
+   clear: both;
+}
+
+.task-details-header .separator
+{
+   padding-left: 1em;
+   padding-right: 1em;
+}

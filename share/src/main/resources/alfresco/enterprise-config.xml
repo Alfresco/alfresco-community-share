@@ -1,0 +1,24 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="Edition" replace="true">
+      <footer>
+         <logo>alfresco-logo.svg</logo>
+         <alt-text>Alfresco Share</alt-text>
+         <css-class>footer-ent</css-class>
+         <label>label.copyright.enterprise</label>
+      </footer>
+      <about>
+         <css-class>logo-ent</css-class>
+      </about>
+      <login>
+         <css-class>logo-ent</css-class>
+      </login>
+   </config>
+
+   <config evaluator="string-compare" condition="Users">
+      <users>
+         <show-authorization-status>true</show-authorization-status>
+      </users>
+   </config>
+
+</alfresco-config>

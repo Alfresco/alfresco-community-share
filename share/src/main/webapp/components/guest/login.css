@@ -1,0 +1,166 @@
+@font-face
+{
+   font-family: 'Open Sans';
+   font-style: normal;
+   font-weight: 400;
+   src: url(../../css/fonts/opensans.woff) format('woff');
+}
+
+@font-face
+{
+  font-family: 'Open Sans Bold';
+  font-style: normal;
+  font-weight: 600;
+  src: url(../../css/fonts/opensansbold.woff) format('woff');
+}
+
+div.login
+{
+   padding: 42px 64px !important
+}
+
+.login .product-name
+{
+   font-size: 180%;
+   color: #f8982b;
+   font-family: Open Sans Bold;
+   margin-top: 32px;
+}
+
+.login .product-tagline
+{
+   color: #888;
+   font-size: 120%;
+   display: none;
+}
+
+.login .product-community
+{
+   color: #888;
+   font-size: 120%;
+}
+
+.login form
+{
+   padding: 0;
+}
+
+.login .form-fields.login
+{
+   padding-left: 0 !important;
+}
+
+/* fake MD input field */
+.login input[type="text"], .login input[type="password"]
+{
+   border: none;
+   border-bottom: 1px solid #ccc;
+   background-color: #fff;
+   outline: none;
+   font-size: 120%;
+   width: 316px;
+}
+
+/* fake MD input focus */
+.login input[type="text"]:focus, .login input[type="password"]:focus
+{
+   border-bottom: 1px solid #f8982b;
+}
+
+/* remove webkit autofill yellow background */
+.login input[type="text"]:-webkit-autofill, .login input[type="password"]:-webkit-autofill
+{
+   box-shadow: 0 0 0px 1000px white inset;
+}
+
+.form-fields.login .form-field
+{
+   margin: 32px 0;
+}
+
+.form-fields.login .form-field:last-child
+{
+   margin-bottom: 0;
+}
+
+.form-fields.login .form-field > span.yui-button
+{
+   border-color: #f8982b;
+   margin: 0;
+}
+
+.form-fields.login .form-field > span.yui-button > .first-child
+{
+   background-color: #f8982b;
+   border-color: #f8982b;
+   height: 34px;
+}
+
+.form-fields.login .form-field > span.yui-button > .first-child > button
+{
+   width: 318px;
+   color: #fff;
+   font-family: Open Sans Bold,Arial,sans-serif;
+   line-height: inherit;
+   min-height: 34px;
+}
+
+.login-copy
+{
+   color: #fff;
+   font-size: 85%;
+   margin-top: 16px;
+   text-align: center;
+}
+.login .error
+{
+   width: 320px;
+   padding-top: 32px;
+   font-size: 85%;
+   color: crimson;
+}
+
+/*
+ * Overrides for specific edition
+ */
+
+.ENTERPRISE .form-fields.login .form-field > span.yui-button
+{
+   border-color: #0c79bf;
+}
+
+.ENTERPRISE .form-fields.login .form-field > span.yui-button > .first-child
+{
+   background-color: #0c79bf;
+   border-color: #0c79bf;
+}
+
+.ENTERPRISE .login .product-name
+{
+   color: #0c79bf;
+}
+
+.ENTERPRISE .login .product-tagline
+{
+   display: block;
+}
+
+.ENTERPRISE .login .product-community
+{
+   display: none;
+}
+
+.ENTERPRISE .login input[type="text"]:focus, .ENTERPRISE .login input[type="password"]:focus
+{
+   border-bottom: 1px solid #0c79bf;
+}
+
+body.ENTERPRISE
+{
+   background-color: #0c79bf;
+}
+
+body.UNKNOWN
+{
+   background-color: #f8982b;
+}
