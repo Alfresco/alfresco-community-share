@@ -1,6 +1,5 @@
 package org.alfresco.po.share;
 
-import static org.alfresco.common.Wait.WAIT_3;
 import static org.alfresco.common.Wait.WAIT_40;
 import static org.testng.Assert.*;
 
