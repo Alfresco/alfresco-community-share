@@ -1,0 +1,21 @@
+## Editor configuration, see http://editorconfig.org
+# Syntax at: https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+
+[*.java]
+indent_size = 4
+
+[*.js]
+indent_size = 3
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
