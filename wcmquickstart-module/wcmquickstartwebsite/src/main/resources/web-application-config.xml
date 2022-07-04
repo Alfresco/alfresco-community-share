@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   <!-- SURF: required infrastructure imports -->
+   <import resource="surf-config.xml" />
+
+   <!-- Web Quick Start config -->
+   <import resource="wcmqs-webapp-context.xml" />
+
+   <!-- Extension point for customisations -->
+   <import resource="classpath*:org/alfresco/wqs/extension/*-context.xml" />
+</beans>

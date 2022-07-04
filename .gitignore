@@ -1,0 +1,44 @@
+*.class
+
+# Eclipse
+.classpath
+.settings
+.project
+.classpath
+.gradle
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+target
+tomcat
+runtime
+*.log
+*.log.*
+
+# Mobile Tools for Java (J2ME)
+
+.mtj
+.tmp/
+
+# Package Files #
+
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+
+hs_err_pid*
+
+# AGS
+amps/ags/rm-automation/src/test/resources/webdriver.properties
+
+# Maven shade plugin auto-generated file
+dependency-reduced-pom.xml
