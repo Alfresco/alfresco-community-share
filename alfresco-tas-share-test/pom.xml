@@ -181,6 +181,18 @@
                </execution>
             </executions>
          </plugin>
+
+        <plugin>
+            <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>validate-license</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
       </plugins>
    </build>
 </project>

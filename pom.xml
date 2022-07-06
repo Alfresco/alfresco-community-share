@@ -310,6 +310,9 @@
                         <include>**/*.java</include>
                         <include>**/*.jsp</include>
                     </includes>
+                    <excludes>
+                        <exclude>alfresco-tas-share-test/**</exclude>
+                    </excludes>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
                     </mapping>
