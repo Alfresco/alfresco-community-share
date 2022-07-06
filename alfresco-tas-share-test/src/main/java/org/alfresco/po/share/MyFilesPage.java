@@ -7,12 +7,16 @@ import static org.testng.Assert.assertFalse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.Utils;
+import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
+import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -42,6 +46,8 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     private By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
     private final By message = By.cssSelector("#prompt_h + div.bd");
     private By documentLibraryItemsList = By.cssSelector("div[id$='default-documents'] tbody[class$='data'] tr");
+    private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
+    private final By createFileFromTemplate = By.cssSelector("div[id$='createContent-menu']>div>ul:nth-of-type(2)>li:nth-of-type(1) span");
     @Override
     public MyFilesPage navigateByMenuBar()
     {
@@ -59,6 +65,21 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
         clickElement(createButton);
         waitUntilElementIsVisible(By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']"));
         return this;
+    }
+    public MyFilesPage click_CreateFromTemplateOption(CreateMenuOption option)
+    {
+        clickElement(option.getLocator());
+        return new MyFilesPage(webDriver);
+    }
+    public void create_FileFromTemplate(FileModel templateFile)
+    {
+        log.info("Create new file from template {}", templateFile);
+        mouseOver(findElement(createButton));
+        mouseOver(findElement(createFileFromTemplate));
+        clickElement(createFileFromTemplate);
+        clickElement(By.xpath(String.format(templateName, templateFile.getName())));
+        waitUntilNotificationMessageDisappears();
+
     }
     public MyFilesPage click_FolderLink()
     {
@@ -144,5 +165,11 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
                 return true;
         }
         return false;
+    }
+    public MyFilesPage assertIsFolderPresentInList(String folderName)
+    {
+        log.info("Verify that the folder is present in the list.");
+        assertTrue(getFoldersList().contains(folderName), "Folder is not present in the list.");
+        return this;
     }
 }
