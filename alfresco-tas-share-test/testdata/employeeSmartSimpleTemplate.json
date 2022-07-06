@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "name": "01 Administrative",
+      "description": "Administrative Documents.",
+      "columnsHeader": "cmg:employeeDocumentType, cmg:employeeDocumentStatus",
+      "search": {
+        "language": "fts-alfresco",
+        "query": "=cmg:employeeDocumentType:Administrative and =cmg:employeeDocumentId:<cmg:employeeId>"
+      },
+      "filing": {
+        "path": "%ACTUAL_PATH%",
+        "classification": {
+          "type": "cm:content",
+          "aspects": [
+            "cmg:employee-document"
+          ]
+        },
+        "properties": {
+          "cmg:employeeDocumentType": "Administrative",
+          "cmg:employeeDocumentId": "<cmg:employeeId>"
+        }
+      }
+    },
+    {
+      "id": "2",
+      "name": "02 Legal",
+      "description": "Legal Documents.",
+      "search": {
+        "language": "fts-alfresco",
+        "query": "=cmg:employeeDocumentType:Legal and =cmg:employeeDocumentId:<cmg:employeeId>"
+      },
+      "filing": {
+        "path": "%ACTUAL_PATH%",
+        "classification": {
+          "type": "cm:content",
+          "aspects": [
+            "cmg:employee-document"
+          ]
+        },
+        "properties": {
+          "cmg:employeeDocumentType": "Legal",
+          "cmg:employeeDocumentId": "<cmg:employeeId>"
+        }
+      }
+    },
+    {
+      "id": "3",
+      "name": "03 Personal",
+      "columnsHeader": "cmg:employeeDocumentType, cmg:employeeDocumentStatus, Test String that should be veryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy long",
+      "search": {
+        "language": "fts-alfresco",
+        "query": "=cmg:employeeDocumentType:Personal and =cmg:employeeDocumentId:<cmg:employeeId>"
+      }
+    },
+    {
+      "id": "4",
+      "name": "04 Other documents",
+      "columnsHeader": "cmg:employeeDocumentType, cmg:employeeDocumentStatus",
+      "search": {
+        "language": "fts-alfresco",
+        "query": "=cmg:employeeDocumentType:Other"
+      },
+      "filing": {
+        "path": "%ACTUAL_PATH%",
+        "classification": {
+          "type": "cm:content",
+          "aspects": [
+            "cmg:employee-document"
+          ]
+        },
+        "properties": {
+          "cmg:employeeDocumentType": "Other"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "name": "05 PDF Documents in path",
+      "description": "Documents stored in a fixed path",
+      "search": {
+        "language": "fts-alfresco",
+        "query": "(PATH:'/app:company_home/st:sites/cm:mytestsite/cm:documentLibrary/cm:Docs/*') and cm:content.mimetype:application/pdf"
+      }
+    }
+  ]
+}
