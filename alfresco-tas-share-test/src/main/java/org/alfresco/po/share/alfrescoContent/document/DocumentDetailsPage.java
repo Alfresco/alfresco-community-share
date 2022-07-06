@@ -638,6 +638,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public DocumentDetailsPage assertPageTitleEquals(String pageTitle)
     {
         log.info("Verify that the page title is {}", pageTitle);
+        waitInSeconds(3);
         assertEquals(getPageTitle(), pageTitle, "Page title is not matched with [%s]" +pageTitle);
         return this;
     }
