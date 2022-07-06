@@ -43,6 +43,8 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesSocialFeaturesTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesTaggingTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesCreateContentTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesDeleteTests"></class>
       </classes>
    </test>
 </suite>
