@@ -129,4 +129,10 @@ public class NewFolderDialog extends BaseDialogComponent
             findElement(nameField).getAttribute("title"));
         return this;
     }
+    public NewFolderDialog assertIsNameFieldValueEquals(String templateName)
+    {
+        log.info("Verify the Name field value matched with template name {} ", templateName);
+        assertEquals(getNameFieldValue(), templateName, "Name field not matched");
+        return this;
+    }
 }
