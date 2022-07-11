@@ -16,10 +16,14 @@ repos:
         files: '\.yml$'
       - id: trailing-whitespace
         files: '\.yml$'
-  - repo: https://github.com/IamTheFij/docker-pre-commit
-    rev: v2.1.0
+  - repo: local
     hooks:
       - id: docker-compose-check
+        name: Check validity of docker-compose files
+        entry: ./scripts/pre-commit/docker-compose-check.sh
+        language: script
+        verbose: true
+        files: docker-compose.y[a]{0,1}ml$
   - repo: https://github.com/sirosen/check-jsonschema
     rev: 0.14.0
     hooks:
