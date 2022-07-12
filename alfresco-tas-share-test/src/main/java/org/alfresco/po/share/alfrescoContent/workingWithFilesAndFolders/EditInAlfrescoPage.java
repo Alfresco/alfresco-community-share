@@ -24,7 +24,10 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
 //    @FindBy (css = "textarea[id*='_content']")
 //    private WebElement contentTextarea;
-
+    private final By nameField = By.cssSelector("input[name='prop_cm_name']");
+    private final By titleField = By.cssSelector("input[name='prop_cm_title']");
+    private final By descriptionField = By.cssSelector("textarea[name='prop_cm_description']");
+    private final By contentField=By.cssSelector("textarea[id*='_content']");
     private By contentTextarea = By.cssSelector("textarea[id*='_content']");
 
     @FindBy (css = "input[id*='title']")
@@ -72,28 +75,32 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
         return this;
     }
 
-    private void typeName(String name)
+    public EditInAlfrescoPage typeName(String name)
     {
         log.info("Type name: {}", name);
-        clearAndType(nameInput, name);
+        clearAndType(nameField,name);
+        return this;
     }
 
-    public void typeContent(String content)
+    public EditInAlfrescoPage typeContent(String content)
     {
         log.info("Type content: {}", content);
-        clearAndType(contentTextarea, content);
+        clearAndType(contentField, content);
+        return this;
     }
 
-    private void typeTitle(String title)
+    public EditInAlfrescoPage typeTitle(String title)
     {
         log.info("Type title: {}", title);
-        clearAndType(titleInput, title);
+        clearAndType(titleField, title);
+        return this;
     }
 
-    private void typeDescription(String description)
+    public EditInAlfrescoPage typeDescription(String description)
     {
         log.info("Type description: {}", description);
-        clearAndType(descriptionTextarea, description);
+        clearAndType(descriptionField, description);
+        return this;
     }
 
     public EditInAlfrescoPage assertEditInAlfrescoPageTitleEquals(String title)
