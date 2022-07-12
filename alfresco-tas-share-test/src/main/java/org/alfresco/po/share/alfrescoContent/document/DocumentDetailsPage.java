@@ -81,6 +81,8 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By editCommentBoxTitle = By.xpath("//h2[text()= 'Edit Comment...']");
     private final By saveButtonEditComment = By.xpath("//button[text()='Save']");
     private final By contentText = By.cssSelector("div[class ='textLayer']>div");
+    private final By contentTittle = By.xpath("(//span[@class='viewmode-value'])[2]");
+    private final By contentDescription = By.xpath("(//span[@class='viewmode-value'])[3]");
     private final By downloadPreviousVersion = By.cssSelector("div[id$='_default-olderVersions'] div.version-panel-right a.download");
     private final By revertButton = By.cssSelector("div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']");
     private final By commentTextArea = By.cssSelector("iframe[id*='comments']");
@@ -620,6 +622,14 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         return getElementText(contentText).trim();
     }
+    public String getContentTitle()
+    {
+        return getElementText(contentTittle).trim();
+    }
+    public String getContentDescription()
+    {
+        return getElementText(contentDescription).trim();
+    }
 
     public DocumentDetailsPage assertFileContentEquals(String expectedContent)
     {
@@ -634,7 +644,18 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         assertEquals(getFileName(), contentName, "File name is not correct");
         return this;
     }
-
+    public DocumentDetailsPage assertContentTittleEquals(String contentName)
+    {
+        log.info("Assert file/folder Tittle is {}", contentName);
+        assertEquals(getContentTitle(), contentName, "Content Title is not correct");
+        return this;
+    }
+    public DocumentDetailsPage assert_ContentDescriptionEquals(String contentName)
+    {
+        log.info("Assert file/folder Tittle is {}", contentName);
+        assertEquals(getContentDescription(), contentName, "Content Description is not correct");
+        return this;
+    }
     public DocumentDetailsPage assertPageTitleEquals(String pageTitle)
     {
         log.info("Verify that the page title is {}", pageTitle);
