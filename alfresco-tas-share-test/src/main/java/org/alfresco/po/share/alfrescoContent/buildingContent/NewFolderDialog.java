@@ -95,6 +95,19 @@ public class NewFolderDialog extends BaseDialogComponent
         return this;
     }
 
+    public NewFolderDialog typeTitle(String name)
+    {
+        log.info("Type name {}", name);
+        clearAndType(titleField, name);
+        return this;
+    }
+    public NewFolderDialog typeDescription(String name)
+    {
+        log.info("Type name {}", name);
+        clearAndType(descriptionField, name);
+        return this;
+    }
+
     public NewFolderDialog fillInDetails(String name, String title, String description)
     {
         log.info("Set name, title and description");
