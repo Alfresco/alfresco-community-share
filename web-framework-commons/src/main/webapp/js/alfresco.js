@@ -2332,7 +2332,7 @@ Alfresco.util.createTwister = function(p_controller, p_filterName, p_config)
    {
       // Find the first sibling node
       elPanel = elController.nextSibling;
-      while (elPanel.nodeType !== 1 && elPanel !== null)
+      while (elPanel !== null && elPanel.nodeType !== 1)
       {
          elPanel = elPanel.nextSibling;
       }
