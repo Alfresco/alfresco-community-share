@@ -27,15 +27,15 @@
             </#if>
             <div class="row">
                <span class="label"><label for="${el}-oldpassword" <#if aimsEnabled>hidden</#if> >${msg("label.oldpassword")}:</label></span>
-               <span <#if aimsEnabled>hidden</#if> ><input type="password" maxlength="255" size="30" id="${el}-oldpassword" /></span>
+               <span <#if aimsEnabled>hidden</#if> ><input type="password" autocomplete="off" maxlength="255" size="30" id="${el}-oldpassword" /></span>
             </div>
             <div class="row">
                <span class="label"><label for="${el}-newpassword1" <#if aimsEnabled>hidden</#if> >${msg("label.newpassword")}:</label></span>
-               <span <#if aimsEnabled>hidden</#if> ><input type="password" maxlength="255" size="30" id="${el}-newpassword1" /></span>
+               <span <#if aimsEnabled>hidden</#if> ><input type="password" autocomplete="off" maxlength="255" size="30" id="${el}-newpassword1" /></span>
             </div>
             <div class="row">
                <span class="label"><label for="${el}-newpassword2" <#if aimsEnabled>hidden</#if> >${msg("label.confirmpassword")}:</label></span>
-               <span <#if aimsEnabled>hidden</#if> ><input type="password" maxlength="255" size="30" id="${el}-newpassword2" /></span>
+               <span <#if aimsEnabled>hidden</#if> ><input type="password" autocomplete="off" maxlength="255" size="30" id="${el}-newpassword2" /></span>
             </div>
             <hr/>
             <#if !aimsEnabled>
