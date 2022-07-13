@@ -8,10 +8,15 @@ import org.alfresco.po.share.BaseDialogComponent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public class EditPropertiesDialog extends BaseDialogComponent
 {
+    private final By editPropertiesList = By.xpath("//*[@id=\"template_x002e_documentlist_v2_x002e_myfiles_x0023_default-editDetails-alf-id103-form-fields\"]/div/div/label");
     private final By dialogTitle = By.cssSelector("div[id$='dialogTitle']");
     private final By propertyName = By.cssSelector("input[name='prop_cm_name']");
     private final By propertyTitle = By.cssSelector("input[name='prop_cm_title']");
@@ -112,6 +117,20 @@ public class EditPropertiesDialog extends BaseDialogComponent
         assertEquals(getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), contentName),
             "Displayed dialog=");
         return this;
+    }
+    public boolean verifyAllElementsAreDisplayed()
+    {
+        List<String> elementList = new ArrayList<>();
+        for (WebElement file : findElements(editPropertiesList))
+        {
+            elementList.add(file.getText());
+        }
+        return true;
+    }
+    public void assertVerifyEditPropertiesElementsAreDisplayed()
+    {
+        log.info("Verify that the all Elements in Edit Propertied names are Displayed.");
+        assertTrue(verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
     }
 
     public EditPropertiesDialog assertIsSelectTagsButtonDisplayed()
