@@ -104,6 +104,7 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     public MyFilesPage assertIsContantNameDisplayed(String contantName)
     {
         log.info("Verify file/folder name displayed {}", contantName);
+        waitInSeconds(3);
         assertTrue(isContentNameDisplayed(contantName), String.format("file/folder name not matched with %s ", contantName));
         return this;
     }
