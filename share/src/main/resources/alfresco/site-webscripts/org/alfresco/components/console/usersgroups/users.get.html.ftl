@@ -293,7 +293,7 @@
                   </#if>
                </div>
                <div class="field-row">
-                  <input class="crud-input" id="${el}-create-password" type="password" maxlength="100"
+                  <input class="crud-input" id="${el}-create-password" type="password" autocomplete="off" maxlength="100"
                      <#if aimsEnabled>
                         hidden
                      </#if>
@@ -305,7 +305,7 @@
                   </#if>
                </div>
                <div class="field-row">
-                  <input class="crud-input" id="${el}-create-verifypassword" type="password" maxlength="100"
+                  <input class="crud-input" id="${el}-create-verifypassword" type="password" autocomplete="off" maxlength="100"
                      <#if aimsEnabled>
                         hidden
                      </#if>
@@ -438,7 +438,7 @@
                      </div>
                      <div class="field-row">
                         <!-- If AIMS is enabled then make the HTML input element disabled. -->
-                        <input class="crud-input" id="${el}-update-old-password" type="password" maxlength="255"
+                        <input class="crud-input" id="${el}-update-old-password" type="password" autocomplete="off" maxlength="255"
                            <#if aimsEnabled>
                              hidden
                            </#if>
@@ -452,7 +452,7 @@
                   </div>
                   <div class="field-row">
                      <!-- If AIMS is enabled then make the HTML input element disabled. -->
-                     <input class="crud-input" id="${el}-update-password" type="password" maxlength="100"
+                     <input class="crud-input" id="${el}-update-password" type="password" autocomplete="off" maxlength="100"
                         <#if aimsEnabled>
                           hidden
                         </#if>
@@ -469,7 +469,7 @@
                   </div>
                   <div class="field-row">
                      <!-- If AIMS is enabled then make the HTML input element disabled. -->
-                     <input class="crud-input" id="${el}-update-verifypassword" type="password" maxlength="100"
+                     <input class="crud-input" id="${el}-update-verifypassword" type="password" autocomplete="off" maxlength="100"
                         <#if aimsEnabled>
                           hidden
                         </#if>
