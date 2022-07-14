@@ -1,82 +1,109 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * @author Razvan.Dorobantu
  */
-public class MyFilesDownloadTests extends ContextAwareWebTest
+@Slf4j
+public class MyFilesDownloadTests extends BaseTest
 {
-    private final String fileNameC7799 = "C7799 file";
-    private final String folderNameC7802 = "folderNameC7802";
-    private final String fileContent = "test content";
-
-   // @Autowired
+    // @Autowired
     private MyFilesPage myFilesPage;
     //@Autowired
-    private SiteDashboardPage sitePage;
-    //@Autowired
-    private NewFolderDialog newContentDialog;
-   // @Autowired
+    private NewFolderDialog newFolderDialog;
     private UploadContent uploadContent;
+    private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() {
+        log.info("PreCondition: Creating a TestUser");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(getAdminUser());
+        authenticateUsingCookies(user.get());
+
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        newFolderDialog = new NewFolderDialog(webDriver);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+       deleteUsersIfNotNull(user.get());
+    }
 
     @TestRail (id = "C7799")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void myFilesDownloadFileFromAlfresco()
-    {
-        LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-        uploadContent.uploadContent(testDataFolder + fileNameC7799, fileContent);
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    public void myFilesDownloadFileFromAlfresco() {
+        log.info("Precondition: Navigate to My Files page and upload a file.");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        uploadContent
+            .uploadContent(testFilePath);
+        myFilesPage
+            .assertIsContantNameDisplayed(testFile);
 
-        LOG.info("Step 1: Mouse over file, click Download");
-        myFilesPage.selectItemAction(fileNameC7799, ItemActions.DOWNLOAD);
-        myFilesPage.acceptAlertIfDisplayed();
+       log.info("Step 1: Mouse over file, click Download");
+        myFilesPage
+            .selectItemActionFormFirstThreeAvailableOptions(testFile, ItemActions.DOWNLOAD);
+        myFilesPage
+            .acceptAlertIfDisplayed();
 
-        LOG.info("Step 2: Check the file was saved locally");
-        Assert.assertTrue(isFileInDirectory(fileNameC7799, null), "The file was not found in the specified location");
-
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Step 2: Check the file was saved locally");
+        Assert.assertTrue(isFileInDirectory(testFile, null), "The file was not found in the specified location");
     }
 
     @TestRail (id = "C7802")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void downloadFolder()
     {
-        LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-        myFilesPage.clickCreateButton();
-        myFilesPage.clickFolderLink();
-        newContentDialog.typeName(folderNameC7802);
-        newContentDialog.clickSave();
-        assertTrue(myFilesPage.isContentNameDisplayed(folderNameC7802), folderNameC7802 + " displayed in My Files documents list.");
+        log.info("Precondition: Login as user, navigate to My Files page and create a folder.");
+        myFilesPage
+            .navigate()
+                .assertBrowserPageTitleIs("Alfresco » My Files");
+        myFilesPage
+            .click_CreateButton()
+            .click_FolderLink();
 
-        LOG.info("Step 1: Mouse over folder, click Download");
-        myFilesPage.selectItemAction(folderNameC7802, ItemActions.DOWNLOAD_AS_ZIP);
-        myFilesPage.acceptAlertIfDisplayed();
+        newFolderDialog
+            .typeName("TestFolder")
+            .typeTitle("TestTitle")
+            .typeDescription("TestDescription")
+            .clickSave();
 
-        LOG.info("Step 2: Check the folder was saved locally");
-        Assert.assertTrue(isFileInDirectory(folderNameC7802, ".zip"), "The folder was not found in the specified location");
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        assertTrue(myFilesPage.isContentNameDisplayed("TestFolder"), "TestFolder" + " displayed in My Files documents list.");
+
+        log.info("Step 1: Mouse over folder, click Download");
+        myFilesPage
+            .selectItemActionFormFirstThreeAvailableOptions("TestFolder", ItemActions.DOWNLOAD_AS_ZIP);
+        myFilesPage
+            .acceptAlertIfDisplayed();
+
+        log.info("Step 2: Check the folder was saved locally");
+        Assert.assertTrue(isFileInDirectory("TestFolder", ".zip"), "The folder was not found in the specified location");
     }
 }
