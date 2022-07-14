@@ -60,6 +60,7 @@ public class AspectsForm extends BaseDialogComponent
 
     public boolean isAspectsFormTitleDisplayed()
     {
+        waitInSeconds(3);
         return isElementDisplayed(aspectsFormTitle);
     }
 
