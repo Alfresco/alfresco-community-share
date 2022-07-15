@@ -1,68 +1,62 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import java.util.List;
-
-import org.alfresco.dataprep.CMISUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.user.admin.SitesManagerPage;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.model.UserModel;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static org.alfresco.common.Utils.testDataFolder;
 
+@Slf4j
 /**
  * @author Razvan.Dorobantu
  */
-public class MyFilesPageTests extends ContextAwareWebTest
+public class MyFilesPageTests extends BaseTest
 {
-    private final String user = String.format("C7659User%s", RandomData.getRandomAlphanumeric());
     private final String nonAdminFile = String.format("nonAdminDoc%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("adminDoc%s", RandomData.getRandomAlphanumeric());
-    private final String tag = String.format("testTag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
-    //@Autowired
+    private final String tag1 = String.format("testTag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
     private MyFilesPage myFilesPage;
-    //@Autowired
     private DocumentsFilters filters;
+    private SitesManagerPage sitesManagerPage;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private UploadContent uploadContent;
+    private final String testFilePath1 = testDataFolder + nonAdminFile + "testFile.txt" ;
+    private final String testFilePath2 = testDataFolder + adminFile + "testFile.txt" ;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    @BeforeMethod(alwaysRun = true)
+    public void setup()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-
-        LOG.info("Precondition: Admin uploads a file in My Files and adds a tag to it.");
-        contentService.createDocumentInRepository(adminUser, adminPassword, null, CMISUtil.DocumentType.TEXT_PLAIN, adminFile, "some content");
-        contentAction.addSingleTag(adminUser, adminPassword, adminFile, tag);
-
-        LOG.info("Precondition: User uploads a file in My Files and adds a tag to it.");
-        String userMyFiles = "User Homes/" + user;
-        contentService.createDocumentInRepository(user, password, userMyFiles, CMISUtil.DocumentType.TEXT_PLAIN, nonAdminFile, "some content");
-        contentAction.addSingleTag(user, password, userMyFiles + "/" + nonAdminFile, tag);
+        filters = new DocumentsFilters(webDriver);
+        sitesManagerPage = new SitesManagerPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        filters = new DocumentsFilters(webDriver);
     }
-
-    @AfterClass (alwaysRun = false)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        contentService.deleteContentByPath(adminUser, adminPassword, "/" + adminFile);
-
-    }
-
     @TestRail (id = "C7659")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyMyFilesMainPage()
-    {
-        LOG.info("Precondition: Login as user and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyMyFilesMainPage()  {
 
-        LOG.info("Step 1: Verify the items displayed on the left panel from the My Files page.");
+        log.info("Precondition: Login as user");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(user.get());
+        authenticateUsingCookies(user.get());
+
+        log.info("Precondition: Navigate to MyFiles Page.");
+        myFilesPage
+            .navigate();
+
+        log.info("Step 1: Verify the items displayed on the left panel from the My Files page.");
+
         Assert.assertTrue(filters.isDocumentsDropDownDisplayed(), "Documents link is not present");
         Assert.assertTrue(filters.isallDocumentsFilterDisplayed(), "All documents filter is not displayed");
         Assert.assertTrue(filters.isIMEditingFilterDisplayed(), "I'm editing filter is not present");
@@ -79,35 +73,62 @@ public class MyFilesPageTests extends ContextAwareWebTest
 
     @TestRail (id = "C7660")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyMyFilesPageTags()
-    {
-        LOG.info("Step1: Login as admin and navigate to My Files page.");
-        setupAuthenticatedSession(adminUser, adminPassword);
+    public void verifyMyFilesPageTags() {
+
+        log.info("Precondition : Login as user and navigate to My Files page.");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(user.get());
+        authenticateUsingCookies(user.get());
+
+        log.info("Precondition: User uploads a file in My Files and adds a tag to it.");
         myFilesPage.navigate();
+        uploadContent.uploadContent(testFilePath1);
+        myFilesPage
+            .mouseOverNoTags(nonAdminFile);
+        myFilesPage
+            .clickEditTagIcon(nonAdminFile);
+        myFilesPage
+            .type_TagName("TestTag1");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
 
-        LOG.info("Step2: Verify the list of tags in the tags section.");
+        log.info("Step1: Verify the list of tags in the tags section.");
         List<String> tags = myFilesPage.getAllTagNames();
-        LOG.info("Tags: " + tags.toString());
-        Assert.assertTrue(tags.contains(tag.toLowerCase()), String.format("Tag: %s is not found", tag));
 
-        LOG.info("Step3: Click on the tag and verify the files are displayed.");
-        myFilesPage.clickOnTag(tag);
-        getBrowser().waitInSeconds(4);
+        log.info("Tags: " + tags.toString());
+        Assert.assertTrue(tags.contains("TestTag1".toLowerCase()), "TestTag is Not Present");
+
+        log.info("Step2: Click on the tag and verify the Non Admin files are displayed & admin files are not Displayed.");
+        myFilesPage.clickOnTag("testtag1");
+        Assert.assertTrue(myFilesPage.isFileNameDisplayed(nonAdminFile));
+        Assert.assertFalse(myFilesPage.isFileNameDisplayed(adminFile));
+
+
+        log.info("PreCondition: Login as Admin User");
+        authenticateUsingLoginPage(getAdminUser());
+
+        log.info("Precondition: Admin uploads a file in My Files and adds a tag to it.");
+        myFilesPage.navigate();
+        uploadContent.uploadContent(testFilePath2);
+        myFilesPage
+            .mouseOverNoTags(adminFile);
+        myFilesPage
+            .clickEditTagIcon(adminFile);
+        myFilesPage
+            .type_TagName("TestTag1");
+
+        log.info("Step3: Verify the list of tags in the tags section.");
+        tags = myFilesPage.getAllTagNames();
+        log.info("Tags: " + tags.toString());
+        Assert.assertTrue(tags.contains("TestTag1".toLowerCase()), "TestTag is Not Present");
+
+        log.info("Step4: Click on the tag and verify both Admin & Non Admin files are displayed.");
+        myFilesPage.clickOnTag("testtag1");
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(adminFile));
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(nonAdminFile));
 
-        LOG.info("Step4: Login as user and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
-        myFilesPage.navigate();
+        deleteUsersIfNotNull(user.get());
 
-        LOG.info("Step5: Verify the list of tags in the tags section.");
-        tags = myFilesPage.getAllTagNames();
-        Assert.assertTrue(tags.contains(tag.toLowerCase()), String.format("Tag: %s is not found", tag));
-
-        LOG.info("Step6: Click on the tag and verify the files are displayed.");
-        myFilesPage.clickOnTag(tag);
-        getBrowser().waitInSeconds(4);
-        Assert.assertFalse(myFilesPage.isContentNameDisplayed(adminFile));
-        Assert.assertTrue(myFilesPage.isContentNameDisplayed(nonAdminFile));
     }
 }
