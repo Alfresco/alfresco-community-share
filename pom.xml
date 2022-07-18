@@ -69,7 +69,7 @@
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20210307</dependency.org-json.version>
 
-        <alfresco.googledrive.version>3.2.2-A2</alfresco.googledrive.version>
+        <alfresco.googledrive.version>3.2.2-A3</alfresco.googledrive.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
