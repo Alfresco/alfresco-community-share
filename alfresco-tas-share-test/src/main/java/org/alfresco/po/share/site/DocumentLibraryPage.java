@@ -966,12 +966,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         List<String> allTagsNames = new ArrayList<>();
         int counter = 0;
-        int retryCount = 6;
+        int retryCount = 5;
         while (counter < retryCount)
         {
             try
             {
-                waitInSeconds(30);
+                waitInSeconds(20);
                 refresh();
                 By tagRows = By.cssSelector("ul.filterLink li span.tag a");
                 waitUntilElementsAreVisible(tagRows);
@@ -1082,7 +1082,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         waitUntilElementIsVisible(By.xpath(
             "//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'"
                 + tagName.toLowerCase() + "')]")).click();
-        waitInSeconds(4);
     }
 
     /**
