@@ -13,20 +13,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 {
-    private By documents_DropDown = By.cssSelector("h2[class ='alfresco-twister alfresco-twister-open']");
-    private By all_DocumentsFilter = By.cssSelector("span.all a");
-    private By im_EditingFilter = By.cssSelector("span.editingMe a");
-    private By others_AreEditingFilter =By.cssSelector("span.editingOthers a");
-    private By recently_ModifiedFilter = By.cssSelector("span.recentlyModified a");
-    private By recently_AddedFiler = By.cssSelector("span.recentlyAdded a");
-    private By my_FavouritesFilter = By.cssSelector("span.favourites a");
-    private By documents_Link = By.cssSelector(" td[id='ygtvcontentel1'] span[id*='ygtvlabelel'] ");
-    private By library_Filter = By.cssSelector("div[class ='treeview filter']");
-    private By categories_Filter = By.cssSelector("div[class ='categoryview filter']");
-    private By categories_Root = By.cssSelector("td[id ='ygtvcontentel3'] span[id ='ygtvlabelel3']");
-    private By tag_Filter = By.xpath("//div[@class='filter']");
-
-
     int counter = 0;
     @FindBy (css = "h2[class ='alfresco-twister alfresco-twister-open']")
     private WebElement documentsDropDown;
@@ -106,7 +92,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean isDocumentsDropDownDisplayed()
     {
-        return isElementDisplayed(documents_DropDown);
+        return documentsDropDown.isDisplayed();
     }
 
     public void clickAllDocumentsFilter()
@@ -151,7 +137,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean isDocumentsLinkPresent()
     {
-        return isElementDisplayed(documents_Link);
+        return documentsLink.isDisplayed();
     }
 
     public String getFirstFolderName()
@@ -176,7 +162,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean isCategorisFilterDisplayed()
     {
-        return isElementDisplayed(categories_Filter);
+        return categoriesFilter.isDisplayed();
     }
 
     public void clickCategoriesRoot()
@@ -186,7 +172,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean isCategoriesRootDisplayed()
     {
-        return isElementDisplayed(categories_Root);
+        return categoriesRoot.isDisplayed();
     }
 
     public boolean isCategoryDisplayed(String filterName)
@@ -201,7 +187,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean checkIfTagsFilterIsPresent()
     {
-        return isElementDisplayed(tag_Filter);
+        return tagsFilter.isDisplayed();
     }
 
     public void clickTagsLink()
@@ -265,36 +251,36 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 
     public boolean isallDocumentsFilterDisplayed()
     {
-        return isElementDisplayed(all_DocumentsFilter);
+        return allDocumentsFilter.isDisplayed();
     }
 
     public boolean isIMEditingFilterDisplayed()
     {
-        return isElementDisplayed(im_EditingFilter);
+        return iMEditingFilter.isDisplayed();
     }
 
     public boolean isOthersAreEditingFilterDisplayed()
     {
-        return isElementDisplayed(others_AreEditingFilter);
+        return othersAreEditingFilter.isDisplayed();
     }
 
     public boolean isRecentlyModifiedFilterDisplayed()
     {
-        return isElementDisplayed(recently_ModifiedFilter);
+        return recentlyModifiedFilter.isDisplayed();
     }
 
     public boolean isRecentlyAddedFilterDisplayed()
     {
-        return isElementDisplayed(recently_AddedFiler);
+        return recentlyAddedFiler.isDisplayed();
     }
 
     public boolean isMyFavoritesFilterDisplayed()
     {
-        return isElementDisplayed(my_FavouritesFilter);
+        return myFavouritesFilter.isDisplayed();
     }
 
     public boolean isLibraryLinkDisplayed()
     {
-        return isElementDisplayed(library_Filter);
+        return libraryFilter.isDisplayed();
     }
 }
