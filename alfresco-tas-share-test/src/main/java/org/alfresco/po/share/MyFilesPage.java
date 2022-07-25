@@ -4,23 +4,18 @@ import static org.alfresco.common.Wait.WAIT_40;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.Utils;
-import org.alfresco.po.share.alfrescoContent.AlfrescoContentPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
-import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.model.FileModel;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.Keys;
 
 import java.text.MessageFormat;
 
@@ -48,6 +43,7 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     private By documentLibraryItemsList = By.cssSelector("div[id$='default-documents'] tbody[class$='data'] tr");
     private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
     private final By createFileFromTemplate = By.cssSelector("div[id$='createContent-menu']>div>ul:nth-of-type(2)>li:nth-of-type(1) span");
+    private By editTagInputField_ = By.cssSelector(".inlineTagEditAutoCompleteWrapper input");
     @Override
     public MyFilesPage navigateByMenuBar()
     {
@@ -172,5 +168,13 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
         log.info("Verify that the folder is present in the list.");
         assertTrue(getFoldersList().contains(folderName), "Folder is not present in the list.");
         return this;
+    }
+    public void type_TagName(String tagName)
+    {
+        waitInSeconds(3);
+        Utils.clearAndType(waitUntilElementIsVisible(findElement(editTagInputField_)), tagName);
+        findElement(editTagInputField_).sendKeys(Keys.ENTER);
+        waitInSeconds(2);
+        findElement(editTagInputField_).sendKeys(Keys.ENTER);
     }
 }
