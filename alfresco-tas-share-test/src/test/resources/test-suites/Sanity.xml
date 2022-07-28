@@ -49,6 +49,8 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesDownloadTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesManageAspectsTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesPageTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesSelectContentTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesTests"></class>
       </classes>
    </test>
 </suite>
