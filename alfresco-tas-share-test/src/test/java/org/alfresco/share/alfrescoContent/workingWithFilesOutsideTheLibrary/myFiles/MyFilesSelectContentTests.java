@@ -1,96 +1,117 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.alfresco.dataprep.CMISUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.alfresco.utility.model.UserModel;
+
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+@Slf4j
 /**
  * @author Razvan.Dorobantu
  */
-public class MyFilesSelectContentTests extends ContextAwareWebTest
+public class MyFilesSelectContentTests extends BaseTest
 {
-    private final String testFile = String.format("testFile%s", RandomData.getRandomAlphanumeric());
+    private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
-    private String user;
     private String myFilesPath;
+    protected ContentService contentService;
     //@Autowired
     private MyFilesPage myFilesPage;
+    private NewFolderDialog newFolderDialog;
+    private UploadContent uploadContent;
     //@Autowired
     private HeaderMenuBar headerMenuBar;
-
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     @BeforeMethod (alwaysRun = true)
     public void createUser()
     {
-        user = String.format("user%s", RandomData.getRandomAlphanumeric());
-        myFilesPath = "User Homes/" + user;
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
+        log.info("PreCondition: Creating a TestUser");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+        authenticateUsingCookies(user.get());
+
+        myFilesPage = new MyFilesPage(webDriver);
+        headerMenuBar = new HeaderMenuBar(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        newFolderDialog = new NewFolderDialog(webDriver);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        deleteUsersIfNotNull(user.get());
     }
 
     @TestRail (id = "C7682")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFileByMenu()
     {
-        LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFile, "some content");
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
+        log.info("Precondition: Login as user, navigate to My Files page and upload a file.");
+        myFilesPage
+            .navigate();
+        uploadContent
+            .uploadContent(testFilePath);
+        myFilesPage
+            .assertIsContantNameDisplayed(testFile);
 
-        LOG.info("STEP1: Click 'Select' button and choose 'Documents' option.");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("Documents");
+        log.info("STEP1: Click 'Select' button and choose 'Documents' option.");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("Documents");
         ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(testFile));
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
-        LOG.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("Invert Selection");
+        log.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("Invert Selection");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
-        LOG.info("STEP3: Click 'Select' button and choose 'All'");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("All");
+        log.info("STEP3: Click 'Select' button and choose 'All'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("All");
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
-        LOG.info("STEP4: Click 'Select' button and choose 'None'");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("None");
+        log.info("STEP4: Click 'Select' button and choose 'None'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("None");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
-        LOG.info("STEP5: Click 'Select' button and choose 'Folders'");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("Folders");
+        log.info("STEP5: Click 'Select' button and choose 'Folders'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("Folders");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
-        LOG.info("STEP6: Click on document checkbox");
-        myFilesPage.clickCheckBox(testFile);
+        log.info("STEP6: Click on document checkbox");
+        myFilesPage
+            .clickCheckBox(testFile);
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
     }
@@ -99,45 +120,58 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFolderByMenu()
     {
-        LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        contentService.createFolderInRepository(user, password, folderName, myFilesPath);
-        myFilesPage.navigate();
-//        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
+        log.info("Precondition: Login as user, navigate to My Files page and create a folder.");
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        myFilesPage
+            .click_CreateButton()
+            .click_FolderLink();
+        newFolderDialog
+            .typeName(folderName)
+            .clickSave();
+        myFilesPage
+            .assertIsContantNameDisplayed(folderName);
 
-        LOG.info("STEP1: Click 'Select' button and choose 'Folders'");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("Folders");
+        log.info("STEP1: Click 'Select' button and choose 'Folders'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("Folders");
         ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
-        LOG.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("Invert Selection");
+        log.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("Invert Selection");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
-        LOG.info("STEP3: Click 'Select' button and choose 'All'");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("All");
+        log.info("STEP3: Click 'Select' button and choose 'All'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("All");
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
-        LOG.info("STEP4: Click 'Select' button and choose 'None'");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("None");
+        log.info("STEP4: Click 'Select' button and choose 'None'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("None");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
-        LOG.info("STEP5: Click 'Select' button and choose 'Documents' option.");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption("Documents");
+        log.info("STEP5: Click 'Select' button and choose 'Documents' option.");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption("Documents");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
-        LOG.info("STEP6: Click on folder checkbox");
-        myFilesPage.clickCheckBox(folderName);
+        log.info("STEP6: Click on folder checkbox");
+        myFilesPage
+            .clickCheckBox(folderName);
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
     }
