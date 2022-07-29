@@ -22,6 +22,11 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     private WebElement selectedItemsMenuDisabled;
 
     private final By selectedItemsOptionsSelector = By.cssSelector("div[id*='selectedItems'] span");
+    private final By select_menu = By.cssSelector("button[id*='fileSelect']");
+    private final By select_OptionsList = By.cssSelector("div[id*='fileSelect-menu'] span");
+    private final By selected_ItemsMenu = By.cssSelector("div[id*='fileSelect-menu'] span");
+    private final By selected_ItemsMenuDisabled = By.cssSelector(".selected-items button[disabled]");
+
 
     public HeaderMenuBar(ThreadLocal<WebDriver> webDriver)
     {
@@ -40,9 +45,11 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
         return isElementDisplayed(selectMenu);
     }
 
-    public void clickSelectMenu()
+    public HeaderMenuBar clickSelectMenu()
     {
-        clickElement(selectMenu);
+       clickElement(select_menu);
+       return this;
+
     }
 
     public void clickSelectOption(String optionText)
@@ -52,7 +59,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public boolean isSelectedItemsMenuEnabled()
     {
-        return !isElementDisplayed(selectedItemsMenuDisabled);
+        return !isElementDisplayed(selected_ItemsMenuDisabled);
     }
 
     public boolean isSelectItemsMenuDisplayedDisabled()
@@ -69,5 +76,17 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     {
         List<WebElement> selectedItemsOptionsList = findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
         selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
+    }
+    public void click_SelectOption(String option_Name)
+    {
+        List<WebElement> optionList = findElements(select_OptionsList);
+        for (WebElement webElement : optionList)
+        {
+            if (webElement.getText().contains(option_Name))
+            {
+                webElement.click();
+            }
+        }
+
     }
 }

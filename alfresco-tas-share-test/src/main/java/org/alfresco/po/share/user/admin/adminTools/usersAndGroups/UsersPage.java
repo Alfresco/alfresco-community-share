@@ -17,6 +17,7 @@ import org.alfresco.utility.model.UserModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 @Slf4j
 public class UsersPage extends SharePage2<UsersPage>
@@ -29,6 +30,7 @@ public class UsersPage extends SharePage2<UsersPage>
     private final By uploadButton = By.cssSelector("#template_x002e_html-upload_x002e_console_x0023_default-upload-button-button");
     private final By tableHeaderElements = By.cssSelector("div[class$='results'] table>thead>tr:nth-of-type(1) span");
     private final By searchTextResult = By.cssSelector("div[id$='default-search-bar']");
+    private final By usersList = By.xpath("//td[@headers='yui-dt3-th-userName ']");
 
     private final String userRow = "//td[contains(@headers, 'userName')]//div[text()='%s']/../..";
 
@@ -113,12 +115,26 @@ public class UsersPage extends SharePage2<UsersPage>
         clickElement(searchButton);
         return this;
     }
+    public boolean UserList(String userName) {
+        List<WebElement> ListofUsers = findElements(usersList);
+        for (WebElement webElement : ListofUsers)
+        {
+            if (webElement.getText().contains(userName))
+                return true;
+        }
+        return false;
+    }
+    public UsersPage assertIsUsersCreated(String user)
+    {
+        log.info("Verify user is Created");
+        assertTrue(UserList(user), String.format("User %s is Not Created", user));
+        return this;
+    }
 
     public boolean isUserFound(String user)
     {
         return isElementDisplayed(By.xpath(String.format(userRow, user)));
     }
-
     public WebElement getUserRow(String userName)
     {
         return waitWithRetryAndReturnWebElement(By.xpath(String.format(userRow, userName)),
