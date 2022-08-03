@@ -80,30 +80,35 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public int getNumberOfLikes(String fileName)
     {
+        waitInSeconds(2);
         String likesNo = selectDocumentLibraryItemRow(fileName).findElement(likesCount).getText();
         return Integer.parseInt(likesNo);
     }
 
-    public void clickLikeButton(String fileName)
+    public SocialFeatures clickLikeButton(String fileName)
     {
         selectDocumentLibraryItemRow(fileName).findElement(likeButton).click();
         waitUntilElementIsVisible(enabledLikeButton);
+        return this;
     }
 
     public boolean isLikeButtonEnabled(String fileName)
     {
+        waitInSeconds(3);
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabledLikeButton);
     }
 
     public String getLikeButtonEnabledText(String fileName)
     {
+        waitInSeconds(3);
         return selectDocumentLibraryItemRow(fileName).findElement(enabledLikeButton).getAttribute("title");
     }
 
-    public void clickUnlike(String fileName)
+    public SocialFeatures clickUnlike(String fileName)
     {
         waitUntilElementIsVisible(enabledLikeButton);
         selectDocumentLibraryItemRow(fileName).findElement(enabledLikeButton).click();
+        return this;
     }
 
     public DocumentDetailsPage clickCommentLink(String contentName)
