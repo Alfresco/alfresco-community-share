@@ -25,7 +25,7 @@ public class SocialFeatures extends DocumentLibraryPage
     protected String password = "alfresco123!";
     protected String gEmail = "test.alfresco5@gmail.com";
     protected String gPassword = "Ness2015*";
-
+    private final By commentContent = By.cssSelector("[class=comment-content]");
     @FindBy (css = ".section input[id*='input']")
     private WebElement publicLinkInputField;
     @FindBy (css = "a.quickshare-action-view")
@@ -78,6 +78,14 @@ public class SocialFeatures extends DocumentLibraryPage
         return selectDocumentLibraryItemRow(fileName).findElement(likeButton).getAttribute("title");
     }
 
+    public String getCommentButtonMessage(String fileName)
+    {
+        return selectDocumentLibraryItemRow(fileName).findElement(commentButton).getAttribute("title");
+    }
+    public String getCommentContent()
+    {
+        return getElementText(commentContent);
+    }
     public int getNumberOfLikes(String fileName)
     {
         waitInSeconds(2);
@@ -96,6 +104,20 @@ public class SocialFeatures extends DocumentLibraryPage
     {
         waitInSeconds(3);
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabledLikeButton);
+    }
+    public SocialFeatures assertCommentButtonMessage(String fileName, String message)
+    {
+        log.info("Assert Comment button message {}");
+        waitInSeconds(2);
+        assertEquals(getCommentButtonMessage(fileName), message, String.format("Comment Button Message not equal %s ", message));
+        return this;
+    }
+    public SocialFeatures assertCommentContent(String comment)
+    {
+        log.info("Assert Commented text {}");
+        waitInSeconds(2);
+        assertEquals(getCommentContent(), comment, "Comment text is not correct");
+        return this;
     }
 
     public String getLikeButtonEnabledText(String fileName)
