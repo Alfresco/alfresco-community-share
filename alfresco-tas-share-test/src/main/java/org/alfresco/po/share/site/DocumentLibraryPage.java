@@ -75,12 +75,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private UploadFileDialog uploadDialog;
     private NewFolderDialog newContentDialog;
 
-    private static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";
-    private static final String ACTION_SELECTOR_MORE = "div[id*='default-actions']:not([class*='hidden']) div.more-actions>.{0}>a";
+    protected static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";
+    protected static final String ACTION_SELECTOR_MORE = "div[id*='default-actions']:not([class*='hidden']) div.more-actions>.{0}>a";
     /**
      * more actions
      */
-    private By moreSelector = By.cssSelector("div[id*='default-actions']:not([class*='hidden']) a.show-more");
+    protected By moreSelector = By.cssSelector("div[id*='default-actions']:not([class*='hidden']) a.show-more");
     private By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
     private By uploadButton_ = By.cssSelector("[id$='default-fileUpload-button-button']");
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
@@ -156,7 +156,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By lockedByUser = By.cssSelector("div.info-banner a");
     private By titleSelector = By.cssSelector("td .title");
     private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
-    private By commentButton = By.cssSelector("a.comment");
+    protected By commentButton = By.cssSelector("a.comment");
 
     public boolean areCreateOptionsAvailable()
     {

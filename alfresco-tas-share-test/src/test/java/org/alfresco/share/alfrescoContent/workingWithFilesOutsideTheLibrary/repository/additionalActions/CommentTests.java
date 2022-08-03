@@ -1,100 +1,145 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.site.ItemActions;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.alfresco.utility.model.*;
+import org.testng.annotations.*;
 
-public class CommentTests extends ContextAwareWebTest
+
+@Slf4j
+public class CommentTests extends BaseTest
 {
-    private final String user = String.format("C8305TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String fileNameC8305 = "C8305 file";
-    private final String path = "User Homes/" + user;
-    private final String fileContent = "test file content";
-    private final String folderNameC8306 = "C8306 Folder";
-   // @Autowired
-    CreateContentPage createContent;
-    //@Autowired
+
     private RepositoryPage repositoryPage;
     //@Autowired
     private SocialFeatures socialFeatures;
     //@Autowired
     private DocumentDetailsPage documentDetails;
+    private MyFilesPage myFilesPage;
+    //@Autowired
+    private NewFolderDialog newFolderDialog;
+    private UploadContent uploadContent;
+    private final String password = "password";
+    private final String user = String.format("TestUser%s", RandomData.getRandomAlphanumeric());
+    private UserModel testUser1;
+    private FolderModel folderToCheck;
+    private FileModel fileToCheck;
+    private  String username="";
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        repositoryPage = new RepositoryPage(webDriver);
+        socialFeatures = new SocialFeatures(webDriver);
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8305, fileContent);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8306, path);
-        setupAuthenticatedSession(user, password);
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("Create Folder and File in Admin Repository-> User Homes ");
+        authenticateUsingLoginPage(getAdminUser());
+
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingAdmin().usingUserHome(user).createFolder(folderToCheck).assertThat().existsInRepo();
+
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().usingAdmin().usingUserHome(user).createFile(fileToCheck).assertThat().existsInRepo();
+        authenticateUsingCookies(getAdminUser());
+
+
+        documentDetails = new DocumentDetailsPage(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        newFolderDialog = new NewFolderDialog(webDriver);
     }
-
-    @AfterClass (alwaysRun = true)
-
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, path);
+        deleteUsersIfNotNull(testUser1);
+        log.info("Delete the Created Folder from Admin Page");
+        authenticateUsingLoginPage(getAdminUser());
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName("User Homes");
+        repositoryPage.select_ItemsAction(user, ItemActions.DELETE_FOLDER)
+            .clickOnDeleteButtonOnDeletePrompt();
     }
 
     @TestRail (id = "C8305")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
-    public void addCommentToFile()
-    {
+    public void addCommentToFile() throws InterruptedException {
         String comment = "test comment c8305";
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(user);
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName("User Homes");
+        repositoryPage.click_FolderName(user);
+        repositoryPage.assertFileIsDisplayed(fileToCheck.getName());
+        log.info("Step 1: Add comment");
+        socialFeatures
+            .assertCommentButtonMessage(fileToCheck.getName(),"Comment on this document");
+        socialFeatures
+            .clickCommentLink(fileToCheck.getName());
+        documentDetails
+            .addComment(comment);
+        socialFeatures.assertCommentContent(comment);
+        log.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName("User Homes");
+        repositoryPage
+            .clickOnFolderName(user)
+            .assertFileIsDisplayed(fileToCheck.getName());
+        socialFeatures
+            .assertCommentButtonMessage(fileToCheck.getName(),"Comment on this document")
+            .assertNoOfCommentsVerify(fileToCheck.getName(),1);
 
-        LOG.info("Step 1: Add comment");
-        socialFeatures.clickCommentLink(fileNameC8305);
-        documentDetails.addComment(comment);
-        Assert.assertEquals(documentDetails.getCommentContent(), comment, "Comment text is not correct");
-
-        LOG.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(user);
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
-
-        Assert.assertEquals(socialFeatures.getNumberOfComments(fileNameC8305), 1, "The number of comments is not increased");
     }
+
 
     @TestRail (id = "C8306")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
-    public void addCommentToFolder()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    public void addCommentToFolder()  {
         String comment = "test comment c8306";
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(user);
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
 
-        LOG.info("Step 1: Add comment");
-        socialFeatures.clickCommentLink(folderNameC8306);
-        documentDetails.addComment(comment);
-        Assert.assertEquals(documentDetails.getCommentContent(), comment, "Comment text is not correct");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName("User Homes");
+        repositoryPage.click_FolderName(user);
+        repositoryPage.assertFileIsDisplayed(folderToCheck.getName());
+        log.info("Step 1: Add comment");
+        socialFeatures
+            .assertCommentButtonMessage(folderToCheck.getName(),"Comment on this folder");
+        socialFeatures
+            .clickCommentLink(folderToCheck.getName());
+        documentDetails
+            .addComment(comment);
+        socialFeatures.assertCommentContent(comment);
+        log.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName("User Homes");
+        repositoryPage
+            .clickOnFolderName(user)
+            .assertFileIsDisplayed(folderToCheck.getName());
+        socialFeatures
+            .assertNoOfCommentsVerify(folderToCheck.getName(),1);
 
-        LOG.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(user);
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
-
-        Assert.assertEquals(socialFeatures.getNumberOfComments(folderNameC8306), 1, "The number of comments is not increased");
     }
+
+
 }
