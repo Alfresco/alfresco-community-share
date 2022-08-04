@@ -26,8 +26,13 @@
             <span class="viewmode-value">
             ${msg("form.control.novalue")}
          <#elseif !multiValued>
-            <span class="viewmode-value viewmode-value-date" data-date-iso8601="${field.value}" data-show-time="${showTime?string}">
+            <#if field.label == "Date and Time">
+            <span class="viewmode-value viewmode-value-date" data-date-iso8601="${field.value}" data-show-time="${showTime?string}" field-label="${field.label?html}">
             ${xmldate(field.value)?string(viewFormat)}
+			      <#else>
+			      <span class="viewmode-value viewmode-value-date" data-date-iso8601="${field.value}" data-show-time="${showTime?string}">
+            ${xmldate(field.value)?string(viewFormat)}
+			      </#if>
          <#else>
             <span class="viewmode-value">
             <#list field.value?split(",") as dateEl>
