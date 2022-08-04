@@ -128,18 +128,41 @@
       onFormLoaded: function DocumentMetadata_onFormLoaded(response)
       {
          var formEl = Dom.get(this.id + "-formContainer"),
-            me = this;
+         me = this;
          formEl.innerHTML = response.serverResponse.responseText;
+
+         function exifDate(date) {
+            const inputDate = new Date(date);
+            const originalDate = new Date(inputDate.toISOString().slice(0, -1));
+            var pre = "GMT";
+            var exifDateTime = originalDate.toString().slice(0, originalDate.toString().lastIndexOf(pre));
+            return exifDateTime;
+            }
+
          Dom.getElementsByClassName("viewmode-value-date", "span", formEl, function()
-         {
-            var showTime = Dom.getAttribute(this, "data-show-time"),
-                fieldValue = Dom.getAttribute(this, "data-date-iso8601"),
-                dateFormat = (showTime=='false') ? me.msg("date-format.defaultDateOnly") : me.msg("date-format.default"),
-                // MNT-9693 - Pass the ignoreTime flag
-                ignoreTime = showTime == 'false',
-                theDate = fromISO8601(fieldValue, ignoreTime);
-            
-            this.innerHTML = formatDate(theDate, dateFormat);
+            {
+               var fieldLabel = Dom.getAttribute(this, "field-label");
+               var fieldValue;
+               var showTime;
+               var dateFormat;
+               var theDate;
+               var ignoreTime;
+               if(fieldLabel === "Date and Time"){
+                  fieldValue = Dom.getAttribute(this, "data-date-iso8601");
+                  showTime = Dom.getAttribute(this, "data-show-time"),
+                  dateFormat = (showTime=='false') ? me.msg("date-format.defaultDateOnly") : me.msg("date-format.default"),
+                  theDate = fieldValue;
+                  this.innerHTML = exifDate(theDate, dateFormat); 
+               }
+               else{
+                  fieldValue = Dom.getAttribute(this, "data-date-iso8601"),
+                  showTime = Dom.getAttribute(this, "data-show-time"),
+                  dateFormat = (showTime=='false') ? me.msg("date-format.defaultDateOnly") : me.msg("date-format.default"),
+                  // MNT-9693 - Pass the ignoreTime flag
+                  ignoreTime = showTime == 'false',
+                  theDate = fromISO8601(fieldValue, ignoreTime);
+                  this.innerHTML = formatDate(theDate, dateFormat);
+               }
          });
       },
 
