@@ -474,6 +474,19 @@
                         recipientIds: recipientIds
                      },
                      scope: this
+                  },
+				      failureCallback:
+				      {
+					      fn: function(p_oResponse, p_oObj)
+                     {						   
+						       p_oObj.recipientIds.pop();
+                         this._renderRecipients(p_oObj.recipientIds);
+                     },
+					      obj:
+					      {
+						      recipientIds: recipientIds
+					      },
+                     scope: this
                   }
                });
             }
