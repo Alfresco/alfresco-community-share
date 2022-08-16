@@ -24,7 +24,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     private final By selectedItemsOptionsSelector = By.cssSelector("div[id*='selectedItems'] span");
     private final By select_menu = By.cssSelector("button[id*='fileSelect']");
     private final By select_OptionsList = By.cssSelector("div[id*='fileSelect-menu'] span");
-    private final By selected_ItemsMenu = By.cssSelector("div[id*='fileSelect-menu'] span");
+    private final By selected_ItemsMenu = By.xpath("(//button[@type='button'])[10]");
     private final By selected_ItemsMenuDisabled = By.cssSelector(".selected-items button[disabled]");
 
 
@@ -69,7 +69,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public void clickSelectedItemsMenu()
     {
-        selectedItemsMenu.click();
+        findElement(selected_ItemsMenu).click();
     }
 
     public void clickSelectedItemsOption(String optionText)
