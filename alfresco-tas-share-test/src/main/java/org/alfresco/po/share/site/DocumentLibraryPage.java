@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.UploadFileDialog;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -1059,6 +1060,18 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         waitUntilElementIsVisible(findElement(editTagInputField_));
         return isElementDisplayed(findElement(editTagInputField_));
+    }
+    public DocumentLibraryPage assertEditTagInputFieldDisplayed(String fileName)
+    {
+        log.info("Assert EditTag Input Field is Displayed {}", fileName);
+        assertTrue(isEditTagInputFieldDisplayed(), fileName + " -> Edit tag text input field is displayed.");
+        return this;
+    }
+    public DocumentLibraryPage assertTagNamesDisplayed(String fileName,String actTanames,String tagName)
+    {
+        log.info("Assert Tag Names are Displayed {}", fileName);
+        assertEquals(getTags(fileName), actTanames, tagName + " -> tags=");
+        return this;
     }
 
     public void typeTagName(String tagName)
