@@ -31,6 +31,7 @@
          <package name="org.alfresco.share.alfrescoContent.socialFeatures"></package>
          <package name="org.alfresco.share.alfrescoContent.viewingContent"></package>
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles"></package>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
