@@ -43,7 +43,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     private  By userNameLocator = By.cssSelector("td[class$='displayName']");
     private  By userRoleLocator = By.cssSelector("td[class*='role']");
     private By pageTitle_ = By.cssSelector("span[id$='_default-title']");
-    private  By addUser = By.cssSelector("span[class$='button' span button]");
+//    private  By addUser = By.cssSelector("span[class$='button' span button]");
     private  By inheritPermissionTable_ = By.cssSelector("div[id$='_default-inheritedPermissions']");
     private  By inheritButtonStatus = By.cssSelector("div[class$='inherited-on']");
     private  By inheritButtonStatusDisabled = By.cssSelector("div[class$='inherited-off']");
@@ -286,8 +286,8 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public boolean isAddUserGroupButtonDisplayed()
     {
-        waitUntilElementIsVisible(addUserGroupButton);
-        return isElementDisplayed(addUserGroupButton);
+        waitUntilElementIsVisible(addUserGroupButton_);
+        return isElementDisplayed(addUserGroupButton_);
     }
 
     public boolean isInheritPermissionsButtonDisplayed()
@@ -298,14 +298,14 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public boolean isTheSaveButtonDisplayed()
     {
-        waitUntilElementIsVisible(saveButton);
-        return isElementDisplayed(saveButton);
+        waitUntilElementIsVisible(saveButton_);
+        return isElementDisplayed(saveButton_);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        waitUntilElementIsVisible(cancelButton);
-        return isElementDisplayed(cancelButton);
+        waitUntilElementIsVisible(cancelButton_);
+        return isElementDisplayed(cancelButton_);
     }
 
     public boolean isLocallySetPermissionsListDisplayed()
@@ -331,20 +331,23 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         return isElementDisplayed(deleteButton);
     }
 
-    public void clickAddUserGroupButton()
+    public ManagePermissionsPage clickAddUserGroupButton()
     {
-        clickElement(addUserGroupButton);
-        waitUntilElementIsVisible(addUserGroupWindow);
+        clickElement(addUserGroupButton_);
+        waitUntilElementIsVisible(addUserGroupButton_);
+        return this;
     }
 
-    public void sendSearchInput(String userName)
+    public ManagePermissionsPage sendSearchInput(String userName)
     {
         Utils.clearAndType(findElement(searchInputBox), userName);
+        return this;
     }
 
-    public void clickSearchButton()
+    public ManagePermissionsPage clickSearchButton()
     {
         findElement(searchButton).click();
+        return this;
     }
 
     public WebElement selectUser(String userName)
@@ -359,10 +362,11 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         return this;
     }
 
-    public void clickRoleButton(String item)
+    public ManagePermissionsPage clickRoleButton(String item)
     {
-        clickElement(roleButton);
+        waitInSeconds(2);
         selectRowLocallySetPermissions(item).findElement(By.cssSelector("td[class$='yui-dt-col-role'] button")).click();
+        return this;
     }
 
     public void selectRole(String role)
@@ -370,7 +374,13 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         waitUntilElementsAreVisible(roles);
         findFirstElementWithValue(roles, role).click();
     }
-
+    public ManagePermissionsPage select_Role(String role)
+    {
+        waitInSeconds(2);
+        List<WebElement> roleList = findElements(roles);
+        findFirstElementWithValue(roleList, role).click();
+        return this;
+    }
     public DocumentLibraryPage clickSave()
     {
         waitInSeconds(1);
@@ -394,6 +404,12 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     {
         waitUntilElementIsVisible(addUserGroupWindow);
         return isElementDisplayed(addUserGroupWindow);
+    }
+    public ManagePermissionsPage assertIsAddUserGroupWindowDisplayed()
+    {
+        log.info("Verify Add user group window is Displayed");
+        assertTrue(isAddUsersGroupsWindowDisplayed(),"Add users groups window is not displayed");
+        return this;
     }
 
     public void deleteUserFromPermissionsList(String identifier)
