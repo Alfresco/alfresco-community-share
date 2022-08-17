@@ -90,6 +90,7 @@ public class UploadContent extends SiteCommon<UploadContent>
 
     public void uploadContent(String filePath)
     {
+        waitInSeconds(3);
         uploadContent(filePath, "contents");
     }
 
