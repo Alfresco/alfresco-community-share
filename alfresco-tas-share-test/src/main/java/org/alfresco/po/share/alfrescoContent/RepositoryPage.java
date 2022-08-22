@@ -203,4 +203,16 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
         assertFalse(isFileNameDisplayed(fileName), fileName + " is displayed in Document Library");
         return this;
     }
+    public RepositoryPage assertIsMoreMenuDisplayed(String filename)
+    {
+        log.info("Verify More Menu is Displaying");
+        assertTrue(isMoreMenuDisplayed(filename), "More Menu is not displayed");
+        return this;
+    }
+    public RepositoryPage assertIsMoreMenuNotDisplayed(String filename)
+    {
+        log.info("Verify More Menu is Not Displaying");
+        assertFalse(isMoreMenuDisplayed(filename), "More Menu is displayed");
+        return this;
+    }
 }
