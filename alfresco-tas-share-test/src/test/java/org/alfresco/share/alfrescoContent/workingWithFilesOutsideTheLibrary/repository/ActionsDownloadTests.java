@@ -1,74 +1,123 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ActionsDownloadTests extends ContextAwareWebTest
+import java.io.File;
+
+import static org.alfresco.common.Utils.isFileInDirectory;
+import static org.alfresco.common.Utils.testDataFolder;
+
+@Slf4j
+public class ActionsDownloadTests extends BaseTest
 {
-    private final String user = String.format("C8240TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String fileNameC8240 = "C8240 file";
-    private final String folderNameC8243 = "folderNameC8243";
-    private final String fileContent = "test content";
-    private final String path = "User Homes/" + user;
-
-    @Autowired
     private RepositoryPage repositoryPage;
+    private DeleteDialog deleteDialog;
+    private HeaderMenuBar headerMenuBar;
+    private UserModel testUser1;
+    private FileModel testFile;
+    private FolderModel testFolder;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8240, fileContent);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8243, path);
 
-        setupAuthenticatedSession(user, password);
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(user);
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+
+        repositoryPage = new RepositoryPage(webDriver);
+        deleteDialog = new DeleteDialog(webDriver);
+        headerMenuBar = new HeaderMenuBar(webDriver);
+
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("Create a Folder and File in Admin Repository-> User Homes ");
+        authenticateUsingLoginPage(getAdminUser());
+
+        testFolder = FolderModel.getRandomFolderModel();
+        getCmisApi().usingAdmin().usingUserHome(testUser1.getUsername()).createFolder(testFolder).assertThat().existsInRepo();
+
+        testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().usingAdmin().usingUserHome(testUser1.getUsername()).createFile(testFile).assertThat().existsInRepo();
+        authenticateUsingCookies(getAdminUser());
+
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        deleteUsersIfNotNull(testUser1);
+
+        authenticateUsingLoginPage(getAdminUser());
+        repositoryPage
+            .navigateByMenuBar()
+            .click_FolderName("User Homes");
+        headerMenuBar.clickSelectMenu().click_SelectOption("All");
+        headerMenuBar.clickSelectedItemsMenu();
+        headerMenuBar.clickSelectedItemsOption("Delete");
+        deleteDialog.confirmDeletion();
     }
 
     @TestRail (id = "C8240")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void downloadFileFromAlfresco()
     {
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8240), fileNameC8240 + " is not available in Repository");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigateByMenuBar()
+            .click_FolderName("User Homes")
+            .clickOnFolderName(testUser1.getUsername())
+            .assertFileIsDisplayed(testFile.getName());
 
-        LOG.info("Step 1: Mouse over file, click Download");
-        repositoryPage.selectItemAction(fileNameC8240, ItemActions.DOWNLOAD);
+        log.info("Step 1: Mouse over file, click Download");
+        repositoryPage.selectItemActionFormFirstThreeAvailableOptions(testFile.getName(),ItemActions.DOWNLOAD);
         repositoryPage.acceptAlertIfDisplayed();
-        LOG.info("Step 2: Check the file was saved locally");
 
-        Assert.assertTrue(isFileInDirectory(fileNameC8240, null), "The file was not found in the specified location");
+        log.info("Step 2: Check the file was saved locally");
+        Assert.assertTrue(isFileInDirectory(testFile.getName(), null), "The file was not found in the specified location");
+
+        log.info("Delete the downloaded file from the directory");
+        File file = new File(testDataFolder + testFile.getName());
+        file.delete();
+        Assert.assertFalse(file.exists(), "File should not exist!");
     }
 
     @TestRail (id = " C8243")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void downloadFolder()
     {
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8243), folderNameC8243 + " is not available in Repository");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigateByMenuBar()
+            .click_FolderName("User Homes")
+            .clickOnFolderName(testUser1.getUsername())
+            .assertFileIsDisplayed(testFolder.getName());
 
-        LOG.info("Step 1: Mouse over folder, click Download");
-        repositoryPage.selectItemAction(folderNameC8243, ItemActions.DOWNLOAD_AS_ZIP);
+        log.info("Step 1: Mouse over folder, click Download");
+        repositoryPage.selectItemActionFormFirstThreeAvailableOptions(testFolder.getName(),ItemActions.DOWNLOAD_AS_ZIP);
         repositoryPage.acceptAlertIfDisplayed();
 
-        LOG.info("Step 2: Check the folder was saved locally");
-        Assert.assertTrue(isFileInDirectory(folderNameC8243, ".zip"), "The folder was not found in the specified location");
+        log.info("Step 2: Check the folder was saved locally");
+        Assert.assertTrue(isFileInDirectory(testFolder.getName(), ".zip"), "The folder was not found in the specified location");
+
+        log.info("Delete the downloaded file from the directory");
+        File file = new File(testDataFolder + testFolder.getName());
+        file.delete();
+        Assert.assertFalse(file.exists(), "File should not exist!");
     }
+
 }
