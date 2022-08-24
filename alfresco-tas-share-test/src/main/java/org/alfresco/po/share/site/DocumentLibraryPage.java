@@ -86,7 +86,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By uploadButton_ = By.cssSelector("[id$='default-fileUpload-button-button']");
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
-    @FindBy(css = "[id$='default-fileUpload-button-button']") protected WebElement uploadButton;
+    public By uploadButton = By.cssSelector("[id$='default-fileUpload-button-button']");
     @FindBy(css = "button[id$='default-options-button-button']") protected WebElement optionsMenu;
     @FindBy(css = ".hideFolders") protected WebElement hideFoldersMenuOption;
     protected By likeButton = By.cssSelector("a.like-action");
@@ -96,7 +96,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     @FindBy(css = "div[id$='paginatorBottom'] span[class$='current']") private WebElement paginator;
     @FindBy(css = "div[id$='_default-dl-body']") private WebElement docListContainer;
     @FindBy(css = ".documents[id$='_default-documents']") private WebElement documentList;
-    @FindBy(css = "button[id*='createContent']") private WebElement createButton;
+    private final By createButton = By.cssSelector("button[id$='createContent-button-button']");
     @FindBy(css = "div[id$='default-options-menu'] span") private List<WebElement> optionsList;
     private By optionsMenuDropDown = By.cssSelector("div[id*='default-options-menu'].visible");
     private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
@@ -170,6 +170,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             }
         }
         return true;
+    }
+    public DocumentLibraryPage assertareCreateOptionsAvailable()
+    {
+        log.info("Assert Create menu options are available ");
+       assertTrue(areCreateOptionsAvailable(), "Create menu options are not available");
+        return this;
     }
 
     /**
@@ -1067,6 +1073,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         assertTrue(isEditTagInputFieldDisplayed(), fileName + " -> Edit tag text input field is displayed.");
         return this;
     }
+
     public DocumentLibraryPage assertTagNamesDisplayed(String fileName,String actTanames,String tagName)
     {
         log.info("Assert Tag Names are Displayed {}", fileName);
@@ -1254,12 +1261,36 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public String getCreateButtonStatusDisabled()
     {
-        return createButton.getAttribute("disabled");
+        return findElement(createButton).getAttribute("disabled");
+    }
+    public DocumentLibraryPage assertCreateButtonStatusDisabled()
+    {
+        log.info("Verify Create button is disabled");
+        Assert.assertEquals(getCreateButtonStatusDisabled(), "true", "The Create Button is not disabled");
+        return this;
+    }
+    public DocumentLibraryPage assertCreateButtonStatusEnabled()
+    {
+        log.info("Verify Create button is disabled");
+        Assert.assertEquals(getCreateButtonStatusDisabled(), null, "The Create Button is disabled");
+        return this;
     }
 
     public String getUploadButtonStatusDisabled()
     {
-        return uploadButton.getAttribute("disabled");
+        return findElement(uploadButton).getAttribute("disabled");
+    }
+    public DocumentLibraryPage assertUploadButtonStatusDisabled()
+    {
+        log.info("Verify Upload button is disabled");
+        Assert.assertEquals(getUploadButtonStatusDisabled(), "true", "The Upload Button is not disabled");
+        return this;
+    }
+    public DocumentLibraryPage assertUploadButtonStatusEnabled()
+    {
+        log.info("Verify Upload button is disabled");
+        Assert.assertEquals(getUploadButtonStatusDisabled(), null, "The Upload Button is disabled");
+        return this;
     }
 
     public void clickLinkToFolder(String folderName)
@@ -1272,10 +1303,23 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         return isElementDisplayed(createContentMenu);
     }
+    public DocumentLibraryPage assertCreateContentMenuIsNotDisplayed()
+    {
+        log.info("Verify Create Content Menu Displayed disabled");
+        Assert.assertFalse(isCreateContentMenuDisplayed(), "Create Content menu is displayed when the Create button is clicked");
+        return this;
+    }
+    public DocumentLibraryPage assertCreateContentMenuIsDisplayed()
+    {
+        log.info("Verify Create Content Menu Displayed disabled");
+        assertTrue(isCreateContentMenuDisplayed(), "Create Content menu is not displayed when the Create button is clicked");
+        return this;
+    }
 
     public void clickCreateButtonWithoutWait()
     {
         waitUntilElementIsVisible(createButton);
+        findElement(createButton).click();
     }
 
     public boolean isFileDisplayed(String fileName)
