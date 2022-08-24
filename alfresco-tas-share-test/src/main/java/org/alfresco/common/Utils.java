@@ -174,7 +174,7 @@ public final class Utils
         {
             fileName = fileName + extension;
         }
-        String filePath = testDataFolder + File.separator + fileName;
+        String filePath = "testdata" + File.separator + fileName;
         while (retry <= seconds && !Files.exists(Paths.get(filePath)))
         {
             retry++;
