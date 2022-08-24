@@ -61,15 +61,6 @@ public class ActionsDownloadTests extends BaseTest
     public void cleanup()
     {
         deleteUsersIfNotNull(testUser1);
-
-        authenticateUsingLoginPage(getAdminUser());
-        repositoryPage
-            .navigateByMenuBar()
-            .click_FolderName("User Homes");
-        headerMenuBar.clickSelectMenu().click_SelectOption("All");
-        headerMenuBar.clickSelectedItemsMenu();
-        headerMenuBar.clickSelectedItemsOption("Delete");
-        deleteDialog.confirmDeletion();
     }
 
     @TestRail (id = "C8240")
