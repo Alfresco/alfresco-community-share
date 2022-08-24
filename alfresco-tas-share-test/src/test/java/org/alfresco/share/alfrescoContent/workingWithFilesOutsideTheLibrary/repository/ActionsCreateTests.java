@@ -1,263 +1,304 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
+import org.alfresco.po.share.site.ItemActions;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.FolderModel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ActionsCreateTests extends ContextAwareWebTest
+@Slf4j
+public class ActionsCreateTests extends BaseTest
 {
     private final String user = String.format("C8156User%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("C8156SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("C8156SiteName%s", RandomData.getRandomAlphanumeric());
-    private final String path = "Data Dictionary/Node Templates";
-    private final String docName = String.format("C8159template2%s", RandomData.getRandomAlphanumeric());
-    private final String docContent = "C8159 template content";
-    private final String pathFolderTemplate = "Data Dictionary/Space Templates";
-    private final String folderName = String.format("C8158%s", RandomData.getRandomAlphanumeric());
-    //@Autowired
-    private CreateContentPage create;
-    //@Autowired
-    private RepositoryPage repository;
-    //@Autowired
-    private DocumentDetailsPage documentDetailsPage;
+    private final String userHomeFolderName = "User Homes";
     //@Autowired
     private NewFolderDialog createFolderFromTemplate;
+    private RepositoryPage repositoryPage;
+    //@Autowired
+    private DocumentDetailsPage documentDetails;
+    private MyFilesPage myFilesPage;
+    //@Autowired
+    private NewFolderDialog newFolderDialog;
+    private UploadContent uploadContent;
+    private final String password = "password";
+    private UserModel testUser1;
+    private DocumentLibraryPage2 documentLibraryPage;
+    private DocumentLibraryPage documentLibrary;
+    private final String templateContent = "template content";
+    private final String folederNameC8158 = "Test Folder C8158";
+    private final String foledeTitleC8158 = "Test Title C8158";
+    private final String foledeDiscriptionC8158 = "C8158 FOlder Discription ";
+    private final String folderTemplateName = "Software Engineering Project";
+    String fileTitleC8156 = "C8156 file title";
+    String fileTitleC8161 = "C8161 file title";
+    String fileDiscriptionC8156 = "C8156 file Discription";
+    String fileDiscriptionC8161 = "C8161 file Discription";
+    String fileTitleC8162 = "C8162 file title";
+    String fileDiscriptionC8162 = "C8162 file Discription";
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        repositoryPage = new RepositoryPage(webDriver);
 
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, docName, docContent);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderName, pathFolderTemplate);
-        setupAuthenticatedSession(user, password);
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("Create Folder and File in Admin Repository-> User Homes ");
+        authenticateUsingLoginPage(getAdminUser());
+
+       createFolderFromTemplate = new  NewFolderDialog(webDriver);
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
+         documentLibrary = new DocumentLibraryPage(webDriver);
+        documentDetails = new DocumentDetailsPage(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        newFolderDialog = new NewFolderDialog(webDriver);
     }
-
-    @AfterClass (alwaysRun = false)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + docName);
-        contentService.deleteContentByPath(adminUser, adminPassword, pathFolderTemplate + "/" + folderName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        deleteUsersIfNotNull(testUser1);
+        log.info("Delete the Created Folder from Admin Page");
+        authenticateUsingLoginPage(getAdminUser());
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(userHomeFolderName);
+        repositoryPage
+            .select_ItemsAction(user, ItemActions.DELETE_FOLDER)
+            .clickOnDeleteButtonOnDeletePrompt();
     }
+
 
     @TestRail (id = "C8156")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createPlainTextDocumentInRepository()
     {
-        // Preconditions
-        setupAuthenticatedSession(user, password);
-        repository.navigate();
-        repository.clickFolderFromExplorerPanel("User Homes");
-        repository.clickOnFolderName(user);
+        FileModel txtFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
 
-        LOG.info("Step 1: Click Create... button.");
-        repository.clickCreateButton();
-
-        LOG.info("Step 2: Click \"Plain Text...\" option.");
-        repository.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
-//        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-
-        LOG.info("Step 3: Fill in the name, content, title and description fields");
-        create.typeName("C8156 name");
-        create.typeContent("C8156 content");
-        create.typeTitle("C8156 title");
-        create.typeDescription("C8156 description");
-
-        LOG.info("Step 4: Click the Create button");
-        create.clickCreate();
-//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
-
-        LOG.info("Step 5 : Verify the mimetype for the created file.");
-        Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "Plain Text", "Mimetype property is not Plain Text");
-
-        LOG.info("Step 6: Verify the document's preview");
-        Assert.assertEquals(documentDetailsPage.getContentText(), "C8156 content", "\"C8156 content \" is not the content displayed in preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C8156 name", "\"C8156 name\" is not the file name for the file in preview");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(userHomeFolderName);
+        repositoryPage
+            .click_FolderName(user);
+        log.info("Click Create button -> click on plain text button and enter required details");
+        documentLibraryPage
+            .clickCreate()
+            .clickTextPlain()
+            .assertCreateContentPageIsOpened()
+            .typeName(txtFile.getName())
+            .typeTitle(fileTitleC8156)
+            .typeDescription(fileDiscriptionC8156)
+            .typeContent(txtFile.getContent())
+            .clickCreate()
+            .assertDocumentTitleEquals(txtFile)
+            .assertFileContentEquals(FILE_CONTENT)
+            .assertPropertyValueEquals(language.translate("property.mimetype"), "Plain Text");
     }
+
 
     @TestRail (id = "C8161")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createHTMLDocumentInRepository()
     {
-        // Preconditions
-        setupAuthenticatedSession(user, password);
-        repository.navigate();
-        repository.clickFolderFromExplorerPanel("User Homes");
-        repository.clickOnFolderName(user);
+        FileModel htmlFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(userHomeFolderName);
+        repositoryPage
+            .click_FolderName(user);
+        log.info("Click Create button -> click on HTML button and enter required details");
+        documentLibraryPage
+            .clickCreate()
+            .clickHtml()
+            .assertCreateContentPageIsOpened()
+            .typeName(htmlFile.getName())
+            .sendInputForHTMLContent(FILE_CONTENT)
+            .typeTitle(fileTitleC8161)
+            .typeDescription(fileDiscriptionC8161)
+            .clickCreate()
+            .assertDocumentTitleEquals(htmlFile)
+            .assertFileContentEquals(FILE_CONTENT)
+            .assertPropertyValueEquals(language.translate("property.mimetype"), "HTML");
 
-        LOG.info("Step 1: Click Create... button");
-        repository.clickCreateButton();
-
-        LOG.info("Step 2: Click \"HTML...\" option.");
-        repository.clickCreateContentOption(CreateMenuOption.HTML);
-//        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-
-        LOG.info("Step 3: Fill in the name, content, title and description fields");
-        create.typeName("C8161 test name");
-        create.sendInputForHTMLContent("C8161 test content");
-        create.typeTitle("C8161 test title");
-        create.typeDescription("C8161 test description");
-
-        LOG.info("Step 4: Click the Create button");
-        create.clickCreate();
-//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
-
-        LOG.info("Step 5 : Verify the mimetype for the created file.");
-        Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "HTML", "Mimetype property is not HTML");
-
-        LOG.info("Step 6: Verify the document's preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C8161 test name", "\"C8161 test name\" is not the file name for the file in preview");
     }
 
+
     @TestRail (id = "C8162")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createXMLFile()
     {
-        // Preconditions
-        setupAuthenticatedSession(user, password);
-        repository.navigate();
-        repository.clickFolderFromExplorerPanel("User Homes");
-        repository.clickOnFolderName(user);
+        FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(userHomeFolderName);
+        repositoryPage
+            .click_FolderName(user);
+        log.info("Click Create button -> click on XML File button and enter required details");
+        documentLibraryPage
+            .clickCreate()
+            .clickXml()
+            .assertCreateContentPageIsOpened()
+            .typeName(xmlFile.getName())
+            .typeTitle(fileTitleC8162)
+            .typeDescription(fileDiscriptionC8162)
+            .typeContent(FILE_CONTENT)
+            .clickCreate()
+            .assertDocumentTitleEquals(xmlFile)
+            .assertFileContentEquals(FILE_CONTENT)
+            .assertPropertyValueEquals(language.translate("property.mimetype"), "XML");
 
-        LOG.info("Step 1: Click Create... button");
-        repository.clickCreateButton();
-
-        LOG.info("Step 2: Click \"XML...\" option.");
-        repository.clickCreateContentOption(CreateMenuOption.XML);
-//        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-
-        LOG.info("Step 3: Fill in the name, content, title and description fields");
-        create.typeName("C8162 test name");
-        create.typeContent("C8162 test content");
-        create.typeTitle("C8162 test title");
-        create.typeDescription("C8162 test description");
-
-        LOG.info("Step 4: Click the Create button");
-        create.clickCreate();
-//        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
-
-        LOG.info("Step 5 : Verify the mimetype for the created file.");
-        Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "XML", "Mimetype property is not Plain Text");
-
-        LOG.info("Step 6: Verify the document's preview");
-        Assert.assertEquals(documentDetailsPage.getContentText().trim(), "C8162 test content",
-            "\"C8162 test content \" is not the content displayed in preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C8162 test name", "\"C8162 test name\" is not the file name for the file in preview");
     }
 
     @TestRail (id = "C8159")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createDocumentFromTemplate()
     {
-        // Preconditions
-        setupAuthenticatedSession(user, password);
-        repository.navigate();
-        repository.clickFolderFromExplorerPanel("User Homes");
-        repository.clickOnFolderName(user);
+        authenticateUsingLoginPage(testUser1);
+        log.info("Precondition: To Create a Template File");
+        FolderModel nodeTemplates = new FolderModel("Node Templates");
+        nodeTemplates.setCmisLocation("/Data Dictionary/Node Templates");
+        FileModel templateFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, templateContent);
+        getCmisApi().usingResource(nodeTemplates).createFile(templateFile);
 
-        LOG.info("Step 1:Click 'Create' then click 'Create document from template'.");
-        repository.clickCreateButton();
-        repository.clickCreateFromTemplateOption(CreateMenuOption.CREATE_DOC_FROM_TEMPLATE);
-        assertTrue(repository.isTemplateDisplayed(docName), "Template is not displayed");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(userHomeFolderName);
+        repositoryPage
+            .click_FolderName(user);
 
-        LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
-        repository.clickOnTemplate(docName);
-        assertTrue(repository.isContentNameDisplayed(docName), "Newly created document is not displayed in Repository/UserHomes ");
-        repository.clickOnFile(docName);
-        Assert.assertEquals(documentDetailsPage.getContentText(), docContent);
+        log.info("STEP 1: Click 'Create' then 'Create file from template'.");
+        myFilesPage
+            .click_CreateButton()
+            .click_CreateFromTemplateOption(CreateMenuOption.CREATE_DOC_FROM_TEMPLATE)
+            .isTemplateDisplayed(templateFile.getName());;
+
+        log.info("STEP 2: Select the template: 'templateFile'");
+        myFilesPage
+            .create_FileFromTemplate(templateFile);
+
+        log.info("STEP 3: Verify the File is Present in Repositry");
+        myFilesPage
+            .assertIsContantNameDisplayed(templateFile.getName());
+
+        log.info("Delete the Template File'");
+        getCmisApi().usingResource(templateFile).delete();
+
     }
 
     @TestRail (id = "C8158")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderFromTemplateInRepository()
     {
-        // Preconditions
-        setupAuthenticatedSession(user, password);
-        repository.navigate();
-        repository.clickFolderFromExplorerPanel("User Homes");
-        repository.clickOnFolderName(user);
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(userHomeFolderName);
+        repositoryPage.click_FolderName(user);
 
-        LOG.info("Step 1: Select the Create menu > Create folder from templates");
-        repository.clickCreateButton();
-        repository.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
-        assertTrue(repository.isTemplateDisplayed(folderName), "Template is not displayed");
+        log.info(" Click 'Create' then 'Create folder from template'.");
+        myFilesPage
+            .click_CreateButton()
+            .click_CreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE)
+            .isTemplateDisplayed("Software Engineering Project");
 
-        LOG.info("Step 2: Select the test template, provide title and description and check that the new folder is created");
+        log.info("Select the template: 'Software Engineering Project'");
+        myFilesPage
+            .clickOnTemplate(folderTemplateName);
+        createFolderFromTemplate
+            .assertIsNameFieldValueEquals(folderTemplateName);
 
-        repository.clickOnTemplate(folderName);
-        //assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
-        Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderName);
-
-        LOG.info("Step 3: Provide data for Create Folder From Template Form");
-        createFolderFromTemplate.fillInDetails(folderName, "C8158 Test Title", "C8158 Test Description");
-        createFolderFromTemplate.clickSave();
-
-        assertTrue(repository.getFoldersList().contains(folderName), "Subfolder not found");
-        assertTrue(repository.getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
+        log.info("Insert data into input fields and save.");
+        createFolderFromTemplate
+            .fillInDetails(folederNameC8158, foledeTitleC8158, foledeDiscriptionC8158)
+            .clickSave();
+        log.info("erify the Folder is Present in Repository.");
+        myFilesPage
+            .assertIsFolderPresentInList(folederNameC8158);
     }
 
     @TestRail (id = "C13745")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkThatUserWithoutAdminPermissionsCannotCreateInMainRepository()
     {
-        setupAuthenticatedSession(user, password);
-        repository.navigate();
-        LOG.info("Step 1: Check the Create button.");
-        Assert.assertEquals(repository.getCreateButtonStatusDisabled(), "true", "The Create Button is not disabled");
-        Assert.assertEquals(repository.getUploadButtonStatusDisabled(), "true", "The Upload Button is not disabled");
 
-        LOG.info("Step 2: Click the Create button");
-        repository.clickCreateButtonWithoutWait();
-        Assert.assertFalse(repository.isCreateContentMenuDisplayed(), "Create Content menu is displayed when the Create button is clicked");
-        cleanupAuthenticatedSession();
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        log.info("Step 1: Check the Create button.");
+        documentLibrary
+            .assertCreateButtonStatusDisabled()
+            .assertUploadButtonStatusDisabled();
+        log.info("Step 2: Click the Create button");
+        documentLibrary
+            .clickCreateButtonWithoutWait();
+        documentLibrary
+            .assertCreateContentMenuIsNotDisplayed();
+
     }
 
     @TestRail (id = " C13746")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void checkThatTheCreateOptionIsAvailableForAdminInMainRepository()
-    {
-        setupAuthenticatedSession(adminUser, adminPassword);
-        repository.navigate();
-        LOG.info("Step 1: Check the Create button.");
-        Assert.assertEquals(repository.getCreateButtonStatusDisabled(), null, "The Create Button is disabled");
-        Assert.assertEquals(repository.getUploadButtonStatusDisabled(), null, "The Upload Button is disabled");
-
-        LOG.info("Step 2: Click the Create button");
-        repository.clickCreateButtonWithoutWait();
-        assertTrue(repository.isCreateContentMenuDisplayed(), "Create Content menu is not displayed when the Create button is clicked");
-        cleanupAuthenticatedSession();
+    public void checkThatTheCreateOptionIsAvailableForAdminInMainRepository() {
+        authenticateUsingLoginPage(getAdminUser());
+        repositoryPage
+            .navigate();
+        log.info(" Check the Create button.");
+        repositoryPage
+            .assertCreateButtonStatusEnabled()
+            .assertUploadButtonStatusEnabled();
+        log.info("Click the Create button");
+        documentLibraryPage
+            .clickCreate();
+        repositoryPage
+            .assertCreateContentMenuIsDisplayed();
     }
 
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAllCreateAvailableActions()
     {
-        // Preconditions
-        setupAuthenticatedSession(user, password);
-        repository.navigate();
-        repository.clickFolderFromExplorerPanel("User Homes");
-        repository.clickOnFolderName(user);
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(userHomeFolderName);
+        repositoryPage
+            .click_FolderName(user);
+        log.info("Step 1: Click Create... button");
+        documentLibraryPage
+            .clickCreate();
+        repositoryPage
+            .assertareCreateOptionsAvailable();
 
-        LOG.info("Step 1: Click Create... button");
-        repository.clickCreateButton();
-        assertTrue(repository.areCreateOptionsAvailable(), "Create menu options are not available");
     }
 }
