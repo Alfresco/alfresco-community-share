@@ -6,7 +6,7 @@ RUN mkdir /licenses
 
 COPY target/war /usr/local/tomcat/webapps
 COPY target/alfresco-mmt/* /usr/local/tomcat/alfresco-mmt/
-COPY target/amps_share /usr/local/tomcat/amps_share
+# COPY target/amps_share /usr/local/tomcat/amps_share
 
 COPY target/classes/web-extension-samples/share-config-custom.xml /usr/local/tomcat/shared/classes/alfresco/web-extension
 COPY target/classes/web-extension-samples/custom-slingshot-application-context.xml.sample /usr/local/tomcat/shared/classes/alfresco/web-extension
