@@ -38,15 +38,6 @@ public class ModuleBrowserTests extends BaseTest
         webDriver.get().manage().deleteAllCookies();
     }
 
-    @TestRail (id = "C9499")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void verifyTheAccessModuleBrowserPageInfo()
-    {
-        moduleBrowserPage.navigate();
-        moduleBrowserPage.assertModuleTableHeadersAreDisplayed()
-            .assertGoogleDocsModuleIsPresent();
-    }
-
     @AfterClass (alwaysRun = true)
     public void afterClass()
     {
