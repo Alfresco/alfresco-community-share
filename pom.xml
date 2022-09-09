@@ -37,8 +37,8 @@
         <image.registry>quay.io</image.registry>
         <image.tag>latest</image.tag>
 
-        <!-- Java 11 compatibility -->
-        <java.version>11</java.version>
+        <!-- Java 17 compatibility -->
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.build.sourceVersion>${java.version}</maven.build.sourceVersion>
@@ -518,6 +518,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
+                  <version>3.3.2</version>
                     <configuration>
                         <archive>
                             <manifestEntries>
@@ -540,6 +541,11 @@
                             <artifactId>xstream</artifactId>
                             <version>${dependency.xstream.version}</version>
                         </dependency>
+                      <dependency>
+                        <groupId>org.alfresco</groupId>
+                        <artifactId>alfresco-mmt</artifactId>
+                        <version>17.68</version>
+                      </dependency>
                     </dependencies>
                 </plugin>
                 <plugin>
