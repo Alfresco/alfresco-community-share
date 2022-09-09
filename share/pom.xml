@@ -365,7 +365,7 @@
             <!-- Configuration of the WAR build -->
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.3.2</version>
                 <configuration>
                     <overlays>
                         <overlay>
@@ -402,6 +402,13 @@
                         </manifestSections>
                     </archive>
                 </configuration>
+              <dependencies>
+                <dependency>
+                  <groupId>org.alfresco</groupId>
+                  <artifactId>alfresco-mmt</artifactId>
+                  <version>17.68</version>
+                </dependency>
+              </dependencies>
                 <!-- This allows overlays to be prepared on the FS for minification and faster run -->
                 <executions>
                     <execution>
@@ -414,9 +421,6 @@
                     <!-- MANIFEST.MF needs to be generated too, since Share reads it -->
                     <execution>
                         <id>generate-manifest</id>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
                         <phase>generate-resources</phase>
                         <configuration>
                             <warSourceDirectory>${project.build.directory}/${project.build.finalName}</warSourceDirectory>

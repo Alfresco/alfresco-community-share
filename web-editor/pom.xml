@@ -14,6 +14,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+              <version>3.3.2</version>
                 <configuration>
                     <overlays>
                         <overlay>
@@ -27,6 +28,13 @@
                         </overlay>
                     </overlays>
                 </configuration>
+              <dependencies>
+                <dependency>
+                  <groupId>org.alfresco</groupId>
+                  <artifactId>alfresco-mmt</artifactId>
+                  <version>17.68</version>
+                </dependency>
+              </dependencies>
                 <!-- This allows overlays to be prepared on the FS for minification and faster run -->
                 <executions>
                     <execution>
