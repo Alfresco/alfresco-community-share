@@ -920,6 +920,18 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         }
         return expectedNotSelectedContentList.toString();
     }
+    public DocumentLibraryPage assertContentItemsNotSelected(ArrayList<String> expectedContentList)
+    {
+        log.info("Assert Content Items Not Selected");
+        assertEquals(verifyContentItemsNotSelected(expectedContentList), expectedContentList.toString(), "Selected content = ");
+        return this;
+    }
+    public DocumentLibraryPage assertContentItemsSelected(ArrayList<String> expectedContentList)
+    {
+        log.info("Assert Content Items Selected");
+        assertEquals(verifyContentItemsSelected(expectedContentList), expectedContentList.toString(), "Selected content = ");
+        return this;
+    }
 
     public boolean isActiveWorkflowsIconDisplayed(String documentLibraryItem)
     {

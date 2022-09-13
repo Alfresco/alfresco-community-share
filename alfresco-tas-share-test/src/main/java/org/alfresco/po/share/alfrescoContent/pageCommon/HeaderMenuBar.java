@@ -1,12 +1,20 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
 
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+@Slf4j
 public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 {
     @FindBy (css = "button[id*='fileSelect']")
@@ -60,6 +68,18 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     public boolean isSelectedItemsMenuEnabled()
     {
         return !isElementDisplayed(selected_ItemsMenuDisabled);
+    }
+    public HeaderMenuBar assertSelectedItemsMenuDisabled()
+    {
+        log.info("Verify that the Selected Items Menu Disabled");
+        Assert.assertFalse(isSelectedItemsMenuEnabled(), "'Selected Items...' menu is Disabled.");
+        return this;
+    }
+    public HeaderMenuBar assertSelectedItemsMenuEnabled()
+    {
+        log.info("Verify that the Selected Items Menu Enabled");
+        assertTrue(isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
+        return this;
     }
 
     public boolean isSelectItemsMenuDisplayedDisabled()
