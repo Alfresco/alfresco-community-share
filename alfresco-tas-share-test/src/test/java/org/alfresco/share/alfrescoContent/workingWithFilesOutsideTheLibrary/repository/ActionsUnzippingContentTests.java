@@ -7,24 +7,34 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.share.BaseTest;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-public class ActionsUnzippingContentTests extends ContextAwareWebTest
+@Slf4j
+
+public class ActionsUnzippingContentTests extends BaseTest
 {
-    private final String user = String.format("C8256TestUser%s", RandomData.getRandomAlphanumeric());
+    //private final String user = String.format("C8256TestUser%s", RandomData.getRandomAlphanumeric());
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final String zipFile = "testFileC8256.zip";
+    private final String zipFilePath = testDataFolder + zipFile;
+    private final String sharedFolderName = "Shared";
     private final String zipContent = "testFile1";
+
     private final String acpFile = "archiveC8257.acp";
+    private final String acpPath = testDataFolder + acpFile;
     private final String acpContent = "fileC8257";
     //@Autowired
     private RepositoryPage repositoryPage;
@@ -32,78 +42,98 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     private CopyMoveUnzipToDialog unzipToDialog;
     //@Autowired
     private DocumentDetailsPage documentDetailsPage;
+    private MyFilesPage myFilesPage;
+    private UploadContent uploadContent;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + zipFile);
-        contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + acpFile);
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() {
+        log.info("PreCondition: Creating a TestUser");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+        authenticateUsingCookies(user.get());
+
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        unzipToDialog = new CopyMoveUnzipToDialog(webDriver);
     }
 
-    @AfterClass (alwaysRun = false)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        contentService.deleteContentByPath(adminUser, adminPassword, zipFile);
-        contentService.deleteContentByPath(adminUser, adminPassword, acpFile);
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        deleteUsersIfNotNull(user.get());
     }
-
 
     @TestRail (id = "C8256")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void unzipZipFileToRepository()
     {
-        LOG.info("Upload zip archive");
-        repositoryPage.navigate();
-        assertTrue(repositoryPage.isContentNameDisplayed(zipFile), "Repository: list of files=");
-        LOG.info("STEP1: Click archive name, e.g: testArchive");
-        repositoryPage.clickOnFile(zipFile);
-        assertTrue(documentDetailsPage.getFileName().equals(zipFile), "Wrong file name!");
-        LOG.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
-        documentDetailsPage.clickDocumentActionsOption("Unzip to...");
-        assertEquals(unzipToDialog.getDialogTitle(), "Unzip " + zipFile + " to...", "'Unzip to....' dialog is displayed");
-        LOG.info("STEP3: Select option My Files from 'Destination' section");
-        unzipToDialog.selectMyFilesDestination();
-        ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
-        //assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
-        LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickUnzipButton();
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(user);
-        assertTrue(repositoryPage.isContentNameDisplayed(zipContent), "content is displayed, " + zipContent);
+        log.info("Precondition: Login to share and navigate to Repository->Shared ");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        uploadContent
+            .uploadContent(zipFilePath);
+        log.info("STEP1: Click archive name, e.g: testArchive");
+        myFilesPage
+            .clickOnFile(zipFile);
+        documentDetailsPage
+            .assertContentNameEquals(zipFile);
+        log.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
+        documentDetailsPage
+            .clickDocumentActionsOption("Unzip to...");
+        assertEquals(unzipToDialog
+                .getDialogTitle(),
+            "Unzip " + zipFile + " to...", "'Unzip to....' dialog is displayed");
 
-
+        log.info("STEP3: Select option My Files from 'Destination' section");
+        unzipToDialog
+            .selectMyFilesDestination();
+        log.info("STEP4: Click 'Unzip' button and navigate to My Files");
+        unzipToDialog
+            .clickUnzipButton();
+        myFilesPage
+            .navigate();
+        myFilesPage
+            .assertIsContantNameDisplayed(zipContent);
     }
 
     @TestRail (id = "C8257")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
-
     public void unzipAcpFileToRepository()
     {
-        LOG.info("Upload acp archive");
-        repositoryPage.navigate();
-        assertTrue(repositoryPage.isContentNameDisplayed(acpFile), "Repository: list of files=");
-        LOG.info("STEP1: Click archive name, e.g: testArchive");
-        repositoryPage.clickOnFile(acpFile);
-        assertTrue(documentDetailsPage.getFileName().equals(acpFile), "Wrong file name!");
-        LOG.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
-        documentDetailsPage.clickDocumentActionsOption("Unzip to...");
-        assertEquals(unzipToDialog.getDialogTitle(), "Unzip " + acpFile + " to...", "'Unzip to....' dialog is displayed");
-        LOG.info("STEP3: Select option My Files from 'Destination' section");
-        unzipToDialog.selectMyFilesDestination();
-        ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
-        //assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
-        LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickUnzipButton();
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(user);
-        repositoryPage.getDocumentListHeader();
-        repositoryPage.selectDocumentLibraryItemRow("fileC8257");
-        assertTrue(repositoryPage.isContentNameDisplayed("fileC8257"), acpFile + " is not displayed ");
+        log.info("Precondition: Login to share and navigate to Repository->Shared ");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        uploadContent
+            .uploadContent(acpPath);
+        log.info("STEP1: Click archive name, e.g: testArchive");
+        myFilesPage
+            .clickOnFile(acpFile);
+        documentDetailsPage
+            .assertContentNameEquals(acpFile);
+        System.out.println("exeuted step1");
+        log.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
+        documentDetailsPage
+            .clickDocumentActionsOption("Unzip to...");
+        assertEquals(unzipToDialog
+                .getDialogTitle(),
+            "Unzip " + acpFile + " to...", "'Unzip to....' dialog is displayed");
+
+        log.info("STEP3: Select option My Files from 'Destination' section");
+        unzipToDialog
+            .selectMyFilesDestination();
+        log.info("STEP4: Click 'Unzip' button and navigate to My Files");
+        unzipToDialog
+            .clickUnzipButton();
+        myFilesPage
+            .navigate();
+        myFilesPage
+            .assertIsContantNameDisplayed(zipContent);
+
     }
 }
