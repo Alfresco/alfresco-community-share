@@ -1,213 +1,269 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import static org.alfresco.common.Utils.testDataFolder;
+import static org.alfresco.common.Utils.srcRoot;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.File;
 
-import org.alfresco.dataprep.CMISUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * Created by Mirela Tifui on 3/20/2017.
  */
-public class ActionsManagePermissionsTests extends ContextAwareWebTest
+public class ActionsManagePermissionsTests extends BaseTest
 {
-    //@Autowired
     RepositoryPage repositoryPage;
-
-    //@Autowired
     ManagePermissionsPage managePermissionsPage;
-
-    //@Autowired
+    UploadContent uploadContent;
     EditInAlfrescoPage editInAlfrescoPage;
-
-    //@Autowired
     DocumentDetailsPage documentDetailsPage;
+    DeleteDialog deleteDialog;
+    private CreateContentPage createContentPage;
+    private NewFolderDialog newFolderDialog;
+    private String testDataFolder = srcRoot + "testdata" + File.separator;
+    private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private String subFolder = "Subfolder" + RandomData.getRandomAlphanumeric();
+    private UserModel testUser1;
+    private UserModel testUser2;
+    private FolderModel testFolder;
 
-    private String userName = String.format("0_0C202757User%s", RandomData.getRandomAlphanumeric());
-    private String userC202758_1 = String.format("C202758_1%s", RandomData.getRandomAlphanumeric());
-    private String userC202758_2 = String.format("C202758_2%s", RandomData.getRandomAlphanumeric());
-    private String fname1 = "FirstN1";
-    private String lname1 = "LastN1";
-    private String fname2 = "FirstN2";
-    private String lname2 = "LastN2";
-    private String path = "/";
-    private String folderName = String.format("C202758Folder%s", RandomData.getRandomAlphanumeric());
-    private String pathC202758 = folderName;
-    private String file = "Manage_permissions_test_file";
-    private String userC202776 = "C202759_1" + RandomData.getRandomAlphanumeric();
-    private String folderC202776 = String.format("C202776Folder%s", RandomData.getRandomAlphanumeric());
-    private String subFolderC202776 = String.format("C202776Subfolder%s", RandomData.getRandomAlphanumeric());
-    private String pathfolderC202776 = "/";
-    private String pathSubfolder = folderC202776;
-    private String pathForFile = folderC202776 + "/" + subFolderC202776;
-    private String fileNameC202776 = String.format("C202776File%s", RandomData.getRandomAlphanumeric());
-    private String fileContent = "C202776 Test file content";
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        repositoryPage = new RepositoryPage(webDriver);
+        managePermissionsPage = new ManagePermissionsPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        newFolderDialog = new NewFolderDialog(webDriver);
+        editInAlfrescoPage = new EditInAlfrescoPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        createContentPage = new CreateContentPage(webDriver);
+        deleteDialog = new DeleteDialog(webDriver);
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, userName, password, userName + "@test.com", fname1, lname1);
-        userService.create(adminUser, adminPassword, userC202758_1, password, userC202758_1 + "@test.com", fname1, lname1);
-        userService.create(adminUser, adminPassword, userC202758_2, password, userC202758_2 + "@test.com", fname2, lname2);
-        userService.create(adminUser, adminPassword, userC202776, password, userC202776 + "@test.com", fname1, lname1);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderC202776, pathfolderC202776);
-        contentService.createFolderInRepository(adminUser, adminPassword, subFolderC202776, pathSubfolder);
-        contentService.createDocumentInRepository(adminUser, adminPassword, pathForFile, CMISUtil.DocumentType.TEXT_PLAIN, fileNameC202776, fileContent);
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("Create Folder and File in Admin Repository-> User Homes ");
+        authenticateUsingLoginPage(getAdminUser());
+
+        testFolder = FolderModel.getRandomFolderModel();
+        getCmisApi().usingAdmin().createFolder(testFolder).assertThat().existsInRepo();
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
+        deleteUsersIfNotNull(testUser1);
+        deleteUsersIfNotNull(testUser2);
 
-        userService.delete(adminUser, adminPassword, userName);
-        userService.delete(adminUser, adminPassword, userC202758_1);
-        userService.delete(adminUser, adminPassword, userC202758_2);
-        userService.delete(adminUser, adminPassword, userC202776);
-
-        contentService.deleteTreeByPath(adminUser, adminPassword, folderC202776);
-        contentService.deleteTreeByPath(adminUser, adminPassword, folderName);
-
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC202758_1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC202776);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC202758_2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
+        log.info("Delete the Created Folder from Admin Page");
+        authenticateUsingLoginPage(getAdminUser());
+        repositoryPage
+            .navigateByMenuBar()
+            .select_ItemsAction(testFolder.getName(),ItemActions.DELETE_DOCUMENT);
+        deleteDialog
+            .confirmDeletion();
     }
 
     @TestRail (id = "C202757")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void managePermissionOption()
     {
-        setupAuthenticatedSession(userName, password);
-        String identifier = String.format("%s %s", fname1, lname1);
-        LOG.info("Step 1: Click on Repository link in the toolbar");
-        repositoryPage.navigate();
-//        Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
-        LOG.info("Step 2: Navigate to " + userName + " folder;");
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(userName), userName + " is not displayed in Repository Page");
-        LOG.info("Step 3: Click Manage Permissions link in More menu for user's home folder;");
-        repositoryPage.selectItemAction(userName, ItemActions.MANAGE_REPO_PERMISSIONS
-        );
-        LOG.info("Step 4: Verify Manage Permissions page");
+        authenticateUsingLoginPage(testUser1);
+        log.info("Step 1: Click on Repository link in the toolbar");
+        repositoryPage
+            .navigateByMenuBar()
+            .assertBrowserPageTitleIs("Alfresco » Repository Browser");
+
+        log.info("Step 2: Navigate to 'User Homes' folder");
+        repositoryPage
+            .click_FolderName("User Homes")
+            .assertFileIsDisplayed(testUser1.getUsername());
+
+        log.info("Step 3: Click Manage Permissions link in More menu for user's home folder;");
+        repositoryPage
+            .select_ItemsAction(testUser1.getUsername(), ItemActions.MANAGE_REPO_PERMISSIONS);
+
+        log.info("Step 4: Verify Manage Permissions page");
+        Assert.assertTrue(managePermissionsPage.isInheritPermissionsButtonDisplayed(),"Inherit Permissions button is not displayed");
         Assert.assertTrue(managePermissionsPage.isAddUserGroupButtonDisplayed(), "Add User/Group button is not displayed");
         Assert.assertTrue(managePermissionsPage.isTheSaveButtonDisplayed(), "The Save button is not displayed");
         Assert.assertTrue(managePermissionsPage.isCancelButtonDisplayed(), "The Cancel button is not displayed");
         Assert.assertTrue(managePermissionsPage.isLocallySetPermissionsListDisplayed(), "Locally Set Permissions is not displayed on the Manage Permissions page");
-        Assert.assertTrue(managePermissionsPage.getRowDetails(identifier).contains("All"), "All Role is not available for " + identifier);
+        Assert.assertTrue(managePermissionsPage.getRowDetails(testUser1.getUsername()).contains("All"), "All Role is not available for " +testUser1.getUsername());
         Assert.assertTrue(managePermissionsPage.getRowDetails("ROLE_OWNER").contains("All"), "All Role is not available for ROLE_OWNER");
-        Assert.assertTrue(managePermissionsPage.isDeleteButtonAvailable(identifier), "Delete button is not available for " + identifier);
-        //Assert.assertTrue(managePermissionsPage.isDeleteButtonAvailable("ROLE_OWNER"), "Delete button is not available for ROLE_OWNER");
-        cleanupAuthenticatedSession();
+        Assert.assertTrue(managePermissionsPage.isDeleteButtonAvailable(testUser1.getUsername()), "Delete button is not available for " + testUser1.getUsername());
     }
 
     @TestRail (id = "C202758")
     @Test
     public void savingChanges()
     {
-        String identifierUser1 = fname1 + " " + lname1;
-        String identifierUser2 = fname2 + " " + lname2;
-        LOG.info("Preconditions: ");
-        setupAuthenticatedSession(adminUser, adminPassword);
-        repositoryPage.navigate();
-        repositoryPage.selectItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS);
-        managePermissionsPage.clickAddUserGroupButton();
-        managePermissionsPage.sendSearchInput(userC202758_1);
-        managePermissionsPage.clickSearchButton();
-        managePermissionsPage.clickAddButtonForUser(userC202758_1);
-        managePermissionsPage.clickRoleButton(identifierUser1);
-        managePermissionsPage.selectRole("Coordinator");
-        managePermissionsPage.clickAddUserGroupButton();
-        managePermissionsPage.sendSearchInput(userC202758_2);
-        managePermissionsPage.clickSearchButton();
-        managePermissionsPage.clickAddButtonForUser(userC202758_2);
-        managePermissionsPage.clickRoleButton(identifierUser2);
-        managePermissionsPage.selectRole("Coordinator");
-        managePermissionsPage.clickSave();
-        cleanupAuthenticatedSession();
-        LOG.info("Step 1: Click on Repository link in the toolbar");
-        setupAuthenticatedSession(userC202758_1, password);
-        repositoryPage.navigate();
-        LOG.info("Step 2: Click Manage Permissions link in More menu for " + folderName + " folder");
-        repositoryPage.selectItemAction(folderName, ItemActions.MANAGE_REPO_PERMISSIONS
-        );
-        Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser1).contains("Coordinator"));
-        Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser2).contains("Coordinator"));
-        LOG.info("Step 3: Change User2 role to \"Consumer\"");
-        managePermissionsPage.clickRoleButton(identifierUser2);
-        managePermissionsPage.selectRole("Consumer");
-        Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser2).contains("Consumer"));
-        LOG.info("Step 4: Click Save");
-        managePermissionsPage.clickSave();
-        LOG.info("Step 5: Upload file into " + folderName);
-        contentService.uploadFileInRepository(userC202758_1, password, pathC202758, testDataFolder + file + ".docx");
-        LOG.info("Step 6: Log in User2");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userC202758_2, password);
-        repositoryPage.navigate();
-//        Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
-        LOG.info("Step 7: Open " + folderName + " folder and try to edit/delete uploaded file");
-        repositoryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(file), file + " is not displayed in repository");
-        List<String> notExpectedActions = Arrays.asList("Edit in Microsoft Office™", "Edit in Google Docs™", "Edit Properties", "Upload New Version",
-            "Edit Offline", "Delete Document", "Manage Permissions");
-        cleanupAuthenticatedSession();
+
+        log.info("Precondition: Assign Role as Coordinator for" +testUser1 +testUser2 +"for the created folder" );
+        repositoryPage
+            .navigateByMenuBar()
+            .select_ItemsAction(testFolder.getName(), ItemActions.MANAGE_REPO_PERMISSIONS);
+        managePermissionsPage
+            .clickAddUserGroupButton()
+            .sendSearchInput(testUser1.getUsername())
+            .clickSearchButton()
+            .clickAddButtonForUser(testUser1.getUsername())
+            .clickRoleButton(testUser1.getUsername())
+            .select_Role("Coordinator")
+            .clickAddUserGroupButton()
+            .sendSearchInput(testUser2.getUsername())
+            .clickSearchButton()
+            .clickAddButtonForUser(testUser2.getUsername())
+            .clickRoleButton(testUser2.getUsername())
+            .select_Role("Coordinator")
+            .clickSave();
+
+        log.info("Step 1: Click on Repository link in the toolbar");
+        repositoryPage
+            .navigateByMenuBar()
+            .assertBrowserPageTitleIs("Alfresco » Repository Browser");
+
+        log.info("Step 2: Click Manage Permissions link in More menu for " + testFolder + " folder");
+        repositoryPage
+            .select_ItemsAction(testFolder.getName(), ItemActions.MANAGE_REPO_PERMISSIONS);
+        Assert.assertTrue(managePermissionsPage.getRowDetails(testUser1.getUsername()).contains("Coordinator"));
+        Assert.assertTrue(managePermissionsPage.getRowDetails(testUser2.getUsername()).contains("Coordinator"));
+
+        log.info("Step 3: Change User2 role to \"Consumer\"");
+        managePermissionsPage
+            .clickRoleButton(testUser2.getUsername())
+            .select_Role("Consumer");
+        Assert.assertTrue(managePermissionsPage.getRowDetails(testUser2.getUsername()).contains("Consumer"));
+
+        log.info("Step 4: Click Save");
+        managePermissionsPage
+            .clickSave();
+
+        log.info("Step 5: Upload file into " +testFolder);
+        repositoryPage
+            .navigateByMenuBar()
+            .isFileNameDisplayed(testFolder.getName());
+        repositoryPage
+            .clickOnFolderName(testFolder.getName());
+        uploadContent
+            .uploadContent(testFilePath);
+        repositoryPage
+            .isFileNameDisplayed(testFile);
+
+        log.info("Step 6: Log in User2");
+        authenticateUsingLoginPage(testUser2);
+        repositoryPage
+            .navigateByMenuBar()
+            .assertBrowserPageTitleIs("Alfresco » Repository Browser");
+
+        log.info("Step 7: Open " + testFolder + " folder and try to edit/delete uploaded file");
+        repositoryPage
+            .clickOnFolderName(testFolder.getName())
+            .assertFileIsDisplayed(testFile);
+        repositoryPage
+            .assertActionItem_Not_AvailableInTheRepositoryLibraryItems(testFile,ItemActions.DELETE_DOCUMENT)
+            .assertActionItem_Not_AvailableInTheRepositoryLibraryItems(testFile,ItemActions.EDIT_PROPERTIES)
+            .assertActionItem_Not_AvailableInTheRepositoryLibraryItems(testFile,ItemActions.EDIT_IN_GOOGLE_DOCS)
+            .assertActionItem_Not_AvailableInTheRepositoryLibraryItems(testFile,ItemActions.EDIT_IN_MICROSOFT_OFFICE)
+            .assertActionItem_Not_AvailableInTheRepositoryLibraryItems(testFile,ItemActions.EDIT_OFFLINE)
+            .assertActionItem_Not_AvailableInTheRepositoryLibraryItems(testFile,ItemActions.UPLOAD_NEW_VERSION)
+            .assertActionItem_Not_AvailableInTheRepositoryLibraryItems(testFile,ItemActions.MANAGE_REPO_PERMISSIONS);
     }
 
     @TestRail (id = "C202776")
     @Test
     public void inheritPermissionsButton()
     {
-        String identifierUser1 = fname1 + " " + lname1;
-        String updateContent = "Updated test content for C202776";
-        setupAuthenticatedSession(adminUser, adminPassword);
-        repositoryPage.navigate();
-        repositoryPage.selectItemAction(folderC202776, ItemActions.MANAGE_REPO_PERMISSIONS);
-        managePermissionsPage.clickAddUserGroupButton();
-        managePermissionsPage.sendSearchInput(userC202776);
-        managePermissionsPage.clickSearchButton();
-        managePermissionsPage.clickAddButtonForUser(userC202776);
-        managePermissionsPage.clickRoleButton(identifierUser1);
-        managePermissionsPage.selectRole("Coordinator");
-        managePermissionsPage.clickSave();
-        cleanupAuthenticatedSession();
-        LOG.info("Step 1: Navigate to Repository");
-        setupAuthenticatedSession(userC202776, password);
-        repositoryPage.navigateByMenuBar();
-//        Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
-        LOG.info("Step 2: On the Repository page click on TestFolder");
-        repositoryPage.clickOnFolderName(folderC202776);
-        LOG.info("Step 3: Mouseover TestSubfolder and click on Manage Permissions action");
-        repositoryPage.selectItemAction(subFolderC202776, ItemActions.MANAGE_REPO_PERMISSIONS);
-        LOG.info("Step 4: Check inherited permissions");
-        Assert.assertTrue(managePermissionsPage.getInheritedPermissions(identifierUser1).contains("Coordinator"));
-        LOG.info("Step 5: Return to Repository, TestSubfolder and check available actions for TestFile");
-        repositoryPage.navigate();
-        repositoryPage.clickOnFolderName(folderC202776);
-        repositoryPage.clickOnFolderName(subFolderC202776);
-        List<String> expectedActions = Arrays.asList("Edit in Google Docs™", "Edit Properties", "Edit in Alfresco Share", "Edit Offline", "Delete Document");
-        Assert.assertTrue(repositoryPage.areActionsAvailableForLibraryItem(fileNameC202776, expectedActions), "Expected actions");
-        LOG.info("Step 6: Edit TestFile and save changes");
-        repositoryPage.selectItemAction(fileNameC202776, ItemActions.EDIT_IN_ALFRESCO);
-//        Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "User is not on Edit In Alfresco page");
-        editInAlfrescoPage.typeContent(updateContent);
-        editInAlfrescoPage.clickSaveButton();
-        repositoryPage.clickOnFile(fileNameC202776);
-        Assert.assertEquals(documentDetailsPage.getContentText(), updateContent, fileNameC202776 + " was not updated");
+        String updatedContent = "Updated test content for C202776";
+
+        log.info("PreCondition: Set user1 Rights to Coordinator for" +testFolder);
+        repositoryPage
+            .navigateByMenuBar()
+            .select_ItemsAction(testFolder.getName(), ItemActions.MANAGE_REPO_PERMISSIONS);
+        managePermissionsPage
+            .clickAddUserGroupButton()
+            .sendSearchInput(testUser1.getUsername())
+            .clickSearchButton()
+            .clickAddButtonForUser(testUser1.getUsername())
+            .clickRoleButton(testUser1.getUsername())
+            .select_Role("Coordinator")
+            .clickSave();
+
+        log.info("PreCondition: Login with testUser1 & Create"+ subFolder +"inside" + testFolder +"and upload testFile inside SubFolder");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigateByMenuBar()
+            .clickOnFolderName(testFolder.getName())
+            .click_CreateButton()
+            .click_FolderLink();
+        newFolderDialog
+            .typeName(subFolder)
+            .clickSave();
+        repositoryPage
+            .clickOnFolderName(subFolder);
+        uploadContent
+            .uploadContent(testFilePath);
+        repositoryPage
+            .isFileNameDisplayed(testFile);
+
+        log.info("Step 1: Navigate to Repository");
+        repositoryPage
+            .navigateByMenuBar()
+            .assertBrowserPageTitleIs("Alfresco » Repository Browser");
+
+        log.info("Step 2: On the Repository page click on TestFolder");
+        repositoryPage
+            .clickOnFolderName(testFolder.getName());
+
+        log.info("Step 3: Mouseover TestSubfolder and click on Manage Permissions action");
+        repositoryPage
+            .select_ItemsAction(subFolder, ItemActions.MANAGE_REPO_PERMISSIONS);
+
+        log.info("Step 4: Check inherited permissions");
+        Assert.assertTrue(managePermissionsPage.getInheritedPermissions(testUser1.getUsername()).contains("Coordinator"));
+
+        log.info("Step 5: Return to Repository, TestSubfolder and check available actions for TestFile");
+        repositoryPage
+            .navigateByMenuBar()
+            .clickOnFolderName(testFolder.getName())
+            .clickOnFolderName(subFolder)
+            .assertActionItem_AvailableInTheRepositoryLibraryItems(testFile, ItemActions.EDIT_IN_GOOGLE_DOCS)
+            .assertActionItem_AvailableInTheRepositoryLibraryItems(testFile, ItemActions.EDIT_PROPERTIES)
+            .assertActionItem_AvailableInTheRepositoryLibraryItems(testFile, ItemActions.EDIT_IN_ALFRESCO)
+            .assertActionItem_AvailableInTheRepositoryLibraryItems(testFile, ItemActions.EDIT_OFFLINE)
+            .assertActionItem_AvailableInTheRepositoryLibraryItems(testFile, ItemActions.DELETE_DOCUMENT);
+
+        log.info("Step 6: Edit TestFile and save changes");
+        repositoryPage
+            .select_ItemsAction(testFile, ItemActions.EDIT_IN_ALFRESCO)
+            .assertBrowserPageTitleIs("Alfresco » Edit in Alfresco Share");
+        editInAlfrescoPage
+            .typeContent(updatedContent)
+            .clickSaveButton();
+        repositoryPage
+            .clickOnFile(testFile);
+        documentDetailsPage
+            .assertFileContentEquals(updatedContent);
     }
 }
