@@ -1,120 +1,121 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
-public class RepositoryTests extends ContextAwareWebTest
+@Slf4j
+
+public class RepositoryTests extends BaseTest
 {
-    private final String user = String.format("C8154TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("C8154SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("1C8154SiteName%s", RandomData.getRandomAlphanumeric());
-    private final String fileName1 = "C8154 file1";
-    private final String fileName2 = "C8154 file2";
-    private final String folderName = "folderNameSite1";
-    private final String folderName2 = "folderNameSite2";
-    private final String fileContent = "test content";
-    private final String siteName2 = "2SecondTestSite" + RandomData.getRandomAlphanumeric();
-    //@Autowired
-    CreateContentPage create;
-    //@Autowired
-    DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    GoogleDocsCommon googleDocs;
-   // @Autowired
-    private UserDashboardPage userDashboardPage;
+    private final ThreadLocal<SiteModel> site1 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site2 = new ThreadLocal<>();
     //@Autowired
     private RepositoryPage repositoryPage;
+    private MyFilesPage myFilesPage;
+    private final String dockLibraryFoldername = "documentLibrary";
+    private final String siteFoldername = "Sites";
+    private final String site1name = "Site1" + RandomStringUtils.randomAlphanumeric(7);
+    private final String site2name = "Site2" + RandomStringUtils.randomAlphanumeric(7);
+    private final FileModel site1File = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+    private final FolderModel site1Folder = FolderModel.getRandomFolderModel();
+    private final FileModel site2File = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+    private final FolderModel site2Folder = FolderModel.getRandomFolderModel();
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.create(user, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName1, fileContent);
-        contentService.createDocument(user, password, siteName2, DocumentType.TEXT_PLAIN, fileName2, fileContent);
-        contentService.createFolder(user, password, folderName, siteName);
-        contentService.createFolder(user, password, folderName2, siteName2);
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        log.info("PreCondition1: Any test user is created");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(user.get());
 
-        setupAuthenticatedSession(user, password);
+        authenticateUsingCookies(user.get());
+
+        repositoryPage = new RepositoryPage(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+
     }
-
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
-        siteService.delete(adminUser, adminPassword, siteName);
-        siteService.delete(adminUser, adminPassword, siteName2);
+        deleteUsersIfNotNull(user.get());
     }
 
     @TestRail (id = "C8154")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void checkTheRepositoryIsAvailableInTheToolBar()
     {
-        userDashboardPage.navigate(siteName);
-
-        LOG.info("Step 2: Access the Repository via link in toolbar");
-        toolbar.clickRepository();
-//        Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not redirected to the repository page");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .assertRepositoryPageIsOpened();
     }
-
     @TestRail (id = "C8155")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void checkTheFilesAndFoldersAvailabilityInRepository() {
+        log.info("Precondition : create 2 sites and add file and folder in both sites");
+        site1.set(getDataSite().usingUser(user.get()).createSite(new SiteModel(site1name)));
+        getCmisApi().usingSite(site1.get()).createFile(site1File).assertThat().existsInRepo();
+        getCmisApi().usingSite(site1.get()).createFolder(site1Folder).assertThat().existsInRepo();
+        site2.set(getDataSite().usingUser(user.get()).createSite(new SiteModel(site2name)));
+        getCmisApi().usingSite(site2.get()).createFile(site2File).assertThat().existsInRepo();
+        getCmisApi().usingSite(site2.get()).createFolder(site2Folder).assertThat().existsInRepo();
 
-    public void checkTheFilesAndFoldersAvailabilityInRepository()
-    {
-        LOG.info("Step 1: Navigate to the Repository Page and check the default folders availability");
-        repositoryPage.navigate();
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Data Dictionary"), "Data Dictionary is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Guest Home"), "Guest Home is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Imap Attachments"), "Imap Attachments is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("IMAP Home"), "IMAP Home is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Shared"), "Shared is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Sites"), "Sites is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("User Homes"), "User Homes is not displayed in Repository");
+        log.info(" Navigate to the Repository Page and click on Sites");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .assertRepositoryPageIsOpened();
+        repositoryPage
+            .click_FolderName(siteFoldername);
+        log.info(" Click on your first created site.");
+        repositoryPage
+            .click_FolderName(site1name);
+        log.info(" Verify documentLibrary folder and Click on documentLibrary folder.");
+        myFilesPage
+            .assertIsContantNameDisplayed(dockLibraryFoldername);
+        repositoryPage
+            .click_FolderName(dockLibraryFoldername);
+        log.info("Verify site1 file and folder are available in documentLibrary");
+        myFilesPage
+            .assertIsContantNameDisplayed(site1File.getName());
+        myFilesPage
+            .assertIsContantNameDisplayed(site1Folder.getName());
+        log.info(" Return to Repository and click on Sites");
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(siteFoldername);
+        log.info(" Click on your second created site.");
+        repositoryPage
+            .click_FolderName(site2name);
+        log.info(" Verify documentLibrary folder and Click on documentLibrary folder.");
+        myFilesPage
+            .assertIsContantNameDisplayed(dockLibraryFoldername);
+        repositoryPage
+            .click_FolderName(dockLibraryFoldername);
+        log.info("Verify site1 file and folder are available in documentLibrary");
+        myFilesPage
+            .assertIsContantNameDisplayed(site2File.getName());
+        myFilesPage
+            .assertIsContantNameDisplayed(site2Folder.getName());
 
-        LOG.info("Step 2: Click on the Sites Folder");
-        repositoryPage.clickFolderFromExplorerPanel("Sites");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(siteName), "First created site is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(siteName2), "Second created site is not displayed in Repository");
-
-        LOG.info("Step 3: Click on your first created site.");
-        repositoryPage.clickOnFolderName(siteName);
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("documentLibrary"), "documentLibrary for the first created site is not displayed in Repository");
-
-        LOG.info("Step 4: Click on documentLibrary folder.");
-        repositoryPage.clickOnFolderName("documentLibrary");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName1), "fileName1 is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), "fileName1 is not displayed in Repository");
-
-        LOG.info("Step 5: Return to Repository/Sites");
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("Sites");
-
-        LOG.info("Step 6: Click on the second created site.");
-        repositoryPage.clickOnFolderName(siteName2);
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed("documentLibrary"), "documentLibrary for the second created site is not displayed in Repository");
-
-        LOG.info("Step 7: Click on documentLibrary folder.");
-        repositoryPage.clickOnFolderName("documentLibrary");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName2), "fileName2 is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName2), "fileName2 is not displayed in Repository");
+        log.info("Delete created site ");
+        getDataSite().usingUser(user.get()).deleteSite(new SiteModel(site1name));
+        getDataSite().usingUser(user.get()).deleteSite(new SiteModel(site2name));
     }
 }
