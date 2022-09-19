@@ -75,7 +75,6 @@ public class MyFilesUnzipContentTests extends BaseTest
             .clickOnFile(zipFile);
         documentDetailsPage
             .assertContentNameEquals(zipFile);
-        System.out.println("exeuted step1");
         log.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
         documentDetailsPage
             .clickDocumentActionsOption("Unzip to...");
@@ -94,7 +93,6 @@ public class MyFilesUnzipContentTests extends BaseTest
         myFilesPage
             .assertIsContantNameDisplayed(zipContent);
  }
-
 
     @TestRail (id = "C7817")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
