@@ -1,102 +1,142 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import static org.alfresco.common.Utils.testDataFolder;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * @author Andrei.Nechita
  */
-public class ActionsUploadTests extends ContextAwareWebTest
+public class ActionsUploadTests extends BaseTest
 {
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "user1-" + random;
     //@Autowired
     private RepositoryPage repositoryPage;
     //@Autowired
-    private UploadContent uploadContent;
     //@Autowired
     private DocumentDetailsPage documentDetailsPage;
     private String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
     private String testFilePath = testDataFolder + testFile;
-    private String testFile2 = RandomData.getRandomAlphanumeric() + "-OldFile-C8175.txt";
     private String newVersionFile = RandomData.getRandomAlphanumeric() + "-NewFile-C8175.txt";
+    private DocumentLibraryPage documentLibrary;
+    private CreateContentPage createContent;
+    //@Autowired
+    private MyFilesPage myFilesPage;
+    //@Autowired
+    private UploadContent uploadContent;
+    private final String password = "password";
+    private UserModel testUser1;
+    private final String sharedFolderName = "Shared";
+    String newVersionFilePath = testDataFolder + newVersionFile;
+    private final String fileName = RandomData.getRandomAlphanumeric() + "Test File";
 
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        getCmisApi().authenticateUser(getAdminUser());
+        authenticateUsingLoginPage(getAdminUser());
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
+        repositoryPage = new RepositoryPage(webDriver);
+        createContent = new CreateContentPage(webDriver);
+        documentLibrary = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+
     }
-
-    @AfterClass (alwaysRun = false)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        contentService.deleteContentByPath(adminUser, adminPassword, "/Shared/" + testFile);
-        contentService.deleteContentByPath(adminUser, adminPassword, "/Shared/" + newVersionFile);
+        deleteUsersIfNotNull(testUser1);
     }
 
+
     @TestRail (id = "C8172")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void uploadDocument()
     {
-        String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
-        String testFilePath = testDataFolder + testFile;
-        LOG.info("Precondition: Navigate to Repository page.");
-        repositoryPage.navigate();
-        LOG.info("STEP1: Check if the Upload button is greyed on the Repository page .");
-        Assert.assertEquals(repositoryPage.getUploadButtonStatusDisabled(), "true", "The Upload Button is not disabled");
-        LOG.info("STEP2: Go to Shared folder and upload a file.");
-        repositoryPage.clickFolderFromExplorerPanel("Shared");
-//        assertEquals(repositoryPage.assertPageHeadersEqualsTo(), "Repository Browser");
-        uploadContent.uploadContent(testFilePath);
-        assertTrue(repositoryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
+        log.info("Precondition: Login to share and navigate to Repository->Shared ");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        documentLibrary
+            .assertUploadButtonStatusDisabled();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        uploadContent
+            .uploadContent(testFilePath);
+        myFilesPage
+            .assertIsContantNameDisplayed(testFile);
+
     }
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8175")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void updateDocumentNewVersion()
-    {
-        String testFilePath2 = testDataFolder + testFile2;
-        String newVersionFilePath = testDataFolder + newVersionFile;
-        LOG.info("Precondition: Navigate to Shared folder from Repository page and upload a file");
-        repositoryPage.navigate();
-//        assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser");
-        repositoryPage.clickFolderFromExplorerPanel("Shared");
-//        assertEquals(repositoryPage.assertPageHeadersEqualsTo(), "Repository Browser");
-        uploadContent.uploadContent(testFilePath2);
-        LOG.info("STEP1: Click on the file and check content");
-        repositoryPage.clickOnFile(testFile2);
-        assertEquals(documentDetailsPage.getContentText(), "contents", String.format("Contents of %s are wrong.", testFile2));
-        LOG.info("STEP2: Navigate to Shared folder from Repository page and click on upload new version");
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("Shared");
-        repositoryPage.selectItemAction(testFile2, ItemActions.UPLOAD_NEW_VERSION);
-        LOG.info("STEP3: Select file to upload. Update version");
-        uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
-        assertTrue(repositoryPage.isContentNameDisplayed(newVersionFile), String.format("File [%s] is displayed", newVersionFile));
-        assertFalse(repositoryPage.isContentNameDisplayed(testFile), testFile2 + " is displayed.");
-        LOG.info("STEP4: Click on the file and check the version and content are updated.");
-        repositoryPage.clickOnFile(newVersionFile);
-        assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile));
-        assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFile));
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void updateDocumentNewVersion() {
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        myFilesPage
+            .click_CreateButton();
+
+        log.info(" Click \"Plain Text...\" option.");
+        myFilesPage
+            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
+        createContent
+            .typeName(fileName);
+        createContent
+            .clickCreate();
+        documentDetailsPage
+            .clickOpenedFloder();
+        myFilesPage
+            .assertIsContantNameDisplayed(fileName);
+        myFilesPage
+            .clickOnFile(fileName);
+        documentDetailsPage
+            .assertDacumentNOContent();
+        documentDetailsPage
+            .clickOpenedFloder();
+        myFilesPage
+            .selectItemAction(fileName, ItemActions.UPLOAD_NEW_VERSION);
+        log.info(" Update the file with major version.");
+        uploadContent
+            .updateDocumentVersion(newVersionFilePath,
+                "comments",
+                UploadContent.Version.Major);
+        myFilesPage
+            .assertIsContantNameDisplayed(newVersionFile);
+        myFilesPage
+            .assertIsContentDeleted(fileName);
+        log.info(" Click on the file and check the version and contents are updated.");
+        myFilesPage
+            .clickOnFile(newVersionFile);
+        documentDetailsPage
+            .assertFileContentEquals("updated by upload new version");
+        documentDetailsPage
+            .assertVerifyFileVersion("2.0");
+
     }
+
 }

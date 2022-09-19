@@ -81,6 +81,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By editCommentBoxTitle = By.xpath("//h2[text()= 'Edit Comment...']");
     private final By saveButtonEditComment = By.xpath("//button[text()='Save']");
     private final By contentText = By.cssSelector("div[class ='textLayer']>div");
+    private final By noContentText = By.cssSelector("div[class ='message']");
     private final By contentTittle = By.xpath("(//span[@class='viewmode-value'])[2]");
     private final By contentDescription = By.xpath("(//span[@class='viewmode-value'])[3]");
     private final By downloadPreviousVersion = By.cssSelector("div[id$='_default-olderVersions'] div.version-panel-right a.download");
@@ -92,6 +93,8 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By commentsIframe = By.cssSelector("iframe[id$='default-add-content_ifr']");
     private final By copyToAction = By.cssSelector("#onActionCopyTo > a");
     private final By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
+    private final By folderOpenedLink = By.xpath("//span[@class='folder-link folder-open']");
+
     private final By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
     private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
     private final By editComment = By.cssSelector("[class*=edit-comment]");
@@ -160,6 +163,11 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         waitUntilElementIsVisible(likeUnlikeAction);
         clickElement(likeUnlikeAction);
+    }
+    public void clickOpenedFloder()
+    {
+        waitUntilElementIsVisible(folderOpenedLink);
+        clickElement(folderOpenedLink);
     }
 
     public int getLikesNo()
@@ -622,6 +630,10 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         return getElementText(contentText).trim();
     }
+    public String getNoContentMassageText()
+    {
+        return getElementText(noContentText).trim();
+    }
     public String getContentTitle()
     {
         return getElementText(contentTittle).trim();
@@ -635,6 +647,12 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         log.info("Assert file has content {}", expectedContent);
         assertEquals(getContentText(), expectedContent, "File content is correct");
+        return this;
+    }
+    public DocumentDetailsPage assertDacumentNOContent()
+    {
+        log.info("Assert file has content {}");
+        assertEquals(getNoContentMassageText(), "This document has no content.", "File content is correct");
         return this;
     }
 
