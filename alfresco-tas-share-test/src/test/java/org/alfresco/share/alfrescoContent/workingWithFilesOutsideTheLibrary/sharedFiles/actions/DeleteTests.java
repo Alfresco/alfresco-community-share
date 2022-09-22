@@ -1,120 +1,160 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.alfresco.dataprep.CMISUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * @author Laura.Capsa
  */
-public class DeleteTests extends ContextAwareWebTest
+public class DeleteTests extends BaseTest
 {
-    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
-    private final String user = "User" + uniqueIdentifier;
-    private final String docName = "DocC8014-" + uniqueIdentifier;
-    private final String fileContent = "Doc content";
-    private final String folderName = "Folder-C8015-" + uniqueIdentifier;
-    private final String docName2 = "DocC13759-" + uniqueIdentifier;
-    private final String folderName2 = "FolderC13759-" + uniqueIdentifier;
-    private final String path = "Shared/";
-    //@Autowired
     private SharedFilesPage sharedFilesPage;
-   // @Autowired
     private DeleteDialog deleteDialog;
+    private UserModel testUser1;
+    private UserModel testUser2;
+    private FileModel testFile;
+    private FolderModel testFolder;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName, fileContent);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName2, "");
-        contentService.createFolderInRepository(adminUser, adminPassword, folderName2, path);
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() {
+
+        sharedFilesPage = new SharedFilesPage(webDriver);
+        deleteDialog = new DeleteDialog(webDriver);
+
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        getCmisApi().authenticateUser(getAdminUser());
+
+        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+        getCmisApi().authenticateUser(getAdminUser());
     }
 
-
     @TestRail (id = "C8014")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void deleteDocument()
-    {
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void deleteDocument() throws Exception {
+        log.info("PreCondition: Create a File in"+ testUser1 +"Shared Files Folder ");
+        authenticateUsingLoginPage(testUser1);
 
-        LOG.info("STEP1: Hover over the file you want to delete");
-        LOG.info("STEP2: Click 'More' menu -> \"Delete Document\"");
-        sharedFilesPage.selectItemAction(docName, ItemActions.DELETE_DOCUMENT);
-        assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), docName), "Delete dialog message= ");
-        assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is displayed.");
-        assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
+        testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().usingAdmin().usingShared().createFile(testFile).assertThat().existsInRepo();
+        authenticateUsingCookies(testUser1);
 
-        LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.confirmDeletion();
-        assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " is displayed.");
+        log.info("PreCondition: Login using Admin user & Navigate to Shared Files Folder ");
+        authenticateUsingLoginPage(getAdminUser());
+        sharedFilesPage
+            .navigateByMenuBar()
+            .isFileDisplayed(testFile.getName());
 
-        cleanupAuthenticatedSession();
+        log.info("STEP1: Hover over the file you want to delete");
+        log.info("STEP2: Click 'More' menu -> \"Delete Document\"");
+        sharedFilesPage
+            .selectItemAction(testFile.getName(), ItemActions.DELETE_DOCUMENT);
+        deleteDialog
+            .assertConfirmDeleteMessageForContentEqualsTo(testFile.getName())
+            .assertDeleteButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed();
+
+        log.info("STEP3: Press \"Delete\"");
+        deleteDialog
+            .confirmDeletion();
+        sharedFilesPage
+            .navigateByMenuBar()
+            .assertFileIsNotDisplayed(testFile.getName());
     }
 
     @TestRail (id = "C8015")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-    public void deleteFolder()
-    {
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void deleteFolder() throws Exception {
 
-        LOG.info("STEP1: Hover over the file you want to delete and press \"More\"");
-        LOG.info("STEP2: Press \"Delete Folder\"");
-        sharedFilesPage.selectItemAction(folderName, ItemActions.DELETE_FOLDER);
+        log.info("PreCondition: Create a Folder in"+ testUser1 +"Shared Files Folder ");
+        authenticateUsingLoginPage(testUser1);
+        testFolder = FolderModel.getRandomFolderModel();
+        getCmisApi().usingAdmin().usingShared().createFolder(testFolder).assertThat().existsInRepo();
 
-        assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), folderName),
-            "Delete dialog message= ");
-        assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is displayed.");
-        assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
+        log.info("PreCondition: Login using Admin user & Navigate to Shared Files Folder ");
+        authenticateUsingLoginPage(getAdminUser());
+        sharedFilesPage
+            .navigateByMenuBar()
+            .isFileDisplayed(testFolder.getName());
 
-        LOG.info("STEP3: Press \"Delete\"");
-        deleteDialog.confirmDeletion();
-        assertFalse(sharedFilesPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
+        log.info("STEP1: Hover over the file you want to delete and press \"More\"");
+        log.info("STEP2: Press \"Delete Folder\"");
+        sharedFilesPage
+            .selectItemAction(testFolder.getName(), ItemActions.DELETE_FOLDER);
 
-        cleanupAuthenticatedSession();
+        deleteDialog
+            .assertConfirmDeleteMessageForContentEqualsTo(testFolder.getName())
+            .assertDeleteButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed();
+
+        log.info("STEP3: Press \"Delete\"");
+        deleteDialog
+            .confirmDeletion();
+        sharedFilesPage
+            .navigateByMenuBar()
+            .assertFileIsNotDisplayed(testFolder.getName());
     }
 
     @TestRail (id = "C13759")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void optionNotDisplayed()
-    {
-        setupAuthenticatedSession(user, password);
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+    public void optionNotDisplayed() throws Exception {
+        log.info("PreCondition: Create a File & Folder in"+ testUser2 +"Shared Files Folder ");
+        authenticateUsingLoginPage(testUser2);
 
-        LOG.info("STEP1: Hover over " + docName2);
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName2, ItemActions.DELETE_DOCUMENT),
-            language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + docName2);
+        testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().usingAdmin().usingShared().createFile(testFile).assertThat().existsInRepo();
+        authenticateUsingCookies(testUser2);
 
-        LOG.info("STEP1: Hover over " + folderName2);
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName2, ItemActions.DELETE_DOCUMENT),
-            language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + folderName2);
+        testFolder = FolderModel.getRandomFolderModel();
+        getCmisApi().usingAdmin().usingShared().createFolder(testFolder).assertThat().existsInRepo();
+
+        log.info("PreCondition: Login using"+ testUser1 +"& Navigate to Shared Files Folder ");
+        authenticateUsingLoginPage(testUser1);
+        sharedFilesPage
+            .navigateByMenuBar()
+            .isFileDisplayed(testFile.getName());
+
+        log.info("STEP1: Hover over " + testFile);
+        sharedFilesPage
+            .assertActionItem_Not_AvailableInTheDocumentLibraryItems(testFile.getName(),ItemActions.DELETE_DOCUMENT);
+
+        log.info("STEP2: Hover over " + testFolder);
+        sharedFilesPage
+            .assertActionItem_Not_AvailableInTheDocumentLibraryItems(testFolder.getName(), ItemActions.DELETE_FOLDER);
+
+        log.info("Delete the Created File & Folder");
+        authenticateUsingLoginPage(getAdminUser());
+        sharedFilesPage
+            .navigateByMenuBar()
+            .selectItemAction(testFile.getName(),ItemActions.DELETE_DOCUMENT);
+        deleteDialog
+            .confirmDeletion();
+
+        sharedFilesPage
+            .selectItemAction(testFolder.getName(),ItemActions.DELETE_FOLDER);
+        deleteDialog
+            .confirmDeletion();
     }
 
-    @AfterClass
+    @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
-        contentService.deleteContentByPath(adminUser, adminPassword, path + docName2);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + folderName2);
+        deleteUsersIfNotNull(testUser1);
+        deleteUsersIfNotNull(testUser2);
     }
 }
