@@ -1,73 +1,112 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
+import lombok.extern.slf4j.Slf4j;
+
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
+
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class DownloadTests extends ContextAwareWebTest
-{
-    private final String random = RandomData.getRandomAlphanumeric();
-    private final String user = String.format("C8024TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String fileNameC8024 = "C8024 file2 " + random;
-    private final String folderNameC8027 = "folderNameC80272 " + random;
-    private final String fileContent = "test content";
-    private final String path = "Shared";
-    //@Autowired
-    private SharedFilesPage sharePage;
+import java.io.File;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8024, fileContent);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8027, path);
-        setupAuthenticatedSession(user, password);
+import static org.alfresco.common.Utils.isFileInDirectory;
+import static org.alfresco.common.Utils.testDataFolder;
+
+@Slf4j
+public class DownloadTests extends BaseTest
+{
+    private DeleteDialog deleteDialog;
+    private SharedFilesPage sharePage;
+    private UserModel testUser1;
+    private FileModel testFile;
+    private FolderModel testFolder;
+
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        sharePage = new SharedFilesPage(webDriver);
+        deleteDialog = new DeleteDialog(webDriver);
+
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("Create a Folder and File in Admin Repository-> User Homes ");
+        authenticateUsingLoginPage(testUser1);
+
+        testFolder = FolderModel.getRandomFolderModel();
+        getCmisApi().usingAdmin().usingShared().createFolder(testFolder).assertThat().existsInRepo();
+
+        testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().usingAdmin().usingShared().createFile(testFile).assertThat().existsInRepo();
+        authenticateUsingCookies(getAdminUser());
+
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        cleanupAuthenticatedSession();
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Delete the file & folder Created in Precondition");
+        sharePage
+            .navigateByMenuBar()
+            .selectItemAction(testFile.getName(), ItemActions.DELETE_DOCUMENT);
+        deleteDialog
+            .confirmDeletion();
+        sharePage
+            .selectItemAction(testFolder.getName(), ItemActions.DELETE_FOLDER);
+        deleteDialog
+            .confirmDeletion();
 
-        contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + fileNameC8024);
-        contentService.deleteTreeByPath(adminUser, adminPassword, path + "/" + folderNameC8027);
+        log.info("Delete the user Created in Precondition");
+        deleteUsersIfNotNull(testUser1);
     }
 
     @TestRail (id = "C8024")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void downloadFileFromAlfresco()
     {
-        sharePage.navigate();
+        sharePage.navigateByMenuBar();
 
-        LOG.info("Step 1: Mouse over file, click Download");
-        sharePage.selectItemAction(fileNameC8024, ItemActions.DOWNLOAD);
+        log.info("Step 1: Mouse over file, click Download");
+        sharePage.selectItemActionFormFirstThreeAvailableOptions(testFile.getName(),ItemActions.DOWNLOAD);
         sharePage.acceptAlertIfDisplayed();
 
-        LOG.info("Step 2: Check the file was saved locally");
-        Assert.assertTrue(isFileInDirectory(fileNameC8024, null), "The file was not found in the specified location");
+        log.info("Step 2: Check the file was saved locally");
+        Assert.assertTrue(isFileInDirectory(testFile.getName(), null), "The file was not found in the specified location");
+
+        log.info("Delete the downloaded file from the directory");
+        File file = new File(testDataFolder + testFile.getName());
+        file.delete();
+        Assert.assertFalse(file.exists(), "File should not exist!");
     }
 
     @TestRail (id = "C8027")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void downloadFolder()
     {
-        sharePage.navigate();
+        sharePage.navigateByMenuBar();
 
-        LOG.info("Step 1: Mouse over folder, click Download");
-        sharePage.selectItemAction(folderNameC8027, ItemActions.DOWNLOAD_AS_ZIP);
+        log.info("Step 1: Mouse over folder, click Download");
+        sharePage.selectItemActionFormFirstThreeAvailableOptions(testFolder.getName(),ItemActions.DOWNLOAD_AS_ZIP);
         sharePage.acceptAlertIfDisplayed();
-        LOG.info("Step 2: Check the folder was saved locally");
-        Assert.assertTrue(isFileInDirectory(folderNameC8027, ".zip"), "The folder was not found in the specified location");
+        log.info("Step 2: Check the folder was saved locally");
+        Assert.assertTrue(isFileInDirectory(testFolder.getName(), ".zip"), "The folder was not found in the specified location");
+
+        log.info("Delete the downloaded folder from the directory");
+        File file = new File(testDataFolder + testFolder.getName());
+        file.delete();
+        Assert.assertFalse(file.exists(), "File should not exist!");
     }
 }
 
