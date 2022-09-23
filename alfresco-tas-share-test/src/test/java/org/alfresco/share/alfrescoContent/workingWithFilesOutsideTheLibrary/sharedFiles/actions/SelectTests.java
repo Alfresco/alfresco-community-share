@@ -1,127 +1,201 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
+import org.alfresco.po.share.site.ItemActions;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+@Slf4j
 /**
  * @author Laura.Capsa
  */
-public class SelectTests extends ContextAwareWebTest
+public class SelectTests extends BaseTest
 {
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
-    private final String path = "Shared/";
     private final String user = "user" + uniqueIdentifier;
-    private final String docName = "DocC8004-" + uniqueIdentifier;
-    private final String folderName = "FolderC8005-" + uniqueIdentifier;
+
     //@Autowired
-    DeleteDialog deleteDialog;
-    //@Autowired
-    private SharedFilesPage sharedFilesPage;
+    private final String password = "password";
+    private UserModel testUser1;
+    private RepositoryPage repositoryPage;
     //@Autowired
     private HeaderMenuBar headerMenuBar;
+    //@Autowired
+    private MyFilesPage myFilesPage;
+    //@Autowired
+    private NewFolderDialog newFolderDialog;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    private final String sharedFolderName = "Shared";
+    private DocumentLibraryPage2 documentLibraryPage;
+    private final String folderName ="TestFolder" + RandomData.getRandomAlphanumeric();
+
+    String document = "Documents";
+    String invertSelection = "Invert Selection";
+    String all = "All";
+    String none = "None";
+    String folder = "Folders";
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        getCmisApi().authenticateUser(getAdminUser());
+        site.set(getDataSite().usingUser(testUser1).createPublicRandomSite());
+
+        documentLibraryPage = new DocumentLibraryPage2(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        headerMenuBar = new HeaderMenuBar(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        newFolderDialog = new NewFolderDialog(webDriver);
+    }
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName, "");
-        contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
-
-        setupAuthenticatedSession(user, password);
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+        deleteUsersIfNotNull(testUser1);
     }
 
     @TestRail (id = "C8004")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFile()
     {
-        LOG.info("STEP1: Click on Select -> Documents option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.documents"));
-        assertTrue(sharedFilesPage.isContentSelected(docName), docName + " is selected.");
+        String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
 
-        LOG.info("STEP2: Click on Select menu -> Invert Selection option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.invertSelection"));
-        assertFalse(sharedFilesPage.isContentSelected(docName), docName + " is selected.");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
 
-        LOG.info("STEP3: Click on Select menu -> All option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.all"));
-        assertTrue(sharedFilesPage.isContentSelected(docName), docName + " is selected.");
+        documentLibraryPage
+            .clickCreate()
+            .clickTextPlain()
+            .assertCreateContentPageIsOpened()
+            .typeName(testFile)
+            .clickCreate();
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
 
-        LOG.info("STEP4: Click on Select menu -> None option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.none"));
-        assertFalse(sharedFilesPage.isContentSelected(docName), docName + " is selected.");
+        log.info("STEP1: Click 'Select' button and choose 'Documents' option.");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(document);
+        ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(testFile));
+        myFilesPage
+            .assertContentItemsSelected(expectedContentList1);
+        log.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(invertSelection);
+        myFilesPage
+            .assertContentItemsNotSelected(expectedContentList1);
+        log.info("STEP3: Click 'Select' button and choose 'All'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(all);
+        myFilesPage
+            .assertContentItemsSelected(expectedContentList1);
+        headerMenuBar
+            .assertSelectedItemsMenuEnabled();
+        log.info("STEP4: Click 'Select' button and choose 'None'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(none);
+        myFilesPage
+            .assertContentItemsNotSelected(expectedContentList1);
+        log.info("STEP5: Click 'Select' button and choose 'Folders'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(folder);
+        myFilesPage
+            .assertContentItemsNotSelected(expectedContentList1);
+        log.info("STEP6: Click on document checkbox");
+        myFilesPage
+            .clickCheckBox(testFile);
+        myFilesPage
+            .assertContentItemsSelected(expectedContentList1);
+        repositoryPage
+            .select_ItemsAction(testFile, ItemActions.DELETE_DOCUMENT)
+            .clickOnDeleteButtonOnDeletePrompt();
 
-        LOG.info("STEP5: Click on Select menu -> Folders option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.folders"));
-        assertFalse(sharedFilesPage.isContentSelected(docName), docName + " is selected.");
-
-        LOG.info("STEP6: Click on checkbox next to file");
-        sharedFilesPage.clickCheckBox(docName);
-        assertTrue(sharedFilesPage.isContentSelected(docName), docName + " is selected.");
     }
 
     @TestRail (id = "C8005")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFolder()
     {
-        LOG.info("STEP1: Click on Select -> Folders option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.folders"));
-        assertTrue(sharedFilesPage.isContentSelected(folderName), folderName + " is selected.");
+        log.info("Precondition: create folder in Shared folder from user ");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        myFilesPage
+            .click_CreateButton()
+            .click_FolderLink();
+        newFolderDialog
+            .typeName(folderName)
+            .clickSave();
+        myFilesPage
+            .isContentNameDisplayed(folderName);
 
-        LOG.info("STEP2: Click on Select menu -> Invert Selection option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.invertSelection"));
-        assertFalse(sharedFilesPage.isContentSelected(folderName), folderName + " is selected.");
-
-        LOG.info("STEP3: Click on Select menu -> All option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.all"));
-        assertTrue(sharedFilesPage.isContentSelected(folderName), folderName + " is selected.");
-
-        LOG.info("STEP4: Click on Select menu -> None option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.none"));
-        assertFalse(sharedFilesPage.isContentSelected(folderName), folderName + " is selected.");
-
-        LOG.info("STEP5: Click on Select menu -> Documents option");
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.documents"));
-        assertFalse(sharedFilesPage.isContentSelected(folderName), folderName + " is selected.");
-
-        LOG.info("STEP6: Click on checkbox next to folder");
-        sharedFilesPage.clickCheckBox(folderName);
-        assertTrue(sharedFilesPage.isContentSelected(folderName), folderName + " is selected.");
-    }
-
-    @AfterClass
-    public void cleanUp()
-    {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
-
-        contentService.deleteContentByPath(adminUser, adminPassword, path + docName);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + folderName);
+        log.info("STEP1: Click 'Select' button and choose 'Folders'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(folder);
+        ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(folderName));
+        myFilesPage
+            .assertContentItemsSelected(expectedContentList1);
+        log.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(invertSelection);
+        myFilesPage
+            .assertContentItemsNotSelected(expectedContentList1);
+        log.info("STEP3: Click 'Select' button and choose 'All'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(all);
+        myFilesPage
+            .assertContentItemsSelected(expectedContentList1);
+        log.info("STEP4: Click 'Select' button and choose 'None'");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(none);
+        myFilesPage
+            .assertContentItemsNotSelected(expectedContentList1);
+        log.info("STEP5: Click 'Select' button and choose 'Documents' option.");
+        headerMenuBar
+            .clickSelectMenu()
+            .click_SelectOption(document);
+        myFilesPage
+            .assertContentItemsNotSelected(expectedContentList1);
+        log.info("STEP6: Click on folder checkbox");
+        myFilesPage
+            .clickCheckBox(folderName);
+        myFilesPage
+            .assertContentItemsSelected(expectedContentList1);
+        repositoryPage
+            .select_ItemsAction(folderName, ItemActions.DELETE_FOLDER)
+            .clickOnDeleteButtonOnDeletePrompt();
     }
 }
