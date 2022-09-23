@@ -1,5 +1,6 @@
 package org.alfresco.po.share;
 
+import static org.alfresco.common.Wait.WAIT_3;
 import static org.alfresco.common.Wait.WAIT_40;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
@@ -116,6 +117,7 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     }
     public MyFilesPage select_ItemAction(String contentItem, ItemActions action)
     {
+        waitInSeconds(WAIT_3.getValue());
         WebElement libraryItem = mouseOverContentItem(contentItem);
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
         WebElement actionElement;
