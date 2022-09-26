@@ -747,6 +747,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public void selectItemActionFormFirstThreeAvailableOptions(String contentItem, ItemActions action)
     {
+        waitInSeconds(WAIT_3.getValue());
         WebElement libraryItem = mouseOverContentItem(contentItem);
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
         WebElement actionElement;
@@ -1486,6 +1487,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         log.info("More Menu is Displaying");
         assertFalse(isMoreMenuDisplayed(filename), "More Menu is displayed");
+        return this;
+    }
+    public DocumentLibraryPage assertActionsNoteAvailableForLibrary(String contantName,List<String> actions)
+    {
+        log.info(
+            "Verify that the given actions are not available in more  ");
+        Assert.assertFalse(areActionsAvailableForLibraryItem(contantName, actions),
+            "Not Expected actions");
         return this;
     }
 
