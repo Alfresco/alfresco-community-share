@@ -98,6 +98,7 @@ public class ActionsUnzippingContentTests extends BaseTest
             .navigate();
         myFilesPage
             .assertIsContantNameDisplayed(zipContent);
+        log.info("Delete unzip and text file ");
         repositoryPage
             .select_ItemsAction(zipContent, ItemActions.DELETE_DOCUMENT);
         deleteDialog
