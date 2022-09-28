@@ -117,6 +117,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
             .assertmIsCloseButtonDisplayed();
         aspectsForm
             .clickCloseButton();
+        log.info("Delete folder");
         repositoryPage
             .select_ItemsAction(folderNameC8038, ItemActions.DELETE_FOLDER);
         deleteDialog
@@ -170,6 +171,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
 
         aspectsForm
             .clickCloseButton();
+        log.info("Delete folder");
         repositoryPage
             .select_ItemsAction(folderNameC8034, ItemActions.DELETE_FOLDER);
         deleteDialog
@@ -213,7 +215,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
         List<String> notExpectedActions = Arrays
             .asList("Manage Aspects");
         documentLibraryPage.assertActionsNoteAvailableForLibrary(folderNameC13761,notExpectedActions);
-
+        log.info("Delete folder");
         authenticateUsingLoginPage(getAdminUser());
         repositoryPage
             .navigate();
