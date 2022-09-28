@@ -4,13 +4,16 @@ import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
@@ -33,6 +36,7 @@ public class ActionsUnzippingContentTests extends BaseTest
     private final String acpContent = "fileC8257";
     //@Autowired
     private RepositoryPage repositoryPage;
+    private DeleteDialog deleteDialog;
     //@Autowired
     private CopyMoveUnzipToDialog unzipToDialog;
     //@Autowired
@@ -52,6 +56,7 @@ public class ActionsUnzippingContentTests extends BaseTest
         uploadContent = new UploadContent(webDriver);
         documentDetailsPage = new DocumentDetailsPage(webDriver);
         unzipToDialog = new CopyMoveUnzipToDialog(webDriver);
+         deleteDialog = new DeleteDialog(webDriver);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -93,6 +98,18 @@ public class ActionsUnzippingContentTests extends BaseTest
             .navigate();
         myFilesPage
             .assertIsContantNameDisplayed(zipContent);
+        repositoryPage
+            .select_ItemsAction(zipContent, ItemActions.DELETE_DOCUMENT);
+        deleteDialog
+            .confirmDeletion();
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        repositoryPage
+            .select_ItemsAction(zipFile, ItemActions.DELETE_DOCUMENT);
+        deleteDialog
+            .confirmDeletion();
     }
 
     @TestRail (id = "C8257")
@@ -111,7 +128,6 @@ public class ActionsUnzippingContentTests extends BaseTest
             .clickOnFile(acpFile);
         documentDetailsPage
             .assertContentNameEquals(acpFile);
-        System.out.println("exeuted step1");
         log.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
         documentDetailsPage
             .clickDocumentActionsOption("Unzip to...");
