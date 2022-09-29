@@ -67,6 +67,7 @@
         <dependency.jackson.version>2.12.2</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20210307</dependency.org-json.version>
+        <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
 
         <alfresco.googledrive.version>3.2.1</alfresco.googledrive.version>
 
@@ -534,6 +535,11 @@
                             <groupId>org.alfresco.maven.plugin</groupId>
                             <artifactId>alfresco-maven-plugin</artifactId>
                             <version>${dependency.alfresco-sdk.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.thoughtworks.xstream</groupId>
+                            <artifactId>xstream</artifactId>
+                            <version>${dependency.xstream.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
