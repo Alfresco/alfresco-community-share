@@ -109,6 +109,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By documentList_ = By.cssSelector(".documents[id$='_default-documents']");
     private By optionMenu_ = By.cssSelector("button[id$='default-options-button-button']");
     private By hideFoldersMenuOption_=By.cssSelector(".hideFolders");
+    private By explorerPanel_Documents = By.cssSelector(".documentDroppable .ygtvlabel");
     //@FindAll(@FindBy(css = ".crumb .folder")) private List<WebElement> breadcrumbList;
     private List<WebElement> breadcrumbList = findElements((By.xpath("//div[contains(@class, 'crumb')]/a[@class='folder']")));
     //@FindBy(css = ".crumb .label a") private WebElement breadcumbCurrentFolder;
@@ -555,9 +556,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public String getExplorerPanelDocuments()
     {
-        waitUntilElementsAreVisible(explorerPanelDocumentsList);
         ArrayList<String> foldersTextList = new ArrayList<>();
-        for (WebElement anExplorerPanelDocumentsList : explorerPanelDocumentsList)
+        List<WebElement> explorerPanelDocumentList = findElements(explorerPanel_Documents);
+        for (WebElement anExplorerPanelDocumentsList : explorerPanelDocumentList)
         {
             foldersTextList.add(anExplorerPanelDocumentsList.getText());
         }
