@@ -51,16 +51,6 @@ public class ActionsManageAspectsTests extends BaseTest
     public void cleanup()
     {
         deleteUsersIfNotNull(user.get());
-
-        log.info("Delete the Created Folder from Admin Repository-> User Homes");
-        authenticateUsingLoginPage(getAdminUser());
-        repositoryPage
-            .navigateByMenuBar()
-            .click_FolderName("User Homes")
-            .select_ItemsAction(testUser1.getUsername(),ItemActions.DELETE_FOLDER);
-        deleteDialog
-            .confirmDeletion();
-
     }
 
     @TestRail (id = "C8254")

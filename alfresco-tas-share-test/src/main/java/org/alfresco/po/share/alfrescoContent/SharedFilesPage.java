@@ -4,6 +4,7 @@ import static org.alfresco.common.Wait.WAIT_30;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
@@ -51,5 +52,17 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
         log.info("Verifying the Item Actions is Available {}", action);
         assertTrue(isElementDisplayed(
             findFirstElementWithExactValue(getAvailableActions_(libraryItem),action.getActionName())),"Shared Files List ");
+    }
+    public SharedFilesPage assertIsFolderPresentInList(String folderName)
+    {
+        log.info("Verify that the folder is present in the list.");
+        assertTrue(getFoldersList().contains(folderName), "Folder is not present in the list.");
+        return this;
+    }
+    public SharedFilesPage assertExplorerPanelDocuments(String folderName)
+    {
+        log.info("Verify that the Folder is present in ExplorerPanel");
+        assertTrue(getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
+        return this;
     }
 }
