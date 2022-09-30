@@ -32,6 +32,8 @@
          <package name="org.alfresco.share.alfrescoContent.viewingContent"></package>
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles"></package>
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions"></package>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures"></package>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
@@ -42,19 +44,22 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.DownloadingContentTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesSocialFeaturesTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesTaggingTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesCreateContentTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesDeleteTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesEditTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesDownloadTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesManageAspectsTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesPageTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesSelectContentTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsCreateTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDeleteTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDownloadTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsManageAspectsTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsManagePermissionsTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsSelectTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsUnzippingContentTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsUploadTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.RepositoryTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.CreateTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.DeleteTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.DownloadTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.EditTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.SelectTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.SharedFilesManageAspectsTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.UnzipContentTests"></class>
       </classes>
    </test>
 </suite>
