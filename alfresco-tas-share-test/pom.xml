@@ -37,7 +37,7 @@
       <tas.cmis.version>1.13</tas.cmis.version>
       <tas.restapi.version>1.99</tas.restapi.version>
       <apache.poi.version>4.1.2</apache.poi.version>
-      <java.version>17</java.version>
+      <java.version>11</java.version>
    </properties>
 
    <dependencies>
@@ -141,7 +141,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M5</version>
+            <version>3.0.0-M7</version>
             <configuration>
                <forkCount>2</forkCount>
                <reuseForks>true</reuseForks>
