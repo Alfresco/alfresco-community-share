@@ -40,7 +40,7 @@
         <image.tag>latest</image.tag>
 
         <!-- Java 17 compatibility -->
-        <java.version>17</java.version>
+        <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.build.sourceVersion>${java.version}</maven.build.sourceVersion>
