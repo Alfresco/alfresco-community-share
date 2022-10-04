@@ -1067,12 +1067,22 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public void mouseOverNoTags(String contentName)
     {
+        waitInSeconds(2);
         WebElement contentElement = selectDocumentLibraryItemRow(contentName);
         Parameter.checkIsMandotary("Content selector", contentElement);
         WebElement tagElement = contentElement.findElement(noTagsSelector);
         Parameter.checkIsMandotary("Tag selector", tagElement);
         mouseOver(tagElement);
         waitUntilElementIsVisible(contentElement.findElement(editTagSelector));
+    }
+    public void mouseOverNoTagsWithNoEditIcon(String contentName)
+    {
+        waitInSeconds(2);
+        WebElement contentElement = selectDocumentLibraryItemRow(contentName);
+        Parameter.checkIsMandotary("Content selector", contentElement);
+        WebElement tagElement = contentElement.findElement(noTagsSelector);
+        Parameter.checkIsMandotary("Tag selector", tagElement);
+        mouseOver(tagElement);
     }
 
     public boolean isEditTagInputFieldDisplayed()
@@ -1597,6 +1607,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         log.info("Verify that the Edit Tag Icon is displayed");
         assertTrue(isEditTagIconDisplayed(contentName), "Edit Tag icon is not displayed");
+        return this;
+    }
+    public DocumentLibraryPage assertIsEditTagIconNotDisplayed(String contentName)
+    {
+        log.info("Verify that the Edit Tag Icon is displayed");
+        assertFalse(isEditTagIconDisplayed(contentName), "Edit Tag icon is not displayed");
         return this;
     }
 
