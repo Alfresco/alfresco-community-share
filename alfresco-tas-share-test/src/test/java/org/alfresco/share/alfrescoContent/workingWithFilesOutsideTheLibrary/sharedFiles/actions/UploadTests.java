@@ -1,137 +1,212 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
 import static org.alfresco.common.Utils.testDataFolder;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
-import org.alfresco.dataprep.CMISUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+
+import java.util.Arrays;
+import java.util.List;
+
+@Slf4j
 
 /**
  * @author Laura.Capsa
  */
-public class UploadTests extends ContextAwareWebTest
+public class UploadTests extends BaseTest
 {
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "user1-" + random;
     private final String user2 = "user2-" + random;
     private final String path = "Shared";
+    private RepositoryPage repositoryPage;
+    private DocumentLibraryPage documentLibrary;
+    private CreateContentPage createContent;
+
+    private MyFilesPage myFilesPage;
+    private final String password = "password";
+    private UserModel testUser1;
+    private UserModel testUser2;
     private final String doc1 = random + "-testFile-C7939-.txt";
     private final String doc2 = random + "-OldFile-C7942.txt";
     private final String newDoc2 = random + "-NewFile-C7942.txt";
     private final String doc3 = "Doc-C13756-" + random;
-   // @Autowired
     private SharedFilesPage sharedFilesPage;
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    //@Autowired
     private UploadContent uploadContent;
+    private DocumentLibraryPage documentLibraryPage;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        userService.create(adminUser, adminPassword, user2, password, user + domain, user2, user2);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, doc3, "");
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        getCmisApi().authenticateUser(getAdminUser());
+        authenticateUsingLoginPage(getAdminUser());
+
+        repositoryPage = new RepositoryPage(webDriver);
+        createContent = new CreateContentPage(webDriver);
+        documentLibrary = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        sharedFilesPage = new SharedFilesPage(webDriver);
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+
     }
 
     @TestRail (id = "C7939")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void uploadDocument()
     {
-        setupAuthenticatedSession(user, password);
+
+        authenticateUsingLoginPage(testUser1);
         String testFilePath = testDataFolder + doc1;
-        LOG.info("Precondition: Navigate to Shared Files page.");
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        LOG.info("STEP1: Upload a file.");
-        uploadContent.uploadContent(testFilePath);
-        assertTrue(sharedFilesPage.isContentNameDisplayed(doc1), String.format("File [%s] is displayed", doc1));
-        LOG.info("STEP2: Logout and login with another user");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(user2, password);
-        LOG.info("STEP3: Navigate to Shared Files page");
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed(doc1), String.format("File [%s] is displayed", doc1));
-        cleanupAuthenticatedSession();
+        log.info("Precondition: Navigate to Shared Files page.");
+        sharedFilesPage
+            .navigate();
+       log.info("STEP1: Upload a file.");
+        uploadContent
+            .uploadContent(testFilePath);
+       myFilesPage
+            .assertIsContantNameDisplayed(doc1);
+        log.info("STEP2: Logout and login with another user");
+       authenticateUsingLoginPage(testUser2);
+       log.info("STEP3: Navigate to Shared Files page");
+        sharedFilesPage
+            .navigate();
+        myFilesPage
+            .assertIsContantNameDisplayed(doc1);
+        log.info(" Delete the created document");
+        authenticateUsingLoginPage(testUser1);
+        sharedFilesPage
+            .navigate();
+        repositoryPage.select_ItemsAction(doc1, ItemActions.DELETE_DOCUMENT)
+            .clickOnDeleteButtonOnDeletePrompt();
+
+
+
     }
 
     @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7942")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT  })
     public void updateDocumentNewVersion()
     {
         String testFilePath = testDataFolder + doc2;
         String newVersionFilePath = testDataFolder + newDoc2;
-        setupAuthenticatedSession(adminUser, adminPassword);
-        LOG.info("Precondition: Navigate to Shared Files page and upload a file");
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
-        uploadContent.uploadContent(testFilePath);
-        LOG.info("STEP1: Click on the file and check content");
-        sharedFilesPage.clickOnFile(doc2);
-        assertEquals(documentDetailsPage.getContentText(), "contents", String.format("Contents of %s are wrong.", doc2));
-        LOG.info("STEP2: Navigate to Shared Files page and click on upload new version");
-        sharedFilesPage.navigate();
-        sharedFilesPage.selectItemAction(doc2, ItemActions.UPLOAD_NEW_VERSION);
-        LOG.info("STEP3: Select file to upload. Update version");
-        uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
-        getBrowser().waitInSeconds(2);
-        assertTrue(sharedFilesPage.isContentNameDisplayed(newDoc2), String.format("File [%s] is displayed", newDoc2));
-        assertFalse(sharedFilesPage.isContentNameDisplayed(doc2), doc2 + " is displayed.");
-        LOG.info("STEP4: Click on the file and check the version and content are updated.");
-        sharedFilesPage.clickOnFile(newDoc2);
-        assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newDoc2));
-        assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newDoc2));
-        LOG.info("STEP5: Logout and login with another user");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(user2, password);
-        LOG.info("STEP6: Navigate to Shared Files page");
-        sharedFilesPage.navigate();
-        assertTrue(sharedFilesPage.isContentNameDisplayed(newDoc2), String.format("File [%s] is displayed", newDoc2));
-        assertFalse(sharedFilesPage.isContentNameDisplayed(doc2), String.format("File [%s] is displayed", doc2));
-        LOG.info("STEP7: Navigate to newFile details page");
-        sharedFilesPage.clickOnFile(newDoc2);
-        assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newDoc2));
-        assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newDoc2));
-        cleanupAuthenticatedSession();
-    }
+       authenticateUsingLoginPage(testUser1);
+        log.info("Precondition: Navigate to Shared Files page and upload a file");
+        sharedFilesPage
+            .navigate();
+        uploadContent
+            .uploadContent(testFilePath);
+        log.info("STEP1: Click on the file and check content");
+        sharedFilesPage
+            .clickOnFile(doc2);
+        log.info("STEP2: Navigate to Shared Files page and click on upload new version");
+        sharedFilesPage
+            .navigate();
+        sharedFilesPage
+            .selectItemAction(doc2, ItemActions.UPLOAD_NEW_VERSION);
+        log.info("STEP3: Select file to upload. Update version");
+        uploadContent
+            .updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
+        myFilesPage
+            .assertIsContantNameDisplayed(newDoc2);
+        myFilesPage
+            .assertIsContentDeleted(doc2);
+        log.info("STEP4: Click on the file and check the version and content are updated.");
+        sharedFilesPage
+            .clickOnFile(newDoc2);
+        documentDetailsPage
+            .assertFileContentEquals("updated by upload new version");
+        documentDetailsPage
+            .assertVerifyFileVersion("2.0");
+        log.info("STEP5: Logout and login with another user");
+        authenticateUsingLoginPage(testUser2);
+        log.info("STEP6: Navigate to Shared Files page");
+        sharedFilesPage
+            .navigate();
+        myFilesPage
+           .assertIsContantNameDisplayed(newDoc2);
+        myFilesPage
+           .assertIsContentDeleted(doc2);
+        log.info("STEP7: Navigate to newFile details page");
+        sharedFilesPage
+            .clickOnFile(newDoc2);
+        documentDetailsPage
+            .assertFileContentEquals("updated by upload new version");
+        documentDetailsPage
+            .assertVerifyFileVersion("2.0");
+        log.info(" Delete the created document");
+        authenticateUsingLoginPage(testUser1);
+        sharedFilesPage
+            .navigate();
+        repositoryPage.select_ItemsAction(newDoc2, ItemActions.DELETE_DOCUMENT)
+            .clickOnDeleteButtonOnDeletePrompt();
+            }
 
     @TestRail (id = "C13756")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void optionNotDisplayed()
     {
-        setupAuthenticatedSession(user, password);
-        sharedFilesPage.navigate();
-        LOG.info("STEP1: Hover over the file");
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(doc3, ItemActions.UPLOAD_NEW_VERSION),
-            language.translate("documentLibrary.contentAction.uploadNewVersion") + " option is displayed for " + doc3);
-        cleanupAuthenticatedSession();
+        String testFilePath = testDataFolder + doc3;
+        log.info("STEP1: login  with user2 and upload a file  ");
+        authenticateUsingLoginPage(testUser2);
+        sharedFilesPage
+            .navigate();
+        uploadContent
+            .uploadContent(testFilePath);
+        log.info("STEP1: logout and login with user1 and navigate to shared files page");
+        authenticateUsingLoginPage(testUser1);
+        sharedFilesPage
+            .navigate();
+        repositoryPage
+        .isContentNameDisplayed(doc3);
+        log.info("STEP3: Hover over the folder and validated more option is not available ");
+        sharedFilesPage
+            .mouseOverContentItem(doc3);
+        documentLibraryPage
+            .assertisMoreMenuNotDisplayed(doc3);
+        log.info("STEP4: Hover over and check for Upload New Version option");
+       List<String> notExpectedActions = Arrays
+            .asList("Upload New Version");
+     documentLibraryPage.assertActionsNoteAvailableForLibrary(doc3,notExpectedActions);
+        log.info(" Delete the created document");
+        authenticateUsingLoginPage(testUser2);
+        sharedFilesPage
+            .navigate();
+        repositoryPage.select_ItemsAction(doc3, ItemActions.DELETE_DOCUMENT)
+            .clickOnDeleteButtonOnDeletePrompt();
+
     }
 
-    @AfterClass
-    public void cleanUp()
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
     {
-        contentService.deleteContentByPath(user, password, path + "/" + doc1);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + newDoc2);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + doc3);
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
-        userService.delete(adminUser, adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
+        deleteUsersIfNotNull(testUser1);
+        deleteUsersIfNotNull(testUser2);
+
+
     }
 }
