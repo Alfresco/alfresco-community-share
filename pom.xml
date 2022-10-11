@@ -32,8 +32,8 @@
 
         <dependency.alfresco-community-repo.version>17.159</dependency.alfresco-community-repo.version>
         <dependency.alfresco-enterprise-repo.version>17.149</dependency.alfresco-enterprise-repo.version>
-        <dependency.alfresco-transform-service.version>2.0.0-A3</dependency.alfresco-transform-service.version>
-        <dependency.alfresco-transform-core.version>3.0.0-A3</dependency.alfresco-transform-core.version>
+        <dependency.alfresco-transform-service.version>2.0.0-A4</dependency.alfresco-transform-service.version>
+        <dependency.alfresco-transform-core.version>3.0.0-A4</dependency.alfresco-transform-core.version>
         <alfresco.api-explorer.version>7.2.0</alfresco.api-explorer.version>
 
         <image.registry>quay.io</image.registry>
@@ -65,7 +65,7 @@
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>18.0.0</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.12.2</dependency.jackson.version>
+        <dependency.jackson.version>2.14.0-rc1</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20210307</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
