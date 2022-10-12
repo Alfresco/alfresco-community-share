@@ -135,6 +135,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public DocumentDetailsPage clickCommentLink(String contentName)
     {
+        waitInSeconds(2);
         selectDocumentLibraryItemRow(contentName).findElement(commentLinkSelector).click();
         return new DocumentDetailsPage(webDriver);
     }
