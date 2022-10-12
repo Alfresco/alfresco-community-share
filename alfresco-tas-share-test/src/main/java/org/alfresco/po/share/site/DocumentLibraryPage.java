@@ -1265,6 +1265,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public boolean isLikeButtonDisplayed(String fileName)
     {
+        waitInSeconds(3);
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), likeButton);
     }
 
