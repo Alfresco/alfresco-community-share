@@ -1,285 +1,316 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.dataprep.CMISUtil.DocumentType;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.po.share.alfrescoContent.document.GoogleDocsLogIn;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.alfresco.common.Utils.testDataFolder;
 
-public class ActionsEditTests extends ContextAwareWebTest
+@Slf4j
+public class ActionsEditTests extends BaseTest
 {
-    //@Autowired
-    NewFolderDialog newContentDialog;
     //@Autowired
     private RepositoryPage repositoryPage;
     //@Autowired
-    private SiteDashboardPage sitePage;
-    //@Autowired
-    private DocumentDetailsPage detailsPage;
+    private DocumentDetailsPage documentDetailsPage;
     //@Autowired
     private EditPropertiesDialog editFilePropertiesDialog;
-   // @Autowired
+    // @Autowired
     private SelectDialog selectDialog;
+    private GoogleDocsLogIn googleDocLogIn;
     //@Autowired
     private EditInAlfrescoPage editInAlfrescoPage;
+    private String editedFileName = String.format("editedDocName%s", RandomData.getRandomAlphanumeric()) ;
+    private final String editedFolderName = String.format("editedFolderName%s", RandomData.getRandomAlphanumeric());
+    private final String editedTitle = "editedTitle";
+    private final String editedContent = "C7762 edited content in Alfresco";
+    private final String editedDescription = "edited description in Alfresco";
+    private final String tagName = String.format("editTag_%s", RandomData.getRandomAlphanumeric());
+    private final String user = String.format("C8156User%s", RandomData.getRandomAlphanumeric());
+    private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private final String sharedFolderName = "Shared";
+    private MyFilesPage myFilesPage;
+    //@Autowired
+    private NewFolderDialog newFolderDialog;
+    private UploadContent uploadContent;
+    private final String password = "password";
+    private UserModel testUser1;
 
-    @Autowired
-    private GoogleDocsCommon docsCommon;
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        repositoryPage = new RepositoryPage(webDriver);
 
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        getCmisApi().authenticateUser(getAdminUser());
 
-    private String uniqueIdentifier;
-    private String folderName;
-    private String editedFolderName;
-    private String editedTitle;
-    private String editedDescription;
-    private String tagName;
-    private String editedFileName;
-    private String editFileUsr;
-    private String editFolderUsr;
-    private String editInAlfUsr;
-    private String editFileInGDUsr;
-    private String lName;
-    private String fName;
-    private String fileContent;
-    private String fileName;
-    private String editedContent;
-    private String editFilePath;
-    private String editFolderPath;
-    private String editInAlfrescoPath;
-    private String editFileInGDPath;
+        log.info("Create Folder and File in Admin Repository-> User Homes ");
+        authenticateUsingLoginPage(getAdminUser());
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
+        googleDocLogIn = new GoogleDocsLogIn(webDriver);
+        selectDialog = new SelectDialog(webDriver);
+        editFilePropertiesDialog = new EditPropertiesDialog(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        repositoryPage = new RepositoryPage(webDriver);
+        myFilesPage = new MyFilesPage(webDriver);
+        uploadContent = new UploadContent(webDriver);
+        newFolderDialog = new NewFolderDialog(webDriver);
+        editInAlfrescoPage = new EditInAlfrescoPage(webDriver);
 
-    {
-
-        uniqueIdentifier = RandomData.getRandomAlphanumeric();
-        folderName = "testFolder" + uniqueIdentifier;
-        editedFolderName = "UpdatedFolderName" + uniqueIdentifier;
-        editedTitle = "Updated Title" + uniqueIdentifier;
-        editedDescription = "Updated Description";
-        tagName = "tag" + uniqueIdentifier;
-        editedFileName = "EditedFileName" + uniqueIdentifier;
-        editFileUsr = "EditFileUsr" + uniqueIdentifier;
-        editFolderUsr = "EditFolderUsr" + uniqueIdentifier;
-        editInAlfUsr = "EditInAlfrescoUsr" + uniqueIdentifier;
-        editFileInGDUsr = "EditInGoogleDocsUsr" + uniqueIdentifier;
-        lName = "testLastName";
-        fName = "testFirstName";
-        fileContent = "Test Content";
-        fileName = "testFile" + uniqueIdentifier;
-        editedFileName = "editedFileName" + uniqueIdentifier;
-        editFilePath = "User Homes/" + editFileUsr;
-        editFolderPath = "User Homes/" + editFolderUsr;
-        editInAlfrescoPath = "User Homes/" + editInAlfUsr;
-        editFileInGDPath = "User Homes/" + editFileInGDUsr;
-        editedContent = "edited test content";
-
-        userService.create(adminUser, adminPassword, editFileUsr, password, editFileUsr + domain, lName, fName);
-        userService.create(adminUser, adminPassword, editFolderUsr, password, editFolderUsr + domain, lName, fName);
-        userService.create(adminUser, adminPassword, editInAlfUsr, password, editInAlfUsr + domain, lName, fName);
-        userService.create(adminUser, adminPassword, editFileInGDUsr, password, editFileInGDUsr + domain, lName, fName);
-        contentService.createDocumentInRepository(editFileUsr, password, editFilePath, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        contentService.createDocumentInRepository(editInAlfUsr, password, editInAlfrescoPath, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        contentService.createDocumentInRepository(editFileInGDUsr, password, editFileInGDPath, DocumentType.MSWORD, fileName, fileContent);
-        contentService.createFolderInRepository(editFolderUsr, password, folderName, editFolderPath);
     }
-
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, editFileUsr);
-        userService.delete(adminUser, adminPassword, editFolderUsr);
-        userService.delete(adminUser, adminPassword, editInAlfUsr);
-        userService.delete(adminUser, adminPassword, editFileInGDUsr);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFileUsr);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFolderUsr);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editInAlfUsr);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFileInGDUsr);
-
+        deleteUsersIfNotNull(testUser1);
     }
+
 
     @TestRail (id = "C7737")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void repositoryEditFilesProperties()
     {
-        LOG.info("Precondition: Login to share and navigate to Repository->User Homes->Test User page ");
-        setupAuthenticatedSession(editFileUsr, password);
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(editFileUsr);
+        log.info("Precondition: Login to share and navigate to Repository->Shared ");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        uploadContent
+            .uploadContent(testFilePath);
+        repositoryPage
+            .isContentNameDisplayed(testFile);
+        log.info("Step 1: Hover over the test file and click 'Edit Properties' action");
+        repositoryPage
+            .selectItemActionFormFirstThreeAvailableOptions(testFile, ItemActions.EDIT_PROPERTIES);
+        editFilePropertiesDialog
+            .assertVerifyEditPropertiesElementsAreDisplayed();
 
-        LOG.info("Step 1: Hover over the test file and click 'Edit Properties' action");
-        repositoryPage.selectItemAction(fileName, ItemActions.EDIT_PROPERTIES);
-
-        //Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "'Edit Properties' dialog box is not correctly displayed");
-
-        LOG.info("Step 2: In the 'Name' field enter a valid name");
+        log.info("Step 2: In the 'Name' field enter a valid name");
         editFilePropertiesDialog.setName(editedFileName);
 
-        LOG.info("Step 3: In the 'Title' field enter a valid title");
+        log.info("Step 3: In the 'Title' field enter a valid title");
         editFilePropertiesDialog.setTitle(editedTitle);
 
-        LOG.info("Step 4: In the 'Description' field enter a valid description");
+        log.info("Step 4: In the 'Description' field enter a valid description");
         editFilePropertiesDialog.setDescription(editedDescription);
 
-        LOG.info("Step 5: Click the 'Select' button in the tags section");
+        log.info("Step 5: Click the 'Select' button in the tags section");
         editFilePropertiesDialog.clickSelectTags();
 
-        LOG.info("Step 6: Type a tag name and click create");
+        log.info("Step 6: Type a tag name and click create");
         selectDialog.typeTag(tagName);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
         editFilePropertiesDialog.isTagSelected(tagName.toLowerCase());
 
-        LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
+        log.info("Step 7: Click 'Save' And verify that document details have been updated");
         editFilePropertiesDialog.clickSave();
-        assertTrue(repositoryPage.isContentNameDisplayed(editedFileName), editedFileName + " is displayed.");
-        assertEquals(repositoryPage.getItemTitle(editedFileName), "(" + editedTitle + ")", editedFileName + " - document's title=");
-        assertEquals(repositoryPage.getItemDescription(editedFileName), editedDescription, editedFileName + "- document's description=");
-        assertEquals(repositoryPage.getTags(editedFileName), Collections.singletonList(tagName.toLowerCase()).toString(), editedFileName + "- document's tag=");
+        log.info("Step 8: verify that document details have been updated");
+        repositoryPage
+            .assertIsContantNameDisplayed(editedFileName);
+        repositoryPage
+            .assertItemTitleEquals(editedFileName,editedTitle);
+        repositoryPage
+            .assertItemDescriptionEquals(editedFileName,editedDescription);
+        repositoryPage
+            .assertTagNamesDisplayed(editedFileName,Collections.singletonList(tagName.toLowerCase()).toString(),editedFileName);
+        repositoryPage
+            .select_ItemsAction(editedFileName, ItemActions.DELETE_DOCUMENT)
+            .clickOnDeleteButtonOnDeletePrompt();
+
     }
 
     @TestRail (id = "C7745")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void repositoryEditFolderProperties()
     {
-        LOG.info("Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
-        setupAuthenticatedSession(editFolderUsr, password);
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(editFolderUsr);
+        log.info("Precondition: Login to share and navigate to Repository->Shared and create a folder ");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
 
-        LOG.info("Step 1: Hover over folder and click 'Edit Properties'");
-        repositoryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
-        //assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
+        myFilesPage
+            .click_CreateButton()
+            .click_FolderLink();
+        newFolderDialog
+            .typeName("TestFolder")
+            .typeTitle("TestTitle")
+            .typeDescription("TestDescription")
+            .clickSave();
+        myFilesPage
+            .isContentNameDisplayed("TestFolder");
 
-        LOG.info("Step 2: In the 'Name' field enter a valid name");
-        editFilePropertiesDialog.setName(editedFolderName);
+        log.info(" Hover over a folder and click 'Edit Properties'");
+        myFilesPage
+            .selectItemActionFormFirstThreeAvailableOptions("TestFolder", ItemActions.EDIT_PROPERTIES);
+        editFilePropertiesDialog
+            .assertVerifyEditPropertiesElementsAreDisplayed();
+        log.info(" In the 'Name' field enter a valid name");
+        editFilePropertiesDialog
+            .setName(editedFolderName);
+        log.info(" In the 'Title' field enter a valid title");
+        editFilePropertiesDialog
+            .setTitle(editedTitle);
+        log.info(" In the 'Description' field enter a valid description");
+        editFilePropertiesDialog
+            .setDescription(editedDescription);
+        log.info(" Click the 'Select' button in the tags section");
+        editFilePropertiesDialog
+            .clickSelectTags();
+        log.info(" Type a tag name and click create");
+        selectDialog
+            .typeTag(tagName)
+            .clickCreateNewIcon()
+            .clickOk();
 
-        LOG.info("Step 3: In the 'Title' field enter a valid title");
-        editFilePropertiesDialog.setTitle(editedTitle);
+        log.info(" Click 'Save' And verify that document details have been updated");
+        editFilePropertiesDialog
+            .clickSave();
+        log.info(" Verify the new title for the document");
+        repositoryPage
+            .assertIsContantNameDisplayed(editedFolderName);
 
-        LOG.info("Step 4: In the 'Description' field enter a valid description");
-        editFilePropertiesDialog.setDescription(editedDescription);
+        repositoryPage
+            .assertItemTitleEquals(editedFolderName,editedTitle);
+        repositoryPage
+            .assertItemDescriptionEquals(editedFolderName,editedDescription);
+        repositoryPage
+            .assertTagNamesDisplayed(editedFolderName,Collections.singletonList(tagName.toLowerCase()).toString(),editedFolderName);
 
-        LOG.info("Step 5: Click the 'Select' button in the tags section");
-        editFilePropertiesDialog.clickSelectTags();
+        repositoryPage
+            .select_ItemsAction(editedFolderName, ItemActions.DELETE_FOLDER)
+            .clickOnDeleteButtonOnDeletePrompt();
 
-        LOG.info("Step 6: Type a tag name and click create");
-        selectDialog.typeTag(tagName);
-        selectDialog.clickCreateNewIcon();
-        selectDialog.clickOk();
-        editFilePropertiesDialog.isTagSelected(tagName.toLowerCase());
-
-        LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
-        editFilePropertiesDialog.clickSave();
-        assertTrue(repositoryPage.isContentNameDisplayed(editedFolderName), editedFolderName + " is displayed.");
-        assertEquals(repositoryPage.getItemTitle(editedFolderName), "(" + editedTitle + ")", editedFolderName + " - document's title=");
-        assertEquals(repositoryPage.getItemDescription(editedFolderName), editedDescription, editedFolderName + "- document's description=");
-        assertEquals(repositoryPage.getTags(editedFolderName), Collections.singletonList(tagName.toLowerCase()).toString(), editedFolderName + "- document's tag=");
-
-        getBrowser().cleanUpAuthenticatedSession();
     }
 
     @TestRail (id = "C7767")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void repositoryEditFileInAlfresco()
     {
-        LOG.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
+        log.info("Precondition: Login to share and navigate to Repository->Shared ");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        uploadContent
+            .uploadContent(testFilePath);
+        repositoryPage
+            .isContentNameDisplayed(testFile);
 
-        setupAuthenticatedSession(editInAlfUsr, password);
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(editInAlfUsr);
 
-        LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        repositoryPage.selectItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO);
+        log.info("Hover over the test file and click Edit in Alfresco option");
+        myFilesPage
+            .select_ItemAction(testFile, ItemActions.EDIT_IN_ALFRESCO);
 
-        LOG.info("Step2: Edit the document's properties by sending new input");
-        editInAlfrescoPage.enterDocumentDetails(editedFileName, editedContent, editedTitle, editedDescription);
+        log.info(" Edit the document's properties by sending new input");
+        editInAlfrescoPage
+            .typeName(editedFileName)
+            .typeContent(editedContent)
+            .typeTitle(editedTitle)
+            .typeDescription(editedDescription);
 
-        LOG.info("Step3: Click Save button");
-        editInAlfrescoPage.clickButton("Save");
+        log.info(" Click Save button");
+        editInAlfrescoPage
+            .clickSaveButton();
 
-        LOG.info("Step4: Verify the new title for the document");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(editedFileName), "Document name is not updated");
+        log.info(" Verify the new title for the document");
+        myFilesPage
+            .assertIsContantNameDisplayed(editedFileName);
 
-        LOG.info("Step5: Click on document title to open the document's details page");
-        repositoryPage.clickOnFile(editedFileName);
+        log.info(" Click on document title to open the document's details page");
+        myFilesPage
+            .clickOnFile(editedFileName);
 
-        LOG.info("Step6: Verify the document's content");
-        Assert.assertEquals(detailsPage.getContentText(), editedContent);
+        log.info(" Verify the document's content");
+        documentDetailsPage
+            .assertFileContentEquals(editedContent);
 
-        LOG.info("Step7: Verify Title and Description fields");
-        //Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedTitle), "Updated title is not displayed");
-        //Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
+        log.info(" Verify Title and Description fields");
+        documentDetailsPage
+            .assertContentTittleEquals(editedTitle)
+            .assert_ContentDescriptionEquals(editedDescription);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        repositoryPage
+            .select_ItemsAction(editedFileName, ItemActions.DELETE_DOCUMENT)
+            .clickOnDeleteButtonOnDeletePrompt();
 
-        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C7782")
     @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void repositoryEditFilesInGoogleDocs() throws Exception
+    public void repositoryEditFilesInGoogleDocs()
     {
-        LOG.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
-        setupAuthenticatedSession(editFileInGDUsr, password);
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnFolderName(editFileInGDUsr);
-        docsCommon.loginToGoogleDocs();
+        log.info("Precondition: Login to share and navigate to Repository->Shared ");
+        authenticateUsingLoginPage(testUser1);
+        repositoryPage
+            .navigate();
+        repositoryPage
+            .click_FolderName(sharedFolderName);
+        uploadContent
+            .uploadContent(testFilePath);
+        repositoryPage
+            .isContentNameDisplayed(testFile);
+        log.info(" LogIn to googledoc Authentication");
+        googleDocLogIn
+            .loginToGoogleDocs();
+        log.info("Hover over the test file and click Edit in Google Docs option");
+        myFilesPage
+            .select_ItemAction("testFile", ItemActions.EDIT_IN_GOOGLE_DOCS);
+        googleDocLogIn
+            .clickOkButton();
+        log.info(" Navigate to Google Doc tab and edit title , Content ");
+        googleDocLogIn
+            .switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
+        log.info(" Verify the file is locked and Google Drive icon is displayed");
+        googleDocLogIn
+            .assertisLockedIconDisplayed();
+        googleDocLogIn
+            .assertisLockedDocumentMessageDisplayed();
+        googleDocLogIn
+            .assertisGoogleDriveIconDisplayed();
+        log.info("Click on document and  Verify the document title");
+        googleDocLogIn
+            .checkInGoogleDoc(testFile);
+        googleDocLogIn
+            .clickOkButton();
+        myFilesPage
+            .isContentNameDisplayed(editedTitle);
+        log.info("Verify the document's content");
+        myFilesPage
+            .clickOnFile(editedTitle);
+        documentDetailsPage
+            .assertFileContentContains(editedContent);
+        log.info("Delete file ");
+        documentDetailsPage
+            .clickOpenedFloder();
+        repositoryPage
+            .select_ItemsAction(editedTitle, ItemActions.DELETE_FOLDER)
+            .clickOnDeleteButtonOnDeletePrompt();
 
-        LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        repositoryPage.selectItemAction(fileName, ItemActions.EDIT_IN_GOOGLE_DOCS);
-
-        LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
-        docsCommon.clickOkButton();
-
-        LOG.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
-        docsCommon.confirmFormatUpgrade();
-        getBrowser().waitInSeconds(7);
-        docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
-
-        LOG.info("Step5: Verify the file is locked and Google Drive icon is displayed");
-        Assert.assertTrue(docsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
-        Assert.assertTrue(docsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");
-        Assert.assertTrue(docsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
-
-        LOG.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
-        docsCommon.checkInGoogleDoc(fileName);
-        Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), true);
-
-        LOG.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
-        docsCommon.clickOkButton();
-        getBrowser().waitInSeconds(5);
-        Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
-
-        LOG.info("Step8: Verify the title for the document is changed");
-        Assert.assertTrue(repositoryPage.isContentNameDisplayed(editedTitle), "Name of the document was not updated");
-
-        LOG.info("Steps9, 10: Click on the document title and verify it's preview");
-        repositoryPage.clickOnFile(editedTitle);
-        Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
-
-        cleanupAuthenticatedSession();
     }
 }
