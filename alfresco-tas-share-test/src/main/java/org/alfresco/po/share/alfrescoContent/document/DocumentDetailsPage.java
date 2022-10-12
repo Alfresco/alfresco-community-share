@@ -649,6 +649,12 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         assertEquals(getContentText(), expectedContent, "File content is correct");
         return this;
     }
+    public DocumentDetailsPage assertFileContentContains(String expectedContent)
+    {
+        log.info("Assert file has content {}", expectedContent);
+        assertTrue(getContentText().contains(expectedContent));
+        return this;
+    }
     public DocumentDetailsPage assertDacumentNOContent()
     {
         log.info("Assert file has content {}");
