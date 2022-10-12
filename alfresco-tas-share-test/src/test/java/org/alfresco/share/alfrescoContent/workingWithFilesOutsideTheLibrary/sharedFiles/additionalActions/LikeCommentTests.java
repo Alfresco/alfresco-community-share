@@ -1,160 +1,193 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions;
 
-import static org.alfresco.dataprep.CMISUtil.DocumentType.TEXT_PLAIN;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.site.ItemActions;
+
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.FileType;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+
+@Slf4j
 /**
  * @author Laura.Capsa
  */
-public class LikeCommentTests extends ContextAwareWebTest
+public class LikeCommentTests extends BaseTest
 {
     private final String uniqueId = RandomData.getRandomAlphanumeric();
-    private final String user = "user" + uniqueId;
-    private final String fileName1 = uniqueId + "testFile1.txt";
-    private final String fileName2 = uniqueId + "testFile2.txt";
-    private final String folderName1 = uniqueId + "folder1";
-    private final String folderName2 = uniqueId + "folder2";
-    private final String path = "Shared/";
     private final String comment = "Comment " + uniqueId;
-    //@Autowired
     private DocumentDetailsPage documentDetailsPage;
-    //@Autowired
     private SharedFilesPage sharedFilesPage;
-    //@Autowired
+    private DeleteDialog deleteDialog;
     private SocialFeatures social;
+    private UserModel testUser1;
+    private FolderModel testFolder;
+    private FileModel testFile;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        userService.create(adminUser, adminPassword, user, password, user + domain, "firstname", user);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, TEXT_PLAIN, fileName2, fileName2 + " Content");
-        contentAction.likeContent(user, password, path + fileName2);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderName2, path);
-        contentAction.likeContent(user, password, path + folderName2);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, TEXT_PLAIN, fileName1, fileName1 + " Content");
-        contentService.createFolderInRepository(adminUser, adminPassword, folderName1, path);
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        sharedFilesPage = new SharedFilesPage(webDriver);
+        social = new SocialFeatures(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        deleteDialog = new DeleteDialog(webDriver);
 
-        setupAuthenticatedSession(user, password);
-        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
+        log.info("PreCondition1: Any test user is created");
+        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("Create Folder and File in Admin Repository-> User Homes ");
+        authenticateUsingLoginPage(testUser1);
+
+        testFolder = FolderModel.getRandomFolderModel();
+        getCmisApi().usingUser(testUser1).usingShared().createFolder(testFolder).assertThat().existsInRepo();
+
+        testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().usingUser(testUser1).usingShared().createFile(testFile).assertThat().existsInRepo();
+        authenticateUsingCookies(getAdminUser());
+
+        sharedFilesPage
+            .navigateByMenuBar()
+            .assertBrowserPageTitleIs("Alfresco » Shared Files");
     }
 
     @TestRail (id = "C8097")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 1)
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 1)
     public void likeFile()
     {
-        LOG.info("Step 1: Hover over the file Like link.");
-        assertTrue(sharedFilesPage.isLikeButtonDisplayed(fileName1), "Documents link is not present");
-        assertEquals(social.getLikeButtonMessage(fileName1), "Like this document", "Like Button message=");
-        assertEquals(social.getNumberOfLikes(fileName1), 0, "The number of likes=");
+        log.info("Step 1: Hover over the file Like link.");
+        assertTrue(sharedFilesPage.isLikeButtonDisplayed(testFile.getName()), "Documents link is not present");
+        assertEquals(social.getLikeButtonMessage(testFile.getName()), "Like this document", "Like Button message=");
+        assertEquals(social.getNumberOfLikes(testFile.getName()), 0, "The number of likes=");
 
-        LOG.info("Step 2: Click on the Like button");
-        social.clickLikeButton(fileName1);
-        assertEquals(social.getNumberOfLikes(fileName1), 1, fileName1 + "The number of likes=");
-        assertTrue(social.isLikeButtonEnabled(fileName1), "Like button is enabled");
-        assertEquals(social.getLikeButtonMessage(fileName1), "Unlike", "Like Button message=");
+        log.info("Step 2: Click on the Like button");
+        social.clickLikeButton(testFile.getName());
+        assertEquals(social.getNumberOfLikes(testFile.getName()), 1, testFile + "The number of likes=");
+        assertTrue(social.isLikeButtonEnabled(testFile.getName()), "Like button is enabled");
+        assertEquals(social.getLikeButtonMessage(testFile.getName()), "Unlike", "Like Button message=");
     }
 
-    @TestRail (id = "C8098")
+    @TestRail(id = "C8098")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 2)
     public void likeFolder()
     {
-        LOG.info("Step 1: Hover over the folder's Like link.");
-        sharedFilesPage.navigate();
-        assertTrue(sharedFilesPage.isLikeButtonDisplayed(folderName1), "Documents link is displayed");
-        assertEquals(social.getLikeButtonMessage(folderName1), "Like this folder", "Like Button message=");
-        assertEquals(social.getNumberOfLikes(folderName1), 0, "The number of likes=");
+        log.info("Step 1: Hover over the folder's Like link.");
+        assertTrue(sharedFilesPage.isLikeButtonDisplayed(testFolder.getName()), "Documents link is displayed");
+        assertEquals(social.getLikeButtonMessage(testFolder.getName()), "Like this folder", "Like Button message=");
+        assertEquals(social.getNumberOfLikes(testFolder.getName()), 0, "The number of likes=");
 
-        LOG.info("Step 2: Click on the Like button");
-        social.clickLikeButton(folderName1);
-        assertEquals(social.getNumberOfLikes(folderName1), 1, "The number of likes=");
-        assertTrue(social.isLikeButtonEnabled(folderName1), "Like button is enabled");
-        assertEquals(social.getLikeButtonMessage(folderName1), "Unlike", "Like Button message=");
+        log.info("Step 2: Click on the Like button");
+        social.clickLikeButton(testFolder.getName());
+        assertEquals(social.getNumberOfLikes(testFolder.getName()), 1, "The number of likes=");
+        assertTrue(social.isLikeButtonEnabled(testFolder.getName()), "Like button is enabled");
+        assertEquals(social.getLikeButtonMessage(testFolder.getName()), "Unlike", "Like Button message=");
     }
 
     @TestRail (id = "C8099")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 3)
     public void unlikeFile()
     {
-        LOG.info("Step 1: Hover over the file Like link.");
-        assertEquals(social.getLikeButtonEnabledText(fileName2), "Unlike", "Unlike is displayed");
-        assertEquals(social.getNumberOfLikes(fileName2), 1, "The number of likes=");
+        log.info("Precondition: Click on the Like button for File Created");
+        assertTrue(sharedFilesPage.isLikeButtonDisplayed(testFile.getName()), "Documents link is displayed");
+        social.clickLikeButton(testFile.getName());
 
-        LOG.info("Step 2: Click on Unlike");
-        social.clickUnlike(fileName2);
-        assertEquals(social.getNumberOfLikes(fileName2), 0, "The number of likes=");
+        log.info("Step 1: Hover over the file Like link.");
+        assertEquals(social.getLikeButtonEnabledText(testFile.getName()), "Unlike", "Unlike is displayed");
+        assertEquals(social.getNumberOfLikes(testFile.getName()), 1, "The number of likes=");
+
+        log.info("Step 2: Click on Unlike");
+        social.clickUnlike(testFile.getName());
+        assertEquals(social.getNumberOfLikes(testFile.getName()), 0, "The number of likes=");
     }
 
     @TestRail (id = "C8100")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 4)
     public void unlikeFolder()
     {
-        LOG.info("Step 1: Hover over the folder's Like link.");
-        assertEquals(social.getLikeButtonEnabledText(folderName2), "Unlike", "Unlike is displayed");
-        assertEquals(social.getNumberOfLikes(folderName2), 1, "The number of likes=");
+        log.info("Precondition: Click on the Like button for Folder");
+        assertTrue(sharedFilesPage.isLikeButtonDisplayed(testFolder.getName()), "Documents link is displayed");
+        social.clickLikeButton(testFolder.getName());
 
-        LOG.info("Step 2: Click on Unlike");
-        social.clickUnlike(folderName2);
-        assertEquals(social.getNumberOfLikes(folderName2), 0, "The number of likes=");
+        log.info("Step 1: Hover over the folder's Like link.");
+        assertEquals(social.getLikeButtonEnabledText(testFolder.getName()), "Unlike", "Unlike is displayed");
+        assertEquals(social.getNumberOfLikes(testFolder.getName()), 1, "The number of likes=");
+
+        log.info("Step 2: Click on Unlike");
+        social.clickUnlike(testFolder.getName());
+        assertEquals(social.getNumberOfLikes(testFolder.getName()), 0, "The number of likes=");
     }
 
     @TestRail (id = "C8101")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 5)
     public void addCommentToFile()
     {
-        LOG.info("STEP1: Hover over a document and press \"Comment\"");
-        social.clickCommentLink(fileName1);
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
+        log.info("STEP1: Hover over a document and press \"Comment\"");
+        social
+            .clickCommentLink(testFile.getName());
+        documentDetailsPage
+            .assertBrowserPageTitleIs("Alfresco » Document Details");
 
-        LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
+        log.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
         documentDetailsPage.addComment(comment);
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
 
-        LOG.info("STEP3: Navigate to Shared Files page");
-        sharedFilesPage.navigate();
-        assertEquals(social.getNumberOfComments(fileName1), 1, "Number of comments=");
+        log.info("STEP3: Navigate to Shared Files page");
+        sharedFilesPage.navigateByMenuBar();
+        social
+            .assertNoOfCommentsVerify(testFile.getName(),1);
     }
 
     @TestRail (id = "C8102")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 6)
     public void addCommentToFolder()
     {
-        LOG.info("STEP1: Hover over a document and press \"Comment\"");
-        sharedFilesPage.navigate();
-        social.clickCommentLink(folderName1);
-//        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
+        log.info("STEP1: Hover over a document and press \"Comment\"");
+        sharedFilesPage.navigateByMenuBar();
+        social.clickCommentLink(testFolder.getName());
+        documentDetailsPage
+            .assertBrowserPageTitleIs("Alfresco » Folder Details");
 
-        LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
+        log.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
         documentDetailsPage.addComment(comment);
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
 
-        LOG.info("STEP3: Navigate to Shared Files page");
-        sharedFilesPage.navigate();
-        assertEquals(social.getNumberOfComments(folderName1), 1, "Number of comments=");
+        log.info("STEP3: Navigate to Shared Files page");
+        sharedFilesPage.navigateByMenuBar();
+        social
+            .assertNoOfCommentsVerify(testFolder.getName(),1);
     }
 
-    @AfterClass
+    @AfterMethod
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        log.info("Delete the File Created in Precondition");
+        authenticateUsingLoginPage(getAdminUser());
+        sharedFilesPage.navigateByMenuBar();
+        sharedFilesPage.selectItemAction(testFile.getName(), ItemActions.DELETE_DOCUMENT);
+        deleteDialog.confirmDeletion();
 
-        contentService.deleteContentByPath(adminUser, adminPassword, path + fileName1);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + fileName2);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + folderName1);
-        contentService.deleteContentByPath(adminUser, adminPassword, path + folderName2);
+        log.info("Delete the Folder Created in Precondition");
+        sharedFilesPage.navigateByMenuBar();
+        sharedFilesPage.selectItemAction(testFolder.getName(), ItemActions.DELETE_FOLDER);
+        deleteDialog.confirmDeletion();
+
+        log.info("Delete the User Created in Precondition");
+        deleteUsersIfNotNull(testUser1);
     }
 }
