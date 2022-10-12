@@ -2,10 +2,12 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.po.share.alfrescoContent.document.GoogleDocsLogIn;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
@@ -39,15 +41,13 @@ public class MyFilesEditTests extends BaseTest
     private final String editedDescription = "edited description in Alfresco";
     private final String tag = String.format("editTag_%s", RandomData.getRandomAlphanumeric());
     private DocumentDetailsPage documentDetailsPage;
-    private CreateContentPage createContent;
-    private NewFolderDialog createFolderFromTemplate;
+    private RepositoryPage repositoryPage;
+    private GoogleDocsLogIn googleDocLogIn;
     private MyFilesPage myFilesPage;
     private EditPropertiesDialog editFilePropertiesDialog;
     private SelectDialog selectDialog;
     private EditInAlfrescoPage editInAlfrescoPage;
     private UploadContent uploadContent;
-    @Autowired
-    private GoogleDocsCommon docsCommon;
     private NewFolderDialog newFolderDialog;
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
@@ -60,6 +60,8 @@ public class MyFilesEditTests extends BaseTest
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingCookies(user.get());
 
+        repositoryPage = new RepositoryPage(webDriver);
+        googleDocLogIn = new GoogleDocsLogIn(webDriver);
         myFilesPage = new MyFilesPage(webDriver);
         documentDetailsPage = new DocumentDetailsPage(webDriver);
         uploadContent = new UploadContent(webDriver);
@@ -231,44 +233,51 @@ public class MyFilesEditTests extends BaseTest
     }
 
     @TestRail (id = "C8227")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
-//        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.MSWORD, googleDocName, "some content");
         log.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
-        myFilesPage.navigate();
-        Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName), String.format("Document %s is not present", googleDocName));
+        myFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+        uploadContent
+            .uploadContent(testFilePath);
+        myFilesPage
+            .isContentNameDisplayed(testFile);
+        log.info(" LogIn to googledoc Authentication");
+        googleDocLogIn
+            .loginToGoogleDocs();
+        log.info("Hover over the test file and click Edit in Google Docs option");
+        myFilesPage
+            .select_ItemAction("testFile", ItemActions.EDIT_IN_GOOGLE_DOCS);
+        googleDocLogIn
+            .clickOkButton();
+        log.info(" Navigate to Google Doc tab and edit title , Content ");
+        googleDocLogIn
+            .switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
+        log.info(" Verify the file is locked and Google Drive icon is displayed");
+        googleDocLogIn
+            .assertisLockedIconDisplayed();
+        googleDocLogIn
+            .assertisLockedDocumentMessageDisplayed();
+        googleDocLogIn
+            .assertisGoogleDriveIconDisplayed();
+        log.info("Click on document and  Verify the document title");
+        googleDocLogIn
+            .checkInGoogleDoc(testFile);
+        googleDocLogIn
+            .clickOkButton();
+        myFilesPage
+            .isContentNameDisplayed(editedTitle);
+        log.info("Verify the document's content");
+        myFilesPage
+            .clickOnFile(editedTitle);
+        documentDetailsPage
+            .assertFileContentContains(editedContent);
+        log.info("Delete file ");
+        documentDetailsPage
+            .clickDocumentActionsOption("Delete Document");
 
-        log.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        docsCommon.loginToGoogleDocs();
-        myFilesPage.selectItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
 
-        log.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
-        docsCommon.clickOkButton();
-
-        log.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
-        docsCommon.confirmFormatUpgrade();
-//        getBrowser().waitInSeconds(7);
-        docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
-
-        log.info("Step5: Verify the file is locked and Google Drive icon is displayed");
-        Assert.assertTrue(docsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
-        Assert.assertTrue(docsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");
-        Assert.assertTrue(docsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
-
-        log.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
-        docsCommon.checkInGoogleDoc(googleDocName);
-        Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), true);
-
-        log.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
-        docsCommon.clickOkButton();
-        Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
-
-        log.info("Step8: Verify the title for the document is changed");
-        Assert.assertTrue(myFilesPage.isContentNameDisplayed(editedTitle), "Name of the document was not updated");
-
-        log.info("Steps9, 10: Click on the document title and verify it's preview");
-        myFilesPage.clickOnFile(editedTitle);
-//        Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
     }
 }
