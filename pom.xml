@@ -70,7 +70,7 @@
         <dependency.org-json.version>20210307</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
 
-        <alfresco.googledrive.version>3.3.0-A2</alfresco.googledrive.version>
+        <alfresco.googledrive.version>3.3.0-A3</alfresco.googledrive.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
