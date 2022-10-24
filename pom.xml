@@ -34,7 +34,7 @@
         <dependency.alfresco-enterprise-repo.version>17.171</dependency.alfresco-enterprise-repo.version>
         <dependency.alfresco-transform-service.version>2.0.0-A5</dependency.alfresco-transform-service.version>
         <dependency.alfresco-transform-core.version>3.0.0-A6</dependency.alfresco-transform-core.version>
-        <alfresco.api-explorer.version>7.2.0</alfresco.api-explorer.version>
+        <alfresco.api-explorer.version>7.3.0</alfresco.api-explorer.version>
 
         <image.registry>quay.io</image.registry>
         <image.tag>latest</image.tag>
