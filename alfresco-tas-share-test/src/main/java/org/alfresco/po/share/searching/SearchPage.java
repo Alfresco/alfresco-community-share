@@ -18,6 +18,7 @@ import org.alfresco.utility.model.ContentModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 @Slf4j
 public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
@@ -179,6 +180,13 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         return getElementText(numberOfResultsLabel);
     }
+    public SearchPage assertNoResultsFoundDisplayed()
+    {
+        log.info("Assert no Results Found is displayed");
+        Assert.assertEquals(getNumberOfResultsText(), language.translate("searchPage.noResultsFound"), "No results found");
+        return this;
+    }
+
 
     public Object executeJavaScript(final String js, Object... args)
     {
@@ -209,6 +217,25 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             webElement = findFirstElementWithValue(resultsDetailedViewList, query);
         }
         return webElement != null;
+    }
+    public boolean isResultFoundWithList(String query)
+    {
+        refresh();
+        waitInSeconds(5);
+        List<WebElement> elementList = waitUntilElementsAreVisible(resultsDetailedViewList);
+        WebElement webElement = findFirstElementWithValue(elementList, query);
+        if (webElement == null)
+        {
+            refresh();
+            webElement = findFirstElementWithValue(elementList, query);
+        }
+        return webElement != null;
+    }
+    public SearchPage assertCreatedDataIsDisplayed(String query)
+    {
+        log.info("Assert created data like wiki page, data list, event, blog is displayed");
+        Assert.assertTrue(isResultFoundWithList(query), query+" is displayed");
+        return this;
     }
 
     public boolean isResultFoundWithRetry(String query)

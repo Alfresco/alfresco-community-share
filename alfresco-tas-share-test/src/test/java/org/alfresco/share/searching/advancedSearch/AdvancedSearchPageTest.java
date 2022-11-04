@@ -3,27 +3,59 @@ package org.alfresco.share.searching.advancedSearch;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+@Slf4j
 
-public class AdvancedSearchPageTest extends ContextAwareWebTest
+public class AdvancedSearchPageTest extends BaseTest
 {
     //@Autowired
     AdvancedSearchPage advancedSearchPage;
+    @Autowired
+    private SiteService siteService;
+    @Autowired
+    DataListsService dataList;
+    @Autowired
+    private SitePagesService sitePagesService;
 
     //@Autowired
     SearchPage searchPage;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteModel = new ThreadLocal<>();
+    private final String password = "password";
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() {
+        log.info("PreCondition: Creating a TestUser");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        searchPage = new SearchPage(webDriver);
+        advancedSearchPage = new AdvancedSearchPage(webDriver);
+    }
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(siteModel.get());
+    }
 
     private void createPreconditions(String userName, String siteName, String identifier)
     {
@@ -37,285 +69,338 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         sitePages.add(Page.DISCUSSIONS);
         sitePages.add(Page.LINKS);
         sitePages.add(Page.DATALISTS);
-
         siteService.addPagesToSite(userName, password, siteName, sitePages);
 
-        sitePagesService.createWiki(userName, password, siteName, "test" + identifier + " wiki 1", "test" + identifier, null);
-        sitePagesService.createWiki(userName, password, siteName, "test" + identifier + " wiki 2", "hello" + identifier, null);
-        sitePagesService.createWiki(userName, password, siteName, identifier + " wiki 3", "test" + identifier, null);
-        sitePagesService.createWiki(userName, password, siteName, identifier + " wiki 4", "hello" + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, "test" + identifier + " wiki 1",
+            "test " + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, "test" + identifier + " wiki 2",
+            "hello " + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, identifier + " wiki 3",
+            "test " + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, identifier + " wiki 4",
+            "hello " + identifier, null);
 
-        sitePagesService.createBlogPost(userName, password, siteName, "test" + identifier + " blog 1", "test" + identifier, false, null);
-        sitePagesService.createBlogPost(userName, password, siteName, "test" + identifier + " blog 2", "hello" + identifier, false, null);
-        sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog 3", "test" + identifier, false, null);
-        sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog 4", "hello" + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, "test" + identifier + " blog 1",
+            "test " + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, "test" + identifier + " blog 2",
+            "test hello " + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog 3",
+            "test " + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog 4",
+            "hello " + identifier, false, null);
 
-        sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 1", "", "test" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 1",
+            "", "test " + identifier, today.toDate(),
             tomorrow.toDate(), "", "", false, null);
-        sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 2", "", "hello" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 2",
+            "", "hello " + identifier, today.toDate(),
             tomorrow.toDate(), "", "", false, null);
-        sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 3", "", "test" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 3", "",
+            "test " + identifier, today.toDate(),
             tomorrow.toDate(), "", "", false, null);
-        sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 4", "", "hello" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 4", "",
+            "hello " + identifier, today.toDate(),
             tomorrow.toDate(), "", "", false, null);
 
-        sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 1", "test" + identifier, null);
-        sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 2", "hello" + identifier, null);
-        sitePagesService.createDiscussion(userName, password, siteName, identifier + " topic 3", "test" + identifier, null);
-        sitePagesService.createDiscussion(userName, password, siteName, identifier + " topic 4", "hello" + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 1",
+            "test " + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 2",
+            "hello " + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, identifier + " topic 3",
+            "test " + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, identifier + " topic 4",
+            "hello " + identifier, null);
 
-        sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 1", "https://www.alfresco.com", "test" + identifier,
+        sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 1",
+            "https://www.alfresco.com", "test " + identifier,
             false, null);
-        sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 2", "https://www.alfresco.com", "hello" + identifier,
+        sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 2",
+            "https://www.alfresco.com", "hello " + identifier,
             false, null);
-        sitePagesService.createLink(userName, password, siteName, identifier + " link 3", "https://www.alfresco.com", "test" + identifier, false, null);
-        sitePagesService.createLink(userName, password, siteName, identifier + " link 4", "https://www.alfresco.com", "hello" + identifier, false,
+        sitePagesService.createLink(userName, password, siteName, identifier + " link 3",
+            "https://www.alfresco.com", "test " + identifier, false, null);
+        sitePagesService.createLink(userName, password, siteName, identifier + " link 4",
+            "https://www.alfresco.com", "hello " + identifier, false,
             null);
 
-        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 1", "test" + identifier);
-        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 2", "hello" + identifier);
-        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 3", "test" + identifier);
-        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 4", "hello" + identifier);
+        dataList.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST,
+            "test" + identifier + " list 1", "test " + identifier);
+        dataList.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST,
+            "test" + identifier + " list 2", "hello " + identifier);
+        dataList.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST,
+            identifier + " list 3", "test" + identifier);
+        dataList.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST,
+            identifier + " list 4", "hello " + identifier);
     }
 
     @TestRail (id = "C5888")
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
-    public void verifyAdvancedSearchPage()
-    {
-        String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        setupAuthenticatedSession(userName, password);
-        advancedSearchPage.navigate();
+    public void verifyAdvancedSearchPage() throws InterruptedException {
+        authenticateUsingCookies(user.get());
+        advancedSearchPage
+            .navigate();
 
-        LOG.info("STEP 1 - Verify page title");
-//        Assert.assertEquals(advancedSearchPage.getPageTitle(), language.translate("advancedSearchPage.pageTitle"), "Page title");
+        log.info("STEP 1 - Verify page title");
+        advancedSearchPage
+            .assertPageTitle();
 
-        LOG.info("STEP 2 - Verify buttons");
-        Assert.assertTrue(advancedSearchPage.isTopSearchButtonDisplayed(), "Top search button is displayed");
-        Assert.assertTrue(advancedSearchPage.isBottomSearchButtonDisplayed(), "Bottom search button is displayed");
+        log.info("STEP 2 - Verify buttons");
+        advancedSearchPage
+            .assertIsTopSearchButtonDisplayed();
+        advancedSearchPage
+            .assertIsBottomSearchButtonDisplayed();
 
-        LOG.info("STEP 3 - Verify \"look for\" drop-down");
-        advancedSearchPage.clickOnLookForDropdown();
-        Assert.assertTrue(advancedSearchPage.isLookForDropdownOptionDisplayed(language.translate("advancedSearchPage.lookForDropDown.content.label"),
-            language.translate("advancedSearchPage.lookForDropDown.content.description")));
-        Assert.assertTrue(advancedSearchPage.isLookForDropdownOptionDisplayed(language.translate("advancedSearchPage.lookForDropDown.folders.label"),
-            language.translate("advancedSearchPage.lookForDropDown.folders.description")));
+       log.info("STEP 3 - Verify \"look for\" drop-down");
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .assertIsLookForDropdownOptionDisplayed("advancedSearchPage.lookForDropDown.content.label","advancedSearchPage.lookForDropDown.content.description");
+        advancedSearchPage
+            .assertIsLookForDropdownOptionDisplayed("advancedSearchPage.lookForDropDown.folders.label","advancedSearchPage.lookForDropDown.folders.description");
+        log.info("STEP 4 - Choose \"Content\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
+        advancedSearchPage
+            .assertisKeywordsInputDisplayed();
+        advancedSearchPage
+            .assertisNameInputDisplayed();
+        advancedSearchPage
+            .assertIsTitleTextareaDisplayed();
+        advancedSearchPage
+            .assertIsDescriptionTextareaDisplayed();
+        advancedSearchPage
+            .assertIsMimetypeDropDownDisplayed();
+        advancedSearchPage
+            .assertIsDateFromPickerDisplayed();
+        advancedSearchPage
+            .assertIsDateToPickerDisplayed();
+        advancedSearchPage
+            .assertIsModifierInputDisplayed();
+        log.info("STEP 5 - Choose \"Folders\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .clickOnLookForDropdown();
 
-        LOG.info("STEP 4 - Choose \"Content\" from \"Look for\" drop-down");
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
-        Assert.assertTrue(advancedSearchPage.isKeywordsInputDisplayed(), "Keywords input is displayed");
-        Assert.assertTrue(advancedSearchPage.isNameInputDisplayed(), "Name input is displayed");
-        Assert.assertTrue(advancedSearchPage.isTitleTextareaDisplayed(), "Title textarea is displayed");
-        Assert.assertTrue(advancedSearchPage.isDescriptionTextareaDisplayed(), "Description textarea is displayed");
-        Assert.assertTrue(advancedSearchPage.isMimetypeDropDownDisplayed(), "Mimetype input is displayed");
-        Assert.assertTrue(advancedSearchPage.isDateFromPickerDisplayed(), "Date From picker is displayed");
-        Assert.assertTrue(advancedSearchPage.isDateToPickerDisplayed(), "Date To picker is displayed");
-        Assert.assertTrue(advancedSearchPage.isModifierInputDisplayed(), "Modifier input is displayed");
-
-        LOG.info("STEP 5 - Choose \"Folders\" from \"Look for\" drop-down");
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        getBrowser().waitInSeconds(5);
-        Assert.assertTrue(advancedSearchPage.isKeywordsInputDisplayed(), "Keywords input is displayed");
-        Assert.assertTrue(advancedSearchPage.isNameInputDisplayed(), "Name input is displayed");
-        Assert.assertTrue(advancedSearchPage.isTitleTextareaDisplayed(), "Title textarea is displayed");
-        Assert.assertTrue(advancedSearchPage.isDescriptionTextareaDisplayed(), "Description textarea is displayed");
-        Assert.assertFalse(advancedSearchPage.isMimetypeDropDownDisplayed(), "Mimetype input is not displayed");
-        Assert.assertFalse(advancedSearchPage.isDateFromPickerDisplayed(), "Date From picker is not displayed");
-        Assert.assertFalse(advancedSearchPage.isDateToPickerDisplayed(), "Date To picker is not displayed");
-        Assert.assertFalse(advancedSearchPage.isModifierInputDisplayed(), "Modifier input is not displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
+        advancedSearchPage
+            .assertisKeywordsInputDisplayed();
+        Assert.assertTrue(advancedSearchPage.isFolderNameInputDisplayed(), "Name input is displayed");
+        advancedSearchPage
+            .assertIsFolderNameInputDisplayed();
+        advancedSearchPage
+            .assertIsFolderTitleTextareaDisplayed();
+        advancedSearchPage
+            .assertIsFolderDescriptionTextareaDisplayed();
     }
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5891")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
-    public void searchByKeyword()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void searchByKeyword() {
         String identifier = RandomData.getRandomAlphanumeric();
-        String userName = "User1" + identifier;
-        String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        String userName = user.get().getUsername();
+        String siteName = siteModel.get().getId();
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, password);
-        advancedSearchPage.navigate();
-
-        LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
-
-        LOG.info("STEP 2 - Fill in \"Keyword\" field with \"test\" and click \"Search\" button");
-        advancedSearchPage.typeKeywords("test" + identifier);
-        advancedSearchPage.clickFirstSearchButton();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_1"), "test" + identifier + " wiki 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_2"), "test" + identifier + " wiki 2 is displayed");
-        Assert.assertTrue(searchPage.isResultFound(identifier + " wiki 3"), identifier + " wiki 3 is displayed");
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 1"), "test" + identifier + " blog 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 2"), "test" + identifier + " blog 2 is displayed");
-        Assert.assertTrue(searchPage.isResultFound(identifier + " blog 3"), identifier + " blog 3 is displayed");
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " event 1"), "test" + identifier + " event 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " event 2"), "test" + identifier + " event 2 is displayed");
-        Assert.assertTrue(searchPage.isResultFound(identifier + " event 3"), identifier + " event 3 is displayed");
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " link 1"), "test" + identifier + " link 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " link 2"), "test" + identifier + " link 2 is displayed");
-        Assert.assertTrue(searchPage.isResultFound(identifier + " link 3"), identifier + " link 3 is displayed");
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 1"), "test" + identifier + " topic 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 2"), "test" + identifier + " topic 2 is displayed");
-        Assert.assertTrue(searchPage.isResultFound(identifier + " topic 3"), identifier + " topic 3 is displayed");
-
-        LOG.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
-        advancedSearchPage.navigate();
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        getBrowser().waitInSeconds(5);
-
-        LOG.info("STEP 4 - Fill in \"Keyword\" field with \"test\" and click \"Search\" button");
-        advancedSearchPage.typeKeywords("test" + identifier);
-        advancedSearchPage.clickFirstSearchButton();
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 1"), "test" + identifier + " list 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 2"), "test" + identifier + " list 2 is displayed");
-        Assert.assertTrue(searchPage.isResultFound(identifier + " list 3"), identifier + " list 3 is displayed");
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 1"), "test" + identifier + " topic 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 2"), "test" + identifier + " topic 2 is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
-
+        authenticateUsingCookies(user.get());
+        advancedSearchPage
+            .navigate();
+        log.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
+        log.info("STEP 2 - Fill in \"Keyword\" field with \"test\" and click \"Search\" button");
+        advancedSearchPage
+            .typeKeywords("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + "_wiki_1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + "_wiki_2");
+        searchPage
+            .assertCreatedDataIsDisplayed(identifier + " wiki 3");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " blog 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " blog 2");
+        searchPage
+            .assertCreatedDataIsDisplayed(identifier + " blog 3");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " event 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " event 2");
+        searchPage
+            .assertCreatedDataIsDisplayed(identifier + " event 3");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " link 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " link 2");
+        searchPage
+            .assertCreatedDataIsDisplayed(identifier + " link 3");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " topic 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " topic 2");
+        searchPage
+            .assertCreatedDataIsDisplayed(identifier + " topic 3");
+        log.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .navigate();
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
+        log.info("STEP 4 - Fill in \"Keyword\" field with \"test\" and click \"Search\" button");
+        advancedSearchPage
+            .typeKeywords("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " list 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " list 2");
+        searchPage
+            .assertCreatedDataIsDisplayed(identifier + " list 3");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " topic 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " topic 2");
     }
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5907")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
-    public void searchByName()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void searchByName() {
         String identifier = RandomData.getRandomAlphanumeric();
-        String userName = "User1" + identifier;
-        String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        String userName = user.get().getUsername();
+        String siteName = siteModel.get().getId();
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, password);
-        advancedSearchPage.navigate();
-
-        LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
-
-        LOG.info("STEP 2 - Fill in \"Name\" field with \"test*\"and click \"Search\" button");
-        advancedSearchPage.typeName("test" + identifier + "*");
-        advancedSearchPage.clickFirstSearchButton();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_1"), "test" + identifier + " wiki 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_2"), "test" + identifier + " wiki 2 is displayed");
-
-        LOG.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
-        advancedSearchPage.navigate();
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        getBrowser().waitInSeconds(5);
-
-        LOG.info("STEP 4 - Fill in \"Name\" field with \"test*\"and click \"Search\" button");
-        advancedSearchPage.typeName("test" + identifier + "*");
-        advancedSearchPage.clickFirstSearchButton();
-        Assert.assertEquals(searchPage.getNumberOfResultsText(), language.translate("searchPage.noResultsFound"), "No results found");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        authenticateUsingCookies(user.get());
+        advancedSearchPage
+            .navigate();
+        log.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
+        log.info("STEP 2 - Fill in \"Name\" field with \"test*\"and click \"Search\" button");
+        advancedSearchPage
+            .typeName("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + "_wiki_1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + "_wiki_2");
+        log.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .navigate();
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
+        log.info("STEP 4 - Fill in \"Name\" field with \"test*\"and click \"Search\" button");
+        advancedSearchPage
+            .typeNameFolder("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+        searchPage
+            .assertNoResultsFoundDisplayed();
     }
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5908")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
-    public void searchByTitle()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void searchByTitle() {
         String identifier = RandomData.getRandomAlphanumeric();
-        String userName = "User1" + identifier;
-        String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        String userName = user.get().getUsername();
+        String siteName = siteModel.get().getId();
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, password);
-        advancedSearchPage.navigate();
-
-        LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
-
-        LOG.info("STEP 2 - Fill in \"Title\" field with \"test*\"and click \"Search\" button");
-        advancedSearchPage.typeTitle("test" + identifier);
-        advancedSearchPage.clickFirstSearchButton();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_1"), "test" + identifier + " wiki 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_2"), "test" + identifier + " wiki 2 is displayed");
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 1"), "test" + identifier + " blog 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 2"), "test" + identifier + " blog 2 is displayed");
-
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 1"), "test" + identifier + " topic 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 2"), "test" + identifier + " topic 2 is displayed");
-
-        LOG.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
-        advancedSearchPage.navigate();
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        getBrowser().waitInSeconds(5);
-
-        LOG.info("STEP 4 - Fill in \"Title\" field with \"test*\"and click \"Search\" button");
-        advancedSearchPage.typeTitle("test" + identifier);
-        advancedSearchPage.clickFirstSearchButton();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 1"), "test" + identifier + " list 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 2"), "test" + identifier + " list 2 is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        authenticateUsingCookies(user.get());
+        advancedSearchPage
+            .navigate();
+        log.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
+        log.info("STEP 2 - Fill in \"Title\" field with \"test*\"and click \"Search\" button");
+        advancedSearchPage
+            .typeTitle("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+                searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " wiki 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " wiki 2");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " blog 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " blog 2");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " topic 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " topic 2");
+        log.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .navigate();
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
+        log.info("STEP 4 - Fill in \"Title\" field with \"test*\"and click \"Search\" button");
+        advancedSearchPage
+            .folderTypeTitle("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " list 1");
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " list 2");
     }
 
     @TestRail (id = "C5909")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
-    public void searchByDescription()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH})
+    public void searchByDescription() {
+
         String identifier = RandomData.getRandomAlphanumeric();
-        String userName = "User1" + identifier;
-        String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        String userName = user.get().getUsername();
+        String siteName = siteModel.get().getId();
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, password);
+        authenticateUsingCookies(user.get());
+        advancedSearchPage
+            .navigate();
+        log.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
+        log.info("STEP 2 - Fill in \"Description\" field with \"test*\"and click \"Search\" button");
+        advancedSearchPage
+            .typeDescription("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+        searchPage
+            .assertNoResultsFoundDisplayed();
+        log.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
         advancedSearchPage.navigate();
-
-        LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
-
-        LOG.info("STEP 2 - Fill in \"Description\" field with \"test*\"and click \"Search\" button");
-        advancedSearchPage.typeDescription("test" + identifier);
-        advancedSearchPage.clickFirstSearchButton();
-        Assert.assertEquals(searchPage.getNumberOfResultsText(), language.translate("searchPage.noResultsFound"), "No results found");
-
-        LOG.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
-        advancedSearchPage.navigate();
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        getBrowser().waitInSeconds(5);
-
-        LOG.info("STEP 4 - Fill in \"Description\" field with \"test*\"and click \"Search\" button");
-        advancedSearchPage.typeDescription("test" + identifier);
-        advancedSearchPage.clickFirstSearchButton();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 1"), "test" + identifier + " list 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound(identifier + " list 3"), identifier + " list 3 is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
+        log.info("STEP 4 - Fill in \"Description\" field with \"test*\"and click \"Search\" button");
+        advancedSearchPage
+            .folderTypeDescription("test*");
+        advancedSearchPage
+            .clickFirstSearchButton();
+        searchPage
+            .assertCreatedDataIsDisplayed("test" + identifier + " list 1");
+        searchPage
+            .assertCreatedDataIsDisplayed(identifier + " list 3");
     }
 }
