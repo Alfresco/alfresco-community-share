@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implements AccessibleByMenuBar
 {
@@ -18,9 +19,13 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
     private final By secondSearchButton = By.cssSelector("button[id$='_default-search-button-2-button']");
     private final By lookForDropdownButton = By.cssSelector(".selected-form-button button");
     private final By lookForDropdownOptions = By.cssSelector(".selected-form-button .yuimenuitem");
-    private final By nameInput = By.cssSelector("input[id$='prop_cm_name']");
+    private final By contentNameInput = By.cssSelector("input[id$='prop_cm_name']");
+
+    private final By folderNameInput = By.cssSelector("input[id$='1_prop_cm_name']");
     private final By titleTextarea = By.cssSelector("textarea[id$='prop_cm_title']");
-    private final By descriptionTextarea = By.cssSelector("textarea[id$='prop_cm_description']");
+    private final By folderTitleTextarea = By.cssSelector("textarea[id$='1_prop_cm_title']");
+    private final By descriptionTextarea = By.cssSelector("textarea[id$='0_prop_cm_description']");
+    private final By folderDescriptionTextarea = By.cssSelector("textarea[id$='1_prop_cm_description']");
     private final By mimetypeDropdown = By.cssSelector("select[id$='prop_mimetype']");
     private final By dateFromPicker = By.cssSelector("a[id$='prop_cm_modified-cntrl-icon-from'] img");
     private final By dateToPicker = By.cssSelector("a[id$='prop_cm_modified-cntrl-icon-to'] img");
@@ -61,6 +66,7 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
 
     public SearchPage clickFirstSearchButton()
     {
+        waitInSeconds(15);
         clickElement(firstSearchButton);
         return new SearchPage(webDriver);
     }
@@ -80,14 +86,30 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
     {
         return isElementDisplayed(firstSearchButton);
     }
+    public AdvancedSearchPage assertIsTopSearchButtonDisplayed()
+    {
+        Assert.assertTrue(isTopSearchButtonDisplayed(), "Top search button is displayed");
+        return this;
+    }
+    public AdvancedSearchPage assertPageTitle()
+    {
+        Assert.assertEquals(getPageTitle(), language.translate("advancedSearchPage.pageTitle"), "Page title");
+        return this;
+    }
 
     public boolean isBottomSearchButtonDisplayed()
     {
         return isElementDisplayed(secondSearchButton);
     }
+    public AdvancedSearchPage assertIsBottomSearchButtonDisplayed()
+    {
+        Assert.assertTrue(isBottomSearchButtonDisplayed(), "Bottom search button is displayed");
+        return this;
+    }
 
     public void clickOnLookForDropdown()
     {
+        waitUntilElementIsVisible(lookForDropdownButton);
         clickElement(lookForDropdownButton);
     }
 
@@ -106,6 +128,13 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         }
         return status;
     }
+    public AdvancedSearchPage assertIsLookForDropdownOptionDisplayed(String label, String description)
+    {
+        Assert.assertTrue(isLookForDropdownOptionDisplayed(language.translate(label), language.translate(description)));
+        assertTrue(getCurrentUrl().contains(getRelativePath()), "Advanced Search page is opened");
+        return this;
+    }
+
 
     public void clickOnLookForDropdownOption(String label)
     {
@@ -122,57 +151,145 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
 
     public boolean isKeywordsInputDisplayed()
     {
+        waitUntilElementIsVisible(keywordsSearchField);
         return isElementDisplayed(keywordsSearchField);
+    }
+    public AdvancedSearchPage assertisKeywordsInputDisplayed()
+    {
+        waitInSeconds(2);
+        Assert.assertTrue(isKeywordsInputDisplayed(), "Keywords input is displayed");
+        return this;
     }
 
     public boolean isNameInputDisplayed()
     {
-        return isElementDisplayed(nameInput);
+        return isElementDisplayed(contentNameInput);
+    }
+    public AdvancedSearchPage assertIsTitleTextareaDisplayed()
+    {
+        Assert.assertTrue(isTitleTextareaDisplayed(), "Title textarea is displayed");
+        return this;
+    }
+    public boolean isFolderNameInputDisplayed()
+    {
+        return isElementDisplayed(folderNameInput);
+    }
+    public AdvancedSearchPage assertIsFolderNameInputDisplayed()
+    {
+        Assert.assertTrue(isFolderNameInputDisplayed(), "Name input is displayed");
+        return this;
     }
 
     public boolean isTitleTextareaDisplayed()
     {
         return isElementDisplayed(titleTextarea);
     }
+    public AdvancedSearchPage assertisNameInputDisplayed()
+    {
+        Assert.assertTrue(isNameInputDisplayed(), "Name input is displayed");
+        return this;
+    }
+    public boolean isFolderTitleTextareaDisplayed()
+    {
+        return isElementDisplayed(folderTitleTextarea);
+    }
+    public AdvancedSearchPage assertIsFolderTitleTextareaDisplayed()
+    {
+        Assert.assertTrue(isFolderTitleTextareaDisplayed(), "Title textarea is displayed");
+        return this;
+    }
 
     public boolean isDescriptionTextareaDisplayed()
     {
         return isElementDisplayed(descriptionTextarea);
+    }
+    public AdvancedSearchPage assertIsDescriptionTextareaDisplayed()
+    {
+        Assert.assertTrue(isDescriptionTextareaDisplayed(), "Description textarea is displayed");
+        return this;
+    }
+    public boolean isFolderDescriptionTextareaDisplayed()
+    {
+        return isElementDisplayed(folderDescriptionTextarea);
+    }
+    public AdvancedSearchPage assertIsFolderDescriptionTextareaDisplayed()
+    {
+        Assert.assertTrue(isFolderDescriptionTextareaDisplayed(), "Description textarea is displayed");
+        return this;
     }
 
     public boolean isMimetypeDropDownDisplayed()
     {
         return isElementDisplayed(mimetypeDropdown);
     }
+    public AdvancedSearchPage assertIsMimetypeDropDownDisplayed()
+    {
+        Assert.assertTrue(isMimetypeDropDownDisplayed(), "Mimetype input is displayed");
+        return this;
+    }
 
     public boolean isDateFromPickerDisplayed()
     {
         return isElementDisplayed(dateFromPicker);
+    }
+    public AdvancedSearchPage assertIsDateFromPickerDisplayed()
+    {
+        Assert.assertTrue(isDateFromPickerDisplayed(), "Date From picker is displayed");
+        return this;
     }
 
     public boolean isDateToPickerDisplayed()
     {
         return isElementDisplayed(dateToPicker);
     }
+    public AdvancedSearchPage assertIsDateToPickerDisplayed()
+    {
+        Assert.assertTrue(isDateFromPickerDisplayed(), "Date From picker is displayed");
+        return this;
+    }
 
     public boolean isModifierInputDisplayed()
     {
         return isElementDisplayed(modifierInput);
     }
+    public AdvancedSearchPage assertIsModifierInputDisplayed()
+    {
+        Assert.assertTrue(isDateFromPickerDisplayed(), "Date From picker is displayed");
+        return this;
+    }
 
     public void typeName(String name)
     {
-        clearAndType(findElement(nameInput), name);
+        clearAndType(findElement(contentNameInput), name);
+    }
+    public void typeNameFolder(String name)
+    {
+        clearAndType(findElement(folderNameInput), name);
+        waitInSeconds(3);
     }
 
     public void typeTitle(String title)
     {
         clearAndType(findElement(titleTextarea), title);
+        waitInSeconds(10);
+    }
+    public void folderTypeTitle(String title)
+    {
+        clearAndType(findElement(folderTitleTextarea), title);
+        waitInSeconds(3);
     }
 
     public void typeDescription(String description)
     {
+        waitUntilElementIsVisible(descriptionTextarea);
         clearAndType(findElement(descriptionTextarea), description);
+        waitInSeconds(3);
+    }
+    public void folderTypeDescription(String description)
+    {
+        waitUntilElementIsVisible(folderDescriptionTextarea);
+        clearAndType(findElement(folderDescriptionTextarea), description);
+        waitInSeconds(2);
     }
 
     public void selectMimetype(String mimetype)
