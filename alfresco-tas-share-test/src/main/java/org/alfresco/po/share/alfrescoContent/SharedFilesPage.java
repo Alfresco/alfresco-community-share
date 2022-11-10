@@ -65,4 +65,19 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
         assertTrue(getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
         return this;
     }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
+    }
+    public SharedFilesPage refreshSharedFilesPage()
+    {
+        getWebDriver().navigate().refresh();
+        waitUntilDomReadyStateIsComplete();
+        return this;
+    }
+    public SharedFilesPage assertIsFileDisplayed(String fileName) {
+        log.info("Verify that the File is Displayed");
+        assertTrue(getFilesList().toString().contains(fileName), "File is Not Displayed");
+        return this;
+    }
 }

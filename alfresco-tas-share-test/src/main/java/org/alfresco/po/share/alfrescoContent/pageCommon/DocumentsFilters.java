@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
+import static org.testng.Assert.assertTrue;
 public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 {
     private By documents_DropDown = By.cssSelector("h2[class ='alfresco-twister alfresco-twister-open']");
@@ -68,7 +68,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
     private WebElement headerAfterFilter;
     @FindAll (@FindBy (css = ".filter .tag-link"))
     private List<WebElement> tagsFromFilter;
-
+    private By sideBarFilterOptions = By.cssSelector(".alfresco-twister");
     public DocumentsFilters(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -80,7 +80,8 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
     public ArrayList<String> getSidebarFilters()
     {
         ArrayList<String> sidebarText = new ArrayList<>();
-        for (WebElement aSidebarFiltersList : sidebarFiltersList)
+        List<WebElement> filterOptions = findElements(sideBarFilterOptions);
+        for (WebElement aSidebarFiltersList : filterOptions)
         {
             sidebarText.add(aSidebarFiltersList.getText());
         }
@@ -241,7 +242,10 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
     {
         return isElementDisplayed(By.cssSelector("span[class ='tag']"));
     }
-
+    public void assertIsTagPresentInSideBar(String tagName)
+    {
+        assertTrue(getSidebarTag(tagName).contains(tagName), "Sidebar Tags filter contains " + tagName);
+    }
     public String getSidebarTag(String tagName)
     {
         Parameter.checkIsMandotary("Tag", selectTagByTagName(tagName));
