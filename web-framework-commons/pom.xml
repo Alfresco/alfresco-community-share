@@ -226,19 +226,12 @@
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
                 <configuration>
                     <!-- This allows an empty overlay -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-              <dependencies>
-                <dependency>
-                  <groupId>org.alfresco</groupId>
-                  <artifactId>alfresco-mmt</artifactId>
-                  <version>17.68</version>
-                </dependency>
-              </dependencies>
             </plugin>
+
             <!-- ACE-3329 Create _en.properties message files  -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>

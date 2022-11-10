@@ -87,7 +87,6 @@
                <configuration>
                   <argLine>
                      --illegal-access=permit
-                     --add-opens=java.base/java.lang=ALL-UNNAMED
                   </argLine>
                </configuration>
             </plugin>
