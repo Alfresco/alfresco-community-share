@@ -10,8 +10,8 @@
  * http://jquery.org/license
  *
  * Date: 2016-05-20T17:17Z
- * 
- * PATCH: Patched for CVE-2019-11358, CVE-2020-11022 and CVE-2020-11023
+ *
+ * PATCH: Patched for CVE-2019-11358, CVE-2020-11022, CVE-2020-11023 and CVE-2015-9251
 */
 
 (function( global, factory ) {
@@ -213,7 +213,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 				/*
 				PATCH: Prevent Object.prototype pollution
-				Before: 
+				Before:
 				if ( target === copy ) {
 				*/
 				if ( name === "__proto__" || target === copy ) {
@@ -5899,7 +5899,7 @@ PATCH: Removed
 */
 var rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g,
 	rnoshimcache = new RegExp( "<(?:" + nodeNames + ")[\\s/>]", "i" ),
-	
+
 	// Support: IE 10-11, Edge 10240+
 	// In IE/Edge using regex groups here causes severe slowdowns.
 	// See https://connect.microsoft.com/IE/feedback/details/1736512/
@@ -10386,7 +10386,12 @@ function createActiveXHR() {
 	} catch ( e ) {}
 }
 
-
+// PATCH: Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
+   jQuery.ajaxPrefilter( function( s ) {
+      if ( s.crossDomain ) {
+         s.contents.script = false;
+      }
+   } );
 
 
 // Install script dataType
