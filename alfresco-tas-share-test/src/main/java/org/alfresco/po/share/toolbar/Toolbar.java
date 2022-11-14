@@ -5,6 +5,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.BasePage;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.PeopleFinderPage;
@@ -304,6 +305,20 @@ public class Toolbar extends BasePage
     public void clickSearchButton()
     {
         clickElement(searchButton);
+    }
+    public void SearchAndEnter(String search)
+    {
+        waitInSeconds(3);
+        Utils.clearAndType(waitUntilElementIsVisible(findElement(searchBoxInput)), search);
+        findElement(searchBoxInput).sendKeys(Keys.ENTER);
+        waitInSeconds(10);
+        refresh();
+        waitInSeconds(5);
+        refresh();
+        waitInSeconds(5);
+        refresh();
+        waitInSeconds(5);
+        refresh();
     }
 
     public void closeMenu()
