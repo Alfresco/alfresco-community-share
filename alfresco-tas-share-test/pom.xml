@@ -34,8 +34,6 @@
       <suiteXmlFile>src/test/resources/test-suites</suiteXmlFile>
       <suite-name />
       <tas.utility.version>3.0.54</tas.utility.version>
-      <tas.cmis.version>1.13</tas.cmis.version>
-      <tas.restapi.version>1.99</tas.restapi.version>
       <apache.poi.version>4.1.2</apache.poi.version>
       <java.version>11</java.version>
    </properties>
@@ -92,13 +90,13 @@
       <dependency>
          <groupId>org.alfresco.tas</groupId>
          <artifactId>cmis</artifactId>
-         <version>${tas.cmis.version}</version>
+         <version>${dependency.alfresco-community-repo.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.alfresco.tas</groupId>
          <artifactId>restapi</artifactId>
-         <version>${tas.restapi.version}</version>
+         <version>${dependency.alfresco-community-repo.version}</version>
       </dependency>
 
    </dependencies>
