@@ -1,6 +1,6 @@
 function main()
 {
-   var shareId = args.shareId;
+   var shareId = encodeURIComponent(args.shareId);
 
    model.linkButtons = [];
 
@@ -9,14 +9,14 @@ function main()
    {
       model.linkButtons.push({
          id: "login",
-         href: url.context + "/page?pt=login&alfRedirectUrl=" + url.context + "/s/" + encodeURIComponent(args.shareId),
+         href: url.context + "/page?pt=login&alfRedirectUrl=" + url.context + "/s/" + shareId,
          label: msg.get("button.login"),
          cssClass: "brand-bgcolor-2"
       });
    }
    if (args.loginLink == "document-details")
    {
-      var result = remote.connect("alfresco").get("/api/internal/shared/node/" + encodeURIComponent(shareId) + "/read");
+      var result = remote.connect("alfresco").get("/api/internal/shared/node/" + shareId + "/read");
       if (result.status == 200)
       {
          var nodeMetadata = JSON.parse(result);
@@ -24,7 +24,7 @@ function main()
          {
             model.linkButtons.push({
                id: "document-details",
-               href: url.context + "/page/quickshare-redirect?id=" + args.shareId,
+               href: url.context + "/page/quickshare-redirect?id=" + shareId,
                label: (user && user.isGuest) ? msg.get("button.login") : msg.get("button.document-details"),
                cssClass: "brand-bgcolor-2"
             });
