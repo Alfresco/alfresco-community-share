@@ -1,55 +1,81 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles;
 
-import static org.testng.Assert.assertTrue;
+import lombok.extern.slf4j.Slf4j;
 
-import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
-import org.alfresco.share.ContextAwareWebTest;
+
+import org.alfresco.po.share.site.ItemActions;
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * @author Laura.Capsa
  */
-public class SharedFilesTests extends ContextAwareWebTest
+public class SharedFilesTests extends BaseTest
 {
-    private final String docName = String.format("Doc-C7661-%s", RandomData.getRandomAlphanumeric());
-    private final String path = "Shared/";
-    //@Autowired
     private SharedFilesPage sharedFilesPage;
-    //@Autowired
     private SocialFeatures socialFeatures;
+    private DeleteDialog deleteDialog;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    FileModel testFile;
 
-    @BeforeClass (alwaysRun = true)
-    public void setupTest()
-    {
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName, docName + " Content");
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest() throws Exception {
+        sharedFilesPage = new SharedFilesPage(webDriver);
+        socialFeatures = new SocialFeatures(webDriver);
+        deleteDialog = new DeleteDialog(webDriver);
 
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sharedFilesPage.navigate();
+        log.info("Precondition1: Test user is created & Navigate to SharedFiles page");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        authenticateUsingCookies(user.get());
+
+        log.info("Precondition2 : user is logged into the Share & content items are created");
+        testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
+        getCmisApi().authenticateUser(user.get()).usingUser(user.get()).usingShared().createFile(testFile).assertThat().existsInRepo();
+
+        sharedFilesPage
+            .navigate()
+            .assertBrowserPageTitleIs("Alfresco » Shared Files");
     }
 
     @TestRail (id = "C7661")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyShareButton()
     {
-        LOG.info("STEP1: Hover over a file and click on the \"Share\" button.");
-        sharedFilesPage.mouseOverContentItem(docName);
-        assertTrue(socialFeatures.checkShareButtonAvailability(), "Share button is displayed.");
-        socialFeatures.clickShareButton(docName);
-        assertTrue(socialFeatures.isPublicLinkInputFieldDisplayed(), "Public link input field is displayed.");
+        log.info("STEP1: Hover over a file and click on the \"Share\" button.");
+        sharedFilesPage
+            .mouseOverContentItem(testFile.getName());
+        socialFeatures
+            .assertIsShareButtonAvailable()
+            .clickShareButton(testFile.getName());
+        socialFeatures
+            .assertShareButtonEnabled(testFile.getName())
+            .assertIsPublicLinkInputFieldDisplayed();
+
+        log.info("Delete the file Created in Precondition1");
+        sharedFilesPage
+            .navigateByMenuBar()
+            .selectItemAction(testFile.getName(), ItemActions.DELETE_DOCUMENT);
+        deleteDialog
+            .confirmDeletion();
     }
 
-    @AfterClass
+    @AfterMethod
     public void cleanUp()
     {
-        cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, path + docName);
+        deleteUsersIfNotNull(user.get());
     }
 }
