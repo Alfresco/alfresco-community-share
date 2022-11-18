@@ -58,7 +58,7 @@ public class IsNodeEditableAos extends BaseEvaluator
             // mimetype of the file must be supported (i.e. must be in the map and have an expected extension) and the
             // expected extension for the mimetype needs to match the extension in the filename
             String expectedExtension = mimetypeExtensionMap.get(mimetype);
-            if (expectedExtension == null || !expectedExtension.equals(fileExtension))
+            if (expectedExtension == null || !expectedExtension.equals(fileExtension.toLowerCase()))
             {
                 return false;
             }
