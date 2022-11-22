@@ -29,6 +29,8 @@ public class TinyMceEditor extends BasePage
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
     private String frameId = null;
     private FormatType formatType;
+    private final By boldText = By.xpath("//*[@id=\"tinymce\"]/p/strong");
+    private final By italicText = By.xpath("//*[@id=\"tinymce\"]/p/em");
 
     public TinyMceEditor(ThreadLocal<WebDriver> webDriver)
     {
@@ -92,7 +94,7 @@ public class TinyMceEditor extends BasePage
         setFrameId(frameId);
     }
 
-    public void addContent(String txt)
+    public TinyMceEditor addContent(String txt)
     {
         try
         {
@@ -102,6 +104,7 @@ public class TinyMceEditor extends BasePage
         {
             log.error("Element : " + txt + " is not present", noSuchElementExp);
         }
+        return this;
     }
 
     public void clickTextFormatter(FormatType formatType)
@@ -162,5 +165,21 @@ public class TinyMceEditor extends BasePage
         executeJavaScript(setCommentJs);
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
         executeJavaScript(setCommentJs);
+    }
+    public boolean verifyBoldText ()
+    {
+        String boldFontWeightValue = "700";
+        switchToFrame("template_x002e_comments_x002e_document-details_x0023_default-add-content_ifr");
+        String fontWeight = findElement(boldText).getCssValue("font-weight");
+        boolean isBold = boldFontWeightValue.equals(fontWeight);
+        return isBold;
+    }
+    public boolean verifyItalicText ()
+    {
+        String boldFontStyle = "italic";
+        switchToFrame("template_x002e_comments_x002e_document-details_x0023_default-add-content_ifr");
+        String fontStyle = findElement(italicText).getCssValue("font-style");
+        boolean italicText = boldFontStyle.equals(fontStyle);
+        return italicText;
     }
 }
