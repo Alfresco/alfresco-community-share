@@ -1,9 +1,6 @@
 package org.alfresco.share.searching.advancedSearch;
 
 import static org.testng.Assert.assertTrue;
-
-
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.searching.SearchPage;
@@ -33,17 +30,15 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     SearchPage searchPage;
     private String testSite;
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
-
+    String identifier = RandomData.getRandomAlphanumeric();
     private String docC7210_content = "C7210 C7210 C7210";
-    private String docC7212 = "file";
-    private String docC5991 = "11123";
+    private String docC7212 = "file " + identifier;
+    private String docC5991 = "11123 " + identifier;
     private String docC7407 = "this is an item";
-    private String docC7110 = "sample";
-    private String docC7110_1 = "sample 1";
-    private String docC7110_2 = "sample 2";
-    private String docC7110_3 = "sample 3";
-
-
+    private String docC7110 = "sample " + identifier;
+    private String docC7110_1 = "sample1 " + identifier;
+    private String docC7110_2 = "sample2 " + identifier;
+    private String docC7110_3 = "sample3 " + identifier;
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
 
@@ -225,3 +220,10 @@ public class AdvancedSearchOperatorsTests extends BaseTest
 
     }
 }
+
+
+
+
+
+
+
