@@ -19,6 +19,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 @Slf4j
 public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
@@ -81,6 +82,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     private final By contentName = By.cssSelector(".nameAndTitleCell .value");
     private final By contentCheckBox = By.cssSelector("span[class^='alfresco-renderers-Selector']");
     private final By noResults =  By.cssSelector(".alfresco-search-NoSearchResults");
+    SoftAssert softAssert = new SoftAssert();
 
     public SearchPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -200,7 +202,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public void scrollToPageBottom()
     {
         executeJavaScript(
-                "window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight));", "");
+            "window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight));", "");
     }
 
     public void scrollSome(int distance)
@@ -220,21 +222,43 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     }
     public boolean isResultFoundWithList(String query)
     {
-        refresh();
-        waitInSeconds(5);
+        for (int i = 0; i < 5; i++) {
+            if (isElementDisplayed(resultsDetailedViewList)) {
+                break;
+            }
+            else
+            {
+                refresh();
+                waitInSeconds(5);
+            }
+
+        }
         List<WebElement> elementList = waitUntilElementsAreVisible(resultsDetailedViewList);
         WebElement webElement = findFirstElementWithValue(elementList, query);
-        if (webElement == null)
-        {
-            refresh();
-            webElement = findFirstElementWithValue(elementList, query);
+        //  System.out.println("we element value is: "+webElement);
+        for (int i = 0; i < 5; i++) {
+//            System.out.println("for iteratin: "+i+ "  "+webElement);
+
+            if (webElement == null) {
+//                System.out.println("from if condion");
+                refresh();
+                waitInSeconds(2);
+                elementList = waitUntilElementsAreVisible(resultsDetailedViewList);
+                webElement = findFirstElementWithValue(elementList, query);
+            }
+            else
+            {
+                break;
+            }
         }
+//        System.out.println("from last : "+webElement);
         return webElement != null;
     }
     public SearchPage assertCreatedDataIsDisplayed(String query)
     {
         log.info("Assert created data like wiki page, data list, event, blog is displayed");
-        Assert.assertTrue(isResultFoundWithList(query), query+" is displayed");
+        // System.out.println("isResultFoundWithList result: "+isResultFoundWithList(query));
+        Assert.assertTrue(isResultFoundWithList(query), query+" is not displayed");
         return this;
     }
 
@@ -296,9 +320,10 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         clickElement(sortDropdownButton);
     }
 
-    public void clickSearchInDropdown()
+    public SearchPage clickSearchInDropdown()
     {
         clickElement(searchInDropdown);
+        return this;
     }
 
     public String getSearchInDropdownSelectedValue()
@@ -406,8 +431,8 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public boolean isSliderGalleryViewDisplayed()
     {
         return (isElementDisplayed(sliderGalleryView)
-                && isElementDisplayed(sliderIncrementIcon)
-                && isElementDisplayed(sliderDecrementIcon));
+            && isElementDisplayed(sliderIncrementIcon)
+            && isElementDisplayed(sliderDecrementIcon));
     }
 
     public void clickFilterOption(String option, String filterBy)
@@ -836,5 +861,21 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchContentActionComponent usingContent(ContentModel contentModel)
     {
         return new SearchContentActionComponent(webDriver, contentModel);
+    }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
+    }
+    public SearchPage pageRefresh()
+    {
+        waitInSeconds(10);
+        getWebDriver().navigate().refresh();
+        waitInSeconds(5);
+        getWebDriver().navigate().refresh();
+        waitInSeconds(5);
+        getWebDriver().navigate().refresh();
+        waitInSeconds(5);
+        getWebDriver().navigate().refresh();
+        return this;
     }
 }
