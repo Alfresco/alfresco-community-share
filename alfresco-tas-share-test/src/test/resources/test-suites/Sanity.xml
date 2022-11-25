@@ -8,6 +8,7 @@
       <groups>
          <run>
             <include name="sanity"/>
+            <include name="share"/>
             <include name="regression"/>
             <exclude name="integration"></exclude>
             <exclude name="unit"/>
@@ -36,6 +37,9 @@
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles"></package>
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions"></package>
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions"></package>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository"></package>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles"></package>
+         <package name="org.alfresco.share.RebrandTests"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
@@ -46,15 +50,11 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.DownloadingContentTests"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsCreateTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDeleteTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDownloadTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsManageAspectsTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsManagePermissionsTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsSelectTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsUnzippingContentTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsUploadTests"></class>
-         <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.RepositoryTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
+         <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchOperatorsTests"></class>
+         <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchPageTest"></class>
+         <class name="org.alfresco.share.searching.advancedSearch.ContentSearchStructureTest"></class>
       </classes>
    </test>
 </suite>
+
