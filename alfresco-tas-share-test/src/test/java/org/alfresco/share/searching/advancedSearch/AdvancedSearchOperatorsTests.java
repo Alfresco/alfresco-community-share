@@ -31,11 +31,8 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     private DocumentLibraryPage documentLibraryPage;
     private CreateContentPage createContent;
     SearchPage searchPage;
-    private final String random = RandomData.getRandomAlphanumeric();
-    private final String user = "user1-" + random;
-    private final String password = "password";
-    private UserModel testUser1;
     private String testSite;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     private String docC7210_content = "C7210 C7210 C7210";
     private String docC7212 = "file";
@@ -53,12 +50,12 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        log.info("PreCondition1: Any test user is created");
-        getCmisApi().authenticateUser(getAdminUser());
-        authenticateUsingLoginPage(getAdminUser());
-        testUser1 = dataUser.usingAdmin().createUser(user,password);
-        authenticateUsingLoginPage(testUser1);
-        site.set(getDataSite().usingUser(testUser1).createPublicRandomSite());
+        log.info("Precondition1: Any test user is created");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        authenticateUsingCookies(user.get());
+
+        authenticateUsingLoginPage(user.get());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         testSite = site.get().getTitle();
         createContent = new CreateContentPage(webDriver);
         documentLibraryPage = new DocumentLibraryPage(webDriver);
@@ -69,7 +66,7 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     @AfterMethod
     public void cleanup()
     {
-        deleteUsersIfNotNull(testUser1);
+        deleteUsersIfNotNull(user.get());
         deleteSitesIfNotNull(site.get());
     }
 
