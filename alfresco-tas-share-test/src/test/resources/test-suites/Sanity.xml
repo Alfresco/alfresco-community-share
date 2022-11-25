@@ -53,6 +53,7 @@
          <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
          <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchOperatorsTests"></class>
          <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchPageTest"></class>
+         <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchTests"></class>
          <class name="org.alfresco.share.searching.advancedSearch.ContentSearchStructureTest"></class>
       </classes>
    </test>
