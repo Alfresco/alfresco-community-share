@@ -319,8 +319,6 @@ public class Toolbar extends BasePage
         refresh();
         waitInSeconds(5);
         refresh();
-        waitInSeconds(5);
-        refresh();
     }
 
     public void closeMenu()

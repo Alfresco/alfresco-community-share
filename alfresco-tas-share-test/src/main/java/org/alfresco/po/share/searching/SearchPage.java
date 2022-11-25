@@ -261,41 +261,6 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         Assert.assertTrue(isResultFoundWithList(query), query+" is not displayed");
         return this;
     }
-    public SearchPage assertIsXmlFileDisplayed(String query)
-    {
-        SoftAssert sa = new SoftAssert();
-        sa.assertTrue(isResultFound(".xml"), ".xml" + " is not displayed");
-
-        return this;
-    }
-    public SearchPage assertIsXmlFileNotDisplayed(String query)
-    {
-        SoftAssert sa = new SoftAssert();
-        sa.assertFalse(isResultFound(".xml"), ".xml" + " is not displayed");
-
-        return this;
-    }
-    public SearchPage assertIsXlsFileDisplayed(String query)
-    {
-        SoftAssert sa = new SoftAssert();
-        sa.assertTrue(isResultFound(".xls"), ".xls" + " is not displayed");
-
-        return this;
-    }
-    public SearchPage assertIsXlsFileNotDisplayed(String query)
-    {
-        SoftAssert sa = new SoftAssert();
-        sa.assertFalse(isResultFound(".xls"), ".xls" + " is not displayed");
-
-        return this;
-    }
-    public SearchPage assertIsHtmlFileNotDisplayed(String query)
-    {
-        SoftAssert sa = new SoftAssert();
-        sa.assertFalse(isResultFound(".html"), ".html" + " is not displayed");
-
-        return this;
-    }
 
     public boolean isResultFoundWithRetry(String query)
     {
