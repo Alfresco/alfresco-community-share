@@ -60,6 +60,8 @@ public class SocialFeatures extends DocumentLibraryPage
     private By commentCounterSelector = By.cssSelector(".comment-count");
     private By shareButton = By.cssSelector("a.quickshare-action");
     private By likesCount = By.cssSelector("span.likes-count");
+    private By publicLink_InputField = By.cssSelector(".section input[id*='input']");
+    private By enabled_ShareButton = By.xpath("//a[@class='quickshare-action enabled']");
 
     public SocialFeatures(ThreadLocal<WebDriver> webDriver)
     {
@@ -243,7 +245,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isPublicLinkInputFieldDisplayed()
     {
-        return isElementDisplayed(publicLinkInputField);
+        return isElementDisplayed(publicLink_InputField);
     }
 
     public void clickPublicLinkViewButton()
@@ -313,6 +315,21 @@ public class SocialFeatures extends DocumentLibraryPage
         log.info("Verify Like button is enabled for file/Folder {}");
         waitInSeconds(2);
         assertTrue(isLikeButtonEnabled(fileName), "Like button is not enabled for File/Folder");
+        return this;
+    }
+    public SocialFeatures assertIsShareButtonAvailable()
+    {
+        assertTrue(isElementDisplayed(shareButton), "Share Button is not Available");
+        return this;
+    }
+    public SocialFeatures assertIsPublicLinkInputFieldDisplayed()
+    {
+        assertTrue(isPublicLinkInputFieldDisplayed(), "Share Button is not Available");
+        return this;
+    }
+    public SocialFeatures assertShareButtonEnabled(String fileName)
+    {
+        assertTrue(isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabled_ShareButton), "Share Button is not Enabled");
         return this;
     }
 }

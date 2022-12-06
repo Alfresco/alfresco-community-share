@@ -12,10 +12,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+
+
 public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implements AccessibleByMenuBar
 {
     private final By keywordsSearchField = By.cssSelector("input[id$='default-search-text']");
     private final By firstSearchButton = By.cssSelector("button[id$='_default-search-button-1-button']");
+    private final By firstSearchButtonAgain = By.cssSelector("#uniqName_12_0_label");
     private final By secondSearchButton = By.cssSelector("button[id$='_default-search-button-2-button']");
     private final By lookForDropdownButton = By.cssSelector(".selected-form-button button");
     private final By lookForDropdownOptions = By.cssSelector(".selected-form-button .yuimenuitem");
@@ -70,6 +73,15 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         clickElement(firstSearchButton);
         return new SearchPage(webDriver);
     }
+    public SearchPage clickFirstSearchButtonAndRefresh()
+    {
+        waitInSeconds(15);
+        clickElement(firstSearchButton);
+        waitInSeconds(2);
+        refresh();
+        return new SearchPage(webDriver);
+    }
+
 
     public SearchPage clickSecondSearchButton()
     {
@@ -292,6 +304,22 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         waitInSeconds(2);
     }
 
+    public SearchPage clickFirstSearchButtonAgain()
+    {
+        waitInSeconds(15);
+        clickElement(firstSearchButton);
+        refresh();
+        return new SearchPage(webDriver);
+    }
+    public SearchPage clickOnFirstSearchButton()
+    {
+        waitInSeconds(15);
+        clickElement(firstSearchButton);
+        waitInSeconds(2);
+        clickElement(firstSearchButtonAgain);
+        return new SearchPage(webDriver);
+    }
+
     public void selectMimetype(String mimetype)
     {
         Select mimeTypeSelect = new Select(findElement(mimetypeDropdown));
@@ -320,4 +348,5 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         waitUntilElementIsVisible(titleBox);
         clearAndType(titleBox, criteria);
     }
+
 }

@@ -1,140 +1,202 @@
 package org.alfresco.share.searching.advancedSearch;
 
-import static org.alfresco.common.Utils.testDataFolder;
 
-import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
+import org.alfresco.share.BaseTest;
+import org.alfresco.utility.model.*;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+@Slf4j
 
 /**
  * Created by Mirela Tifui on 12/12/2017.
  */
-public class AdvancedSearchTests extends ContextAwareWebTest
+public class AdvancedSearchTests extends BaseTest
 {
-    //@Autowired
+
     AdvancedSearchPage advancedSearchPage;
-    //@Autowired
     SearchPage searchPage;
-    //s@Autowired
     DocumentLibraryPage documentLibraryPage;
-    //@Autowired
+    DocumentDetailsPage documentDetailsPage;
+    private FileModel testFile;
+    private FileModel testFile1;
+    private FileModel testFile2;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
     EditPropertiesDialog editPropertiesDialog;
     SoftAssert softAssert = new SoftAssert();
-    private String userName = "advancedSearch" + RandomData.getRandomAlphanumeric();
-    private String siteName = "siteSearch" + RandomData.getRandomAlphanumeric();
-    private String xmlDoc = "0_XMLdoc_" + RandomData.getRandomAlphanumeric();
-    private String excelDoc = "0_ExcelDoc" + RandomData.getRandomAlphanumeric();
-    private String HTMLDoc = "0_HTMLDoc" + RandomData.getRandomAlphanumeric();
-    private String folderName = "0_Folder" + RandomData.getRandomAlphanumeric();
+    private String folderName = "test Folder";
     private String textFile = "myFile.txt";
+    private  String folderTitle = "Folder title";
+    private   String description = "This is a test folder";
 
-    @BeforeClass (alwaysRun = true)
-    private void setupTest()
+    @BeforeMethod(alwaysRun = true)
+    private void setupTest(){
+        log.info("Precondition2: Test user is created");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        authenticateUsingCookies(user.get());
+        log.info("Precondition3: Test Site is created");
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+        log.info("Precondition4: Creating random files in the site under document library.");
+        testFile = FileModel.getRandomFileModel(FileType.XML);
+        getCmisApi().usingSite(site.get()).createFile(testFile).assertThat().existsInRepo();
+        testFile1 = FileModel.getRandomFileModel(FileType.MSEXCEL);
+        getCmisApi().usingSite(site.get()).createFile(testFile1).assertThat().existsInRepo();
+        testFile2 = FileModel.getRandomFileModel(FileType.HTML);
+        getCmisApi().usingSite(site.get()).createFile(testFile2).assertThat().existsInRepo();
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+        advancedSearchPage = new AdvancedSearchPage(webDriver);
+        searchPage = new SearchPage(webDriver);
+        editPropertiesDialog = new EditPropertiesDialog(webDriver);
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void testCleanup()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "Advanced", TestGroup.SEARCH);
-        siteService.create(userName, password, domain, siteName, "site description", SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlDoc, "contentXml");
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.MSEXCEL, excelDoc, "contentExcel");
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, HTMLDoc, "contentHtml");
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + textFile);
-        setupAuthenticatedSession(userName, password);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
+
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH })
     public void searchByMimeTypeTest()
     {
-        LOG.info("Step 1: Navigate to advanced search and select XML mimetype");
-        advancedSearchPage.navigate();
+        log.info("Step 1: Navigate to advanced search and select XML mimetype");
+        documentLibraryPage
+            .navigate(site.get());
+        advancedSearchPage
+            .navigate();
         Assert.assertEquals(advancedSearchPage.getSelectedContentTypeOption(), "Content ▾", "Content is not the selected Look for option");
-        advancedSearchPage.selectMimetype("text/xml");
-        advancedSearchPage.clickFirstSearchButton();
-        softAssert.assertTrue(searchPage.isResultFoundWithRetry(xmlDoc), xmlDoc + " is not displayed");
-        softAssert.assertFalse(searchPage.isResultFound(excelDoc), excelDoc + " is displayed");
-        softAssert.assertFalse(searchPage.isResultFound(HTMLDoc), HTMLDoc + " is displayed");
-        LOG.info("Step 2: Navigate to advanced search page and select Excel mimetype");
-        advancedSearchPage.navigate();
-        advancedSearchPage.selectMimetype("application/vnd.ms-excel");
-        advancedSearchPage.clickFirstSearchButton();
-        softAssert.assertFalse(searchPage.isResultFound(xmlDoc), xmlDoc + " is displayed");
-        softAssert.assertTrue(searchPage.isResultFound(excelDoc), excelDoc + " is not displayed");
-        softAssert.assertFalse(searchPage.isResultFound(HTMLDoc), HTMLDoc + " is displayed");
-        softAssert.assertAll();
+        advancedSearchPage
+            .selectMimetype("text/xml");
+        advancedSearchPage
+            .clickFirstSearchButtonAgain();
+        searchPage
+            .assertIsXmlFileDisplayed(".xml");
+        searchPage
+            .assertIsXlsFileNotDisplayed(".xls");
+        searchPage
+            .assertIsHtmlFileNotDisplayed(".html");
+        log.info("Step 2: Navigate to advanced search page and select Excel mimetype");
+        advancedSearchPage
+            .navigate();
+        advancedSearchPage
+            .selectMimetype("application/vnd.ms-excel");
+        advancedSearchPage
+            .clickFirstSearchButtonAgain();
+        searchPage
+            .assertIsXmlFileNotDisplayed(".xml");
+        searchPage
+            .assertIsXlsFileDisplayed(".xls");
+        searchPage
+            .assertIsHtmlFileNotDisplayed(".html");
+
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH })
     public void validateInvalidDateTest()
     {
-        LOG.info("Step 1: Navigate to Advanced Search page and input invalid from date");
-        advancedSearchPage.navigate();
+        log.info("Step 1: Navigate to Advanced Search page and input invalid from date");
+        advancedSearchPage
+            .navigate();
         softAssert.assertEquals(advancedSearchPage.getSelectedContentTypeOption(), "Content ▾", "Content is not the selected Look for option");
-        advancedSearchPage.setFromDate("0/06/2017");
-        advancedSearchPage.clickFirstSearchButton();
+        advancedSearchPage
+            .setFromDate("0/06/2017");
+        advancedSearchPage
+            .clickFirstSearchButton();
         softAssert.assertEquals(searchPage.getNoSearchResultsText(), language.translate("searchPage.searchSuggestionNoSearchResuls"), "no search result suggestion not correct");
-        LOG.info("Step 2: Navigate to Advanced Search page and input invalid to date");
-        advancedSearchPage.navigate();
-        advancedSearchPage.setToDate("25/06/0000");
-        advancedSearchPage.clickFirstSearchButton();
+        log.info("Step 2: Navigate to Advanced Search page and input invalid to date");
+        advancedSearchPage
+            .navigate();
+        advancedSearchPage
+            .setToDate("25/06/0000");
+        advancedSearchPage
+            .clickFirstSearchButton();
         softAssert.assertEquals(searchPage.getNoSearchResultsText(), language.translate("searchPage.searchSuggestionNoSearchResuls"), "no search result suggestion not correct");
-        softAssert.assertAll();
+
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation" })
-    public void checkThatWhenFileIsSearchedNoFolderIsReturned()
-    {
-        LOG.info("Step 1: Navigate to advanced search and search for .txt file, verify that no folders are returned");
-        advancedSearchPage.navigate();
+    public void checkThatWhenFileIsSearchedNoFolderIsReturned() {
+        log.info("Step 1: Navigate to advanced search and search for .txt file, verify that no folders are returned");
+        documentLibraryPage
+            .navigate(site.get())
+            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT)
+            .typeName(textFile)
+            .clickCreate();
+        documentLibraryPage.navigate();
+        advancedSearchPage
+            .navigate();
         softAssert.assertEquals(advancedSearchPage.getSelectedContentTypeOption(), "Content ▾", "Content is not the selected Look for option");
-        advancedSearchPage.typeName(textFile);
-        advancedSearchPage.clickFirstSearchButton();
+        advancedSearchPage
+            .typeName(textFile);
+        advancedSearchPage
+            .clickFirstSearchButtonAndRefresh();
         softAssert.assertFalse(searchPage.isAnyFolderReturnedInResults(), "Folder type is returned in results");
         softAssert.assertTrue(searchPage.isResultFound(textFile), textFile + " is not displayed in search results");
         softAssert.assertAll();
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation" })
-    public void checkFolderSearchWithAllDetailsProvided()
-    {
-        //precondition - add description and folder title - this is done from the UI as there is no method in te framework to perform this actions
-        String folderTitle = "Folder title";
-        String description = "This is a test folder";
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.selectItemAction(folderName, ItemActions.EDIT_PROPERTIES);
-        editPropertiesDialog.setTitle(folderTitle);
-        editPropertiesDialog.setDescription(description);
+    public void checkFolderSearchWithAllDetailsProvided() {
+        log.info("precondition - create a Folder with all fields");
+        documentLibraryPage.navigate(site.get())
+            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.FOLDER)
+            .typeName(folderName)
+            .typeTitle(folderTitle)
+            .typeDescription(description);
         editPropertiesDialog.clickSave();
-
-        LOG.info("Step 1: Navigate to Advanced Search and search for folder providing all details");
-        advancedSearchPage.navigate();
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        advancedSearchPage.typeName(folderName);
-        advancedSearchPage.typeDescription(description);
-        advancedSearchPage.typeTitle(folderTitle);
-        advancedSearchPage.clickFirstSearchButton();
+        log.info("Step 1: Navigate to Advanced Search and search for folder providing all details");
+        advancedSearchPage
+            .navigate();
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
+        advancedSearchPage
+            .typeNameFolder(folderName);
+        advancedSearchPage
+            .folderTypeTitle(folderTitle);
+        advancedSearchPage
+            .folderTypeDescription(description);
+        advancedSearchPage
+            .clickFirstSearchButton();
         Assert.assertTrue(searchPage.isResultFound(folderName), folderName + " is not displayed in search results");
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation" })
     public void folderKeywordSearchTest()
     {
-        LOG.info("Step 1: Go to Advanced Search page, select Folder type, type in keyword and check that only folder results are returned");
-        advancedSearchPage.navigate();
-        advancedSearchPage.clickOnLookForDropdown();
-        advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        advancedSearchPage.typeKeywords(folderName);
-        advancedSearchPage.clickFirstSearchButton();
+        log.info("precondition - create a Folder ");
+        documentLibraryPage.navigate(site.get())
+            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.FOLDER)
+            .typeName(folderName)
+            .typeTitle(folderTitle)
+            .typeDescription(description);
+        editPropertiesDialog
+            .clickSave();
+        log.info("Step 1: Go to Advanced Search page, select Folder type, type in keyword and check that only folder results are returned");
+        advancedSearchPage
+            .navigate();
+        advancedSearchPage
+            .clickOnLookForDropdown();
+        advancedSearchPage
+            .clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
+        advancedSearchPage
+            .typeKeywords(folderName);
+        advancedSearchPage
+            .clickOnFirstSearchButton();
         softAssert.assertTrue(searchPage.isResultFound(folderName), folderName + " is not displayed in search results");
         softAssert.assertTrue(searchPage.isAnyFolderReturnedInResults(), "Folder type is not returned in results");
         softAssert.assertFalse(searchPage.isAnyFileReturnedInResults(), "File type is returned in results");
