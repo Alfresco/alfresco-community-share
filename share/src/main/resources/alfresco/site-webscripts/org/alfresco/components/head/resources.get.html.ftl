@@ -10,13 +10,13 @@
 
 <@markup id="yui">
    <#-- YUI -->
-   <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/yui-fonts-grids.css" group="template-common" />
-   <@link rel="stylesheet" type="text/css" href="${url.context}/res/yui/columnbrowser/assets/columnbrowser.css" group="template-common" />
-   <@link rel="stylesheet" type="text/css" href="${url.context}/res/yui/columnbrowser/assets/skins/default/columnbrowser-skin.css" group="template-common" />
+   <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/yui-fonts-grids.css" group="template-common" media="screen,print" />
+   <@link rel="stylesheet" type="text/css" href="${url.context}/res/yui/columnbrowser/assets/columnbrowser.css" group="template-common" media="screen,print" />
+   <@link rel="stylesheet" type="text/css" href="${url.context}/res/yui/columnbrowser/assets/skins/default/columnbrowser-skin.css" group="template-common" media="screen,print" />
    <#if theme = 'default'>
-      <@link rel="stylesheet" type="text/css" href="${url.context}/res/yui/assets/skins/default/skin.css" group="template-common" />
+      <@link rel="stylesheet" type="text/css" href="${url.context}/res/yui/assets/skins/default/skin.css" group="template-common" media="screen,print" />
    <#else>
-      <@link rel="stylesheet" type="text/css" href="${url.context}/res/themes/${theme}/yui/assets/skin.css" group="template-common" />
+      <@link rel="stylesheet" type="text/css" href="${url.context}/res/themes/${theme}/yui/assets/skin.css" group="template-common" media="screen,print" />
    </#if>
 
    <#--
@@ -24,7 +24,7 @@
                 Surf automatically selects the correct one depending on config mode.
    -->
    <@script type="text/javascript" src="${url.context}/res/js/yui-common.js" group="template-common"/>
-   
+
    <@script type="text/javascript" src="${url.context}/res/yui/history/history.js" group="template-common"/>
 
    <@script type="text/javascript" src="${url.context}/res/js/bubbling.v2.1.js" group="template-common"/>
@@ -78,13 +78,13 @@
             "${c.value?js_string}"<#if c_has_next>,</#if>
          </#list>]
       };
-      
+
       Alfresco.constants.HIDDEN_PICKER_VIEW_MODES = [
          <#list config.scoped["DocumentLibrary"]["hidden-picker-view-modes"].children as viewMode>
             <#if viewMode.name?js_string == "mode">"${viewMode.value?js_string}"<#if viewMode_has_next>,</#if></#if>
          </#list>
       ];
-      
+
       Alfresco.constants.MENU_ARROW_SYMBOL = "&#9662;";
 
       Alfresco.constants.TINY_MCE_SUPPORTED_LOCALES = "${config.global["I18N"].getChildValue("tiny-mce-supported-locales")}";
@@ -100,8 +100,8 @@
 
 <@markup id="alfrescoResources">
    <!-- Alfresco web framework common resources -->
-   <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/base.css" group="template-common" />
-   <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/yui-layout.css" group="template-common" />
+   <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/base.css" group="template-common" media="screen,print" />
+   <@link rel="stylesheet" type="text/css" href="${url.context}/res/css/yui-layout.css" group="template-common" media="screen,print" />
    <@script type="text/javascript" src="${url.context}/res/js/alfresco.js" group="template-common"/>
    <script type="text/javascript" src="<@checksumResource src="${url.context}/res/modules/editors/tinymce/tinymce.min.js" parameter="checksum"/>"></script>
    <@script type="text/javascript" src="${url.context}/res/modules/editors/tiny_mce.js" group="template-common"/>
