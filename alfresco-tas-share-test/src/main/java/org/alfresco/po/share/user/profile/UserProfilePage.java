@@ -24,6 +24,7 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
     private String userName;
 
     private final By editProfile = By.cssSelector("button[id$='button-edit-button']");
+    private final By currentPageUserName = By.cssSelector("#template_x002e_user-profile_x002e_user-profile_x0023_default-readview > div.viewcolumn > div.photorow > div.namelabel");
     private final By infoLink = By.cssSelector("a[id$='default-profile-link']");
     private final By headers = By.cssSelector("div[id$='readview'] .viewcolumn .header-bar");
     private final By summary = By.cssSelector(".biorow>div");
@@ -87,6 +88,13 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
         assertTrue(getCurrentUrl().contains("/profile"), "User profile page is opened");
         return this;
     }
+
+    public Boolean  assertCheckUserName() {
+      return
+        findElement(currentPageUserName).getText().equals("Mike Jackson");
+    }
+
+
 
     public UserProfilePage assertInfoLinkIsDisplayed()
     {
