@@ -253,6 +253,16 @@ public class Toolbar extends BasePage
         searchPage.waitForPageToLoad();
         return new SearchPage(webDriver);
     }
+    public SearchPage searchAndEnterAgain(String searchTerm)
+    {
+        searchInToolbar(searchTerm);
+        findElement(searchBoxInput).sendKeys(Keys.RETURN);
+        SearchPage searchPage = new SearchPage(webDriver);
+        searchPage.waitForPageToLoad();
+        refresh();
+        searchPage.clickSearchButtonAgain();
+        return new SearchPage(webDriver);
+    }
 
     public void clickResult(String query)
     {
