@@ -736,6 +736,19 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         clickElement(searchButton);
     }
+    public void clickSearchButtonAgain()
+    {
+        waitInSeconds(5);
+        clickElement(searchButton);
+        waitInSeconds(5);
+        refresh();
+        clickElement(searchButton);
+        waitInSeconds(5);
+        refresh();
+        clickElement(searchButton);
+        waitInSeconds(5);
+        refresh();
+    }
 
     public boolean confirmNoItemIsHighlighted()
     {
@@ -747,6 +760,11 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         docName(contentName);
     }
+    public void clickOnContentName(String contentName)
+    {
+        docName(contentName).click();
+    }
+
 
     public void clickSortDropdownOption(String sortingOption)
     {
@@ -781,6 +799,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public int getResultsListSize()
     {
+        waitInSeconds(3);
         return findElements(resultsList).size();
     }
 
@@ -834,7 +853,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void clickContentThumbnailByName(String contentName)
     {
-        image(contentName);
+        image(contentName).click();
     }
 
     public String getPreviewedImageName()
@@ -849,6 +868,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isConfigureSearchButtonDisplayed()
     {
+        waitInSeconds(3);
         return isElementDisplayed(configureSearchButton);
     }
 
