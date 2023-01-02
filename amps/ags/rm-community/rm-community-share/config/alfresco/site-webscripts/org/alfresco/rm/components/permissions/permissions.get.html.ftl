@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2022 Alfresco Software Limited
+ Copyright (C) 2005 - 2023 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -46,7 +46,7 @@
       </div>
    </div>
    <div class="title">${msg("label.title", '${page.url.args.itemName!""}')?html}</div>
-   
+
    <!-- Permissions List -->
    <div class="permlist">
       <div class="permlist-border">
@@ -58,7 +58,7 @@
          <div id="${el}-list" class="theme-bg-color-3"></div>
       </div>
    </div>
-   
+
    <!-- Finish button -->
    <div class="center">
       <div class="finish-button">
