@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2022 Alfresco Software Limited
+ Copyright (C) 2005 - 2023 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -143,7 +143,7 @@
                         <input id="${el}-combine-or-radioButton" type="radio" name="combineDispositionStepConditions" class="combineDispositionStepConditions" value="false" checked="false" /> ${msg("label.or")}
                         <input id="${el}-combine-and-radioButton" type="radio" name="combineDispositionStepConditions" class="combineDispositionStepConditions" value="true" /> ${msg("label.and")}
                      </span>
-                  
+
                   </div>
 
                   <div class="section">
