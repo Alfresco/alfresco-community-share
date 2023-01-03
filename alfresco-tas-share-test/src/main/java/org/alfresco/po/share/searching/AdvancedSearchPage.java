@@ -119,10 +119,11 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         return this;
     }
 
-    public void clickOnLookForDropdown()
+    public AdvancedSearchPage clickOnLookForDropdown()
     {
         waitUntilElementIsVisible(lookForDropdownButton);
         clickElement(lookForDropdownButton);
+        return this;
     }
 
     public boolean isLookForDropdownOptionDisplayed(String label, String description)
@@ -148,7 +149,7 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
     }
 
 
-    public void clickOnLookForDropdownOption(String label)
+    public AdvancedSearchPage clickOnLookForDropdownOption(String label)
     {
         List<WebElement> dropdownOptions = findElements(lookForDropdownOptions);
         for (WebElement htmlElement : dropdownOptions)
@@ -159,6 +160,7 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
                 break;
             }
         }
+        return this;
     }
 
     public boolean isKeywordsInputDisplayed()
@@ -274,16 +276,18 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
     {
         clearAndType(findElement(contentNameInput), name);
     }
-    public void typeNameFolder(String name)
+    public AdvancedSearchPage typeNameFolder(String name)
     {
         clearAndType(findElement(folderNameInput), name);
         waitInSeconds(3);
+        return this;
     }
 
-    public void typeTitle(String title)
+    public AdvancedSearchPage typeTitle(String title)
     {
         clearAndType(findElement(titleTextarea), title);
         waitInSeconds(10);
+        return this;
     }
     public void folderTypeTitle(String title)
     {
@@ -291,17 +295,19 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         waitInSeconds(3);
     }
 
-    public void typeDescription(String description)
+    public AdvancedSearchPage typeDescription(String description)
     {
         waitUntilElementIsVisible(descriptionTextarea);
         clearAndType(findElement(descriptionTextarea), description);
         waitInSeconds(3);
+        return this;
     }
-    public void folderTypeDescription(String description)
+    public AdvancedSearchPage folderTypeDescription(String description)
     {
         waitUntilElementIsVisible(folderDescriptionTextarea);
         clearAndType(findElement(folderDescriptionTextarea), description);
         waitInSeconds(2);
+        return this;
     }
 
     public SearchPage clickFirstSearchButtonAgain()
