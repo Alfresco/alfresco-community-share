@@ -222,7 +222,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     }
     public boolean isResultFoundWithList(String query)
     {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             if (isElementDisplayed(resultsDetailedViewList)) {
                 break;
             }
@@ -235,12 +235,8 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         }
         List<WebElement> elementList = waitUntilElementsAreVisible(resultsDetailedViewList);
         WebElement webElement = findFirstElementWithValue(elementList, query);
-        //  System.out.println("we element value is: "+webElement);
-        for (int i = 0; i < 5; i++) {
-//            System.out.println("for iteratin: "+i+ "  "+webElement);
-
+        for (int i = 0; i < 10; i++) {
             if (webElement == null) {
-//                System.out.println("from if condion");
                 refresh();
                 waitInSeconds(2);
                 elementList = waitUntilElementsAreVisible(resultsDetailedViewList);
@@ -257,7 +253,6 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchPage assertCreatedDataIsDisplayed(String query)
     {
         log.info("Assert created data like wiki page, data list, event, blog is displayed");
-        // System.out.println("isResultFoundWithList result: "+isResultFoundWithList(query));
         Assert.assertTrue(isResultFoundWithList(query), query+" is not displayed");
         return this;
     }
@@ -266,6 +261,14 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         SoftAssert sa = new SoftAssert();
         sa.assertTrue(isResultFound(".xml"), ".xml" + " is not displayed");
 
+        return this;
+    }
+
+    public SearchPage clickSortDropDown_CreatedDate()
+    {
+        clickSortDropdown();
+        waitUntilElementIsPresent(By.cssSelector("tr[id*='alfresco_menus_AlfCheckableMenuItem'] td:nth-child(3)"));
+        selectOptionFromFilterOptionsList("Created date", findElements(sortOptions));
         return this;
     }
     public SearchPage assertIsXmlFileNotDisplayed(String query)
@@ -556,7 +559,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         return isElementDisplayed(actionsLink);
     }
 
-    public void clickCheckbox(String searchResult)
+    public SearchPage clickCheckbox(String searchResult)
     {
         if (isResultFound(searchResult))
         {
@@ -569,6 +572,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
                 findDisplayedElementsFromLocator(checkboxSelector);
             }
         }
+        return this;
     }
 
     public boolean isSelectedItemsListOptionDisplayed(String optionName)
@@ -586,10 +590,11 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         }
     }
 
-    public void clickSelectedItemsDropdown()
+    public SearchPage clickSelectedItemsDropdown()
     {
         clickElement(selectedItemsDropdown);
         waitUntilElementIsVisibleWithRetry(By.id("SELECTED_ITEMS_MENU_dropdown"), 3);
+        return this;
     }
 
     public boolean isSelectedItemsOptionDisplayed(String optionName)
@@ -696,6 +701,32 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             return findElement(titleHighlight).getText().equals(title);
         }
     }
+    public SearchPage assertIsNameHighlighted(String name)
+    {
+        Assert.assertTrue(isNameHighlighted(name), name+" is not highlighted");
+        return this;
+    }
+    public SearchPage assertNameNotHighlighted(String name)
+    {
+        waitInSeconds(3);
+        Assert.assertFalse(isNameHighlighted(name), name+" is not highlighted");
+        return this;
+    }
+    public SearchPage assertIsContentHighlighted(String content)
+    {
+        Assert.assertTrue(isContentHighlighted(content), content+" is not highlighted");
+        return this;
+    }
+    public SearchPage assertIsDescriptionHighlighted(String name)
+    {
+        Assert.assertTrue(isDescriptionHighlighted(name), name+" is not highlighted");
+        return this;
+    }
+    public SearchPage assertIsTitleHighlighted(String title)
+    {
+        Assert.assertTrue(isTitleHighlighted(title), title+" is not highlighted");
+        return this;
+    }
 
     public String getNoSearchResultsText()
     {
@@ -709,12 +740,18 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isAnyFileReturnedInResults()
     {
+        waitInSeconds(3);
         return isElementDisplayed(contentResult);
     }
 
     public boolean isConfirmDeletionDialogDisplayed()
     {
         return isElementDisplayed(confirmDeleteDialog);
+    }
+    public SearchPage assertConfirmDeletionDialogNotDisplayed()
+    {
+        Assert.assertFalse(isConfirmDeletionDialogDisplayed(),"Confirm deletion dialog is still displayed");
+        return this;
     }
 
     public boolean isSiteHighlighted()
@@ -752,7 +789,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean confirmNoItemIsHighlighted()
     {
-        waitUntilElementDeletedFromDom(highlight);
+        waitInSeconds(3);
         return isElementDisplayed(highlight);
     }
 
