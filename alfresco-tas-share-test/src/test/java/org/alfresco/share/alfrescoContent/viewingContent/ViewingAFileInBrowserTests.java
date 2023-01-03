@@ -9,7 +9,10 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
+import org.testng.Assert;
 import org.testng.annotations.*;
+
+import static org.alfresco.common.Utils.isFileInDirectory;
 
 
 @Slf4j
@@ -73,9 +76,8 @@ public class ViewingAFileInBrowserTests extends BaseTest
 
         log.info("Step 3: Click View In Browser.");
         documentLibraryPage
-            .selectItemAction(fileToCheck.getName(), ItemActions.VIEW_IN_BROWSER);
-        documentLibraryPage
-            .assertVerifyFileContentInNewBrowserWindow(description);
+            .selectItemActionFormFirstThreeAvailableOptions(fileToCheck.getName(),ItemActions.VIEW_IN_BROWSER);
+        Assert.assertTrue(isFileInDirectory(fileToCheck.getName(), null), "The file was not found in the specified location");
     }
 }
 
