@@ -1549,9 +1549,9 @@
           *
           * @property minPasswordLength
           * @type int
-          * @default 3
+          * @default 8
           */
-         minPasswordLength: 3,
+         minPasswordLength: 8,
          
          /**
           * Specifies whether authorization status should be displayed
