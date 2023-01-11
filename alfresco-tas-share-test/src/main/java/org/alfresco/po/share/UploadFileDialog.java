@@ -39,7 +39,6 @@ public class UploadFileDialog extends BaseDialogComponent
         log.info("Upload file from {}", location);
         uploadFile(location);
         waitUntilElementDisappears(dialogBody);
-        
         return (T) this;
     }
 

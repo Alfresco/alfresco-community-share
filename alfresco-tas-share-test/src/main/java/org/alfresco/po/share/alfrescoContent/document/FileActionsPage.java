@@ -285,7 +285,6 @@ public class FileActionsPage extends SharePage2<FileActionsPage>
         assertTrue(isVersionHistoryBlockDisplayed(), "Version History Block is not displayed");
         return this;
     }
-    
     public FileActionsPage assertVerifyShareLink(String linkText)
     {
         log.info("Verify the share link text");

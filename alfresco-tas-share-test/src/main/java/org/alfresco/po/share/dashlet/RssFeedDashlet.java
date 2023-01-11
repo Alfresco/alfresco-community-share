@@ -13,7 +13,6 @@ import org.openqa.selenium.WebDriver;
 public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 {
     private final int SECOND_TAB = 1;
-    
     private final By dashletContainer = By.cssSelector("div.dashlet.rssfeed");
     private final By feedsList = By.cssSelector("div.headline h4 a");
     private final By titleBarActions = By.cssSelector("div[class^='dashlet rssfeed'] .titleBarActions");

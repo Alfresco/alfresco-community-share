@@ -146,7 +146,6 @@ public class LoginPage extends CommonLoginPage
     {
         return isElementDisplayed(alfrescoLogo);
     }
-    
     @Override
     public CommonLoginPage assertLoginPageTitleIsCorrect()
     {

@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 {
     private final int BEGIN_INDEX = 0;
-    
     private final By dashletContainer = By.cssSelector("div.dashlet.calendar");
     private final By siteEventsNameList = By.cssSelector("div.dashlet.calendar .detail-list-item span>a");
     private final By dashletMessage = By.cssSelector("div.dashlet.calendar .dashlet-padding>h3");
