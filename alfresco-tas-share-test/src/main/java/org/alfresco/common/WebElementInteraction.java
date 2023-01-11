@@ -42,7 +42,6 @@ public abstract class WebElementInteraction
     {
         this.webDriver = webDriver;
     }
-    
     protected final DefaultProperties getDefaultProperties()
     {
         return defaultProperties;

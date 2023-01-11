@@ -71,7 +71,6 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
         deleteUsersIfNotNull(user.get());
         deleteSitesIfNotNull(site.get());
     }
-    
     @TestRail (id = "C5883")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void viewFileInfoAndOptions()

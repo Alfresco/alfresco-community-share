@@ -49,6 +49,11 @@
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
         </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-jcl</artifactId>
+        <version>${dependency.log4j.version}</version>
+      </dependency>
         <dependency>
             <groupId>commons-pool</groupId>
             <artifactId>commons-pool</artifactId>
