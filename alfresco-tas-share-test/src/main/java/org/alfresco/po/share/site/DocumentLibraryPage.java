@@ -1392,6 +1392,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public DocumentLibraryPage assertFileIsNotDisplayed(String fileName)
     {
         log.info("Assert file is not displayed in Document Library {}", fileName);
+        waitInSeconds(3);
         assertFalse(isFileNameDisplayed(fileName), fileName + " is displayed in Document Library");
         return this;
     }
