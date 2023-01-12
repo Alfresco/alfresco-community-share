@@ -39,8 +39,8 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
     private final By dialogBody = By.cssSelector("div[id$='default-copyMoveTo-dialog']");
     private final By documentLibraryPath = By.xpath("//div[@class=\"alfresco-navigation-Tree \"]//span[text()=\"documentLibrary\"]");
     private final By documentsRootPath = By.cssSelector("div[id$='default-copyMoveTo-treeview'] div[class='ygtvitem selected']>table span");
-
-    private final String siteToSelect = "//span[text()='%s']";
+    private final String siteToSelect = "//h4[text()='%s']";
+    private final String site_ToSelect = "//span[text()='%s']";
     private final String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
     private final String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";
     private final String destinationChecked = "yui-radio-button-checked";
@@ -112,7 +112,7 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
     {
         log.info("Select site {}", site.getTitle());
         WebElement sitePicker = waitUntilElementIsVisible(site_PickerArea);
-        WebElement siteElement = waitUntilChildElementIsPresent(sitePicker, By.xpath(String.format(siteToSelect, site.getTitle())));
+        WebElement siteElement = waitUntilChildElementIsPresent(sitePicker, By.xpath(String.format(site_ToSelect, site.getTitle())));
         clickElement(siteElement);
         waitInSeconds(5);
 
