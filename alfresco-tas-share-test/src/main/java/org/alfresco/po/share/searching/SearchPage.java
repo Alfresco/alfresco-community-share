@@ -250,6 +250,17 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 //        System.out.println("from last : "+webElement);
         return webElement != null;
     }
+    public boolean is_ResultFound()
+    {
+        waitInSeconds(3);
+        for (int i = 0; i < 5; i++) {
+            if (isElementDisplayed(resultsDetailedViewList)) {
+            } else {
+                refresh();
+            }
+        }
+        return isElementDisplayed(resultsDetailedViewList);
+    }
     public SearchPage assertCreatedDataIsDisplayed(String query)
     {
         log.info("Assert created data like wiki page, data list, event, blog is displayed");
@@ -574,11 +585,21 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         }
         return this;
     }
-
+    public SearchPage click_checkBox(int searchPosition){
+        List<WebElement> checkBoxElements = findElements(checkboxList);
+        checkBoxElements.get(searchPosition).click();
+        return this;
+    }
     public boolean isSelectedItemsListOptionDisplayed(String optionName)
     {
         WebElement action = findFirstElementWithValue(selectedItemsCheckboxOptions, optionName);
         return isElementDisplayed(action);
+    }
+
+    public SearchPage assert_isSelectedItemsListOptionDisplayed(String option_Name)
+    {
+        Assert.assertTrue(isSelectedItemsListOptionDisplayed(option_Name), option_Name+" not displayed");
+        return this;
     }
 
     public void clickOptionFromSelectedItemsListCheckbox(String optionName)
@@ -603,6 +624,12 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         return isElementDisplayed(action);
     }
 
+    public SearchPage assert_IsSelectedItemsOptionDisplayed(String option_Name)
+    {
+        Assert.assertTrue(isSelectedItemsOptionDisplayed(option_Name), option_Name +" not Displayed");
+        return this;
+    }
+
     public void clickOptionFromSelectedItemsDropdown(String optionName)
     {
         if (isSelectedItemsOptionDisplayed(optionName))
@@ -611,15 +638,64 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             clickElement(action);
         }
     }
+    public void click_OptionFromSelectedItemsDropdown(String optionName )
+    {
+        List<WebElement> dropDownOptions = findElements(selectedItemsOptions);
+        for (WebElement webElement : dropDownOptions)
+        {
+            if (webElement.getText().contains(optionName))
+            {
+                webElement.click();
+                break;
+            }
+        }
+
+    }
+    public SearchPage click_OptionFromSelectedListItemsDropdown(String optionName )
+    {
+        List<WebElement> dropDownOptions = findElements(selectedItemsCheckboxOptions);
+        for (WebElement webElement : dropDownOptions)
+        {
+            if (webElement.getText().contains(optionName))
+            {
+                webElement.click();
+                break;
+            }
+        }
+        return this;
+    }
+    protected void selectOptionFromFilterOptionsList(String option,
+                                                     List<WebElement> filterOptionsList)
+    {
+        for (WebElement webElement : filterOptionsList)
+        {
+            if (webElement.getText().contains(option))
+            {
+                webElement.click();
+                break;
+            }
+        }
+    }
 
     public boolean isALLItemsCheckboxChecked()
     {
         return isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
     }
+    public SearchPage assert_isAllItemsCheckBoxChecked()
+    {
+        Assert.assertTrue(isALLItemsCheckboxChecked(), "Checkbox Unchecked");
+        return this;
+    }
 
     public boolean isNoneItemsCheckboxChecked()
     {
+        waitInSeconds(3);
         return isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have no items selected. Click this icon to select all.']"));
+    }
+    public SearchPage assert_isNoneItemsCheckBoxChecked()
+    {
+        Assert.assertTrue(isNoneItemsCheckboxChecked(), "Checkbox Unchecked");
+        return this;
     }
 
     public String getSelectedItemsState()
@@ -630,13 +706,15 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public void deleteDocuments(boolean areYouSure)
     {
-        clickElement(deleteDialogCancel);
+        //       clickElement(deleteDialogCancel);
 
         if (areYouSure)
         {
             while (isElementDisplayed(deleteDialogConfirm))
             {
+                waitInSeconds(3);
                 clickElement(deleteDialogConfirm);
+                waitInSeconds(3);
             }
         } else
         {
@@ -647,16 +725,18 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         }
     }
 
-    public void clickSelectAll()
+    public SearchPage clickSelectAll()
     {
         clickElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS']"));
         waitUntilElementIsVisibleWithRetry(By.id("SELECTED_LIST_ITEMS_dropdown"), 5);
         clickElement(By.cssSelector("tr[title='All'] td[class*='dijitMenuItemLabel']"));
+        return this;
     }
 
-    public void clickSelectedItemsListDropdownArrow()
+    public SearchPage clickSelectedItemsListDropdownArrow()
     {
         clickElement(selectedListItemsDropdownArrow);
+        return this;
     }
 
     public boolean isNameHighlighted(String name)
