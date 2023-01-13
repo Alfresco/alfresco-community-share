@@ -14,6 +14,9 @@ import org.openqa.selenium.WebElement;
 public class DataListsPage extends SiteCommon<DataListsPage>
 {
     public Content currentContent = new NoListItemSelectedContent();
+    private final By dataListCurrentPage = By.cssSelector("div.title-bar [id$=default-viewButtons]");
+    private final By clickSaveButton = By.cssSelector("#template_x002e_datalists_x002e_data-lists_x0023_default-newList-form-submit-button");
+
     private final By dataListsSection = By.cssSelector("div.datalists div.filter");
     private final By newListButton = By.cssSelector("button[id*='newListButton']");
     private final By editListButton = By.cssSelector(".filter-link>.edit");
@@ -55,6 +58,17 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         log.info("Assert data list page is opened");
         assertTrue(getCurrentUrl().contains("data-lists"), "Data List page is not opened");
         return this;
+    }
+    public DataListsPage getCurrentPageTitle()
+    {
+        findElement(dataListCurrentPage);
+        return this;
+    }
+
+    public CreateDataListDialog clickOnSaveButton()
+    {
+        clickElement(clickSaveButton);
+        return new CreateDataListDialog(webDriver);
     }
 
     public DataListsPage assertEmptyListMessageEquals(String emptyMessageExpected)
