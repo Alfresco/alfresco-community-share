@@ -2,6 +2,7 @@ package org.alfresco.po.share.site.wiki;
 
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.FindBy;
 
 public class WikiPage extends SiteCommon<WikiPage>
 {
+    private final By wikiPageTitle1 = By.cssSelector("div.title-bar [id$=default-viewButtons]");
+
     @FindBy (css = "div.title-bar [id$=default-viewButtons]")
     private WebElement wikiPageTitle;
 
@@ -74,6 +77,12 @@ public class WikiPage extends SiteCommon<WikiPage>
     {
         deleteWikiPage.click();
         return deletePopUp.isDisplayed();
+    }
+    public WikiPage getWikiCurrentPageTitle()
+    {
+        findElement(wikiPageTitle1);
+        return this;
+
     }
 
     public String getWikiPageContent()

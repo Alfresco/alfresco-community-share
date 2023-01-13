@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.UploadFileDialog;
+import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -82,6 +83,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * more actions
      */
     protected By moreSelector = By.cssSelector("div[id*='default-actions']:not([class*='hidden']) a.show-more");
+    private By dataList = By.cssSelector("#HEADER_SITE_DATA-LISTS_text > a");
+    private By contactList = By.xpath("//a[text()=\"Contact List\"]");
+    private By TypeTitle = By.xpath("//input[@name=\"prop_cm_title\"]");
+    private By clickSaveButton = By.xpath("//button[text()=\"Save\"]");
+
+
+
     private By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
     private By uploadButton_ = By.cssSelector("[id$='default-fileUpload-button-button']");
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
@@ -177,6 +185,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         log.info("Assert Create menu options are available ");
        assertTrue(areCreateOptionsAvailable(), "Create menu options are not available");
         return this;
+    }
+    public UploadFileDialog createContactDataList(String listName)
+    {
+        waitUntilElementIsVisible(dataList).click();
+        findElement(contactList).click();
+        findElement(TypeTitle).sendKeys(listName);
+        clickElement(clickSaveButton);
+        return new UploadFileDialog(webDriver);
     }
 
     /**
