@@ -50,6 +50,23 @@ public class Toolbar extends BasePage
         assertTrue(isElementDisplayed(toolbarLocator), "Toolbar is displayed");
         return this;
     }
+    public SearchPage searchAndEnterSearch(String searchTerm)
+    {
+        searchInToolbar(searchTerm);
+        findElement(searchBoxInput).sendKeys(Keys.RETURN);
+        waitInSeconds(5);
+        findElement(searchBoxInput).sendKeys(Keys.RETURN);
+        waitInSeconds(5);
+        refresh();
+        findElement(searchBoxInput).sendKeys(Keys.RETURN);
+        waitInSeconds(5);
+        refresh();
+        findElement(searchBoxInput).sendKeys(Keys.RETURN);
+        waitInSeconds(3);
+        refresh();
+        return new SearchPage(webDriver);
+
+    }
 
     public ToolbarSitesMenu clickSites()
     {
