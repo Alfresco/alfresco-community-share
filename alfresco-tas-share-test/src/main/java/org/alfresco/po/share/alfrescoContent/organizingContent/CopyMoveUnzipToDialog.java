@@ -26,16 +26,21 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
     private final By dialogTitle = By.cssSelector("div[id*='title']");
     private final By unzipCopyMoveButton = By.cssSelector("button[id$='_default-copyMoveTo-ok-button']");
     private final By cancelButton = By.cssSelector("button[id$='_default-copyMoveTo-cancel-button']");
+    private final By copyButton = By.xpath("//span[text()=\"Copy\"]");
+    private final By moveButton = By.xpath("//span[text()=\"Move\"]");
     private final By recentSitesDestination = By.cssSelector("button[id$='copyMoveTo-recentsites-button']");
     private final By sharedFilesDestination = By.cssSelector("span[id$='default-copyMoveTo-shared']");
     private final By myFilesDestination = By.cssSelector("button[id$='copyMoveTo-myfiles-button']");
     private final By allSitesDestination = By.cssSelector("button[id$='copyMoveTo-site-button']");
     private final By folderPathsArea = By.cssSelector("div[id$='default-copyMoveTo-treeview']");
     private final By sitePickerArea = By.cssSelector(".site-picker");
+    private final By allSites = By.xpath("(//span[@class=\"alf-menu-bar-label-node\"])[9]");
+    private final By site_PickerArea = By.xpath("//div[@class=\"alfresco-pickers-SingleItemPicker\"]");
     private final By dialogBody = By.cssSelector("div[id$='default-copyMoveTo-dialog']");
+    private final By documentLibraryPath = By.xpath("//div[@class=\"alfresco-navigation-Tree \"]//span[text()=\"documentLibrary\"]");
     private final By documentsRootPath = By.cssSelector("div[id$='default-copyMoveTo-treeview'] div[class='ygtvitem selected']>table span");
-
     private final String siteToSelect = "//h4[text()='%s']";
+    private final String site_ToSelect = "//span[text()='%s']";
     private final String folderElementToSelect = "//span[@class='ygtvlabel' and text()='%s']";
     private final String folderElementToSelectRow = "//span[@class='ygtvlabel' and text()='%s']/../../../../..";
     private final String destinationChecked = "yui-radio-button-checked";
@@ -84,6 +89,12 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
         waitUntilElementIsVisible(sitePickerArea);
         return this;
     }
+    public CopyMoveUnzipToDialog select_AllSitesDestination()
+    {
+        log.info("Select Shared Files destination");
+        clickElement(allSites);
+        return this;
+    }
 
     public CopyMoveUnzipToDialog selectSite(SiteModel site)
     {
@@ -94,6 +105,16 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
         waitUntilElementIsPresent(folderPathsArea);
         waitUntilElementIsVisible(folderPathsArea);
         waitForDocumentsPathAndClick();
+
+        return this;
+    }
+    public CopyMoveUnzipToDialog select_Site(SiteModel site)
+    {
+        log.info("Select site {}", site.getTitle());
+        WebElement sitePicker = waitUntilElementIsVisible(site_PickerArea);
+        WebElement siteElement = waitUntilChildElementIsPresent(sitePicker, By.xpath(String.format(site_ToSelect, site.getTitle())));
+        clickElement(siteElement);
+        waitInSeconds(5);
 
         return this;
     }
@@ -207,5 +228,27 @@ public class CopyMoveUnzipToDialog extends BaseDialogComponent
         clickElement(unzipCopyMoveButton);
         waitUntilElementDisappears(dialogBody);
         waitUntilNotificationMessageDisappears();
+    }
+    public CopyMoveUnzipToDialog clickDocumentsFolder()
+    {
+        log.info("Click Documents Folder");
+        clickElement(documentLibraryPath);
+        return this;
+    }
+    public CopyMoveUnzipToDialog clickCopyButton()
+    {
+        log.info("Click Documents Folder");
+        waitInSeconds(3);
+        clickElement(copyButton);
+        waitUntilNotificationMessageDisappears();
+        return this;
+    }
+    public CopyMoveUnzipToDialog click_MoveButton()
+    {
+        log.info("Click Documents Folder");
+        waitInSeconds(3);
+        clickElement(moveButton);
+        waitUntilNotificationMessageDisappears();
+        return this;
     }
 }
