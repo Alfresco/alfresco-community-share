@@ -58,6 +58,7 @@
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchResultsPageTest"></class>
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareFileOrFolderTests"></class>
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchTests"></class>
+         <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareTests"></class>
       </classes>
    </test>
 </suite>
