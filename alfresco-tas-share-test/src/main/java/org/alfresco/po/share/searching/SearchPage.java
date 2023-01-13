@@ -313,6 +313,9 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isResultFoundWithRetry(String query)
     {
+        refresh();
+        waitInSeconds(2);
+        refresh();
         WebElement webElement = findFirstElementWithValue(resultsDetailedViewList, query);
         for (int i = 0; i < 5; i++)
         {
