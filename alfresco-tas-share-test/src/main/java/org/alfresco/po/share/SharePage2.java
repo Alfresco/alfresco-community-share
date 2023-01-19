@@ -5,6 +5,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -149,7 +150,14 @@ public abstract class SharePage2<T> extends BasePage
     {
         if (!StringUtils.isEmpty(username))
         {
+            try
+            {
                 return UriUtils.encodePath(String.format(pageUrl, username), "UTF-8");
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                throw new RuntimeException(String.format("Unable to set the path for user {}. {}", username, e.getMessage()));
+            }
         }
         throw new RuntimeException(String.format("Set the user name to navigate to %s page", this.getClass().getSimpleName()));
     }
