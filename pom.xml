@@ -61,6 +61,7 @@
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
+        <dependency.jcl-over-slf4j.version>1.7.30</dependency.jcl-over-slf4j.version>
         <dependency.cxf.version>3.4.1</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>18.0.0</dependency.keycloak.version>
@@ -268,13 +269,26 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${dependency.jackson.version}</version>
             </dependency>
-
-            <dependency>
+          <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${dependency.jcl-over-slf4j.version}</version>
+          </dependency>
+          <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${dependency.slf4j.version}</version>
             </dependency>
-
+          <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${dependency.log4j.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${dependency.log4j.version}</version>
+          </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
