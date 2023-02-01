@@ -12,6 +12,12 @@ import org.openqa.selenium.WebElement;
 public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements AccessibleByMenuBar
 {
     private final By searchResultsList = By.cssSelector("tbody[class='yui-dt-data'] tr");
+    private final By pageTitle = By.xpath("//h1[@class = 'alfresco-header-Title']");
+
+    private final By notification = By.cssSelector("div.bd span.message");
+    private final By peopleFinderPage = By.cssSelector("span[id='HEADER_PEOPLE_text']");
+
+
     private final By searchInputField = By.cssSelector("input[id$='default-search-text']");
     private final By searchButton = By.cssSelector("button[id$='default-search-button-button']");
     private final By searchHelpMessage = By.cssSelector("[id*='default-help']");
@@ -51,6 +57,22 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
     public void clickSearch()
     {
         clickElement(searchButton);
+    }
+    public PeopleFinderPage navigateToPeopleFinderPage()
+    {
+        clickElement(peopleFinderPage);
+        return this;
+    }
+
+    public PeopleFinderPage getNotification()
+    {
+        findElement(notification).getText();
+        return this;
+    }
+
+    public String getPageTitle()
+    {
+        return getElementText(pageTitle);
     }
 
     public void clickSearchAndWaitForResults()
@@ -121,7 +143,7 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
 
     public UserProfilePage clickUserLink(String username)
     {
-        selectUser(username).findElement(By.cssSelector("a"));
+        selectUser(username).findElement(By.cssSelector("a")).click();
         return new UserProfilePage(webDriver);
     }
 
