@@ -59,6 +59,7 @@
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareFileOrFolderTests"></class>
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchTests"></class>
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareTests"></class>
+         <class name="org.alfresco.share.searching.peopleFinder.PeopleFinderPageTest"></class>
       </classes>
    </test>
 </suite>
