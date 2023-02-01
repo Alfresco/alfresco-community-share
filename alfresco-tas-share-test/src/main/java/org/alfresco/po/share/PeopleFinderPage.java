@@ -78,6 +78,7 @@ public class PeopleFinderPage extends SharePage2<PeopleFinderPage> implements Ac
     public void clickSearchAndWaitForResults()
     {
         clickElement(searchButton);
+        waitInSeconds(3);
     }
 
     public void search(String searchInput)
