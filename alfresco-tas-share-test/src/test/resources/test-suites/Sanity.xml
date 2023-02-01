@@ -40,6 +40,7 @@
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository"></package>
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles"></package>
          <package name="org.alfresco.share.RebrandTests"></package>
+         <package name="org.alfresco.share.searching.peopleFinder"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
@@ -59,7 +60,6 @@
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareFileOrFolderTests"></class>
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchTests"></class>
          <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareTests"></class>
-         <class name="org.alfresco.share.searching.peopleFinder.PeopleFinderPageTest"></class>
       </classes>
    </test>
 </suite>
