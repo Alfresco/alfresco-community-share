@@ -653,7 +653,7 @@
          }
          else if (linkedNodeIsContainer)
          {
-            if ($isValueSet(scope.options.siteId) && record.location.site && record.location.site.name !== scope.options.siteId)
+            if ($isValueSet(scope.options.siteId) && record.location.site)
             {
                html = $siteURL("documentlibrary?path=" + encodeURIComponent(recordPath + (recordPath != "/" ? "/" : "") + fileName),
                {
