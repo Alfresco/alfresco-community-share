@@ -58,6 +58,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 /**
  * Uses Keycloak Java Servlet Filter Adapter
@@ -187,46 +188,48 @@ public class AIMSFilter extends KeycloakOIDCFilter
 
         String username = context.getToken().getPreferredUsername();
         String accessToken = context.getTokenString();
-
-        try
+        synchronized (this)
         {
-            // Init request context for further use on getting user
-            this.initRequestContext(request, response);
-
-            // Get the alfTicket from repo, using the JWT token from Keycloak
-            String alfTicket = this.getAlfTicket(session, username, accessToken);
-            if (alfTicket != null)
+            try
             {
-                // Ensure User ID is in session so the web-framework knows we have logged in
-                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
-                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
+                // Init request context for further use on getting user
+                this.initRequestContext(request, response);
 
-                // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
-                Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
-                connector.getConnectorSession().setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
+                // Get the alfTicket from repo, using the JWT token from Keycloak
+                String alfTicket = this.getAlfTicket(session, username, accessToken);
+                if (alfTicket != null)
+                {
+                    // Ensure User ID is in session so the web-framework knows we have logged in
+                    session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
+                    session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
 
-                // Set credential username for further use on repo
-                // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
-                CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
-                Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
-                credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
-                vault.store(credentials);
+                    // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
+                    Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
+                    connector.getConnectorSession().setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
 
-                // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
-                this.loginController.beforeSuccess(request, response);
+                    // Set credential username for further use on repo
+                    // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
+                    CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
+                    Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
+                    credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
+                    vault.store(credentials);
 
-                // Initialise the user metadata object used by some web scripts
-                this.initUser(request);
+                    // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
+                    this.loginController.beforeSuccess(request, response);
 
+                    // Initialise the user metadata object used by some web scripts
+                    this.initUser(request);
+
+                }
+                else
+                {
+                    logger.error("Could not get an alfTicket from Repository.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                logger.error("Could not get an alfTicket from Repository.");
+                throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
             }
-        }
-        catch (Exception e)
-        {
-            throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
         }
     }
 
@@ -295,7 +298,7 @@ public class AIMSFilter extends KeycloakOIDCFilter
         Connector connector = this.connectorService.getConnector(ALFRESCO_API_ENDPOINT_ID, username, session);
         ConnectorContext c = new ConnectorContext(HttpMethod.GET, null, Collections.singletonMap("Authorization", "Bearer " + accessToken));
         c.setContentType("application/json");
-        Response r = connector.call("/-default-/public/authentication/versions/1/tickets/-me-", c);
+        Response r = connector.call("/-default-/public/authentication/versions/1/tickets/-me-?noCache=" + UUID.randomUUID().toString(), c);
 
         if (Status.STATUS_OK != r.getStatus().getCode())
         {
