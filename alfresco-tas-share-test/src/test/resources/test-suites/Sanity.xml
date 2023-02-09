@@ -40,6 +40,8 @@
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository"></package>
          <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles"></package>
          <package name="org.alfresco.share.RebrandTests"></package>
+         <package name="org.alfresco.share.searching.advancedSearch"></package>
+         <package name="org.alfresco.share.searching.facetedSearch"></package>
          <package name="org.alfresco.share.searching.peopleFinder"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
@@ -52,14 +54,7 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
          <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
-         <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchOperatorsTests"></class>
-         <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchPageTest"></class>
-         <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchTests"></class>
-         <class name="org.alfresco.share.searching.advancedSearch.ContentSearchStructureTest"></class>
-         <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchResultsPageTest"></class>
-         <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareFileOrFolderTests"></class>
-         <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchTests"></class>
-         <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchShareTests"></class>
+         <class name="org.alfresco.share.searching.BasicSearchTests"></class>
       </classes>
    </test>
 </suite>
