@@ -296,11 +296,24 @@ public class Toolbar extends BasePage
         return findElements(searchResultsInToolbar).isEmpty();
     }
 
+    public boolean is_LiveSearchResultsListDisplayed(String query)
+    {
+        waitInSeconds(3);
+        List<WebElement> searchResults = findElements(searchResultsInToolbar);
+        for (WebElement result : searchResults)
+        {
+            if (result.getText().contains(query))
+                return true;
+        }
+        return false;
+    }
+
     public boolean isResultDisplayedInLiveSearch(String query)
     {
         int retryCounter = 0;
         while (!isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && retryCounter < 4)
         {
+            waitInSeconds(2);
             refresh();
             searchInToolbar(query);
             retryCounter++;
@@ -308,6 +321,7 @@ public class Toolbar extends BasePage
         waitUntilElementsAreVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
         waitUntilElementsAreVisible(By.cssSelector("div.alf-livesearch-item>a"));
 
+        waitInSeconds(2);
         List<WebElement> searchResults = findElements(searchResultsInToolbar);
         for (WebElement result : searchResults)
         {
