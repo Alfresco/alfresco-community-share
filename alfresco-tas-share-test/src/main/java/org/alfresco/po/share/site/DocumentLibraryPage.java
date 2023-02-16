@@ -203,6 +203,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         clickElement(option.getLocator());
         return new CreateContentPage(webDriver);
     }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
+    }
 
     /**
      * Method to click on create google docs options from create menu
