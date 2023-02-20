@@ -99,6 +99,10 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
         assertTrue(isElementDisplayed(customizeUserDashboard), "Customize User Dashboard button is displayed");
         return this;
     }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
+    }
 
     public UserDashboardPage assertNumberOfDashletColumnsIs(int columnsNumber)
     {

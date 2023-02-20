@@ -195,6 +195,10 @@ public class UserProfilePage extends SharePage2<UserProfilePage> implements Acce
         assertEquals(getElementText(summary), summaryValue, "Summary is correct");
         return this;
     }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
+    }
 
     private List<String> getAboutUserInfo()
     {
