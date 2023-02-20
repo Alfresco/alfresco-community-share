@@ -330,6 +330,28 @@ public class Toolbar extends BasePage
         }
         return false;
     }
+    public boolean isResultDisplayedLiveSearch(String query)
+    {
+        int retryCounter = 0;
+        while (!isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && retryCounter < 6)
+        {
+            waitInSeconds(2);
+            refresh();
+            searchInToolbar(query);
+            retryCounter++;
+        }
+        waitUntilElementsAreVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
+        waitUntilElementsAreVisible(By.cssSelector("div.alf-livesearch-item>a"));
+
+        waitInSeconds(2);
+        List<WebElement> searchResults = findElements(searchResultsInToolbar);
+        for (WebElement result : searchResults)
+        {
+            if (result.getText().contains(query))
+                return true;
+        }
+        return false;
+    }
 
     public void clickResultFromLiveSearch(String resultToBeClicked)
     {

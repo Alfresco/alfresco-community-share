@@ -24,6 +24,8 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     private final By siteVisibility = By.cssSelector("div[id='HEADER_TITLE_VISIBILITY'] span");
     private final By morePagesDropDown = By.id("HEADER_SITE_MORE_PAGES");
     private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
+    private final By siteDescription = By.xpath("//textarea[@name=\"description\"]");
+    private final By saveButton = By.xpath("//span[text()=\"Save\"]");
 
     private final String dropdownOption = "//div[@class='alf-menu-groups' and contains(@style, 'visible')]//td[contains(@id, 'HEADER') and text()='%s']";
     private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
@@ -152,6 +154,10 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
             String.format("Option not equals to %s ", expectedOption));
         return this;
     }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
+    }
 
     public SiteDashboardPage selectOptionFromSiteConfigurationDropDown(String option)
     {
@@ -228,7 +234,12 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         selectOptionFromSiteConfigurationDropDown("Edit Site Details");
         return new EditSiteDetailsDialog();
     }
-
+    public EditSiteDetailsDialog editSiteDescription(String description) {
+        WebElement SiteDescription = waitUntilElementIsVisible(siteDescription);
+        clearAndType(SiteDescription, description);
+        clickElement(saveButton);
+        return new EditSiteDetailsDialog();
+    }
     public boolean somethingWentWrongMessage()
     {
         return isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));

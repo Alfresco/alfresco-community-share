@@ -55,6 +55,7 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
          <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
          <class name="org.alfresco.share.searching.BasicSearchTests"></class>
+         <class name="org.alfresco.share.searching.LiveSearchTests"></class>
       </classes>
    </test>
 </suite>
