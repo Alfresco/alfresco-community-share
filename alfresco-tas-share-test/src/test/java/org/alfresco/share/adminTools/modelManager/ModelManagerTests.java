@@ -171,8 +171,6 @@ public class ModelManagerTests extends BaseTest
             .assertStatusIsInactive();
     }
 
-    @TestRail (id = "C9519")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void exportModel()
     {
         String name = String.format("C9517testModel%s", getRandomAlphanumeric());
