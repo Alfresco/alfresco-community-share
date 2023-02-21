@@ -112,6 +112,11 @@ jobs:
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Get branch name
         uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.23.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v1.33.0
+        with:
+          username: ${{ env.GIT_USERNAME }}
+          email: ${{ env.GIT_EMAIL }}
+          global: true
       - name: Execute update-downstream script
         run: bash scripts/travis/update_downstream.sh
 
@@ -140,5 +145,10 @@ jobs:
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v1.33.0
+        with:
+          username: ${{ env.GIT_USERNAME }}
+          email: ${{ env.GIT_EMAIL }}
+          global: true
       - name: Mirror to community repository
         run: bash scripts/travis/mirror-community-repo.sh "https://github.com/Alfresco/alfresco-community-share.git"
