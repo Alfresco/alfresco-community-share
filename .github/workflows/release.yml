@@ -1,0 +1,102 @@
+name: release
+
+# Only trigger, when the build workflow succeeded
+on:
+  workflow_run:
+    workflows: ["alfresco enterprise share"]
+    types:
+      - completed
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: >
+      (!contains(github.event.head_commit.message, '[no release]')
+      && inputs.commitMessage != '[no release]')
+      &&
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/'))
+      &&
+      github.event_name != 'pull_request'
+      &&
+      github.event.repository.fork == false
+      &&
+      github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: "Init"
+        run: bash scripts/travis/init.sh
+      - name: "Prepare before Test"
+        run: |
+          pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
+      - name: Install dependencies
+        run: mvn -B -V install -DskipTests=true -Dmaven.javadoc.skip=true
+      - name: Verify release tag
+        run: bash scripts/travis/verify_release_tag.sh
+      - name: Get branch name
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.23.0
+      - name: Release to Nexus
+        run: bash scripts/travis/maven_release.sh
+
+  update_downstream:
+    runs-on: ubuntu-latest
+    needs: release
+    if: >
+      (!contains(github.event.head_commit.message, '[no downstream]')
+      && inputs.commitMessage != '[no downstream]')
+      &&
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/'))
+      &&
+      github.event_name != 'pull_request'
+      &&
+      github.event.repository.fork == false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: "Init"
+        run: bash scripts/travis/init.sh
+      - name: "Prepare before Test"
+        run: |
+          pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
+      - name: Get branch name
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.23.0
+      - name: Execute update-downstream script
+        run: bash scripts/travis/update_downstream.sh
+
+  mirroring:
+    runs-on: ubuntu-latest
+    needs: update_downstream
+    if: >
+      (!contains(github.event.head_commit.message, '[no mirror]')
+      && inputs.commitMessage != '[no mirror]')
+      &&
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/'))
+      &&
+      github.event_name != 'pull_request'
+      &&
+      github.event.repository.fork == false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: "Init"
+        run: bash scripts/travis/init.sh
+      - name: "Prepare before Test"
+        run: |
+          pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
+      - name: Mirror to community repository
+        run: bash scripts/travis/mirror-community-repo.sh "https://github.com/Alfresco/alfresco-community-share.git"
