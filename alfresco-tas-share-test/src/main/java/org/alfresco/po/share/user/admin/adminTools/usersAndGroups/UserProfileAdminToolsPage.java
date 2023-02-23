@@ -15,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.alfresco.po.share.user.admin.adminTools.ApplicationPage;
 
 @Slf4j
 public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsPage>
@@ -30,6 +31,8 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
     private final By infoFromSections = By.cssSelector(".field-label-right");
     private final By userQuota = By.cssSelector("span[id$='_default-view-quota']");
     private final By email = By.cssSelector("span[id$='_default-view-email']");
+    private final By userLink = By.xpath("//a[@title=\"User Management\"]");
+    private final By newUserLink = By.xpath("//button[text()=\"New User\"]");
     private final By addedGroups = By.cssSelector("span[id*='default-view-groups']");
     private final By userProfileUserName = By.cssSelector("div[class='title'] span[id$='default-view-title']");
     private final By userPhoto = By.cssSelector( "div.photo img.view-photoimg");
@@ -69,6 +72,18 @@ public class UserProfileAdminToolsPage extends SharePage2<UserProfileAdminToolsP
             super.navigate();
         }
         return this;
+    }
+    public ApplicationPage users()
+    {
+        log.info("Click Admin Tools");
+        clickElement(userLink);
+        return new ApplicationPage(webDriver);
+    }
+    public ApplicationPage newUsers()
+    {
+        log.info("Click Admin Tools");
+        clickElement(newUserLink);
+        return new ApplicationPage(webDriver);
     }
 
     public synchronized UserProfileAdminToolsPage navigate(UserModel user)

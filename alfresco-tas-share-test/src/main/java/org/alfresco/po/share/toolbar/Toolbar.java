@@ -22,6 +22,9 @@ public class Toolbar extends BasePage
 {
     private final By toolbarLocator = By.cssSelector("div[id='SHARE_HEADER']");
     private final By homeLink = By.cssSelector("div[widgetid='HEADER_HOME']");
+    private final By userLink = By.xpath("//a[@title=\"User Management\"]");
+    private final By newUserLink = By.xpath("//button[text()=\"New User\"]");
+
     private final By myFilesLink = By.cssSelector("span[id='HEADER_MY_FILES_text']");
     private final By sharedFilesLink = By.cssSelector("span[id='HEADER_SHARED_FILES_text']");
     private final By sitesLink = By.cssSelector("span[id='HEADER_SITES_MENU_text']");
@@ -75,6 +78,18 @@ public class Toolbar extends BasePage
         ToolbarSitesMenu toolbarSitesMenu = new ToolbarSitesMenu(webDriver);
         toolbarSitesMenu.waitForMySitesMenuToBeOpened();
         return toolbarSitesMenu;
+    }
+    public ApplicationPage users()
+    {
+        log.info("Click Admin Tools");
+        clickElement(userLink);
+        return new ApplicationPage(webDriver);
+    }
+    public ApplicationPage newUsers()
+    {
+        log.info("Click Admin Tools");
+        clickElement(newUserLink);
+        return new ApplicationPage(webDriver);
     }
 
     public Toolbar assertHomeIsDisplayed()
