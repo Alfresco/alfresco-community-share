@@ -1,5 +1,6 @@
 package org.alfresco.po.share;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_10;
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_3;
@@ -21,6 +22,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 {
     private final By siteRowList = By.cssSelector("div[id$='default-sites'] tr[class*='yui-dt-rec']");
     private final By searchSiteButton = By.cssSelector("div[class$=search-button] button");
+    private final By findSearchDetails = By.xpath("//h3[@class=\"sitename\"]");
     private final By searchSiteInput = By.cssSelector("div[class$=search-text] input");
     private final By searchMessage = By.cssSelector("tbody[class*='message'] div");
     private final By siteDescriptionList = By.cssSelector("div[class='sitedescription']");
@@ -57,6 +59,48 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
     public boolean isSiteNameDisplayed(String siteName)
     {
         return isElementDisplayed(By.xpath(String.format(siteNamePath, siteName)));
+    }
+    public WebDriver getWebDriver()
+    {
+        return webDriver.get();
+    }
+    public String getPageTitle()
+    {
+        return getTitle();
+    }
+
+    public SiteFinderPage searchSiteName(String siteName)
+    {
+        WebElement searchInput =  findElement(searchSiteInput);
+        clearAndType(searchInput, siteName);
+        searchSiteNameWithRetry(siteName);
+        return this;
+    }
+    public boolean checkSiteWasFound(String siteName)
+    {
+
+        for (WebElement searchResults :findElements(findSearchDetails))
+        {
+            if (searchResults.getText().equals(siteName))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void searchSiteNameWithRetry(String siteName)
+    {
+        int retryCounter = 0;
+        while (!isSiteNameDisplayed(siteName) && retryCounter < RETRY_TIME_10.getValue())
+        {
+            log.warn("Site {} not displayed - retry: {}", siteName, retryCounter);
+            clickElement(searchSiteButton);
+            waitToLoopTime(WAIT_3.getValue());
+            retryCounter++;
+        }
+
     }
 
     private WebElement getSiteRow(String siteName)
@@ -147,7 +191,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 
     public SiteDashboardPage accessSite(String siteName)
     {
-        selectSite(siteName).findElement(siteNameLink);
+        selectSite(siteName).findElement(siteNameLink).click();
         return new SiteDashboardPage(webDriver);
     }
 
