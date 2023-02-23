@@ -57,6 +57,7 @@
          <class name="org.alfresco.share.searching.BasicSearchTests"></class>
          <class name="org.alfresco.share.searching.LiveSearchTests"></class>
          <class name="org.alfresco.share.searching.SiteFinderTests"></class>
+         <class name="org.alfresco.share.searching.SearchHighlightTests"></class>
       </classes>
    </test>
 </suite>
