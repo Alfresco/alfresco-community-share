@@ -25,6 +25,7 @@ public class EditUserPage extends SharePage2<EditUserPage>
     private final By searchGroupButton = By.cssSelector("button[id$='_default-update-groupfinder-group-search-button-button']");
     private final By useDefaultButton = By.cssSelector("button[id$='_default-updateuser-clearphoto-button-button']");
     private final By saveChangesButton = By.cssSelector("button[id$='_default-updateuser-save-button-button']");
+    private final By userNameField = By.xpath("//input[@id=\"page_x002e_ctool_x002e_admin-console_x0023_default-create-username\"]");
     private final By cancelButton = By.cssSelector("button[id$='_default-updateuser-cancel-button-button']");
     private final By userNameInEditUserPageTitle = By.cssSelector("span[id$='_default-update-title']");
     private final By userProfileHeaderList = By.cssSelector("form[id$='_default-update-form'] div.header-bar");
@@ -89,6 +90,12 @@ public class EditUserPage extends SharePage2<EditUserPage>
     public EditUserPage assertSearchGroupButtonIsDisplayed()
     {
         assertTrue(isElementDisplayed(searchGroupButton), "Search group button is displayed");
+        return this;
+    }
+    public EditUserPage editUserName(String userName)
+    {
+        WebElement userNameElement = waitUntilElementIsVisible(userNameField);
+        clearAndType(userNameElement, userName);
         return this;
     }
 
