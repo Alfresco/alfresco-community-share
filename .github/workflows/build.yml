@@ -1,4 +1,4 @@
-name: alfresco enterprise share
+name: alfresco_enterprise_share
 
 on:
   push:
@@ -10,6 +10,8 @@ on:
   pull_request:
     branches:
       - master
+      - "release/**"
+  workflow_call:
   workflow_dispatch:
     inputs:
       commitMessage:
@@ -162,12 +164,17 @@ jobs:
       - name: Start Alfresco
         run: bash amps/ags/travis/scripts/startAlfresco.sh packaging/docker/docker-compose
       - name: Wait for Alfresco to start
-        run: bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
-      - name: Run ${{ matrix.test }} Test
-        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
+          bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
-          bash scripts/travis/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
+      - name: Run ${{ matrix.test }} Test
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+          max_attempts: 3
+          retry_wait_seconds: 60
+          retry_on: error
+          command: sudo bash scripts/travis/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v2
         with:
@@ -232,11 +239,15 @@ jobs:
         run: |
           bash amps/ags/travis/scripts/startAlfresco.sh amps/ags/rm-community/rm-community-share
           bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
-      - name: Run tests
-        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: |
           sudo free -m -t
-          xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+      - name: Run tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+          max_attempts: 3
+          retry_wait_seconds: 60
+          retry_on: error
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -324,11 +335,15 @@ jobs:
           bash amps/ags/travis/scripts/create-worm-bucket.sh
           bash amps/ags/travis/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
           bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
-      - name: Run tests
-        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: |
           sudo free -m -t
-          xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+      - name: Run tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+          max_attempts: 3
+          retry_wait_seconds: 60
+          retry_on: error
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
