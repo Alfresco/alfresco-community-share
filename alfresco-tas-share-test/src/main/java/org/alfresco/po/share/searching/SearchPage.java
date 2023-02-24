@@ -270,7 +270,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public SearchPage assertIsXmlFileDisplayed(String query)
     {
         SoftAssert sa = new SoftAssert();
-        sa.assertTrue(isResultFound(".xml"), ".xml" + " is not displayed");
+        sa.assertTrue(isResultFoundWithList(".xml"), ".xml" + " is not displayed");
 
         return this;
     }
@@ -748,6 +748,38 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         for (WebElement eachNameHighlight : allNameHighlights)
         {
             if (eachNameHighlight.getText().equals(name))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isResultsDisplayedInSearch(String query)
+    {
+        int retryCounter = 0;
+        while (!isElementDisplayed(By.cssSelector(".propertiesCell .nameAndTitleCell a .value")) && retryCounter < 4)
+        {
+            waitInSeconds(2);
+            refresh();
+            retryCounter++;
+        }
+        waitInSeconds(3);
+        List<WebElement> searchResults = findElements(resultsDetailedViewList);
+        for (WebElement result : searchResults)
+        {
+            if (result.getText().contains(query))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean is_ContentHighlighted(String content)
+    {
+        List<WebElement> allContentHighlights = findElements(contentHighlight);
+        for (WebElement eachContentHighlight : allContentHighlights)
+        {
+            if (eachContentHighlight.getText().equals(content))
             {
                 return true;
             }

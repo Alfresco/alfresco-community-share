@@ -144,7 +144,7 @@ public class AdvancedSearchTests extends BaseTest
         advancedSearchPage
             .clickFirstSearchButtonAndRefresh();
         softAssert.assertFalse(searchPage.isAnyFolderReturnedInResults(), "Folder type is returned in results");
-        softAssert.assertTrue(searchPage.isResultFound(textFile), textFile + " is not displayed in search results");
+        softAssert.assertTrue(searchPage.isResultFoundWithList(textFile), textFile + " is not displayed in search results");
         softAssert.assertAll();
     }
 
