@@ -30,14 +30,16 @@
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
-        <dependency.alfresco-community-repo.version>20.90</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>20.88</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>20.90-SNAPSHOT</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>20.87-SNAPSHOT</dependency.alfresco-enterprise-repo.version>
         <dependency.alfresco-transform-service.version>2.0.0</dependency.alfresco-transform-service.version>
         <dependency.alfresco-transform-core.version>3.0.0</dependency.alfresco-transform-core.version>
         <alfresco.api-explorer.version>7.3.0</alfresco.api-explorer.version>
 
         <image.registry>quay.io</image.registry>
         <image.tag>latest</image.tag>
+        <local.registry>127.0.0.1:5000</local.registry>
+        <builder.name>entitled-builder</builder.name>
 
         <!-- Java 17 compatibility -->
         <java.version>11</java.version>
@@ -585,7 +587,7 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.34.1</version>
+                    <version>0.42.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
