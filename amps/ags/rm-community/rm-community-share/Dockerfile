@@ -1,5 +1,6 @@
 ### Apply AGS community share AMP to Share image
-FROM alfresco/alfresco-share-base:${image.tag}
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
 
 ### Copy the AMP from build context to amps_share
 COPY target/alfresco-governance-services-community-share-*.amp /usr/local/tomcat/amps_share/

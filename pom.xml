@@ -38,6 +38,8 @@
 
         <image.registry>quay.io</image.registry>
         <image.tag>latest</image.tag>
+        <local.registry>127.0.0.1:5000</local.registry>
+        <builder.name>entitled-builder</builder.name>
 
         <!-- Java 17 compatibility -->
         <java.version>11</java.version>
@@ -585,7 +587,7 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.34.1</version>
+                    <version>0.42.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
