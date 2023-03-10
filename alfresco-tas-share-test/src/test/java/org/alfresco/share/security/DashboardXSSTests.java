@@ -3,117 +3,125 @@ package org.alfresco.share.security;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataProviderClass;
-import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
-import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.enums.DashletHelpIcon;
+
 import org.alfresco.po.share.dashlet.ConfigureWebViewDashletPopUp;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.WebViewDashlet;
-import org.alfresco.po.share.site.EditSiteDetailsDialog;
+import org.alfresco.po.share.site.EditSiteDetails;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.user.CustomizeUserDashboardPage;
+import org.alfresco.po.share.user.UserDashboardPage;
+
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-public class DashboardXSSTests extends ContextAwareWebTest
+@Slf4j
+public class DashboardXSSTests extends BaseTest
 {
-    //@Autowired
+    CustomizeUserDashboardPage customizeUserDashboard;
     SiteDashboardPage siteDashboardPage;
-    @Autowired
-    EditSiteDetailsDialog editSiteDetailsDialog;
-    //@Autowired
+    EditSiteDetails editSiteDetailsDialog;
     private WebViewDashlet webViewDashlet;
-   // @Autowired
     private ConfigureWebViewDashletPopUp configureWebViewDashletPopUp;
-    private String uniqueIdentifier = RandomData.getRandomAlphanumeric();
-    private String testUser = String.format("TestUser_" + uniqueIdentifier);
-    private String siteName = String.format("SiteName" + uniqueIdentifier);
+    private final ThreadLocal<UserModel> user1 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
 
-    @BeforeClass (alwaysRun = true)
-    public void beforeClass()
+    @BeforeMethod(alwaysRun = true)
+    public void preConditions()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "testUser_firstName", "testUser_lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, "description", SiteService.Visibility.PUBLIC);
+        log.info("PreCondition: Creating a TestUser1");
+        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
 
-        LOG.info("Precondition 1: Any user logged in Share.");
-        setupAuthenticatedSession(testUser, password);
+        log.info("PreCondition: Creating a Random Site");
+        site.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user1.get());
+
+        webViewDashlet = new WebViewDashlet(webDriver);
+        configureWebViewDashletPopUp = new ConfigureWebViewDashletPopUp(webDriver);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        customizeUserDashboard = new CustomizeUserDashboardPage(webDriver);
+        userDashboardPage = new UserDashboardPage(webDriver);
+        editSiteDetailsDialog = new EditSiteDetails(webDriver);
+
+        log.info("Precondition 1: Any user logged in Share.");
+        authenticateUsingLoginPage(user1.get());
         addWebViewDashletToDashboard();
     }
 
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        siteService.delete(testUser, password, siteName);
-        cleanupAuthenticatedSession();
-        userService.delete(adminUser, adminPassword, testUser);
+        deleteUsersIfNotNull(user1.get());
+        deleteSitesIfNotNull(site.get());
+        deleteAllCookiesIfNotNull();
     }
 
-
     @TestRail (id = "C286554")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void configureWebViewForUserDashboard(String XSSString)
     {
-        LOG.info("Precondition 2: Add 'Web View' to user dashboard.");
+        log.info("Precondition 2: Add 'Web View' to user dashboard.");
 
-        LOG.info("STEP 1: Click Configure icon on Web View dashlet.");
+        log.info("STEP 1: Click Configure icon on Web View dashlet.");
         webViewDashlet.clickConfigureDashlet();
         assertTrue(configureWebViewDashletPopUp.isConfigureWebViewDashletPopUpDisplayed(), "'Configure Web View Dashlet' PopUp could not be opened.");
 
-        LOG.info("STEP 2: Enter into Link Title field XSS string, try the next cases: '" + XSSString + "'.");
+        log.info("STEP 2: Enter into Link Title field XSS string, try the next cases: '" + XSSString + "'.");
         configureWebViewDashletPopUp.setLinkTitleField(XSSString);
 
-        LOG.info("STEP 3: Enter into \"URL\" field XSS string, try the next cases: '" + XSSString + "'.");
+        log.info("STEP 3: Enter into \"URL\" field XSS string, try the next cases: '" + XSSString + "'.");
         configureWebViewDashletPopUp.setUrlField(XSSString);
 
-        LOG.info("STEP 4: Click OK button;");
+        log.info("STEP 4: Click OK button;");
         configureWebViewDashletPopUp.clickOkButtonSimple();
         assertTrue(configureWebViewDashletPopUp.isConfigureWebViewDashletPopUpDisplayed(), "'Configure Web View Dashlet' PopUp is not opened anymore.");
         assertTrue(configureWebViewDashletPopUp.isUrlErrorMessageDisplayed(), "Error message is not displayed");
 
-        LOG.info("Close the PopUp.");
+        log.info("Close the PopUp.");
         configureWebViewDashletPopUp.clickClose();
     }
 
 
     @TestRail (id = "C286570")
     @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
-    public void editingSiteDetailsWithXSS(String XSSString)
-    {
-        LOG.info("Precondition 2: Create a new site.");
+    public void editingSiteDetailsWithXSS(String XSSString) {
+        log.info("Precondition 2: Create a new site.");
 
-        LOG.info("STEP 1: Open created site.");
+        log.info("STEP 1: Open created site.");
         //Navigation to siteDashboard is performed in navigateToEditSiteDetailsDialog() method
 
-        LOG.info("STEP 2: Navigate to 'More' menu and select 'Edit Site Details' button.");
-        siteDashboardPage.navigateToEditSiteDetailsDialog(siteName);
+        log.info("STEP 2: Navigate to 'More' menu and select 'Edit Site Details' button.");
+        siteDashboardPage.navigateToEditSiteDetailsDialog(site.get().getId());
         assertTrue(editSiteDetailsDialog.isEditSiteDetailsDialogDisplayed(), "'Edit Site Details' dialog could not be opened.");
 
-        LOG.info("STEP 3: Enter into \"Name \" and \"Description\" fields: '" + XSSString + "'.");
+        log.info("STEP 3: Enter into \"Name \" and \"Description\" fields: '" + XSSString + "'.");
         editSiteDetailsDialog.typeDetails(XSSString, XSSString);
         assertEquals(editSiteDetailsDialog.getTitleInputText(), XSSString, "'Name' input was not filled with '" + XSSString + "'.");
 
-        LOG.info("STEP 4: Click 'OK' button.");
+        log.info("STEP 4: Click 'OK' button.");
         editSiteDetailsDialog.clickSaveButton();
         assertTrue(siteDashboardPage.isSiteVisibilityDisplayed(), "Site Dashboard page could not be rendered.");
         assertEquals(siteDashboardPage.getSiteName(), XSSString, "'Site Title' is not '" + XSSString + "' as expected.");
 
-        LOG.info("STEP 4: Navigate to 'Edit Site Details' PopUp.");
-        siteDashboardPage.navigateToEditSiteDetailsDialog(siteName);
+        log.info("STEP 4: Navigate to 'Edit Site Details' PopUp.");
+        siteDashboardPage.navigateToEditSiteDetailsDialog(site.get().getId());
 
-        LOG.info("STEP 5: Check if site 'Name' and 'Description' = '" + XSSString + "'.");
+        log.info("STEP 5: Check if site 'Name' and 'Description' = '" + XSSString + "'.");
         assertEquals(editSiteDetailsDialog.getTitleInputText(), XSSString, "'Site Name' is not equal to '" + XSSString + "'.");
         assertEquals(editSiteDetailsDialog.getDescriptionInputText(), XSSString, "'Site Description' is not equal to '" + XSSString + "'.");
 
-        LOG.info("Close 'Edit Site Details' PopUp");
+        log.info("Close 'Edit Site Details' PopUp");
         editSiteDetailsDialog.clickCloseCreateSitePopup();
     }
 
@@ -121,13 +129,13 @@ public class DashboardXSSTests extends ContextAwareWebTest
      * Add 'Web View' dashlet to user dashboard if it is not already displayed
      * And then check if it was successfully added.
      */
-    private void addWebViewDashletToDashboard()
-    {
-        if (!webViewDashlet.isDashletDisplayed(DashletHelpIcon.WEB_VIEW))
-        {
-            userService.addDashlet(testUser, password, UserDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
-        }
-        Assert.assertEquals(webViewDashlet.getDashletTitle(), "Web View", "'Web View' dashlet is not displayed in user's dashboard.");
+    private void addWebViewDashletToDashboard(){
+        customizeUserDashboard.navigate()
+            .clickAddDashlet()
+            .addDashlet(Dashlets.WEB_VIEW, 1)
+            .assertDashletIsAddedInColumn(Dashlets.WEB_VIEW, 1)
+            .clickOk();
+        userDashboardPage.assertCustomizeUserDashboardIsDisplayed()
+            .assertDashletIsAddedInPosition(Dashlets.WEB_VIEW, 1, 3);
     }
-
 }
