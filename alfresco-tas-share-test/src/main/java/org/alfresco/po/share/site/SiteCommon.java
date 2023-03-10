@@ -112,6 +112,7 @@ public abstract class SiteCommon<T> extends SharePage2<SiteCommon<T>>
 
     public String getSiteName()
     {
+        waitInSeconds(2);
         return getElementText(siteName);
     }
 }
