@@ -14,7 +14,7 @@ public class ConfigureWebViewDashletPopUp extends DashletPopUp<ConfigureWebViewD
     private final By configureWebViewDashletPopUp = By.cssSelector("div[id$='configDialog_c']");
     private final By urlErrorMessage = By.cssSelector("input[class='invalid']");
 
-    protected ConfigureWebViewDashletPopUp(ThreadLocal<WebDriver> webDriver)
+    public ConfigureWebViewDashletPopUp(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
@@ -70,6 +70,7 @@ public class ConfigureWebViewDashletPopUp extends DashletPopUp<ConfigureWebViewD
 
     public boolean isConfigureWebViewDashletPopUpDisplayed()
     {
+        waitInSeconds(3);
         return isElementDisplayed(configureWebViewDashletPopUp);
     }
 
