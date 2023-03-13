@@ -334,6 +334,6 @@ public class ModelManagerTests extends BaseTest
         getUserService().emptyTrashcan(user.getUsername(), user.getPassword());
 
         deleteUsersIfNotNull(user);
-        modelsToRemove.forEach(this::deleteCustomModel);
+//        modelsToRemove.forEach(this::deleteCustomModel);
     }
 }
