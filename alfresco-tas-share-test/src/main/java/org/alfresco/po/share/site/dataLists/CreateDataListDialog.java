@@ -52,6 +52,7 @@ public class CreateDataListDialog extends BaseDialogComponent
 
     public boolean isNewListPopupDisplayed()
     {
+        waitUntilElementIsVisible(newListPopup);
         return isElementDisplayed(newListPopup);
     }
 

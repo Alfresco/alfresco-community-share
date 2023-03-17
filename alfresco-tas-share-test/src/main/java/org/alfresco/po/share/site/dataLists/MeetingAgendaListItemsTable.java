@@ -6,8 +6,6 @@ import org.openqa.selenium.WebElement;
 
 public class MeetingAgendaListItemsTable extends ListItemTable
 {
-
-    protected WebElement webElement;
     protected By referenceColumn = By.cssSelector("td[class*='meetingAgendaRef'] div");
     protected By titleColumn = By.cssSelector("td[class*='cm_title'] div");
     protected By descriptionColumn = By.cssSelector("td[class*='cm_description'] div");
@@ -23,31 +21,31 @@ public class MeetingAgendaListItemsTable extends ListItemTable
 
     public WebElement getReferenceColumn()
     {
-        return browser.findElement(referenceColumn);
+        return webElement.findElement(referenceColumn);
     }
 
     public WebElement getTitleColumn()
     {
-        return browser.findElement(titleColumn);
+        return webElement.findElement(titleColumn);
     }
 
     public WebElement getDescriptionColumn()
     {
-        return browser.findElement(descriptionColumn);
+        return webElement.findElement(descriptionColumn);
     }
 
     public WebElement getTimeColumn()
     {
-        return browser.findElement(timeColumn);
+        return webElement.findElement(timeColumn);
     }
 
     public WebElement getOwnerColumn()
     {
-        return browser.findElement(ownerColumn);
+        return webElement.findElement(ownerColumn);
     }
 
     public WebElement getAttachmentsColumn()
     {
-        return browser.findElement(attachmentsColumn);
+        return webElement.findElement(attachmentsColumn);
     }
 }
