@@ -83,6 +83,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public DataListsPage clickOnCreateDataListLink()
     {
         log.info("Click New List button");
+        waitInSeconds(2);
         clickElement(findElement(createDataListLinkLocator));
         return this;
     }
@@ -270,7 +271,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public List<String> getTextOfTableColumnHeader()
     {
         List<String> tableHeaderListString = new ArrayList<>();
-        for (WebElement item : waitUntilElementsAreVisible(tableColumnHeader))
+        for (WebElement item : findElements(tableColumnHeader))
         {
             tableHeaderListString.add(item.getText());
         }
@@ -280,6 +281,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public boolean isNewItemPopupFormDisplayed(CreateNewItemPopUp.NewItemPopupForm listName)
     {
+        waitInSeconds(3);
         return isElementDisplayed(By.xpath(String.format(createNewItemForm, listName.name)));
     }
 }

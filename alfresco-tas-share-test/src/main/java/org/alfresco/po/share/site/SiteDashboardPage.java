@@ -26,6 +26,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     private final By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
     private final By siteDescription = By.xpath("//textarea[@name=\"description\"]");
     private final By saveButton = By.xpath("//span[text()=\"Save\"]");
+    private final By siteDataListDashlet = By.xpath("//div[text()=\"Site Data Lists\"]");
 
     private final String dropdownOption = "//div[@class='alf-menu-groups' and contains(@style, 'visible')]//td[contains(@id, 'HEADER') and text()='%s']";
     private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
@@ -243,5 +244,12 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public boolean somethingWentWrongMessage()
     {
         return isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
+    }
+    public SiteDashboardPage assertsiteDataListDashletIsAdded()
+    {
+        log.info("Verify Dashlet is Added to Site Dashboard page");
+        waitUntilElementIsVisible(siteDataListDashlet);
+        assertTrue(isElementDisplayed(siteDataListDashlet));
+        return this;
     }
 }
