@@ -112,6 +112,7 @@ public class LoginPage extends CommonLoginPage
 
     public boolean isAuthenticationErrorDisplayed()
     {
+        waitUntilElementIsVisible(errorLogin);
         return isElementDisplayed(errorLogin);
     }
 
