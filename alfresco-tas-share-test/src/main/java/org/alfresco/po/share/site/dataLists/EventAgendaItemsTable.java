@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 
 public class EventAgendaItemsTable extends ListItemTable
 {
-    protected WebElement webElement;
     protected By referenceColumn = By.cssSelector("td[class*='eventAgendaRef'] div");
     protected By startTimeColumn = By.cssSelector("td[class*='eventAgendaStartTime'] div");
     protected By endTimeColumn = By.cssSelector("td[class*='eventAgendaEndTime'] div");
@@ -23,41 +22,41 @@ public class EventAgendaItemsTable extends ListItemTable
 
     public WebElement getReferenceColumn()
     {
-        return browser.findElement(referenceColumn);
+        return webElement.findElement(referenceColumn);
     }
 
     public WebElement getStartTimeColumn()
     {
-        return browser.findElement(startTimeColumn);
+        return webElement.findElement(startTimeColumn);
     }
 
     public WebElement getEndTimeColumn()
     {
-        return browser.findElement(endTimeColumn);
+        return webElement.findElement(endTimeColumn);
     }
 
     public WebElement getSessionNameColumn()
     {
-        return browser.findElement(sessionNameColumn);
+        return webElement.findElement(sessionNameColumn);
     }
 
     public WebElement getPresenterColumn()
     {
-        return browser.findElement(presenterColumn);
+        return webElement.findElement(presenterColumn);
     }
 
     public WebElement getAudienceColumn()
     {
-        return browser.findElement(audienceColumn);
+        return webElement.findElement(audienceColumn);
     }
 
     public WebElement getAttachmentsColumn()
     {
-        return browser.findElement(attachmentsColumn);
+        return webElement.findElement(attachmentsColumn);
     }
 
     public WebElement getNotesColumn()
     {
-        return browser.findElement(notesColumn);
+        return webElement.findElement(notesColumn);
     }
 }
