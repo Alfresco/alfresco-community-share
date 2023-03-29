@@ -33,7 +33,7 @@
       <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
       <suiteXmlFile>src/test/resources/test-suites</suiteXmlFile>
       <suite-name />
-      <tas.utility.version>3.0.57</tas.utility.version>
+      <tas.utility.version>4.0.0</tas.utility.version>
       <apache.poi.version>4.1.2</apache.poi.version>
       <java.version>11</java.version>
    </properties>

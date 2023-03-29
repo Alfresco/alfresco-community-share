@@ -23,8 +23,6 @@ package org.alfresco.web.config.properties;
 import org.alfresco.web.config.util.BaseTest;
 import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.junit.Assert;
-import org.junit.Before;
-import org.keycloak.common.enums.SslRequired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.extensions.config.Config;
@@ -66,8 +64,6 @@ public class AIMSConfigTest extends BaseTest
         System.clearProperty("aims.alwaysRefreshToken");
         System.clearProperty("aims.principalAttribute");
         System.clearProperty("aims.enableBasicAuth");
-
-
     }
 
     /**
@@ -110,81 +106,5 @@ public class AIMSConfigTest extends BaseTest
         AIMSConfig aimsConfig = this.initAIMSConfig();
 
         Assert.assertFalse(aimsConfig.isEnabled());
-        Assert.assertEquals(aimsConfig.getAdapterConfig().getRealm(), "");
-        Assert.assertEquals(aimsConfig.getAdapterConfig().getResource(), "");
-        Assert.assertEquals(aimsConfig.getAdapterConfig().getAuthServerUrl(), "");
-        Assert.assertEquals(aimsConfig.getAdapterConfig().getSslRequired().toUpperCase(), SslRequired.EXTERNAL.toString());
-        Assert.assertFalse(aimsConfig.getAdapterConfig().isPublicClient());
-        Assert.assertFalse(aimsConfig.getAdapterConfig().isAutodetectBearerOnly());
-        Assert.assertFalse(aimsConfig.getAdapterConfig().isAlwaysRefreshToken());
-        Assert.assertEquals(aimsConfig.getAdapterConfig().getPrincipalAttribute(), "sub");
-        Assert.assertFalse(aimsConfig.getAdapterConfig().isEnableBasicAuth());
-    }
-
-    /**
-     *
-     */
-    public void testSslRequiredCantHaveInvalidValueSet()
-    {
-        this.clearSystemProperties();
-        System.setProperty("aims.sslRequired", "invalid");
-        AIMSConfig aimsConfig = initAIMSConfig();
-
-        Assert.assertEquals(aimsConfig.getAdapterConfig().getSslRequired().toUpperCase(), SslRequired.EXTERNAL.toString());
-    }
-
-    /**
-     *
-     */
-    public void testSslRequiredIsCorrectlySetForAValidValue()
-    {
-        this.clearSystemProperties();
-
-        System.setProperty("aims.sslRequired", SslRequired.ALL.toString().toLowerCase());
-
-        AIMSConfig aimsConfig = initAIMSConfig();
-
-        Assert.assertEquals(aimsConfig.getAdapterConfig().getSslRequired().toUpperCase(), SslRequired.ALL.toString());
-    }
-
-    /**
-     * Test if AIMSConfig is correctly configured with values from system properties
-     */
-    public void testFromSystemEnvironmentAreSetCorrectly()
-    {
-        this.clearSystemProperties();
-
-        System.setProperty("aims.enabled", "false");
-        System.setProperty("aims.realm", "alfresco");
-        System.setProperty("aims.resource", "alfresco");
-        System.setProperty("aims.authServerUrl", "http://localhost:8080/auth");
-        System.setProperty("aims.sslRequired", "none");
-        System.setProperty("aims.publicClient", "true");
-        System.setProperty("aims.autodetectBearerOnly", "true");
-        System.setProperty("aims.alwaysRefreshToken", "true");
-        System.setProperty("aims.principalAttribute", "email");
-        System.setProperty("aims.enableBasicAuth", "true");
-
-        AIMSConfig aimsConfig = initAIMSConfig();
-
-        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.enabled")), aimsConfig.isEnabled());
-        Assert.assertEquals(System.getProperty("aims.realm"), aimsConfig.getAdapterConfig().getRealm());
-        Assert.assertEquals(System.getProperty("aims.resource"), aimsConfig.getAdapterConfig().getResource());
-        Assert.assertEquals(System.getProperty("aims.authServerUrl"), aimsConfig.getAdapterConfig().getAuthServerUrl());
-        Assert.assertEquals(System.getProperty("aims.sslRequired"), aimsConfig.getAdapterConfig().getSslRequired());
-
-        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.publicClient")),
-            aimsConfig.getAdapterConfig().isPublicClient());
-
-        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.autodetectBearerOnly")),
-            aimsConfig.getAdapterConfig().isAutodetectBearerOnly());
-
-        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.alwaysRefreshToken")),
-            aimsConfig.getAdapterConfig().isAlwaysRefreshToken());
-
-        Assert.assertEquals(System.getProperty("aims.principalAttribute"), aimsConfig.getAdapterConfig().getPrincipalAttribute());
-
-        Assert.assertEquals(Boolean.parseBoolean(System.getProperty("aims.enableBasicAuth")),
-            aimsConfig.getAdapterConfig().isEnableBasicAuth());
     }
 }

@@ -21,25 +21,27 @@
 package org.alfresco.web.site.servlet;
 
 import org.alfresco.web.site.servlet.config.AIMSConfig;
-import org.apache.chemistry.opencmis.commons.impl.UrlBuilder;
-import org.keycloak.adapters.KeycloakDeployment;
-import org.keycloak.adapters.KeycloakDeploymentBuilder;
-import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
-import org.keycloak.adapters.spi.KeycloakAccount;
+import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.mvc.LogoutController;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class AIMSLogoutController extends AbstractController
 {
     protected AIMSConfig config;
     protected LogoutController logoutController;
-
+    private ApplicationContext applicationContext;
+    private AIMSLogoutHandler aimsLogoutHandler;
     /**
      *
      * @param config
@@ -68,6 +70,8 @@ public class AIMSLogoutController extends AbstractController
             }
             else
             {
+                this.applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(super.getServletContext());
+                this.aimsLogoutHandler = this.applicationContext.getBean(AIMSLogoutHandler.class);
                 // Redirect the user to Identity Service logout endpoint
                 HttpSession session = request.getSession(false);
                 if (session != null)
@@ -75,19 +79,17 @@ public class AIMSLogoutController extends AbstractController
                     String userId = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
                     if (userId != null)
                     {
-                        OIDCFilterSessionStore.SerializableKeycloakAccount account =
-                                (OIDCFilterSessionStore.SerializableKeycloakAccount) session.getAttribute(KeycloakAccount.class.getName());
+                        SecurityContext account = (SecurityContext) session
+                            .getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 
+                        // Build the url for Identity Service Front-Channel logout
                         if (account != null)
-                        {
-                            // Build the url for Identity Service Front-Channel logout
-                            KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(config.getAdapterConfig());
-                            UrlBuilder urlBuilder = new UrlBuilder(deployment.getLogoutUrl().clone().build().toString());
-                            urlBuilder.addParameter("id_token_hint", account.getKeycloakSecurityContext().getIdTokenString());
-                            urlBuilder.addParameter("post_logout_redirect_uri", request.getRequestURL() + "?success");
-
-                            doRedirect(response, urlBuilder.toString());
-                        }
+                            try {
+                                aimsLogoutHandler
+                                    .handle(request, response, account.getAuthentication());
+                            } catch (IOException | ServletException e) {
+                                throw new RuntimeException(e);
+                            }
                     }
                 }
             }

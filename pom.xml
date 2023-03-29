@@ -66,12 +66,12 @@
         <dependency.jcl-over-slf4j.version>1.7.30</dependency.jcl-over-slf4j.version>
         <dependency.cxf.version>3.4.10</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
-        <dependency.keycloak.version>18.0.0</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.14.0-rc1</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20230227</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
+        <spring.security.version>5.7.5</spring.security.version>
 
         <alfresco.googledrive.version>3.4.0-M1</alfresco.googledrive.version>
 
@@ -203,36 +203,16 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>${dependency.beanutils.version}</version>
             </dependency>
-            <!-- SHA-2404 -->
+          <!-- APPS-1856 -->
             <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-servlet-filter-adapter</artifactId>
-                <version>${dependency.keycloak.version}</version>
+              <groupId>org.springframework.security</groupId>
+              <artifactId>spring-security-oauth2-client</artifactId>
+              <version>${spring.security.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-authz-client</artifactId>
-                <version>${dependency.keycloak.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-core</artifactId>
-                <version>${dependency.keycloak.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-adapter-core</artifactId>
-                <version>${dependency.keycloak.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-adapter-spi</artifactId>
-                <version>${dependency.keycloak.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-servlet-adapter-spi</artifactId>
-                <version>${dependency.keycloak.version}</version>
+              <groupId>org.springframework.security</groupId>
+              <artifactId>spring-security-oauth2-jose</artifactId>
+              <version>${spring.security.version}</version>
             </dependency>
             <!-- SHA-2400 -->
             <dependency>
