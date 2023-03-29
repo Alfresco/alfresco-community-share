@@ -20,43 +20,31 @@
  */
 package org.alfresco.web.site.servlet;
 
-import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.adapters.KeycloakDeployment;
-import org.keycloak.adapters.KeycloakDeploymentBuilder;
-import org.keycloak.adapters.servlet.OIDCFilterSessionStore;
-import org.keycloak.adapters.spi.KeycloakAccount;
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.mvc.LogoutController;
 import org.springframework.extensions.surf.support.AlfrescoUserFactory;
 import org.springframework.extensions.webscripts.connector.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.URI;
 
 /**
  * Share specific override of the SpringSurf dologout controller.
  * <p>
  * The implementation ensures Alfresco tickets are removed if appropriate and
  * then delegates to the SpringSurf implementation for framework cleanup.
- * 
+ *
  * @author Kevin Roast
  */
 public class SlingshotLogoutController extends LogoutController
 {
     private static final Log logger = LogFactory.getLog(SlingshotLogoutController.class);
     protected ConnectorService connectorService;
-    
-    
+
+
     /**
      * @param connectorService   the ConnectorService to set
      */
@@ -64,8 +52,8 @@ public class SlingshotLogoutController extends LogoutController
     {
         this.connectorService = connectorService;
     }
-    
-    
+
+
     @Override
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
             throws Exception
@@ -78,13 +66,13 @@ public class SlingshotLogoutController extends LogoutController
            {
                // retrieve the current user ID from the session
                String userId = (String) session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
-               
+
                if (userId != null)
                {
                   // get the ticket from the Alfresco connector
                   Connector connector = connectorService.getConnector(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID, userId, session);
                   String ticket = connector.getConnectorSession().getParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET);
-                  
+
                   if (ticket != null)
                   {
                       // if we found a ticket, then expire it via REST API - not all auth will have a ticket i.e. SSO
