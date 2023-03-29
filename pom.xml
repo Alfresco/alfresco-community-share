@@ -52,14 +52,14 @@
         <dependency.spring.version>5.3.18</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
-        <dependency.aikau.version>1.0.125</dependency.aikau.version>
+        <dependency.aikau.version>1.0.127</dependency.aikau.version>
         <dependency.freemarker.version>2.3.30</dependency.freemarker.version>
         <dependency.rhino.version>1.7.14</dependency.rhino.version>
         <dependency.httpcomponents.version>4.5.13</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
-        <dependency.webscripts.version>8.38</dependency.webscripts.version>
-        <dependency.surf.version>8.24</dependency.surf.version>
+        <dependency.webscripts.version>8.40</dependency.webscripts.version>
+        <dependency.surf.version>8.29</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
@@ -70,7 +70,7 @@
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.14.0-rc1</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
-        <dependency.org-json.version>20210307</dependency.org-json.version>
+        <dependency.org-json.version>20230227</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
 
         <alfresco.googledrive.version>3.4.0-M1</alfresco.googledrive.version>
