@@ -16,7 +16,7 @@
             <exclude name="ExternalUsers"/>
             <exclude name="office"/>
             <exclude name="TransformationServer"/>
-            <exclude name="xsstests"/>
+            <include name="xsstests"/>
             <exclude name="admin-tools"></exclude>
             <exclude name="sites"/>
             <exclude name="user-dashboard"/>
@@ -58,6 +58,12 @@
          <class name="org.alfresco.share.searching.LiveSearchTests"></class>
          <class name="org.alfresco.share.searching.SiteFinderTests"></class>
          <class name="org.alfresco.share.searching.SearchHighlightTests"></class>
+         <class name="org.alfresco.share.security.DashboardXSSTests"></class>
+         <class name="org.alfresco.share.security.DataListXSSTests"></class>
+         <class name="org.alfresco.share.security.LoginXSSTests"></class>
+         <class name="org.alfresco.share.security.SiteXSSTests"></class>
+         <class name="org.alfresco.share.security.WorkflowSecurityTests"></class>
+
       </classes>
    </test>
 </suite>

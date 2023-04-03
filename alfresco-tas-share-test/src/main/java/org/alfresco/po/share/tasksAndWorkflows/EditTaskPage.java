@@ -20,6 +20,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     private final By commentTextArea = By.cssSelector("textarea[id$='bpm_comment']");
     private final By approveButton = By.cssSelector("button[id$='approve-button']");
     private final By rejectButton = By.cssSelector("button[id$='reject-button']");
+    private final By buttonReject = By.xpath("//button[text()=\"Reject\"]");
     private final By message = By.cssSelector("div.form-field div.viewmode-field span[data-datatype$='text']");
     private final By owner = By.cssSelector("div.form-field div.viewmode-field span[id$='_prop_taskOwner'] a");
     private final By identifier = By.xpath("//span[@class = 'viewmode-label' and text() = 'Identifier:']");
@@ -31,6 +32,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     private final By itemsList = By.cssSelector(".form-field h3 a");
     private final By statusDropdown = By.cssSelector("select[title = 'Status']");
     private final By saveButton = By.cssSelector("button[id$='form-submit-button']");
+    private final By saveAndCloseButton = By.xpath("//button[text()=\"Save and Close\"]");
     private final By reassignButton = By.cssSelector("button[id$='reassign-button']");
     private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
     private final By addItemsButton = By.cssSelector("div[id$='itemGroupActions'] button");
@@ -145,12 +147,14 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
 
     public void writeComment(String comment)
     {
+        waitInSeconds(2);
         insertTaskComment(comment);
     }
 
     public void clickOnSaveButton()
     {
-        clickElement(saveButton);
+        waitInSeconds(3);
+        findElement(saveAndCloseButton).click();
     }
 
     public boolean isStatusOptionPresent(TaskStatus status)
@@ -219,5 +223,10 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
             itemsTextList.add(anItemsList.getText());
         }
         return itemsTextList.toString();
+    }
+
+    public void clickRejectButton() {
+        waitInSeconds(3);
+        findElement(buttonReject).click();
     }
 }
