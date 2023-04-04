@@ -15,6 +15,13 @@ public class CreateNewFilterDialog extends BaseDialogComponent
     private final By dialogTitle = By.className("dijitDialogTitle");
     private final By showWithSearch = By.cssSelector("input[name='isEnabled']");
     private final By filterPropertyInput = By.id("FORM_FACET_QNAME_CONTROL");
+    private final By editIcon = By.xpath("//img[@title=\"Edit the current entry\"]");
+    private final By selectedSiteDetails = By.className("read-display");
+    private final By sitesDropDownArrow = By.xpath("(//input[@type=\"text\"])[35]");
+    private final By sitesNameDropdown = By.className("dijitReset dijitMenuItemLabel");
+    private final By dropButton = By.xpath("(//input[@class=\"dijitReset dijitInputField dijitArrowButtonInner\"])[4]");
+    private final By dropdown = By.xpath("//td[@class=\"dijitReset dijitMenuItemLabel\"]");
+
     private final By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
     private final By filterPropertyOptions = By.cssSelector("div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem");
     private final By sortByInput = By.cssSelector("table#FORM_SORTBY_CONTROL  div.dijitButtonText");
@@ -66,12 +73,29 @@ public class CreateNewFilterDialog extends BaseDialogComponent
 
     public String getNoFilters()
     {
+        waitInSeconds(3);
         return getElementText(noFilters);
+    }
+    public String getNumberOfFilters()
+    {
+        waitInSeconds(3);
+       return  findElement(noFilters).getAttribute("value");
+
     }
 
     public String getMinimumFilterLength()
     {
         return getElementText(minFilterLength);
+    }
+    public String getMiniFilterLength()
+    {
+        waitInSeconds(3);
+        return findElement(minFilterLength).getAttribute("value");
+    }
+    public String getMiniRequiredResults()
+    {
+        waitInSeconds(2);
+        return findElement(minRequiredResults).getAttribute("value");
     }
 
     public String getMinimumRequiredResults()
@@ -117,6 +141,89 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         WebElement dropdown = waitUntilElementIsVisible(sortByDropdown);
         selectOptionFromFilterOptionsList(option, dropdown.findElements(dropdownOptions));
     }
+
+    public String getSelectedSiteDetail()
+    {
+        WebElement selectedSite = findElement(selectedSiteDetails);
+        return selectedSite.getText();
+    }
+    public void selectInFilterAvailability(String option)
+    {
+        clickElement(dropButton);
+        for (WebElement dropDownList : findElements(dropdown))
+        {
+            if (dropDownList.getText().equals(option))
+            {
+                waitInSeconds(3);
+                dropDownList.click();
+            }
+        }
+
+    }
+
+    public void deselectShowWithSearchResults()
+    {
+        clickElement(showWithSearch);
+        waitInSeconds(3);
+    }
+    public void clickEditIcon()
+    {
+        waitInSeconds(3);
+        clickElement(editIcon);
+        clickElement(sitesDropDownArrow);
+    }
+    public void editSiteName(String query)
+    {
+        for (WebElement sitedropdown : findElements(dropdownOptions))
+        {
+            if (sitedropdown.getText().contains(query))
+            {
+                waitInSeconds(5);
+                sitedropdown.click();
+            }
+
+        }
+        clickElement(sitesDoneEditingButton);
+        waitInSeconds(3);
+
+    }
+    public void cancelEditSiteName(String query)
+    {
+        waitInSeconds(3);
+        clickElement(editIcon);
+        clickElement(sitesSiteNameArrow);
+
+        for (WebElement sitedropdown : findElements(dropdownOptions))
+        {
+
+            if (sitedropdown.getText().contains(query))
+            {
+                waitInSeconds(3);
+                sitedropdown.click();
+            }
+        }
+        waitInSeconds(3);
+        clickElement(sitesCancelEditingButton);
+    }
+    public void cancelAddSiteName(String query)
+    {
+        waitInSeconds(3);
+        clickElement(sitesAddButton);
+        clickElement(sitesSiteNameArrow);
+        for (WebElement sitedropdown : findElements(dropdownOptions))
+        {
+            if (sitedropdown.getText().contains(query))
+            {
+                waitInSeconds(3);
+                sitedropdown.click();
+            }
+        }
+        waitInSeconds(3);
+        clickElement(sitesCancelEditingButton);
+    }
+
+
+
 
     public CreateNewFilterDialog typeFilterId(String value)
     {
