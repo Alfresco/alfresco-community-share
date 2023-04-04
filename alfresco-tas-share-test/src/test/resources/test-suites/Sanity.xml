@@ -63,6 +63,7 @@
          <class name="org.alfresco.share.security.LoginXSSTests"></class>
          <class name="org.alfresco.share.security.SiteXSSTests"></class>
          <class name="org.alfresco.share.security.WorkflowSecurityTests"></class>
+         <class name="org.alfresco.share.searching.SearchManagerTests"></class>
 
       </classes>
    </test>

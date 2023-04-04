@@ -26,6 +26,13 @@ public class AddUserDialog extends BaseDialogComponent
     private final By searchInputField = By.cssSelector("div[id*='search-peoplefinder'] input");
     private final By searchButton = By.cssSelector("div[id*='search-peoplefinder'] button[id*='search']");
     private final By searchResultsList = By.cssSelector(".itemname");
+    private final By searchInput = By.xpath("//input[@name='-']");
+    private final By setRole = By.xpath("//button[text()='Select Role ▾']");
+    private final By selectManagerRole = By.xpath("//a[text()='Manager']");
+    private final By addUserButton = By.xpath("//button[text()='Add Users']");
+    private final By searchIn = By.xpath("//button[text()='Search']");
+    private final By selectButton = By.xpath("//button[text()='Select']");
+
     private final By addButtonsList = By.cssSelector("td[class*='actions'] button");
     private final By closeButton = By.cssSelector("div[id*='default-peoplepicker'] a[class='container-close']");
     private final By searchingStatus = By.cssSelector("div[id$='search-peoplefinder-results'] .yui-dt-empty > div");
@@ -91,12 +98,41 @@ public class AddUserDialog extends BaseDialogComponent
     {
         return searchUser(userModel.getUsername());
     }
+    public AddUserDialog addUserToSite(String userModel)
+    {
+        clearAndType(searchInput, userModel);
+        clickElement(searchIn);
+        waitInSeconds(3);
+        return  this;
+    }
 
     private AddUserDialog typeInSearch(String userToSearch)
     {
         fillInSearchInput(userToSearch);
         return this;
     }
+
+    public AddUserDialog clickSelect(){
+        clickElement(selectButton);
+        waitInSeconds(2);
+        return this;
+    }
+    public AddUserDialog setUserRole(){
+
+        clickElement(setRole);
+        clickElement(selectManagerRole);
+        waitInSeconds(2);
+        return this;
+    }
+    public AddUserDialog clickAddUser(){
+        waitInSeconds(2);
+        clickElement(addUserButton);
+        waitInSeconds(2);
+
+        return this;
+    }
+
+
 
     public ArrayList<String> getSearchResultsName()
     {
