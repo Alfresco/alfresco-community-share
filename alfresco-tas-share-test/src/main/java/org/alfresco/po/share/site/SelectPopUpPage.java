@@ -49,6 +49,7 @@ public class SelectPopUpPage extends BaseDialogComponent
 
     public boolean isStringPresentInSearchList(String toCheck)
     {
+        waitInSeconds(3);
         return DataUtil.isStringPresentInWebElementList(toCheck, findElements(resultsList));
     }
 

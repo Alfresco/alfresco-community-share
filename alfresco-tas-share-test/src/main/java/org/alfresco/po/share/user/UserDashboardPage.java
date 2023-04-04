@@ -31,7 +31,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     private final By welcomePanelInfo = By.cssSelector( ".welcome-info");
     private final By welcomePanelHideButton = By.cssSelector("button[id$='_default-hide-button-button']");
     private final By welcomePanelInfoGetStarted = By.cssSelector(".welcome-info h1");
-
+    private final By selectDashlet = By.xpath("//li[@class=\"usedDashlet dnd-draggable\"]");
     private final String dashletOnDashboard = "//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]";
     private final String webViewDashletLocation = "//div[@class='webview-default']//span[contains(@id, 'component-%d-%d')][1]";
 
@@ -132,7 +132,18 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
             By.xpath(String.format(dashletOnDashboard, dashlet.getDashletName(), column, locationInColumn)));
         return isElementDisplayed(dashletToCheck);
     }
-
+    public boolean isDashletAvailable(String option)
+    {
+        for (WebElement dashlets : findElements(selectDashlet))
+        {
+            if (dashlets.getText().contains(option))
+            {
+                waitInSeconds(3);
+               return true;
+    }
+        }
+        return false;
+    }
     public UserDashboardPage assertDashletIsAddedInPosition(Dashlets dashlet, int column, int locationInColumn)
     {
         assertTrue(isDashletAddedInPosition(dashlet, column, locationInColumn));
