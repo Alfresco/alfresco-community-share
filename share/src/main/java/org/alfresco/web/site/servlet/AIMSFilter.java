@@ -230,7 +230,9 @@ public class AIMSFilter implements Filter
                     } catch(Exception e) {
                         logger.error("Resulted in Error while doing refresh token " + e.getMessage());
                         session.invalidate();
-                        isAuthenticated=false;
+                        if (!request.getRequestURI().contains(SHARE_AIMS_LOGOUT)) {
+                            isAuthenticated = false;
+                        }
                     }
                 }
             }
