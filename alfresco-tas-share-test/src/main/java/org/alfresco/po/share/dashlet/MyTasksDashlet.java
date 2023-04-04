@@ -146,6 +146,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public MyTasksDashlet assertTaskNameEqualsTo(String expectedTaskName)
     {
         log.info("Assert task name equals to {}", expectedTaskName);
+        waitInSeconds(3);
         String taskName = getElementText(getTaskRow(expectedTaskName));
         String actualTaskName = taskName.substring(BEGIN_INDEX, taskName.indexOf(NEW_LINE));
 
@@ -169,14 +170,26 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         clickElement(taskRowElement.findElement(viewIcon));
         return new ViewTaskPage(webDriver);
     }
+    public ViewTaskPage view_Task(String taskName)
+    {
+        log.info("Edit task {}", taskName);
+        WebElement taskRowElement = getTaskRow(taskName);
+        mouseOver(activeTasksLink);
+        mouseOver(taskRowElement.findElement(taskNames));
+        waitInSeconds(2);
+        clickElement(taskRowElement.findElement(viewIcon));
+        return new ViewTaskPage(webDriver);
+    }
 
     public EditTaskPage editTask(String taskName)
     {
         log.info("Edit task {}", taskName);
+        waitInSeconds(3);
         WebElement taskRowElement = getTaskRow(taskName);
         mouseOver(taskRowElement);
 
         WebElement editButton = waitUntilElementIsVisible(editIcon);
+        waitInSeconds(3);
         clickElement(editButton);
         return new EditTaskPage(webDriver);
     }
