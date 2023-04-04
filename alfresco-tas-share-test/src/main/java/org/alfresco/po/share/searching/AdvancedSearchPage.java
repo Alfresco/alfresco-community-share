@@ -3,6 +3,7 @@ package org.alfresco.po.share.searching;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import com.beust.ah.A;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -17,6 +18,8 @@ import org.testng.Assert;
 public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implements AccessibleByMenuBar
 {
     private final By keywordsSearchField = By.cssSelector("input[id$='default-search-text']");
+    private final By firstSearchButtons = By.xpath("(//button[text()='Search'])[1]");
+
     private final By firstSearchButton = By.cssSelector("button[id$='_default-search-button-1-button']");
     private final By firstSearchButtonAgain = By.cssSelector("#uniqName_12_0_label");
     private final By secondSearchButton = By.cssSelector("button[id$='_default-search-button-2-button']");
@@ -88,6 +91,15 @@ public class AdvancedSearchPage extends SharePage2<AdvancedSearchPage> implement
         clickElement(secondSearchButton);
         return new SearchPage(webDriver);
     }
+
+    public AdvancedSearchPage clickOnFirstSearchButtons()
+    {
+
+        clickElement(firstSearchButtons);
+        waitInSeconds(2);
+        return this;
+    }
+
 
     public void typeKeywords(String keyword)
     {

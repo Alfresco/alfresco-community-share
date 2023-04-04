@@ -8,6 +8,7 @@ public class ConfirmDeletionDialog extends ConfirmationDialog
 {
     private final By dialogNoButton = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CANCEL_label");
     private final By dialogTitle = By.id("ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title");
+    private final By confirmDeletion = By.xpath("(//span[text()='Yes'])[19]");
 
     public ConfirmDeletionDialog(ThreadLocal<WebDriver> webDriver)
     {
@@ -22,5 +23,10 @@ public class ConfirmDeletionDialog extends ConfirmationDialog
     public void clickNoButton()
     {
         clickElement(dialogNoButton);
+    }
+    public ConfirmationDialog clickYesButton()
+    {
+        clickElement(confirmDeletion);
+        return this;
     }
 }

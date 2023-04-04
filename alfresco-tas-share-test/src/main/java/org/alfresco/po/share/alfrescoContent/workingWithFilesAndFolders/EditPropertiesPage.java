@@ -27,6 +27,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     private final By helpMessageForRestrictableAspect = By.cssSelector("[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']");
     private final By offlineExpiresafterInput = By.cssSelector("[id*='default_prop_dp_offlineExpiresAfter-entry']");
     private final By buttonsList = By.cssSelector("button[id*='form']");
+    private final By selectButton = By.xpath("//button[text()='Select']");
     private final By propertiesElements = By.cssSelector(".form-field>label");
     private final By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
 
@@ -89,6 +90,11 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         findFirstElementWithValue(buttonsList, buttonName).click();
         refresh();
         return new DocumentDetailsPage(webDriver);
+    }
+    public SelectDialog clickSelectButton()
+    {
+        findElement(selectButton).click();
+        return new SelectDialog(webDriver);
     }
 
     public void clickButtonForFolder(String buttonName)

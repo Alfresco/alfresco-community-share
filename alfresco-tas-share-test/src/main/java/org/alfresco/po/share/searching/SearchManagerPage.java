@@ -97,6 +97,7 @@ public class SearchManagerPage extends SharePage2<SearchManagerPage>
 
     public List<String> getFiltersTableColumns()
     {
+        waitInSeconds(3);
         List<String> columnsTitle = new ArrayList<>();
         for (WebElement column : findElements(filterTableColumns))
         {
