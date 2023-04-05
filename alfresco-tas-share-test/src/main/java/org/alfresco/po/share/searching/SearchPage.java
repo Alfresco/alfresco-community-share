@@ -198,7 +198,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             }
             System.out.println("************"+filterElement.getText());
         }
-        return true;
+        return false;
 
     }
     public boolean isFilterOptionNotVisible(String filterOption, String  text) {
