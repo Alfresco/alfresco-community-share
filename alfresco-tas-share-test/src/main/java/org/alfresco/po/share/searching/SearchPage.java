@@ -29,6 +29,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     private final By deleteDialogCancel = By.cssSelector("span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION");
     private final By numberOfResultsLabel = By.id("FCTSRCH_RESULTS_COUNT_LABEL");
     private final By selectedItemsMenu = By.id("SELECTED_ITEMS_MENU_text");
+    private final By searchManagerButton = By.xpath("//a[text()='Search Manager']");
     private final By resultsDetailedViewList = By.cssSelector(".propertiesCell .nameAndTitleCell a .value");
     private final By searchInLabel = By.id("FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL");
     private final By searchButton = By.cssSelector("span[class*='confirmationButton'] span");
@@ -186,6 +187,40 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         log.info("Assert no Results Found is displayed");
         Assert.assertEquals(getNumberOfResultsText(), language.translate("searchPage.noResultsFound"), "No results found");
+        return this;
+    }
+    public boolean isTheFilterOptionVisible(String filterOption) {
+        waitInSeconds(3);
+        for (WebElement filterElement : findElements(By.className("filterLabel"))) {
+            if (filterElement.getText().equals(filterOption)) {
+                waitInSeconds(3);
+                return true;
+            }
+            System.out.println("************"+filterElement.getText());
+        }
+        return false;
+
+    }
+    public boolean isFilterOptionNotVisible(String filterOption, String  text) {
+        for (WebElement filterElement : findElements(By.xpath("(//span[text()='firstName3 lastName3'])[3]"))) {
+            if (filterElement.getText().equals(filterOption)) {
+                waitInSeconds(3);
+                return true;
+            }
+            System.out.println("************"+filterElement.getText());
+        }
+        return false;
+
+    }
+
+    public SearchPage assertCheckForSearchManagerButtonIsDisplayed()
+    {
+        log.info("Assert search manager button is displayed");
+        waitInSeconds(3);
+        refresh();
+        waitInSeconds(5);
+        refresh();
+        assertTrue(isElementDisplayed(searchManager), "Search manager is displayed");
         return this;
     }
 
@@ -353,7 +388,23 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isFilterTypePresent(String filter)
     {
+        waitInSeconds(4);
         return findFirstElementWithValue(filterTypeList, filter) != null;
+    }
+    public boolean isFilterPresent(String filter)
+    {
+        waitInSeconds(3);
+
+        for (WebElement FilterType : findElements(filterTypeList))
+        {
+            if (FilterType.getText().contains(filter))
+            {
+                waitInSeconds(3);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean isFilterOptionDisplayed(String filterId, String filterOption)
@@ -364,6 +415,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public String getFilterOptionHits(String filterOption)
     {
+        waitInSeconds(3);
         return findFirstElementWithValue(allOptions, filterOption).findElement(By.xpath("following-sibling::*[1]")).getText();
     }
 

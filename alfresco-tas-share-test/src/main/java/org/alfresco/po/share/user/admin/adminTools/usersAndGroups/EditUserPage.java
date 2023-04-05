@@ -28,6 +28,9 @@ public class EditUserPage extends SharePage2<EditUserPage>
     private final By userNameField = By.xpath("//input[@id=\"page_x002e_ctool_x002e_admin-console_x0023_default-create-username\"]");
     private final By cancelButton = By.cssSelector("button[id$='_default-updateuser-cancel-button-button']");
     private final By userNameInEditUserPageTitle = By.cssSelector("span[id$='_default-update-title']");
+    private final By groupNameInput = By.xpath("(//input[@type=\"text\"])[12]");
+    private final By groupSearchButton = By.xpath("(//button[text()='Search'])[3]");
+    private final By groupAddButton = By.xpath("//button[text()='Add ']");
     private final By userProfileHeaderList = By.cssSelector("form[id$='_default-update-form'] div.header-bar");
     private final By firstNameField = By.cssSelector("input[id$='_default-update-firstname']");
     private final By lastNameField = By.cssSelector("input[id$='_default-update-lastname']");
@@ -124,6 +127,16 @@ public class EditUserPage extends SharePage2<EditUserPage>
             String.format("%s %s", user.getFirstName(), user.getLastName()));
         return this;
     }
+    public EditUserPage addGroup(String firstName)
+    {
+        WebElement SearchGroupName = waitUntilElementIsVisible(groupNameInput);
+        clearAndType(SearchGroupName, firstName);
+        clickElement(groupSearchButton);
+        clickElement(groupAddButton);
+        return this;
+    }
+
+
 
     public EditUserPage assertAllSectionsAreDisplayed()
     {
