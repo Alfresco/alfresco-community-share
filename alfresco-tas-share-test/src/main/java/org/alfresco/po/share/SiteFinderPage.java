@@ -90,7 +90,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
         return false;
     }
 
-    private void searchSiteNameWithRetry(String siteName)
+    public void searchSiteNameWithRetry(String siteName)
     {
         int retryCounter = 0;
         while (!isSiteNameDisplayed(siteName) && retryCounter < RETRY_TIME_10.getValue())
