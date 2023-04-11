@@ -348,7 +348,7 @@ public class Toolbar extends BasePage
     public boolean isResultDisplayedLiveSearch(String query)
     {
         int retryCounter = 0;
-        while (!isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && retryCounter < 6)
+        while (!isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && retryCounter < 8)
         {
             waitInSeconds(2);
             refresh();
