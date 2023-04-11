@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SecurityXSS Test Suite" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="SecurityXSS Tests">
+      <groups>
+         <run>
+            <include name="xsstests"/>
+         </run>
+      </groups>
+      <classes>
+         <class name="org.alfresco.share.security.DashboardXSSTests"></class>
+         <class name="org.alfresco.share.security.DataListXSSTests"></class>
+         <class name="org.alfresco.share.security.LoginXSSTests"></class>
+         <class name="org.alfresco.share.security.SiteXSSTests"></class>
+         <class name="org.alfresco.share.security.WorkflowSecurityTests"></class>
+      </classes>
+   </test>
+</suite>
+
