@@ -1,107 +1,104 @@
 package org.alfresco.share.site.accessingExistingSites;
 
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
 
-/**
- * Created by Claudia Agache on 7/6/2016.
- */
-public class EnteringSiteTests extends ContextAwareWebTest
+@Slf4j
+public class EnteringSiteTests extends BaseTest
 {
-    //@Autowired
     SiteFinderPage siteFinderPage;
-
-    //@Autowired
     MySitesDashlet mySitesDashlet;
-
-   // @Autowired
     UserSitesListPage userSitesListPage;
-
-    //@Autowired
     Toolbar toolbar;
-
-    //@Autowired
     SiteDashboardPage siteDashboardPage;
-
-    //@Autowired
     UserDashboardPage userDashboardPage;
-
-    private String user1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
-
-    @BeforeClass (alwaysRun = true)
+    private final ThreadLocal<UserModel> user1 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.setFavorite(user1, password, siteName);
-        setupAuthenticatedSession(user1, password);
+        log.info("PreCondition: Creating a TestUser1");
+        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Creating a Random Site");
+        site.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user1.get());
+
+        userDashboardPage = new UserDashboardPage(webDriver);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        mySitesDashlet = new MySitesDashlet(webDriver);
+        siteFinderPage = new SiteFinderPage(webDriver);
+        toolbar = new Toolbar(webDriver);
+        userSitesListPage = new UserSitesListPage(webDriver);
+
+        log.info("Precondition 1: Any user logged in Share.");
+        authenticateUsingLoginPage(user1.get());
     }
 
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user1.get());
+        deleteSitesIfNotNull(site.get());
+        deleteAllCookiesIfNotNull();
     }
 
     @TestRail (id = "C2977")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingMySitesDashlet()
     {
-        userDashboardPage.navigate(user1);
-        LOG.info("STEP 1: Verify 'My Sites' dashlet.");
-        assertTrue(mySitesDashlet.isSitePresent(siteName), siteName + " should be displayed in 'My Sites' dashlet.");
+        userDashboardPage.navigate(user1.get());
+        log.info("STEP 1: Verify 'My Sites' dashlet.");
+        assertTrue(mySitesDashlet.isSitePresent(site.get().getId()), site.get() + " should be displayed in 'My Sites' dashlet.");
 
-        LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        mySitesDashlet.accessSite(siteName);
-        //assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        log.info("STEP 2: Click on '" + site.get() + "' link.");
+        mySitesDashlet.accessSite(site.get().getId());
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + site.get().getTitle() + "/dashboard"), "User should be redirected to " + site.get().getTitle() + "'s dashboard page.");
     }
 
     @TestRail (id = "C2978")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSiteFinderPage()
     {
-        userDashboardPage.navigate(user1);
+        userDashboardPage.navigate(user1.get());
         siteFinderPage.navigate();
 
-        LOG.info("STEP 1: Search for '" + siteName + "'.");
-        siteFinderPage.searchSiteWithName(siteName);
-//        assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " should be found.");
+        log.info("STEP 1: Search for '" + site.get().getId() + "'.");
+        siteFinderPage.searchSiteNameWithRetry(site.get().getId());
+        assertTrue(siteFinderPage.checkSiteWasFound(site.get().getId()), site.get().getId() + " should be found.");
 
-        LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        siteFinderPage.accessSite(siteName);
-//        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        log.info("STEP 2: Click on '" + site.get() + "' link.");
+        siteFinderPage.accessSite(site.get().getId());
+        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/" + site.get().getId() + "/dashboard"), "User should be redirected to " + site.get().getId() + "'s dashboard page.");
     }
 
     @TestRail (id = "C2979")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuFavorites()
     {
-        userDashboardPage.navigate(user1);
-        LOG.info("Click on 'Sites' menu -> 'Favorites' link.");
-        toolbar.clickSites().assertSiteIsFavorite(siteName);
+        userDashboardPage.navigate(user1.get());
+        log.info("Click on 'Sites' menu -> 'Favorites' link.");
+        toolbar.clickSites().assertSiteIsFavorite(site.get());
 
-        LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        toolbar.clickSites().clickFavoriteSite(siteName).assertSiteDashboardPageIsOpened();
+        log.info("STEP 2: Click on '" + site.get() + "' link.");
+        toolbar.clickSites().clickFavoriteSite(site.get()).assertSiteDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2980")
@@ -109,54 +106,53 @@ public class EnteringSiteTests extends ContextAwareWebTest
     public void accessSiteUsingSitesMenuRecentSites()
     {
         //precondition: site is recently accessed by current user
-        siteDashboardPage.navigate(siteName);
+        siteDashboardPage.navigate(site.get());
         toolbar.clickHome();
 
-        LOG.info("Click on 'Sites' and verify 'Recent Sites' section.");
-        toolbar.clickSites().assertSiteIsInRecentSites(siteName);
+        log.info("Click on 'Sites' and verify 'Recent Sites' section.");
+        toolbar.clickSites().assertSiteIsInRecentSites(site.get());
 
-        LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        toolbar.clickSites().clickRecentSite(siteName);
-        //assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        log.info("STEP 2: Click on '" + site.get() + "' link.");
+        toolbar.clickSites().clickRecentSite(site.get());
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + site.get().getTitle() + "/dashboard"), "User should be redirected to " + site.get() + "'s dashboard page.");
     }
 
     @TestRail (id = "C2981")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingMyProfileSites()
     {
-        userSitesListPage.navigate(user1)
-            .assertSiteIsDisplayed(new SiteModel(siteName));
+        userSitesListPage.navigate(user1.get())
+            .assertSiteIsDisplayed(new SiteModel(site.get().getTitle()));
 
-        LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        userSitesListPage.clickSite(new SiteModel(siteName)).assertSiteDashboardPageIsOpened();
+        log.info("STEP 2: Click on '" + site.get() + "' link.");
+        userSitesListPage.clickSite(new SiteModel(site.get().getTitle())).assertSiteDashboardPageIsOpened();
     }
 
     @TestRail (id = "C2982")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuMySites()
     {
-        userDashboardPage.navigate(user1);
+        userDashboardPage.navigate(user1.get());
         toolbar.clickSites().clickMySites()
-            .assertSiteIsDisplayed(new SiteModel(siteName));
-        LOG.info("STEP 1: Verify the sites from 'User Sites List' list.");
+            .assertSiteIsDisplayed(new SiteModel(site.get().getTitle()));
+        log.info("STEP 1: Verify the sites from 'User Sites List' list.");
 
-        LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        userSitesListPage.clickSite(new SiteModel(siteName));
-       // assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        log.info("STEP 2: Click on '" + site.get() + "' link.");
+        userSitesListPage.clickSite(new SiteModel(site.get().getTitle()));
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + site.get().getTitle() + "/dashboard"), "User should be redirected to " + site.get() + "'s dashboard page.");
     }
 
     @TestRail (id = "C3006")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSearchBoxOnTheToolbar()
     {
-        userDashboardPage.navigate(user1);
-        getBrowser().refresh();
-        LOG.info("STEP 1: Go to search box on the toolbar and type '" + siteName + "'.");
-        toolbar.searchInToolbar(siteName);
-        assertTrue(toolbar.isResultDisplayedInLiveSearch(siteName), siteName + " should be found.");
+        userDashboardPage.navigate(user1.get());
+        log.info("STEP 1: Go to search box on the toolbar and type '" + site.get() + "'.");
+        toolbar.searchInToolbar(site.get().getId());
+        assertTrue(toolbar.isResultDisplayedLiveSearch(site.get().getId()), site.get() + " should be found.");
 
-        LOG.info("STEP 2: Click on '" + siteName + "' link.");
-        toolbar.clickResult(siteName);
-        //assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        log.info("STEP 2: Click on '" + site.get().getId() + "' link.");
+        toolbar.clickResult(site.get().getId());
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + site.get().getId() + "/dashboard"), "User should be redirected to " + site.get() + "'s dashboard page.");
     }
 }
