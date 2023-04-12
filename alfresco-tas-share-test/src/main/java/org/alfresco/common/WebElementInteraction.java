@@ -1129,7 +1129,7 @@ public abstract class WebElementInteraction
         }
     }
 
-    protected String getCurrentUrl()
+    public String getCurrentUrl()
     {
         return getWebDriver().getCurrentUrl();
     }
