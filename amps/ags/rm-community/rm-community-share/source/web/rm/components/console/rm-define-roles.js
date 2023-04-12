@@ -326,7 +326,7 @@
                      });
 
                      // refresh the UI
-                     window.location.href = window.location.pathname + '#roleId=' + encodeURI(roleId);
+                     window.location = window.location.pathname + '#roleId=' + encodeURI(roleId);
                   },
                   scope: this
                },
@@ -364,7 +364,7 @@
                      });
 
                      // refresh the UI
-                     window.location.href = window.location.pathname + '#roleId=' + encodeURI(roleId);
+                     window.location = window.location.pathname + '#roleId=' + encodeURI(roleId);
                   },
                   scope: this
                },
@@ -393,7 +393,7 @@
       onCancel: function RMRoles_onCancel(e, args)
       {
          // refresh the UI
-         window.location.href = window.location.pathname + '#roleId=' + encodeURI(this.options.roleId || "");
+         window.location = window.location.pathname + '#roleId=' + encodeURI(this.options.roleId || "");
          Event.preventDefault(e);
       }
    });
@@ -708,7 +708,7 @@
        */
       onNewRole: function RMViewRoles_onNewRole(e)
       {
-         window.location.href = window.location.pathname + '?action=new';
+         window.location = window.location.pathname + '?action=new';
       },
 
       /**
