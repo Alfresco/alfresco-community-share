@@ -209,7 +209,7 @@ public class AIMSFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) sreq;
         HttpServletResponse response = (HttpServletResponse) sres;
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         boolean isAuthenticated = false;
         /**
          * check if authentication is done.
