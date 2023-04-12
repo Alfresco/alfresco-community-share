@@ -16,7 +16,7 @@
             <exclude name="ExternalUsers"/>
             <exclude name="office"/>
             <exclude name="TransformationServer"/>
-            <include name="xsstests"/>
+            <exclude name="xsstests"/>
             <exclude name="admin-tools"></exclude>
             <exclude name="sites"/>
             <exclude name="user-dashboard"/>
