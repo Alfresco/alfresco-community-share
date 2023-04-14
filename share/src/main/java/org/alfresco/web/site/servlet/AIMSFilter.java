@@ -178,7 +178,7 @@ public class AIMSFilter implements Filter
         AIMSConfig config = (AIMSConfig) this.context.getBean("aims.config");
         this.enabled = config.isEnabled();
         if(this.enabled) {
-            this.clientId=System.getProperty("aims.resource");
+            this.clientId=config.getResource();
             // OIDC Specific Setup
             clientRegistrationRepository = context.getBean(ClientRegistrationRepository.class);
             oauth2ClientService = context.getBean(OAuth2AuthorizedClientService.class);

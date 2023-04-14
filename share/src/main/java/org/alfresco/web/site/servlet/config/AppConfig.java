@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.alfresco.web.site.TaskUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -29,84 +28,99 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Configuration
-@Conditional(AIMSEnabled.class)
 public class AppConfig {
     private static final Log logger = LogFactory.getLog(AppConfig.class);
-
-    @Value("${aims.realm}")
-    private String realm;
-    @Value("${aims.resource}")
-    private String clientId;
-    @Value("${aims.secret:#{'${aims.resource}'}}")
-    private String clientSecret;
-    @Value("${aims.authServerUrl}")
-    private String authUrl;
-    @Value("${aims.principalAttribute:sub}")
-    private String principalAttribute;
+    private final String realm;
+    private final String clientId;
+    private final String clientSecret;
+    private final String authUrl;
+    private final String principalAttribute;
+    private final AIMSConfig aimsConfig;
+    @Autowired
+    public AppConfig(AIMSConfig aimsConfig) {
+        this.aimsConfig = aimsConfig;
+        this.realm = aimsConfig.getRealm();
+        this.clientId = aimsConfig.getResource();
+        this.clientSecret = aimsConfig.getSecret();
+        this.authUrl = aimsConfig.getAuthServerUrl();
+        this.principalAttribute = aimsConfig.getPrincipalAttribute();
+    }
 
     @Bean
     public OAuth2AuthorizedClientRepository authorizedClientRepository(
-            OAuth2AuthorizedClientService authorizedClientService) {
+        @Autowired(required = false) OAuth2AuthorizedClientService authorizedClientService) {
+        if (null != authorizedClientService)
         return new
-                AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
+            AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
+        else
+            return null;
     }
 
     @Bean
     public OAuth2AuthorizedClientService authorizedClientService(
-            ClientRegistrationRepository clientRegistrationRepository) {
+        @Autowired(required = false) ClientRegistrationRepository clientRegistrationRepository) {
+        if (null != clientRegistrationRepository)
         return new
             InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
+        else
+            return null;
     }
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
-        return new
+        ClientRegistration clientRegistration = this.clientRegistration();
+        if (null != clientRegistration)
+            return new
                 InMemoryClientRegistrationRepository(this.clientRegistration());
+        else
+            return null;
     }
 
     @Bean
     public AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager (
-            ClientRegistrationRepository clientRegistrationRepository,
-            OAuth2AuthorizedClientService authorizedClientService) {
-
-        OAuth2AuthorizedClientProvider authorizedClientProvider =
+        @Autowired(required = false) ClientRegistrationRepository clientRegistrationRepository,
+        @Autowired(required = false) OAuth2AuthorizedClientService authorizedClientService) {
+        if(null != clientRegistrationRepository && null != authorizedClientService) {
+            OAuth2AuthorizedClientProvider authorizedClientProvider =
                 OAuth2AuthorizedClientProviderBuilder.builder()
-                        .authorizationCode()
-                        .build();
+                    .authorizationCode()
+                    .build();
 
-        AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
+            AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
                 new AuthorizedClientServiceOAuth2AuthorizedClientManager(
-                        clientRegistrationRepository, authorizedClientService);
-        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+                    clientRegistrationRepository, authorizedClientService);
+            authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
-        return authorizedClientManager;
+            return authorizedClientManager;
+        } else
+            return null;
     }
 
     private ClientRegistration clientRegistration() {
-        String realm_url = authUrl + "/realms/" + realm;
-        /**
-         * This implementation is primarily getting all the endpoints on the fly during startup
-         */
-        AtomicReference<ClientRegistration.Builder> builder = new AtomicReference<>();
-        TaskUtils.retry(10, 1000, logger,
-            () -> builder.set(ClientRegistrations.fromOidcIssuerLocation(realm_url)));
+        if(aimsConfig.isEnabled()) {
+            String realm_url = authUrl + "/realms/" + realm;
+            /**
+             * This implementation is primarily getting all the endpoints on the fly during startup
+             */
+            AtomicReference<ClientRegistration.Builder> builder = new AtomicReference<>();
+            TaskUtils.retry(10, 1000, logger,
+                () -> builder.set(ClientRegistrations.fromOidcIssuerLocation(realm_url)));
 
-        return
-            builder.get()
-            .registrationId(clientId)
-            .clientId(clientId)
-            .clientSecret(clientSecret)
-            .scope("openid")
-            .redirectUri("*")
-            .userNameAttributeName(principalAttribute)
-            .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-            .clientName(clientId)
-            .build();
-        /**
-         * On the contrary this implementation is setting the endpoints so that Share does not
-         * call Idp for Getting endpoints
-         */
+            return
+                builder.get()
+                    .registrationId(clientId)
+                    .clientId(clientId)
+                    .clientSecret(clientSecret)
+                    .scope("openid")
+                    .redirectUri("*")
+                    .userNameAttributeName(principalAttribute)
+                    .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                    .clientName(clientId)
+                    .build();
+        } else {
+            return null;
+        }
     }
 
     @Bean
