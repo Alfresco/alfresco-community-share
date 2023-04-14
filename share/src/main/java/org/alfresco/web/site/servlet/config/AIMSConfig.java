@@ -20,9 +20,10 @@
  */
 package org.alfresco.web.site.servlet.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.extensions.config.ConfigElement;
+import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
 
 public class AIMSConfig
@@ -30,15 +31,35 @@ public class AIMSConfig
     private static final Log logger = LogFactory.getLog(AIMSConfig.class);
 
     private boolean enabled;
+    private String realm;
+    private String resource;
+    private String secret;
+    private String authServerUrl;
+    private String sslRequired;
+    private String principalAttribute;
     private ConfigService configService;
     /**
      *
      */
     public void init()
     {
-        ConfigElement config = this.configService.getConfig("AIMS")
-            .getConfigElement("enabled");
-        this.setEnabled(Boolean.parseBoolean(config.getValue()));
+        Config config = this.configService.getConfig("AIMS");
+        this.setEnabled(Boolean.parseBoolean(config.getConfigElement("enabled").getValue()));
+        this.setRealm(config.getConfigElementValue("realm"));
+        this.setResource(config.getConfigElementValue("resource"));
+        this.setAuthServerUrl(config.getConfigElementValue("authServerUrl"));
+        this.setSslRequired(config.getConfigElementValue("sslRequired"));
+
+        if(!StringUtils.isEmpty(config.getConfigElementValue("secret")))
+            this.setSecret(config.getConfigElementValue("secret"));
+        else
+            this.setSecret(config.getConfigElementValue("resource"));
+
+        if(!StringUtils.isEmpty(config.getConfigElementValue("principalAttribute")))
+            this.setPrincipalAttribute(config.getConfigElementValue("principalAttribute"));
+        else
+            this.setPrincipalAttribute("sub");
+
     }
 
     /**
@@ -68,8 +89,27 @@ public class AIMSConfig
         return this.enabled;
     }
 
-    /**
-     *
-     * @param config Config
-     */
+    public String getRealm() { return realm; }
+
+    public void setRealm(String realm) { this.realm = realm; }
+
+    public String getResource() { return resource; }
+
+    public void setResource(String resource) { this.resource = resource; }
+
+    public String getAuthServerUrl() { return authServerUrl; }
+
+    public void setAuthServerUrl(String authServerUrl) { this.authServerUrl = authServerUrl; }
+
+    public String getSslRequired() { return sslRequired; }
+
+    public void setSslRequired(String sslRequired) { this.sslRequired = sslRequired; }
+
+    public String getSecret() { return secret; }
+
+    public void setSecret(String secret) { this.secret = secret; }
+
+    public String getPrincipalAttribute() { return principalAttribute; }
+
+    public void setPrincipalAttribute(String principalAttribute) { this.principalAttribute = principalAttribute; }
 }
