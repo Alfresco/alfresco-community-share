@@ -326,7 +326,7 @@
                      });
 
                      // refresh the UI
-                     window.location = window.location.pathname + '#roleId=' + encodeURI(roleId);
+                     window.location.assign(window.location.pathname + '#roleId=' + encodeURI(roleId));
                   },
                   scope: this
                },
@@ -364,7 +364,7 @@
                      });
 
                      // refresh the UI
-                     window.location = window.location.pathname + '#roleId=' + encodeURI(roleId);
+                     window.location.assign(window.location.pathname + '#roleId=' + encodeURI(roleId));
                   },
                   scope: this
                },
@@ -393,7 +393,7 @@
       onCancel: function RMRoles_onCancel(e, args)
       {
          // refresh the UI
-         window.location = window.location.pathname + '#roleId=' + encodeURI(this.options.roleId || "");
+         window.location.assign(window.location.pathname + '#roleId=' + encodeURI(this.options.roleId || ""));
          Event.preventDefault(e);
       }
    });
@@ -708,7 +708,7 @@
        */
       onNewRole: function RMViewRoles_onNewRole(e)
       {
-         window.location = window.location.pathname + '?action=new';
+         window.location.assign(window.location.pathname + '?action=new');
       },
 
       /**
@@ -722,9 +722,8 @@
 
          // Get roleId from button value
          var roleId = this.widgets[el.id.replace('-button', '')].get('value'),
-            url = window.location.pathname + '?action=edit&roleId=' + encodeURI(roleId);
-
-         window.location = url;
+         url = window.location.pathname + '?action=edit&roleId=' + encodeURI(roleId);
+         window.location.assign(url);
       },
 
       /**
