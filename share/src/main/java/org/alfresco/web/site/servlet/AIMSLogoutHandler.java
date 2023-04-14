@@ -1,11 +1,9 @@
 package org.alfresco.web.site.servlet;
 
-import org.alfresco.web.site.servlet.config.AIMSEnabled;
+import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -27,25 +25,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 @Component("aimslogouthandler")
-@Conditional(AIMSEnabled.class)
 public class AIMSLogoutHandler {
 
     private static final Log logger = LogFactory.getLog(AIMSLogoutHandler.class);
-    @Value("${aims.resource}")
     private String clientId;
-    private final ClientRegistrationRepository clientRegistrationRepository;
+    @Autowired(required = false)
+    private ClientRegistrationRepository clientRegistrationRepository;
+    @Autowired
+    private AIMSConfig aimsConfig;
     private String postLogoutRedirectUri;
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    @Autowired
-    public AIMSLogoutHandler(ClientRegistrationRepository clientRegistrationRepository) {
-        Assert.notNull(clientRegistrationRepository, "clientRegistrationRepository cannot be null");
-        this.clientRegistrationRepository = clientRegistrationRepository;
-    }
-
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String targetUrl = null;
-            ClientRegistration clientRegistration = this.clientRegistrationRepository.findByRegistrationId(clientId);
+            ClientRegistration clientRegistration = this.clientRegistrationRepository.findByRegistrationId(aimsConfig.getResource());
             URI endSessionEndpoint = this.endSessionEndpoint(clientRegistration);
             if (endSessionEndpoint != null) {
                 String idToken = this.idToken(authentication);
