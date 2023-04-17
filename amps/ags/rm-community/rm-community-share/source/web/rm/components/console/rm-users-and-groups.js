@@ -725,7 +725,7 @@
          {
             hash += urlParam + encodeURI(id);
          }
-         window.location.hash = hash;
+         window.location.assign(hash);
 
          if (param === "group")
          {

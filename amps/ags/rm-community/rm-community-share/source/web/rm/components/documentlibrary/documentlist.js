@@ -537,13 +537,13 @@
          {
             var hash = window.location.hash;
             hash = hash.replace(/(filter=)[^\&]+/, '$1' + filterId);
-            window.location.hash = hash;
+            window.location.assign(hash);
          }
          if (currentFilter === "path" && args[1].filterData === "/Unfiled Records")
          {
             var hash = window.location.hash;
             hash = hash.replace(/(filter=)[^\&]+/, '$1' + "unfiledRecords") + "&page=" + this.currentPage;
-            window.location.hash = hash;
+            window.location.assign(hash);
          }
       }
    }, true);
