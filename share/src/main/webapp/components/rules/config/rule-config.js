@@ -2020,11 +2020,11 @@
             }
             else if (Alfresco.util.arrayContains(["d:boolean"], type))
             {
-               if (paramValue.toLowerCase() == "true")
+               if (paramValue == true)
                {
                   return true;
                }
-               else if (paramValue.toLowerCase() == "false")
+               else if (paramValue == false)
                {
                   return false;
                }
