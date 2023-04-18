@@ -27,7 +27,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     private final By siteDescription = By.xpath("//textarea[@name=\"description\"]");
     private final By saveButton = By.xpath("//span[text()=\"Save\"]");
     private final By siteDataListDashlet = By.xpath("//div[text()=\"Site Data Lists\"]");
-
+    private final By dropdownoptions = By.xpath("//tr[@role=\"menuitem\"]");
     private final String dropdownOption = "//div[@class='alf-menu-groups' and contains(@style, 'visible')]//td[contains(@id, 'HEADER') and text()='%s']";
     private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
@@ -251,5 +251,17 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         waitUntilElementIsVisible(siteDataListDashlet);
         assertTrue(isElementDisplayed(siteDataListDashlet));
         return this;
+    }
+    public boolean isOptionListedInSiteConfigurationDropDown(String option)
+    {
+        List<WebElement> moreOptionsList = findElements(dropdownoptions);
+        for (WebElement options : moreOptionsList)
+        {
+            if (options.getText().equals(option))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

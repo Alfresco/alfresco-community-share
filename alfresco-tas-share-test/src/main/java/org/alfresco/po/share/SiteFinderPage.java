@@ -5,6 +5,7 @@ import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_3;
 import static org.alfresco.utility.Utility.waitToLoopTime;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
     private final By requestToJoinButton = By.xpath(".//button[text()='Request to Join']");
 
     private final String siteNamePath = "//tr[contains(@class, 'yui-dt-even')]//a[text()='%s']/../../../..";
-
+    private By notification = By.cssSelector("div.bd span.message");
     public SiteFinderPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -88,6 +89,11 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
         }
 
         return false;
+    }
+
+    public SiteFinderPage assertSiteWasFound(String siteName){
+        assertTrue(checkSiteWasFound(siteName), "Check "+ siteName);
+        return this;
     }
 
     public void searchSiteNameWithRetry(String siteName)
@@ -165,6 +171,11 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
         return false;
     }
 
+    public SiteFinderPage assertIsButtonDisplayedForSite(String siteName, String buttonName){
+        assertTrue(isButtonDisplayedForSite(siteName,buttonName),"Check Button name  for "+ siteName);
+        return this;
+    }
+
     public void clickSiteButton(String siteName, String buttonName)
     {
         waitUntilElementsAreVisible(getTheButtonsForSite(siteName));
@@ -233,5 +244,11 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
     public String getVisibilityLabel()
     {
         return waitUntilElementIsVisible(siteVisibility).getText();
+    }
+    public SiteFinderPage assertVerifyDisplayedNotification(String expectedMessage)
+    {
+        waitInSeconds(2);
+        assertEquals(findElement(notification).getText(), expectedMessage,"Check Notification message");
+        return this;
     }
 }

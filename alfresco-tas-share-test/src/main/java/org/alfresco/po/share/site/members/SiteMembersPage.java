@@ -103,6 +103,13 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
         return this;
     }
 
+    public boolean assertSiteMemberNameNotDisplayed(String expectedSiteMemberName)
+    {
+        log.info("Assert site member name equals to: {}", expectedSiteMemberName);
+        assertFalse(getSiteMembersList().contains(expectedSiteMemberName), "Site name is Displayed");
+        return false;
+    }
+
     public SiteMembersPage assertSiteMemberNameIsNotDisplayed(String memberName)
     {
         log.info("Assert Site member name is not displayed {}", memberName);
