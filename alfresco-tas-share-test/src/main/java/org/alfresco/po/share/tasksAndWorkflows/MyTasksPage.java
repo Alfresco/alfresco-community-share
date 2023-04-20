@@ -33,6 +33,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     private final By dueFilter = By.cssSelector("div[id*='_due-filter'] div h2");
     private final By priorityFilter = By.cssSelector( "div[id*='_priority-filter'] div h2");
     private final By assigneeFilter = By.cssSelector("div[id*='_assignee-filter'] div h2");
+    private final By noTaskMessage = By.xpath("//div[text()='No tasks']");
 
     private final String completeTaskName = "Request to join %s site";
     private final String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
@@ -103,6 +104,12 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
         assertEquals(actualTaskName, expectedTaskName,
             String.format("Task name not equals to %s ", expectedTaskName));
+        return this;
+    }
+
+    public MyTasksPage assertNoTaskIsDisplayed(){
+        waitInSeconds(2);
+        assertTrue(isElementDisplayed(noTaskMessage), "Check task List");
         return this;
     }
 
