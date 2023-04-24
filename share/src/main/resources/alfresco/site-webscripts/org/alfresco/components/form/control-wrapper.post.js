@@ -50,7 +50,7 @@ function main()
 {
    // Input arguments
    var type = args.type || decodeURIComponent(page.url.args.type),
-      name = args.name || ("wrapped-" + type);
+      name = encodeURI(args.name) || ("wrapped-" + type);
 
    // Output variables
    var field =
