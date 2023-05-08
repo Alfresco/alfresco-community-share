@@ -25,8 +25,8 @@
     </modules>
 
     <properties>
-        <version.major>7</version.major>
-        <version.minor>4</version.minor>
+        <version.major>23</version.major>
+        <version.minor>1</version.minor>
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
