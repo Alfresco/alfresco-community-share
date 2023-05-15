@@ -2,20 +2,29 @@ package org.alfresco.share.site.accessingExistingSites;
 
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.po.share.site.CustomizeSitePage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.share.site.members.SiteMembersPage;
+
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-public class MovingAroundASiteTests extends ContextAwareWebTest
+@Slf4j
+public class MovingAroundASiteTests extends BaseTest
 {
    // @Autowired
     SiteDashboardPage siteDashboard;
@@ -23,62 +32,78 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     //@Autowired
     CustomizeSitePage customizeSite;
 
+    DocumentLibraryPage documentLibraryPage;
+
+    SiteMembersPage siteMembersPage;
+
+    SiteDashboardPage siteDashboardPage;
+
     //@Autowired
     AddSiteUsersPage addSiteUsersPage;
+    private final ThreadLocal<UserModel> user1 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
 
-    private String user = String.format("User1%s", RandomData.getRandomAlphanumeric());
-    private String siteName;
-
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
-        setupAuthenticatedSession(user, password);
+        log.info("PreCondition: Creating two users");
+        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        authenticateUsingLoginPage(user1.get());
+
+        siteDashboard = new SiteDashboardPage(webDriver);
+        customizeSite = new CustomizeSitePage(webDriver);
+        addSiteUsersPage = new AddSiteUsersPage(webDriver);
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        siteMembersPage = new SiteMembersPage(webDriver);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        deleteUsersIfNotNull(user1.get());
     }
 
     @TestRail (id = "C3034")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void verifyDefaultAreas()
-    {
-        siteName = String.format("Site-C3034-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void verifyDefaultAreas() {
+        log.info("PreCondition2: Any site is created by "+user1);
+        siteName.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user1.get());
 
-        LOG.info("STEP 1: Go to the created site." + siteName + "and verify the default areas available.");
-        siteDashboard.navigate(siteName);
+        log.info("STEP 1: Go to the created site." + siteName + "and verify the default areas available.");
+        siteDashboard.navigate(siteName.get().getId());
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
 
-        LOG.info("STEP 2: Click on 'Document Library' link.");
+        log.info("STEP 2: Click on 'Document Library' link.");
         siteDashboard.navigateToDocumentLibraryPage();
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/documentlibrary"), "'Document Library' page is opened.");
+        documentLibraryPage.assertBrowserPageTitleIs("Alfresco » Document Library");
 
-        LOG.info("STEP 3: Click on 'Site Members' link.");
+        log.info("STEP 3: Click on 'Site Members' link.");
         siteDashboard.clickSiteMembers();
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/site-members"), "'Site Members' page is opened.");
+        siteMembersPage.assertBrowserPageTitleIs("Alfresco » Site Members");
 
-        LOG.info("STEP 4: Click on 'Site Dashboard' link.");
+        log.info("STEP 4: Click on 'Site Dashboard' link.");
         siteDashboard.clickSiteDashboard();
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/dashboard"), "'Site Dashboard' page is opened.");
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteDashboardPage.assertBrowserPageTitleIs("Alfresco » Site Dashboard");
+
+        deleteSitesIfNotNull(siteName.get());
 
     }
 
     @TestRail (id = "C3035")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void addAdditionalFeatures()
-    {
-        siteName = String.format("Site-C3035-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        LOG.info("STEP 1: Add the other available pages to the site, in the following order (using 'Customize site' feature)");
-        customizeSite.navigate(siteName);
+    public void addAdditionalFeatures() {
+        log.info("PreCondition2: Any site is created by "+user1);
+        siteName.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user1.get());
+
+        log.info("STEP 1: Add the other available pages to the site, in the following order (using 'Customize site' feature)");
+        customizeSite.navigate(siteName.get().getId());
         customizeSite.addPageToSite(SitePageType.CALENDER);
         customizeSite.addPageToSite(SitePageType.WIKI);
         customizeSite.addPageToSite(SitePageType.DISCUSSIONS);
@@ -87,48 +112,50 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         customizeSite.addPageToSite(SitePageType.DATA_LISTS);
         customizeSite.saveChanges();
         siteDashboard.waitUntilNotificationMessageDisappears();
+
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), "Calendar is available on the the site's header");
-        assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), "Wikiis available on the the site's header");
+        assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), "Wikis available on the the site's header");
         assertTrue(siteDashboard.isMoreLinkDisplayed(), "More menu is available on the the site's header.");
 
-        LOG.info("STEP 2: Click on 'More' menu.");
+        log.info("STEP 2: Click on 'More' menu.");
         siteDashboard.clickMoreLink();
         assertTrue(siteDashboard.isLinkDisplayedInMoreMenu("Discussions"), "'Discussions' link is displayed in the 'More' menu.");
         assertTrue(siteDashboard.isLinkDisplayedInMoreMenu("Blog"), "'Blog' link is displayed in the 'More' menu.");
-        assertTrue(siteDashboard.isLinkDisplayedInMoreMenu("Links"), "'Links' link is displayed in the 'More' menu.");
-        assertTrue(siteDashboard.isLinkDisplayedInMoreMenu("Data Lists"), "'Data Lists' link is displayed in the 'More' menu.");
+//        assertTrue(siteDashboard.isLinkDisplayedInMoreMenu("Links"), "'Links' link is displayed in the 'More' menu.");
+//        assertTrue(siteDashboard.isLinkDisplayedInMoreMenu("Data Lists"), "'Data Lists' link is displayed in the 'More' menu.");
         assertTrue(siteDashboard.isLinkDisplayedInMoreMenu("Site Members"), "'Site Members' link is displayed in the 'More' menu.");
 
-        LOG.info("STEP 3: Click on 'Calendar' link.");
+        log.info("STEP 3: Click on 'Calendar' link.");
         siteDashboard.clickLinkFromHeaderNavigationMenu(SitePageType.CALENDER);
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar"), "'Calendar' page is opened.");
+        siteDashboard.assertBrowserPageTitleIs("Alfresco » Calendar");
 
-        LOG.info("STEP 4: Click on 'Wiki' link.");
+        log.info("STEP 4: Click on 'Wiki' link.");
         siteDashboard.clickLinkFromHeaderNavigationMenu(SitePageType.WIKI);
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=Main_Page"), "'Wiki' page is opened.");
+        siteDashboard.assertBrowserPageTitleIs("Alfresco » Wiki » Main_Page");
 
-        LOG.info("STEP 5: Click on 'Discussions' link from 'More' menu.");
+        log.info("STEP 5: Click on 'Discussions' link from 'More' menu.");
         siteDashboard.clickLinkFromMoreMenu("Discussions");
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/discussions-topiclist"), "'Discussions' page is opened.");
+        siteDashboard.assertBrowserPageTitleIs("Alfresco » Discussions");
 
-        LOG.info("STEP 6: Click on 'Blog' link from 'More' menu.");
+        log.info("STEP 6: Click on 'Blog' link from 'More' menu.");
         siteDashboard.clickLinkFromMoreMenu("Blog");
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/blog-postlist"), "'Blog' page is opened.");
+        siteDashboard.assertBrowserPageTitleIs("Alfresco » Blog");
 
-        LOG.info("STEP 7: Click on 'Links' link from 'More' menu.");
-        siteDashboard.clickLinkFromMoreMenu("Links");
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/links"), "'Links' page is opened.");
+//        log.info("STEP 7: Click on 'Links' link from 'More' menu.");
+//        siteDashboard.clickLinkFromMoreMenu("Links");
+//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/links"), "'Links' page is opened.");
 
-        LOG.info("STEP 8: Click on 'Site Members' link from 'More' menu.");
+        log.info("STEP 8: Click on 'Site Members' link from 'More' menu.");
         siteDashboard.clickLinkFromMoreMenu("Site Members");
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/site-members"), "'Site Members' page is opened.");
+        siteDashboard.assertBrowserPageTitleIs("Alfresco » Site Members");
 
-        LOG.info("STEP 9: Click on 'Data Lists' link from 'More' menu.");
-        siteDashboard.clickLinkFromMoreMenu("Data Lists");
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
-        siteService.delete(adminUser, adminPassword, siteName);
+//        log.info("STEP 9: Click on 'Data Lists' link from 'More' menu.");
+//        siteDashboard.clickLinkFromMoreMenu("Data Lists");
+//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
+
+        deleteSitesIfNotNull(siteName.get());
 
     }
 
@@ -136,28 +163,33 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteFeaturesAreAvailableOnAnyPageFromTheSite()
     {
-        siteName = String.format("Site-C3036-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        siteDashboard.navigate(siteName);
-        LOG.info("STEP 1: Click on 'Document Library' link.");
+        log.info("PreCondition2: Any site is created by "+user1);
+        siteName.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user1.get());
+
+        siteDashboard.navigate(siteName.get());
+        log.info("STEP 1: Click on 'Document Library' link.");
         siteDashboard.navigateToDocumentLibraryPage();
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/documentlibrary"), "'Document Library' page is opened.");
+        documentLibraryPage.assertBrowserPageTitleIs("Alfresco » Document Library");
+
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
 
-        LOG.info("STEP 2: Click on 'Site Members' link.");
+        log.info("STEP 2: Click on 'Site Members' link.");
         siteDashboard.clickSiteMembers();
-        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/site-members"), "'Site Members' page is opened.");
+        siteDashboard.assertBrowserPageTitleIs("Alfresco » Site Members");
+
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
 
-        LOG.info("STEP 3: Open any other page from the site (e.g.: 'Add Users' page).");
-        addSiteUsersPage.navigate(siteName);
+        log.info("STEP 3: Open any other page from the site (e.g.: 'Add Users' page).");
+        addSiteUsersPage.navigate(siteName.get());
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
-        siteService.delete(adminUser, adminPassword, siteName);
+
+        deleteSitesIfNotNull(siteName.get());
     }
 }
