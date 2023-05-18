@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.utility.model.SiteModel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -263,5 +264,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
             }
         }
         return false;
+    }
+    public SiteDashboardPage pageRefresh()
+    {
+        waitInSeconds(10);
+        getWebDriver().navigate().refresh();
+        waitInSeconds(10);
+        getWebDriver().navigate().refresh();
+        return this;
     }
 }

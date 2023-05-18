@@ -1,5 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_40;
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.*;
 import static org.testng.Assert.assertEquals;
@@ -7,6 +8,10 @@ import static org.testng.Assert.assertEquals;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownDashlet>
@@ -54,6 +59,16 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
             String.format("Pie chart size not equals %d ", expectedPieChartSize));
         return this;
     }
+    public SiteFileTypeBreakdownDashlet assert_PieChartSizeEquals(int expectedPieChartSize)
+    {
+        log.info("Assert pie chart size equals: {}", expectedPieChartSize);
+        waitWithRetryAndReturnWebElement(pieChartSlices, WAIT_10.getValue(),
+            RETRY_TIME_40.getValue());
+
+        assertEquals(waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize,
+            String.format("Pie chart size not equals %d ", expectedPieChartSize));
+        return this;
+    }
 
     public SiteFileTypeBreakdownDashlet assertPieChartTooltipTextEquals(String expectedTooltipText,String pieChartIndex)
     {
@@ -81,5 +96,17 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
             expectedFileTypeName, String.format("Pie chart file type name not equals %s", expectedFileTypeName));
 
         return this;
+    }
+    public Map<String, String> getPieChartSliceTooltip()
+    {
+        HashMap<String, String> slicesTooltip = new HashMap<>();
+        for (WebElement slice : waitUntilElementsAreVisible(pieChartSlices))
+        {
+            mouseOver(slice);
+            String tooltip = findElement(sliceTooltip).getAttribute("original-title");
+            slicesTooltip.put(tooltip.substring(tooltip.indexOf("<strong>") + 8,
+                tooltip.indexOf("</strong>")), tooltip.substring(tooltip.indexOf("<br/>"), tooltip.indexOf("</div>")));
+        }
+        return slicesTooltip;
     }
 }
