@@ -1,7 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.common.Wait.WAIT_40;
+import static org.alfresco.common.RetryTime.RETRY_TIME_10;
+import static org.alfresco.common.Wait.*;
+import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -39,7 +40,13 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
         assertEquals(waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize);
         return this;
     }
-
+    public SiteContributorBreakdownDashlet assert_PieChartSizeEquals(int expectedPieChartSize)
+    {
+        log.info("Assert pie chart size equals: {}", expectedPieChartSize);
+        waitUntilElementIsDisplayedWithRetry(pieChartLocator, WAIT_10.getValue(), WAIT_40.getValue());
+        assertEquals(waitUntilElementsAreVisible(pieChartSlices).size(), expectedPieChartSize);
+        return this;
+    }
     public Map<String, String> getPieChartSliceTooltip()
     {
         HashMap<String, String> slicesTooltip = new HashMap<>();
