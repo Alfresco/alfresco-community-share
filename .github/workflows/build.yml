@@ -100,7 +100,6 @@ jobs:
       - name: Run ${{ matrix.stage }}
         if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
         run: |
-          bash scripts/travis/init.sh
           bash scripts/travis/${{ matrix.stage }}.sh
 
   deploy:
