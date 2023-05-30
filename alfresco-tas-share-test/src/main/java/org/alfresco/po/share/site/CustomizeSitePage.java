@@ -142,7 +142,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     public void removePage(SitePageType page)
     {
         WebElement pageElem = getSitePageType(page);
-        pageElem.findElement(By.cssSelector(removeAction));
+        pageElem.findElement(By.cssSelector(removeAction)).click();
     }
 
     public CustomizeSitePage renameSitePage(SitePageType page, String newName)

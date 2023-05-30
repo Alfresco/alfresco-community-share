@@ -154,7 +154,7 @@ public abstract class Dashlet<T> extends BasePage
         String hex = "";
         WebElement dashletContainer = findElement(By.cssSelector(".dashlet .title"));
         String color = dashletContainer.getCssValue("background-color");
-        String[] numbers = color.replace("rgb(", "").replace(")", "").split(",");
+        String[] numbers = color.replace("rgba(", "").replace(")", "").split(",");
         int number1 = Integer.parseInt(numbers[0]);
         numbers[1] = numbers[1].trim();
         int number2 = Integer.parseInt(numbers[1]);
