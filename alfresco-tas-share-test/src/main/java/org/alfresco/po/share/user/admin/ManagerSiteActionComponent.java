@@ -27,6 +27,7 @@ public class ManagerSiteActionComponent extends SitesManagerPage
     private final By successIndicator = By.cssSelector("div[class='indicator success']");
     private final By siteRowDescription = By.cssSelector("td.alfresco-lists-views-layouts-Cell.siteDescription");
     private final By dropdownOptionsList = By.cssSelector("div.dijitPopup[style*=visible] td.dijitMenuItemLabel");
+    private final By siteManagerList = By.xpath("//span[@class=\"value\"]");
 
     private final String dropdownOptions = "//div[@class='dijitPopup Popup' and contains(@style, visible)]//td[@class='dijitReset dijitMenuItemLabel' and text()='%s']";
     private final String siteName;
@@ -43,6 +44,19 @@ public class ManagerSiteActionComponent extends SitesManagerPage
         assertNull(getSiteRow(), String.format("Site %s is displayed", siteName));
         return this;
     }
+    public boolean isSiteDisplayed(String siteName)
+    {
+        List<WebElement> siteManagerSiteList = findElements(siteManagerList);
+        for (WebElement siteNames : siteManagerSiteList)
+        {
+            if (siteNames.getText().equals(siteName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void clickActionsButton()
     {
@@ -216,5 +230,13 @@ public class ManagerSiteActionComponent extends SitesManagerPage
         log.info("Navigate to Site members page");
         clickElement(getSiteRow().findElement(siteRowName));
         return new SiteMembersPage(webDriver);
+    }
+
+    public ManagerSiteActionComponent assertSiteIsDisplayed(String site) {
+        {
+            log.info("Assert Become site manager option is not displayed");
+            assertTrue(isSiteDisplayed(site), "Become site manager is not displayed");
+            return this;
+        }
     }
 }
