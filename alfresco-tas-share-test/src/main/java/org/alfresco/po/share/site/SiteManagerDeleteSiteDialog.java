@@ -16,6 +16,7 @@ public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
     private final By deleteSiteConfirmFromSitesManager = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body");
     private final By confirmFromSitesManager = By.cssSelector("span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION']>span");
     private final By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
+    private final By cancel = By.xpath("//span[text()=\"Cancel\"]");
 
     public SiteManagerDeleteSiteDialog(ThreadLocal<WebDriver> webDriver)
     {
@@ -44,5 +45,8 @@ public class SiteManagerDeleteSiteDialog extends BaseDialogComponent
         sitesManagerPage.waitForSitesTableHeaderToBeVisible();
 
         return sitesManagerPage;
+    }
+    public void clickCancelFromSitesManager() {
+        clickElement(cancel);
     }
 }
