@@ -8,6 +8,8 @@ import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.WebDriverFactory;
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.rest.core.RestAisAuthentication;
@@ -65,6 +67,8 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 
     @Autowired
     private RestAisAuthentication aisAuthentication;
+    @Autowired
+    private SiteService siteService;
 
     private static final String authorization_header ="Authorization";
 
@@ -233,5 +237,17 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
             }
         }
     return restWrapper;
+    }
+    protected void addDashlet(UserModel user, SiteModel siteModel, DashboardCustomization.SiteDashlet dashlet, int columnNumber, int position)
+    {
+        siteService.addDashlet(
+            user.getUsername(),
+            user.getPassword(),
+            siteModel.getId(),
+            dashlet,
+            DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT,
+            columnNumber,
+            position
+        );
     }
 }
