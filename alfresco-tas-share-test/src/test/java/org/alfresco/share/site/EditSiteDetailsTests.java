@@ -3,68 +3,75 @@ package org.alfresco.share.site;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.dataprep.SiteService;
+
 import org.alfresco.po.share.dashlet.SiteProfileDashlet;
-import org.alfresco.po.share.site.EditSiteDetailsDialog;
+import org.alfresco.po.share.site.EditSiteDetails;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * @author Laura.Capsa
  */
 
-public class EditSiteDetailsTests extends ContextAwareWebTest
+public class EditSiteDetailsTests extends BaseTest
 {
     //@Autowired
     SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    EditSiteDetailsDialog editSiteDetailsDialog;
-
-    //@Autowired
+    EditSiteDetails editSiteDetailsDialog;
     SiteProfileDashlet siteProfileDashlet;
-
-    private String user = String.format("profileUser%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
     private String newSiteName = String.format("New Site Name %s", RandomData.getRandomAlphanumeric());
     private String newDescription = String.format("New description %s", RandomData.getRandomAlphanumeric());
+    private static final String VISIBILITY_LABEL = "siteProfileDashlet.visibilityLabel";
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_PROFILE,
-            DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 1);
-        setupAuthenticatedSession(user, password);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        editSiteDetailsDialog = new EditSiteDetails(webDriver);
+        siteProfileDashlet = new SiteProfileDashlet(webDriver);
+
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+
+        addDashlet(user.get(), site.get(), DashboardCustomization.SiteDashlet.SITE_PROFILE, 1, 2);
+
+        authenticateUsingLoginPage(user.get());
     }
 
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteSitesIfNotNull(site.get());
     }
 
     @TestRail (id = "C2210")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyEditSiteDetailsForm()
     {
-        LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
-        siteDashboardPage.navigateToEditSiteDetailsDialog(siteName);
+        log.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
+        siteDashboardPage.navigateToEditSiteDetailsDialog(site.get().getId());
 
-        LOG.info("STEP2: Verify the items from 'Edit Site Details' form");
+        log.info("STEP2: Verify the items from 'Edit Site Details' form");
         assertTrue(editSiteDetailsDialog.isNameInputDisplayed(), "Name field is displayed");
         assertEquals(editSiteDetailsDialog.getNameLabel(), language.translate("siteDetails.title"), "Name label is correct");
 
@@ -82,7 +89,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
         assertTrue(editSiteDetailsDialog.isSaveButtonDisplayed(), "Save button is displayed");
         assertTrue(editSiteDetailsDialog.isCancelButtonDisplayed(), "Cancel button is displayed");
 
-        LOG.info("STEP3: Verify the description for the visibility options");
+        log.info("STEP3: Verify the description for the visibility options");
         assertEquals(editSiteDetailsDialog.getPublicVisibilityDescription(), language.translate("siteDetails.publicVisibilityDescription"),
             "Public option has correct description");
         assertEquals(editSiteDetailsDialog.getModeratedVisibilityDescription(), language.translate("siteDetails.moderatedVisibilityDescription"),
@@ -95,21 +102,21 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditSiteDetails()
     {
-        LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
-        siteDashboardPage.navigateToEditSiteDetailsDialog(siteName);
+        log.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
+        siteDashboardPage.navigateToEditSiteDetailsDialog(site.get().getId());
 
-        LOG.info("STEP2: Type new name and description for the site");
+        log.info("STEP2: Type new name and description for the site");
         editSiteDetailsDialog.typeDetails(newSiteName, newDescription);
         assertEquals(editSiteDetailsDialog.getTitleInputText(), newSiteName, "The new site title is filled in.");
 
-        LOG.info("STEP3: Select \"Private\" visibility for the site");
+        log.info("STEP3: Select \"Private\" visibility for the site");
         editSiteDetailsDialog.selectPrivateVisibility();
         assertEquals(editSiteDetailsDialog.isPrivateVisibilitySelected(), true, "Private visibility is selected.");
 
-        LOG.info("STEP4: Click \"Cancel\" button");
+        log.info("STEP4: Click \"Cancel\" button");
         editSiteDetailsDialog.clickCancelButton();
-//        assertEquals(siteProfileDashlet.getWelcomeMessageText(), "Welcome to " + siteName, "Site name is not updated.");
-//        assertEquals(siteProfileDashlet.getSiteDescription(description).getText(), description, "Description is not updated.");
-//        assertEquals(siteProfileDashlet.getSiteVisibility(language.translate("siteProfile.PublicVisibility")).getText().equals(language.translate("siteProfile.PublicVisibility")), true, "Visibility is not updated.");
+        siteProfileDashlet.assertSiteWelcomeMessageEquals("Welcome to " + site.get().getId());
+        siteProfileDashlet.assertSiteDescriptionEquals(site.get().getDescription());
+        siteProfileDashlet.assertSiteVisibilityEquals(language.translate(VISIBILITY_LABEL), site.get().getVisibility().name());
     }
 }
