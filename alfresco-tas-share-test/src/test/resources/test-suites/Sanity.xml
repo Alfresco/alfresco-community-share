@@ -43,6 +43,8 @@
          <package name="org.alfresco.share.searching.advancedSearch"></package>
          <package name="org.alfresco.share.searching.facetedSearch"></package>
          <package name="org.alfresco.share.searching.peopleFinder"></package>
+         <package name="org.alfresco.share.site.accessingExistingSites"></package>
+         <package name="org.alfresco.share.site.analyzingASite"></package>
          <package name="org.alfresco.share.searching"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
@@ -55,9 +57,10 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
          <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
-         <class name="org.alfresco.share.site.accessingExistingSites.EnteringSiteTests"></class>
-         <class name="org.alfresco.share.site.accessingExistingSites.JoiningSiteTests"></class>
-         <class name="org.alfresco.share.site.accessingExistingSites.LeavingSiteTests"></class>
+         <class name="org.alfresco.share.site.CustomizeSiteTests"></class>
+         <class name="org.alfresco.share.site.DeleteSiteTests"></class>
+         <class name="org.alfresco.share.site.EditSiteDetailsTests"></class>
+         <class name="org.alfresco.share.site.FavoriteSiteTests"></class>
 
       </classes>
    </test>
