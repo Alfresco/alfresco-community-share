@@ -1,26 +1,34 @@
 package org.alfresco.share.site;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.constants.UserRole;
-import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUser;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-public class FavoriteSiteTests extends ContextAwareWebTest
+@Slf4j
+public class FavoriteSiteTests extends BaseTest
 {
     //Autowired
     UserDashboardPage userDashboardPage;
@@ -31,86 +39,106 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     //@Autowired
     MySitesDashlet mySitesDashlet;
 
+    Toolbar toolbar;
+
     @Autowired
     DataUser dataUser;
 
     @Autowired
-    DataSite dataSite;
+    protected SiteService siteService;
 
-    private String userName = "favoriteSitesUser" + RandomData.getRandomAlphanumeric();
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteC2216 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteC2217 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteC2220 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteC2221 = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        log.info("Precondition: Any Test user is created");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        toolbar = new Toolbar(webDriver);
+        userDashboardPage = new UserDashboardPage(webDriver);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        mySitesDashlet = new MySitesDashlet(webDriver);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
+        deleteUsersIfNotNull(user.get());
     }
 
     @TestRail (id = "C2216")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addCurrentSiteToFavoritesUsingSitesMenu() throws DataPreparationException
     {
-        UserModel testUser = dataUser.createRandomTestUser();
-        SiteModel testSite = dataSite.createPublicRandomSite();
-        dataUser.addUserToSite(testUser, testSite, UserRole.SiteManager);
-        setupAuthenticatedSession(testUser.getUsername(), password);
-        LOG.info("STEP 1 - Navigate to the created site");
-        siteDashboardPage.navigate(testSite.getTitle());
+        log.info("PreCondition: Site siteNameC2216 is created");
+        siteC2216.set(getDataSite().usingAdmin().createPublicRandomSite());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        dataUser.addUserToSite(user.get(), siteC2216.get(), UserRole.SiteManager);
+
+        authenticateUsingLoginPage(user.get());
+
+        log.info("STEP 1 - Navigate to the created site");
+        siteDashboardPage.navigate(siteC2216.get().getId());
         Assert.assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
 
-        LOG.info("STEP 2 - Click \"Sites\" menu from Alfresco Toolbar");
+        log.info("STEP 2 - Click \"Sites\" menu from Alfresco Toolbar");
         toolbar.clickSites().assertAddCurrentSiteToFavoritesDisplayed();
 
-        LOG.info("STEP 3 - Click \"Add current site to Favorites\".");
+        log.info("STEP 3 - Click \"Add current site to Favorites\".");
         toolbar.clickSites().clickAddCurrentSiteToFavorites();
         toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsDisplayed();
 
-        LOG.info("STEP 4 - Click again \"Sites\" menu. Click on \"Favorites\" icon.");
-        toolbar.clickSites().assertSiteIsFavorite(testSite.getTitle());
+        log.info("STEP 4 - Click again \"Sites\" menu. Click on \"Favorites\" icon.");
+        toolbar.clickSites().assertSiteIsFavorite(siteC2216.get().getId());
 
-        LOG.info("STEP 5 - Click on the site.");
-        toolbar.clickSites().clickFavoriteSite(testSite).assertSiteDashboardPageIsOpened();
+        log.info("STEP 5 - Click on the site.");
+        toolbar.clickSites().clickFavoriteSite(siteC2216.get().getId()).assertSiteDashboardPageIsOpened();
 
-        LOG.info("STEP 6 - Go to User Dashboard page. Verify \"My Sites\" dashlet.");
-        userDashboardPage.navigate(testUser.getUsername());
+        log.info("STEP 6 - Go to User Dashboard page. Verify \"My Sites\" dashlet.");
+        userDashboardPage.navigate(user.get().getUsername());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        Assert.assertTrue(mySitesDashlet.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " is favorite");
-        userService.delete(adminUser, adminPassword, testUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
-        siteService.delete(adminUser, adminPassword, testSite.getTitle());
+        Assert.assertTrue(mySitesDashlet.isSiteFavorite(siteC2216.get().getId()), siteC2216.get().getId() + " is favorite");
+
+        deleteSitesIfNotNull(siteC2216.get());
 
     }
 
     @TestRail (id = "C2217")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeCurrentSiteFromFavoritesUsingSitesMenu()
     {
-        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, password);
-        LOG.info("STEP 1 - Navigate to the created site. Click \"Sites\" menu from Alfresco Toolbar");
-        siteDashboardPage.navigate(siteName);
+        log.info("PreCondition: Site siteNameC2217 is created");
+        siteC2217.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+
+        authenticateUsingLoginPage(user.get());
+
+        log.info("STEP 1 - Navigate to the created site. Click \"Sites\" menu from Alfresco Toolbar");
+        siteDashboardPage.navigate(siteC2217.get());
         Assert.assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
         toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsDisplayed();
 
-        LOG.info("STEP 2 - Click \"Remove current site from Favorites\". Click again \"Sites\" menu");
+        log.info("STEP 2 - Click \"Remove current site from Favorites\". Click again \"Sites\" menu");
         toolbar.clickSites().clickRemoveCurrentSiteFromFavorites();
         toolbar.clickSites().assertAddCurrentSiteToFavoritesDisplayed();
 
-        LOG.info("STEP 3 - Click on \"Favorites\" icon");
-        toolbar.clickSites().assertSiteIsNotFavorite(siteName);
-        LOG.info("STEP 4 - Go to User Dashboard page. Verify \"My Sites\" dashlet");
-        userDashboardPage.navigate(userName);
+        log.info("STEP 3 - Click on \"Favorites\" icon");
+        toolbar.clickSites().assertVerifySiteIsNotInFavorite(siteC2217.get().getId());
+
+        log.info("STEP 4 - Go to User Dashboard page. Verify \"My Sites\" dashlet");
+        userDashboardPage.navigate(user.get());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        Assert.assertFalse(mySitesDashlet.isSiteFavorite(siteName), siteName + " isn't favorite");
-        siteService.delete(adminUser, adminPassword, siteName);
+        Assert.assertFalse(mySitesDashlet.isSiteFavorite(siteC2217.get().getId()), siteC2217.get().getId() + " isn't favorite");
+
+        deleteSitesIfNotNull(siteC2217.get());
 
     }
 
@@ -118,43 +146,57 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addSiteToFavoritesUsingMySitesDashlet() throws DataPreparationException
     {
-        UserModel testUser = dataUser.createRandomTestUser();
-        SiteModel testSite = dataSite.createPublicRandomSite();
-        dataUser.addUserToSite(testUser, testSite, UserRole.SiteManager);
-        setupAuthenticatedSession(testUser.getUsername(), password);
-        LOG.info("STEP 1 - Go to \"User Dashboard\" page");
-        userDashboardPage.navigate(testUser.getUsername());
+        log.info("PreCondition: Site siteNameC2220 is created");
+        siteC2220.set(getDataSite().usingAdmin().createPublicRandomSite());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        dataUser.addUserToSite(user.get(), siteC2220.get(), UserRole.SiteManager);
+
+        authenticateUsingLoginPage(user.get());
+
+        log.info("STEP 1 - Go to \"User Dashboard\" page");
+        userDashboardPage.navigate(user.get().getUsername());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        LOG.info("STEP 2 - Verify \"My Sites\" dashlet");
-        Assert.assertFalse(mySitesDashlet.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " isn't favorite");
-        LOG.info("STEP 3 - Click on \"Favorite\" link");
-        mySitesDashlet.clickFavorite(testSite.getTitle());
-        Assert.assertTrue(mySitesDashlet.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " is favorite");
-        LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
-        toolbar.clickSites().assertSiteIsFavorite(testSite);
-        userService.delete(adminUser, adminPassword, testUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
-        siteService.delete(adminUser, adminPassword, testSite.getTitle());
+
+        log.info("STEP 2 - Verify \"My Sites\" dashlet");
+        Assert.assertFalse(mySitesDashlet.isSiteFavorite(siteC2220.get().getId()), siteC2220.get().getId() + " isn't favorite");
+
+        log.info("STEP 3 - Click on \"Favorite\" link");
+        mySitesDashlet.clickFavorite(siteC2220.get().getId());
+        Assert.assertTrue(mySitesDashlet.isSiteFavorite(siteC2220.get().getId()), siteC2220.get().getId() + " is favorite");
+
+        log.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
+        toolbar.clickSites().assertSiteIsFavorite(siteC2220.get().getId());
+
+        deleteSitesIfNotNull(siteC2220.get());
     }
 
     @TestRail (id = "C2221")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteFromFavoritesUsingMySitesDashlet()
     {
-        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        siteService.setFavorite(userName, password, siteName);
-        setupAuthenticatedSession(userName, password);
-        LOG.info("STEP 1 - Go to \"User Dashboard\" page");
-        userDashboardPage.navigate(userName);
+        log.info("PreCondition: Site siteNameC2221 is created");
+        siteC2221.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+
+        siteService.setFavorite(user.get().getUsername(), user.get().getPassword(), siteC2221.get().getId());
+
+        authenticateUsingLoginPage(user.get());
+
+        log.info("STEP 1 - Go to \"User Dashboard\" page");
+        userDashboardPage.navigate(user.get());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        LOG.info("STEP 2 - Verify \"My Sites\" dashlet");
-        Assert.assertTrue(mySitesDashlet.isSiteFavorite(siteName), siteName + " is favorite");
-        LOG.info("STEP 3 - Click on yellow star (\"Remove site from favorites\" option)");
-        mySitesDashlet.clickFavorite(siteName);
-        Assert.assertFalse(mySitesDashlet.isSiteFavorite(siteName), siteName + " isn't favorite");
-        LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
-        toolbar.clickSites().assertSiteIsNotFavorite(siteName);
-        siteService.delete(adminUser, adminPassword, siteName);
+
+        log.info("STEP 2 - Verify \"My Sites\" dashlet");
+        Assert.assertTrue(mySitesDashlet.isSiteFavorite(siteC2221.get().getId()), siteC2221.get().getId() + " is favorite");
+
+        log.info("STEP 3 - Click on yellow star (\"Remove site from favorites\" option)");
+        mySitesDashlet.clickFavorite(siteC2221.get().getId());
+        Assert.assertFalse(mySitesDashlet.isSiteFavorite(siteC2221.get().getId()), siteC2221.get().getId() + " isn't favorite");
+
+        log.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
+        toolbar.clickSites().assertVerifySiteIsNotInFavorite(siteC2221.get().getId());
+
+        deleteSitesIfNotNull(siteC2221.get());
     }
 }
