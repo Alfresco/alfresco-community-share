@@ -230,4 +230,19 @@ public class ToolbarSitesMenu extends BasePage
     {
         return clickFavoriteSite(site.getTitle());
     }
+    public ToolbarSitesMenu assertVerifySiteIsNotInFavorite(String siteName)
+    {
+        log.info("Assert site is not found in favorites: {}", siteName);
+        assertFalse(is_SiteFavorite(siteName),
+            String.format("Site %s is found in favorites", siteName));
+        return this;
+    }
+
+    private boolean is_SiteFavorite(String siteName)
+    {
+        waitUntilElementIsVisible(favorites);
+        clickElement(favorites);
+        waitUntilElementIsVisible(favoriteDropDown);
+        return isElementDisplayed(favoriteSitesRowList);
+    }
 }
