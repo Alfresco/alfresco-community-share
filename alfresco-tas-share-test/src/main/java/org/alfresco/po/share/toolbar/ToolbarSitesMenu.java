@@ -186,6 +186,13 @@ public class ToolbarSitesMenu extends BasePage
         }
         waitUntilElementDisappears(sitesDropdown);
     }
+    public void click_RemoveCurrentSiteFromFavorites()
+    {
+        log.info("Click Remove current site from favorites");
+        WebElement remove = findElement(removeCurrentSiteFromFavorites);
+        clickElement(remove);
+        waitInSeconds(3);
+    }
 
     private boolean isSiteFavorite(String siteName)
     {

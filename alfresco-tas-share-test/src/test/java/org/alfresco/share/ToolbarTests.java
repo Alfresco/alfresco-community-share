@@ -176,7 +176,7 @@ public class ToolbarTests extends BaseTest
         toolbar.clickSites().clickFavoriteSite(firstSite).assertSiteDashboardPageIsOpened();
         toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsDisplayed();
 
-        toolbar.clickSites().clickRemoveCurrentSiteFromFavorites();
+        toolbar.clickSites().click_RemoveCurrentSiteFromFavorites();
         toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsNotDisplayed();
         toolbar.clickSites().assertAddCurrentSiteToFavoritesDisplayed();
 
