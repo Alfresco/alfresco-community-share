@@ -3,22 +3,31 @@ package org.alfresco.share.tasksAndWorkflows.CancellingAWorkflow;
 import java.util.Date;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
+
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
-import org.alfresco.share.ContextAwareWebTest;
+
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
+@Slf4j
 /**
  * @author Razvan.Dorobantu
  */
-public class CancelWorkflowsTests extends ContextAwareWebTest
+public class CancelWorkflowsTests extends BaseTest
 {
     //@Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;
@@ -30,29 +39,35 @@ public class CancelWorkflowsTests extends ContextAwareWebTest
     MyTasksPage myTasksPage;
 
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
+    private final ThreadLocal<UserModel> user1 = new ThreadLocal<>();
 
     @TestRail (id = "C8434")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed"})
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void cancelWorkflow()
     {
-        LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
-        workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
-        setupAuthenticatedSession(testUser, password);
+        log.info("PreCondition: Creating test user");
+        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
 
-        LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
+        workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
+        myTasksPage = new MyTasksPage(webDriver);
+
+        workflow.startNewTask(user1.get().getUsername(),user1.get().getPassword(), workflowName, new Date(), user1.get().getUsername(), CMISUtil.Priority.Normal, null, false);
+
+        authenticateUsingLoginPage(user1.get());
+
+        log.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigate();
 
-        LOG.info("STEP 2: Click on 'Cancel Workflow' option for the workflow created in Precondition.");
+        log.info("STEP 2: Click on 'Cancel Workflow' option for the workflow created in Precondition.");
         workflowsIveStartedPage.clickCancelWorkflow(workflowName, true);
         List<String> workflows = workflowsIveStartedPage.getActiveWorkflows();
         Assert.assertFalse(workflows.contains(workflowName), String.format("Workflow: %s is cancelled.", workflowName));
 
-        LOG.info("STEP 3: Verify the workflow is not present in 'My Tasks' page.");
+        log.info("STEP 3: Verify the workflow is not present in 'My Tasks' page.");
         myTasksPage.navigate();
-//        Assert.assertFalse(myTasksPage.assertTaskNameEqualsTo(workflowName), String.format("Workflow: %s is present in 'My Tasks' page.", workflowName));
-        userService.delete(adminUser, adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
+        myTasksPage.assertNoTaskIsDisplayed();
+
+        deleteUsersIfNotNull(user1.get());
     }
 }
