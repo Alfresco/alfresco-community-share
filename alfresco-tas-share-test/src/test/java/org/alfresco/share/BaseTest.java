@@ -8,6 +8,7 @@ import org.alfresco.common.DefaultProperties;
 import org.alfresco.common.Language;
 import org.alfresco.common.ShareTestContext;
 import org.alfresco.common.WebDriverFactory;
+import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
@@ -69,6 +70,8 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     private RestAisAuthentication aisAuthentication;
     @Autowired
     private SiteService siteService;
+    @Autowired
+    protected ContentService contentService;
 
     private static final String authorization_header ="Authorization";
 
