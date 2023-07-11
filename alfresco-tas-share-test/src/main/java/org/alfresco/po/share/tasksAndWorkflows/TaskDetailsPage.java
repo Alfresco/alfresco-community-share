@@ -30,6 +30,7 @@ public class TaskDetailsPage extends SharePage2<TaskDetailsPage>
 
     public String getTaskDetailsHeader()
     {
+        waitInSeconds(2);
         return getElementText(taskDetailsHeader);
     }
 

@@ -35,6 +35,7 @@ public class WorkflowDetailsPage extends SharePage2<WorkflowDetailsPage>
 
     public String getWorkflowDetailsHeader()
     {
+        waitInSeconds(2);
         return getElementText(workflowDetailsHeader);
     }
 
