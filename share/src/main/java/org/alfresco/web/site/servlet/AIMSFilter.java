@@ -239,9 +239,7 @@ public class AIMSFilter implements Filter
         }
 
         if (!isAuthenticated &&
-            this.enabled &&
-            (request.getRequestURI().contains(SHARE_PAGE)
-                || request.getRequestURI().contains(SHARE_AIMS_LOGOUT)))
+            this.enabled)
         {
             /**
              // Match the request that came from Idp (redirect uri)
