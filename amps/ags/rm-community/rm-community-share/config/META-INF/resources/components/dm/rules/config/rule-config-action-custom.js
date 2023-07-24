@@ -167,7 +167,7 @@ if (typeof DM == "undefined" || !DM)
                                     var ctx = this.renderers["arca:dm-fileTo-destination-dialog-button"].currentCtx;
                                     var path = (selectedFolder.path !== "/") ? selectedFolder.path : "";
                                     this._setHiddenParameter(ctx.configDef, ctx.ruleConfig, "path", path);
-                                    Dom.get(this.id + "-recordFolderPath").value = path;
+                                    Dom.get(this.id + ctx.configDef._id + "-recordFolderPath").value = path;
                                     this._updateSubmitElements(ctx.configDef);
                                     this.widgets.copyMoveLinkFileToDialog.setOptions({
                                        path: selectedFolder.path
@@ -218,7 +218,7 @@ if (typeof DM == "undefined" || !DM)
                         el.setAttribute("title", paramDef.displayLabel ? paramDef.displayLabel : paramDef.name);
                         el.setAttribute("param", paramDef.name);
                         el.setAttribute("value", (selectedPath != undefined && selectedPath != null) ? selectedPath : "");
-                        el.setAttribute("id", this.id + "-recordFolderPath");
+                        el.setAttribute("id", this.id + configDef._id + "-recordFolderPath");
                         el.addEventListener("blur", function()
                         {
                            Selector.query("[param=" + "path" + "]")[0].value = this.value;
