@@ -40,6 +40,10 @@ public class SelectPopUpPage extends BaseDialogComponent
     {
         selectDetailsRowResultList(item).findElement(By.cssSelector("h3.item-name a"));
     }
+    public void click_Item(String item)
+    {
+        selectDetailsRowResultList(item).click();
+    }
 
     public void clickAddIcon(String item)
     {
