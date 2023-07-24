@@ -47,7 +47,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     }
 
     @Override
-    protected String getDashletTitle() {
+    public String getDashletTitle() {
         return getElementText(
             waitUntilElementIsVisible(dashletContainer)
                 .findElement(dashletTitle));

@@ -44,6 +44,7 @@ public class SelectDocumentPopupPage extends SelectPopUpPage
 
     public boolean isSearchedItemDisplayed(String documentName)
     {
+        waitInSeconds(2);
         return isElementDisplayed(By.xpath(String.format(searchedItem, documentName)));
     }
 
@@ -59,6 +60,7 @@ public class SelectDocumentPopupPage extends SelectPopUpPage
 
     public boolean isItemClickable(String item)
     {
+        waitInSeconds(2);
         clickElement(selectDetailsRowResultList(item).findElement(itemName));
         return !isSelectDocumentPopupPageHeaderDisplayed();
     }

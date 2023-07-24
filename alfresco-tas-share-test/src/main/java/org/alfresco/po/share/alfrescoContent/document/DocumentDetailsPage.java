@@ -356,6 +356,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public boolean isDocDetailsPageHeaderDisplayed()
     {
+        waitUntilElementIsVisible(docDetailsPageHeader);
         return isElementDisplayed(docDetailsPageHeader);
     }
 

@@ -217,7 +217,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     public String getItemsList()
     {
         ArrayList<String> itemsTextList = new ArrayList<>();
-        List<WebElement> items = waitUntilElementsAreVisible(itemsList);
+        List<WebElement> items = findElements(itemsList);
         for (WebElement anItemsList : items)
         {
             itemsTextList.add(anItemsList.getText());
@@ -228,5 +228,9 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     public void clickRejectButton() {
         waitInSeconds(3);
         findElement(buttonReject).click();
+    }
+    public String getPage_Title()
+    {
+        return webDriver.get().getTitle();
     }
 }
