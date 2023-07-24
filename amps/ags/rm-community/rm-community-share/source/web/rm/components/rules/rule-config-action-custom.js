@@ -420,7 +420,7 @@
                               }
                            }
                            this._setHiddenParameter(ctx.configDef, ctx.ruleConfig, "path", path);
-                           Dom.get(this.id + "-recordFolderPath").value = path;
+                           Dom.get(this.id + ctx.configDef._id + "-recordFolderPath").value = path;
                            this._updateSubmitElements(ctx.configDef);
                            this.widgets.destinationDialog.setOptions({
                               path: selectedFolder.path
@@ -471,7 +471,7 @@
                el.setAttribute("title", paramDef.displayLabel ? paramDef.displayLabel : paramDef.name);
                el.setAttribute("param", paramDef.name);
                el.setAttribute("value", (selectedPath != undefined && selectedPath != null) ? selectedPath : "");
-               el.setAttribute("id", this.id + "-recordFolderPath");
+               el.setAttribute("id", this.id + configDef._id + "-recordFolderPath");
                el.addEventListener("blur", function()
                {
                   Selector.query("[param=" + "path" + "]")[0].value = this.value;
