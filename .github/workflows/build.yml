@@ -3,10 +3,8 @@ name: alfresco_enterprise_share
 on:
   push:
     branches:
-      - master
       - "fix/**"
       - "feature/**"
-      - "release/**"
   pull_request:
     branches:
       - master
