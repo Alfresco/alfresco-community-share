@@ -171,6 +171,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public String getItemsList()
     {
+        waitInSeconds(2);
         ArrayList<String> itemsTextList = new ArrayList<>();
         for (WebElement anItemsList : findElements(itemsList))
         {
@@ -277,6 +278,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public boolean isWorkflowFormVisible()
     {
+        waitUntilElementIsVisible(workflowForm);
         return isElementDisplayed(workflowForm);
     }
 
