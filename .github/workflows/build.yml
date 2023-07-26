@@ -73,8 +73,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[no build]') &&
       inputs.commitMessage != '[no build]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
     needs: lint
     steps:
       - uses: actions/checkout@v3
@@ -106,8 +106,8 @@ jobs:
       ((contains(github.event.head_commit.message, '[create env]') ||
       inputs.commitMessage == '[create env]'))
       &&
-      ((!contains(github.event.head_commit.message, '[force]')
-      && inputs.commitMessage != '[force]'))
+      ((!contains(github.event.head_commit.message, '[force')
+      && inputs.commitMessage != '[force'))
       &&
       (github.event.repository.fork==false)
     steps:
@@ -135,8 +135,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
     strategy:
@@ -187,8 +187,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
       &&
       github.event.repository.fork == false
       &&
@@ -267,8 +267,8 @@ jobs:
     if: >
       (!contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]') &&
-      (!contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]')
+      (!contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force')
       &&
       (github.event.repository.fork==false)
       &&
@@ -369,8 +369,8 @@ jobs:
       ((contains(github.event.head_commit.message, '[create env]') ||
       inputs.commitMessage == '[create env]'))
       &&
-      ((!contains(github.event.head_commit.message, '[force]')
-      && inputs.commitMessage != '[force]'))
+      ((!contains(github.event.head_commit.message, '[force')
+      && inputs.commitMessage != '[force'))
       &&
       github.event.repository.fork == false
     steps:
