@@ -21,6 +21,7 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     private final By approveButton = By.cssSelector("button[id$='approve-button']");
     private final By rejectButton = By.cssSelector("button[id$='reject-button']");
     private final By buttonReject = By.xpath("//button[text()=\"Reject\"]");
+    private final By buttonApprove = By.xpath("//button[text()=\"Approve\"]");
     private final By message = By.cssSelector("div.form-field div.viewmode-field span[data-datatype$='text']");
     private final By owner = By.cssSelector("div.form-field div.viewmode-field span[id$='_prop_taskOwner'] a");
     private final By identifier = By.xpath("//span[@class = 'viewmode-label' and text() = 'Identifier:']");
@@ -232,5 +233,19 @@ public class EditTaskPage extends SharePage2<EditTaskPage>
     public String getPage_Title()
     {
         return webDriver.get().getTitle();
+    }
+
+    public void commentAndClickApprove(String message) {
+        waitUntilElementIsVisible(commentTextArea);
+        clearAndType(commentTextArea, message);
+        waitInSeconds(2);
+        findElement(buttonApprove).click();
+    }
+
+    public void commentAndClickReject(String message) {
+        waitUntilElementIsVisible(commentTextArea);
+        clearAndType(commentTextArea, message);
+        waitInSeconds(2);
+        findElement(buttonReject).click();
     }
 }

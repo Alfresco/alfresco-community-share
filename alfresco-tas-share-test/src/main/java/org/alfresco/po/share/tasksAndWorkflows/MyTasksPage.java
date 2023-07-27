@@ -212,6 +212,7 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
 
     public boolean isActiveTasksBarDisplayed()
     {
+        waitUntilElementIsVisible(taskbarTitle);
         return isElementDisplayed(taskbarTitle);
     }
 
