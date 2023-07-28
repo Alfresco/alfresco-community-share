@@ -46,6 +46,13 @@
          <package name="org.alfresco.share.site.accessingExistingSites"></package>
          <package name="org.alfresco.share.site.analyzingASite"></package>
          <package name="org.alfresco.share.searching"></package>
+         <package name="org.alfresco.share.site"></package>
+         <package name="org.alfresco.share.tasksAndWorkflows.CancellingAWorkflow"></package>
+         <package name="org.alfresco.share.tasksAndWorkflows.DeletingAWorkflow"></package>
+         <package name="org.alfresco.share.tasksAndWorkflows.EditAWorkflow"></package>
+         <package name="org.alfresco.share.tasksAndWorkflows.StartingAWorkflow"></package>
+         <package name="org.alfresco.share.tasksAndWorkflows.ViewingAStartedWorkflow"></package>
+         <package name="org.alfresco.share.tasksAndWorkflows"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
@@ -57,10 +64,6 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
          <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
-         <class name="org.alfresco.share.site.CustomizeSiteTests"></class>
-         <class name="org.alfresco.share.site.DeleteSiteTests"></class>
-         <class name="org.alfresco.share.site.EditSiteDetailsTests"></class>
-         <class name="org.alfresco.share.site.FavoriteSiteTests"></class>
 
       </classes>
    </test>

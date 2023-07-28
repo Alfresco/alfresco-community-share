@@ -93,6 +93,7 @@ public class WorkflowDetailsPage extends SharePage2<WorkflowDetailsPage>
 
     public boolean isHistoryBlockPresent()
     {
+        waitUntilElementIsVisible(historyBlock);
         return isElementDisplayed(historyBlock);
     }
 
@@ -103,6 +104,7 @@ public class WorkflowDetailsPage extends SharePage2<WorkflowDetailsPage>
 
     public String getHistoryComment(String completedByUser)
     {
+        waitInSeconds(2);
         return findElement(By.xpath(String.format(historyComment, completedByUser))).getText();
     }
 }

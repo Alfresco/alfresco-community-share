@@ -1228,7 +1228,7 @@ public abstract class WebElementInteraction
         return getWebDriver().getWindowHandles();
     }
 
-    protected String getPageTitle()
+    public String getPageTitle()
     {
         return getWebDriver().getTitle();
     }
