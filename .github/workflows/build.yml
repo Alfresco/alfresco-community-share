@@ -111,9 +111,10 @@ jobs:
       !contains(github.event.head_commit.message, '[skip tests]') &&
       !contains(github.event.head_commit.message, '[force]')
     steps:
-      - uses: Alfresco/ya-pmd-scan@v1.0.0
+      - uses: Alfresco/ya-pmd-scan@v2.0.2
         with:
           fail-on-new-issues: "false"
+          create-github-annotations: "false"
 
   deploy:
     runs-on: ubuntu-latest
