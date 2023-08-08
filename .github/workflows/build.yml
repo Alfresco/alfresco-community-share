@@ -101,6 +101,20 @@ jobs:
         run: |
           bash scripts/travis/${{ matrix.stage }}.sh
 
+  pmd_scan:
+    name: "PMD Scan"
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request' &&
+      !contains(github.event.head_commit.message, '[skip pmd]') &&
+      !contains(github.event.head_commit.message, '[skip tests]') &&
+      !contains(github.event.head_commit.message, '[force]')
+    steps:
+      - uses: Alfresco/ya-pmd-scan@v2.0.2
+        with:
+          fail-on-new-issues: "false"
+          create-github-annotations: "false"
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
