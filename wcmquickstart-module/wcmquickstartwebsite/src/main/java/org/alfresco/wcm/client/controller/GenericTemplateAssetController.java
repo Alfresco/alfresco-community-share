@@ -26,8 +26,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.alfresco.wcm.client.Asset;
 import org.alfresco.wcm.client.exception.PageNotFoundException;
 import org.springframework.extensions.surf.RequestContext;
@@ -45,39 +45,39 @@ import org.springframework.web.servlet.view.RedirectView;
 public class GenericTemplateAssetController extends UrlViewController
 {
 	private List<Pattern> staticPages;
-	
+
 	@Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)	
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
 	{
 		String path = request.getPathInfo();
 		String context = request.getContextPath();
-		
+
 		// Redirect /some-url/index.html to /some-url/ to avoid duplicate URLs being flagged by search engines.
 		// Also Spring Surf resolves index.html requests so DynamicPageViewResolver doesn't get to process them.
-		if (path.endsWith("/index.html"))			
+		if (path.endsWith("/index.html"))
 		{
 			int lastDelim = path.lastIndexOf('/');
 			String uri = context + path.substring(0,lastDelim+1);
 			RedirectView redirect = new RedirectView(uri,false,false);
 			redirect.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
-			return new ModelAndView(redirect);			
+			return new ModelAndView(redirect);
 		}
-		
-		// If no asset was found by ApplicationDataInterceptor then forward to 404 template page. 
-		// Doing this within a controller prevents Surf's own PageViewResolver from processing a url as a 
-		// template page name before the application's DynamicPageViewResolver does a lookup in the 
+
+		// If no asset was found by ApplicationDataInterceptor then forward to 404 template page.
+		// Doing this within a controller prevents Surf's own PageViewResolver from processing a url as a
+		// template page name before the application's DynamicPageViewResolver does a lookup in the
 		// repository to get a template name from the url.
 		RequestContext requestContext = ThreadLocalRequestContext.getRequestContext();
-		Asset asset = (Asset) requestContext.getValue("asset");		
-		if (asset == null && ! isStatic(path)) 
+		Asset asset = (Asset) requestContext.getValue("asset");
+		if (asset == null && ! isStatic(path))
 		{
 			response.setStatus(HttpStatus.NOT_FOUND.value());
 			throw new PageNotFoundException(path);
 		}
-		
+
 		return super.handleRequestInternal(request, response);
 	}
-	
+
 	private boolean isStatic(String path)
 	{
         for (Pattern staticPage : staticPages)
@@ -87,10 +87,10 @@ public class GenericTemplateAssetController extends UrlViewController
         }
         return false;
 	}
-	
+
 	public void setStaticPages(Set<String> staticPages)
 	{
-		this.staticPages = new ArrayList<Pattern>();		
+		this.staticPages = new ArrayList<Pattern>();
         for (String staticPage : staticPages)
         {
             this.staticPages.add(Pattern.compile(staticPage));

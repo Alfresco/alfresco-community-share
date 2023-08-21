@@ -26,14 +26,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.RequestContext;
@@ -46,15 +46,15 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 /**
  * Performs lazy creation of dashboard pages when they are requested without requiring redirects, thus making them
  * addressable from a portlet.
- * 
+ *
  * @author dward
  */
 public class LazyDashboardFilter implements Filter
 {
     private static final Pattern PATTERN_DASHBOARD_PATH = Pattern.compile("/user/([^/]*)/dashboard");
-    
+
     private ServletContext servletContext;
-    
+
     /*
      * (non-Javadoc)
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse,
@@ -64,7 +64,7 @@ public class LazyDashboardFilter implements Filter
             ServletException
     {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        
+
         // If this is a request for the current user's dashboard page, create it if it doesn't exist
         String pathInfo = httpServletRequest.getPathInfo();
         Matcher matcher;
@@ -80,14 +80,14 @@ public class LazyDashboardFilter implements Filter
             {
                 throw new ServletException(e);
             }
-            
+
             String userid = context.getUserId();
-            
+
             // test user dashboard page exists?
             if (userid != null && userid.equals(URLDecoder.decode(matcher.group(1))))
             {
                 WebFrameworkServiceRegistry serviceRegistry = context.getServiceRegistry();
-                
+
                 if (serviceRegistry.getModelObjectService().getPage("user/" + userid + "/dashboard") == null)
                 {
                     // no site found! create initial dashboard for this user...
@@ -97,7 +97,7 @@ public class LazyDashboardFilter implements Filter
                 }
             }
         }
-        
+
         chain.doFilter(request, response);
     }
 
@@ -118,10 +118,10 @@ public class LazyDashboardFilter implements Filter
     public void destroy()
     {
     }
-    
+
     /**
      * Retrieves the root application context
-     * 
+     *
      * @return application context
      */
     private ApplicationContext getApplicationContext()

@@ -5,7 +5,7 @@ import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import java.util.Map;
 
 public class SecurityUtils {

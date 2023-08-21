@@ -114,7 +114,7 @@ public class AppConfig {
                     .scope("openid")
                     .redirectUri("*")
                     .userNameAttributeName(principalAttribute)
-                    .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                     .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                     .clientName(clientId)
                     .build();

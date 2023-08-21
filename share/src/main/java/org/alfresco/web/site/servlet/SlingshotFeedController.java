@@ -20,8 +20,8 @@
  */
 package org.alfresco.web.site.servlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.springframework.extensions.config.ConfigService;
@@ -35,13 +35,13 @@ import org.springframework.web.servlet.ModelAndView;
  * Slingshot override of the SpringSurf FeedController class. This implementation allows for
  * a single configuration switch to allow SSO configuration for authentication to be used in
  * preference to the "Basic Auth" pattern provided by the base feed controller if external-auth
- * is set to true. If external-auth is false then the default basic auth from FeedController 
+ * is set to true. If external-auth is false then the default basic auth from FeedController
  * will be used
  * <p>
  * Users of SSO may wish feed client apps to use whatever auth stack is already for the rest
  * of Share. If that is the case they should copy the settings from the "alfresco" connector
  * to the "alfresco-feed" instance and specify <external-auth>true</external-auth>
- * 
+ *
  * @author Kevin Roast
  */
 public class SlingshotFeedController extends FeedController
@@ -49,16 +49,16 @@ public class SlingshotFeedController extends FeedController
     public static final String ENDPOINT_ALFRESCO_FEED = "alfresco-feed";
 
     private RemoteConfigElement config;
-    
+
     private ConfigService configService;
-    
+
     public void setConfigService(ConfigService configService)
     {
         this.configService = configService;
     }
-    
+
     /**
-     * @see org.springframework.extensions.surf.mvc.FeedController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.springframework.extensions.surf.mvc.FeedController#handleRequestInternal(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected ModelAndView handleRequestInternal(HttpServletRequest req, HttpServletResponse res)
     {
@@ -73,7 +73,7 @@ public class SlingshotFeedController extends FeedController
             // get the URI (after the controller)
             String uri = (String) req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
             uri = uri + (req.getQueryString() != null ? ("?" + req.getQueryString()) : "");
-            
+
             try
             {
                 // forward to the authenticated webscript controller for the service
@@ -84,14 +84,14 @@ public class SlingshotFeedController extends FeedController
             {
                 throw new AlfrescoRuntimeException(e.getMessage(), e);
             }
-            
+
             return null;
         }
     }
-    
+
     /**
      * Gets the remote config.
-     * 
+     *
      * @return the remote config
      */
     private RemoteConfigElement getRemoteConfig()
@@ -101,7 +101,7 @@ public class SlingshotFeedController extends FeedController
             // retrieve the remote configuration
             this.config = (RemoteConfigElement)this.configService.getConfig("Remote").getConfigElement("remote");
         }
-        
+
         return this.config;
     }
 }

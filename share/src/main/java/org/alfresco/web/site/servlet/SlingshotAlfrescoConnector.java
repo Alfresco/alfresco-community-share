@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.extensions.config.RemoteConfigElement.ConnectorDescriptor;
 import org.springframework.extensions.surf.ServletUtil;
@@ -71,54 +71,54 @@ import org.springframework.extensions.webscripts.connector.RemoteClient;
  * <pre>
  * external.authentication.userIdPattern=
  * </pre>
- * 
+ *
  * When using the default Alfresco Repository header (X-Alfresco-Remote-User") Share and the
  * Alfresco Repository must be protected against direct access from other clients. The same is
  * true when using a configurable header. The reason is that Share and Alfresco just accept the
  * header value as valid. Without this protection, it would be possible to log in as any user
  * simply by setting the header.
- * 
+ *
  * @author adavis
  * @author kroast
  */
 public class SlingshotAlfrescoConnector extends RequestCachingConnector
 {
     /**
-     * The name of the element in the {@link ConnectorDescriptor} 
+     * The name of the element in the {@link ConnectorDescriptor}
      * ({@code <connector>...<userHeader>...</userHeader></connector>}) that
      * contains the name of the HTTP header used by an external SSO
-     * to provide the authenticated user name. 
+     * to provide the authenticated user name.
      */
     private static final String CD_USER_HEADER = "userHeader";
-    
+
     /**
-     * The name of the element in the {@link ConnectorDescriptor} 
+     * The name of the element in the {@link ConnectorDescriptor}
      * ({@code <connector>...<userIdPattern>...</userIdPattern></connector>}) that
      * contains the optional regex used by the external SSO to pattern match authenticated
-     * user names. This value must match that used by Alfresco External Auth settings. 
+     * user names. This value must match that used by Alfresco External Auth settings.
      */
     private static final String CD_USER_ID_PATTERN = "userIdPattern";
-    
+
     /**
      * The name of the property in the {@link ConnectorSession} that
      * contains the name of the HTTP header used by an external SSO
-     * to provide the authenticated user name. 
+     * to provide the authenticated user name.
      */
     public static final String CS_PARAM_USER_HEADER = "userHeader";
-    
+
     /**
      * The name of the property in the {@link ConnectorSession} that
      * contains the optional regex used by the external SSO to pattern match authenticated
      * user names.
      */
     public static final String CS_PARAM_USER_ID_PATTERN = "userIdPattern";
-    
-    
+
+
     public SlingshotAlfrescoConnector(ConnectorDescriptor descriptor, String endpoint)
     {
         super(descriptor, endpoint);
     }
-    
+
     private String getUserHeader()
     {
         String userHeader = descriptor.getStringProperty(CD_USER_HEADER);
@@ -128,7 +128,7 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
         }
         return userHeader;
     }
-    
+
     private String getUserIdPattern()
     {
         String userIdPattern = descriptor.getStringProperty(CD_USER_ID_PATTERN);
@@ -138,7 +138,7 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
         }
         return userIdPattern;
     }
-    
+
     /**
      * Overrides super method to set the CS_PARAM_USER_HEADER. This method is
      * always called at the end of {@link ConnectorService#getConnector} when
@@ -162,7 +162,7 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
         // Need to override the headers set on the remoteClient to include the 'userHeader'
         // The following duplicates much of the code in the super method. Creating a new
         // context with the userHeader is even more complex.
-        
+
         // copy in cookies that have been stored back as part of the connector session
         ConnectorSession connectorSession = getConnectorSession();
         if (connectorSession != null)
@@ -174,13 +174,13 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
             }
             remoteClient.setCookies(cookies);
         }
-        
+
         Map<String, String> headers = new HashMap<String, String>(8);
         if (context != null)
         {
             headers.putAll(context.getHeaders());
         }
-        
+
         // Proxy the authenticated user name if we have password-less credentials (indicates SSO auth over a secure connection)
         if (getCredentials() != null)
         {
@@ -225,7 +225,7 @@ public class SlingshotAlfrescoConnector extends RequestCachingConnector
                 }
             }
         }
-        
+
         // stamp all headers onto the remote client
         if (headers.size() != 0)
         {

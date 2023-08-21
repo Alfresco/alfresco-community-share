@@ -24,7 +24,7 @@ import org.springframework.extensions.surf.mvc.LocaleResolver;
 import org.springframework.extensions.surf.util.I18NUtil;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * An Alfresco specific extension of Spring AcceptHeaderLocaleResolver,
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
  *  browser if unavailable.
  *
  * This uses Spring Surf, and avoids repeated parsing calls.
- * 
+ *
  * @author Ian Norton
  */
 public class NewLocaleResolver extends LocaleResolver

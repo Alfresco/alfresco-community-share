@@ -20,27 +20,26 @@
  */
  package org.alfresco.wcm.client.util;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.alfresco.wcm.client.Asset;
 
-public abstract class HeaderHelper 
+public abstract class HeaderHelper
 {
-    private ThreadLocal<SimpleDateFormat> httpDateFormat = new ThreadLocal<SimpleDateFormat>() 
+    private ThreadLocal<SimpleDateFormat> httpDateFormat = new ThreadLocal<SimpleDateFormat>()
     {
         @Override
         protected SimpleDateFormat initialValue()
         {
             return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         }
-    };  	     
+    };
 
     /**
      * This base implementation simply returns true to indicate that the request should be re-rendered.
@@ -50,11 +49,11 @@ public abstract class HeaderHelper
      * @param response HttpServletResponse
      * @return boolean true if browser has old copy and so content should be rendered
      */
-    public boolean setHeaders(Asset asset, HttpServletRequest request, HttpServletResponse response) 
+    public boolean setHeaders(Asset asset, HttpServletRequest request, HttpServletResponse response)
     {
         return setHeaders(asset, false, request, response);
     }
-    
+
     /**
      * This base implementation simply returns true to indicate that the request should be re-rendered.
      * Override in a subclass as necessary
@@ -64,11 +63,11 @@ public abstract class HeaderHelper
      * @param response HttpServletResponse
      * @return boolean true if browser has old copy and so content should be rendered
      */
-    public boolean setHeaders(Asset asset, boolean attach, HttpServletRequest request, HttpServletResponse response) 
+    public boolean setHeaders(Asset asset, boolean attach, HttpServletRequest request, HttpServletResponse response)
     {
         return true;
     }
-    
+
     public final String getHttpDate(Date date)
     {
         return dateFormatter().format(date);
@@ -78,13 +77,13 @@ public abstract class HeaderHelper
     {
         return dateFormatter().parse(date);
     }
-    
+
     /**
      * Get a date formatter for the thread as SimpleDateFormat is not thread-safe
      * @return SimpleDateFormat
      */
-    public final SimpleDateFormat dateFormatter() 
+    public final SimpleDateFormat dateFormatter()
     {
     	return httpDateFormat.get();
-    }	
+    }
 }

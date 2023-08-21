@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +33,7 @@ import org.springframework.extensions.webeditor.taglib.AbstractTemplateTag;
 
 /**
  * Tag used to indicate an editable piece of content.
- * 
+ *
  * @author Gavin Cornwell
  */
 public class MarkContentTag extends AbstractTemplateTag
@@ -48,7 +48,7 @@ public class MarkContentTag extends AbstractTemplateTag
 
     /**
      * Returns the identifier of the content to be edited
-     * 
+     *
      * @return The identifier of the content to be edited
      */
     public String getId()
@@ -58,7 +58,7 @@ public class MarkContentTag extends AbstractTemplateTag
 
     /**
      * Sets the identifier of the content to be edited
-     * 
+     *
      * @param contentId The identifier of the content to be edited
      */
     public void setId(String contentId)
@@ -68,7 +68,7 @@ public class MarkContentTag extends AbstractTemplateTag
 
     /**
      * Returns the title of the content to be edited
-     * 
+     *
      * @return The title of the content to be edited
      */
     public String getTitle()
@@ -78,7 +78,7 @@ public class MarkContentTag extends AbstractTemplateTag
 
     /**
      * Sets the title of the content to be edited
-     * 
+     *
      * @param title The title of the content to be edited
      */
     public void setTitle(String title)
@@ -88,7 +88,7 @@ public class MarkContentTag extends AbstractTemplateTag
 
     /**
      * Returns the identifier of the form to use to edit the content
-     * 
+     *
      * @return The identifier of the form to use to edit the content
      */
     public String getFormId()
@@ -98,7 +98,7 @@ public class MarkContentTag extends AbstractTemplateTag
 
     /**
      * Sets the identifier of the form to use to edit the content
-     * 
+     *
      * @param formId The identifier of the form to use to edit the content
      */
     public void setFormId(String formId)
@@ -109,7 +109,7 @@ public class MarkContentTag extends AbstractTemplateTag
     /**
      * Returns a flag to indicate whether the marker is nested within the content
      * to be edited.
-     * 
+     *
      * @return true if the marker is nested
      */
     public boolean isNestedMarker()
@@ -119,7 +119,7 @@ public class MarkContentTag extends AbstractTemplateTag
 
     /**
      * Sets whether the marker is nested within the content to be edited.
-     * 
+     *
      * @param nestedMarker true to indicate the marker is nested
      */
     public void setNestedMarker(boolean nestedMarker)
@@ -128,7 +128,7 @@ public class MarkContentTag extends AbstractTemplateTag
     }
 
     /**
-     * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+     * @see jakarta.servlet.jsp.tagext.TagSupport#doStartTag()
      */
     public int doStartTag() throws JspException
     {
@@ -150,7 +150,7 @@ public class MarkContentTag extends AbstractTemplateTag
                 String editMarkerId = markerIdPrefix + "-" + (markedContent.size() + 1);
 
                 // create marked content object and store
-                MarkedContent content = new MarkedContent(editMarkerId, this.contentId, this.contentTitle, 
+                MarkedContent content = new MarkedContent(editMarkerId, this.contentId, this.contentTitle,
                      this.formId, this.nestedMarker);
                 markedContent.add(content);
 
@@ -175,7 +175,7 @@ public class MarkContentTag extends AbstractTemplateTag
     }
 
     /**
-     * @see javax.servlet.jsp.tagext.TagSupport#release()
+     * @see jakarta.servlet.jsp.tagext.TagSupport#release()
      */
     public void release()
     {

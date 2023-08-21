@@ -20,8 +20,8 @@
  */
 package org.alfresco.wcm.client.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.alfresco.wcm.client.Asset;
 import org.alfresco.wcm.client.AssetFactory;
@@ -37,7 +37,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * StreamedAssetController uses an id in the url to look-up an asset in the
  * repository, eg an image. It then returns a view object which can render a
  * stream.
- * 
+ *
  * @author Chris Lack
  */
 public class StreamedAssetController extends AbstractController
@@ -65,7 +65,7 @@ public class StreamedAssetController extends AbstractController
 
         // Decide if the request should redirect to the full url
         String template = asset.getTemplate();
-        if (template != null && renditionName == null && 
+        if (template != null && renditionName == null &&
                 !DynamicPageViewResolver.RAW_TEMPLATE_NAME.equalsIgnoreCase(template))
         {
             String fullUri = urlUtils.getUrl(asset);
@@ -77,7 +77,7 @@ public class StreamedAssetController extends AbstractController
         // Return a StreamedAssetView to render the stream
         return new ModelAndView(new StreamedAssetView(asset, renditionName, attach));
     }
- 
+
     public void setUrlUtils(UrlUtils urlUtils)
     {
         this.urlUtils = urlUtils;

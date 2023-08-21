@@ -23,7 +23,7 @@ package org.customer;
 import java.io.IOException;
 import java.io.Writer;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -34,7 +34,7 @@ import org.json.JSONObject;
 
 /**
  * Tag used to display the value of a property of an Alfresco node.
- * 
+ *
  * @author Gavin Cornwell
  */
 public class PropertyTag extends AbstractCustomerTag
@@ -46,7 +46,7 @@ public class PropertyTag extends AbstractCustomerTag
 
     /**
      * Returns the name of the property to display
-     * 
+     *
      * @return Name of the property to display
      */
     public String getProperty()
@@ -56,7 +56,7 @@ public class PropertyTag extends AbstractCustomerTag
 
     /**
      * Sets the name of the property to display
-     * 
+     *
      * @param name The name of the property to display
      */
     public void setProperty(String name)
@@ -65,7 +65,7 @@ public class PropertyTag extends AbstractCustomerTag
     }
 
     /**
-     * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+     * @see jakarta.servlet.jsp.tagext.TagSupport#doStartTag()
      */
     public int doStartTag() throws JspException
     {

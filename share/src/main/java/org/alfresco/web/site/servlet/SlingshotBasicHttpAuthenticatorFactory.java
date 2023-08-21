@@ -20,7 +20,7 @@
  */
 package org.alfresco.web.site.servlet;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.surf.site.AuthenticationUtil;
@@ -37,7 +37,7 @@ import org.springframework.extensions.webscripts.servlet.WebScriptServletRespons
  * <p>
  * For Admin auth level WebScripts, if the current user is not an admin, then authentication is still
  * routed through the standard WebScript Basic Http authentication pattern.
- * 
+ *
  * @author Kevin Roast
  */
 public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticatorFactory
@@ -63,7 +63,7 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                             {
                                 return false;
                             }
-                            
+
                             @Override
                             public boolean authenticate(RequiredAuthentication required, boolean isGuest)
                             {
@@ -94,7 +94,7 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                         {
                             return false;
                         }
-                        
+
                         @Override
                         public boolean authenticate(RequiredAuthentication required, boolean isGuest)
                         {
@@ -117,7 +117,7 @@ public class SlingshotBasicHttpAuthenticatorFactory extends BasicHttpAuthenticat
                         {
                             return false;
                         }
-                        
+
                         @Override
                         public boolean authenticate(RequiredAuthentication required, boolean isGuest)
                         {

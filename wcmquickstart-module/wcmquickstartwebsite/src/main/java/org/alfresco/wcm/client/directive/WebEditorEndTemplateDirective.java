@@ -25,7 +25,7 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.awe.tag.AlfrescoTagUtil;
 import org.alfresco.web.awe.tag.MarkedContent;
@@ -41,26 +41,26 @@ import freemarker.template.TemplateModelException;
 /**
  * Freemarker directive which initialises the Web Editor with all marked areas of the page.
  * Usage: <@endTemplate/>
- * 
- * @author Gavin Cornwell 
+ *
+ * @author Gavin Cornwell
  * @author Chris Lack
  */
 public class WebEditorEndTemplateDirective extends AbstractTemplateDirective
-{	
-    protected static final Log logger = LogFactory.getLog(WebEditorEndTemplateDirective.class);	
+{
+    protected static final Log logger = LogFactory.getLog(WebEditorEndTemplateDirective.class);
 
 	@SuppressWarnings("unchecked")
     @Override
-    public void execute(Environment env, 
-    		            Map params, 
+    public void execute(Environment env,
+    		            Map params,
     		            TemplateModel[] loopVars,
             			TemplateDirectiveBody body) throws TemplateException, IOException
     {
 		if (params.size() > 0) throw new TemplateModelException("endTemplate directive expects no parameters");
-		
+
         // get the toolbar location from the request
         String toolbarLocation = getToolbarLocation(env);
-        
+
         if (isEditingEnabled(env) && toolbarLocation != null)
         {
             try
@@ -74,11 +74,11 @@ public class WebEditorEndTemplateDirective extends AbstractTemplateDirective
                 out.write("{ position: \"");
                 out.write(toolbarLocation);
                 out.write("\" });");
-                
+
                 // add in custom configuration
                 // render JavaScript to configure toolbar and edit icons
                 List<MarkedContent> markedContent = AlfrescoTagUtil.getMarkedContent(request);
-                
+
                 out.write("\nvar urlParts = window.location.href.split(\"/\");");
                 out.write("\nvar categoryRootUrl =  urlParts[0] + \"//\";");
                 out.write("\nfor (var i=2; i < urlParts.length - 1; i++)");
@@ -120,18 +120,18 @@ public class WebEditorEndTemplateDirective extends AbstractTemplateDirective
 
                 if (logger.isDebugEnabled())
                 {
-                    logger.debug("Completed endTemplate rendering for " + markedContent.size() + 
+                    logger.debug("Completed endTemplate rendering for " + markedContent.size() +
                         " marked content items with toolbar location of: " + getToolbarLocation(env));
                 }
-                
-                // close render config               
+
+                // close render config
                 out.write("\n</script>");
 
                 // request all the resources
                 out.write("<script type=\"text/javascript\" src=\"");
                 out.write(getWebEditorUrlPrefix(env));
                 out.write("/service/wef/resources\"></script>\n");
-                
+
                 if (logger.isDebugEnabled())
                     logger.debug("Completed endTemplate rendering");
             }
@@ -144,7 +144,6 @@ public class WebEditorEndTemplateDirective extends AbstractTemplateDirective
         {
             logger.debug("Skipping endTemplate rendering as editing is disabled");
         }
-    }	
+    }
 }
 
-	
