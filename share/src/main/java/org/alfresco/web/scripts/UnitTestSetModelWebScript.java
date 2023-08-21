@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,8 +40,8 @@ import org.springframework.extensions.webscripts.servlet.WebScriptServletRequest
  * This WebScript controller accepts a posted JSON string that defines a page model to use
  * for a unit test and saves it to the {@link HttpSession}. The WebScript backed by the
  * {@link UnitTestGetModelWebScript} controller should then be immediately run (in the context
- * of a unit test page) to retrieve the JSON model and render it as a page. 
- * 
+ * of a unit test page) to retrieve the JSON model and render it as a page.
+ *
  * @author Dave Draper
  */
 public class UnitTestSetModelWebScript extends DeclarativeWebScript
@@ -50,7 +50,7 @@ public class UnitTestSetModelWebScript extends DeclarativeWebScript
     protected Map<String, Object> executeImpl(WebScriptRequest req, Status status, Cache cache)
     {
         Map<String, Object> model = new HashMap<String, Object>(7, 1.0f);
-        
+
         try
         {
             String content = req.getContent().getContent();
@@ -83,7 +83,7 @@ public class UnitTestSetModelWebScript extends DeclarativeWebScript
         }
         finally
         {
-            
+
         }
         return model;
     }

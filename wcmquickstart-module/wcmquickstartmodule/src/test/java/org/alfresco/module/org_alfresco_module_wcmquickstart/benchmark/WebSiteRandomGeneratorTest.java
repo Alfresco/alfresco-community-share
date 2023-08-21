@@ -24,20 +24,19 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.alfresco.model.ContentModel.ASSOC_CATEGORIES;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.alfresco.repo.model.Repository;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
-import org.alfresco.util.ApplicationContextHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * @author Nick Smith
@@ -56,10 +55,10 @@ public class WebSiteRandomGeneratorTest
 
     @Resource(name="NodeService")
     NodeService nodeService;
-    
+
     @Resource(name="repositoryHelper")
     Repository repositoryHelper;
-    
+
     @Test
     public void testGenerateWebSite() throws Exception
     {
@@ -72,5 +71,5 @@ public class WebSiteRandomGeneratorTest
         NodeRef actualSite= nodeService.getChildByName(webHome, ASSOC_CATEGORIES, SITE_NAME);
         assertEquals(site, actualSite);
     }
-    
+
 }

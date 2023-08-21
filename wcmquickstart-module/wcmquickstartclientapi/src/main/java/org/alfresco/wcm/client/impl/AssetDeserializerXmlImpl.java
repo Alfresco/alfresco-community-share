@@ -111,7 +111,7 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
     {
         deserialize(in);
     }
-    
+
 
     /**
      * Retrieve the list of assets that were deserialized. Never null, may be empty.
@@ -163,34 +163,34 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
                     valueList.add(value);
                 }
                 break;
-                
+
             case list:
                 value = valueList;
                 break;
-                
+
             case map:
                 propertyName = previousPropertyNames.pop();
                 value = assetProperties;
                 assetProperties = previousPropertyMaps.pop();
                 break;
-            
+
             case property:
                 assetProperties.put(propertyName, value);
                 break;
-                
+
             case asset:
                 assets.add(assetProperties);
                 break;
-                
+
             case header:
                 headerProperties = assetProperties;
                 break;
-                
+
             case content:
             case assets:
             case not_started:
                 break;
-                
+
             }
             currentState = previousStates.pop();
         }
@@ -235,7 +235,7 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
                 currentState = State.property;
             }
             break;
-            
+
         case property:
             if ("value".equals(qName))
             {
@@ -302,7 +302,7 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
 
     private void invalidElement(String qName) throws SAXException
     {
-        String msg = "Unexpected element \"" + qName + "\" received. Current state is \"" + currentState + 
+        String msg = "Unexpected element \"" + qName + "\" received. Current state is \"" + currentState +
                 "\". Previous states are: " + previousStates;
         throw new SAXException(msg);
     }
@@ -318,12 +318,12 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
             case bool:
                 value = Boolean.valueOf(valueText);
                 break;
-                
+
             case id:
             case text:
                 value = valueText;
                 break;
-                
+
             case time:
                 try
                 {
@@ -334,15 +334,15 @@ public class AssetDeserializerXmlImpl extends DefaultHandler implements Webscrip
                     //value will be null
                 }
                 break;
-                
+
             case integer:
                 value = Long.valueOf(valueText);
                 break;
-                
+
             case number:
                 value = Double.valueOf(valueText);
                 break;
-                
+
             default:
                 //content's already been handled and "missing" maps to null
                 break;

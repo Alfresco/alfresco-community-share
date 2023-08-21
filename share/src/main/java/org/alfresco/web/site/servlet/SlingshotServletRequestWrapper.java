@@ -27,13 +27,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 /**
  * Request wrapper used an Accept-Langauge header was not present in original
  * request.
- * 
+ *
  * @author Eugene Zheleznyakov
  */
 public class SlingshotServletRequestWrapper extends HttpServletRequestWrapper
@@ -48,7 +48,7 @@ public class SlingshotServletRequestWrapper extends HttpServletRequestWrapper
 
     /**
      * Adds a header to the request
-     * 
+     *
      * @param name The name of header
      * @param value The value of header
      */
@@ -58,7 +58,7 @@ public class SlingshotServletRequestWrapper extends HttpServletRequestWrapper
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequestWrapper#getHeader(java.lang.String)
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#getHeader(java.lang.String)
      */
     @Override
     public String getHeader(String name)
@@ -75,7 +75,7 @@ public class SlingshotServletRequestWrapper extends HttpServletRequestWrapper
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequestWrapper#getHeaders(java.lang.String)
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#getHeaders(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -95,7 +95,7 @@ public class SlingshotServletRequestWrapper extends HttpServletRequestWrapper
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequestWrapper#getHeaderNames()
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#getHeaderNames()
      */
     @Override
     public Enumeration<String> getHeaderNames()

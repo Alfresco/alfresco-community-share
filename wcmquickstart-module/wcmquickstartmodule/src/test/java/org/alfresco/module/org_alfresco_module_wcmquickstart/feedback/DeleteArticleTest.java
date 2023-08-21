@@ -41,7 +41,7 @@ public class DeleteArticleTest extends WCMQuickStartTest {
         userTransaction.begin();
 
         // create article node
-        NodeRef article = 
+        NodeRef article =
            nodeService.createNode(editorialSite, ContentModel.ASSOC_CONTAINS, QName.createQName("article"), WebSiteModel.TYPE_ARTICLE).getChildRef();
         // add relevant asset property to feedback node
         Map<QName,Serializable> props = new HashMap<QName,Serializable>();
@@ -51,7 +51,7 @@ public class DeleteArticleTest extends WCMQuickStartTest {
         // Create couple feedbacks
         for (int index = 0; index < 3; index++)
         {
-            NodeRef feedback = 
+            NodeRef feedback =
                nodeService.createNode(editorialSite, ContentModel.ASSOC_CONTAINS, QName.createQName("feedback"), WebSiteModel.TYPE_VISITOR_FEEDBACK, props).getChildRef();
             feedbacks.add(feedback);
         }

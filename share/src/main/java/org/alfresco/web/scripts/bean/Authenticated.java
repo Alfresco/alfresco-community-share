@@ -22,7 +22,7 @@ package org.alfresco.web.scripts.bean;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.extensions.surf.UserFactory;
 import org.springframework.extensions.webscripts.DeclarativeWebScript;
@@ -33,7 +33,7 @@ import org.springframework.extensions.webscripts.servlet.WebScriptServletRequest
 
 /**
  * Test if the current user Session contains an authenticated userid.
- * 
+ *
  * @author Kevin Roast
  */
 public class Authenticated extends DeclarativeWebScript
@@ -48,7 +48,7 @@ public class Authenticated extends DeclarativeWebScript
         {
             final WebScriptServletRequest webScriptServletRequest = (WebScriptServletRequest)req;
             final HttpSession session = webScriptServletRequest.getHttpServletRequest().getSession(false);
-            
+
             boolean isAllowedToViewPage = false;
             if (session != null)
             {
