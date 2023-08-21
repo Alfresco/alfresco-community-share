@@ -16,7 +16,7 @@ on:
         description: Enter the Commit Message
         required: true
 env:
-  SYNC_TAG_NAME: 3.4.0-A1
+  SYNC_TAG_NAME: 4.0.0-M10
   HOSTED_ZONE: dev.envalfresco.com
   KEEP_ENV: false
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
