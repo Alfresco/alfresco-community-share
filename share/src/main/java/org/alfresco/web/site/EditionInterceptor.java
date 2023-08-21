@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.alfresco.web.scripts.ShareManifest;
 import org.alfresco.web.site.servlet.MTAuthenticationFilter;
@@ -49,7 +49,7 @@ import org.springframework.web.context.request.WebRequest;
 /**
  * Framework interceptor responsible for checking repository license edition
  * and applying appropriate config overrides.
- * 
+ *
  * @author Kevin Roast
  */
 public class EditionInterceptor extends AbstractWebFrameworkInterceptor
@@ -58,33 +58,33 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
     public static final String EDITION_INFO = "editionInfo";
     public static final String KEY_DOCS_EDITION = "docsEdition";
     public static final String URL_UTIL = "urlUtil";
-    
+
     public static final String ENTERPRISE_EDITION = EditionInfo.ENTERPRISE_EDITION;
     public static final String TEAM_EDITION = EditionInfo.TEAM_EDITION;
     public static final String UNKNOWN_EDITION = EditionInfo.UNKNOWN_EDITION;
     public static final String UNKNOWN_HOLDER = EditionInfo.UNKNOWN_HOLDER;
-    
+
     private static Log logger = LogFactory.getLog(EditionInterceptor.class);
 
     /*
-     * These are maintained as static variables so that they don't have to be recreated 
+     * These are maintained as static variables so that they don't have to be recreated
      * upon each thread's call to the preHandle method.
      */
     private static EditionInfo EDITIONINFO = null;
     private static DocsEdition docsEdition = null;
     private static UrlUtil urlUtil = new UrlUtil();
-    
+
     private static volatile boolean outputInfo = false;
     private static volatile boolean outputEditionInfo = false;
     private static final ReadWriteLock editionLock = new ReentrantReadWriteLock();
 
     private ShareManifest shareManifest;
-    
+
     public void setShareManifest(ShareManifest shareManifest)
     {
         this.shareManifest = shareManifest;
     }
-    
+
     /* (non-Javadoc)
      * @see org.springframework.web.context.request.WebRequestInterceptor#preHandle(org.springframework.web.context.request.WebRequest)
      */
@@ -100,7 +100,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                 editionLock.writeLock().lock();
                 try
                 {
-                    // check again, as more than one thread could have been waiting on the Write lock 
+                    // check again, as more than one thread could have been waiting on the Write lock
                     if (EDITIONINFO == null)
                     {
                         // initiate a call to retrieve the edition and restrictions from the repository
@@ -148,15 +148,15 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                                     logger.info("Successfully retrieved edition information from Alfresco.");
                                     outputEditionInfo = true;
                                 }
-                                
+
                                 // set edition info for current thread
                                 ThreadLocalRequestContext.getRequestContext().setValue(EDITION_INFO, editionInfo);
                                 ThreadLocalRequestContext.getRequestContext().setValue(KEY_DOCS_EDITION, docsEdition);
                                 ThreadLocalRequestContext.getRequestContext().setValue(URL_UTIL, urlUtil);
-                                
+
                                 // NOTE: We do NOT assign to the EDITIONINFO so that we re-evaluate next time.
                             }
-                            
+
                             // apply runtime config overrides based on the repository edition
                             String runtimeConfig = null;
                             if (TEAM_EDITION.equals(editionInfo.getEdition()))
@@ -173,7 +173,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
                                 // register our override config with the main config source
                                 List<String> configs = new ArrayList<String>(1);
                                 configs.add(runtimeConfig);
-                                
+
                                 ConfigService configservice = rc.getServiceRegistry().getConfigService();
                                 ConfigBootstrap cb = new ConfigBootstrap();
                                 cb.setBeanName("share-edition-config");
@@ -225,7 +225,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
             editionLock.readLock().unlock();
         }
     }
-    
+
     /* (non-Javadoc)
      * @see org.springframework.web.context.request.WebRequestInterceptor#postHandle(org.springframework.web.context.request.WebRequest, org.springframework.ui.ModelMap)
      */
@@ -233,7 +233,7 @@ public class EditionInterceptor extends AbstractWebFrameworkInterceptor
     public void postHandle(WebRequest request, ModelMap model) throws Exception
     {
     }
-    
+
     /* (non-Javadoc)
      * @see org.springframework.web.context.request.WebRequestInterceptor#afterCompletion(org.springframework.web.context.request.WebRequest, java.lang.Exception)
      */

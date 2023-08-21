@@ -83,7 +83,7 @@
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
-            <version>4.0.4</version>
+            <version>4.0.4-jakarta-3</version>
         </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>

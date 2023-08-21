@@ -20,7 +20,7 @@
  */
 package org.customer;
 
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
@@ -28,7 +28,7 @@ import org.apache.commons.httpclient.auth.AuthScope;
 
 /**
  * Base class for all example customer tag implementations.
- * 
+ *
  * @author gavinc
  */
 public class AbstractCustomerTag extends TagSupport
@@ -44,7 +44,7 @@ public class AbstractCustomerTag extends TagSupport
 
     /**
      * Returns the nodeRef of the content to be displayed
-     * 
+     *
      * @return NodeRef
      */
     public String getNodeRef()
@@ -54,7 +54,7 @@ public class AbstractCustomerTag extends TagSupport
 
     /**
      * Sets the NodeRef of the content to be displayed
-     * 
+     *
      * @param nodeRef NodeRef
      */
     public void setNodeRef(String nodeRef)

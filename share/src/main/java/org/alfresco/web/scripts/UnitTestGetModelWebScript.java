@@ -23,7 +23,7 @@ package org.alfresco.web.scripts;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.extensions.directives.ProcessJsonModelDirective;
 import org.springframework.extensions.surf.ServletUtil;
@@ -34,10 +34,10 @@ import org.springframework.extensions.webscripts.WebScriptRequest;
 
 /**
  * This WebScript controller attempts to retrieve a previously saved unit test page model
- * from the {@link HttpSession} which is then stored in the "jsonModel" attribute of the 
+ * from the {@link HttpSession} which is then stored in the "jsonModel" attribute of the
  * overall model. The associated FreeMarker template will call the {@link ProcessJsonModelDirective}
  * to convert the JSON string into a page model.
- * 
+ *
  * @author Dave Draper
  */
 public class UnitTestGetModelWebScript extends DeclarativeWebScript

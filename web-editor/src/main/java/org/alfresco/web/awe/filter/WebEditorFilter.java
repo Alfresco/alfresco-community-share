@@ -22,12 +22,12 @@ package org.alfresco.web.awe.filter;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,7 +36,7 @@ import org.springframework.extensions.webeditor.taglib.TemplateConstants;
 /**
  * This filter provides AWE-specific context to the Spring Web Editor
  * tag libraries.
- * 
+ *
  * @author gavinc
  * @author muzquiano
  */
@@ -45,10 +45,10 @@ public class WebEditorFilter implements Filter
     private static final Log logger = LogFactory.getLog(WebEditorFilter.class);
 
     public static final String DEFAULT_CONTEXT_PATH = "/awe";
-    
+
     private static final String PARAM_CONTEXT_PATH = "contextPath";
     private static final String PARAM_DEBUG = "debug";
-    
+
     private String urlPrefix;
     private boolean debugEnabled = Boolean.FALSE;
 
@@ -65,7 +65,7 @@ public class WebEditorFilter implements Filter
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("Setup request for Web Editor: (urlPrefix: " + this.urlPrefix + 
+            logger.debug("Setup request for Web Editor: (urlPrefix: " + this.urlPrefix +
                         ", debug: " + this.debugEnabled + ")");
         }
 

@@ -33,7 +33,7 @@
       <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
       <suiteXmlFile>src/test/resources/test-suites</suiteXmlFile>
       <suite-name />
-      <tas.utility.version>4.0.0</tas.utility.version>
+      <tas.utility.version>5.0.0</tas.utility.version>
       <apache.poi.version>4.1.2</apache.poi.version>
       <java.version>17</java.version>
    </properties>
@@ -141,7 +141,7 @@
        <dependency>
            <groupId>org.freemarker</groupId>
            <artifactId>freemarker</artifactId>
-           <version>2.3.30</version>
+           <version>2.3.30-jakarta-1</version>
        </dependency>
        <dependency>
            <groupId>org.apache.commons</groupId>

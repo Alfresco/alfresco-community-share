@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.site.servlet.MTAuthenticationFilter;
 import org.springframework.extensions.surf.RequestContext;
@@ -42,13 +42,13 @@ import org.springframework.web.context.request.WebRequest;
 /**
  * Framework interceptor responsible for constructing user dashboards if one has not already
  * been initialised and persisted for the current user.
- * 
+ *
  * @author Kevin Roast
  */
 public class UserDashboardInterceptor extends AbstractWebFrameworkInterceptor
 {
     private static final Pattern PATTERN_DASHBOARD_PATH = Pattern.compile(".*/user/([^/]*)/dashboard");
-    
+
     /* (non-Javadoc)
      * @see org.springframework.web.context.request.WebRequestInterceptor#preHandle(org.springframework.web.context.request.WebRequest)
      */

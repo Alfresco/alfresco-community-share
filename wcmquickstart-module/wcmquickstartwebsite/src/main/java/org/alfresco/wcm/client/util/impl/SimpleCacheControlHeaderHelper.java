@@ -20,12 +20,10 @@
  */
 package org.alfresco.wcm.client.util.impl;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.alfresco.wcm.client.Asset;
 import org.alfresco.wcm.client.Resource;
@@ -43,7 +41,7 @@ public class SimpleCacheControlHeaderHelper extends HeaderHelper
     /**
      * Set appropriate cache-control headers on the response for an asset and return true if it
      * should be rendered
-     * 
+     *
      * @param asset Asset
      * @param attach boolean
      * @param request HttpServletRequest
@@ -60,7 +58,7 @@ public class SimpleCacheControlHeaderHelper extends HeaderHelper
             Date modifiedDate = ((Date) asset.getProperty(Resource.PROPERTY_MODIFIED_TIME));
             long modifiedTime = modifiedDate.getTime();
             modifiedTime = (modifiedTime / 1000) * 1000; // remove ms
-            
+
             response.addDateHeader("Last-Modified", modifiedTime);
             response.addDateHeader("Expires", new Date().getTime() + defaultExpiry);
             String etag = Long.toHexString(modifiedTime);
@@ -97,7 +95,7 @@ public class SimpleCacheControlHeaderHelper extends HeaderHelper
                 {
                     headerValue += "; filename=" + attachFileName;
                 }
-                
+
                 // set header based on filename - will force a Save As from the browse if it doesn't recognize it
                 // this is better than the default response of the browser trying to display the contents
                 response.setHeader("Content-Disposition", headerValue);

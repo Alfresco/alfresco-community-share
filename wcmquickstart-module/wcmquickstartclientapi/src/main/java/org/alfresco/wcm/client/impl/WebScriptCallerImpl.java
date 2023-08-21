@@ -66,7 +66,7 @@ public class WebScriptCallerImpl implements WebScriptCaller
     private String baseUrl;
     HttpClient httpClient;
     private AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, AuthScope.ANY_REALM);
-    
+
     private String username = null;
     private String password = null;;
 
@@ -118,7 +118,7 @@ public class WebScriptCallerImpl implements WebScriptCaller
         paramList.add(new WebscriptParam("u", user));
         paramList.add(new WebscriptParam("pw", password));
         get("login", responseHandler, paramList, true);
-        Credentials credentials = new UsernamePasswordCredentials(user, password); 
+        Credentials credentials = new UsernamePasswordCredentials(user, password);
         if (responseHandler.ticket != null)
         {
             credentials = new UsernamePasswordCredentials("", responseHandler.ticket);
@@ -127,7 +127,7 @@ public class WebScriptCallerImpl implements WebScriptCaller
         httpClient.getParams().setAuthenticationPreemptive(true);
         return responseHandler.ticket;
     }
-    
+
     /* (non-Javadoc)
      * @see org.alfresco.wcm.client.impl.WebScriptCaller#getJsonObject(java.lang.String, java.util.List)
      */
@@ -138,18 +138,18 @@ public class WebScriptCallerImpl implements WebScriptCaller
         executeRequest(handler, getMethod);
         return handler.jsonObject;
     }
-    
+
     public void get(String servicePath, WebscriptResponseHandler handler, List<WebscriptParam> params)
     {
         get(servicePath, handler, params, false);
     }
-    
+
     private void get(String servicePath, WebscriptResponseHandler handler, List<WebscriptParam> params, boolean ignoreUnauthorized)
     {
         GetMethod getMethod = getGETMethod(servicePath, params);
         executeRequest(handler, getMethod, ignoreUnauthorized);
     }
-    
+
     public void post(String servicePath, WebscriptResponseHandler handler, List<WebscriptParam> params)
     {
         PostMethod postMethod = getPOSTMethod(servicePath, params);
@@ -171,15 +171,15 @@ public class WebScriptCallerImpl implements WebScriptCaller
         try
         {
             httpClient.executeMethod(httpMethod);
-            
+
             if ((httpMethod.getStatusCode() == 401 || httpMethod.getStatusCode() == 403) && !ignoreUnauthorized)
             {
                 discardResponse(httpMethod);
-                
+
                 this.getTicket(username, password);
                 httpClient.executeMethod(httpMethod);
             }
-            
+
             if (httpMethod.getStatusCode() == 200)
             {
                 handler.handleResponse(httpMethod.getResponseBodyAsStream());
@@ -203,8 +203,8 @@ public class WebScriptCallerImpl implements WebScriptCaller
         {
             if (log.isDebugEnabled())
             {
-                log.debug(httpMethod.getName() + " request to " + httpMethod.getPath() + "?" + 
-                        httpMethod.getQueryString() + " completed in " + 
+                log.debug(httpMethod.getName() + " request to " + httpMethod.getPath() + "?" +
+                        httpMethod.getQueryString() + " completed in " +
                         (System.currentTimeMillis() - startTime) + "ms");
             }
             httpMethod.releaseConnection();
@@ -215,7 +215,7 @@ public class WebScriptCallerImpl implements WebScriptCaller
     {
         if (log.isDebugEnabled())
         {
-            log.debug("Received non-OK response when invoking method on path " + httpMethod.getPath() + 
+            log.debug("Received non-OK response when invoking method on path " + httpMethod.getPath() +
                     ". Response was:\n" + httpMethod.getResponseBodyAsString());
         }
         else
@@ -273,7 +273,7 @@ public class WebScriptCallerImpl implements WebScriptCaller
     private static class JsonResponseHandler implements WebscriptResponseHandler
     {
         public JSONObject jsonObject;
-        
+
         @Override
         public void handleResponse(InputStream in)
         {
@@ -291,7 +291,7 @@ public class WebScriptCallerImpl implements WebScriptCaller
                 //UTF-8 is always supported
             }
         }
-        
+
     }
 
     private static class TicketResponseHandler extends DefaultHandler implements WebscriptResponseHandler

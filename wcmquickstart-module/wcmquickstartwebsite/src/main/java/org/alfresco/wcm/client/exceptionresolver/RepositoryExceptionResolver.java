@@ -20,8 +20,8 @@
  */
 package org.alfresco.wcm.client.exceptionresolver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.alfresco.wcm.client.Asset;
 import org.alfresco.wcm.client.Section;
@@ -45,7 +45,7 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
  * is not found then it looks for a specific surf page. eg 404page If still not
  * found then it reverts to the behaviour of the SimpleMappingExceptionResolver
  * and so uses a default catch-all error page.
- * 
+ *
  * @author Chris Lack
  */
 public class RepositoryExceptionResolver extends SimpleMappingExceptionResolver
@@ -65,8 +65,8 @@ public class RepositoryExceptionResolver extends SimpleMappingExceptionResolver
         // Log the exception
         if (!(ex instanceof RepositoryUnavailableException))
         {
-            // Don't bother to log these for every request. It will be logged 
-            // by GuestSessionFactoryImpl. 
+            // Don't bother to log these for every request. It will be logged
+            // by GuestSessionFactoryImpl.
             log.error(ex, ex);
         }
 
@@ -91,8 +91,8 @@ public class RepositoryExceptionResolver extends SimpleMappingExceptionResolver
                 // Determine the error page asset name and fetch it from the
                 // repository
                 String errorPage = statusCode + errorPageSuffix + ".html";
-                
-                Asset errorAsset = rootSection.getAsset(errorPage); 
+
+                Asset errorAsset = rootSection.getAsset(errorPage);
 
                 String template = null;
                 if (errorAsset != null)
@@ -157,7 +157,7 @@ public class RepositoryExceptionResolver extends SimpleMappingExceptionResolver
 
     /**
      * Retrieves the page object with the given page id from Surf.
-     * 
+     *
      * @param pageId
      * @return Page object or null if not found
      */

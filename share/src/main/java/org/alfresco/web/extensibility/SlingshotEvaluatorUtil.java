@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.alfresco.web.site.SlingshotUserFactory;
 import org.apache.commons.logging.Log;
@@ -165,7 +165,7 @@ public class SlingshotEvaluatorUtil {
         }
         return site;
     }
-    
+
     /**
      * Returns the current page context id OR null if one isn't supplied
      *

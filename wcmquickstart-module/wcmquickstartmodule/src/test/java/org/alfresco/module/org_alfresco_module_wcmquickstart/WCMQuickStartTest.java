@@ -46,7 +46,7 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * Parent class for all WCM QuickStart tests
- * 
+ *
  * @author Nick Burch
  */
 public abstract class WCMQuickStartTest extends TestCase
@@ -62,19 +62,19 @@ public abstract class WCMQuickStartTest extends TestCase
     protected PersonService personService;
     protected PermissionService permissionService;
     private SiteService siteService;
-    
+
     protected NodeRef companyHome;
     protected String testUserName;
-    
+
     private String testSiteName = "WCM_QS_TEST_SITE";
     protected SiteInfo site;
     protected NodeRef editorialSite;
     protected NodeRef editorialSiteRoot;
     protected NodeRef liveSite;
     protected NodeRef liveSiteRoot;
-    
+
     @Override
-    protected void setUp() throws Exception 
+    protected void setUp() throws Exception
     {
         appContext = ApplicationContextHelper.getApplicationContext();
         authenticationComponent = (AuthenticationComponent)appContext.getBean("authenticationComponent");
@@ -87,16 +87,16 @@ public abstract class WCMQuickStartTest extends TestCase
         personService = (PersonService)appContext.getBean("personService");
         permissionService = (PermissionService)appContext.getBean("permissionService");
         siteService = (SiteService)appContext.getBean("siteService");
-        
-        // Set authentication       
-        authenticationComponent.setCurrentUser("admin");        
-        
+
+        // Set authentication
+        authenticationComponent.setCurrentUser("admin");
+
         UserTransaction userTransaction = transactionService.getUserTransaction();
         userTransaction.begin();
-        
+
         // Create the test site to work on
         companyHome = repository.getCompanyHome();
-        
+
         // Setup the site
         site = siteService.getSite(testSiteName);
         if(site != null)
@@ -108,12 +108,12 @@ public abstract class WCMQuickStartTest extends TestCase
                 SiteVisibility.PUBLIC
         );
         assertNotNull(site);
-        
+
         NodeRef docLib = nodeService.createNode(
-                site.getNodeRef(), ContentModel.ASSOC_CONTAINS, 
+                site.getNodeRef(), ContentModel.ASSOC_CONTAINS,
                 QName.createQName("documentLibrary"), ContentModel.TYPE_FOLDER
         ).getChildRef();
-        
+
         liveSite = nodeService.createNode(
                 docLib, ContentModel.ASSOC_CONTAINS,
                 QName.createQName("live"), WebSiteModel.TYPE_WEB_SITE
@@ -122,7 +122,7 @@ public abstract class WCMQuickStartTest extends TestCase
                 liveSite, ContentModel.ASSOC_CONTAINS,
                 QName.createQName("root"), WebSiteModel.TYPE_WEB_ROOT
         ).getChildRef();
-        
+
         editorialSite = nodeService.createNode(
                 docLib, ContentModel.ASSOC_CONTAINS,
                 QName.createQName("editorial"), WebSiteModel.TYPE_WEB_SITE
@@ -131,10 +131,10 @@ public abstract class WCMQuickStartTest extends TestCase
                 editorialSite, ContentModel.ASSOC_CONTAINS,
                 QName.createQName("root"), WebSiteModel.TYPE_WEB_ROOT
         ).getChildRef();
-        
+
         userTransaction.commit();
     }
-    
+
     @Override
     protected void tearDown() throws Exception
     {

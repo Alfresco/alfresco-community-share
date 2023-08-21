@@ -27,12 +27,12 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Tag utilities for Alfresco Web Editor
- * 
+ *
  * @author muzquiano
  */
 public class AlfrescoTagUtil
@@ -45,7 +45,7 @@ public class AlfrescoTagUtil
      * <p>
      * This list is built up as each markContent tag is encountered.
      * </p>
-     * 
+     *
      * @return List of MarkedContent objects
      */
     @SuppressWarnings("unchecked")
@@ -69,7 +69,7 @@ public class AlfrescoTagUtil
         String contentTitle = content.getContentTitle();
         String formId = content.getFormId();
         String editMarkerId = content.getMarkerId();
-        
+
         // Hide initially, in case we need to log in or user does not want to
         // log in
         out.write("<span class=\"alfresco-content-marker\" style=\"display: none\" id=\"");
@@ -179,7 +179,7 @@ public class AlfrescoTagUtil
     /**
      * Calculates the redirect url for form submission, this will
      * be the current request URL.
-     * 
+     *
      * @return The redirect URL
      */
     public static String calculateRedirectUrl(HttpServletRequest request)
@@ -206,10 +206,10 @@ public class AlfrescoTagUtil
 
         return redirectUrl;
     }
-    
+
     /**
      * Encodes the given string, so that it can be used within an HTML page.
-     * 
+     *
      * @param string     the String to convert
      */
     public static String encode(String string)
@@ -276,5 +276,5 @@ public class AlfrescoTagUtil
         }
     }
 
-    
+
 }

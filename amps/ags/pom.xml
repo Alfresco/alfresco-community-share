@@ -76,6 +76,10 @@
             <version>6.2.99</version>
             <scope>provided</scope>
          </dependency>
+         <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+         </dependency>
       </dependencies>
    </dependencyManagement>
 

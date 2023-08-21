@@ -25,8 +25,8 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.alfresco.wcm.client.PathResolutionDetails;
 import org.alfresco.wcm.client.Section;
@@ -38,15 +38,15 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.extensions.surf.RequestContext;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.surf.util.I18NUtil;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Load application-wide data into the Surf RequestContext and Spring model.
- * 
+ *
  * @author Chris Lack
  */
-public class ApplicationDataInterceptor extends HandlerInterceptorAdapter
+public class ApplicationDataInterceptor implements HandlerInterceptor
 {
     private static final Log log = LogFactory.getLog(ApplicationDataInterceptor.class);
 
@@ -90,7 +90,7 @@ public class ApplicationDataInterceptor extends HandlerInterceptorAdapter
         // context
         String path = request.getPathInfo();
         PathResolutionDetails resolvedPath = webSite.resolvePath(path);
-        
+
         if (resolvedPath.isRedirect())
         {
             String location = resolvedPath.getRedirectLocation();
@@ -101,19 +101,19 @@ public class ApplicationDataInterceptor extends HandlerInterceptorAdapter
             response.sendRedirect(location);
             return false;
         }
-        
+
         requestContext.setValue("asset", resolvedPath.getAsset());
         Section section = resolvedPath.getSection();
         if (section == null)
         {
-            // If we haven't been able to resolve the section then use the root section 
+            // If we haven't been able to resolve the section then use the root section
             section = webSite.getRootSection();
         }
         requestContext.setValue("section", section);
 
         setLocaleFromPath(requestContext, path);
 
-        return super.preHandle(request, response, handler);
+        return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
     protected void setLocaleFromPath(RequestContext requestContext, String path)
@@ -164,7 +164,7 @@ public class ApplicationDataInterceptor extends HandlerInterceptorAdapter
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception
     {
-        super.postHandle(request, response, handler, modelAndView);
+        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 
         modelDecorator.populate(request, modelAndView);
     }

@@ -20,7 +20,7 @@
  */
 package org.alfresco.wcm.client.directive;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import freemarker.core.Environment;
 import freemarker.ext.servlet.HttpRequestHashModel;
@@ -29,7 +29,7 @@ import freemarker.template.TemplateModelException;
 
 /**
  * Base class for all Web Editor directive implementations.
- * 
+ *
  * @author gavinc
  * @author Chris Lack
  */
@@ -46,7 +46,7 @@ public abstract class AbstractTemplateDirective implements TemplateDirectiveMode
 
     /**
      * Determines whether editing is currently enabled
-     * 
+     *
      * @return true if editing is enabled
      * @throws TemplateModelException
      */
@@ -64,7 +64,7 @@ public abstract class AbstractTemplateDirective implements TemplateDirectiveMode
 
     /**
      * Returns the URL prefix for the web editor application.
-     * 
+     *
      * @return The WEF prefix URL
      * @throws TemplateModelException
      */
@@ -100,7 +100,7 @@ public abstract class AbstractTemplateDirective implements TemplateDirectiveMode
      * Editor filter definition in web.xml. If the init parameter is not present
      * false will be returned.
      * </p>
-     * 
+     *
      * @return true if debug is enabled
      * @throws TemplateModelException
      */
@@ -127,7 +127,7 @@ public abstract class AbstractTemplateDirective implements TemplateDirectiveMode
 
     /**
      * Determins the location of the toolbar
-     * 
+     *
      * @return string location
      * @throws TemplateModelException
      */
@@ -139,7 +139,7 @@ public abstract class AbstractTemplateDirective implements TemplateDirectiveMode
 
     /**
      * Encodes the given string, so that it can be used within an HTML page.
-     * 
+     *
      * @param string
      *            the String to convert
      */

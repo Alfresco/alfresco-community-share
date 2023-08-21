@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.web.scripts.DictionaryQuery;
@@ -69,7 +69,7 @@ import org.springframework.extensions.webscripts.processor.FTLTemplateProcessor;
  * <p>
  * Each model has associated Share form configuration which is activated or deactivated
  * based on the current API state for that model. The dynamic form configuration allows
- * the user to make immediate use of the model without server restarts. 
+ * the user to make immediate use of the model without server restarts.
  * <p>
  * Each CRUD HTTP method WebScript extends this service and it is responsible for the bulk
  * of the work for operations. It will proxy through API calls to the repo via the given
@@ -81,13 +81,13 @@ import org.springframework.extensions.webscripts.processor.FTLTemplateProcessor;
  * Besides proxying the API calls, the main purpose of this service is to provide business
  * logic hook points before and after the repository operations for Share. This allows say
  * local Data Dictionary modifications and updates based on the success of a repository API.
- * 
+ *
  * @author Kevin Roast
  */
 public abstract class CMMService extends DeclarativeWebScript
 {
     private static final Log logger = LogFactory.getLog(CMMService.class);
-    
+
     /** JSON string constants */
     private static final String JSON_APPEARANCE = "appearance";
     private static final String JSON_LABEL = "label";
@@ -114,7 +114,7 @@ public abstract class CMMService extends DeclarativeWebScript
     private static final String JSON_DATA = "data";
     private static final String JSON_OPERATION = "operation";
     private static final String JSON_TYPES = "types";
-    
+
     /** template output string constants */
     private static final String TEMPLATE_SET = "set";
     private static final String TEMPLATE_LABEL = "label";
@@ -140,7 +140,7 @@ public abstract class CMMService extends DeclarativeWebScript
     private static final String TEMPLATE_TYPES = "types";
     private static final String TEMPLATE_MODULE_NAME = "moduleName";
     private static final String TEMPLATE_TEMPLATE = "template";
-    
+
     /** control types */
     private static final String CONTROLTYPE_DEFAULT     = "default";
     private static final String CONTROLTYPE_PASSWORD    = "password";
@@ -153,20 +153,20 @@ public abstract class CMMService extends DeclarativeWebScript
     private static final String CONTROLTYPE_MIMETYPE    = "mimetype";
     private static final String CONTROLTYPE_TAGGABLE    = "taggable";
     private static final String CONTROLTYPE_CATEGORIES  = "categories";
-    
+
     /** well known DD types */
     private static final String CM_FOLDER   = "cm:folder";
     private static final String CM_CONTENT  = "cm:content";
 
     /** Prefix used for all CMM related modules - the suffix is the model ID */
     private static final String MODULE_PREFIX = "CMM_";
-    
+
     /** path to the FreeMarker template used to render the module configuration for a model */
     private static final String MODULE_TEMPLATE_PATH = "/org/alfresco/cmm/components/module-configuration.ftl";
-    
+
     /** simple default JSON response for services when result value is proxied from the repository */
     protected static final String DEFAULT_OK_RESULT = "{\"success\":true}";
-    
+
     /** Repository Operations available from client API */
     private static final String OP_DELETE_PROPERTY          = "deleteProperty";
     private static final String OP_EDIT_PROPERTY            = "editProperty";
@@ -182,7 +182,7 @@ public abstract class CMMService extends DeclarativeWebScript
     private static final String OP_ACTIVATE_MODEL           = "activateModel";
     private static final String OP_EDIT_MODEL               = "editModel";
     private static final String OP_CREATE_MODEL             = "createModel";
-    
+
     /**
      * Mapping of client-side operation name to repository API templated URL
      * The caller is responsible for passing the named arguments to the service in the JSON params. This service
@@ -206,13 +206,13 @@ public abstract class CMMService extends DeclarativeWebScript
             put(OP_DELETE_PROPERTY,       "/-default-/private/alfresco/versions/1/cmm/{name}/{entityClass}/{entityName}?select=props&delete={propertyName}");
         }
     };
-    
-    
+
+
     /**
-     * <p>A @link ModuleDeploymentService} is required as it is used to refresh the configured module list.</p> 
+     * <p>A @link ModuleDeploymentService} is required as it is used to refresh the configured module list.</p>
      */
     protected ModuleDeploymentService moduleDeploymentService;
-    
+
     /**
      * @param moduleDeploymentService       ModuleDeploymentService
      */
@@ -220,21 +220,21 @@ public abstract class CMMService extends DeclarativeWebScript
     {
         this.moduleDeploymentService = moduleDeploymentService;
     }
-    
+
     protected DictionaryQuery dictionary;
-    
+
     /**
      * Dictionary Query bean reference
-     * 
+     *
      * @param dictionary                    DictionaryQuery
      */
     public void setDictionary(DictionaryQuery dictionary)
     {
         this.dictionary = dictionary;
     }
-    
+
     protected FTLTemplateProcessor templateProcessor;
-    
+
     /**
      * @param templateProcessor             FTLTemplateProcessor
      */
@@ -242,7 +242,7 @@ public abstract class CMMService extends DeclarativeWebScript
     {
         this.templateProcessor = templateProcessor;
     }
-    
+
     public final static Cache CACHE_NEVER = new Cache(new Description.RequiredCache() {
         @Override
         public boolean getNeverCache()
@@ -262,12 +262,12 @@ public abstract class CMMService extends DeclarativeWebScript
             return true;
         }
     });
-    
-    
+
+
     /**
      * Model operation service call. Provide a proxy through to the given repo API and provides a hook
      * for client business logic pertinent that may be required for each operation.
-     * 
+     *
      * @param status
      * @param modelName
      * @param json
@@ -276,10 +276,10 @@ public abstract class CMMService extends DeclarativeWebScript
     protected String serviceModelOperation(Status status, String modelName, JSONObject json) throws IOException
     {
         final String opId = (String)json.get(JSON_OPERATION);
-        
+
         // repository API mapping operation - collect arguments, data blob - http method is as called
         JSONObject data = (JSONObject)json.get(JSON_DATA);
-        
+
         // map operation to URL and apply arguments
         String url = operationMapping.get(opId);
         if (url == null)
@@ -296,11 +296,11 @@ public abstract class CMMService extends DeclarativeWebScript
             }
         }
         url = UriUtils.replaceUriTokens(url, args);
-        
+
         if (logger.isDebugEnabled())
             logger.debug("Executing service operation: " + opId + " with URL: " + url + " method: " + this.getDescription().getMethod() +
                          " - using data:\n" + (data != null ? data.toJSONString() : "null"));
-        
+
         // pre operation business logic
         Map<String, String> updatedForms = null;
         Response preResponse = null;
@@ -315,7 +315,7 @@ public abstract class CMMService extends DeclarativeWebScript
                 preResponse = getConnector().call("/api/dictionary?model=" + URLEncoder.encode(prefix) + ":" + URLEncoder.encode(modelName));
                 break;
             }
-            
+
             case OP_EDIT_MODEL:
             {
                 // if a model has form definitions, they may need updating to ensure a modified Model Prefix is applied
@@ -346,7 +346,7 @@ public abstract class CMMService extends DeclarativeWebScript
                 break;
             }
         }
-        
+
         // prepare proxied JSON body data and make the call
         Response res;
         if (data != null)
@@ -364,10 +364,10 @@ public abstract class CMMService extends DeclarativeWebScript
                 url,
                 new ConnectorContext(HttpMethod.valueOf(this.getDescription().getMethod())));
         }
-        
+
         if (logger.isDebugEnabled())
             logger.debug("Response: " + res.getStatus().getCode() + "\n" + res.getResponse());
-        
+
         int statusCode = res.getStatus().getCode();
         if (statusCode >= 200 && statusCode < 300)
         {
@@ -378,19 +378,19 @@ public abstract class CMMService extends DeclarativeWebScript
                 {
                     if (logger.isDebugEnabled())
                         logger.debug("ACTIVATE model config id: " + modelName);
-                    
+
                     updateDictionaryForModel(modelName);
-                    
+
                     buildExtensionModule(status, modelName, null, true);
-                    
+
                     break;
                 }
-                
+
                 case OP_DEACTIVATE_MODEL:
                 {
                     if (logger.isDebugEnabled())
                         logger.debug("DEACTIVATE model config id: " + modelName);
-                    
+
                     // update dictionary - remove classes relating to this namespace
                     if (preResponse != null && preResponse.getStatus().getCode() == Status.STATUS_OK)
                     {
@@ -401,42 +401,42 @@ public abstract class CMMService extends DeclarativeWebScript
                         if (logger.isWarnEnabled())
                             logger.warn("Unable to update Share local Data Dictionary as Repository API call failed.");
                     }
-                    
+
                     buildExtensionModule(status, modelName, null, false);
-                    
+
                     break;
                 }
-                
+
                 case OP_CREATE_MODEL:
                 {
                     // NOTE: no need to update Dictionary - new model begins lifecycle as deactivated
                     break;
                 }
-                
+
                 case OP_EDIT_MODEL:
                 {
                     // NOTE: no need to update Dictionary - only deactivated models can be edited
-                    
-                    // updating to ensure form definitions are updated after a Model Prefix change 
+
+                    // updating to ensure form definitions are updated after a Model Prefix change
                     if (updatedForms != null && updatedForms.size() != 0)
                     {
                         buildExtensionModule(status, modelName, new FormOperation(FormOperationEnum.Create, updatedForms), false);
                     }
                     break;
                 }
-                
+
                 case OP_DELETE_MODEL:
                 {
                     if (logger.isDebugEnabled())
                         logger.debug("Deleting extension and form definitions for model: " + modelName);
-                    
+
                     // Delete the model - so delete the entire module definition and related configurations
                     deleteExtensionModule(status, modelName);
-                    
+
                     // NOTE: no need to update Dictionary - only inactive models can be deleted and therefore already processed
                     break;
                 }
-                
+
                 case OP_CREATE_TYPE:
                 case OP_EDIT_TYPE:
                 {
@@ -444,20 +444,20 @@ public abstract class CMMService extends DeclarativeWebScript
                     if (isModelActive(getModel(modelName)))
                     {
                         updateDictionaryForModel(modelName);
-                        
+
                         buildExtensionModule(status, modelName, null, true);
                     }
-                    
+
                     break;
                 }
-                
+
                 case OP_DELETE_TYPE:
                 case OP_DELETE_PROPERTY_GROUP:
                 {
                     // NOTE: no need to update Dictionary - only inactive models can have types or aspects deleted!
                     break;
                 }
-                
+
                 case OP_CREATE_PROPERTY_GROUP:
                 case OP_EDIT_PROPERTY_GROUP:
                 {
@@ -465,20 +465,20 @@ public abstract class CMMService extends DeclarativeWebScript
                     if (isModelActive(getModel(modelName)))
                     {
                         buildExtensionModule(status, modelName, null, true);
-                        
+
                         updateDictionaryForModel(modelName);
                     }
-                    
+
                     break;
                 }
-                
+
                 case OP_CREATE_PROPERTY:
                 case OP_DELETE_PROPERTY:
                 {
                     if (isModelActive(getModel(modelName)))
                     {
                         // TODO: could update Dictionary if the granularity of properties are ever used...?
-                        
+
                         buildExtensionModule(status, modelName, null, true);
                     }
                     break;
@@ -488,11 +488,11 @@ public abstract class CMMService extends DeclarativeWebScript
         status.setCode(statusCode);
         return res.getResponse();
     }
-    
+
     /**
      * Update the Share local Data Dictionary based on the current state of the given model. The model
      * is retrieved and merged into the local data dictionary - adding or updating classes as required.
-     * 
+     *
      * @param modelName     Name of the model to update dictionary for
      */
     private void updateDictionaryForModel(final String modelName)
@@ -510,7 +510,7 @@ public abstract class CMMService extends DeclarativeWebScript
             this.dictionary.updateAddClasses(res.getResponse());
         }
     }
-    
+
     /**
      * Return the JSON object for the meta description of the given model
      * @param modelName Model to retrieve meta for
@@ -536,7 +536,7 @@ public abstract class CMMService extends DeclarativeWebScript
             throw new AlfrescoRuntimeException("Unable to retrieve model information: " + modelName + " (" + res.getStatus().getCode() + ")");
         }
     }
-    
+
     /**
      * @return the extension module ID for a given modelName
      */
@@ -544,7 +544,7 @@ public abstract class CMMService extends DeclarativeWebScript
     {
         return MODULE_PREFIX + modelName;
     }
-    
+
     /**
      * @param model     JSON model object
      * @return true if the given model is active, false if deactivated
@@ -553,14 +553,14 @@ public abstract class CMMService extends DeclarativeWebScript
     {
         return model.get(JSON_STATUS).equals(JSON_ACTIVE);
     }
-    
+
     protected void buildExtensionModule(Status status, String modelName, FormOperation formOp)
     {
         // is the model active?
         boolean active = isModelActive(getModel(modelName));
         buildExtensionModule(status, modelName, formOp, active);
     }
-    
+
     protected void buildExtensionModule(Status status, String modelName, FormOperation formOp, JSONObject model)
     {
         // is the model active?
@@ -577,7 +577,7 @@ public abstract class CMMService extends DeclarativeWebScript
      * Each model maps to an extension and associated Share Forms and Share Document Library configuration output. If the model
      * is active then a number of Share Forms may be generated from persisted JSON form layouts. The template model transforms
      * the generic JSON form structure to the esoteric Share Form XML configuration.
-     * 
+     *
      * @param status    WebScript status object - used to set error codes
      * @param modelName Model name to construct extension config for
      * @param formOp    Optional form operation to apply to current Forms before extension module is generated
@@ -586,11 +586,11 @@ public abstract class CMMService extends DeclarativeWebScript
     protected void buildExtensionModule(Status status, String modelName, FormOperation formOp, boolean active)
     {
         final String moduleId = buildModuleId(modelName);
-        
+
         // construct the model used to render the module template configuration
         TWrapper model = new TWrapper(8);
         model.put(TEMPLATE_MODULE_NAME, moduleId);
-        
+
         List<Object> typeList = new ArrayList<>();
         model.put(TEMPLATE_TYPES, typeList);
         List<Object> subtypesList = new ArrayList<>();
@@ -599,7 +599,7 @@ public abstract class CMMService extends DeclarativeWebScript
         model.put(TEMPLATE_ASPECTS, aspectsList);
         List<Object> entitiesList = new ArrayList<>();
         model.put(TEMPLATE_ENTITIES, entitiesList);
-        
+
         // retrieve form configuration if present already for this module to update new module definition
         Map<String, String> formDefs = new HashMap<>();
         ExtensionModule module = getExtensionModule(modelName);
@@ -608,13 +608,13 @@ public abstract class CMMService extends DeclarativeWebScript
             // retrieve existing form definitions from extension configuration e.g.
             formDefs = getFormDefinitions(module);
         }
-        
-        // perform optional form CrUD operation 
+
+        // perform optional form CrUD operation
         if (formOp != null)
         {
             formOp.perform(formDefs);
         }
-        
+
         // add form definitions to template model map
         for (String entityId : formDefs.keySet())
         {
@@ -623,7 +623,7 @@ public abstract class CMMService extends DeclarativeWebScript
                    .put(TEMPLATE_FORM, formDefs.get(entityId));
             entitiesList.add(wrapper);
         }
-        
+
         // if the model is active, we want to generate the Share config for types/aspects/forms
         if (active)
         {
@@ -632,10 +632,10 @@ public abstract class CMMService extends DeclarativeWebScript
             if (response.getStatus().getCode() == Status.STATUS_OK)
             {
                 JSONObject jsonData = getJsonBody(response);
-                
+
                 // process types
                 final JSONArray types = (JSONArray)((JSONObject)jsonData.get(JSON_ENTRY)).get(JSON_TYPES);
-                
+
                 // walk the types and use form definitions to generate the form config objects
                 // and also generate the sub-types list
                 Map<String, List<TWrapper>> subtypeMap = new HashMap<>();
@@ -643,10 +643,10 @@ public abstract class CMMService extends DeclarativeWebScript
                 {
                     final JSONObject type = (JSONObject)t;
                     String typeName = (String)type.get(JSON_PREFIXEDNAME);
-                    
+
                     // generate form wrapper objects for this type
                     TWrapper formWrappers = processFormWidgets(formDefs, type);
-                    
+
                     // form definition present for this type?
                     if (formWrappers.size() != 0)
                     {
@@ -655,12 +655,12 @@ public abstract class CMMService extends DeclarativeWebScript
                         typeWrapper.put(TEMPLATE_NAME, typeName)
                                    .put(TEMPLATE_TITLE, (String)type.get(JSON_TITLE));
                         typeList.add(typeWrapper);
-                        
+
                         // add all form wrapper objects for the type
                         typeWrapper.putAll(formWrappers);
-                        
+
                         // for each type, firstly ensure is subtype of cm:content,
-                        // then walk the parent hiearchy and add this type as a subtype of each parent type up to and including cm:content 
+                        // then walk the parent hiearchy and add this type as a subtype of each parent type up to and including cm:content
                         if (this.dictionary.isSubType(typeName, CM_CONTENT) || this.dictionary.isSubType(typeName, CM_FOLDER))
                         {
                             String parentType = typeName;
@@ -668,14 +668,14 @@ public abstract class CMMService extends DeclarativeWebScript
                             {
                                 // walk hiearchy to prepare for next loop iteration
                                 parentType = this.dictionary.getParent(parentType);
-                                
+
                                 List<TWrapper> subtypes = subtypeMap.get(parentType);
                                 if (subtypes == null)
                                 {
                                     subtypes = new ArrayList<>(4);
                                     subtypeMap.put(parentType, subtypes);
                                 }
-                                
+
                                 // check for existing - hierachies of types can repeat the same type from other hierachy
                                 boolean found = false;
                                 for (TWrapper st: subtypes)
@@ -686,7 +686,7 @@ public abstract class CMMService extends DeclarativeWebScript
                                         break;
                                     }
                                 }
-                                
+
                                 // add subtype wrapper for template output
                                 if (!found)
                                 {
@@ -695,7 +695,7 @@ public abstract class CMMService extends DeclarativeWebScript
                                                   .put(TEMPLATE_TITLE, this.dictionary.getTitle(typeName));
                                     subtypes.add(subtypeWrapper);
                                 }
-                                
+
                             } while (!(CM_CONTENT.equals(parentType) || CM_FOLDER.equals(parentType)));
                         }
                     }
@@ -708,24 +708,24 @@ public abstract class CMMService extends DeclarativeWebScript
                                 .put(TEMPLATE_SUBTYPES, subtypeMap.get(type));
                     subtypesList.add(stypeWrapper);
                 }
-                
+
                 // process aspects
                 final JSONArray aspects = (JSONArray)((JSONObject)jsonData.get(JSON_ENTRY)).get(TEMPLATE_ASPECTS);
-                
+
                 for (final Object a : aspects)
                 {
                     final JSONObject aspect = (JSONObject)a;
                     final String aspectName = (String)aspect.get(JSON_PREFIXEDNAME);
-                    
+
                     // generate form wrapper objects for this aspect
                     TWrapper formWrappers = processFormWidgets(formDefs, aspect);
-                    
+
                     // add aspect wrapper for template output
                     TWrapper aspectWrapper = new TWrapper(8);
                     aspectWrapper.put(TEMPLATE_NAME, aspectName)
                                  .put(TEMPLATE_TITLE, (String)aspect.get(JSON_TITLE));
                     aspectsList.add(aspectWrapper);
-                    
+
                     // add all form wrapper objects for the type
                     aspectWrapper.putAll(formWrappers);
                 }
@@ -735,16 +735,16 @@ public abstract class CMMService extends DeclarativeWebScript
                 throw new AlfrescoRuntimeException("Unable to retrieve types and aspects for model id: " + modelName);
             }
         }
-        
+
         // render the template to generate the final module configuration and persist it
         Writer out = new StringBuilderWriter(4096);
         try
         {
             this.templateProcessor.process(MODULE_TEMPLATE_PATH, model, out);
-            
+
             if (logger.isDebugEnabled())
                 logger.debug("Attempting to save module config:\r\n" + out.toString());
-            
+
             if (module == null)
             {
                 this.moduleDeploymentService.addModuleToExtension(out.toString());
@@ -753,7 +753,7 @@ public abstract class CMMService extends DeclarativeWebScript
             {
                 this.moduleDeploymentService.updateModuleToExtension(out.toString());
             }
-            
+
             if (logger.isDebugEnabled())
                 logger.debug("addModuleToExtension() completed.");
         }
@@ -774,18 +774,18 @@ public abstract class CMMService extends DeclarativeWebScript
      * configuration for properties and rendering sets of associated fields.
      * <p>
      * See module-configuration.ftl
-     * 
+     *
      * @param forms     List of current Form state
      * @param entity    JSON object containing Form widget hiearchy
-     * 
+     *
      * @return Template wrapper objects containing the hierarchical model ready for template rendering
      */
     protected TWrapper processFormWidgets(Map<String, String> forms, JSONObject entity)
     {
         TWrapper formPropertyWrappers = new TWrapper(8);
-        
+
         String entityName = (String)entity.get(TEMPLATE_NAME);
-        
+
         String formDef = forms.get(entityName);
         if (formDef != null)
         {
@@ -796,7 +796,7 @@ public abstract class CMMService extends DeclarativeWebScript
                 if (o instanceof JSONArray)
                 {
                     JSONArray formElements = (JSONArray)o;
-                    
+
                     if (formElements.size() != 0)
                     {
                         // construct the wrapper collections to hold our properties, sets and field wrappers
@@ -808,7 +808,7 @@ public abstract class CMMService extends DeclarativeWebScript
                         formPropertyWrappers.put(TEMPLATE_FIELDS, fields);
                         // used to ensure a single Set of fields i.e. one per property id
                         Map<String, TWrapper> fieldMap = new HashMap<>();
-                        
+
                         // process well known component names and output wrappers
                         for (Object item: formElements)
                         {
@@ -817,7 +817,7 @@ public abstract class CMMService extends DeclarativeWebScript
                             {
                                 throw new IllegalStateException("Unexpected item in form structure: " + formDef);
                             }
-                            
+
                             // prepare state - set by lookup table against the various column layout options
                             int numCols = 0;
                             String columnSetTemplate = null;
@@ -848,7 +848,7 @@ public abstract class CMMService extends DeclarativeWebScript
                                     break;
                                 }
                             }
-                            
+
                             if (numCols != 0)
                             {
                                 // process properties containing within the column child object
@@ -864,26 +864,26 @@ public abstract class CMMService extends DeclarativeWebScript
                                         JSONObject widget = ((JSONObject)w);
                                         String pseudonym = (String) widget.get(JSON_PSEUDONYM);
                                         String id = (String) widget.get(JSON_ID);
-                                        
+
                                         if (logger.isDebugEnabled())
                                             logger.debug("Processing widget: " + id + " of type: " + pseudonym);
-                                        
+
                                         // generate a template wrapper for the property widget Form config
                                         TWrapper controlProperties = new TWrapper(4).put(TEMPLATE_NAME, id);
                                         colProperties.add(controlProperties);
-                                        
+
                                         final JSONObject config = (JSONObject) widget.get(JSON_ELEMENTCONFIG);
                                         if (config != null)
                                         {
                                             if (logger.isDebugEnabled())
                                                 logger.debug("Found 'elementconfig' for widget - processing...");
-                                            
+
                                             // generate wrappers for control params and field properties
                                             Map<String, Object> controlParams = new HashMap<>(4);
                                             TWrapper fieldWrapper = new TWrapper(4).put(TEMPLATE_ID, id)
                                                     .put(TEMPLATE_PARAMS, controlParams);
                                             fieldMap.put(id, fieldWrapper);
-                                            
+
                                             // map element config to Forms Config values
                                             // this is fiddly - the simple list of properties is remapped to attributes on
                                             // both the control property and on the associated field mapping for it
@@ -912,7 +912,7 @@ public abstract class CMMService extends DeclarativeWebScript
                                             if (style != null && style.length() != 0) controlParams.put(TEMPLATE_STYLE, style);
                                             String styleClass = (String) config.get(JSON_STYLECLASS);
                                             if (styleClass != null && styleClass.length() != 0) controlParams.put(TEMPLATE_STYLECLASS, styleClass);
-                                            
+
                                             // control type for field wrapper - each control type maps to a wrapper template and params as per Share Forms config
                                             String template = null;
                                             if (controlType != null)
@@ -983,7 +983,7 @@ public abstract class CMMService extends DeclarativeWebScript
                                 if (numCols > 1) setWrapper.put(TEMPLATE_TEMPLATE, columnSetTemplate);
                                 if (hasLabel) setWrapper.put(TEMPLATE_LABEL, config.get(JSON_LABEL));
                                 sets.add(setWrapper);
-                                
+
                                 // bind properties via fields to the column set
                                 // Example:
                                 // <field set="refmodel" id="cmm:simple_string" />
@@ -1000,13 +1000,13 @@ public abstract class CMMService extends DeclarativeWebScript
                                     if (logger.isDebugEnabled())
                                         logger.debug("Field mapping of: " + id + " mapped to set:" + setId);
                                 }
-                                
+
                                 // add all the properties gathered for this column set
                                 properties.addAll(colProperties);
-                                
+
                             } // end num cols != check
                         } // end form elements processing loop
-                        
+
                         // add all fields from the map to the list structure used by the template
                         fields.addAll(fieldMap.values());
                     }
@@ -1019,10 +1019,10 @@ public abstract class CMMService extends DeclarativeWebScript
         }
         return formPropertyWrappers;
     }
-    
+
     /**
      * Delete extension module for a given model
-     * 
+     *
      * @param status    WebScript status object - used to set error codes
      * @param modelName Model name to delete extension config for
      */
@@ -1030,7 +1030,7 @@ public abstract class CMMService extends DeclarativeWebScript
     {
         if (logger.isDebugEnabled())
             logger.debug("Attempting to delete module: " + buildModuleId(modelName));
-        
+
         try
         {
             this.moduleDeploymentService.deleteModuleFromExtension(buildModuleId(modelName));
@@ -1041,11 +1041,11 @@ public abstract class CMMService extends DeclarativeWebScript
             logger.error("Failed to execute template to construct module configuration.", err);
             errorResponse(status, err.getMessage());
         }
-        
+
         if (logger.isDebugEnabled())
             logger.debug("deleteModuleFromExtension() completed.");
     }
-    
+
     /**
      * @param modelName Model name to get extension module for
      * @return ExtensionModule
@@ -1071,7 +1071,7 @@ public abstract class CMMService extends DeclarativeWebScript
         }
         return module;
     }
-    
+
     /**
      * @param modelName Model to get the Form Definitions map for
      * @return the Form Definitions map for a given model
@@ -1080,7 +1080,7 @@ public abstract class CMMService extends DeclarativeWebScript
     {
         return getFormDefinitions(getExtensionModule(modelName));
     }
-    
+
     protected Map<String, String> getFormDefinitions(ExtensionModule module)
     {
         Map<String, String> forms = new HashMap<>();
@@ -1104,7 +1104,7 @@ public abstract class CMMService extends DeclarativeWebScript
         }
         return forms;
     }
-    
+
     protected Connector getConnector()
     {
         final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
@@ -1117,7 +1117,7 @@ public abstract class CMMService extends DeclarativeWebScript
             throw new AlfrescoRuntimeException("Connector exception.", e);
         }
     }
-    
+
     protected Connector getAPIConnector()
     {
         final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
@@ -1130,7 +1130,7 @@ public abstract class CMMService extends DeclarativeWebScript
             throw new AlfrescoRuntimeException("Connector exception.", e);
         }
     }
-    
+
     protected JSONObject getJsonBody(final WebScriptRequest req)
     {
         try
@@ -1152,7 +1152,7 @@ public abstract class CMMService extends DeclarativeWebScript
             throw new AlfrescoRuntimeException("Failed to retrieve or parse JSON body.", e);
         }
     }
-    
+
     protected JSONObject getJsonBody(final Response res)
     {
         try
@@ -1174,15 +1174,15 @@ public abstract class CMMService extends DeclarativeWebScript
             throw new AlfrescoRuntimeException("Failed to retrieve or parse JSON body.", e);
         }
     }
-    
+
     protected void errorResponse(Status status, String msg)
     {
         status.setCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         status.setMessage(msg);
         status.setRedirect(true);
     }
-    
-    
+
+
     /**
      * Enum that represents the operations that can be performed on a Form definition for an entity
      */
@@ -1190,8 +1190,8 @@ public abstract class CMMService extends DeclarativeWebScript
     {
         Create, Update, Delete
     }
-    
-    
+
+
     /**
      * Wrapper class that encapsulates a CRUD operation for a Form definition
      */
@@ -1201,7 +1201,7 @@ public abstract class CMMService extends DeclarativeWebScript
         private final String entityId;
         private final String form;
         private final Map<String, String> forms;
-        
+
         FormOperation(FormOperationEnum op, String entityId, String form)
         {
             this.op = op;
@@ -1213,7 +1213,7 @@ public abstract class CMMService extends DeclarativeWebScript
             this.form = form;
             this.forms = null;
         }
-        
+
         FormOperation(FormOperationEnum op, Map<String, String> forms)
         {
             this.op = op;
@@ -1225,9 +1225,9 @@ public abstract class CMMService extends DeclarativeWebScript
             this.form = null;
             this.forms = forms;
         }
-        
+
         /**
-         * Perform the given operation on the given forms map onto the given output list 
+         * Perform the given operation on the given forms map onto the given output list
          * @param forms     Map of entity Ids to forms defs
          */
         void perform(Map<String, String> forms)
@@ -1252,8 +1252,8 @@ public abstract class CMMService extends DeclarativeWebScript
             }
         }
     }
-    
-    
+
+
     /**
      * Simple wrapper class for a template Map object - to avoid verbose Map generics code.
      */
@@ -1263,13 +1263,13 @@ public abstract class CMMService extends DeclarativeWebScript
         {
             super(size);
         }
-        
+
         public TWrapper put(String key, Object value)
         {
             super.put(key, value);
             return this;
         }
-        
+
         public TWrapper putAll(Object... args)
         {
             for (int i=0; i<args.length; i+=2)

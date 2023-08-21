@@ -28,7 +28,7 @@ import java.net.URL;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -48,7 +48,7 @@ import org.springframework.extensions.webscripts.ui.common.StringUtils;
  * Override the Spring WebScripts impl of RemoteClient to provide additional security
  * processing of HTML responses retrieved via content APIs. Prevents the execution of
  * inline JavaScript proxy driven API calls via XHR requests and similar.
- * 
+ *
  * @author Kevin Roast
  */
 public class SlingshotRemoteClient extends RemoteClient
@@ -60,12 +60,12 @@ public class SlingshotRemoteClient extends RemoteClient
     private static final Pattern SLINGSHOT_WIKI_VERSION_PATTERN = Pattern.compile(".*/slingshot/wiki/version/.*");
 
     private boolean swfEnabled = false;
-    
+
     public void setSwfEnabled(boolean swfEnabled)
     {
         this.swfEnabled = swfEnabled;
     }
-    
+
     @Override
     protected void copyResponseStreamOutput(URL url, HttpServletResponse res, OutputStream out,
             HttpResponse response, String contentType, int bufferSize) throws IOException
@@ -75,11 +75,11 @@ public class SlingshotRemoteClient extends RemoteClient
                 response.getStatusLine().getStatusCode() >= 200 &&
                 response.getStatusLine().getStatusCode() < 300)
         {
-            // only match if content is not an attachment - don't interfere with downloading of file content 
+            // only match if content is not an attachment - don't interfere with downloading of file content
             Header cd = response.getFirstHeader("Content-Disposition");
             if (cd == null || !cd.getValue().startsWith("attachment"))
             {
-                // only match appropriate content REST URIs 
+                // only match appropriate content REST URIs
                 if (contentType != null && (CONTENT_PATTERN_TO_CHECK.matcher(url.getPath()).matches()
                         && !CONTENT_PATTERN_TO_WHITE_LIST.matcher(url.getPath()).matches()
                         || SLINGSHOT_WIKI_PAGE_PATTERN.matcher(url.getPath()).matches()
@@ -95,7 +95,7 @@ public class SlingshotRemoteClient extends RemoteClient
                         mimetype = contentType.substring(0, csi - 1).toLowerCase();
                         encoding = contentType.substring(csi + CHARSETEQUALS.length());
                     }
-                    
+
                     // examine the mimetype to see if additional processing is required
                     // MNT-18730 - specifically omit UTF-16 XML content
                     if (mimetype.contains("text/html") || mimetype.contains("application/xhtml+xml") || (mimetype.contains("text/xml") && !encoding.contains("UTF-16")))
@@ -130,7 +130,7 @@ public class SlingshotRemoteClient extends RemoteClient
                             {
                                 input.close();
                             }
-                            
+
                             // convert to appropriate string format
                             String content = encoding != null ? new String(bos.toByteArray(), encoding) : new String(bos.toByteArray());
 
@@ -176,7 +176,7 @@ public class SlingshotRemoteClient extends RemoteClient
                         try
                         {
                             byte[] bytes = encoding != null ? msg.getBytes(encoding) : msg.getBytes();
-                            
+
                             // rewrite headers
                             res.setContentType("text/plain");
                             res.setContentLength(bytes.length);

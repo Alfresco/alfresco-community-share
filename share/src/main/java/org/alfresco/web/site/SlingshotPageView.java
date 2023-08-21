@@ -20,9 +20,9 @@
  */
 package org.alfresco.web.site;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.extensions.config.RemoteConfigElement;
 import org.springframework.extensions.config.WebFrameworkConfigElement;
@@ -48,7 +48,7 @@ import org.springframework.extensions.webscripts.connector.User;
  * page objects with a theme override - allowing a theme per site or even a theme per
  * page. Currently the UI only provides a mechanism to set the theme on a per application
  * and per site basis.
- * 
+ *
  * @author Kevin Roast
  */
 public class SlingshotPageView extends PageView
@@ -56,12 +56,12 @@ public class SlingshotPageView extends PageView
     // Redirect session parameters
     public static final String REDIRECT_URI   = "_redirectURI";
     public static final String REDIRECT_QUERY = "_redirectQueryString";
-    
+
     private RemoteConfigElement config;
-    
+
     /**
      * Construction
-     * 
+     *
      * @param webFrameworkConfiguration
      * @param modelObjectService
      * @param resourceService
@@ -74,7 +74,7 @@ public class SlingshotPageView extends PageView
     {
         super(webFrameworkConfiguration, modelObjectService, resourceService, renderService, templatesContainer);
     }
-    
+
     @Override
     protected void prepareResponse(HttpServletRequest request, HttpServletResponse response)
     {
@@ -89,9 +89,9 @@ public class SlingshotPageView extends PageView
         throws Exception
     {
         super.validateRequestContext(rc, req);
-        
+
         String themeId = null;
-        
+
         // test to see if this is a site page
         String siteId = rc.getUriTokens().get("site");
         if (siteId != null)
@@ -109,7 +109,7 @@ public class SlingshotPageView extends PageView
             // this allows a different theme per page
             themeId = rc.getPage().getProperty("theme");
         }
-        
+
         // if themeId different to current theme then look it up
         if (themeId != null && themeId.length() != 0 && !rc.getThemeId().equals(themeId))
         {
@@ -121,7 +121,7 @@ public class SlingshotPageView extends PageView
             }
         }
     }
-    
+
     @Override
     protected boolean loginRequiredForPage(RequestContext context, HttpServletRequest request, Page page)
     {
@@ -131,7 +131,7 @@ public class SlingshotPageView extends PageView
         {
             externalAuth = descriptor.getExternalAuth();
         }
-        
+
         boolean login = false;
         User user = context.getUser();
         switch (page.getAuthentication())
@@ -141,7 +141,7 @@ public class SlingshotPageView extends PageView
                 login = (user == null);
                 break;
             }
-            
+
             // Enhanced test over the super class implementation - to check that the user has credentials to
             // use the default "alfresco" endpoint - ensures that say a user ID is in the session from
             // access to an RSS feed endpoint, they are not given permission to proceed until after a full login
@@ -160,7 +160,7 @@ public class SlingshotPageView extends PageView
                 }
                 break;
             }
-            
+
             case admin:
             {
                 try
@@ -178,9 +178,9 @@ public class SlingshotPageView extends PageView
                 {
                     if (!user.isGuest())
                     {
-                        // If the user is not a guest user, and the <login> flag is true, 
+                        // If the user is not a guest user, and the <login> flag is true,
                         // that means a non admin, non guest user is logged in already.
-                        // This means that a normal user tries to access a page that requires admin privilege. 
+                        // This means that a normal user tries to access a page that requires admin privilege.
                         // This normal user should not even know that such a page exits.
                         // By throwing an exception here, we force the error500.jsp page to be displayed.
                         throw new PlatformRuntimeException("Non-admin user tries to access a page that requires admin privilege.");
@@ -195,7 +195,7 @@ public class SlingshotPageView extends PageView
         }
         return login;
     }
-    
+
     @Override
     protected String buildLoginRedirectURL(HttpServletRequest request)
     {
@@ -210,10 +210,10 @@ public class SlingshotPageView extends PageView
         }
         return super.buildLoginRedirectURL(request);
     }
-    
+
     /**
      * Gets the remote config.
-     * 
+     *
      * @return the remote config
      */
     private RemoteConfigElement getRemoteConfig(RequestContext context)
@@ -223,7 +223,7 @@ public class SlingshotPageView extends PageView
             // retrieve the remote configuration
             this.config = (RemoteConfigElement)context.getServiceRegistry().getConfigService().getConfig("Remote").getConfigElement("remote");
         }
-        
+
         return this.config;
     }
 }

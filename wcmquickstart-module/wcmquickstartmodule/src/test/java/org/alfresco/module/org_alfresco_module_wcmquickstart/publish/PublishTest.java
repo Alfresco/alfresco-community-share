@@ -53,7 +53,7 @@ import org.springframework.context.ApplicationContext;
 public class PublishTest extends TestCase implements WebSiteModel
 {
     private final static Log log = LogFactory.getLog(PublishTest.class);
-    
+
 	private ApplicationContext appContext;
 	private AuthenticationComponent authenticationComponent;
 	private TransactionService transactionService;
@@ -63,15 +63,15 @@ public class PublishTest extends TestCase implements WebSiteModel
 	private ContentService contentService;
 	private MutableAuthenticationService authenticationService;
 	private PersonService personService;
-	
+
 	NodeRef companyHome;
 	String testUserName;
     private TransferService2 transferService;
 
     private PublishService publishService;
-	
+
 	@Override
-	protected void setUp() throws Exception 
+	protected void setUp() throws Exception
 	{
 		appContext = BaseApplicationContextHelper.getApplicationContext(new String[] {"classpath:alfresco/application-context.xml",
 		        "classpath:alfresco/module/org_alfresco_module_wcmquickstart/module-context.xml"});
@@ -85,42 +85,42 @@ public class PublishTest extends TestCase implements WebSiteModel
 		personService = (PersonService)appContext.getBean("personService");
 		transferService = (TransferService2)appContext.getBean("org_alfresco_module_wcmquickstart_transferService");
 		publishService = (PublishService)appContext.getBean("org_alfresco_module_wcmquickstart_publishingService");
-		
-		// Set authentication		
-		authenticationComponent.setCurrentUser("admin");		
+
+		// Set authentication
+		authenticationComponent.setCurrentUser("admin");
 	}
-	
+
 	private void createUser(String userName)
     {
         if (authenticationService.authenticationExists(userName) == false)
         {
         	authenticationService.createAuthentication(userName, "PWD".toCharArray());
-            
+
             PropertyMap ppOne = new PropertyMap(4);
             ppOne.put(ContentModel.PROP_USERNAME, userName);
             ppOne.put(ContentModel.PROP_FIRSTNAME, "firstName");
             ppOne.put(ContentModel.PROP_LASTNAME, "lastName");
             ppOne.put(ContentModel.PROP_EMAIL, "email@email.com");
             ppOne.put(ContentModel.PROP_JOBTITLE, "jobTitle");
-            
+
             personService.createPerson(ppOne);
-        }        
+        }
     }
-	
+
 	public void test()
 	{
-	    
+
 	}
-	
+
 	public void xtestWebSiteHierarchy() throws Exception
 	{
 		// Start transaction
 		UserTransaction userTransaction = transactionService.getUserTransaction();
 		userTransaction.begin();
-		
+
 		// Get company home
 		companyHome = repository.getCompanyHome();
-		
+
 		// Create webroot (downcasting to check default properties are set)
         NodeRef editorialWebroot = fileFolderService.create(companyHome, "editorial" + GUID.generate(), ContentModel.TYPE_FOLDER).getNodeRef();
         assertNotNull(editorialWebroot);
@@ -131,16 +131,16 @@ public class PublishTest extends TestCase implements WebSiteModel
         nodeService.setType(liveWebroot, TYPE_WEB_SITE);
 
 		nodeService.createAssociation(editorialWebroot, liveWebroot, WebSiteModel.ASSOC_PUBLISH_TARGET);
-		
+
 		// Create child folder
 		NodeRef section = fileFolderService.create(editorialWebroot, "section", WebSiteModel.TYPE_WEB_ROOT).getNodeRef();
 		assertNotNull(section);
-		
+
 		// Create child folder of section
 		NodeRef sectionChild = fileFolderService.create(section, "childSection", ContentModel.TYPE_FOLDER).getNodeRef();
 		assertNotNull(sectionChild);
 		assertEquals(TYPE_SECTION, nodeService.getType(sectionChild));
-		
+
 		// Create content in child section
 		NodeRef page = fileFolderService.create(sectionChild, "myFile.txt", ContentModel.TYPE_CONTENT).getNodeRef();
 		ContentWriter writer = contentService.getWriter(page, ContentModel.PROP_CONTENT, true);
@@ -152,15 +152,15 @@ public class PublishTest extends TestCase implements WebSiteModel
 		writer.setEncoding("UTF-8");
 		writer.setMimetype("text/plain");
 		writer.putContent("Some asset only text.");
-		
+
 		userTransaction.commit();
 		userTransaction = transactionService.getUserTransaction();
 		userTransaction.begin();
-		
+
 		// Check all assets have been marked up correctly
 		assertTrue("Page does not have webasset aspect applied.", nodeService.hasAspect(page, ASPECT_WEBASSET));
 		assertTrue("Non-page does not have webasset aspect applied.", nodeService.hasAspect(nonpage, ASPECT_WEBASSET));
-		
+
 		String targetName = "test" + GUID.generate();
 		TransferTarget transferTarget = transferService.createTransferTarget(targetName);
         transferTarget.setUsername("user");
@@ -169,11 +169,11 @@ public class PublishTest extends TestCase implements WebSiteModel
         transferTarget.setEndpointProtocol("http");
         transferTarget.setEndpointPort(80);
 		transferService.saveTransferTarget(transferTarget);
-        userTransaction.commit();       
+        userTransaction.commit();
 
         //A little breath to give time for the page's parent sections to be populated.
         Thread.sleep(200);
-        
+
         userTransaction = transactionService.getUserTransaction();
         userTransaction.begin();
 
@@ -181,24 +181,24 @@ public class PublishTest extends TestCase implements WebSiteModel
 //        TransferDefinition def = new TransferDefinition();
 //		def.setNodes(section, sectionChild, page);
 //		transferService.transfer(targetName, def);
-		
+
         publishService.enqueuePublishedNodes(section,sectionChild,page);
 
         long start = System.currentTimeMillis();
 
         publishService.publishQueue(editorialWebroot);
-        
-        userTransaction.commit();		
+
+        userTransaction.commit();
 		log.debug("Transfer took " + (System.currentTimeMillis() - start) + "ms");
-		
+
 		userTransaction = transactionService.getUserTransaction();
         userTransaction.begin();
         assertFalse(nodeService.getChildAssocs(liveWebroot).isEmpty());
-        
+
         NodeRef liveSection = fileFolderService.searchSimple(liveWebroot, "section");
         assertNotNull(liveSection);
         assertTrue(TYPE_SECTION.equals(nodeService.getType(liveSection)));
-        
+
         NodeRef liveChildSection = fileFolderService.searchSimple(liveSection, "childSection");
         assertNotNull(liveChildSection);
         assertTrue(TYPE_SECTION.equals(nodeService.getType(liveChildSection)));
@@ -207,7 +207,7 @@ public class PublishTest extends TestCase implements WebSiteModel
         assertNotNull(livePage);
         assertNotNull(nodeService.getProperty(livePage, PROP_PARENT_SECTIONS));
         assertTrue(((List)nodeService.getProperty(livePage, PROP_PARENT_SECTIONS)).contains(liveChildSection));
-        
-        userTransaction.commit();       
+
+        userTransaction.commit();
 	}
 }

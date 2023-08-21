@@ -23,14 +23,14 @@ package org.customer;
 import java.io.IOException;
 import java.io.Writer;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 
 /**
  * Tag used to display some content from Alfresco.
- * 
+ *
  * @author Gavin Cornwell
  */
 public class ContentTag extends AbstractCustomerTag
@@ -38,7 +38,7 @@ public class ContentTag extends AbstractCustomerTag
     private static final long serialVersionUID = -799036741074003523L;
 
     /**
-     * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+     * @see jakarta.servlet.jsp.tagext.TagSupport#doStartTag()
      */
     public int doStartTag() throws JspException
     {

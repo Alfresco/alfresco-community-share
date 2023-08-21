@@ -71,7 +71,11 @@
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${dependency.jakarta-annotation-api.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

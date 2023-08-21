@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.site.servlet.MTAuthenticationFilter;
 import org.springframework.extensions.surf.RequestContextUtil;
@@ -45,7 +45,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  * by the filter to allow authenticated access to the remote store earlier in the
  * Spring MVC lifecycle than would normally occur. This mechanism can only be used in a
  * non-portlet environment.
- * 
+ *
  * @author Kevin Roast
  */
 public class SlingshotPageViewResolver extends PageViewResolver
@@ -54,7 +54,7 @@ public class SlingshotPageViewResolver extends PageViewResolver
     protected static final String URI_PAGEID = "pageid";
     protected static final Pattern REGEX_PATTERN_SITE_ROOT = Pattern.compile("site\\/((\\w|-)+)\\/?$");
     protected static final String PAGE_ID_SITE_ROOT = "site-redirect";
-    
+
     @Override
     protected Page lookupPage(String pageId)
     {
@@ -84,7 +84,7 @@ public class SlingshotPageViewResolver extends PageViewResolver
         }
         return super.lookupPage(pageId);
     }
-    
+
     /**
      * Constructs a new <code>PageView</code> object using and sets it's URL to the current view name
      * providing that a <code>Page</code> object is stored on the current <code>RequestContext</code>
@@ -99,9 +99,9 @@ public class SlingshotPageViewResolver extends PageViewResolver
         Page page = ThreadLocalRequestContext.getRequestContext().getPage();
         if (page != null)
         {
-            view = new SlingshotPageView(getWebframeworkConfigElement(), 
-                                         getModelObjectService(), 
-                                         getWebFrameworkResourceService(), 
+            view = new SlingshotPageView(getWebframeworkConfigElement(),
+                                         getModelObjectService(),
+                                         getWebFrameworkResourceService(),
                                          getWebFrameworkRenderService(),
                                          getTemplatesContainer());
             view.setUrl(viewName);
@@ -109,7 +109,7 @@ public class SlingshotPageViewResolver extends PageViewResolver
             view.setUriTokens(ThreadLocalRequestContext.getRequestContext().getUriTokens());
             view.setUrlHelperFactory(getUrlHelperFactory());
         }
-        
+
         return view;
     }
 

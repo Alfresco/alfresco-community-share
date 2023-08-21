@@ -160,7 +160,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * append two byte arrays together
-     * 
+     *
      * @param prefix
      * @param suffix
      * @return a byte array containing the contents of prefix + suffix
@@ -269,7 +269,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     }
 
     /**
-     * 
+     *
      * @param alfrescoSharedDir
      * @throws RuntimeException
      */
@@ -348,7 +348,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * createKeyFiles
-     * 
+     *
      * @param alfrescoSharedDir
      *            String
      */
@@ -467,7 +467,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * privateKey initialization using a defined uri
-     * 
+     *
      * @param shareDir
      */
     public void initConfig(String shareDir)

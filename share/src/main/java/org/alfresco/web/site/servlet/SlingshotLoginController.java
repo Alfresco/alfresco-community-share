@@ -20,9 +20,9 @@
  */
 package org.alfresco.web.site.servlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import org.alfresco.web.site.SlingshotUser;
 import org.alfresco.web.site.SlingshotUserFactory;
@@ -44,20 +44,20 @@ import org.springframework.extensions.webscripts.connector.Response;
  * This extends the standard {@link LoginController} to store the authenticated user's group membership information
  * as an {@link HttpSession} attribute so that it can be retrieved by the {@link SlingshotUserFactory} when creating
  * {@link SlingshotUser} instances.
- * 
+ *
  * @author david
  * @author kevinr
  */
 public class SlingshotLoginController extends LoginController
 {
     public static String SESSION_ATTRIBUTE_KEY_USER_GROUPS = "_alf_USER_GROUPS";
-    
+
     /**
      * Overrides the inherited method to retrieve the groups that the authenticated user is a member
      * of and stores them as a comma delimited {@link String} in the {@link HttpSession}. This {@link String}
      * is then retrieved when loading a user in the {@link SlingshotUserFactory} and stored as a user
-     * property. 
-     * 
+     * property.
+     *
      * @param request The {@link HttpServletRequest}
      * @param response The {@link HttpServletResponse}
      * @throws Exception
@@ -69,20 +69,20 @@ public class SlingshotLoginController extends LoginController
         this.beforeSuccess(request, response);
         super.onSuccess(request, response);
     }
-    
+
     protected void beforeSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         try
         {
             final HttpSession session = request.getSession();
-            
+
             // Get the authenticated user name and use it to retrieve all of the groups that the user is a member of...
             String username = (String)request.getParameter(PARAM_USERNAME);
             if (username == null)
             {
                 username = (String)session.getAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
             }
-            
+
             if (username != null && session.getAttribute(SESSION_ATTRIBUTE_KEY_USER_GROUPS) == null)
             {
                 Connector conn = FrameworkUtil.getConnector(session, username, AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
@@ -93,14 +93,14 @@ public class SlingshotLoginController extends LoginController
                 {
                     // Assuming we get a successful response then we need to parse the response as JSON and then
                     // retrieve the group data from it...
-                    // 
+                    //
                     // Step 1: Get a String of the response...
                     String resStr = res.getResponse();
-                    
+
                     // Step 2: Parse the JSON...
                     JSONParser jp = new JSONParser();
                     Object userData = jp.parse(resStr.toString());
-    
+
                     // Step 3: Iterate through the JSON object getting all the groups that the user is a member of...
                     StringBuilder groups = new StringBuilder(512);
                     if (userData instanceof JSONObject)
@@ -121,13 +121,13 @@ public class SlingshotLoginController extends LoginController
                             }
                         }
                     }
-                    
+
                     // Step 4: Trim off any trailing commas...
                     if (groups.length() != 0)
                     {
                         groups.delete(groups.length() - 1, groups.length());
                     }
-                    
+
                     // Step 5: Store the groups on the session...
                     session.setAttribute(SESSION_ATTRIBUTE_KEY_USER_GROUPS, groups.toString());
                 }

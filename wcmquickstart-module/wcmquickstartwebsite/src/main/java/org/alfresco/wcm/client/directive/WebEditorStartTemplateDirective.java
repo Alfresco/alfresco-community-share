@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.awe.tag.AlfrescoTagUtil;
 import org.apache.commons.logging.Log;
@@ -40,9 +40,9 @@ import freemarker.template.TemplateModelException;
 /**
  * Freemarker directive which bootstraps the Web Editor
  * Usage: <@startTemplate toolbarLocation=xxx/>
- * The toolbarLocation attribute controls the initial location of the toolbar, 
- * valid values are "top", "left" and "right", the default is "top". (Optional) 
- * 
+ * The toolbarLocation attribute controls the initial location of the toolbar,
+ * valid values are "top", "left" and "right", the default is "top". (Optional)
+ *
  * @author Gavin Cornwell
  * @author muzquiano
  * @author Chris Lack
@@ -51,16 +51,16 @@ public class WebEditorStartTemplateDirective extends AbstractTemplateDirective
 {
     protected static final Log logger = LogFactory.getLog(WebEditorStartTemplateDirective.class);
     private static final String ALF = "alf_";
-		
+
     @SuppressWarnings("rawtypes")
     @Override
-    public void execute(Environment env, 
-    		            Map params, 
+    public void execute(Environment env,
+    		            Map params,
     		            TemplateModel[] loopVars,
             			TemplateDirectiveBody body) throws TemplateException, IOException
     {
 		if (params.size() > 1) throw new TemplateModelException("truncate directive expects no more than one parameter");
-					
+
 		SimpleScalar locationParam = (SimpleScalar)params.get("toolbarLocation");
 		String toolbarLocation = TemplateConstants.TOOLBAR_LOCATION_TOP;
 		if (locationParam != null)
@@ -79,11 +79,11 @@ public class WebEditorStartTemplateDirective extends AbstractTemplateDirective
 	        	toolbarLocation = TemplateConstants.TOOLBAR_LOCATION_RIGHT;
 	        }
 		}
-		
+
         if (isEditingEnabled(env))
         {
         	HttpServletRequest request = getRequest(env);
-        	
+
             // store the toolbar location into the request session
             request.setAttribute(TemplateConstants.REQUEST_ATTR_KEY_TOOLBAR_LOCATION, toolbarLocation);
 
@@ -99,15 +99,15 @@ public class WebEditorStartTemplateDirective extends AbstractTemplateDirective
                 {
                     out.write("?debug=true");
                 }
-                
+
                 // add in custom configuration
                 request.setAttribute(AlfrescoTagUtil.KEY_MARKER_ID_PREFIX, ALF + System.currentTimeMillis());
 
-				// end of bootstrap                
+				// end of bootstrap
                 out.write("\"></script>\n");
-                
+
                 if (logger.isDebugEnabled())
-                    logger.debug("Completed startTemplate rendering");                
+                    logger.debug("Completed startTemplate rendering");
             }
             catch (IOException ioe)
             {
@@ -121,4 +121,3 @@ public class WebEditorStartTemplateDirective extends AbstractTemplateDirective
     }
 }
 
-	

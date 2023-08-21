@@ -27,7 +27,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.awe.tag.AlfrescoTagUtil;
 import org.alfresco.web.awe.tag.MarkedContent;
@@ -44,18 +44,18 @@ import freemarker.template.TemplateModelException;
 /**
  * Freemarker directive which indicates an editable area of the page
  * Usage: <@markContent id=nodeRef title=mytitle formId=form nestedMarker='true'/>
- * id - The mandatory id attribute specifies the NodeRef of the Alfresco node to be edited. 
- * title - The mandatory title attribute defines a descriptive title for the editable area 
- * being marked. The title used will be used in the quick edit drop down menu of editable 
- * items, as the title of form edit popup/dialog and the 'alt' text and tooltip text of the 
- * edit icon. 
- * formId - The optional formId attribute specifies which form will be used when the marked 
+ * id - The mandatory id attribute specifies the NodeRef of the Alfresco node to be edited.
+ * title - The mandatory title attribute defines a descriptive title for the editable area
+ * being marked. The title used will be used in the quick edit drop down menu of editable
+ * items, as the title of form edit popup/dialog and the 'alt' text and tooltip text of the
+ * edit icon.
+ * formId - The optional formId attribute specifies which form will be used when the marked
  * area is edited. See the Form Configuration section below for more details.
- * nestedMarker - The optional nestedMarker attribute defines whether the editable area is 
- * nested within another HTML tag that represents the content being edited. If set to "true" 
- * the whole parent element is highlighted when the area is selected in the quick edit drop 
+ * nestedMarker - The optional nestedMarker attribute defines whether the editable area is
+ * nested within another HTML tag that represents the content being edited. If set to "true"
+ * the whole parent element is highlighted when the area is selected in the quick edit drop
  * down menu. If set to "false" only the edit icon is highlighted.
- *  
+ *
  * @author Gavin Cornwell
  * @author Chris Lack
  */
@@ -65,8 +65,8 @@ public class WebEditorMarkContentDirective extends AbstractTemplateDirective
 
 	@SuppressWarnings("unchecked")
     @Override
-    public void execute(Environment env, 
-    		            Map params, 
+    public void execute(Environment env,
+    		            Map params,
     		            TemplateModel[] loopVars,
             			TemplateDirectiveBody body) throws TemplateException, IOException
     {
@@ -75,7 +75,7 @@ public class WebEditorMarkContentDirective extends AbstractTemplateDirective
 		SimpleScalar formIdParam = (SimpleScalar)params.get("formId");
 		SimpleScalar nestedMarkerParam = (SimpleScalar)params.get("nestedMarker");
 
-		if (idParam == null) 
+		if (idParam == null)
 		{
 			throw new TemplateModelException("id parameter is mandatory for markContent directive");
 		}
@@ -86,7 +86,7 @@ public class WebEditorMarkContentDirective extends AbstractTemplateDirective
 		String formId = null;
 		boolean nestedMarker = false;
 		if (formIdParam != null) formId = formIdParam.getAsString();
-		if (nestedMarkerParam != null) nestedMarker = "true".equals(nestedMarkerParam.getAsString()); 
+		if (nestedMarkerParam != null) nestedMarker = "true".equals(nestedMarkerParam.getAsString());
 
         if (isEditingEnabled(env))
         {
@@ -94,7 +94,7 @@ public class WebEditorMarkContentDirective extends AbstractTemplateDirective
             {
                 Writer out = env.getOut();
                 HttpServletRequest request = getRequest(env);
-                
+
                 // get the prefix URL to the AWE assets
                 String urlPrefix = getWebEditorUrlPrefix(env);
 
@@ -123,13 +123,13 @@ public class WebEditorMarkContentDirective extends AbstractTemplateDirective
         {
             logger.debug("Skipping markContent rendering as editing is disabled");
         }
-		
+
     }
-	
+
     /**
      * Calculates the redirect url for form submission, this will
      * be the current request URL.
-     * 
+     *
      * @return The redirect URL
      */
     private String calculateRedirectUrl(HttpServletRequest request)
@@ -147,7 +147,7 @@ public class WebEditorMarkContentDirective extends AbstractTemplateDirective
             StringBuffer url = new StringBuffer();
             url.append(fullUrl.substring(0, firstSep));
             url.append(request.getContextPath());
-            url.append(request.getPathInfo());            
+            url.append(request.getPathInfo());
             String queryString = request.getQueryString();
             if (queryString != null)
             {
@@ -166,7 +166,6 @@ public class WebEditorMarkContentDirective extends AbstractTemplateDirective
         }
 
         return redirectUrl;
-    }	
+    }
 }
 
-	

@@ -12,7 +12,7 @@
     </parent>
 
     <properties>
-        <tomcat.version>7.0.86</tomcat.version>
+        <tomcat.version>10.1.11</tomcat.version>
         <license-header-location>${project.parent.basedir}</license-header-location>
     </properties>
 
@@ -81,8 +81,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -186,12 +186,12 @@
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
-            <version>4.0.4</version>
+            <version>4.0.4-jakarta-3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-fileupload2-jakarta</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

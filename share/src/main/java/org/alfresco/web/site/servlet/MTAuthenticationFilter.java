@@ -21,21 +21,16 @@
 package org.alfresco.web.site.servlet;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Locale;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.alfresco.web.site.SlingshotPageViewResolver;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.extensions.webscripts.ui.common.StringUtils;
 
 /**
  * Filter providing access to the servlet request for the {@link SlingshotPageViewResolver}
@@ -43,23 +38,23 @@ import org.springframework.extensions.webscripts.ui.common.StringUtils;
  * SpringSurf lifecycle than would normally be available. This is essential for MT authentication
  * as resolving the view name from the page url requires a remote call, which for MT must be
  * authenticated (even for authentication=none webscripts) to resolve the correct Tenant.
- * 
+ *
  * @author Kevin Roast
  */
 public class MTAuthenticationFilter implements Filter
 {
     /** Thread local holder of the HttpServletRequest */
     private static ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<HttpServletRequest>();
-    
+
     private static final String ACCEPT_LANGUAGE_HEADER = "Accept-Language";
-    
+
     /* (non-Javadoc)
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
      */
     public void init(FilterConfig config) throws ServletException
     {
     }
-    
+
     /* (non-Javadoc)
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
      */
@@ -85,7 +80,7 @@ public class MTAuthenticationFilter implements Filter
             requestHolder.remove();
         }
     }
-    
+
     /**
      * @return HttpServletRequest for the current thread
      */
@@ -93,7 +88,7 @@ public class MTAuthenticationFilter implements Filter
     {
         return requestHolder.get();
     }
-    
+
     /* (non-Javadoc)
      * @see javax.servlet.Filter#destroy()
      */
