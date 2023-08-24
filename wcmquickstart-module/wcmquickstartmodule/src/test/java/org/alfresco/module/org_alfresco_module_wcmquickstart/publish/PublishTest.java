@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 - 2020 Alfresco Software Limited.
+ * Copyright 2005 - 2023 Alfresco Software Limited.
  *
  * This file is part of the Alfresco software.
  * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
@@ -22,7 +22,7 @@ package org.alfresco.module.org_alfresco_module_wcmquickstart.publish;
 
 import java.util.List;
 
-import javax.transaction.UserTransaction;
+import jakarta.transaction.UserTransaction;
 
 import junit.framework.TestCase;
 
