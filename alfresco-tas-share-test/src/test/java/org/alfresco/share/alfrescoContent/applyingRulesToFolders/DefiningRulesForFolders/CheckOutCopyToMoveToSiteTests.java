@@ -119,7 +119,7 @@ public class CheckOutCopyToMoveToSiteTests extends AbstractFolderRuleTest
             .assertRuleDescriptionDetailsEqualTo(expectedDescriptionDetails)
             .assertWhenConditionTextEquals(language.translate(ITEMS_ARE_CREATED))
             .assertIfAllCriteriaConditionEquals(language.translate(ALL_ITEMS))
-            .assertPerformedActionEquals(language.translate(CHECK_OUT_TO) + site1Title);
+            .assertPerformedActionEquals(language.translate(CHECK_OUT_TO) + " " + site1Title);
 
         editRulesPage.cleanupSelectedValues();
 
