@@ -65,6 +65,8 @@ public class AccessingCalendarTests extends BaseTest
         toolbar = new Toolbar(webDriver);
         searchPage = new SearchPage(webDriver);
         siteDashboardPage = new SiteDashboardPage(webDriver);
+        calendarPage = new CalendarPage(webDriver);
+        customizeSitePage = new CustomizeSitePage(webDriver);
     }
 
 
@@ -83,12 +85,14 @@ public class AccessingCalendarTests extends BaseTest
     public void accessTheCalendarPage()
     {
         log.info("Step 1 - Open Site1's dashboard and click on 'Calendar' link.");
-        calendarPage.navigate(siteName.get());
+        authenticateUsingLoginPage(user1.get());
+        calendarPage.navigate(siteName.get().getId());
         DateFormat df = new SimpleDateFormat("MMMM yyyy");
         assertEquals(calendarPage.getCalendarHeader(), df.format(new Date()), "'Calendar' page, which defaults to the Month view, is opened.");
 
         log.info("Step 2 - Open 'Customize Site' page for " + siteName + " and rename 'Calendar' page to 'newCalendar'.");
         customizeSitePage.navigate(siteName.get());
+        customizeSitePage.addPageToSite(SitePageType.CALENDER);
         customizeSitePage.renameSitePage(SitePageType.CALENDER, "newCalendar");
         assertEquals(customizeSitePage.getPageDisplayName(SitePageType.CALENDER), "newCalendar", "Calendar display page name is modified.");
 
@@ -99,7 +103,7 @@ public class AccessingCalendarTests extends BaseTest
 
         log.info("Step 4 - Click on 'newCalendar' link.");
         siteDashboardPage.clickLinkFromHeaderNavigationMenu(SitePageType.CALENDER);
-        assertEquals(getBrowser().getTitle(), "Alfresco » newCalendar", "Calendar page is opened.");
+        assertEquals(calendarPage.getCalendarHeader(), df.format(new Date()), "'Calendar' page, which defaults to the Month view, is opened.");
     }
 
 }
