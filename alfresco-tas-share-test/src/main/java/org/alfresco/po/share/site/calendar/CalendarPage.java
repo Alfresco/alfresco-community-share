@@ -3,6 +3,8 @@ package org.alfresco.po.share.site.calendar;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
@@ -40,6 +42,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private final By tags = By.cssSelector(".tag-link");
     private final By today = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]");
     private final By agendaEventsName = By.cssSelector(".yui-dt-data .yui-dt-col-name .yui-dt-liner");
+    private final By EventName = By.className("fc-event-title");
     private final By agendaAddEvent = By.cssSelector("a.addEvent");
     private final By selectedView = By.cssSelector("span.yui-button-checked");
     private final By calendarView = By.id("yui-history-field");
@@ -49,7 +52,12 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private final By eventsList = By.xpath(
         "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
     private final By allDayEvents = By.cssSelector("a[class*='fc-event-allday']");
-
+    private final By dates = By.cssSelector("#calendarcontainer[style*='display: block'] a.selector");
+    private final By calendarPickerHeader = By.cssSelector("#calendarcontainer[style*='display: block'] .calheader");
+    private final By nextMonthArrow = By.cssSelector("#calendarcontainer[style*='display: block'] .calnavright");
+    private final By previousMonthArrow = By.cssSelector("#calendarcontainer[style*='display: block'] .calnavleft");
+    private ArrayList<String> monthValues = new ArrayList<>(
+        Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
     public CalendarPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -144,13 +152,19 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
-    public AddEventDialog clickAddEventButton()
+    public void clickEvent(String eventName)
+    {
+        log.info("Click event: {}", eventName);
+        findFirstElementWithValue(EventName, eventName).click();
+    }
+
+    public void clickAddEventButton()
     {
         log.info("Click add event button");
         waitUntilElementIsVisible(addEventButton);
         clickElement(addEventButton);
 
-        return (AddEventDialog) addEventDialog.renderedPage();
+//        return (AddEventDialog) addEventDialog.renderedPage();
     }
 
     public boolean isShowAllItemsLinkDisplayed()
@@ -191,12 +205,16 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         log.info("Check is event present in agenda: {}", eventName);
         return findFirstElementWithValue(agendaEventsName, eventName) != null;
     }
+    public boolean isEventPresentInCalendar(String eventName)
+    {
+        log.info("Check is event present in agenda: {}", eventName);
+        return findFirstElementWithValue(EventName, eventName) != null;
+    }
 
-    public EventInformationDialog clickOnEventInAgenda(String eventName)
+    public void clickOnEventInAgenda(String eventName)
     {
         log.info("Click event in agenda: {}", eventName);
         findFirstElementWithValue(agendaEventsName, eventName).click();
-        return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
     public AddEventDialog clickTodayInCalendar()
@@ -355,5 +373,58 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         log.info("Click today button");
         clickElement(todayButton);
         return this;
+    }
+
+    public void selectDate(int day)
+    {
+        List<WebElement> dates_ = waitUntilElementsAreVisible(dates);
+        findFirstElementWithExactValue(dates_, String.valueOf(day)).click();
+        waitUntilElementDisappears(By.id("calendarcontainer"), 15);
+    }
+
+    public void navigateToYear(int year)
+    {
+        while (!isCurrentYear(year))
+        {
+            if (Integer.parseInt(getYearHeader()) < year)
+               clickElement(nextMonthArrow);
+            else
+                clickElement(previousMonthArrow);
+        }
+    }
+
+    public void navigateToMonth(int month)
+    {
+        while (!isCurrentMonth(month))
+        {
+            int count = month - (monthValues.indexOf(getMonthHeader()) + 1);
+            if (count > 0)
+                clickElement(nextMonthArrow);
+            else
+                clickElement(previousMonthArrow);
+        }
+
+    }
+
+    private boolean isCurrentMonth(int month)
+    {
+        return monthValues.indexOf(getMonthHeader()) + 1 == month;
+    }
+
+    private boolean isCurrentYear(int year)
+    {
+        return Integer.parseInt(getYearHeader()) == year;
+    }
+
+    private String getYearHeader()
+    {
+        String header = findElement(calendarPickerHeader).getText();
+        return header.split("\n")[1].split(" ")[1];
+    }
+
+    private String getMonthHeader()
+    {
+        String header = findElement(calendarPickerHeader).getText();
+        return header.split("\n")[1].split(" ")[0];
     }
 }
