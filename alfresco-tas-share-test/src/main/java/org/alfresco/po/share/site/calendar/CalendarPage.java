@@ -157,6 +157,13 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         log.info("Click event: {}", eventName);
         findFirstElementWithValue(EventName, eventName).click();
     }
+    public void click_Event(String eventName)
+    {
+        log.info("Click event: {}", eventName);
+        waitInSeconds(2);
+        refresh();
+        findFirstElementWithValue(EventName, eventName).click();
+    }
 
     public void clickAddEventButton()
     {
