@@ -227,4 +227,20 @@
       <location>/error500.jsp</location>
    </error-page>
 
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/res/WEB-INF/*</url-pattern>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint />
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/res/META-INF/*</url-pattern>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint />
+  </security-constraint>
+
 </web-app>
