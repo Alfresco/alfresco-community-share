@@ -53,6 +53,7 @@
          <package name="org.alfresco.share.tasksAndWorkflows.StartingAWorkflow"></package>
          <package name="org.alfresco.share.tasksAndWorkflows.ViewingAStartedWorkflow"></package>
          <package name="org.alfresco.share.tasksAndWorkflows"></package>
+         <package name="org.alfresco.share.sitesFeatures.calendar.TimeZone"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
