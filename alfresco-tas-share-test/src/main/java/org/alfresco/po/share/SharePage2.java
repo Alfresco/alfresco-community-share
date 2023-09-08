@@ -154,7 +154,7 @@ public abstract class SharePage2<T> extends BasePage
             {
                 return UriUtils.encodePath(String.format(pageUrl, username), "UTF-8");
             }
-            catch (UnsupportedEncodingException e)
+            catch (Exception e)
             {
                 throw new RuntimeException(String.format("Unable to set the path for user {}. {}", username, e.getMessage()));
             }
