@@ -434,4 +434,24 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         String header = findElement(calendarPickerHeader).getText();
         return header.split("\n")[1].split(" ")[0];
     }
+
+    public CalendarPage clickTodayInCalendars()
+    {
+        log.info("Click today in calendar");
+        clickElement(today);
+        return this;
+    }
+
+    public boolean isEventPresentInCalendars(String eventName)
+    {
+        waitInSeconds(6);
+        for (WebElement addTag : findElements(EventName))
+        {
+            if (addTag.getText().contains(eventName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
