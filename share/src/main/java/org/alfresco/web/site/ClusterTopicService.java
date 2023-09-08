@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 - 2020 Alfresco Software Limited.
+ * Copyright 2005 - 2023 Alfresco Software Limited.
  *
  * This file is part of the Alfresco software.
  * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
@@ -43,9 +43,9 @@ import org.springframework.extensions.surf.util.StringBuilderWriter;
 import org.springframework.extensions.webscripts.json.JSONWriter;
 
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.ITopic;
-import com.hazelcast.core.Message;
-import com.hazelcast.core.MessageListener;
+import com.hazelcast.topic.ITopic;
+import com.hazelcast.topic.Message;
+import com.hazelcast.topic.MessageListener;
 
 /**
  * Share cluster service - implemented on Hazelcast. Manages the web cluster by broadcasting
