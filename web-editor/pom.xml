@@ -30,6 +30,16 @@
                 </configuration>
               <dependencies>
                 <dependency>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-context</artifactId>
+                  <version>${dependency.spring-context.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-context-support</artifactId>
+                  <version>${dependency.spring-context.version}</version>
+                </dependency>
+                <dependency>
                   <groupId>org.alfresco</groupId>
                   <artifactId>alfresco-mmt</artifactId>
                   <version>17.68</version>
@@ -104,6 +114,14 @@
             <artifactId>spring-surf-api</artifactId>
             <version>${dependency.surf.version}</version>
             <exclusions>
+              <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+              </exclusion>
                 <exclusion>
                     <groupId>commons-collections</groupId>
                     <artifactId>commons-collections</artifactId>
@@ -155,6 +173,10 @@
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
+              <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
         <dependency>

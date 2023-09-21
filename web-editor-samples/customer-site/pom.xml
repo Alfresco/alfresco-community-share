@@ -15,11 +15,29 @@
     </build>
 
     <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${dependency.spring-context.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>${dependency.spring-context.version}</version>
+      </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webeditor-client-jsp</artifactId>
             <version>${dependency.surf.version}</version>
             <exclusions>
+              <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+              </exclusion>
                 <exclusion>
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
@@ -43,6 +61,10 @@
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
+              <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
         <dependency>
