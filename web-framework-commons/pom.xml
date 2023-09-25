@@ -23,10 +23,6 @@
             <artifactId>spring-surf</artifactId>
             <version>${dependency.surf.version}</version>
             <exclusions>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
                 <exclusion>
                     <groupId>commons-collections</groupId>
                     <artifactId>commons-collections</artifactId>
@@ -50,14 +46,6 @@
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context-support</artifactId>
-              </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -106,14 +94,6 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context-support</artifactId>
-              </exclusion>
                 <!-- SHA-2432 -->
                 <exclusion>
                     <groupId>javax.servlet</groupId>
@@ -157,10 +137,6 @@
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -175,14 +151,6 @@
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context-support</artifactId>
-              </exclusion>
                 <exclusion>
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
@@ -219,10 +187,6 @@
             <classifier>tests</classifier>
             <scope>test</scope>
             <exclusions>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
                 <exclusion>
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
@@ -269,16 +233,6 @@
           <artifactId>guava</artifactId>
           <version>32.0.1-jre</version>
         </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${dependency.spring-context.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context-support</artifactId>
-        <version>${dependency.spring-context.version}</version>
-      </dependency>
     </dependencies>
 
     <build>

@@ -54,7 +54,6 @@
         <!-- common dependencies-->
         <dependency.spring.version>6.0.8</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
-      <dependency.spring-context.version>6.0.12</dependency.spring-context.version>
 
         <dependency.aikau.version>1.0.128</dependency.aikau.version>
         <dependency.freemarker.version>2.3.30-jakarta-1</dependency.freemarker.version>

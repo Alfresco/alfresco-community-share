@@ -28,11 +28,6 @@
             <artifactId>alfresco-share-encryption</artifactId>
             <version>${project.version}</version>
         </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${dependency.spring-context.version}</version>
-      </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-core</artifactId>
@@ -58,10 +53,6 @@
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -120,10 +111,6 @@
             <artifactId>spring-surf-api</artifactId>
             <version>${dependency.surf.version}</version>
             <exclusions>
-              <exclusion>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-              </exclusion>
                 <exclusion>
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
