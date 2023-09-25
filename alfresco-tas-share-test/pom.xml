@@ -63,21 +63,11 @@
          <version>3.6</version>
       </dependency>
 
-       <dependency>
-           <groupId>org.springframework</groupId>
-           <artifactId>spring-context</artifactId>
-           <version>${dependency.spring-context.version}</version>
-       </dependency>
-
       <dependency>
          <groupId>org.alfresco.tas</groupId>
          <artifactId>utility</artifactId>
          <version>${tas.utility.version}</version>
           <exclusions>
-              <exclusion>
-                  <groupId>org.springframework</groupId>
-                  <artifactId>spring-context</artifactId>
-              </exclusion>
               <exclusion>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-web</artifactId>
