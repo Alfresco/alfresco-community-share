@@ -15,10 +15,18 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
 
     private By currentDayInMiniCalendar = By.xpath("//td[contains(@class, 'today')]");
 
+    private final By currentMonthInMiniCalendars = By.cssSelector("a.calnav");
+
     @FindBy (css = "a.calnav")
     private WebElement currentMonthInMiniCalendar;
 
     private By selectedDay = By.xpath("//td[contains(@class, 'selected')]/a");
+
+    private final By previousMonthButtonMiniCalendars = By.cssSelector("a.calnavleft");
+
+    private final By thisMonthButtons = By.cssSelector("a[id*='-thisMonth-button']");
+
+    private final By nextMonthButtonMiniCalendars = By.cssSelector("a.calnavright");
 
     @FindBy (css = "a.calnavleft")
     private WebElement previousMonthButtonMiniCalendar;
@@ -89,4 +97,25 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
         }
         return new CalendarPage(webDriver);
     }
+
+    public String getCurrentMonthMiniCalendars()
+    {
+        return findElement(currentMonthInMiniCalendars).getText();
+    }
+
+    public void clickOnPreviousMonthButtonMiniCalendars()
+    {
+        findElement(previousMonthButtonMiniCalendars).click();
+    }
+
+    public void clickOnThisMonthButtons()
+    {
+        findElement(thisMonthButtons).click();
+    }
+
+    public void clickOnNextMonthButtonInMiniCalendars()
+    {
+        findElement(nextMonthButtonMiniCalendars).click();
+    }
+
 }
