@@ -12,6 +12,9 @@ public class EventInformationDialogPage extends BaseDialogComponent {
     }
     private final By startDateTime = By.cssSelector("div[id$='_defaultContainer-startdate']");
     private final By endDateTime = By.cssSelector("div[id$='_defaultContainer-enddate']");
+    private final By cancelButton = By.cssSelector("button[id$='_defaultContainer-cancel-button-button']");
+    private final By deleteButton = By.cssSelector("button[id$='delete-button-button']");
+    private final By eventInformationPanel = By.id("eventInfoPanel_c");
 
     public String getStartDateTime()
     {
@@ -21,5 +24,21 @@ public class EventInformationDialogPage extends BaseDialogComponent {
     public String getEndDateTime()
     {
         return findElement(endDateTime).getText();
+    }
+
+    public void clickCancelButton()
+    {
+        clickElement(cancelButton);
+    }
+
+    public boolean isEventInformationPanelDisplayed()
+    {
+        waitInSeconds(2);
+        return isElementDisplayed(eventInformationPanel);
+    }
+
+    public void clickDeleteButton()
+    {
+        clickElement(deleteButton);
     }
 }

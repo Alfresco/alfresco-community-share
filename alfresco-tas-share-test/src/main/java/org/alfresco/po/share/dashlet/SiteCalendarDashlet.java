@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 @Slf4j
 public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
 {
@@ -18,7 +20,6 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     private final By siteEventsNameList = By.cssSelector("div.dashlet.calendar .detail-list-item span>a");
     private final By dashletMessage = By.cssSelector("div.dashlet.calendar .dashlet-padding>h3");
     private final By eventStartDate = By.xpath("ancestor::*[@class='details2']//a");
-
     private final String eventTitleLinkLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//a[contains(text(), '%s')]";
     private final String eventTimeLocator = "//div[contains(@class, 'dashlet calendar')]//div[@class='detail-list-item']//span[contains(text(), '%s ')]";
 
@@ -117,5 +118,18 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
             findFirstElementWithValue(siteEventsNameList, eventTitle));
 
         return new CalendarPage(webDriver);
+    }
+
+    public boolean isEventPresentInCalendarDashlet(String eventName)
+    {
+        List<WebElement> events = findElements(siteEventsNameList);
+        for(WebElement event : events)
+        {
+            if(event.getText().equals(eventName))
+            {
+                return true;
+            }
+        }
+        return  false;
     }
 }

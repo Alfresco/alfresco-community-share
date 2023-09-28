@@ -454,4 +454,17 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         }
         return false;
     }
+
+    public boolean isEventPresentInCalendarAgenda(String eventName)
+    {
+        waitInSeconds(2);
+        for (WebElement addTag : findElements(agendaEventsName))
+        {
+            if (addTag.getText().contains(eventName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
