@@ -82,18 +82,21 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public boolean isTagDisplayed(String tagName)
     {
         log.info("Check tag is displayed: {}", tagName);
+        waitInSeconds(3);
         return isElementDisplayed(selectTag(tagName));
     }
 
     public String getTagLink(String tagName)
     {
         log.info("Get tag link: {}", tagName);
+        waitInSeconds(3);
         return selectTag(tagName).findElement(By.xpath("..")).getText();
     }
 
     public void clickTagLink(String tagName)
     {
         log.info("Click tag link: {}",tagName);
+        waitInSeconds(3);
         selectTag(tagName);
     }
 
@@ -214,6 +217,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public boolean isEventPresentInCalendar(String eventName)
     {
         log.info("Check is event present in agenda: {}", eventName);
+        waitInSeconds(3);
         return findFirstElementWithValue(EventName, eventName) != null;
     }
 
