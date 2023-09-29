@@ -7,18 +7,9 @@ import static org.testng.Assert.assertTrue;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.Notification;
-import org.alfresco.po.share.dashlet.MyCalendarDashlet;
-import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
-import org.alfresco.po.share.searching.SearchPage;
-import org.alfresco.po.share.site.CustomizeSitePage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.calendar.AddEventDialogPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EditEventDialog;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
@@ -26,7 +17,9 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 @Slf4j
 public class EditEventsTests extends BaseTest
