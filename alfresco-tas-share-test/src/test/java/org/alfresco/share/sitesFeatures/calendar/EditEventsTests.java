@@ -4,60 +4,76 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EditEventDialog;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * Created by Claudia Agache on 7/20/2016.
- */
-public class EditEventsTests extends ContextAwareWebTest
+@Slf4j
+public class EditEventsTests extends BaseTest
 {
-    //@Autowired
     CalendarPage calendarPage;
 
     @Autowired
     EventInformationDialog eventInformationDialog;
 
-    @Autowired
     EditEventDialog editEventDialog;
 
-    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    SitePagesService sitePagesService;
     private DateTime startDate = new DateTime();
     private DateTime endDate = startDate.plusDays(3);
     private DateTime tomorrow = startDate.plusDays(1);
     private DateTime yesterday = startDate.minusDays(1);
-    private String eventTitle = "testEvent";
     private String eventLocation = "Iasi";
     private String eventDescription = "Event description";
 
-    @BeforeClass (alwaysRun = true)
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> user2 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
+    private String eventTitle = "testEvent";
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(user, password, siteName, Page.CALENDAR, null);
-        setupAuthenticatedSession(user, password);
+        log.info("PreCondition: Creating a TestUser1");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Creating a TestUser2");
+        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Creating a Random Site");
+        siteName.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+
+        addDashlet(user.get(), siteName.get(), DashboardCustomization.SiteDashlet.SITE_CALENDAR, 1, 2);
+
+        calendarPage = new CalendarPage(webDriver);
+        editEventDialog = new EditEventDialog(webDriver);
     }
 
-    @AfterClass (alwaysRun = true)
+
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, siteName);
+        deleteUsersIfNotNull(user.get());
+        deleteUsersIfNotNull(user2.get());
+        deleteSitesIfNotNull(siteName.get());
+        deleteAllCookiesIfNotNull();
     }
 
 
@@ -68,19 +84,18 @@ public class EditEventsTests extends ContextAwareWebTest
 
     @TestRail (id = "C3168")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventMonthView()
-    {
-        //precondition
+    public void editEventMonthView(){
         String eventName = eventTitle + "C3168";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -92,16 +107,16 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
 
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
         assertTrue(editEventDialog.isTagsSectionDisplayed(), "Tags section is displayed.");
 
         assertTrue(editEventDialog.isSaveButtonEnabled(), "Save button is available on the form.");
         assertTrue(editEventDialog.isCancelButtonEnabled(), "Cancel button is available on the form.");
         assertTrue(editEventDialog.isCloseButtonDisplayed(), "Close button is available on the form.");
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -111,54 +126,54 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Save' button.");
+        log.info("STEP 5: Click 'Save' button.");
         editEventDialog.clickSaveButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName + "Edited"), "The calendar displays the updated event.");
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName + "Edited"), "The calendar displays the updated event.");
 
-        LOG.info("STEP 6: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
-        assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 6: Click on the created event's name link.");
+        calendarPage.click_Event(eventName + "Edited");
+        assertEquals(editEventDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
+        assertEquals(editEventDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5581")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventWeekView()
-    {
-        //precondition
+    public void editEventWeekView(){
+
         String eventName = eventTitle + "C5581";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickWeekButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -170,16 +185,16 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
 
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
         assertTrue(editEventDialog.isTagsSectionDisplayed(), "Tags section is displayed.");
 
         assertTrue(editEventDialog.isSaveButtonEnabled(), "Save button is available on the form.");
         assertTrue(editEventDialog.isCancelButtonEnabled(), "Cancel button is available on the form.");
         assertTrue(editEventDialog.isCloseButtonDisplayed(), "Close button is available on the form.");
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -189,54 +204,54 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Save' button.");
+        log.info("STEP 5: Click 'Save' button.");
         editEventDialog.clickSaveButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName + "Edited"), "The calendar displays the updated event.");
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName + "Edited"), "The calendar displays the updated event.");
 
-        LOG.info("STEP 6: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
-        assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 6: Click on the created event's name link.");
+        calendarPage.click_Event(eventName + "Edited");
+        assertEquals(editEventDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
+        assertEquals(editEventDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5583")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventDayView()
-    {
-        //precondition
+    public void editEventDayView(){
+
         String eventName = eventTitle + "C5583";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickDayButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -248,16 +263,16 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
 
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
         assertTrue(editEventDialog.isTagsSectionDisplayed(), "Tags section is displayed.");
 
         assertTrue(editEventDialog.isSaveButtonEnabled(), "Save button is available on the form.");
         assertTrue(editEventDialog.isCancelButtonEnabled(), "Cancel button is available on the form.");
         assertTrue(editEventDialog.isCloseButtonDisplayed(), "Close button is available on the form.");
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -267,54 +282,53 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Save' button.");
+        log.info("STEP 5: Click 'Save' button.");
         editEventDialog.clickSaveButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName + "Edited"), "The calendar displays the updated event.");
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName + "Edited"), "The calendar displays the updated event.");
 
-        LOG.info("STEP 6: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
-        assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 6: Click on the created event's name link.");
+        calendarPage.click_Event(eventName + "Edited");
+        assertEquals(editEventDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
+        assertEquals(editEventDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5580")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventByClickingOnTheEventAgendaView()
-    {
-        //precondition
+    public void editEventByClickingOnTheEventAgendaView(){
         String eventName = eventTitle + "C5580";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickAgendaButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
+        log.info("STEP 1: Click on the created event's name link.");
         calendarPage.clickOnEventInAgenda(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -326,16 +340,16 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
 
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
         assertTrue(editEventDialog.isTagsSectionDisplayed(), "Tags section is displayed.");
 
         assertTrue(editEventDialog.isSaveButtonEnabled(), "Save button is available on the form.");
         assertTrue(editEventDialog.isCancelButtonEnabled(), "Cancel button is available on the form.");
         assertTrue(editEventDialog.isCloseButtonDisplayed(), "Close button is available on the form.");
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -345,34 +359,35 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Save' button.");
+        log.info("STEP 5: Click 'Save' button.");
         editEventDialog.clickSaveButton();
         assertTrue(calendarPage.isEventPresentInAgenda(eventName + "Edited"), "The calendar displays the updated event.");
 
-        LOG.info("STEP 6: Click on the created event's name link.");
+        log.info("STEP 6: Click on the created event's name link.");
+        calendarPage.clickAgendaButton();
         calendarPage.clickOnEventInAgenda(eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
-        assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        assertEquals(editEventDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
+        assertEquals(editEventDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
             "Following information is available: Time section with End Date");
     }
@@ -380,15 +395,14 @@ public class EditEventsTests extends ContextAwareWebTest
 
     @TestRail (id = "C6073")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventByClickingEditIconAgendaView()
-    {
-        //precondition
+    public void editEventByClickingEditIconAgendaView(){
         String eventName = eventTitle + "C6073";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickAgendaButton();
 
-        LOG.info("STEP 1: Click 'Edit' icon.");
+        log.info("STEP 1: Click 'Edit' icon.");
         calendarPage.clickEditIcon(eventName);
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
@@ -398,12 +412,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 2: Change the details and time for the event.");
+        log.info("STEP 2: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -413,34 +427,35 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 3: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 3: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 4: Click 'Save' button.");
+        log.info("STEP 4: Click 'Save' button.");
         editEventDialog.clickSaveButton();
         assertTrue(calendarPage.isEventPresentInAgenda(eventName + "Edited"), "The calendar displays the updated event.");
 
-        LOG.info("STEP 5: Click on the created event's name link.");
+        log.info("STEP 5: Click on the created event's name link.");
+        calendarPage.clickAgendaButton();
         calendarPage.clickOnEventInAgenda(eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
-        assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        assertEquals(editEventDialog.getWhatDetails(), eventName + "Edited", "Following information is available: What: " + eventName + "Edited");
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation + "Edited", "Following information is available: Where: " + eventLocation + "Edited");
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
+        assertEquals(editEventDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
             "Following information is available: Time section with End Date");
     }
@@ -448,19 +463,18 @@ public class EditEventsTests extends ContextAwareWebTest
 
     @TestRail (id = "C3173")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void cancelEventMonthView()
-    {
-        //precondition
+    public void cancelEventMonthView(){
         String eventName = eventTitle + "C3173";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -469,12 +483,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -484,58 +498,57 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Cancel' button.");
+        log.info("STEP 5: Click 'Cancel' button.");
         editEventDialog.clickCancelButton();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The calendar displays the old event name.");
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
-        calendarPage.clickOnEvent(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        calendarPage.click_Event(eventName);
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5715")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void cancelEventWeekView()
-    {
-        //precondition
+    public void cancelEventWeekView(){
         String eventName = eventTitle + "C5715";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickWeekButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -544,12 +557,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -559,58 +572,57 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Cancel' button.");
+        log.info("STEP 5: Click 'Cancel' button.");
         editEventDialog.clickCancelButton();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The calendar displays the old event name.");
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
-        calendarPage.clickOnEvent(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        calendarPage.click_Event(eventName);
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5716")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void cancelEditEventDayView()
-    {
-        //precondition
+    public void cancelEditEventDayView(){
         String eventName = eventTitle + "C5716";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickDayButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -619,12 +631,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -634,58 +646,57 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Cancel' button.");
+        log.info("STEP 5: Click 'Cancel' button.");
         editEventDialog.clickCancelButton();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The calendar displays the old event name.");
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
-        calendarPage.clickOnEvent(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        calendarPage.click_Event(eventName);
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5717")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void cancelEditEventByClickingOnEventAgendaView()
-    {
-        //precondition
+    public void cancelEditEventByClickingOnEventAgendaView(){
         String eventName = eventTitle + "C5715";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickAgendaButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
+        log.info("STEP 1: Click on the created event's name link.");
         calendarPage.clickOnEventInAgenda(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -694,12 +705,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -709,53 +720,52 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'Cancel' button.");
+        log.info("STEP 5: Click 'Cancel' button.");
         editEventDialog.clickCancelButton();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
         assertTrue(calendarPage.isEventPresentInAgenda(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
         calendarPage.clickOnEventInAgenda(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C6076")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void cancelEditEventByClickingEditIconAgendaView()
-    {
-        //precondition
+    public void cancelEditEventByClickingEditIconAgendaView(){
         String eventName = eventTitle + "C6076";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickAgendaButton();
 
-        LOG.info("STEP 1: Click 'Edit' icon.");
+        log.info("STEP 1: Click 'Edit' icon.");
         calendarPage.clickEditIcon(eventName);
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
@@ -765,12 +775,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 2: Change the details and time for the event.");
+        log.info("STEP 2: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -780,53 +790,52 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 3: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 3: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 4: Click 'Cancel' button.");
+        log.info("STEP 4: Click 'Cancel' button.");
         editEventDialog.clickCancelButton();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 5: Click on the created event's name link. Check event details are not changed.");
+        log.info("STEP 5: Click on the created event's name link. Check event details are not changed.");
         calendarPage.clickOnEventInAgenda(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5401")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventWithoutSavingMonthView()
-    {
-        //precondition
+    public void editEventWithoutSavingMonthView(){
         String eventName = eventTitle + "C5401";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -835,12 +844,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -850,58 +859,57 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'X' button.");
+        log.info("STEP 5: Click 'X' button.");
         editEventDialog.clickClose();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The calendar displays the old event name.");
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
-        calendarPage.clickOnEvent(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        calendarPage.click_Event(eventName);
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5718")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventWithoutSavingWeekView()
-    {
-        //precondition
+    public void editEventWithoutSavingWeekView(){
         String eventName = eventTitle + "C5718";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickWeekButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -910,12 +918,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -925,58 +933,57 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'X' button.");
+        log.info("STEP 5: Click 'X' button.");
         editEventDialog.clickClose();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The calendar displays the old event name.");
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
-        calendarPage.clickOnEvent(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        calendarPage.click_Event(eventName);
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5719")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventWithoutSavingDayView()
-    {
-        //precondition
+    public void editEventWithoutSavingDayView(){
         String eventName = eventTitle + "C5719";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickDayButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
-        calendarPage.clickOnEvent(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        log.info("STEP 1: Click on the created event's name link.");
+        calendarPage.click_Event(eventName);
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -985,12 +992,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -1000,58 +1007,57 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'X' button.");
+        log.info("STEP 5: Click 'X' button.");
         editEventDialog.clickClose();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
-//        assertTrue(calendarPage.isEventPresentInCalendar(eventName), "The calendar displays the old event name.");
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
+        assertTrue(calendarPage.isEventPresentInCalendars(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
-        calendarPage.clickOnEvent(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        calendarPage.click_Event(eventName);
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5720")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void editEventWithoutSavingAgendaView()
-    {
-        //precondition
+    public void editEventWithoutSavingAgendaView(){
         String eventName = eventTitle + "C5720";
-        sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
-        calendarPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        sitePagesService.addCalendarEvent(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
+        calendarPage.navigate(siteName.get().getId());
         calendarPage.clickAgendaButton();
 
-        LOG.info("STEP 1: Click on the created event's name link.");
+        log.info("STEP 1: Click on the created event's name link.");
         calendarPage.clickOnEventInAgenda(eventName);
-        assertTrue(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
+        assertTrue(editEventDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for '" + eventName + "' is opened.");
 
-        LOG.info("STEP 2: Click 'Edit' button.");
-        eventInformationDialog.clickEditButton();
+        log.info("STEP 2: Click 'Edit' button.");
+        editEventDialog.clickEditButton();
         assertTrue(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is opened.");
         assertEquals(editEventDialog.getEventTitle(), eventName, "What field value is: " + eventName);
         assertEquals(editEventDialog.getEventLocation(), eventLocation, "Where field value is: " + eventLocation);
@@ -1060,12 +1066,12 @@ public class EditEventsTests extends ContextAwareWebTest
         assertTrue(editEventDialog.hasEndDateValue(endDate), "End date is: " + endDate.toString());
         assertTrue(editEventDialog.hasStartTimeValue("12:00 PM"), "Start time is: 12:00 PM");
         assertTrue(editEventDialog.hasEndTimeValue("1:00 PM"), "End time is: 1:00 PM");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag1"), "Tags section contains tag1.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag2"), "Tags section contains tag2.");
-        assertTrue(editEventDialog.isTagDisplayedInList("tag3"), "Tags section contains tag3.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag1"), "Tags section contains tag1.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag2"), "Tags section contains tag2.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("tag3"), "Tags section contains tag3.");
 
 
-        LOG.info("STEP 3: Change the details and time for the event.");
+        log.info("STEP 3: Change the details and time for the event.");
         editEventDialog.typeInEventTitleInput(eventName + "Edited");
         editEventDialog.typeInEventLocationInput(eventLocation + "Edited");
         editEventDialog.typeInEventDescriptionInput(eventDescription + "Edited");
@@ -1075,38 +1081,38 @@ public class EditEventsTests extends ContextAwareWebTest
         editEventDialog.selectEndDateFromCalendarPicker(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear());
         editEventDialog.typeInEndTimeInput("4:00 PM");
 
-        LOG.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
+        log.info("STEP 4: Remove 'tag1', 'tag2', 'tag3' tags and add new ones: 't1', 't2', 't3'.");
         editEventDialog.removeTag("tag1");
         editEventDialog.removeTag("tag2");
         editEventDialog.removeTag("tag3");
         editEventDialog.addTag("t1");
         editEventDialog.addTag("t2");
         editEventDialog.addTag("t3");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag1"), "tag1 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag2"), "tag2 tag is removed for the event.");
-        assertFalse(editEventDialog.isTagDisplayedInList("tag3"), "tag3 tag is removed for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t1"), "t1 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t2"), "t2 tag is added for the event.");
-        assertTrue(editEventDialog.isTagDisplayedInList("t3"), "t3 tag is added for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag1"), "tag1 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag2"), "tag2 tag is removed for the event.");
+        assertFalse(editEventDialog.isTagDisplayedInLists("tag3"), "tag3 tag is removed for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t1"), "t1 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t2"), "t2 tag is added for the event.");
+        assertTrue(editEventDialog.isTagDisplayedInLists("t3"), "t3 tag is added for the event.");
 
-        LOG.info("STEP 5: Click 'X' button.");
+        log.info("STEP 5: Click 'X' button.");
         editEventDialog.clickClose();
         assertFalse(editEventDialog.isDialogDisplayed(), "'Edit Event' dialog box is closed.");
 
-        LOG.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
-        eventInformationDialog.clickCancelButton();
+        log.info("STEP 6: Click 'Close' button on 'Event Information' dialog box.");
+        editEventDialog.clickOnCancelButton();
         assertTrue(calendarPage.isEventPresentInAgenda(eventName), "The calendar displays the old event name.");
 
-        LOG.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
+        log.info("STEP 7: Click again on the created event's name link. Check event details are not changed.");
         calendarPage.clickOnEventInAgenda(eventName);
-        assertEquals(eventInformationDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
-        assertEquals(eventInformationDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
-        assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
-        assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
-        assertEquals(eventInformationDialog.getStartDateTime(),
+        assertEquals(editEventDialog.getWhatDetails(), eventName, "Following information is available: What: " + eventName);
+        assertEquals(editEventDialog.getWhereDetails(), eventLocation, "Following information is available: Where: " + eventLocation);
+        assertEquals(editEventDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
+        assertEquals(editEventDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
+        assertEquals(editEventDialog.getStartDateTime(),
             transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialog.getEndDateTime(),
+        assertEquals(editEventDialog.getEndDateTime(),
             transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
             "Following information is available: Time section with End Date");
     }

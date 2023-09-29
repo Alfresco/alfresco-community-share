@@ -170,8 +170,6 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         log.info("Click add event button");
         waitUntilElementIsVisible(addEventButton);
         clickElement(addEventButton);
-
-//        return (AddEventDialog) addEventDialog.renderedPage();
     }
 
     public boolean isShowAllItemsLinkDisplayed()
@@ -209,6 +207,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     public boolean isEventPresentInAgenda(String eventName)
     {
+        waitInSeconds(3);
         log.info("Check is event present in agenda: {}", eventName);
         return findFirstElementWithValue(agendaEventsName, eventName) != null;
     }
@@ -220,6 +219,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     public void clickOnEventInAgenda(String eventName)
     {
+        waitInSeconds(3);
         log.info("Click event in agenda: {}", eventName);
         findFirstElementWithValue(agendaEventsName, eventName).click();
     }
@@ -347,8 +347,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         WebElement eventElement = findFirstElementWithValue(agendaEventsName, eventName);
         mouseOver(eventElement);
         eventElement.findElement(editIcon).click();
-
-        return (EditEventDialog) editEventDialog.renderedPage();
+        return null;
     }
 
     public EventInformationDialog clickViewIcon(String eventName)
