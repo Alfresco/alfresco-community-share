@@ -1,14 +1,8 @@
 package org.alfresco.po.share.site.calendar;
 
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.po.share.BaseDialogComponent;
-import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
 /**
  * Created by Claudia Agache on 7/20/2016.
@@ -43,6 +37,7 @@ public class EditEventDialog extends AddEventDialogPage
 
     private final By cancelButton = By.cssSelector("button[id$='_defaultContainer-cancel-button-button']");
 
+    private final By deleteButton = By.cssSelector("button[id$='delete-button-button']");
 
     public EditEventDialog(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
@@ -116,4 +111,8 @@ public class EditEventDialog extends AddEventDialogPage
         findElement(cancelButton).click();
     }
 
+    public boolean areButtonsEnabled()
+    {
+        return findElement(cancelButton).isEnabled() && findElement(editButton).isEnabled() && findElement(deleteButton).isEnabled();
+    }
 }
