@@ -470,4 +470,12 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         }
         return false;
     }
+
+    public void clickViewIcons(String eventName)
+    {
+        log.info("Click view icon");
+        WebElement eventElement = findFirstElementWithValue(agendaEventsName, eventName);
+        mouseOver(eventElement);
+        eventElement.findElement(infoIcon).click();
+    }
 }
