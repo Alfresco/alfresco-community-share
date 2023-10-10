@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="User and Authentication Tests For AIMS" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="User and Authentication Tests with AIMS enabled">
+      <groups>
+         <run>
+            <include name="sso"/>
+         </run>
+      </groups>
+      <classes>
+         <class name="org.alfresco.share.LoginAIMSTests" />
+         <class name="org.alfresco.share.ShareLogoAndVersionsTests" />
+         <class name="org.alfresco.share.ToolbarTests" />
+         <class name="org.alfresco.share.userProfile.UserProfileContentTests" />
+         <class name="org.alfresco.share.userProfile.UserProfileSitesTests" />
+      </classes>
+   </test>
+
+</suite>

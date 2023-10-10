@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="User and Authentication Tests" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="User and Authentication Tests">
+      <groups>
+         <run>
+            <include name="user"/>
+            <include name="auth"/>
+            <exclude name="integration"></exclude>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.*"/>
+      </packages>
+   </test>
+
+</suite>

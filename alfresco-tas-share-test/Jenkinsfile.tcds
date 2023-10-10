@@ -1,0 +1,117 @@
+pipeline {
+  agent {
+      label "acs"
+  }
+  
+  parameters {
+    string(name: 'ALFRESCO_TAG', defaultValue: '6.2.0', description: 'Docker TAG version for image: quay.io/alfresco/alfresco-content-repository')
+    string(name: 'SHARE_TAG', defaultValue: '6.2.0-RC4', description: 'Docker TAG version for image: quay.io/alfresco/alfresco-share')
+    string(name: 'SEARCH_TAG', defaultValue: '1.4.0', description: 'Docker TAG version for image: quay.io/alfresco/search-services')
+    string(name: 'GitTag', defaultValue: '6.2-TSE-4', description: 'The Git Tag for Alfresco TSE tests project')
+    string(name: 'WebSuite', defaultValue: 'src/test/resources/share-po-runner-suite.xml' , description: 'Share Suite XML File or Test (leave empty to skip)')
+    string(defaultValue: 'sanity', description: '', name: 'IncludeGroups')
+    string(defaultValue: 'google-docs,unit,SmartFolders,ExternalUsers', description: '', name: 'ExcludeGroups')
+    booleanParam(name: 'TestRailEnabled', defaultValue: false, description: 'Save test runs automatically in TestRail')
+    string(name: 'TestRailRunName', defaultValue: 'TestsRun-$ALFRESCO_TAG', description: 'The name of the test run created in https://alfresco.testrail.net/index.php?/runs/overview/1  (if TestRailEnabled)')
+  }
+
+  
+  stages {
+    stage('Login to Quay.io') {
+      steps {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'alfresco-docker',
+          usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {          
+            sh 'echo $PASSWORD | docker login quay.io --username $USERNAME --password-stdin'
+        }
+      }
+    }
+
+    stage ('Clone alfresco-tas-share') {
+       steps  {
+           cloneRepository('https://github.com/Alfresco/alfresco-tas-share-test.git', "$GitTag")
+       }
+    }
+
+    stage('Start ACS') {
+      steps {
+        dir("acs") {
+          sh "(docker kill `docker ps -q` || true)" 
+          sh '''
+              docker-compose kill
+              docker-compose rm -fv
+              docker-compose up -d
+              ./wait-service-to-start.sh
+             '''
+        }
+        script{
+           currentBuild.description = sh(script: "curl -s http://169.254.169.254/latest/meta-data/public-ipv4", returnStdout: true).trim() + ":8081/alfresco/"
+        }
+      }
+    }
+
+    stage('Run Share Tests') {
+        steps {
+            configFileProvider([configFile(fileId: 'alfresco-maven', variable: 'MAVEN_SETTINGS')]) {   
+                catchError {
+                  executeMavenTests("$WebSuite", "-Denvironment=default -Dalfresco.server=alfresco -Dalfresco.port=8080 -DincludeGroups=$IncludeGroups -DexcludeGroups=$ExcludeGroups  -Dalfresco.server.http=127.0.0.1 -Dalfresco.port.http=8081 -Dshare.port=8080 -Dshare.url=http://share:8080/share -Dshare.port.http=8082 -Dgrid.enabled=true -Dgrid.url=http://127.0.0.1:4444/wd/hub -Dbrowser.name=firefox -Dbrowser.version=59 -Denv.platform=linux")
+                }
+            }
+        }
+    }
+  }
+  post {
+    always {
+      step([$class: 'Publisher', reportFilenamePattern: 'target/surefire-reports/testng-results.xml'])    
+      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/reports/**/*' 
+    }
+  } 
+
+} 
+
+/*
+ * This will actually execute the maven test or suiteXml (ends with .xml) that is passed as argument
+ */
+def executeMavenTests(suiteOrTest, componentArgs="", m2Location="~/.m2/") {
+    if (suiteOrTest != null && suiteOrTest != "" && suiteOrTest != " ") {
+        def mvnArgs = "-Dtest=$suiteOrTest" 
+        
+        if (suiteOrTest.endsWith(".xml")) {
+           mvnArgs = "-DsuiteXmlFile=$suiteOrTest"
+        } 
+    
+        configFileProvider([configFile(fileId: 'alfresco-maven', variable: 'MAVEN_SETTINGS')]) {
+            sh """
+               mvn -s $MAVEN_SETTINGS clean install test \
+               -Dmaven.repo.local=$m2Location \
+               -Dalfresco.server=localhost \
+               -Dalfresco.port=8080 \
+               -DtestManagement.enabled=$TestRailEnabled \
+               -DtestManagement.testRun=$TestRailRunName \
+               -DtestManagement.apiKey=6z8dAK8oYhO89N36iDtB-Lwmp2k8.aDmFfXLeR90o \
+               -DtestManagement.project=1 \
+               -DtestManagement.suiteId=1 \
+               -Djmx.useJolokiaAgent=true \
+               -DserverHealth.showTenants=false \
+               $mvnArgs \
+                $componentArgs
+               """
+        }
+    } else {
+        sh "echo Skipping running maven tests. No suite or tests specified!"
+    } 
+}
+
+/*
+* clone git repository based on git tag
+* examples: cloneRepository('git.alfesco.com/tas/alfresco-tas-webdav-test.git', 'v6.1-tcds')
+*/
+def cloneRepository(gitRepo, gitTag) {
+  checkout([$class: 'GitSCM',
+    branches: [[name: "refs/tags/$gitTag"]], 
+    doGenerateSubmoduleConfigurations: false, 
+    extensions: [], 
+    submoduleCfg: [], 
+    userRemoteConfigs: 
+        [[credentialsId: 'alfresco-build', url: "$gitRepo"]]]
+  )    
+}
