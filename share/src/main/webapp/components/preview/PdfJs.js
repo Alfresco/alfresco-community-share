@@ -301,7 +301,7 @@
       inDashlet : false,
 
       /**
-       * Store the pdf.js url for use with PDFJS.workerSrc (4.2 Specific).
+       * Store the pdf.js url for use with pdfjsLib.workerSrc (4.2 Specific).
        *
        * @property workerSrc
        * @type string
@@ -419,7 +419,7 @@
        */
       onComponentsLoaded: function PdfJs_onComponentsLoaded()
       {
-         this.workerSrc = Alfresco.constants.URL_CONTEXT + 'res/components/preview/pdfjs/pdf.worker' +  (Alfresco.constants.DEBUG ? '.js' : '-min.js');
+         this.workerSrc = Alfresco.constants.URL_CONTEXT + 'res/components/preview/pdfjs/pdf.worker.js';
          // Find the name of pdf.js resource file (4.2 specific)
          var scriptElements = document.getElementsByTagName('script');
          for (var i = 0, il = scriptElements.length; i < il; i++)
@@ -841,31 +841,31 @@
          }
 
          // Set the worker source
-         PDFJS.workerSrc = this.workerSrc;
-         // Set the char map source dir
-         PDFJS.cMapUrl = './cmaps/';
-         PDFJS.cMapPacked = true;
+         pdfjsLib.GlobalWorkerOptions.workerSrc = this.workerSrc;
 
-         // PDFJS range request for progessive loading
+         params.cMapUrl = Alfresco.constants.URL_CONTEXT + 'res/components/preview/pdfjs/cmaps/';
+         params.cMapPacked = true;
+
+         // pdfjsLib range request for progessive loading
          // We also test if it may already be set to true by compatibility.js tests, some browsers do not support it.
-         if (this.attributes.progressiveLoading == "true" && PDFJS.disableRange != true)
+         if (this.attributes.progressiveLoading == "true" && params.disableRange != true)
          {
-             PDFJS.disableRange = false;
+             params.disableRange = false;
              // disable autofetch - retrieve just the ranges needed to display
-             PDFJS.disableAutoFetch = false;
+             params.disableAutoFetch = false;
          }
          else
          {
-             PDFJS.disableRange = true;
+            params.disableRange = true;
          }
 
          if (Alfresco.logger.isDebugEnabled())
          {
-            Alfresco.logger.debug("Using PDFJS.disableRange=" + PDFJS.disableRange + " PDFJS.disableAutoFetch:" + PDFJS.disableAutoFetch);
+            Alfresco.logger.debug("Using params.disableRange=" + params.disableRange + " params.disableAutoFetch:" + params.disableAutoFetch);
             Alfresco.logger.debug("Loading PDF file from " + fileurl);
          }
 
-         PDFJS.getDocument(params).then
+         pdfjsLib.getDocument(params).promise.then
          (
             Alfresco.util.bind(this._onGetDocumentSuccess, this),
             Alfresco.util.bind(this._onGetDocumentFailure, this)
@@ -1970,7 +1970,8 @@
       renderContent : function DocumentPage_renderContent()
       {
          var region = this.getRegion(),
-             canvas = document.createElement('canvas');
+             canvas = document.createElement('canvas'),
+             scale = { scale: this.parent.currentScale };
          canvas.id = this.container.id.replace('-pageContainer-', '-canvas-');
          canvas.mozOpaque = true;
          this.container.appendChild(canvas);
@@ -1984,7 +1985,7 @@
          canvas.height = region.height;
 
          // Add text layer
-         var viewport = this.content.getViewport(this.parent.currentScale);
+         var viewport = this.content.getViewport(scale);
          var textLayerDiv = null;
          if (!this.parent.config.disableTextLayer)
          {
@@ -2049,7 +2050,8 @@
        */
       _setPageSize : function DocumentPage__setPageSize(page)
       {
-         var viewPort = this.content.getViewport(this.parent.currentScale);
+         var scale = { scale: this.parent.currentScale },
+             viewPort = this.content.getViewport(scale);
          Dom.setStyle(this.container, "height", Math.floor(viewPort.height) + "px");
          Dom.setStyle(this.container, "width", Math.floor(viewPort.width) + "px");
       },
@@ -2425,9 +2427,9 @@
                 container = currentPage.container,
                 hmargin = parseInt(Dom.getStyle(container, "margin-left")) + parseInt(Dom.getStyle(container, "margin-right")),
                 vmargin = parseInt(Dom.getStyle(container, "margin-top")),
-                contentWidth = parseInt(currentPage.content.pageInfo.view[2]),
-                contentHeight = parseInt(currentPage.content.pageInfo.view[3]),
-                rotation = currentPage.content.pageInfo.rotate,
+                contentWidth = parseInt(currentPage.content.view[2]),
+                contentHeight = parseInt(currentPage.content.view[3]),
+                rotation = currentPage.content.rotate,
                 clientWidth = this.fullscreen ? window.screen.width : this.viewer.clientWidth - 1, // allow an extra pixel in width otherwise 2-up view wraps
                 clientHeight = this.fullscreen ? window.screen.height : this.viewer.clientHeight;
             
@@ -2715,7 +2717,7 @@ var TextLayerBuilder = function textLayerBuilder(textLayerDiv, pageIdx, pdfJsPlu
       textDiv.dataset.isWhitespace = true;
       return;
     }
-    var tx = PDFJS.Util.transform(this.viewport.transform, geom.transform);
+    var tx = pdfjsLib.Util.transform(this.viewport.transform, geom.transform);
     var angle = Math.atan2(tx[1], tx[0]);
     if (style.vertical) {
       angle += Math.PI / 2;
