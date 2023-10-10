@@ -1,0 +1,41 @@
+node('ff55') {
+ properties([
+    	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
+    	parameters([
+    	choice(choices: 'Firefox\nChrome', description: 'Browser', name: 'Browser'),
+    		string(defaultValue: '172.29.100.143', description: '', name: 'AlfrescoHost'),
+    		string(defaultValue: '8080', description: '', name: 'AlfrescoPort'),
+    		string(defaultValue: '8080', description: '', name: 'SharePort'),
+    		booleanParam(defaultValue: false, description: '', name: 'UseJolokiaAgent'),
+    		string(defaultValue: 'src/test/resources/share-po-runner-suite.xml' , description: '', name: 'SuiteXmlFile'),
+    		booleanParam(defaultValue: false, description: '', name: 'RunTestsMarkedAsBugs'),
+    		string(defaultValue: 'sanity', description: '', name: 'IncludeGroups'),
+    		string(defaultValue: 'google-docs,unit,SmartFolders,ExternalUsers', description: '', name: 'ExcludeGroups'),
+    		booleanParam(defaultValue: false, description: 'Enable or Disable the ability of adding tests and TestRail', name: 'EnableTestRailIntegration'),
+    		string(defaultValue: '5.2.N-${AlfrescoHost}', description: 'The name of the Test Run In TestRail (requires *EnableTestRailIntegration*)', name: 'TestRailTestRunName')
+    		])
+    ])
+
+	stage('Checkout') {
+     	bat 'git config --global http.sslVerify false'
+		checkout scm
+	}
+
+	stage('Compile') {
+		bat 'mvn -U clean install -DskipTests'
+	}
+
+	stage('Test') {
+    		try {
+               bat 'mvn test -DtestManagement.testRun=%TestRailTestRunName% -DtestManagement.enabled=%EnableTestRailIntegration% -DsuiteXmlFile=%SuiteXmlFile% -DincludeGroups=%IncludeGroups% -DexcludeGroups=%ExcludeGroups% -DrunBugs=%RunTestsMarkedAsBugs% -Dalfresco.server=%AlfrescoHost% -Dalfresco.port=%AlfrescoPort%  -Dshare.port=%SharePort% -Djmx.useJolokiaAgent=%UseJolokiaAgent% -Dbrowser.name=%Browser% -Dalfresco.scheme=http -Dadmin.user=admin -Dadmin.password=admin'
+            }
+            finally {
+                step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/junitreports/*.xml'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'target/reports', reportFiles: 'report.html', reportName: 'TSE Results'])
+            }
+    	}
+    	
+    stage('Deploy -snapshot-') {
+		bat 'mvn deploy -DskipTests'	
+	}
+}
