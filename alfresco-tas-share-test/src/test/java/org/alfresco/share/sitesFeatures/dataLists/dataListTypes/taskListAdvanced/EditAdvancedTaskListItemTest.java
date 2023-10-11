@@ -8,36 +8,48 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
+
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.AdvancedTaskAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
-import org.alfresco.share.ContextAwareWebTest;
+
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * @author Laura.Capsa
  */
-public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
+public class EditAdvancedTaskListItemTest extends BaseTest
 {
+    @Autowired
+    protected SiteService siteService;
+
+    @Autowired
+    protected DataListsService dataListsService;
+
     //@Autowired
     DataListsPage dataListsPage;
 
     //@Autowired
     EditItemPopUp editItemPopUp;
-
-    String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());
-    String userAssignee = String.format("UserA-%s", RandomData.getRandomAlphanumeric());
-    String siteName = String.format("SiteName-%s", RandomData.getRandomAlphanumeric());
     String listName = String.format("Advanced task item name%s", RandomData.getRandomAlphanumeric());
     String itemTitle = "Advanced task item title";
     String itemDescription = "Advanced task item description";
@@ -45,8 +57,7 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     String itemFile = "testFile1";
     CMISUtil.Priority itemPriority = CMISUtil.Priority.Low;
     CMISUtil.Status itemStatus = CMISUtil.Status.ON_HOLD;
-
-    String newItemTitle = " edited ItemTitle";
+    String newItemTitle = "edited ItemTitle";
     String newItemDescription = "edited ItemDescription";
     String newComments = "edited ItemComment";
     String newComplete = "5";
@@ -56,80 +67,111 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
 
     String date = "29/09/2016";
     String date2 = "Thu 29 Sep 2016";
+    private final ThreadLocal<UserModel> userName = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> userAssignee = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        userService.create(adminUser, adminPassword, userAssignee, password, userAssignee + domain, userAssignee, userAssignee);
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
-        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_ADVANCED, listName, "Advanced Task list description.");
+        log.info("Precondition: Any Test user is created");
+        userName.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
 
-        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
-        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
-        dataListsService.addTaskAdvancedItem(adminUser, adminPassword, siteName, listName, itemTitle, itemDescription, null, null, Collections.singletonList(userName),
+        userAssignee.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(userName.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(userName.get());
+
+        dataListsPage = new DataListsPage(webDriver);
+        editItemPopUp = new EditItemPopUp(webDriver);
+
+        siteService.addPageToSite(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), Page.DATALISTS, null);
+        dataListsService.createDataList(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), DataListsService.DataList.TASKS_ADVANCED, listName, "Advanced Task list description.");
+
+        contentService.uploadFileInSite(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), testDataFolder + attachedFile);
+        contentService.uploadFileInSite(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), testDataFolder + itemFile);
+        dataListsService.addTaskAdvancedItem(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), listName, itemTitle, itemDescription, null, null, Collections.singletonList(userName.get().getUsername()),
             itemPriority, itemStatus, 0, itemComment, Collections.singletonList(itemFile));
 
-        setupAuthenticatedSession(userName, password);
-        dataListsPage.navigate(siteName);
+        authenticateUsingLoginPage(userName.get());
+
+        dataListsPage.navigate(siteName.get());
         dataListsPage.clickAdvancedTaskListItem(listName);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser, adminPassword, userAssignee);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userAssignee);
-        siteService.delete(adminUser, adminPassword, siteName);
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userName.get().getUsername());
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userAssignee.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(userName.get());
+        deleteUsersIfNotNull(userAssignee.get());
     }
 
     @TestRail (id = "C10354")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyEditDataItem()
     {
-        LOG.info("STEP1: Click 'Edit' icon for the advanced task list item to be edited");
+        log.info("STEP1: Click 'Edit' icon for the advanced task list item to be edited");
         dataListsPage.clickEditButtonForListItem();
 
-        LOG.info("STEP2: Provide new input for Title field");
+        log.info("STEP2: Provide new input for Title field");
         editItemPopUp.editContent(AdvancedTaskAgendaFields.Title.toString(), newItemTitle);
 
-        LOG.info("STEP3: Provide new input for Description field");
+        log.info("STEP3: Provide new input for Description field");
         editItemPopUp.editContent(AdvancedTaskAgendaFields.Description.toString(), newItemDescription);
 
-        LOG.info("STEP4: Select Start Date");
+        log.info("STEP4: Select Start Date");
         editItemPopUp.editContent(AdvancedTaskAgendaFields.StartDate.toString(), date);
 
-        LOG.info("STEP5: Select End Date");
+        log.info("STEP5: Select End Date");
         editItemPopUp.editContent(AdvancedTaskAgendaFields.EndDate.toString(), date);
 
-        LOG.info("STEP6: Edit the Assignee field");
-        editItemPopUp.addAssignedToAdvancedTask(userAssignee);
+        log.info("STEP6: Edit the Assignee field");
+        editItemPopUp.addAssignedToAdvancedTask(userAssignee.get().getUsername());
 
-        LOG.info("STEP7: Select a Priority from dropdown");
+        log.info("STEP7: Select a Priority from dropdown");
         editItemPopUp.selectDropDownItem(newItemPriority, "taskPriority");
 
-        LOG.info("STEP8: Select a Status value from dropdown");
+        log.info("STEP8: Select a Status value from dropdown");
         editItemPopUp.selectDropDownItem(newItemStatus, "taskStatus");
 
-        LOG.info("STEP9: Edit %Complete field");
+        log.info("STEP9: Edit %Complete field");
         editItemPopUp.editContent(AdvancedTaskAgendaFields.Complete.toString(), newComplete);
 
-        LOG.info("STEP10: Provide input for Comments field");
+        log.info("STEP10: Provide input for Comments field");
         editItemPopUp.editContent(AdvancedTaskAgendaFields.Comments.toString(), newComments);
 
-        LOG.info("STEP11: Edit Attachments, add new attachment");
+        log.info("STEP11: Edit Attachments, add new attachment");
         editItemPopUp.addAttachmentFromDocumentLibrary(attachedFile);
 
-        LOG.info("STEP12: Click on Save button");
+        log.info("STEP12: Click on Save button");
         editItemPopUp.clickSave();
-        assertEquals(dataListsPage.currentContent.messageDisplayed(), "Data Item updated successfully", "The pop-up message isn't as expected.");
-        List<String> attachments = Arrays.asList(attachedFile, itemFile);
+        assertEquals(dataListsPage.messageDisplayed(), "Data Item updated successfully", "The pop-up message isn't as expected.");
 
-        List<String> item = Arrays.asList(newItemTitle, newItemDescription, date2, date2, userAssignee, newItemPriority, newItemStatus, newComplete,
-            newComments, attachments.toString());
-        assertTrue(dataListsPage.currentContent.isListItemDisplayed(item), newItemTitle + " Advanced task list item is displayed.");
+        List<String> expectedList = Arrays.asList(newItemTitle, newItemDescription, date2, date2, newItemPriority, newItemStatus, newComplete, newComments);
+        for (String anExpectedList : expectedList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
+        }
+
+        String user1 = userName.get().getFirstName() + " " + userName.get().getLastName();
+        String user2 = userAssignee.get().getFirstName() + " " + userAssignee.get().getLastName();
+
+        List<String> userList = Arrays.asList(user1+"\n"+user2);
+        for (String users : userList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(users), "Assignee list item is updated.");
+        }
+
+        List<String> attachmentFiles = Arrays.asList(itemFile+"\n"+attachedFile);
+        for (String attachments : attachmentFiles)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(attachments), "Attachments updated.");
+        }
     }
 }

@@ -52,6 +52,14 @@ public class CreateNewItemPopUp extends BaseDialogComponent
         selectDocumentPopupPage.clickOkButton();
     }
 
+    public void removeAttachments(String fileName)
+    {
+        clickElement(By.cssSelector(selectAttachmentButtonLocator));
+        SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
+        selectDocumentPopupPage.clickRemoveIcon(fileName);
+        selectDocumentPopupPage.clickOkButton();
+    }
+
     public void addAssignedTo(String userName)
     {
         if (userName != null)

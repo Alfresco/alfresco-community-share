@@ -24,6 +24,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private final By deleteListButton = By.cssSelector(".filter-link>.delete");
     private final By noListDisplayed = By.cssSelector("div[class='no-lists']");
     private final By successfullyCreatedMessage = By.cssSelector("div[id='message_c'] span[class='message']");
+    private final By balloon = By.cssSelector("div[class='bd'] span[class='message']");
     private final By listWithCreatedLists = By.cssSelector(".datalists ul");
     private final By editListItemButton = By.cssSelector(".yui-dt-col-actions .onActionEdit>a");
     private final By listItemActionsField = By.cssSelector("td[headers*='actions']");
@@ -37,7 +38,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private final By newListCancelButton = By.cssSelector(".bdft button[id*='cancel-button']");
     private final By listMessage = By.cssSelector(".select-list-message");
     private final By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
-
+    private final By listItemData = By.className("yui-dt-liner");
     private final String createNewItemForm = "//form[contains(@action, '%s')]";
     private final String listLinkLocator = "//a[@class='filter-link']";
     private final String listItemTitleLocator = "//div[@class='datagrid']//h2[text()='%s']";
@@ -284,4 +285,21 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         waitInSeconds(3);
         return isElementDisplayed(By.xpath(String.format(createNewItemForm, listName.name)));
     }
+
+    public String messageDisplayed()
+    {
+        return getElementText(balloon);
+    }
+
+    public List<String> getFilterTypeList()
+    {
+        List<String> listItems = new ArrayList<>();
+        waitInSeconds(2);
+        for (WebElement listItemNames : findElements(listItemData))
+        {
+            listItems.add(listItemNames.getText());
+        }
+        return listItems;
+    }
+
 }
