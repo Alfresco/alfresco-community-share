@@ -66,7 +66,7 @@ public class SelectPopUpPage extends BaseDialogComponent
     public void clickRemoveIcon(String item)
     {
         waitUntilElementsAreVisible(selectedList);
-        clickElement(selectDetailsRowResultList(item).findElement(removeIcon));
+        clickElement(selectDetailsRowSelectedList(item).findElement(removeIcon));
     }
 
     public void clickOkButton()
