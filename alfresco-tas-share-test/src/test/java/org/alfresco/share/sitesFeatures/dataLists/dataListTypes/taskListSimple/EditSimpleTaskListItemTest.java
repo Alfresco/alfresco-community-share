@@ -8,35 +8,52 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
+
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.SimpleTaskAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
-import org.alfresco.share.ContextAwareWebTest;
+
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * @author Laura.Capsa
  */
-public class EditSimpleTaskListItemTest extends ContextAwareWebTest
+public class EditSimpleTaskListItemTest extends BaseTest
 {
+    @Autowired
+    protected SiteService siteService;
+
+    @Autowired
+    protected DataListsService dataListsService;
+
    // @Autowired
     DataListsPage dataListsPage;
 
     //@Autowired
     EditItemPopUp editItemPopUp;
 
-    String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());
-    String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
+    private final ThreadLocal<UserModel> userName = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
     String taskListSimple = String.format("Simple task item name%s", RandomData.getRandomAlphanumeric());
     String itemTitle = "Simple task item title";
     String itemDescription = "Simple task item description";
@@ -44,67 +61,82 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
     CMISUtil.Priority itemPriority = CMISUtil.Priority.Low;
     CMISUtil.Status itemStatus = CMISUtil.Status.ON_HOLD;
 
-    String newItemTitle = " edited ItemTitle";
+    String newItemTitle = "edited ItemTitle";
     String newItemDescription = "edited ItemDescription";
     String newComments = "edited ItemComment";
-
     String newDateString = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    private String formatDate(DateTime date)
+    {
+        return date.toString("EE d MMM yyyy");
+    }
 
-    @BeforeClass (alwaysRun = false)
+    @BeforeMethod (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
-        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_SIMPLE, taskListSimple, "Simple Task list description");
-        dataListsService.addTaskSimpleItem(adminUser, adminPassword, siteName, taskListSimple, itemTitle, itemDescription, null, itemPriority, itemStatus,
+        log.info("Precondition: Any Test user is created");
+        userName.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(userName.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(userName.get());
+
+        dataListsPage = new DataListsPage(webDriver);
+        editItemPopUp = new EditItemPopUp(webDriver);
+
+        siteService.addPageToSite(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), Page.DATALISTS, null);
+        dataListsService.createDataList(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), DataListsService.DataList.TASKS_SIMPLE, taskListSimple, "Simple Task list description");
+        dataListsService.addTaskSimpleItem(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), taskListSimple, itemTitle, itemDescription, null, itemPriority, itemStatus,
             itemComment);
 
-        setupAuthenticatedSession(userName, password);
-        dataListsPage.navigate(siteName);
+        authenticateUsingLoginPage(userName.get());
+
+        dataListsPage.navigate(siteName.get());
         dataListsPage.clickSimpleTaskListItem(taskListSimple);
     }
 
-    @AfterClass (alwaysRun = false)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userName.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(userName.get());
     }
 
     @TestRail (id = "C6588")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void verifyEditDataItem()
     {
-        LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");
-        List<String> item = Arrays.asList(itemTitle, itemDescription, null, itemPriority.toString(), itemStatus.getValue(), itemComment);
-        // assertTrue(dataListsPage.currentContent.isListItemDisplayed(item), itemTitle + " simple task list item is displayed.");
-        // dataListsPage.currentContent.editItem(item);
+        log.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");
         dataListsPage.clickEditButtonForListItem();
 
-        LOG.info("STEP2: Provide new input for the Title field");
+        log.info("STEP2: Provide new input for the Title field");
         editItemPopUp.editContent(SimpleTaskAgendaFields.Title.toString(), newItemTitle);
 
-        LOG.info("STEP3: Provide new input for the Description field");
+        log.info("STEP3: Provide new input for the Description field");
         editItemPopUp.editContent(SimpleTaskAgendaFields.Description.toString(), newItemDescription);
 
-        LOG.info("STEP4: Select Due Date");
+        log.info("STEP4: Select Due Date");
         editItemPopUp.editContent(SimpleTaskAgendaFields.DueDate.toString(), newDateString);
 
-        LOG.info("STEP5: Select a Priority from dropdown");
+        log.info("STEP5: Select a Priority from dropdown");
         editItemPopUp.selectDropDownItem(itemPriority.toString(), "simpletaskPriority");
 
-        LOG.info("STEP6: Select a Status value from dropdown");
+        log.info("STEP6: Select a Status value from dropdown");
         editItemPopUp.selectDropDownItem(itemStatus.getValue(), "simpletaskStatus");
 
-        LOG.info("STEP7: Provide input for the Comments field");
+        log.info("STEP7: Provide input for the Comments field");
         editItemPopUp.editContent(SimpleTaskAgendaFields.Comments.toString(), newComments);
 
-        LOG.info("STEP8: Click on Save button");
+        log.info("STEP8: Click on Save button");
         editItemPopUp.clickSave();
-        assertEquals(dataListsPage.currentContent.messageDisplayed(), "Data Item updated successfully", "The pop-up message isn't as expected.");
-        item = Arrays.asList(newItemTitle, newItemDescription, newDateString, itemPriority.toString(), itemStatus.getValue(), newComments);
-        assertTrue(dataListsPage.currentContent.isListItemDisplayed(item), newItemTitle + " simple task list item is displayed.");
+        assertEquals(dataListsPage.messageDisplayed(), "Data Item updated successfully", "The pop-up message isn't as expected.");
+
+        DateTime today = new DateTime();
+        List<String> expectedList = Arrays.asList(newItemTitle, newItemDescription, formatDate(today), itemPriority.toString(), itemStatus.getValue(), newComments);
+        for (String anExpectedList : expectedList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "simple task list item is updated.");
+        }
     }
 }
