@@ -23,10 +23,13 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private final By editButtonDisabled = By.cssSelector("span[class='edit-disabled']");
     private final By deleteListButton = By.cssSelector(".filter-link>.delete");
     private final By noListDisplayed = By.cssSelector("div[class='no-lists']");
+    private final By noListItemsDisplayMessage = By.xpath("//div[text()=\"No list items\"]");
     private final By successfullyCreatedMessage = By.cssSelector("div[id='message_c'] span[class='message']");
     private final By balloon = By.cssSelector("div[class='bd'] span[class='message']");
     private final By listWithCreatedLists = By.cssSelector(".datalists ul");
     private final By editListItemButton = By.cssSelector(".yui-dt-col-actions .onActionEdit>a");
+    private final By deleteListItemButton = By.cssSelector(".yui-dt-col-actions .onActionDelete>a");
+    private final By duplicateListItemButton = By.cssSelector(".yui-dt-col-actions .onActionDuplicate>a");
     private final By listItemActionsField = By.cssSelector("td[headers*='actions']");
     private final By listSelected = By.cssSelector("[class='selected'] a[class='filter-link']");
     private final By tableColumnHeader = By.cssSelector("div[id$='default-grid'] th span");
@@ -39,10 +42,13 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private final By listMessage = By.cssSelector(".select-list-message");
     private final By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
     private final By listItemData = By.className("yui-dt-liner");
+    private final By listItemRowPagination= By.className("yui-pg-current");
     private final String createNewItemForm = "//form[contains(@action, '%s')]";
     private final String listLinkLocator = "//a[@class='filter-link']";
     private final String listItemTitleLocator = "//div[@class='datagrid']//h2[text()='%s']";
 
+    protected By duplicate = By.cssSelector("a[title='Duplicate']");
+    protected By actionsColumn = By.cssSelector("td[class*='col-actions'] div");
     public DataListsPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -127,6 +133,11 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public boolean noListDisplayed()
     {
         return isElementDisplayed(noListDisplayed);
+    }
+
+    public boolean noListItemsDisplayed()
+    {
+        return isElementDisplayed(noListItemsDisplayMessage);
     }
 
     public boolean isNewItemButtonDisplayed()
@@ -224,6 +235,13 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return new DeleteListPopUp(webDriver);
     }
 
+    public DeleteListPopUp clickDeleteButtonForListItem()
+    {
+        mouseOver(listItemActionsField);
+        clickElement(deleteListItemButton);
+        return new DeleteListPopUp(webDriver);
+    }
+
     public CreateDataListDialog clickOnNewListButton()
     {
         clickElement(newListButton);
@@ -258,6 +276,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public EditItemPopUp clickEditButtonForListItem()
     {
+        waitInSeconds(2);
         mouseOver(listItemActionsField);
         waitUntilElementIsVisible(editListItemButton).click();
         return new EditItemPopUp(webDriver);
@@ -302,4 +321,23 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return listItems;
     }
 
+    public EditItemPopUp clickDuplicateButtonForListItem()
+    {
+        mouseOver(listItemActionsField);
+        waitUntilElementIsVisible(duplicateListItemButton).click();
+        return new EditItemPopUp(webDriver);
+    }
+
+    public boolean isNewListItemRowAdded(String rowNumber)
+    {
+        waitInSeconds(2);
+        for (WebElement listItems : findElements(listItemRowPagination))
+        {
+            if (listItems.getText().contains(rowNumber))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
