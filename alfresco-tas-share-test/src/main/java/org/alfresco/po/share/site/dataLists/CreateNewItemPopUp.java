@@ -17,6 +17,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     protected final String fieldLocator = "div[class*='form-field'] [id*='%s']";
     private final String dropDownLocator = "select[id*='%s']";
     private final String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
+    private final String selectAttachmentFolder = "h3.item-name a";
     private final String selectAssignedToButtonLocator = "div[id*='cntrl-itemGroupActions'] button";
     private final By selectAttachmentButton = By.cssSelector("div[id*='attachments-cntrl-itemGroupActions'] button");
 
@@ -39,6 +40,19 @@ public class CreateNewItemPopUp extends BaseDialogComponent
             clickElement(By.cssSelector(selectAttachmentButtonLocator));
             SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
             selectDocumentPopupPage.clickItem(folderName);
+            selectDocumentPopupPage.clickAddIcon(fileName);
+            selectDocumentPopupPage.clickOkButton();
+        }
+    }
+
+    public void addAttachment(String folderName, String fileName)
+    {
+        if (folderName != null)
+        {
+            clickElement(By.cssSelector(selectAttachmentButtonLocator));
+            SelectDocumentPopupPage selectDocumentPopupPage = new SelectDocumentPopupPage(webDriver);
+            mouseOver(By.cssSelector(selectAttachmentFolder));
+            clickElement(By.cssSelector(selectAttachmentFolder));
             selectDocumentPopupPage.clickAddIcon(fileName);
             selectDocumentPopupPage.clickOkButton();
         }
@@ -141,7 +155,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     public void fillCreateNewEventItem(List<String> fieldsValue, String folder, String file)
     {
         fillCreateNewItemPopupFields(EventListFields.class, fieldsValue);
-        addAttachments(folder, file);
+        addAttachment(folder, file);
     }
 
     /**
@@ -157,7 +171,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     public void fillCreateNewIssueItem(List<String> fieldsValue, String folder, String file, String userName, String status, String priority)
     {
         fillCreateNewItemPopupFields(IssueFields.class, fieldsValue);
-        addAttachments(folder, file);
+        addAttachment(folder, file);
         addAssignedTo(userName);
         selectDropDownItem(status, DropDownLists.issueStatus.toString());
         selectDropDownItem(priority, DropDownLists.issuePriority.toString());
@@ -173,7 +187,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     public void fillCreateNewLocationItem(List<String> fieldsValue, String folder, String file)
     {
         fillCreateNewItemPopupFields(LocationFields.class, fieldsValue);
-        addAttachments(folder, file);
+        addAttachment(folder, file);
     }
 
     /**
@@ -186,7 +200,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     public void fillCreateNewMeetingAgendaItem(List<String> fieldsValue, String folder, String file)
     {
         fillCreateNewItemPopupFields(MeetingAgendaFields.class, fieldsValue);
-        addAttachments(folder, file);
+        addAttachment(folder, file);
     }
 
     /**
@@ -202,7 +216,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     public void fillCreateNewAdvancedTaskItem(List<String> fieldsValue, String folder, String file, String userName, String status, String priority)
     {
         fillCreateNewItemPopupFields(AdvancedTaskAgendaFields.class, fieldsValue);
-        addAttachments(folder, file);
+        addAttachment(folder, file);
         addAssignedToAdvancedTask(userName);
         selectDropDownItem(status, DropDownLists.taskStatus.toString());
         selectDropDownItem(priority, DropDownLists.taskPriority.toString());
@@ -234,7 +248,7 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     public void fillCreateNewToDoItem(List<String> fieldsValue, String folder, String file, String userName, String status)
     {
         fillCreateNewItemPopupFields(ToDoAgendaFields.class, fieldsValue);
-        addAttachments(folder, file);
+        addAttachment(folder, file);
         addAssignedToToDo(userName);
         selectDropDownItem(status, DropDownLists.todoStatus.toString());
     }
@@ -823,61 +837,46 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 
     public enum VisitorAgendaFields
     {
-        Email
+        Title
             {
                 public String toString()
                 {
-                    return "visitorEmail";
+                    return "todoTitle";
                 }
             },
 
-        FeedbackType
+        DueDate
             {
                 public String toString()
                 {
-                    return "feedbackType";
+                    return "todoDueDate-cntrl-date";
                 }
             },
 
-        FeedbackSubject
+        DueTime
             {
                 public String toString()
                 {
-                    return "feedbackSubject";
+                    return "todoDueDate-cntrl-time";
                 }
             },
 
-        FeedbackComment
+        Priority
             {
                 public String toString()
                 {
-                    return "feedbackComment";
+                    return "todoPriority";
                 }
             },
 
-        Rating
+        Notes
             {
                 public String toString()
                 {
-                    return "rating";
-                }
-            },
-
-        VisitorName
-            {
-                public String toString()
-                {
-                    return "visitorName";
-                }
-            },
-
-        VisitorWebsite
-            {
-                public String toString()
-                {
-                    return "visitorWebsite";
+                    return "todoNotes";
                 }
             }
+
     }
 
 
