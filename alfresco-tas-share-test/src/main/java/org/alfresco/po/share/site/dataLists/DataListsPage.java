@@ -321,6 +321,12 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return listItems;
     }
 
+    public void clickNewItemButtons()
+    {
+        waitInSeconds(3);
+        findElement(newItemButton).click();
+    }
+
     public EditItemPopUp clickDuplicateButtonForListItem()
     {
         mouseOver(listItemActionsField);
