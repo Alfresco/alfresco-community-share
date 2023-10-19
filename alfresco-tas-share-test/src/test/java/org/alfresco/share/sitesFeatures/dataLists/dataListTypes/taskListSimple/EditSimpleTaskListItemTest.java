@@ -104,7 +104,7 @@ public class EditSimpleTaskListItemTest extends BaseTest
     }
 
     @TestRail (id = "C6588")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void verifyEditDataItem()
     {
         log.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");

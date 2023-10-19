@@ -95,7 +95,7 @@ public class EditContactListItemTest extends BaseTest
     }
 
     @TestRail (id = "C6549")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem() throws InterruptedException {
         log.info("STEP1: Click the 'Edit' icon for the contact list item to be edited");
         dataListsPage.clickEditButtonForListItem();
