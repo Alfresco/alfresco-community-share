@@ -54,6 +54,16 @@
          <package name="org.alfresco.share.tasksAndWorkflows.ViewingAStartedWorkflow"></package>
          <package name="org.alfresco.share.tasksAndWorkflows"></package>
          <package name="org.alfresco.share.sitesFeatures.calendar.TimeZone"></package>
+         <package name="org.alfresco.share.sitesFeatures.calendar"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.contactList"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventAgenda"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventList"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.issueList"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.locationList"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.meetingAgenda"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvanced"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListSimple"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems"></package>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
