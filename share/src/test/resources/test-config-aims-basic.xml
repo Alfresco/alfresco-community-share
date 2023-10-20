@@ -12,6 +12,7 @@
         <alwaysRefreshToken>${aims.alwaysRefreshToken}</alwaysRefreshToken>
         <principalAttribute>${aims.principalAttribute}</principalAttribute>
         <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
+        <secret>${aims.secret}</secret>
     </config>
 
 </alfresco-config>

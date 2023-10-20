@@ -64,6 +64,7 @@ public class AIMSConfigTest extends BaseTest
         System.clearProperty("aims.alwaysRefreshToken");
         System.clearProperty("aims.principalAttribute");
         System.clearProperty("aims.enableBasicAuth");
+        System.clearProperty("aims.secret");
     }
 
     /**
