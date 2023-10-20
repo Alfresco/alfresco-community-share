@@ -25,6 +25,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 
 public class AIMSConfig
 {
@@ -38,6 +40,8 @@ public class AIMSConfig
     private String sslRequired;
     private String principalAttribute;
     private ConfigService configService;
+
+    private Boolean publicClient;
     /**
      *
      */
@@ -49,16 +53,33 @@ public class AIMSConfig
         this.setResource(config.getConfigElementValue("resource"));
         this.setAuthServerUrl(config.getConfigElementValue("authServerUrl"));
         this.setSslRequired(config.getConfigElementValue("sslRequired"));
+        this.setPublicClient(Boolean.parseBoolean(config.getConfigElement("publicClient").getValue()));
 
-        if(!StringUtils.isEmpty(config.getConfigElementValue("secret")))
-            this.setSecret(config.getConfigElementValue("secret"));
+        if (publicClient)
+        {
+            this.setSecret(null);
+        }
         else
-            this.setSecret(config.getConfigElementValue("resource"));
+        {
+            if (!StringUtils.isEmpty(config.getConfigElementValue("secret")))
+            {
+                this.setSecret(config.getConfigElementValue("secret"));
+            }
+            else
+            {
+                OAuth2Error oauth2Error = new OAuth2Error("Missing secret-key value. Please provide a Secret Key");
+                throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
+            }
+        }
 
-        if(!StringUtils.isEmpty(config.getConfigElementValue("principalAttribute")))
+        if (!StringUtils.isEmpty(config.getConfigElementValue("principalAttribute")))
+        {
             this.setPrincipalAttribute(config.getConfigElementValue("principalAttribute"));
+        }
         else
+        {
             this.setPrincipalAttribute("sub");
+        }
 
     }
 
@@ -72,7 +93,6 @@ public class AIMSConfig
     }
 
     /**
-     *
      * @param enabled boolean
      */
     private void setEnabled(boolean enabled)
@@ -81,7 +101,6 @@ public class AIMSConfig
     }
 
     /**
-     *
      * @return boolean
      */
     public boolean isEnabled()
@@ -89,27 +108,73 @@ public class AIMSConfig
         return this.enabled;
     }
 
-    public String getRealm() { return realm; }
+    public String getRealm()
+    {
+        return realm;
+    }
 
-    public void setRealm(String realm) { this.realm = realm; }
+    public void setRealm(String realm)
+    {
+        this.realm = realm;
+    }
 
-    public String getResource() { return resource; }
+    public String getResource()
+    {
+        return resource;
+    }
 
-    public void setResource(String resource) { this.resource = resource; }
+    public void setResource(String resource)
+    {
+        this.resource = resource;
+    }
 
-    public String getAuthServerUrl() { return authServerUrl; }
+    public String getAuthServerUrl()
+    {
+        return authServerUrl;
+    }
 
-    public void setAuthServerUrl(String authServerUrl) { this.authServerUrl = authServerUrl; }
+    public void setAuthServerUrl(String authServerUrl)
+    {
+        this.authServerUrl = authServerUrl;
+    }
 
-    public String getSslRequired() { return sslRequired; }
+    public String getSslRequired()
+    {
+        return sslRequired;
+    }
 
-    public void setSslRequired(String sslRequired) { this.sslRequired = sslRequired; }
+    public void setSslRequired(String sslRequired)
+    {
+        this.sslRequired = sslRequired;
+    }
 
-    public String getSecret() { return secret; }
+    public String getSecret()
+    {
+        return secret;
+    }
 
-    public void setSecret(String secret) { this.secret = secret; }
+    public void setSecret(String secret)
+    {
+        this.secret = secret;
+    }
 
-    public String getPrincipalAttribute() { return principalAttribute; }
+    public String getPrincipalAttribute()
+    {
+        return principalAttribute;
+    }
 
-    public void setPrincipalAttribute(String principalAttribute) { this.principalAttribute = principalAttribute; }
+    public void setPrincipalAttribute(String principalAttribute)
+    {
+        this.principalAttribute = principalAttribute;
+    }
+
+    public Boolean getPublicClient()
+    {
+        return publicClient;
+    }
+
+    public void setPublicClient(Boolean publicClient)
+    {
+        this.publicClient = publicClient;
+    }
 }
