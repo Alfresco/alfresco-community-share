@@ -31,7 +31,7 @@
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
         <dependency.alfresco-community-repo.version>23.1.0.253</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>23.1.0.224</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-enterprise-repo.version>23.1.0.225</dependency.alfresco-enterprise-repo.version>
 
         <dependency.alfresco-transform-service.version>4.0.0-A12</dependency.alfresco-transform-service.version>
         <dependency.alfresco-transform-core.version>5.0.0-A5</dependency.alfresco-transform-core.version>
