@@ -1,6 +1,9 @@
 package org.alfresco.web.site.servlet.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nimbusds.oauth2.sdk.ParseException;
+import com.nimbusds.oauth2.sdk.id.Issuer;
+import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata;
 import org.alfresco.web.site.TaskUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -23,8 +27,14 @@ import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAut
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Configuration
@@ -36,6 +46,9 @@ public class AppConfig {
     private final String authUrl;
     private final String principalAttribute;
     private final AIMSConfig aimsConfig;
+    private static final String REALMS = "realms";
+    private static final RestTemplate rest = new RestTemplate();
+
     @Autowired
     public AppConfig(AIMSConfig aimsConfig) {
         this.aimsConfig = aimsConfig;
@@ -67,7 +80,7 @@ public class AppConfig {
     }
 
     @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
+    public ClientRegistrationRepository clientRegistrationRepository() throws ParseException {
         ClientRegistration clientRegistration = this.clientRegistration();
         if (null != clientRegistration)
             return new
@@ -96,7 +109,7 @@ public class AppConfig {
             return null;
     }
 
-    private ClientRegistration clientRegistration() {
+    private ClientRegistration clientRegistration() throws ParseException {
         if(aimsConfig.isEnabled()) {
             String realm_url = authUrl + "/realms/" + realm;
             /**
@@ -104,7 +117,9 @@ public class AppConfig {
              */
             AtomicReference<ClientRegistration.Builder> builder = new AtomicReference<>();
             TaskUtils.retry(10, 1000, logger,
-                () -> builder.set(ClientRegistrations.fromOidcIssuerLocation(realm_url)));
+                () -> builder.set(ClientRegistrations.fromOidcIssuerLocation(
+                    getIssuer(URI.create(realm_url),realm).get()
+                )));
 
             return
                 builder.get()
@@ -134,5 +149,25 @@ public class AppConfig {
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter(builder.build());
         jsonConverter.setSupportedMediaTypes(supportedMediaTypes);
         return jsonConverter;
+    }
+
+    private static Optional<String> getIssuer(URI realm_url, String realm) throws ParseException {
+
+        URI uri = UriComponentsBuilder.fromUri(realm_url)
+            .replacePath(realm_url.getPath() + "/.well-known/openid-configuration")
+            .build(Collections.emptyMap());
+
+        RequestEntity<Void> request = RequestEntity.get(uri).build();
+        String configuration = rest.exchange(request, String.class).getBody();
+
+        OIDCProviderMetadata metadata = OIDCProviderMetadata.parse(configuration);
+
+        return Optional.of(Optional.of(metadata)
+            .map(OIDCProviderMetadata::getIssuer)
+            .map(Issuer::getValue)
+            .orElse(UriComponentsBuilder.fromUriString(realm_url.toString())
+                .pathSegment(REALMS, realm)
+                .build()
+                .toString()));
     }
 }
