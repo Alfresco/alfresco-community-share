@@ -17,6 +17,13 @@ public class ContactListSelectedContentPage extends BaseDialogComponent {
     private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
     private String selectColumn = "div[id$='default-grid'] table thead tr div[id*='%s'] span a";
     private String selectedColumnItems = "table tbody td[class*='%s']";
+
+    private By selectButtonSelector = By.cssSelector("button[id*='itemSelect']");
+    private By invertSelectionButtonOption = By.cssSelector(".datagrid-bar.flat-button .selectInvert");
+    private By selectAllButtonOption = By.cssSelector(".datagrid-bar.flat-button .selectAll");
+    private By selectNoneButtonOption = By.cssSelector(".datagrid-bar.flat-button .selectNone");
+    private By itemDataTable = By.cssSelector("div[class='grid yui-dt'] table");
+
     DataListsPage dataListsPage;
     ContactListItemsTable tableRow;
     protected WebBrowser browser;
@@ -86,5 +93,58 @@ public class ContactListSelectedContentPage extends BaseDialogComponent {
         {
             return this.name;
         }
+    }
+
+    public boolean isSelectButtonDisplayed()
+    {
+        return isElementDisplayed(findElement(selectButtonSelector));
+    }
+
+    public boolean isInvertSelectionButtonOptionEnabled()
+    {
+        return findElement(invertSelectionButtonOption).isEnabled();
+    }
+
+    public boolean isSelectAllButtonOptionDisplayed()
+    {
+        return findElement(selectAllButtonOption).isEnabled();
+    }
+
+    public boolean isSelectNoneButtonOptionDisplayed()
+    {
+        return findElement(selectNoneButtonOption).isEnabled();
+    }
+
+    public void clickSelectButton()
+    {
+       waitUntilElementClickable(itemDataTable);
+       findElement(selectButtonSelector).click();
+    }
+
+    public void clickSelectAllOption()
+    {
+        clickSelectButton();
+        waitUntilElementClickable(selectAllButtonOption);
+        findElement(selectAllButtonOption).click();
+    }
+
+    public void clickInvertSelectionOption()
+    {
+        clickSelectButton();
+        waitUntilElementClickable(invertSelectionButtonOption);
+        findElement(invertSelectionButtonOption).click();
+    }
+
+    public void clickSelectNoneOption()
+    {
+        clickSelectButton();
+        waitUntilElementClickable(invertSelectionButtonOption);
+        findElement(selectNoneButtonOption).click();
+    }
+
+    public boolean isItemChecked(List<String> listDetails)
+    {
+        tableRow = new ContactListItemsTable(findRow(listDetails).get(0), browser);
+        return tableRow.getCheckBoxColumn().isSelected();
     }
 }
