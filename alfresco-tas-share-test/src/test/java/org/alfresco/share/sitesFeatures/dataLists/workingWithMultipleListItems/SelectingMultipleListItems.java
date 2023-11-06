@@ -3,77 +3,87 @@ package org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
+import org.alfresco.po.share.site.dataLists.ContactListSelectedContentPage;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+
 
 /**
  * Created by Argint Alex on 9/22/2016.
  */
-public class SelectingMultipleListItems extends ContextAwareWebTest
+@Slf4j
+public class SelectingMultipleListItems extends BaseTest
 {
-    //@Autowired
-    DataListsPage dataListsPage;
-
     @Autowired
     ContactListSelectedContent contactListSelectedContent;
 
+    @Autowired
+    DataListsService dataListsService;
+
+    @Autowired
+    SiteService siteService;
+
+    private ContactListSelectedContentPage contactListSelectedContentPage;
+    private DataListsPage dataListsPage;
     private String uniqueIdentifier;
-    private String userName;
-    private String siteName;
     private String description;
     private String contactList;
     private List<String> contacts = new ArrayList<>();
 
-    @BeforeClass (alwaysRun = true)
-    public void createUser()
-    {
-        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        setupAuthenticatedSession(userName, password);
-    }
-
-    @AfterClass (alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-    }
-
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
 
     public void setup(String id)
     {
 
-        LOG.info("Preconditions for test " + id);
+        log.info("Preconditions for test " + id);
         uniqueIdentifier = String.format("-%s-%s", id, RandomData.getRandomAlphanumeric());
-        siteName = "siteName" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
         contactList = "ContactList" + uniqueIdentifier;
 
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.DATALISTS, null);
-        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
+        dataListsPage = new DataListsPage(webDriver);
+        contactListSelectedContentPage = new ContactListSelectedContentPage(webDriver);
+
+        log.info("Precondition: Any Test user is created");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+
+        siteService.addPageToSite(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DashboardCustomization.Page.DATALISTS, null);
+        dataListsService.createDataList(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DataListsService.DataList.CONTACT_LIST, contactList, description);
         for (int i = 0; i <= 9; i++)
         {
-            dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName" + i, "LastName" + i,
+            dataListsService.addContactListItem(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), contactList, "FirstName" + i, "LastName" + i,
                 "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
         }
-
-        dataListsPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        dataListsPage.navigate(siteName.get().getId());
         dataListsPage.clickContactListItem(contactList);
-        getBrowser().waitInSeconds(2);
-        contactListSelectedContent.setBrowser(getBrowser());
+    }
+
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + user.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(user.get());
     }
 
     @TestRail (id = "C6403")
@@ -81,16 +91,16 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     public void selectAllItemsTest()
     {
 
-        LOG.info("Starting test C6403");
+        log.info("Starting test C6403");
         setup("C6403");
 
-        LOG.info("Step 1: Click the Select button on the Contact List");
-        Assert.assertTrue(contactListSelectedContent.isSelectButtonDisplayed(), "'Select' button is not displayed'");
-        Assert.assertTrue(contactListSelectedContent.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
+        log.info("Step 1: Click the Select button on the Contact List");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectButtonDisplayed(), "'Select' button is not displayed'");
+        Assert.assertTrue(contactListSelectedContentPage.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
-        LOG.info("Verifying that all items are unselected");
+        log.info("Verifying that all items are unselected");
         for (int i = 0; i <= 9; i++)
         {
             contacts.add("FirstName" + i);
@@ -101,12 +111,12 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
+            Assert.assertFalse(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
 
-        LOG.info("Step 2: Click 'Select All' and verify that all items have been selected");
-        contactListSelectedContent.clickSelectAllOption();
+        log.info("Step 2: Click 'Select All' and verify that all items have been selected");
+        contactListSelectedContentPage.clickSelectAllOption();
 
         for (int i = 0; i <= 9; i++)
         {
@@ -118,10 +128,10 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
+            Assert.assertTrue(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(user.get().getUsername(), user.get().getPassword(), siteName.get().getId());
     }
 
     @TestRail (id = "C6404")
@@ -129,16 +139,16 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     public void selectAllByUsingInvertSelection()
     {
 
-        LOG.info("Starting test C6404");
+        log.info("Starting test C6404");
         setup("C6404");
 
-        LOG.info("Step 1: Click the Select button on the Contact List");
-        Assert.assertTrue(contactListSelectedContent.isSelectButtonDisplayed(), "'Select' button is not displayed'");
-        Assert.assertTrue(contactListSelectedContent.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
+        log.info("Step 1: Click the Select button on the Contact List");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectButtonDisplayed(), "'Select' button is not displayed'");
+        Assert.assertTrue(contactListSelectedContentPage.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
-        LOG.info("Verifying that all items are unselected");
+        log.info("Verifying that all items are unselected");
         for (int i = 0; i <= 9; i++)
         {
             contacts.add("FirstName" + i);
@@ -149,12 +159,12 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
+            Assert.assertFalse(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
 
-        LOG.info("Step 2: Click 'Invert Selection' and verify that all items have been selected");
-        contactListSelectedContent.clickInvertSelectionOption();
+        log.info("Step 2: Click 'Invert Selection' and verify that all items have been selected");
+        contactListSelectedContentPage.clickInvertSelectionOption();
 
         for (int i = 0; i <= 9; i++)
         {
@@ -166,28 +176,27 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
+            Assert.assertTrue(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
-        siteService.delete(adminUser, adminPassword, siteName);
-
+        siteService.delete(user.get().getUsername(), user.get().getPassword(), siteName.get().getId());
     }
 
     @TestRail (id = "C6405")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deselectByUsingInvertSelection()
     {
-        LOG.info("Starting test C6405");
+        log.info("Starting test C6405");
         setup("C6405");
-        contactListSelectedContent.clickSelectAllOption();
+        contactListSelectedContentPage.clickSelectAllOption();
 
-        LOG.info("Step 1: Click the Select button on the Contact List");
-        Assert.assertTrue(contactListSelectedContent.isSelectButtonDisplayed(), "'Select' button is not displayed'");
-        Assert.assertTrue(contactListSelectedContent.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
+        log.info("Step 1: Click the Select button on the Contact List");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectButtonDisplayed(), "'Select' button is not displayed'");
+        Assert.assertTrue(contactListSelectedContentPage.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
-        LOG.info("Verifying that all items are selected");
+        log.info("Verifying that all items are selected");
         for (int i = 0; i <= 9; i++)
         {
             contacts.add("FirstName" + i);
@@ -198,12 +207,12 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
+            Assert.assertTrue(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
 
-        LOG.info("Step 2: Click 'Invert Selection' and verify that all items have been unselected");
-        contactListSelectedContent.clickInvertSelectionOption();
+        log.info("Step 2: Click 'Invert Selection' and verify that all items have been unselected");
+        contactListSelectedContentPage.clickInvertSelectionOption();
 
         for (int i = 0; i <= 9; i++)
         {
@@ -215,28 +224,27 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
+            Assert.assertFalse(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
-        siteService.delete(adminUser, adminPassword, siteName);
-
+        siteService.delete(user.get().getUsername(), user.get().getPassword(), siteName.get().getId());
     }
 
     @TestRail (id = "C6406")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deselectByUsingSelectNone()
     {
-        LOG.info("Starting test C6406");
+        log.info("Starting test C6406");
         setup("C6406");
-        contactListSelectedContent.clickSelectAllOption();
+        contactListSelectedContentPage.clickSelectAllOption();
 
-        LOG.info("Step 1: Click the Select button on the Contact List");
-        Assert.assertTrue(contactListSelectedContent.isSelectButtonDisplayed(), "'Select' button is not displayed'");
-        Assert.assertTrue(contactListSelectedContent.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
-        Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
+        log.info("Step 1: Click the Select button on the Contact List");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectButtonDisplayed(), "'Select' button is not displayed'");
+        Assert.assertTrue(contactListSelectedContentPage.isInvertSelectionButtonOptionEnabled(), "Invert Selection option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectAllButtonOptionDisplayed(), "Select All option is not displayed");
+        Assert.assertTrue(contactListSelectedContentPage.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
-        LOG.info("Verifying that all items are selected");
+        log.info("Verifying that all items are selected");
         for (int i = 0; i <= 9; i++)
         {
             contacts.add("FirstName" + i);
@@ -247,12 +255,12 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
+            Assert.assertTrue(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
 
-        LOG.info("Step 2: Click 'None' and verify that all items have been unselected");
-        contactListSelectedContent.clickSelectNoneOption();
+        log.info("Step 2: Click 'None' and verify that all items have been unselected");
+        contactListSelectedContentPage.clickSelectNoneOption();
 
         for (int i = 0; i <= 9; i++)
         {
@@ -264,11 +272,9 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             contacts.add("PhoneOffice" + i);
             contacts.add("PhoneMobile" + i);
             contacts.add("Notes" + i);
-            Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
+            Assert.assertFalse(contactListSelectedContentPage.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
-        siteService.delete(adminUser, adminPassword, siteName);
-
-
+        siteService.delete(user.get().getUsername(), user.get().getPassword(), siteName.get().getId());
     }
 }
