@@ -23,6 +23,12 @@ public class ContactListSelectedContentPage extends BaseDialogComponent {
     private By selectAllButtonOption = By.cssSelector(".datagrid-bar.flat-button .selectAll");
     private By selectNoneButtonOption = By.cssSelector(".datagrid-bar.flat-button .selectNone");
     private By itemDataTable = By.cssSelector("div[class='grid yui-dt'] table");
+    protected By deselectAllItemsSelector = By.cssSelector("span[class='onActionDeselectAll']");
+    protected By confirmDeleteButtonSelector = By.cssSelector("span[class*='alf-primary-button'] button");
+    protected By cancelDeleteButtonSelector = By.cssSelector("span[class*='yui-push-button default'] button");
+    protected By duplicateItemsSelector = By.cssSelector("span[class='onActionDuplicate']");
+    protected By deleteItemsSelector = By.cssSelector("span[class='onActionDelete']");
+    protected By selectItemsButtonSelector = By.cssSelector("button[id*='selectedItems']");
 
     DataListsPage dataListsPage;
     ContactListItemsTable tableRow;
@@ -147,4 +153,87 @@ public class ContactListSelectedContentPage extends BaseDialogComponent {
         tableRow = new ContactListItemsTable(findRow(listDetails).get(0), browser);
         return tableRow.getCheckBoxColumn().isSelected();
     }
+
+    public boolean isSelectItemsButtonDisplayed()
+    {
+        return findElement(selectItemsButtonSelector).isDisplayed();
+    }
+
+    public boolean isSelectItemsButtonEnabled()
+    {
+        return findElement(selectItemsButtonSelector).isEnabled();
+    }
+
+    public void clickSelectedItemsButton()
+    {
+        findElement(selectItemsButtonSelector).click();
+    }
+
+    public boolean isDuplicateItemsDisplayed()
+    {
+        return findElement(duplicateItemsSelector).isDisplayed();
+    }
+
+    public boolean isDeleteSelectedItemsDisplayed()
+    {
+        return findElement(deleteItemsSelector).isDisplayed();
+    }
+
+    public boolean isDeselectSelectedItemsDisplayed()
+    {
+        return findElement(deselectAllItemsSelector).isDisplayed();
+    }
+
+    public void clickDuplicateItemsOption()
+    {
+        clickSelectedItemsButton();
+        findElement(duplicateItemsSelector).click();
+    }
+
+    public List<String> returnNumberOfCheckedAndUncheckedItems(List<String> listDetails)
+    {
+        int checkedItems = 0;
+        int uncheckedItems = 0;
+        List<String> results = new ArrayList<>();
+        List<WebElement> rows = findRow(listDetails);
+        for (WebElement row : rows)
+        {
+            tableRow = new ContactListItemsTable(row, browser);
+            if (tableRow.getCheckBoxColumn().isSelected())
+                checkedItems++;
+            else
+                uncheckedItems++;
+        }
+        results.add(Integer.toString(checkedItems));
+        results.add(Integer.toString(uncheckedItems));
+
+        return results;
+    }
+
+    public void clickDeleteItemsOption(boolean delete)
+    {
+        clickSelectedItemsButton();
+        findElement(deleteItemsSelector).click();
+        if (delete)
+            clickConfirmDelete();
+        else
+            clickCancelDelete();
+    }
+
+    public void clickConfirmDelete()
+    {
+        findElement(confirmDeleteButtonSelector).click();
+    }
+
+    public void clickCancelDelete()
+    {
+        findElement(cancelDeleteButtonSelector).click();
+    }
+
+    public void clickDeselectAllItemsOption()
+    {
+        clickSelectedItemsButton();
+        findElement(deselectAllItemsSelector).click();
+    }
+
 }
