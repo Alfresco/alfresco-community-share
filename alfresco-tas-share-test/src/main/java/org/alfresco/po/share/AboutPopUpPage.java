@@ -13,7 +13,8 @@ import org.openqa.selenium.WebDriver;
  */
 public class AboutPopUpPage extends BaseDialogComponent
 {
-    private final String alfrescoUrl = "https://www.alfresco.com/";
+    private final String alfrescoUrl = "https://www.hyland.com/en/products/alfresco-platform";
+    private final String alfrescoLegalAgreementsUrl = "https://www.hyland.com/en/legal/alfresco-agreements";
 
     private final By shareVersion = By.cssSelector(".about>.header:nth-child(1)");
     private final By alfrescoVersion = By.cssSelector(".about>.header:nth-child(3)");
@@ -79,8 +80,8 @@ public class AboutPopUpPage extends BaseDialogComponent
     {
         clickLegalAndLicenceLink();
         switchWindow(1);
-        waitUrlContains(alfrescoUrl, WAIT_10.getValue());
-        assertEquals(getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
+        waitUrlContains(alfrescoLegalAgreementsUrl, WAIT_10.getValue());
+        assertEquals(getCurrentUrl(), alfrescoLegalAgreementsUrl, "Displayed URL=");
         closeWindowAndSwitchBack();
         return this;
     }
