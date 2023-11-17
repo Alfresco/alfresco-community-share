@@ -47,6 +47,10 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private final String listLinkLocator = "//a[@class='filter-link']";
     private final String listItemTitleLocator = "//div[@class='datagrid']//h2[text()='%s']";
 
+    private final By  selectButtonSelector = By.cssSelector("button[id*='itemSelect']");
+
+    private final By selectItemsButtonSelector = By.cssSelector("button[id*='selectedItems']");
+
     protected By duplicate = By.cssSelector("a[title='Duplicate']");
     protected By actionsColumn = By.cssSelector("td[class*='col-actions'] div");
     public DataListsPage(ThreadLocal<WebDriver> webDriver)
@@ -345,5 +349,42 @@ public class DataListsPage extends SiteCommon<DataListsPage>
             }
         }
         return false;
+    }
+
+    public List<String> getFilterOptionsValues()
+    {
+        List<WebElement> filterOptions = findElements(By.cssSelector("ul[class='filterLink'] a"));
+        List<String> filterOptionsValues = new ArrayList<>(filterOptions.size());
+        for (WebElement option : filterOptions)
+        {
+            filterOptionsValues.add(option.getText());
+        }
+        return filterOptionsValues;
+    }
+
+    public boolean allFilterOptionsAreDisplayed()
+    {
+        String[] expectedValues = { "All", "Recently Added", "Recently Modified", "Created by Me" };
+        List<String> list = getFilterOptionsValues();
+        if (list.size() != expectedValues.length)
+            return false;
+        for (int i = 0; i < expectedValues.length; i++)
+        {
+            if (!list.get(i).equals(expectedValues[i]))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isSelectButtonDisplayed()
+    {
+        return isElementDisplayed(findElement(selectButtonSelector));
+    }
+
+    public boolean isSelectItemsButtonEnabled()
+    {
+        return findElement(selectItemsButtonSelector).isEnabled();
     }
 }
