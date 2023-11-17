@@ -5,163 +5,155 @@ import static org.alfresco.po.share.site.SiteConfigurationOptions.CUSTOMIZE_SITE
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUser;
-import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-public class AccessingDataListsComponentTests extends ContextAwareWebTest
+@Slf4j
+public class AccessingDataListsComponentTests extends BaseTest
 {
     @Autowired
     DataUser dataUser;
 
     @Autowired
     DataSite dataSite;
+    private SiteDashboardPage siteDashboardPage;
 
-    //@Autowired
-    SiteDashboardPage siteDashboardPage;
+    private CustomizeSitePage customizeSitePage;
 
-    //@Autowired
-    CustomizeSitePage customizeSitePage;
+    private DataListsPage dataListsPage;
 
-    //@Autowired
-    DataListsPage dataListsPage;
+    @Autowired
+    ContentService contentService;
 
-    private String userName;
-    private String siteName;
+    @Autowired
+    UserService userService;
 
-    @BeforeClass (alwaysRun = true)
-    public void createUser()
-    {
-        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-    }
+    @Autowired
+    DataListsService dataListsService;
+
+    @Autowired
+    SiteService siteService;
+
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
 
     @BeforeMethod (alwaysRun = true)
     public void precondition()
     {
-        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        log.info("Precondition: Any Test user is created");
+        dataListsPage = new DataListsPage(webDriver);
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+        customizeSitePage = new CustomizeSitePage (webDriver);
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user.get());
+        siteService.addPageToSite(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), Page.DATALISTS, null);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-    }
-
-    @AfterMethod (alwaysRun = true)
-    public void afterMethod()
-    {
-        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(user.get().getUsername(), user.get().getPassword(), siteName.get().getId());
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + user.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(user.get());
     }
 
     @TestRail (id = "C5844")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException
     {
-        LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
+        log.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
         UserModel testUser = dataUser.createRandomTestUser();
         SiteModel testSite = dataSite.usingUser(testUser).createPublicRandomSite();
         DataUser.ListUserWithRoles ls = dataUser.addUsersWithRolesToSite(testSite, UserRole.SiteCollaborator, UserRole.SiteConsumer, UserRole.SiteContributor);
         ls.getOneUserWithRole(UserRole.SiteCollaborator);
-        LOG.info("Step 1: Access 'Customize Site'");
-        setupAuthenticatedSession(testUser.getUsername(), testUser.getPassword());
+        log.info("Step 1: Access 'Customize Site'");
+        authenticateUsingLoginPage(testUser);
 
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.openSiteConfiguration();
-        siteDashboardPage.selectOptionFromSiteConfigurationDropDown(CUSTOMIZE_SITE.getValue());
+        siteDashboardPage.selectCustomizeSite();
         customizeSitePage.addPageToSite(SitePageType.DATA_LISTS);
         Assert.assertTrue(customizeSitePage.isPageAddedToCurrentPages(SitePageType.DATA_LISTS));
-        LOG.info("Step 2: Rename 'Data Lists' feature");
+        log.info("Step 2: Rename 'Data Lists' feature");
         customizeSitePage.renameSitePage(SitePageType.DATA_LISTS, "Test");
         Assert.assertTrue(customizeSitePage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "Data Lists wasn't rename correctly");
         customizeSitePage.saveChanges();
-        LOG.info("Step 3&4: Check the new name of the 'Data Lists' feature on the 'Site Dashboard'");
+        log.info("Step 3&4: Check the new name of the 'Data Lists' feature on the 'Site Dashboard'");
         siteDashboardPage.navigate(testSite.getTitle());
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "Data Lists wasn't rename correctly");
-        LOG.info("Step 5: Logout from the site manager account and login with the user account that has the Consumer role.");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(ls.getOneUserWithRole(UserRole.SiteConsumer).getUsername(), password);
-        LOG.info("Step 6: Access Test site and check the available Site Configuration Options.");
+        log.info("Step 5: Logout from the site manager account and login with the user account that has the Consumer role.");
+        authenticateUsingLoginPage(user.get());
+        log.info("Step 6: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.openSiteConfiguration();
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
-        LOG.info("Step 7: Check the Data Lists feature name displayed on the Site Dashboard");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+        log.info("Step 7: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
-        LOG.info("Step 8: Logout from the site Consumer role user account and login with the user account that has the Collaborator role.");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(ls.getOneUserWithRole(UserRole.SiteCollaborator).getUsername(), password);
-        LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
+        log.info("Step 8: Logout from the site Consumer role user account and login with the user account that has the Collaborator role.");
+        authenticateUsingLoginPage(user.get());
+        log.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.openSiteConfiguration();
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
-        LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+        log.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
-        LOG.info("Step 11: Logout from the site Collaborator role user account and login with the user account that has the Contributor role.");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(ls.getOneUserWithRole(UserRole.SiteContributor).getUsername(), password);
-        LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
+        log.info("Step 11: Logout from the site Collaborator role user account and login with the user account that has the Contributor role.");
+        authenticateUsingLoginPage(user.get());
+        log.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.openSiteConfiguration();
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
-        LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+        log.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
-
-        userService.delete(adminUser, adminPassword, testUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
-        userService.delete(adminUser, adminPassword, ls.getOneUserWithRole(UserRole.SiteConsumer).getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + ls.getOneUserWithRole(UserRole.SiteConsumer).getUsername());
-        userService.delete(adminUser, adminPassword, ls.getOneUserWithRole(UserRole.SiteCollaborator).getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + ls.getOneUserWithRole(UserRole.SiteCollaborator).getUsername());
-        userService.delete(adminUser, adminPassword, ls.getOneUserWithRole(UserRole.SiteContributor).getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + ls.getOneUserWithRole(UserRole.SiteContributor).getUsername());
-        siteService.delete(adminUser, adminPassword, testSite.getTitle());
-
     }
 
     @TestRail (id = "C5846")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browsingPaneDisplay()
     {
-        LOG.info("Preconditions: Create multiple Lists");
+        log.info("Preconditions: Create multiple Lists");
         List<String> createdDataLists = new ArrayList<>(2);
         for (int i = 0; i < 2; i++)
         {
             String contactList = "link" + System.currentTimeMillis();
-            dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, contactList, "contact link description");
+            dataListsService.createDataList(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DataList.CONTACT_LIST, contactList, "contact link description");
             createdDataLists.add(contactList);
         }
-        setupAuthenticatedSession(userName, password);
-        dataListsPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        dataListsPage.navigate(siteName.get().getId());
 
-        LOG.info("Step 1: The browsing pane displays a list of all existing data lists");
+        log.info("Step 1: The browsing pane displays a list of all existing data lists");
         Assert.assertTrue(createdDataLists.equals(dataListsPage.getListsItemsTitle()), "The actual and expected lists name are not the same.");
     }
 
@@ -169,26 +161,24 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewListsFromDataLists()
     {
-        LOG.info("Preconditions: Create a new List");
+        log.info("Preconditions: Create a new List");
         String listName = "listC5845";
-        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
+        dataListsService.createDataList(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DataList.CONTACT_LIST, listName, "contact link description");
 
-        setupAuthenticatedSession(userName, password);
-        dataListsPage.navigate(siteName);
+        authenticateUsingLoginPage(user.get());
+        dataListsPage.navigate(siteName.get().getId());
 
-        LOG.info("Step 1: The browsing pane displays a list of all existing data lists");
+        log.info("Step 1: The browsing pane displays a list of all existing data lists");
         Assert.assertTrue(dataListsPage.getListsItemsTitle().contains(listName), "The actual and expected lists name are not the same.");
-//        Assert.assertTrue(dataListsPage.assertNewListButtonIsDisplayed(), "New List button is not displayed.");
 
-        LOG.info("Step 2: Click the created list displayed under Lists view.");
+        log.info("Step 2: Click the created list displayed under Lists view.");
         dataListsPage = dataListsPage.clickContactListItem(listName);
-//        Assert.assertTrue(dataListsPage.assertNewListButtonIsDisplayed(), "'New List' button is not displayed.");
-        Assert.assertTrue(dataListsPage.currentContent.allFilterOptionsAreDisplayed(), "Not all filters are displayed.");
-        Assert.assertTrue(dataListsPage.currentContent.isNewItemButtonDisplayed(), "'New Item' button is not displayed.");
-        Assert.assertTrue(dataListsPage.currentContent.isSelectButtonDisplayed(), "'Select' button is not displayed.");
-        Assert.assertFalse(dataListsPage.currentContent.isSelectItemsButtonEnabled(), "'Select items' button is enabled.");
+        Assert.assertTrue(dataListsPage.allFilterOptionsAreDisplayed(), "Not all filters are displayed.");
+        Assert.assertTrue(dataListsPage.isNewItemButtonDisplayed(), "'New Item' button is not displayed.");
+        Assert.assertTrue(dataListsPage.isSelectButtonDisplayed(), "'Select' button is not displayed.");
+        Assert.assertFalse(dataListsPage.isSelectItemsButtonEnabled(), "'Select items' button is enabled.");
 
-        LOG.info("Step 3: Mouse over the list displayed under Lists");
+        log.info("Step 3: Mouse over the list displayed under Lists");
         Assert.assertTrue(dataListsPage.isEditButtonDisplayedForList(listName), "'Edit' button is displayed.");
         Assert.assertTrue(dataListsPage.isDeleteButtonDisplayedForList(listName), "'Delete' button is displayed.");
     }

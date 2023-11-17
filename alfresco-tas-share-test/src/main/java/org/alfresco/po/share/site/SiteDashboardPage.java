@@ -32,6 +32,8 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     private final String dropdownOption = "//div[@class='alf-menu-groups' and contains(@style, 'visible')]//td[contains(@id, 'HEADER') and text()='%s']";
     private final String dashletLocation = "//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]";
 
+    private final By clickCustomizeSite = By.xpath("//*[@id=\"HEADER_CUSTOMIZE_SITE_text\"]/a");
+
     public SiteDashboardPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -271,6 +273,13 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         getWebDriver().navigate().refresh();
         waitInSeconds(10);
         getWebDriver().navigate().refresh();
+        return this;
+    }
+
+    public SiteDashboardPage selectCustomizeSite()
+    {
+        log.info("Select option from site configuration dropdown {}");
+        clickElement(clickCustomizeSite);
         return this;
     }
 }
