@@ -155,4 +155,10 @@ public class CreateDataListDialog extends BaseDialogComponent
 
         return new DataListsPage(webDriver);
     }
+
+    public void clickSave()
+    {
+        log.info("Click Save button");
+        clickElement(saveButton);
+    }
 }
