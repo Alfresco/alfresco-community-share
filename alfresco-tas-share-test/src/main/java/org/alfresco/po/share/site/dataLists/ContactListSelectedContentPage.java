@@ -236,4 +236,9 @@ public class ContactListSelectedContentPage extends BaseDialogComponent {
         findElement(deselectAllItemsSelector).click();
     }
 
+    public boolean duplicatedRows(List<String> listDetails)
+    {
+        return findRow(listDetails).size() > 1;
+    }
+
 }
