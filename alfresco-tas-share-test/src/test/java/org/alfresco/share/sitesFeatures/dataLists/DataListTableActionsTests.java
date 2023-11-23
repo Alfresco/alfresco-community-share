@@ -80,7 +80,7 @@ public class DataListTableActionsTests extends BaseTest
 
 
     @TestRail (id = "C6864")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void duplicateAction()
     {
         log.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
@@ -103,7 +103,7 @@ public class DataListTableActionsTests extends BaseTest
     }
 
     @TestRail (id = "C6865")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteAction()
     {
         log.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
