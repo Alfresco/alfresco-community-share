@@ -53,6 +53,9 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     protected By duplicate = By.cssSelector("a[title='Duplicate']");
     protected By actionsColumn = By.cssSelector("td[class*='col-actions'] div");
+    private By previousNavigationLinkLocator = By.cssSelector("[class*='pg-previous']");
+    private By nextNavigationLinkLocator = By.cssSelector("[class*='pg-next']");
+    private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");
     public DataListsPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -386,5 +389,17 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public boolean isSelectItemsButtonEnabled()
     {
         return findElement(selectItemsButtonSelector).isEnabled();
+    }
+
+    public boolean areNavigationLinksDisplayed()
+    {
+        waitUntilElementIsDisplayedWithRetry(previousNavigationLinkLocator);
+        return findElement(previousNavigationLinkLocator).isDisplayed() && findElement(nextNavigationLinkLocator).isDisplayed();
+    }
+
+    public boolean isAnyListItemDisplayed()
+    {
+        List<WebElement> listItemsList = findElements(noListItems);
+        return !(listItemsList.size() == 1 && listItemsList.get(0).findElement(By.cssSelector("td div")).getText().equals("No list items"));
     }
 }
