@@ -5,6 +5,7 @@ import static org.testng.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -401,5 +402,12 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     {
         List<WebElement> listItemsList = findElements(noListItems);
         return !(listItemsList.size() == 1 && listItemsList.get(0).findElement(By.cssSelector("td div")).getText().equals("No list items"));
+    }
+
+    public DataListsPage pageRefresh()
+    {
+        waitInSeconds(2);
+        getWebDriver().navigate().refresh();
+        return this;
     }
 }

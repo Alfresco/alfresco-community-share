@@ -9,7 +9,7 @@ public class DeleteListPopUp extends BaseDialogComponent
     private final By deleteButton = By.cssSelector("span[class='button-group'] span[class*='primary-button'] button");
     private final By cancelButton = By.cssSelector("span[class='button-group'] span[class*='default'] span button");
 
-    protected DeleteListPopUp(ThreadLocal<WebDriver> webDriver)
+    public DeleteListPopUp(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
     }
