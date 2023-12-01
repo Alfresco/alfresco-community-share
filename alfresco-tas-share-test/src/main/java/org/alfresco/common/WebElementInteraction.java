@@ -47,7 +47,7 @@ public abstract class WebElementInteraction
         return defaultProperties;
     }
 
-    private WebDriver getWebDriver()
+    protected WebDriver getWebDriver()
     {
         return webDriver.get();
     }
