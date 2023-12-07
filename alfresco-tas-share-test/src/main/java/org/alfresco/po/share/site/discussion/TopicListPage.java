@@ -14,20 +14,11 @@ import ru.yandex.qatools.htmlelements.element.Link;
 
 public class TopicListPage extends SiteCommon<TopicListPage>
 {
-    @FindBy (css = ".topiclist")
-    private WebElement discussionsContainer;
-
     @FindBy (css = "div.new-topic button[id$='default-create-button-button']")
     private Button newTopicButton;
 
-    @FindBy (css = "button[id*='discussions-topiclist_x0023_default-simpleView-button']")
-    private WebElement viewButton;
-
     @FindBy (className = "listTitle")
     private WebElement listTitle;
-
-    @FindAll (@FindBy (css = "tr.yui-dt-rec td.yui-dt-col-topics"))
-    private List<WebElement> topicsList;
 
     @FindAll (@FindBy (css = "ul[id$='discussions-topiclist_x0023_default-tags'] .tag>a"))
     private List<WebElement> tagsList;
@@ -57,6 +48,9 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     private final By viewTopic = By.cssSelector(".onViewTopic a");
     private final By editTopic = By.cssSelector(".onEditTopic a");
     private final By deleteTopic = By.cssSelector(".onDeleteTopic a");
+    private final By topicsList = By.cssSelector("tr.yui-dt-rec td.yui-dt-col-topics");
+    private final By viewButton = By.cssSelector("button[id*='discussions-topiclist_x0023_default-simpleView-button']");
+
 
     public TopicListPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -224,8 +218,8 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public TopicListPage toggleBetweenSimpleAndDetailedView()
     {
-        String viewButtonText = viewButton.getText();
-        viewButton.click();
+        String viewButtonText = findElement(viewButton).getText();
+        findElement(viewButton).click();
         if (viewButtonText.equals("Simple View"))
         {
             waitUntilElementIsVisible(By.cssSelector(".node.topic.simple"));
