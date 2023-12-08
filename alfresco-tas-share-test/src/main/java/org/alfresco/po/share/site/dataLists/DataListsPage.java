@@ -3,6 +3,7 @@ package org.alfresco.po.share.site.dataLists;
 import static org.testng.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.searching.SearchPage;
@@ -57,6 +58,11 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     private By previousNavigationLinkLocator = By.cssSelector("[class*='pg-previous']");
     private By nextNavigationLinkLocator = By.cssSelector("[class*='pg-next']");
     private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");
+    private By currentPageLocator = By.cssSelector("span[class*='current-page']");
+    private String selectPage = "span[class*='pages'] a[title='Page %s']";
+    private String selectedColumnItems = "table tbody td[class*='%s']";
+    private String selectColumn = "div[id$='default-grid'] table thead tr div[id*='%s'] span a";
+
     public DataListsPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -409,5 +415,52 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         waitInSeconds(2);
         getWebDriver().navigate().refresh();
         return this;
+    }
+
+    public String getCurrentPageNumber()
+    {
+        return findElement(currentPageLocator).getText();
+    }
+
+    public void clickNextNavigationItem()
+    {
+        waitInSeconds(2);
+        findElement(nextNavigationLinkLocator).click();
+    }
+
+    public void clickPreviousNavigationItem()
+    {
+        waitUntilElementIsDisplayedWithRetry(previousNavigationLinkLocator);
+        findElement(previousNavigationLinkLocator).click();
+    }
+
+    public void clickOnSpecificPage(String number)
+    {
+        findElement(By.cssSelector(String.format(selectPage, number))).click();
+    }
+
+    private List<String> retrieveSpecificColumnItems(String column)
+    {
+        waitUntilElementIsDisplayedWithRetry(By.cssSelector(String.format(selectedColumnItems, column)));
+        List<WebElement> items = findElements(By.cssSelector(String.format(selectedColumnItems, column)));
+        List<String> text = new ArrayList<>(items.size());
+        for (WebElement item : items)
+        {
+            text.add(item.getText());
+        }
+        return text;
+    }
+
+    private void clickOnSpecificColumn(String column)
+    {
+        findElement(By.cssSelector(String.format(selectColumn, column))).click();
+    }
+
+    public boolean areItemsSortedByColumnAfterClickingTheColumn(String column)
+    {
+        List<String> currentOrder = retrieveSpecificColumnItems(column);
+        Collections.sort(currentOrder);
+        clickOnSpecificColumn(column);
+        return currentOrder.equals(retrieveSpecificColumnItems(column));
     }
 }
