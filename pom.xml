@@ -52,7 +52,7 @@
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <!-- common dependencies-->
-        <dependency.spring.version>6.0.8</dependency.spring.version>
+        <dependency.spring.version>6.0.14</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.0.129</dependency.aikau.version>
@@ -62,7 +62,7 @@
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
 
-        <dependency.webscripts.version>9.0</dependency.webscripts.version>
+        <dependency.webscripts.version>9.1</dependency.webscripts.version>
         <dependency.surf.version>9.0</dependency.surf.version>
 
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
