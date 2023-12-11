@@ -34,7 +34,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     //@Autowired
     SelectPopUpPage selectPopUpPage;
 
-    @Autowired
+//    @Autowired
     MyTasksDashlet myTasksDashlet;
 
     //@Autowired
