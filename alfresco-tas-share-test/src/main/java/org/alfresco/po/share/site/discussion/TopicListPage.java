@@ -16,28 +16,13 @@ public class TopicListPage extends SiteCommon<TopicListPage>
 {
     @FindBy (css = "div.new-topic button[id$='default-create-button-button']")
     private Button newTopicButton;
-
-    @FindBy (className = "listTitle")
-    private WebElement listTitle;
-
-    @FindAll (@FindBy (css = "ul[id$='discussions-topiclist_x0023_default-tags'] .tag>a"))
-    private List<WebElement> tagsList;
-
-    @FindBy (css = "ul.filterLink .new>a")
-    private Link newTopics;
-
-    @FindBy (css = "ul.filterLink .hot>a")
-    private Link mostActiveTopics;
-
-    @FindBy (css = "ul.filterLink .all>a")
-    private Link allTopics;
-
-    @FindBy (css = "ul.filterLink .mine>a")
-    private Link myTopics;
-
-    @FindBy (css = ".yui-dt-empty div")
-    private WebElement noTopicsMessage;
-
+    private final By tagsList = By.cssSelector("ul[id$='discussions-topiclist_x0023_default-tags'] .tag>a");
+    private final By listTitle = By.className("listTitle");
+    private final By newTopics = By.cssSelector("ul.filterLink .new>a");
+    private final By mostActiveTopics = By.cssSelector("ul.filterLink .hot>a");
+    private final By allTopics = By.cssSelector("ul.filterLink .all>a");
+    private final By myTopics = By.cssSelector("ul.filterLink .mine>a");
+    private final By noTopicsMessage = By.cssSelector(".yui-dt-empty div");
     private final By title = By.cssSelector(".nodeTitle>a");
     private final By status = By.cssSelector(".nodeStatus");
     private final By topicPublished = By.cssSelector(".published");
@@ -266,6 +251,13 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         return new TopicListPage(webDriver);
     }
 
+    public void refresh(String tagName)
+    {
+        findFirstElementWithValue(tagsList, tagName).click();
+        waitInSeconds(19);
+        refresh();
+    }
+
     public boolean isTopicContentDisplayed(String topic)
     {
         try
@@ -316,12 +308,13 @@ public class TopicListPage extends SiteCommon<TopicListPage>
 
     public String getMessageDisplayed()
     {
-        return noTopicsMessage.getText();
+        return findElement(noTopicsMessage).getText();
     }
 
     public String getTopicListTitle()
     {
-        return listTitle.getText();
+        waitInSeconds(3);
+        return findElement(listTitle).getText();
     }
 
     /**
@@ -335,19 +328,19 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         switch (option)
         {
             case "New":
-                newTopics.click();
+                findElement(newTopics).click();
                 break;
             case "Most Active":
-                mostActiveTopics.click();
+                findElement(mostActiveTopics).click();
                 break;
             case "All":
-                allTopics.click();
+                findElement(allTopics).click();
                 break;
             case "My Topics":
-                myTopics.click();
+                findElement(myTopics).click();
                 break;
             default:
-                newTopics.click();
+                findElement(newTopics).click();
                 break;
         }
         return new TopicListPage(webDriver);
