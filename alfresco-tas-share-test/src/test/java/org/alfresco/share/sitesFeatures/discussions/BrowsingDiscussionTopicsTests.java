@@ -14,8 +14,11 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.*;
-import static org.testng.Assert.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 @Slf4j
 public class BrowsingDiscussionTopicsTests extends BaseTest
@@ -40,7 +43,7 @@ public class BrowsingDiscussionTopicsTests extends BaseTest
     private String topicTag2 = "tag2";
     private String password = "password";
 
-    @BeforeMethod (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void preConditions()
     {
         log.info("Precondition: Any Test user is created");
@@ -109,7 +112,7 @@ public class BrowsingDiscussionTopicsTests extends BaseTest
     }
 
     @TestRail (id = "6204")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTopicsByTags()
     {
         topicListPage.navigate(siteName.get().getId());
