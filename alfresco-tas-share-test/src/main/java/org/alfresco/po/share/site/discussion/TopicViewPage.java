@@ -84,6 +84,10 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private final By editReplyLink = By.cssSelector(".onEditReply>a");
     private final By showHideReplies = By.className("showHideChildren");
     private final By replyTextArea = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By topic_Title = By.className("nodeTitle");
+    private final By topic_Element = By.cssSelector("div.node.topic");
+    private final By topic_Tags = By.cssSelector(".tagLabel+span");
+    private final By discussionTopicListLink = By.cssSelector(".backLink>a");
 
     public TopicViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -114,7 +118,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicTitle()
     {
-        return topicTitle.getText();
+        return findElement(topic_Title).getText();
     }
 
     /**
@@ -145,7 +149,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicContent()
     {
-        return topicElement.findElement(content).getText();
+        return findElement(topic_Element).findElement(content).getText();
     }
 
     /**
@@ -165,7 +169,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicTags()
     {
-        return topicTags.getText();
+        return findElement(topic_Tags).getText();
     }
 
     /**
@@ -241,7 +245,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public TopicListPage clickDiscussionsTopicListLink()
     {
-        discussionsTopicListLink.click();
+        findElement(discussionTopicListLink).click();
         return new TopicListPage(webDriver);
     }
 

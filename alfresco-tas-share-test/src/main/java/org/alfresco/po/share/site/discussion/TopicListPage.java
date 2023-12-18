@@ -35,6 +35,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     private final By deleteTopic = By.cssSelector(".onDeleteTopic a");
     private final By topicsList = By.cssSelector("tr.yui-dt-rec td.yui-dt-col-topics");
     private final By viewButton = By.cssSelector("button[id*='discussions-topiclist_x0023_default-simpleView-button']");
+    private final By new_TopicButton = By.cssSelector("div.new-topic button[id$='default-create-button-button']");
 
 
     public TopicListPage(ThreadLocal<WebDriver> webDriver)
@@ -55,7 +56,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
      */
     public CreateNewTopicPage clickNewTopicButton()
     {
-        newTopicButton.click();
+        clickElement(new_TopicButton);
         return new CreateNewTopicPage(webDriver);
     }
 
