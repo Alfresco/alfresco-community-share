@@ -11,20 +11,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 {
-    @FindBy (css = ".page-form-header>h1")
-    protected WebElement pageHeader;
     @FindBy (css = "button[id$='discussions-createtopic_x0023_default-submit-button']")
     protected WebElement saveButton;
+
     @FindBy (css = "button[id$='discussions-createtopic_x0023_default-cancel-button']")
     protected WebElement cancelButton;
     @FindBy (css = "input[id$='discussions-createtopic_x0023_default-title']")
     protected WebElement topicTitle;
-    @FindBy (css = "input[id$='discussions-createtopic_x0023_default-tag-input-field']")
-    protected WebElement tagInput;
-    @FindBy (css = "button[id*='discussions-createtopic_x0023_default-add-tag-button']")
-    protected WebElement addTagButton;
-    @FindAll (@FindBy (css = "ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action"))
-    protected List<WebElement> currentTagList;
+    protected By currentTagList = By.cssSelector("ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action");
     protected By topicContent = By.cssSelector("iframe[id*='discussions-createtopic_x0023_default-content']");
     protected By page_Header = By.cssSelector(".page-form-header>h1");
     protected By topic_Title = By.cssSelector("input[id$='discussions-createtopic_x0023_default-title']");
@@ -32,9 +26,6 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     protected By add_TagButton = By.cssSelector("button[id*='discussions-createtopic_x0023_default-add-tag-button']");
     protected By buttonSave = By.cssSelector("button[id$='discussions-createtopic_x0023_default-submit-button']");
     protected By buttonCancel = By.cssSelector("button[id$='discussions-createtopic_x0023_default-cancel-button']");
-
-    private TopicListPage topicListPage;
-    private TopicViewPage topicViewPage;
 
     public CreateNewTopicPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -117,7 +108,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     public List<String> getTopicCurrentTagsList()
     {
         List<String> topicTags = new ArrayList<>();
-        for (WebElement tag : currentTagList)
+        for (WebElement tag : findElements(currentTagList))
         {
             topicTags.add(tag.getText());
         }
