@@ -26,6 +26,12 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     @FindAll (@FindBy (css = "ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action"))
     protected List<WebElement> currentTagList;
     protected By topicContent = By.cssSelector("iframe[id*='discussions-createtopic_x0023_default-content']");
+    protected By page_Header = By.cssSelector(".page-form-header>h1");
+    protected By topic_Title = By.cssSelector("input[id$='discussions-createtopic_x0023_default-title']");
+    protected By tag_Input = By.cssSelector("input[id$='discussions-createtopic_x0023_default-tag-input-field']");
+    protected By add_TagButton = By.cssSelector("button[id*='discussions-createtopic_x0023_default-add-tag-button']");
+    protected By buttonSave = By.cssSelector("button[id$='discussions-createtopic_x0023_default-submit-button']");
+    protected By buttonCancel = By.cssSelector("button[id$='discussions-createtopic_x0023_default-cancel-button']");
 
     private TopicListPage topicListPage;
     private TopicViewPage topicViewPage;
@@ -48,7 +54,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public boolean isPageDisplayed()
     {
-        return pageHeader.getText().equals("Create New Topic");
+        return findElement(page_Header).getText().equals("Create New Topic");
     }
 
     /**
@@ -56,8 +62,8 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void typeTopicTitle(String title)
     {
-        topicTitle.clear();
-        topicTitle.sendKeys(title);
+        findElement(topic_Title).clear();
+        findElement(topic_Title).sendKeys(title);
     }
 
     /**
@@ -80,7 +86,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void clickSaveButton()
     {
-        saveButton.click();
+        findElement(buttonSave).click();
     }
 
     /**
@@ -90,7 +96,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void clickCancelButton()
     {
-        cancelButton.click();
+        findElement(buttonCancel).click();
     }
 
     /**
@@ -98,9 +104,9 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void addTag(String tagName)
     {
-        tagInput.clear();
-        tagInput.sendKeys(tagName);
-        addTagButton.click();
+        findElement(tag_Input).clear();
+        findElement(tag_Input).sendKeys(tagName);
+        findElement(add_TagButton).click();
     }
 
     /**
