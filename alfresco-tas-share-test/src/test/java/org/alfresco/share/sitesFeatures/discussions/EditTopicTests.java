@@ -2,39 +2,39 @@ package org.alfresco.share.sitesFeatures.discussions;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
-
+import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.discussion.EditTopicPage;
 import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * Created by Claudia Agache on 8/10/2016.
  */
-public class EditTopicTests extends ContextAwareWebTest
+@Slf4j
+public class EditTopicTests extends BaseTest
 {
-    //@Autowired
-    TopicListPage topicListPage;
-
-    //@Autowired
-    EditTopicPage editTopicPage;
-
-    //@Autowired
-    TopicViewPage topicViewPage;
-
-    private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    SiteService siteService;
+    @Autowired
+    SitePagesService sitePagesService;
+    private TopicViewPage topicViewPage;
+    private EditTopicPage editTopicPage;
+    private TopicListPage topicListPage;
+    private final ThreadLocal<UserModel> user1 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
     private String topic1Title = "Topic1";
     private String topic2Title = "Topic2";
     private String topicContent = "Some content";
@@ -42,24 +42,35 @@ public class EditTopicTests extends ContextAwareWebTest
     private String topicNewContent = "new content";
     private String topicTag1 = "tag1";
     private String topicTag2 = "tag2";
+    private String password = "password";
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(user1, password, siteName, Page.DISCUSSIONS, null);
-        sitePagesService.createDiscussion(user1, password, siteName, topic1Title, topicContent, null);
-        sitePagesService.createDiscussion(user1, password, siteName, topic2Title, topicContent, Arrays.asList(topicTag1, topicTag2));
-        setupAuthenticatedSession(user1, password);
+        log.info("Precondition: Any Test user is created");
+        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(user1.get());
+        siteService.addPageToSite(user1.get().getUsername(), user1.get().getPassword(), siteName.get().getId(), Page.DISCUSSIONS, null);
+
+        topicListPage = new TopicListPage(webDriver);
+        editTopicPage = new EditTopicPage(webDriver);
+        topicViewPage = new TopicViewPage(webDriver);
+
+        sitePagesService.createDiscussion(user1.get().getUsername(), password, siteName.get().getId(), topic1Title, topicContent, null);
+        sitePagesService.createDiscussion(user1.get().getUsername(), password, siteName.get().getId(), topic2Title, topicContent, Arrays.asList(topicTag1, topicTag2));
+        authenticateUsingLoginPage(user1.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser, adminPassword, siteName);
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + user1.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(user1.get());
     }
 
     @TestRail (id = "6220")
@@ -67,15 +78,15 @@ public class EditTopicTests extends ContextAwareWebTest
     public void editTopicFromDiscussionsTopicListPage()
     {
         //precondition
-        topicListPage.navigate(siteName);
+        topicListPage.navigate(siteName.get().getId());
 
-        LOG.info("STEP 1 - Click on 'Edit' link to edit Topic1.");
+        log.info("STEP 1 - Click on 'Edit' link to edit Topic1.");
         topicListPage.editTopic(topic1Title);
         assertTrue(editTopicPage.isPageDisplayed(), "The Edit Topic page is displayed.");
         assertEquals(editTopicPage.getTopicTitle(), topic1Title, "The Edit Topic page displays the selected topic title");
         assertEquals(editTopicPage.getTopicContent(), topicContent, "The Edit Topic page displays the selected topic content");
 
-        LOG.info("STEP 2 - Modify Topic1 content: 'new content' and add also a tag, 'tag1'. Click on 'Save' button.");
+        log.info("STEP 2 - Modify Topic1 content: 'new content' and add also a tag, 'tag1'. Click on 'Save' button.");
         editTopicPage.typeTopicContent(topicNewContent);
         editTopicPage.addTag(topicTag1);
         editTopicPage.clickSaveButton();
@@ -83,7 +94,7 @@ public class EditTopicTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicContent(), topicNewContent, "The updated topic appears in the topic view page with the new content.");
         assertEquals(topicViewPage.getTopicTags(), topicTag1, "tag1 is also displayed in the tags list.");
 
-        LOG.info("STEP 3 - Click 'Discussions Topic List' link.");
+        log.info("STEP 3 - Click 'Discussions Topic List' link.");
         topicViewPage.clickDiscussionsTopicListLink();
         assertEquals(topicListPage.getTopicStatus(topic1Title), "(Updated)", "The text (Updated) appears after the title.");
         assertEquals(topicListPage.getTopicContent(topic1Title), topicNewContent, "The updated topic appears in the topic view page with the new content.");
@@ -91,23 +102,23 @@ public class EditTopicTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "6336")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editTopicFromTopicViewPage()
     {
         //precondition
-        topicListPage.navigate(siteName);
+        topicListPage.navigate(siteName.get().getId());
 
-        LOG.info("STEP 1 - Click on 'View' link to view Topic2 details.");
+        log.info("STEP 1 - Click on 'View' link to view Topic2 details.");
         topicListPage.viewTopic(topic2Title);
 
-        LOG.info("STEP 2 - Click on 'Edit' link.");
+        log.info("STEP 2 - Click on 'Edit' link.");
         topicViewPage.editTopic();
         assertTrue(editTopicPage.isPageDisplayed(), "The Edit Topic page is displayed.");
         assertEquals(editTopicPage.getTopicTitle(), topic2Title, "The Edit Topic page displays the selected topic title");
         assertEquals(editTopicPage.getTopicContent(), topicContent, "The Edit Topic page displays the selected topic content");
         assertEquals(editTopicPage.getTopicCurrentTagsList(), Arrays.asList(topicTag1, topicTag2), "'tag1' and 'tag2' are visible in tags area.");
 
-        LOG.info("STEP 3 - Change topic title with 'new topic title' and also remove tag1. Click on 'Save' button. ");
+        log.info("STEP 3 - Change topic title with 'new topic title' and also remove tag1. Click on 'Save' button. ");
         editTopicPage.typeTopicTitle(topicNewTitle);
         editTopicPage.removeTag(topicTag1);
         editTopicPage.clickSaveButton();
@@ -115,7 +126,7 @@ public class EditTopicTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicContent(), topicContent, "The updated topic content didn't change.");
         assertEquals(topicViewPage.getTopicTags(), topicTag2, "Only tag2 is displayed in the tags list.");
 
-        LOG.info("STEP 4 - Click 'Discussions Topic List' link.");
+        log.info("STEP 4 - Click 'Discussions Topic List' link.");
         topicViewPage.clickDiscussionsTopicListLink();
         assertEquals(topicListPage.getTopicStatus(topicNewTitle), "(Updated)", "The text (Updated) appears after the new title.");
         assertEquals(topicListPage.getTopicTags(topicNewTitle), topicTag2, "Only tag2 is displayed in the tags list.");
@@ -126,15 +137,15 @@ public class EditTopicTests extends ContextAwareWebTest
     public void cancelEditingTopic()
     {
         //precondition
-        topicListPage.navigate(siteName);
+        topicListPage.navigate(siteName.get().getId());
 
-        LOG.info("STEP 1 - Click on 'Edit' link to edit Topic1.");
+        log.info("STEP 1 - Click on 'Edit' link to edit Topic1.");
         topicListPage.editTopic(topic1Title);
         assertTrue(editTopicPage.isPageDisplayed(), "The Edit Topic page is displayed.");
         assertEquals(editTopicPage.getTopicTitle(), topic1Title, "The Edit Topic page displays the selected topic title");
         assertEquals(editTopicPage.getTopicContent(), topicContent, "The Edit Topic page displays the selected topic content");
 
-        LOG.info("STEP 2 - Modify Topic1 content: 'new content' and add also a tag, 'tag1'. Click on 'Save' button.");
+        log.info("STEP 2 - Modify Topic1 content: 'new content' and add also a tag, 'tag1'. Click on 'Save' button.");
         editTopicPage.typeTopicContent(topicNewContent);
         editTopicPage.addTag(topicTag1);
         editTopicPage.clickCancelButton();
