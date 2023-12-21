@@ -82,6 +82,19 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         return isElementDisplayed(getTopicElement(topicTitle));
     }
 
+    public boolean is_TopicDisplayed(String topicName)
+    {
+        waitInSeconds(2);
+        for (WebElement listItems : findElements(topicsList))
+        {
+            if (listItems.getText().contains(topicName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Click on the specified topic title
      *
