@@ -17,39 +17,13 @@ import ru.yandex.qatools.htmlelements.element.Link;
  */
 public class TopicViewPage extends SiteCommon<TopicViewPage>
 {
-   // @Autowired
-    EditTopicPage editTopicPage;
-
-    //@Autowired
-    DeleteDialog deleteDialog;
-
-    //@Autowired
-    TopicListPage topicListPage;
-
-    /* Top Buttons */
-    @FindBy (css = ".backLink>a")
-    private Link discussionsTopicListLink;
-
-    @RenderWebElement
-    @FindBy (css = "div.new-topic button[id$='default-create-button-button']")
-    private Button newTopicButton;
-
     /* Topic area */
     @RenderWebElement
     @FindBy (css = "div.node.topic")
     private WebElement topicElement;
 
-    @FindBy (className = "nodeTitle")
-    private WebElement topicTitle;
-
     @FindBy (className = "published")
     private WebElement topicPublished;
-
-    @FindBy (css = ".tagLabel+span")
-    private WebElement topicTags;
-
-    @FindBy (css = ".onEditTopic>a")
-    private Link editLink;
 
     @FindBy (css = ".onDeleteTopic>a")
     private Link deleteLink;
@@ -89,6 +63,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private final By topic_Tags = By.cssSelector(".tagLabel+span");
     private final By discussionTopicListLink = By.cssSelector(".backLink>a");
     private final By delete_Link = By.cssSelector(".onDeleteTopic>a");
+    private final By editLink = By.cssSelector(".onEditTopic>a");
 
     public TopicViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -224,7 +199,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public EditTopicPage editTopic()
     {
-        editLink.click();
+        findElement(editLink).click();
         return new EditTopicPage(webDriver);
     }
 
