@@ -88,6 +88,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private final By topic_Element = By.cssSelector("div.node.topic");
     private final By topic_Tags = By.cssSelector(".tagLabel+span");
     private final By discussionTopicListLink = By.cssSelector(".backLink>a");
+    private final By delete_Link = By.cssSelector(".onDeleteTopic>a");
 
     public TopicViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -234,7 +235,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public DeleteDialog deleteTopic()
     {
-        deleteLink.click();
+        clickElement(delete_Link);
         return new DeleteDialog(webDriver);
     }
 
