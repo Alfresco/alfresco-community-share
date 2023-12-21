@@ -16,6 +16,7 @@ public class DeleteDialog extends BaseDialogComponent
     private final By cancelButton = By.cssSelector("span[class*='default'] button");
     private final By message = By.cssSelector("#prompt_h + div.bd");
     private final By dialogBody = By.id("prompt_c");
+    private By notification = By.cssSelector("div.bd span.message");
 
     public DeleteDialog(ThreadLocal<WebDriver> webDriver)
     {
@@ -71,6 +72,13 @@ public class DeleteDialog extends BaseDialogComponent
         }
     }
 
+    public void confirmDelete()
+    {
+        log.info("Confirm deletion");
+        clickElement(deleteButton);
+        waitInSeconds(1);
+    }
+
     public void clickCancel()
     {
         clickElement(cancelButton);
@@ -105,6 +113,12 @@ public class DeleteDialog extends BaseDialogComponent
     {
         log.info("Assert Delete Dialog Header is equals {}", header);
         assertEquals(getHeader(), header, String.format("Header is not matched with %s",header));
+        return this;
+    }
+
+    public DeleteDialog assertVerifyDisplayedNotification(String expectedMessage)
+    {
+        assertEquals(findElement(notification).getText(), expectedMessage,"Check Notification message");
         return this;
     }
 }
