@@ -1,52 +1,19 @@
 package org.alfresco.po.share.site.discussion;
 
-import java.util.List;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * Created by Claudia Agache on 8/8/2016.
  */
 public class TopicViewPage extends SiteCommon<TopicViewPage>
 {
-    /* Topic area */
-    @RenderWebElement
-    @FindBy (css = "div.node.topic")
-    private WebElement topicElement;
-
-    @FindBy (className = "published")
-    private WebElement topicPublished;
-
-    @FindBy (css = ".onDeleteTopic>a")
-    private Link deleteLink;
-
-    @FindBy (xpath = "//div[contains(text(), 'Add Reply')]")
-    private WebElement addReplyHeader;
-
-    /* Replies area */
-    @FindAll (@FindBy (css = ".reply"))
-    private List<WebElement> repliesList;
-
-    @FindBy (className = "replyTitle")
-    private WebElement replyBoxTitle;
-
-    @FindBy (css = "button[id$='submit-button']")
-    private Button submitButton;
-
-    @FindBy (css = "button[id$='cancel-button']")
-    private Button cancelButton;
-
-    @FindBy (xpath = "//button[descendant-or-self::*[text()='Insert']]")
-    private Button insertMenuButton;
-
+    private final By insertMenuButton = By.xpath("//button[descendant-or-self::*[text()='Insert']]");
+    private final By cancelButton = By.cssSelector("button[id$='cancel-button']");
+    private final By addReplyHeader = By.xpath("//div[contains(text(), 'Add Reply')]");
     private final By replyBoxMenu = By.className("mce-menu");
     private final By replyBoxMenuItem = By.className("mce-text");
     private final By replyLink = By.cssSelector(".onAddReply>a");
@@ -64,6 +31,12 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private final By discussionTopicListLink = By.cssSelector(".backLink>a");
     private final By delete_Link = By.cssSelector(".onDeleteTopic>a");
     private final By editLink = By.cssSelector(".onEditTopic>a");
+    private final By topicPublished = By.className("published");
+    private final By topicElement = By.cssSelector("div.node.topic");
+    private final By replyBoxTitle = By.className("replyTitle");
+    private final By submitButton = By.cssSelector("button[id$='submit-button']");
+    private final By repliesList = By.cssSelector(".reply");
+    private final By repliesLists = By.cssSelector(".reply");
 
     public TopicViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -84,6 +57,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     private WebElement selectReply(String reply)
     {
+        waitInSeconds(3);
         return findFirstElementWithValue(repliesList, reply);
     }
 
@@ -105,7 +79,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public String getTopicReplyHeader()
     {
         waitUntilElementIsVisible(addReplyHeader);
-        return addReplyHeader.getText();
+        return findElement(addReplyHeader).getText();
     }
 
     /**
@@ -115,7 +89,8 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicPublished()
     {
-        return topicPublished.getText();
+        waitInSeconds(3);
+        return findElement(topicPublished).getText();
     }
 
     /**
@@ -135,7 +110,8 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getTopicReplies()
     {
-        return topicElement.findElement(noReplies).getText();
+        waitInSeconds(3);
+        return findElement(topicElement).findElement(noReplies).getText();
     }
 
     /**
@@ -156,6 +132,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getReplyAuthor(String reply)
     {
+        waitInSeconds(3);
         return selectReply(reply).findElement(replyAuthor).getText();
     }
 
@@ -188,7 +165,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public TopicViewPage clickReply()
     {
-        topicElement.findElement(replyLink).click();
+        findElement(topicElement).findElement(replyLink).click();
         return new TopicViewPage(webDriver);
     }
 
@@ -255,6 +232,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     public void typeReply(String content)
     {
+        waitInSeconds(3);
         switchToFrame(waitUntilElementIsVisible(replyTextArea).getAttribute("id"));
         WebElement editable = switchTo().activeElement();
         editable.clear();
@@ -269,7 +247,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public String getReplyBoxTitle()
     {
-        return replyBoxTitle.getText();
+        return findElement(replyBoxTitle).getText();
     }
 
     /**
@@ -292,7 +270,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public TopicViewPage submitReply()
     {
-        submitButton.click();
+        findElement(submitButton).click();
         return new TopicViewPage(webDriver);
     }
 
@@ -303,7 +281,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public void cancelReply()
     {
-        cancelButton.click();
+        findElement(cancelButton).click();
     }
 
     /**
@@ -327,38 +305,31 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public TopicViewPage showHideReplies(String reply)
     {
-        selectReply(reply).findElement(showHideReplies).click();
+        waitInSeconds(2);
+        findElement(showHideReplies).click();
         return new TopicViewPage(webDriver);
     }
 
-    /**
-     * Check if a reply is visible or not on page
-     *
-     * @param reply
-     * @return true if it is visible
-     */
-    public boolean isReplyVisible(String reply)
+    public boolean is_ReplyVisible(String reply)
     {
-        return isElementDisplayed(selectReply(reply));
+        waitInSeconds(2);
+        for (WebElement listItems : findElements(repliesLists))
+        {
+            if (listItems.getText().contains(reply))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public InsertLinkPopUp selectOptionFromInsertMenu(String option)
     {
-        insertMenuButton.click();
+        waitInSeconds(3);
+        findElement(insertMenuButton).click();
         WebElement insertMenu = waitUntilElementIsVisible(replyBoxMenu);
         findFirstElementWithValue(insertMenu.findElements(replyBoxMenuItem), option).click();
         return new InsertLinkPopUp(webDriver);
-    }
-
-    /**
-     * Click on the specified link from reply content
-     *
-     * @param reply
-     * @param linkTitle
-     */
-    public void clickLinkInReply(String reply, String linkTitle)
-    {
-        selectReply(reply).findElement(content).findElement(By.cssSelector("a[title='" + linkTitle + "']")).click();
     }
 
     /**
@@ -370,6 +341,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isImageDisplayedInReply(String reply, String imageSource)
     {
+        waitInSeconds(3);
         return isElementDisplayed(selectReply(reply), By.cssSelector("img[src='" + imageSource + "']"));
     }
 
@@ -382,5 +354,18 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public String getReplyStatus(String reply)
     {
         return selectReply(reply).findElement(status).getText();
+    }
+
+    public void selectOptionFromInsertMenus(String option)
+    {
+        waitInSeconds(3);
+        findElement(insertMenuButton).click();
+        findFirstElementWithValue(findElements(replyBoxMenuItem), option).click();
+    }
+
+    public void refreshPage()
+    {
+        refresh();
+        waitInSeconds(3);
     }
 }

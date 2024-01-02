@@ -3,10 +3,6 @@ package org.alfresco.po.share.site.discussion;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
 /**
  * Created by Claudia Agache on 8/11/2016.
@@ -14,35 +10,12 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 public class InsertLinkPopUp extends BaseDialogComponent
 {
     private TopicViewPage topicViewPage;
-
-    @FindBy (className = "mce-title")
-    private WebElement popupTitle;
-
-    @FindBy (xpath = "//button[text()='Ok']")
-    private Button okButton;
-
-    @FindBy (xpath = "//button[text()='Cancel']")
-    private Button cancelButton;
-
-    @FindBy (className = "mce-close")
-    private Button closeButton;
-
-    @FindBy (xpath = "//label[text()='Url']/following-sibling::*/input")
-    private TextInput urlInput;
-
-    @FindBy (xpath = "//label[text()='Text to display']/following-sibling::input")
-    private TextInput textToDisplayInput;
-
-    @FindBy (xpath = "//label[text()='Title']/following-sibling::input")
-    private TextInput titleInput;
-
-    @FindBy (xpath = "//label[text()='Target']/following-sibling::*/button")
-    private Button targetButton;
-
-    @FindBy (xpath = ".//*[@class='mce-reset']")
-    private WebElement insertLinkPopup;
-
-    private final By targetMenu = By.cssSelector("#mce-modal-block+div");
+    private final By targetButton = By.xpath("//label[text()='Target']/following-sibling::*/button");
+    private final By titleInput = By.xpath("//label[text()='Title']/following-sibling::input");
+    private final By textToDisplayInput = By.xpath("//label[text()='Text to display']/following-sibling::input");
+    private final By urlInput = By.xpath("//label[text()='Url']/following-sibling::*/input");
+    private final By okButton = By.xpath("//span[text()='Ok']");
+    private final By insertLinkPopup = By.xpath(".//*[@class='mce-reset']");
     private final By targetMenuItem = By.className("mce-text");
 
     public InsertLinkPopUp(ThreadLocal<WebDriver> webDriver)
@@ -53,24 +26,20 @@ public class InsertLinkPopUp extends BaseDialogComponent
 
     public void insertLink(String url, String text, String title, String target)
     {
-        urlInput.sendKeys(url);
-        textToDisplayInput.clear();
-        textToDisplayInput.sendKeys(text);
-        titleInput.sendKeys(title);
-        targetButton.click();
-        WebElement menu = waitUntilElementIsVisible(targetMenu);
-        findFirstElementWithValue(menu.findElements(targetMenuItem), target).click();
-        okButton.click();
-    }
-
-    public String getPopupTitle()
-    {
-        return popupTitle.getText();
+        findElement(urlInput).sendKeys(url);
+        findElement(textToDisplayInput).clear();
+        findElement(textToDisplayInput).sendKeys(text);
+        findElement(titleInput).sendKeys(title);
+        waitInSeconds(2);
+        findElement(targetButton).click();
+        findFirstElementWithValue(findElements(targetMenuItem), target).click();
+        waitInSeconds(2);
+        findElement(okButton).click();
     }
 
     public boolean isTextPresent(String text)
     {
-        waitUntilElementContainsText(insertLinkPopup, text);
-        return insertLinkPopup.getText().contains(text);
+        waitUntilElementContainsText(findElement(insertLinkPopup), text);
+        return findElement(insertLinkPopup).getText().contains(text);
     }
 }
