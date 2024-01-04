@@ -81,6 +81,12 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     private By linkDetails = By.cssSelector("span[class=item]");
     private By linkTags = By.cssSelector(".detail [class=tag] a");
+    private By linksList_Title = By.cssSelector("[class=list-title]");
+    private By links_TitleList = By.cssSelector("[class=link-title]");
+    private By allLinks_Filter = By.cssSelector("[class=all] a");
+    private By myLinks_Filter = By.cssSelector("[class=user] a");
+    private By recentLinks_Filter = By.cssSelector("[class=recent] a");
+    private By links_List = By.cssSelector("[id*=default-links] tr");
 
     public LinkPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -98,6 +104,11 @@ public class LinkPage extends SiteCommon<LinkPage>
         return linksListTitle.getText();
     }
 
+    public String get_LinksListTitle()
+    {
+        return findElement(linksList_Title).getText();
+    }
+
     /**
      * This method returns the list of links titles
      *
@@ -106,8 +117,9 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public List<String> getLinksTitlesList()
     {
+        waitInSeconds(2);
         List<String> linksTitles = new ArrayList<>();
-        for (WebElement linkTitle : linksTitleList)
+        for (WebElement linkTitle : findElements(links_TitleList))
         {
             linksTitles.add(linkTitle.getText());
         }
@@ -208,6 +220,7 @@ public class LinkPage extends SiteCommon<LinkPage>
      */
     public void clickSpecificTag(String tagName)
     {
+        waitInSeconds(3);
         findElement(By.cssSelector("li a[rel='" + tagName + "']")).click();
     }
 
@@ -222,16 +235,16 @@ public class LinkPage extends SiteCommon<LinkPage>
         switch (option)
         {
             case "All Links":
-                allLinksFilter.click();
-                waitUntilElementContainsText(linksListTitle, "All Links");
+                clickElement(allLinks_Filter);
+                waitUntilElementContainsText(linksList_Title, "All Links");
                 break;
             case "My Links":
-                myLinksFilter.click();
-                waitUntilElementContainsText(linksListTitle, "My Links");
+                clickElement(myLinks_Filter);
+                waitUntilElementContainsText(linksList_Title, "My Links");
                 break;
             case "Recently Added":
-                recentLinksFilter.click();
-                waitUntilElementContainsText(linksListTitle, "Recently Added Links");
+                clickElement(recentLinks_Filter);
+                waitUntilElementContainsText(linksList_Title, "Recently Added Links");
                 break;
 
             default:break;
@@ -242,6 +255,19 @@ public class LinkPage extends SiteCommon<LinkPage>
     public boolean isLinkDisplayed(String linkTitle)
     {
         return isElementDisplayed(selectLinkDetailsRow(linkTitle));
+    }
+
+    public boolean is_LinkDisplayed(String linkTitle)
+    {
+        waitInSeconds(2);
+        for (WebElement listItems : findElements(links_List))
+        {
+            if (listItems.getText().contains(linkTitle))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public LinkDetailsViewPage clickOnLinkName(String linkTitle)
@@ -347,5 +373,13 @@ public class LinkPage extends SiteCommon<LinkPage>
     public String getLinkTitle()
     {
         return linkTitle.getText();
+    }
+
+    public void browserRefresh()
+    {
+        waitInSeconds(7);
+        refresh();
+        waitInSeconds(5);
+        refresh();
     }
 }
