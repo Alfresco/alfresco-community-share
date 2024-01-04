@@ -6,81 +6,30 @@ import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
 
 public class LinkPage extends SiteCommon<LinkPage>
 {
-    private LinkDetailsViewPage linkDetailsViewPage;
-    private CreateLinkPage createLinkPage;
-    private EditLinkPage editLinkPage;
-
-    @FindBy (css = "button[id*='default-create-link']")
-    private Button newLinkButton;
-
-    @FindBy (css = ".filter.links-filter")
-    private WebElement linksFilter;
-
-    @FindBy (css = "[class=list-title]")
-    private WebElement linksListTitle;
-
-    @FindAll (@FindBy (css = "[class=link-title]"))
-    private List<WebElement> linksTitleList;
-
-    @FindAll (@FindBy (css = "[id*=default-links] tr"))
-    private List<WebElement> linksList;
-
-    @FindAll (@FindBy (css = "[class=item] a"))
-    private List<WebElement> listOfLinksURL;
-
-    @FindBy (css = "[id*=viewMode-button-button]")
-    private WebElement viewModeButton;
-
-    @FindBy (css = "[class=all] a")
-    private WebElement allLinksFilter;
-
-    @FindBy (css = "[class=user] a")
-    private WebElement myLinksFilter;
-
-    @FindBy (css = "[class=recent] a")
-    private WebElement recentLinksFilter;
-
-    @FindBy (css = ".datatable-msg-empty")
-    private WebElement dataTableMsgEmpty;
-
-    @FindBy (css = "[id=prompt]")
-    private WebElement deleteLinkPrompt;
-
-    @FindBy (css = "[id*=default-selected-i-dd-button]")
-    private Button selectedItemsButton;
-
-    @FindBy (css = "[id*=default-select-button-button]")
-    private Button selectButton;
-
-    @FindAll (@FindBy (css = "[id*=default-selecItems-menu] li span"))
-    private List<WebElement> selectItems;
-
-    @FindBy (css = "[class=links-action-select-all]")
-    private WebElement selectAllOption;
-
-    @FindBy (css = "[class=links-action-invert-selection]")
-    private WebElement selectInvertSelectionOption;
-
-    @FindBy (css = "[id*=default-selecItems-menu] li:nth-last-child(1)")
-    private WebElement selectNoneOption;
-
-    @FindBy (css = "[class=links-action-delete]")
-    private WebElement selectDeleteOption;
-
-    @FindBy (css = "[class*=deselect-item] span")
-    private WebElement selectDeselectAllDeleteOption;
-
-    @FindBy (css = "td[class*='yui-dt-col-title'] h3[class ='link-title']")
-    private WebElement linkTitle;
-
+    private By linksTitleList = By.cssSelector("[class=link-title]");
+    private By linksListTitle = By.cssSelector("[class=list-title]");
+    private By newLinkButton = By.cssSelector("button[id*='default-create-link']");
+    private By recentLinksFilter = By.cssSelector("[class=recent] a");
+    private By myLinksFilter = By.cssSelector("[class=user] a");
+    private By allLinksFilter = By.cssSelector("[class=all] a");
+    private By viewModeButton = By.cssSelector("[id*=viewMode-button-button]");
+    private By listOfLinksURL = By.cssSelector("[class=item] a");
+    private By linksList = By.cssSelector("[id*=default-links] tr");
     private By linkDetails = By.cssSelector("span[class=item]");
     private By linkTags = By.cssSelector(".detail [class=tag] a");
+    private By linkTitle = By.cssSelector("td[class*='yui-dt-col-title'] h3[class ='link-title']");
+    private By selectDeselectAllDeleteOption = By.cssSelector("[class*=deselect-item] span");
+    private By selectDeleteOption = By.cssSelector("[class=links-action-delete]");
+    private By selectNoneOption = By.cssSelector("[id*=default-selecItems-menu] li:nth-last-child(1)");
+    private By selectInvertSelectionOption = By.cssSelector("[class=links-action-invert-selection]");
+    private By selectAllOption = By.cssSelector("[class=links-action-select-all]");
+    private By selectButton = By.cssSelector("[id*=default-select-button-button]");
+    private By selectedItemsButton = By.cssSelector("[id*=default-selected-i-dd-button]");
+    private By deleteLinkPrompt = By.cssSelector("[id=prompt]");
+    private By dataTableMsgEmpty = By.cssSelector(".datatable-msg-empty");
 
     public LinkPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -95,7 +44,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public String getLinksListTitle()
     {
-        return linksListTitle.getText();
+        return findElement(linksListTitle).getText();
     }
 
     /**
@@ -107,7 +56,7 @@ public class LinkPage extends SiteCommon<LinkPage>
     public List<String> getLinksTitlesList()
     {
         List<String> linksTitles = new ArrayList<>();
-        for (WebElement linkTitle : linksTitleList)
+        for (WebElement linkTitle : findElements(linksTitleList))
         {
             linksTitles.add(linkTitle.getText());
         }
@@ -123,7 +72,7 @@ public class LinkPage extends SiteCommon<LinkPage>
     public List<String> getLinksURL()
     {
         List<String> linksURLs = new ArrayList<>();
-        for (WebElement linkURL : listOfLinksURL)
+        for (WebElement linkURL : findElements(listOfLinksURL))
         {
             linksURLs.add(linkURL.getText());
         }
@@ -132,7 +81,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public WebElement selectLinkDetailsRow(String linkTitle)
     {
-        return findFirstElementWithValue(linksList, linkTitle);
+        return findFirstElementWithValue(findElements(linksList), linkTitle);
     }
 
     public List<String> getLinkTags(String linkTitle)
@@ -198,7 +147,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public void changeViewMode()
     {
-        viewModeButton.click();
+        findElement(viewModeButton).click();
     }
 
     /**
@@ -222,16 +171,16 @@ public class LinkPage extends SiteCommon<LinkPage>
         switch (option)
         {
             case "All Links":
-                allLinksFilter.click();
+                findElement(allLinksFilter).click();
                 waitUntilElementContainsText(linksListTitle, "All Links");
                 break;
             case "My Links":
-                myLinksFilter.click();
-                waitUntilElementContainsText(linksListTitle, "My Links");
+                findElement(myLinksFilter).click();
+                waitUntilElementContainsText(findElement(linksListTitle), "My Links");
                 break;
             case "Recently Added":
-                recentLinksFilter.click();
-                waitUntilElementContainsText(linksListTitle, "Recently Added Links");
+                findElement(recentLinksFilter).click();
+                waitUntilElementContainsText(findElement(linksListTitle), "Recently Added Links");
                 break;
 
             default:break;
@@ -253,12 +202,12 @@ public class LinkPage extends SiteCommon<LinkPage>
     public String getNoLinksFoundMsg()
     {
         waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
-        return dataTableMsgEmpty.getText();
+        return findElement(dataTableMsgEmpty).getText();
     }
 
     public CreateLinkPage createLink()
     {
-        newLinkButton.click();
+        findElement(newLinkButton).click();
         return new CreateLinkPage(webDriver);
     }
 
@@ -269,16 +218,16 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public EditLinkPage clickEditLink(String linkTitle)
     {
-        mouseOver(findFirstElementWithValue(linksList, linkTitle));
+        mouseOver(findFirstElementWithValue(findElements(linksList), linkTitle));
         selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".edit-link span")).click();
         return new EditLinkPage(webDriver);
     }
 
     public boolean clickDeleteLink(String linkTitle)
     {
-        mouseOver(findFirstElementWithValue(linksList, linkTitle));
+        mouseOver(findFirstElementWithValue(findElements(linksList), linkTitle));
         selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".delete-link span")).click();
-        return deleteLinkPrompt.isDisplayed();
+        return findElement(deleteLinkPrompt).isDisplayed();
     }
 
     public List<String> getTagsFromTagsSection()
@@ -294,7 +243,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public boolean isSelectedItemsButtonEnabled()
     {
-        return selectedItemsButton.isEnabled();
+        return findElement(selectedItemsButton).isEnabled();
     }
 
     public boolean selectLinkCheckBox(String linkTitle)
@@ -310,42 +259,42 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public void clickSelectButton()
     {
-        selectButton.click();
+        findElement(selectButton).click();
     }
 
     public void clickInvertSelectionOption()
     {
-        selectInvertSelectionOption.click();
+        findElement(selectInvertSelectionOption).click();
     }
 
     public void clickNoneOption()
     {
-        selectNoneOption.click();
+        findElement(selectNoneOption).click();
     }
 
     public void clickAllOption()
     {
-        selectAllOption.click();
+        findElement(selectAllOption).click();
     }
 
     public void clickOnSelectedItemsButton()
     {
-        selectedItemsButton.click();
+        findElement(selectedItemsButton).click();
     }
 
     public void clickOnDeselectAllOption()
     {
-        selectDeselectAllDeleteOption.click();
+        findElement(selectDeselectAllDeleteOption).click();
     }
 
     public boolean clickOnSelectDeleteOption()
     {
-        selectDeleteOption.click();
-        return deleteLinkPrompt.isDisplayed();
+        findElement(selectDeleteOption).click();
+        return findElement(deleteLinkPrompt).isDisplayed();
     }
 
     public String getLinkTitle()
     {
-        return linkTitle.getText();
+        return findElement(linkTitle).getText();
     }
 }
