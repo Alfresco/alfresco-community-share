@@ -64,6 +64,8 @@
          <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvanced"></package>
          <package name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListSimple"></package>
          <package name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems"></package>
+         <package name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems"></package>
+         <package name="org.alfresco.share.sitesFeatures.discussions"/>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
@@ -75,7 +77,14 @@
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
          <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
          <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
-
+         <class name="org.alfresco.share.sitesFeatures.dataLists.AccessingDataListsComponentTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.DataListTableActionsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.DeletingADataListTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.EditingTheListDetailsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.ViewingDataListsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.Links.AccessingLinkTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.Links.BrowsingTheSiteLinksTests"></class>
       </classes>
    </test>
 </suite>
