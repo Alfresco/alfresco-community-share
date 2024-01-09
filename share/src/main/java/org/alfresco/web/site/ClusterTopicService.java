@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 - 2023 Alfresco Software Limited.
+ * Copyright 2005 - 2024 Alfresco Software Limited.
  *
  * This file is part of the Alfresco software.
  * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
@@ -63,32 +63,32 @@ import com.hazelcast.topic.MessageListener;
  * should implement the ClusterMessageAware interface. This service will automatically find all
  * beans that implement those interfaces and provide them with cluster messages when appropriate.
  * Beans implementing that interface can also publish messages to the cluster.
- * 
+ *
  * @author Kevin Roast
  */
 public class ClusterTopicService implements MessageListener<String>, ClusterService, ApplicationContextAware
 {
     private static Log logger = LogFactory.getLog(ClusterTopicService.class);
-    
+
     /** The Hazelcast cluster bean instance */
     private HazelcastInstance hazelcastInstance;
-    
+
     /** The Hazelcast topic name used for messaging between cluster nodes */
     private String hazelcastTopicName;
-    
+
     /** The Hazelcast Topic resolved during Persister init */
     private ITopic<String> clusterTopic = null;
-    
+
     /** Registry of cluster message types to implementation beans */
     private Map<String, ClusterMessageAware> clusterBeans = null;
-    
+
     /** Node identifier - to ensure multicast messages aren't processed by the sender */
     private static final String clusterNodeId = GUID.generate();
-    
-    
+
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Setters and Spring properties
-    
+
     /**
      * @param hazelcastInstance     The HazelcastInstance cluster bean
      */
@@ -96,7 +96,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
     {
         this.hazelcastInstance = hazelcastInstance;
     }
-    
+
     /**
      * @param hazelcastTopicName    The topic name used for messaging between cluster nodes
      */
@@ -104,11 +104,11 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
     {
         this.hazelcastTopicName = hazelcastTopicName;
     }
-    
-    
+
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Spring Init
-    
+
     private ApplicationContext applicationContext = null;
 
     /**
@@ -120,7 +120,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
     {
         this.applicationContext = applicationContext;
     }
-    
+
     /**
      * Bean init method to perform one time setup of the Hazelcast cluster node.
      */
@@ -135,7 +135,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
         {
             throw new IllegalArgumentException("The 'hazelcastTopicName' property (String) is mandatory.");
         }
-        
+
         // cluster topic initialisation
         ITopic<String> topic = this.hazelcastInstance.getTopic(this.hazelcastTopicName);
         if (topic == null)
@@ -143,7 +143,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
             throw new IllegalArgumentException(
                     "Did not find Hazelcast topic with name: '" + this.hazelcastTopicName + "' - cannot init.");
         }
-        
+
         // find the beans that are interested in cluster messages and register them with the service
         Map<String, ClusterMessageAware> beans = this.applicationContext.getBeansOfType(ClusterMessageAware.class);
         this.clusterBeans = new HashMap<>();
@@ -172,18 +172,18 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
                 logger.debug(id + " [" + beans.get(id).getClusterMessageType() + "]");
             }
         }
-        
+
         // start listening for cluster messages
         this.clusterTopic = topic;
         this.clusterTopic.addMessageListener(this);
-        
+
         logger.info("Init complete for Hazelcast cluster - listening on topic: " + hazelcastTopicName);
     }
-    
-    
+
+
     /////////////////////////////////////////////////////////////////
     // Hazelcast Cluster message send and receive
-    
+
     /**
      * Push message out to the cluster - multicast or direct TCP depending on Hazelcast config.
      */
@@ -192,33 +192,33 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
     {
         // construct the message object from the payload
         final ClusterMessage msg = new ClusterMessageImpl(messageType, payload);
-        
+
         // serialise it to plain text for transmission
         final String serialised = msg.toString();
         if (logger.isDebugEnabled())
             logger.debug("Pushing message:\r\n" + serialised);
-        
+
         // push the message out to the Hazelcast topic cluster
         this.clusterTopic.publish(serialised);
     }
-    
+
     /**
      * Hazelcast MessageListener implementation - called when a message is received from a cluster node
-     * 
+     *
      * @param message   Cluster message JSON string
      */
     @Override
     public void onMessage(final Message<String> message)
     {
         final boolean debug = logger.isDebugEnabled();
-        
+
         // process message objects and extract the payload
         final String msg = message.getMessageObject();
         final MessageProcessor proc = new MessageProcessor(msg);
         if (!proc.isSender())
         {
             if (debug) logger.debug("Received message of type:" + proc.getMessageType() + "\r\n" + msg);
-            
+
             // call an implementation of a message handler bean
             final ClusterMessageAware bean = this.clusterBeans.get(proc.getMessageType());
             if (bean != null)
@@ -231,11 +231,11 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
             }
         }
     }
-    
-    
+
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes and messaging contract interfaces
-    
+
     /**
      * Contract for a cluster message.
      */
@@ -245,23 +245,23 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
         static final String JSON_MESSAGE = "message";
         static final String JSON_TYPE = "type";
         static final String JSON_PAYLOAD = "payload";
-        
+
         /**
          * @return the globally unique sender ID
          */
         String getSender();
-        
+
         /**
          * @return the message type, will only be processed if understood by the receiver
          */
         String getType();
-        
+
         /**
          * @return the arbitrary payload data bundle
          */
         Map<String, Serializable> getPayload();
     }
-    
+
     /**
      * Abstract base class for cluster messages.
      * <p>
@@ -272,13 +272,13 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
     {
         /** message type */
         final private String type;
-        
+
         /** payload object */
         final Map<String, Serializable> payload;
-        
+
         /**
          * Constructor
-         * 
+         *
          * @param type      Type of this message
          * @param payload   Payload object for this message
          */
@@ -287,7 +287,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
             this.type = type;
             this.payload = payload;
         }
-        
+
         /**
          * @return the payload map for the message
          */
@@ -311,7 +311,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
         {
             return this.type;
         }
-        
+
         @Override
         public String toString()
         {
@@ -338,12 +338,12 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
                 throw new IllegalStateException("Failed to serialise cluster message: " + e.getMessage(), e);
             }
         }
-        
+
         /**
          * Recursively serialise objects to a JSONWriter.
          * <p>
          * Handles basic Java type suitable for the current messaging implementation.
-         * 
+         *
          * @param writer    JSONWriter for output
          * @param name      Name of the current value, can be null for array item
          * @param obj       Object representing the value to serialise
@@ -445,7 +445,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
             }
         }
     }
-    
+
     /**
      * This class is responsible for deserialising a message string into objects.
      * <p>
@@ -456,7 +456,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
         private final String sender;
         private final String type;
         private final Map<String, Serializable> payload;
-        
+
         MessageProcessor(String msg)
         {
             // deserialise the message to retrieve the sender, type and payload objects
@@ -468,7 +468,7 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
                         {
                             return new HashMap();
                         }
-                        
+
                         public List creatArrayContainer()
                         {
                             return new ArrayList();
@@ -484,17 +484,17 @@ public class ClusterTopicService implements MessageListener<String>, ClusterServ
                 throw new IllegalArgumentException("Unable to parse cluster JSON message: " + e.getMessage() + "\r\n" + msg);
             }
         }
-        
+
         boolean isSender()
         {
             return clusterNodeId.equals(this.sender);
         }
-        
+
         String getMessageType()
         {
             return this.type;
         }
-        
+
         Map<String, Serializable> getMessagePayload()
         {
             return this.payload;
