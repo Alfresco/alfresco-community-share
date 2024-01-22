@@ -96,7 +96,7 @@ public class DeleteLinkTests extends BaseTest
         Assert.assertTrue(deleteLinkPopUp.getDeleteLinkMessage().equals("Do you really want to delete link " + "'" + linkTitle + "'?"),
             "Wrong delete link message!");
         deleteLinkPopUp.clickOnDeleteLinkButtonLinkDetailsPage();
-        Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
+        Assert.assertTrue(linkPage.get_NoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
 
     }
 

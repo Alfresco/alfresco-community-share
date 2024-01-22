@@ -233,6 +233,12 @@ public class LinkPage extends SiteCommon<LinkPage>
         return findElement(dataTableMsgEmpty).getText();
     }
 
+    public String get_NoLinksFoundMsg()
+    {
+        waitInSeconds(2);
+        return findElement(dataTableMsgEmpty).getText();
+    }
+
     public CreateLinkPage createLink()
     {
         findElement(newLinkButton).click();
