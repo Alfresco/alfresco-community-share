@@ -1,50 +1,52 @@
 package org.alfresco.po.share.site.link;
 
-import org.alfresco.po.share.ShareDialog;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.alfresco.po.share.site.SiteCommon;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-@PageObject
-public class DeleteLinkPopUp extends ShareDialog
-{
-    @FindBy (xpath = "//button[contains(text(), 'Delete')]")
-    private WebElement deleteLinkButton;
+public class DeleteLinkPopUp extends SiteCommon<DeleteLinkPopUp> {
+    private By deleteLinkButton = By.xpath("//button[contains(text(), 'Delete')]");
+    private By cancelDeleteLinkButton = By.xpath("//button[contains(text(), 'Cancel')]");
+    private By deleteLinkMessage = By.cssSelector("[id=prompt] [class=bd]");
 
-    @FindBy (xpath = "//button[contains(text(), 'Cancel')]")
-    private WebElement cancelDeleteLinkButton;
+    public DeleteLinkPopUp(ThreadLocal<WebDriver> webDriver)
+    {
+        super(webDriver);
+    }
 
-    @FindBy (css = "[id=prompt] [class=bd]")
-    private WebElement deleteLinkMessage;
+    @Override
+    public String getRelativePath()
+    {
+        return String.format("share/page/site/%s/links", getCurrentSiteName());
+    }
 
     public void clickOnDeleteLinkButtonLinkDetailsPage()
     {
-        deleteLinkButton.click();
+        clickElement(deleteLinkButton);
     }
 
     public void clickOnCancelDeleteLink()
     {
-        cancelDeleteLinkButton.click();
+        clickElement(cancelDeleteLinkButton);
     }
 
     public void isDeleteButtonDisplayed()
     {
-        deleteLinkButton.isDisplayed();
+        findElement(deleteLinkButton).isDisplayed();
     }
 
     public void isCancelDeleteLinkButtonDisplayed()
     {
-        cancelDeleteLinkButton.isDisplayed();
+        findElement(cancelDeleteLinkButton).isDisplayed();
     }
 
     public String getDeleteLinkMessage()
     {
-        return deleteLinkMessage.getText();
+        return findElement(deleteLinkMessage).getText();
     }
 
     public void clickOnDeleteLinkButtonLinksPage()
     {
-        deleteLinkButton.click();
-        browser.refresh();
+        clickElement(deleteLinkButton);
     }
 }
