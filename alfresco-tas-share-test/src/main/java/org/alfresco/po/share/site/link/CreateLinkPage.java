@@ -19,6 +19,13 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     private final By linkTag = By.cssSelector("input[id$='links-linkedit_x0023_default-tag-input-field']");
     private final By addTagButton = By.cssSelector("button[id*='links-linkedit_x0023_default-add-tag-button']");
     private final By cancelButton = By.cssSelector("button[id$='links-linkedit_x0023_default-cancel-button']");
+    private final By page_Header = By.cssSelector(".page-form-header>h1");
+    private final By createURL = By.name("url");
+    private final By description = By.name("description");
+    private final By internal = By.name("internal");
+    private final By tags = By.cssSelector(".taglibrary>input");
+    private final By addButton = By.cssSelector(".taglibrary .first-child>button");
+    private final By tagList = By.cssSelector(".bottom_taglist>a");
 
     public CreateLinkPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -75,5 +82,50 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     {
         clickElement(cancelButton);
         return new LinkPage(webDriver);
+    }
+
+    public boolean isLinkTitleDisplayed()
+    {
+        return findElement(page_Header).getText().equals("Create Link");
+    }
+
+    public boolean isLinkURLDisplayed()
+    {
+        return isElementDisplayed(createURL);
+    }
+
+    public boolean isLinkDescriptionDisplayed()
+    {
+        return isElementDisplayed(description);
+    }
+
+    public boolean isLinkInternalChecked()
+    {
+        return isElementDisplayed(internal);
+    }
+
+    public boolean isLinkTagDisplayed()
+    {
+        return isElementDisplayed(tags);
+    }
+
+    public boolean isAddTagButtonDisplayed()
+    {
+        return isElementDisplayed(addButton);
+    }
+
+    public boolean isChoosePopularTagsLinkDisplayed()
+    {
+        return findElement(tagList).getText().equals("Choose from popular tags in this site");
+    }
+
+    public boolean isSaveButtonDisplayed()
+    {
+        return isElementDisplayed(saveButton);
+    }
+
+    public boolean isCancelButtonDisplayed()
+    {
+        return isElementDisplayed(cancelButton);
     }
 }
