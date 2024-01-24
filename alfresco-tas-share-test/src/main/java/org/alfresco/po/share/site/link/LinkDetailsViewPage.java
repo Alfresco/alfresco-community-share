@@ -32,6 +32,8 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     private final By commentDetailsList = By.cssSelector(".comment-details");
     private final By cancelSubmitCommentButton = By.cssSelector("[id*=default-add-cancel-button]");
     private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By noComment = By.cssSelector(".yui-dt-empty .yui-dt-liner");
+
 
     public LinkDetailsViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -193,5 +195,35 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
             findFirstElementWithValue(commentDetailsList, comment));
         selectCommentDetailsRow(comment).findElement(By.cssSelector("[class*=delete-comment]")).click();
         return isElementDisplayed(deleteLinkPrompt);
+    }
+
+    public String getLinkTitle()
+    {
+        return findElement(linkTitle).getText();
+    }
+
+    public String getLinkURL()
+    {
+        return findElement(linkURL).getText();
+    }
+
+    public String getCreationDate()
+    {
+        return findElement(creationDate).getText();
+    }
+
+    public String getCreatedBy()
+    {
+        return findElement(createdBy).getText();
+    }
+
+    public String getDescription()
+    {
+        return findElement(description).getText();
+    }
+
+    public String getNoCommentsMessage()
+    {
+        return findElement(noComment).getText();
     }
 }
