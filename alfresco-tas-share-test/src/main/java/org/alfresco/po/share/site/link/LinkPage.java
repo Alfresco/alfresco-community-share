@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 public class LinkPage extends SiteCommon<LinkPage>
 {
@@ -338,5 +339,29 @@ public class LinkPage extends SiteCommon<LinkPage>
         refresh();
         waitInSeconds(5);
         refresh();
+    }
+    public String getCurrentUrl()
+    {
+        return getWebDriver().getCurrentUrl();
+    }
+
+    public void navigateBackBrowser()
+    {
+        getWebDriver().navigate().back();
+    }
+    public void switchWindow() {
+        String currentWindow = getWindowHandles().toString();
+        clickOnLinkURL("https://www.google.com");
+        waitInSeconds(5);
+
+        // Switch to new window opened
+        for (String winHandle : getWindowHandles())
+        {
+            switchTo().window(winHandle);
+            if (getCurrentUrl().contains("google"))
+            {
+                break;
+            }
+        }
     }
 }
