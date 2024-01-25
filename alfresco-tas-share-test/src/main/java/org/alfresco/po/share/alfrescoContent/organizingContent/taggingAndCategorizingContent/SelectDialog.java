@@ -27,7 +27,7 @@ public class SelectDialog extends BaseDialogComponent
     private final By addIcon = By.cssSelector("a[class^='add-item']");
     private final By removeIcon = By.cssSelector("a[class*='remove-item']");
     private final By leftAreaResults = By.cssSelector("div[id$='prop_cm_categories-cntrl-picker-results']");
-
+    private final By selectButton = By.xpath(" //button[text()='Select']");
     private final String addTagItemRow = "//div[contains(@id, 'prop_cm_taggable-cntrl-picker-left')]//h3[text()='%s']/../../..";
     private final String removeTagItemRow = "//div[contains(@id, 'prop_cm_taggable-cntrl-picker-right')]//h3[text()='%s']/../../..";
     private final String addCategoryItemRow = "//div[contains(@id, 'prop_cm_categories-cntrl-picker-left')]//a[text()='%s']/../../../..";
@@ -183,6 +183,11 @@ public class SelectDialog extends BaseDialogComponent
         clickElement(createNewIcon);
         waitUntilElementIsVisible(removeIcon);
 
+        return this;
+    }
+    public SelectDialog clickSelectButton() {
+        waitInSeconds(2);
+        clickElement(selectButton);
         return this;
     }
 }
