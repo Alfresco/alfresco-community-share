@@ -80,8 +80,8 @@ public class AboutPopUpPage extends BaseDialogComponent
     {
         clickLegalAndLicenceLink();
         switchWindow(1);
-        waitUrlContains(hylandUrl, WAIT_10.getValue());
-        assertEquals(getCurrentUrl(), hylandUrl, "Displayed URL=");
+        waitUrlContains(hylandLegalAgreementsUrl, WAIT_10.getValue());
+        assertEquals(getCurrentUrl(), hylandLegalAgreementsUrl, "Displayed URL=");
         closeWindowAndSwitchBack();
         return this;
     }
