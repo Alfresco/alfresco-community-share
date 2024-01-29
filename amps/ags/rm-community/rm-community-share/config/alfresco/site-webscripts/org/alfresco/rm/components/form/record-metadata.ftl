@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2023 Alfresco Software Limited
+ Copyright (C) 2005 - 2024 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -27,17 +27,17 @@
 <#if formUI == "true">
    <@formLib.renderFormsRuntime formId=formId />
 </#if>
-    
+
 <div id="${formId}-container" class="form-container">
- 
+
    <#if form.showCaption?exists && form.showCaption>
       <div id="${formId}-caption" class="caption"><span class="mandatory-indicator">*</span>${msg("form.required.fields")}</div>
    </#if>
-    
+
    <#if form.mode != "view">
       <form id="${formId}" method="${form.method}" accept-charset="utf-8" enctype="${form.enctype}" action="${form.submissionUrl}">
    </#if>
-   
+
    <div id="${formId}-fields" class="form-fields">
       <div class="set-panel">
          <div class="set-panel-heading">${msg("label.set.idStatus")}</div>
@@ -169,7 +169,7 @@
             </div>
          </div>
       </#if>
-      
+
       <#if form.mode == "view">
          <div class="set-panel">
             <div class="set-panel-heading">${msg("label.set.disposition")}</div>
@@ -184,7 +184,7 @@
             </div>
          </div>
       </#if>
-      
+
       <#list form.structure as item>
          <#if item.kind == "set" && item.id == "rm-custom">
             <@formLib.renderSet set=item />
@@ -192,10 +192,10 @@
          </#if>
       </#list>
    </div>
-    
+
    <#if form.mode != "view">
       <@formLib.renderFormButtons formId=formId />
       </form>
    </#if>
-   
+
 </div>
