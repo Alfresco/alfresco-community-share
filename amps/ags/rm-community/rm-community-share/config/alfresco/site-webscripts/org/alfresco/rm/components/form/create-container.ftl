@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2023 Alfresco Software Limited
+ Copyright (C) 2005 - 2024 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -37,17 +37,17 @@
          <div class="yui-g">
             <h2 id="${args.htmlid}-dialogHeader">${msg("header")}</h2>
          </div>
-   
+
          <#if form.showCaption?exists && form.showCaption>
             <div id="${formId}-caption" class="caption"><span class="mandatory-indicator">*</span>${msg("form.required.fields")}</div>
          </#if>
-      
+
          <form id="${formId}" method="${form.method}" accept-charset="utf-8" enctype="${form.enctype}" action="${form.submissionUrl}">
-   
+
          <#if form.destination??>
             <input id="${formId}-destination" name="alf_destination" type="hidden" value="${form.destination}" />
          </#if>
-   
+
             <div id="${formId}-fields" class="form-fields">
                <#list form.structure as item>
                   <#if item.kind == "set">
@@ -62,7 +62,7 @@
                <input id="${formId}-submit" type="submit" value="${msg("form.button.submit.label")}" />
                &nbsp;<input id="${formId}-cancel" type="button" value="${msg("form.button.cancel.label")}" />
             </div>
-      
+
          </form>
 
       </div>

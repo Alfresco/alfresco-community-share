@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2023 Alfresco Software Limited
+ Copyright (C) 2005 - 2024 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -73,7 +73,7 @@
             <div class="field-row">
                <span>${msg("label.type")}:</span>
             </div>
-            
+
             <!-- Bi-directional -->
             <div id="${el}-bidirectional-section">
                <div class="field-row">
@@ -107,7 +107,7 @@
                   <input class="crud-input" id="${el}-parentchild-target" name="target" type="text"/>
                </div>
             </div>
-            
+
          </div>
 
          <!-- Buttons -->
