@@ -66,7 +66,7 @@
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.12.2</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
-        <dependency.org-json.version>20210307</dependency.org-json.version>
+        <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
 
         <alfresco.googledrive.version>3.2.1</alfresco.googledrive.version>
