@@ -226,4 +226,16 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     {
         return findElement(noComment).getText();
     }
+
+    public boolean isTagDisplayedInTagsList(String tag) {
+            for (WebElement tagList : findElements(tagsList))
+            {
+                if (tagList.getText().contains(tag))
+                {
+                    waitInSeconds(3);
+                    return true;
+                }
+            }
+            return false;
+        }
 }

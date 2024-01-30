@@ -3,7 +3,6 @@ package org.alfresco.po.share.site.link;
 import java.util.List;
 
 import org.alfresco.po.share.site.SiteCommon;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,26 +10,17 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
 public class EditLinkPage extends SiteCommon<EditLinkPage>
 {
-    @FindBy (css = "[id*=default-ok-button]")
-    private Button updateButton;
-
-    @FindBy (css = "[id*=default-title]")
-    private TextInput linkTitle;
-
-    @FindBy (css = "[id*=default-url]")
-    private TextInput linkURL;
-
-    @FindBy (css = "[id*=default-description]")
-    private WebElement linkDescription;
-
-    @FindBy (css = "input[id$='default-internal']")
-    private CheckBox linkInternal;
+    private By updateButton = By.cssSelector("[id*=default-ok-button]");
+    private By linkTitle = By.cssSelector("[id*=default-title]");
+    private By linkURL = By.cssSelector("[id*=default-url]");
+    private By linkDescription = By.cssSelector("[id*=default-description]");
+    private By linkInternal = By.cssSelector("input[id$='default-internal']");
+    private By cancelButton = By.cssSelector("[id*=default-cancel-button]");
 
     @FindBy (css = "[id*=default-tag-input-field]")
     private TextInput linkTag;
@@ -44,12 +34,8 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
     @FindBy (css = "[id*=default-load-popular-tags-link]")
     private Link popularTagsLink;
 
-    @FindBy (css = "[id*=default-cancel-button]")
-    private Button cancelButton;
-    @FindAll (@FindBy (css = "li.onRemoveTag a"))
-    private List<WebElement> tagsList;
-
     private final By removeTag = By.cssSelector("span.remove");
+    private final By tagsList = By.cssSelector("li.onRemoveTag a");
 
     public EditLinkPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -64,30 +50,28 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
 
     public void updateLinkTitle(String newLinkTitle)
     {
-        linkTitle.clear();
-        linkTitle.sendKeys(newLinkTitle);
+        findElement(linkTitle).clear();
+        clearAndType(linkTitle, newLinkTitle);
     }
 
     public void updateLinkURL(String newLinkURL)
     {
-        linkURL.clear();
-        linkURL.sendKeys(newLinkURL);
+        clearAndType(linkURL, newLinkURL);
     }
 
     public void updateLinkDescription(String newLinkDescription)
     {
-        linkDescription.clear();
-        linkDescription.sendKeys(newLinkDescription);
+        clearAndType(linkDescription, newLinkDescription);
     }
 
     public void checkLinkInternal()
     {
-        linkInternal.select();
+        clickElement(linkInternal);
     }
 
     public void clickOnUpdateButton()
     {
-        updateButton.click();
+        clickElement(updateButton);
     }
 
     public WebElement selectTagDetailsRow(String tagName)
@@ -101,6 +85,7 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
      */
     public void removeTag(String tagName)
     {
+        waitInSeconds(3);
         Actions actions = new Actions(webDriver.get());
         actions.moveToElement(selectTagDetailsRow(tagName));
         actions.moveToElement(selectTagDetailsRow(tagName).findElement(removeTag));
@@ -110,11 +95,11 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
 
     public void uncheckLinkInternal()
     {
-        linkInternal.deselect();
+        clickElement(linkInternal);
     }
 
     public void clickOnCancelButton()
     {
-        cancelButton.click();
+        clickElement(cancelButton);
     }
 }

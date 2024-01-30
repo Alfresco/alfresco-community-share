@@ -253,6 +253,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public EditLinkPage clickEditLink(String linkTitle)
     {
+        waitInSeconds(2);
         mouseOver(findFirstElementWithValue(findElements(linksList), linkTitle));
         selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".edit-link span")).click();
         return new EditLinkPage(webDriver);
@@ -349,6 +350,14 @@ public class LinkPage extends SiteCommon<LinkPage>
     {
         getWebDriver().navigate().back();
     }
+
+    public void closeCurrentTabAndswitchToDefaultBrowserTab()
+    {
+        getWebDriver().close();
+        waitInSeconds(4);
+        ArrayList<String> tabs = new ArrayList(getWebDriver().getWindowHandles());
+        getWebDriver().switchTo().window(tabs.get(0));
+    }
     public void switchWindow() {
         String currentWindow = getWindowHandles().toString();
         clickOnLinkURL("https://www.google.com");
@@ -359,6 +368,18 @@ public class LinkPage extends SiteCommon<LinkPage>
         {
             switchTo().window(winHandle);
             if (getCurrentUrl().contains("google"))
+            {
+                break;
+            }
+        }
+    }
+
+    public void switchToWindow(String URL) {
+        waitInSeconds(2);
+        for (String winHandle : getWindowHandles())
+        {
+            switchTo().window(winHandle);
+            if (getCurrentUrl().contains(URL))
             {
                 break;
             }
