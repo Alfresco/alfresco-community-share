@@ -231,6 +231,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
         return findElement(noComment).getText();
     }
 
+
     public String getDeleteMessage()
     {
         return findElement(deleteMessage).getText();
@@ -245,6 +246,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     {
         findElement(cancelDeleteButton).click();
     }
+    
     public void clearEditCommentContent()
     {
         switchTo().frame(findElement(commentContentIEditframe));
@@ -261,4 +263,16 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
         switchTo().defaultContent();
         clickElement(saveButton);
     }
+
+    public boolean isTagDisplayedInTagsList(String tag) {
+            for (WebElement tagList : findElements(tagsList))
+            {
+                if (tagList.getText().contains(tag))
+                {
+                    waitInSeconds(3);
+                    return true;
+                }
+            }
+            return false;
+     }
 }
