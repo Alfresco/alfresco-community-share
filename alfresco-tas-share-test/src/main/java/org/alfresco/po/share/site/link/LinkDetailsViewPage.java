@@ -33,7 +33,11 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     private final By cancelSubmitCommentButton = By.cssSelector("[id*=default-add-cancel-button]");
     private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
     private final By noComment = By.cssSelector(".yui-dt-empty .yui-dt-liner");
-
+    private final By saveButton = By.cssSelector("#template_x002e_comments_x002e_links-view_x0023_default-yui-rec5-submit-button");
+    private final By deleteMessage = By.cssSelector("[id=prompt] [class=bd]");
+    private final By deleteButton = By.xpath("//button[contains(text(), 'Delete')]");
+    private final By cancelDeleteButton = By.xpath("//button[contains(text(), 'Cancel')]");
+    private final By commentContentIEditframe = By.cssSelector("#template_x002e_comments_x002e_links-view_x0023_default-yui-rec5-content_ifr");
 
     public LinkDetailsViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -133,7 +137,6 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     {
         switchTo().frame(findElement(commentContentIframe));
         WebElement editable = switchTo().activeElement();
-
         editable.sendKeys(comment);
         switchTo().defaultContent();
         clickElement(submitCommentButton);
@@ -151,6 +154,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public List<String> getCommentsList()
     {
         List<String> comments = new ArrayList<>();
+        waitInSeconds(3);
         for (WebElement comment : waitUntilElementsAreVisible(commentsList))
         {
             comments.add(comment.getText());
@@ -227,6 +231,39 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
         return findElement(noComment).getText();
     }
 
+
+    public String getDeleteMessage()
+    {
+        return findElement(deleteMessage).getText();
+    }
+
+    public void clickDelete()
+    {
+        findElement(deleteButton).click();
+    }
+
+    public void clickCancel()
+    {
+        findElement(cancelDeleteButton).click();
+    }
+    
+    public void clearEditCommentContent()
+    {
+        switchTo().frame(findElement(commentContentIEditframe));
+        WebElement editable = switchTo().activeElement();
+        editable.clear();
+        switchTo().defaultContent();
+    }
+
+    public void editComment(String comment)
+    {
+        switchTo().frame(findElement(commentContentIEditframe));
+        WebElement editable = switchTo().activeElement();
+        editable.sendKeys(comment);
+        switchTo().defaultContent();
+        clickElement(saveButton);
+    }
+
     public boolean isTagDisplayedInTagsList(String tag) {
             for (WebElement tagList : findElements(tagsList))
             {
@@ -237,5 +274,5 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
                 }
             }
             return false;
-        }
+     }
 }
