@@ -27,7 +27,7 @@ function main()
       hasConfigPermission = true; // User dashboard
    }
 
-   var text = stringUtils.stripUnsafeHTML(args.text || "");
+   var text = args.text || "" ;
    model.text = text;
 
    // Component definition
