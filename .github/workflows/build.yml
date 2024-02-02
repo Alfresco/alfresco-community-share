@@ -58,6 +58,7 @@ env:
   AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 90
+  SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
 
 jobs:
   lint:
@@ -76,6 +77,9 @@ jobs:
       !contains(github.event.head_commit.message, '[force') &&
       inputs.commitMessage != '[force'
     needs: lint
+    strategy:
+      matrix:
+        stage: [ source_clear ]
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
@@ -94,6 +98,11 @@ jobs:
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/travis/build.sh
+      - name: Run ${{ matrix.stage }}
+        if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
+        run: |
+          bash scripts/travis/init.sh
+          bash scripts/travis/${{ matrix.stage }}.sh
 
   deploy:
     runs-on: ubuntu-latest
