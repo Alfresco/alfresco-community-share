@@ -38,6 +38,8 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     private final By deleteButton = By.xpath("//button[contains(text(), 'Delete')]");
     private final By cancelDeleteButton = By.xpath("//button[contains(text(), 'Cancel')]");
     private final By commentContentIEditframe = By.cssSelector("#template_x002e_comments_x002e_links-view_x0023_default-yui-rec5-content_ifr");
+    private By deleteAction = By.xpath("//a[text()='Delete']");
+    private By editAction = By.xpath("//a[text()='Edit']");
 
     public LinkDetailsViewPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -246,7 +248,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     {
         findElement(cancelDeleteButton).click();
     }
-    
+
     public void clearEditCommentContent()
     {
         switchTo().frame(findElement(commentContentIEditframe));
@@ -275,4 +277,16 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
             }
             return false;
      }
+
+    public boolean isAddCommentButtonDisplayed() {
+        return isElementDisplayed(addCommentButton);
+    }
+
+    public boolean isEditLinkDisplayed() {
+        return isElementDisplayed(editAction);
+    }
+
+    public boolean isDeleteLinkDisplayed() {
+        return isElementDisplayed(deleteAction);
+    }
 }
