@@ -12,8 +12,8 @@ version: "2"
 
 services:
   alfresco:
-    image: ${REPOSITORY_IMAGE}:${REPOSITORY_TAG}
-    mem_limit: 1900m
+    image: ${REPOSITORY_IMAGE}:${TAG_NAME}
+    mem_limit: 2g
     environment:
       JAVA_TOOL_OPTIONS: "
         -Dencryption.keystore.type=JCEKS
@@ -51,6 +51,8 @@ services:
         -Ddsync.service.uris=http://localhost:9090/alfresco
         -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
         "
+    ports:
+      - "${REPOSITORY_PORT}:8080"
 
   transform-router:
     mem_limit: 512m
@@ -66,7 +68,7 @@ services:
       - activemq
 
   transform-core-aio:
-    image: alfresco/alfresco-transform-core-aio:2.5.7
+    image: alfresco/alfresco-transform-core-aio:${TRANSFORMERS_TAG}
     mem_limit: 1536m
     environment:
       JAVA_OPTS: " -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80"
@@ -90,7 +92,7 @@ services:
       - shared-file-store-volume:/tmp/Alfresco/sfs
 
   share:
-    image: ${SHARE_IMAGE}:${SHARE_TAG}
+    image: ${SHARE_IMAGE}:${TAG_NAME}
     mem_limit: 1g
     environment:
       REPO_HOST: "alfresco"
@@ -103,6 +105,9 @@ services:
         -Dalfresco.context=alfresco
         -Dalfresco.protocol=http
         "
+    ports:
+      - "${SHARE_PORT}:8080"
+
 
   postgres:
     image: ${POSTGRES_IMAGE}:${POSTGRES_TAG}
@@ -144,55 +149,6 @@ services:
       - "5672:5672" # AMQP
       - "61616:61616" # OpenWire
       - "61613:61613" # STOMP
-
-  digital-workspace:
-    image: quay.io/alfresco/alfresco-digital-workspace:2.7.0
-    mem_limit: 128m
-    environment:
-      APP_CONFIG_AUTH_TYPE: "BASIC"
-      BASE_PATH: ./
-      APP_BASE_SHARE_URL: "http://localhost:8080/workspace/#/preview/s"
-
-  control-center:
-    image: quay.io/alfresco/alfresco-admin-app:7.2.0
-    mem_limit: 128m
-    environment:
-      APP_CONFIG_PROVIDER: "ECM"
-      APP_CONFIG_AUTH_TYPE: "BASIC"
-      BASE_PATH: ./
-
-  proxy:
-    image: alfresco/alfresco-acs-nginx:3.3.0
-    mem_limit: 128m
-    depends_on:
-      - alfresco
-      - digital-workspace
-      - control-center
-    ports:
-      - "8080:8080"
-    links:
-      - digital-workspace
-      - alfresco
-      - share
-      - control-center
-
-  sync-service:
-    image: quay.io/alfresco/service-sync:3.7.0
-    mem_limit: 1g
-    environment:
-      JAVA_OPTS: "
-        -Dsql.db.driver=org.postgresql.Driver
-        -Dsql.db.url=jdbc:postgresql://postgres:${POSTGRES_PORT}/alfresco
-        -Dsql.db.username=alfresco
-        -Dsql.db.password=alfresco
-        -Dmessaging.broker.host=activemq
-        -Drepo.hostname=alfresco
-        -Drepo.port=${REPOSITORY_PORT}
-        -Ddw.server.applicationConnectors[0].type=http
-        -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
-        "
-    ports:
-      - "9090:9090"
 
 volumes:
   shared-file-store-volume:
