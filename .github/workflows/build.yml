@@ -58,6 +58,7 @@ env:
   AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 90
+  SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
 
 jobs:
   lint:
@@ -65,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
       - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.4.0
@@ -78,9 +79,12 @@ jobs:
       !contains(github.event.head_commit.message, '[force]') &&
       inputs.commitMessage != '[force]'
     needs: lint
+    strategy:
+      matrix:
+        stage: [ source_clear ]
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
@@ -91,12 +95,30 @@ jobs:
         run: |
           export NAMESPACE="ci-share-$GITHUB_RUN_NUMBER"
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/ci/build.sh
+      - name: Run ${{ matrix.stage }}
+        if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
+        run: |
+          bash scripts/ci/${{ matrix.stage }}.sh
+
+  pmd_scan:
+    name: "PMD Scan"
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request' &&
+      !contains(github.event.head_commit.message, '[skip pmd]') &&
+      !contains(github.event.head_commit.message, '[skip tests]') &&
+      !contains(github.event.head_commit.message, '[force]')
+    steps:
+      - uses: Alfresco/ya-pmd-scan@v2.0.5
+        with:
+          fail-on-new-issues: "false"
+          create-github-annotations: "false"
 
   deploy:
     runs-on: ubuntu-latest
@@ -115,10 +137,10 @@ jobs:
       (github.event.repository.fork==false)
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - uses: azure/setup-kubectl@v2.0
       - name: "Configure AWS credentials for Cluster"
         uses: aws-actions/configure-aws-credentials@v1
@@ -150,10 +172,10 @@ jobs:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -207,7 +229,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [communitySmokeRecords, communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
+        test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
@@ -289,13 +311,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
+        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -383,10 +405,10 @@ jobs:
       github.event.repository.fork == false
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - uses: azure/setup-kubectl@v2.0
       - name: "Configure AWS credentials for Cluster"
         uses: aws-actions/configure-aws-credentials@v1

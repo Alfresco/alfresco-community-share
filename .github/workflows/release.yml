@@ -67,7 +67,7 @@ jobs:
       &&
       github.event.repository.fork == false
       &&
-      !failure()
+      !(failure() || cancelled())
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
@@ -105,13 +105,13 @@ jobs:
       &&
       github.event.repository.fork == false
       &&
-      !failure()
+      !(failure() || cancelled())
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -144,13 +144,13 @@ jobs:
       &&
       github.event.repository.fork == false
       &&
-      !failure()
+      !(failure() || cancelled())
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
