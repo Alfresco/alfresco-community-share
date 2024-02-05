@@ -105,7 +105,7 @@ jobs:
       &&
       github.event.repository.fork == false
       &&
-      !failure()
+      !(failure() || cancelled())
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
@@ -144,7 +144,7 @@ jobs:
       &&
       github.event.repository.fork == false
       &&
-      !failure()
+      !(failure() || cancelled())
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
