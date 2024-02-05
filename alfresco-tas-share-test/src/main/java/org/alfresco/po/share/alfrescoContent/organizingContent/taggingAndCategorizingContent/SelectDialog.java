@@ -189,5 +189,5 @@ public class SelectDialog extends BaseDialogComponent
     waitInSeconds(2);
     clickElement(selectButton);
     return this;
-}
+    }
 }
