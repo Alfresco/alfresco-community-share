@@ -22,7 +22,7 @@ public class SelectDialog extends BaseDialogComponent
     private final By resultsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] .yui-dt-data");
     private final By selectedItemsPicker = By.cssSelector("div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] tbody.yui-dt-data");
     private final By okButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-ok-button']");
-    private final By cancelButton = By.cssSelector("div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']");
+    private final By selectButton = By.xpath(" //button[text()='Select']");
     private final By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
     private final By addIcon = By.cssSelector("a[class^='add-item']");
     private final By removeIcon = By.cssSelector("a[class*='remove-item']");
@@ -185,4 +185,9 @@ public class SelectDialog extends BaseDialogComponent
 
         return this;
     }
+    public SelectDialog clickSelectButton() {
+    waitInSeconds(2);
+    clickElement(selectButton);
+    return this;
+}
 }
