@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2022 Alfresco Software Limited
+ * Copyright (C) 2005 - 2024 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -82,7 +82,7 @@ public abstract class BaseRMEvaluator extends BaseEvaluator
 
         return rmNode;
     }
-    
+
     /**
      * Retrieve a JSONArray of applicable indicators
      *

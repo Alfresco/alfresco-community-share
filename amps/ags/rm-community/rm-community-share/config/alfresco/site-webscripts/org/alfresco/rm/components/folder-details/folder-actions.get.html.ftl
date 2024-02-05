@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2022 Alfresco Software Limited
+ Copyright (C) 2005 - 2024 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -32,13 +32,13 @@
       <#-- CSS Dependencies -->
       <@link href="${url.context}/res/components/folder-details/folder-actions.css" group="folder-details"/>
    </@>
-   
+
    <@markup id="js">
       <#-- JavaScript Dependencies -->
       <@script src="${url.context}/res/components/folder-details/folder-actions.js" group="folder-details"/>
       <@script src="${url.context}/res/rm/components/folder-details/folder-actions.js" group="folder-details"/>
    </@>
-   
+
    <@markup id="widgets">
       <@createWidgets group="folder-details"/>
       <@inlineScript group="folder-details">
@@ -47,7 +47,7 @@
          });
       </@>
    </@>
-   
+
    <@markup id="html">
       <@uniqueIdDiv>
          <#if folderDetailsJSON??>

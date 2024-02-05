@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2022 Alfresco Software Limited
+ * Copyright (C) 2005 - 2024 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -37,7 +37,7 @@ import org.junit.Test;
 
 /**
  * Unlink action evaluator unit test
- * 
+ *
  * @author Roy Wetherall
  * @since  2.3
  */
@@ -45,7 +45,7 @@ public class UnlinkActionEvaluatorUnitTest extends BaseUnitTest
 {
     /** unlink action evaluator */
     private UnlinkActionEvaluator evaluator = new UnlinkActionEvaluator();
-    
+
     /**
      * Given that the "linked" indicator is not present
      * When evaluated
@@ -82,10 +82,10 @@ public class UnlinkActionEvaluatorUnitTest extends BaseUnitTest
                 + "  {"
                 + "    \"nodeRef\":\"" + nodeRef + "\""
                 + "  }"
-                + "}"); 
+                + "}");
         assertFalse(evaluator.evaluate(json));
     }
-    
+
     /**
      * Given that the primary parent does not match the current parent
      * And the "linked" indicator is present
@@ -109,7 +109,7 @@ public class UnlinkActionEvaluatorUnitTest extends BaseUnitTest
                 + "  {"
                 + "    \"nodeRef\":\"" + generateText() + "\""
                 + "  }"
-                + "}"); 
+                + "}");
         assertTrue(evaluator.evaluate(json));
     }
 }
