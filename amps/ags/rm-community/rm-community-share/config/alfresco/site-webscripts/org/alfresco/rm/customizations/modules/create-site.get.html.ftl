@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2023 Alfresco Software Limited
+ Copyright (C) 2005 - 2024 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -25,7 +25,7 @@
  #L%
 -->
  <#assign el=args.htmlid?html>
- 
+
  <@markup id="rm-custom-fields" target="fields" action="after" scope="global">
 
     <#-- RM COMPLIANCE -->
@@ -39,5 +39,5 @@
           </select>
        </div>
     </div>
-    
+
  </@markup>
