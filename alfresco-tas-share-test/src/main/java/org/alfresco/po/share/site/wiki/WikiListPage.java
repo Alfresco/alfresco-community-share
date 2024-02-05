@@ -11,17 +11,8 @@ import org.openqa.selenium.support.FindBy;
 
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
-    @FindBy (css = "span.forwardLink>a")
-    private WebElement mainPageLink;
-
     @FindBy (css = "span.first-child button[id$=default-create-button-button]")
     private WebElement newPage;
-
-    @FindAll (@FindBy (css = "div.wikipage"))
-    private List<WebElement> wikiPagesList;
-
-    @FindAll (@FindBy (css = "div.pageTitle a"))
-    private List<WebElement> wikiPagesTitleList;
 
     @FindBy (css = "[id$=default-pagelist] div")
     private WebElement noWikiPage;
@@ -49,6 +40,10 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     private final By wikiRowDetails = By.cssSelector("div[class='publishedDetails'] span");
     private final By wikiPageContent = By.cssSelector("div[class='pageCopy rich-content']");
     private final By wikiPageTags = By.cssSelector("div[class=pageTags] a");
+    private final By wikiPagesTitleList = By.cssSelector("div.pageTitle a");
+    private final By wikiPagesList = By.cssSelector("div.wikipage");
+    private final By mainPageLink = By.cssSelector("span.forwardLink>a");
+
 
     public WikiListPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -64,7 +59,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     public List<String> getWikiPageTitlesList()
     {
         List<String> wikiPageTitles = new ArrayList<>();
-        for (WebElement wikiPageTitle : wikiPagesTitleList)
+        for (WebElement wikiPageTitle : findElements(wikiPagesTitleList))
         {
             wikiPageTitles.add(wikiPageTitle.getText());
         }
@@ -111,7 +106,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public WebElement selectWikiDetailsRow(String wikiPage)
     {
-        return findFirstElementWithValue(wikiPagesList, wikiPage);
+        return findFirstElementWithValue(findElements(wikiPagesList), wikiPage);
     }
 
     public EditWikiPage clickEdit(String wikiPage)
@@ -262,7 +257,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public void clickMainPageButton()
     {
-        mainPageLink.click();
+        findElement(mainPageLink).click();
     }
 
     /**
