@@ -72,7 +72,7 @@ public class AboutPopUpPage extends BaseDialogComponent
         clickAlfrescoLink();
         switchWindow(1);
         waitUrlContains(hylandUrl, 10);
-        assertEquals(getCurrentUrl(), hylandUrl, "Displayed URL=")
+        assertEquals(getCurrentUrl(), hylandUrl, "Displayed URL=");
         closeWindowAndSwitchBack();
         return this;
     }
