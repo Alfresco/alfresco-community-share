@@ -176,7 +176,7 @@ jobs:
         shell: bash
         run: |
           [ -d ${HOME}/.m2/ ] || mkdir -p ${HOME}/.m2/
-          cp -v .ci/settings.xml ${HOME}/.m2/ || cp -v .travis.settings.xml ${HOME}/.m2/settings.xml
+          cp -v .ci.settings.xml ${HOME}/.m2/ || cp -v .travis.settings.xml ${HOME}/.m2/settings.xml
       - name: "Cache the Maven packages to speed up build"
         uses: actions/cache@v3
         with:
