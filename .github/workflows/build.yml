@@ -172,9 +172,23 @@ jobs:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
+      - name: "Setup maven"
+        shell: bash
+        run: |
+          [ -d ${HOME}/.m2/ ] || mkdir -p ${HOME}/.m2/
+          cp -v .ci/settings.xml ${HOME}/.m2/ || cp -v .travis.settings.xml ${HOME}/.m2/settings.xml
+      - name: "Cache the Maven packages to speed up build"
+        uses: actions/cache@v3
         with:
-          java-version: "11"
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('pom.xml', '*/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: "Set up Java"
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: temurin
+          overwrite-settings: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
         uses: actions/setup-python@v2
