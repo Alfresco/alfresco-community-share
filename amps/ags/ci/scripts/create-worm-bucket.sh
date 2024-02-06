@@ -3,6 +3,7 @@
 echo "=========================== Create Worm Bucket ==========================="
 PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
+export TAG_NAME="latest"
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
 unset AWS_ACCESS_KEY_ID
