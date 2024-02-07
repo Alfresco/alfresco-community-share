@@ -65,6 +65,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
+        with:
+          java-version: "11"
       - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.4.0
 
   build:
@@ -93,6 +95,8 @@ jobs:
           export NAMESPACE="travis-share-$GITHUB_RUN_NUMBER"
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
+        with:
+          java-version: "11"
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/ci/build.sh
@@ -207,6 +211,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
+        with:
+          java-version: "11"
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -288,6 +294,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
+        with:
+          java-version: "11"
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
         uses: actions/setup-python@v2
