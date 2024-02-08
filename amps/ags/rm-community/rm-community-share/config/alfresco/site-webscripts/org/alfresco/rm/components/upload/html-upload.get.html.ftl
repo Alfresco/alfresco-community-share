@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2022 Alfresco Software Limited
+ Copyright (C) 2005 - 2024 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -105,7 +105,7 @@
                <input type="file" id="${el}-filedata-file" name="filedata" />
             </div>
          </div>
-   
+
          <div id="${el}-versionSection-div">
             <div class="yui-g">
                <h2>${msg("section.version")}</h2>
@@ -113,7 +113,7 @@
             <div class="yui-gd">
                <div class="yui-u first">
                   <label for="${el}-minorVersion-radioButton">${msg("label.version")}</label>
-               </div> 
+               </div>
                <div class="yui-u">
                   <input id="${el}-minorVersion-radioButton" type="radio" name="majorVersion" checked="checked" value="false" /> ${msg("label.minorVersion")}
                </div>
