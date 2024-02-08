@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2022 Alfresco Software Limited
+ * Copyright (C) 2005 - 2024 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -38,7 +38,7 @@ import org.json.simple.JSONObject;
 public class VersionRecordEvaluator extends BaseRMEvaluator
 {
     private static final String ASPECT_VERSION_RECORD = "rmv:versionRecord";
-    
+
    /**
      * @see org.alfresco.web.evaluator.BaseEvaluator#evaluate(org.json.simple.JSONObject)
      */
@@ -46,13 +46,13 @@ public class VersionRecordEvaluator extends BaseRMEvaluator
     public boolean evaluate(JSONObject jsonObject)
     {
         boolean result = false;
-        
-        if (!isDocLibRecord(jsonObject) && 
+
+        if (!isDocLibRecord(jsonObject) &&
             getNodeAspects(jsonObject).contains(ASPECT_VERSION_RECORD))
         {
             result = true;
         }
-        
+
         return result;
     }
 }

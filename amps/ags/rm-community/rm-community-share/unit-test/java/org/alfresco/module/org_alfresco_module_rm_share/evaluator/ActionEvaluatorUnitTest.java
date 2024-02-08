@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2022 Alfresco Software Limited
+ * Copyright (C) 2005 - 2024 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -38,7 +38,7 @@ import org.junit.Test;
 
 /**
  * Action evaluator unit test
- * 
+ *
  * @author Roy Wetherall
  * @since  2.3
  */
@@ -46,7 +46,7 @@ public class ActionEvaluatorUnitTest extends BaseUnitTest
 {
     /** action evaluator */
     private ActionEvaluator actionEvaluator = new ActionEvaluator();
-    
+
     /**
      * Given the action is null
      * When evaluated
@@ -57,7 +57,7 @@ public class ActionEvaluatorUnitTest extends BaseUnitTest
     {
         assertFalse(actionEvaluator.evaluate(mock(JSONObject.class)));
     }
-    
+
     /**
      * Given there are no actions
      * When evaluated
@@ -66,10 +66,10 @@ public class ActionEvaluatorUnitTest extends BaseUnitTest
     @Test
     public void noActions()
     {
-        actionEvaluator.setAction(generateText());        
+        actionEvaluator.setAction(generateText());
         assertFalse(actionEvaluator.evaluate(mock(JSONObject.class)));
     }
-    
+
     /**
      * Given that the action is not in the action list
      * When evaluated
@@ -78,16 +78,16 @@ public class ActionEvaluatorUnitTest extends BaseUnitTest
     @Test
     public void actionNotInActionList() throws Exception
     {
-        // set action 
+        // set action
         actionEvaluator.setAction(generateText());
-        
+
         // create json
         JSONObject json = (JSONObject)new JSONParser().parse("{\"node\":{\"rmNode\":{\"actions\":[\"" + generateText() + "\"]}}}");
-        
+
         // show evaluation true
         assertFalse(actionEvaluator.evaluate(json));
     }
-    
+
     /**
      * Given that the action is in the action list
      * When evaluated
@@ -96,13 +96,13 @@ public class ActionEvaluatorUnitTest extends BaseUnitTest
     @Test
     public void actionInActionList() throws Exception
     {
-        // set action 
+        // set action
         String action = generateText();
         actionEvaluator.setAction(action);
-        
+
         // create json
         JSONObject json = (JSONObject)new JSONParser().parse("{\"node\":{\"rmNode\":{\"actions\":[\"" + action + "\"]}}}");
-        
+
         // show evaluation true
         assertTrue(actionEvaluator.evaluate(json));
     }
