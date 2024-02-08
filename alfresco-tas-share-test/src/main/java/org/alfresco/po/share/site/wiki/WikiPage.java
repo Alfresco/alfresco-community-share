@@ -1,37 +1,20 @@
 package org.alfresco.po.share.site.wiki;
 
-import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 
 public class WikiPage extends SiteCommon<WikiPage>
 {
     private final By wikiPageTitle1 = By.cssSelector("div.title-bar [id$=default-viewButtons]");
-
-    @FindBy (css = "div.title-bar [id$=default-viewButtons]")
-    private WebElement wikiPageTitle;
-
-    @FindBy (css = "div.yui-content [id$=default-page]")
-    private WebElement wikiPageContent;
-
-    @FindBy (css = "span.forwardLink:nth-of-type(1) a")
-    private WebElement wikiPageListLink;
-
-    @FindAll (@FindBy (css = "[id$=default-page] a"))
-    private List<WebElement> documentsLinkList;
-
-    @FindBy (css = "[id$=default-delete-button-button]")
-    private WebElement deleteWikiPage;
-
-    @FindBy (css = "[id=prompt]")
-    private WebElement deletePopUp;
-
-    @FindBy (css = "a[href*='details']")
-    private WebElement wikiPageDetailsLink;
+    private final By wikiPageTitle = By.cssSelector("div.title-bar [id$=default-viewButtons]");
+    private final By wikiPageContent = By.cssSelector("div.yui-content [id$=default-page]");
+    private final By wikiPageListLink = By.cssSelector("span.forwardLink:nth-of-type(1) a");
+    private final By documentsLinkList = By.cssSelector("[id$=default-page] a");
+    private final By deleteWikiPage = By.cssSelector("[id$=default-delete-button-button]");
+    private final By deletePopUp = By.cssSelector("[id=prompt]");
+    private final By wikiPageDetailsLink = By.cssSelector("a[href*='details']");
 
     public WikiPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -46,7 +29,7 @@ public class WikiPage extends SiteCommon<WikiPage>
 
     public String getWikiPageTitle()
     {
-        return wikiPageTitle.getText();
+        return findElement(wikiPageTitle).getText();
     }
 
     /**
@@ -58,14 +41,14 @@ public class WikiPage extends SiteCommon<WikiPage>
     public WikiListPage clickOnWikiListLink()
     {
 
-        waitUntilWebElementIsDisplayedWithRetry(wikiPageListLink, 3);
-        wikiPageListLink.click();
+        waitUntilWebElementIsDisplayedWithRetry(findElement(wikiPageListLink), 3);
+        findElement(wikiPageListLink).click();
         return new WikiListPage(webDriver);
     }
 
     public WikiDocumentDetailsPage clickOnDocLink(String docName)
     {
-        for (WebElement docLink : documentsLinkList)
+        for (WebElement docLink : findElements(documentsLinkList))
         {
             if (docLink.getText().endsWith(docName))
                 docLink.click();
@@ -75,8 +58,8 @@ public class WikiPage extends SiteCommon<WikiPage>
 
     public boolean deleteWikiPage()
     {
-        deleteWikiPage.click();
-        return deletePopUp.isDisplayed();
+        findElement(deleteWikiPage).click();
+        return findElement(deletePopUp).isDisplayed();
     }
     public WikiPage getWikiCurrentPageTitle()
     {
@@ -87,12 +70,12 @@ public class WikiPage extends SiteCommon<WikiPage>
 
     public String getWikiPageContent()
     {
-        return wikiPageContent.getText().trim();
+        return findElement(wikiPageContent).getText().trim();
     }
 
     public WikiDetailsPage clickOnDetailsLink()
     {
-        wikiPageDetailsLink.click();
+        findElement(wikiPageDetailsLink).click();
         return new WikiDetailsPage(webDriver);
     }
 
