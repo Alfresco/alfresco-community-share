@@ -287,7 +287,6 @@ jobs:
       || inputs.commitMessage == '[ags]'))
       ||
       (github.event_name == 'pull_request' && (github.base_ref == 'master' || startsWith(github.base_ref, 'release/')))
-    needs: build
     strategy:
       fail-fast: false
       matrix:
