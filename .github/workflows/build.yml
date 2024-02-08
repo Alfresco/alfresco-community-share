@@ -273,20 +273,20 @@ jobs:
 #
   enterprise_shared_UI_configuration:
     runs-on: ubuntu-latest
-    if: >
-      (!contains(github.event.head_commit.message, '[skip tests]') &&
-      inputs.commitMessage != '[skip tests]') &&
-      (!contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force')
-      &&
-      (github.event.repository.fork==false)
-      &&
-      (((github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
-      (!contains(github.event.head_commit.message, '[skip ags]')
-      && inputs.commitMessage != '[skip ags]')) || (contains(github.event.head_commit.message, '[ags]')
-      || inputs.commitMessage == '[ags]'))
-      ||
-      (github.event_name == 'pull_request' && (github.base_ref == 'master' || startsWith(github.base_ref, 'release/')))
+#    if: >
+#      (!contains(github.event.head_commit.message, '[skip tests]') &&
+#      inputs.commitMessage != '[skip tests]') &&
+#      (!contains(github.event.head_commit.message, '[force') &&
+#      inputs.commitMessage != '[force')
+#      &&
+#      (github.event.repository.fork==false)
+#      &&
+#      (((github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
+#      (!contains(github.event.head_commit.message, '[skip ags]')
+#      && inputs.commitMessage != '[skip ags]')) || (contains(github.event.head_commit.message, '[ags]')
+#      || inputs.commitMessage == '[ags]'))
+#      ||
+#      (github.event_name == 'pull_request' && (github.base_ref == 'master' || startsWith(github.base_ref, 'release/')))
     strategy:
       fail-fast: false
       matrix:
