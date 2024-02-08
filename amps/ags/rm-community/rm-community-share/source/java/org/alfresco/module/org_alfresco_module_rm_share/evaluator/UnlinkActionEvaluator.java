@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2022 Alfresco Software Limited
+ * Copyright (C) 2005 - 2024 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -46,13 +46,13 @@ public class UnlinkActionEvaluator extends BaseRMEvaluator
     private static final String PRIMARY_PARENT = "primaryParentNodeRef";
     private static final String PARENT = "parent";
     private static final String NODE_REF = "nodeRef";
-    
+
     /**
      * @see org.alfresco.web.evaluator.BaseEvaluator#evaluate(org.json.simple.JSONObject)
      */
     @Override
     public boolean evaluate(JSONObject jsonObject)
-    {       
+    {
         boolean result = false;
 
         try
@@ -67,7 +67,7 @@ public class UnlinkActionEvaluator extends BaseRMEvaluator
                 if (!primaryParent.equals(parent))
                 {
                     result = true;
-                }                
+                }
             }
         }
         catch (Exception err)

@@ -2,7 +2,7 @@
  #%L
  Alfresco Records Management Module
  %%
- Copyright (C) 2005 - 2022 Alfresco Software Limited
+ Copyright (C) 2005 - 2024 Alfresco Software Limited
  %%
  This file is part of the Alfresco software.
  -
@@ -73,8 +73,8 @@
          <div class="field">
             <span class="label">${msg("label.unpublishedUpdates")}:</span>
             <span class="value">${unpublishedUpdates?string("Yes", "No")}</span>
-         </div>	
-         
+         </div>
+
       </div>
 
       <div class="header">
