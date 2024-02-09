@@ -3,23 +3,14 @@ package org.alfresco.po.share.site.wiki;
 import java.util.ArrayList;
 import java.util.List;
 import org.alfresco.po.share.site.SiteCommon;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
-    @FindBy (css = "span.first-child button[id$=default-create-button-button]")
-    private WebElement newPage;
-
-    @FindBy (css = "[id$=default-pagelist] div")
-    private WebElement noWikiPage;
-
-    @FindAll (@FindBy (css = "[id$=default-ul] li:not(:first-child)"))
-    private List<WebElement> tagsList;
-
     @FindBy (css = "[id=prompt]")
     private WebElement deletePopUp;
 
@@ -32,6 +23,8 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     @FindBy (css = "span[class='myPages'] a")
     private WebElement myPagesFilter;
 
+    private final By tagsList = By.cssSelector("[id$=default-ul] li:not(:first-child)");
+    private final By noWikiPage = By.cssSelector("[id$=default-pagelist] div");
     private final By editPage = By.cssSelector("div.editPage a");
     private final By pageName = By.cssSelector("[class=pageTitle] a");
     private final By deletePage = By.cssSelector(".deletePage a");
@@ -83,9 +76,13 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      *
      * @return
      */
+
     public String noWikiPageDisplayed()
     {
-        return noWikiPage.getText();
+        Alert alert = webDriver.get().switchTo().alert();
+        alert.accept();
+        waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
+        return findElement(noWikiPage).getText();
     }
 
     /**
@@ -97,7 +94,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     public List<String> getTagsList()
     {
         List<String> tags = new ArrayList<>();
-        for (WebElement tag : tagsList)
+        for (WebElement tag : findElements(tagsList))
         {
             tags.add(tag.getText());
         }
