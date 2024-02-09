@@ -7,32 +7,16 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 
 public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 {
-    @FindBy (css = "div.page-form-header h1")
-    private WebElement pageHeader;
-
-    @FindBy (css = "[id$='default-title']")
-    private WebElement wikiPageTitle;
-
-    @FindBy (css = "button[id$=default-save-button-button]")
-    private WebElement saveButton;
-
-    @FindBy (css = "span.first-child a")
-    private WebElement cancelButton;
-
-    @FindBy (css = "[id$=default-tag-input-field]")
-    private WebElement tagInputField;
-
-    @FindBy (css = "[id$=default-add-tag-button-button]")
-    private WebElement addTagButton;
-
-    @FindAll (@FindBy (css = "[id$='default-current-tags'] li a span"))
-    private List<WebElement> wikiPageTagsList;
-
+    private final By wikiPageTagsList = By.cssSelector("[id$='default-current-tags'] li a span");
+    private final By addTagButton = By.cssSelector("[id$=default-add-tag-button-button]");
+    private final By tagInputField = By.cssSelector("[id$=default-tag-input-field]");
+    private final By cancelButton = By.cssSelector("span.first-child a");
+    private final By saveButton = By.cssSelector("button[id$=default-save-button-button]");
+    private final By wikiPageTitle = By.cssSelector("[id$='default-title']");
+    private final By pageHeader = By.cssSelector("div.page-form-header h1");
     private final By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
     public CreateWikiPage(ThreadLocal<WebDriver> webDriver)
@@ -47,7 +31,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
      */
     public String getWikiPageTitle()
     {
-        return pageHeader.getText();
+        return findElement(pageHeader).getText();
     }
 
     /**
@@ -55,7 +39,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
      */
     public void typeWikiPageTitle(String title)
     {
-        wikiPageTitle.sendKeys(title);
+        findElement(wikiPageTitle).sendKeys(title);
     }
 
     /**
@@ -78,7 +62,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     public WikiPage saveWikiPage()
     {
-        saveButton.click();
+        findElement(saveButton).click();
         return new WikiPage(webDriver);
     }
 
@@ -90,7 +74,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     public WikiListPage cancelWikiPageAndLeavePage()
     {
-        cancelButton.click();
+        findElement(cancelButton).click();
         Alert confirmationBox = switchTo().alert();
         confirmationBox.accept();
         return new WikiListPage(webDriver);
@@ -99,7 +83,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     public void cancelWikiPage()
     {
-        cancelButton.click();
+        findElement(cancelButton).click();
     }
 
     /**
@@ -107,8 +91,8 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
      */
     public void addTag(String tagName)
     {
-        tagInputField.sendKeys(tagName);
-        addTagButton.click();
+        findElement(tagInputField).sendKeys(tagName);
+        findElement(addTagButton).click();
     }
 
     /**
@@ -120,7 +104,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     public List<String> getWikiPageTagsList()
     {
         List<String> wikiPageTags = new ArrayList<>();
-        for (WebElement wikiPageTag : wikiPageTagsList)
+        for (WebElement wikiPageTag : findElements(wikiPageTagsList))
         {
             wikiPageTags.add(wikiPageTag.getText());
         }
