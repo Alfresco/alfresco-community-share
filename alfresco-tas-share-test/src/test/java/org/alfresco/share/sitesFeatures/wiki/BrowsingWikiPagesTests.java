@@ -8,76 +8,102 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.dataprep.UserService;
+
 import org.alfresco.po.share.site.wiki.WikiListPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
+
 import org.alfresco.utility.exception.DataPreparationException;
+
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * Created by Argint Alex
  */
-public class BrowsingWikiPagesTests extends ContextAwareWebTest
+public class BrowsingWikiPagesTests extends BaseTest
 {
     //@Autowired
     WikiListPage wikiListPage;
-
+    @Autowired
+    SitePagesService sitePagesService;
+    @Autowired
+    SiteService siteService;
+    @Autowired
+    UserService userService;
     private String uniqueIdentifier;
-    private String userName1;
-    private String userName2;
-    private String siteName;
     private String description;
     private String siteTitle1;
     private String siteTitle2;
     private String siteTag;
+    private final ThreadLocal<UserModel> userName1 = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> userName2 = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setup() throws DataPreparationException
     {
-        super.setup();
-
         uniqueIdentifier = RandomData.getRandomAlphanumeric();
-        siteName = "siteName" + uniqueIdentifier;
-        userName1 = "User1" + uniqueIdentifier;
-        userName2 = "User2" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
         siteTitle1 = "Page1" + uniqueIdentifier;
         siteTitle2 = "Page2" + uniqueIdentifier;
         siteTag = "test_tag" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, "lastName");
-        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, "lastName");
-        siteService.create(userName1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(userName1, password, siteName, DashboardCustomization.Page.WIKI, null);
-        userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
-        userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
+        log.info("Precondition: Any Test user is created");
+        userName1.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
 
-        setupAuthenticatedSession(userName1, password);
+        log.info("Precondition: Test user2 is created");
+        userName2.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site is created");
+        siteName.set(getDataSite().usingUser(userName1.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(userName1.get());
+
+        siteService.addPageToSite(userName1.get().getUsername(), userName1.get().getPassword(), siteName.get().getId(), DashboardCustomization.Page.WIKI, null);
+        userService.createSiteMember(userName1.get().getUsername(), userName1.get().getPassword(), userName2.get().getUsername(), siteName.get().getId(), "SiteManager");
+        userService.createSiteMember(userName1.get().getUsername(), userName1.get().getPassword(), userName2.get().getUsername(), siteName.get().getId(), "SiteManager");
+
+        wikiListPage = new WikiListPage(webDriver);
+
+
+        authenticateUsingLoginPage(userName1.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser, adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-        siteService.delete(adminUser, adminPassword, siteName);
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userName1.get().getUsername());
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userName2.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(userName1.get());
+        deleteUsersIfNotNull(userName2.get());
     }
 
     @TestRail (id = "C5548")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiByTagTest()
     {
-        LOG.info("Starting test C5548");
-        LOG.info("Preconditions");
+        log.info("Starting test C5548");
+        log.info("Preconditions");
         List<String> siteTitles = new ArrayList<>();
         siteTitles.add("Page1");
         siteTitles.add("Page2");
@@ -90,26 +116,26 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         for (String siteTitle : siteTitles)
         {
             if (siteTitle != "Page3")
-                sitePagesService.createWiki(userName1, password, siteName, siteTitle, siteTitle, siteTags1);
+                sitePagesService.createWiki(userName1.get().getUsername(), userName1.get().getPassword(), siteName.get().getId(), siteTitle, siteTitle, siteTags1);
             else
-                sitePagesService.createWiki(userName1, password, siteName, siteTitle, siteTitle, siteTags2);
+                sitePagesService.createWiki(userName1.get().getUsername(), userName1.get().getPassword(), siteName.get().getId(), siteTitle, siteTitle, siteTags2);
         }
 
-        wikiListPage.navigate(siteName);
+        wikiListPage.navigate(siteName.get());
 
-        LOG.info("Step 1 : Click 'test_tag'  tag in 'Tags' area");
+        log.info("Step 1 : Click 'test_tag'  tag in 'Tags' area");
         wikiListPage.clickSpecificTag("test_tag");
         assertFalse(wikiListPage.isWikiPageDisplayed("Page3"), "Wiki 'Page3' is displayed");
         assertTrue(wikiListPage.isWikiPageDisplayed("Page2"), "Wiki 'Page2' is not displayed");
         assertTrue(wikiListPage.isWikiPageDisplayed("Page1"), "Wiki 'Page1' is not displayed");
 
-        LOG.info("Step 2 : Click on 'p3' tag in 'Tags' area");
+        log.info("Step 2 : Click on 'p3' tag in 'Tags' area");
         wikiListPage.clickSpecificTag("p3");
         assertTrue(wikiListPage.isWikiPageDisplayed("Page3"), "Wiki 'Page3' is not displayed");
         assertFalse(wikiListPage.isWikiPageDisplayed("Page2"), "Wiki 'Page2' is displayed");
         assertFalse(wikiListPage.isWikiPageDisplayed("Page1"), "Wiki 'Page1' is displayed");
 
-        LOG.info("Step 3 : Click on 'Show All Tags' filter");
+        log.info("Step 3 : Click on 'Show All Tags' filter");
         wikiListPage.clickShowAllTags();
         assertTrue(wikiListPage.isWikiPageDisplayed("Page3"), "Wiki 'Page3' is not displayed");
         assertTrue(wikiListPage.isWikiPageDisplayed("Page2"), "Wiki 'Page2' is not displayed");
@@ -127,19 +153,19 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         List<String> siteTags1 = new ArrayList<>();
         siteTags1.add("test_tag");
 
-        LOG.info("Creating wiki pages");
+        log.info("Creating wiki pages");
         for (String siteTitle : siteTitles)
         {
-            sitePagesService.createWiki(userName1, password, siteName, "U1" + siteTitle, "U1" + siteTitle, siteTags1);
-            sitePagesService.createWiki(userName2, password, siteName, "U2" + siteTitle, "U2" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName1.get().getUsername(), userName1.get().getPassword(), siteName.get().getId(), "U1" + siteTitle, "U1" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName2.get().getUsername(), userName2.get().getPassword(), siteName.get().getId(), "U2" + siteTitle, "U2" + siteTitle, siteTags1);
         }
 
-        LOG.info("Logging in as user 1 and navigating to wiki list page for site");
-        setupAuthenticatedSession(userName1, password);
-        wikiListPage.navigate(siteName);
+        log.info("Logging in as user 1 and navigating to wiki list page for site");
+        authenticateUsingLoginPage(userName1.get());
+        wikiListPage.navigate(siteName.get());
         wikiListPage.clickAllPagesFilter();
 
-        LOG.info("Verify the correct creators of each page");
+        log.info("Verify the correct creators of each page");
         List<String> displayedPages = wikiListPage.getWikiPageTitlesList();
         for (String displayedPage : displayedPages)
         {
@@ -148,16 +174,16 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
             switch (displayedPage)
             {
                 case "U2Page2":
-                    assertEquals(creator, userName2, "Incorrect creator displayed for page " + displayedPage);
+                    assertEquals(creator, userName2.get().getFirstName(), "Incorrect creator displayed for page " + displayedPage);
                     break;
                 case "U1Page2":
-                    assertEquals(creator, userName1, "Incorrect creator displayed for page " + displayedPage);
+                    assertEquals(creator, userName1.get().getFirstName(), "Incorrect creator displayed for page " + displayedPage);
                     break;
                 case "U2Page1":
-                    assertEquals(creator, userName2, "Incorrect creator displayed for page " + displayedPage);
+                    assertEquals(creator, userName2.get().getFirstName(), "Incorrect creator displayed for page " + displayedPage);
                     break;
                 case "U1Page1":
-                    assertEquals(creator, userName1, "Incorrect creator displayed for page " + displayedPage);
+                    assertEquals(creator, userName1.get().getFirstName(), "Incorrect creator displayed for page " + displayedPage);
                     break;
             }
         }
@@ -167,34 +193,31 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiPagesMyPagesTest()
     {
-        cleanupAuthenticatedSession();
         List<String> siteTitles = new ArrayList<>();
         siteTitles.add(siteTitle1);
         siteTitles.add(siteTitle2);
         List<String> siteTags1 = new ArrayList<>();
         siteTags1.add(siteTag);
 
-        LOG.info("Creating wiki pages");
+        log.info("Creating wiki pages");
         for (String siteTitle : siteTitles)
         {
-            sitePagesService.createWiki(userName1, password, siteName, "U1-" + siteTitle, "U1-" + siteTitle, siteTags1);
-            sitePagesService.createWiki(userName2, password, siteName, "U2-" + siteTitle, "U2-" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName1.get().getUsername(), userName1.get().getPassword(), siteName.get().getId(), "U1-" + siteTitle, "U1-" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName1.get().getUsername(), userName1.get().getPassword(), siteName.get().getId(), "U2-" + siteTitle, "U2-" + siteTitle, siteTags1);
         }
 
-        LOG.info("Logging in as user 1 and navigate to wiki list page for site");
-        setupAuthenticatedSession(userName1, password);
-        wikiListPage.navigate(siteName);
+        log.info("Logging in as user 1 and navigate to wiki list page for site");
+        authenticateUsingLoginPage(userName1.get());
+        wikiListPage.navigate(siteName.get());
 
-        LOG.info("STEP1: Click \"My Pages\" from Pages section");
+        log.info("STEP1: Click \"My Pages\" from Pages section");
         wikiListPage.clickMyPagesFilter();
-        getBrowser().waitInSeconds(8);
         try
         {
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle1), "Wiki 'U1Page1' is displayed");
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle2), "Wiki 'U1Page2' is displayed");
         } catch (NoSuchElementException e)
         {
-            getBrowser().refresh();
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle1), "Wiki 'U1Page1' is displayed");
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle2), "Wiki 'U1Page2' is displayed");
         }
@@ -204,22 +227,22 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPageSummaryFromWikiListTest()
     {
-        LOG.info("Starting C5554");
-        LOG.info("Preconditions");
+        log.info("Starting C5554");
+        log.info("Preconditions");
         List<String> siteTags = new ArrayList<>();
         siteTags.add("test_tag");
         List<String> siteDisplayedTags;
         String pageName = "Page1" + uniqueIdentifier;
         String pageContent = pageName + " content";
 
-        sitePagesService.createWiki(userName1, password, siteName, pageName, pageContent, siteTags);
+        sitePagesService.createWiki(userName1.get().getUsername(), userName1.get().getPassword(), siteName.get().getId(), pageName, pageContent, siteTags);
 
-        LOG.info("Step 1 : Navigate to 'Wiki Page List' and verify all the displayed content for a wiki page");
-        wikiListPage.navigate(siteName);
+        log.info("Step 1 : Navigate to 'Wiki Page List' and verify all the displayed content for a wiki page");
+        wikiListPage.navigate(siteName.get());
 
-        LOG.info("Verify displayed wiki page title");
+        log.info("Verify displayed wiki page title");
         assertTrue(wikiListPage.isWikiPageDisplayed(pageName), "Wiki page is not displayed");
-        assertEquals(wikiListPage.getWikiPageCreator(pageName), userName1, "Wiki page creator is not correct");
+        assertEquals(wikiListPage.getWikiPageCreator(pageName), userName1.get().getFirstName(), "Wiki page creator is not correct");
         assertEquals(wikiListPage.getWikiPageCreationDate(pageName), wikiListPage.getWikiPageModificationDate(pageName),
             "The creation and modification dates are different");
         assertEquals(wikiListPage.getWikiPageContent(pageName), pageContent, "Wiki page content is not correct");
