@@ -11,9 +11,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
-    @FindBy (css = "[id=prompt]")
-    private WebElement deletePopUp;
-
     @FindBy (xpath = "//a[text()='Show All Items']")
     private WebElement showAllTagsFilter;
 
@@ -36,6 +33,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     private final By wikiPagesTitleList = By.cssSelector("div.pageTitle a");
     private final By wikiPagesList = By.cssSelector("div.wikipage");
     private final By mainPageLink = By.cssSelector("span.forwardLink>a");
+    private final By deletePopUp = By.cssSelector("[id=prompt]");
 
 
     public WikiListPage(ThreadLocal<WebDriver> webDriver)
@@ -93,6 +91,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public List<String> getTagsList()
     {
+        waitInSeconds(2);
         List<String> tags = new ArrayList<>();
         for (WebElement tag : findElements(tagsList))
         {
@@ -121,7 +120,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     public boolean clickDeletePage(String wikiPage)
     {
         selectWikiDetailsRow(wikiPage).findElement(deletePage).click();
-        return deletePopUp.isDisplayed();
+        return findElement(deletePopUp).isDisplayed();
     }
 
     /**
@@ -292,5 +291,11 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     public void clickMyPagesFilter()
     {
         myPagesFilter.click();
+    }
+
+    public String noWikiPageDisplay()
+    {
+        waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
+        return findElement(noWikiPage).getText();
     }
 }
