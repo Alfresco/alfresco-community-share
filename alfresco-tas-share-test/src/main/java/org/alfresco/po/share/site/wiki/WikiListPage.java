@@ -20,7 +20,11 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     @FindBy (css = "span[class='myPages'] a")
     private WebElement myPagesFilter;
 
+    private WebElement deletePopUp;
+    private final By myPagesFilter = By.cssSelector("span[class='myPages'] a");
+    private final By allPagesFilter = By.cssSelector("span[class='all'] a");
     private final By tagsList = By.cssSelector("[id$=default-ul] li:not(:first-child)");
+    private final By showAllTagsFilter = By.xpath("//a[text()='Show All Items']");
     private final By noWikiPage = By.cssSelector("[id$=default-pagelist] div");
     private final By editPage = By.cssSelector("div.editPage a");
     private final By pageName = By.cssSelector("[class=pageTitle] a");
@@ -280,17 +284,17 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public void clickShowAllTags()
     {
-        showAllTagsFilter.click();
+        clickElement(showAllTagsFilter);
     }
 
     public void clickAllPagesFilter()
     {
-        allPagesFilter.click();
+        clickElement(allPagesFilter);
     }
 
     public void clickMyPagesFilter()
     {
-        myPagesFilter.click();
+       clickElement(myPagesFilter);
     }
 
     public String noWikiPageDisplay()
