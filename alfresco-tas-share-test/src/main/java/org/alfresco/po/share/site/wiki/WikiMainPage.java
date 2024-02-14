@@ -25,7 +25,10 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     private final By mainPageLink = By.xpath("//a[text()='Main Page']");
     private final By hereLink = By.xpath("//a[text()='here']");
     private final By deleteWikiMainPage = By.cssSelector("[id$=default-delete-button-button]");
-
+    private final By message = By.cssSelector("#prompt_h + div.bd");
+    private final By deleteButton = By.cssSelector("#prompt .ft .button-group>span:nth-of-type(1) button");
+    private final By cancelButton = By.cssSelector("span[class*='default'] button");
+    private final By dialogBody = By.id("prompt_c");
     private final String imageLink = "//img[contains(@src,'";
 
     public WikiMainPage(ThreadLocal<WebDriver> webDriver)
@@ -153,5 +156,28 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
         clickElement(wikiDetailsLink);
         return new WikiDetailsPage(webDriver);
+    }
+
+    public String getMessage()
+    {
+        return getElementText(message);
+    }
+
+    public void confirmDeletion()
+    {
+        log.info("Confirm deletion");
+        clickElement(deleteButton);
+        waitUntilNotificationMessageDisappears();
+        if(isElementDisplayed(notificationMessageLocator))
+        {
+            log.info("Wait for the second message");
+            waitUntilNotificationMessageDisappears();
+        }
+    }
+
+    public void clickCancel()
+    {
+        clickElement(cancelButton);
+        waitUntilElementDisappears(dialogBody);
     }
 }
