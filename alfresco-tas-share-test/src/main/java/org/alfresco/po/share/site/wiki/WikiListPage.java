@@ -7,20 +7,9 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
-    @FindBy (xpath = "//a[text()='Show All Items']")
-    private WebElement showAllTagsFilter;
-
-    @FindBy (css = "span[class='all'] a")
-    private WebElement allPagesFilter;
-
-    @FindBy (css = "span[class='myPages'] a")
-    private WebElement myPagesFilter;
-
-    private WebElement deletePopUp;
     private final By myPagesFilter = By.cssSelector("span[class='myPages'] a");
     private final By allPagesFilter = By.cssSelector("span[class='all'] a");
     private final By tagsList = By.cssSelector("[id$=default-ul] li:not(:first-child)");
