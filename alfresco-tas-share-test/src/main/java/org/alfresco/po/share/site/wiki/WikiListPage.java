@@ -7,12 +7,9 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class WikiListPage extends SiteCommon<WikiListPage>
 {
-    @FindBy (css = "[id=prompt]")
-    private WebElement deletePopUp;
     private final By myPagesFilter = By.cssSelector("span[class='myPages'] a");
     private final By allPagesFilter = By.cssSelector("span[class='all'] a");
     private final By tagsList = By.cssSelector("[id$=default-ul] li:not(:first-child)");
@@ -29,6 +26,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     private final By wikiPagesTitleList = By.cssSelector("div.pageTitle a");
     private final By wikiPagesList = By.cssSelector("div.wikipage");
     private final By mainPageLink = By.cssSelector("span.forwardLink>a");
+    private final By deletePopUp = By.cssSelector("[id=prompt]");
 
 
     public WikiListPage(ThreadLocal<WebDriver> webDriver)
@@ -86,6 +84,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public List<String> getTagsList()
     {
+        waitInSeconds(2);
         List<String> tags = new ArrayList<>();
         for (WebElement tag : findElements(tagsList))
         {
@@ -114,7 +113,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     public boolean clickDeletePage(String wikiPage)
     {
         selectWikiDetailsRow(wikiPage).findElement(deletePage).click();
-        return deletePopUp.isDisplayed();
+        return findElement(deletePopUp).isDisplayed();
     }
 
     /**
@@ -285,5 +284,11 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     public void clickMyPagesFilter()
     {
        clickElement(myPagesFilter);
+    }
+
+    public String noWikiPageDisplay()
+    {
+        waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
+        return findElement(noWikiPage).getText();
     }
 }
