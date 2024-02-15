@@ -48,6 +48,7 @@ public class WikiPage extends SiteCommon<WikiPage>
 
     public WikiDocumentDetailsPage clickOnDocLink(String docName)
     {
+        waitInSeconds(2);
         for (WebElement docLink : findElements(documentsLinkList))
         {
             if (docLink.getText().endsWith(docName))
