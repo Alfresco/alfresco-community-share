@@ -53,6 +53,14 @@
       Alfresco.constants.URL_FEEDSERVICECONTEXT = "${url.context?js_string}/feedservice/";
       Alfresco.constants.USERNAME = "${(user.name!"")?js_string}";
       Alfresco.constants.SITE = "<#if page??>${(page.url.templateArgs.site!"")?url?js_string}</#if>";
+
+      <!-- This below regex validate for site URI[only allow alphanumeric and -] -->
+      var regex = /^[a-zA-Z0-9-]+$/g;
+      if ("<#if page??>${(page.url.templateArgs.site!"")?url?js_string}</#if>" && !regex.test(Alfresco.constants.SITE)) {
+        redirectErrorPageUrl = window.location.protocol + "//" + window.location.host+ "/share/page/error500";
+        window.location.href = redirectErrorPageUrl;
+     }
+
       Alfresco.constants.PAGECONTEXT = "<#if page??>${(page.url.templateArgs.pagecontext!"")?url?js_string}</#if>";
       Alfresco.constants.PAGEID = "<#if page??>${(page.url.templateArgs.pageid!"")?url?js_string}</#if>";
       Alfresco.constants.JS_LOCALE = "${locale}";
