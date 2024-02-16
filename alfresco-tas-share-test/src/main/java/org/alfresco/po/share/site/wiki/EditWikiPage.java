@@ -13,11 +13,9 @@ import org.openqa.selenium.support.FindBy;
 
 public class EditWikiPage extends SiteCommon<EditWikiPage>
 {
-    @FindBy (css = "[id$=tag-input-field]")
-    private WebElement tagInputField;
-
-    @FindBy (css = "[id$=default-add-tag-button-button]")
-    private WebElement addTagButton;
+    private final By addTagButton = By.cssSelector("[id$=default-add-tag-button-button]");
+    private final By tagInputField = By.cssSelector("[id$=tag-input-field]");
+    private final By saveButton = By.cssSelector("button[id$='default-save-button-button']");
 
     @FindBy (css = "[class*=mce-tinymce]")
     private WebElement editWkiContainer;
@@ -28,29 +26,17 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     @FindBy (css = "#tinymce")
     private WebElement editWikiLine;
 
-    @FindBy (css = "button[id$='default-save-button-button']")
-    private WebElement saveButton;
-
-    @FindBy (css = "button[id$='cancel-button-button']")
-    private WebElement cancelButton;
-
     @FindAll (@FindBy (css = "li.onRemoveTag a"))
     private List<WebElement> tagsList;
-
-    @FindBy (css = "[aria-label='Insert Library Image']")
-    private WebElement insertLibraryImage;
-
-    @FindBy (css = "[aria-label='Insert Document Link'] button i")
-    private WebElement insertDocumentImage;
-
+    private final By tags_List = By.cssSelector("li.onRemoveTag a");
+    private final By cancelButton = By.cssSelector("button[id$='cancel-button-button']");
     @FindAll (@FindBy (css = "[id$=image_results] img"))
     private List<WebElement> imagesList;
-
-    @FindBy (css = "[class*=toolbar-titlebar] h2")
-    private WebElement libraryImagesTitlebar;
-
+    private final By insertDocumentImage = By.cssSelector("[aria-label='Insert Document Link'] button i");
+    private final By libraryImagesTitlebar = By.cssSelector("[class*=toolbar-titlebar] h2");
     private final By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
     private final By removeTag = By.cssSelector("span.remove");
+    private final By insertLibraryImage = By.cssSelector("[aria-label='Insert Library Image']");
     private final String imageLink = "//img[contains(@title,'";
 
     public EditWikiPage(ThreadLocal<WebDriver> webDriver)
@@ -73,7 +59,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
         WebElement editable = switchTo().activeElement();
         editable.sendKeys(content);
         switchTo().defaultContent();
-        saveButton.click();
+        clickElement(saveButton);
         return new WikiMainPage(webDriver);
     }
 
@@ -86,7 +72,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
         WebElement editable = switchTo().activeElement();
         editable.sendKeys(content);
         switchTo().defaultContent();
-        cancelButton.click();
+        clickElement(cancelButton);
         return new WikiMainPage(webDriver);
     }
 
@@ -107,8 +93,8 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public void addTag(String tagName)
     {
-        tagInputField.sendKeys(tagName);
-        addTagButton.click();
+        findElement(tagInputField).sendKeys(tagName);
+        clickElement(addTagButton);
     }
 
     /**
@@ -127,7 +113,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public WebElement selectTagDetailsRow(String tagName)
     {
         switchTo().defaultContent();
-        return findFirstElementWithValue(tagsList, tagName);
+        return findFirstElementWithValue(tags_List, tagName);
     }
 
     /**
@@ -150,18 +136,25 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public WikiMainPage clickOnSaveButton()
     {
         switchTo().defaultContent();
-        saveButton.click();
+        clickElement(saveButton);
         return new WikiMainPage(webDriver);
     }
 
     public void clickInsertLibraryImage()
     {
-        insertLibraryImage.click();
+        waitInSeconds(7);
+        refreshBrowser();
+        clickElement(insertLibraryImage);
+    }
+
+    public void refreshBrowser(){
+        waitInSeconds(2);
+        getWebDriver().navigate().refresh();
     }
 
     public SelectDocumentPopupPage clickInsertDocumentLink()
     {
-        insertDocumentImage.click();
+        clickElement(insertDocumentImage);
         return new SelectDocumentPopupPage(webDriver);
     }
 
@@ -172,7 +165,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public boolean islibraryImagesTitlebarDisplayed()
     {
-        return libraryImagesTitlebar.isDisplayed();
+        return findElement(libraryImagesTitlebar).isDisplayed();
     }
 
     /**
@@ -181,6 +174,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     public boolean isImageDisplayed(String imageName)
     {
+        waitInSeconds(2);
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
         return isElementDisplayed(waitUntilElementIsVisible(By.xpath(image)));
     }

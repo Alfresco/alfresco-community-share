@@ -65,6 +65,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public WikiListPage clickOnWikiListLink()
     {
+        waitInSeconds(2);
         clickElement(wikiPageListLink);
         return new WikiListPage(webDriver);
     }
@@ -74,6 +75,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
         String image1 = imageLink + imageName + "')]";
         String image = StringUtils.deleteWhitespace(image1);
+        waitInSeconds(3);
         return isElementDisplayed(By.xpath(image));
     }
 
