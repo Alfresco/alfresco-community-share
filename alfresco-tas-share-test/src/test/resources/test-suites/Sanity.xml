@@ -66,6 +66,7 @@
          <package name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems"></package>
          <package name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems"></package>
          <package name="org.alfresco.share.sitesFeatures.discussions"/>
+         <package name="org.alfresco.share.sitesFeatures.Links"/>
          <package name="org.alfresco.share.sitesFeatures.blog.*"/>
       </packages>
       <classes>
@@ -83,8 +84,12 @@
          <class name="org.alfresco.share.sitesFeatures.dataLists.DeletingADataListTests"></class>
          <class name="org.alfresco.share.sitesFeatures.dataLists.EditingTheListDetailsTests"></class>
          <class name="org.alfresco.share.sitesFeatures.dataLists.ViewingDataListsTests"></class>
-         <class name="org.alfresco.share.sitesFeatures.Links.AccessingLinkTests"></class>
-         <class name="org.alfresco.share.sitesFeatures.Links.BrowsingTheSiteLinksTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.AccessingTheWikiTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.CreateNewWikiTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.DeleteWikiPageTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.EditWikiPageTests"></class>
+
       </classes>
    </test>
 </suite>
