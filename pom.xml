@@ -78,7 +78,7 @@
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
         <spring.security.version>6.1.0</spring.security.version>
 
-        <alfresco.googledrive.version>4.0.0</alfresco.googledrive.version>
+        <alfresco.googledrive.version>4.1.0-A1</alfresco.googledrive.version>
 
         <!-- Developer's runtime environment configuration -->
         <runtime.parent.folder>${basedir}/..</runtime.parent.folder>
