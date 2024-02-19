@@ -334,6 +334,7 @@
         <principalAttribute>${aims.principalAttribute}
         </principalAttribute>
         <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
+        <secret>${aims.secret}</secret>
     </config>
 
     <!-- Cookie Headers-->

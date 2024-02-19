@@ -20,16 +20,17 @@
  */
 package org.alfresco.web.site.servlet.config;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.web.util.UriComponentsBuilder;
 
 public class AIMSConfig
 {
-    private static final Log logger = LogFactory.getLog(AIMSConfig.class);
-
     private boolean enabled;
     private String realm;
     private String resource;
@@ -38,32 +39,57 @@ public class AIMSConfig
     private String sslRequired;
     private String principalAttribute;
     private ConfigService configService;
+    private Boolean publicClient;
+    private static final String REALMS = "realms";
+
     /**
      *
      */
     public void init()
     {
         Config config = this.configService.getConfig("AIMS");
-        this.setEnabled(Boolean.parseBoolean(config.getConfigElement("enabled").getValue()));
+        this.setEnabled(Boolean.parseBoolean(config.getConfigElement("enabled")
+                                                 .getValue()));
+        if (!this.enabled)
+        {
+            return;
+        }
         this.setRealm(config.getConfigElementValue("realm"));
         this.setResource(config.getConfigElementValue("resource"));
         this.setAuthServerUrl(config.getConfigElementValue("authServerUrl"));
         this.setSslRequired(config.getConfigElementValue("sslRequired"));
 
-        if(!StringUtils.isEmpty(config.getConfigElementValue("secret")))
-            this.setSecret(config.getConfigElementValue("secret"));
+        this.setPublicClient(Boolean.parseBoolean(config.getConfigElement("publicClient")
+                                                      .getValue()));
+        if (publicClient)
+        {
+            this.setSecret(null);
+        }
         else
-            this.setSecret(config.getConfigElementValue("resource"));
+        {
+            if (!StringUtils.isEmpty(config.getConfigElementValue("secret")))
+            {
+                this.setSecret(config.getConfigElementValue("secret"));
+            }
+            else
+            {
+                OAuth2Error oauth2Error = new OAuth2Error("Missing secret-key value. Please provide a Secret Key");
+                throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
+            }
+        }
 
-        if(!StringUtils.isEmpty(config.getConfigElementValue("principalAttribute")))
+        if (!StringUtils.isEmpty(config.getConfigElementValue("principalAttribute")))
+        {
             this.setPrincipalAttribute(config.getConfigElementValue("principalAttribute"));
+        }
         else
+        {
             this.setPrincipalAttribute("sub");
+        }
 
     }
 
     /**
-     *
      * @param configService ConfigService
      */
     public void setConfigService(ConfigService configService)
@@ -72,7 +98,6 @@ public class AIMSConfig
     }
 
     /**
-     *
      * @param enabled boolean
      */
     private void setEnabled(boolean enabled)
@@ -81,7 +106,6 @@ public class AIMSConfig
     }
 
     /**
-     *
      * @return boolean
      */
     public boolean isEnabled()
@@ -89,27 +113,80 @@ public class AIMSConfig
         return this.enabled;
     }
 
-    public String getRealm() { return realm; }
+    public String getRealm()
+    {
+        return realm;
+    }
 
-    public void setRealm(String realm) { this.realm = realm; }
+    public void setRealm(String realm)
+    {
+        this.realm = realm;
+    }
 
-    public String getResource() { return resource; }
+    public String getResource()
+    {
+        return resource;
+    }
 
-    public void setResource(String resource) { this.resource = resource; }
+    public void setResource(String resource)
+    {
+        this.resource = resource;
+    }
 
-    public String getAuthServerUrl() { return authServerUrl; }
+    public String getAuthServerUrl()
+    {
+        return Optional.ofNullable(realm)
+            .filter(StringUtils::isNotBlank)
+            .filter(realm -> StringUtils.isNotBlank(authServerUrl))
+            .map(realm -> UriComponentsBuilder.fromUriString(authServerUrl)
+                .pathSegment(REALMS, realm)
+                .build()
+                .toString())
+            .orElse(authServerUrl);
+    }
 
-    public void setAuthServerUrl(String authServerUrl) { this.authServerUrl = authServerUrl; }
+    public void setAuthServerUrl(String authServerUrl)
+    {
+        this.authServerUrl = authServerUrl;
+    }
 
-    public String getSslRequired() { return sslRequired; }
+    public String getSslRequired()
+    {
+        return sslRequired;
+    }
 
-    public void setSslRequired(String sslRequired) { this.sslRequired = sslRequired; }
+    public void setSslRequired(String sslRequired)
+    {
+        this.sslRequired = sslRequired;
+    }
 
-    public String getSecret() { return secret; }
+    public String getSecret()
+    {
+        return secret;
+    }
 
-    public void setSecret(String secret) { this.secret = secret; }
+    public void setSecret(String secret)
+    {
+        this.secret = secret;
+    }
 
-    public String getPrincipalAttribute() { return principalAttribute; }
+    public String getPrincipalAttribute()
+    {
+        return principalAttribute;
+    }
 
-    public void setPrincipalAttribute(String principalAttribute) { this.principalAttribute = principalAttribute; }
+    public void setPrincipalAttribute(String principalAttribute)
+    {
+        this.principalAttribute = principalAttribute;
+    }
+
+    public Boolean getPublicClient()
+    {
+        return publicClient;
+    }
+
+    public void setPublicClient(Boolean publicClient)
+    {
+        this.publicClient = publicClient;
+    }
 }
