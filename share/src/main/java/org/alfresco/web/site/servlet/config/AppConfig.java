@@ -1,15 +1,21 @@
 package org.alfresco.web.site.servlet.config;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nimbusds.oauth2.sdk.ParseException;
-import com.nimbusds.oauth2.sdk.id.Issuer;
-import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.alfresco.web.site.TaskUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -17,11 +23,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.ClientRegistrations;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
@@ -30,116 +35,89 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nimbusds.oauth2.sdk.ParseException;
+import com.nimbusds.oauth2.sdk.id.Issuer;
+import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata;
+import net.minidev.json.JSONObject;
 
 @Configuration
-public class AppConfig {
-    private static final Log logger = LogFactory.getLog(AppConfig.class);
-    private final String realm;
+public class AppConfig
+{
+    private static final Log LOGGER = LogFactory.getLog(AppConfig.class);
     private final String clientId;
     private final String clientSecret;
-    private final String authUrl;
     private final String principalAttribute;
     private final AIMSConfig aimsConfig;
-    private static final String REALMS = "realms";
     private static final RestTemplate rest = new RestTemplate();
+    private static final ParameterizedTypeReference<Map<String, Object>> typeReference = new ParameterizedTypeReference<Map<String, Object>>(){};
 
     @Autowired
-    public AppConfig(AIMSConfig aimsConfig) {
+    public AppConfig(AIMSConfig aimsConfig)
+    {
         this.aimsConfig = aimsConfig;
-        this.realm = aimsConfig.getRealm();
         this.clientId = aimsConfig.getResource();
         this.clientSecret = aimsConfig.getSecret();
-        this.authUrl = aimsConfig.getAuthServerUrl();
         this.principalAttribute = aimsConfig.getPrincipalAttribute();
     }
 
     @Bean
     public OAuth2AuthorizedClientRepository authorizedClientRepository(
-        @Autowired(required = false) OAuth2AuthorizedClientService authorizedClientService) {
+        @Autowired(required = false) OAuth2AuthorizedClientService authorizedClientService)
+    {
         if (null != authorizedClientService)
-        return new
-            AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
-        else
-            return null;
+        {
+            return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
+        }
+        return null;
     }
 
     @Bean
     public OAuth2AuthorizedClientService authorizedClientService(
-        @Autowired(required = false) ClientRegistrationRepository clientRegistrationRepository) {
+        @Autowired(required = false) ClientRegistrationRepository clientRegistrationRepository)
+    {
         if (null != clientRegistrationRepository)
-        return new
-            InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
-        else
-            return null;
+        {
+            return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
+        }
+        return null;
     }
 
     @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() throws ParseException {
+    public ClientRegistrationRepository clientRegistrationRepository()
+    {
         ClientRegistration clientRegistration = this.clientRegistration();
         if (null != clientRegistration)
-            return new
-                InMemoryClientRegistrationRepository(this.clientRegistration());
-        else
-            return null;
+        {
+            return new InMemoryClientRegistrationRepository(this.clientRegistration());
+        }
+        return null;
     }
 
     @Bean
-    public AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager (
+    public AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager(
         @Autowired(required = false) ClientRegistrationRepository clientRegistrationRepository,
-        @Autowired(required = false) OAuth2AuthorizedClientService authorizedClientService) {
-        if(null != clientRegistrationRepository && null != authorizedClientService) {
-            OAuth2AuthorizedClientProvider authorizedClientProvider =
-                OAuth2AuthorizedClientProviderBuilder.builder()
-                    .authorizationCode()
-                    .build();
+        @Autowired(required = false) OAuth2AuthorizedClientService authorizedClientService)
+    {
+        if (null != clientRegistrationRepository && null != authorizedClientService)
+        {
+            OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .authorizationCode()
+                .build();
 
             AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
-                new AuthorizedClientServiceOAuth2AuthorizedClientManager(
-                    clientRegistrationRepository, authorizedClientService);
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository,
+                                                                         authorizedClientService);
             authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
             return authorizedClientManager;
-        } else
-            return null;
-    }
-
-    private ClientRegistration clientRegistration() throws ParseException {
-        if(aimsConfig.isEnabled()) {
-            String realm_url = authUrl + "/realms/" + realm;
-            /**
-             * This implementation is primarily getting all the endpoints on the fly during startup
-             */
-            AtomicReference<ClientRegistration.Builder> builder = new AtomicReference<>();
-            TaskUtils.retry(10, 1000, logger,
-                () -> builder.set(ClientRegistrations.fromOidcIssuerLocation(
-                    getIssuer(URI.create(realm_url),realm).get()
-                )));
-
-            return
-                builder.get()
-                    .registrationId(clientId)
-                    .clientId(clientId)
-                    .clientSecret(clientSecret)
-                    .scope("openid")
-                    .redirectUri("*")
-                    .userNameAttributeName(principalAttribute)
-                    .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    .clientName(clientId)
-                    .build();
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Bean
-    public MappingJackson2HttpMessageConverter jsonConverter() {
+    public MappingJackson2HttpMessageConverter jsonConverter()
+    {
         List<MediaType> supportedMediaTypes = new ArrayList<>();
         supportedMediaTypes.add(MediaType.APPLICATION_JSON);
 
@@ -151,23 +129,87 @@ public class AppConfig {
         return jsonConverter;
     }
 
-    private static Optional<String> getIssuer(URI realm_url, String realm) throws ParseException {
+    private ClientRegistration clientRegistration()
+    {
+        if (aimsConfig.isEnabled())
+        {
+            // This implementation is primarily getting all the endpoints on the fly during startup
+            AtomicReference<ClientRegistration.Builder> builder = new AtomicReference<>();
+            TaskUtils.retry(10, 1000, LOGGER, () -> builder.set(createBuilder(getMetadataURI())));
 
-        URI uri = UriComponentsBuilder.fromUri(realm_url)
-            .replacePath(realm_url.getPath() + "/.well-known/openid-configuration")
-            .build(Collections.emptyMap());
+            return builder.get()
+                .registrationId(clientId)
+                .clientId(clientId)
+                .clientSecret(clientSecret)
+                .scope("openid", "profile", "email")
+                .redirectUri("*")
+                .userNameAttributeName(principalAttribute)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .clientName(clientId)
+                .build();
+        }
+        return null;
+    }
 
-        RequestEntity<Void> request = RequestEntity.get(uri).build();
-        String configuration = rest.exchange(request, String.class).getBody();
+    private URI getMetadataURI()
+    {
+        String authServerUrl = aimsConfig.getAuthServerUrl();
+        if (StringUtils.isEmpty(authServerUrl))
+        {
+            throw new IllegalArgumentException("AuthServer Url cannot be empty.");
+        }
+        return UriComponentsBuilder.fromUriString(authServerUrl)
+            .pathSegment(".well-known", "openid-configuration")
+            .build()
+            .toUri();
+    }
 
-        OIDCProviderMetadata metadata = OIDCProviderMetadata.parse(configuration);
+    private ClientRegistration.Builder createBuilder(URI metaDataUri)
+    {
+        RequestEntity<Void> request = RequestEntity.get(metaDataUri)
+            .build();
+        Map<String, Object> configuration = (Map) rest.exchange(request, typeReference)
+            .getBody();
+        OIDCProviderMetadata metadata = parse(configuration, OIDCProviderMetadata::parse);
 
-        return Optional.of(Optional.of(metadata)
+        final String authUri = Optional.of(metadata)
+            .map(OIDCProviderMetadata::getAuthorizationEndpointURI)
+            .map(URI::toASCIIString)
+            .orElse(null);
+
+        final String issuerUri = Optional.of(metadata)
             .map(OIDCProviderMetadata::getIssuer)
             .map(Issuer::getValue)
-            .orElse(UriComponentsBuilder.fromUriString(realm_url.toString())
-                .pathSegment(REALMS, realm)
-                .build()
-                .toString()));
+            .orElseThrow(() -> new IllegalStateException("Issuer Url cannot be empty."));
+
+        Map<String, Object> configurationMetadata = new LinkedHashMap<>(metadata.toJSONObject());
+        return ClientRegistration.withRegistrationId("ids")
+            .providerConfigurationMetadata(configurationMetadata)
+            .authorizationUri(authUri)
+            .issuerUri(issuerUri)
+            .tokenUri(metadata.getTokenEndpointURI()
+                          .toASCIIString())
+            .jwkSetUri(metadata.getJWKSetURI()
+                           .toASCIIString())
+            .userInfoUri(metadata.getUserInfoEndpointURI()
+                             .toASCIIString());
+    }
+
+    private static <T> T parse(Map<String, Object> body, ThrowingFunction<JSONObject, T, ParseException> parser)
+    {
+        try
+        {
+            return parser.apply(new JSONObject(body));
+        }
+        catch (ParseException parseException)
+        {
+            throw new RuntimeException(parseException);
+        }
+    }
+
+    private interface ThrowingFunction<S, T, E extends Throwable>
+    {
+        T apply(S src) throws E;
     }
 }
