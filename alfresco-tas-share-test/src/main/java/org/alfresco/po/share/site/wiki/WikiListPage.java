@@ -27,6 +27,9 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     private final By wikiPagesList = By.cssSelector("div.wikipage");
     private final By mainPageLink = By.cssSelector("span.forwardLink>a");
     private final By deletePopUp = By.cssSelector("[id=prompt]");
+    private final By renameInput = By.cssSelector("[id$=default-renameTo]");
+    private final By savePageMainNameButton = By.cssSelector("[id$=default-rename-save-button-button]");
+    private final By closePopup = By.cssSelector("[class=container-close]");
 
 
     public WikiListPage(ThreadLocal<WebDriver> webDriver)
@@ -290,5 +293,26 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     {
         waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
         return findElement(noWikiPage).getText();
+    }
+    public void clearWikiTitle()
+    {
+        findElement(renameInput).clear();
+    }
+
+    public void typeNewMainPageName(String newName)
+    {
+        findElement(renameInput).sendKeys(newName);
+    }
+
+    public void closeRenamePopup()
+    {
+        waitInSeconds(3);
+        findElement(closePopup).click();
+    }
+
+    public void clickOnSaveButton()
+    {
+        findElement(savePageMainNameButton).click();
+        waitInSeconds(3);
     }
 }
