@@ -29,6 +29,8 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     private final By deleteButton = By.cssSelector("#prompt .ft .button-group>span:nth-of-type(1) button");
     private final By cancelButton = By.cssSelector("span[class*='default'] button");
     private final By dialogBody = By.id("prompt_c");
+    private final By wikiPageTitle = By.cssSelector(".pageTitle");
+    private final By wikiPageContents = By.cssSelector(".rich-content");
     private final String imageLink = "//img[contains(@src,'";
 
     public WikiMainPage(ThreadLocal<WebDriver> webDriver)
@@ -181,5 +183,20 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
     {
         clickElement(cancelButton);
         waitUntilElementDisappears(dialogBody);
+    }
+
+    public String getWikiPageTitlesList()
+    {
+        return findElement(wikiPageTitle).getText();
+    }
+
+    public String getWikiPageContent()
+    {
+        return findElement(wikiPageContents).getText();
+    }
+
+    public String getWikiMainPageTitle()
+    {
+        return findElement(wikiPageTitle).getText();
     }
 }
