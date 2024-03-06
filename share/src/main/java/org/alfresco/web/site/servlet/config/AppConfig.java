@@ -9,6 +9,7 @@ import com.nimbusds.oauth2.sdk.id.Issuer;
 import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata;
 import net.minidev.json.JSONObject;
 import org.alfresco.web.site.TaskUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -43,11 +42,9 @@ import java.util.function.Supplier;
 
 @Configuration
 public class AppConfig {
-    private static final Log logger = LogFactory.getLog(AppConfig.class);
-    private final String realm;
+    private static final Log LOGGER = LogFactory.getLog(AppConfig.class);
     private final String clientId;
     private final String clientSecret;
-    private final String authUrl;
     private final String principalAttribute;
     private final AIMSConfig aimsConfig;
     private static final String REALMS = "realms";
@@ -57,41 +54,39 @@ public class AppConfig {
     @Autowired
     public AppConfig(AIMSConfig aimsConfig) {
         this.aimsConfig = aimsConfig;
-        this.realm = aimsConfig.getRealm();
         this.clientId = aimsConfig.getResource();
         this.clientSecret = aimsConfig.getSecret();
-        this.authUrl = aimsConfig.getAuthServerUrl();
         this.principalAttribute = aimsConfig.getPrincipalAttribute();
     }
 
     @Bean
     public OAuth2AuthorizedClientRepository authorizedClientRepository(
         @Autowired(required = false) OAuth2AuthorizedClientService authorizedClientService) {
-        if (null != authorizedClientService)
-        return new
-            AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
-        else
-            return null;
+     if (null != authorizedClientService)
+     {
+      return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
+     }
+     return null;
     }
 
     @Bean
     public OAuth2AuthorizedClientService authorizedClientService(
         @Autowired(required = false) ClientRegistrationRepository clientRegistrationRepository) {
         if (null != clientRegistrationRepository)
-        return new
-            InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
-        else
-            return null;
+        {
+         return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
+        }
+         return null;
     }
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() throws ParseException {
         ClientRegistration clientRegistration = this.clientRegistration();
         if (null != clientRegistration)
-            return new
-                InMemoryClientRegistrationRepository(this.clientRegistration());
-        else
-            return null;
+        {
+         return new InMemoryClientRegistrationRepository(this.clientRegistration());
+        }
+        return null;
     }
 
     @Bean
@@ -115,32 +110,25 @@ public class AppConfig {
     }
 
     private ClientRegistration clientRegistration() throws ParseException {
-        if(aimsConfig.isEnabled()) {
-            String realm_url = authUrl + "/realms/" + realm;
-            String issuer = getIssuer(URI.create(realm_url),realm).get();
-            /**
-             * This implementation is primarily getting all the endpoints on the fly during startup
-             */
-            AtomicReference<ClientRegistration.Builder> builder = new AtomicReference<>();
-            TaskUtils.retry(10, 1000, logger,
-                () -> builder.set(getRfc8414Builder(URI.create(issuer)
-                    ,URI.create(realm_url+"/.well-known/openid-configuration")).get()));
+     if (aimsConfig.isEnabled())
+     {
+      // This implementation is primarily getting all the endpoints on the fly during startup
+      AtomicReference<ClientRegistration.Builder> builder = new AtomicReference<>();
+      TaskUtils.retry(10, 1000, LOGGER, () -> builder.set(createBuilder(getMetadataURI())));
 
-            return
-                builder.get()
-                    .registrationId(clientId)
-                    .clientId(clientId)
-                    .clientSecret(clientSecret)
-                    .scope("openid")
-                    .redirectUri("*")
-                    .userNameAttributeName(principalAttribute)
-                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
-                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    .clientName(clientId)
-                    .build();
-        } else {
-            return null;
-        }
+      return builder.get()
+                  .registrationId(clientId)
+                  .clientId(clientId)
+                  .clientSecret(clientSecret)
+                  .scope("openid", "profile", "email")
+                  .redirectUri("*")
+                  .userNameAttributeName(principalAttribute)
+                  .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                  .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                  .clientName(clientId)
+                  .build();
+     }
+     return null;
     }
 
     @Bean
@@ -156,92 +144,36 @@ public class AppConfig {
         return jsonConverter;
     }
 
-    private static Optional<String> getIssuer(URI realm_url, String realm) throws ParseException {
+ private ClientRegistration.Builder createBuilder(URI metaDataUri)
+ {
+  RequestEntity<Void> request = RequestEntity.get(metaDataUri)
+              .build();
+  Map<String, Object> configuration = (Map) rest.exchange(request, typeReference)
+              .getBody();
+  OIDCProviderMetadata metadata = parse(configuration, OIDCProviderMetadata::parse);
 
-        URI uri = UriComponentsBuilder.fromUri(realm_url)
-            .replacePath(realm_url.getPath() + "/.well-known/openid-configuration")
-            .build(Collections.emptyMap());
+  final String authUri = Optional.of(metadata)
+              .map(OIDCProviderMetadata::getAuthorizationEndpointURI)
+              .map(URI::toASCIIString)
+              .orElse(null);
 
-        RequestEntity<Void> request = RequestEntity.get(uri).build();
-        String configuration = rest.exchange(request, String.class).getBody();
+  final String issuerUri = Optional.of(metadata)
+              .map(OIDCProviderMetadata::getIssuer)
+              .map(Issuer::getValue)
+              .orElseThrow(() -> new IllegalStateException("Issuer Url cannot be empty."));
 
-        OIDCProviderMetadata metadata = OIDCProviderMetadata.parse(configuration);
-
-        return Optional.of(Optional.of(metadata)
-            .map(OIDCProviderMetadata::getIssuer)
-            .map(Issuer::getValue)
-            .orElse(UriComponentsBuilder.fromUriString(realm_url.toString())
-                .pathSegment(REALMS, realm)
-                .build()
-                .toString()));
-    }
-
-    private static Supplier<ClientRegistration.Builder> getRfc8414Builder(URI issuer, URI uri) {
-        return () -> {
-            RequestEntity<Void> request = RequestEntity.get(uri).build();
-            Map<String, Object> configuration = (Map)rest.exchange(request, typeReference).getBody();
-            AuthorizationServerMetadata metadata = parse(configuration, AuthorizationServerMetadata::parse);
-            ClientRegistration.Builder builder = withProviderConfiguration(metadata, issuer.toASCIIString());
-            URI jwkSetUri = metadata.getJWKSetURI();
-            if (jwkSetUri != null) {
-                builder.jwkSetUri(jwkSetUri.toASCIIString());
-            }
-
-            String userinfoEndpoint = (String)configuration.get("userinfo_endpoint");
-            if (userinfoEndpoint != null) {
-                builder.userInfoUri(userinfoEndpoint);
-            }
-
-            return builder;
-        };
-    }
-
-    private static ClientRegistration.Builder withProviderConfiguration(AuthorizationServerMetadata metadata, String issuer) {
-        String metadataIssuer = metadata.getIssuer().getValue();
-        if (!issuer.equals(metadataIssuer)) {
-            throw new IllegalStateException("The Issuer \"" + metadataIssuer + "\" provided in the configuration metadata did not match the requested issuer \"" + issuer + "\"");
-        } else {
-            String name = URI.create(issuer).getHost();
-            ClientAuthenticationMethod method = getClientAuthenticationMethod(issuer, metadata.getTokenEndpointAuthMethods());
-            List<GrantType> grantTypes = metadata.getGrantTypes();
-            if (grantTypes != null && !grantTypes.contains(GrantType.AUTHORIZATION_CODE)) {
-                throw new IllegalArgumentException("Only AuthorizationGrantType.AUTHORIZATION_CODE is supported. The issuer \"" + issuer + "\" returned a configuration of " + grantTypes);
-            } else {
-                List<String> scopes = getScopes(metadata);
-                Map<String, Object> configurationMetadata = new LinkedHashMap(metadata.toJSONObject());
-                return ClientRegistration.withRegistrationId(name)
-                    .userNameAttributeName("sub")
-                    .scope(scopes)
-                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    .clientAuthenticationMethod(method)
-                    .redirectUri("{baseUrl}/{action}/oauth2/code/{registrationId}")
-                    .authorizationUri(metadata.getAuthorizationEndpointURI().toASCIIString())
-                    .providerConfigurationMetadata(configurationMetadata)
-                    .tokenUri(metadata.getTokenEndpointURI().toASCIIString())
-                    .clientName(issuer);
-            }
-        }
-    }
-
-    private static ClientAuthenticationMethod getClientAuthenticationMethod(String issuer, List<com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod> metadataAuthMethods) {
-        if (metadataAuthMethods != null &&
-            !metadataAuthMethods.contains(com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod.CLIENT_SECRET_BASIC)) {
-            if (metadataAuthMethods.contains(com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod.CLIENT_SECRET_POST)) {
-                return ClientAuthenticationMethod.CLIENT_SECRET_POST;
-            } else if (metadataAuthMethods.contains(com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod.NONE)) {
-                return ClientAuthenticationMethod.NONE;
-            } else {
-                throw new IllegalArgumentException("Only ClientAuthenticationMethod.BASIC, ClientAuthenticationMethod.POST and ClientAuthenticationMethod.NONE are supported. The issuer \"" + issuer + "\" returned a configuration of " + metadataAuthMethods);
-            }
-        } else {
-            return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
-        }
-    }
-
-    private static List<String> getScopes(AuthorizationServerMetadata metadata) {
-        Scope scope = metadata.getScopes();
-        return scope == null ? Collections.singletonList("openid") : scope.toStringList();
-    }
+  Map<String, Object> configurationMetadata = new LinkedHashMap<>(metadata.toJSONObject());
+  return ClientRegistration.withRegistrationId("ids")
+              .providerConfigurationMetadata(configurationMetadata)
+              .authorizationUri(authUri)
+              .issuerUri(issuerUri)
+              .tokenUri(metadata.getTokenEndpointURI()
+                          .toASCIIString())
+              .jwkSetUri(metadata.getJWKSetURI()
+                          .toASCIIString())
+              .userInfoUri(metadata.getUserInfoEndpointURI()
+                          .toASCIIString());
+ }
 
     private static <T> T parse(Map<String, Object> body, ThrowingFunction<JSONObject, T, ParseException> parser) {
         try {
@@ -254,4 +186,17 @@ public class AppConfig {
     private interface ThrowingFunction<S, T, E extends Throwable> {
         T apply(S src) throws E;
     }
+
+ private URI getMetadataURI()
+ {
+  String authServerUrl = aimsConfig.getAuthServerUrl();
+  if (StringUtils.isEmpty(authServerUrl))
+  {
+   throw new IllegalArgumentException("AuthServer Url cannot be empty.");
+  }
+  return UriComponentsBuilder.fromUriString(authServerUrl)
+              .pathSegment(".well-known", "openid-configuration")
+              .build()
+              .toUri();
+ }
 }

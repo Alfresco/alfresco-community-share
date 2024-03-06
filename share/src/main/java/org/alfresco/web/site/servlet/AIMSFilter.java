@@ -72,6 +72,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
@@ -79,6 +81,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResp
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoderFactory;
 import org.springframework.security.oauth2.jwt.JwtException;
@@ -123,7 +126,7 @@ import static org.alfresco.web.site.servlet.config.SecurityUtils.convert;
 
 public class AIMSFilter implements Filter
 {
-    private static final Log logger = LogFactory.getLog(AIMSFilter.class);
+    private static final Log LOGGER = LogFactory.getLog(AIMSFilter.class);
 
     private ApplicationContext context;
     private ConnectorService connectorService;
@@ -133,8 +136,6 @@ public class AIMSFilter implements Filter
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
-
-    public static final String SHARE_PAGE = "/share/page";
     public static final String SHARE_AIMS_LOGOUT = "/share/page/aims/logout";
 
     public static final String DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
@@ -168,9 +169,9 @@ public class AIMSFilter implements Filter
     public void init(FilterConfig filterConfig) throws ServletException
     {
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("Initializing the AIMS filter.");
+            LOGGER.info("Initializing the AIMS filter.");
         }
 
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
@@ -191,9 +192,9 @@ public class AIMSFilter implements Filter
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
 
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("AIMS filter initialized.");
+            LOGGER.info("AIMS filter initialized.");
         }
     }
 
@@ -227,8 +228,8 @@ public class AIMSFilter implements Filter
                 if(isAuthenticated) {
                     try {
                         refreshToken(attribute, session);
-                    } catch(Exception e) {
-                        logger.error("Resulted in Error while doing refresh token " + e.getMessage());
+                    } catch(Exception oauth2AuthenticationException) {
+                        LOGGER.error("Resulted in Error while doing refresh token " + oauth2AuthenticationException.getMessage());
                         session.invalidate();
                         if (!request.getRequestURI().contains(SHARE_AIMS_LOGOUT)) {
                             isAuthenticated = false;
@@ -307,9 +308,9 @@ public class AIMSFilter implements Filter
                            OAuth2LoginAuthenticationToken authenticationResult)
     {
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("Completing the AIMS authentication.");
+            LOGGER.info("Completing the AIMS authentication.");
         }
 
         String username = authenticationResult.getPrincipal().getAttribute("preferred_username");
@@ -349,7 +350,7 @@ public class AIMSFilter implements Filter
                 }
                 else
                 {
-                    logger.error("Could not get an alfTicket from Repository.");
+                    LOGGER.error("Could not get an alfTicket from Repository.");
                 }
             }
             catch (Exception e)
@@ -415,9 +416,9 @@ public class AIMSFilter implements Filter
     private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException
     {
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("Retrieving the Alfresco Ticket from Repository.");
+            LOGGER.info("Retrieving the Alfresco Ticket from Repository.");
         }
 
         String alfTicket = null;
@@ -428,9 +429,9 @@ public class AIMSFilter implements Filter
 
         if (Status.STATUS_OK != r.getStatus().getCode())
         {
-            if (logger.isErrorEnabled())
+            if (LOGGER.isErrorEnabled())
             {
-                logger.error("Failed to retrieve Alfresco Ticket from Repository.");
+                LOGGER.error("Failed to retrieve Alfresco Ticket from Repository.");
             }
         }
         else
@@ -443,9 +444,9 @@ public class AIMSFilter implements Filter
             }
             catch (JSONException e)
             {
-                if (logger.isErrorEnabled())
+                if (LOGGER.isErrorEnabled())
                 {
-                    logger.error("Failed to parse Alfresco Ticket from Repository response.");
+                    LOGGER.error("Failed to parse Alfresco Ticket from Repository response.");
                 }
             }
         }
@@ -617,15 +618,34 @@ public class AIMSFilter implements Filter
         JwtDecoder jwtDecoder = this.jwtDecoderFactory.createDecoder(clientRegistration);
 
         Jwt jwt;
-        try {
-            jwt = jwtDecoder.decode((String)accessTokenResponse.getAdditionalParameters().get("id_token"));
-        } catch (JwtException var7) {
-            OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_id_token", var7.getMessage(), (String)null);
-            throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString(), var7);
-        }
+     try
+     {
+      jwt = jwtDecoder.decode((String) accessTokenResponse.getAdditionalParameters()
+                  .get("id_token"));
+      OAuth2TokenValidatorResult oAuth2TokenValidatorResult =
+                  validate(jwt, clientRegistration.getProviderDetails());
+      if (oAuth2TokenValidatorResult.hasErrors())
+      {
+       OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_issue_uri",
+                   oAuth2TokenValidatorResult.getErrors()
+                               .stream()
+                               .filter(Objects::nonNull)
+                               .findFirst()
+                               .get()
+                               .getDescription(), (String) null);
+       throw new OAuth2AuthenticationException(invalidIdTokenError);
+      }
+     }
+     catch (JwtException jwtException)
+     {
+      OAuth2Error invalidIdTokenError =
+                  new OAuth2Error("invalid_id_token", jwtException.getMessage(), (String) null);
+      throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString(), jwtException);
+     }
 
-        OidcIdToken idToken = new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(), jwt.getClaims());
-        return idToken;
+     OidcIdToken idToken =
+                 new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(), jwt.getClaims());
+     return idToken;
     }
 
     static String createHash(String nonce) throws NoSuchAlgorithmException {
@@ -690,4 +710,18 @@ public class AIMSFilter implements Filter
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
             attribute);
     }
+ public OAuth2TokenValidatorResult validate(Jwt token, ClientRegistration.ProviderDetails providerDetails)
+ {
+  Object issuer = token.getClaim(JwtClaimNames.ISS);
+  String requiredIssuer = providerDetails.getIssuerUri();
+  if (issuer != null && requiredIssuer.equals(issuer.toString()))
+  {
+   return OAuth2TokenValidatorResult.success();
+  }
+
+  final OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN,
+              "The iss claim is not valid. Expected " + requiredIssuer + " but got "
+                          + issuer, "https://tools.ietf.org/html/rfc6750#section-3.1");
+  return OAuth2TokenValidatorResult.failure(error);
+ }
 }
