@@ -20,6 +20,8 @@
  */
 package org.alfresco.web.site.servlet.config;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,10 +29,11 @@ import org.springframework.extensions.config.Config;
 import org.springframework.extensions.config.ConfigService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.web.util.UriComponentsBuilder;
 
 public class AIMSConfig
 {
-    private static final Log logger = LogFactory.getLog(AIMSConfig.class);
+    private static final Log LOGGER = LogFactory.getLog(AIMSConfig.class);
 
     private boolean enabled;
     private String realm;
@@ -42,6 +45,8 @@ public class AIMSConfig
     private ConfigService configService;
 
     private Boolean publicClient;
+
+    private static final String REALMS = "realms";
     /**
      *
      */
@@ -128,10 +133,17 @@ public class AIMSConfig
         this.resource = resource;
     }
 
-    public String getAuthServerUrl()
-    {
-        return authServerUrl;
-    }
+ public String getAuthServerUrl()
+ {
+  return Optional.ofNullable(realm)
+              .filter(StringUtils::isNotBlank)
+              .filter(realm -> StringUtils.isNotBlank(authServerUrl))
+              .map(realm -> UriComponentsBuilder.fromUriString(authServerUrl)
+                          .pathSegment(REALMS, realm)
+                          .build()
+                          .toString())
+              .orElse(authServerUrl);
+ }
 
     public void setAuthServerUrl(String authServerUrl)
     {
