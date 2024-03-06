@@ -158,6 +158,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public WikiDetailsPage clickOnDetailsPageLink()
     {
+        waitInSeconds(2);
         clickElement(wikiDetailsLink);
         return new WikiDetailsPage(webDriver);
     }
@@ -192,6 +193,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage>
 
     public String getWikiPageContent()
     {
+        waitInSeconds(2);
         return findElement(wikiPageContents).getText();
     }
 
