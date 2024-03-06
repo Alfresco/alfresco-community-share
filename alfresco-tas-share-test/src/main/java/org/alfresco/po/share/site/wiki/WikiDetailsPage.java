@@ -5,10 +5,10 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
@@ -17,43 +17,22 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 {
     @FindBy (css = "a[href*='edit']")
     private WebElement wikiEditPageLink;
-
-    @FindBy (css = "a[href*='view']")
-    private WebElement wikiViewPageLink;
-
-    @FindAll (@FindBy (css = "[class=tag]"))
-    private List<WebElement> tagsList;
-
-    @FindAll (@FindBy (css = "[class=links] a"))
-    private List<WebElement> linkedPagesList;
-
-    @FindBy (css = "[class*=meta-section-label]")
-    private WebElement version;
-
-    @FindBy (css = "[class=tags]")
-    private WebElement tagsSection;
-
-    @FindAll (@FindBy (css = "div.bd ul.first-of-type li a"))
-    private List<WebElement> dropDownVersionsList;
-
-    @FindBy (css = "[id$=default-selectVersion-button-button]")
-    private WebElement selectVersionButton;
-
-    @FindBy (css = "[class=revert] a")
-    private WebElement revertVersionButton;
-
-    @FindBy (css = "[id$=revertWikiVersion-instance-dialog_c]")
-    private WebElement revertPopUp;
-
-    @FindBy (css = "[class=details-page-content]")
-    private WebElement pageContentDetails;
-
-    @FindAll (@FindBy (css = "[id*=default-expand-div] [class*=meta-section-label]"))
-    private List<WebElement> versionsList;
+    private final By wikiViewPageLink = By.cssSelector("a[href*='view']");
+    private final By tagsList = By.cssSelector("[class=tag]");
+    private final By linkedPagesList = By.cssSelector("[class=links] a");
+    private final By version = By.cssSelector("[class*=meta-section-label]");
+    private final By tagsSection = By.cssSelector("[class=tags]");
+    private final By dropDownVersionsList = By.cssSelector("div.bd ul.first-of-type li a");
+    private final By selectVersionButton = By.cssSelector("[id$=default-selectVersion-button-button]");
+    private final By revertVersionButton = By.cssSelector("[class=revert] a");
+    private final By revertPopUp = By.cssSelector("[id$=revertWikiVersion-instance-dialog_c]");
+    private final By pageContentDetails = By.cssSelector("[class=details-page-content]");
+    private final By versionsList = By.cssSelector("[id*=default-expand-div] [class*=meta-section-label]");
+    private final By revertOkButton = By.cssSelector("[id*=revertWikiVersion-instance-ok]");
+    private final By revertMessage = By.cssSelector("[id*=revertWikiVersion-instance-prompt]");
 
     @FindBy (css = "[class=bd] span")
     private WebElement revertNotification;
-
     public WikiDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -68,8 +47,9 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     public List<String> getTagsList()
     {
 
+        List<WebElement> listOfTags = findElements(tagsList);
         List<String> wikiPageTags = new ArrayList<>();
-        for (WebElement wikiPageTag : tagsList)
+        for (WebElement wikiPageTag : listOfTags)
         {
             wikiPageTags.add(wikiPageTag.getText());
         }
@@ -79,8 +59,9 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     public List<String> getLinkedPagesList()
     {
 
+        List<WebElement> listOfLinkedPages = findElements(linkedPagesList);
         List<String> linkedPages = new ArrayList<>();
-        for (WebElement linkedPage : linkedPagesList)
+        for (WebElement linkedPage : listOfLinkedPages)
         {
             linkedPages.add(linkedPage.getText());
         }
@@ -89,21 +70,23 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 
     public String getVersion()
     {
-        return version.getText();
+        return findElement(version).getText();
     }
 
     public String getTag()
     {
-        return tagsSection.getText();
+        return findElement(tagsSection).getText();
     }
 
     public WikiDetailsPage selectVersion(String version)
     {
         try
         {
-            selectVersionButton.click();
-            selectOptionFromFilterOptionsList(version, dropDownVersionsList);
-            Assert.assertTrue(selectVersionButton.getText().contains(version), "Incorrect filter selected");
+            clickElement(selectVersionButton);
+            List<WebElement> versionsListInDropDown = findElements(dropDownVersionsList);
+            selectOptionFromFilterOptionsList(version, versionsListInDropDown);
+            waitInSeconds(3);
+            Assert.assertTrue(findElement(selectVersionButton).getText().contains(version), "Incorrect filter selected");
 
             return new WikiDetailsPage(webDriver);
         } catch (NoSuchElementException nse)
@@ -115,13 +98,13 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 
     public boolean clickOnRevert()
     {
-        revertVersionButton.click();
-        return revertPopUp.isDisplayed();
+        clickElement(revertVersionButton);
+        return findElement(revertPopUp).isDisplayed();
     }
 
     public String getPageContentDetails()
     {
-        return pageContentDetails.getText();
+        return findElement(pageContentDetails).getText();
     }
 
     public WebElement selectVersionDetails(String version)
@@ -137,7 +120,8 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     public List<String> getVersionsList()
     {
         List<String> list = new ArrayList<>();
-        for (WebElement version : versionsList)
+        List<WebElement> versionListDetails = findElements(versionsList);
+        for (WebElement version : versionListDetails)
         {
 
             list.add(version.getText());
@@ -147,7 +131,18 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
 
     public ViewWikiPage clickOnViewPageLink()
     {
-        wikiViewPageLink.click();
+        clickElement(wikiViewPageLink);
         return new ViewWikiPage(webDriver);
+    }
+
+    public String getRevertMessage()
+    {
+        return findElement(revertMessage).getText();
+    }
+
+    public void clickRevertOk()
+    {
+        clickElement(revertOkButton);
+        waitInSeconds(2);
     }
 }
