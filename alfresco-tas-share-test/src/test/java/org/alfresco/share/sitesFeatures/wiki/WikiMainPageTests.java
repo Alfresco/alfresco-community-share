@@ -1,88 +1,86 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import org.alfresco.dataprep.DashboardCustomization.Page;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.wiki.EditWikiPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * @author iulia.nechita
  */
 
-public class WikiMainPageTests extends ContextAwareWebTest
+@Slf4j
+public class WikiMainPageTests extends BaseTest
 {
-    //@Autowired
-    WikiMainPage wikiPage;
-
-    //@Autowired
-    EditWikiPage editWikiPage;
-
-    private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-    private String siteName;
+    @Autowired
+    SiteService siteService;
+    private WikiMainPage wikiMainPage;
+    private EditWikiPage editWikiPage;
+    private final ThreadLocal<UserModel> testUser = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
     private String wikiPageContent = "content";
 
-    @BeforeClass (alwaysRun = true)
-    public void createUser()
+    @BeforeMethod(alwaysRun = true)
+    public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
-        setupAuthenticatedSession(testUser, password);
+        log.info("Precondition: Any Test user is created");
+        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(testUser.get()).createPublicRandomSite());
+        getCmisApi().authenticateUser(testUser.get());
+        siteService.addPageToSite(testUser.get().getUsername(), testUser.get().getPassword(), siteName.get().getId(), DashboardCustomization.Page.WIKI, null);
+
+        wikiMainPage = new WikiMainPage(webDriver);
+        editWikiPage = new EditWikiPage(webDriver);
+
+        authenticateUsingLoginPage(testUser.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + testUser.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(testUser.get());
     }
 
     @TestRail (id = "C5496")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiMainPage()
     {
-        // precondition
-        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
-        wikiPage.navigate(siteName);
+        log.info("STEP 1: Click on edit wiki page link");
+        wikiMainPage.navigate(siteName.get().getId());
+        wikiMainPage.clickEditPageLink();
 
-        LOG.info("STEP 1: Click on edit wiki page link");
-        wikiPage.clickEditPageLink();
-
-        LOG.info("STEP 2: Type some content to the text box, then click on Save button");
+        log.info("STEP 2: Type some content to the text box, then click on Save button");
         editWikiPage.saveWikiContent(wikiPageContent);
-//        Assert.assertEquals(wikiPage.getWikiPageContent(), wikiPageContent,
-//            "Wrong wiki page!, expected " + wikiPageContent + " but found " + wikiPage.getWikiPageContent());
-        siteService.delete(adminUser, adminPassword, siteName);
-
+        Assert.assertEquals(wikiMainPage.getWikiPageContent(), wikiPageContent,
+            "Wrong wiki page!, expected " + wikiPageContent + " but found " + wikiMainPage.getWikiPageContent());
     }
 
     @TestRail (id = "C5509")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreationOfWikiMainPage()
     {
-        // precondition
-        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
-        wikiPage.navigate(siteName);
+        log.info("STEP 1: Click on edit wiki page link");
+        wikiMainPage.navigate(siteName.get().getId());
+        wikiMainPage.clickEditPageLink();
 
-        LOG.info("STEP 1: Click on edit wiki page link");
-        wikiPage.clickEditPageLink();
-
-        LOG.info("STEP 2: Type some content to the text box, then click on Cancel button");
+        log.info("STEP 2: Type some content to the text box, then click on Cancel button");
         editWikiPage.cancelWikiContent(wikiPageContent);
-//        Assert.assertTrue(wikiPage.getWikiPageContent().isEmpty(), "Wiki main page should be empty!");
-        siteService.delete(adminUser, adminPassword, siteName);
-
+        Assert.assertTrue(wikiMainPage.getWikiPageContent().isEmpty(), "Wiki main page should be empty!");
     }
 }
