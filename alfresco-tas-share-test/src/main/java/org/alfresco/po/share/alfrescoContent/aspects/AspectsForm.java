@@ -66,6 +66,7 @@ public class AspectsForm extends BaseDialogComponent
 
     public boolean isAvailableToAddPanelDisplayed()
     {
+        waitInSeconds(2);
         return isElementDisplayed(availableToAddPanel);
     }
 

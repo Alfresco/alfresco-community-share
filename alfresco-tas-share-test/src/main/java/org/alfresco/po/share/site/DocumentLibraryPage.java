@@ -743,6 +743,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public void selectItemAction(String contentItem, ItemActions action)
     {
+        waitInSeconds(3);
         WebElement libraryItem = mouseOverContentItem(contentItem);
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
         WebElement actionElement;
