@@ -197,6 +197,7 @@ public class EditPropertiesDialog extends BaseDialogComponent
 
     public void clickAllPropertiesLink()
     {
+        waitInSeconds(3);
         clickElement(allPropertiesButton);
     }
 }
