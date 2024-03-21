@@ -71,6 +71,7 @@
         <dependency.jackson.version>2.14.0-rc1</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
+        <dependency.json-smart.version>2.5.0</dependency.json-smart.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
         <spring.security.version>5.7.5</spring.security.version>
 
@@ -304,6 +305,11 @@
                 <version>${dependency.jakarta-jaxb-api.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId> net.minidev</groupId>
+                <artifactId>json-smart</artifactId>
+                <version>${dependency.json-smart.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
