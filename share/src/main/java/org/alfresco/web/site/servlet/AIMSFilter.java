@@ -20,6 +20,34 @@
  */
 package org.alfresco.web.site.servlet;
 
+import static org.alfresco.web.site.servlet.config.SecurityUtils.convert;
+import static org.alfresco.web.site.servlet.config.SecurityUtils.isAuthorizationResponse;
+import static org.alfresco.web.site.servlet.config.SecurityUtils.toMultiMap;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.alfresco.web.site.servlet.config.CustomAuthorizationRequestResolver;
@@ -41,7 +69,15 @@ import org.springframework.extensions.surf.support.AlfrescoUserFactory;
 import org.springframework.extensions.surf.support.ServletRequestContextFactory;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.webscripts.Status;
-import org.springframework.extensions.webscripts.connector.*;
+import org.springframework.extensions.webscripts.connector.AlfrescoAuthenticator;
+import org.springframework.extensions.webscripts.connector.Connector;
+import org.springframework.extensions.webscripts.connector.ConnectorContext;
+import org.springframework.extensions.webscripts.connector.ConnectorService;
+import org.springframework.extensions.webscripts.connector.CredentialVault;
+import org.springframework.extensions.webscripts.connector.Credentials;
+import org.springframework.extensions.webscripts.connector.HttpMethod;
+import org.springframework.extensions.webscripts.connector.Response;
+import org.springframework.extensions.webscripts.connector.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.core.Authentication;
@@ -55,9 +91,9 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.DefaultRefreshTokenTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
-import org.springframework.security.oauth2.client.endpoint.DefaultRefreshTokenTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2RefreshTokenGrantRequest;
 import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenDecoderFactory;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -72,6 +108,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
@@ -79,6 +117,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResp
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoderFactory;
 import org.springframework.security.oauth2.jwt.JwtException;
@@ -100,43 +139,24 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.Collection;
-import java.util.Base64;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.Objects;
-import static org.alfresco.web.site.servlet.config.SecurityUtils.toMultiMap;
-import static org.alfresco.web.site.servlet.config.SecurityUtils.isAuthorizationResponse;
-import static org.alfresco.web.site.servlet.config.SecurityUtils.convert;
-
+/*
+ * Portions of this code are adapted from the Java Spring Framework,
+ * which is licensed under the Apache License 2.0. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * The original authors of the Java Spring Framework are credited for
+ * their contributions to the open-source community.
+ */
 public class AIMSFilter implements Filter
 {
-    private static final Log logger = LogFactory.getLog(AIMSFilter.class);
-
+    private static final Log LOGGER = LogFactory.getLog(AIMSFilter.class);
     private ApplicationContext context;
     private ConnectorService connectorService;
     private SlingshotLoginController loginController;
-
     private boolean enabled = false;
-
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
-
-    public static final String SHARE_PAGE = "/share/page";
     public static final String SHARE_AIMS_LOGOUT = "/share/page/aims/logout";
-
     public static final String DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
     private ClientRegistrationRepository clientRegistrationRepository;
     private OAuth2AuthorizedClientService oauth2ClientService;
@@ -150,15 +170,15 @@ public class AIMSFilter implements Filter
     private final DefaultRefreshTokenTokenResponseClient refreshTokenResponseClient = new DefaultRefreshTokenTokenResponseClient();
     private ThrowableAnalyzer throwableAnalyzer;
     private final JwtDecoderFactory<ClientRegistration> jwtDecoderFactory = new OidcIdTokenDecoderFactory();
-    private final GrantedAuthoritiesMapper authoritiesMapper = (authorities) -> {
-        return authorities;
-    };
+    private final GrantedAuthoritiesMapper  authoritiesMapper = (authorities) -> {return authorities;};
     private final OAuth2UserService<OidcUserRequest, OidcUser> userService = new OidcUserService();
     private String clientId;
 
-    public AIMSFilter() {
+    public AIMSFilter()
+    {
         this.authorizationRedirectStrategy = new DefaultRedirectStrategy();
     }
+
     /**
      * Initialize the filter
      *
@@ -168,22 +188,24 @@ public class AIMSFilter implements Filter
     public void init(FilterConfig filterConfig) throws ServletException
     {
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("Initializing the AIMS filter.");
+            LOGGER.info("Initializing the AIMS filter.");
         }
 
         this.context = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
 
         AIMSConfig config = (AIMSConfig) this.context.getBean("aims.config");
         this.enabled = config.isEnabled();
-        if(this.enabled) {
-            this.clientId=config.getResource();
+        if (this.enabled)
+        {
+            this.clientId = config.getResource();
             // OIDC Specific Setup
             clientRegistrationRepository = context.getBean(ClientRegistrationRepository.class);
             oauth2ClientService = context.getBean(OAuth2AuthorizedClientService.class);
             this.requestCache = new HttpSessionRequestCache();
-            this.authorizationRequestResolver = new CustomAuthorizationRequestResolver(clientRegistrationRepository, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
+            this.authorizationRequestResolver = new CustomAuthorizationRequestResolver(clientRegistrationRepository,
+                                                                                       DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
             this.authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
             this.throwableAnalyzer = new SecurityUtils.DefaultThrowableAnalyzer();
         }
@@ -191,46 +213,51 @@ public class AIMSFilter implements Filter
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
 
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("AIMS filter initialized.");
+            LOGGER.info("AIMS filter initialized.");
         }
     }
 
     /**
-     * @param sreq Servlet Request
-     * @param sres Servlet Response
+     * @param sreq  Servlet Request
+     * @param sres  Servlet Response
      * @param chain Filter Chain
      * @throws IOException
      * @throws ServletException
      */
-    public void doFilter(ServletRequest sreq, ServletResponse sres,
-                         FilterChain chain) throws IOException, ServletException
+    public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain)
+        throws IOException, ServletException
     {
         HttpServletRequest request = (HttpServletRequest) sreq;
         HttpServletResponse response = (HttpServletResponse) sres;
         HttpSession session = request.getSession();
         boolean isAuthenticated = false;
-        /**
-         * check if authentication is done.
-         */
-        if (null != session &&
-            this.enabled) {
+        // check if authentication is done.
+        if (null != session && this.enabled)
+        {
             SecurityContext attribute = (SecurityContext) session.getAttribute(
                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-            if(null != attribute) {
-                isAuthenticated = attribute.getAuthentication().isAuthenticated();
+            if (null != attribute)
+            {
+                isAuthenticated = attribute.getAuthentication()
+                    .isAuthenticated();
 
-                /**
-                 * Check if token existing token is valid or expired.
-                 */
-                if(isAuthenticated) {
-                    try {
+                // Check if token existing token is valid or expired.
+                if (isAuthenticated)
+                {
+                    try
+                    {
                         refreshToken(attribute, session);
-                    } catch(Exception e) {
-                        logger.error("Resulted in Error while doing refresh token " + e.getMessage());
+                    }
+                    catch (Exception oauth2AuthenticationException)
+                    {
+                        LOGGER.error("Resulted in Error while doing refresh token "
+                                         + oauth2AuthenticationException.getMessage());
                         session.invalidate();
-                        if (!request.getRequestURI().contains(SHARE_AIMS_LOGOUT)) {
+                        if (!request.getRequestURI()
+                            .contains(SHARE_AIMS_LOGOUT))
+                        {
                             isAuthenticated = false;
                         }
                     }
@@ -238,54 +265,73 @@ public class AIMSFilter implements Filter
             }
         }
 
-        if (!isAuthenticated &&
-            this.enabled)
+        if (!isAuthenticated && this.enabled)
         {
-            /**
-             // Match the request that came from Idp (redirect uri)
-             */
-            if (this.matchesAuthorizationResponse(request)) {
+            // Match the request that came from Idp (redirect uri)
+            if (this.matchesAuthorizationResponse(request))
+            {
                 this.processAuthorizationResponse(request, response, session);
-            } else {
-                try {
+            }
+            else
+            {
+                try
+                {
                     this.requestCache.saveRequest(request, response);
-                    OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestResolver
-                        .resolve(request, this.clientId);
-                    if (authorizationRequest != null) {
+                    OAuth2AuthorizationRequest authorizationRequest =
+                        this.authorizationRequestResolver.resolve(request, this.clientId);
+                    if (authorizationRequest != null)
+                    {
                         this.sendRedirectForAuthorization(request, response, authorizationRequest);
                         return;
                     }
-                } catch (Exception var11) {
+                }
+                catch (Exception authorizationRequestResolverException)
+                {
                     this.unsuccessfulRedirectForAuthorization(response);
                     return;
                 }
 
-                try {
-                    chain.doFilter(request,response);
-                } catch (IOException var9) {
-                    throw var9;
-                } catch (Exception var10) {
-                    Throwable[] causeChain = this.throwableAnalyzer.determineCauseChain(var10);
-                    ClientAuthorizationRequiredException authzEx = (ClientAuthorizationRequiredException) this.throwableAnalyzer.getFirstThrowableOfType(ClientAuthorizationRequiredException.class, causeChain);
-                    if (authzEx != null) {
-                        try {
-                            OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestResolver.resolve(request, authzEx.getClientRegistrationId());
-                            if (authorizationRequest == null) {
+                try
+                {
+                    chain.doFilter(request, response);
+                }
+                catch (IOException ioException)
+                {
+                    throw ioException;
+                }
+                catch (Exception filterChainException)
+                {
+                    Throwable[] causeChain = this.throwableAnalyzer.determineCauseChain(filterChainException);
+                    ClientAuthorizationRequiredException authzEx =
+                        (ClientAuthorizationRequiredException) this.throwableAnalyzer.getFirstThrowableOfType(
+                            ClientAuthorizationRequiredException.class, causeChain);
+                    if (authzEx != null)
+                    {
+                        try
+                        {
+                            OAuth2AuthorizationRequest authorizationRequest =
+                                this.authorizationRequestResolver.resolve(request, authzEx.getClientRegistrationId());
+                            if (authorizationRequest == null)
+                            {
                                 throw authzEx;
                             }
 
                             this.sendRedirectForAuthorization(request, response, authorizationRequest);
                             this.requestCache.saveRequest(request, response);
-                        } catch (Exception var8) {
+                        }
+                        catch (Exception authorizationRequestResolverException)
+                        {
                             this.unsuccessfulRedirectForAuthorization(response);
                         }
 
-                    } else if (var10 instanceof ServletException) {
-                        throw (ServletException) var10;
-                    } else if (var10 instanceof RuntimeException) {
-                        throw (RuntimeException) var10;
-                    } else {
-                        throw new RuntimeException(var10);
+                    }
+                    else if (filterChainException instanceof ServletException)
+                    {
+                        throw (ServletException) filterChainException;
+                    }
+                    else
+                    {
+                        throw new RuntimeException(filterChainException);
                     }
                 }
             }
@@ -297,23 +343,24 @@ public class AIMSFilter implements Filter
     }
 
     /**
-     *
-     * @param request HTTP Servlet Request
-     * @param response HTTP Servlet Response
-     * @param session HTTP Session
+     * @param request              HTTP Servlet Request
+     * @param response             HTTP Servlet Response
+     * @param session              HTTP Session
      * @param authenticationResult OAuth2LoginAuthenticationToken
      */
     private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session,
                            OAuth2LoginAuthenticationToken authenticationResult)
     {
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("Completing the AIMS authentication.");
+            LOGGER.info("Completing the AIMS authentication.");
         }
 
-        String username = authenticationResult.getPrincipal().getAttribute("preferred_username");
-        String accessToken = authenticationResult.getAccessToken().getTokenValue();
+        String username = authenticationResult.getPrincipal()
+            .getAttribute("preferred_username");
+        String accessToken = authenticationResult.getAccessToken()
+            .getTokenValue();
         synchronized (this)
         {
             try
@@ -331,7 +378,8 @@ public class AIMSFilter implements Filter
 
                     // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
                     Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
-                    connector.getConnectorSession().setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
+                    connector.getConnectorSession()
+                        .setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
 
                     // Set credential username for further use on repo
                     // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
@@ -349,12 +397,13 @@ public class AIMSFilter implements Filter
                 }
                 else
                 {
-                    logger.error("Could not get an alfTicket from Repository.");
+                    LOGGER.error("Could not get an alfTicket from Repository.");
                 }
             }
-            catch (Exception e)
+            catch (Exception alfrescoRuntimeException)
             {
-                throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
+                throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.",
+                                                   alfrescoRuntimeException);
             }
         }
     }
@@ -366,7 +415,8 @@ public class AIMSFilter implements Filter
      * @param request
      * @throws RequestContextException
      */
-    private void initRequestContext(HttpServletRequest request, HttpServletResponse response) throws RequestContextException
+    private void initRequestContext(HttpServletRequest request, HttpServletResponse response)
+        throws RequestContextException
     {
         RequestContext context = ThreadLocalRequestContext.getRequestContext();
         if (context == null)
@@ -384,7 +434,6 @@ public class AIMSFilter implements Filter
     /**
      * Initialise the user meta data object and set it into the session and request context (_alf_USER_OBJECT)
      * The user meta data object is used by web scripts that require authentication
-     *
      * This is present in the filter for avoiding Basic Authentication prompt for those web scripts,
      * when user access them and is logged out (see https://issues.alfresco.com/jira/browse/APPS-117)
      *
@@ -397,7 +446,8 @@ public class AIMSFilter implements Filter
         if (context != null && context.getUser() == null)
         {
             String userEndpointId = (String) context.getAttribute(RequestContext.USER_ENDPOINT);
-            UserFactory userFactory = context.getServiceRegistry().getUserFactory();
+            UserFactory userFactory = context.getServiceRegistry()
+                .getUserFactory();
             User user = userFactory.initialiseUser(context, request, userEndpointId);
             context.setUser(user);
         }
@@ -406,31 +456,36 @@ public class AIMSFilter implements Filter
     /**
      * Get an alfTicket using the JWT token from Identity Service
      *
-     * @param session HTTP Session
-     * @param username username
+     * @param session     HTTP Session
+     * @param username    username
      * @param accessToken access token
      * @return The alfTicket
      * @throws ConnectorServiceException
      */
-    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException
+    private String getAlfTicket(HttpSession session, String username, String accessToken)
+        throws ConnectorServiceException
     {
         // Info
-        if (logger.isInfoEnabled())
+        if (LOGGER.isInfoEnabled())
         {
-            logger.info("Retrieving the Alfresco Ticket from Repository.");
+            LOGGER.info("Retrieving the Alfresco Ticket from Repository.");
         }
 
         String alfTicket = null;
         Connector connector = this.connectorService.getConnector(ALFRESCO_API_ENDPOINT_ID, username, session);
-        ConnectorContext c = new ConnectorContext(HttpMethod.GET, null, Collections.singletonMap("Authorization", "Bearer " + accessToken));
+        ConnectorContext c = new ConnectorContext(HttpMethod.GET, null,
+                                                  Collections.singletonMap("Authorization", "Bearer " + accessToken));
         c.setContentType("application/json");
-        Response r = connector.call("/-default-/public/authentication/versions/1/tickets/-me-?noCache=" + UUID.randomUUID().toString(), c);
+        Response r = connector.call(
+            "/-default-/public/authentication/versions/1/tickets/-me-?noCache=" + UUID.randomUUID()
+                .toString(), c);
 
-        if (Status.STATUS_OK != r.getStatus().getCode())
+        if (Status.STATUS_OK != r.getStatus()
+            .getCode())
         {
-            if (logger.isErrorEnabled())
+            if (LOGGER.isErrorEnabled())
             {
-                logger.error("Failed to retrieve Alfresco Ticket from Repository.");
+                LOGGER.error("Failed to retrieve Alfresco Ticket from Repository.");
             }
         }
         else
@@ -439,13 +494,14 @@ public class AIMSFilter implements Filter
             JSONObject json = new JSONObject(r.getText());
             try
             {
-                alfTicket = json.getJSONObject("entry").getString("id");
+                alfTicket = json.getJSONObject("entry")
+                    .getString("id");
             }
-            catch (JSONException e)
+            catch (JSONException jsonException)
             {
-                if (logger.isErrorEnabled())
+                if (LOGGER.isErrorEnabled())
                 {
-                    logger.error("Failed to parse Alfresco Ticket from Repository response.");
+                    LOGGER.error("Failed to parse Alfresco Ticket from Repository response.");
                 }
             }
         }
@@ -453,101 +509,117 @@ public class AIMSFilter implements Filter
         return alfTicket;
     }
 
-    private boolean matchesAuthorizationResponse(HttpServletRequest request) {
+    private boolean matchesAuthorizationResponse(HttpServletRequest request)
+    {
         MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-        if (!isAuthorizationResponse(params)) {
+        if (!isAuthorizationResponse(params))
+        {
             return false;
-        } else {
-            OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestRepository
-                .loadAuthorizationRequest(request);
-            if (authorizationRequest == null) {
+        }
+        else
+        {
+            OAuth2AuthorizationRequest authorizationRequest =
+                this.authorizationRequestRepository.loadAuthorizationRequest(request);
+            if (authorizationRequest == null)
+            {
                 return false;
-            } else {
-                UriComponents requestUri = UriComponentsBuilder.fromUriString(UrlUtils.buildFullRequestUrl(request)).build();
-                UriComponents redirectUri = UriComponentsBuilder.fromUriString(authorizationRequest.getRedirectUri()).build();
-                Set<Map.Entry<String, List<String>>> requestUriParameters = new LinkedHashSet(requestUri.getQueryParams().entrySet());
-                Set<Map.Entry<String, List<String>>> redirectUriParameters = new LinkedHashSet(redirectUri.getQueryParams().entrySet());
+            }
+            else
+            {
+                UriComponents requestUri = UriComponentsBuilder.fromUriString(UrlUtils.buildFullRequestUrl(request))
+                    .build();
+                UriComponents redirectUri = UriComponentsBuilder.fromUriString(authorizationRequest.getRedirectUri())
+                    .build();
+                Set<Map.Entry<String, List<String>>> requestUriParameters = new LinkedHashSet(
+                    requestUri.getQueryParams()
+                        .entrySet());
+                Set<Map.Entry<String, List<String>>> redirectUriParameters = new LinkedHashSet(
+                    redirectUri.getQueryParams()
+                        .entrySet());
                 requestUriParameters.retainAll(redirectUriParameters);
-                return Objects.equals(requestUri.getScheme(), redirectUri.getScheme()) &&
-                    Objects.equals(requestUri.getUserInfo(), redirectUri.getUserInfo()) &&
-                    Objects.equals(requestUri.getHost(), redirectUri.getHost()) &&
-                    Objects.equals(requestUri.getPort(), redirectUri.getPort()) &&
-                    Objects.equals(requestUri.getPath(), redirectUri.getPath()) &&
-                    Objects.equals(requestUriParameters.toString(), redirectUriParameters.toString());
+                return Objects.equals(requestUri.getScheme(), redirectUri.getScheme()) && Objects.equals(
+                    requestUri.getUserInfo(), redirectUri.getUserInfo()) && Objects.equals(requestUri.getHost(),
+                                                                                           redirectUri.getHost())
+                    && Objects.equals(requestUri.getPort(), redirectUri.getPort()) && Objects.equals(
+                    requestUri.getPath(), redirectUri.getPath()) && Objects.equals(requestUriParameters.toString(),
+                                                                                   redirectUriParameters.toString());
             }
         }
     }
 
-    private synchronized void processAuthorizationResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
-        throws IOException {
-        /**
-         * Construct Authorization Request & Response
-         */
-        OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestRepository
-            .removeAuthorizationRequest(request, response);
+    private synchronized void processAuthorizationResponse(HttpServletRequest request, HttpServletResponse response,
+                                                           HttpSession session) throws IOException
+    {
+        // Construct Authorization Request & Response
+        OAuth2AuthorizationRequest authorizationRequest =
+            this.authorizationRequestRepository.removeAuthorizationRequest(request, response);
         MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
         String redirectUri = UrlUtils.buildFullRequestUrl(request);
         OAuth2AuthorizationResponse authorizationResponse = convert(params, redirectUri);
 
         ClientRegistration clientRegistration = this.clientRegistrationRepository.findByRegistrationId(this.clientId);
 
-        /**
-         * Prepare Authentication Request to get Authentication Result
-         */
+        // Prepare Authentication Request to get Authentication Result
         OAuth2LoginAuthenticationToken authenticationRequest = new OAuth2LoginAuthenticationToken(clientRegistration,
-            new OAuth2AuthorizationExchange(authorizationRequest,authorizationResponse));
+                                                                                                  new OAuth2AuthorizationExchange(
+                                                                                                      authorizationRequest,
+                                                                                                      authorizationResponse));
         authenticationRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
         OAuth2LoginAuthenticationToken authenticationResult;
-        try {
-            authenticationResult = (OAuth2LoginAuthenticationToken)this.authenticate(authenticationRequest);
-        } catch (OAuth2AuthorizationException var16) {
-            OAuth2Error error = var16.getError();
-            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(authorizationRequest
-                .getRedirectUri()).queryParam("error", new Object[]{error.getErrorCode()});
-            if (!StringUtils.isEmpty(error.getDescription())) {
-                uriBuilder.queryParam("error_description", new Object[]{error.getDescription()});
+        try
+        {
+            authenticationResult = (OAuth2LoginAuthenticationToken) this.authenticate(authenticationRequest);
+        }
+        catch (OAuth2AuthorizationException oAuth2AuthorizationException)
+        {
+            OAuth2Error error = oAuth2AuthorizationException.getError();
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(authorizationRequest.getRedirectUri())
+                .queryParam("error", new Object[] { error.getErrorCode() });
+            if (!StringUtils.isEmpty(error.getDescription()))
+            {
+                uriBuilder.queryParam("error_description", new Object[] { error.getDescription() });
             }
-            if (!StringUtils.isEmpty(error.getUri())) {
-                uriBuilder.queryParam("error_uri", new Object[]{error.getUri()});
+            if (!StringUtils.isEmpty(error.getUri()))
+            {
+                uriBuilder.queryParam("error_uri", new Object[] { error.getUri() });
             }
-            this.redirectStrategy.sendRedirect(request, response, uriBuilder.build().encode().toString());
+            this.redirectStrategy.sendRedirect(request, response, uriBuilder.build()
+                .encode()
+                .toString());
             return;
         }
 
-        /**
-         * Add Authentication Result in Security Context and save the User
-         */
+        // Add Authentication Result in Security Context and save the User
         SecurityContextHolder.clearContext();
-        SecurityContextHolder.getContext().setAuthentication(authenticationResult);
-        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
-        String principalName = currentAuthentication != null ? currentAuthentication.getPrincipal().toString() : "anonymousUser";
+        SecurityContextHolder.getContext()
+            .setAuthentication(authenticationResult);
+        Authentication currentAuthentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        String principalName = currentAuthentication != null ? currentAuthentication.getPrincipal()
+            .toString() : "anonymousUser";
 
-        OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(authenticationResult.getClientRegistration(),
-            principalName, authenticationResult.getAccessToken(), authenticationResult.getRefreshToken());
+        OAuth2AuthorizedClient authorizedClient =
+            new OAuth2AuthorizedClient(authenticationResult.getClientRegistration(), principalName,
+                                       authenticationResult.getAccessToken(), authenticationResult.getRefreshToken());
         this.oauth2ClientService.saveAuthorizedClient(authorizedClient, currentAuthentication);
 
-        /**
-         * Save the Security Context in Session
-         */
+        // Save the Security Context in Session
         String redirectUrl = authorizationRequest.getRedirectUri();
 
-        /**
-         * Retrieve the Cached Page Request before authentication and now after Authentication redirect to the Page.
-         */
+        // Retrieve the Cached Page Request before authentication and now after Authentication redirect to the Page.
         SavedRequest savedRequest = this.requestCache.getRequest(request, response);
 
-        /**
-         * Retrieve the Cached Page Request before authentication and now after Authentication redirect to the Page.
-         */
+        // Retrieve the Cached Page Request before authentication and now after Authentication redirect to the Page.
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-            SecurityContextHolder.getContext());
+                             SecurityContextHolder.getContext());
 
         if (SecurityContextHolder.getContext() != null && !AuthenticationUtil.isAuthenticated(request))
         {
             this.onSuccess(request, response, session, authenticationResult);
         }
 
-        if (savedRequest != null) {
+        if (savedRequest != null)
+        {
             redirectUrl = savedRequest.getRedirectUrl();
             this.requestCache.removeRequest(request, response);
         }
@@ -557,55 +629,98 @@ public class AIMSFilter implements Filter
     /**
      * Performs the Authentication based on Authentication Request
      */
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        OAuth2LoginAuthenticationToken authorizationCodeAuthentication = (OAuth2LoginAuthenticationToken)authentication;
-        if (!authorizationCodeAuthentication.getAuthorizationExchange().getAuthorizationRequest().getScopes().contains("openid")) {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException
+    {
+        OAuth2LoginAuthenticationToken authorizationCodeAuthentication =
+            (OAuth2LoginAuthenticationToken) authentication;
+        if (!authorizationCodeAuthentication.getAuthorizationExchange()
+            .getAuthorizationRequest()
+            .getScopes()
+            .contains("openid"))
+        {
             return null;
-        } else {
-            OAuth2AuthorizationRequest authorizationRequest = authorizationCodeAuthentication.getAuthorizationExchange().getAuthorizationRequest();
-            OAuth2AuthorizationResponse authorizationResponse = authorizationCodeAuthentication.getAuthorizationExchange().getAuthorizationResponse();
-            if (authorizationResponse.statusError()) {
-                throw new OAuth2AuthenticationException(authorizationResponse.getError(), authorizationResponse.getError().toString());
-            } else if (!authorizationResponse.getState().equals(authorizationRequest.getState())) {
+        }
+        else
+        {
+            OAuth2AuthorizationRequest authorizationRequest = authorizationCodeAuthentication.getAuthorizationExchange()
+                .getAuthorizationRequest();
+            OAuth2AuthorizationResponse authorizationResponse =
+                authorizationCodeAuthentication.getAuthorizationExchange()
+                    .getAuthorizationResponse();
+            if (authorizationResponse.statusError())
+            {
+                throw new OAuth2AuthenticationException(authorizationResponse.getError(),
+                                                        authorizationResponse.getError()
+                                                            .toString());
+            }
+            else if (!authorizationResponse.getState()
+                .equals(authorizationRequest.getState()))
+            {
                 OAuth2Error oauth2Error = new OAuth2Error("invalid_state_parameter");
                 throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
-            } else {
+            }
+            else
+            {
                 OAuth2AccessTokenResponse accessTokenResponse;
-                try {
-                    accessTokenResponse = this.accessTokenResponseClient.getTokenResponse(new OAuth2AuthorizationCodeGrantRequest(authorizationCodeAuthentication.getClientRegistration(), authorizationCodeAuthentication.getAuthorizationExchange()));
-                } catch (OAuth2AuthorizationException var14) {
-                    OAuth2Error oauth2Error = var14.getError();
+                try
+                {
+                    accessTokenResponse = this.accessTokenResponseClient.getTokenResponse(
+                        new OAuth2AuthorizationCodeGrantRequest(authorizationCodeAuthentication.getClientRegistration(),
+                                                                authorizationCodeAuthentication.getAuthorizationExchange()));
+                }
+                catch (OAuth2AuthorizationException oAuth2AuthorizationException)
+                {
+                    OAuth2Error oauth2Error = oAuth2AuthorizationException.getError();
                     throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
                 }
 
                 ClientRegistration clientRegistration = authorizationCodeAuthentication.getClientRegistration();
                 Map<String, Object> additionalParameters = accessTokenResponse.getAdditionalParameters();
-                if (!additionalParameters.containsKey("id_token")) {
-                    OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_id_token", "Missing (required) ID Token in Token Response for Client Registration: " + clientRegistration.getRegistrationId(), (String)null);
+                if (!additionalParameters.containsKey("id_token"))
+                {
+                    OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_id_token",
+                                                                      "Missing (required) ID Token in Token Response for Client Registration: "
+                                                                          + clientRegistration.getRegistrationId(),
+                                                                      (String) null);
                     throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString());
-                } else {
+                }
+                else
+                {
                     OidcIdToken idToken = this.createOidcToken(clientRegistration, accessTokenResponse);
                     String requestNonce = authorizationRequest.getAttribute("nonce");
-                    if (requestNonce != null) {
+                    if (requestNonce != null)
+                    {
                         String nonceHash;
                         OAuth2Error oauth2Error;
-                        try {
+                        try
+                        {
                             nonceHash = createHash(requestNonce);
-                        } catch (NoSuchAlgorithmException var13) {
+                        }
+                        catch (NoSuchAlgorithmException noSuchAlgorithmException)
+                        {
                             oauth2Error = new OAuth2Error("invalid_nonce");
                             throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
                         }
 
                         String nonceHashClaim = idToken.getNonce();
-                        if (nonceHashClaim == null || !nonceHashClaim.equals(nonceHash)) {
+                        if (nonceHashClaim == null || !nonceHashClaim.equals(nonceHash))
+                        {
                             oauth2Error = new OAuth2Error("invalid_nonce");
                             throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
                         }
                     }
 
-                    OidcUser oidcUser = this.userService.loadUser(new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken, additionalParameters));
-                    Collection<? extends GrantedAuthority> mappedAuthorities = this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
-                    OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(authorizationCodeAuthentication.getClientRegistration(), authorizationCodeAuthentication.getAuthorizationExchange(), oidcUser, mappedAuthorities, accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
+                    OidcUser oidcUser = this.userService.loadUser(
+                        new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken,
+                                            additionalParameters));
+                    Collection<? extends GrantedAuthority> mappedAuthorities =
+                        this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
+                    OAuth2LoginAuthenticationToken authenticationResult =
+                        new OAuth2LoginAuthenticationToken(authorizationCodeAuthentication.getClientRegistration(),
+                                                           authorizationCodeAuthentication.getAuthorizationExchange(),
+                                                           oidcUser, mappedAuthorities,
+                                                           accessTokenResponse.getAccessToken(),
+                                                           accessTokenResponse.getRefreshToken());
                     authenticationResult.setDetails(authorizationCodeAuthentication.getDetails());
                     return authenticationResult;
                 }
@@ -613,81 +728,121 @@ public class AIMSFilter implements Filter
         }
     }
 
-    private OidcIdToken createOidcToken(ClientRegistration clientRegistration, OAuth2AccessTokenResponse accessTokenResponse) {
+    private OidcIdToken createOidcToken(ClientRegistration clientRegistration,
+                                        OAuth2AccessTokenResponse accessTokenResponse)
+        throws OAuth2AuthenticationException
+    {
         JwtDecoder jwtDecoder = this.jwtDecoderFactory.createDecoder(clientRegistration);
 
         Jwt jwt;
-        try {
-            jwt = jwtDecoder.decode((String)accessTokenResponse.getAdditionalParameters().get("id_token"));
-        } catch (JwtException var7) {
-            OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_id_token", var7.getMessage(), (String)null);
-            throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString(), var7);
+        try
+        {
+            jwt = jwtDecoder.decode((String) accessTokenResponse.getAdditionalParameters()
+                .get("id_token"));
+            OAuth2TokenValidatorResult oAuth2TokenValidatorResult =
+                validate(jwt, clientRegistration.getProviderDetails());
+            if (oAuth2TokenValidatorResult.hasErrors())
+            {
+                OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_issue_uri",
+                                                                  oAuth2TokenValidatorResult.getErrors()
+                                                                      .stream()
+                                                                      .filter(Objects::nonNull)
+                                                                      .findFirst()
+                                                                      .get()
+                                                                      .getDescription(), (String) null);
+                throw new OAuth2AuthenticationException(invalidIdTokenError);
+            }
+        }
+        catch (JwtException jwtException)
+        {
+            OAuth2Error invalidIdTokenError =
+                new OAuth2Error("invalid_id_token", jwtException.getMessage(), (String) null);
+            throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString(), jwtException);
         }
 
-        OidcIdToken idToken = new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(), jwt.getClaims());
+        OidcIdToken idToken =
+            new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(), jwt.getClaims());
         return idToken;
     }
 
-    static String createHash(String nonce) throws NoSuchAlgorithmException {
+    static String createHash(String nonce) throws NoSuchAlgorithmException
+    {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] digest = md.digest(nonce.getBytes(StandardCharsets.US_ASCII));
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
+        return Base64.getUrlEncoder()
+            .withoutPadding()
+            .encodeToString(digest);
     }
 
-    private void sendRedirectForAuthorization(HttpServletRequest request, HttpServletResponse response, OAuth2AuthorizationRequest authorizationRequest) throws IOException {
-        if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(authorizationRequest.getGrantType())) {
+    private void sendRedirectForAuthorization(HttpServletRequest request, HttpServletResponse response,
+                                              OAuth2AuthorizationRequest authorizationRequest) throws IOException
+    {
+        if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(authorizationRequest.getGrantType()))
+        {
             this.authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response);
         }
-        this.authorizationRedirectStrategy.sendRedirect(request, response, authorizationRequest.getAuthorizationRequestUri());
+        this.authorizationRedirectStrategy.sendRedirect(request, response,
+                                                        authorizationRequest.getAuthorizationRequestUri());
     }
 
-    private void unsuccessfulRedirectForAuthorization(HttpServletResponse response) throws IOException {
-        response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+    private void unsuccessfulRedirectForAuthorization(HttpServletResponse response) throws IOException
+    {
+        response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                           HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
     }
 
-    private synchronized void refreshToken(SecurityContext attribute, HttpSession session) {
-        OAuth2LoginAuthenticationToken oAuth2LoginAuthenticationToken = (OAuth2LoginAuthenticationToken)attribute.getAuthentication();
-        /**
-         * do something to get new access token
-         */
+    private synchronized void refreshToken(SecurityContext attribute, HttpSession session)
+        throws OAuth2AuthenticationException
+    {
+        OAuth2LoginAuthenticationToken oAuth2LoginAuthenticationToken =
+            (OAuth2LoginAuthenticationToken) attribute.getAuthentication();
+        // do something to get new access token
         ClientRegistration clientRegistration = oAuth2LoginAuthenticationToken.getClientRegistration();
-        /**
-         * Call Auth server token endpoint to refresh token.
-         */
-        OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest = new OAuth2RefreshTokenGrantRequest(
-            clientRegistration, oAuth2LoginAuthenticationToken.getAccessToken(), oAuth2LoginAuthenticationToken.getRefreshToken());
-        OAuth2AccessTokenResponse accessTokenResponse = this.refreshTokenResponseClient
-            .getTokenResponse(refreshTokenGrantRequest);
-        /**
-         * Convert id_token to OidcToken.
-         */
-        OidcIdToken idToken = createOidcToken(clientRegistration, accessTokenResponse);
-        /**
-         * Since I have already implemented a custom OidcUserService, reuse existing
-         * code to get new user.
-         */
-        OidcUser oidcUser = this.userService.loadUser(new OidcUserRequest(clientRegistration,
-            accessTokenResponse.getAccessToken(), idToken, accessTokenResponse.getAdditionalParameters()));
+        // Call Auth server token endpoint to refresh token.
+        OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest =
+            new OAuth2RefreshTokenGrantRequest(clientRegistration, oAuth2LoginAuthenticationToken.getAccessToken(),
+                                               oAuth2LoginAuthenticationToken.getRefreshToken());
+        OAuth2AccessTokenResponse accessTokenResponse =
+            this.refreshTokenResponseClient.getTokenResponse(refreshTokenGrantRequest);
+        // Convert id_token to OidcToken.
+        OidcIdToken idToken = this.createOidcToken(clientRegistration, accessTokenResponse);
+        // Since I have already implemented a custom OidcUserService, reuse existing code to get new user.
+        OidcUser oidcUser = this.userService.loadUser(
+            new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken,
+                                accessTokenResponse.getAdditionalParameters()));
 
-        /**
-         * Create new authentication(OAuth2LoginAuthenticationToken).
-         */
-        Collection<? extends GrantedAuthority> mappedAuthorities = this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
-        OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(clientRegistration, oAuth2LoginAuthenticationToken.getAuthorizationExchange(),
-            oidcUser, mappedAuthorities, accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
+        // Create new authentication(OAuth2LoginAuthenticationToken).
+        Collection<? extends GrantedAuthority> mappedAuthorities =
+            this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
+        OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(clientRegistration,
+                                                                                                 oAuth2LoginAuthenticationToken.getAuthorizationExchange(),
+                                                                                                 oidcUser,
+                                                                                                 mappedAuthorities,
+                                                                                                 accessTokenResponse.getAccessToken(),
+                                                                                                 accessTokenResponse.getRefreshToken());
         authenticationResult.setDetails(oAuth2LoginAuthenticationToken.getDetails());
-        /**
-         * Update access_token and refresh_token by saving new authorized client.
-         */
-        OAuth2AuthorizedClient updatedAuthorizedClient = new OAuth2AuthorizedClient(clientRegistration,
-            oAuth2LoginAuthenticationToken.getName(), accessTokenResponse.getAccessToken(),
-            accessTokenResponse.getRefreshToken());
+        // Update access_token and refresh_token by saving new authorized client.
+        OAuth2AuthorizedClient updatedAuthorizedClient =
+            new OAuth2AuthorizedClient(clientRegistration, oAuth2LoginAuthenticationToken.getName(),
+                                       accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
         this.oauth2ClientService.saveAuthorizedClient(updatedAuthorizedClient, authenticationResult);
-        /**
-         * Set new authentication in SecurityContextHolder.
-         */
+        // Set new authentication in SecurityContextHolder.
         attribute.setAuthentication(authenticationResult);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-            attribute);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, attribute);
+    }
+
+    public OAuth2TokenValidatorResult validate(Jwt token, ClientRegistration.ProviderDetails providerDetails)
+    {
+        Object issuer = token.getClaim(JwtClaimNames.ISS);
+        String requiredIssuer = providerDetails.getIssuerUri();
+        if (issuer != null && requiredIssuer.equals(issuer.toString()))
+        {
+            return OAuth2TokenValidatorResult.success();
+        }
+
+        final OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN,
+                                                  "The iss claim is not valid. Expected " + requiredIssuer + " but got "
+                                                      + issuer, "https://tools.ietf.org/html/rfc6750#section-3.1");
+        return OAuth2TokenValidatorResult.failure(error);
     }
 }
