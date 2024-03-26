@@ -73,6 +73,10 @@
          <action name="activiti-start-process"/>
       </group>
       <group>
+         <action name="apply-security-marks"/>
+         <action name="remove-security-marks"/>
+      </group>
+      <group>
          <action name="*"/>
       </group>
    </menu>
