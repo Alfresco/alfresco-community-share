@@ -49,11 +49,11 @@
       SlingshotUserFactory slingshotUserFactory =
               (SlingshotUserFactory) FrameworkUtil.getServiceRegistry().getUserFactory();
       String userHomePage = slingshotUserFactory.getUserHomePage(context, userid);
-      response.sendRedirect(request.getContextPath() + Encode.forHtml(userHomePage));
+      response.sendRedirect(Encode.forHtml(request.getContextPath() + userHomePage));
    }
    else
    {
       // forward to site specific dashboard page
-      response.sendRedirect(request.getContextPath() + Encode.forHtml("/page/site/" + siteName));
+      response.sendRedirect(Encode.forHtml(request.getContextPath() + "/page/site/" + siteName));
    }
 %>
