@@ -26,6 +26,7 @@
 <%@ page import="org.alfresco.web.site.*" %>
 <%@ page import="org.springframework.extensions.webscripts.ui.common.StringUtils" %>
 <%@ page import="org.apache.commons.logging.LogFactory" %>
+<%@ page import="org.owasp.encoder.Encode" %>
 <%
    String dashboardPath = "";
    // try retrieving user name from the session
@@ -150,7 +151,7 @@ div.alf-error-detail p
       <div class="alf-error-detail">
 	        <%= messages.getString("page.error.500.detail")%>
             <div class="alf-error-nav">
-                <a class="alf-primary-button" href="${pageContext.request.contextPath}<%=dashboardPath%>"><%= messages.getString("page.error.500.nav.dashboard")%></a>
+                <a class="alf-primary-button" href="${pageContext.request.contextPath}<%=Encode.forHtml(dashboardPath)%>"><%= messages.getString("page.error.500.nav.dashboard")%></a>
             </div>
       </div>
       <div class="alf-error-footer">
