@@ -131,9 +131,9 @@ jobs:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
