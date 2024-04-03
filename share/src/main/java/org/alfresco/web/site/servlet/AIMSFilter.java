@@ -28,6 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.owasp.encoder.Encode;
 import org.springframework.context.ApplicationContext;
 import org.springframework.extensions.surf.FrameworkUtil;
 import org.springframework.extensions.surf.RequestContext;
@@ -552,7 +553,7 @@ public class AIMSFilter implements Filter
             redirectUrl = savedRequest.getRedirectUrl();
             this.requestCache.removeRequest(request, response);
         }
-        this.redirectStrategy.sendRedirect(request, response, redirectUrl);
+        this.redirectStrategy.sendRedirect(request, response, Encode.forJava(redirectUrl));
     }
 
     /**
