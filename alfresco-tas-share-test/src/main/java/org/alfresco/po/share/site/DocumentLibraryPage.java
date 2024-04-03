@@ -35,6 +35,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 @Slf4j
@@ -43,6 +44,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
+        PageFactory.initElements(getWebDriver(),this);
     }
 
     //todo: move to separate file
@@ -795,6 +797,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public String getDocumentListMessage()
     {
+        waitInSeconds(2);
         return documentList.getText();
     }
 
@@ -847,6 +850,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public void clickRenameIcon(String contentName)
     {
+        mouseOverContentName(contentName);
         WebElement renameIconElement = selectDocumentLibraryItemRow(contentName).findElement(renameIcon);
         renameIconElement.click();
         waitUntilElementIsVisible(contentNameInputField);
