@@ -55,7 +55,7 @@ env:
   AGS_AWS_ACCESS_KEY_ID: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
   AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-  GITHUB_ACTIONS_DEPLOY_TIMEOUT: 90
+  GITHUB_ACTIONS_DEPLOY_TIMEOUT: 120
   SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
 
 jobs:
@@ -131,6 +131,7 @@ jobs:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
