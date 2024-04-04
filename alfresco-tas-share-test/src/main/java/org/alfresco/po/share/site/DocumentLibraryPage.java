@@ -17,8 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.UploadFileDialog;
-import org.alfresco.po.share.site.dataLists.CreateDataListDialog;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -27,12 +25,7 @@ import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
 import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
@@ -356,6 +349,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         waitInSeconds(3);
         try
         {
+            waitInSeconds(3);
             waitForContent(contentName);
             return true;
         }
@@ -675,6 +669,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public boolean isActionAvailableForLibraryItem(String libraryItem, ItemActions action)
     {
+        waitInSeconds(3);
         return isElementDisplayed(
             findFirstElementWithValue(getAvailableActions(libraryItem), action.getActionName()));
     }
@@ -1180,10 +1175,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public String switchToNewWindowAngGetContent()
     {
         String content = null;
-
+        waitInSeconds(3);
         if (!getWindowHandles().isEmpty())
         {
-            switchWindow(1);
+         //   switchWindow(1);
+            Alert alert = webDriver.get().switchTo().alert();
+            alert.accept();
             content = findElement(By.xpath("//body")).getText();
             closeWindowAndSwitchBack();
         }
@@ -1263,9 +1260,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         WebElement fileElement = selectDocumentLibraryItemRow(fileName);
         Parameter.checkIsMandotary("Document library file", fileElement);
-        WebElement bannerElement = waitUntilChildElementIsPresent(fileElement, infoBanner);
-        Parameter.checkIsMandotary("File banner", bannerElement);
-        return bannerElement.getText();
+        waitInSeconds(3);
+        Parameter.checkIsMandotary("File banner", findElement(infoBanner));
+        return findElement(infoBanner).getText();
     }
 
     /**
@@ -1274,6 +1271,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public boolean isInfoBannerDisplayed(String fileName)
     {
+        waitInSeconds(5);
         return isElementDisplayed(selectDocumentLibraryItemRow(fileName), infoBanner);
     }
 

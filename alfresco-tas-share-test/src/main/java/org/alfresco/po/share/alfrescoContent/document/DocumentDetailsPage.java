@@ -4,13 +4,10 @@ import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Wait;
 import org.alfresco.po.share.SharePage2;
@@ -21,7 +18,6 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
