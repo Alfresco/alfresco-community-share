@@ -32,6 +32,7 @@ public class ToolbarTasksMenu extends BasePage
 
     public MyTasksPage clickMyTasks()
     {
+        waitInSeconds(3);
         clickElement(myTasks);
         return new MyTasksPage(webDriver);
     }
