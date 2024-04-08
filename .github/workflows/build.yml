@@ -121,6 +121,7 @@ jobs:
       (github.event.repository.fork==false)
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - uses: azure/setup-kubectl@v2.0
@@ -154,6 +155,7 @@ jobs:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - name: Setup Python
@@ -213,6 +215,7 @@ jobs:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - name: Setup Python
@@ -294,6 +297,7 @@ jobs:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - name: Setup Python
@@ -384,6 +388,7 @@ jobs:
       github.event.repository.fork == false
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - uses: azure/setup-kubectl@v2.0
