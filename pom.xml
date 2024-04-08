@@ -50,7 +50,7 @@
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <!-- common dependencies-->
-        <dependency.spring.version>5.3.18</dependency.spring.version>
+        <dependency.spring.version>5.3.33</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.0.127</dependency.aikau.version>
@@ -59,7 +59,7 @@
         <dependency.httpcomponents.version>4.5.13</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
-        <dependency.webscripts.version>8.47</dependency.webscripts.version>
+        <dependency.webscripts.version>8.49</dependency.webscripts.version>
         <dependency.surf.version>8.33</dependency.surf.version>
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
@@ -73,7 +73,7 @@
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.json-smart.version>2.5.0</dependency.json-smart.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
-        <spring.security.version>5.7.5</spring.security.version>
+        <spring.security.version>5.8.11</spring.security.version>
 
         <alfresco.googledrive.version>3.4.2</alfresco.googledrive.version>
 
