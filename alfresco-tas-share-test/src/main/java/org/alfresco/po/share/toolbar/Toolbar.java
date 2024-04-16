@@ -142,6 +142,7 @@ public class Toolbar extends BasePage
     public ToolbarTasksMenu clickTasks()
     {
         log.info("Click Tasks");
+        waitInSeconds(3);
         clickElement(tasksLink);
         return new ToolbarTasksMenu(webDriver);
     }
