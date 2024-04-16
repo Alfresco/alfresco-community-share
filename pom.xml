@@ -30,8 +30,8 @@
         <version.revision>1</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
-        <dependency.alfresco-community-repo.version>19.3</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>19.4</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>19.4</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>19.5</dependency.alfresco-enterprise-repo.version>
         <dependency.alfresco-transform-service.version>4.1.1</dependency.alfresco-transform-service.version>
         <dependency.alfresco-transform-core.version>5.1.1</dependency.alfresco-transform-core.version>
         <alfresco.api-explorer.version>7.3.0</alfresco.api-explorer.version>
