@@ -1230,6 +1230,7 @@ public abstract class WebElementInteraction
 
     public String getPageTitle()
     {
+        waitInSeconds(5);
         return getWebDriver().getTitle();
     }
 
