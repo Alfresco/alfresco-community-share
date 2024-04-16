@@ -9,25 +9,16 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentAspects;
-import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SmartFolders;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
-import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.link.CreateLinkPage;
-import org.alfresco.po.share.site.wiki.WikiListPage;
-import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.BaseTest;
-import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -36,7 +27,9 @@ import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 @Slf4j
 public class UsingSmartFoldersTests extends BaseTest
