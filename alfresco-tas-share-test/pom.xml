@@ -5,7 +5,7 @@
    <parent>
       <groupId>org.alfresco</groupId>
       <artifactId>alfresco-share-parent</artifactId>
-      <version>23.3.0.18-SNAPSHOT</version>
+      <version>23.3.0.24-SNAPSHOT</version>
    </parent>
 
    <groupId>org.alfresco.tas</groupId>
@@ -48,7 +48,7 @@
       <dependency>
          <groupId>io.github.bonigarcia</groupId>
          <artifactId>webdrivermanager</artifactId>
-         <version>5.6.4</version>
+         <version>5.7.0</version>
       </dependency>
       <dependency>
          <groupId>org.projectlombok</groupId>
@@ -207,6 +207,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.0.0-M7</version>
             <configuration>
+               <redirectTestOutputToFile>false</redirectTestOutputToFile>
                <forkCount>2</forkCount>
                <reuseForks>true</reuseForks>
                <reportNameSuffix>${suite-name}</reportNameSuffix>
