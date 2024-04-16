@@ -19,6 +19,7 @@ public class CreateContentPage extends SharePage2<CreateContentPage>
     private final By nameInputIsMandatoryMarker = By.cssSelector("label[for$='default_prop_cm_name'] .mandatory-indicator");
     private final By submitButton = By.cssSelector("button[id$='submit-button']");
     private final By cancelButton = By.cssSelector("button[id*='form-cancel-button']");
+    private final By createButton = By.id("template_x002e_create-content_x002e_create-content_x0023_default-form-submit-button");
 
     public CreateContentPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -78,7 +79,7 @@ public class CreateContentPage extends SharePage2<CreateContentPage>
 
     public DocumentDetailsPage clickCreate()
     {
-        waitUntilElementIsVisible(submitButton);
+        waitInSeconds(3);
         clickElement(submitButton);
         return new DocumentDetailsPage(webDriver);
     }
@@ -96,5 +97,12 @@ public class CreateContentPage extends SharePage2<CreateContentPage>
         tinyMceEditor.setText(inputHTMLContent);
         focusOnWebElement(findElement(nameField));
         return this;
+    }
+
+    public void clickCreateButton()
+    {
+        waitInSeconds(3);
+        scrollToElement(findElement(createButton));
+        findElement(createButton).click();
     }
 }

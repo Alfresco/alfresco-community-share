@@ -36,10 +36,8 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
     @FindBy (css = "textarea[id*='description']")
     private WebElement descriptionTextarea;
 
-    @FindBy (css = "button[id*='form']")
-    private List<WebElement> buttonsList;
-
     private By saveButton = By.cssSelector("button[id*='submit']");
+    private By buttonsList = By.cssSelector("button[id*='form']");
 
     public EditInAlfrescoPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -54,12 +52,14 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
     public DocumentLibraryPage clickButton(String buttonName)
     {
-        findFirstElementWithValue(buttonsList, buttonName);
+        waitInSeconds(3);
+        findFirstElementWithValue(findElements(buttonsList), buttonName);
         return new DocumentLibraryPage(webDriver);
     }
 
     public DocumentLibraryPage clickSaveButton()
     {
+        waitInSeconds(2);
         log.info("Click Save button");
         clickElement(saveButton);
         return new DocumentLibraryPage(webDriver);
