@@ -144,6 +144,7 @@
             <version>3.0.0-M7</version>
             <configuration>
                <forkCount>2</forkCount>
+               <redirectTestOutputToFile>false</redirectTestOutputToFile>
                <reuseForks>true</reuseForks>
                <reportNameSuffix>${suite-name}</reportNameSuffix>
               <suiteXmlFiles>

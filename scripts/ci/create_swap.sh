@@ -10,5 +10,6 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 sudo free -m -t
+sudo swapoff -a
 sudo swapon --show
 free -h
