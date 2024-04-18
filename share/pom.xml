@@ -270,6 +270,10 @@
                     <groupId>*</groupId>
                     <artifactId>spring-surf-api</artifactId>
                 </exclusion>
+                <exclusion>
+                  <groupId>com.google.protobuf</groupId>
+                  <artifactId>protobuf-java</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
