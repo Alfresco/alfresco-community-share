@@ -64,6 +64,27 @@
          <groupId>org.alfresco.tas</groupId>
          <artifactId>utility</artifactId>
          <version>${tas.utility.version}</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-web</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>com.google.guava</groupId>
+                  <artifactId>guava</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+       <dependency>
+           <groupId>com.google.guava</groupId>
+           <artifactId>guava</artifactId>
+           <version>32.1.1-jre</version>
+       </dependency>
+
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-web</artifactId>
+           <version>5.3.33</version>
       </dependency>
 
       <dependency>

@@ -216,7 +216,7 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-spring</artifactId>
-            <version>3.12.6</version>
+            <version>3.12.13</version>
             <exclusions>
                 <exclusion>
                     <artifactId>hazelcast-client</artifactId>
@@ -269,6 +269,10 @@
                 <exclusion>
                     <groupId>*</groupId>
                     <artifactId>spring-surf-api</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>com.google.protobuf</groupId>
+                  <artifactId>protobuf-java</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
