@@ -103,8 +103,8 @@ jobs:
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.stage }}
         if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
-        run: |
-          bash scripts/ci/${{ matrix.stage }}.sh
+        run: bash scripts/ci/${{ matrix.stage }}.sh
+
 
   pmd_scan:
     name: "PMD Scan"
