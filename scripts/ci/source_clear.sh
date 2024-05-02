@@ -5,7 +5,7 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set +e -v -x
 pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
-mvn -B -q clean install \
+mvn -B -q clean install -pl "!alfresco-tas-share-test"\
     -DskipTests \
     -Dmaven.javadoc.skip=true \
     com.srcclr:srcclr-maven-plugin:scan \
