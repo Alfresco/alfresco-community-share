@@ -6,12 +6,12 @@
 # Verifies that files passed in are valid for docker-compose
 set -e
 
-if command -v docker-compose &> /dev/null ; then
-    COMPOSE=docker-compose
+if command -v docker compose &> /dev/null ; then
+    COMPOSE=docker compose
 elif command -v docker &> /dev/null && docker help compose &> /dev/null; then
     COMPOSE=docker compose
 else
-    echo "ERROR: Neither 'docker-compose' or 'docker compose' were found"
+    echo "ERROR: Neither 'docker compose' or 'docker compose' were found"
     exit 1
 fi
 
