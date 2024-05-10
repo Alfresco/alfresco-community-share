@@ -6,8 +6,8 @@
 # Verifies that files passed in are valid for docker-compose
 set -e
 
-if command -v docker-compose &> /dev/null ; then
-    COMPOSE=docker-compose
+if command -v docker compose &> /dev/null ; then
+    COMPOSE=docker compose
 elif command -v docker &> /dev/null && docker help compose &> /dev/null; then
     COMPOSE=docker compose
 else
@@ -22,7 +22,7 @@ check_file() {
     if [[ -f "$dir/.env" ]]; then
         env_instruction="--env-file $dir/.env"
     fi
-    env $COMPOSE --file "$file" $env_instruction config --quiet 2>&1 \
+    env $COMPOSE -f "$file" $env_instruction config --quiet 2>&1 \
         | sed "/variable is not set. Defaulting/d"
     return "${PIPESTATUS[0]}"
 }
