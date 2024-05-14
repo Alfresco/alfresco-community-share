@@ -101,6 +101,10 @@ jobs:
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/ci/build.sh
+      - name: Run ${{ matrix.stage }}
+        if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
+        run: bash scripts/ci/${{ matrix.stage }}.sh
+        continue-on-error: true
 
   pmd_scan:
     name: "PMD Scan"

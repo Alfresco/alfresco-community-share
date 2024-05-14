@@ -328,12 +328,23 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-servlet-filter-adapter</artifactId>
+            <exclusions>
+              <exclusion>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
-        <!-- APPS-480 -->
+        <dependency>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk18on</artifactId>
+          <version>1.78.1</version>
+        </dependency>
+      <!-- APPS-480 -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.69</version>
+            <version>1.70</version>
         </dependency>
     </dependencies>
 
