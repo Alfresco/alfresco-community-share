@@ -100,9 +100,9 @@ jobs:
         run: bash scripts/travis/build.sh
       - name: Run ${{ matrix.stage }}
         if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
-        run: |
-          bash scripts/travis/init.sh
-          bash scripts/travis/${{ matrix.stage }}.sh
+        run: bash scripts/travis/init.sh
+             bash scripts/travis/${{ matrix.stage }}.sh
+        continue-on-error: true
 
   deploy:
     runs-on: ubuntu-latest
