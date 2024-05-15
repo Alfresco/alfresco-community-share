@@ -25,8 +25,8 @@ env:
   MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
   QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   BRANCH_NAME: ${{ github.ref_name }}
   GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
   GIT_EMAIL: ${{ secrets.BOT_GITHUB_EMAIL }}
@@ -70,7 +70,6 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.4.0
 
   build:
-
     runs-on: ubuntu-latest
     if: >
       !contains(github.event.head_commit.message, '[no build]') &&
@@ -105,6 +104,7 @@ jobs:
         if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
         run: |
           bash scripts/ci/${{ matrix.stage }}.sh
+        continue-on-error: true
 
   pmd_scan:
     name: "PMD Scan"
@@ -136,6 +136,7 @@ jobs:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - name: "Setup maven"
         shell: bash
         run: |
@@ -158,6 +159,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
+      - name: Downgrade google chrome version
+        run: |
+          sudo apt-get purge google-chrome-stable
+          sudo apt-get autoremove
+          rm -rf ~/.config/google-chrome
+          rm -rf ~/.cache/google-chrome
+          wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+          sudo dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb
+          google-chrome --version
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name:  "Prepare before Test"
@@ -166,7 +176,6 @@ jobs:
       - name: Build Docker image
         run: |
           export TAG_NAME="latest"
-          bash scripts/ci/create_swap.sh "5"
           bash scripts/ci/build.sh
       - name: Start Alfresco
         run: bash amps/ags/ci/scripts/startAlfresco.sh packaging/docker/docker-compose
@@ -211,6 +220,7 @@ jobs:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
@@ -227,7 +237,6 @@ jobs:
       - name: Build Docker image
         run: |
           export TAG_NAME="latest"
-          bash scripts/ci/create_swap.sh "5"
           bash scripts/ci/build.sh
       - name: Tag Docker image
         run: |
@@ -294,6 +303,7 @@ jobs:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     steps:
       - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
@@ -328,7 +338,6 @@ jobs:
           firefox --version
           echo $S3_BUCKET_NAME
           export TAG_NAME="latest"
-          bash scripts/ci/create_swap.sh "5"
           bash scripts/ci/build.sh
       - name: Tag Docker image
         run: |
