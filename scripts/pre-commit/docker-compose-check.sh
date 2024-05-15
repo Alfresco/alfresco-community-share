@@ -22,12 +22,12 @@ check_file() {
     if [[ -f "$dir/.env" ]]; then
         env_instruction="--env-file $dir/.env"
     fi
-    env $COMPOSE -f "$file" $env_instruction config --quiet 2>&1 \
+    env $COMPOSE --file "$file" $env_instruction config --quiet 2>&1 \
         | sed "/variable is not set. Defaulting/d"
     return "${PIPESTATUS[0]}"
 }
 
-check_files() {
+check_Files() {
     local all_files=( "$@" )
     has_error=0
     for file in "${all_files[@]}" ; do
