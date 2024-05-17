@@ -64,7 +64,7 @@
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.keycloak.version>24.0.4</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.12.7.1</dependency.jackson.version>
+        <dependency.jackson.version>2.13.5</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
