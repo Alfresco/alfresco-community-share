@@ -25,7 +25,7 @@
 <%@ page import="org.springframework.extensions.surf.site.*" %>
 <%@ page import="org.springframework.extensions.surf.util.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="org.owasp.encoder.Encode" %>
+<%@ page import="org.owasp.esapi.ESAPI" %>
 <%
    // retrieve user name from the session
    String userid = (String)session.getAttribute(SlingshotUserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
@@ -45,12 +45,18 @@
       // Get and forward to user's home page
       SlingshotUserFactory slingshotUserFactory =
               (SlingshotUserFactory) FrameworkUtil.getServiceRegistry().getUserFactory();
-      String userHomePage = slingshotUserFactory.getUserHomePage(context, userid);
-      response.sendRedirect(Encode.forHtml(request.getContextPath() + userHomePage));
+     String userHomePage = slingshotUserFactory.getUserHomePage(context, userid);
+     String target = request.getContextPath() + userHomePage;
+     ESAPI.httpUtilities().getCurrentRequest();
+     ESAPI.httpUtilities().sendRedirect(target);
+     ESAPI.httpUtilities().clearCurrent();
    }
    else
    {
-      // forward to site specific dashboard page
-      response.sendRedirect(Encode.forHtml(request.getContextPath() + "/page/site/" + siteName));
+     // forward to site specific dashboard page
+     String target = request.getContextPath() + "/page/site/" + URLEncoder.encode(siteName);
+     ESAPI.httpUtilities().getCurrentRequest();
+     ESAPI.httpUtilities().sendRedirect(target);
+     ESAPI.httpUtilities().clearCurrent();
    }
 %>
