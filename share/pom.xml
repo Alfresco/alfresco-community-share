@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>23.3.0.25-SNAPSHOT</version>
+        <version>23.3.0.37-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -347,7 +347,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.77</version>
+            <version>1.78</version>
         </dependency>
 
       <!-- APPS-1856 -->
