@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>23.3.0.25-SNAPSHOT</version>
+        <version>23.3.0.38-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -46,7 +46,16 @@
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
                 </exclusion>
+                <exclusion>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-web</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-web</artifactId>
+          <version>${dependency.spring.version}</version>
         </dependency>
         <dependency>
             <groupId>jaxen</groupId>
