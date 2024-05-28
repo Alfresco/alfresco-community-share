@@ -675,11 +675,27 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return itemRow.findElements(actionsSet);
     }
 
+    private List<WebElement> get_AvailableActions(String libraryItem)
+    {
+        WebElement itemRow = mouseOverContentItem(libraryItem);
+        if (isElementDisplayed(moreActionsMenu)){
+            clickOnMoreActions(itemRow);
+        }
+        return itemRow.findElements(actionsSet);
+    }
+
     public boolean isActionAvailableForLibraryItem(String libraryItem, ItemActions action)
     {
         waitInSeconds(3);
         return isElementDisplayed(
             findFirstElementWithValue(getAvailableActions(libraryItem), action.getActionName()));
+    }
+
+    public boolean checkActionAvailableForLibraryItem(String libraryItem, ItemActions action)
+    {
+        waitInSeconds(3);
+        return isElementDisplayed(
+            findFirstElementWithValue(get_AvailableActions(libraryItem), action.getActionName()));
     }
 
     public boolean areActionsAvailableForLibraryItem(String libraryItem, List<String> actions)
