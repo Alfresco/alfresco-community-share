@@ -828,7 +828,7 @@ public abstract class WebElementInteraction
         {
             return element.isDisplayed();
         }
-        catch (NoSuchElementException | TimeoutException | StaleElementReferenceException nse)
+        catch (NullPointerException | NoSuchElementException | TimeoutException | StaleElementReferenceException nse)
         {
             log.info("Element located by {} is not displayed ", element);
         }
@@ -841,7 +841,7 @@ public abstract class WebElementInteraction
         {
             return element.findElement(locator).isDisplayed();
         }
-        catch (NoSuchElementException | TimeoutException | StaleElementReferenceException nse)
+        catch (NullPointerException |NoSuchElementException | TimeoutException | StaleElementReferenceException nse)
         {
             log.info("Element located by {} is not displayed", locator);
         }

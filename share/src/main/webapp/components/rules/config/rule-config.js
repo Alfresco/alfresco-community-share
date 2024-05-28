@@ -64,6 +64,7 @@
    * Alias to self
    */
    var RC = Alfresco.RuleConfig;
+   var excludedMenuItems = ["apply-security-marks"];
 
    /**
    * View Mode Constants
@@ -619,9 +620,12 @@
                               menuItemKey = menuItem.type + "_" + menuItem.id;
                               if (!alreadyAdded[menuItemKey])
                               {
-                                 // Add item if it hasn't already been used
-                                 itemOpt["_menuItems"].push(menuItem);
-                                 alreadyAdded[menuItemKey] = true;
+								if (!excludedMenuItems.includes(menuItem.id))
+							    {
+                                   // Add item if it hasn't already been used
+                                   itemOpt["_menuItems"].push(menuItem);
+                                   alreadyAdded[menuItemKey] = true;
+								}
                               }
                               if (!this._configDefs[menuItemKey])
                               {
