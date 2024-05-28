@@ -6,8 +6,8 @@
 # Verifies that files passed in are valid for docker-compose
 set -e
 
-if command -v docker-compose &> /dev/null ; then
-    COMPOSE=docker-compose
+if command -v docker compose &> /dev/null ; then
+    COMPOSE=docker compose
 elif command -v docker &> /dev/null && docker help compose &> /dev/null; then
     COMPOSE=docker compose
 else
@@ -27,7 +27,7 @@ check_file() {
     return "${PIPESTATUS[0]}"
 }
 
-check_files() {
+check_Files() {
     local all_files=( "$@" )
     has_error=0
     for file in "${all_files[@]}" ; do
