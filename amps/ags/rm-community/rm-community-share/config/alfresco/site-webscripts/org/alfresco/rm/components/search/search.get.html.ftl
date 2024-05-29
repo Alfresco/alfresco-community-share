@@ -24,7 +24,7 @@
  along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  #L%
 -->
-<#assign el=args.htmlid>
+<#assign el=args.htmlid?html>
 <script type="text/javascript">//<![CDATA[
    new Alfresco.rm.component.PropertyMenu('${el}-insertfield').setOptions(
    {
