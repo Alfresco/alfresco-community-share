@@ -19,7 +19,7 @@
    
    <@markup id="html">
       <@uniqueIdDiv>
-         <#assign id=args.htmlid>
+         <#assign id=args.htmlid?html>
          <div id="${id}-body" class="permissions">
             <div id="${id}-authorityFinder" class="authority-finder-container"></div>
             <div id="${id}-headerBar" class="header-bar flat-button">
