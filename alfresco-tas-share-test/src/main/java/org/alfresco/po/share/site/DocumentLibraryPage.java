@@ -1686,5 +1686,52 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      assertTrue(isNoTagsTextDisplayed(contentName), "Tag is still displayed.");
      return this;
     }
+
+    private List<WebElement> getAvailableConsumerActions(String libraryItem)
+    {
+        WebElement itemRow = mouseOverContentItem(libraryItem);
+        return itemRow.findElements(actionsSet);
+    }
+
+
+    public boolean isActionAvailableForConsumerLibraryItem(String libraryItem, ItemActions action)
+    {
+        waitInSeconds(4);
+        return isElementDisplayed(
+            findFirstElementWithValue(getAvailableConsumerActions(libraryItem), action.getActionName()));
+    }
+
+    public void selectConsumerItemAction(String contentItem, ItemActions action)
+    {
+        waitInSeconds(3);
+        WebElement libraryItem = mouseOverContentItem(contentItem);
+        By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
+        WebElement actionElement;
+
+        try
+        {
+            actionElement = waitUntilElementIsVisible(actionSelector);
+        }
+        catch (TimeoutException timeoutException)
+        {
+            throw new TimeoutException(
+                "The action " + action.getActionName() + " could not be found for list item " + contentItem);
+        }
+
+        mouseOver(actionElement);
+        clickElement(actionElement);
+    }
+
+    public void browserRefresh() {
+        waitInSeconds(12);
+        refresh();
+    }
+
+    public DocumentLibraryPage clickDocumentsConsumerFilterOption(String filter)
+    {
+        findFirstElementWithValue(documentsFilterOptions, filter).click();
+        waitInSeconds(10);
+        return this;
+    }
 }
 
