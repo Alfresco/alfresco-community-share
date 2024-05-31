@@ -122,6 +122,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     //@FindAll(@FindBy(css = ".crumb .folder")) private List<WebElement> breadcrumbList;
     private List<WebElement> breadcrumbList = findElements((By.xpath("//div[contains(@class, 'crumb')]/a[@class='folder']")));
     //@FindBy(css = ".crumb .label a") private WebElement breadcumbCurrentFolder;
+    private By breadcrumbList1 = By.xpath("//div[contains(@class, 'crumb')]/a[@class='folder']");
     private By breadcumbCurrentFolder = By.cssSelector(".crumb .label a");
     @FindBy(css = "button[id*='folderUp']") private WebElement folderUpButton;
     private By contentNameInputField = By.cssSelector("input[id*='form-field']");
@@ -144,7 +145,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     @FindBy(css = "button[id*='_default-sortAscending-button-button']") private WebElement sortButton;
     @FindBy(css = "button[id*='_default-sortField-button-button']") private WebElement sortByFieldButton;
     @FindBy(css = "span.yui-pg-current") private WebElement currentPage;
-    @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel")) private List<WebElement> explorerPanelDocumentsList;
+    @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel")) public List<WebElement> explorerPanelDocumentsList;
     @FindBy(css = ".yui-dt-col-fileName") private List<WebElement> nrOfSharedElements;
 
     private By renameIcon = By.cssSelector(".filename span.insitu-edit[style*='visibility: visible']");
@@ -628,6 +629,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public DocumentLibraryPage clickFolderFromExplorerPanel(String folderName)
     {
+        waitInSeconds(2);
         WebElement folder = waitUntilElementIsVisible(
             findFirstElementWithExactValue(explorerPanelDocumentsList, folderName));
         folder.click();
@@ -1732,6 +1734,15 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         findFirstElementWithValue(documentsFilterOptions, filter).click();
         waitInSeconds(10);
         return this;
+    }
+
+    public String getBreadcrumb()
+    {
+        waitInSeconds(1);
+        ArrayList<String> breadcrumbTextList = new ArrayList<>();
+        breadcrumbTextList.add(findElement(breadcrumbList1).getText());
+        breadcrumbTextList.add(findElement(breadcumbCurrentFolder).getText());
+        return breadcrumbTextList.toString();
     }
 }
 
