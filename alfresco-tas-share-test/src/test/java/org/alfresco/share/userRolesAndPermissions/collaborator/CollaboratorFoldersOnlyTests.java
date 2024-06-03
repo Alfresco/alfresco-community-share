@@ -46,13 +46,9 @@ public class CollaboratorFoldersOnlyTests extends BaseTest
     private final String subFolderName = "subFolder-" + uniqueId;
     private final String tag = "tag-" + uniqueId.toLowerCase();
     private final String title = "Title-" + uniqueId;
-    // @Autowired
     private DocumentsFilters documentsFilters;
-    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    //@Autowired
     private NewFolderDialog newFolderDialog;
-    //@Autowired
     private ManageRulesPage manageRulesPage;
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
