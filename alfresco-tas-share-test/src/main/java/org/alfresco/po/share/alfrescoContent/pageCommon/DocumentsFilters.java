@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
 import static org.testng.Assert.assertTrue;
 public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 {
@@ -72,6 +74,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
     public DocumentsFilters(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
+        PageFactory.initElements(getWebDriver(),this);
     }
 
     /**
