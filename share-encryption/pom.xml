@@ -56,12 +56,6 @@
                         </transformer>
                     </transformers>
 
-                    <artifactSet>
-                        <includes>
-                            <include>org.jasypt:*</include>
-                        </includes>
-                    </artifactSet>
-
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
