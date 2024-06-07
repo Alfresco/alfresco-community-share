@@ -6,130 +6,142 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.dataprep.ContentActions;
+import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * @author Laura.Capsa
  */
-public class ContributorFoldersOnlyTests extends ContextAwareWebTest
+@Slf4j
+public class ContributorFoldersOnlyTests extends BaseTest
 {
+    @Autowired
+    UserService userService;
+    @Autowired
+    ContentActions contentAction;
+    private final ThreadLocal<UserModel> user = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
     private final String uniqueId = RandomData.getRandomAlphanumeric();
-    private final String user = "Contributor-" + uniqueId;
-    private final String site = "site-" + uniqueId;
-    private final String name = "name";
     private final String description = "Description";
     private final String folderName = "Folder-" + uniqueId;
     private final String folderName2 = "Folder2-" + uniqueId;
     private final String folderName3 = "Folder3-" + uniqueId;
     private final String subFolderName = "subFolder-" + uniqueId;
-    private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId.toLowerCase();
     private final String title = "Title-" + uniqueId;
-    //@Autowired
     private DocumentsFilters documentsFilters;
-    //@Autowired
     private DocumentLibraryPage documentLibraryPage;
-    //@Autowired
-    private ManageRulesPage manageRulesPage;
-    //@Autowired
     private NewFolderDialog newContentDialog;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, domain, name, user);
-        siteService.create(adminUser, adminPassword, domain, site, description, SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(adminUser, adminPassword, user, site, "SiteContributor");
-        contentService.createFolder(adminUser, adminPassword, folderName, site);
-        contentService.createFolder(user, password, folderName3, site);
-        contentService.createFolderInRepository(adminUser, adminPassword, subFolderName, path);
-        contentAction.addSingleTag(adminUser, adminPassword, path + "/" + subFolderName, tag);
+        log.info("Precondition: Any Test user is created");
+        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
 
-        setupAuthenticatedSession(user, password);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
+        log.info("PreCondition: Site siteName is created");
+        site.set(getDataSite().usingAdmin().createPublicRandomSite());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), user.get().getUsername(), site.get().getId(), "SiteContributor");
+
+        String path = "Sites/" + site.get().getTitle() + "/documentLibrary/" + folderName;
+        contentService.createFolder(getAdminUser().getUsername(), getAdminUser().getPassword(), folderName, site.get().getId());
+        contentService.createFolder(user.get().getUsername(), user.get().getPassword(), folderName3, site.get().getId());
+        contentService.createFolderInRepository(getAdminUser().getUsername(), getAdminUser().getPassword(), subFolderName, path);
+        contentAction.addSingleTag(getAdminUser().getUsername(), getAdminUser().getPassword(), path + "/" + subFolderName, tag);
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentsFilters = new DocumentsFilters(webDriver);
+        newContentDialog = new NewFolderDialog(webDriver);
+
+        authenticateUsingLoginPage(user.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
-
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword, site);
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + user.get().getUsername());
+        deleteSitesIfNotNull(site.get());
+        deleteUsersIfNotNull(user.get());
     }
 
 
     @TestRail (id = "C8874")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void collaboratorCreateFolder()
     {
-        LOG.info("STEP1: Click on 'Create' button");
-        documentLibraryPage.navigate(site);
+        log.info("STEP1: Click on 'Create' button");
+        documentLibraryPage.navigate(site.get().getId());
         documentLibraryPage.clickCreateButton();
 
-        LOG.info("STEP2: Select 'Folder' option");
+        log.info("STEP2: Select 'Folder' option");
         documentLibraryPage.clickFolderLink();
         assertTrue(newContentDialog.isNewFolderPopupDisplayed(), "'Create folder' dialog is displayed.");
 
-        LOG.info("STEP3: Set input for name, title, description and click on Save button");
+        log.info("STEP3: Set input for name, title, description and click on Save button");
         newContentDialog.fillInDetails(folderName2, title, description);
         newContentDialog.clickSave();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName2), String.format("Folder [%s] is displayed in Document Library.", folderName2));
     }
 
     @TestRail (id = "C8875")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void locateFolder()
     {
-        documentLibraryPage.navigate(site);
-        LOG.info("STEP1: From \"Document View\" left side panel, click 'My Favorites'");
+        documentLibraryPage.navigate(site.get().getId());
+        log.info("STEP1: From \"Document View\" left side panel, click 'My Favorites'");
         documentsFilters.clickSidebarTag(tag);
         assertTrue(documentLibraryPage.isContentNameDisplayed(subFolderName), subFolderName + " is displayed in 'My Favorites'.");
 
-        LOG.info("STEP2: Click 'More' menu for " + subFolderName + ", and verify presence of \"Locate Folder\" option");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, ItemActions.LOCATE_FOLDER),
+        log.info("STEP2: Click 'More' menu for " + subFolderName + ", and verify presence of \"Locate Folder\" option");
+        assertTrue(documentLibraryPage.isActionAvailableForConsumerLibraryItem(subFolderName, ItemActions.LOCATE_FOLDER),
             "'Locate Folder' option is displayed for " + subFolderName);
 
-        LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.selectItemAction(subFolderName, ItemActions.LOCATE_FOLDER);
-        assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
+        log.info("STEP3: Click \"Locate Folder\" option");
+        documentLibraryPage.selectConsumerItemAction(subFolderName, ItemActions.LOCATE_FOLDER);
+        assertEquals(documentLibraryPage.getBreadcrumb(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 
     @TestRail (id = "C8876")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void manageRulesFolderSelfCreated()
     {
-        documentLibraryPage.navigate(site);
+        documentLibraryPage.navigate(site.get().getId());
 
-        LOG.info("STEP1: Mousfe over folder and verify presence of \"Manage Rules\" option");
+        log.info("STEP1: Mousfe over folder and verify presence of \"Manage Rules\" option");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName3, ItemActions.MANAGE_RULES),
             "'Manage Rules' option is displayed for " + folderName3);
 
-        LOG.info("STEP2: Click 'Manage Rules' option for " + folderName3);
+        log.info("STEP2: Click 'Manage Rules' option for " + folderName3);
         documentLibraryPage.selectItemAction(folderName3, ItemActions.MANAGE_RULES);
-//        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
     }
 
     @TestRail (id = "C8877")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void manageRulesFolderCreatedByOther()
     {
-        documentLibraryPage.navigate(site);
+        documentLibraryPage.navigate(site.get().getId());
         documentLibraryPage.clickFolderFromExplorerPanel(folderName);
-        LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, ItemActions.MANAGE_RULES),
+        log.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
+        assertFalse(documentLibraryPage.isActionAvailableForConsumerLibraryItem(subFolderName, ItemActions.MANAGE_RULES),
             "'Manage Rules' option is displayed for " + subFolderName);
     }
 }
