@@ -1,56 +1,84 @@
 package org.alfresco.share.userRolesAndPermissions.DashboardPermissions;
 
-import org.alfresco.dataprep.SiteService;
+import lombok.extern.slf4j.Slf4j;
+
+import org.alfresco.dataprep.UserService;
+
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.share.ContextAwareWebTest;
+
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.alfresco.utility.model.UserModel;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.testng.Assert;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Slf4j
 /**
  * Created by Mirela Tifui on 11/24/2016.
  */
-public class SiteDashboardPermissionsTests extends ContextAwareWebTest
+public class SiteDashboardPermissionsTests extends BaseTest
 {
-    //@Autowired
     SiteDashboardPage siteDashboardPage;
+    @Autowired
+    UserService userService;
+    private final ThreadLocal<UserModel> userConsumer = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> userContributor = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> userCollaborator = new ThreadLocal<>();
+    private final ThreadLocal<UserModel> userSiteManager = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
 
-    private String userConsumer = String.format("C8723ConsumerUser%s", RandomData.getRandomAlphanumeric());
-    private String userContributor = "C8724ContributorUser" + RandomData.getRandomAlphanumeric();
-    private String userCollaborator = "C8725CollaboratorUser" + RandomData.getRandomAlphanumeric();
-    private String userSiteManager = "C8726SiteManagerUser" + RandomData.getRandomAlphanumeric();
-    private String description = String.format("C8723SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("C8723%s", RandomData.getRandomAlphanumeric());
-
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + domain, userConsumer, userConsumer);
-        userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
-        userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, userCollaborator, userCollaborator);
-        userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, userSiteManager, userSiteManager);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(adminUser, adminPassword, userConsumer, siteName, "SiteConsumer");
-        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
-        userService.createSiteMember(adminUser, adminPassword, userCollaborator, siteName, "SiteCollaborator");
-        userService.createSiteMember(adminUser, adminPassword, userSiteManager, siteName, "SiteManager");
+        log.info("Precondition:Create test users");
+        userConsumer.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        userContributor.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        userCollaborator.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        userSiteManager.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(getAdminUser()).createPublicRandomSite());
+        getCmisApi().authenticateUser(getAdminUser());
+
+        userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), userConsumer.get().getUsername(), siteName.get().getId(), "SiteConsumer");
+        userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), userContributor.get().getUsername(), siteName.get().getId(), "SiteContributor");
+        userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), userCollaborator.get().getUsername(), siteName.get().getId(), "SiteCollaborator");
+        userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), userSiteManager.get().getUsername(), siteName.get().getId(), "SiteManager");
+
+        siteDashboardPage = new SiteDashboardPage(webDriver);
+
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userConsumer);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userConsumer);
-        userService.delete(adminUser, adminPassword, userContributor);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-        userService.delete(adminUser, adminPassword, userCollaborator);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userCollaborator);
-        userService.delete(adminUser, adminPassword, userSiteManager);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
-        siteService.delete(adminUser, adminPassword, siteName);
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userConsumer.get().getUsername());
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userContributor.get().getUsername());
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userCollaborator.get().getUsername());
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userSiteManager.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(userConsumer.get());
+        deleteUsersIfNotNull(userContributor.get());
+        deleteUsersIfNotNull(userCollaborator.get());
+        deleteUsersIfNotNull(userSiteManager.get());
+
     }
 
 
@@ -58,18 +86,17 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void siteDashboardPermissionsConsumerRole()
     {
-        setupAuthenticatedSession(userConsumer, password);
-        siteDashboardPage.navigate(siteName);
+        authenticateUsingLoginPage(userConsumer.get());
+        siteDashboardPage.navigate(siteName.get());
 
-        LOG.info("Step 1: Mouse over site configuration option and check available options");
+        log.info("Step 1: Mouse over site configuration option and check available options");
         siteDashboardPage.openSiteConfiguration();
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Delete Site"), "Delete Site is displayed");
-//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Delete Site"), "Delete Site is displayed");
+        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
 
-        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8724")
@@ -77,18 +104,16 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
 
     public void siteDashboardPermissionsContributorRole()
     {
-        setupAuthenticatedSession(userContributor, password);
-        siteDashboardPage.navigate(siteName);
+        authenticateUsingLoginPage(userContributor.get());
+        siteDashboardPage.navigate(siteName.get());
 
-        LOG.info("Step 1: Mouse over site configuration option and check available options");
+        log.info("Step 1: Mouse over site configuration option and check available options");
         siteDashboardPage.openSiteConfiguration();
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Delete Site"), "Delete Site is displayed");
-//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
-
-        cleanupAuthenticatedSession();
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Delete Site"), "Delete Site is displayed");
+        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
     }
 
     @TestRail (id = "C8725")
@@ -96,18 +121,16 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
 
     public void siteDashboardPermissionsCollaboratorRole()
     {
-        setupAuthenticatedSession(userCollaborator, password);
-        siteDashboardPage.navigate(siteName);
+        authenticateUsingLoginPage(userCollaborator.get());
+        siteDashboardPage.navigate(siteName.get());
 
-        LOG.info("Step 1: Mouse over site configuration option and check available options");
+        log.info("Step 1: Mouse over site configuration option and check available options");
         siteDashboardPage.openSiteConfiguration();
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
-//        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Delete Site"), "Delete Site is displayed");
-//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
-
-        cleanupAuthenticatedSession();
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Delete Site"), "Delete Site is displayed");
+        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
     }
 
     @TestRail (id = "C8726")
@@ -115,16 +138,14 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
 
     public void siteDashboardPermissionsSiteManagerRole()
     {
-        setupAuthenticatedSession(userSiteManager, password);
-        siteDashboardPage.navigate(siteName);
+        authenticateUsingLoginPage(userSiteManager.get());
+        siteDashboardPage.navigate(siteName.get());
 
-        LOG.info("Step 1: Mouse over site configuration option and check available options");
+        log.info("Step 1: Mouse over site configuration option and check available options");
         siteDashboardPage.openSiteConfiguration();
-//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
-//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
-//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
-//        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
-
-        cleanupAuthenticatedSession();
+        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"), "Customize dashboard is displayed");
+        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Edit Site Details"), "Edit site details is displayed");
+        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"), "Customize site is displayed");
+        Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "Leave Site is not displayed");
     }
 }
