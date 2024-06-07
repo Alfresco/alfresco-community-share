@@ -124,6 +124,7 @@ public class NewFolderDialog extends BaseDialogComponent
 
     public boolean isNewFolderPopupDisplayed()
     {
+        waitUntilElementIsPresent(dialogTitle);
         return isElementDisplayed(dialogTitle);
     }
 
