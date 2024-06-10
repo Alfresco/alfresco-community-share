@@ -26,8 +26,8 @@ public class LoginAIMSTests extends BaseTest
     private final String[] specialUsers = {
         randomString + "isaías",
         randomString + "user.name",
-        randomString + "test3&test3",
-        randomString + "test5=test5" };
+        randomString + "test3+test3",
+        randomString + "test5-test5" };
     private List<UserModel> specialUserList = new ArrayList<>();
     private final UserModel specialPassUser = new UserModel("specialPassUser" + randomString, "abc@123");
 
