@@ -43,10 +43,20 @@ public class AIMSConfig
     private String sslRequired;
     private String principalAttribute;
     private ConfigService configService;
-
+    private boolean alwaysRefreshToken;
+    private String audience;
     private Boolean publicClient;
+    private String redirectURI;
+   private String logoutUri;
+   private String postLogoutUrl;
+   private Boolean userIdTokenHint;
+   private String postLogoutRedirectUrlLabel;
+   private String postLogoutRedirectUrlValue;
+   private String logoutClientIDLabel;
+   private String logoutClientIDValue;
 
     private static final String REALMS = "realms";
+
     /**
      *
      */
@@ -59,7 +69,7 @@ public class AIMSConfig
         this.setAuthServerUrl(config.getConfigElementValue("authServerUrl"));
         this.setSslRequired(config.getConfigElementValue("sslRequired"));
         this.setPublicClient(Boolean.parseBoolean(config.getConfigElement("publicClient").getValue()));
-
+        this.setAudience(config.getConfigElementValue("audience"));
         if (publicClient)
         {
             this.setSecret(null);
@@ -83,13 +93,84 @@ public class AIMSConfig
         }
         else
         {
-            this.setPrincipalAttribute("sub");
+            this.setPrincipalAttribute("preferred_username");
+        }
+        if (!StringUtils.isEmpty(config.getConfigElementValue("alwaysRefreshToken")))
+        {
+            this.setAlwaysRefreshToken(Boolean.parseBoolean(config.getConfigElement("alwaysRefreshToken")
+                                                                .getValue()));
+        }
+        else
+        {
+            this.setAlwaysRefreshToken(false);
+        }
+        if (!StringUtils.isEmpty(config.getConfigElementValue("redirectURI")))
+        {
+            this.setRedirectURI((config.getConfigElement("redirectURI")
+                .getValue()));
+        }
+        else
+        {
+            this.setRedirectURI(null);
+        }
+        if (!StringUtils.isEmpty(config.getConfigElementValue("logoutUri")))
+        {
+            this.setLogoutUri((config.getConfigElement("logoutUri")
+                .getValue()));
+        }
+        else
+        {
+            this.setLogoutUri(null);
+        }
+
+        if (!StringUtils.isEmpty(config.getConfigElementValue("useIdTokenHint")))
+        {
+            this.setUserIdTokenHint(Boolean.parseBoolean(config.getConfigElement("useIdTokenHint")
+                                                             .getValue()));
+        }
+        else
+        {
+            this.setUserIdTokenHint(true);
+        }
+
+        if (!StringUtils.isEmpty(config.getConfigElementValue("postLogoutRedirectUrlValue")))
+        {
+            this.setPostLogoutRedirectUrlValue(config.getConfigElementValue("postLogoutRedirectUrlValue"));
+        }
+        else
+        {
+            this.setPostLogoutRedirectUrlValue(null);
+        }
+
+        if (!StringUtils.isEmpty(config.getConfigElementValue("postLogoutRedirectUrlLabel")))
+        {
+            this.setPostLogoutRedirectUrlLabel(config.getConfigElementValue("postLogoutRedirectUrlLabel"));
+        }
+        else
+        {
+            this.setPostLogoutRedirectUrlLabel(null);
+        }
+        if (!StringUtils.isEmpty(config.getConfigElementValue("logoutClientIDLabel")))
+        {
+            this.setLogoutClientIDLabel(config.getConfigElementValue("logoutClientIDLabel"));
+        }
+        else
+        {
+            this.setLogoutClientIDLabel(null);
+        }
+
+        if (!StringUtils.isEmpty(config.getConfigElementValue("logoutClientIDValue")))
+        {
+            this.setLogoutClientIDValue(config.getConfigElementValue("logoutClientIDValue"));
+        }
+        else
+        {
+            this.setLogoutClientIDValue(null);
         }
 
     }
 
     /**
-     *
      * @param configService ConfigService
      */
     public void setConfigService(ConfigService configService)
@@ -133,17 +214,17 @@ public class AIMSConfig
         this.resource = resource;
     }
 
- public String getAuthServerUrl()
- {
-  return Optional.ofNullable(realm)
-              .filter(StringUtils::isNotBlank)
-              .filter(realm -> StringUtils.isNotBlank(authServerUrl))
-              .map(realm -> UriComponentsBuilder.fromUriString(authServerUrl)
-                          .pathSegment(REALMS, realm)
-                          .build()
-                          .toString())
-              .orElse(authServerUrl);
- }
+    public String getAuthServerUrl()
+    {
+        return Optional.ofNullable(realm)
+            .filter(StringUtils::isNotBlank)
+            .filter(realm -> StringUtils.isNotBlank(authServerUrl))
+            .map(realm -> UriComponentsBuilder.fromUriString(authServerUrl)
+                .pathSegment(REALMS, realm)
+                .build()
+                .toString())
+            .orElse(authServerUrl);
+    }
 
     public void setAuthServerUrl(String authServerUrl)
     {
@@ -188,5 +269,105 @@ public class AIMSConfig
     public void setPublicClient(Boolean publicClient)
     {
         this.publicClient = publicClient;
+    }
+
+    public boolean isAlwaysRefreshToken()
+    {
+        return alwaysRefreshToken;
+    }
+
+    public void setAlwaysRefreshToken(boolean alwaysRefreshToken)
+    {
+        this.alwaysRefreshToken = alwaysRefreshToken;
+    }
+
+    public String getAudience()
+    {
+        return audience;
+    }
+
+    public void setAudience(String audience)
+    {
+        this.audience = audience;
+    }
+
+    public String getRedirectURI()
+    {
+        return redirectURI;
+    }
+
+    public void setRedirectURI(String redirectURI)
+    {
+        this.redirectURI = redirectURI;
+    }
+
+    public String getLogoutUri()
+    {
+        return logoutUri;
+    }
+
+    public void setLogoutUri(String logoutUri)
+    {
+        this.logoutUri = logoutUri;
+    }
+
+    public String getPostLogoutUrl()
+    {
+        return postLogoutUrl;
+    }
+
+    public void setPostLogoutUrl(String postLogoutUrl)
+    {
+        this.postLogoutUrl = postLogoutUrl;
+    }
+
+    public Boolean getUserIdTokenHint()
+    {
+        return userIdTokenHint;
+    }
+
+    public void setUserIdTokenHint(Boolean userIdTokenHint)
+    {
+        this.userIdTokenHint = userIdTokenHint;
+    }
+
+    public String getPostLogoutRedirectUrlLabel()
+    {
+        return postLogoutRedirectUrlLabel;
+    }
+
+    public void setPostLogoutRedirectUrlLabel(String postLogoutRedirectUrlLabel)
+    {
+        this.postLogoutRedirectUrlLabel = postLogoutRedirectUrlLabel;
+    }
+
+    public String getLogoutClientIDLabel()
+    {
+        return logoutClientIDLabel;
+    }
+
+    public void setLogoutClientIDLabel(String logoutClientIDLabel)
+    {
+        this.logoutClientIDLabel = logoutClientIDLabel;
+    }
+
+    public String getPostLogoutRedirectUrlValue()
+    {
+        return postLogoutRedirectUrlValue;
+    }
+
+    public void setPostLogoutRedirectUrlValue(String postLogoutRedirectUrlValue)
+    {
+        this.postLogoutRedirectUrlValue = postLogoutRedirectUrlValue;
+    }
+
+    public String getLogoutClientIDValue()
+    {
+        return logoutClientIDValue;
+    }
+
+    public void setLogoutClientIDValue(String logoutClientIDValue)
+    {
+        this.logoutClientIDValue = logoutClientIDValue;
     }
 }

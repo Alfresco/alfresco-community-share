@@ -331,10 +331,18 @@
         <publicClient>${aims.publicClient}</publicClient>
         <autodetectBearerOnly>${aims.autodetectBearerOnly}</autodetectBearerOnly>
         <alwaysRefreshToken>${aims.alwaysRefreshToken}</alwaysRefreshToken>
-        <principalAttribute>${aims.principalAttribute}
-        </principalAttribute>
+        <principalAttribute>${aims.principalAttribute}</principalAttribute>
+        <redirectURI>${aims.redirectURI}</redirectURI>
+        <logoutUri>${aims.logoutUri}</logoutUri>
+        <postLogoutUrl>${aims.postLogoutUrl}</postLogoutUrl>
         <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
         <secret>${aims.secret}</secret>
+        <audience>${aims.audience}</audience>
+        <postLogoutRedirectUrlLabel>${aims.logout.post_logout_redirect_uri_label}</postLogoutRedirectUrlLabel>
+        <postLogoutRedirectUrlValue>${aims.logout.post_logout_redirect_uri_value}</postLogoutRedirectUrlValue>
+        <logoutClientIDLabel>${aims.logout.client_id_label}</logoutClientIDLabel>
+        <logoutClientIDValue>${aims.logout.client_id_value}</logoutClientIDValue>
+        <useIdTokenHint>${aims.logout.useIdTokenHint}</useIdTokenHint>
     </config>
 
     <!-- Cookie Headers-->

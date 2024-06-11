@@ -61,20 +61,26 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.endpoint.DefaultRefreshTokenTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2RefreshTokenGrantRequest;
 import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenDecoderFactory;
+import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenValidator;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistration.ProviderDetails;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
+import org.springframework.security.oauth2.core.converter.ClaimTypeConverter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
@@ -83,9 +89,10 @@ import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoderFactory;
 import org.springframework.security.oauth2.jwt.JwtException;
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -108,10 +115,15 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +133,8 @@ import java.util.Base64;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 import static org.alfresco.web.site.servlet.config.SecurityUtils.toMultiMap;
 import static org.alfresco.web.site.servlet.config.SecurityUtils.isAuthorizationResponse;
 import static org.alfresco.web.site.servlet.config.SecurityUtils.convert;
@@ -134,6 +148,8 @@ public class AIMSFilter implements Filter
     private SlingshotLoginController loginController;
 
     private boolean enabled = false;
+
+    private String principalAttribute;
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
@@ -157,10 +173,13 @@ public class AIMSFilter implements Filter
     };
     private final OAuth2UserService<OidcUserRequest, OidcUser> userService = new OidcUserService();
     private String clientId;
+    private String audience;
 
-    public AIMSFilter() {
+    public AIMSFilter()
+    {
         this.authorizationRedirectStrategy = new DefaultRedirectStrategy();
     }
+
     /**
      * Initialize the filter
      *
@@ -179,13 +198,18 @@ public class AIMSFilter implements Filter
 
         AIMSConfig config = (AIMSConfig) this.context.getBean("aims.config");
         this.enabled = config.isEnabled();
-        if(this.enabled) {
-            this.clientId=config.getResource();
+        if (this.enabled)
+        {
+            this.clientId = config.getResource();
+            this.principalAttribute = config.getPrincipalAttribute();
+            this.audience = config.getAudience();
             // OIDC Specific Setup
             clientRegistrationRepository = context.getBean(ClientRegistrationRepository.class);
             oauth2ClientService = context.getBean(OAuth2AuthorizedClientService.class);
             this.requestCache = new HttpSessionRequestCache();
-            this.authorizationRequestResolver = new CustomAuthorizationRequestResolver(clientRegistrationRepository, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
+            this.authorizationRequestResolver = new CustomAuthorizationRequestResolver(clientRegistrationRepository,
+                                                                                       DEFAULT_AUTHORIZATION_REQUEST_BASE_URI,
+                                                                                       config);
             this.authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
             this.throwableAnalyzer = new SecurityUtils.DefaultThrowableAnalyzer();
         }
@@ -200,14 +224,14 @@ public class AIMSFilter implements Filter
     }
 
     /**
-     * @param sreq Servlet Request
-     * @param sres Servlet Response
+     * @param sreq  Servlet Request
+     * @param sres  Servlet Response
      * @param chain Filter Chain
      * @throws IOException
      * @throws ServletException
      */
-    public void doFilter(ServletRequest sreq, ServletResponse sres,
-                         FilterChain chain) throws IOException, ServletException
+    public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain)
+        throws IOException, ServletException
     {
         HttpServletRequest request = (HttpServletRequest) sreq;
         HttpServletResponse response = (HttpServletResponse) sres;
@@ -216,23 +240,38 @@ public class AIMSFilter implements Filter
         /**
          * check if authentication is done.
          */
-        if (null != session &&
-            this.enabled) {
+        if (null != session && this.enabled)
+        {
             SecurityContext attribute = (SecurityContext) session.getAttribute(
                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-            if(null != attribute) {
-                isAuthenticated = attribute.getAuthentication().isAuthenticated();
+            if (null != attribute)
+            {
+                isAuthenticated = attribute.getAuthentication()
+                    .isAuthenticated();
 
                 /**
                  * Check if token existing token is valid or expired.
                  */
-                if(isAuthenticated) {
-                    try {
-                        refreshToken(attribute, session);
-                    } catch(Exception oauth2AuthenticationException) {
-                        LOGGER.error("Resulted in Error while doing refresh token " + oauth2AuthenticationException.getMessage());
+                if (isAuthenticated)
+                {
+                    try
+                    {
+                        OAuth2LoginAuthenticationToken oAuth2LoginAuthenticationToken =
+                            (OAuth2LoginAuthenticationToken) attribute.getAuthentication();
+                        OAuth2AccessToken oAuth2AccessToken = oAuth2LoginAuthenticationToken.getAccessToken();
+                        if (isAuthTokenExpired(oAuth2AccessToken.getExpiresAt()))
+                        {
+                            refreshToken(attribute, session);
+                        }
+                    }
+                    catch (Exception oauth2AuthenticationException)
+                    {
+                        LOGGER.error("Resulted in Error while doing refresh token "
+                                         + oauth2AuthenticationException.getMessage());
                         session.invalidate();
-                        if (!request.getRequestURI().contains(SHARE_AIMS_LOGOUT)) {
+                        if (!request.getRequestURI()
+                            .contains(SHARE_AIMS_LOGOUT))
+                        {
                             isAuthenticated = false;
                         }
                     }
@@ -240,53 +279,78 @@ public class AIMSFilter implements Filter
             }
         }
 
-        if (!isAuthenticated &&
-            this.enabled)
+        if (!isAuthenticated && this.enabled)
         {
             /**
              // Match the request that came from Idp (redirect uri)
              */
-            if (this.matchesAuthorizationResponse(request)) {
+            if (this.matchesAuthorizationResponse(request))
+            {
                 this.processAuthorizationResponse(request, response, session);
-            } else {
-                try {
+            }
+            else
+            {
+                try
+                {
                     this.requestCache.saveRequest(request, response);
-                    OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestResolver
-                        .resolve(request, this.clientId);
-                    if (authorizationRequest != null) {
+                    OAuth2AuthorizationRequest authorizationRequest =
+                        this.authorizationRequestResolver.resolve(request, this.clientId);
+                    if (authorizationRequest != null)
+                    {
                         this.sendRedirectForAuthorization(request, response, authorizationRequest);
                         return;
                     }
-                } catch (Exception var11) {
+                }
+                catch (Exception var11)
+                {
                     this.unsuccessfulRedirectForAuthorization(response);
                     return;
                 }
 
-                try {
-                    chain.doFilter(request,response);
-                } catch (IOException var9) {
+                try
+                {
+                    chain.doFilter(request, response);
+                }
+                catch (IOException var9)
+                {
                     throw var9;
-                } catch (Exception var10) {
+                }
+                catch (Exception var10)
+                {
                     Throwable[] causeChain = this.throwableAnalyzer.determineCauseChain(var10);
-                    ClientAuthorizationRequiredException authzEx = (ClientAuthorizationRequiredException) this.throwableAnalyzer.getFirstThrowableOfType(ClientAuthorizationRequiredException.class, causeChain);
-                    if (authzEx != null) {
-                        try {
-                            OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestResolver.resolve(request, authzEx.getClientRegistrationId());
-                            if (authorizationRequest == null) {
+                    ClientAuthorizationRequiredException authzEx =
+                        (ClientAuthorizationRequiredException) this.throwableAnalyzer.getFirstThrowableOfType(
+                            ClientAuthorizationRequiredException.class, causeChain);
+                    if (authzEx != null)
+                    {
+                        try
+                        {
+                            OAuth2AuthorizationRequest authorizationRequest =
+                                this.authorizationRequestResolver.resolve(request, authzEx.getClientRegistrationId());
+                            if (authorizationRequest == null)
+                            {
                                 throw authzEx;
                             }
 
                             this.sendRedirectForAuthorization(request, response, authorizationRequest);
                             this.requestCache.saveRequest(request, response);
-                        } catch (Exception var8) {
+                        }
+                        catch (Exception var8)
+                        {
                             this.unsuccessfulRedirectForAuthorization(response);
                         }
 
-                    } else if (var10 instanceof ServletException) {
+                    }
+                    else if (var10 instanceof ServletException)
+                    {
                         throw (ServletException) var10;
-                    } else if (var10 instanceof RuntimeException) {
+                    }
+                    else if (var10 instanceof RuntimeException)
+                    {
                         throw (RuntimeException) var10;
-                    } else {
+                    }
+                    else
+                    {
                         throw new RuntimeException(var10);
                     }
                 }
@@ -299,10 +363,9 @@ public class AIMSFilter implements Filter
     }
 
     /**
-     *
-     * @param request HTTP Servlet Request
-     * @param response HTTP Servlet Response
-     * @param session HTTP Session
+     * @param request              HTTP Servlet Request
+     * @param response             HTTP Servlet Response
+     * @param session              HTTP Session
      * @param authenticationResult OAuth2LoginAuthenticationToken
      */
     private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session,
@@ -314,8 +377,10 @@ public class AIMSFilter implements Filter
             LOGGER.info("Completing the AIMS authentication.");
         }
 
-        String username = authenticationResult.getPrincipal().getAttribute("preferred_username");
-        String accessToken = authenticationResult.getAccessToken().getTokenValue();
+        String username = authenticationResult.getPrincipal()
+            .getAttribute(this.principalAttribute);
+        String accessToken = authenticationResult.getAccessToken()
+            .getTokenValue();
         synchronized (this)
         {
             try
@@ -333,7 +398,8 @@ public class AIMSFilter implements Filter
 
                     // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
                     Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
-                    connector.getConnectorSession().setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
+                    connector.getConnectorSession()
+                        .setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
 
                     // Set credential username for further use on repo
                     // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
@@ -368,7 +434,8 @@ public class AIMSFilter implements Filter
      * @param request
      * @throws RequestContextException
      */
-    private void initRequestContext(HttpServletRequest request, HttpServletResponse response) throws RequestContextException
+    private void initRequestContext(HttpServletRequest request, HttpServletResponse response)
+        throws RequestContextException
     {
         RequestContext context = ThreadLocalRequestContext.getRequestContext();
         if (context == null)
@@ -386,7 +453,6 @@ public class AIMSFilter implements Filter
     /**
      * Initialise the user meta data object and set it into the session and request context (_alf_USER_OBJECT)
      * The user meta data object is used by web scripts that require authentication
-     *
      * This is present in the filter for avoiding Basic Authentication prompt for those web scripts,
      * when user access them and is logged out (see https://issues.alfresco.com/jira/browse/APPS-117)
      *
@@ -399,7 +465,8 @@ public class AIMSFilter implements Filter
         if (context != null && context.getUser() == null)
         {
             String userEndpointId = (String) context.getAttribute(RequestContext.USER_ENDPOINT);
-            UserFactory userFactory = context.getServiceRegistry().getUserFactory();
+            UserFactory userFactory = context.getServiceRegistry()
+                .getUserFactory();
             User user = userFactory.initialiseUser(context, request, userEndpointId);
             context.setUser(user);
         }
@@ -441,7 +508,8 @@ public class AIMSFilter implements Filter
             JSONObject json = new JSONObject(r.getText());
             try
             {
-                alfTicket = json.getJSONObject("entry").getString("id");
+                alfTicket = json.getJSONObject("entry")
+                    .getString("id");
             }
             catch (JSONException e)
             {
@@ -559,55 +627,98 @@ public class AIMSFilter implements Filter
     /**
      * Performs the Authentication based on Authentication Request
      */
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        OAuth2LoginAuthenticationToken authorizationCodeAuthentication = (OAuth2LoginAuthenticationToken)authentication;
-        if (!authorizationCodeAuthentication.getAuthorizationExchange().getAuthorizationRequest().getScopes().contains("openid")) {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException
+    {
+        OAuth2LoginAuthenticationToken authorizationCodeAuthentication =
+            (OAuth2LoginAuthenticationToken) authentication;
+        if (!authorizationCodeAuthentication.getAuthorizationExchange()
+            .getAuthorizationRequest()
+            .getScopes()
+            .contains("openid"))
+        {
             return null;
-        } else {
-            OAuth2AuthorizationRequest authorizationRequest = authorizationCodeAuthentication.getAuthorizationExchange().getAuthorizationRequest();
-            OAuth2AuthorizationResponse authorizationResponse = authorizationCodeAuthentication.getAuthorizationExchange().getAuthorizationResponse();
-            if (authorizationResponse.statusError()) {
-                throw new OAuth2AuthenticationException(authorizationResponse.getError(), authorizationResponse.getError().toString());
-            } else if (!authorizationResponse.getState().equals(authorizationRequest.getState())) {
+        }
+        else
+        {
+            OAuth2AuthorizationRequest authorizationRequest = authorizationCodeAuthentication.getAuthorizationExchange()
+                .getAuthorizationRequest();
+            OAuth2AuthorizationResponse authorizationResponse =
+                authorizationCodeAuthentication.getAuthorizationExchange()
+                    .getAuthorizationResponse();
+            if (authorizationResponse.statusError())
+            {
+                throw new OAuth2AuthenticationException(authorizationResponse.getError(),
+                                                        authorizationResponse.getError()
+                                                            .toString());
+            }
+            else if (!authorizationResponse.getState()
+                .equals(authorizationRequest.getState()))
+            {
                 OAuth2Error oauth2Error = new OAuth2Error("invalid_state_parameter");
                 throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
-            } else {
+            }
+            else
+            {
                 OAuth2AccessTokenResponse accessTokenResponse;
-                try {
-                    accessTokenResponse = this.accessTokenResponseClient.getTokenResponse(new OAuth2AuthorizationCodeGrantRequest(authorizationCodeAuthentication.getClientRegistration(), authorizationCodeAuthentication.getAuthorizationExchange()));
-                } catch (OAuth2AuthorizationException var14) {
+                try
+                {
+                    accessTokenResponse = this.accessTokenResponseClient.getTokenResponse(
+                        new OAuth2AuthorizationCodeGrantRequest(authorizationCodeAuthentication.getClientRegistration(),
+                                                                authorizationCodeAuthentication.getAuthorizationExchange()));
+                }
+                catch (OAuth2AuthorizationException var14)
+                {
                     OAuth2Error oauth2Error = var14.getError();
                     throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
                 }
 
                 ClientRegistration clientRegistration = authorizationCodeAuthentication.getClientRegistration();
                 Map<String, Object> additionalParameters = accessTokenResponse.getAdditionalParameters();
-                if (!additionalParameters.containsKey("id_token")) {
-                    OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_id_token", "Missing (required) ID Token in Token Response for Client Registration: " + clientRegistration.getRegistrationId(), (String)null);
+                if (!additionalParameters.containsKey("id_token"))
+                {
+                    OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_id_token",
+                                                                      "Missing (required) ID Token in Token Response for Client Registration: "
+                                                                          + clientRegistration.getRegistrationId(),
+                                                                      (String) null);
                     throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString());
-                } else {
+                }
+                else
+                {
                     OidcIdToken idToken = this.createOidcToken(clientRegistration, accessTokenResponse);
                     String requestNonce = authorizationRequest.getAttribute("nonce");
-                    if (requestNonce != null) {
+                    if (requestNonce != null)
+                    {
                         String nonceHash;
                         OAuth2Error oauth2Error;
-                        try {
+                        try
+                        {
                             nonceHash = createHash(requestNonce);
-                        } catch (NoSuchAlgorithmException var13) {
+                        }
+                        catch (NoSuchAlgorithmException var13)
+                        {
                             oauth2Error = new OAuth2Error("invalid_nonce");
                             throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
                         }
 
                         String nonceHashClaim = idToken.getNonce();
-                        if (nonceHashClaim == null || !nonceHashClaim.equals(nonceHash)) {
+                        if (nonceHashClaim == null || !nonceHashClaim.equals(nonceHash))
+                        {
                             oauth2Error = new OAuth2Error("invalid_nonce");
                             throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
                         }
                     }
 
-                    OidcUser oidcUser = this.userService.loadUser(new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken, additionalParameters));
-                    Collection<? extends GrantedAuthority> mappedAuthorities = this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
-                    OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(authorizationCodeAuthentication.getClientRegistration(), authorizationCodeAuthentication.getAuthorizationExchange(), oidcUser, mappedAuthorities, accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
+                    OidcUser oidcUser = this.userService.loadUser(
+                        new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken,
+                                            additionalParameters));
+                    Collection<? extends GrantedAuthority> mappedAuthorities =
+                        this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
+                    OAuth2LoginAuthenticationToken authenticationResult =
+                        new OAuth2LoginAuthenticationToken(authorizationCodeAuthentication.getClientRegistration(),
+                                                           authorizationCodeAuthentication.getAuthorizationExchange(),
+                                                           oidcUser, mappedAuthorities,
+                                                           accessTokenResponse.getAccessToken(),
+                                                           accessTokenResponse.getRefreshToken());
                     authenticationResult.setDetails(authorizationCodeAuthentication.getDetails());
                     return authenticationResult;
                 }
@@ -615,59 +726,60 @@ public class AIMSFilter implements Filter
         }
     }
 
-    private OidcIdToken createOidcToken(ClientRegistration clientRegistration, OAuth2AccessTokenResponse accessTokenResponse) {
-        JwtDecoder jwtDecoder = this.jwtDecoderFactory.createDecoder(clientRegistration);
-
+    private OidcIdToken createOidcToken(ClientRegistration clientRegistration,
+                                        OAuth2AccessTokenResponse accessTokenResponse)
+        throws OAuth2AuthenticationException
+    {
         Jwt jwt;
-     try
-     {
-      jwt = jwtDecoder.decode((String) accessTokenResponse.getAdditionalParameters()
-                  .get("id_token"));
-      OAuth2TokenValidatorResult oAuth2TokenValidatorResult =
-                  validate(jwt, clientRegistration.getProviderDetails());
-      if (oAuth2TokenValidatorResult.hasErrors())
-      {
-       OAuth2Error invalidIdTokenError = new OAuth2Error("invalid_issue_uri",
-                   oAuth2TokenValidatorResult.getErrors()
-                               .stream()
-                               .filter(Objects::nonNull)
-                               .findFirst()
-                               .get()
-                               .getDescription(), (String) null);
-       throw new OAuth2AuthenticationException(invalidIdTokenError);
-      }
-     }
-     catch (JwtException jwtException)
-     {
-      OAuth2Error invalidIdTokenError =
-                  new OAuth2Error("invalid_id_token", jwtException.getMessage(), (String) null);
-      throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString(), jwtException);
-     }
+        try
+        {
+            jwt = validateIdToken(clientRegistration, (String) accessTokenResponse.getAdditionalParameters()
+                .get("id_token"));
+            // Decoder for OAuth2 Access Token
+            validateAccessToken(clientRegistration, accessTokenResponse.getAccessToken());
+        }
+        catch (JwtException jwtException)
+        {
+            OAuth2Error invalidIdTokenError =
+                new OAuth2Error("invalid_id_token", jwtException.getMessage(), (String) null);
+            throw new OAuth2AuthenticationException(invalidIdTokenError, invalidIdTokenError.toString(), jwtException);
+        }
 
-     OidcIdToken idToken =
-                 new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(), jwt.getClaims());
-     return idToken;
+        OidcIdToken idToken =
+            new OidcIdToken(jwt.getTokenValue(), jwt.getIssuedAt(), jwt.getExpiresAt(), jwt.getClaims());
+        return idToken;
     }
 
-    static String createHash(String nonce) throws NoSuchAlgorithmException {
+    static String createHash(String nonce) throws NoSuchAlgorithmException
+    {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] digest = md.digest(nonce.getBytes(StandardCharsets.US_ASCII));
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
+        return Base64.getUrlEncoder()
+            .withoutPadding()
+            .encodeToString(digest);
     }
 
-    private void sendRedirectForAuthorization(HttpServletRequest request, HttpServletResponse response, OAuth2AuthorizationRequest authorizationRequest) throws IOException {
-        if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(authorizationRequest.getGrantType())) {
+    private void sendRedirectForAuthorization(HttpServletRequest request, HttpServletResponse response,
+                                              OAuth2AuthorizationRequest authorizationRequest) throws IOException
+    {
+        if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(authorizationRequest.getGrantType()))
+        {
             this.authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response);
         }
-        this.authorizationRedirectStrategy.sendRedirect(request, response, authorizationRequest.getAuthorizationRequestUri());
+        this.authorizationRedirectStrategy.sendRedirect(request, response,
+                                                        authorizationRequest.getAuthorizationRequestUri());
     }
 
-    private void unsuccessfulRedirectForAuthorization(HttpServletResponse response) throws IOException {
-        response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+    private void unsuccessfulRedirectForAuthorization(HttpServletResponse response) throws IOException
+    {
+        response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                           HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
     }
 
-    private synchronized void refreshToken(SecurityContext attribute, HttpSession session) {
-        OAuth2LoginAuthenticationToken oAuth2LoginAuthenticationToken = (OAuth2LoginAuthenticationToken)attribute.getAuthentication();
+    private synchronized void refreshToken(SecurityContext attribute, HttpSession session)
+    {
+        OAuth2LoginAuthenticationToken oAuth2LoginAuthenticationToken =
+            (OAuth2LoginAuthenticationToken) attribute.getAuthentication();
         /**
          * do something to get new access token
          */
@@ -675,10 +787,11 @@ public class AIMSFilter implements Filter
         /**
          * Call Auth server token endpoint to refresh token.
          */
-        OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest = new OAuth2RefreshTokenGrantRequest(
-            clientRegistration, oAuth2LoginAuthenticationToken.getAccessToken(), oAuth2LoginAuthenticationToken.getRefreshToken());
-        OAuth2AccessTokenResponse accessTokenResponse = this.refreshTokenResponseClient
-            .getTokenResponse(refreshTokenGrantRequest);
+        OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest =
+            new OAuth2RefreshTokenGrantRequest(clientRegistration, oAuth2LoginAuthenticationToken.getAccessToken(),
+                                               oAuth2LoginAuthenticationToken.getRefreshToken());
+        OAuth2AccessTokenResponse accessTokenResponse =
+            this.refreshTokenResponseClient.getTokenResponse(refreshTokenGrantRequest);
         /**
          * Convert id_token to OidcToken.
          */
@@ -687,42 +800,131 @@ public class AIMSFilter implements Filter
          * Since I have already implemented a custom OidcUserService, reuse existing
          * code to get new user.
          */
-        OidcUser oidcUser = this.userService.loadUser(new OidcUserRequest(clientRegistration,
-            accessTokenResponse.getAccessToken(), idToken, accessTokenResponse.getAdditionalParameters()));
+        OidcUser oidcUser = this.userService.loadUser(
+            new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken,
+                                accessTokenResponse.getAdditionalParameters()));
 
         /**
          * Create new authentication(OAuth2LoginAuthenticationToken).
          */
-        Collection<? extends GrantedAuthority> mappedAuthorities = this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
-        OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(clientRegistration, oAuth2LoginAuthenticationToken.getAuthorizationExchange(),
-            oidcUser, mappedAuthorities, accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
+        Collection<? extends GrantedAuthority> mappedAuthorities =
+            this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
+        OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(clientRegistration,
+                                                                                                 oAuth2LoginAuthenticationToken.getAuthorizationExchange(),
+                                                                                                 oidcUser,
+                                                                                                 mappedAuthorities,
+                                                                                                 accessTokenResponse.getAccessToken(),
+                                                                                                 accessTokenResponse.getRefreshToken());
         authenticationResult.setDetails(oAuth2LoginAuthenticationToken.getDetails());
         /**
          * Update access_token and refresh_token by saving new authorized client.
          */
-        OAuth2AuthorizedClient updatedAuthorizedClient = new OAuth2AuthorizedClient(clientRegistration,
-            oAuth2LoginAuthenticationToken.getName(), accessTokenResponse.getAccessToken(),
-            accessTokenResponse.getRefreshToken());
+        OAuth2AuthorizedClient updatedAuthorizedClient =
+            new OAuth2AuthorizedClient(clientRegistration, oAuth2LoginAuthenticationToken.getName(),
+                                       accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
         this.oauth2ClientService.saveAuthorizedClient(updatedAuthorizedClient, authenticationResult);
         /**
          * Set new authentication in SecurityContextHolder.
          */
         attribute.setAuthentication(authenticationResult);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-            attribute);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, attribute);
     }
- public OAuth2TokenValidatorResult validate(Jwt token, ClientRegistration.ProviderDetails providerDetails)
- {
-  Object issuer = token.getClaim(JwtClaimNames.ISS);
-  String requiredIssuer = providerDetails.getIssuerUri();
-  if (issuer != null && requiredIssuer.equals(issuer.toString()))
-  {
-   return OAuth2TokenValidatorResult.success();
-  }
 
-  final OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN,
-              "The iss claim is not valid. Expected " + requiredIssuer + " but got "
-                          + issuer, "https://tools.ietf.org/html/rfc6750#section-3.1");
-  return OAuth2TokenValidatorResult.failure(error);
- }
+    private OAuth2TokenValidator<Jwt> createCustomValidator(ProviderDetails providerDetails)
+    {
+        List<OAuth2TokenValidator<Jwt>> validators = new ArrayList<>();
+        validators.add(new JwtTimestampValidator(Duration.of(0, ChronoUnit.MILLIS)));
+        validators.add(new JwtIssuerValidator(providerDetails.getIssuerUri()));
+
+        if (!StringUtils.isEmpty(this.audience))
+        {
+            validators.add(new JwtAudienceValidator(this.audience));
+        }
+        return new DelegatingOAuth2TokenValidator<>(validators);
+    }
+
+    static class JwtAudienceValidator implements OAuth2TokenValidator<Jwt>
+    {
+        private final String configuredAudience;
+
+        public JwtAudienceValidator(String configuredAudience)
+        {
+            this.configuredAudience = configuredAudience;
+        }
+
+        @Override
+        public OAuth2TokenValidatorResult validate(Jwt token)
+        {
+            requireNonNull(token, "token cannot be null");
+            final Object audience = token.getClaim(JwtClaimNames.AUD);
+            if (audience != null)
+            {
+                if (audience instanceof List && ((List<String>) audience).contains(configuredAudience))
+                {
+                    return OAuth2TokenValidatorResult.success();
+                }
+                if (audience instanceof String && audience.equals(configuredAudience))
+                {
+                    return OAuth2TokenValidatorResult.success();
+                }
+            }
+
+            final OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN,
+                                                      "The aud claim is not valid. Expected configured audience `%s` not found.".formatted(
+                                                          configuredAudience),
+                                                      "https://tools.ietf.org/html/rfc6750#section-3.1");
+            return OAuth2TokenValidatorResult.failure(error);
+        }
+    }
+
+    static class JwtIssuerValidator implements OAuth2TokenValidator<Jwt>
+    {
+        private final String requiredIssuer;
+
+        public JwtIssuerValidator(String issuer)
+        {
+            this.requiredIssuer = requireNonNull(issuer, "issuer cannot be null");
+        }
+
+        @Override
+        public OAuth2TokenValidatorResult validate(Jwt token)
+        {
+            requireNonNull(token, "token cannot be null");
+            final Object issuer = token.getClaim(JwtClaimNames.ISS);
+            if (issuer != null && requiredIssuer.equals(issuer.toString()))
+            {
+                return OAuth2TokenValidatorResult.success();
+            }
+
+            final OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN,
+                                                      "The iss claim is not valid. Expected `%s` but got `%s`.".formatted(
+                                                          requiredIssuer, issuer),
+                                                      "https://tools.ietf.org/html/rfc6750#section-3.1");
+            return OAuth2TokenValidatorResult.failure(error);
+        }
+    }
+
+    private Jwt validateAccessToken(ClientRegistration clientRegistration, OAuth2AccessToken oAuth2AccessToken)
+        throws JwtException
+    {
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) this.jwtDecoderFactory.createDecoder(clientRegistration);
+        jwtDecoder.setJwtValidator(createCustomValidator(clientRegistration.getProviderDetails()));
+        jwtDecoder.setClaimSetConverter(
+            new ClaimTypeConverter(OidcIdTokenDecoderFactory.createDefaultClaimTypeConverters()));
+        return jwtDecoder.decode(oAuth2AccessToken.getTokenValue());
+    }
+
+    private Jwt validateIdToken(ClientRegistration clientRegistration, String idToken) throws JwtException
+    {
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) this.jwtDecoderFactory.createDecoder(clientRegistration);
+        jwtDecoder.setJwtValidator(new DelegatingOAuth2TokenValidator(
+            new OAuth2TokenValidator[] { new JwtTimestampValidator(), new OidcIdTokenValidator(clientRegistration) }));
+        return jwtDecoder.decode(idToken);
+    }
+
+    private static boolean isAuthTokenExpired(Instant authTokenExpiration)
+    {
+        return Instant.now()
+            .compareTo(authTokenExpiration) >= 0;
+    }
 }
