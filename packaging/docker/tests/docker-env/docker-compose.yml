@@ -178,7 +178,7 @@ services:
       - "8094:8090"
 
   shared-file-store:
-    image: alfresco/alfresco-shared-file-store:${SFS_TAG}
+    image: quay.io/alfresco/alfresco-shared-file-store:${SFS_TAG}
     environment:
       JAVA_OPTS: "
         -Xms256m
