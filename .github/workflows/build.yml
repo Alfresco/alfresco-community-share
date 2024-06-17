@@ -115,6 +115,77 @@ jobs:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
 
+  unit_tests:
+    name: "Unit tests"
+    runs-on: ubuntu-latest
+    needs: build
+    if: >
+      !contains(github.event.head_commit.message, '[skip tests]') &&
+      inputs.commitMessage != '[skip tests]' &&
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
+      &&
+      github.event.repository.fork==false
+    strategy:
+      fail-fast: false
+      matrix:
+        testModule: [ share, share-encryption, web-framework-commons ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - name: "Init"
+        run: bash scripts/travis/init.sh
+      - name: "Build"
+        run: mvn -B clean install -DskipTests -Dmaven.javadoc.skip=true
+      - name: Run Unit Tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+          max_attempts: 3
+          retry_wait_seconds: 60
+          retry_on: error
+          command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
+      - name: "Clean Maven cache"
+        run: bash ./scripts/travis/cleanup_cache.sh
+
+  ags_unit_tests:
+    name: "AGS Unit tests"
+    runs-on: ubuntu-latest
+    needs: build
+    if: >
+      !contains(github.event.head_commit.message, '[skip tests]') &&
+      inputs.commitMessage != '[skip tests]' &&
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
+      &&
+      github.event.repository.fork==false
+    strategy:
+      fail-fast: false
+      matrix:
+        testModule: [ alfresco-governance-services-community-share, alfresco-governance-services-enterprise-share ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - name: "Init"
+        run: bash scripts/travis/init.sh
+      - name: "Build"
+        run: mvn -B clean install -Pags -DskipTests -Dmaven.javadoc.skip=true
+      - name: Run ${{ matrix.testModule }} Unit Tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+          max_attempts: 3
+          retry_wait_seconds: 60
+          retry_on: error
+          command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
+      - name: "Clean Maven cache"
+        run: bash ./scripts/travis/cleanup_cache.sh
+
+
   test:
     runs-on: ubuntu-latest
     needs: build
