@@ -42,6 +42,10 @@ public class ShareStringEncryption
     static final String USAGE_DECRYPT = "USAGE : " + ShareStringEncryption.class.getName() + " " + CMD_VALIDATE
             + " <shared dir> encrypted_value [value]";
 
+    private static final String PROP_KEY_SIZE = "props.encryption.keySize";
+    private static final String PROP_ENCRYPTION_ALGORITHM = "props.encryption.encryptionAlgorithm";
+    private static final String PROP_LEGACY_MODE = "props.encryption.legacyMode";
+    
     /**
      * Main command line program
      * 
@@ -66,19 +70,34 @@ public class ShareStringEncryption
         }
         PublicPrivateKeyShareStringEncryptor enc = new PublicPrivateKeyShareStringEncryptor();
         String shareExtensionsDirectory = null;
+        
+        String propKeySize = System.getProperty(PROP_KEY_SIZE);
+        String propEncryptionAlgorithm = System.getProperty(PROP_ENCRYPTION_ALGORITHM);
+        String propLegacyMode = System.getProperty(PROP_LEGACY_MODE);
+
+        if (propKeySize != null && !propKeySize.isBlank())
+        {
+            enc.setKeySize(Integer.parseInt(propKeySize));
+        }
+
+        if (propEncryptionAlgorithm != null && !propEncryptionAlgorithm.isBlank())
+        {
+            enc.setEncryptionAlgorithm(propEncryptionAlgorithm);
+        }
+
+        if (propLegacyMode != null && !propLegacyMode.isBlank() && propLegacyMode.equalsIgnoreCase("true"))
+        {
+            enc.setLegacyMode(true);
+        }
+
+        enc.setKeyAlgorithm();
+
         if (args.length > 1)
         {
             shareExtensionsDirectory = args[1];
             if (!args[0].equalsIgnoreCase(CMD_INITKEY))
             {
-                enc.initPublic(shareExtensionsDirectory);
-                enc.initPrivate(shareExtensionsDirectory);
-
-                if (enc.publicKey == null || enc.privateKey == null)
-                {
-                    System.err.println("Please run " + CMD_INITKEY + " before encrypting or validating passwords");
-                    System.exit(USAGE_EXIT_CODE);
-                }
+                enc.setKeyLocation(shareExtensionsDirectory);
             }
         }
         if (args[0].equalsIgnoreCase(CMD_INITKEY))
@@ -122,6 +141,27 @@ public class ShareStringEncryption
 
             try
             {
+                if (enc.legacyMode)
+                {
+                    System.out.println("Legacy mode enabled, using default encryption");
+                    enc.setEncryptionAlgorithm(PublicPrivateKeyShareStringEncryptor.DEFAULT_ENCRYPTION_ALGORITHM);
+                    enc.setKeySize(PublicPrivateKeyShareStringEncryptor.DEFAULT_KEY_SIZE);
+                    enc.setKeyAlgorithm();
+                }
+
+                System.out.println("Key size: " + enc.keySize);
+                System.out.println("Key algorithm: " + enc.keyAlgorithm);
+                System.out.println("Encription Algorithm: " + enc.encryptionAlgorithm);
+
+                if (enc.symmetricKey)
+                {
+                    enc.initSecret();
+                }
+                else
+                {
+                    enc.initPublic();
+                }
+                
                 System.out.println(enc.encrypt(password));
                 System.exit(SUCCESS_EXIT_CODE);
             }
@@ -153,14 +193,18 @@ public class ShareStringEncryption
             try
             {
                 String decryptedValue = enc.decrypt(encryptedValue);
+
                 if (decryptedValue.equals(password))
                 {
+                    System.out.println("Key size: " + enc.keySize);
+                    System.out.println("Key algorithm: " + enc.keyAlgorithm);
+                    System.out.println("Encription Algorithm: " + enc.encryptionAlgorithm);
                     System.out.println("The value and encrypted value MATCH");
                     System.exit(SUCCESS_EXIT_CODE);
                 }
                 else
                 {
-                    System.out.println("The value and encrypted value DO NOT MATCH");
+                    System.err.println("The value and encrypted value DO NOT MATCH");
                     System.exit(ERROR_EXIT_CODE);
                 }
             }
