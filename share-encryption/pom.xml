@@ -67,10 +67,8 @@
                                 <exclude>org/jasypt/intf/**</exclude>
                                 <exclude>org/jasypt/iv/**</exclude>
                                 <exclude>org/jasypt/normalization/**</exclude>
-                                <exclude>org/jasypt/properties/**</exclude>
                                 <exclude>org/jasypt/registry/**</exclude>
                                 <exclude>org/jasypt/salt/**</exclude>
-                                <exclude>org/jasypt/util/**</exclude>
                                 <exclude>org/jasypt/encryptor/**</exclude>
                                 <exclude>org/jasypt/web/**</exclude>
                                 <exclude>org/jasypt/encryption/pbe/**</exclude>
