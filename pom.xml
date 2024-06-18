@@ -62,12 +62,13 @@
         <dependency.slf4j.version>1.7.35</dependency.slf4j.version>
         <dependency.cxf.version>3.6.3</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
-        <dependency.keycloak.version>15.0.2</dependency.keycloak.version>
+        <dependency.keycloak.version>24.0.4</dependency.keycloak.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.12.2</dependency.jackson.version>
+        <dependency.jackson.version>2.13.5</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
+        <dependency.guava.version>32.1.1-jre</dependency.guava.version>
 
         <alfresco.googledrive.version>3.4.2</alfresco.googledrive.version>
 
@@ -170,7 +171,7 @@
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
-                <version>1.4</version>
+                <version>1.5</version>
             </dependency>
             <!-- Newer cxf libs, see MNT-20520 -->
             <dependency>
