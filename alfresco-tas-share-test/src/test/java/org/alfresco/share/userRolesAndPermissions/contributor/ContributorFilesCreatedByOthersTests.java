@@ -1,85 +1,99 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
+import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.alfresco.common.Utils.testDataFolder;
-import static org.testng.Assert.assertEquals;
+import static org.alfresco.utility.web.AbstractWebTest.getBrowser;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
+import org.alfresco.dataprep.ContentActions;
+
+import org.alfresco.dataprep.UserService;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.BaseTest;
+
 import org.alfresco.testrail.TestRail;
+
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
+@Slf4j
+public class ContributorFilesCreatedByOthersTests extends BaseTest
 {
-    private final String userContributor = String.format("Contributor%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("AdminFile%s", RandomData.getRandomAlphanumeric());
     private final String lockedFileByAdmin = String.format("LockedFileByAdmin%s", RandomData.getRandomAlphanumeric());
     private final String adminWordFile = String.format("WordFile%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "FileContent";
+    private final ThreadLocal<UserModel> userContributor = new ThreadLocal<>();
+    private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
-    //@Autowired
     UploadContent uploadContent;
-    //@Autowired
     DocumentLibraryPage documentLibraryPage;
-    //@Autowired
     DocumentDetailsPage documentDetailsPage;
-    //@Autowired
-    CreateContentPage create;
-   // @Autowired
-    EditInAlfrescoPage editInAlfresco;
     @Autowired
     GoogleDocsCommon docs;
+    @Autowired
+    UserService userService;
+    @Autowired
+    ContentActions contentAction;
 
-    //@Autowired
-    StartWorkflowPage startWorkflowPage;
-
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        log.info("Precondition: Any Test user is created");
+        userContributor.set(getDataUser().usingAdmin().createRandomTestUser());
+        getCmisApi().authenticateUser(getAdminUser());
 
-        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, adminFile, fileContent);
-        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, lockedFileByAdmin, fileContent);
-        contentAction.checkOut(adminUser, adminPassword, siteName, lockedFileByAdmin);
-        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.MSWORD, adminWordFile, fileContent);
+        log.info("PreCondition: Site siteName is created");
+        siteName.set(getDataSite().usingUser(getAdminUser()).createPublicRandomSite());
+        getCmisApi().authenticateUser(getAdminUser());
 
-        setupAuthenticatedSession(userContributor, password);
+        userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), userContributor.get().getUsername(), siteName.get().getId(), "SiteContributor");
+
+        contentService.createDocument(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), DocumentType.TEXT_PLAIN, adminFile, fileContent);
+        contentService.createDocument(userContributor.get().getUsername(), userContributor.get().getPassword(), siteName.get().getId(), DocumentType.TEXT_PLAIN, lockedFileByAdmin, fileContent);
+        contentAction.checkOut(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), lockedFileByAdmin);
+        contentService.createDocument(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), DocumentType.MSWORD, adminWordFile, fileContent);
+
+        documentLibraryPage = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
+
+        authenticateUsingLoginPage(userContributor.get());
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser, adminPassword, userContributor);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-        siteService.delete(adminUser, adminPassword, siteName);
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userContributor.get().getUsername());
+        deleteSitesIfNotNull(siteName.get());
+        deleteUsersIfNotNull(userContributor.get());
+
     }
 
     @TestRail (id = "C8912")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void downloadContent()
     {
-        LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Step1, 2: Mouse over the test file  from Document Library and click 'Download'.");
-        documentLibraryPage.selectItemAction(adminFile, ItemActions.DOWNLOAD);
+        log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        documentLibraryPage.navigate(siteName.get());
+        log.info("Step1, 2: Mouse over the test file  from Document Library and click 'Download'.");
+        documentLibraryPage.selectItemActionFormFirstThreeAvailableOptions(adminFile, ItemActions.DOWNLOAD);
         documentLibraryPage.acceptAlertIfDisplayed();
         Assert.assertTrue(isFileInDirectory(adminFile, null), "The file was not found in the specified location");
     }
@@ -88,23 +102,24 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void viewInBrowser()
     {
-        LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Step1: Mouse over testFile and check 'View in Browser' is available.");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, ItemActions.VIEW_IN_BROWSER), "View in browser available");
-        LOG.info("Step2: Click View in browser and verify the file is opened in a new browser window.");
-        documentLibraryPage.selectItemAction(adminFile, ItemActions.VIEW_IN_BROWSER);
-        assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
+        log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        documentLibraryPage.navigate(siteName.get());
+        log.info("Step1: Mouse over testFile and check 'View in Browser' is available.");
+        Assert.assertTrue(documentLibraryPage.checkActionAvailableForLibraryItem(adminFile, ItemActions.VIEW_IN_BROWSER), "View in browser available");
+        log.info("Step2: Click View in browser and verify the file is opened in a new browser window.");
+        documentLibraryPage.selectItemActionFormFirstThreeAvailableOptions(adminFile, ItemActions.VIEW_IN_BROWSER);
+        Assert.assertTrue(isFileInDirectory(adminFile, null), "The file was not found in the specified location");
+
     }
 
     @TestRail (id = "C8915")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void uploadNewVersionForItemCreatedByOthers()
     {
-        LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Step1: Mouse over test File and check 'Upload new version' action is not available.");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, ItemActions.UPLOAD_NEW_VERSION),
+        log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        documentLibraryPage.navigate(siteName.get());
+        log.info("Step1: Mouse over test File and check 'Upload new version' action is not available.");
+        Assert.assertFalse(documentLibraryPage.checkActionAvailableForLibraryItem(adminFile, ItemActions.UPLOAD_NEW_VERSION),
             "Upload New Version available for Contributor user");
     }
 
@@ -112,12 +127,12 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void uploadNewVersionForItemLockedByUser()
     {
-        LOG.info("Steps1:  Navigate to test site's doc lib and verify the lockedFileByAdmin is locked by admin");
-        documentLibraryPage.navigate(siteName);
+        log.info("Steps1:  Navigate to test site's doc lib and verify the lockedFileByAdmin is locked by admin");
+        documentLibraryPage.navigate(siteName.get());
         Assert.assertEquals(documentLibraryPage.getLockedByUserName(lockedFileByAdmin), "Administrator",
                 "Document appears to be locked by admin");
-        LOG.info("Steps2: Verify 'Upload new Version' option is not available for Contributor user, since the file is locked by admin");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(lockedFileByAdmin, ItemActions.UPLOAD_NEW_VERSION),
+        log.info("Steps2: Verify 'Upload new Version' option is not available for Contributor user, since the file is locked by admin");
+        Assert.assertFalse(documentLibraryPage.checkActionAvailableForLibraryItem(lockedFileByAdmin, ItemActions.UPLOAD_NEW_VERSION),
             "Upload New Version available for Contributor user");
     }
 
@@ -125,10 +140,10 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "office" })
     public void editOnlineForContentCreatedByOthers()
     {
-        LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminWordFile, ItemActions.EDIT_IN_MICROSOFT_OFFICE),
+        log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        documentLibraryPage.navigate(siteName.get());
+        log.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
+        Assert.assertFalse(documentLibraryPage.checkActionAvailableForLibraryItem(adminWordFile, ItemActions.EDIT_IN_MICROSOFT_OFFICE),
             "Edit in Microsoft Office available for Contributor user");
     }
 
@@ -136,10 +151,10 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editInlineForContentCreatedByOthers()
     {
-        LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, ItemActions.EDIT_IN_ALFRESCO),
+        log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        documentLibraryPage.navigate(siteName.get());
+        log.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
+        Assert.assertFalse(documentLibraryPage.checkActionAvailableForLibraryItem(adminFile, ItemActions.EDIT_IN_ALFRESCO),
             "Edit in Alfresco available for Contributor user");
     }
 
@@ -147,33 +162,32 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void editOfflineForContentCreatedByOthers()
     {
-        LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
-        documentLibraryPage.navigate(siteName);
-        LOG.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, ItemActions.EDIT_OFFLINE), "Edit Offline available for Contributor user");
+        log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        documentLibraryPage.navigate(siteName.get());
+        log.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
+        Assert.assertFalse(documentLibraryPage.checkActionAvailableForLibraryItem(adminFile, ItemActions.EDIT_OFFLINE), "Edit Offline available for Contributor user");
     }
 
     @TestRail (id = "C8926")
     @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS }, enabled = false)
     public void editInGoogleDocForContentCreatedByOthers()
     {
-//        docs.loginToGoogleDocs();
+        docs.loginToGoogleDocs();
         String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
-        LOG.info(
+        log.info(
             "Preconditions: Create test site, add contributor member to site. As admin, navigate to Document Library page for the test site and create Google Doc file");
-        //     docs.loginToGoogleDocs();
-        setupAuthenticatedSession(adminUser, adminPassword);
-        documentLibraryPage.navigate(siteName);
+        docs.loginToGoogleDocs();
+        authenticateUsingLoginPage(getAdminUser());
+        documentLibraryPage.navigate(siteName.get());
         uploadContent.uploadContent(googleDocPath);
-        LOG.info("Steps1: Login as Contributor user, go to site's doc lib and check whether 'Edit in Google Docs' action is available.");
-        setupAuthenticatedSession(userContributor, password);
-        documentLibraryPage.navigate(siteName);
+        log.info("Steps1: Login as Contributor user, go to site's doc lib and check whether 'Edit in Google Docs' action is available.");
+        authenticateUsingLoginPage(userContributor.get());
+        documentLibraryPage.navigate(siteName.get());
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS),
             "Edit in Google Docs available for Contributor user");
-        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, googleDocName));
+        contentService.deleteContentByPath(getAdminUser().getUsername(),getAdminUser().getPassword(), String.format("%s/%s", deletePath, googleDocName));
 
-        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8928")
@@ -183,19 +197,19 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
         docs.loginToGoogleDocs();
         String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
-        LOG.info(
+        log.info(
             "Preconditions: Create test site and add contributor member to site. As Admin user, navigate to Document Library page for the test site and create Google Doc file. Check out the file in google Docs.");
-        setupAuthenticatedSession(adminUser, adminPassword);
-        documentLibraryPage.navigate(siteName);
+        authenticateUsingLoginPage(getAdminUser());
+        documentLibraryPage.navigate(siteName.get());
         uploadContent.uploadContent(googleDocPath);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteName.get());
         documentLibraryPage.selectItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS);
         getBrowser().waitInSeconds(5);
         docs.clickOkButtonOnTheAuthPopup();
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Google Doc test content");
-        LOG.info("Steps1: Login as Contributor user, go to site's doc lib and check whether 'Edit in Google Docs' action is available.");
-        setupAuthenticatedSession(userContributor, password);
-        documentLibraryPage.navigate(siteName);
+        log.info("Steps1: Login as Contributor user, go to site's doc lib and check whether 'Edit in Google Docs' action is available.");
+        authenticateUsingLoginPage(userContributor.get());
+        documentLibraryPage.navigate(siteName.get());
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, ItemActions.CHECK_IN_GOOGLE_DOC),
             "Check In Google Doc available for Contributor user");
     }
@@ -204,11 +218,11 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void cancelEditingContentLockedByOthers()
     {
-        LOG.info("Step2: Login as Contributor user and check whether the file appears as locked by Admin");
-        documentLibraryPage.navigate(siteName);
+        log.info("Step2: Login as Contributor user and check whether the file appears as locked by Admin");
+        documentLibraryPage.navigate(siteName.get());
         Assert.assertEquals(documentLibraryPage.getLockedByUserName(lockedFileByAdmin), "Administrator", "The document is not locked");
-        LOG.info("Step3: Hover over test file and check whether 'Cancel Editing' action is missing");
-        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(lockedFileByAdmin, ItemActions.CANCEL_EDITING),
+        log.info("Step3: Hover over test file and check whether 'Cancel Editing' action is missing");
+        Assert.assertFalse(documentLibraryPage.checkActionAvailableForLibraryItem(lockedFileByAdmin, ItemActions.CANCEL_EDITING),
                 "Cancel Editing available for Contributor user");
     }
 
@@ -216,15 +230,15 @@ public class ContributorFilesCreatedByOthersTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
     public void viewOriginalDocumentAndWorkingCopy()
     {
-        LOG.info("Steps2: Logout and login as Contributor user; hover over testFile and check whether 'View Original Document' action is available");
-        documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(lockedFileByAdmin, ItemActions.VIEW_ORIGINAL),
+        log.info("Steps2: Logout and login as Contributor user; hover over testFile and check whether 'View Original Document' action is available");
+        documentLibraryPage.navigate(siteName.get());
+        Assert.assertTrue(documentLibraryPage.checkActionAvailableForLibraryItem(lockedFileByAdmin, ItemActions.VIEW_ORIGINAL),
             "View Original Document' action available for Contributor user");
-        LOG.info("Steps3: Click 'View Original Document' action.");
-        documentLibraryPage.selectItemAction(lockedFileByAdmin, ItemActions.VIEW_ORIGINAL);
+        log.info("Steps3: Click 'View Original Document' action.");
+        documentLibraryPage.selectItemActionFormFirstThreeAvailableOptions(lockedFileByAdmin, ItemActions.VIEW_ORIGINAL);
         Assert.assertEquals(documentDetailsPage.getLockedMessage(), "This document is locked by Administrator.", "Document appears to be locked by admin user");
         Assert.assertTrue(documentDetailsPage.isActionAvailable("View Working Copy"));
-        LOG.info("Steps3: Click 'View Working Copy' action");
+        log.info("Steps3: Click 'View Working Copy' action");
         documentDetailsPage.clickDocumentActionsOption("View Working Copy");
         Assert.assertTrue(documentDetailsPage.isActionAvailable("View Original Document"));
     }
