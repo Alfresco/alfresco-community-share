@@ -560,7 +560,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentDetailsPage clickOnFile(String file)
     {
-        waitInSeconds(WAIT_1.getValue());
+        waitInSeconds(5);
         WebElement fileElement = selectDocumentLibraryItemRow(file);
         Parameter.checkIsMandotary("File", fileElement);
         clickElement(fileElement.findElement(contentNameSelector));
@@ -1719,13 +1719,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             throw new TimeoutException(
                 "The action " + action.getActionName() + " could not be found for list item " + contentItem);
         }
-
+        scrollToElement(actionElement);
         mouseOver(actionElement);
         clickElement(actionElement);
     }
 
     public void browserRefresh() {
-        waitInSeconds(12);
+        waitInSeconds(20);
         refresh();
     }
 
