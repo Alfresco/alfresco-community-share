@@ -60,6 +60,7 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
     public DocumentLibraryPage clickSaveButton()
     {
         waitInSeconds(2);
+        scrollToElement(findElement(saveButton));
         log.info("Click Save button");
         clickElement(saveButton);
         return new DocumentLibraryPage(webDriver);

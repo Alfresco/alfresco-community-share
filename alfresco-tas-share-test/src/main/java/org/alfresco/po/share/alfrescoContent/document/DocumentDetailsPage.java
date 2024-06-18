@@ -179,6 +179,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public boolean isNewVersionAvailable(String version)
     {
+        waitInSeconds(5);
         List<WebElement> versionList = waitUntilElementsAreVisible(latestVersion);
         return findFirstElementWithValue(versionList, version) != null;
     }
@@ -625,6 +626,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public String getContentText()
     {
+        waitInSeconds(5);
         return getElementText(contentText).trim();
     }
     public String getNoContentMassageText()
