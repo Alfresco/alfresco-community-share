@@ -36,7 +36,7 @@
    new Alfresco.rm.component.RMCustomMetadata("${args.htmlid}").setMessages(${messages});
 //]]></script>
 
-<#assign el=args.htmlid>
+<#assign el=args.htmlid?html>
 <div id="${el}-body" class="rm-metadata">
 
    <!-- View panel -->
