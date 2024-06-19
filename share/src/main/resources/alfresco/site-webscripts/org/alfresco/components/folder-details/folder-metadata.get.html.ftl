@@ -27,7 +27,7 @@
       <#if allowMetaDataUpdate??>
           <!-- Parameters and libs -->
           <#include "../../include/alfresco-macros.lib.ftl" />
-          <#assign el=args.htmlid>
+          <#assign el=args.htmlid?html>
           <!-- Markup -->
           <div class="folder-metadata-header folder-details-panel">
              <h2 id="${el}-heading" class="thin dark">
