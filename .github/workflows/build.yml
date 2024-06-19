@@ -151,7 +151,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
-          distribution: oracle
+          distribution: temurin
           overwrite-settings: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: Setup Python
