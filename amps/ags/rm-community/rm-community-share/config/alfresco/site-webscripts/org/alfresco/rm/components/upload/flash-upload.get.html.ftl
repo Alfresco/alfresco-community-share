@@ -24,7 +24,7 @@
  along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  #L%
 -->
-<#assign el=args.htmlid>
+<#assign el=args.htmlid?html>
 <div id="${el}-dialog" class="flash-upload hidden">
    <div class="hd">
       <span id="${el}-title-span"></span>

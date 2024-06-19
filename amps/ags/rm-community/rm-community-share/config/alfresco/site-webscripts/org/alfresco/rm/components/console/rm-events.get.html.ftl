@@ -39,7 +39,7 @@
    }).setMessages(${messages});
 //]]></script>
 
-<#assign el=args.htmlid>
+<#assign el=args.htmlid?html>
 <div id="${el}-body" class="rm-events">
 
    <!-- View panel -->
