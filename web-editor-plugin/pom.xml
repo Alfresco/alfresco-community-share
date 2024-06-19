@@ -92,7 +92,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>${dependency.guava.version}</version>
+            <version>32.1.1-jre</version>
         </dependency>
 
     </dependencies>
