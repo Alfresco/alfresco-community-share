@@ -35,7 +35,7 @@
       );
 
    //]]></script>
-   <#assign el=args.htmlid>
+   <#assign el=args.htmlid?html>
 
    <div id="${el}" class="events">
       <h2 class="thin dark">${msg("events.heading")}</h2>
