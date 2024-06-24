@@ -24,7 +24,7 @@
  along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  #L%
 -->
-<#assign el=args.htmlid>
+<#assign el=args.htmlid?html>
 <div id="${el}-dialog" class="rm-export">
    <div class="hd">${msg("header")}</div>
    <div class="bd">
