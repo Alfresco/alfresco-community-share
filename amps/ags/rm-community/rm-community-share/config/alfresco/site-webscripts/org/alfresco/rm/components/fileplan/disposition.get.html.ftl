@@ -36,7 +36,7 @@
    );
 
 //]]></script>
-<#assign el=args.htmlid>
+<#assign el=args.htmlid?html>
 
 <div class="disposition">
 
