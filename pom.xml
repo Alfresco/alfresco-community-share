@@ -33,8 +33,8 @@
         <dependency.alfresco-community-repo.version>23.3.0.62</dependency.alfresco-community-repo.version>
         <dependency.alfresco-enterprise-repo.version>23.3.0.54</dependency.alfresco-enterprise-repo.version>
 
-        <dependency.alfresco-transform-service.version>4.1.3-A2</dependency.alfresco-transform-service.version>
-        <dependency.alfresco-transform-core.version>5.1.3-A3</dependency.alfresco-transform-core.version>
+        <dependency.alfresco-transform-service.version>4.1.3</dependency.alfresco-transform-service.version>
+        <dependency.alfresco-transform-core.version>5.1.3</dependency.alfresco-transform-core.version>
         <alfresco.api-explorer.version>23.2.0</alfresco.api-explorer.version>
         <dependency.jakarta-annotation-api.version>2.1.1</dependency.jakarta-annotation-api.version>
 
