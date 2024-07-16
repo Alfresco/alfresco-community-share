@@ -7,4 +7,4 @@ export TRANSFORM_ROUTER_TAG=$(mvn help:evaluate -Dexpression=dependency.alfresco
 
 cd "${1}"
 
-docker-compose up -d
+docker compose up -d
