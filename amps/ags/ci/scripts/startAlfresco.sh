@@ -5,4 +5,4 @@ export TAG_NAME="latest"
 
 cd "${1}"
 
-docker-compose up -d
+docker compose up -d
