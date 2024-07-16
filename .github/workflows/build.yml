@@ -374,6 +374,7 @@ jobs:
           export PATH=/opt/firefox/firefox:$PATH
           firefox --version
       - name: Set S3_BUCKET_NAME
+        if: ${{ matrix.test == 'wormTestSuite'}}
         env:
           VERSION: ${{ github.run_number }}
         run: |
@@ -382,7 +383,6 @@ jobs:
       - name: Build Docker image
         run: |
           firefox --version
-          echo $S3_BUCKET_NAME
           export TAG_NAME="latest"
           bash scripts/travis/create_swap.sh "5"
           bash scripts/travis/build.sh
@@ -424,3 +424,6 @@ jobs:
             share.log
       - name: Get logs
         run: bash amps/ags/travis/scripts/getLogs.sh
+      - name: Clean S3 bucket
+        if: ${{ always() && matrix.test == 'wormTestSuite'}}
+        run: bash scripts/travis/cleanup.sh
