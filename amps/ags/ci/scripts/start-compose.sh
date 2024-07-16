@@ -13,7 +13,7 @@ export TRANSFORMERS_TAG=$(mvn help:evaluate -Dexpression=dependency.alfresco-tra
 export TRANSFORM_ROUTER_TAG=$(mvn help:evaluate -Dexpression=dependency.alfresco-transform-service.version -q -DforceStdout)
 
 # .env files are picked up from project directory correctly on docker-compose 1.23.0+
-docker-compose --file "${DOCKER_COMPOSE_PATH}" --project-directory $(dirname "${DOCKER_COMPOSE_PATH}") up -d
+docker compose --file "${DOCKER_COMPOSE_PATH}" --project-directory $(dirname "${DOCKER_COMPOSE_PATH}") up -d
 
 if [ $? -eq 0 ] ; then
   echo "Docker Compose started ok"
