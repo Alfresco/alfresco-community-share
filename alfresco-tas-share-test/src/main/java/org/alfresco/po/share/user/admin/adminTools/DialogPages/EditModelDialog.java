@@ -63,7 +63,7 @@ public class EditModelDialog extends BaseDialogComponent
 
     public EditModelDialog assertNameFieldIsDisabled()
     {
-        assertEquals(findElement(nameField).getAttribute("aria-disabled"),
+        assertEquals(findElement(nameField).getAttribute("disabled"),
             String.valueOf(true), "Name field is disabled");
         return this;
     }
